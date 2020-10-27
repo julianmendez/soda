@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 
 trait Fibo_example {
 
-  fib(n: Number): Number
+  def fib(n: Number): Number
 
 }
 

@@ -10,7 +10,8 @@ case class MicroTranslator() {
 
   val ScopusDefinition: String = " " + "=" + " "
   val ScopusLambdaExpression: String = " " + "-" + ">"
-  val ScopusClassOrTraitDeclaration: String = " " + ":" + ":" + " "
+  val ScopusTraitDeclaration: String = "trait"
+  val ScopusClassDeclaration: String = "class"
   val ScopusOpenParenthesis: String = " " + "("
   val ScopusCloseParenthesis: String = ")"
   val ScopusIf: String = " " + "?"
@@ -18,15 +19,12 @@ case class MicroTranslator() {
   val ScopusTypeDeclaration: String = " " + ":" + " "
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
-  val ScopusMain: String = "@" + "main"
-  val ScopusNew: String = "@" + "new "
 
-  val ScalaPackage: String = "package "
-  val ScalaImport: String = "import "
-  val ScalaDefinition: String = "val "
+  val ScalaDefinition: String = "def "
+  val ScalaValue: String = "val "
   val ScalaLambdaExpression: String = " =>"
   val ScalaTraitDeclaration: String = "trait "
-  val ScalaClassDeclaration: String = "case class "
+  val ScalaCaseDeclaration: String = "case "
   val ScalaExtends: String = " extends "
   val ScalaWith: String = " with "
   val ScalaOpenBrace: String = " {"
@@ -37,8 +35,6 @@ case class MicroTranslator() {
   val ScalaTypeDeclaration: String = " : "
   val ScalaSpace: String = " "
   val ScalaEmpty: String = ""
-  val ScalaMain: String = "object Main {\n  def main(args: Array[String]): Unit = new Main().run(args)\n}\n"
-  val ScalaNew: String = "new "
 
 
   def translateProgram(program: String): String = {
@@ -47,99 +43,47 @@ case class MicroTranslator() {
 
 
   def translateLines(lines: Seq[String]): Seq[String] = {
-    tryPackageAndImport(lines)
+    lines
       .map(x => translateLine(x))
-  }
-
-
-  def tryPackageAndImport(lines: Seq[String]): Seq[String] = {
-    if (lines.isEmpty || lines.head.trim.isEmpty || lines.head.contains(ScopusClassOrTraitDeclaration)) {
-      lines
-    } else {
-      addAfterSpaces(ScalaPackage, lines.head) +: tryImport(lines.tail)
-    }
-  }
-
-
-  def tryImport(lines: Seq[String]): Seq[String] = {
-    val imports = lines.takeWhile(line =>
-      !line.contains(ScopusClassOrTraitDeclaration) && (line.trim.isEmpty || line.trim.charAt(0).isLetter))
-    val translatedImports = imports.map(line => addIfNonEmpty(ScalaImport, line))
-    val remainingProgram = lines.slice(imports.length, lines.length)
-    Seq() ++ translatedImports ++ remainingProgram
-  }
-
-  def addIfNonEmpty(textToPrepend: String, line: String): String = {
-    if (line.trim.isEmpty) {
-      line
-    } else {
-      textToPrepend + line
-    }
   }
 
   def translateLine(line: String): String = {
     Option(line)
-      .flatMap(x => tryOpenParenthesis(x))
-      .flatMap(x => tryCloseParenthesis(x))
       .flatMap(x => tryDefinition(x))
       .flatMap(x => tryLambdaArrow(x))
       .flatMap(x => tryTraitDeclaration(x))
       .flatMap(x => tryClassDeclaration(x))
       .flatMap(x => tryIf(x))
       .flatMap(x => tryElse(x))
-      .flatMap(x => tryMain(x))
-      .flatMap(x => tryNew(x))
       .getOrElse(line)
   }
 
-  def tryOpenParenthesis(line: String): Some[String] = {
-    if (line.trim.endsWith(ScopusOpenParenthesis)) {
-      val pos = line.lastIndexOf(ScopusOpenParenthesis)
-      val newLine = line.substring(0, pos) + ScalaOpenBrace + line.substring(pos + ScopusOpenParenthesis.length)
-      Some(newLine)
-    } else {
-      Some(line)
-    }
-  }
-
-  def tryCloseParenthesis(line: String): Some[String] = {
-    if (line.trim.startsWith(ScopusCloseParenthesis.trim)) {
-      Some(replaceFirst(line, ScopusCloseParenthesis, ScalaCloseBrace))
-    } else {
-      Some(line)
-    }
-  }
-
   def tryDefinition(line: String): Some[String] = {
-    if (line.contains(ScopusDefinition)) {
-      Some(addAfterSpaces(ScalaDefinition, line))
+    val index = line.indexOf(ScopusDefinition)
+    val definitionFound = index != -1
+    if (definitionFound || line.endsWith(ScopusDefinition.trim)) {
+      val indexOfParenthesis = line.indexOf(ScopusCloseParenthesis)
+      if (indexOfParenthesis == -1) {
+        Some(addAfterSpaces(ScalaValue, line))
+      } else {
+        Some(addAfterSpaces(ScalaDefinition, line))
+      }
     } else {
       Some(line)
     }
   }
 
   def tryTraitDeclaration(line: String): Some[String] = {
-    if (line.trim.startsWith(ScopusClassOrTraitDeclaration.trim)) {
-      Some(replaceFirst(line, ScopusClassOrTraitDeclaration.trim, ScalaTraitDeclaration))
+    if (line.trim.startsWith(ScopusTraitDeclaration.trim)) {
+      Some(replaceFirst(line, ScopusTraitDeclaration.trim, ScalaTraitDeclaration))
     } else {
       Some(line)
     }
   }
 
   def tryClassDeclaration(line: String): Some[String] = {
-    if (line.contains(ScopusClassOrTraitDeclaration) && !line.trim.startsWith(ScopusClassOrTraitDeclaration.trim)) {
-      val pos = line.indexOf(ScopusClassOrTraitDeclaration)
-      val firstPart = line.substring(0, pos)
-      val remainingPart = line.substring(pos + ScopusClassOrTraitDeclaration.length).trim
-      val newRemainingPart = {
-        if (remainingPart.nonEmpty && remainingPart.charAt(0).isLetterOrDigit) {
-          ScalaExtends + remainingPart.replaceAll(ScopusWith, ScalaWith)
-        }
-        else {
-          remainingPart
-        }
-      }
-      Some(ScalaClassDeclaration + firstPart + ScalaSpace + newRemainingPart)
+    if (line.trim.startsWith(ScopusClassDeclaration)) {
+      Some(ScalaCaseDeclaration + line)
     } else {
       Some(line)
     }
@@ -170,11 +114,6 @@ case class MicroTranslator() {
     }
   }
 
-  def addAfterSpaces(textToPrepend: String, line: String): String = {
-    val prefixLength = line.takeWhile(ch => ch.isSpaceChar).length
-    line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
-  }
-
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
     val pos = line.indexOf(pattern)
     val result = {
@@ -188,6 +127,11 @@ case class MicroTranslator() {
     result
   }
 
+  def addAfterSpaces(textToPrepend: String, line: String): String = {
+    val prefixLength = line.takeWhile(ch => ch.isSpaceChar).length
+    line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
+  }
+
   def tryElse(line: String): Some[String] = {
     if (line.contains(ScopusElse)) {
       Some(replaceFirst(line, ScopusElse, ScalaSpace + ScalaElse))
@@ -196,19 +140,11 @@ case class MicroTranslator() {
     }
   }
 
-  def tryMain(line: String): Some[String] = {
-    if (line.trim.startsWith(ScopusMain)) {
-      Some(replaceFirst(line, ScopusMain, ScalaMain))
+  def addIfNonEmpty(textToPrepend: String, line: String): String = {
+    if (line.trim.isEmpty) {
+      line
     } else {
-      Some(line)
-    }
-  }
-
-  def tryNew(line: String): Some[String] = {
-    if (line.contains(ScopusNew)) {
-      Some(line.replace(ScopusNew, ScalaNew))
-    } else {
-      Some(line)
+      textToPrepend + line
     }
   }
 
