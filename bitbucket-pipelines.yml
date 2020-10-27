@@ -1,0 +1,21 @@
+
+#
+# Configuration file for Bitbucket Pipelines
+#
+
+---
+
+# https://hub.docker.com/r/hseeberger/scala-sbt/
+image: hseeberger/scala-sbt:11.0.7_1.3.10_2.13.2
+
+pipelines:
+  default:
+    - step:
+        name: Build
+        caches:
+          - sbt
+        script:
+          - sbt scalaVersion sbtVersion version
+          - sbt clean compile test assembly
+
+
