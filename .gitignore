@@ -1,0 +1,12 @@
+target/
+.settings/
+.gradle/
+.project
+.classpath
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+.cache
+.cache-main
+.cache-tests
