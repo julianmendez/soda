@@ -41,8 +41,8 @@ lazy val translator = project
 lazy val root = project
   .withId(id = "scopus")
   .in(file("."))
-  .aggregate(documents, draft, examples, syntax, translator)
-  .dependsOn(documents, draft, examples, syntax, translator)
+  .aggregate(translator)
+  .dependsOn(translator)
   .settings(
     commonSettings,
     mainClass in(Compile, run) := Some("se.umu.cs.rai.scopus.translator.main.Main"),

@@ -1,0 +1,8 @@
+package se.umu.cs.rai.scopus.translator
+
+class My_example() {
+
+  swap( pair: (Number, Number) ) =
+    (pair._2, pair._1)
+
+}
