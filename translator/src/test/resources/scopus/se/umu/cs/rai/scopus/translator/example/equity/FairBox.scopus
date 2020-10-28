@@ -38,7 +38,7 @@ class FairBox(
       .filter (assignment -> participant == assignment.participant)
 
 
-  measure_height_enhancement (assignments: Seq[Box_assignment], participant: Participant) =
+  height_enhancement (assignments: Seq[Box_assignment], participant: Participant) =
     assignments_for_participant (assignments, participant)
       .map (assignment -> assignment.box.height)
       .reduce ((height1, height2) -> height1 + height2)

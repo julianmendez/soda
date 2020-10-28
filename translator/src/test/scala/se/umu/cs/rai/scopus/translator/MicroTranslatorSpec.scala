@@ -19,6 +19,9 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
   val InputFileName03 = "/scopus/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scopus"
   val ExpectedFileName03 = "/scala/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scala"
 
+  val InputFileName04 = "/scopus/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scopus"
+  val ExpectedFileName04 = "/scala/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scala"
+
   def testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
     val expectedFile = readFile(expectedFileName)
@@ -59,6 +62,10 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
   it("should translate the Fairness example") {
     testTranslation(InputFileName02, ExpectedFileName02)
     testTranslation(InputFileName03, ExpectedFileName03)
+  }
+
+  it("should translate the Equity example") {
+    testTranslation(InputFileName04, ExpectedFileName04)
   }
 
 }
