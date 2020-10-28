@@ -10,9 +10,9 @@ case class MicroTranslator() {
 
   val ScopusDefinition: String = " " + "=" + " "
   val ScopusLambdaExpression: String = " " + "-" + ">"
-  val ScopusTraitDeclaration: String = "trait "
+  val ScopusTraitDeclaration: String = "class "
   val ScopusClassDeclaration: String = "class "
-  val ScopusOpenParenthesis: String = " " + "("
+  val ScopusOpenParenthesis: String = "("
   val ScopusCloseParenthesis: String = ")"
   val ScopusIf: String = "if "
   val ScopusThen: String = " then "
@@ -26,7 +26,7 @@ case class MicroTranslator() {
   val ScalaValue: String = "val "
   val ScalaLambdaExpression: String = " =>"
   val ScalaTraitDeclaration: String = "trait "
-  val ScalaCaseDeclaration: String = "case "
+  val ScalaCaseClassDeclaration: String = "case class "
   val ScalaExtends: String = " extends "
   val ScalaWith: String = " with "
   val ScalaOpenBrace: String = " {"
@@ -80,7 +80,7 @@ case class MicroTranslator() {
   }
 
   def tryTraitDeclaration(line: String): Some[String] = {
-    if (line.trim.startsWith(ScopusTraitDeclaration.trim)) {
+    if (line.trim.startsWith(ScopusTraitDeclaration.trim) && !line.contains(ScopusOpenParenthesis)) {
       Some(replaceFirst(line, ScopusTraitDeclaration.trim, ScalaTraitDeclaration))
     } else {
       Some(line)
@@ -88,8 +88,8 @@ case class MicroTranslator() {
   }
 
   def tryClassDeclaration(line: String): Some[String] = {
-    if (line.trim.startsWith(ScopusClassDeclaration)) {
-      Some(ScalaCaseDeclaration + line)
+    if (line.trim.startsWith(ScopusClassDeclaration) && line.contains(ScopusOpenParenthesis)) {
+      Some(replaceFirst(line, ScopusClassDeclaration.trim, ScalaCaseClassDeclaration))
     } else {
       Some(line)
     }

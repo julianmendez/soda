@@ -5,18 +5,18 @@ import scala.annotation.tailrec
 
 trait  Fibo_example {
 
-  def fib(n: Int): Int
+  def fib (n: Int): Int = {}
 
 }
 
 
-case class Fibo_example_in_scopus() extends Fibo_example {
+case class  Fibo_example_in_scopus () extends Fibo_example {
 
-  def fa(m: Int, a: Int, b: Int): Int =
+  def fa (m: Int, a: Int, b: Int): Int =
     if (m == 0) a
     else if (m == 1) b
-    else fa(m - 1, b, a + b)
+    else fa (m - 1, b, a + b)
 
-  def fib(n: Int) = fa(n, 0, 1)
+  def fib (n: Int) = fa (n, 0, 1)
 
 }
