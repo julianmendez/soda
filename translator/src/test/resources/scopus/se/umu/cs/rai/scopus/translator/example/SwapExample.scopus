@@ -2,7 +2,7 @@ package se.umu.cs.rai.scopus.translator
 
 class My_example() {
 
-  swap( pair: (Number, Number) ) =
+  swap( pair: (Int, Int) ) =
     (pair._2, pair._1)
 
 }

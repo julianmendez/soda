@@ -10,12 +10,14 @@ case class MicroTranslator() {
 
   val ScopusDefinition: String = " " + "=" + " "
   val ScopusLambdaExpression: String = " " + "-" + ">"
-  val ScopusTraitDeclaration: String = "trait"
-  val ScopusClassDeclaration: String = "class"
+  val ScopusTraitDeclaration: String = "trait "
+  val ScopusClassDeclaration: String = "class "
   val ScopusOpenParenthesis: String = " " + "("
   val ScopusCloseParenthesis: String = ")"
-  val ScopusIf: String = " " + "?"
-  val ScopusElse: String = " " + "|" + " "
+  val ScopusIf: String = "if "
+  val ScopusThen: String = " then "
+  val ScopusElse: String = "else "
+  val ScopusElseIf: String = "else if "
   val ScopusTypeDeclaration: String = " " + ":" + " "
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
@@ -30,8 +32,10 @@ case class MicroTranslator() {
   val ScalaOpenBrace: String = " {"
   val ScalaCloseBrace: String = "}"
   val ScalaParentheses: String = " () "
-  val ScalaIf: String = "if "
+  val ScalaIf: String = "if ("
+  val ScalaThen: String = ") "
   val ScalaElse: String = "else "
+  val ScalaElseIf: String = "else if "
   val ScalaTypeDeclaration: String = " : "
   val ScalaSpace: String = " "
   val ScalaEmpty: String = ""
@@ -53,6 +57,8 @@ case class MicroTranslator() {
       .flatMap(x => tryLambdaArrow(x))
       .flatMap(x => tryTraitDeclaration(x))
       .flatMap(x => tryClassDeclaration(x))
+      .flatMap(x => tryThen(x))
+      .flatMap(x => tryElseIf(x))
       .flatMap(x => tryIf(x))
       .flatMap(x => tryElse(x))
       .getOrElse(line)
@@ -97,21 +103,28 @@ case class MicroTranslator() {
     }
   }
 
-  def tryIf(line: String): Some[String] = {
-    if (line.contains(ScopusIf)) {
-      val updatedLine = {
-        if (line.trim.startsWith(ScopusElse.trim)) {
-          addAfterSpaces(ScalaElse + ScalaIf,
-            replaceFirst(replaceFirst(line, ScopusElse, ScalaSpace), ScopusIf, ScalaEmpty))
-        }
-        else {
-          addAfterSpaces(ScalaIf, replaceFirst(line, ScopusIf, ScalaEmpty))
-        }
-      }
-      Some(updatedLine)
+  def replaceIfFound(line: String, pattern: String, newText: String): String = {
+    if (line.contains(pattern)) {
+      replaceFirst(line, pattern, newText)
     } else {
-      Some(line)
+      line
     }
+  }
+
+  def tryElse(line: String): Some[String] = {
+    Some(replaceIfFound(line, ScopusElseIf, ScalaElseIf))
+  }
+
+  def tryElseIf(line: String): Some[String] = {
+    Some(replaceIfFound(line, ScopusElse, ScalaElse))
+  }
+
+  def tryThen(line: String): Some[String] = {
+    Some(replaceIfFound(line, ScopusThen, ScalaThen))
+  }
+
+  def tryIf(line: String): Some[String] = {
+    Some(replaceIfFound(line, ScopusIf, ScalaIf))
   }
 
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
@@ -132,13 +145,6 @@ case class MicroTranslator() {
     line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
   }
 
-  def tryElse(line: String): Some[String] = {
-    if (line.contains(ScopusElse)) {
-      Some(replaceFirst(line, ScopusElse, ScalaSpace + ScalaElse))
-    } else {
-      Some(line)
-    }
-  }
 
   def addIfNonEmpty(textToPrepend: String, line: String): String = {
     if (line.trim.isEmpty) {
