@@ -7,7 +7,6 @@ Syntax Highlighting
   Line comment: //
   [ ] Only at line start
 
-
   Block comment start: /*
   Block comment end: */
   Hex prefix: 0x
@@ -17,25 +16,22 @@ Syntax Highlighting
   [x] Support paired parens
   [x] Support string escapes
 
-
 Keywords
 
 1
-
   ->
   :
   =
   class
   else
+  extends
   if
   import
   new
   package
   then
 
-
 2
-
   *
   +
   -
@@ -43,25 +39,22 @@ Keywords
   <
   ==
   >
-  ^
   and
   false
   not
   or
   true
 
-
 3
-
   (
   )
   [
   ]
-
-
-4
-
   {
   }
+
+4
+  @override
+  @tailrec
 
 
