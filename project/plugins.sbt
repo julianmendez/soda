@@ -3,7 +3,7 @@
   * [[https://github.com/sbt/sbt-assembly]]
   * [[https://dl.bintray.com/sbt/sbt-plugin-releases/com.eed3si9n/sbt-assembly/]]
   */
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.6")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")
 
 
 /** scalastyle-sbt-plugin
