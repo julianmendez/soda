@@ -19,7 +19,7 @@ lazy val commonSettings = Seq(
    * [[https://github.com/scalatest/scalatest]]
    * [[https://repo1.maven.org/maven2/org/scalatest/scalatest_2.13/]]
    */
-  libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % "test",
+  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.2" % "test",
 
   resolvers += Resolver.mavenLocal,
   publishTo := Some(Resolver.mavenLocal),
