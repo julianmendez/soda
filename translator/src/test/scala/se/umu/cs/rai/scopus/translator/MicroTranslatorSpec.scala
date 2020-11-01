@@ -2,6 +2,9 @@ package se.umu.cs.rai.scopus.translator
 
 import java.nio.file.{Files, Paths}
 
+import org.scalatest.Assertion
+import org.scalatest.funspec.AnyFunSpec
+
 import scala.language.implicitConversions
 
 case class MicroTranslatorSpec() extends AnyFunSpec {
