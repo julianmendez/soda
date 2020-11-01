@@ -16,8 +16,8 @@ pipelines:
           - sbt
         script:
           - sbt scalaVersion sbtVersion version
+          - sbt clean compile test package assembly
           - sbt "++ 0.27.0-RC1" scalaVersion sbtVersion version
-          - sbt clean compile test assembly
-          - sbt "++ 0.27.0-RC1" clean compile test assembly
+          - sbt "++ 0.27.0-RC1" clean compile test package assembly
 
 
