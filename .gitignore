@@ -4,6 +4,7 @@ target/
 .project
 .classpath
 .idea/
+.bsp/
 *.iml
 .DS_Store
 Thumbs.db
