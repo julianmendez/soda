@@ -10,12 +10,12 @@ case class MicroTranslator() {
 
   val ScopusDefinition: String = "="
   val ScopusLambdaExpression: String = " " + "-" + ">"
-  val ScopusTraitDeclaration: String = "class "
-  val ScopusClassDeclaration: String = "class "
+  val ScopusTraitDeclaration: String = "class"
+  val ScopusClassDeclaration: String = "class"
   val ScopusOpenParenthesis: String = "("
   val ScopusCloseParenthesis: String = ")"
   val ScopusIf: String = "if "
-  val ScopusThen: String = " then "
+  val ScopusThen: String = "then"
   val ScopusElse: String = "else "
   val ScopusElseIf: String = "else if "
   val ScopusTypeDeclaration: String = " " + ":" + " "
@@ -97,24 +97,24 @@ case class MicroTranslator() {
   }
 
   def isAbstractClassDeclaration(line: String): Boolean =
-    line.trim.startsWith(ScopusTraitDeclaration.trim) &&
+    line.trim.startsWith(ScopusTraitDeclaration + ScopusSpace) &&
       !line.contains(ScopusOpenParenthesis)
 
   def tryAbstractClassDeclaration(line: String): Some[String] = {
     if (isAbstractClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusTraitDeclaration.trim, ScalaTraitDeclaration))
+      Some(replaceFirst(line, ScopusTraitDeclaration + ScopusSpace, ScalaTraitDeclaration))
     } else {
       Some(line)
     }
   }
 
   def isClassDeclaration(line: String): Boolean =
-    line.trim.startsWith(ScopusClassDeclaration) &&
+    line.trim.startsWith(ScopusClassDeclaration + ScopusSpace) &&
       line.contains(ScopusOpenParenthesis)
 
   def tryClassDeclaration(line: String): Some[String] = {
     if (isClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusClassDeclaration.trim, ScalaCaseClassDeclaration))
+      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
     } else {
       Some(line)
     }
@@ -143,7 +143,7 @@ case class MicroTranslator() {
     Some(replaceIfFound(line, ScopusElse, ScalaElse))
 
   def tryThen(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusThen, ScalaThen))
+    Some(replaceIfFound(line, ScopusSpace + ScopusThen + ScopusSpace, ScalaThen))
 
   def tryIf(line: String): Some[String] =
     Some(replaceIfFound(line, ScopusIf, ScalaIf))

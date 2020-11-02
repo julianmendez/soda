@@ -3,7 +3,7 @@ package se.umu.cs.rai.scopus.translator.example
 import scala.annotation.tailrec
 
 
-trait  Fibo_example {
+trait Fibo_example {
 
   def fib (n: Int): Int
 

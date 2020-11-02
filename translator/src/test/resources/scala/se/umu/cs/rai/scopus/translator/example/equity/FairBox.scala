@@ -1,23 +1,23 @@
 package se.umu.cs.rai.scopus.translator.example.equity
 
 
-trait  Box {
+trait Box {
   val height: Double = {}
 }
 
 
-trait  Participant {
+trait Participant {
   val height: Double = {}
 }
 
 
-case class  Box_assignment(participant: Participant, box: Box)
+case class Box_assignment(participant: Participant, box: Box)
 
 /*
   It is assumed that the boxes suffice for every one.
 */
 
-case class  FairBox(
+case class FairBox(
   distribute: (Seq[Box], Seq[Participant]) => Seq[Box_assignment],
   fence_height: Double,
 ) {

@@ -1,6 +1,6 @@
 package se.umu.cs.rai.scopus.translator.example.fairness
 
-case class  Fairness(
+case class Fairness(
   ranking_function: Applicant => Double,
   score_difference_tolerance: Double,
   ranking_difference_tolerance: Double,
