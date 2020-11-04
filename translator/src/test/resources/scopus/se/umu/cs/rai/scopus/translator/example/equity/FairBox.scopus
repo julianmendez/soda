@@ -11,13 +11,13 @@ class Participant {
 }
 
 
-class Box_assignment(participant: Participant, box: Box)
+class Box_assignment (participant: Participant, box: Box)
 
 /*
   It is assumed that the boxes suffice for every one.
 */
 
-class FairBox(
+class FairBox (
   distribute: (Seq[Box], Seq[Participant]) -> Seq[Box_assignment],
   fence_height: Double,
 ) {

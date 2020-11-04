@@ -14,10 +14,10 @@ case class MicroTranslator() {
   val ScopusClassDeclaration: String = "class"
   val ScopusOpenParenthesis: String = "("
   val ScopusCloseParenthesis: String = ")"
-  val ScopusIf: String = "if "
+  val ScopusIf: String = "if"
   val ScopusThen: String = "then"
-  val ScopusElse: String = "else "
-  val ScopusElseIf: String = "else if "
+  val ScopusElse: String = "else"
+  val ScopusElseIf: String = "else if"
   val ScopusTypeDeclaration: String = " " + ":" + " "
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
@@ -137,16 +137,16 @@ case class MicroTranslator() {
   }
 
   def tryElseIf(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusElseIf, ScalaElseIf))
+    Some(replaceIfFound(line, ScopusElseIf + ScopusSpace, ScalaElseIf))
 
   def tryElse(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusElse, ScalaElse))
+    Some(replaceIfFound(line, ScopusElse + ScopusSpace, ScalaElse))
 
   def tryThen(line: String): Some[String] =
     Some(replaceIfFound(line, ScopusSpace + ScopusThen + ScopusSpace, ScalaThen))
 
   def tryIf(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusIf, ScalaIf))
+    Some(replaceIfFound(line, ScopusIf + ScopusSpace, ScalaIf))
 
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
     val pos = line.indexOf(pattern)
