@@ -19,6 +19,8 @@ case class MicroTranslator() {
   val ScopusCloseParenthesis: String = ")"
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
+  val ScopusBeginComment = "/*"
+  val ScopusEndComment = "*/"
 
   val ScalaDefinition: String = "def "
   val ScalaValue: String = "val "
@@ -48,14 +50,49 @@ case class MicroTranslator() {
     lineWithoutEndingSpace
   }
 
-  def translateLines(lines: Seq[String]): Seq[String] =
-    lines.map(line =>
-      removeSpaceFromScalaLine(
-        translateLine(
-          addSpaceToScopusLine(line)
-        )
-      )
-    )
+  def translateLines(lines: Seq[String]): Seq[String] = {
+    annotateLines(lines)
+      .map(pair => {
+        val line = pair._1
+        val isComment = pair._2
+        if (isComment) {
+          line
+        } else {
+          removeSpaceFromScalaLine(
+            translateLine(
+              addSpaceToScopusLine(line)
+            )
+          )
+        }
+      })
+  }
+
+  def annotateLines(lines: Seq[String]): Seq[(String, Boolean)] =
+    identifyComments(lines, commentState = false, Seq())
+
+  @tailrec
+  final def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[(String, Boolean)]): Seq[(String, Boolean)] = {
+    if (lines.isEmpty) {
+      annotatedLinesRev.reverse
+    } else {
+      val line = lines.head
+      val (currentState, newCommentState) = if (commentState) {
+        if (line.trim.startsWith(ScopusEndComment)) {
+          (true, false)
+        } else {
+          (true, true)
+        }
+      } else {
+        if (line.trim.startsWith(ScopusBeginComment)) {
+          (true, true)
+        } else {
+          (false, false)
+        }
+      }
+      identifyComments(lines.tail, newCommentState, (line, currentState) +: annotatedLinesRev)
+    }
+  }
+
 
   def translateLine(line: String): String = {
     Option(line)
