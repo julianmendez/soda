@@ -25,11 +25,14 @@ Keywords
   class
   else
   extends
+  has
   if
   import
   new
   package
   then
+  this
+  with
 
 2
   *
