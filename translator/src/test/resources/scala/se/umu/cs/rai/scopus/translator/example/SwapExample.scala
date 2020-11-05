@@ -1,4 +1,4 @@
-package se.umu.cs.rai.scopus.translator
+package se.umu.cs.rai.scopus.translator.example
 
 case class My_example() {
 

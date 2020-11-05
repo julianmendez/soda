@@ -3,11 +3,19 @@ package se.umu.cs.rai.scopus.translator.tokenizer
 case class Translation() {
 
 
-  val TranslationByLine: Map[(String, Boolean), String] = Map(
+  val TranslationOfDefinition: Map[(String, Boolean), String] = Map(
     (("=", false), "val"),
     (("=", true), "def"),
-    (("class", false), "trait"),
-    (("class", true), "case class")
+  )
+
+  val TranslationWithParentheses: Map[String, String] = Map(
+    ("has", "def"),
+    ("class", "case class")
+  )
+
+  val TranslationWithoutParentheses: Map[String, String] = Map(
+    ("has", "val"),
+    ("class", "trait")
   )
 
   val TranslationByKeyword: Map[String, String] = Map(
@@ -24,9 +32,12 @@ case class Translation() {
     ("then", ")"),
     ("this", "this"),
     ("true", "true"),
+    ("with", "with"),
     (":", ":"),
     ("->", "=>"),
-    ("\u2192", "=>")
+    ("\u2192", "=>"),
+    ("@override", "override"),
+    ("@tailrec", "@tailrec final"),
   )
 
 }

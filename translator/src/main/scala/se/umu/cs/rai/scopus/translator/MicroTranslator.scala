@@ -60,9 +60,8 @@ case class MicroTranslator() {
   def translateLine(line: String): String = {
     Option(line)
       .flatMap(x => tryDefinition(x))
-      .flatMap(x => tryAbstractClassDeclaration(x))
-      .flatMap(x => tryClassDeclaration(x))
       .flatMap(x => tryStandardKeywords(x))
+      .flatMap(x => tryKeywordsWithParentheses(x))
       .getOrElse(line)
   }
 
@@ -102,13 +101,21 @@ case class MicroTranslator() {
     }
   }
 
+  def tryAbstractClassDeclaration(line: String): Some[String] = {
+    if (isAbstractClassDeclaration(line)) {
+      Some(replaceFirst(line, ScopusTraitDeclaration + ScopusSpace, ScalaTraitDeclaration))
+    } else {
+      Some(line)
+    }
+  }
+
   def isAbstractClassDeclaration(line: String): Boolean =
     line.trim.startsWith(ScopusTraitDeclaration + ScopusSpace) &&
       !line.contains(ScopusOpenParenthesis)
 
-  def tryAbstractClassDeclaration(line: String): Some[String] = {
-    if (isAbstractClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusTraitDeclaration + ScopusSpace, ScalaTraitDeclaration))
+  def tryClassDeclaration(line: String): Some[String] = {
+    if (isClassDeclaration(line)) {
+      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
     } else {
       Some(line)
     }
@@ -118,12 +125,16 @@ case class MicroTranslator() {
     line.trim.startsWith(ScopusClassDeclaration + ScopusSpace) &&
       line.contains(ScopusOpenParenthesis)
 
-  def tryClassDeclaration(line: String): Some[String] = {
-    if (isClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
-    } else {
-      Some(line)
+  def replaceFirst(line: String, pattern: String, replacement: String): String = {
+    val pos = line.indexOf(pattern)
+    val result = {
+      if (pos == -1) {
+        line
+      } else {
+        line.substring(0, pos) + replacement + line.substring(pos + pattern.length)
+      }
     }
+    result
   }
 
   @tailrec
@@ -141,24 +152,21 @@ case class MicroTranslator() {
     Some(successiveReplacements(line, Translation().TranslationByKeyword.keys.toSeq, Translation().TranslationByKeyword))
   }
 
+  def tryKeywordsWithParentheses(line: String): Some[String] = {
+    val translationTable = if (line.contains(ScopusOpenParenthesis)) {
+      Translation().TranslationWithParentheses
+    } else {
+      Translation().TranslationWithoutParentheses
+    }
+    Some(successiveReplacements(line, translationTable.keys.toSeq, translationTable))
+  }
+
   def replaceIfFound(line: String, pattern: String, newText: String): String = {
     if (line.contains(pattern)) {
       replaceFirst(line, pattern, newText)
     } else {
       line
     }
-  }
-
-  def replaceFirst(line: String, pattern: String, replacement: String): String = {
-    val pos = line.indexOf(pattern)
-    val result = {
-      if (pos == -1) {
-        line
-      } else {
-        line.substring(0, pos) + replacement + line.substring(pos + pattern.length)
-      }
-    }
-    result
   }
 
   def addAfterSpaces(textToPrepend: String, line: String): String = {

@@ -2,12 +2,12 @@ package se.umu.cs.rai.scopus.translator.example.equity
 
 
 class Box {
-  height: Double = {}
+  has height: Double
 }
 
 
 class Participant {
-  height: Double = {}
+  has height: Double
 }
 
 
@@ -48,7 +48,6 @@ class FairBox (
     participants
       .filter (participant -> participant.height + height_enhancement (assignments, participant) > fence_height)
       .length
-
 
 }
 

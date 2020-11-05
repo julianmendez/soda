@@ -1,7 +1,6 @@
 
 package se.umu.cs.rai.scopus.translator.example.fairness
 
-case class Applicant(
-  background_score: Double
-) {
+trait Applicant {
+  val background_score: Double
 }
