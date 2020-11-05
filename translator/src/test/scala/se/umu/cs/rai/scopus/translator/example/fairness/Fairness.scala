@@ -9,7 +9,7 @@ case class Fairness(
 ) {
 
   def is_fair (alice: Applicant, bob: Applicant) =
-    if (have_similar_score (alice.background_score, bob.background_score)
+    if ( have_similar_score (alice.background_score, bob.background_score )
    ) have_similar_ranking (ranking_function(alice), ranking_function(bob))
     else true
 
@@ -23,7 +23,7 @@ case class Fairness(
     Math.abs(value - another_value)
 
   def is_response_time_acceptable (applicant: Applicant) =
-    if (measure_time (ranking_function (applicant)) < maximum_execution_time
+    if ( measure_time (ranking_function (applicant) ) < maximum_execution_time
    ) true
     else false
 

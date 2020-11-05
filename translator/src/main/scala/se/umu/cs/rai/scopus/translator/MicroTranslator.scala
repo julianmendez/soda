@@ -1,5 +1,9 @@
 package se.umu.cs.rai.scopus.translator
 
+import se.umu.cs.rai.scopus.translator.tokenizer.Translation
+
+import scala.annotation.tailrec
+
 
 /**
  * This class translates Scopus source code into Scala source code.
@@ -9,34 +13,18 @@ case class MicroTranslator() {
   val NewLine = "\n"
 
   val ScopusDefinition: String = "="
-  val ScopusLambdaExpression: String = " " + "-" + ">"
   val ScopusTraitDeclaration: String = "class"
   val ScopusClassDeclaration: String = "class"
   val ScopusOpenParenthesis: String = "("
   val ScopusCloseParenthesis: String = ")"
-  val ScopusIf: String = "if"
-  val ScopusThen: String = "then"
-  val ScopusElse: String = "else"
-  val ScopusElseIf: String = "else if"
-  val ScopusTypeDeclaration: String = " " + ":" + " "
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
 
   val ScalaDefinition: String = "def "
   val ScalaValue: String = "val "
-  val ScalaLambdaExpression: String = " =>"
   val ScalaTraitDeclaration: String = "trait "
   val ScalaCaseClassDeclaration: String = "case class "
-  val ScalaExtends: String = " extends "
   val ScalaWith: String = " with "
-  val ScalaOpenBrace: String = " {"
-  val ScalaCloseBrace: String = "}"
-  val ScalaParentheses: String = " () "
-  val ScalaIf: String = "if ("
-  val ScalaThen: String = ") "
-  val ScalaElse: String = "else "
-  val ScalaElseIf: String = "else if "
-  val ScalaTypeDeclaration: String = " : "
   val ScalaSpace: String = " "
   val ScalaEmpty: String = ""
 
@@ -44,19 +32,37 @@ case class MicroTranslator() {
   def translateProgram(program: String): String =
     translateLines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
 
+  def addSpaceToScopusLine(line: String): String = ScopusSpace + line + ScopusSpace
+
+  def removeSpaceFromScalaLine(line: String): String = {
+    val lineWithoutStartingSpace = if (line.startsWith(ScalaSpace)) {
+      line.substring(1)
+    } else {
+      line
+    }
+    val lineWithoutEndingSpace = if (lineWithoutStartingSpace.endsWith(ScalaSpace)) {
+      lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
+    } else {
+      lineWithoutStartingSpace
+    }
+    lineWithoutEndingSpace
+  }
+
   def translateLines(lines: Seq[String]): Seq[String] =
-    lines.map(x => translateLine(x))
+    lines.map(line =>
+      removeSpaceFromScalaLine(
+        translateLine(
+          addSpaceToScopusLine(line)
+        )
+      )
+    )
 
   def translateLine(line: String): String = {
     Option(line)
       .flatMap(x => tryDefinition(x))
-      .flatMap(x => tryLambdaArrow(x))
       .flatMap(x => tryAbstractClassDeclaration(x))
       .flatMap(x => tryClassDeclaration(x))
-      .flatMap(x => tryThen(x))
-      .flatMap(x => tryElseIf(x))
-      .flatMap(x => tryIf(x))
-      .flatMap(x => tryElse(x))
+      .flatMap(x => tryStandardKeywords(x))
       .getOrElse(line)
   }
 
@@ -120,12 +126,19 @@ case class MicroTranslator() {
     }
   }
 
-  def tryLambdaArrow(line: String): Some[String] = {
-    if (line.contains(ScopusLambdaExpression)) {
-      Some(line.replace(ScopusLambdaExpression, ScalaLambdaExpression))
+  @tailrec
+  final def successiveReplacements(line: String, toReplace: Seq[String], translationMap: Map[String, String]): String = {
+    if (toReplace.isEmpty) {
+      line
     } else {
-      Some(line)
+      val keyword = toReplace.head
+      val alreadyProcessedLine = replaceIfFound(line, ScopusSpace + keyword + ScopusSpace, ScalaSpace + translationMap(keyword) + ScalaSpace)
+      successiveReplacements(alreadyProcessedLine, toReplace.tail, translationMap)
     }
+  }
+
+  def tryStandardKeywords(line: String): Some[String] = {
+    Some(successiveReplacements(line, Translation().TranslationByKeyword.keys.toSeq, Translation().TranslationByKeyword))
   }
 
   def replaceIfFound(line: String, pattern: String, newText: String): String = {
@@ -135,18 +148,6 @@ case class MicroTranslator() {
       line
     }
   }
-
-  def tryElseIf(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusElseIf + ScopusSpace, ScalaElseIf))
-
-  def tryElse(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusElse + ScopusSpace, ScalaElse))
-
-  def tryThen(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusSpace + ScopusThen + ScopusSpace, ScalaThen))
-
-  def tryIf(line: String): Some[String] =
-    Some(replaceIfFound(line, ScopusIf + ScopusSpace, ScalaIf))
 
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
     val pos = line.indexOf(pattern)
@@ -164,7 +165,6 @@ case class MicroTranslator() {
     val prefixLength = line.takeWhile(ch => ch.isSpaceChar).length
     line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
   }
-
 
   def addIfNonEmpty(textToPrepend: String, line: String): String = {
     if (line.trim.isEmpty) {

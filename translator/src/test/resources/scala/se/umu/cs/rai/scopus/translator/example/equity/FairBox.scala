@@ -27,8 +27,8 @@ case class FairBox (
     def assignments = distribute (resources, participants)
     def satisfied_participants = count_satisfied (participants, assignments)
     val number_of_participants = participants.length
-    if (satisfied_participants == number_of_participants
-   ) true
+    if ( satisfied_participants == number_of_participants
+    ) true
     else false
   }
 
