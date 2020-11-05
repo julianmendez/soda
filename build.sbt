@@ -37,7 +37,7 @@ lazy val translator = project
   .in(file("translator"))
   .settings(
     commonSettings,
-    mainClass in assembly := Some("se.umu.cs.rai.scopus.translator.main.Main"),
+    mainClass in assembly := Some("se.umu.cs.rai.scopus.translator.Main"),
     assemblyJarName in assembly := "translator-" + version.value + ".jar"
   )
 
@@ -49,7 +49,7 @@ lazy val root = project
   .dependsOn(translator)
   .settings(
     commonSettings,
-    mainClass in(Compile, run) := Some("se.umu.cs.rai.scopus.translator.main.Main"),
+    mainClass in assembly := Some("se.umu.cs.rai.scopus.translator.Main"),
     assemblyJarName in assembly := "scopus-" + version.value + ".jar"
   )
 
