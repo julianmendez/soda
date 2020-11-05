@@ -26,7 +26,7 @@ class FairBox (
   fence_height: Double,
 ) {
 
-
+  /** Tells if the distribution is fair or not. */
   is_fair (resources: Seq[Box], participants: Seq[Participant]) = {
     assignments = distribute (resources, participants)
     satisfied_participants = count_satisfied (participants, assignments)

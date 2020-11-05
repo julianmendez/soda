@@ -19,8 +19,6 @@ case class MicroTranslator() {
   val ScopusCloseParenthesis: String = ")"
   val ScopusSpace: String = " "
   val ScopusWith: String = ","
-  val ScopusBeginComment = "/*"
-  val ScopusEndComment = "*/"
 
   val ScalaDefinition: String = "def "
   val ScalaValue: String = "val "
@@ -51,48 +49,20 @@ case class MicroTranslator() {
   }
 
   def translateLines(lines: Seq[String]): Seq[String] = {
-    annotateLines(lines)
-      .map(pair => {
-        val line = pair._1
-        val isComment = pair._2
-        if (isComment) {
-          line
+    CommentPreprocessor()
+      .annotateLines(lines)
+      .map(annotatedLine => {
+        if (annotatedLine.isComment) {
+          annotatedLine.line
         } else {
           removeSpaceFromScalaLine(
             translateLine(
-              addSpaceToScopusLine(line)
+              addSpaceToScopusLine(annotatedLine.line)
             )
           )
         }
       })
   }
-
-  def annotateLines(lines: Seq[String]): Seq[(String, Boolean)] =
-    identifyComments(lines, commentState = false, Seq())
-
-  @tailrec
-  final def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[(String, Boolean)]): Seq[(String, Boolean)] = {
-    if (lines.isEmpty) {
-      annotatedLinesRev.reverse
-    } else {
-      val line = lines.head
-      val (currentState, newCommentState) = if (commentState) {
-        if (line.trim.startsWith(ScopusEndComment)) {
-          (true, false)
-        } else {
-          (true, true)
-        }
-      } else {
-        if (line.trim.startsWith(ScopusBeginComment)) {
-          (true, true)
-        } else {
-          (false, false)
-        }
-      }
-      identifyComments(lines.tail, newCommentState, (line, currentState) +: annotatedLinesRev)
-    }
-  }
-
 
   def translateLine(line: String): String = {
     Option(line)
@@ -150,18 +120,6 @@ case class MicroTranslator() {
     line.trim.startsWith(ScopusTraitDeclaration + ScopusSpace) &&
       !line.contains(ScopusOpenParenthesis)
 
-  def tryClassDeclaration(line: String): Some[String] = {
-    if (isClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
-    } else {
-      Some(line)
-    }
-  }
-
-  def isClassDeclaration(line: String): Boolean =
-    line.trim.startsWith(ScopusClassDeclaration + ScopusSpace) &&
-      line.contains(ScopusOpenParenthesis)
-
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
     val pos = line.indexOf(pattern)
     val result = {
@@ -173,6 +131,18 @@ case class MicroTranslator() {
     }
     result
   }
+
+  def tryClassDeclaration(line: String): Some[String] = {
+    if (isClassDeclaration(line)) {
+      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
+    } else {
+      Some(line)
+    }
+  }
+
+  def isClassDeclaration(line: String): Boolean =
+    line.trim.startsWith(ScopusClassDeclaration + ScopusSpace) &&
+      line.contains(ScopusOpenParenthesis)
 
   @tailrec
   final def successiveReplacements(line: String, toReplace: Seq[String], translationMap: Map[String, String]): String = {

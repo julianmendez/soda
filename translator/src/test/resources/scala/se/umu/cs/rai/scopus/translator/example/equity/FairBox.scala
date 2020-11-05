@@ -26,7 +26,7 @@ case class FairBox (
   fence_height: Double,
 ) {
 
-
+  /** Tells if the distribution is fair or not. */
   def is_fair (resources: Seq[Box], participants: Seq[Participant]) = {
     def assignments = distribute (resources, participants)
     def satisfied_participants = count_satisfied (participants, assignments)
