@@ -35,7 +35,8 @@ case class TokenizerSpec() extends AnyFunSpec {
     Token(InputProgram0, ParserState().PlainSymbolState, 44, 45),
     Token(InputProgram0, ParserState().PlainWhitespaceState, 45, 46),
     Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 46, 47),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 47, 48))
+    Token(InputProgram0, ParserState().PlainWhitespaceState, 47, 48)
+  )
 
 
   it("should tokenize a small example") {

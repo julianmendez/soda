@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 case class Token(program: String, parserState: Int, startPos: Int, endPos: Int) {
 
   override def toString: String =
-    "<" + text + ", " + parserState + ", " + startPos + ", " + endPos + ">"
+    "(\"" + text + "\"," + parserState + "," + startPos + "," + endPos + ")"
 
   def text: String = program.substring(startPos, endPos)
 

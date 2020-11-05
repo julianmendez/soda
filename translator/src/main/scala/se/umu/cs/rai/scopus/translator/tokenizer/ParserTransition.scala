@@ -13,31 +13,15 @@ case class ParserState() {
 
 case class ParserTransition() {
 
-  val Transitions: Map[(Int, Int), Int] =
+  val TransitionsThatChangeStates: Map[(Int, Int), Int] =
     Map(
-      ((ParserState().UndefinedState, CharType().UndefinedType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().WhitespaceType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().QuotesType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().ApostropheType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().BackslashType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().LetterOrDigitOrUnderscoreType), ParserState().UndefinedState),
-      ((ParserState().UndefinedState, CharType().SymbolType), ParserState().UndefinedState),
-
       ((ParserState().QuotesState, CharType().UndefinedType), ParserState().UndefinedState),
-      ((ParserState().QuotesState, CharType().WhitespaceType), ParserState().QuotesState),
       ((ParserState().QuotesState, CharType().QuotesType), ParserState().PlainWhitespaceState),
-      ((ParserState().QuotesState, CharType().ApostropheType), ParserState().QuotesState),
       ((ParserState().QuotesState, CharType().BackslashType), ParserState().QuotesBackslashState),
-      ((ParserState().QuotesState, CharType().LetterOrDigitOrUnderscoreType), ParserState().QuotesState),
-      ((ParserState().QuotesState, CharType().SymbolType), ParserState().QuotesState),
 
       ((ParserState().ApostropheState, CharType().UndefinedType), ParserState().UndefinedState),
-      ((ParserState().ApostropheState, CharType().WhitespaceType), ParserState().ApostropheState),
-      ((ParserState().ApostropheState, CharType().QuotesType), ParserState().ApostropheState),
       ((ParserState().ApostropheState, CharType().ApostropheType), ParserState().PlainWhitespaceState),
       ((ParserState().ApostropheState, CharType().BackslashType), ParserState().ApostropheBackslashState),
-      ((ParserState().ApostropheState, CharType().LetterOrDigitOrUnderscoreType), ParserState().ApostropheState),
-      ((ParserState().ApostropheState, CharType().SymbolType), ParserState().ApostropheState),
 
       ((ParserState().QuotesBackslashState, CharType().UndefinedType), ParserState().UndefinedState),
       ((ParserState().QuotesBackslashState, CharType().WhitespaceType), ParserState().QuotesState),
@@ -81,6 +65,6 @@ case class ParserTransition() {
     )
 
   def nextParserState(parserState: Int, charType: Int): Int =
-    Transitions.getOrElse((parserState, charType), ParserState().UndefinedState)
+    TransitionsThatChangeStates.getOrElse((parserState, charType), parserState)
 
 }
