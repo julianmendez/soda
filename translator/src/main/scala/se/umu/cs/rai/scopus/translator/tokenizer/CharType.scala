@@ -4,12 +4,10 @@ package se.umu.cs.rai.scopus.translator.tokenizer
 case class CharType() {
 
   val UndefinedType = 0
-  val WhitespaceType = 1
-  val QuotesType = 2
-  val ApostropheType = 3
-  val BackslashType = 4
-  val LetterOrDigitOrUnderscoreType = 5
-  val SymbolType = 6
+  val QuotesType = 1
+  val ApostropheType = 2
+  val BackslashType = 3
+  val PlainType = 4
 
   val BackslashChar = '\\'
   val QuotesChar = '\"'
@@ -18,18 +16,14 @@ case class CharType() {
   val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   def charType(ch: Char): Int = {
-    if (isWhitespace(ch)) {
-      WhitespaceType
-    } else if (isQuotes(ch)) {
+    if (isQuotes(ch)) {
       QuotesType
     } else if (isApostrophe(ch)) {
       ApostropheChar
     } else if (isBackslash(ch)) {
       BackslashType
-    } else if (isLetterOrDigitOrUnderscore(ch)) {
-      LetterOrDigitOrUnderscoreType
-    } else if (isSymbol(ch)) {
-      SymbolType
+    } else if (isWhitespace(ch) || isLetterOrDigitOrUnderscore(ch) || isSymbol(ch)) {
+      PlainType
     } else {
       UndefinedType
     }

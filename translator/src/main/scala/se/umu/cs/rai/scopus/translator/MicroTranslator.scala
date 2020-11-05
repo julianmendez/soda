@@ -1,6 +1,6 @@
 package se.umu.cs.rai.scopus.translator
 
-import se.umu.cs.rai.scopus.translator.tokenizer.Translation
+import se.umu.cs.rai.scopus.translator.tokenizer.{ParserState, Token, Tokenizer, Translation}
 
 import scala.annotation.tailrec
 
@@ -12,21 +12,10 @@ case class MicroTranslator() {
 
   val NewLine = "\n"
 
-  val ScopusDefinition: String = "="
-  val ScopusTraitDeclaration: String = "class"
-  val ScopusClassDeclaration: String = "class"
   val ScopusOpenParenthesis: String = "("
   val ScopusCloseParenthesis: String = ")"
   val ScopusSpace: String = " "
-  val ScopusWith: String = ","
-
-  val ScalaDefinition: String = "def "
-  val ScalaValue: String = "val "
-  val ScalaTraitDeclaration: String = "trait "
-  val ScalaCaseClassDeclaration: String = "case class "
-  val ScalaWith: String = " with "
   val ScalaSpace: String = " "
-  val ScalaEmpty: String = ""
 
 
   def translateProgram(program: String): String =
@@ -48,6 +37,14 @@ case class MicroTranslator() {
     lineWithoutEndingSpace
   }
 
+  def tokenize(line: String): Seq[Token] =
+    Tokenizer().tokenize(line)
+
+  def joinTokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token => token.text)
+      .mkString("")
+
   def translateLines(lines: Seq[String]): Seq[String] = {
     CommentPreprocessor()
       .annotateLines(lines)
@@ -55,21 +52,30 @@ case class MicroTranslator() {
         if (annotatedLine.isComment) {
           annotatedLine.line
         } else {
-          removeSpaceFromScalaLine(
-            translateLine(
-              addSpaceToScopusLine(annotatedLine.line)
-            )
-          )
+          val line = annotatedLine.line
+          val lineWithSpace = addSpaceToScopusLine(line)
+          val tokenizedLine = tokenize(lineWithSpace)
+          val translatedLine = translateLine(tokenizedLine)
+          val jointLine = joinTokens(translatedLine)
+          val finalLine = removeSpaceFromScalaLine(jointLine)
+          finalLine
         }
       })
   }
 
-  def translateLine(line: String): String = {
-    Option(line)
-      .flatMap(x => tryDefinition(x))
-      .flatMap(x => tryStandardKeywords(x))
-      .flatMap(x => tryKeywordsWithParentheses(x))
-      .getOrElse(line)
+  def translateLine(tokens: Seq[Token]): Seq[Token] = {
+    tokens.map(
+      token => if (token.parserState == ParserState().Plain) {
+        val line = token.text
+        val newText = Option(line)
+          .flatMap(x => tryDefinition(x))
+          .flatMap(x => tryStandardKeywords(x))
+          .flatMap(x => tryKeywordsWithParentheses(x))
+          .getOrElse(line)
+        Token(newText, token.parserState)
+      } else {
+        token
+      })
   }
 
   /**
@@ -79,8 +85,8 @@ case class MicroTranslator() {
    * @return if it is a definition
    */
   def isDefinition(line: String): Boolean =
-    (line.indexOf(ScopusSpace + ScopusDefinition + ScopusSpace) != -1) ||
-      line.endsWith(ScopusSpace + ScopusDefinition)
+    (line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace) != -1) ||
+      line.endsWith(ScopusSpace + Translation().ScopusDefinition)
 
   /**
    * There are two types of definitions: 'val' and 'def'.
@@ -99,26 +105,15 @@ case class MicroTranslator() {
     if (isDefinition(line)) {
       val indexOfParenthesis = line.indexOf(ScopusCloseParenthesis)
       if (indexOfParenthesis == -1) {
-        Some(addAfterSpaces(ScalaValue, line))
+        Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
       } else {
-        Some(addAfterSpaces(ScalaDefinition, line))
+        Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
       }
     } else {
       Some(line)
     }
   }
 
-  def tryAbstractClassDeclaration(line: String): Some[String] = {
-    if (isAbstractClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusTraitDeclaration + ScopusSpace, ScalaTraitDeclaration))
-    } else {
-      Some(line)
-    }
-  }
-
-  def isAbstractClassDeclaration(line: String): Boolean =
-    line.trim.startsWith(ScopusTraitDeclaration + ScopusSpace) &&
-      !line.contains(ScopusOpenParenthesis)
 
   def replaceFirst(line: String, pattern: String, replacement: String): String = {
     val pos = line.indexOf(pattern)
@@ -132,17 +127,6 @@ case class MicroTranslator() {
     result
   }
 
-  def tryClassDeclaration(line: String): Some[String] = {
-    if (isClassDeclaration(line)) {
-      Some(replaceFirst(line, ScopusClassDeclaration + ScopusSpace, ScalaCaseClassDeclaration))
-    } else {
-      Some(line)
-    }
-  }
-
-  def isClassDeclaration(line: String): Boolean =
-    line.trim.startsWith(ScopusClassDeclaration + ScopusSpace) &&
-      line.contains(ScopusOpenParenthesis)
 
   @tailrec
   final def successiveReplacements(line: String, toReplace: Seq[String], translationMap: Map[String, String]): String = {

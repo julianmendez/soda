@@ -6,42 +6,28 @@ import scala.language.implicitConversions
 
 case class TokenizerSpec() extends AnyFunSpec {
 
-  val InputProgram0: String = "val Constant = \"my text\"" +
-    "\ndef f(x: Int): Int = x" +
-    "\n"
+
+  val InputLine0: String = "val Constant = \"my text\""
+  val InputLine1: String = "def f(x: Int): Int = x"
+
 
   val ExpectedTokens0: Seq[Token] = Seq(
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 0, 0),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 0, 3),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 3, 4),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 4, 12),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 12, 13),
-    Token(InputProgram0, ParserState().PlainSymbolState, 13, 14),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 14, 15),
-    Token(InputProgram0, ParserState().QuotesState, 15, 24),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 24, 25),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 25, 28),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 28, 29),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 29, 30),
-    Token(InputProgram0, ParserState().PlainSymbolState, 30, 31),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 31, 32),
-    Token(InputProgram0, ParserState().PlainSymbolState, 32, 33),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 33, 34),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 34, 37),
-    Token(InputProgram0, ParserState().PlainSymbolState, 37, 39),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 39, 40),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 40, 43),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 43, 44),
-    Token(InputProgram0, ParserState().PlainSymbolState, 44, 45),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 45, 46),
-    Token(InputProgram0, ParserState().PlainLetterOrDigitOrUnderscoreState, 46, 47),
-    Token(InputProgram0, ParserState().PlainWhitespaceState, 47, 48)
+    Token("val Constant = ", ParserState().Plain),
+    Token("\"my text\"", ParserState().QuotesState),
+    Token("", ParserState().Plain)
+  )
+
+  val ExpectedTokens1: Seq[Token] = Seq(
+    Token("def f(x: Int): Int = x", ParserState().Plain)
   )
 
 
   it("should tokenize a small example") {
-    val obtained = Tokenizer().tokenize(InputProgram0)
-    assert(obtained === ExpectedTokens0)
+    val obtained0 = Tokenizer().tokenize(InputLine0)
+    assert(obtained0 === ExpectedTokens0)
+
+    val obtained1 = Tokenizer().tokenize(InputLine1)
+    assert(obtained1 === ExpectedTokens1)
   }
 
 }

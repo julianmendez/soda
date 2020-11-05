@@ -2,31 +2,29 @@ package se.umu.cs.rai.scopus.translator.tokenizer
 
 import scala.annotation.tailrec
 
-case class Token(program: String, parserState: Int, startPos: Int, endPos: Int) {
+case class Token(text: String, parserState: Int) {
 
   override def toString: String =
-    "(\"" + text + "\"," + parserState + "," + startPos + "," + endPos + ")"
-
-  def text: String = program.substring(startPos, endPos)
-
+    "(\"" + text + "\"," + parserState + ")"
 }
 
 case class Tokenizer() {
 
-  def tokenize(program: String): Seq[Token] =
-    tokenizeRec(program, 0, 0, ParserState().PlainWhitespaceState, Seq())
+  def tokenize(line: String): Seq[Token] =
+    tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
   @tailrec
-  final def tokenizeRec(program: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] = {
-    if (currentIndex >= program.length) {
-      Token(program = program, parserState = parserState, startPos = lastIndex, endPos = currentIndex) +: revTokens
+  final def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] = {
+    if (currentIndex >= line.length) {
+      val text = line.substring(lastIndex)
+      Token(text = text, parserState = parserState) +: revTokens
     } else {
-      val ch = program.charAt(currentIndex)
+      val ch = line.charAt(currentIndex)
       val charType = CharType().charType(ch)
       val newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
       val (newLastIndex, newCurrentIndex, newRevTokens) =
-        if (newParserState == parserState && parserState != ParserState().PlainWhitespaceState) {
+        if (newParserState == parserState) {
           (lastIndex, currentIndex + 1, revTokens)
         }
         else {
@@ -36,9 +34,10 @@ case class Tokenizer() {
             } else {
               currentIndex
             }
-          (index, index + 1, Token(program = program, parserState = parserState, startPos = lastIndex, endPos = index) +: revTokens)
+          val text = line.substring(lastIndex, index)
+          (index, index + 1, Token(text = text, parserState = parserState) +: revTokens)
         }
-      tokenizeRec(program, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
+      tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }
   }
 
