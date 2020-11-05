@@ -1,16 +1,11 @@
-package se.umu.cs.rai.scopus.translator.tokenizer
+package se.umu.cs.rai.scopus.translator
 
 case class Translation() {
 
   val ScopusDefinition: String = "="
 
-  val ScalaDefinition: String = "def "
-  val ScalaValue: String = "val "
-
-  val TranslationOfDefinition: Map[(String, Boolean), String] = Map(
-    (("=", false), "val"),
-    (("=", true), "def"),
-  )
+  val ScalaDefinition: String = "def"
+  val ScalaValue: String = "val"
 
   val TranslationWithParentheses: Map[String, String] = Map(
     ("class", "case class"),

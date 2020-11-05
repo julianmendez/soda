@@ -1,7 +1,5 @@
 package se.umu.cs.rai.scopus.translator
 
-import se.umu.cs.rai.scopus.translator.tokenizer.{ParserState, Token, Tokenizer, Translation}
-
 import scala.annotation.tailrec
 
 

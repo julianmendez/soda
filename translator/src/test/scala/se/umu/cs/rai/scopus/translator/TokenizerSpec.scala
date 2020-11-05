@@ -1,8 +1,6 @@
-package se.umu.cs.rai.scopus.translator.tokenizer
+package se.umu.cs.rai.scopus.translator
 
 import org.scalatest.funspec.AnyFunSpec
-
-import scala.language.implicitConversions
 
 case class TokenizerSpec() extends AnyFunSpec {
 

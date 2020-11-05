@@ -1,4 +1,4 @@
-package se.umu.cs.rai.scopus.translator.tokenizer
+package se.umu.cs.rai.scopus.translator
 
 import scala.annotation.tailrec
 
