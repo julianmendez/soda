@@ -203,7 +203,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     has visit (x: Element): Boolean
   }
 
-  class Element (identifier: Int) {
+  class Item (identifier: Int) extends Element {
     accept (v: Visitor) = v.visit (this)
   }
     \end{lstlisting}
@@ -300,9 +300,9 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
   @tailrec
   sum_rec (n: Int, accum: Int): Int =
-    if x < 0
+    if n < 0
     then accum
-    else sum_rec (x - 1, x + accum)
+    else sum_rec (n - 1, n + accum)
 
     \end{lstlisting}
 

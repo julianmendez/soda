@@ -113,16 +113,21 @@ case class MicroTranslator() {
   }
 
 
-  def replaceFirst(line: String, pattern: String, replacement: String): String = {
+  def replaceAll(line: String, pattern: String, replacement: String): String =
+    replaceAllRec(line, pattern, replacement, Seq())
+
+  @tailrec
+  final def replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
     val pos = line.indexOf(pattern)
-    val result = {
-      if (pos == -1) {
-        line
-      } else {
-        line.substring(0, pos) + replacement + line.substring(pos + pattern.length)
-      }
+    if (pos == -1) {
+      (line +: replacedTextRev)
+        .reverse
+        .mkString("")
+    } else {
+      val newReplacedTextRev = (line.substring(0, pos) + replacement) +: replacedTextRev
+      val newLine = line.substring(pos + pattern.length)
+      replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
     }
-    result
   }
 
 
@@ -152,7 +157,7 @@ case class MicroTranslator() {
 
   def replaceIfFound(line: String, pattern: String, newText: String): String = {
     if (line.contains(pattern)) {
-      replaceFirst(line, pattern, newText)
+      replaceAll(line, pattern, newText)
     } else {
       line
     }
