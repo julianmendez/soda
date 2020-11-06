@@ -7,7 +7,7 @@
 Its main purpose is to be used to produce clean, elegant, and descriptive code.
 The source code should be easy to understand, somehow natural, although not necessarily easy to write.
 
-For simplicity, the language is implemented in Scala.
+For simplicity, the language is translated in Scala.
 
 
 ## Keywords
@@ -17,17 +17,23 @@ The number of keywords in this language is small.
 
 ## Main Operators in Scopus
 
-The main operators are:
-- '=' (definition)
-- '->' (lambda)
-
-The main commands:
+The reserved words are:
+- '=' (definition symbol)
+- ':' (type symbol)
+- '->' (lambda symbol)
 - if
 - then
 - else
 - class
-- trait
+- has
 - extends
+- with
+- this
+- false
+- true
+- not
+- and
+- or
 - package
 - import
 - new
