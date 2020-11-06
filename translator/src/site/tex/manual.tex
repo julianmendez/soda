@@ -1,0 +1,326 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+
+\lstdefinelanguage{Scopus}{
+morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, @override, @tailrec},
+sensitive=true, % keywords are not case-sensitive
+morecomment=[l]{//}, % l is for line comment
+morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+morestring=[b]" % defines that strings are enclosed in double quotes
+} %
+
+
+\newcommand{\srccode}[1]{\texttt{{#1}}}
+\newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
+\newcommand{\annotation}[1]{{\color{brown}\srccode{#1}}\xspace}
+
+\newcommand{\sif}{\reservedWord{if}}
+\newcommand{\sthen}{\reservedWord{then}}
+\newcommand{\selse}{\reservedWord{else}}
+
+\newcommand{\sclass}{\reservedWord{class}}
+\newcommand{\shas}{\reservedWord{has}}
+\newcommand{\sextends}{\reservedWord{extends}}
+\newcommand{\swith}{\reservedWord{with}}
+\newcommand{\sthis}{\reservedWord{this}}
+
+\newcommand{\sfalse}{\reservedWord{false}}
+\newcommand{\strue}{\reservedWord{true}}
+\newcommand{\snot}{\reservedWord{not}}
+\newcommand{\sand}{\reservedWord{and}}
+\newcommand{\sor}{\reservedWord{or}}
+
+\newcommand{\spackage}{\reservedWord{package}}
+\newcommand{\simport}{\reservedWord{import}}
+\newcommand{\snew}{\reservedWord{new}}
+
+\newcommand{\stailrec}{\annotation{@tailrec}}
+\newcommand{\soverride}{\annotation{@override}}
+
+
+\newcommand{\Scopus}{\textsc{Scopus}\xspace}
+\newcommand{\lambdaSymbol}{{\tiny--\textgreater}}
+
+\begin{document}
+
+    \lstset{frame=tb,
+    language=Scopus,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+    }
+
+
+    \section{\Scopus}
+
+
+    \section{Reserved words}
+
+    The reserved words in \Scopus can be classified in the following categories:
+
+    \begin{itemize}
+        \item Functional
+        \item Object Oriented
+        \item Boolean
+        \item Library
+        \item Annotations
+    \end{itemize}
+
+
+    The reserved words considered in Scala are listed at this link:
+    \url{https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html}
+
+    \subsection{Functional}
+
+    \subsubsection{= (definition symbol)}
+
+    The definition symbol, written as an equals symbol, is used to defined functions and constants.
+
+    For example,
+    \begin{lstlisting}[label={lst:exampleDef}]
+  a = 1
+    \end{lstlisting}
+
+    \subsubsection{: (type symbol)}
+
+    The type symbol, written as a colon symbol, is used to assign a statically defined type to a function or constant.
+
+    For example,
+    \begin{lstlisting}[label={lst:exampleType01}]
+  b: Int = 2
+    \end{lstlisting}
+
+    Another example is the following:
+    \begin{lstlisting}[label={lst:exampleType02}]
+    plus_one (x: Int): Int = x + 1
+    \end{lstlisting}
+
+    \subsubsection{\sif, \sthen, \selse}
+
+    The \sif-\sthen-\selse construct is used to define a conditional result in a function.
+
+    For example,
+    \begin{lstlisting}[label={lst:exampleIfThenElse}]
+  max (x: Int, y: Int) =
+    if x > y
+    then x
+    else y
+    \end{lstlisting}
+
+    \subsubsection{\lambdaSymbol, $\rightarrow$ ($\backslash$u2192) (lambda symbol)}
+
+    The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
+
+    For example, this piece of code
+    \begin{lstlisting}[label={lst:exampleLambda}]
+  plus_one (sequence: Seq[Int]) =
+    sequence.map(element -> element + 1)
+    \end{lstlisting}
+    returns a sequence of integers where each element is computed as the next integer from the input
+
+    \subsection{Object Oriented}
+
+    \subsubsection{\sclass, \shas}
+
+    There are two types of classes: the abstract and the concrete.
+
+    Abstract classes compare to interfaces in Java, or traits in Scala, and cannot be directly instantiated.
+
+    Both types are declared using the \sclass reserved words.
+
+    For example,
+    \begin{lstlisting}[label={lst:exampleAbstractClass}]
+  class Agent {
+    has identifier: String
+  }
+    \end{lstlisting}
+    defines an abstract agent that has some identifier.
+    Agent is, however, an abstract class and cannot be instantiated.
+
+    By contrast, concrete classes compare to final classes in Java and case classes in Scala.
+
+    The following example shows a concrete class consisting only of a parameterized name.
+    \begin{lstlisting}[label={lst:exampleConcreteClass}]
+  class Person (name: String)
+    \end{lstlisting}
+
+    The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
+
+    \subsubsection{\sextends, \swith}
+
+    It is possible to declare that a concrete class extends an abstract class using the \sextends reserved word.
+    Concrete classes are final and cannot be extended.
+
+    \begin{lstlisting}[label={lst:exampleExtends}]
+  class Agent_Person (name: String) extends Agent {
+    identifier = name
+  }
+    \end{lstlisting}
+
+    Concrete classes can also extend multiple abstract classes.
+    For example,
+    \begin{lstlisting}[label={lst:exampleWith}]
+  class Ranked_Individual {
+    has rank: Int
+  }
+
+  class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
+    identifier = name
+
+    rank = person_rank
+  }
+    \end{lstlisting}
+
+    \subsubsection{\sthis}
+
+    In some cases, it could be necessary that an object can refer to itself.
+    For that, the \sthis reserved word is used.
+
+    For example,
+    \begin{lstlisting}[label={lst:exampleWith}]
+  class Element {
+    has accept (v: Visitor): Boolean
+  }
+
+  class Visitor {
+    has visit (x: Element): Boolean
+  }
+
+  class Element (identifier: Int) {
+    accept (v: Visitor) = v.visit (this)
+  }
+    \end{lstlisting}
+
+    \subsection{Boolean}
+
+    \subsubsection{\sfalse, \strue}
+
+    As in other programming languages, the \sfalse and \strue reserved words are used for the Boolean values.
+
+    \begin{lstlisting}[label={lst:exampleFalseTrue}]
+
+  my_not (x: Boolean) =
+    if x
+    then false
+    else true
+
+  my_and (x: Boolean, y: Boolean) =
+    if x
+    then
+      if y
+      then true
+      else false
+    else false
+
+  my_or (x: Boolean, y: Boolean) =
+    if x
+    then true
+    else
+      if y
+      then true
+      else false
+    \end{lstlisting}
+
+    \subsubsection{\snot, \sand, \sor}
+
+    The reserved words \snot, \sand, \sor are introduced for the sake of readability.
+
+    \begin{lstlisting}[label={lst:exampleNotAndOr}]
+
+  my_xor (x: Boolean, y: Boolean) = (x or y) and not (x and y)
+
+    \end{lstlisting}
+
+    \subsection{Library}
+
+    \subsubsection{\spackage}
+
+    The \spackage declares the package the content should be included.
+    All classes then belong to that package.
+
+    \begin{lstlisting}[label={lst:examplePackage}]
+  package org.example.scopus
+    \end{lstlisting}
+
+    \subsubsection{\simport}
+
+    The \simport helps importing classes from other libraries and frameworks.
+
+    \begin{lstlisting}[label={lst:examplePackage}]
+  import java.util.Date
+
+  import scala.annotation.tailrec
+    \end{lstlisting}
+
+    \subsubsection{\snew}
+
+    Although every concrete class can be instantiated directly using the parameters, some libraries and frameworks may need a \snew reserved word.
+    For example,
+
+    \begin{lstlisting}[label={lst:examplePackage}]
+  import java.util.Date
+
+  now = new Date()
+    \end{lstlisting}
+
+    \subsection{Annotations}
+
+    Annotations are not part of the language itself, but they are necessary to translate it into Scala.
+
+    \subsubsection{\stailrec}
+
+    The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
+    If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
+
+    For technical reasons, the \stailrec annotation needs to be imported.
+
+    For example, the following example shows a function \srccode{sum} that returns the sum of the first $n$ natural numbers, or 0 if $n \leq 0$.
+
+    \begin{lstlisting}[label={lst:exampleTailrec}]
+  import scala.annotation.tailrec
+
+  sum (n: Int) = sum_rec (n, 0)
+
+  @tailrec
+  sum_rec (n: Int, accum: Int): Int =
+    if x < 0
+    then accum
+    else sum_rec (x - 1, x + accum)
+
+    \end{lstlisting}
+
+    \subsubsection{\soverride}
+
+    The \soverride annotation is used to ensure that a function is effectively overriding another function.
+    When programming, a function name could be mispelled or could be declared in another abstract class.
+    This annotation prevents this problem.
+
+    \begin{lstlisting}[label={lst:exampleOverride}]
+  class Person_Name (name: String) {
+
+    @override
+    toString = name
+  }
+    \end{lstlisting}
+
+
+\end{document}
+
+
