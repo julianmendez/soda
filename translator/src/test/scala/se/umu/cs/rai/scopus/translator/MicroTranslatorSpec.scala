@@ -9,23 +9,23 @@ import scala.language.implicitConversions
 
 case class MicroTranslatorSpec() extends AnyFunSpec {
 
-  val InputFileName00 = "/scopus/se/umu/cs/rai/scopus/translator/example/SwapExample.scopus"
-  val ExpectedFileName00 = "/scala/se/umu/cs/rai/scopus/translator/example/SwapExample.scala"
+  val InputFileName00 = "/se/umu/cs/rai/scopus/translator/example/SwapExample.scopus"
+  val ExpectedFileName00 = "/se/umu/cs/rai/scopus/translator/example/SwapExample.scala"
 
-  val InputFileName01 = "/scopus/se/umu/cs/rai/scopus/translator/example/FiboExample.scopus"
-  val ExpectedFileName01 = "/scala/se/umu/cs/rai/scopus/translator/example/FiboExample.scala"
+  val InputFileName01 = "/se/umu/cs/rai/scopus/translator/example/FiboExample.scopus"
+  val ExpectedFileName01 = "/se/umu/cs/rai/scopus/translator/example/FiboExample.scala"
 
-  val InputFileName02 = "/scopus/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scopus"
-  val ExpectedFileName02 = "/scala/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scala"
+  val InputFileName02 = "/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scopus"
+  val ExpectedFileName02 = "/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scala"
 
-  val InputFileName03 = "/scopus/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scopus"
-  val ExpectedFileName03 = "/scala/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scala"
+  val InputFileName03 = "/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scopus"
+  val ExpectedFileName03 = "/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scala"
 
-  val InputFileName04 = "/scopus/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scopus"
-  val ExpectedFileName04 = "/scala/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scala"
+  val InputFileName04 = "/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scopus"
+  val ExpectedFileName04 = "/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scala"
 
-  val InputFileName05 = "/scopus/se/umu/cs/rai/scopus/translator/documentation/Manual.scopus"
-  val ExpectedFileName05 = "/scala/se/umu/cs/rai/scopus/translator/documentation/Manual.scala"
+  val InputFileName05 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scopus"
+  val ExpectedFileName05 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scala"
 
   def testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
