@@ -45,7 +45,7 @@ case class FairBox (
   def height_enhancement (assignments: Seq[Box_assignment], participant: Participant) =
     assignments_for_participant (assignments, participant)
       .map (assignment => assignment.box.height)
-      .reduce ((height1, height2) => height1 + height2)
+      .sum
 
 
   def count_satisfied (participants: Seq[Participant], assignments: Seq[Box_assignment]) =
