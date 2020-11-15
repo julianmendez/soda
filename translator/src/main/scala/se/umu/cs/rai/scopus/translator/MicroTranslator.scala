@@ -143,7 +143,8 @@ case class MicroTranslator() {
   }
 
   def tryStandardKeywords(line: String): Some[String] = {
-    Some(successiveReplacements(line, Translation().TranslationByKeyword.keys.toSeq, Translation().TranslationByKeyword))
+    val keys = Translation().TranslationByKeyword.map(pair => pair._1)
+    Some(successiveReplacements(line, keys, Translation().TranslationByKeyword.toMap))
   }
 
   def tryKeywordsWithParentheses(line: String): Some[String] = {
@@ -152,7 +153,8 @@ case class MicroTranslator() {
     } else {
       Translation().TranslationWithoutParentheses
     }
-    Some(successiveReplacements(line, translationTable.keys.toSeq, translationTable))
+    val keys = translationTable.map(pair => pair._1)
+    Some(successiveReplacements(line, keys, translationTable.toMap))
   }
 
   def replaceIfFound(line: String, pattern: String, newText: String): String = {

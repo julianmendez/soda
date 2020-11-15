@@ -7,17 +7,19 @@ case class Translation() {
   val ScalaDefinition: String = "def"
   val ScalaValue: String = "val"
 
-  val TranslationWithParentheses: Map[String, String] = Map(
+  val TranslationWithParentheses: Seq[(String, String)] = Seq(
+    ("*", "class"),
     ("class", "case class"),
     ("has", "def")
   )
 
-  val TranslationWithoutParentheses: Map[String, String] = Map(
+  val TranslationWithoutParentheses: Seq[(String, String)] = Seq(
+    ("*", "class"),
     ("class", "trait"),
     ("has", "val")
   )
 
-  val TranslationByKeyword: Map[String, String] = Map(
+  val TranslationByKeyword: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
     ("\u2192", "=>"),
@@ -39,11 +41,12 @@ case class Translation() {
     ("@tailrec", "@tailrec final"),
   )
 
-  val ScopusReservedWords = Set(
+  val ScopusReservedWords = Seq(
     "=",
     ":",
     "->",
     "\u2192",
+    "*",
     "if",
     "then",
     "else",
@@ -63,7 +66,7 @@ case class Translation() {
   )
 
   // https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
-  val ScalaReservedWords = Set(
+  val ScalaReservedWords = Seq(
     "abstract",
     "case",
     "catch",
