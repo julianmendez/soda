@@ -3,14 +3,14 @@ package se.umu.cs.rai.scopus.translator.example
 import scala.annotation.tailrec
 
 
-class Fibo_example {
+* Fibo_example {
 
   has fib (n: Int): Int
 
 }
 
 
-class Fibo_example_in_scopus () extends Fibo_example {
+* Fibo_example_in_scopus () extends Fibo_example {
 
   @tailrec
   fa (m: Int, a: Int, b: Int): Int =

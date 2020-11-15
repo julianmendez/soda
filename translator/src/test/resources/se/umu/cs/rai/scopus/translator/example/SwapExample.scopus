@@ -1,6 +1,6 @@
 package se.umu.cs.rai.scopus.translator.example
 
-class My_example() {
+* My_example() {
 
   swap( pair: (Int, Int) ) =
     (pair._2, pair._1)
