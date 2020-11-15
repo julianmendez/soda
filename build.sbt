@@ -6,7 +6,7 @@ lazy val scala3 = "3.0.0-M1"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.scopus",
-  version := "0.1.0",
+  version := "0.1.1",
 
   /**
    * Scala
