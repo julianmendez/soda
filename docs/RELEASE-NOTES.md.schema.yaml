@@ -1,0 +1,32 @@
+---
+$schema: http://json-schema.org/draft-06/schema#
+title: release-notes
+type: array
+items:
+  type: array
+  items:
+    type: object
+    additionalProperties: false
+    properties:
+      schema:
+        type: string
+      version:
+        type: string
+      date:
+        type: string
+      new_features:
+        type: array
+        items:
+          type: string
+      deprecated_features:
+        type: array
+        items:
+          type: string
+      bug_fixes:
+        type: array
+        items:
+          type: string
+      build:
+        type: string
+      release:
+        type: string

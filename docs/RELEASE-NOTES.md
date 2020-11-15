@@ -1,0 +1,34 @@
+---
+- - schema: RELEASE-NOTES.md.schema.yaml
+- - version: v0.1.1
+  - date: '2020-11-15'
+  - new_features:
+    - includes asterisk (*) abbreviation for class
+    - assumes the output file when it is omitted
+  - build: sbt clean compile test package assembly
+  - release: target/scala-2.13/scopus-0.1.1.jar
+- - version: v1.0.0
+  - date: '2020-11-05'
+  - new_features:
+    - version operational version with the basic reserved words, which are
+    - (definition symbol) "="
+    - (type symbol) ":"
+    - (lambda symbol) "->"
+    - if
+    - then
+    - else
+    - class
+    - has
+    - extends
+    - with
+    - this
+    - 'false'
+    - 'true'
+    - not
+    - and
+    - or
+    - package
+    - import
+    - new
+  - build: sbt clean compile test package assembly
+  - release: target/scala-2.13/scopus-0.1.0.jar
