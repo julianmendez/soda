@@ -1,18 +1,15 @@
-
-
-
-# Syntax of Scopus
+# Scopus
 
 *Scopus* is a functional language characterized by its conciseness.
 Its main purpose is to be used to produce clean, elegant, and descriptive code.
 The source code should be easy to understand, somehow natural, although not necessarily easy to write.
 
-For simplicity, the language is translated in Scala.
+This project includes a translator to Scala.
 
 
-## Keywords
+## Reserved words
 
-The number of keywords in this language is small.
+The number of reserved words in this language is small.
 
 
 ## Main Operators in Scopus
@@ -37,6 +34,10 @@ The reserved words are:
 - package
 - import
 - new
+
+There are also abbreviations.
+- '*' at the beginning of the line is an abbreviation for 'class'
+- '→' (\u2192) is an abbreviation for '->' (lambda symbol)
 
 In addition, the language has:
 - '(' and ')' (parentheses)

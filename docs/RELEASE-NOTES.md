@@ -32,3 +32,5 @@
     - new
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.0.jar
+
+
