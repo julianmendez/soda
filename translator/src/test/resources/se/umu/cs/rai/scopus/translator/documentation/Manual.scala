@@ -84,7 +84,7 @@ case class Manual() {
 
   def my_xor (x: Boolean, y: Boolean) = (x || y) && ! (x && y)
 
-  def now = new Date()
+  val now = new Date()
 
   def sum (n: Int) = sum_rec (n, 0)
 

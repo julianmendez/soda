@@ -3,8 +3,10 @@
 - - version: v0.1.1
   - date: '2020-11-15'
   - new_features:
-    - includes asterisk (*) abbreviation for class
+    - includes asterisk abbreviation (*) for class
     - assumes the output file when it is omitted
+  - bug_fixes:
+    - fixes translation of definition sign (=)
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.1.jar
 - - version: v1.0.0
