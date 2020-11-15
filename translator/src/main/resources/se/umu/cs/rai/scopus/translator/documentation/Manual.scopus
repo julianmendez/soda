@@ -5,39 +5,39 @@ import java.util.Date
 import scala.annotation.tailrec
 
 
-class Agent {
+* Agent {
   has identifier: String
 }
 
-class Person (name: String)
+* Person (name: String)
 
-class Agent_Person (name: String) extends Agent {
+* Agent_Person (name: String) extends Agent {
   identifier = name
 }
 
-class Ranked_Individual {
+* Ranked_Individual {
   has rank: Int
 }
 
-class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
+* Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
   identifier = name
 
   rank = person_rank
 }
 
-class Element {
+* Element {
   has accept (v: Visitor): Boolean
 }
 
-class Visitor {
+* Visitor {
   has visit (x: Element): Boolean
 }
 
-class Item (identifier: Int) extends Element {
+* Item (identifier: Int) extends Element {
   accept (v: Visitor) = v.visit (this)
 }
 
-class Person_Name (name: String) {
+* Person_Name (name: String) {
   @override
   toString = name
 }
@@ -45,7 +45,7 @@ class Person_Name (name: String) {
 /**
   * This contains the examples shown in the manual.
   */
-class Manual() {
+* Manual() {
 
   a = 1
 
