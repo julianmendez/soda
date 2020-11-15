@@ -28,8 +28,8 @@ case class FairBox (
 
   /** Tells if the distribution is fair or not. */
   def is_fair (resources: Seq[Box], participants: Seq[Participant]) = {
-    def assignments = distribute (resources, participants)
-    def satisfied_participants = count_satisfied (participants, assignments)
+    val assignments = distribute (resources, participants)
+    val satisfied_participants = count_satisfied (participants, assignments)
     val number_of_participants = participants.length
     if ( satisfied_participants == number_of_participants
     ) true

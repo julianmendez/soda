@@ -77,32 +77,52 @@ case class MicroTranslator() {
   }
 
   /**
-   * A line is a definition when its main operator is "=" (the equals sign).
+   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
-   * @return if it is a definition
+   * @return maybe the position of the definition sign
    */
-  def isDefinition(line: String): Boolean =
-    (line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace) != -1) ||
-      line.endsWith(ScopusSpace + Translation().ScopusDefinition)
+  def findDefinition(line: String): Option[Int] = {
+    val position = if (line.endsWith(ScopusSpace + Translation().ScopusDefinition)) {
+      line.length - Translation().ScopusDefinition.length
+    } else {
+      line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    }
+    if (position == -1) {
+      None
+    } else {
+      Some(position)
+    }
+  }
 
   /**
-   * There are two types of definitions: 'val' and 'def'.
-   * 'val' is for values.
-   * It is detected in two cases.
-   * One case is when before the equals sign there no parentheses, which is a typical constant.
-   * Another case is when there is a closing parenthesis next to it but the line starts with an opening parenthesis, which is a tuple definition.
+   * A line containing the definition sign will be classified as a definition.
+   * The definitions need to be translated to either 'val' or 'def'.
+   *
+   * 'val' is for value definition.
+   * It is detected in three cases.
+   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
+   * Case 2: The line starts with an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
    *
    * 'def' is for function definition.
-   * It is detected when there is a closing parenthesis at the left of the equals sign, but the line starts with an identifier.
+   * If it does not fit in any of the 'val' cases.
    *
    * @param line line
    * @return maybe a translated line
    */
   def tryDefinition(line: String): Some[String] = {
-    if (isDefinition(line)) {
-      val indexOfParenthesis = line.indexOf(ScopusCloseParenthesis)
-      if (indexOfParenthesis == -1) {
+    val maybePosition = findDefinition(line)
+    if (maybePosition.nonEmpty) {
+      val positionOfDefinitionSign = maybePosition.get
+      val positionOfFirstClosingParenthesis = line.indexOf(ScopusCloseParenthesis)
+
+      val case1 = positionOfFirstClosingParenthesis == -1
+      val case2 = line.startsWith(ScopusOpenParenthesis)
+      val case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
+
+      if (case1 || case2 || case3) {
         Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
       } else {
         Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
@@ -111,7 +131,6 @@ case class MicroTranslator() {
       Some(line)
     }
   }
-
 
   def replaceAll(line: String, pattern: String, replacement: String): String =
     replaceAllRec(line, pattern, replacement, Seq())
@@ -124,7 +143,7 @@ case class MicroTranslator() {
         .reverse
         .mkString("")
     } else {
-      val newReplacedTextRev = (line.substring(0, pos) + replacement) +: replacedTextRev
+      val newReplacedTextRev = replacedTextRev.prepended(line.substring(0, pos) + replacement)
       val newLine = line.substring(pos + pattern.length)
       replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
     }
