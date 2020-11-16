@@ -391,9 +391,9 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     @tailrec
     factorial_rec (n: Int, product: Int): Int =
-    if n == 0
-    then product
-    else factorial_rec (n - 1, n * product)
+      if n == 0
+      then product
+      else factorial_rec (n - 1, n * product)
 
   }
     \end{lstlisting}
