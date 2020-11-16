@@ -1,4 +1,8 @@
-package se.umu.cs.rai.scopus.translator.example.fairness
+package se.umu.cs.rai.scopus.translator.example
+
+* Applicant {
+  has background_score: Double
+}
 
 * Fairness(
   ranking_function: Applicant -> Double,

@@ -1,4 +1,8 @@
-package se.umu.cs.rai.scopus.translator.example.fairness
+package se.umu.cs.rai.scopus.translator.example
+
+trait Applicant {
+  val background_score: Double
+}
 
 case class Fairness(
   ranking_function: Applicant => Double,

@@ -15,17 +15,14 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
   val InputFileName01 = "/se/umu/cs/rai/scopus/translator/example/FiboExample.scopus"
   val ExpectedFileName01 = "/se/umu/cs/rai/scopus/translator/example/FiboExample.scala"
 
-  val InputFileName02 = "/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scopus"
-  val ExpectedFileName02 = "/se/umu/cs/rai/scopus/translator/example/fairness/Applicant.scala"
+  val InputFileName02 = "/se/umu/cs/rai/scopus/translator/example/Factorial.scopus"
+  val ExpectedFileName02 = "/se/umu/cs/rai/scopus/translator/example/Factorial.scala"
 
-  val InputFileName03 = "/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scopus"
-  val ExpectedFileName03 = "/se/umu/cs/rai/scopus/translator/example/fairness/Fairness.scala"
+  val InputFileName03 = "/se/umu/cs/rai/scopus/translator/example/Fairness.scopus"
+  val ExpectedFileName03 = "/se/umu/cs/rai/scopus/translator/example/Fairness.scala"
 
-  val InputFileName04 = "/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scopus"
-  val ExpectedFileName04 = "/se/umu/cs/rai/scopus/translator/example/equity/FairBox.scala"
-
-  val InputFileName05 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scopus"
-  val ExpectedFileName05 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scala"
+  val InputFileName04 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scopus"
+  val ExpectedFileName04 = "/se/umu/cs/rai/scopus/translator/documentation/Manual.scala"
 
   def testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
@@ -64,17 +61,16 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
     testTranslationInScope(InputFileName01, ExpectedFileName01)
   }
 
-  it("should translate the Fairness example") {
+  it("should translate the Factorial example") {
     testTranslation(InputFileName02, ExpectedFileName02)
+  }
+
+  it("should translate the Fairness example") {
     testTranslation(InputFileName03, ExpectedFileName03)
   }
 
-  it("should translate the Equity example") {
-    testTranslation(InputFileName04, ExpectedFileName04)
-  }
-
   it("should translate the manual") {
-    testTranslation(InputFileName05, ExpectedFileName05)
+    testTranslation(InputFileName04, ExpectedFileName04)
   }
 
 }
