@@ -67,8 +67,8 @@ case class MicroTranslator() {
         val line = token.text
         val newText = Option(line)
           .flatMap(x => tryDefinition(x))
-          .flatMap(x => tryStandardKeywords(x))
-          .flatMap(x => tryKeywordsWithParentheses(x))
+          .flatMap(x => tryReservedKeywords(x))
+          .flatMap(x => tryReservedWordsFromTheBeginning(x))
           .getOrElse(line)
         Token(newText, token.parserState)
       } else {
@@ -139,7 +139,7 @@ case class MicroTranslator() {
   final def replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
     val pos = line.indexOf(pattern)
     if (pos == -1) {
-      (line +: replacedTextRev)
+      replacedTextRev.prepended(line)
         .reverse
         .mkString("")
     } else {
@@ -151,33 +151,34 @@ case class MicroTranslator() {
 
 
   @tailrec
-  final def successiveReplacements(line: String, toReplace: Seq[String], translationMap: Map[String, String]): String = {
+  final def replace(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String = {
     if (toReplace.isEmpty) {
       line
     } else {
-      val keyword = toReplace.head
-      val alreadyProcessedLine = replaceIfFound(line, ScopusSpace + keyword + ScopusSpace, ScalaSpace + translationMap(keyword) + ScalaSpace)
-      successiveReplacements(alreadyProcessedLine, toReplace.tail, translationMap)
+      val reservedWord = toReplace.head
+      val alreadyProcessedLine = replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
+      replace(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
     }
   }
 
-  def tryStandardKeywords(line: String): Some[String] = {
-    val keys = Translation().TranslationByKeyword.map(pair => pair._1)
-    Some(successiveReplacements(line, keys, Translation().TranslationByKeyword.toMap))
+  def tryReservedKeywords(line: String): Some[String] = {
+    val keys = Translation().TranslationByReservedWord.map(pair => pair._1)
+    Some(replace(line, keys, Translation().TranslationByReservedWord.toMap, onlyBeginning = false))
   }
 
-  def tryKeywordsWithParentheses(line: String): Some[String] = {
+  def tryReservedWordsFromTheBeginning(line: String): Some[String] = {
     val translationTable = if (line.contains(ScopusOpenParenthesis)) {
       Translation().TranslationWithParentheses
     } else {
       Translation().TranslationWithoutParentheses
     }
     val keys = translationTable.map(pair => pair._1)
-    Some(successiveReplacements(line, keys, translationTable.toMap))
+    Some(replace(line, keys, translationTable.toMap, onlyBeginning = true))
   }
 
-  def replaceIfFound(line: String, pattern: String, newText: String): String = {
-    if (line.contains(pattern)) {
+  def replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String = {
+    if ((onlyBeginning && line.trim.startsWith(pattern.trim)) ||
+      (!onlyBeginning && line.contains(pattern))) {
       replaceAll(line, pattern, newText)
     } else {
       line

@@ -19,7 +19,7 @@ case class Translation() {
     ("has", "val")
   )
 
-  val TranslationByKeyword: Seq[(String, String)] = Seq(
+  val TranslationByReservedWord: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
     ("\u2192", "=>"),

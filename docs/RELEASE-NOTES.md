@@ -1,7 +1,7 @@
 ---
 - - schema: RELEASE-NOTES.md.schema.yaml
 - - version: v0.1.1
-  - date: '2020-11-15'
+  - date: '2020-11-16'
   - new_features:
     - includes asterisk abbreviation (*) for class
     - assumes the output file when it is omitted
