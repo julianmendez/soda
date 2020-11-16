@@ -14,7 +14,7 @@ case class Fairness(
 
   def is_fair (alice: Applicant, bob: Applicant) =
     if ( have_similar_score (alice.background_score, bob.background_score)
-    ) have_similar_ranking (ranking_function(alice), ranking_function(bob))
+    ) have_similar_ranking (ranking_function (alice), ranking_function (bob))
     else true
 
   def have_similar_score (score1: Double, score2: Double) =

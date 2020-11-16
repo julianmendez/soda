@@ -1,23 +1,23 @@
 package se.umu.cs.rai.scopus.translator.example
 
-+ scala.annotation.tailrec
+import scala.annotation.tailrec
 
 
-* Fibo_example {
+class Fibo_example {
 
-  has fib (n: Int): Int
+  has fib (n in Int) in Int
 
 }
 
 
-* Fibo_example_in_scopus () extends Fibo_example {
+class Fibo_example_in_scopus () extends Fibo_example {
 
   @tailrec
-  fa (m: Int, a: Int, b: Int): Int =
-    if m == 0 then a
-    else if m == 1 then b
+  fa (m in Int, a in Int, b in Int) in Int =
+    if m equals 0 then a
+    else if m equals 1 then b
     else fa (m - 1, b, a + b)
 
-  fib (n: Int) = fa (n, 0, 1)
+  fib (n in Int) = fa (n, 0, 1)
 
 }
