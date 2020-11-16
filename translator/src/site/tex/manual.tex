@@ -376,6 +376,49 @@ morestring=[b]" % defines that strings are enclosed in double quotes
         \end{tabular}
     \end{center}
 
+    As an example we can see the factorial
+
+    \begin{lstlisting}[label={lst:exampleFactorialConcise}]
+  + scala.annotation.tailrec
+
+  * AbstractFactorialConcise {
+    - factorial (n: Int): Int
+  }
+
+  * FactorialConcise () extends AbstractFactorialConcise {
+
+    factorial (n: Int) = factorial_rec (n, 1)
+
+    @tailrec
+    factorial_rec (n: Int, product: Int): Int =
+    if n == 0
+    then product
+    else factorial_rec (n - 1, n * product)
+
+  }
+    \end{lstlisting}
+
+
+    \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
+  import scala.annotation.tailrec
+
+  class AbstractFactorialVerbose {
+    has factorial (n in Int) in Int
+  }
+
+  class FactorialVerbose () extends AbstractFactorialVerbose {
+
+    factorial (n in Int) is factorial_rec (n, 1)
+
+    @tailrec
+    factorial_rec (n in Int, product in Int) in Int is
+      if n equals 0
+      then product
+      else factorial_rec (n - 1, n * product)
+
+  }
+    \end{lstlisting}
+
 \end{document}
 
 

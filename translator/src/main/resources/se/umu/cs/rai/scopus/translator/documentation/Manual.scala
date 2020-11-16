@@ -95,3 +95,35 @@ case class Manual() {
     else sum_rec (n - 1, n + accum)
 
 }
+
+trait AbstractFactorialConcise {
+  def factorial (n: Int): Int
+}
+
+case class FactorialConcise () extends AbstractFactorialConcise {
+
+  def factorial (n: Int) = factorial_rec (n, 1)
+
+  @tailrec final
+  def factorial_rec (n: Int, product: Int): Int =
+    if ( n == 0
+    ) product
+    else factorial_rec (n - 1, n * product)
+
+}
+
+trait AbstractFactorialVerbose {
+  def factorial (n : Int) : Int
+}
+
+case class FactorialVerbose () extends AbstractFactorialVerbose {
+
+  def factorial (n : Int) = factorial_rec (n, 1)
+
+  @tailrec final
+  def factorial_rec (n : Int, product : Int) : Int =
+    if ( n == 0
+    ) product
+    else factorial_rec (n - 1, n * product)
+
+}

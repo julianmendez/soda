@@ -1,0 +1,19 @@
+package se.umu.cs.rai.scopus.translator.example
+
+import scala.annotation.tailrec
+
+class AbstractFactorialVerbose {
+  has factorial (n in Int) in Int
+}
+
+class FactorialVerbose () extends AbstractFactorialVerbose {
+
+  factorial (n in Int) is factorial_rec (n, 1)
+
+  @tailrec
+  factorial_rec (n in Int, product in Int) in Int is
+    if n equals 0
+    then product
+    else factorial_rec (n - 1, n * product)
+
+}

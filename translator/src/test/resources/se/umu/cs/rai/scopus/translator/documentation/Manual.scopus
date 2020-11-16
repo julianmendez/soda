@@ -95,3 +95,36 @@ class Manual() {
     else sum_rec (n - 1, n + accum)
 
 }
+
+* AbstractFactorialConcise {
+  - factorial (n: Int): Int
+}
+
+* FactorialConcise () extends AbstractFactorialConcise {
+
+  factorial (n: Int) = factorial_rec (n, 1)
+
+  @tailrec
+  factorial_rec (n: Int, product: Int): Int =
+    if n == 0
+    then product
+    else factorial_rec (n - 1, n * product)
+
+}
+
+class AbstractFactorialVerbose {
+  has factorial (n in Int) in Int
+}
+
+class FactorialVerbose () extends AbstractFactorialVerbose {
+
+  factorial (n in Int) is factorial_rec (n, 1)
+
+  @tailrec
+  factorial_rec (n in Int, product in Int) in Int is
+    if n equals 0
+    then product
+    else factorial_rec (n - 1, n * product)
+
+}
+
