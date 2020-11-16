@@ -1,3 +1,7 @@
+This is the configuration used at:
+
+Settings / Editor / File Types / Recognized File Types:
+
 Name: Scopus
 
 Description: Scopus
@@ -28,10 +32,14 @@ Keywords
   has
   if
   import
+  in
+  is
   new
   package
+  that
   then
   this
+  to
   with
 
 2
@@ -43,6 +51,7 @@ Keywords
   ==
   >
   and
+  equals
   false
   not
   or
