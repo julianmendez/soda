@@ -1,5 +1,5 @@
 ---
-- - version: v0.1.2
+- - version: v0.2.0
   - date: unreleased
   - new_features:
     - includes synonyms, which are
