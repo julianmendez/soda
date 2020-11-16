@@ -7,22 +7,42 @@ case class Translation() {
   val ScalaDefinition: String = "def"
   val ScalaValue: String = "val"
 
-  val TranslationWithParentheses: Seq[(String, String)] = Seq(
+  val SynonymAtBeginning: Seq[(String, String)] = Seq(
     ("*", "class"),
+    ("-", "has"),
+    ("+", "import")
+  )
+
+  val TranslationAtBeginningWithParen: Seq[(String, String)] = Seq(
     ("class", "case class"),
     ("has", "def")
   )
 
-  val TranslationWithoutParentheses: Seq[(String, String)] = Seq(
-    ("*", "class"),
+  val TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
     ("class", "trait"),
-    ("has", "val")
+    ("has", "val"),
+    ("package", "package"),
+    ("import", "import"),
+
+    /** Annotations */
+    ("@override", "override"),
+    ("@tailrec", "@tailrec final")
   )
 
-  val TranslationByReservedWord: Seq[(String, String)] = Seq(
+
+  val Synonym: Seq[(String, String)] = Seq(
+    ("is", "="),
+    ("in", ":"),
+    ("\u2208", ":"),
+    ("to", "->"),
+    ("that", "->"),
+    ("\u2192", "->"),
+    ("equals", "==")
+  )
+
+  val Translation: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
-    ("\u2192", "=>"),
     ("if", "if ("),
     ("then", ")"),
     ("else", "else"),
@@ -34,19 +54,13 @@ case class Translation() {
     ("not", "!"),
     ("and", "&&"),
     ("or", "||"),
-    ("package", "package"),
-    ("import", "import"),
-    ("new", "new"),
-    ("@override", "override"),
-    ("@tailrec", "@tailrec final"),
+    ("new", "new")
   )
 
   val ScopusReservedWords = Seq(
     "=",
     ":",
     "->",
-    "\u2192",
-    "*",
     "if",
     "then",
     "else",
@@ -62,7 +76,17 @@ case class Translation() {
     "or",
     "package",
     "import",
-    "new"
+    "new",
+    "is",
+    "in",
+    "\u2208",
+    "to",
+    "that",
+    "\u2192",
+    "*",
+    "-",
+    "+",
+    "equals"
   )
 
   // https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html

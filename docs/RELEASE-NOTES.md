@@ -1,5 +1,20 @@
 ---
-- - schema: RELEASE-NOTES.md.schema.yaml
+- - version: v0.1.2
+  - date: unreleased
+  - new_features:
+    - includes synonyms, which are
+    - (asterisk) "*" (synonym for 'class')
+    - (minus) "-" (synonym for 'has')
+    - (plus) "+" (synonym for 'import')
+    - is (synonym for '=')
+    - in (synonym for ':')
+    - \u2208 (synonym for ':')
+    - to (synonym for '->')
+    - that (synonym for '->')
+    - \u2192 (synonym for '->')
+    - equals (synonym for '==')
+  - build: sbt clean compile test package assembly
+  - release: target/scala-2.13/scopus-0.1.2.jar
 - - version: v0.1.1
   - date: '2020-11-16'
   - new_features:
@@ -13,9 +28,9 @@
   - date: '2020-11-05'
   - new_features:
     - version operational version with the basic reserved words, which are
-    - (definition symbol) "="
-    - (type symbol) ":"
-    - (lambda symbol) "->"
+    - (definition symbol) '='
+    - (type symbol) ':'
+    - (lambda symbol) '->'
     - if
     - then
     - else
@@ -34,5 +49,6 @@
     - new
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.0.jar
+- - schema: RELEASE-NOTES.md.schema.yaml
 
 

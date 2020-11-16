@@ -10,8 +10,8 @@ case class MicroTranslator() {
 
   val NewLine = "\n"
 
-  val ScopusOpenParenthesis: String = "("
-  val ScopusCloseParenthesis: String = ")"
+  val ScopusOpeningParenthesis: String = "("
+  val ScopusClosingParenthesis: String = ")"
   val ScopusSpace: String = " "
   val ScalaSpace: String = " "
 
@@ -64,35 +64,25 @@ case class MicroTranslator() {
   def translateLine(tokens: Seq[Token]): Seq[Token] = {
     tokens.map(
       token => if (token.parserState == ParserState().Plain) {
-        val line = token.text
-        val newText = Option(line)
-          .flatMap(x => tryDefinition(x))
-          .flatMap(x => tryReservedKeywords(x))
-          .flatMap(x => tryReservedWordsFromTheBeginning(x))
-          .getOrElse(line)
+        val currentLine = token.text
+        val newText = Option(currentLine)
+          .flatMap(line => replace(line, Translation().SynonymAtBeginning, onlyBeginning = true))
+          .flatMap(line => replace(line, Translation().Synonym, onlyBeginning = false))
+          .flatMap(line => tryDefinition(line))
+          .flatMap(line => replace(line, getTranslationTableAtBeginning(line), onlyBeginning = true))
+          .flatMap(line => replace(line, Translation().Translation, onlyBeginning = false))
+          .getOrElse(currentLine)
         Token(newText, token.parserState)
       } else {
         token
       })
   }
 
-  /**
-   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-  def findDefinition(line: String): Option[Int] = {
-    val position = if (line.endsWith(ScopusSpace + Translation().ScopusDefinition)) {
-      line.length - Translation().ScopusDefinition.length
+  def getTranslationTableAtBeginning(line: String): Seq[(String, String)] = {
+    if (line.contains(ScopusOpeningParenthesis)) {
+      Translation().TranslationAtBeginningWithParen
     } else {
-      line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
-    }
-    if (position == -1) {
-      None
-    } else {
-      Some(position)
+      Translation().TranslationAtBeginningWithoutParen
     }
   }
 
@@ -116,10 +106,10 @@ case class MicroTranslator() {
     val maybePosition = findDefinition(line)
     if (maybePosition.nonEmpty) {
       val positionOfDefinitionSign = maybePosition.get
-      val positionOfFirstClosingParenthesis = line.indexOf(ScopusCloseParenthesis)
+      val positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
 
       val case1 = positionOfFirstClosingParenthesis == -1
-      val case2 = line.startsWith(ScopusOpenParenthesis)
+      val case2 = line.startsWith(ScopusOpeningParenthesis)
       val case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
 
       if (case1 || case2 || case3) {
@@ -129,6 +119,27 @@ case class MicroTranslator() {
       }
     } else {
       Some(line)
+    }
+  }
+
+
+  /**
+   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+  def findDefinition(line: String): Option[Int] = {
+    val position = if (line.endsWith(ScopusSpace + Translation().ScopusDefinition)) {
+      line.length - Translation().ScopusDefinition.length
+    } else {
+      line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    }
+    if (position == -1) {
+      None
+    } else {
+      Some(position)
     }
   }
 
@@ -149,31 +160,21 @@ case class MicroTranslator() {
     }
   }
 
+  def replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
+    val keys = translationTable.map(pair => pair._1)
+    Some(replaceRec(line, keys, translationTable.toMap, onlyBeginning))
+  }
 
   @tailrec
-  final def replace(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String = {
+  final def replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String = {
     if (toReplace.isEmpty) {
       line
     } else {
       val reservedWord = toReplace.head
-      val alreadyProcessedLine = replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
-      replace(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
+      val alreadyProcessedLine =
+        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
+      replaceRec(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
     }
-  }
-
-  def tryReservedKeywords(line: String): Some[String] = {
-    val keys = Translation().TranslationByReservedWord.map(pair => pair._1)
-    Some(replace(line, keys, Translation().TranslationByReservedWord.toMap, onlyBeginning = false))
-  }
-
-  def tryReservedWordsFromTheBeginning(line: String): Some[String] = {
-    val translationTable = if (line.contains(ScopusOpenParenthesis)) {
-      Translation().TranslationWithParentheses
-    } else {
-      Translation().TranslationWithoutParentheses
-    }
-    val keys = translationTable.map(pair => pair._1)
-    Some(replace(line, keys, translationTable.toMap, onlyBeginning = true))
   }
 
   def replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String = {

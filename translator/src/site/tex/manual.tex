@@ -21,13 +21,15 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 \newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
 \newcommand{\annotation}[1]{{\color{brown}\srccode{#1}}\xspace}
 
+\newcommand{\sdef}{\srccode{=}}
+\newcommand{\scolon}{\srccode{:}}
+
 \newcommand{\sif}{\reservedWord{if}}
 \newcommand{\sthen}{\reservedWord{then}}
 \newcommand{\selse}{\reservedWord{else}}
 
 \newcommand{\sclass}{\reservedWord{class}}
 \newcommand{\shas}{\reservedWord{has}}
-\newcommand{\sasterisk}{\srccode{*}}
 \newcommand{\sextends}{\reservedWord{extends}}
 \newcommand{\swith}{\reservedWord{with}}
 \newcommand{\sthis}{\reservedWord{this}}
@@ -45,6 +47,17 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 \newcommand{\stailrec}{\annotation{@tailrec}}
 \newcommand{\soverride}{\annotation{@override}}
 
+\newcommand{\sequalsSign}{\srccode{==}}
+
+\newcommand{\sasterisk}{\srccode{*}}
+\newcommand{\splus}{\srccode{+}}
+\newcommand{\sminus}{\srccode{-}}
+
+\newcommand{\sis}{\reservedWord{is}}
+\newcommand{\scin}{\reservedWord{in}}
+\newcommand{\sto}{\reservedWord{to}}
+\newcommand{\sthat}{\reservedWord{that}}
+\newcommand{\sequals}{\reservedWord{equals}}
 
 \newcommand{\Scopus}{\textsc{Scopus}\xspace}
 \newcommand{\lambdaSymbol}{{\tiny--\textgreater}}
@@ -138,7 +151,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \subsection{Object Oriented}
 
-    \subsubsection{\sclass, \shas, \sasterisk}
+    \subsubsection{\sclass, \shas}
 
     There are two types of classes: the abstract and the concrete.
 
@@ -164,25 +177,13 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
 
-    An asterisk (\sasterisk) can be used to replace the \sclass reserved word.
-    Thus, the classes above can also be declared as follows:
-
-    \begin{lstlisting}[label={lst:exampleAbstractClass}]
-  * Agent {
-    has identifier: String
-  }
-
-  * Person (name: String)
-    \end{lstlisting}
-
-
     \subsubsection{\sextends, \swith}
 
     It is possible to declare that a concrete class extends an abstract class using the \sextends reserved word.
     Concrete classes are final and cannot be extended.
 
     \begin{lstlisting}[label={lst:exampleExtends}]
-  * Agent_Person (name: String) extends Agent {
+  class Agent_Person (name: String) extends Agent {
     identifier = name
   }
     \end{lstlisting}
@@ -190,11 +191,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Concrete classes can also extend multiple abstract classes.
     For example,
     \begin{lstlisting}[label={lst:exampleWith}]
-  * Ranked_Individual {
+  class Ranked_Individual {
     has rank: Int
   }
 
-  * Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
+  class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
     identifier = name
 
     rank = person_rank
@@ -208,15 +209,15 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     For example,
     \begin{lstlisting}[label={lst:exampleWith}]
-  * Element {
+  class Element {
     has accept (v: Visitor): Boolean
   }
 
-  * Visitor {
+  class Visitor {
     has visit (x: Element): Boolean
   }
 
-  * Item (identifier: Int) extends Element {
+  class Item (identifier: Int) extends Element {
     accept (v: Visitor) = v.visit (this)
   }
     \end{lstlisting}
@@ -326,12 +327,54 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     This annotation prevents this problem.
 
     \begin{lstlisting}[label={lst:exampleOverride}]
-  * Person_Name (name: String) {
+  class Person_Name (name: String) {
     @override
     toString = name
   }
     \end{lstlisting}
 
+
+    \section{Synonyms}
+
+    One of the interesting features of \Scopus is the use of synonyms.
+    They can be used to shape the code to particular domain.
+
+    The synonyms found only at the beginning of a line are:
+
+    \begin{center}
+        \begin{tabular}{|ll|}
+            \hline
+            \textbf{synonym} & \textbf{reserved word} \\
+            \hline
+            \sasterisk       & \sclass                \\
+            \hline
+            \sminus          & \shas                  \\
+            \hline
+            \splus           & \simport               \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    The synonyms that can be at any part of a line are:
+
+    \begin{center}
+        \begin{tabular}{|ll|}
+            \hline
+            \textbf{synonym} & \textbf{reserved word} \\
+            \hline
+            \sis             & \sdef                  \\
+            \hline
+            \scin            & \scolon                \\
+            $\in$            & \scolon                \\
+            \hline
+            \sto             & \lambdaSymbol          \\
+            \sthat           & \lambdaSymbol          \\
+            $\to$            & \lambdaSymbol          \\
+            \hline
+            \sequals         & \sequalsSign           \\
+            \hline
+        \end{tabular}
+    \end{center}
 
 \end{document}
 

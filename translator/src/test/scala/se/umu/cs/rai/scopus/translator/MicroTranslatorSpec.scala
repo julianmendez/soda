@@ -57,10 +57,6 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
     testTranslation(InputFileName01, ExpectedFileName01)
   }
 
-  it("should translate the Fibonacci example with the translated translator") {
-    testTranslationInScope(InputFileName01, ExpectedFileName01)
-  }
-
   it("should translate the Factorial example") {
     testTranslation(InputFileName02, ExpectedFileName02)
   }

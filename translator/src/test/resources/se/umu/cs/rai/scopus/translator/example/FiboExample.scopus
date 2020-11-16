@@ -1,6 +1,6 @@
 package se.umu.cs.rai.scopus.translator.example
 
-import scala.annotation.tailrec
++ scala.annotation.tailrec
 
 
 * Fibo_example {
