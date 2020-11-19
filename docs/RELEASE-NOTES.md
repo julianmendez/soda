@@ -2,6 +2,7 @@
 - - version: v0.2.0
   - date: unreleased
   - new_features:
+    - has a more detailed manual
     - includes synonyms, which are
     - (asterisk) "*" (synonym for 'class')
     - (minus) "-" (synonym for 'has')
@@ -14,7 +15,7 @@
     - \u2192 (synonym for '->')
     - equals (synonym for '==')
   - build: sbt clean compile test package assembly
-  - release: target/scala-2.13/scopus-0.1.2.jar
+  - release: target/scala-2.13/scopus-0.2.0.jar
 - - version: v0.1.1
   - date: '2020-11-16'
   - new_features:
