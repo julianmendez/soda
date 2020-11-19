@@ -61,8 +61,6 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
 \newcommand{\Scopus}{\textsc{Scopus}\xspace}
 \newcommand{\lambdaSymbol}{{\tiny--\textgreater}}
-\newcommand{\like}{{\color{green}YES}}
-\newcommand{\unlike}{{\color{red}NO}}
 
 
 \begin{document}
@@ -77,8 +75,8 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     numbers=none,
     numberstyle=\tiny\color{gray},
     keywordstyle=\color{blue},
-    commentstyle=\color{green},
-    stringstyle=\color{mauve},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
     breaklines=true,
     breakatwhitespace=true,
     tabsize=3
@@ -87,56 +85,45 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \section{\Scopus}
 
-    \Scopus is a formalism that has good properties to describe and formalize.
-    One could say it looks like a programming language.
-    In fact, we can translate it to Scala, which is JVM.
-    It is not \textit{only} a programming language.
-    A family of formalisms that are meant to define some problems and constraints.
+    \Scopus is a human-centered formalism to describe, formalize, and prototype ethical problems and constraints.
+    It could be seen as a specification language or as a functional programming language.
+    A specification or piece of source code written in \Scopus needs to be especially easy to read, but it does not need to be easy to write.
 
-    It is a language that has to develop some priorities and some compromises about what we can say and what we cannot say.
-    To give more clarity, but reducing complexity as much as possible.
+    A prototype written in \Scopus does not need to be efficient, as long that it can be executed in a \textit{reasonable time}.
+    A reasonable time is not a mathematical definition, but a human perception for a specific task.
 
-    The success of the language can be seen by looking at examples.
+    The current implementation of \Scopus can be translated into Scala, and it relies on its data types.
+    Prototypes written in \Scopus can be run in the Java Virtual Machine (JVM).
+    Therefore, it can be used as a JVM library and use libraries written in Java, Scala, or any other JVM language.
 
-    \subsection{Who is the intended user of Scopus?}
-
-    First of all, let us try to thinking what problems Scopus tries to solve
-
-    If we think how languages were fifty years ago, like Fortran, Cobol, C, Lisp.
-    They had challenges to parse the source code.
-
-    Newer programming languages like Python or Scala, they clearly have more powerful computers to do the processing.
-
-    How come we still use the same programming languages?
-
-    Until long ago physicists have been learning Fortran because of the massive number of libraries they could use for their own projects.
-
-    These languages are thought to simplify the work of programmers.
-
-    How many ways we can write a loop in C? How many ways we can encode something to repeat 10 times?
-
-    There are many ways of expressing something in a programming language, but not all of them are very clear.
-
-    Why are there so many ways of saying the same thing?
+    \subsection{The Intended User of Scopus}
 
     The purpose of \Scopus is to give at least one way that is clear enough to describe things, paying less regard to efficiency.
 
-    In \Scopus it is possible to write functions as tail recursive, and the compiler should transform the tail recursion to an iteration.
+    Let us try to think what problems Scopus tries to solve
 
-    That is way we can say that \Scopus is a language that is easy to read but not necessarily easy to write.
+    If we think on the first programming languages, like Fortran, Cobol, and Lisp, they had challenges to parse the source code.
+    Newer programming languages, like Python or Scala, have clearly more powerful computers to do the processing.
+
+    Lisp source code can look very flexible, but it could be challenging to keep track of the parentheses.
+
+    Fortran has been used by physicist thanks to its important number of libraries for physics.
+    Earlier versions of Fortran could not process recursion as we usually now it, since it did not use a stack for the variables.
+    Programming backtracking was extremely intricate.
+
+    \Scopus allows to write functions as tail recursive, as in other modern functional languages, and the compiler transforms the tail recursion to an iteration.
 
     Someone who needs to understand the code does not necessarily need to know how to write a tail recursion.
-    To write a tail recursion requires some knowledge of algorithms, but reading a tail recursion is very intuitive, in a mathematical way.
+    Writing a tail recursion requires some knowledge of algorithms, but reading a tail recursion is very intuitive, in a mathematical way.
+    Because of this type of asymmetries, we say that \Scopus is a language that is easy to read but not necessarily easy to write.
 
-    \subsection{Descriptive Language}
+    \subsection{A Descriptive Language}
 
     In traditional programming languages, if we need to represent a big data structure, every byte counts.
     If we need to store numbers between 0 and 250, a byte (8 bits) would suffice.
     However, if we need to store numbers between 0 and 260, we would need one more bit (9 bits), which is practice it would mean to use two bytes (16 bits).
 
-    In most of the cases, we do not care if an integer is 32-bit or 64-bit long.
-    And to understand an algorithm, we do not even care if an integer has a fixed length.
-
+    In most of the cases, we do not care if an integer is 32-bit or 64-bit, and to understand an algorithm, we do not even care if an integer has a fixed length.
     The number of bytes a system uses is a technical issue, and it could complicate the understanding of an algorithm.
 
     This level of detail is usually irrelevant to describe a problem, unless the problem is about this technicality.
@@ -160,130 +147,102 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \subsection{Purpose of \Scopus}
 
-    The purpose of \Scopus is to give a yes or no answer to verify if something is compliant.
-    In addition, ideally it should also provide an explanation for its answer.
-
-    The purpose of \Scopus is to specify without being too specific, giving some freedom for different implementations.
+    The purpose of \Scopus is to give a ``yes'' or ``no'' answer to verify if something is compliant to ethical constraints.
+    Ideally, it should also provide an explanation for its answer.
 
     As said before, \Scopus is a formalism with some libraries.
     It is not only a restricted variant of a functional language.
-    It is also all the collections of requirements that useful for defining ethical problems.
+    It is also all the collections of requirements that are useful for defining ethical problems.
 
-    The best one can do is to identify ethical problems, formalize them in \Scopus, and see what is necessary.
+    In an iterative process, new ethical problems are formalized in \Scopus, and when patterns are found in many problems, they join its libraries.
+    Thus, \Scopus contains a collection of small classes and functions to accomplish particular tasks.
 
-    If there is a recurrent type of problems, one can find an easy solution.
-
-    \Scopus then can contain a collection of small classes and functions to accomplish particular tasks.
-
-    It could look like a controlled natural language, but not necessarily.
-    It is not its purpose to look like a natural language.
-
-    For example, there formulas that can be said as a sentence or written as a formula.
-    Saying the ``the square root of two'' is harder to read than $\sqrt{2}$.
-
-    And \Scopus has to be easy to read, not necessarily easy to say, or to write.
+    In some cases, it could look like a controlled natural language, but it is not its purpose to look like one.
+    For example, there are formulas that can be said as a sentence or written as a formula.
+    Reading ``the square root of two'' is harder than reading $\sqrt{2}$.
+    \Scopus code has to be easy to read, not necessarily easy to say, or to write.
 
     \subsection{General features}
 
-    This freedom is key for the goal of \Scopus, which gives opportunity to different implementations, but strict enough to define properties and behaviors.
-
-    \Scopus has a good mixture of vagueness and concreteness, a good mixture of specificity and generality.
+    The goal of \Scopus is to specify without being too specific, giving some freedom for different implementations.
+    \Scopus tries to keep has a good balance between vagueness and concreteness, a good balance between specificity and generality,
+    a good balance between what is very descriptive, but also technically useful.
 
     This happens in a way that is general enough to abstract implementations, but specific enough to constraint a problem.
+    We do not need to define how things are done, as long as they are done correctly and in a reasonable time.
 
-    As many languages, \Scopus relies on simple constructs.
-    We do not need to define how things are done, as long as they are done correctly and in an acceptable time.
+    \subsection{Technical Considerations}
 
-    The language provides not a simple way of describing problems, but also a collection of tools that can be used to describe those problems.
+    \Scopus needs to be abstract enough to describe, efficient enough, easy to read, easy to execute, and easy to integrate.
+    Because of that, \Scopus is a JVM language and can be compiled into Java byte code.
 
-    What are the challenges and issues that the language can have?
+    For now, the translator converts \Scopus code into Scala code, which in turn can be compiled to byte code.
+    For the sake of compatibility with the JVM, \Scopus has a \soverride annotation and a \snew command.
+    The \soverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
+    The \snew command is to be able to create JVM objects.
 
-    The main problem is that the language has to achieve usefulness.
-    It has to be better enough to justify its creation.
+    \Scopus uses the main types provided by Scala.
+    For example, numeric types like \srccode{Int}, \srccode{Float}, and immutable collections like \srccode{Seq}, \srccode{List}, \srccode{Array}, and \srccode{Map}.
+    The JVM exception handling is done via \srccode{Try}.
 
-    It has to solve problems and issues that other languages cannot.
-
-    If it is not better, the is no motivation to use \Scopus.
-
-    Is it just a style of programming?
-
-    Is it just a style of describing things?
-
-    Or it is something else?
-
-    The main issue that other languages cannot solve, like some reserved words, or constructions.
-
-    \Scopus represents a challenge, which is finding a good balance between what is very descriptive, but also is technically useful.
-
-    The next steps for \Scopus is defining what problems can be modelled and defining who are supposed to write and read \Scopus.
-
-    \subsection{Technical Requirements}
-
-    \Scopus needs to be useful.
-    Even if it is written in abstract and general way, it has be efficient and rather easy to execute.
-
-    Because of that, it is JVM language, so that \Scopus can be compiled into Java byte code.
-
-    At the moment, there is only a translator from \Scopus to Scala, which can translate simple code into Scala code.
-
-    \Scopus does not need \soverride, but it is necessary for the compatibility with JVM.
-
-    \Scopus would not need to have a \snew command to create objects, but it keeps it to be compatible with the JVM.
-
-    \subsection{Style Comparison}
-
+    \subsection{Style}
 
     \Scopus does not require a semicolon to finish each instruction, and the tabulation at the beginning of the line is irrelevant.
     Blocks are defined with braces, but they can be omitted for one instruction.
 
+    Comments are marked with the \srccode{/*} and  \srccode{*/}.
+    The Scaladoc can be used created by starting the comment with \srccode{/**}, as in Scala.
+    In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
+
+    In general, comments are slightly discouraged, because the code should be descriptive enough.
+    If the code is not descriptive enough, it should be refactored instead of commented.
+    Comments can very easily get outdated if the source is changed and the comment is not updated.
+
     Types are defined after the variables and they are statically defined.
 
-    The programming languages to compare are
-    \begin{itemize}
-        \item Lisp (1959)
-        \item Pascal (1970)
-        \item Prolog (1972)
-        \item C++ (1983)
-        \item Python (1989)
-        \item Haskell (1990)
-        \item Java (1995)
-        \item Scala (2003)
-    \end{itemize}
+    The recommended naming convention is using snake case, i.e. separating the words with underscore.
+    Class names should start with a capital letter, functions with a lowercase letter.
 
+    Since there are no private functions or constants in a class, the suggestion is to start their name with an underscore.
 
-    {\tiny{
-    \begin{center}
-        \begin{tabular}{llllllllll}
-            property                         & \Scopus & Scala   & Java    & Haskell & Python  & C++     & Prolog  & Pascal  & Lisp    \\
-            \hline
-            no delimiter to end instructions & \like   & \like   & \unlike & \like   & \like   & \unlike & \unlike & \unlike & \like   \\
-            no special format required       & \like   & \like   & \like   & \like   & \unlike & \like   & \like   & \like   & \like   \\
-            blocks with delimiters           & \like   & \like   & \unlike & \unlike & \like   & \unlike & \like   & \like   & \like   \\
-            types after variables            & \like   & \like   & \unlike & \like   & \like   & \unlike & \unlike & \like   & \unlike \\
-            statically typed                 & \like   & \like   & \like   & \like   & \unlike & \like   & \unlike & \like   & \unlike \\
-            mutable objects discouraged      & \like   & \like   & \unlike & \like   & \unlike & \unlike & \like   & \unlike & \like   \\
-            everything is visible            & \like   & \unlike & \unlike & \unlike & \like   & \unlike & \like   & \unlike & \like   \\
-            JVM language                     & \like   & \like   & \like   & \unlike & \unlike & \unlike & \unlike & \unlike & \unlike \\
-            \hline
-        \end{tabular}
-    \end{center}
-    }}
+    This is only a recommendation, since the JVM objects use camel case, i.e. all the words come together, starting with a capital letter.
+    Since \Scopus can be integrated with other JVM languages, some \Scopus code could use camel case.
+
+    Example using snake case, recommended in \Scopus
+
+    \begin{lstlisting}[label={lst:exampleExtends}]
+  /** Class for a registered person, in snake case */
+  class Registered_person (first_name: String, last_name: String) {
+    _separator = " "
+
+    full_name = first_name + _separator + last_name
+  }
+    \end{lstlisting}
+
+    Example using camel case, as in Java:
+    \begin{lstlisting}[label={lst:exampleExtends}]
+  /** Class for a registered person, in camel case */
+  class RegisteredPerson (firstName: String, lastName: String) {
+    _separator = " "
+
+    fullName = firstName + _separator + lastName
+  }
+    \end{lstlisting}
 
     \subsection{Mutability}
 
     Mutability is one of the reason that algorithms get more difficult to understand.
-    It is practical way to save memory usage, but it could be error prone.
-    We can use some concept of mutability by adding a variable for time.
-    \Scopus does not have exceptions (except when they come from the JVM).
-    The exceptions are caught by Scala classes (Try), as Scala does.
+    Although it is a practical way to save memory usage, it could be error prone.
+    For this reason, \Scopus does not have ways to program mutability.
 
-    For technical reasons, in \Scopus is technically possible to use mutable objects from the JVM.
-    This is strongly discouraged, since other design decisions are based assuming that objects in immutable.
+    For technical reasons, it is technically possible to use mutable objects from the JVM in \Scopus.
+    This is strongly discouraged, since other design decisions are based assuming that objects are immutable.
 
-    In \Scopus there is no specific log, input, output commands.
-    Instead this is managed by JVM libraries.
+    \Scopus does not handle exceptions (except when they come from the JVM).
+    The exceptions are caught by Scala classes (like \srccode{Try}), as Scala does.
 
-    In \Scopus the input/output is not encouraged.
+    Functions with side effects, like input and output operations, are discouraged in \Scopus.
+    In exceptional cases, they could be managed by JVM libraries.
 
     \subsection{Values and Functions}
 
@@ -296,50 +255,39 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     It has some of the ideas of object orientation.
     However, there are substantial differences with traditional object oriented programming.
 
+    \subsection{Object Inheritance and Overriding}
+
     \Scopus has two types of classes: abstract classes, and concrete classes.
 
-    Abstract classes are like traits in Scala and interfaces in Java.
-    Concrete classes are like case classes in Scala, since they are final, but they have a default constructor.
+    Abstract classes are like traits in Scala and interfaces in Java, and either do not have any implementation, or what is implemented cannot be overridden.
+    Concrete classes are like case classes in Scala, since they cannot be extended, and have a default constructor.
+    Abstract classes are the only classes that can be extended, since no concrete class can be extended.
 
-    \subsection{Object Inheritance}
-
-    In \Scopus there are abstract classes, which are like traits in Scala, or interfaces in Java.
-    These abstract classes are the only ones that can be extended.
-    No concrete class can be extended.
-    In other words, all concrete classes are final.
-
-    \subsection{Overriding}
-
-    In \Scopus, functions cannot be overridden.
-    For technical reasons, there is an annotation, \soverride, which is meant to be used to override JVM methods that are implemented, like \srccode{toString()}.
     All implemented functions are final (cannot be extended), and the same for all defined constants.
     This is to prevent that the behavior is changed after extending a class.
+    For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
+
+    In \Scopus, there is a \sthis reserved word to refer to its instance, but there is no \srccode{super} reserved word.
+    The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
 
     \subsection{Private Objects}
 
     In \Scopus, there are no private objects.
     Everything is visible from other objects.
-    This does not mean that there are functions that are not meant to be used outside an object.
-
-    For that, a simple naming convention, like Python uses, can indicate when an internal function is being defined and used.
-
-    \subsection{\sthis, but no \srccode{super}}
-
-    In \Scopus, there is a \sthis reserved word to refer to its instance, but there is no \srccode{super} reserved word.
-    The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
+    Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
 
     \subsection{Static Constants and Functions}
 
     In \Scopus, there is no concept of static functions.
     It is never assume that there is one instance of an object.
-    The class constructors are then other objects of another class, but not necessary unique.
+    The class constructors can be implemented as objects of another class, although not necessary unique.
 
     \subsection{Parametric Types}
 
     The use of parametric types are technically possible and allowed, but slightly discouraged.
-    Usually, parametric types are needed for highly generic data types, like collections.
-    But, using parametric types could hide a design flaw, when the code look ``very general'' but in practice is should only be applicable to a particular type.
     Sometimes smaller code is not necessarily easier to understand.
+    Usually, parametric types are needed for highly generic data types, like collections.
+    Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
 
 
     \section{Reserved words}
