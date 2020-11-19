@@ -8,12 +8,12 @@ package se.umu.cs.rai.scopus.translator.example
 
 * FactorialConcise () extends AbstractFactorialConcise {
 
-  factorial (n: Int) = factorial_rec (n, 1)
+  factorial (n: Int) = __factorial_rec (n, 1)
 
   @tailrec
-  factorial_rec (n: Int, product: Int): Int =
+  __factorial_rec (n: Int, product: Int): Int =
     if n == 0
     then product
-    else factorial_rec (n - 1, n * product)
+    else __factorial_rec (n - 1, n * product)
 
 }

@@ -4,6 +4,19 @@ import java.util.Date
 
 import scala.annotation.tailrec
 
+/** Class for a registered person, in snake case */
+class Registered_person (first_name: String, last_name: String) {
+  _separator = " "
+
+  full_name = first_name + _separator + last_name
+}
+
+/** Class for a registered person, in camel case */
+class RegisteredPerson (firstName: String, lastName: String) {
+  _separator = " "
+
+  fullName = firstName + _separator + lastName
+}
 
 class Agent {
   has identifier: String
