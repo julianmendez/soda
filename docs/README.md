@@ -1,7 +1,7 @@
 # Scopus
 
 *Scopus* is a functional language characterized by its conciseness.
-Its main purpose is to be used to produce clean, elegant, and descriptive code.
+Its main purpose is to be used to produce clear code to describe ethical problems.
 The source code should be easy to understand, somehow natural, although not necessarily easy to write.
 
 This project includes a translator to Scala.
@@ -9,49 +9,58 @@ This project includes a translator to Scala.
 
 ## Reserved words
 
-The number of reserved words in this language is small.
-
-
-## Main Operators in Scopus
-
 The reserved words are:
-- '=' (definition symbol)
-- ':' (type symbol)
-- '->' (lambda symbol)
-- if
-- then
-- else
-- class
-- has
-- extends
-- with
-- this
-- false
-- true
-- not
-- and
-- or
-- package
-- import
-- new
+- `=` (definition symbol)
+- `:` (type symbol)
+- `->` (lambda symbol)
+- `if`
+- `then`
+- `else`
+- `class`
+- `has`
+- `extends`
+- `with`
+- `this`
+- `false`
+- `true`
+- `not`
+- `and`
+- `or`
+- `package`
+- `import`
+- `new`
 
-There are also abbreviations.
-- '*' at the beginning of the line is an abbreviation for 'class'
-- '→' (\u2192) is an abbreviation for '->' (lambda symbol)
+
+## Synonyms
+
+The synonyms at the beginning of a line are:
+- `*` for `class`
+- `-` for `has`
+- `+` for `import`
+
+The synonyms in any part of a line are:
+- `is` for `=`
+- `in` for `:`
+- `to` for `->`
+- `that` for `->`
+- `equals` for `==`
+
+
+## Other Symbols
 
 In addition, the language has:
-- '(' and ')' (parentheses)
-- '{' and '}' (braces)
+- `(` and `)` (parentheses) for parameters, operator precedence, and arrays
+- `{` and `}` (braces) for multi-line functions and classes
+- `[` and `]` (square brackets) for types
 
-The language has also auxiliary operators, that work as functions of specific types.
-These are inherited from Scala.
+The main arithmetic operators are:
+- `+`
+- `-`
+- `*`
+- `/`
 
-Some of the most important operators are:
-- '+', '-', '*', '/' (arithmetic operators)
-- and, or (logical operator)
-- true, false (logical variables)
-- '(' ')' (get from array)
-- '[' ']' are used to define a parameterized type
+Comments are marked with `/*` and `*/`.
+Scaladoc / Javadoc markers are `/**` and `*/`.
 
 
 ## Side Effects
@@ -68,7 +77,10 @@ The language does not provide 'throw', 'try', and 'catch', because those command
 ## Static Typing
 
 This language is statically typed.
-It is possible to define classes and traits.
+It is possible to define concrete and abstract classes.
+
+A *concrete class* is like a *case class* in Scala.
+An *abstract class* is like a *trait* in Scala.
 
 
 ## Package Declaration and Imports
