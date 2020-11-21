@@ -4,52 +4,48 @@
   - new_features:
     - has a more detailed manual
     - includes synonyms, which are
-    - (asterisk) "*" (synonym for 'class')
-    - (minus) "-" (synonym for 'has')
-    - (plus) "+" (synonym for 'import')
-    - is (synonym for '=')
-    - in (synonym for ':')
-    - \u2208 (synonym for ':')
-    - to (synonym for '->')
-    - that (synonym for '->')
-    - \u2192 (synonym for '->')
-    - equals (synonym for '==')
+    - (asterisk) `*` (synonym for `class`)
+    - (minus) `-` (synonym for `has`)
+    - (plus) `+` (synonym for `import`)
+    - . `is` (synonym for `=`)
+    - . `in` (synonym for `:`)
+    - . `to` (synonym for `->`)
+    - . `that` (synonym for `->`)
+    - . `equals` (synonym for `==`)
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.2.0.jar
 - - version: v0.1.1
   - date: '2020-11-16'
   - new_features:
-    - includes asterisk abbreviation (*) for class
+    - has asterisk (`*`) as synonym for class
     - assumes the output file when it is omitted
   - bug_fixes:
-    - fixes translation of definition sign (=)
+    - fixes translation of definition sign (`=`)
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.1.jar
 - - version: v1.0.0
   - date: '2020-11-05'
   - new_features:
     - version operational version with the basic reserved words, which are
-    - (definition symbol) '='
-    - (type symbol) ':'
-    - (lambda symbol) '->'
-    - if
-    - then
-    - else
-    - class
-    - has
-    - extends
-    - with
-    - this
-    - 'false'
-    - 'true'
-    - not
-    - and
-    - or
-    - package
-    - import
-    - new
+    - (definition symbol) `=`
+    - (type symbol) `:`
+    - (lambda symbol) `->`
+    - . `if`
+    - . `then`
+    - . `else`
+    - . `class`
+    - . `has`
+    - . `extends`
+    - . `with`
+    - . `this`
+    - . `false`
+    - . `true`
+    - . `not`
+    - . `and`
+    - . `or`
+    - . `package`
+    - . `import`
+    - . `new`
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.0.jar
 - - schema: RELEASE-NOTES.md.schema.yaml
-
-
