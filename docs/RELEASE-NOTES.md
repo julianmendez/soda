@@ -1,6 +1,6 @@
 ---
 - - version: v0.2.0
-  - date: unreleased
+  - date: '2020-11-21'
   - new_features:
     - has a more detailed manual
     - includes synonyms, which are
