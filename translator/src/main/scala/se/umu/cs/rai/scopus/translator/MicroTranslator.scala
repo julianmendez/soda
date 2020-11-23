@@ -93,7 +93,7 @@ case class MicroTranslator() {
    * 'val' is for value definition.
    * It is detected in three cases.
    * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
-   * Case 2: The line starts with an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * Case 2: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
    * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
    *
    * 'def' is for function definition.
@@ -109,7 +109,7 @@ case class MicroTranslator() {
       val positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
 
       val case1 = positionOfFirstClosingParenthesis == -1
-      val case2 = line.startsWith(ScopusOpeningParenthesis)
+      val case2 = line.trim.startsWith(ScopusOpeningParenthesis)
       val case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
 
       if (case1 || case2 || case3) {

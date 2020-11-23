@@ -1,4 +1,10 @@
 ---
+- - version: v0.2.1
+  - date: *unreleased*
+  - bug_fixes:
+    - fixes translation of tuple definition
+  - build: sbt clean compile test package assembly
+  - release: target/scala-2.13/scopus-0.2.1.jar
 - - version: v0.2.0
   - date: '2020-11-21'
   - new_features:
