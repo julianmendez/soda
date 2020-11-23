@@ -1,31 +1,29 @@
 package se.umu.cs.rai.scopus.collection
 
 
-case class Elem (e: Long)
-
-trait MSeq {
+trait MSeq[T] {
   val isEmpty: Boolean
 
-  val head: Elem
+  val head: T
 
-  val tail: MSeq
+  val tail: MSeq[T]
 }
 
 
-case class ESeq ()
-  extends MSeq {
+case class ESeq[T] ()
+  extends MSeq[T] {
 
   val isEmpty = true
 
-  val head: Elem = throw new UnsupportedOperationException
+  val head: T = throw new UnsupportedOperationException
 
-  val tail: MSeq = throw new UnsupportedOperationException
+  val tail: MSeq[T] = throw new UnsupportedOperationException
 
 }
 
 
-case class NESeq (head: Elem, tail: MSeq)
-  extends MSeq {
+case class NESeq[T] (head: T, tail: MSeq[T])
+  extends MSeq[T] {
 
   val isEmpty = false
 

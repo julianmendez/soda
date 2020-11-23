@@ -4,20 +4,20 @@ package se.umu.cs.rai.scopus.collection
 + scala.annotation.tailrec
 
 
-* MSeqTranslator() {
+* MSeqTranslator[T]() {
 
-  asMSeq(s: Seq[Elem]): MSeq = Min().reverse(asMSeqRec(s, Min().empty))
+  asMSeq(s: Seq[T]): MSeq[T] = Min().reverse(asMSeqRec(s, Min().empty))
 
-  asSeq(ms: MSeq): Seq[Elem] = asSeqRec(ms, Seq()).reverse
+  asSeq(ms: MSeq[T]): Seq[T] = asSeqRec(ms, Seq()).reverse
 
   @tailrec
-  asMSeqRec(seq: Seq[Elem], ms: MSeq): MSeq =
+  asMSeqRec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
     if seq.isEmpty
     then ms
     else asMSeqRec(seq.tail, Min().prepended(ms, seq.head))
 
   @tailrec
-  asSeqRec(ms: MSeq, seq: Seq[Elem]): Seq[Elem] =
+  asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
     if Min().isEmpty(ms)
     then seq
     else asSeqRec(Min().tail(ms), seq.prepended(Min().head(ms)))
@@ -25,70 +25,70 @@ package se.umu.cs.rai.scopus.collection
 }
 
 
-* Min() {
+* Min[T]() {
 
-  empty: MSeq = ESeq()
+  empty: MSeq[T] = ESeq()
 
-  prepended(s: MSeq, e: Elem): MSeq = NESeq(e, s)
+  prepended(s: MSeq[T], e: T): MSeq[T] = NESeq(e, s)
 
-  head(s: MSeq): Elem = s.head
+  head(s: MSeq[T]): T = s.head
 
-  tail(s: MSeq): MSeq = s.tail
+  tail(s: MSeq[T]): MSeq[T] = s.tail
 
-  nonEmpty(s: MSeq): Boolean = not isEmpty(s)
+  nonEmpty(s: MSeq[T]): Boolean = not isEmpty(s)
 
-  isEmpty(s: MSeq): Boolean = s.isEmpty
-
-  //
-
-  reverse(s: MSeq): MSeq = reverseRec(s, empty)
-
-  length(s: MSeq): Int = lengthRec(s, 0)
-
-  indexOf(s: MSeq, e: Elem): Int = indexOfRec(s, e, 0)
-
-  contains(s: MSeq, e: Elem): Boolean = containsRec(s, e)
-
-  at(s: MSeq, n: Int): Elem = atRec(s, n)
+  isEmpty(s: MSeq[T]): Boolean = s.isEmpty
 
   //
 
-  take(s: MSeq, n: Int): MSeq = reverse(takeRevRec(s, n, empty))
+  reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
-  drop(s: MSeq, n: Int): MSeq = dropRec(s, n)
+  length(s: MSeq[T]): Int = lengthRec(s, 0)
 
-  takeWhile(s: MSeq, p: (Elem -> Boolean)): MSeq = reverse(spanRevRec(s, p, taking = true, empty)._1)
+  indexOf(s: MSeq[T], e: T): Int = indexOfRec(s, e, 0)
 
-  dropWhile(s: MSeq, p: (Elem -> Boolean)): MSeq = spanRevRec(s, p, taking = true, empty)._2
+  contains(s: MSeq[T], e: T): Boolean = containsRec(s, e)
 
-  splitAt(s: MSeq, n: Int): (MSeq, MSeq) = (take(s, n), drop(s, n))
+  at(s: MSeq[T], n: Int): T = atRec(s, n)
 
-  span(s: MSeq, p: (Elem -> Boolean)): (MSeq, MSeq) = {
+  //
+
+  take(s: MSeq[T], n: Int): MSeq[T] = reverse(takeRevRec(s, n, empty))
+
+  drop(s: MSeq[T], n: Int): MSeq[T] = dropRec(s, n)
+
+  takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p, taking = true, empty)._1)
+
+  dropWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = spanRevRec(s, p, taking = true, empty)._2
+
+  splitAt(s: MSeq[T], n: Int): (MSeq[T], MSeq[T]) = (take(s, n), drop(s, n))
+
+  span(s: MSeq[T], p: (T -> Boolean)): (MSeq[T], MSeq[T]) = {
     pair = spanRevRec(s, p, taking = true, empty)
     (reverse(pair._1), pair._2)
   }
 
   //
 
-  appended(s: MSeq, e: Elem): MSeq = reverse(prepended(reverse(s), e))
+  appended(s: MSeq[T], e: T): MSeq[T] = reverse(prepended(reverse(s), e))
 
-  last(s: MSeq): Elem = head(reverse(s))
+  last(s: MSeq[T]): T = head(reverse(s))
 
-  concat(s0: MSeq, s1: MSeq): MSeq = reverseRec(reverse(s0), s1)
+  concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = reverseRec(reverse(s0), s1)
 
-  slice(s: MSeq, from: Int, until: Int): MSeq = take(drop(s, from), until - from)
+  slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 
   //
 
-  forall(s: MSeq, p: (Elem -> Boolean)): Boolean = forallRec(s, p)
+  forall(s: MSeq[T], p: (T -> Boolean)): Boolean = forallRec(s, p)
 
-  exists(s: MSeq, p: (Elem -> Boolean)): Boolean = existsRec(s, p)
+  exists(s: MSeq[T], p: (T -> Boolean)): Boolean = existsRec(s, p)
 
-  find(s: MSeq, p: (Elem -> Boolean)): Option[Elem] = findRec(s, p)
+  find(s: MSeq[T], p: (T -> Boolean)): Option[T] = findRec(s, p)
 
-  filter(s: MSeq, p: (Elem -> Boolean)): MSeq = reverse(filterRevRec(s, p, empty))
+  filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(filterRevRec(s, p, empty))
 
-  map0(s: MSeq, f: (Elem -> Elem)): MSeq = reverse(mapRevRec(s, f, empty))
+  map0(s: MSeq[T], f: (T -> T)): MSeq[T] = reverse(mapRevRec(s, f, empty))
 
   /**
    * <pre>
@@ -102,25 +102,25 @@ package se.umu.cs.rai.scopus.collection
    * }
    * </pre>
    */
-  foldLeft0(s0: MSeq, s1: MSeq, f: ((MSeq, Elem) -> MSeq)): MSeq =
+  foldLeft0(s0: MSeq[T], s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])): MSeq[T] =
     foldLeftRec(s0, f, s1)
 
   //
 
   @tailrec
-  reverseRec(s0: MSeq, s1: MSeq): MSeq =
+  reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else reverseRec(tail(s0), prepended(s1, head(s0)))
 
   @tailrec
-  lengthRec(s: MSeq, n: Int): Int =
+  lengthRec(s: MSeq[T], n: Int): Int =
     if isEmpty(s)
     then n
     else lengthRec(tail(s), n + 1)
 
   @tailrec
-  indexOfRec(s: MSeq, e: Elem, n: Int): Int =
+  indexOfRec(s: MSeq[T], e: T, n: Int): Int =
     if isEmpty(s)
     then -1
     else if head(s) == e
@@ -128,7 +128,7 @@ package se.umu.cs.rai.scopus.collection
     else indexOfRec(tail(s), e, n + 1)
 
   @tailrec
-  containsRec(s: MSeq, e: Elem): Boolean =
+  containsRec(s: MSeq[T], e: T): Boolean =
     if isEmpty(s)
     then false
     else if head(s) == e
@@ -136,7 +136,7 @@ package se.umu.cs.rai.scopus.collection
     else containsRec(tail(s), e)
 
   @tailrec
-  atRec(s: MSeq, n: Int): Elem =
+  atRec(s: MSeq[T], n: Int): T =
     if isEmpty(s) or n < 0
     then throw new IndexOutOfBoundsException()
     else if n == 0
@@ -146,19 +146,19 @@ package se.umu.cs.rai.scopus.collection
   //
 
   @tailrec
-  takeRevRec(s0: MSeq, n: Int, s1: MSeq): MSeq =
+  takeRevRec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0) or n <= 0
     then s1
     else takeRevRec(tail(s0), n - 1, prepended(s1, head(s0)))
 
   @tailrec
-  dropRec(s: MSeq, n: Int): MSeq =
+  dropRec(s: MSeq[T], n: Int): MSeq[T] =
     if isEmpty(s) or n <= 0
     then s
     else dropRec(tail(s), n - 1)
 
   @tailrec
-  spanRevRec(s0: MSeq, p: Elem -> Boolean, taking: Boolean, s1: MSeq): (MSeq, MSeq) =
+  spanRevRec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
     if isEmpty(s0) or not taking
     then (s1, s0)
     else {
@@ -173,7 +173,7 @@ package se.umu.cs.rai.scopus.collection
   //
 
   @tailrec
-  forallRec(s: MSeq, p: Elem -> Boolean): Boolean =
+  forallRec(s: MSeq[T], p: T -> Boolean): Boolean =
     if isEmpty(s)
     then true
     else if not p(head(s))
@@ -181,7 +181,7 @@ package se.umu.cs.rai.scopus.collection
     else forallRec(tail(s), p)
 
   @tailrec
-  existsRec(s: MSeq, p: Elem -> Boolean): Boolean =
+  existsRec(s: MSeq[T], p: T -> Boolean): Boolean =
     if isEmpty(s)
     then false
     else if p(head(s))
@@ -189,7 +189,7 @@ package se.umu.cs.rai.scopus.collection
     else existsRec(tail(s), p)
 
   @tailrec
-  findRec(s: MSeq, p: Elem -> Boolean): Option[Elem] =
+  findRec(s: MSeq[T], p: T -> Boolean): Option[T] =
     if isEmpty(s)
     then None
     else if p(head(s))
@@ -197,7 +197,7 @@ package se.umu.cs.rai.scopus.collection
     else findRec(tail(s), p)
 
   @tailrec
-  filterRevRec(s0: MSeq, f: Elem -> Boolean, s1: MSeq): MSeq =
+  filterRevRec(s0: MSeq[T], f: T -> Boolean, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else {
@@ -209,13 +209,13 @@ package se.umu.cs.rai.scopus.collection
     }
 
   @tailrec
-  mapRevRec(s0: MSeq, f: Elem -> Elem, s1: MSeq): MSeq =
+  mapRevRec(s0: MSeq[T], f: T -> T, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else mapRevRec(tail(s0), f, prepended(s1, f(head(s0))))
 
   @tailrec
-  foldLeftRec(s0: MSeq, f: (MSeq, Elem) -> MSeq, s1: MSeq): MSeq =
+  foldLeftRec(s0: MSeq[T], f: (MSeq[T], T) -> MSeq[T], s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else foldLeftRec(tail(s0), f, f(s1, head(s0)))

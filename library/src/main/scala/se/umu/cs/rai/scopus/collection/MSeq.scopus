@@ -1,31 +1,29 @@
 package se.umu.cs.rai.scopus.collection
 
 
-* Elem (e: Long)
-
-* MSeq {
+* MSeq[T] {
   - isEmpty: Boolean
 
-  - head: Elem
+  - head: T
 
-  - tail: MSeq
+  - tail: MSeq[T]
 }
 
 
-* ESeq ()
-  extends MSeq {
+* ESeq[T] ()
+  extends MSeq[T] {
 
   isEmpty = true
 
-  head: Elem = throw new UnsupportedOperationException
+  head: T = throw new UnsupportedOperationException
 
-  tail: MSeq = throw new UnsupportedOperationException
+  tail: MSeq[T] = throw new UnsupportedOperationException
 
 }
 
 
-* NESeq (head: Elem, tail: MSeq)
-  extends MSeq {
+* NESeq[T] (head: T, tail: MSeq[T])
+  extends MSeq[T] {
 
   isEmpty = false
 
