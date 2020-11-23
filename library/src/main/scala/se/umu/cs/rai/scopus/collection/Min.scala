@@ -104,7 +104,7 @@ case class Min[T]() {
    */
   def foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) => MSeq[T])) => MSeq[T] =
     (s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])) =>
-    foldLeftRec(s0, f, s1)
+      foldLeftRec(s0, f, s1)
 
   //
 
