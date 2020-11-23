@@ -42,11 +42,22 @@ lazy val translator = project
   )
 
 
+lazy val library = project
+  .withId(id = "library")
+  .in(file("library"))
+  .aggregate(translator)
+  .dependsOn(translator)
+  .settings(
+    commonSettings,
+    assemblyJarName in assembly := "library-" + version.value + ".jar"
+  )
+
+
 lazy val root = project
   .withId(id = "scopus")
   .in(file("."))
-  .aggregate(translator)
-  .dependsOn(translator)
+  .aggregate(translator, library)
+  .dependsOn(translator, library)
   .settings(
     commonSettings,
     mainClass in assembly := Some("se.umu.cs.rai.scopus.translator.Main"),
