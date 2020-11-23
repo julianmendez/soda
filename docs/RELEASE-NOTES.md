@@ -1,6 +1,11 @@
 ---
 - - version: v0.2.1
   - date: *unreleased*
+  - new_features:
+    - renames a synonym, before it was `that` and now is
+    - . `such_that` (synonym for `->`)
+  - deprecated_features:
+    - synonym `that` is no longer supported
   - bug_fixes:
     - fixes translation of tuple definition
   - build: sbt clean compile test package assembly

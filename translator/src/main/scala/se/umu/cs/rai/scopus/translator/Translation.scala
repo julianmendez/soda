@@ -35,7 +35,7 @@ case class Translation() {
     ("in", ":"),
     ("\u2208", ":"),
     ("to", "->"),
-    ("that", "->"),
+    ("such_that", "->"),
     ("\u2192", "->"),
     ("equals", "==")
   )
