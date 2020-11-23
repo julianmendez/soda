@@ -6,20 +6,20 @@ import scala.annotation.tailrec
 
 case class MSeqTranslator() {
 
-  def asMSeq: Seq[Elem] => MSeq = s => Min().reverse(asMSeqRec(s, Min().empty))
+  def asMSeq(s: Seq[Elem]): MSeq = Min().reverse(asMSeqRec(s, Min().empty))
 
-  def asSeq: MSeq => Seq[Elem] = ms => asSeqRec(ms, Seq()).reverse
+  def asSeq(ms: MSeq): Seq[Elem] = asSeqRec(ms, Seq()).reverse
 
   @tailrec
-  private def asMSeqRec(seq: Seq[Elem], ms: MSeq): MSeq =
+  final def asMSeqRec(seq: Seq[Elem], ms: MSeq): MSeq =
     if (seq.isEmpty) {
       ms
     } else {
-      asMSeqRec(seq.tail, Min().prepended(ms)(seq.head))
+      asMSeqRec(seq.tail, Min().prepended(ms, seq.head))
     }
 
   @tailrec
-  private def asSeqRec(ms: MSeq, seq: Seq[Elem]): Seq[Elem] =
+  final def asSeqRec(ms: MSeq, seq: Seq[Elem]): Seq[Elem] =
     if (Min().isEmpty(ms)) {
       seq
     } else {
@@ -35,66 +35,66 @@ case class Min() {
 
   def empty: MSeq = ESeq()
 
-  def prepended: MSeq => Elem => MSeq = s => e => NESeq(e, s)
+  def prepended(s: MSeq, e: Elem): MSeq = NESeq(e, s)
 
-  def head: MSeq => Elem = s => s.head
+  def head(s: MSeq): Elem = s.head
 
-  def tail: MSeq => MSeq = s => s.tail
+  def tail(s: MSeq): MSeq = s.tail
 
-  def nonEmpty: MSeq => Boolean = s => !isEmpty(s)
+  def nonEmpty(s: MSeq): Boolean = !isEmpty(s)
 
-  def isEmpty: MSeq => Boolean = s => s.isEmpty
-
-  //
-
-  def reverse: MSeq => MSeq = s => reverseRec(s, empty)
-
-  def length: MSeq => Int = s => lengthRec(s, 0)
-
-  def indexOf: MSeq => Elem => Int = s => e => indexOfRec(s, e, 0)
-
-  def contains: MSeq => Elem => Boolean = s => e => containsRec(s, e)
-
-  def at: MSeq => Int => Elem = s => n => atRec(s, n)
+  def isEmpty(s: MSeq): Boolean = s.isEmpty
 
   //
 
-  def take: MSeq => Int => MSeq = s => n => reverse(takeRevRec(s, n, empty))
+  def reverse(s: MSeq): MSeq = reverseRec(s, empty)
 
-  def drop: MSeq => Int => MSeq = s => n => dropRec(s, n)
+  def length(s: MSeq): Int = lengthRec(s, 0)
 
-  def takeWhile: MSeq => (Elem => Boolean) => MSeq = s => p => reverse(spanRevRec(s, p, taking = true, empty)._1)
+  def indexOf(s: MSeq, e: Elem): Int = indexOfRec(s, e, 0)
 
-  def dropWhile: MSeq => (Elem => Boolean) => MSeq = s => p => spanRevRec(s, p, taking = true, empty)._2
+  def contains(s: MSeq, e: Elem): Boolean = containsRec(s, e)
 
-  def splitAt: MSeq => Int => (MSeq, MSeq) = s => n => (take(s)(n), drop(s)(n))
+  def at(s: MSeq, n: Int): Elem = atRec(s, n)
 
-  def span: MSeq => (Elem => Boolean) => (MSeq, MSeq) = s => p => {
+  //
+
+  def take(s: MSeq, n: Int): MSeq = reverse(takeRevRec(s, n, empty))
+
+  def drop(s: MSeq, n: Int): MSeq = dropRec(s, n)
+
+  def takeWhile(s: MSeq, p: (Elem => Boolean)): MSeq = reverse(spanRevRec(s, p, taking = true, empty)._1)
+
+  def dropWhile(s: MSeq, p: (Elem => Boolean)): MSeq = spanRevRec(s, p, taking = true, empty)._2
+
+  def splitAt(s: MSeq, n: Int): (MSeq, MSeq) = (take(s, n), drop(s, n))
+
+  def span(s: MSeq, p: (Elem => Boolean)): (MSeq, MSeq) = {
     val pair = spanRevRec(s, p, taking = true, empty)
     (reverse(pair._1), pair._2)
   }
 
   //
 
-  def appended: MSeq => Elem => MSeq = s => e => reverse(prepended(reverse(s))(e))
+  def appended(s: MSeq, e: Elem): MSeq = reverse(prepended(reverse(s), e))
 
-  def last: MSeq => Elem = s => head(reverse(s))
+  def last(s: MSeq): Elem = head(reverse(s))
 
-  def concat: MSeq => MSeq => MSeq = s0 => s1 => reverseRec(reverse(s0), s1)
+  def concat(s0: MSeq, s1: MSeq): MSeq = reverseRec(reverse(s0), s1)
 
-  def slice: MSeq => Int => Int => MSeq = s => from => until => take(drop(s)(from))(until - from)
+  def slice(s: MSeq, from: Int, until: Int): MSeq = take(drop(s, from), until - from)
 
   //
 
-  def forall: MSeq => (Elem => Boolean) => Boolean = s => p => forallRec(s, p)
+  def forall(s: MSeq, p: (Elem => Boolean)): Boolean = forallRec(s, p)
 
-  def exists: MSeq => (Elem => Boolean) => Boolean = s => p => existsRec(s, p)
+  def exists(s: MSeq, p: (Elem => Boolean)): Boolean = existsRec(s, p)
 
-  def find: MSeq => (Elem => Boolean) => Option[Elem] = s => p => findRec(s, p)
+  def find(s: MSeq, p: (Elem => Boolean)): Option[Elem] = findRec(s, p)
 
-  def filter: MSeq => (Elem => Boolean) => MSeq = s => p => reverse(filterRevRec(s, p, empty))
+  def filter(s: MSeq, p: (Elem => Boolean)): MSeq = reverse(filterRevRec(s, p, empty))
 
-  def map0: MSeq => (Elem => Elem) => MSeq = s => f => reverse(mapRevRec(s, f, empty))
+  def map0(s: MSeq, f: (Elem => Elem)): MSeq = reverse(mapRevRec(s, f, empty))
 
   /**
    * <pre>
@@ -108,21 +108,21 @@ case class Min() {
    * }
    * </pre>
    */
-  def foldLeft0: MSeq => MSeq => ((MSeq, Elem) => MSeq) => MSeq = s0 => s1 => f => foldLeftRec(s0, f, s1)
+  def foldLeft0(s0: MSeq, s1: MSeq, f: ((MSeq, Elem) => MSeq)): MSeq = foldLeftRec(s0, f, s1)
 
   //
 
   @tailrec
-  private def reverseRec(s0: MSeq, s1: MSeq): MSeq = {
+  final def reverseRec(s0: MSeq, s1: MSeq): MSeq = {
     if (isEmpty(s0)) {
       s1
     } else {
-      reverseRec(tail(s0), prepended(s1)(head(s0)))
+      reverseRec(tail(s0), prepended(s1, head(s0)))
     }
   }
 
   @tailrec
-  private def lengthRec(s: MSeq, n: Int): Int = {
+  final def lengthRec(s: MSeq, n: Int): Int = {
     if (isEmpty(s)) {
       n
     } else {
@@ -131,7 +131,7 @@ case class Min() {
   }
 
   @tailrec
-  private def indexOfRec(s: MSeq, e: Elem, n: Int): Int = {
+  final def indexOfRec(s: MSeq, e: Elem, n: Int): Int = {
     if (isEmpty(s)) {
       -1
     } else if (head(s) == e) {
@@ -142,7 +142,7 @@ case class Min() {
   }
 
   @tailrec
-  private def containsRec(s: MSeq, e: Elem): Boolean = {
+  final def containsRec(s: MSeq, e: Elem): Boolean = {
     if (isEmpty(s)) {
       false
     } else if (head(s) == e) {
@@ -153,7 +153,7 @@ case class Min() {
   }
 
   @tailrec
-  private def atRec(s: MSeq, n: Int): Elem = {
+  final def atRec(s: MSeq, n: Int): Elem = {
     if (isEmpty(s) || n < 0) {
       throw new IndexOutOfBoundsException()
     } else if (n == 0) {
@@ -166,16 +166,16 @@ case class Min() {
   //
 
   @tailrec
-  private def takeRevRec(s0: MSeq, n: Int, s1: MSeq): MSeq = {
+  final def takeRevRec(s0: MSeq, n: Int, s1: MSeq): MSeq = {
     if (isEmpty(s0) || n <= 0) {
       s1
     } else {
-      takeRevRec(tail(s0), n - 1, prepended(s1)(head(s0)))
+      takeRevRec(tail(s0), n - 1, prepended(s1, head(s0)))
     }
   }
 
   @tailrec
-  private def dropRec(s: MSeq, n: Int): MSeq = {
+  final def dropRec(s: MSeq, n: Int): MSeq = {
     if (isEmpty(s) || n <= 0) {
       s
     } else {
@@ -184,13 +184,13 @@ case class Min() {
   }
 
   @tailrec
-  private def spanRevRec(s0: MSeq, p: Elem => Boolean, taking: Boolean, s1: MSeq): (MSeq, MSeq) = {
+  final def spanRevRec(s0: MSeq, p: Elem => Boolean, taking: Boolean, s1: MSeq): (MSeq, MSeq) = {
     if (isEmpty(s0) || !taking) {
       (s1, s0)
     } else {
       val newTaking = p(head(s0))
       val (newS1, newS0) = if (newTaking) {
-        (prepended(s1)(head(s0)), tail(s0))
+        (prepended(s1, head(s0)), tail(s0))
       } else {
         (s1, s0)
       }
@@ -201,7 +201,7 @@ case class Min() {
   //
 
   @tailrec
-  private def forallRec(s: MSeq, p: Elem => Boolean): Boolean = {
+  final def forallRec(s: MSeq, p: Elem => Boolean): Boolean = {
     if (isEmpty(s)) {
       true
     } else if (!p(head(s))) {
@@ -212,7 +212,7 @@ case class Min() {
   }
 
   @tailrec
-  private def existsRec(s: MSeq, p: Elem => Boolean): Boolean = {
+  final def existsRec(s: MSeq, p: Elem => Boolean): Boolean = {
     if (isEmpty(s)) {
       false
     } else if (p(head(s))) {
@@ -223,7 +223,7 @@ case class Min() {
   }
 
   @tailrec
-  private def findRec(s: MSeq, p: Elem => Boolean): Option[Elem] = {
+  final def findRec(s: MSeq, p: Elem => Boolean): Option[Elem] = {
     if (isEmpty(s)) {
       None
     } else if (p(head(s))) {
@@ -234,12 +234,12 @@ case class Min() {
   }
 
   @tailrec
-  private def filterRevRec(s0: MSeq, f: Elem => Boolean, s1: MSeq): MSeq = {
+  final def filterRevRec(s0: MSeq, f: Elem => Boolean, s1: MSeq): MSeq = {
     if (isEmpty(s0)) {
       s1
     } else {
       val newS1 = if (f(head(s0))) {
-        prepended(s1)(head(s0))
+        prepended(s1, head(s0))
       } else {
         s1
       }
@@ -248,16 +248,16 @@ case class Min() {
   }
 
   @tailrec
-  private def mapRevRec(s0: MSeq, f: Elem => Elem, s1: MSeq): MSeq = {
+  final def mapRevRec(s0: MSeq, f: Elem => Elem, s1: MSeq): MSeq = {
     if (isEmpty(s0)) {
       s1
     } else {
-      mapRevRec(tail(s0), f, prepended(s1)(f(head(s0))))
+      mapRevRec(tail(s0), f, prepended(s1, f(head(s0))))
     }
   }
 
   @tailrec
-  private def foldLeftRec(s0: MSeq, f: (MSeq, Elem) => MSeq, s1: MSeq): MSeq = {
+  final def foldLeftRec(s0: MSeq, f: (MSeq, Elem) => MSeq, s1: MSeq): MSeq = {
     if (isEmpty(s0)) {
       s1
     } else {
