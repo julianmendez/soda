@@ -1,40 +1,32 @@
 package se.umu.cs.rai.scopus.collection
 
 
-case class Elem(e: Long)
-
-object Elem {}
-
+case class Elem (e: Long)
 
 trait MSeq {
+  val isEmpty: Boolean
 
-  def isEmpty: Boolean
+  val head: Elem
 
-  def head: Elem
+  val tail: MSeq
+}
 
-  def tail: MSeq
+
+case class ESeq ()
+  extends MSeq {
+
+  val isEmpty = true
+
+  val head: Elem = throw new UnsupportedOperationException
+
+  val tail: MSeq = throw new UnsupportedOperationException
 
 }
 
 
-case class ESeq() extends MSeq {
+case class NESeq (head: Elem, tail: MSeq)
+  extends MSeq {
 
-  override def isEmpty: Boolean = true
-
-  override def head: Elem = throw new UnsupportedOperationException
-
-  override def tail: MSeq = throw new UnsupportedOperationException
+  val isEmpty = false
 
 }
-
-object ESeq {}
-
-
-case class NESeq(head: Elem, tail: MSeq) extends MSeq {
-
-  override def isEmpty: Boolean = false
-
-}
-
-object NESeq {}
-
