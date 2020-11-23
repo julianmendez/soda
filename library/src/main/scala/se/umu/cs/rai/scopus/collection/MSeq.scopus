@@ -4,9 +4,9 @@ package se.umu.cs.rai.scopus.collection
 * MSeq[T] {
   - isEmpty: Boolean
 
-  - head: T
+  - head(): T
 
-  - tail: MSeq[T]
+  - tail(): MSeq[T]
 }
 
 
@@ -15,9 +15,9 @@ package se.umu.cs.rai.scopus.collection
 
   isEmpty = true
 
-  head: T = throw new UnsupportedOperationException
+  head(): T = throw new UnsupportedOperationException
 
-  tail: MSeq[T] = throw new UnsupportedOperationException
+  tail(): MSeq[T] = throw new UnsupportedOperationException
 
 }
 

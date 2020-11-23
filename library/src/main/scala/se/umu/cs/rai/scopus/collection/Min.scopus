@@ -31,9 +31,9 @@ package se.umu.cs.rai.scopus.collection
 
   prepended(s: MSeq[T], e: T): MSeq[T] = NESeq(e, s)
 
-  head(s: MSeq[T]): T = s.head
+  head(s: MSeq[T]): T = s.head()
 
-  tail(s: MSeq[T]): MSeq[T] = s.tail
+  tail(s: MSeq[T]): MSeq[T] = s.tail()
 
   nonEmpty(s: MSeq[T]): Boolean = not isEmpty(s)
 
@@ -102,7 +102,8 @@ package se.umu.cs.rai.scopus.collection
    * }
    * </pre>
    */
-  foldLeft0(s0: MSeq[T], s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])): MSeq[T] =
+  foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] =
+    (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) ->
     foldLeftRec(s0, f, s1)
 
   //

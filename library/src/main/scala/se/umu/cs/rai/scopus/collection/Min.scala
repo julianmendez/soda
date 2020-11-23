@@ -31,9 +31,9 @@ case class Min[T]() {
 
   def prepended(s: MSeq[T], e: T): MSeq[T] = NESeq(e, s)
 
-  def head(s: MSeq[T]): T = s.head
+  def head(s: MSeq[T]): T = s.head()
 
-  def tail(s: MSeq[T]): MSeq[T] = s.tail
+  def tail(s: MSeq[T]): MSeq[T] = s.tail()
 
   def nonEmpty(s: MSeq[T]): Boolean = ! isEmpty(s)
 
@@ -102,7 +102,8 @@ case class Min[T]() {
    * }
    * </pre>
    */
-  def foldLeft0(s0: MSeq[T], s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])): MSeq[T] =
+  def foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) => MSeq[T])) => MSeq[T] =
+    (s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])) =>
     foldLeftRec(s0, f, s1)
 
   //

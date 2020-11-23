@@ -4,9 +4,9 @@ package se.umu.cs.rai.scopus.collection
 trait MSeq[T] {
   val isEmpty: Boolean
 
-  val head: T
+  def head(): T
 
-  val tail: MSeq[T]
+  def tail(): MSeq[T]
 }
 
 
@@ -15,9 +15,9 @@ case class ESeq[T] ()
 
   val isEmpty = true
 
-  val head: T = throw new UnsupportedOperationException
+  def head(): T = throw new UnsupportedOperationException
 
-  val tail: MSeq[T] = throw new UnsupportedOperationException
+  def tail(): MSeq[T] = throw new UnsupportedOperationException
 
 }
 
