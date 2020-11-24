@@ -36,7 +36,7 @@ Keywords
   is
   new
   package
-  that
+  such_that
   then
   this
   to
