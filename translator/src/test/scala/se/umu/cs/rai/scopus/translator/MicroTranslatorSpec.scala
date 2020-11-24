@@ -3,11 +3,11 @@ package se.umu.cs.rai.scopus.translator
 import java.nio.file.{Files, Paths}
 
 import org.scalatest.Assertion
-import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.language.implicitConversions
 
-case class MicroTranslatorSpec() extends AnyFunSpec {
+case class MicroTranslatorSpec() extends AnyFunSuite {
 
   val InputFileName00 = "/se/umu/cs/rai/scopus/translator/example/SwapExample.scopus"
   val ExpectedFileName00 = "/se/umu/cs/rai/scopus/translator/example/SwapExample.scala"
@@ -34,13 +34,6 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
     assert(obtainedFile === expectedFile)
   }
 
-  def testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
-    val inputFile = readFile(inputFileName)
-    val expectedFile = readFile(expectedFileName)
-    val obtainedFile = MicroTranslator().translateProgram(inputFile)
-    assert(obtainedFile === expectedFile)
-  }
-
   def readFile(fileName: String): String = {
     val documentResource = getClass.getResource(fileName)
     val documentURI = documentResource.toURI
@@ -48,28 +41,35 @@ case class MicroTranslatorSpec() extends AnyFunSpec {
     new String(Files.readAllBytes(documentPath))
   }
 
-  it("should translate the swap example") {
+  def testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
+    val inputFile = readFile(inputFileName)
+    val expectedFile = readFile(expectedFileName)
+    val obtainedFile = MicroTranslator().translateProgram(inputFile)
+    assert(obtainedFile === expectedFile)
+  }
+
+  test("should translate the swap example") {
     testTranslation(InputFileName00, ExpectedFileName00)
   }
 
-  it("should translate the swap example with the translated translator") {
+  test("should translate the swap example with the translated translator") {
     testTranslationInScope(InputFileName00, ExpectedFileName00)
   }
 
-  it("should translate the Fibonacci example") {
+  test("should translate the Fibonacci example") {
     testTranslation(InputFileName01, ExpectedFileName01)
   }
 
-  it("should translate the Factorial examples") {
+  test("should translate the Factorial examples") {
     testTranslation(InputFileName02, ExpectedFileName02)
     testTranslation(InputFileName03, ExpectedFileName03)
   }
 
-  it("should translate the Fairness example") {
+  test("should translate the Fairness example") {
     testTranslation(InputFileName04, ExpectedFileName04)
   }
 
-  it("should translate the manual") {
+  test("should translate the manual") {
     testTranslation(InputFileName05, ExpectedFileName05)
   }
 

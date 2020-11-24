@@ -1,8 +1,11 @@
 package se.umu.cs.rai.scopus.translator
 
-import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.funsuite.AnyFunSuite
 
-case class TokenizerSpec() extends AnyFunSpec {
+import scala.language.implicitConversions
+
+
+case class TokenizerSpec() extends AnyFunSuite {
 
 
   val InputLine0: String = "val Constant = \"my text\""
@@ -25,7 +28,7 @@ case class TokenizerSpec() extends AnyFunSpec {
   )
 
 
-  it("should tokenize a small example") {
+  test("should tokenize a small example") {
     val obtained0 = Tokenizer().tokenize(InputLine0)
     assert(obtained0 === ExpectedTokens0)
 
