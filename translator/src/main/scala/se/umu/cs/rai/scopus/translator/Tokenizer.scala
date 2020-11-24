@@ -2,10 +2,10 @@ package se.umu.cs.rai.scopus.translator
 
 import scala.annotation.tailrec
 
-case class Token(text: String, parserState: Int) {
+case class Token(text: String, parserState: Int, index: Int) {
 
   override def toString: String =
-    "(\"" + text + "\"," + parserState + ")"
+    "(\"" + text + "\"," + parserState + ", " + index + ")"
 }
 
 case class Tokenizer() {
@@ -18,7 +18,7 @@ case class Tokenizer() {
   final def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] = {
     if (currentIndex >= line.length) {
       val text = line.substring(lastIndex)
-      Token(text = text, parserState = parserState) +: revTokens
+      revTokens.prepended(Token(text, parserState, lastIndex))
     } else {
       val ch = line.charAt(currentIndex)
       val charType = CharType().charType(ch)
@@ -35,7 +35,7 @@ case class Tokenizer() {
               currentIndex
             }
           val text = line.substring(lastIndex, index)
-          (index, index + 1, Token(text = text, parserState = parserState) +: revTokens)
+          (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
         }
       tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }

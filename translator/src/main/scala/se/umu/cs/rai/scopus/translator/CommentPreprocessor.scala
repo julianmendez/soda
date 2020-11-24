@@ -27,7 +27,7 @@ case class CommentPreprocessor() {
           (false, false)
         }
       }
-      identifyComments(lines.tail, newCommentState, AnnotatedLine(line, currentState) +: annotatedLinesRev)
+      identifyComments(lines.tail, newCommentState, annotatedLinesRev.prepended(AnnotatedLine(line, currentState)))
     }
   }
 

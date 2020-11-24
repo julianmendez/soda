@@ -8,23 +8,23 @@ import scala.language.implicitConversions
 case class TokenizerSpec() extends AnyFunSuite {
 
 
-  val InputLine0: String = "val Constant = \"my text\""
+  val InputLine0: String = "    val Constant = \"my text\""
   val InputLine1: String = "def f(x: Int): Int = x"
-  val InputLine2: String = "as_digits (5 * number)"
+  val InputLine2: String = "\tas_digits (5 * number)"
 
 
   val ExpectedTokens0: Seq[Token] = Seq(
-    Token("val Constant = ", ParserState().Plain),
-    Token("\"my text\"", ParserState().QuotesState),
-    Token("", ParserState().Plain)
+    Token("    val Constant = ", ParserState().Plain, 0),
+    Token("\"my text\"", ParserState().QuotesState, 19),
+    Token("", ParserState().Plain, 28)
   )
 
   val ExpectedTokens1: Seq[Token] = Seq(
-    Token("def f(x: Int): Int = x", ParserState().Plain)
+    Token("def f(x: Int): Int = x", ParserState().Plain, 0)
   )
 
   val ExpectedTokens2: Seq[Token] = Seq(
-    Token("as_digits (5 * number)", ParserState().Plain)
+    Token("\tas_digits (5 * number)", ParserState().Plain, 0)
   )
 
 

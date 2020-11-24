@@ -72,7 +72,7 @@ case class MicroTranslator() {
           .flatMap(line => replace(line, getTranslationTableAtBeginning(line), onlyBeginning = true))
           .flatMap(line => replace(line, Translation().Translation, onlyBeginning = false))
           .getOrElse(currentLine)
-        Token(newText, token.parserState)
+        Token(newText, token.parserState, token.index)
       } else {
         token
       })
