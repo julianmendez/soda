@@ -22,9 +22,13 @@ case class ESeq[T] ()
 }
 
 
-case class NESeq[T] (head: T, tail: MSeq[T])
+case class NESeq[T] (head0: T, tail0: MSeq[T])
   extends MSeq[T] {
 
   val isEmpty = false
+
+  def head() = head0
+
+  def tail() = tail0
 
 }

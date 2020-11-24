@@ -22,10 +22,14 @@ package se.umu.cs.rai.scopus.collection
 }
 
 
-* NESeq[T] (head: T, tail: MSeq[T])
+* NESeq[T] (head0: T, tail0: MSeq[T])
   extends MSeq[T] {
 
   isEmpty = false
+
+  head() = head0
+
+  tail() = tail0
 
 }
 
