@@ -8,6 +8,7 @@
     - synonym `that` is no longer supported
   - bug_fixes:
     - fixes translation of tuple definition
+    - fixes translation of synonyms at the beginning of a line
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.2.1.jar
 - - version: v0.2.0

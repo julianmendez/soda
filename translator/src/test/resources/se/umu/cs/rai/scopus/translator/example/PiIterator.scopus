@@ -12,7 +12,7 @@ package se.umu.cs.rai.scopus.translator.example
  ) {
 
    @override
-   toString = " r="+ r +" n="+ n +" q="+ q +" t="+ t +" l="+ l+" k="+ k
+   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 
  }
 

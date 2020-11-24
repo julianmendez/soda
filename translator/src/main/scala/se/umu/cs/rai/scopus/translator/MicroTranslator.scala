@@ -66,10 +66,10 @@ case class MicroTranslator() {
       token => if (token.parserState == ParserState().Plain) {
         val currentLine = token.text
         val newText = Option(currentLine)
-          .flatMap(line => replace(line, Translation().SynonymAtBeginning, onlyBeginning = true))
+          .flatMap(line => replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
           .flatMap(line => replace(line, Translation().Synonym, onlyBeginning = false))
           .flatMap(line => tryDefinition(line))
-          .flatMap(line => replace(line, getTranslationTableAtBeginning(line), onlyBeginning = true))
+          .flatMap(line => replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
           .flatMap(line => replace(line, Translation().Translation, onlyBeginning = false))
           .getOrElse(currentLine)
         Token(newText, token.parserState, token.index)
@@ -159,6 +159,15 @@ case class MicroTranslator() {
       replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
     }
   }
+
+  def replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] = {
+    if (index == 0) {
+      replace(line, translationTable, onlyBeginning = true)
+    } else {
+      Some(line)
+    }
+  }
+
 
   def replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
     val keys = translationTable.map(pair => pair._1)
