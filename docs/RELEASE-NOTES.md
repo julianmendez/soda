@@ -3,7 +3,7 @@
   - date: *unreleased*
   - new_features:
     - renames a synonym, before it was `that` and now is
-    - . `such_that` (synonym for `->`)
+    - . `suchthat` (synonym for `->`)
   - deprecated_features:
     - synonym `that` is no longer supported
   - bug_fixes:

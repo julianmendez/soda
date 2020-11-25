@@ -42,7 +42,7 @@ The synonyms in any part of a line are:
 - `is` for `=`
 - `in` for `:`
 - `to` for `->`
-- `that` for `->`
+- `suchthat` for `->`
 - `equals` for `==`
 
 
