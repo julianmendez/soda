@@ -2,6 +2,7 @@
 - - version: v0.2.1
   - date: *unreleased*
   - new_features:
+    - includes a highlighting configuration file for [gedit](https://gitlab.gnome.org/GNOME/gedit/)
     - renames a synonym, before it was `that` and now is
     - . `suchthat` (synonym for `->`)
   - deprecated_features:

@@ -89,3 +89,10 @@ This language is designed to be integrated via the Java Virtual Machine.
 It is possible to define the package and to declare the imports.
 
 
+## Syntax Highlighting
+
+The following tools can be configured to have syntax highlighting:
+- IntelliJ (instructions are provided)
+- gedit (configuration file: scopus.lang)
+
+
