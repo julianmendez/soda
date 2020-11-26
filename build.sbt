@@ -8,6 +8,7 @@ lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.scopus",
   normalizedName := "scopus",
   version := "0.2.1-SNAPSHOT",
+
   name := "Scopus",
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),
