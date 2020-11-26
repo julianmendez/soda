@@ -1,7 +1,7 @@
 # Scopus
 
-*Scopus* is a functional language characterized by its conciseness.
-Its main purpose is to be used to produce clear code to describe ethical problems.
+*Scopus* is a functional language to describe ethical problems.
+Its main purpose is to be used to produce clear code.
 The source code should be easy to understand, somehow natural, although not necessarily easy to write.
 
 This project includes a translator to Scala.
