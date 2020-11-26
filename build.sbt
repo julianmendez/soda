@@ -5,16 +5,19 @@ lazy val scala2 = "2.13.3"
 lazy val scala3 = "3.0.0-M1"
 
 lazy val commonSettings = Seq(
-  organization := "se.umu.cs.rai",
-  name := "scopus",
+  organization := "se.umu.cs.rai.scopus",
+  normalizedName := "scopus",
   version := "0.2.1-SNAPSHOT",
+  name := "Scopus",
   description := "Functional language to describe ethical problems",
+  homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),
+  startYear := Some(2020),
+  licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
+  organizationName := "Responsible Artificial Intelligence - Umea University",
+  organizationHomepage := Some(url("https://www.umu.se/en/research/groups/responsible-artificial-intelligence")),
   developers := List(
     Developer("julianmendez", "Julian Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
   ),
-  licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
-  homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),
-  organizationHomepage := Some(url("https://www.umu.se/en/research/groups/responsible-artificial-intelligence/")),
 
   /**
    * Scala
