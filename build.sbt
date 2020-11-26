@@ -9,7 +9,7 @@ lazy val commonSettings = Seq(
   normalizedName := "scopus",
   version := "0.2.1-SNAPSHOT",
 
-  name := "Scopus",
+  name := "scopus",
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),
   startYear := Some(2020),
