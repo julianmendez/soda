@@ -141,3 +141,10 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
 
 }
 
+class Main () {
+  main (args: Array[String]) =
+    println ("Hello world!")
+}
+
+@main
+

@@ -66,6 +66,7 @@ Keywords
   }
 
 4
+  @main
   @override
   @tailrec
 

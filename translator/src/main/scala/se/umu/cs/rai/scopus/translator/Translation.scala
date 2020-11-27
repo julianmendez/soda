@@ -6,6 +6,7 @@ case class Translation() {
 
   val ScalaDefinition: String = "def"
   val ScalaValue: String = "val"
+  val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   val SynonymAtBeginning: Seq[(String, String)] = Seq(
     ("*", "class"),
@@ -26,7 +27,8 @@ case class Translation() {
 
     /** Annotations */
     ("@override", "override"),
-    ("@tailrec", "@tailrec final")
+    ("@tailrec", "@tailrec final"),
+    ("@main", ScalaEntryPoint)
   )
 
 

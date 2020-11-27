@@ -5,6 +5,7 @@
     - includes a highlighting configuration file for [gedit](https://gitlab.gnome.org/GNOME/gedit/)
     - renames a synonym, before it was `that` and now is
     - . `suchthat` (synonym for `->`)
+    - includes annotation `@main` to indicate the entry point
   - deprecated_features:
     - synonym `that` is no longer supported
   - bug_fixes:

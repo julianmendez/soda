@@ -62,6 +62,11 @@ The main arithmetic operators are:
 Comments are marked with `/*` and `*/`.
 Scaladoc / Javadoc markers are `/**` and `*/`.
 
+Annotations:
+- `@tailrec` to indicate tail recursion
+- `@override` to indicate an overriding of a JVM function
+- `@main` to indicate the entry point
+
 
 ## Side Effects
 
