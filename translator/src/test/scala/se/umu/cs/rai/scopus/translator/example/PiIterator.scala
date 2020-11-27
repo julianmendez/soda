@@ -12,7 +12,7 @@ case class Status(
  ) {
 
    override
-   val toString = " r="+ r +" n="+ n +" q="+ q +" t="+ t +" l="+ l+" k="+ k
+   val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 
  }
 
