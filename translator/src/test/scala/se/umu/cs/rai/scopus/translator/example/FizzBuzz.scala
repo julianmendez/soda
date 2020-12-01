@@ -5,7 +5,7 @@ case class FizzBuzz() {
   val Fizz = "Fizz"
   val Buzz = "Buzz"
 
-  def fizz_buzz() = LazyList.from(1).take(100).map(fizz_buzz_term)
+  def fizz_buzz() = Range(1, 101).map(fizz_buzz_term)
 
   def fizz_buzz_term(n: Int) =
     if ( n % 15 == 0
