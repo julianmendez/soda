@@ -21,7 +21,7 @@ case class FizzBuzzSpec() extends AnyFunSuite {
   )
 
   test("first elements of FizzBuzz") {
-    val obtained = FizzBuzz().fizzbuzz()
+    val obtained = FizzBuzz().fizz_buzz()
     assert(obtained === expected)
   }
 

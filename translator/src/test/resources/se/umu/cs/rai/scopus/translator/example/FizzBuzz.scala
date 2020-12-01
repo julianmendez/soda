@@ -5,9 +5,9 @@ case class FizzBuzz() {
   val Fizz = "Fizz"
   val Buzz = "Buzz"
 
-  def fizzbuzz() = LazyList.from(1).take(100).map(fizzbuzz_term)
+  def fizz_buzz() = LazyList.from(1).take(100).map(fizz_buzz_term)
 
-  def fizzbuzz_term(n: Int) =
+  def fizz_buzz_term(n: Int) =
     if ( n % 15 == 0
     ) Fizz + Buzz
     else if ( n % 3 == 0
