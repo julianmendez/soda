@@ -1,0 +1,20 @@
+package se.umu.cs.rai.scopus.translator.example
+
+* FizzBuzz() {
+
+  Fizz = "Fizz"
+  Buzz = "Buzz"
+
+  fizzbuzz() = LazyList.from(1).take(100).map(fizzbuzz_term)
+
+  fizzbuzz_term(n: Int) =
+    if n % 15 == 0
+    then Fizz + Buzz
+    else if n % 3 == 0
+    then Fizz
+    else if n % 5 == 0
+    then Buzz
+    else n.toString
+
+}
+
