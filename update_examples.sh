@@ -14,3 +14,4 @@ for file in ${files}; do
   newFile=$(echo ${file} | sed "s/${origin}/${target}/g")
   cp ${file} ${newFile}
 done
+
