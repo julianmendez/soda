@@ -109,11 +109,11 @@ class Manual() {
 
 }
 
-* AbstractFactorialConcise {
+* Abstract_factorial_concise {
   - factorial (n: Int): Int
 }
 
-* FactorialConcise () extends AbstractFactorialConcise {
+* Factorial_concise () extends Abstract_factorial_concise {
 
   factorial (n: Int) = factorial_rec (n, 1)
 
@@ -125,11 +125,11 @@ class Manual() {
 
 }
 
-class AbstractFactorialVerbose {
+class Abstract_factorial_verbose {
   has factorial (n in Int) in Int
 }
 
-class FactorialVerbose () extends AbstractFactorialVerbose {
+class Factorial_verbose () extends Abstract_factorial_verbose {
 
   factorial (n in Int) is factorial_rec (n, 1)
 

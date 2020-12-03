@@ -109,11 +109,11 @@ case class Manual() {
 
 }
 
-trait AbstractFactorialConcise {
+trait Abstract_factorial_concise {
   def factorial (n: Int): Int
 }
 
-case class FactorialConcise () extends AbstractFactorialConcise {
+case class Factorial_concise () extends Abstract_factorial_concise {
 
   def factorial (n: Int) = factorial_rec (n, 1)
 
@@ -125,11 +125,11 @@ case class FactorialConcise () extends AbstractFactorialConcise {
 
 }
 
-trait AbstractFactorialVerbose {
+trait Abstract_factorial_verbose {
   def factorial (n : Int) : Int
 }
 
-case class FactorialVerbose () extends AbstractFactorialVerbose {
+case class Factorial_verbose () extends Abstract_factorial_verbose {
 
   def factorial (n : Int) = factorial_rec (n, 1)
 

@@ -6,6 +6,7 @@
     - renames a synonym, before it was `that` and now is
     - . `suchthat` (synonym for `->`)
     - includes annotation `@main` to indicate the entry point
+    - has an update manual
   - deprecated_features:
     - synonym `that` is no longer supported
   - bug_fixes:

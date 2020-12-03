@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{book}
 
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -9,7 +9,7 @@
 
 
 \lstdefinelanguage{Scopus}{
-morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, equals, @override, @tailrec},
+morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, equals, @override, @tailrec, @main},
 sensitive=true, % keywords are not case-sensitive
 morecomment=[l]{//}, % l is for line comment
 morecomment=[s]{/*}{*/}, % s is for start and end delimiter
@@ -61,7 +61,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 \newcommand{\sequals}{\reservedWord{equals}}
 
 \newcommand{\Scopus}{\textsc{Scopus}\xspace}
-\newcommand{\lambdaSymbol}{{\tiny--\textgreater}}
+\newcommand{\lambdaSymbol}{{\tiny--\textgreater}\xspace}
 
 
 \begin{document}
@@ -83,8 +83,26 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     tabsize=3
     }
 
+    \begin{center}
 
-    \section{\Scopus}
+        \phantom{H}
+
+        \vspace{80mm}
+
+        {\huge{Scopus}}
+
+        \vspace{80mm}
+        Julian Alfredo Mendez
+
+        \vspace{10mm}
+        v0.2.1
+
+    \end{center}
+
+    \newpage
+
+
+    \chapter{Introduction}
 
     \Scopus is a human-centered formalism to describe, formalize, and prototype ethical problems and constraints.
     It could be seen as a specification language or as a functional programming language.
@@ -97,19 +115,18 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Prototypes written in \Scopus can be run in the Java Virtual Machine (JVM).
     Therefore, it can be used as a JVM library and use libraries written in Java, Scala, or any other JVM language.
 
-    \subsection{The Intended User of Scopus}
+    \section{The Intended User of Scopus}
 
     The purpose of \Scopus is to give at least one way that is clear enough to describe things, paying less regard to efficiency.
 
-    Let us try to think what problems Scopus tries to solve
-
+    Let us try to think what problems Scopus tries to solve.
     If we think on the first programming languages, like Fortran, Cobol, and Lisp, they had challenges to parse the source code.
     Newer programming languages, like Python or Scala, have clearly more powerful computers to do the processing.
 
     Lisp source code can look very flexible, but it could be challenging to keep track of the parentheses.
 
     Fortran has been used by physicist thanks to its important number of libraries for physics.
-    Earlier versions of Fortran could not process recursion as we usually now it, since it did not use a stack for the variables.
+    Earlier versions of Fortran could not process recursion as we usually do it now, since it did not use a stack for the variables.
     Programming backtracking was extremely intricate.
 
     \Scopus allows to write functions as tail recursive, as in other modern functional languages, and the compiler transforms the tail recursion to an iteration.
@@ -118,13 +135,13 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Writing a tail recursion requires some knowledge of algorithms, but reading a tail recursion is very intuitive, in a mathematical way.
     Because of this type of asymmetries, we say that \Scopus is a language that is easy to read but not necessarily easy to write.
 
-    \subsection{A Descriptive Language}
+    \section{A Descriptive Language}
 
     In traditional programming languages, if we need to represent a big data structure, every byte counts.
     If we need to store numbers between 0 and 250, a byte (8 bits) would suffice.
     However, if we need to store numbers between 0 and 260, we would need one more bit (9 bits), which is practice it would mean to use two bytes (16 bits).
 
-    In most of the cases, we do not care if an integer is 32-bit or 64-bit, and to understand an algorithm, we do not even care if an integer has a fixed length.
+    In most cases, we do not care if an integer is 32-bit or 64-bit, and to understand an algorithm, we do not even care if an integer has a fixed length.
     The number of bytes a system uses is a technical issue, and it could complicate the understanding of an algorithm.
 
     This level of detail is usually irrelevant to describe a problem, unless the problem is about this technicality.
@@ -146,7 +163,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The important point is that it can provide at least one implementation that is good enough, with an acceptable complexity, to test if something is compliant or not.
 
-    \subsection{Purpose of \Scopus}
+    \section{Purpose of \Scopus}
 
     The purpose of \Scopus is to give a ``yes'' or ``no'' answer to verify if something is compliant to ethical constraints.
     Ideally, it should also provide an explanation for its answer.
@@ -163,22 +180,22 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Reading ``the square root of two'' is harder than reading $\sqrt{2}$.
     \Scopus code has to be easy to read, not necessarily easy to say, or to write.
 
-    \subsection{General features}
+    \section{General features}
 
     The goal of \Scopus is to specify without being too specific, giving some freedom for different implementations.
-    \Scopus tries to keep has a good balance between vagueness and concreteness, a good balance between specificity and generality,
+    \Scopus tries to keep a good balance between vagueness and concreteness, a good balance between specificity and generality,
     a good balance between what is very descriptive, but also technically useful.
 
     This happens in a way that is general enough to abstract implementations, but specific enough to constraint a problem.
     We do not need to define how things are done, as long as they are done correctly and in a reasonable time.
 
-    \subsection{Technical Considerations}
+    \section{Technical Considerations}
 
     \Scopus needs to be abstract enough to describe, efficient enough, easy to read, easy to execute, and easy to integrate.
     Because of that, \Scopus is a JVM language and can be compiled into Java byte code.
 
     For now, the translator converts \Scopus code into Scala code, which in turn can be compiled to byte code.
-    For the sake of compatibility with the JVM, \Scopus has a \soverride annotation and a \snew command.
+    For the sake of compatibility with the JVM, \Scopus has an \soverride annotation and a \snew command.
     The \soverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
     The \snew command is to be able to create JVM objects.
 
@@ -186,13 +203,13 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     For example, numeric types like \srccode{Int}, \srccode{Float}, and immutable collections like \srccode{Seq}, \srccode{List}, \srccode{Array}, and \srccode{Map}.
     The JVM exception handling is done via \srccode{Try}.
 
-    \subsection{Style}
+    \section{Style}
 
     \Scopus does not require a semicolon to finish each instruction, and the tabulation at the beginning of the line is irrelevant.
     Blocks are defined with braces, but they can be omitted for one instruction.
 
     Comments are marked with the \srccode{/*} and  \srccode{*/}.
-    The Scaladoc can be used created by starting the comment with \srccode{/**}, as in Scala.
+    The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
     In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
 
     In general, comments are slightly discouraged, because the code should be descriptive enough.
@@ -230,13 +247,13 @@ morestring=[b]" % defines that strings are enclosed in double quotes
   }
     \end{lstlisting}
 
-    \subsection{Mutability}
+    \section{Mutability}
 
     Mutability is one of the reason that algorithms get more difficult to understand.
     Although it is a practical way to save memory usage, it could be error prone.
     For this reason, \Scopus does not have ways to program mutability.
 
-    For technical reasons, it is technically possible to use mutable objects from the JVM in \Scopus.
+    For technical reasons, it is possible to use mutable objects from the JVM in \Scopus.
     This is strongly discouraged, since other design decisions are based assuming that objects are immutable.
 
     \Scopus does not handle exceptions (except when they come from the JVM).
@@ -245,18 +262,18 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Functions with side effects, like input and output operations, are discouraged in \Scopus.
     In exceptional cases, they could be managed by JVM libraries.
 
-    \subsection{Values and Functions}
+    \section{Values and Functions}
 
     In \Scopus there is no difference between functions and values.
     Since immutability is assumed, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
 
-    \subsection{Types and Classes}
+    \section{Types and Classes}
 
     \Scopus is statically typed.
     It has some of the ideas of object orientation.
     However, there are substantial differences with traditional object oriented programming.
 
-    \subsection{Object Inheritance and Overriding}
+    \section{Object Inheritance and Overriding}
 
     \Scopus has two types of classes: abstract classes, and concrete classes.
 
@@ -268,22 +285,22 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     This is to prevent that the behavior is changed after extending a class.
     For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
 
-    In \Scopus, there is a \sthis reserved word to refer to its instance, but there is no \srccode{super} reserved word.
+    In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
     The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
 
-    \subsection{Private Objects}
+    \section{Private Objects}
 
     In \Scopus, there are no private objects.
     Everything is visible from other objects.
     Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
 
-    \subsection{Static Constants and Functions}
+    \section{Static Constants and Functions}
 
     In \Scopus, there is no concept of static functions.
     It is never assume that there is one instance of an object.
     The class constructors can be implemented as objects of another class, although not necessary unique.
 
-    \subsection{Parametric Types}
+    \section{Parametric Types}
 
     The use of parametric types are technically possible and allowed, but slightly discouraged.
     Sometimes smaller code is not necessarily easier to understand.
@@ -291,7 +308,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
 
 
-    \section{Reserved words}
+    \chapter{Reserved words}
 
     The reserved words in \Scopus can be classified in the following categories:
 
@@ -307,7 +324,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     The reserved words considered in Scala are listed at this link:
     \url{https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html}
 
-    \subsection{Functional}
+    \section{Functional}
 
     \subsubsection{= (definition symbol)}
 
@@ -344,7 +361,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     else y
     \end{lstlisting}
 
-    \subsubsection{\lambdaSymbol, $\rightarrow$ ($\backslash$u2192) (lambda symbol)}
+    \subsubsection{\lambdaSymbol (lambda symbol)}
 
     The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
 
@@ -355,11 +372,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     \end{lstlisting}
     returns a sequence of integers where each element is computed as the next integer from the input
 
-    \subsection{Object Oriented}
+    \section{Object Oriented}
 
     \subsubsection{\sclass, \shas}
 
-    There are two types of classes: the abstract and the concrete.
+    As mentioned, there are two types of classes: the abstract and the concrete.
 
     Abstract classes compare to interfaces in Java, or traits in Scala, and cannot be directly instantiated.
 
@@ -428,7 +445,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
   }
     \end{lstlisting}
 
-    \subsection{Boolean}
+    \section{Boolean}
 
     \subsubsection{\sfalse, \strue}
 
@@ -468,11 +485,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \end{lstlisting}
 
-    \subsection{Library}
+    \section{Library}
 
     \subsubsection{\spackage}
 
-    The \spackage declares the package the content should be included.
+    The reserved word \spackage declares the package where the content should be included.
     All classes then belong to that package.
 
     \begin{lstlisting}[label={lst:examplePackage}]
@@ -481,7 +498,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \subsubsection{\simport}
 
-    The \simport helps importing classes from other libraries and frameworks.
+    The reserved word \simport helps importing classes from other libraries and frameworks.
 
     \begin{lstlisting}[label={lst:examplePackage}]
   import java.util.Date
@@ -491,7 +508,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \subsubsection{\snew}
 
-    Although every concrete class can be instantiated directly using the parameters, some libraries and frameworks may need a \snew reserved word.
+    Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
     For example,
 
     \begin{lstlisting}[label={lst:examplePackage}]
@@ -500,7 +517,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
   now = new Date()
     \end{lstlisting}
 
-    \subsection{Annotations}
+    \section{Annotations}
 
     Annotations are not part of the language itself, but they are necessary to translate it into Scala.
 
@@ -543,7 +560,6 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The \smain annotation is used to indicate that an entry point is needed.
     This is kept to have functions that can be executed from the console.
-    It
 
     \begin{lstlisting}[label={lst:exampleMain}]
   class Main () {
@@ -554,7 +570,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
   @main
     \end{lstlisting}
 
-    This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srctext{EntryPoint} located in the same package.
+    This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srccode{EntryPoint} located in the same package.
 
 
     \section{Synonyms}
@@ -602,11 +618,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     \begin{lstlisting}[label={lst:exampleFactorialConcise}]
   + scala.annotation.tailrec
 
-  * AbstractFactorialConcise {
+  * Abstract_factorial_concise {
     - factorial (n: Int): Int
   }
 
-  * FactorialConcise () extends AbstractFactorialConcise {
+  * Factorial_concise () extends Abstract_factorial_concise {
 
     factorial (n: Int) = factorial_rec (n, 1)
 
@@ -623,11 +639,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
   import scala.annotation.tailrec
 
-  class AbstractFactorialVerbose {
+  class Abstract_factorial_verbose {
     has factorial (n in Int) in Int
   }
 
-  class FactorialVerbose () extends AbstractFactorialVerbose {
+  class Factorial_verbose () extends Abstract_factorial_verbose {
 
     factorial (n in Int) is factorial_rec (n, 1)
 
