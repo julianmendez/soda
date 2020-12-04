@@ -115,6 +115,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Prototypes written in \Scopus can be run in the Java Virtual Machine (JVM).
     Therefore, it can be used as a JVM library and use libraries written in Java, Scala, or any other JVM language.
 
+
     \section{The Intended User of Scopus}
 
     The purpose of \Scopus is to give at least one way that is clear enough to describe things, paying less regard to efficiency.
@@ -134,6 +135,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Someone who needs to understand the code does not necessarily need to know how to write a tail recursion.
     Writing a tail recursion requires some knowledge of algorithms, but reading a tail recursion is very intuitive, in a mathematical way.
     Because of this type of asymmetries, we say that \Scopus is a language that is easy to read but not necessarily easy to write.
+
 
     \section{A Descriptive Language}
 
@@ -163,6 +165,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The important point is that it can provide at least one implementation that is good enough, with an acceptable complexity, to test if something is compliant or not.
 
+
     \section{Purpose of \Scopus}
 
     The purpose of \Scopus is to give a ``yes'' or ``no'' answer to verify if something is compliant to ethical constraints.
@@ -180,6 +183,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Reading ``the square root of two'' is harder than reading $\sqrt{2}$.
     \Scopus code has to be easy to read, not necessarily easy to say, or to write.
 
+
     \section{General features}
 
     The goal of \Scopus is to specify without being too specific, giving some freedom for different implementations.
@@ -188,6 +192,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     This happens in a way that is general enough to abstract implementations, but specific enough to constraint a problem.
     We do not need to define how things are done, as long as they are done correctly and in a reasonable time.
+
 
     \section{Technical Considerations}
 
@@ -202,6 +207,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     \Scopus uses the main types provided by Scala.
     For example, numeric types like \srccode{Int}, \srccode{Float}, and immutable collections like \srccode{Seq}, \srccode{List}, \srccode{Array}, and \srccode{Map}.
     The JVM exception handling is done via \srccode{Try}.
+
 
     \section{Style}
 
@@ -228,7 +234,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     Example using snake case, recommended in \Scopus
 
-    \begin{lstlisting}[label={lst:exampleExtends}]
+    \begin{lstlisting}[label={lst:exampleExtendsSnakeCase}]
   /** Class for a registered person, in snake case */
   class Registered_person (first_name: String, last_name: String) {
     _separator = " "
@@ -238,7 +244,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     \end{lstlisting}
 
     Example using camel case, as in Java:
-    \begin{lstlisting}[label={lst:exampleExtends}]
+    \begin{lstlisting}[label={lst:exampleExtendsCamelCase}]
   /** Class for a registered person, in camel case */
   class RegisteredPerson (firstName: String, lastName: String) {
     _separator = " "
@@ -246,6 +252,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     fullName = firstName + _separator + lastName
   }
     \end{lstlisting}
+
 
     \section{Mutability}
 
@@ -262,16 +269,19 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Functions with side effects, like input and output operations, are discouraged in \Scopus.
     In exceptional cases, they could be managed by JVM libraries.
 
+
     \section{Values and Functions}
 
     In \Scopus there is no difference between functions and values.
     Since immutability is assumed, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
+
 
     \section{Types and Classes}
 
     \Scopus is statically typed.
     It has some of the ideas of object orientation.
     However, there are substantial differences with traditional object oriented programming.
+
 
     \section{Object Inheritance and Overriding}
 
@@ -288,17 +298,20 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
     The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
 
+
     \section{Private Objects}
 
     In \Scopus, there are no private objects.
     Everything is visible from other objects.
     Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
 
+
     \section{Static Constants and Functions}
 
     In \Scopus, there is no concept of static functions.
     It is never assume that there is one instance of an object.
     The class constructors can be implemented as objects of another class, although not necessary unique.
+
 
     \section{Parametric Types}
 
@@ -323,6 +336,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The reserved words considered in Scala are listed at this link:
     \url{https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html}
+
 
     \section{Functional}
 
@@ -371,6 +385,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     sequence.map(element -> element + 1)
     \end{lstlisting}
     returns a sequence of integers where each element is computed as the next integer from the input
+
 
     \section{Object Oriented}
 
@@ -431,7 +446,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     For that, the \sthis reserved word is used.
 
     For example,
-    \begin{lstlisting}[label={lst:exampleWith}]
+    \begin{lstlisting}[label={lst:exampleExtendsElement}]
   class Element {
     has accept (v: Visitor): Boolean
   }
@@ -444,6 +459,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     accept (v: Visitor) = v.visit (this)
   }
     \end{lstlisting}
+
 
     \section{Boolean}
 
@@ -485,6 +501,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     \end{lstlisting}
 
+
     \section{Library}
 
     \subsubsection{\spackage}
@@ -500,7 +517,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     The reserved word \simport helps importing classes from other libraries and frameworks.
 
-    \begin{lstlisting}[label={lst:examplePackage}]
+    \begin{lstlisting}[label={lst:exampleImport}]
   import java.util.Date
 
   import scala.annotation.tailrec
@@ -511,11 +528,12 @@ morestring=[b]" % defines that strings are enclosed in double quotes
     Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
     For example,
 
-    \begin{lstlisting}[label={lst:examplePackage}]
+    \begin{lstlisting}[label={lst:exampleImportDate}]
   import java.util.Date
 
   now = new Date()
     \end{lstlisting}
+
 
     \section{Annotations}
 
