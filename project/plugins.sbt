@@ -19,6 +19,6 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
  * [[https://github.com/lampepfl/dotty]]
  * [[https://repo1.maven.org/maven2/ch/epfl/lamp/]]
  */
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.5")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.1")
 
 
