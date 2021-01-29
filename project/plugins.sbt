@@ -15,10 +15,17 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
 
 /** sbt-dotty
- * This plugin provides support to compile with Dotty [[https://dotty.epfl.ch]].
- * [[https://github.com/lampepfl/dotty]]
- * [[https://repo1.maven.org/maven2/ch/epfl/lamp/]]
- */
+  * This plugin provides support to compile with Dotty [[https://dotty.epfl.ch]].
+  * [[https://github.com/lampepfl/dotty]]
+  * [[https://repo1.maven.org/maven2/ch/epfl/lamp/]]
+  */
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.1")
 
+
+/** sbt-scoverage
+  * This integrates the scoverage code coverage library [[https://github.com/scoverage/scalac-scoverage-plugin]].
+  * [[https://github.com/scoverage/sbt-scoverage]]
+  * [[https://repo1.maven.org/maven2/org/scoverage/]]
+  */
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
