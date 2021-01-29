@@ -9,7 +9,7 @@
 
 
 \lstdefinelanguage{Scopus}{
-morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, equals, @override, @tailrec, @main},
+morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, @override, @tailrec, @main},
 sensitive=true, % keywords are not case-sensitive
 morecomment=[l]{//}, % l is for line comment
 morecomment=[s]{/*}{*/}, % s is for start and end delimiter
@@ -58,7 +58,6 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 \newcommand{\scin}{\reservedWord{in}}
 \newcommand{\sto}{\reservedWord{to}}
 \newcommand{\ssuchthat}{\reservedWord{suchthat}}
-\newcommand{\sequals}{\reservedWord{equals}}
 
 \newcommand{\Scopus}{\textsc{Scopus}\xspace}
 \newcommand{\lambdaSymbol}{{\tiny--\textgreater}\xspace}
@@ -626,8 +625,6 @@ morestring=[b]" % defines that strings are enclosed in double quotes
             \sto             & \lambdaSymbol          \\
             \ssuchthat       & \lambdaSymbol          \\
             \hline
-            \sequals         & \sequalsSign           \\
-            \hline
         \end{tabular}
     \end{center}
 
@@ -667,7 +664,7 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     @tailrec
     factorial_rec (n in Int, product in Int) in Int is
-      if n equals 0
+      if n == 0
       then product
       else factorial_rec (n - 1, n * product)
 

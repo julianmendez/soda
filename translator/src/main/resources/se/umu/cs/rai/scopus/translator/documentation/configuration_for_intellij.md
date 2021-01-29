@@ -51,7 +51,6 @@ Keywords
   ==
   >
   and
-  equals
   false
   not
   or

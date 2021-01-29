@@ -43,7 +43,6 @@ The synonyms in any part of a line are:
 - `in` for `:`
 - `to` for `->`
 - `suchthat` for `->`
-- `equals` for `==`
 
 
 ## Other Symbols

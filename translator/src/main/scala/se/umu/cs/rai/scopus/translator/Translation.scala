@@ -38,8 +38,7 @@ case class Translation() {
     ("\u2208", ":"),
     ("to", "->"),
     ("suchthat", "->"),
-    ("\u2192", "->"),
-    ("equals", "==")
+    ("\u2192", "->")
   )
 
   val Translation: Seq[(String, String)] = Seq(
@@ -83,12 +82,11 @@ case class Translation() {
     "in",
     "\u2208",
     "to",
-    "that",
+    "suchthat",
     "\u2192",
     "*",
     "-",
-    "+",
-    "equals"
+    "+"
   )
 
   // https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html

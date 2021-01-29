@@ -14,8 +14,8 @@ class Fibo_example_in_scopus () extends Fibo_example {
 
   @tailrec
   fa (m in Int, a in Int, b in Int) in Int is
-    if m equals 0 then a
-    else if m equals 1 then b
+    if m == 0 then a
+    else if m == 1 then b
     else fa (m - 1, b, a + b)
 
   fib (n in Int) = fa (n, 0, 1)

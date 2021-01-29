@@ -12,7 +12,7 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
 
   @tailrec
   factorial_rec (n in Int, product in Int) in Int is
-    if n equals 0
+    if n == 0
     then product
     else factorial_rec (n - 1, n * product)
 
