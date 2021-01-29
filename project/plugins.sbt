@@ -23,9 +23,9 @@ addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.1")
 
 
 /** sbt-scoverage
-  * This integrates the scoverage code coverage library [[https://github.com/scoverage/scalac-scoverage-plugin]].
-  * [[https://github.com/scoverage/sbt-scoverage]]
-  * [[https://repo1.maven.org/maven2/org/scoverage/]]
+  * This is an sbt plugin for code coverage analysis via JaCoCo [[https://www.eclemma.org/jacoco/]].
+  * [[https://github.com/sbt/sbt-jacoco]]
+  * [[https://dl.bintray.com/sbt/sbt-plugin-releases/com.github.sbt/sbt-jacoco/]]
   */
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+addSbtPlugin("com.github.sbt" % "sbt-jacoco" % "3.3.0")
 
