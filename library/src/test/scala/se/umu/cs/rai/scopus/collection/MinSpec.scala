@@ -402,6 +402,3 @@ case class MinSpec() extends AnyFunSuite {
   }
 
 }
-
-object MinSpec {}
-
