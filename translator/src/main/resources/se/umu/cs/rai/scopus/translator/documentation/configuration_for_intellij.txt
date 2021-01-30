@@ -47,8 +47,10 @@ Keywords
   +
   -
   /
-  <
   ==
+  <=
+  >=
+  <
   >
   and
   false
