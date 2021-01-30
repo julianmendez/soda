@@ -1,28 +1,28 @@
 package se.umu.cs.rai.scopus.collection
 
-import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.language.implicitConversions
 
-case class MinSpec() extends AnyFunSpec {
+case class MinSpec() extends AnyFunSuite {
 
   val empty: ESeq[Int] = ESeq[Int]()
   val exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
   val example: MSeq[Int] = MSeqTranslator().asMSeq(exampleSeq)
 
-  it("prepended") {
+  test("prepended") {
     val expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
     val obtained = Min().prepended(example, 1)
     assert(obtained === expected)
   }
 
-  it("head") {
+  test("head") {
     val expected = 0
     val obtained = Min().head(example)
     assert(obtained === expected)
   }
 
-  it("tail") {
+  test("tail") {
     val expected = MSeqTranslator().asMSeq(Seq(1, 1, 2, 3, 5, 8))
     val obtained = Min().tail(example)
     assert(obtained === expected)
@@ -30,43 +30,43 @@ case class MinSpec() extends AnyFunSpec {
 
   //
 
-  it("reverse") {
+  test("reverse") {
     val expected = MSeqTranslator().asMSeq(Seq(8, 5, 3, 2, 1, 1, 0))
     val obtained = Min().reverse(example)
     assert(obtained === expected)
   }
 
-  it("length") {
+  test("length") {
     val expected = 7
     val obtained = Min().length(example)
     assert(obtained === expected)
   }
 
-  it("indexOf something found") {
+  test("indexOf something found") {
     val expected = 6
     val obtained = Min().indexOf(example, 8)
     assert(obtained === expected)
   }
 
-  it("indexOf something not found") {
+  test("indexOf something not found") {
     val expected = -1
     val obtained = Min().indexOf(example, 7)
     assert(obtained === expected)
   }
 
-  it("contains something found") {
+  test("contains something found") {
     val expected = true
     val obtained = Min().contains(example, 8)
     assert(obtained === expected)
   }
 
-  it("contains something not found") {
+  test("contains something not found") {
     val expected = false
     val obtained = Min().contains(example, 7)
     assert(obtained === expected)
   }
 
-  it("at") {
+  test("at") {
     val expected = 3
     val obtained = Min().at(example, 4)
     assert(obtained === expected)
@@ -74,7 +74,7 @@ case class MinSpec() extends AnyFunSpec {
 
   //
 
-  it("take with Seq") {
+  test("take with Seq") {
     val expected0 = Seq(0, 1, 1, 2, 3)
     val obtained0 = exampleSeq.take(5)
     assert(obtained0 === expected0)
@@ -88,7 +88,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("take") {
+  test("take") {
     val expected0 = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3))
     val obtained0 = Min().take(example, 5)
     assert(obtained0 === expected0)
@@ -102,7 +102,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("drop with Seq") {
+  test("drop with Seq") {
     val expected0 = Seq(2, 3, 5, 8)
     val obtained0 = exampleSeq.drop(3)
     assert(obtained0 === expected0)
@@ -116,7 +116,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("drop") {
+  test("drop") {
     val expected0 = MSeqTranslator().asMSeq(Seq(2, 3, 5, 8))
     val obtained0 = Min().drop(example, 3)
     assert(obtained0 === expected0)
@@ -130,53 +130,53 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("takeWhile with Seq") {
+  test("takeWhile with Seq") {
     val expected = Seq(0, 1, 1, 2)
     val f: Int => Boolean = e => e != 3
     val obtained = exampleSeq.takeWhile(f)
     assert(obtained === expected)
   }
 
-  it("takeWhile") {
+  test("takeWhile") {
     val expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2))
     val f: Int => Boolean = e => e != 3
     val obtained = Min().takeWhile(example, f)
     assert(obtained === expected)
   }
 
-  it("dropWhile with Seq") {
+  test("dropWhile with Seq") {
     val expected = Seq(3, 5, 8)
     val f: Int => Boolean = e => e != 3
     val obtained = exampleSeq.dropWhile(f)
     assert(obtained === expected)
   }
 
-  it("dropWhile") {
+  test("dropWhile") {
     val expected = MSeqTranslator().asMSeq(Seq(3, 5, 8))
     val f: Int => Boolean = e => e != 3
     val obtained = Min().dropWhile(example, f)
     assert(obtained === expected)
   }
 
-  it("splitAt with Seq") {
+  test("splitAt with Seq") {
     val expected = (Seq(0, 1, 1), Seq(2, 3, 5, 8))
     val obtained = exampleSeq.splitAt(3)
     assert(obtained === expected)
   }
 
-  it("splitAt") {
+  test("splitAt") {
     val expected = (MSeqTranslator().asMSeq(Seq(0, 1, 1)), MSeqTranslator().asMSeq(Seq(2, 3, 5, 8)))
     val obtained = Min().splitAt(example, 3)
     assert(obtained === expected)
   }
 
-  it("span with Seq") {
+  test("span with Seq") {
     val expected = (Seq(0, 1, 1, 2, 3), Seq(5, 8))
     val obtained = exampleSeq.span(x => x != 5)
     assert(obtained === expected)
   }
 
-  it("span") {
+  test("span") {
     val expected = (MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator().asMSeq(Seq(5, 8)))
     val obtained = Min().span(example, (x: Int) => x != 5)
     assert(obtained === expected)
@@ -184,26 +184,26 @@ case class MinSpec() extends AnyFunSpec {
 
   //
 
-  it("append") {
+  test("append") {
     val expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13))
     val obtained = Min().appended(example, 13)
     assert(obtained === expected)
   }
 
-  it("last") {
+  test("last") {
     val expected = 8
     val obtained = Min().last(example)
     assert(obtained === expected)
   }
 
-  it("concat") {
+  test("concat") {
     val expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
     val second = MSeqTranslator().asMSeq(Seq(13, 21, 34, 55))
     val obtained = Min().concat(example, second)
     assert(obtained === expected)
   }
 
-  it("slice with Seq") {
+  test("slice with Seq") {
     val expected0 = Seq(1, 2, 3)
     val obtained0 = exampleSeq.slice(2, 5)
     assert(obtained0 === expected0)
@@ -229,7 +229,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained5 === expected5)
   }
 
-  it("slice") {
+  test("slice") {
     val expected0 = MSeqTranslator().asMSeq(Seq(1, 2, 3))
     val obtained0 = Min().slice(example, 2, 5)
     assert(obtained0 === expected0)
@@ -257,7 +257,7 @@ case class MinSpec() extends AnyFunSpec {
 
   //
 
-  it("forall with Seq") {
+  test("forall with Seq") {
     val expected0 = true
     val pred0: Int => Boolean = x => x != 7
     val obtained0 = exampleSeq.forall(pred0)
@@ -274,7 +274,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("forall") {
+  test("forall") {
     val expected0 = true
     val pred0: Int => Boolean = x => x != 7
     val obtained0 = Min().forall(example, pred0)
@@ -291,7 +291,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("exists with Seq") {
+  test("exists with Seq") {
     val expected0 = true
     val pred0: Int => Boolean = x => x == 8
     val obtained0 = exampleSeq.exists(pred0)
@@ -308,7 +308,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("exists") {
+  test("exists") {
     val expected0 = true
     val pred0: Int => Boolean = x => x == 8
     val obtained0 = Min().exists(example, pred0)
@@ -325,7 +325,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("find with Seq") {
+  test("find with Seq") {
     val expected0 = Some(0)
     val pred0: Int => Boolean = x => x != 7
     val obtained0 = exampleSeq.find(pred0)
@@ -342,7 +342,7 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("find") {
+  test("find") {
     val expected0 = Some(0)
     val pred0: Int => Boolean = x => x != 7
     val obtained0 = Min().find(example, pred0)
@@ -359,41 +359,41 @@ case class MinSpec() extends AnyFunSpec {
     assert(obtained2 === expected2)
   }
 
-  it("filter with Seq") {
+  test("filter with Seq") {
     val expected = Seq(0, 3)
     val pred: Int => Boolean = x => x % 3 == 0
     val obtained = exampleSeq.filter(pred)
     assert(obtained === expected)
   }
 
-  it("filter") {
+  test("filter") {
     val expected = MSeqTranslator().asMSeq(Seq(0, 3))
     val f: Int => Boolean = x => x % 3 == 0
     val obtained = Min().filter(example, f)
     assert(obtained === expected)
   }
 
-  it("map with Seq") {
+  test("map with Seq") {
     val expected = Seq(100, 101, 101, 102, 103, 105, 108)
     val f: Int => Int = x => x + 100
     val obtained = exampleSeq.map(f)
     assert(obtained === expected)
   }
 
-  it("map in the same type") {
+  test("map in the same type") {
     val expected = MSeqTranslator().asMSeq(Seq(100, 101, 101, 102, 103, 105, 108))
     val f: Int => Int = x => x + 100
     val obtained = Min().map0(example, f)
     assert(obtained === expected)
   }
 
-  it("foldLeft with Seq") {
+  test("foldLeft with Seq") {
     val expected = Seq(108, 105, 103, 102, 101, 101, 100)
     val obtained = exampleSeq.foldLeft(Seq[Int]())((s: Seq[Int], e: Int) => s.prepended((e + 100)))
     assert(obtained === expected)
   }
 
-  it("foldLeft in the same type") {
+  test("foldLeft in the same type") {
     val expected = MSeqTranslator().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
     val obtained = Min().foldLeft0(example)(Min().empty,
       (s: MSeq[Int], e: Int) => Min().prepended(s, e + 100)
