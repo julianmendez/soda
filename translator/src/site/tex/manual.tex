@@ -9,11 +9,11 @@
 
 
 \lstdefinelanguage{Scopus}{
-morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, @override, @tailrec, @main},
-sensitive=true, % keywords are not case-sensitive
-morecomment=[l]{//}, % l is for line comment
-morecomment=[s]{/*}{*/}, % s is for start and end delimiter
-morestring=[b]" % defines that strings are enclosed in double quotes
+    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, @override, @tailrec, @main},
+    sensitive=true, % keywords are not case-sensitive
+    morecomment=[l]{//}, % l is for line comment
+    morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+    morestring=[b]" % defines that strings are enclosed in double quotes
 } %
 
 
@@ -296,6 +296,11 @@ morestring=[b]" % defines that strings are enclosed in double quotes
 
     In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
     The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
+
+    It is important to observe that the syntax in \Scopus does not restrict the definition of constants in a class that depends from a constructor from the same class.
+    Since the evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
+    The solution to this situation is to use a function without parameters instead of a constant.
+    This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
 
 
     \section{Private Objects}
