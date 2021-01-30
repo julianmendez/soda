@@ -13,7 +13,7 @@ case class CommentPreprocessor() {
     identifyComments(lines, commentState = false, Seq())
 
   @tailrec
-  final def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] = {
+  final def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
     if (lines.isEmpty) {
       annotatedLinesRev.reverse
     } else {
@@ -29,7 +29,6 @@ case class CommentPreprocessor() {
       }
       identifyComments(lines.tail, newCommentState, annotatedLinesRev.prepended(AnnotatedLine(line, currentState)))
     }
-  }
 
 }
 

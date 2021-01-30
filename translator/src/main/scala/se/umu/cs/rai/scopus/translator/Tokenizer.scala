@@ -15,7 +15,7 @@ case class Tokenizer() {
       .reverse
 
   @tailrec
-  final def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] = {
+  final def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if (currentIndex >= line.length) {
       val text = line.substring(lastIndex)
       revTokens.prepended(Token(text, parserState, lastIndex))
@@ -39,6 +39,5 @@ case class Tokenizer() {
         }
       tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }
-  }
 
 }

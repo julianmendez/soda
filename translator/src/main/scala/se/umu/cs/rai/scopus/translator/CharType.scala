@@ -14,7 +14,7 @@ case class CharType() {
   val UnderscoreChar = '_'
   val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
-  def charType(ch: Char): Int = {
+  def charType(ch: Char): Int =
     if (isQuotes(ch)) {
       QuotesType
     } else if (isApostrophe(ch)) {
@@ -26,7 +26,6 @@ case class CharType() {
     } else {
       UndefinedType
     }
-  }
 
   def isWhitespace(ch: Char): Boolean =
     ch.isWhitespace
