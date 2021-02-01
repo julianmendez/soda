@@ -1,6 +1,6 @@
 ---
 - - version: v0.2.1
-  - date: *unreleased*
+  - date: '2021-02-01'
   - new_features:
     - includes a highlighting configuration file for [gedit](https://gitlab.gnome.org/GNOME/gedit/)
     - renames a synonym, before it was `that` and now is
