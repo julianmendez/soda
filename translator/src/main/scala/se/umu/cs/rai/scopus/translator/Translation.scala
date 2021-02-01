@@ -8,56 +8,6 @@ case class Translation() {
   val ScalaValue: String = "val"
   val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  def SynonymAtBeginning: Seq[(String, String)] = Seq(
-    ("*", "class"),
-    ("-", "has"),
-    ("+", "import")
-  )
-
-  def TranslationAtBeginningWithParen: Seq[(String, String)] = Seq(
-    ("class", "case class"),
-    ("has", "def")
-  )
-
-  def TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
-    ("class", "trait"),
-    ("has", "val"),
-    ("package", "package"),
-    ("import", "import"),
-
-    /** Annotations */
-    ("@override", "override"),
-    ("@tailrec", "@tailrec final"),
-    ("@main", ScalaEntryPoint)
-  )
-
-
-  def Synonym: Seq[(String, String)] = Seq(
-    ("is", "="),
-    ("in", ":"),
-    ("\u2208", ":"),
-    ("to", "->"),
-    ("suchthat", "->"),
-    ("\u2192", "->")
-  )
-
-  def Translation: Seq[(String, String)] = Seq(
-    (":", ":"),
-    ("->", "=>"),
-    ("if", "if ("),
-    ("then", ")"),
-    ("else", "else"),
-    ("extends", "extends"),
-    ("with", "with"),
-    ("this", "this"),
-    ("false", "false"),
-    ("true", "true"),
-    ("not", "!"),
-    ("and", "&&"),
-    ("or", "||"),
-    ("new", "new")
-  )
-
   val ScopusReservedWords = Seq(
     "=",
     ":",
@@ -143,6 +93,56 @@ case class Translation() {
     "@",
     "\u21D2",
     "\u2190"
+  )
+
+  def SynonymAtBeginning: Seq[(String, String)] = Seq(
+    ("*", "class"),
+    ("-", "has"),
+    ("+", "import")
+  )
+
+  def TranslationAtBeginningWithParen: Seq[(String, String)] = Seq(
+    ("class", "case class"),
+    ("has", "def")
+  )
+
+  def TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
+    ("class", "trait"),
+    ("has", "val"),
+    ("package", "package"),
+    ("import", "import"),
+
+    /** Annotations */
+    ("@override", "override"),
+    ("@tailrec", "@tailrec final"),
+    ("@main", ScalaEntryPoint)
+  )
+
+
+  def Synonym: Seq[(String, String)] = Seq(
+    ("is", "="),
+    ("in", ":"),
+    ("\u2208", ":"),
+    ("to", "->"),
+    ("suchthat", "->"),
+    ("\u2192", "->")
+  )
+
+  def Translation: Seq[(String, String)] = Seq(
+    (":", ":"),
+    ("->", "=>"),
+    ("if", "if ("),
+    ("then", ")"),
+    ("else", "else"),
+    ("extends", "extends"),
+    ("with", "with"),
+    ("this", "this"),
+    ("false", "false"),
+    ("true", "true"),
+    ("not", "!"),
+    ("and", "&&"),
+    ("or", "||"),
+    ("new", "new")
   )
 
   def isScalaWord(word: String): Boolean = ScalaReservedWords.contains(word)

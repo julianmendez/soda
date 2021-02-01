@@ -1,10 +1,9 @@
 package se.umu.cs.rai.scopus.translator
 
-import java.nio.file.{Files, Paths}
-
 import org.scalatest.Assertion
 import org.scalatest.funsuite.AnyFunSuite
 
+import java.nio.file.{Files, Paths}
 import scala.language.implicitConversions
 
 case class MicroTranslatorSpec() extends AnyFunSuite {
@@ -38,18 +37,18 @@ case class MicroTranslatorSpec() extends AnyFunSuite {
     assert(obtainedFile === expectedFile)
   }
 
-  def readFile(fileName: String): String = {
-    val documentResource = getClass.getResource(fileName)
-    val documentURI = documentResource.toURI
-    val documentPath = Paths.get(documentURI)
-    new String(Files.readAllBytes(documentPath))
-  }
-
   def testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
     val expectedFile = readFile(expectedFileName)
     val obtainedFile = MicroTranslator().translateProgram(inputFile)
     assert(obtainedFile === expectedFile)
+  }
+
+  def readFile(fileName: String): String = {
+    val documentResource = getClass.getResource(fileName)
+    val documentURI = documentResource.toURI
+    val documentPath = Paths.get(documentURI)
+    new String(Files.readAllBytes(documentPath))
   }
 
   test("should translate the swap example") {
