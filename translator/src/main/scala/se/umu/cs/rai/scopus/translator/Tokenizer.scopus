@@ -17,22 +17,20 @@ package se.umu.cs.rai.scopus.translator
 
   @tailrec
   tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
-    if currentIndex >= line.length then {
-      text = line.substring(lastIndex)
-      revTokens.prepended(Token(text, parserState, lastIndex))
-    } else {
+    if currentIndex >= line.length
+    then revTokens.prepended(Token(line.substring(lastIndex), parserState, lastIndex))
+    else {
       ch = line.charAt(currentIndex)
       charType = CharType().charType(ch)
       newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
       (newLastIndex, newCurrentIndex, newRevTokens) =
-        if newParserState == parserState then
-          (lastIndex, currentIndex + 1, revTokens)
+        if newParserState == parserState
+        then (lastIndex, currentIndex + 1, revTokens)
         else {
           index =
-            if parserState == ParserState().QuotesState or parserState == ParserState().ApostropheState then
-              currentIndex + 1
-            else
-              currentIndex
+            if parserState == ParserState().QuotesState or parserState == ParserState().ApostropheState
+            then currentIndex + 1
+            else currentIndex
 
           text = line.substring(lastIndex, index)
           (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))

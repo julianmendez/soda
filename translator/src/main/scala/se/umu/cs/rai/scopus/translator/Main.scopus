@@ -39,22 +39,24 @@ package se.umu.cs.rai.scopus.translator
   }
 
   main(args: Array[String]): Unit =
-    if args.length == 1 then
+    if args.length == 1
+    then {
       (inputFileName, outputFileName) = getInputOutputFileNames(args(0))
       translate(inputFileName, outputFileName)
-    else if args.length == 2 then
+    }
+    else if args.length == 2
+    then {
       inputFileName = args(0)
       outputFileName = args(1)
       translate(inputFileName, outputFileName)
-    else
-      println(getTitleAndVersion + Help)
+    }
+    else println(getTitleAndVersion + Help)
 
 
   getInputOutputFileNames(inputName: String): (String, String) =
-    if inputName.endsWith(ScopusExtension) then
-      (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
-    else
-      (inputName + ScopusExtension, inputName + ScalaExtension)
+    if inputName.endsWith(ScopusExtension)
+    then (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
+    else (inputName + ScopusExtension, inputName + ScalaExtension)
 
   translate(inputFileName: String, outputFileName: String): Unit = {
     input = readFile(inputFileName)

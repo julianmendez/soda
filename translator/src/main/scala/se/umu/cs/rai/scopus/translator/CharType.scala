@@ -15,16 +15,11 @@ case class CharType() {
   val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   def charType(ch: Char): Int =
-    if ( isQuotes(ch) )
-      QuotesType
-    else if ( isApostrophe(ch) )
-      ApostropheChar
-    else if ( isBackslash(ch) )
-      BackslashType
-    else if ( isWhitespace(ch) || isLetterOrDigitOrUnderscore(ch) || isSymbol(ch) )
-      PlainType
-    else
-      UndefinedType
+    if ( isQuotes(ch) ) QuotesType
+    else if ( isApostrophe(ch) ) ApostropheChar
+    else if ( isBackslash(ch) ) BackslashType
+    else if ( isWhitespace(ch) || isLetterOrDigitOrUnderscore(ch) || isSymbol(ch) ) PlainType
+    else UndefinedType
 
   def isWhitespace(ch: Char): Boolean =
     ch.isWhitespace

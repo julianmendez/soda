@@ -39,22 +39,24 @@ case class Main() {
   }
 
   def main(args: Array[String]): Unit =
-    if ( args.length == 1 )
+    if ( args.length == 1
+    ) {
       val (inputFileName, outputFileName) = getInputOutputFileNames(args(0))
       translate(inputFileName, outputFileName)
-    else if ( args.length == 2 )
+    }
+    else if ( args.length == 2
+    ) {
       val inputFileName = args(0)
       val outputFileName = args(1)
       translate(inputFileName, outputFileName)
-    else
-      println(getTitleAndVersion + Help)
+    }
+    else println(getTitleAndVersion + Help)
 
 
   def getInputOutputFileNames(inputName: String): (String, String) =
-    if ( inputName.endsWith(ScopusExtension) )
-      (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
-    else
-      (inputName + ScopusExtension, inputName + ScalaExtension)
+    if ( inputName.endsWith(ScopusExtension)
+    ) (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
+    else (inputName + ScopusExtension, inputName + ScalaExtension)
 
   def translate(inputFileName: String, outputFileName: String): Unit = {
     val input = readFile(inputFileName)

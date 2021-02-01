@@ -17,22 +17,20 @@ case class Tokenizer() {
 
   @tailrec final
   def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
-    if ( currentIndex >= line.length ) {
-      val text = line.substring(lastIndex)
-      revTokens.prepended(Token(text, parserState, lastIndex))
-    } else {
+    if ( currentIndex >= line.length
+    ) revTokens.prepended(Token(line.substring(lastIndex), parserState, lastIndex))
+    else {
       val ch = line.charAt(currentIndex)
       val charType = CharType().charType(ch)
       val newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
       val (newLastIndex, newCurrentIndex, newRevTokens) =
-        if ( newParserState == parserState )
-          (lastIndex, currentIndex + 1, revTokens)
+        if ( newParserState == parserState
+        ) (lastIndex, currentIndex + 1, revTokens)
         else {
           val index =
-            if ( parserState == ParserState().QuotesState || parserState == ParserState().ApostropheState )
-              currentIndex + 1
-            else
-              currentIndex
+            if ( parserState == ParserState().QuotesState || parserState == ParserState().ApostropheState
+            ) currentIndex + 1
+            else currentIndex
 
           val text = line.substring(lastIndex, index)
           (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))

@@ -14,17 +14,17 @@ case class CommentPreprocessor() {
 
   @tailrec final
   def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
-    if ( lines.isEmpty )
-      annotatedLinesRev.reverse
+    if ( lines.isEmpty
+    ) annotatedLinesRev.reverse
     else {
       val line = lines.head
-      val (currentState, newCommentState) = if ( commentState )
-        (true, !line.trim.endsWith(ScopusEndComment))
-      else
-        if ( line.trim.startsWith(ScopusBeginComment) )
-          (true, !line.trim.endsWith(ScopusEndComment))
+      val (currentState, newCommentState) =
+        if ( commentState
+        ) (true, !line.trim.endsWith(ScopusEndComment))
         else
-          (false, false)
+          if ( line.trim.startsWith(ScopusBeginComment)
+          ) (true, !line.trim.endsWith(ScopusEndComment))
+          else (false, false)
 
       identifyComments(lines.tail, newCommentState, annotatedLinesRev.prepended(AnnotatedLine(line, currentState)))
     }

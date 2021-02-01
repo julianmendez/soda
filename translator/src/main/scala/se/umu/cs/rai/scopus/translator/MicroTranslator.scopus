@@ -22,16 +22,16 @@ package se.umu.cs.rai.scopus.translator
   addSpaceToScopusLine(line: String): String = ScopusSpace + line + ScopusSpace
 
   removeSpaceFromScalaLine(line: String): String = {
-    lineWithoutStartingSpace = if line.startsWith(ScalaSpace) then {
-      line.substring(1)
-    } else {
-      line
-    }
-    lineWithoutEndingSpace = if lineWithoutStartingSpace.endsWith(ScalaSpace) then {
-      lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
-    } else {
-      lineWithoutStartingSpace
-    }
+    lineWithoutStartingSpace =
+      if line.startsWith(ScalaSpace)
+      then line.substring(1)
+      else line
+
+    lineWithoutEndingSpace =
+      if lineWithoutStartingSpace.endsWith(ScalaSpace)
+      then lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
+      else lineWithoutStartingSpace
+
     lineWithoutEndingSpace
   }
 
@@ -46,10 +46,10 @@ package se.umu.cs.rai.scopus.translator
   translateLines(lines: Seq[String]): Seq[String] =
     CommentPreprocessor()
       .annotateLines(lines)
-      .map(annotatedLine -> {
-        if annotatedLine.isComment then {
-          annotatedLine.line
-        } else {
+      .map(annotatedLine ->
+        if annotatedLine.isComment
+        then annotatedLine.line
+        else {
           line = annotatedLine.line
           lineWithSpace = addSpaceToScopusLine(line)
           tokenizedLine = tokenize(lineWithSpace)
@@ -58,30 +58,30 @@ package se.umu.cs.rai.scopus.translator
           finalLine = removeSpaceFromScalaLine(jointLine)
           finalLine
         }
-      })
+      )
 
   translateLine(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
-      token -> if token.parserState == ParserState().Plain then {
-        currentLine = token.text
-        newText = Option(currentLine)
-          .flatMap(line -> replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
-          .flatMap(line -> replace(line, Translation().Synonym, onlyBeginning=false))
-          .flatMap(line -> tryDefinition(line))
-          .flatMap(line -> replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
-          .flatMap(line -> replace(line, Translation().Translation, onlyBeginning=false))
-          .getOrElse(currentLine)
-        Token(newText, token.parserState, token.index)
-      } else {
-        token
-      })
+      token ->
+        if token.parserState == ParserState().Plain
+        then {
+          currentLine = token.text
+          newText = Option(currentLine)
+            .flatMap(line -> replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
+            .flatMap(line -> replace(line, Translation().Synonym, onlyBeginning=false))
+            .flatMap(line -> tryDefinition(line))
+            .flatMap(line -> replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
+            .flatMap(line -> replace(line, Translation().Translation, onlyBeginning=false))
+            .getOrElse(currentLine)
+          Token(newText, token.parserState, token.index)
+        }
+        else token
+    )
 
   getTranslationTableAtBeginning(line: String): Seq[(String, String)] =
-    if line.contains(ScopusOpeningParenthesis) then {
-      Translation().TranslationAtBeginningWithParen
-    } else {
-      Translation().TranslationAtBeginningWithoutParen
-    }
+    if line.contains(ScopusOpeningParenthesis)
+    then Translation().TranslationAtBeginningWithParen
+    else Translation().TranslationAtBeginningWithoutParen
 
   /**
    * A line containing the definition sign will be classified as a definition.
@@ -101,7 +101,8 @@ package se.umu.cs.rai.scopus.translator
    */
   tryDefinition(line: String): Some[String] = {
     maybePosition = findDefinition(line)
-    if maybePosition.nonEmpty then {
+    if maybePosition.nonEmpty
+    then {
       positionOfDefinitionSign = maybePosition.get
       positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
 
@@ -109,14 +110,11 @@ package se.umu.cs.rai.scopus.translator
       case2 = line.trim.startsWith(ScopusOpeningParenthesis)
       case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
 
-      if case1 or case2 or case3 then {
-        Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
-      } else {
-        Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
-      }
-    } else {
-      Some(line)
+      if case1 or case2 or case3
+      then Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
     }
+    else Some(line)
   }
 
 
@@ -128,16 +126,13 @@ package se.umu.cs.rai.scopus.translator
    * @return maybe the position of the definition sign
    */
   findDefinition(line: String): Option[Int] = {
-    position = if line.endsWith(ScopusSpace + Translation().ScopusDefinition) then {
-      line.length - Translation().ScopusDefinition.length
-    } else {
-      line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
-    }
-    if position == -1 then {
-      None
-    } else {
-      Some(position)
-    }
+    position =
+      if line.endsWith(ScopusSpace + Translation().ScopusDefinition)
+      then line.length - Translation().ScopusDefinition.length
+      else line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    if position == -1
+    then None
+    else Some(position)
   }
 
   replaceAll(line: String, pattern: String, replacement: String): String =
@@ -146,11 +141,12 @@ package se.umu.cs.rai.scopus.translator
   @tailrec
   replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
     pos = line.indexOf(pattern)
-    if pos == -1 then {
+    if pos == -1
+    then
       replacedTextRev.prepended(line)
         .reverse
         .mkString("")
-    } else {
+    else {
       newReplacedTextRev = replacedTextRev.prepended(line.substring(0, pos) + replacement)
       newLine = line.substring(pos + pattern.length)
       replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
@@ -158,11 +154,9 @@ package se.umu.cs.rai.scopus.translator
   }
 
   replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] =
-    if index == 0 then {
-      replace(line, translationTable, onlyBeginning=true)
-    } else {
-      Some(line)
-    }
+    if index == 0
+    then replace(line, translationTable, onlyBeginning=true)
+    else Some(line)
 
 
   replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
@@ -172,9 +166,9 @@ package se.umu.cs.rai.scopus.translator
 
   @tailrec
   replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
-    if toReplace.isEmpty then {
-      line
-    } else {
+    if toReplace.isEmpty
+    then line
+    else {
       reservedWord = toReplace.head
       alreadyProcessedLine =
         replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
@@ -183,11 +177,9 @@ package se.umu.cs.rai.scopus.translator
 
   replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =
     if (onlyBeginning and line.trim.startsWith(pattern.trim)) or
-      ( not onlyBeginning and line.contains(pattern)) then {
-      replaceAll(line, pattern, newText)
-    } else {
-      line
-    }
+      ( not onlyBeginning and line.contains(pattern))
+    then replaceAll(line, pattern, newText)
+    else line
 
   addAfterSpaces(textToPrepend: String, line: String): String = {
     prefixLength = line.takeWhile(ch -> ch.isSpaceChar).length
@@ -195,10 +187,8 @@ package se.umu.cs.rai.scopus.translator
   }
 
   addIfNonEmpty(textToPrepend: String, line: String): String =
-    if line.trim.isEmpty then {
-      line
-    } else {
-      textToPrepend + line
-    }
+    if line.trim.isEmpty
+    then line
+    else textToPrepend + line
 
 }

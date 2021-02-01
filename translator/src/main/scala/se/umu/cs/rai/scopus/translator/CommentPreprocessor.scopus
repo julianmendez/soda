@@ -14,17 +14,17 @@ package se.umu.cs.rai.scopus.translator
 
   @tailrec
   identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
-    if lines.isEmpty then
-      annotatedLinesRev.reverse
+    if lines.isEmpty
+    then annotatedLinesRev.reverse
     else {
       line = lines.head
-      (currentState, newCommentState) = if commentState then
-        (true, !line.trim.endsWith(ScopusEndComment))
-      else
-        if line.trim.startsWith(ScopusBeginComment) then
-          (true, !line.trim.endsWith(ScopusEndComment))
+      (currentState, newCommentState) =
+        if commentState
+        then (true, !line.trim.endsWith(ScopusEndComment))
         else
-          (false, false)
+          if line.trim.startsWith(ScopusBeginComment)
+          then (true, !line.trim.endsWith(ScopusEndComment))
+          else (false, false)
 
       identifyComments(lines.tail, newCommentState, annotatedLinesRev.prepended(AnnotatedLine(line, currentState)))
     }
