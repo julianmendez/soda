@@ -3,6 +3,10 @@ package se.umu.cs.rai.scopus.translator
 import java.io.FileWriter
 import java.nio.file.{Files, Paths}
 
+object EntryPoint {
+  def main(args: Array[String]): Unit = Main().main(args)
+}
+
 /**
  * This is the main entry point.
  */

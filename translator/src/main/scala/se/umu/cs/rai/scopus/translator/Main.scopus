@@ -3,6 +3,7 @@ package se.umu.cs.rai.scopus.translator
 + java.io.FileWriter
 + java.nio.file.{Files, Paths}
 
+@main
 /**
  * This is the main entry point.
  */
