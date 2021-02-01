@@ -1,0 +1,47 @@
+package se.umu.cs.rai.scopus.translator
+
+* CharType() {
+
+  UndefinedType = 0
+  QuotesType = 1
+  ApostropheType = 2
+  BackslashType = 3
+  PlainType = 4
+
+  BackslashChar = '\\'
+  QuotesChar = '\"'
+  ApostropheChar = '\''
+  UnderscoreChar = '_'
+  SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+
+  charType(ch: Char): Int =
+    if isQuotes(ch) then
+      QuotesType
+    else if isApostrophe(ch) then
+      ApostropheChar
+    else if isBackslash(ch) then
+      BackslashType
+    else if isWhitespace(ch) or isLetterOrDigitOrUnderscore(ch) or isSymbol(ch) then
+      PlainType
+    else
+      UndefinedType
+
+  isWhitespace(ch: Char): Boolean =
+    ch.isWhitespace
+
+  isLetterOrDigitOrUnderscore(ch: Char): Boolean =
+    ch.isLetterOrDigit or ch == UnderscoreChar
+
+  isSymbol(ch: Char): Boolean =
+    SymbolChars.contains(ch)
+
+  isQuotes(ch: Char): Boolean =
+    ch == QuotesChar
+
+  isApostrophe(ch: Char): Boolean =
+    ch == ApostropheChar
+
+  isBackslash(ch: Char): Boolean =
+    ch == BackslashChar
+
+}

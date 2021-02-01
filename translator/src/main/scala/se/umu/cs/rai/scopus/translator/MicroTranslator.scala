@@ -22,12 +22,12 @@ case class MicroTranslator() {
   def addSpaceToScopusLine(line: String): String = ScopusSpace + line + ScopusSpace
 
   def removeSpaceFromScalaLine(line: String): String = {
-    val lineWithoutStartingSpace = if (line.startsWith(ScalaSpace)) {
+    val lineWithoutStartingSpace = if ( line.startsWith(ScalaSpace) ) {
       line.substring(1)
     } else {
       line
     }
-    val lineWithoutEndingSpace = if (lineWithoutStartingSpace.endsWith(ScalaSpace)) {
+    val lineWithoutEndingSpace = if ( lineWithoutStartingSpace.endsWith(ScalaSpace) ) {
       lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
     } else {
       lineWithoutStartingSpace
@@ -47,7 +47,7 @@ case class MicroTranslator() {
     CommentPreprocessor()
       .annotateLines(lines)
       .map(annotatedLine => {
-        if (annotatedLine.isComment) {
+        if ( annotatedLine.isComment ) {
           annotatedLine.line
         } else {
           val line = annotatedLine.line
@@ -62,14 +62,14 @@ case class MicroTranslator() {
 
   def translateLine(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
-      token => if (token.parserState == ParserState().Plain) {
+      token => if ( token.parserState == ParserState().Plain ) {
         val currentLine = token.text
         val newText = Option(currentLine)
           .flatMap(line => replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
-          .flatMap(line => replace(line, Translation().Synonym, onlyBeginning = false))
+          .flatMap(line => replace(line, Translation().Synonym, onlyBeginning=false))
           .flatMap(line => tryDefinition(line))
           .flatMap(line => replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
-          .flatMap(line => replace(line, Translation().Translation, onlyBeginning = false))
+          .flatMap(line => replace(line, Translation().Translation, onlyBeginning=false))
           .getOrElse(currentLine)
         Token(newText, token.parserState, token.index)
       } else {
@@ -77,7 +77,7 @@ case class MicroTranslator() {
       })
 
   def getTranslationTableAtBeginning(line: String): Seq[(String, String)] =
-    if (line.contains(ScopusOpeningParenthesis)) {
+    if ( line.contains(ScopusOpeningParenthesis) ) {
       Translation().TranslationAtBeginningWithParen
     } else {
       Translation().TranslationAtBeginningWithoutParen
@@ -101,7 +101,7 @@ case class MicroTranslator() {
    */
   def tryDefinition(line: String): Some[String] = {
     val maybePosition = findDefinition(line)
-    if (maybePosition.nonEmpty) {
+    if ( maybePosition.nonEmpty ) {
       val positionOfDefinitionSign = maybePosition.get
       val positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
 
@@ -109,7 +109,7 @@ case class MicroTranslator() {
       val case2 = line.trim.startsWith(ScopusOpeningParenthesis)
       val case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
 
-      if (case1 || case2 || case3) {
+      if ( case1 || case2 || case3 ) {
         Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
       } else {
         Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
@@ -128,12 +128,12 @@ case class MicroTranslator() {
    * @return maybe the position of the definition sign
    */
   def findDefinition(line: String): Option[Int] = {
-    val position = if (line.endsWith(ScopusSpace + Translation().ScopusDefinition)) {
+    val position = if ( line.endsWith(ScopusSpace + Translation().ScopusDefinition) ) {
       line.length - Translation().ScopusDefinition.length
     } else {
       line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
     }
-    if (position == -1) {
+    if ( position == -1 ) {
       None
     } else {
       Some(position)
@@ -143,10 +143,10 @@ case class MicroTranslator() {
   def replaceAll(line: String, pattern: String, replacement: String): String =
     replaceAllRec(line, pattern, replacement, Seq())
 
-  @tailrec
-  final def replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
+  @tailrec final
+  def replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
     val pos = line.indexOf(pattern)
-    if (pos == -1) {
+    if ( pos == -1 ) {
       replacedTextRev.prepended(line)
         .reverse
         .mkString("")
@@ -158,8 +158,8 @@ case class MicroTranslator() {
   }
 
   def replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] =
-    if (index == 0) {
-      replace(line, translationTable, onlyBeginning = true)
+    if ( index == 0 ) {
+      replace(line, translationTable, onlyBeginning=true)
     } else {
       Some(line)
     }
@@ -170,9 +170,9 @@ case class MicroTranslator() {
     Some(replaceRec(line, keys, translationTable.toMap, onlyBeginning))
   }
 
-  @tailrec
-  final def replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
-    if (toReplace.isEmpty) {
+  @tailrec final
+  def replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
+    if ( toReplace.isEmpty ) {
       line
     } else {
       val reservedWord = toReplace.head
@@ -182,8 +182,8 @@ case class MicroTranslator() {
     }
 
   def replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =
-    if ((onlyBeginning && line.trim.startsWith(pattern.trim)) ||
-      (!onlyBeginning && line.contains(pattern))) {
+    if ( (onlyBeginning && line.trim.startsWith(pattern.trim)) ||
+      ( ! onlyBeginning && line.contains(pattern)) ) {
       replaceAll(line, pattern, newText)
     } else {
       line
@@ -195,7 +195,7 @@ case class MicroTranslator() {
   }
 
   def addIfNonEmpty(textToPrepend: String, line: String): String =
-    if (line.trim.isEmpty) {
+    if ( line.trim.isEmpty ) {
       line
     } else {
       textToPrepend + line

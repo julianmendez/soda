@@ -4,7 +4,8 @@ import scala.annotation.tailrec
 
 case class Token(text: String, parserState: Int, index: Int) {
 
-  override def toString: String =
+  override
+  val toString: String =
     "(\"" + text + "\"," + parserState + ", " + index + ")"
 }
 
@@ -14,9 +15,9 @@ case class Tokenizer() {
     tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
-  @tailrec
-  final def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
-    if (currentIndex >= line.length) {
+  @tailrec final
+  def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
+    if ( currentIndex >= line.length ) {
       val text = line.substring(lastIndex)
       revTokens.prepended(Token(text, parserState, lastIndex))
     } else {
@@ -24,16 +25,15 @@ case class Tokenizer() {
       val charType = CharType().charType(ch)
       val newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
       val (newLastIndex, newCurrentIndex, newRevTokens) =
-        if (newParserState == parserState) {
+        if ( newParserState == parserState )
           (lastIndex, currentIndex + 1, revTokens)
-        }
         else {
           val index =
-            if (parserState == ParserState().QuotesState || parserState == ParserState().ApostropheState) {
+            if ( parserState == ParserState().QuotesState || parserState == ParserState().ApostropheState )
               currentIndex + 1
-            } else {
+            else
               currentIndex
-            }
+
           val text = line.substring(lastIndex, index)
           (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
         }

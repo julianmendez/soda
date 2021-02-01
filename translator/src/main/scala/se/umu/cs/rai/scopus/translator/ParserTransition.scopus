@@ -1,17 +1,17 @@
 package se.umu.cs.rai.scopus.translator
 
-case class ParserState() {
-  val UndefinedState = 0
-  val QuotesState = 1
-  val ApostropheState = 2
-  val QuotesBackslashState = 3
-  val ApostropheBackslashState = 4
-  val Plain = 5
+* ParserState() {
+  UndefinedState = 0
+  QuotesState = 1
+  ApostropheState = 2
+  QuotesBackslashState = 3
+  ApostropheBackslashState = 4
+  Plain = 5
 }
 
-case class ParserTransition() {
+* ParserTransition() {
 
-  def TransitionsThatChangeStates: Map[(Int, Int), Int] =
+  TransitionsThatChangeStates: Map[(Int, Int), Int] =
     Map(
       ((ParserState().QuotesState, CharType().UndefinedType), ParserState().UndefinedState),
       ((ParserState().QuotesState, CharType().QuotesType), ParserState().Plain),
@@ -40,7 +40,7 @@ case class ParserTransition() {
       ((ParserState().Plain, CharType().PlainType), ParserState().Plain),
     )
 
-  def nextParserState(parserState: Int, charType: Int): Int =
+  nextParserState(parserState: Int, charType: Int): Int =
     TransitionsThatChangeStates.getOrElse((parserState, charType), parserState)
 
 }

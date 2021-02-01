@@ -1,17 +1,17 @@
 package se.umu.cs.rai.scopus.translator
 
-import java.io.FileWriter
-import java.nio.file.{Files, Paths}
++ java.io.FileWriter
++ java.nio.file.{Files, Paths}
 
 /**
  * This is the main entry point.
  */
-case class Main() {
+* Main() {
 
-  val ScopusExtension: String = ".scopus"
-  val ScalaExtension: String = ".scala"
+  ScopusExtension: String = ".scopus"
+  ScalaExtension: String = ".scala"
 
-  val Help: String = "\n" +
+  Help: String = "\n" +
     "\nUsage:" +
     "\n  scopus SCOPUS_SCALA_INPUT" +
     "\nor" +
@@ -31,40 +31,40 @@ case class Main() {
     "\n"
 
 
-  val getTitleAndVersion: String = {
-    val packg = this.getClass.getPackage
-    val name = Option(packg.getImplementationTitle).getOrElse("")
-    val version = Option(packg.getImplementationVersion).getOrElse("")
+  getTitleAndVersion: String = {
+    packg = this.getClass.getPackage
+    name = Option(packg.getImplementationTitle).getOrElse("")
+    version = Option(packg.getImplementationVersion).getOrElse("")
     (name + " " + version).trim
   }
 
-  def main(args: Array[String]): Unit =
-    if ( args.length == 1 )
-      val (inputFileName, outputFileName) = getInputOutputFileNames(args(0))
+  main(args: Array[String]): Unit =
+    if args.length == 1 then
+      (inputFileName, outputFileName) = getInputOutputFileNames(args(0))
       translate(inputFileName, outputFileName)
-    else if ( args.length == 2 )
-      val inputFileName = args(0)
-      val outputFileName = args(1)
+    else if args.length == 2 then
+      inputFileName = args(0)
+      outputFileName = args(1)
       translate(inputFileName, outputFileName)
     else
       println(getTitleAndVersion + Help)
 
 
-  def getInputOutputFileNames(inputName: String): (String, String) =
-    if ( inputName.endsWith(ScopusExtension) )
+  getInputOutputFileNames(inputName: String): (String, String) =
+    if inputName.endsWith(ScopusExtension) then
       (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
     else
       (inputName + ScopusExtension, inputName + ScalaExtension)
 
-  def translate(inputFileName: String, outputFileName: String): Unit = {
-    val input = readFile(inputFileName)
-    val output = MicroTranslator().translateProgram(input)
-    val writer = new FileWriter(outputFileName)
+  translate(inputFileName: String, outputFileName: String): Unit = {
+    input = readFile(inputFileName)
+    output = MicroTranslator().translateProgram(input)
+    writer = new FileWriter(outputFileName)
     writer.write(output)
     writer.flush()
   }
 
-  def readFile(fileName: String): String =
+  readFile(fileName: String): String =
     new String(Files.readAllBytes(Paths.get(fileName)))
 
 }

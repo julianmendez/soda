@@ -1,0 +1,43 @@
+package se.umu.cs.rai.scopus.translator
+
++ scala.annotation.tailrec
+
+* Token(text: String, parserState: Int, index: Int) {
+
+  @override
+  toString: String =
+    "(\"" + text + "\"," + parserState + ", " + index + ")"
+}
+
+* Tokenizer() {
+
+  tokenize(line: String): Seq[Token] =
+    tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
+      .reverse
+
+  @tailrec
+  tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
+    if currentIndex >= line.length then {
+      text = line.substring(lastIndex)
+      revTokens.prepended(Token(text, parserState, lastIndex))
+    } else {
+      ch = line.charAt(currentIndex)
+      charType = CharType().charType(ch)
+      newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
+      (newLastIndex, newCurrentIndex, newRevTokens) =
+        if newParserState == parserState then
+          (lastIndex, currentIndex + 1, revTokens)
+        else {
+          index =
+            if parserState == ParserState().QuotesState or parserState == ParserState().ApostropheState then
+              currentIndex + 1
+            else
+              currentIndex
+
+          text = line.substring(lastIndex, index)
+          (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
+        }
+      tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
+    }
+
+}

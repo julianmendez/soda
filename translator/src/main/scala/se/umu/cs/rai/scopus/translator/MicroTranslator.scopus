@@ -1,0 +1,204 @@
+package se.umu.cs.rai.scopus.translator
+
++ scala.annotation.tailrec
+
+
+/**
+ * This class translates Scopus source code into Scala source code.
+ */
+* MicroTranslator() {
+
+  NewLine = "\n"
+
+  ScopusOpeningParenthesis: String = "("
+  ScopusClosingParenthesis: String = ")"
+  ScopusSpace: String = " "
+  ScalaSpace: String = " "
+
+
+  translateProgram(program: String): String =
+    translateLines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
+
+  addSpaceToScopusLine(line: String): String = ScopusSpace + line + ScopusSpace
+
+  removeSpaceFromScalaLine(line: String): String = {
+    lineWithoutStartingSpace = if line.startsWith(ScalaSpace) then {
+      line.substring(1)
+    } else {
+      line
+    }
+    lineWithoutEndingSpace = if lineWithoutStartingSpace.endsWith(ScalaSpace) then {
+      lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
+    } else {
+      lineWithoutStartingSpace
+    }
+    lineWithoutEndingSpace
+  }
+
+  tokenize(line: String): Seq[Token] =
+    Tokenizer().tokenize(line)
+
+  joinTokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token -> token.text)
+      .mkString("")
+
+  translateLines(lines: Seq[String]): Seq[String] =
+    CommentPreprocessor()
+      .annotateLines(lines)
+      .map(annotatedLine -> {
+        if annotatedLine.isComment then {
+          annotatedLine.line
+        } else {
+          line = annotatedLine.line
+          lineWithSpace = addSpaceToScopusLine(line)
+          tokenizedLine = tokenize(lineWithSpace)
+          translatedLine = translateLine(tokenizedLine)
+          jointLine = joinTokens(translatedLine)
+          finalLine = removeSpaceFromScalaLine(jointLine)
+          finalLine
+        }
+      })
+
+  translateLine(tokens: Seq[Token]): Seq[Token] =
+    tokens.map(
+      token -> if token.parserState == ParserState().Plain then {
+        currentLine = token.text
+        newText = Option(currentLine)
+          .flatMap(line -> replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
+          .flatMap(line -> replace(line, Translation().Synonym, onlyBeginning=false))
+          .flatMap(line -> tryDefinition(line))
+          .flatMap(line -> replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
+          .flatMap(line -> replace(line, Translation().Translation, onlyBeginning=false))
+          .getOrElse(currentLine)
+        Token(newText, token.parserState, token.index)
+      } else {
+        token
+      })
+
+  getTranslationTableAtBeginning(line: String): Seq[(String, String)] =
+    if line.contains(ScopusOpeningParenthesis) then {
+      Translation().TranslationAtBeginningWithParen
+    } else {
+      Translation().TranslationAtBeginningWithoutParen
+    }
+
+  /**
+   * A line containing the definition sign will be classified as a definition.
+   * The definitions need to be translated to either 'val' or 'def'.
+   *
+   * 'val' is for value definition.
+   * It is detected in three cases.
+   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
+   * Case 2: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   *
+   * 'def' is for function definition.
+   * If it does not fit in any of the 'val' cases.
+   *
+   * @param line line
+   * @return maybe a translated line
+   */
+  tryDefinition(line: String): Some[String] = {
+    maybePosition = findDefinition(line)
+    if maybePosition.nonEmpty then {
+      positionOfDefinitionSign = maybePosition.get
+      positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
+
+      case1 = positionOfFirstClosingParenthesis == -1
+      case2 = line.trim.startsWith(ScopusOpeningParenthesis)
+      case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
+
+      if case1 or case2 or case3 then {
+        Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
+      } else {
+        Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
+      }
+    } else {
+      Some(line)
+    }
+  }
+
+
+  /**
+   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+  findDefinition(line: String): Option[Int] = {
+    position = if line.endsWith(ScopusSpace + Translation().ScopusDefinition) then {
+      line.length - Translation().ScopusDefinition.length
+    } else {
+      line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    }
+    if position == -1 then {
+      None
+    } else {
+      Some(position)
+    }
+  }
+
+  replaceAll(line: String, pattern: String, replacement: String): String =
+    replaceAllRec(line, pattern, replacement, Seq())
+
+  @tailrec
+  replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
+    pos = line.indexOf(pattern)
+    if pos == -1 then {
+      replacedTextRev.prepended(line)
+        .reverse
+        .mkString("")
+    } else {
+      newReplacedTextRev = replacedTextRev.prepended(line.substring(0, pos) + replacement)
+      newLine = line.substring(pos + pattern.length)
+      replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
+    }
+  }
+
+  replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] =
+    if index == 0 then {
+      replace(line, translationTable, onlyBeginning=true)
+    } else {
+      Some(line)
+    }
+
+
+  replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
+    keys = translationTable.map(pair -> pair._1)
+    Some(replaceRec(line, keys, translationTable.toMap, onlyBeginning))
+  }
+
+  @tailrec
+  replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
+    if toReplace.isEmpty then {
+      line
+    } else {
+      reservedWord = toReplace.head
+      alreadyProcessedLine =
+        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
+      replaceRec(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
+    }
+
+  replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =
+    if (onlyBeginning and line.trim.startsWith(pattern.trim)) or
+      ( not onlyBeginning and line.contains(pattern)) then {
+      replaceAll(line, pattern, newText)
+    } else {
+      line
+    }
+
+  addAfterSpaces(textToPrepend: String, line: String): String = {
+    prefixLength = line.takeWhile(ch -> ch.isSpaceChar).length
+    line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
+  }
+
+  addIfNonEmpty(textToPrepend: String, line: String): String =
+    if line.trim.isEmpty then {
+      line
+    } else {
+      textToPrepend + line
+    }
+
+}

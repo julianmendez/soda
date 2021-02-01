@@ -5,3 +5,4 @@ package se.umu.cs.rai.scopus
  */
 package object translator {
 }
+
