@@ -1,4 +1,10 @@
 ---
+- - version: v0.3.0
+  - date: unreleased
+  - new_features:
+    - has its source code written in Scopus
+  - build: sbt clean compile test package assembly
+  - release: target/scala-3.0.0-M3/scopus-0.3.0.jar
 - - version: v0.2.1
   - date: '2021-02-01'
   - new_features:
@@ -6,7 +12,8 @@
     - renames a synonym, before it was `that` and now is
     - . `suchthat` (synonym for `->`)
     - includes annotation `@main` to indicate the entry point
-    - has an update manual
+    - has an updated manual
+    - uses [JaCoCo](https://www.eclemma.org/jacoco/) for test code coverage analysis
   - deprecated_features:
     - synonym `that` is no longer supported
     - synonym `equals` is no longer supported
@@ -65,5 +72,4 @@
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.0.jar
 - - schema: RELEASE-NOTES.md.schema.yaml
-
 
