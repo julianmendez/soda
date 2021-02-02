@@ -1,6 +1,6 @@
 ---
 - - version: v0.3.0
-  - date: unreleased
+  - date: '2021-02-02'
   - new_features:
     - has its source code written in Scopus
   - build: sbt clean compile test package assembly
