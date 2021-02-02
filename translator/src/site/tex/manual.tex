@@ -297,10 +297,12 @@
     In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
     The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
 
-    It is important to observe that the syntax in \Scopus does not restrict the definition of constants in a class that depends from a constructor from the same class.
-    Since the evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
-    The solution to this situation is to use a function without parameters instead of a constant.
+    It is important to observe that the syntax in \Scopus does not restrict the definition of constants in a class that depends on a constructor from the same class.
+    In \Scopus there is no lazy evaluation, though.
+    The evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
+    A direct solution to this situation is to emulate the lazy evaluation by using a function without parameters instead of a constant.
     This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
+    The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
 
 
     \section{Private Objects}
