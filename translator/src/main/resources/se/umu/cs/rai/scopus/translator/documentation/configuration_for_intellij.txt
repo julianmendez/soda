@@ -8,7 +8,7 @@ Description: Scopus
 
 Syntax Highlighting
 
-  Line comment: //
+  Line comment:
   [ ] Only at line start
 
   Block comment start: /*
@@ -23,52 +23,52 @@ Syntax Highlighting
 Keywords
 
 1
-  ->
-  :
-  =
-  class
-  else
-  extends
-  has
-  if
-  import
-  in
-  is
-  new
-  package
-  such_that
-  then
-  this
-  to
-  with
+->
+:
+=
+class
+else
+extends
+has
+if
+import
+in
+is
+new
+package
+such_that
+then
+this
+to
+with
 
 2
-  *
-  +
-  -
-  /
-  ==
-  <=
-  >=
-  <
-  >
-  and
-  false
-  not
-  or
-  true
+*
++
+-
+/
+==
+<=
+>=
+<
+>
+and
+false
+not
+or
+true
 
 3
-  (
-  )
-  [
-  ]
-  {
-  }
+(
+)
+[
+]
+{
+}
 
 4
-  @main
-  @override
-  @tailrec
+@main
+@override
+@tailrec
 
 
