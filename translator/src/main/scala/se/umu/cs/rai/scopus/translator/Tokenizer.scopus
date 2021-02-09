@@ -15,6 +15,19 @@ package se.umu.cs.rai.scopus.translator
     tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
+  _nextValues (newParserState: Int, line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]) =
+    if newParserState == parserState
+    then (lastIndex, currentIndex + 1, revTokens)
+    else {
+      index =
+        if parserState == ParserState().QuotesState or parserState == ParserState().ApostropheState
+        then currentIndex + 1
+        else currentIndex
+
+      text = line.substring(lastIndex, index)
+      (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
+    }
+
   @tailrec
   tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if currentIndex >= line.length
@@ -22,19 +35,8 @@ package se.umu.cs.rai.scopus.translator
     else {
       ch = line.charAt(currentIndex)
       charType = CharType().charType(ch)
-      newParserState = ParserTransition().nextParserState(parserState = parserState, charType = charType)
-      (newLastIndex, newCurrentIndex, newRevTokens) =
-        if newParserState == parserState
-        then (lastIndex, currentIndex + 1, revTokens)
-        else {
-          index =
-            if parserState == ParserState().QuotesState or parserState == ParserState().ApostropheState
-            then currentIndex + 1
-            else currentIndex
-
-          text = line.substring(lastIndex, index)
-          (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
-        }
+      newParserState = ParserTransition().nextParserState(parserState, charType)
+      (newLastIndex, newCurrentIndex, newRevTokens) = _nextValues (newParserState, line, lastIndex, currentIndex, parserState, revTokens)
       tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }
 
