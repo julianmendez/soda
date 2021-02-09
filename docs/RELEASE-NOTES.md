@@ -4,7 +4,13 @@
   - new_features:
     - has some of its functions renamed to follow snake case
   - build: sbt clean compile test package assembly
-  - release: target/scala-3.0.0-M3/scopus-0.3.0.jar
+  - release: target/scala-3.0.0-M3/scopus-0.4.0.jar
+- - version: v0.3.1
+  - date: '2021-02-09'
+  - new_features:
+    - is stricter in preventing the use of non-Scopus reserved words 
+  - build: sbt clean compile test package assembly
+  - release: target/scala-3.0.0-M3/scopus-0.3.1.jar
 - - version: v0.3.0
   - date: '2021-02-02'
   - new_features:

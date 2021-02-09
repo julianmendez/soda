@@ -75,7 +75,7 @@ Therefore, there is no equivalent to 'var'.
 For example, it is not possible to write `x = x + 1`.
 Loops can be managed with tail recursion, or directly using streams.
 
-The language does not provide 'throw', 'try', and 'catch', because those commands does not follow the functional style.
+The language does not provide 'throw', 'try', and 'catch', because those commands do not follow the functional style.
 
 
 ## Static Typing
