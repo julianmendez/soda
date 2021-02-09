@@ -67,21 +67,21 @@ package se.umu.cs.rai.scopus.translator
         then {
           currentLine = token.text
           newText = Option(currentLine)
-            .flatMap(line -> replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
-            .flatMap(line -> replace(line, Translation().Synonym, onlyBeginning=false))
+            .flatMap(line -> replaceAtBeginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line -> replace(line, Synonym(), onlyBeginning=false))
             .flatMap(line -> tryDefinition(line))
             .flatMap(line -> replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
-            .flatMap(line -> replace(line, Translation().Translation, onlyBeginning=false))
+            .flatMap(line -> replace(line, MainTranslation(), onlyBeginning=false))
             .getOrElse(currentLine)
           Token(newText, token.parserState, token.index)
         }
         else token
     )
 
-  getTranslationTableAtBeginning(line: String): Seq[(String, String)] =
+  getTranslationTableAtBeginning(line: String): Translator =
     if line.contains(ScopusOpeningParenthesis)
-    then Translation().TranslationAtBeginningWithParen
-    else Translation().TranslationAtBeginningWithoutParen
+    then TranslationAtBeginningWithParen()
+    else TranslationAtBeginningWithoutParen()
 
   /**
    * A line containing the definition sign will be classified as a definition.
@@ -116,7 +116,6 @@ package se.umu.cs.rai.scopus.translator
     }
     else Some(line)
   }
-
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -153,26 +152,25 @@ package se.umu.cs.rai.scopus.translator
     }
   }
 
-  replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] =
+  replaceAtBeginning(line: String, index: Int, translator: Translator): Some[String] =
     if index == 0
-    then replace(line, translationTable, onlyBeginning=true)
+    then replace(line, translator, onlyBeginning=true)
     else Some(line)
 
 
-  replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
-    keys = translationTable.map(pair -> pair._1)
-    Some(replaceRec(line, keys, translationTable.toMap, onlyBeginning))
-  }
+  replace(line: String, translator: Translator, onlyBeginning: Boolean): Some[String] =
+    Some(replaceRec(line, translator.keys, translator, onlyBeginning))
+
 
   @tailrec
-  replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
+  replaceRec(line: String, toReplace: Seq[String], translator: Translator, onlyBeginning: Boolean): String =
     if toReplace.isEmpty
     then line
     else {
       reservedWord = toReplace.head
       alreadyProcessedLine =
-        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
-      replaceRec(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
+        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translator.translate(reservedWord) + ScalaSpace, onlyBeginning)
+      replaceRec(alreadyProcessedLine, toReplace.tail, translator, onlyBeginning)
     }
 
   replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =

@@ -67,21 +67,21 @@ case class MicroTranslator() {
         ) {
           val currentLine = token.text
           val newText = Option(currentLine)
-            .flatMap(line => replaceAtBeginning(line, token.index, Translation().SynonymAtBeginning))
-            .flatMap(line => replace(line, Translation().Synonym, onlyBeginning=false))
+            .flatMap(line => replaceAtBeginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line => replace(line, Synonym(), onlyBeginning=false))
             .flatMap(line => tryDefinition(line))
             .flatMap(line => replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
-            .flatMap(line => replace(line, Translation().Translation, onlyBeginning=false))
+            .flatMap(line => replace(line, MainTranslation(), onlyBeginning=false))
             .getOrElse(currentLine)
           Token(newText, token.parserState, token.index)
         }
         else token
     )
 
-  def getTranslationTableAtBeginning(line: String): Seq[(String, String)] =
+  def getTranslationTableAtBeginning(line: String): Translator =
     if ( line.contains(ScopusOpeningParenthesis)
-    ) Translation().TranslationAtBeginningWithParen
-    else Translation().TranslationAtBeginningWithoutParen
+    ) TranslationAtBeginningWithParen()
+    else TranslationAtBeginningWithoutParen()
 
   /**
    * A line containing the definition sign will be classified as a definition.
@@ -116,7 +116,6 @@ case class MicroTranslator() {
     }
     else Some(line)
   }
-
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -153,26 +152,25 @@ case class MicroTranslator() {
     }
   }
 
-  def replaceAtBeginning(line: String, index: Int, translationTable: Seq[(String, String)]): Some[String] =
+  def replaceAtBeginning(line: String, index: Int, translator: Translator): Some[String] =
     if ( index == 0
-    ) replace(line, translationTable, onlyBeginning=true)
+    ) replace(line, translator, onlyBeginning=true)
     else Some(line)
 
 
-  def replace(line: String, translationTable: Seq[(String, String)], onlyBeginning: Boolean): Some[String] = {
-    val keys = translationTable.map(pair => pair._1)
-    Some(replaceRec(line, keys, translationTable.toMap, onlyBeginning))
-  }
+  def replace(line: String, translator: Translator, onlyBeginning: Boolean): Some[String] =
+    Some(replaceRec(line, translator.keys, translator, onlyBeginning))
+
 
   @tailrec final
-  def replaceRec(line: String, toReplace: Seq[String], translationMap: Map[String, String], onlyBeginning: Boolean): String =
+  def replaceRec(line: String, toReplace: Seq[String], translator: Translator, onlyBeginning: Boolean): String =
     if ( toReplace.isEmpty
     ) line
     else {
       val reservedWord = toReplace.head
       val alreadyProcessedLine =
-        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translationMap(reservedWord) + ScalaSpace, onlyBeginning)
-      replaceRec(alreadyProcessedLine, toReplace.tail, translationMap, onlyBeginning)
+        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translator.translate(reservedWord) + ScalaSpace, onlyBeginning)
+      replaceRec(alreadyProcessedLine, toReplace.tail, translator, onlyBeginning)
     }
 
   def replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =

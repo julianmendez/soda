@@ -128,7 +128,7 @@ case class Translation() {
     ("\u2192", "->")
   )
 
-  def Translation: Seq[(String, String)] = Seq(
+  def MainTranslation: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
     ("if", "if ("),
@@ -144,6 +144,12 @@ case class Translation() {
     ("or", "||"),
     ("new", "new")
   )
+
+  val PrefixScalaNonScopus = "__scopus__"
+
+  val ScalaNonScopusKeys: Seq[String] =
+    ScalaReservedWords
+      .filter(x => ! ScopusReservedWords.contains(x))
 
   def isScalaWord(word: String): Boolean = ScalaReservedWords.contains(word)
 

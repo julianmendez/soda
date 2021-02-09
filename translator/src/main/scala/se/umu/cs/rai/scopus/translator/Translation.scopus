@@ -128,7 +128,7 @@ package se.umu.cs.rai.scopus.translator
     ("\u2192", "->")
   )
 
-  Translation: Seq[(String, String)] = Seq(
+  MainTranslation: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
     ("if", "if ("),
@@ -144,6 +144,12 @@ package se.umu.cs.rai.scopus.translator
     ("or", "||"),
     ("new", "new")
   )
+
+  PrefixScalaNonScopus = "__scopus__"
+
+  ScalaNonScopusKeys: Seq[String] =
+    ScalaReservedWords
+      .filter(x -> not ScopusReservedWords.contains(x))
 
   isScalaWord(word: String): Boolean = ScalaReservedWords.contains(word)
 
