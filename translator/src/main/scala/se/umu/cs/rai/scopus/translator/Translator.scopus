@@ -9,7 +9,7 @@ package se.umu.cs.rai.scopus.translator
     table.toMap.get(word).getOrElse(word)
 
   _keys(table: Seq[(String, String)]) =
-    table.map(pair => pair._1)
+    table.map(pair -> pair._1)
 }
 
 * SynonymAtBeginning () extends Translator {

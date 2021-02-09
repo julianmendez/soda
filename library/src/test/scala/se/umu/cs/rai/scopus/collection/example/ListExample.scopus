@@ -18,7 +18,7 @@ package se.umu.cs.rai.scopus.collection.example
     ("A.takeRight(3)", A.takeRight(3))
 
   takeWhileExample: (String, Seq[Char]) =
-    ("A.takeWhile(x => x != 'E')", A.takeWhile(x => x != 'E'))
+    ("A.takeWhile(x -> not (x == 'E'))", A.takeWhile(x -> not (x == 'E')))
 
   dropExample: (String, Seq[Char]) =
     ("A.drop(2)", A.drop(2))
@@ -27,7 +27,7 @@ package se.umu.cs.rai.scopus.collection.example
     ("A.dropRight(2)", A.dropRight(2))
 
   dropWhileExample: (String, Seq[Char]) =
-    ("A.dropWhile(x => x != 'E')", A.dropWhile(x => x != 'E'))
+    ("A.dropWhile(x -> not (x == 'E'))", A.dropWhile(x -> not (x == 'E')))
 
   splitAtExample: (String, (Seq[Char], Seq[Char])) =
     ("A.splitAt(3)", A.splitAt(3))
@@ -60,22 +60,22 @@ package se.umu.cs.rai.scopus.collection.example
     ("A.map(_.toInt).concat(B)", A.map(_.toInt).concat(B))
 
   spanExample: (String, (Seq[Char], Seq[Char])) =
-    ("A.span(x => x != 'D')", A.span(x => x != 'D'))
+    ("A.span(x -> not (x == 'D'))", A.span(x -> not (x == 'D')))
 
   mapExample: (String, Seq[Int]) =
-    ("A.map(x => x.toInt)", A.map(x => x.toInt))
+    ("A.map(x -> x.toInt)", A.map(x -> x.toInt))
 
   filterExample: (String, Seq[Char]) =
-    ("A.filter(x => x.toInt % 2 == 0)", A.filter(x => x.toInt % 2 == 0))
+    ("A.filter(x -> x.toInt % 2 == 0)", A.filter(x -> x.toInt % 2 == 0))
 
   foldExample: (String, Int) =
-    ("B.fold(0)((a, b) => a + b)", B.fold(0)((a, b) => a + b))
+    ("B.fold(0)((a, b) -> a + b)", B.fold(0)((a, b) -> a + b))
 
   foldLeftExample: (String, Seq[Char]) =
-    ("A.foldLeft(Seq('*'))((list, elem) => \"(\" + list + \" :+ \" + elem + \")\")", A.foldLeft(Seq('*'))((list, elem) => "(" + list + " :+ " + elem + ")"))
+    ("A.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", A.foldLeft(Seq('*'))((list, elem) -> "(" + list + " :+ " + elem + ")"))
 
   foldRightExample: (String, Seq[Char]) =
-    ("A.foldRight(Seq('*'))((elem, list) => \"(\" + elem + \" +: \" + list + \")\")", A.foldRight(Seq('*'))((elem, list) => "(" + elem + " +: " + list + ")"))
+    ("A.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", A.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
 
 }
 
