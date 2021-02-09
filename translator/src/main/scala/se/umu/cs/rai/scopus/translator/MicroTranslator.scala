@@ -67,6 +67,7 @@ case class MicroTranslator() {
         ) {
           val currentLine = token.text
           val newText = Option(currentLine)
+            .flatMap(line => replace(line, ScalaNonScopus(), onlyBeginning=false))
             .flatMap(line => replaceAtBeginning(line, token.index, SynonymAtBeginning()))
             .flatMap(line => replace(line, Synonym(), onlyBeginning=false))
             .flatMap(line => tryDefinition(line))
