@@ -139,7 +139,7 @@ case class Min[T]() {
   @tailrec final
   def atRec(s: MSeq[T], n: Int): T =
     if ( isEmpty(s) || n < 0
-    ) throw new IndexOutOfBoundsException()
+    ) None.get
     else if ( n == 0
     ) head(s)
     else atRec(tail(s), n - 1)

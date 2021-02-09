@@ -3,10 +3,12 @@ package se.umu.cs.rai.scopus.collection
 
 trait MSeq[T] {
   val isEmpty: Boolean
+  def _head(): Option[T]
+  def _tail(): Option[MSeq[T]]
 
-  def head(): T
+  def head() = _head().get
 
-  def tail(): MSeq[T]
+  def tail() = _tail().get
 }
 
 
@@ -15,9 +17,9 @@ case class ESeq[T] ()
 
   val isEmpty = true
 
-  def head(): T = throw new UnsupportedOperationException
+  def _head() = Option.empty
 
-  def tail(): MSeq[T] = throw new UnsupportedOperationException
+  def _tail() = Option.empty
 
 }
 
@@ -27,8 +29,8 @@ case class NESeq[T] (head0: T, tail0: MSeq[T])
 
   val isEmpty = false
 
-  def head() = head0
+  def _head() = Some(head0)
 
-  def tail() = tail0
+  def _tail() = Some(tail0)
 
 }

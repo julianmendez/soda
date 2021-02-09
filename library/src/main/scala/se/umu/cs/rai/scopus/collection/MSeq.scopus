@@ -2,11 +2,13 @@ package se.umu.cs.rai.scopus.collection
 
 
 * MSeq[T] {
-  - isEmpty: Boolean
+  has isEmpty: Boolean
+  has _head(): Option[T]
+  has _tail(): Option[MSeq[T]]
 
-  - head(): T
+  head() = _head().get
 
-  - tail(): MSeq[T]
+  tail() = _tail().get
 }
 
 
@@ -15,9 +17,9 @@ package se.umu.cs.rai.scopus.collection
 
   isEmpty = true
 
-  head(): T = throw new UnsupportedOperationException
+  _head() = Option.empty
 
-  tail(): MSeq[T] = throw new UnsupportedOperationException
+  _tail() = Option.empty
 
 }
 
@@ -27,9 +29,9 @@ package se.umu.cs.rai.scopus.collection
 
   isEmpty = false
 
-  head() = head0
+  _head() = Some(head0)
 
-  tail() = tail0
+  _tail() = Some(tail0)
 
 }
 

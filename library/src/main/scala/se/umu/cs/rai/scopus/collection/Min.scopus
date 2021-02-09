@@ -139,7 +139,7 @@ package se.umu.cs.rai.scopus.collection
   @tailrec
   atRec(s: MSeq[T], n: Int): T =
     if isEmpty(s) or n < 0
-    then throw new IndexOutOfBoundsException()
+    then None.get
     else if n == 0
     then head(s)
     else atRec(tail(s), n - 1)
