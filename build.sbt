@@ -7,7 +7,7 @@ lazy val scala3 = "3.0.0-M3"
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.scopus",
   normalizedName := "scopus",
-  version := "0.3.1",
+  version := "0.4.0-SNAPSHOT",
 
   name := "scopus",
   description := "Functional language to describe ethical problems",
