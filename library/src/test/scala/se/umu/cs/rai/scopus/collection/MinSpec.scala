@@ -12,7 +12,7 @@ case class MinSpec() extends AnyFunSuite {
 
   test("prepended") {
     val expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
-    val obtained = Min().prepended(example, 1)
+    val obtained = Min().+:(example, 1)
     assert(obtained == expected)
   }
 
@@ -199,7 +199,7 @@ case class MinSpec() extends AnyFunSuite {
   test("concat") {
     val expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
     val second = MSeqTranslator().asMSeq(Seq(13, 21, 34, 55))
-    val obtained = Min().concat(example, second)
+    val obtained = Min().++(example, second)
     assert(obtained == expected)
   }
 
@@ -389,14 +389,14 @@ case class MinSpec() extends AnyFunSuite {
 
   test("foldLeft with Seq") {
     val expected = Seq(108, 105, 103, 102, 101, 101, 100)
-    val obtained = exampleSeq.foldLeft(Seq[Int]())((s: Seq[Int], e: Int) => s.prepended((e + 100)))
+    val obtained = exampleSeq.foldLeft(Seq[Int]())((s: Seq[Int], e: Int) => s.+:((e + 100)))
     assert(obtained == expected)
   }
 
   test("foldLeft in the same type") {
     val expected = MSeqTranslator().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
     val obtained = Min().foldLeft0(example)(Min().empty,
-      (s: MSeq[Int], e: Int) => Min().prepended(s, e + 100)
+      (s: MSeq[Int], e: Int) => Min().+:(s, e + 100)
     )
     assert(obtained == expected)
   }

@@ -12,7 +12,7 @@ package se.umu.cs.rai.scopus.collection
 
   test("prepended") {
     expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
-    obtained = Min().prepended(example, 1)
+    obtained = Min().+:(example, 1)
     assert(obtained == expected)
   }
 
@@ -199,7 +199,7 @@ package se.umu.cs.rai.scopus.collection
   test("concat") {
     expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
     second = MSeqTranslator().asMSeq(Seq(13, 21, 34, 55))
-    obtained = Min().concat(example, second)
+    obtained = Min().++(example, second)
     assert(obtained == expected)
   }
 
@@ -389,14 +389,14 @@ package se.umu.cs.rai.scopus.collection
 
   test("foldLeft with Seq") {
     expected = Seq(108, 105, 103, 102, 101, 101, 100)
-    obtained = exampleSeq.foldLeft(Seq[Int]())((s: Seq[Int], e: Int) -> s.prepended((e + 100)))
+    obtained = exampleSeq.foldLeft(Seq[Int]())((s: Seq[Int], e: Int) -> s.+:((e + 100)))
     assert(obtained == expected)
   }
 
   test("foldLeft in the same type") {
     expected = MSeqTranslator().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
     obtained = Min().foldLeft0(example)(Min().empty,
-      (s: MSeq[Int], e: Int) -> Min().prepended(s, e + 100)
+      (s: MSeq[Int], e: Int) -> Min().+:(s, e + 100)
     )
     assert(obtained == expected)
   }
