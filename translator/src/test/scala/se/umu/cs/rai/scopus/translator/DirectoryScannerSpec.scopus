@@ -1,0 +1,49 @@
+package se.umu.cs.rai.scopus.translator
+
++ org.scalatest.funsuite.AnyFunSuite
+
++ java.io.File
++ scala.language.implicitConversions
+
+* ScannerSpec() extends AnyFunSuite {
+
+  start = "translator/src/test/resources/example"
+
+  test("scan a file that is not a directory") {
+    scanner = DirectoryScanner()
+    start_file = new File(start + "/" + "Example.scopus")
+    expected = Seq(start_file).toSet
+    obtained = scanner.get_all_files(start_file).toSet
+    assert(obtained == expected)
+  }
+
+  test("simple scan of all files") {
+    scanner = DirectoryScanner()
+
+    expected = Seq(
+      "otherexample",
+      "Example.md",
+      "Example.scala",
+      "Example.scopus",
+      "otherexample/OtherExample.scala",
+      "otherexample/OtherExample.scopus",
+      "otherexample/OtherExample.txt"
+    ).map(x -> new File(start + "/" + x)).toSet
+    start_file = new File(start)
+    obtained = scanner.get_all_files(start_file).toSet
+    assert(obtained == expected)
+  }
+
+  test("simple get all Scopus files") {
+    scanner = DirectoryScanner()
+
+    expected = Seq(
+      "Example.scopus",
+      "otherexample/OtherExample.scopus"
+    ).map(x -> new File(start + "/" + x)).toSet
+    start_file = new File(start)
+    obtained = scanner.get_scopus_files(start_file).toSet
+    assert(obtained == expected)
+  }
+
+}
