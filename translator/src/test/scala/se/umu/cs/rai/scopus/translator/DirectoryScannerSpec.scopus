@@ -11,7 +11,7 @@ package se.umu.cs.rai.scopus.translator
 
   test("scan a file that is not a directory") {
     scanner = DirectoryScanner()
-    start_file = new File(start + "/" + "Example.scopus")
+    start_file = new File(start, "Example.scopus")
     expected = Seq(start_file).toSet
     obtained = scanner.get_all_files(start_file).toSet
     assert(obtained == expected)
@@ -28,7 +28,7 @@ package se.umu.cs.rai.scopus.translator
       "otherexample/OtherExample.scala",
       "otherexample/OtherExample.scopus",
       "otherexample/OtherExample.txt"
-    ).map(x -> new File(start + "/" + x)).toSet
+    ).map(x -> new File(start, x)).toSet
     start_file = new File(start)
     obtained = scanner.get_all_files(start_file).toSet
     assert(obtained == expected)
@@ -40,7 +40,7 @@ package se.umu.cs.rai.scopus.translator
     expected = Seq(
       "Example.scopus",
       "otherexample/OtherExample.scopus"
-    ).map(x -> new File(start + "/" + x)).toSet
+    ).map(x -> new File(start, x)).toSet
     start_file = new File(start)
     obtained = scanner.get_scopus_files(start_file).toSet
     assert(obtained == expected)
