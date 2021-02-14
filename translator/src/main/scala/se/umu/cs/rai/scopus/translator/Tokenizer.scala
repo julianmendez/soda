@@ -25,13 +25,13 @@ case class Tokenizer() {
         else currentIndex
 
       val text = line.substring(lastIndex, index)
-      (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
+      (index, index + 1, revTokens.+:(Token(text, parserState, lastIndex)))
     }
 
   @tailrec final
   def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if ( currentIndex >= line.length
-    ) revTokens.prepended(Token(line.substring(lastIndex), parserState, lastIndex))
+    ) revTokens.+:(Token(line.substring(lastIndex), parserState, lastIndex))
     else {
       val ch = line.charAt(currentIndex)
       val charType = CharType().charType(ch)

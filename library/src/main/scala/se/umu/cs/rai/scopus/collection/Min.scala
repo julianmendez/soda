@@ -20,7 +20,7 @@ case class MSeqTranslator[T]() {
   def asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
     if ( Min().isEmpty(ms)
     ) seq
-    else asSeqRec(Min().tail(ms), seq.prepended(Min().head(ms)))
+    else asSeqRec(Min().tail(ms), seq.+:(Min().head(ms)))
 
 }
 

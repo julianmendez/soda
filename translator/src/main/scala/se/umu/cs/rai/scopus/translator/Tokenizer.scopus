@@ -25,13 +25,13 @@ package se.umu.cs.rai.scopus.translator
         else currentIndex
 
       text = line.substring(lastIndex, index)
-      (index, index + 1, revTokens.prepended(Token(text, parserState, lastIndex)))
+      (index, index + 1, revTokens.+:(Token(text, parserState, lastIndex)))
     }
 
   @tailrec
   tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if currentIndex >= line.length
-    then revTokens.prepended(Token(line.substring(lastIndex), parserState, lastIndex))
+    then revTokens.+:(Token(line.substring(lastIndex), parserState, lastIndex))
     else {
       ch = line.charAt(currentIndex)
       charType = CharType().charType(ch)

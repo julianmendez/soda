@@ -20,7 +20,7 @@ package se.umu.cs.rai.scopus.collection
   asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
     if Min().isEmpty(ms)
     then seq
-    else asSeqRec(Min().tail(ms), seq.prepended(Min().head(ms)))
+    else asSeqRec(Min().tail(ms), seq.+:(Min().head(ms)))
 
 }
 

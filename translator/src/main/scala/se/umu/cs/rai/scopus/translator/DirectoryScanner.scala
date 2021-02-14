@@ -16,9 +16,9 @@ case class DirectoryScanner() {
       val remaining = to_scan.tail
       val new_to_scan =
         if ( next_file.isDirectory
-        ) remaining.concat(next_file.listFiles())
+        ) remaining.++(next_file.listFiles())
         else remaining
-      scan(found.prepended(next_file), new_to_scan)
+      scan(found.+:(next_file), new_to_scan)
     }
 
   def get_all_files(start: File): Seq[File] =

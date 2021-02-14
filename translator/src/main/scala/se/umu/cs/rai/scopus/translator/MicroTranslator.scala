@@ -143,11 +143,11 @@ case class MicroTranslator() {
     val pos = line.indexOf(pattern)
     if ( pos == -1
     )
-      replacedTextRev.prepended(line)
+      replacedTextRev.+:(line)
         .reverse
         .mkString("")
     else {
-      val newReplacedTextRev = replacedTextRev.prepended(line.substring(0, pos) + replacement)
+      val newReplacedTextRev = replacedTextRev.+:(line.substring(0, pos) + replacement)
       val newLine = line.substring(pos + pattern.length)
       replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
     }

@@ -16,9 +16,9 @@ package se.umu.cs.rai.scopus.translator
       remaining = to_scan.tail
       new_to_scan =
         if next_file.isDirectory
-        then remaining.concat(next_file.listFiles())
+        then remaining.++(next_file.listFiles())
         else remaining
-      scan(found.prepended(next_file), new_to_scan)
+      scan(found.+:(next_file), new_to_scan)
     }
 
   get_all_files(start: File): Seq[File] =

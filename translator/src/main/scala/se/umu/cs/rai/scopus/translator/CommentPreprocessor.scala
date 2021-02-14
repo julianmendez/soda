@@ -26,7 +26,7 @@ case class CommentPreprocessor() {
           ) (true, !line.trim.endsWith(ScopusEndComment))
           else (false, false)
 
-      identifyComments(lines.tail, newCommentState, annotatedLinesRev.prepended(AnnotatedLine(line, currentState)))
+      identifyComments(lines.tail, newCommentState, annotatedLinesRev.+:(AnnotatedLine(line, currentState)))
     }
 
 }
