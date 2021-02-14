@@ -57,7 +57,7 @@ package se.umu.cs.rai.scopus.collection.example
     ("A :+ 'X'", (A :+ 'X'))
 
   concatExample: (String, Seq[Int]) =
-    ("A.map(_.toInt).concat(B)", A.map(_.toInt).concat(B))
+    ("A.map(_.toInt).++(B)", A.map(_.toInt).++(B))
 
   spanExample: (String, (Seq[Char], Seq[Char])) =
     ("A.span(x -> not (x == 'D'))", A.span(x -> not (x == 'D')))

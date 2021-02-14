@@ -57,7 +57,7 @@ case class ListExample() {
     ("A :+ 'X'", (A :+ 'X'))
 
   def concatExample: (String, Seq[Int]) =
-    ("A.map(_.toInt).concat(B)", A.map(_.toInt).concat(B))
+    ("A.map(_.toInt).++(B)", A.map(_.toInt).++(B))
 
   def spanExample: (String, (Seq[Char], Seq[Char])) =
     ("A.span(x -> not (x == 'D'))", A.span(x => ! (x == 'D')))

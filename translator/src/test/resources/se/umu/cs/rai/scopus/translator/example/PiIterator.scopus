@@ -58,7 +58,7 @@ package se.umu.cs.rai.scopus.translator.example
     then rev_seq.reverse
     else {
       (digit, new_status) = next (s)
-      take_rec (n - 1, rev_seq.prepended (digit), new_status)
+      take_rec (n - 1, rev_seq.+: (digit), new_status)
     }
 
 }

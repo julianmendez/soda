@@ -58,7 +58,7 @@ case class PiIterator() {
     ) rev_seq.reverse
     else {
       val (digit, new_status) = next (s)
-      take_rec (n - 1, rev_seq.prepended (digit), new_status)
+      take_rec (n - 1, rev_seq.+: (digit), new_status)
     }
 
 }
