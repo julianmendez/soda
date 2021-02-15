@@ -12,7 +12,7 @@ package se.umu.cs.rai.scopus.translator
 * Tokenizer() {
 
   tokenize(line: String): Seq[Token] =
-    tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
+    _tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
   _next_values (new_parser_state: Int, line: String, last_index: Int, current_index: Int, parser_state: Int, rev_tokens: Seq[Token]) =
@@ -29,7 +29,7 @@ package se.umu.cs.rai.scopus.translator
     }
 
   @tailrec
-  tokenize_rec(line: String, last_index: Int, current_index: Int, parser_state: Int, rev_tokens: Seq[Token]): Seq[Token] =
+  _tokenize_rec(line: String, last_index: Int, current_index: Int, parser_state: Int, rev_tokens: Seq[Token]): Seq[Token] =
     if current_index >= line.length
     then rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
     else {
@@ -37,7 +37,7 @@ package se.umu.cs.rai.scopus.translator
       charType = CharType().get_char_type(ch)
       new_parser_state = ParserTransition().next_parser_state(parser_state, charType)
       (new_last_index, new_current_index, new_rev_tokens) = _next_values (new_parser_state, line, last_index, current_index, parser_state, rev_tokens)
-      tokenize_rec(line, new_last_index, new_current_index, new_parser_state, new_rev_tokens)
+      _tokenize_rec(line, new_last_index, new_current_index, new_parser_state, new_rev_tokens)
     }
 
 }

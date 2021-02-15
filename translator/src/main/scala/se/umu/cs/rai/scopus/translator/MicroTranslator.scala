@@ -19,9 +19,9 @@ case class MicroTranslator() {
   def translate_program(program: String): String =
     translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
 
-  def add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
+  def _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 
-  def remove_space_from_scala_line(line: String): String = {
+  def _remove_space_from_scala_line(line: String): String = {
     val line_without_starting_space =
       if ( line.startsWith(ScalaSpace)
       ) line.substring(1)
@@ -38,7 +38,7 @@ case class MicroTranslator() {
   def tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
 
-  def join_tokens(tokens: Seq[Token]): String =
+  def _join_tokens(tokens: Seq[Token]): String =
     tokens
       .map(token => token.text)
       .mkString("")
@@ -51,16 +51,16 @@ case class MicroTranslator() {
         ) annotated_line.line
         else {
           val line = annotated_line.line
-          val line_with_space = add_space_to_scopus_line(line)
+          val line_with_space = _add_space_to_scopus_line(line)
           val tokenized_line = tokenize(line_with_space)
-          val translated_line = translate_line(tokenized_line)
-          val joint_line = join_tokens(translated_line)
-          val final_line = remove_space_from_scala_line(joint_line)
+          val translated_line = _translate_line(tokenized_line)
+          val joint_line = _join_tokens(translated_line)
+          val final_line = _remove_space_from_scala_line(joint_line)
           final_line
         }
       )
 
-  def translate_line(tokens: Seq[Token]): Seq[Token] =
+  def _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token =>
         if ( token.parser_state == ParserState().Plain
@@ -112,8 +112,8 @@ case class MicroTranslator() {
       val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       if ( case1 || case2 || case3
-      ) Some(add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
-      else Some(add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
+      ) Some(_add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(_add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
     }
     else Some(line)
   }
@@ -136,10 +136,10 @@ case class MicroTranslator() {
   }
 
   def replace_all(line: String, pattern: String, replacement: String): String =
-    replace_all_rec(line, pattern, replacement, Seq())
+    _replace_all_rec(line, pattern, replacement, Seq())
 
   @tailrec final
-  def replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
+  def _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
     val pos = line.indexOf(pattern)
     if ( pos == -1
     )
@@ -149,7 +149,7 @@ case class MicroTranslator() {
     else {
       val new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
       val new_line = line.substring(pos + pattern.length)
-      replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
+      _replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
     }
   }
 
@@ -160,18 +160,18 @@ case class MicroTranslator() {
 
 
   def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
-    Some(replace_rec(line, translator.keys, translator, only_beginning))
+    Some(_replace_rec(line, translator.keys, translator, only_beginning))
 
 
   @tailrec final
-  def replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+  def _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
     if ( to_replace.isEmpty
     ) line
     else {
       val reserved_word = to_replace.head
       val alreadyProcessedLine =
         replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-      replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
+      _replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
     }
 
   def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
@@ -180,7 +180,7 @@ case class MicroTranslator() {
     ) replace_all(line, pattern, newText)
     else line
 
-  def add_after_spaces(text_to_prepend: String, line: String): String = {
+  def _add_after_spaces(text_to_prepend: String, line: String): String = {
     val prefix_length = line.takeWhile(ch => ch.isSpaceChar).length
     line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }

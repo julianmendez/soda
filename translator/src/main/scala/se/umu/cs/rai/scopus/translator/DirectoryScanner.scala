@@ -8,7 +8,7 @@ case class DirectoryScanner() {
   val Scopus_suffix = ".scopus"
 
   @tailrec final
-  def scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
+  def _scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
     if ( to_scan.isEmpty
     ) found
     else {
@@ -18,13 +18,13 @@ case class DirectoryScanner() {
         if ( next_file.isDirectory
         ) remaining.++(next_file.listFiles())
         else remaining
-      scan(found.+:(next_file), new_to_scan)
+      _scan(found.+:(next_file), new_to_scan)
     }
 
   def get_all_files(start: File): Seq[File] =
     if ( start.isFile
     ) Seq(start)
-    else scan(Seq(), start.listFiles().toSeq)
+    else _scan(Seq(), start.listFiles().toSeq)
 
   def get_scopus_files(start: File): Seq[File] =
     get_all_files(start)
