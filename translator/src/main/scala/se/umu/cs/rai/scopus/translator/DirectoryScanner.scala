@@ -26,7 +26,7 @@ case class DirectoryScanner() {
     ) Seq(start)
     else scan(Seq(), start.listFiles().toSeq)
 
-  def get_scopus_files(start:File): Seq[File] =
+  def get_scopus_files(start: File): Seq[File] =
     get_all_files(start)
       .filter(x => x.isFile)
       .filter(x => x.getName.endsWith(Scopus_suffix))
