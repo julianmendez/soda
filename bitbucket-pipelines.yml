@@ -1,9 +1,7 @@
-
+---
 #
 # Configuration file for Bitbucket Pipelines
 #
-
----
 
 # https://hub.docker.com/r/hseeberger/scala-sbt/
 image: hseeberger/scala-sbt:11.0.7_1.3.10_2.13.2
@@ -17,7 +15,9 @@ pipelines:
         script:
           - sbt scalaVersion sbtVersion version
           - sbt clean compile test package assembly
-          - sbt "++ 2.12.4" scalaVersion sbtVersion version
-          - sbt "++ 2.12.4" clean compile test package assembly
+          - sbt "++ 2.13.4" scalaVersion sbtVersion version
+          - sbt "++ 2.13.4" clean compile test package assembly
+          - sbt "++ 2.12.13" scalaVersion sbtVersion version
+          - sbt "++ 2.12.13" clean compile test package assembly
 
 

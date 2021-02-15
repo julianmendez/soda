@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - has some of its functions renamed to follow snake case
+    - is compatible with Scala 2.12.13, Scala 2.13.4, and Scala 3.0.0-M3 
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-M3/scopus-0.4.0.jar
 - - version: v0.3.1
