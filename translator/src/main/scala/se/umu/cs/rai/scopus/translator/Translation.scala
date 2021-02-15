@@ -97,7 +97,6 @@ case class Translation() {
 
   def SynonymAtBeginning: Seq[(String, String)] = Seq(
     ("*", "class"),
-    ("-", "has"),
     ("+", "import")
   )
 

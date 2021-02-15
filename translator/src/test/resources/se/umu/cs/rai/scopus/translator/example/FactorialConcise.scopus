@@ -3,7 +3,7 @@ package se.umu.cs.rai.scopus.translator.example
 + scala.annotation.tailrec
 
 * AbstractFactorialConcise {
-  - factorial (n: Int): Int
+  has factorial (n: Int): Int
 }
 
 * FactorialConcise () extends AbstractFactorialConcise {

@@ -35,7 +35,6 @@ The reserved words are:
 
 The synonyms at the beginning of a line are:
 - `*` for `class`
-- `-` for `has`
 - `+` for `import`
 
 The synonyms in any part of a line are:

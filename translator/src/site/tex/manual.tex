@@ -52,7 +52,6 @@
 
 \newcommand{\sasterisk}{\srccode{*}}
 \newcommand{\splus}{\srccode{+}}
-\newcommand{\sminus}{\srccode{-}}
 
 \newcommand{\sis}{\reservedWord{is}}
 \newcommand{\scin}{\reservedWord{in}}
@@ -638,8 +637,6 @@
             \hline
             \sasterisk       & \sclass                \\
             \hline
-            \sminus          & \shas                  \\
-            \hline
             \splus           & \simport               \\
             \hline
         \end{tabular}
@@ -668,7 +665,7 @@
   + scala.annotation.tailrec
 
   * Abstract_factorial_concise {
-    - factorial (n: Int): Int
+    has factorial (n: Int): Int
   }
 
   * Factorial_concise () extends Abstract_factorial_concise {

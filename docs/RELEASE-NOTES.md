@@ -5,6 +5,8 @@
     - has some of its functions renamed to follow snake case
     - is compatible with Scala 2.12.13, Scala 2.13.4, and Scala 3.0.0-M3
     - translates recursively all files starting in a given directory
+  - deprecated_features:
+    - synonym `-` for `has` is no longer supported
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-M3/scopus-0.4.0.jar
 - - version: v0.3.1
@@ -23,8 +25,7 @@
   - date: '2021-02-01'
   - new_features:
     - includes a highlighting configuration file for [gedit](https://gitlab.gnome.org/GNOME/gedit/)
-    - renames a synonym, before it was `that` and now is
-    - . `suchthat` (synonym for `->`)
+    - renames synonym `that` to `suchthat`
     - includes annotation `@main` to indicate the entry point
     - has an updated manual
     - uses [JaCoCo](https://www.eclemma.org/jacoco/) for test code coverage analysis

@@ -110,7 +110,7 @@ class Manual() {
 }
 
 * Abstract_factorial_concise {
-  - factorial (n: Int): Int
+  has factorial (n: Int): Int
 }
 
 * Factorial_concise () extends Abstract_factorial_concise {

@@ -97,7 +97,6 @@ package se.umu.cs.rai.scopus.translator
 
   SynonymAtBeginning: Seq[(String, String)] = Seq(
     ("*", "class"),
-    ("-", "has"),
     ("+", "import")
   )
 
