@@ -14,29 +14,29 @@ case class CharType() {
   val UnderscoreChar = '_'
   val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
-  def charType(ch: Char): Int =
-    if ( isQuotes(ch) ) QuotesType
-    else if ( isApostrophe(ch) ) ApostropheChar
-    else if ( isBackslash(ch) ) BackslashType
-    else if ( isWhitespace(ch) || isLetterOrDigitOrUnderscore(ch) || isSymbol(ch) ) PlainType
+  def get_char_type(ch: Char): Int =
+    if ( is_quotes(ch) ) QuotesType
+    else if ( is_apostrophe(ch) ) ApostropheChar
+    else if ( is_backslash(ch) ) BackslashType
+    else if ( is_whitespace(ch) || is_letter_or_digit_or_underscore(ch) || is_symbol(ch) ) PlainType
     else UndefinedType
 
-  def isWhitespace(ch: Char): Boolean =
+  def is_whitespace(ch: Char): Boolean =
     ch.isWhitespace
 
-  def isLetterOrDigitOrUnderscore(ch: Char): Boolean =
+  def is_letter_or_digit_or_underscore(ch: Char): Boolean =
     ch.isLetterOrDigit || ch == UnderscoreChar
 
-  def isSymbol(ch: Char): Boolean =
+  def is_symbol(ch: Char): Boolean =
     SymbolChars.contains(ch)
 
-  def isQuotes(ch: Char): Boolean =
+  def is_quotes(ch: Char): Boolean =
     ch == QuotesChar
 
-  def isApostrophe(ch: Char): Boolean =
+  def is_apostrophe(ch: Char): Boolean =
     ch == ApostropheChar
 
-  def isBackslash(ch: Char): Boolean =
+  def is_backslash(ch: Char): Boolean =
     ch == BackslashChar
 
 }

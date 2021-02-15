@@ -11,7 +11,7 @@ package se.umu.cs.rai.scopus.translator
 
 * ParserTransition() {
 
-  nextParserState(parserState: Int, charType: Int): Int =
+  next_parser_state(parserState: Int, charType: Int): Int =
     TransitionsThatChangeStates.getOrElse((parserState, charType), parserState)
 
   TransitionsThatChangeStates: Map[(Int, Int), Int] =

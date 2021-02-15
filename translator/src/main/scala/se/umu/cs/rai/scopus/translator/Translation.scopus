@@ -151,8 +151,8 @@ package se.umu.cs.rai.scopus.translator
     ScalaReservedWords
       .filter(x -> not ScopusReservedWords.contains(x))
 
-  isScalaWord(word: String): Boolean = ScalaReservedWords.contains(word)
+  is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
 
-  isScopusWord(word: String): Boolean = ScopusReservedWords.contains(word)
+  is_scopus_word(word: String): Boolean = ScopusReservedWords.contains(word)
 
 }

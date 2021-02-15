@@ -151,8 +151,8 @@ case class Translation() {
     ScalaReservedWords
       .filter(x => ! ScopusReservedWords.contains(x))
 
-  def isScalaWord(word: String): Boolean = ScalaReservedWords.contains(word)
+  def is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
 
-  def isScopusWord(word: String): Boolean = ScopusReservedWords.contains(word)
+  def is_scopus_word(word: String): Boolean = ScopusReservedWords.contains(word)
 
 }

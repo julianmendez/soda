@@ -12,10 +12,10 @@ package se.umu.cs.rai.scopus.translator
 * Tokenizer() {
 
   tokenize(line: String): Seq[Token] =
-    tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
+    tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
-  _nextValues (newParserState: Int, line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]) =
+  _next_values (newParserState: Int, line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]) =
     if newParserState == parserState
     then (lastIndex, currentIndex + 1, revTokens)
     else {
@@ -29,15 +29,15 @@ package se.umu.cs.rai.scopus.translator
     }
 
   @tailrec
-  tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
+  tokenize_rec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if currentIndex >= line.length
     then revTokens.+:(Token(line.substring(lastIndex), parserState, lastIndex))
     else {
       ch = line.charAt(currentIndex)
-      charType = CharType().charType(ch)
-      newParserState = ParserTransition().nextParserState(parserState, charType)
-      (newLastIndex, newCurrentIndex, newRevTokens) = _nextValues (newParserState, line, lastIndex, currentIndex, parserState, revTokens)
-      tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
+      charType = CharType().get_char_type(ch)
+      newParserState = ParserTransition().next_parser_state(parserState, charType)
+      (newLastIndex, newCurrentIndex, newRevTokens) = _next_values (newParserState, line, lastIndex, currentIndex, parserState, revTokens)
+      tokenize_rec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }
 
 }

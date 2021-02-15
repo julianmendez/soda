@@ -16,12 +16,12 @@ case class MicroTranslator() {
   val ScalaSpace: String = " "
 
 
-  def translateProgram(program: String): String =
-    translateLines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
+  def translate_program(program: String): String =
+    translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
 
-  def addSpaceToScopusLine(line: String): String = ScopusSpace + line + ScopusSpace
+  def add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 
-  def removeSpaceFromScalaLine(line: String): String = {
+  def remove_space_from_scala_line(line: String): String = {
     val lineWithoutStartingSpace =
       if ( line.startsWith(ScalaSpace)
       ) line.substring(1)
@@ -38,29 +38,29 @@ case class MicroTranslator() {
   def tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
 
-  def joinTokens(tokens: Seq[Token]): String =
+  def join_tokens(tokens: Seq[Token]): String =
     tokens
       .map(token => token.text)
       .mkString("")
 
-  def translateLines(lines: Seq[String]): Seq[String] =
+  def translate_lines(lines: Seq[String]): Seq[String] =
     CommentPreprocessor()
-      .annotateLines(lines)
+      .annotate_lines(lines)
       .map(annotatedLine =>
         if ( annotatedLine.isComment
         ) annotatedLine.line
         else {
           val line = annotatedLine.line
-          val lineWithSpace = addSpaceToScopusLine(line)
+          val lineWithSpace = add_space_to_scopus_line(line)
           val tokenizedLine = tokenize(lineWithSpace)
-          val translatedLine = translateLine(tokenizedLine)
-          val jointLine = joinTokens(translatedLine)
-          val finalLine = removeSpaceFromScalaLine(jointLine)
+          val translatedLine = translate_line(tokenizedLine)
+          val jointLine = join_tokens(translatedLine)
+          val finalLine = remove_space_from_scala_line(jointLine)
           finalLine
         }
       )
 
-  def translateLine(tokens: Seq[Token]): Seq[Token] =
+  def translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token =>
         if ( token.parserState == ParserState().Plain

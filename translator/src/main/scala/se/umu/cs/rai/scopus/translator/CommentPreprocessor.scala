@@ -9,11 +9,11 @@ case class CommentPreprocessor() {
   val ScopusBeginComment = "/*"
   val ScopusEndComment = "*/"
 
-  def annotateLines(lines: Seq[String]): Seq[AnnotatedLine] =
-    identifyComments(lines, commentState=false, Seq())
+  def annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] =
+    identify_comments(lines, commentState=false, Seq())
 
   @tailrec final
-  def identifyComments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
+  def identify_comments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
     if ( lines.isEmpty
     ) annotatedLinesRev.reverse
     else {
@@ -26,7 +26,7 @@ case class CommentPreprocessor() {
           ) (true, !line.trim.endsWith(ScopusEndComment))
           else (false, false)
 
-      identifyComments(lines.tail, newCommentState, annotatedLinesRev.+:(AnnotatedLine(line, currentState)))
+      identify_comments(lines.tail, newCommentState, annotatedLinesRev.+:(AnnotatedLine(line, currentState)))
     }
 
 }

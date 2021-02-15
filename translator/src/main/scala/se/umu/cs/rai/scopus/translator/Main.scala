@@ -38,7 +38,7 @@ case class Main() {
     "\n"
 
 
-  val getTitleAndVersion: String = {
+  val get_title_and_version: String = {
     val packg = this.getClass.getPackage
     val name = Option(packg.getImplementationTitle).getOrElse("")
     val version = Option(packg.getImplementationVersion).getOrElse("")
@@ -48,25 +48,25 @@ case class Main() {
   def main(args: Array[String]): Unit =
     if ( args.length == 1 ) process_directory(args(0))
     else if ( args.length == 2 ) translate(args(0), args(1))
-    else println(getTitleAndVersion + Help)
+    else println(get_title_and_version + Help)
 
   def process_directory(start: String) =
     DirectoryScanner()
       .get_scopus_files(new File(start))
       .map(file => {
         val file_name = file.getAbsolutePath
-        val (inputFileName, outputFileName) = getInputOutputFileNames(file_name)
+        val (inputFileName, outputFileName) = get_input_output_file_names(file_name)
         translate(inputFileName, outputFileName)
       })
 
-  def getInputOutputFileNames(inputName: String): (String, String) =
+  def get_input_output_file_names(inputName: String): (String, String) =
     if ( inputName.endsWith(ScopusExtension)
     ) (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
     else (inputName + ScopusExtension, inputName + ScalaExtension)
 
   def translate(inputFileName: String, outputFileName: String): Unit = {
     val input = readFile(inputFileName)
-    val output = MicroTranslator().translateProgram(input)
+    val output = MicroTranslator().translate_program(input)
     val writer = new FileWriter(outputFileName)
     writer.write(output)
     writer.flush()

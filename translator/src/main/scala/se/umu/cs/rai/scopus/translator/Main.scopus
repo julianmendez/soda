@@ -35,7 +35,7 @@ package se.umu.cs.rai.scopus.translator
     "\n"
 
 
-  getTitleAndVersion: String = {
+  get_title_and_version: String = {
     packg = this.getClass.getPackage
     name = Option(packg.getImplementationTitle).getOrElse("")
     version = Option(packg.getImplementationVersion).getOrElse("")
@@ -45,25 +45,25 @@ package se.umu.cs.rai.scopus.translator
   main(args: Array[String]): Unit =
     if args.length == 1 then process_directory(args(0))
     else if args.length == 2 then translate(args(0), args(1))
-    else println(getTitleAndVersion + Help)
+    else println(get_title_and_version + Help)
 
   process_directory(start: String) =
     DirectoryScanner()
       .get_scopus_files(new File(start))
       .map(file -> {
         file_name = file.getAbsolutePath
-        (inputFileName, outputFileName) = getInputOutputFileNames(file_name)
+        (inputFileName, outputFileName) = get_input_output_file_names(file_name)
         translate(inputFileName, outputFileName)
       })
 
-  getInputOutputFileNames(inputName: String): (String, String) =
+  get_input_output_file_names(inputName: String): (String, String) =
     if inputName.endsWith(ScopusExtension)
     then (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
     else (inputName + ScopusExtension, inputName + ScalaExtension)
 
   translate(inputFileName: String, outputFileName: String): Unit = {
     input = readFile(inputFileName)
-    output = MicroTranslator().translateProgram(input)
+    output = MicroTranslator().translate_program(input)
     writer = new FileWriter(outputFileName)
     writer.write(output)
     writer.flush()

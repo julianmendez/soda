@@ -18,7 +18,7 @@ case class ScalaNonScopusSpec() extends AnyFunSuite {
       "\nval __scopus__val x = 0" +
       "\n__scopus__while (x != 0)" +
       "\n"
-    val obtained = MicroTranslator().translateProgram(program)
+    val obtained = MicroTranslator().translate_program(program)
     assert (obtained == expected)
   }
 

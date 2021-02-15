@@ -33,14 +33,14 @@ package se.umu.cs.rai.scopus.translator
   testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
     inputFile = readFile(inputFileName)
     expectedFile = readFile(expectedFileName)
-    obtainedFile = MicroTranslator().translateProgram(inputFile)
+    obtainedFile = MicroTranslator().translate_program(inputFile)
     assert(obtainedFile === expectedFile)
   }
 
   testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
     inputFile = readFile(inputFileName)
     expectedFile = readFile(expectedFileName)
-    obtainedFile = MicroTranslator().translateProgram(inputFile)
+    obtainedFile = MicroTranslator().translate_program(inputFile)
     assert(obtainedFile === expectedFile)
   }
 

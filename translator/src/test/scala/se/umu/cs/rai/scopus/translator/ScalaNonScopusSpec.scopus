@@ -18,7 +18,7 @@ package se.umu.cs.rai.scopus.translator
       "\nval __scopus__val x = 0" +
       "\n__scopus__while (x != 0)" +
       "\n"
-    obtained = MicroTranslator().translateProgram(program)
+    obtained = MicroTranslator().translate_program(program)
     assert (obtained == expected)
   }
 

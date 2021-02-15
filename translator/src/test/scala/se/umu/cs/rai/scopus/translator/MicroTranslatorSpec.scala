@@ -33,14 +33,14 @@ case class MicroTranslatorSpec() extends AnyFunSuite {
   def testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
     val expectedFile = readFile(expectedFileName)
-    val obtainedFile = MicroTranslator().translateProgram(inputFile)
+    val obtainedFile = MicroTranslator().translate_program(inputFile)
     assert(obtainedFile === expectedFile)
   }
 
   def testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
     val inputFile = readFile(inputFileName)
     val expectedFile = readFile(expectedFileName)
-    val obtainedFile = MicroTranslator().translateProgram(inputFile)
+    val obtainedFile = MicroTranslator().translate_program(inputFile)
     assert(obtainedFile === expectedFile)
   }
 

@@ -12,10 +12,10 @@ case class Token(text: String, parserState: Int, index: Int) {
 case class Tokenizer() {
 
   def tokenize(line: String): Seq[Token] =
-    tokenizeRec(line, 0, 0, ParserState().Plain, Seq())
+    tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
       .reverse
 
-  def _nextValues (newParserState: Int, line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]) =
+  def _next_values (newParserState: Int, line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]) =
     if ( newParserState == parserState
     ) (lastIndex, currentIndex + 1, revTokens)
     else {
@@ -29,15 +29,15 @@ case class Tokenizer() {
     }
 
   @tailrec final
-  def tokenizeRec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
+  def tokenize_rec(line: String, lastIndex: Int, currentIndex: Int, parserState: Int, revTokens: Seq[Token]): Seq[Token] =
     if ( currentIndex >= line.length
     ) revTokens.+:(Token(line.substring(lastIndex), parserState, lastIndex))
     else {
       val ch = line.charAt(currentIndex)
-      val charType = CharType().charType(ch)
-      val newParserState = ParserTransition().nextParserState(parserState, charType)
-      val (newLastIndex, newCurrentIndex, newRevTokens) = _nextValues (newParserState, line, lastIndex, currentIndex, parserState, revTokens)
-      tokenizeRec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
+      val charType = CharType().get_char_type(ch)
+      val newParserState = ParserTransition().next_parser_state(parserState, charType)
+      val (newLastIndex, newCurrentIndex, newRevTokens) = _next_values (newParserState, line, lastIndex, currentIndex, parserState, revTokens)
+      tokenize_rec(line, newLastIndex, newCurrentIndex, newParserState, newRevTokens)
     }
 
 }
