@@ -10,23 +10,23 @@ package se.umu.cs.rai.scopus.translator
   ScopusEndComment = "*/"
 
   annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] =
-    identify_comments(lines, commentState=false, Seq())
+    identify_comments(lines, comment_state=false, Seq())
 
   @tailrec
-  identify_comments(lines: Seq[String], commentState: Boolean, annotatedLinesRev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
+  identify_comments(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
     if lines.isEmpty
-    then annotatedLinesRev.reverse
+    then annotated_lines_rev.reverse
     else {
       line = lines.head
-      (currentState, newCommentState) =
-        if commentState
+      (current_state, new_comment_state) =
+        if comment_state
         then (true, !line.trim.endsWith(ScopusEndComment))
         else
           if line.trim.startsWith(ScopusBeginComment)
           then (true, !line.trim.endsWith(ScopusEndComment))
           else (false, false)
 
-      identify_comments(lines.tail, newCommentState, annotatedLinesRev.+:(AnnotatedLine(line, currentState)))
+      identify_comments(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
     }
 
 }

@@ -55,24 +55,24 @@ case class Main() {
       .get_scopus_files(new File(start))
       .map(file => {
         val file_name = file.getAbsolutePath
-        val (inputFileName, outputFileName) = get_input_output_file_names(file_name)
-        translate(inputFileName, outputFileName)
+        val (input_file_name, output_file_name) = get_input_output_file_names(file_name)
+        translate(input_file_name, output_file_name)
       })
 
-  def get_input_output_file_names(inputName: String): (String, String) =
-    if ( inputName.endsWith(ScopusExtension)
-    ) (inputName, inputName.substring(0, inputName.length - ScopusExtension.length) + ScalaExtension)
-    else (inputName + ScopusExtension, inputName + ScalaExtension)
+  def get_input_output_file_names(input_name: String): (String, String) =
+    if ( input_name.endsWith(ScopusExtension)
+    ) (input_name, input_name.substring(0, input_name.length - ScopusExtension.length) + ScalaExtension)
+    else (input_name + ScopusExtension, input_name + ScalaExtension)
 
-  def translate(inputFileName: String, outputFileName: String): Unit = {
-    val input = readFile(inputFileName)
+  def translate(input_file_name: String, output_file_name: String): Unit = {
+    val input = read_file(input_file_name)
     val output = MicroTranslator().translate_program(input)
-    val writer = new FileWriter(outputFileName)
+    val writer = new FileWriter(output_file_name)
     writer.write(output)
     writer.flush()
   }
 
-  def readFile(fileName: String): String =
+  def read_file(fileName: String): String =
     new String(Files.readAllBytes(Paths.get(fileName)))
 
 }

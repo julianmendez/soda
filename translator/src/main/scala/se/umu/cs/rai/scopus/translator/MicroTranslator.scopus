@@ -22,17 +22,17 @@ package se.umu.cs.rai.scopus.translator
   add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 
   remove_space_from_scala_line(line: String): String = {
-    lineWithoutStartingSpace =
+    line_without_starting_space =
       if line.startsWith(ScalaSpace)
       then line.substring(1)
       else line
 
-    lineWithoutEndingSpace =
-      if lineWithoutStartingSpace.endsWith(ScalaSpace)
-      then lineWithoutStartingSpace.substring(0, lineWithoutStartingSpace.length - 1)
-      else lineWithoutStartingSpace
+    line_without_ending_space =
+      if line_without_starting_space.endsWith(ScalaSpace)
+      then line_without_starting_space.substring(0, line_without_starting_space.length - 1)
+      else line_without_starting_space
 
-    lineWithoutEndingSpace
+    line_without_ending_space
   }
 
   tokenize(line: String): Seq[Token] =
@@ -46,40 +46,40 @@ package se.umu.cs.rai.scopus.translator
   translate_lines(lines: Seq[String]): Seq[String] =
     CommentPreprocessor()
       .annotate_lines(lines)
-      .map(annotatedLine ->
-        if annotatedLine.isComment
-        then annotatedLine.line
+      .map(annotated_line ->
+        if annotated_line.isComment
+        then annotated_line.line
         else {
-          line = annotatedLine.line
-          lineWithSpace = add_space_to_scopus_line(line)
-          tokenizedLine = tokenize(lineWithSpace)
-          translatedLine = translate_line(tokenizedLine)
-          jointLine = join_tokens(translatedLine)
-          finalLine = remove_space_from_scala_line(jointLine)
-          finalLine
+          line = annotated_line.line
+          line_with_space = add_space_to_scopus_line(line)
+          tokenized_line = tokenize(line_with_space)
+          translated_line = translate_line(tokenized_line)
+          joint_line = join_tokens(translated_line)
+          final_line = remove_space_from_scala_line(joint_line)
+          final_line
         }
       )
 
   translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token ->
-        if token.parserState == ParserState().Plain
+        if token.parser_state == ParserState().Plain
         then {
           currentLine = token.text
           newText = Option(currentLine)
-            .flatMap(line -> replace(line, ScalaNonScopus(), onlyBeginning=false))
-            .flatMap(line -> replaceAtBeginning(line, token.index, SynonymAtBeginning()))
-            .flatMap(line -> replace(line, Synonym(), onlyBeginning=false))
-            .flatMap(line -> tryDefinition(line))
-            .flatMap(line -> replaceAtBeginning(line, token.index, getTranslationTableAtBeginning(line)))
-            .flatMap(line -> replace(line, MainTranslation(), onlyBeginning=false))
+            .flatMap(line -> replace(line, ScalaNonScopus(), only_beginning=false))
+            .flatMap(line -> replace_at_beginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line -> replace(line, Synonym(), only_beginning=false))
+            .flatMap(line -> try_definition(line))
+            .flatMap(line -> replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
+            .flatMap(line -> replace(line, MainTranslation(), only_beginning=false))
             .getOrElse(currentLine)
-          Token(newText, token.parserState, token.index)
+          Token(newText, token.parser_state, token.index)
         }
         else token
     )
 
-  getTranslationTableAtBeginning(line: String): Translator =
+  get_translation_table_at_beginning(line: String): Translator =
     if line.contains(ScopusOpeningParenthesis)
     then TranslationAtBeginningWithParen()
     else TranslationAtBeginningWithoutParen()
@@ -100,20 +100,20 @@ package se.umu.cs.rai.scopus.translator
    * @param line line
    * @return maybe a translated line
    */
-  tryDefinition(line: String): Some[String] = {
-    maybePosition = findDefinition(line)
-    if maybePosition.nonEmpty
+  try_definition(line: String): Some[String] = {
+    maybe_position = find_definition(line)
+    if maybe_position.nonEmpty
     then {
-      positionOfDefinitionSign = maybePosition.get
-      positionOfFirstClosingParenthesis = line.indexOf(ScopusClosingParenthesis)
+      position_of_definition_sign = maybe_position.get
+      position_of_first_closing_parenthesis = line.indexOf(ScopusClosingParenthesis)
 
-      case1 = positionOfFirstClosingParenthesis == -1
+      case1 = position_of_first_closing_parenthesis == -1
       case2 = line.trim.startsWith(ScopusOpeningParenthesis)
-      case3 = positionOfFirstClosingParenthesis > positionOfDefinitionSign
+      case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       if case1 or case2 or case3
-      then Some(addAfterSpaces(Translation().ScalaValue + ScalaSpace, line))
-      else Some(addAfterSpaces(Translation().ScalaDefinition + ScalaSpace, line))
+      then Some(add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
     }
     else Some(line)
   }
@@ -125,7 +125,7 @@ package se.umu.cs.rai.scopus.translator
    * @param line line
    * @return maybe the position of the definition sign
    */
-  findDefinition(line: String): Option[Int] = {
+  find_definition(line: String): Option[Int] = {
     position =
       if line.endsWith(ScopusSpace + Translation().ScopusDefinition)
       then line.length - Translation().ScopusDefinition.length
@@ -135,59 +135,59 @@ package se.umu.cs.rai.scopus.translator
     else Some(position)
   }
 
-  replaceAll(line: String, pattern: String, replacement: String): String =
-    replaceAllRec(line, pattern, replacement, Seq())
+  replace_all(line: String, pattern: String, replacement: String): String =
+    replace_all_rec(line, pattern, replacement, Seq())
 
   @tailrec
-  replaceAllRec(line: String, pattern: String, replacement: String, replacedTextRev: Seq[String]): String = {
+  replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
     pos = line.indexOf(pattern)
     if pos == -1
     then
-      replacedTextRev.+:(line)
+      replaced_text_rev.+:(line)
         .reverse
         .mkString("")
     else {
-      newReplacedTextRev = replacedTextRev.+:(line.substring(0, pos) + replacement)
-      newLine = line.substring(pos + pattern.length)
-      replaceAllRec(newLine, pattern, replacement, newReplacedTextRev)
+      new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
+      new_line = line.substring(pos + pattern.length)
+      replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
     }
   }
 
-  replaceAtBeginning(line: String, index: Int, translator: Translator): Some[String] =
+  replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
     if index == 0
-    then replace(line, translator, onlyBeginning=true)
+    then replace(line, translator, only_beginning=true)
     else Some(line)
 
 
-  replace(line: String, translator: Translator, onlyBeginning: Boolean): Some[String] =
-    Some(replaceRec(line, translator.keys, translator, onlyBeginning))
+  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
+    Some(replace_rec(line, translator.keys, translator, only_beginning))
 
 
   @tailrec
-  replaceRec(line: String, toReplace: Seq[String], translator: Translator, onlyBeginning: Boolean): String =
-    if toReplace.isEmpty
+  replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+    if to_replace.isEmpty
     then line
     else {
-      reservedWord = toReplace.head
+      reserved_word = to_replace.head
       alreadyProcessedLine =
-        replaceIfFound(line, ScopusSpace + reservedWord + ScopusSpace, ScalaSpace + translator.translate(reservedWord) + ScalaSpace, onlyBeginning)
-      replaceRec(alreadyProcessedLine, toReplace.tail, translator, onlyBeginning)
+        replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+      replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
     }
 
-  replaceIfFound(line: String, pattern: String, newText: String, onlyBeginning: Boolean): String =
-    if (onlyBeginning and line.trim.startsWith(pattern.trim)) or
-      ( not onlyBeginning and line.contains(pattern))
-    then replaceAll(line, pattern, newText)
+  replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+    if (only_beginning and line.trim.startsWith(pattern.trim)) or
+      ( not only_beginning and line.contains(pattern))
+    then replace_all(line, pattern, newText)
     else line
 
-  addAfterSpaces(textToPrepend: String, line: String): String = {
-    prefixLength = line.takeWhile(ch -> ch.isSpaceChar).length
-    line.substring(0, prefixLength) + textToPrepend + line.substring(prefixLength)
+  add_after_spaces(text_to_prepend: String, line: String): String = {
+    prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
+    line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }
 
-  addIfNonEmpty(textToPrepend: String, line: String): String =
+  addIfNonEmpty(text_to_prepend: String, line: String): String =
     if line.trim.isEmpty
     then line
-    else textToPrepend + line
+    else text_to_prepend + line
 
 }

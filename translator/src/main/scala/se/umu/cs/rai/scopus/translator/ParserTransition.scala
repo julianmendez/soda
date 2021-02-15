@@ -11,8 +11,8 @@ case class ParserState() {
 
 case class ParserTransition() {
 
-  def next_parser_state(parserState: Int, charType: Int): Int =
-    TransitionsThatChangeStates.getOrElse((parserState, charType), parserState)
+  def next_parser_state(parser_state: Int, char_type: Int): Int =
+    TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
   def TransitionsThatChangeStates: Map[(Int, Int), Int] =
     Map(

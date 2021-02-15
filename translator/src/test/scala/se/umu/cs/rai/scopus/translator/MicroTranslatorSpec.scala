@@ -30,54 +30,54 @@ case class MicroTranslatorSpec() extends AnyFunSuite {
   val ExpectedFileName06 = "/se/umu/cs/rai/scopus/translator/example/PiIterator.scala"
 
 
-  def testTranslation(inputFileName: String, expectedFileName: String): Assertion = {
-    val inputFile = readFile(inputFileName)
-    val expectedFile = readFile(expectedFileName)
-    val obtainedFile = MicroTranslator().translate_program(inputFile)
-    assert(obtainedFile === expectedFile)
+  def test_translation(input_file_name: String, expected_file_name: String): Assertion = {
+    val input_file = read_file(input_file_name)
+    val expected_file = read_file(expected_file_name)
+    val obtained_file = MicroTranslator().translate_program(input_file)
+    assert(obtained_file === expected_file)
   }
 
-  def testTranslationInScope(inputFileName: String, expectedFileName: String): Assertion = {
-    val inputFile = readFile(inputFileName)
-    val expectedFile = readFile(expectedFileName)
-    val obtainedFile = MicroTranslator().translate_program(inputFile)
-    assert(obtainedFile === expectedFile)
+  def test_translation_in_scope(input_file_name: String, expected_file_name: String): Assertion = {
+    val input_file = read_file(input_file_name)
+    val expected_file = read_file(expected_file_name)
+    val obtained_file = MicroTranslator().translate_program(input_file)
+    assert(obtained_file === expected_file)
   }
 
-  def readFile(fileName: String): String = {
-    val documentResource = getClass.getResource(fileName)
-    val documentURI = documentResource.toURI
-    val documentPath = Paths.get(documentURI)
-    new String(Files.readAllBytes(documentPath))
+  def read_file(file_name: String): String = {
+    val document_resource = getClass.getResource(file_name)
+    val document_URI = document_resource.toURI
+    val document_path = Paths.get(document_URI)
+    new String(Files.readAllBytes(document_path))
   }
 
   test("should translate the swap example") {
-    testTranslation(InputFileName00, ExpectedFileName00)
+    test_translation(InputFileName00, ExpectedFileName00)
   }
 
   test("should translate the swap example with the translated translator") {
-    testTranslationInScope(InputFileName00, ExpectedFileName00)
+    test_translation_in_scope(InputFileName00, ExpectedFileName00)
   }
 
   test("should translate the Fibonacci example") {
-    testTranslation(InputFileName01, ExpectedFileName01)
+    test_translation(InputFileName01, ExpectedFileName01)
   }
 
   test("should translate the Factorial examples") {
-    testTranslation(InputFileName02, ExpectedFileName02)
-    testTranslation(InputFileName03, ExpectedFileName03)
+    test_translation(InputFileName02, ExpectedFileName02)
+    test_translation(InputFileName03, ExpectedFileName03)
   }
 
   test("should translate the Fairness example") {
-    testTranslation(InputFileName04, ExpectedFileName04)
+    test_translation(InputFileName04, ExpectedFileName04)
   }
 
   test("should translate the manual") {
-    testTranslation(InputFileName05, ExpectedFileName05)
+    test_translation(InputFileName05, ExpectedFileName05)
   }
 
   test("should translate the example that calculates pi") {
-    testTranslation(InputFileName06, ExpectedFileName06)
+    test_translation(InputFileName06, ExpectedFileName06)
   }
 
 }
