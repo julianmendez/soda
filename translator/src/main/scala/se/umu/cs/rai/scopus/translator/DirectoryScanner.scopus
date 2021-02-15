@@ -7,6 +7,16 @@ package se.umu.cs.rai.scopus.translator
 
   Scopus_suffix = ".scopus"
 
+  get_all_files(start: File): Seq[File] =
+    if start.isFile
+    then Seq(start)
+    else _scan(Seq(), start.listFiles().toSeq)
+
+  get_scopus_files(start: File): Seq[File] =
+    get_all_files(start)
+      .filter(x -> x.isFile)
+      .filter(x -> x.getName.endsWith(Scopus_suffix))
+
   @tailrec
   _scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
     if to_scan.isEmpty
@@ -20,15 +30,5 @@ package se.umu.cs.rai.scopus.translator
         else remaining
       _scan(found.+:(next_file), new_to_scan)
     }
-
-  get_all_files(start: File): Seq[File] =
-    if start.isFile
-    then Seq(start)
-    else _scan(Seq(), start.listFiles().toSeq)
-
-  get_scopus_files(start: File): Seq[File] =
-    get_all_files(start)
-      .filter(x -> x.isFile)
-      .filter(x -> x.getName.endsWith(Scopus_suffix))
 
 }

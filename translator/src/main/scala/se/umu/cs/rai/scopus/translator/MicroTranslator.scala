@@ -15,33 +15,11 @@ case class MicroTranslator() {
   val ScopusSpace: String = " "
   val ScalaSpace: String = " "
 
-
   def translate_program(program: String): String =
     translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
 
-  def _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
-
-  def _remove_space_from_scala_line(line: String): String = {
-    val line_without_starting_space =
-      if ( line.startsWith(ScalaSpace)
-      ) line.substring(1)
-      else line
-
-    val line_without_ending_space =
-      if ( line_without_starting_space.endsWith(ScalaSpace)
-      ) line_without_starting_space.substring(0, line_without_starting_space.length - 1)
-      else line_without_starting_space
-
-    line_without_ending_space
-  }
-
   def tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
-
-  def _join_tokens(tokens: Seq[Token]): String =
-    tokens
-      .map(token => token.text)
-      .mkString("")
 
   def translate_lines(lines: Seq[String]): Seq[String] =
     CommentPreprocessor()
@@ -78,6 +56,11 @@ case class MicroTranslator() {
         }
         else token
     )
+
+  def _join_tokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token => token.text)
+      .mkString("")
 
   def get_translation_table_at_beginning(line: String): Translator =
     if ( line.contains(ScopusOpeningParenthesis)
@@ -162,7 +145,6 @@ case class MicroTranslator() {
   def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
     Some(_replace_rec(line, translator.keys, translator, only_beginning))
 
-
   @tailrec final
   def _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
     if ( to_replace.isEmpty
@@ -180,14 +162,25 @@ case class MicroTranslator() {
     ) replace_all(line, pattern, newText)
     else line
 
+  def _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
+
+  def _remove_space_from_scala_line(line: String): String = {
+    val line_without_starting_space =
+      if ( line.startsWith(ScalaSpace)
+      ) line.substring(1)
+      else line
+
+    val line_without_ending_space =
+      if ( line_without_starting_space.endsWith(ScalaSpace)
+      ) line_without_starting_space.substring(0, line_without_starting_space.length - 1)
+      else line_without_starting_space
+
+    line_without_ending_space
+  }
+
   def _add_after_spaces(text_to_prepend: String, line: String): String = {
     val prefix_length = line.takeWhile(ch => ch.isSpaceChar).length
     line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }
-
-  def addIfNonEmpty(text_to_prepend: String, line: String): String =
-    if ( line.trim.isEmpty
-    ) line
-    else text_to_prepend + line
 
 }
