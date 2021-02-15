@@ -41,6 +41,8 @@ lazy val commonSettings = Seq(
   resolvers += Resolver.mavenLocal,
   publishTo := Some(Resolver.mavenLocal),
   publishMavenStyle := true,
+  publishConfiguration := publishConfiguration.value.withOverwrite(true),
+  publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
   scalacOptions ++= Seq("-deprecation", "-feature")
 )
 
