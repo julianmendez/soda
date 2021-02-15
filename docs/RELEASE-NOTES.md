@@ -1,6 +1,6 @@
 ---
 - - version: v0.4.0
-  - date: unreleased
+  - date: '2021-02-15'
   - new_features:
     - has some of its functions renamed to follow snake case
     - is compatible with Scala 2.12.13, Scala 2.13.4, and Scala 3.0.0-M3
