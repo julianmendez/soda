@@ -30,6 +30,7 @@
 - - version: v0.2.1
   - date: '2021-02-01'
   - new_features:
+    - is compiled by default for Scala 3.0.0-M3
     - includes a highlighting configuration file for [gedit](https://gitlab.gnome.org/GNOME/gedit/)
     - renames synonym `that` to `suchthat`
     - includes annotation `@main` to indicate the entry point
@@ -61,16 +62,16 @@
 - - version: v0.1.1
   - date: '2020-11-16'
   - new_features:
-    - has asterisk (`*`) as synonym for class
+    - has the asterisk (`*`) as synonym for class
     - assumes the output file when it is omitted
   - bug_fixes:
     - fixes translation of definition sign (`=`)
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.1.jar
-- - version: v1.0.0
+- - version: v0.1.0
   - date: '2020-11-05'
   - new_features:
-    - version operational version with the basic reserved words, which are
+    - is an operational version with the basic reserved words, which are
     - (definition symbol) `=`
     - (type symbol) `:`
     - (lambda symbol) `->`
@@ -90,6 +91,7 @@
     - . `package`
     - . `import`
     - . `new`
+    - has `@tailrec` annotation to indicate tail recursion, and `@override` annotation to allow overriding JVM functions
   - build: sbt clean compile test package assembly
   - release: target/scala-2.13/scopus-0.1.0.jar
 - - schema: RELEASE-NOTES.md.schema.yaml
