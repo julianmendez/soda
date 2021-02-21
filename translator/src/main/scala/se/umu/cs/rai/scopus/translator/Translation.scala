@@ -114,9 +114,9 @@ case class Translation() {
     /** Annotations */
     ("@override", "override"),
     ("@tailrec", "@tailrec final"),
+    ("@private", "private"),
     ("@main", ScalaEntryPoint)
   )
-
 
   def Synonym: Seq[(String, String)] = Seq(
     ("is", "="),

@@ -12,7 +12,7 @@ trait Fibo_example {
 
 case class Fibo_example_in_scopus () extends Fibo_example {
 
-  @tailrec final
+  private
   def fa (m : Int, a : Int, b : Int) : Int =
     if ( m == 0 ) a
     else if ( m == 1 ) b

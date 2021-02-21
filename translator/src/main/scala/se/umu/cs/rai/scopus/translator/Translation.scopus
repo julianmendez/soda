@@ -114,9 +114,9 @@ package se.umu.cs.rai.scopus.translator
     /** Annotations */
     ("@override", "override"),
     ("@tailrec", "@tailrec final"),
+    ("@private", "private"),
     ("@main", ScalaEntryPoint)
   )
-
 
   Synonym: Seq[(String, String)] = Seq(
     ("is", "="),

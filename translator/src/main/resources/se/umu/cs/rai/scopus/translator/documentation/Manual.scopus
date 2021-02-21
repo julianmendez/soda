@@ -55,6 +55,13 @@ class Person_Name (name: String) {
   toString = name
 }
 
+class Group_Name (name: String) {
+  @private
+  __double = name + " " + name
+
+  double = __double
+}
+
 /**
   * This contains the examples shown in the manual.
   */

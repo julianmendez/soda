@@ -12,7 +12,7 @@ class Fibo_example {
 
 class Fibo_example_in_scopus () extends Fibo_example {
 
-  @tailrec
+  @private
   fa (m in Int, a in Int, b in Int) in Int is
     if m == 0 then a
     else if m == 1 then b

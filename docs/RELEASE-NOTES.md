@@ -1,4 +1,10 @@
 ---
+- - version: v0.5.0
+  - date: unreleased
+  - new_features:
+    - includes annotation `@private` to force a function or a value to be private
+  - build: sbt clean compile test package assembly
+  - release: target/scala-3.0.0-M3/scopus-0.5.0.jar
 - - version: v0.4.0
   - date: '2021-02-15'
   - new_features:

@@ -63,6 +63,7 @@ Scaladoc / Javadoc markers are `/**` and `*/`.
 Annotations:
 - `@tailrec` to indicate tail recursion
 - `@override` to indicate an overriding of a JVM function
+- `@private` to force a function of a value to be private in the JVM bytecode
 - `@main` to indicate the entry point
 
 

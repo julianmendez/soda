@@ -8,12 +8,12 @@ trait AbstractFactorialVerbose {
 
 case class FactorialVerbose () extends AbstractFactorialVerbose {
 
-  def factorial (n : Int) = factorial_rec (n, 1)
+  def factorial (n : Int) = __factorial_rec (n, 1)
 
   @tailrec final
-  def factorial_rec (n : Int, product : Int) : Int =
+  def __factorial_rec (n : Int, product : Int) : Int =
     if ( n == 0
     ) product
-    else factorial_rec (n - 1, n * product)
+    else __factorial_rec (n - 1, n * product)
 
 }

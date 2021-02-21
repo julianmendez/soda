@@ -55,6 +55,13 @@ case class Person_Name (name: String) {
   val toString = name
 }
 
+case class Group_Name (name: String) {
+  private
+  val __double = name + " " + name
+
+  val double = __double
+}
+
 /**
   * This contains the examples shown in the manual.
   */

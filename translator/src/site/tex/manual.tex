@@ -9,7 +9,7 @@
 
 
 \lstdefinelanguage{Scopus}{
-    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, @override, @tailrec, @main},
+    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, to, suchthat, @tailrec, @override, @private, @main},
     sensitive=true, % keywords are not case-sensitive
     morecomment=[l]{//}, % l is for line comment
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
@@ -46,6 +46,7 @@
 
 \newcommand{\stailrec}{\annotation{@tailrec}}
 \newcommand{\soverride}{\annotation{@override}}
+\newcommand{\sprivate}{\annotation{@private}}
 \newcommand{\smain}{\annotation{@main}}
 
 \newcommand{\sequalsSign}{\srccode{==}}
@@ -71,20 +72,20 @@
 \begin{document}
 
     \lstset{frame=tb,
-    language=Scopus,
-    aboveskip=3mm,
-    belowskip=3mm,
-    showstringspaces=false,
-    columns=flexible,
-    basicstyle={\small\ttfamily},
-    numbers=none,
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{gray},
-    stringstyle=\color{teal},
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=3
+        language=Scopus,
+        aboveskip=3mm,
+        belowskip=3mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{gray},
+        stringstyle=\color{teal},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3
     }
 
     \begin{center}
@@ -595,14 +596,33 @@
 
     \subsubsection{\soverride}
 
-    The \soverride annotation is used to ensure that a function is effectively overriding another function.
-    When programming, a function name could be misspelled or could be declared in another abstract class.
-    This annotation prevents this problem.
+    The \soverride annotation may be necessary to override some JVM functions, like `toString()`.
+    However, this could be misused to override functions and values of abstract classes.
+    This could make that a concrete class does not behave as the abstract class that implements.
+    For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Scopus functions.
 
     \begin{lstlisting}[label={lst:exampleOverride}]
   class Person_Name (name: String) {
     @override
     toString = name
+  }
+    \end{lstlisting}
+
+    \subsubsection{\sprivate}
+
+    The \sprivate annotation forces a function to be private.
+    This helps to detect that a private function is not used as public.
+    It also helps if, for some reason, the generated JVM bytecode needs to have private functions.
+
+    A private function cannot be tested directly, since it cannot be invoked from a testing instance in a different class.
+    For this reason, it is recommended to avoid using a private function, unless it is coupled to a non-private function that uses it.
+
+    \begin{lstlisting}[label={lst:examplePrivate}]
+  class Group_Name (name: String) {
+    @private
+    __double = name + " " + name
+
+    double = __double
   }
     \end{lstlisting}
 
