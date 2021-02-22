@@ -61,9 +61,9 @@ Comments are marked with `/*` and `*/`.
 Scaladoc / Javadoc markers are `/**` and `*/`.
 
 Annotations:
-- `@tailrec` to indicate tail recursion
-- `@override` to indicate an overriding of a JVM function
-- `@private` to force a function of a value to be private in the JVM bytecode
+- `@tailrec` to ensure a tail recursion
+- `@override` to override a JVM function
+- `@private` to force a function or a value to be private in the JVM bytecode
 - `@main` to indicate the entry point
 
 
@@ -98,5 +98,24 @@ It is possible to define the package and to declare the imports.
 The following tools can be configured to have syntax highlighting:
 - IntelliJ (instructions are provided)
 - gedit (configuration file: scopus.lang)
+
+
+## Build
+
+The project can be build with [sbt](https://www.scala-sbt.org/).
+
+The command is:
+`sbt clean compile test package assembly`
+
+It is also possible to compile it for a different Scala version:
+`sbt "++ 2.13.4" clean compile test package assembly`
+
+If (scala_version) and (scopus_version) is the Scala and Scopus version respectively, the created jar file are:
+- **translator**: library with classes that implement the Scopus-Scala translator
+  `translator/target/(scala_version)/translator_(scala_version)-(scopus_version).jar`
+- **library**: library with classes to be used in Scopus programs
+  `library/target/(scala_version)/library_(scala_version)-(scopus_version).jar`
+- **scopus**: executable fat jar including the previous libraries and the Scala library.
+  `target/(scala_version)/scopus-(scopus_version).jar`
 
 
