@@ -3,8 +3,11 @@
   - date: unreleased
   - new_features:
     - includes annotation `@private` to force a function or a value to be private
+    - compiles with Scala 3.0.0-RC1
+  - bug_fixes:
+    - fixes the names of the created library jar files
   - build: sbt clean compile test package assembly
-  - release: target/scala-3.0.0-M3/scopus-0.5.0.jar
+  - release: target/scala-3.0.0-RC1/scopus-0.5.0.jar
 - - version: v0.4.0
   - date: '2021-02-15'
   - new_features:
