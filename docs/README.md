@@ -108,7 +108,7 @@ The command is:
 `sbt clean compile test package assembly`
 
 It is also possible to compile it for a different Scala version:
-`sbt "++ 2.13.4" clean compile test package assembly`
+`sbt "++ 2.13.5" clean compile test package assembly`
 
 If (scala_version) and (scopus_version) is the Scala and Scopus version respectively, the created jar file are:
 - **translator**: library with classes that implement the Scopus-Scala translator

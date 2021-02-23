@@ -15,8 +15,8 @@ pipelines:
         script:
           - sbt scalaVersion sbtVersion version
           - sbt clean compile test package assembly
-          - sbt "++ 2.13.4" scalaVersion sbtVersion version
-          - sbt "++ 2.13.4" clean compile test package assembly
+          - sbt "++ 2.13.5" scalaVersion sbtVersion version
+          - sbt "++ 2.13.5" clean compile test package assembly
           - sbt "++ 2.12.13" scalaVersion sbtVersion version
           - sbt "++ 2.12.13" clean compile test package assembly
 
