@@ -1,0 +1,83 @@
+package scopus.se.umu.cs.rai.scopus.translator
+
++ org.scalatest.Assertion
++ org.scalatest.funsuite.AnyFunSuite
+
++ java.nio.file.{Files, Paths}
++ scala.language.implicitConversions
+
+* MicroTranslatorSpec() extends AnyFunSuite {
+
+  InputFileName00 = "/scopus/se/umu/cs/rai/scopus/translator/example/SwapExample.scopus"
+  ExpectedFileName00 = "/scopus/se/umu/cs/rai/scopus/translator/example/SwapExample.scala"
+
+  InputFileName01 = "/scopus/se/umu/cs/rai/scopus/translator/example/FiboExample.scopus"
+  ExpectedFileName01 = "/scopus/se/umu/cs/rai/scopus/translator/example/FiboExample.scala"
+
+  InputFileName02 = "/scopus/se/umu/cs/rai/scopus/translator/example/FactorialConcise.scopus"
+  ExpectedFileName02 = "/scopus/se/umu/cs/rai/scopus/translator/example/FactorialConcise.scala"
+
+  InputFileName03 = "/scopus/se/umu/cs/rai/scopus/translator/example/FactorialVerbose.scopus"
+  ExpectedFileName03 = "/scopus/se/umu/cs/rai/scopus/translator/example/FactorialVerbose.scala"
+
+  InputFileName04 = "/scopus/se/umu/cs/rai/scopus/translator/example/Fairness.scopus"
+  ExpectedFileName04 = "/scopus/se/umu/cs/rai/scopus/translator/example/Fairness.scala"
+
+  InputFileName05 = "/scopus/se/umu/cs/rai/scopus/translator/documentation/Manual.scopus"
+  ExpectedFileName05 = "/scopus/se/umu/cs/rai/scopus/translator/documentation/Manual.scala"
+
+  InputFileName06 = "/scopus/se/umu/cs/rai/scopus/translator/example/PiIterator.scopus"
+  ExpectedFileName06 = "/scopus/se/umu/cs/rai/scopus/translator/example/PiIterator.scala"
+
+
+  test_translation(input_file_name: String, expected_file_name: String): Assertion = {
+    input_file = read_file(input_file_name)
+    expected_file = read_file(expected_file_name)
+    obtained_file = MicroTranslator().translate_program(input_file)
+    assert(obtained_file === expected_file)
+  }
+
+  test_translation_in_scope(input_file_name: String, expected_file_name: String): Assertion = {
+    input_file = read_file(input_file_name)
+    expected_file = read_file(expected_file_name)
+    obtained_file = MicroTranslator().translate_program(input_file)
+    assert(obtained_file === expected_file)
+  }
+
+  read_file(file_name: String): String = {
+    document_resource = getClass.getResource(file_name)
+    document_URI = document_resource.toURI
+    document_path = Paths.get(document_URI)
+    new String(Files.readAllBytes(document_path))
+  }
+
+  test("should translate the swap example") {
+    test_translation(InputFileName00, ExpectedFileName00)
+  }
+
+  test("should translate the swap example with the translated translator") {
+    test_translation_in_scope(InputFileName00, ExpectedFileName00)
+  }
+
+  test("should translate the Fibonacci example") {
+    test_translation(InputFileName01, ExpectedFileName01)
+  }
+
+  test("should translate the Factorial examples") {
+    test_translation(InputFileName02, ExpectedFileName02)
+    test_translation(InputFileName03, ExpectedFileName03)
+  }
+
+  test("should translate the Fairness example") {
+    test_translation(InputFileName04, ExpectedFileName04)
+  }
+
+  test("should translate the manual") {
+    test_translation(InputFileName05, ExpectedFileName05)
+  }
+
+  test("should translate the example that calculates pi") {
+    test_translation(InputFileName06, ExpectedFileName06)
+  }
+
+}

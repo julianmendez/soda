@@ -1,0 +1,186 @@
+package scopus.se.umu.cs.rai.scopus.translator
+
++ scala.annotation.tailrec
+
+
+/**
+ * This class translates Scopus source code into Scala source code.
+ */
+* MicroTranslator() {
+
+  NewLine = "\n"
+
+  ScopusOpeningParenthesis: String = "("
+  ScopusClosingParenthesis: String = ")"
+  ScopusSpace: String = " "
+  ScalaSpace: String = " "
+
+  translate_program(program: String): String =
+    translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
+
+  tokenize(line: String): Seq[Token] =
+    Tokenizer().tokenize(line)
+
+  translate_lines(lines: Seq[String]): Seq[String] =
+    CommentPreprocessor()
+      .annotate_lines(lines)
+      .map(annotated_line ->
+        if annotated_line.isComment
+        then annotated_line.line
+        else {
+          line = annotated_line.line
+          line_with_space = _add_space_to_scopus_line(line)
+          tokenized_line = tokenize(line_with_space)
+          translated_line = _translate_line(tokenized_line)
+          joint_line = _join_tokens(translated_line)
+          final_line = _remove_space_from_scala_line(joint_line)
+          final_line
+        }
+      )
+
+  _translate_line(tokens: Seq[Token]): Seq[Token] =
+    tokens.map(
+      token ->
+        if token.parser_state == ParserState().Plain
+        then {
+          currentLine = token.text
+          newText = Option(currentLine)
+            .flatMap(line -> replace(line, ScalaNonScopus(), only_beginning=false))
+            .flatMap(line -> replace_at_beginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line -> replace(line, Synonym(), only_beginning=false))
+            .flatMap(line -> try_definition(line))
+            .flatMap(line -> replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
+            .flatMap(line -> replace(line, MainTranslation(), only_beginning=false))
+            .getOrElse(currentLine)
+          Token(newText, token.parser_state, token.index)
+        }
+        else token
+    )
+
+  _join_tokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token -> token.text)
+      .mkString("")
+
+  get_translation_table_at_beginning(line: String): Translator =
+    if line.contains(ScopusOpeningParenthesis)
+    then TranslationAtBeginningWithParen()
+    else TranslationAtBeginningWithoutParen()
+
+  /**
+   * A line containing the definition sign will be classified as a definition.
+   * The definitions need to be translated to either 'val' or 'def'.
+   *
+   * 'val' is for value definition.
+   * It is detected in three cases.
+   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
+   * Case 2: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   *
+   * 'def' is for function definition.
+   * If it does not fit in any of the 'val' cases.
+   *
+   * @param line line
+   * @return maybe a translated line
+   */
+  try_definition(line: String): Some[String] = {
+    maybe_position = find_definition(line)
+    if maybe_position.nonEmpty
+    then {
+      position_of_definition_sign = maybe_position.get
+      position_of_first_closing_parenthesis = line.indexOf(ScopusClosingParenthesis)
+
+      case1 = position_of_first_closing_parenthesis == -1
+      case2 = line.trim.startsWith(ScopusOpeningParenthesis)
+      case3 = position_of_first_closing_parenthesis > position_of_definition_sign
+
+      if case1 or case2 or case3
+      then Some(_add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(_add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
+    }
+    else Some(line)
+  }
+
+  /**
+   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+  find_definition(line: String): Option[Int] = {
+    position =
+      if line.endsWith(ScopusSpace + Translation().ScopusDefinition)
+      then line.length - Translation().ScopusDefinition.length
+      else line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    if position == -1
+    then None
+    else Some(position)
+  }
+
+  replace_all(line: String, pattern: String, replacement: String): String =
+    _replace_all_rec(line, pattern, replacement, Seq())
+
+  @tailrec
+  _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
+    pos = line.indexOf(pattern)
+    if pos == -1
+    then
+      replaced_text_rev.+:(line)
+        .reverse
+        .mkString("")
+    else {
+      new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
+      new_line = line.substring(pos + pattern.length)
+      _replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
+    }
+  }
+
+  replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
+    if index == 0
+    then replace(line, translator, only_beginning=true)
+    else Some(line)
+
+
+  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
+    Some(_replace_rec(line, translator.keys, translator, only_beginning))
+
+  @tailrec
+  _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+    if to_replace.isEmpty
+    then line
+    else {
+      reserved_word = to_replace.head
+      alreadyProcessedLine =
+        replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+      _replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
+    }
+
+  replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+    if (only_beginning and line.trim.startsWith(pattern.trim)) or
+      ( not only_beginning and line.contains(pattern))
+    then replace_all(line, pattern, newText)
+    else line
+
+  _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
+
+  _remove_space_from_scala_line(line: String): String = {
+    line_without_starting_space =
+      if line.startsWith(ScalaSpace)
+      then line.substring(1)
+      else line
+
+    line_without_ending_space =
+      if line_without_starting_space.endsWith(ScalaSpace)
+      then line_without_starting_space.substring(0, line_without_starting_space.length - 1)
+      else line_without_starting_space
+
+    line_without_ending_space
+  }
+
+  _add_after_spaces(text_to_prepend: String, line: String): String = {
+    prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
+    line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
+  }
+
+}

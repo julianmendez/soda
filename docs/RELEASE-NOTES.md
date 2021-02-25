@@ -2,6 +2,7 @@
 - - version: v0.5.0
   - date: unreleased
   - new_features:
+    - changes its main package to `scopus`
     - includes annotation `@private` to force a function or a value to be private
     - is compatible with Scala 2.13.5
     - compiles with Scala 3.0.0-RC1

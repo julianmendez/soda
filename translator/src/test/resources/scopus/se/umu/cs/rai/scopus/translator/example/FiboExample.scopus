@@ -1,0 +1,23 @@
+package scopus.se.umu.cs.rai.scopus.translator.example
+
+import scala.annotation.tailrec
+
+
+class Fibo_example {
+
+  has fib (n in Int) in Int
+
+}
+
+
+class Fibo_example_in_scopus () extends Fibo_example {
+
+  @private
+  fa (m in Int, a in Int, b in Int) in Int is
+    if m == 0 then a
+    else if m == 1 then b
+    else fa (m - 1, b, a + b)
+
+  fib (n in Int) = fa (n, 0, 1)
+
+}
