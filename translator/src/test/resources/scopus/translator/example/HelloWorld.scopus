@@ -1,0 +1,11 @@
+package scopus.translator.example
+
+* Main() {
+
+  main (args: Array[String]) =
+    println("Hello world!")
+
+}
+
+@main
+

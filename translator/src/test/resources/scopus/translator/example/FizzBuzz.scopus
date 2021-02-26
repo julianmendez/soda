@@ -1,0 +1,17 @@
+package scopus.translator.example
+
+* FizzBuzz() {
+
+  Fizz = "Fizz"
+  Buzz = "Buzz"
+
+  fizz_buzz() = Range(1, 101).map(fizz_buzz_term)
+
+  fizz_buzz_term(n: Int) =
+    if n % 15 == 0 then Fizz + Buzz
+    else if n % 3 == 0 then Fizz
+    else if n % 5 == 0 then Buzz
+    else n.toString
+
+}
+

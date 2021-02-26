@@ -1,0 +1,42 @@
+package scopus.translator
+
++ org.scalatest.funsuite.AnyFunSuite
+
++ scala.language.implicitConversions
+
+
+* TokenizerSpec() extends AnyFunSuite {
+
+
+  InputLine0: String = "    val Constant = \"my text\""
+  InputLine1: String = "def f(x: Int): Int = x"
+  InputLine2: String = "\tas_digits (5 * number)"
+
+
+  ExpectedTokens0: Seq[Token] = Seq(
+    Token("    val Constant = ", ParserState().Plain, 0),
+    Token("\"my text\"", ParserState().QuotesState, 19),
+    Token("", ParserState().Plain, 28)
+  )
+
+  ExpectedTokens1: Seq[Token] = Seq(
+    Token("def f(x: Int): Int = x", ParserState().Plain, 0)
+  )
+
+  ExpectedTokens2: Seq[Token] = Seq(
+    Token("\tas_digits (5 * number)", ParserState().Plain, 0)
+  )
+
+
+  test("should tokenize a small example") {
+    obtained0 = Tokenizer().tokenize(InputLine0)
+    assert(obtained0 === ExpectedTokens0)
+
+    obtained1 = Tokenizer().tokenize(InputLine1)
+    assert(obtained1 === ExpectedTokens1)
+
+    obtained2 = Tokenizer().tokenize(InputLine2)
+    assert(obtained2 === ExpectedTokens2)
+  }
+
+}
