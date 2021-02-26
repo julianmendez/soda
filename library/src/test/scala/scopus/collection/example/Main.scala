@@ -1,11 +1,14 @@
-package se.umu.cs.rai.scopus.collection.example
+package scopus.collection.example
 
-@main
-* Main() {
+object EntryPoint {
+  def main(args: Array[String]): Unit = Main().main(args)
+}
 
-  main(args: Array[String]): Unit = {
-    e = ListExample()
-    allExamples = Seq(
+case class Main() {
+
+  def main(args: Array[String]): Unit = {
+    val e = ListExample()
+    val allExamples = Seq(
       e.aExample,
       e.bExample,
       e.takeExample,
@@ -29,10 +32,9 @@ package se.umu.cs.rai.scopus.collection.example
       e.foldLeftExample,
       e.foldRightExample
     )
-      .map(pair -> pair._1 + " = " + pair._2.toString)
+      .map(pair => pair._1 + " = " + pair._2.toString)
       .mkString("\n")
     println(allExamples)
   }
 
 }
-

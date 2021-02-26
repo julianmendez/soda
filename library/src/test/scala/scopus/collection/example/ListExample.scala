@@ -1,4 +1,4 @@
-package se.umu.cs.rai.scopus.collection.example
+package scopus.collection.example
 
 case class ListExample() {
 

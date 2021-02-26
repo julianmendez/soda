@@ -1,4 +1,4 @@
-package scopus.se.umu.cs.rai.scopus.collection
+package scopus.collection
 
 
 trait MSeq[T] {

@@ -1,4 +1,4 @@
-package scopus.se.umu.cs.rai.scopus.collection
+package scopus.collection
 
 + org.scalatest.funsuite.AnyFunSuite
 

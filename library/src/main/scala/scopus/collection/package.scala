@@ -1,4 +1,4 @@
-package scopus.se.umu.cs.rai.scopus
+package scopus
 
 /**
  * Scopus libraries written in Scopus
