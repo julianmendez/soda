@@ -77,3 +77,4 @@ lazy val root = project
     assemblyJarName in assembly := "scopus-" + version.value + ".jar"
   )
 
+
