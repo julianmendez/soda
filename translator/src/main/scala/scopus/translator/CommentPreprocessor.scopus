@@ -20,10 +20,10 @@ package scopus.translator
       line = lines.head
       (current_state, new_comment_state) =
         if comment_state
-        then (true, !line.trim.endsWith(ScopusEndComment))
+        then (true, not line.trim.endsWith(ScopusEndComment))
         else
           if line.trim.startsWith(ScopusBeginComment)
-          then (true, !line.trim.endsWith(ScopusEndComment))
+          then (true, not line.trim.endsWith(ScopusEndComment))
           else (false, false)
 
       _identify_comments(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))

@@ -20,10 +20,10 @@ case class CommentPreprocessor() {
       val line = lines.head
       val (current_state, new_comment_state) =
         if ( comment_state
-        ) (true, !line.trim.endsWith(ScopusEndComment))
+        ) (true, ! line.trim.endsWith(ScopusEndComment))
         else
           if ( line.trim.startsWith(ScopusBeginComment)
-          ) (true, !line.trim.endsWith(ScopusEndComment))
+          ) (true, ! line.trim.endsWith(ScopusEndComment))
           else (false, false)
 
       _identify_comments(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
