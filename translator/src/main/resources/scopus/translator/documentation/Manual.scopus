@@ -1,4 +1,4 @@
-package scopus.se.umu.cs.rai.scopus.translator.documentation
+package scopus.translator.documentation
 
 import java.util.Date
 
