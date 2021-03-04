@@ -9,6 +9,7 @@ import scala.annotation.tailrec
 case class MicroTranslator() {
 
   val NewLine = "\n"
+  val Comma = ","
 
   val ScopusOpeningParenthesis: String = "("
   val ScopusClosingParenthesis: String = ")"
@@ -16,9 +17,35 @@ case class MicroTranslator() {
   val ScalaSpace: String = " "
 
   def translate_program(program: String): String = {
-    val lines = program.split(NewLine).toIndexedSeq
-    translate_lines(lines).mkString(NewLine) + NewLine
+    val original_lines = split_lines(program)
+    val lines_to_translate = join_lines_ending_with_comma(original_lines)
+    val translated_lines = translate_lines(lines_to_translate)
+    join_translated_lines (translated_lines)
   }
+
+  def split_lines (program: String): Seq[String] =
+    program.split(NewLine).toIndexedSeq
+
+  def join_lines_ending_with_comma(lines: Seq[String]): Seq[String] =
+    _join_lines_ending_with_comma_rec(lines, Seq())
+
+  @tailrec final
+  def _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
+    if ( to_process.isEmpty
+    ) processed_rev.reverse
+    else {
+      val head = to_process.head
+      val tail = to_process.tail
+      if ( _ends_with_comma(head) && ! tail.isEmpty
+      ) _join_lines_ending_with_comma_rec((head + tail.head) +: tail.tail, processed_rev)
+      else _join_lines_ending_with_comma_rec(tail, head +: processed_rev)
+    }
+  }
+
+  def _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
+
+  def join_translated_lines (lines: Seq[String]): String =
+    lines.mkString(NewLine) + NewLine
 
   def tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)

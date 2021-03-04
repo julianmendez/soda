@@ -5,11 +5,7 @@ trait Applicant {
 }
 
 case class Fairness(
-  ranking_function: Applicant => Double,
-  score_difference_tolerance: Double,
-  ranking_difference_tolerance: Double,
-  measure_time: Any => Double,
-  maximum_execution_time: Double
+  ranking_function: Applicant => Double,  score_difference_tolerance: Double,  ranking_difference_tolerance: Double,  measure_time: Any => Double,  maximum_execution_time: Double
 ) {
 
   def is_fair (alice: Applicant, bob: Applicant) =

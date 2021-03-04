@@ -9,6 +9,7 @@ package scopus.translator
 * MicroTranslator() {
 
   NewLine = "\n"
+  Comma = ","
 
   ScopusOpeningParenthesis: String = "("
   ScopusClosingParenthesis: String = ")"
@@ -16,9 +17,35 @@ package scopus.translator
   ScalaSpace: String = " "
 
   translate_program(program: String): String = {
-    lines = program.split(NewLine).toIndexedSeq
-    translate_lines(lines).mkString(NewLine) + NewLine
+    original_lines = split_lines(program)
+    lines_to_translate = join_lines_ending_with_comma(original_lines)
+    translated_lines = translate_lines(lines_to_translate)
+    join_translated_lines (translated_lines)
   }
+
+  split_lines (program: String): Seq[String] =
+    program.split(NewLine).toIndexedSeq
+
+  join_lines_ending_with_comma(lines: Seq[String]): Seq[String] =
+    _join_lines_ending_with_comma_rec(lines, Seq())
+
+  @tailrec
+  _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
+    if to_process.isEmpty
+    then processed_rev.reverse
+    else {
+      head = to_process.head
+      tail = to_process.tail
+      if _ends_with_comma(head) and not tail.isEmpty
+      then _join_lines_ending_with_comma_rec((head + tail.head) +: tail.tail, processed_rev)
+      else _join_lines_ending_with_comma_rec(tail, head +: processed_rev)
+    }
+  }
+
+  _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
+
+  join_translated_lines (lines: Seq[String]): String =
+    lines.mkString(NewLine) + NewLine
 
   tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
