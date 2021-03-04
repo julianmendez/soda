@@ -15,8 +15,10 @@ package scopus.translator
   ScopusSpace: String = " "
   ScalaSpace: String = " "
 
-  translate_program(program: String): String =
-    translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
+  translate_program(program: String): String = {
+    lines = program.split(NewLine).toIndexedSeq
+    translate_lines(lines).mkString(NewLine) + NewLine
+  }
 
   tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
@@ -27,16 +29,17 @@ package scopus.translator
       .map(annotated_line ->
         if annotated_line.isComment
         then annotated_line.line
-        else {
-          line = annotated_line.line
-          line_with_space = _add_space_to_scopus_line(line)
-          tokenized_line = tokenize(line_with_space)
-          translated_line = _translate_line(tokenized_line)
-          joint_line = _join_tokens(translated_line)
-          final_line = _remove_space_from_scala_line(joint_line)
-          final_line
-        }
+        else _translate_non_comment(annotated_line.line)
       )
+
+  _translate_non_comment(line: String): String = {
+    line_with_space = _add_space_to_scopus_line(line)
+    tokenized_line = tokenize(line_with_space)
+    translated_line = _translate_line(tokenized_line)
+    joint_line = _join_tokens(translated_line)
+    final_line = _remove_space_from_scala_line(joint_line)
+    final_line
+  }
 
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(

@@ -15,8 +15,10 @@ case class MicroTranslator() {
   val ScopusSpace: String = " "
   val ScalaSpace: String = " "
 
-  def translate_program(program: String): String =
-    translate_lines(program.split(NewLine).toIndexedSeq).mkString(NewLine) + NewLine
+  def translate_program(program: String): String = {
+    val lines = program.split(NewLine).toIndexedSeq
+    translate_lines(lines).mkString(NewLine) + NewLine
+  }
 
   def tokenize(line: String): Seq[Token] =
     Tokenizer().tokenize(line)
@@ -27,16 +29,17 @@ case class MicroTranslator() {
       .map(annotated_line =>
         if ( annotated_line.isComment
         ) annotated_line.line
-        else {
-          val line = annotated_line.line
-          val line_with_space = _add_space_to_scopus_line(line)
-          val tokenized_line = tokenize(line_with_space)
-          val translated_line = _translate_line(tokenized_line)
-          val joint_line = _join_tokens(translated_line)
-          val final_line = _remove_space_from_scala_line(joint_line)
-          final_line
-        }
+        else _translate_non_comment(annotated_line.line)
       )
+
+  def _translate_non_comment(line: String): String = {
+    val line_with_space = _add_space_to_scopus_line(line)
+    val tokenized_line = tokenize(line_with_space)
+    val translated_line = _translate_line(tokenized_line)
+    val joint_line = _join_tokens(translated_line)
+    val final_line = _remove_space_from_scala_line(joint_line)
+    final_line
+  }
 
   def _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
