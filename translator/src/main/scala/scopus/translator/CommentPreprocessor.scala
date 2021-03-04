@@ -12,6 +12,7 @@ case class CommentPreprocessor() {
   def annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] =
     _identify_comments(lines, comment_state=false, Seq())
 
+  import scala.annotation.tailrec
   @tailrec final
   def _identify_comments(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
     if ( lines.isEmpty

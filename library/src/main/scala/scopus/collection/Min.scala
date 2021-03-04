@@ -10,12 +10,14 @@ case class MSeqTranslator[T]() {
 
   def asSeq(ms: MSeq[T]): Seq[T] = asSeqRec(ms, Seq()).reverse
 
+  import scala.annotation.tailrec
   @tailrec final
   def asMSeqRec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
     if ( seq.isEmpty
     ) ms
     else asMSeqRec(seq.tail, Min().prepended(ms, seq.head))
 
+  import scala.annotation.tailrec
   @tailrec final
   def asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
     if ( Min().isEmpty(ms)
@@ -108,18 +110,21 @@ case class Min[T]() {
 
   //
 
+  import scala.annotation.tailrec
   @tailrec final
   def reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
     if ( isEmpty(s0)
     ) s1
     else reverseRec(tail(s0), prepended(s1, head(s0)))
 
+  import scala.annotation.tailrec
   @tailrec final
   def lengthRec(s: MSeq[T], n: Int): Int =
     if ( isEmpty(s)
     ) n
     else lengthRec(tail(s), n + 1)
 
+  import scala.annotation.tailrec
   @tailrec final
   def indexOfRec(s: MSeq[T], e: T, n: Int): Int =
     if ( isEmpty(s)
@@ -128,6 +133,7 @@ case class Min[T]() {
     ) n
     else indexOfRec(tail(s), e, n + 1)
 
+  import scala.annotation.tailrec
   @tailrec final
   def containsRec(s: MSeq[T], e: T): Boolean =
     if ( isEmpty(s)
@@ -136,6 +142,7 @@ case class Min[T]() {
     ) true
     else containsRec(tail(s), e)
 
+  import scala.annotation.tailrec
   @tailrec final
   def atRec(s: MSeq[T], n: Int): T =
     if ( isEmpty(s) || n < 0
@@ -146,18 +153,21 @@ case class Min[T]() {
 
   //
 
+  import scala.annotation.tailrec
   @tailrec final
   def takeRevRec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
     if ( isEmpty(s0) || n <= 0
     ) s1
     else takeRevRec(tail(s0), n - 1, prepended(s1, head(s0)))
 
+  import scala.annotation.tailrec
   @tailrec final
   def dropRec(s: MSeq[T], n: Int): MSeq[T] =
     if ( isEmpty(s) || n <= 0
     ) s
     else dropRec(tail(s), n - 1)
 
+  import scala.annotation.tailrec
   @tailrec final
   def spanRevRec(s0: MSeq[T], p: T => Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
     if ( isEmpty(s0) || ! taking
@@ -173,6 +183,7 @@ case class Min[T]() {
 
   //
 
+  import scala.annotation.tailrec
   @tailrec final
   def forallRec(s: MSeq[T], p: T => Boolean): Boolean =
     if ( isEmpty(s)
@@ -181,6 +192,7 @@ case class Min[T]() {
     ) false
     else forallRec(tail(s), p)
 
+  import scala.annotation.tailrec
   @tailrec final
   def existsRec(s: MSeq[T], p: T => Boolean): Boolean =
     if ( isEmpty(s)
@@ -189,6 +201,7 @@ case class Min[T]() {
     ) true
     else existsRec(tail(s), p)
 
+  import scala.annotation.tailrec
   @tailrec final
   def findRec(s: MSeq[T], p: T => Boolean): Option[T] =
     if ( isEmpty(s)
@@ -197,6 +210,7 @@ case class Min[T]() {
     ) Some(head(s))
     else findRec(tail(s), p)
 
+  import scala.annotation.tailrec
   @tailrec final
   def filterRevRec(s0: MSeq[T], f: T => Boolean, s1: MSeq[T]): MSeq[T] =
     if ( isEmpty(s0)
@@ -209,12 +223,14 @@ case class Min[T]() {
       filterRevRec(tail(s0), f, newS1)
     }
 
+  import scala.annotation.tailrec
   @tailrec final
   def mapRevRec(s0: MSeq[T], f: T => T, s1: MSeq[T]): MSeq[T] =
     if ( isEmpty(s0)
     ) s1
     else mapRevRec(tail(s0), f, prepended(s1, f(head(s0))))
 
+  import scala.annotation.tailrec
   @tailrec final
   def foldLeftRec(s0: MSeq[T], f: (MSeq[T], T) => MSeq[T], s1: MSeq[T]): MSeq[T] =
     if ( isEmpty(s0)

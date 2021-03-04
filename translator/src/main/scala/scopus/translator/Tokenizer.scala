@@ -28,6 +28,7 @@ case class Tokenizer() {
       (index, index + 1, rev_tokens.+:(Token(text, parser_state, last_index)))
     }
 
+  import scala.annotation.tailrec
   @tailrec final
   def _tokenize_rec(line: String, last_index: Int, current_index: Int, parser_state: Int, rev_tokens: Seq[Token]): Seq[Token] =
     if ( current_index >= line.length
