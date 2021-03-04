@@ -10,6 +10,7 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
 
   def factorial (n : Int) = __factorial_rec (n, 1)
 
+  import scala.annotation.tailrec
   @tailrec final
   def __factorial_rec (n : Int, product : Int) : Int =
     if ( n == 0

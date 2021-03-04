@@ -110,7 +110,7 @@ package scopus.translator
 
     /** Annotations */
     ("@override", "override"),
-    ("@tailrec", "@tailrec final"),
+    ("@tailrec", "import scala.annotation.tailrec\n  @tailrec final"),
     ("@private", "private"),
     ("@main", ScalaEntryPoint)
   )
