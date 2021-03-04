@@ -4,6 +4,7 @@
   - new_features:
     - changes its main package to `scopus`
     - accepts `,` at the end of a line to join lines and allow multi-line function signatures
+    - makes annotation `@tailrec` be automatically imported
     - includes annotation `@private` to force a function or a value to be private
     - is compatible with Scala 2.13.5
     - compiles with Scala 3.0.0-RC1

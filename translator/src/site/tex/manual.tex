@@ -550,8 +550,6 @@
 
     \begin{lstlisting}[label={lst:exampleImport}]
   import java.util.Date
-
-  import scala.annotation.tailrec
     \end{lstlisting}
 
     \subsubsection{\snew}
@@ -575,13 +573,9 @@
     The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
     If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
 
-    For technical reasons, the \stailrec annotation needs to be imported.
-
     For example, the following example shows a function \srccode{sum} that returns the sum of the first $n$ natural numbers, or 0 if $n \leq 0$.
 
     \begin{lstlisting}[label={lst:exampleTailrec}]
-  import scala.annotation.tailrec
-
   sum (n: Int) = sum_rec (n, 0)
 
   @tailrec
@@ -679,8 +673,6 @@
     As an example we can see the factorial written first in a concise and then in a verbose manner.
 
     \begin{lstlisting}[label={lst:exampleFactorialConcise}]
-  + scala.annotation.tailrec
-
   * Abstract_factorial_concise {
     has factorial (n: Int): Int
   }
@@ -700,8 +692,6 @@
 
 
     \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
-  import scala.annotation.tailrec
-
   class Abstract_factorial_verbose {
     has factorial (n in Int) in Int
   }

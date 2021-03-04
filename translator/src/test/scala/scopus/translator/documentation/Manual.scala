@@ -2,8 +2,6 @@ package scopus.translator.documentation
 
 import java.util.Date
 
-import scala.annotation.tailrec
-
 /** Class for a registered person, in snake case */
 case class Registered_person (first_name: String, last_name: String) {
   val _separator = " "
