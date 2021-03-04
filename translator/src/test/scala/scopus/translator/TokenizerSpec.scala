@@ -28,13 +28,13 @@ case class TokenizerSpec() extends AnyFunSuite {
 
   test("should tokenize a small example") {
     val obtained0 = Tokenizer().tokenize(InputLine0)
-    assert(obtained0 === ExpectedTokens0)
+    assert(obtained0 == ExpectedTokens0)
 
     val obtained1 = Tokenizer().tokenize(InputLine1)
-    assert(obtained1 === ExpectedTokens1)
+    assert(obtained1 == ExpectedTokens1)
 
     val obtained2 = Tokenizer().tokenize(InputLine2)
-    assert(obtained2 === ExpectedTokens2)
+    assert(obtained2 == ExpectedTokens2)
   }
 
 }

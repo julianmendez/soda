@@ -32,16 +32,16 @@ package scopus.translator
 
   test_translation(input_file_name: String, expected_file_name: String): Assertion = {
     input_file = read_file(input_file_name)
-    expected_file = read_file(expected_file_name)
-    obtained_file = MicroTranslator().translate_program(input_file)
-    assert(obtained_file === expected_file)
+    expected = read_file(expected_file_name)
+    obtained = MicroTranslator().translate_program(input_file)
+    assert(obtained == expected)
   }
 
   test_translation_in_scope(input_file_name: String, expected_file_name: String): Assertion = {
     input_file = read_file(input_file_name)
-    expected_file = read_file(expected_file_name)
-    obtained_file = MicroTranslator().translate_program(input_file)
-    assert(obtained_file === expected_file)
+    expected = read_file(expected_file_name)
+    obtained = MicroTranslator().translate_program(input_file)
+    assert(obtained == expected)
   }
 
   read_file(file_name: String): String = {
