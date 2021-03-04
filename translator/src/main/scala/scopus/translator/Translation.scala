@@ -31,7 +31,6 @@ case class Translation() {
     "is",
     "in",
     "\u2208",
-    "to",
     "suchthat",
     "\u2192",
     "*",
@@ -39,7 +38,7 @@ case class Translation() {
     "+"
   )
 
-  // https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+  /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */
   val ScalaReservedWords = Seq(
     "abstract",
     "case",
@@ -122,7 +121,6 @@ case class Translation() {
     ("is", "="),
     ("in", ":"),
     ("\u2208", ":"),
-    ("to", "->"),
     ("suchthat", "->"),
     ("\u2192", "->")
   )

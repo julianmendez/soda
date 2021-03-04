@@ -5,10 +5,10 @@ class Applicant {
 }
 
 class Fairness(
-  ranking_function: Applicant to Double,
+  ranking_function: Applicant -> Double,
   score_difference_tolerance: Double,
   ranking_difference_tolerance: Double,
-  measure_time: Any to Double,
+  measure_time: Any -> Double,
   maximum_execution_time: Double
 ) {
 

@@ -145,7 +145,6 @@
         <context id="synonym" style-ref="keyword">
             <keyword>is</keyword>
             <keyword>in</keyword>
-            <keyword>to</keyword>
             <keyword>suchthat</keyword>
         </context>
 

@@ -6,6 +6,8 @@
     - includes annotation `@private` to force a function or a value to be private
     - is compatible with Scala 2.13.5
     - compiles with Scala 3.0.0-RC1
+  - deprecated_features:
+    - synonym `to` for `->` is no longer supported
   - bug_fixes:
     - fixes the names of the created library jar files
   - build: sbt clean compile test package assembly
