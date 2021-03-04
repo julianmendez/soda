@@ -1,6 +1,5 @@
 package scopus.translator
 
-+ scala.annotation.tailrec
 
 * Token(text: String, parser_state: Int, index: Int) {
 

@@ -1,7 +1,6 @@
 package scopus.translator
 
 + java.io.File
-+ scala.annotation.tailrec
 
 * DirectoryScanner() {
 

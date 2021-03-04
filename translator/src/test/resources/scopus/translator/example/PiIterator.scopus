@@ -1,6 +1,5 @@
 package scopus.translator.example
 
-+ scala.annotation.tailrec
 
 * Status(
   r: BigInt,

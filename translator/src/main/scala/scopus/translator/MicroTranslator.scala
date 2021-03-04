@@ -1,7 +1,5 @@
 package scopus.translator
 
-import scala.annotation.tailrec
-
 
 /**
  * This class translates Scopus source code into Scala source code.

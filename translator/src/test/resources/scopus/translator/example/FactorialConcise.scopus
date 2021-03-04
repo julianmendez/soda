@@ -1,6 +1,5 @@
 package scopus.translator.example
 
-+ scala.annotation.tailrec
 
 * AbstractFactorialConcise {
   has factorial (n: Int): Int

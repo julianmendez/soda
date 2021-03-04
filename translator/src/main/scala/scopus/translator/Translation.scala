@@ -1,5 +1,6 @@
 package scopus.translator
 
+
 case class Translation() {
 
   val ScopusDefinition: String = "="

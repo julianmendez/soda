@@ -1,6 +1,5 @@
 package scopus.translator.example
 
-import scala.annotation.tailrec
 
 trait AbstractFactorialVerbose {
   def factorial (n : Int) : Int

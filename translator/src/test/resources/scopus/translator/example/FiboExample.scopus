@@ -1,7 +1,5 @@
 package scopus.translator.example
 
-import scala.annotation.tailrec
-
 
 class Fibo_example {
 

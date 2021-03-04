@@ -1,5 +1,6 @@
 package scopus.translator.example
 
+
 class Applicant {
   has background_score: Double
 }

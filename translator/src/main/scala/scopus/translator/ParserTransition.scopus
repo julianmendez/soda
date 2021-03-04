@@ -1,5 +1,6 @@
 package scopus.translator
 
+
 * ParserState() {
   UndefinedState = 0
   QuotesState = 1

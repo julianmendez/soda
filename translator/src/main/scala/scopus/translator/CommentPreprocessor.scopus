@@ -1,6 +1,5 @@
 package scopus.translator
 
-+ scala.annotation.tailrec
 
 * AnnotatedLine(line: String, isComment: Boolean)
 

@@ -1,6 +1,5 @@
 package scopus.translator.example
 
-import scala.annotation.tailrec
 
 case class Status(
   r: BigInt,  n: BigInt,  q: BigInt,  t: BigInt,  l: BigInt,  k: BigInt

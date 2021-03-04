@@ -1,5 +1,6 @@
 package scopus.translator.example
 
+
 * Main() {
 
   main (args: Array[String]) =

@@ -1,5 +1,6 @@
 package scopus.translator.example
 
+
 case class FizzBuzz() {
 
   val Fizz = "Fizz"

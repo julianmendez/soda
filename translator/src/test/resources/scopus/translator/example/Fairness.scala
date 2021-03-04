@@ -1,5 +1,6 @@
 package scopus.translator.example
 
+
 trait Applicant {
   val background_score: Double
 }

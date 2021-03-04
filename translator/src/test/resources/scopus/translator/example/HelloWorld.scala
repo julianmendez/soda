@@ -1,5 +1,6 @@
 package scopus.translator.example
 
+
 case class Main() {
 
   def main (args: Array[String]) =

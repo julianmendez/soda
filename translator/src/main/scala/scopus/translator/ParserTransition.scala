@@ -1,5 +1,6 @@
 package scopus.translator
 
+
 case class ParserState() {
   val UndefinedState = 0
   val QuotesState = 1
