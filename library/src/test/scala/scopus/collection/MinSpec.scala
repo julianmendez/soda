@@ -395,8 +395,7 @@ case class MinSpec() extends AnyFunSuite {
 
   test("foldLeft in the same type") {
     val expected = MSeqTranslator().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
-    val obtained = Min().foldLeft0(example)(Min().empty,
-      (s: MSeq[Int], e: Int) => Min().prepended(s, e + 100)
+    val obtained = Min().foldLeft0(example)(Min().empty,      (s: MSeq[Int], e: Int) => Min().prepended(s, e + 100)
     )
     assert(obtained == expected)
   }

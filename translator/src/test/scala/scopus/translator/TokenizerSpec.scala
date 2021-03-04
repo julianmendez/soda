@@ -14,9 +14,7 @@ case class TokenizerSpec() extends AnyFunSuite {
 
 
   val ExpectedTokens0: Seq[Token] = Seq(
-    Token("    val Constant = ", ParserState().Plain, 0),
-    Token("\"my text\"", ParserState().QuotesState, 19),
-    Token("", ParserState().Plain, 28)
+    Token("    val Constant = ", ParserState().Plain, 0),    Token("\"my text\"", ParserState().QuotesState, 19),    Token("", ParserState().Plain, 28)
   )
 
   val ExpectedTokens1: Seq[Token] = Seq(

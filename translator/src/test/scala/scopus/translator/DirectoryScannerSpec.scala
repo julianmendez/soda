@@ -21,13 +21,7 @@ case class ScannerSpec() extends AnyFunSuite {
     val scanner = DirectoryScanner()
 
     val expected = Seq(
-      "otherexample",
-      "Example.md",
-      "Example.scala",
-      "Example.scopus",
-      "otherexample/OtherExample.scala",
-      "otherexample/OtherExample.scopus",
-      "otherexample/OtherExample.txt"
+      "otherexample",      "Example.md",      "Example.scala",      "Example.scopus",      "otherexample/OtherExample.scala",      "otherexample/OtherExample.scopus",      "otherexample/OtherExample.txt"
     ).map(x => new File(start, x)).toSet
     val start_file = new File(start)
     val obtained = scanner.get_all_files(start_file).toSet
@@ -38,8 +32,7 @@ case class ScannerSpec() extends AnyFunSuite {
     val scanner = DirectoryScanner()
 
     val expected = Seq(
-      "Example.scopus",
-      "otherexample/OtherExample.scopus"
+      "Example.scopus",      "otherexample/OtherExample.scopus"
     ).map(x => new File(start, x)).toSet
     val start_file = new File(start)
     val obtained = scanner.get_scopus_files(start_file).toSet
