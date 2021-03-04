@@ -40,7 +40,6 @@ The synonyms at the beginning of a line are:
 The synonyms in any part of a line are:
 - `is` for `=`
 - `in` for `:`
-- `to` for `->`
 - `suchthat` for `->`
 
 
