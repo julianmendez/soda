@@ -30,9 +30,7 @@ case class Translation() {
     "new",
     "is",
     "in",
-    "\u2208",
     "suchthat",
-    "\u2192",
     "*",
     "-",
     "+"
@@ -120,9 +118,7 @@ case class Translation() {
   def Synonym: Seq[(String, String)] = Seq(
     ("is", "="),
     ("in", ":"),
-    ("\u2208", ":"),
-    ("suchthat", "->"),
-    ("\u2192", "->")
+    ("suchthat", "->")
   )
 
   def MainTranslation: Seq[(String, String)] = Seq(

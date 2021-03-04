@@ -30,9 +30,7 @@ package scopus.translator
     "new",
     "is",
     "in",
-    "\u2208",
     "suchthat",
-    "\u2192",
     "*",
     "-",
     "+"
@@ -120,9 +118,7 @@ package scopus.translator
   Synonym: Seq[(String, String)] = Seq(
     ("is", "="),
     ("in", ":"),
-    ("\u2208", ":"),
-    ("suchthat", "->"),
-    ("\u2192", "->")
+    ("suchthat", "->")
   )
 
   MainTranslation: Seq[(String, String)] = Seq(
