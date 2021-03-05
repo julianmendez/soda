@@ -35,8 +35,8 @@ package scopus.translator
       head = to_process.head
       tail = to_process.tail
       if _ends_with_comma(head) and not tail.isEmpty
-      then _join_lines_ending_with_comma_rec((head + tail.head) +: tail.tail, processed_rev)
-      else _join_lines_ending_with_comma_rec(tail, head +: processed_rev)
+      then _join_lines_ending_with_comma_rec(tail.tail.+:(head + tail.head), processed_rev)
+      else _join_lines_ending_with_comma_rec(tail, processed_rev.+:(head))
     }
   }
 

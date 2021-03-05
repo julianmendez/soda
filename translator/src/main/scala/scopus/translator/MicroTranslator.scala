@@ -36,8 +36,8 @@ case class MicroTranslator() {
       val head = to_process.head
       val tail = to_process.tail
       if ( _ends_with_comma(head) && ! tail.isEmpty
-      ) _join_lines_ending_with_comma_rec((head + tail.head) +: tail.tail, processed_rev)
-      else _join_lines_ending_with_comma_rec(tail, head +: processed_rev)
+      ) _join_lines_ending_with_comma_rec(tail.tail.+:(head + tail.head), processed_rev)
+      else _join_lines_ending_with_comma_rec(tail, processed_rev.+:(head))
     }
   }
 
