@@ -7,7 +7,6 @@ import scala.language.implicitConversions
 
 case class SpecificTranslationSpec() extends AnyFunSuite {
 
-
   val original = "  input_lines = Seq(" +
     "\n    \"  f( x: Int,\\t\", " +
     "\n    \"     y: Int) =\"," +
