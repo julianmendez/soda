@@ -8,6 +8,17 @@ case class ParserState() {
   val QuotesBackslashState = 3
   val ApostropheBackslashState = 4
   val Plain = 5
+
+
+  def is_same_class(x: Int, y: Int): Boolean =
+    (x == y) ||
+    _is_same_class_with_order(x, y) ||
+    _is_same_class_with_order(y, x)
+
+  def _is_same_class_with_order(x: Int, y: Int): Boolean =
+    (x == QuotesState && y == QuotesBackslashState) ||
+    (x == ApostropheState && y == ApostropheBackslashState)
+
 }
 
 case class ParserTransition() {

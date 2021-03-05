@@ -8,6 +8,17 @@ package scopus.translator
   QuotesBackslashState = 3
   ApostropheBackslashState = 4
   Plain = 5
+
+
+  is_same_class(x: Int, y: Int): Boolean =
+    (x == y) or
+    _is_same_class_with_order(x, y) or
+    _is_same_class_with_order(y, x)
+
+  _is_same_class_with_order(x: Int, y: Int): Boolean =
+    (x == QuotesState and y == QuotesBackslashState) or
+    (x == ApostropheState and y == ApostropheBackslashState)
+
 }
 
 * ParserTransition() {

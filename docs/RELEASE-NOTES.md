@@ -12,6 +12,7 @@
     - synonym `to` for `->` is no longer supported
   - bug_fixes:
     - fixes the names of the created library jar files
+    - fixes parsing of strings with escaped characters
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-RC1/scopus-0.5.0.jar
 - - version: v0.4.0
