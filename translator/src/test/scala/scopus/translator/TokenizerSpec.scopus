@@ -7,36 +7,56 @@ package scopus.translator
 
 * TokenizerSpec() extends AnyFunSuite {
 
-
-  InputLine0: String = "    val Constant = \"my text\""
-  InputLine1: String = "def f(x: Int): Int = x"
-  InputLine2: String = "\tas_digits (5 * number)"
-
-
-  ExpectedTokens0: Seq[Token] = Seq(
-    Token("    val Constant = ", ParserState().Plain, 0),
-    Token("\"my text\"", ParserState().QuotesState, 19),
-    Token("", ParserState().Plain, 28)
-  )
-
-  ExpectedTokens1: Seq[Token] = Seq(
-    Token("def f(x: Int): Int = x", ParserState().Plain, 0)
-  )
-
-  ExpectedTokens2: Seq[Token] = Seq(
-    Token("\tas_digits (5 * number)", ParserState().Plain, 0)
-  )
-
-
   test("should tokenize a small example") {
-    obtained0 = Tokenizer().tokenize(InputLine0)
-    assert(obtained0 == ExpectedTokens0)
-
-    obtained1 = Tokenizer().tokenize(InputLine1)
-    assert(obtained1 == ExpectedTokens1)
-
-    obtained2 = Tokenizer().tokenize(InputLine2)
-    assert(obtained2 == ExpectedTokens2)
+    input = "    val Constant = \"my text\""
+    expected = Seq(
+      Token("    val Constant = ", ParserState().Plain, 0),
+      Token("\"my text\"", ParserState().QuotesState, 19),
+      Token("", ParserState().Plain, 28)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
   }
+
+  test("should tokenize a common tab in a string") {
+    input = "  x = \"abc\tde\""
+    expected = Seq(
+      Token("  x = ", ParserState().Plain, 0),
+      Token("\"abc\tde\"", ParserState().QuotesState, 6),
+      Token("", ParserState().Plain, 14)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize an escaped tab in a string") {
+    input = "  x = \"abc\\tde\""
+    expected = Seq(
+      Token("  x = ", ParserState().Plain, 0),
+      Token("\"abc\\tde\"", ParserState().QuotesState, 6),
+      Token("", ParserState().Plain, 15)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize a single function definition") {
+    input = "def f(x: Int): Int = x"
+    expected = Seq(
+      Token("def f(x: Int): Int = x", ParserState().Plain, 0)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize a function call") {
+    input = "\tas_digits (5 * number)"
+    expected = Seq(
+      Token("\tas_digits (5 * number)", ParserState().Plain, 0)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
 
 }
