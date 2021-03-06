@@ -1,21 +1,25 @@
 package scopus.translator
 
 
-* ParserState() {
-  UndefinedState = 0
-  QuotesState = 1
-  ApostropheState = 2
-  QuotesBackslashState = 3
-  ApostropheBackslashState = 4
-  Plain = 5
+* ParserState(index: Int)
 
 
-  is_same_class(x: Int, y: Int): Boolean =
+* ParserStateCons() {
+
+  UndefinedState = ParserState(0)
+  QuotesState = ParserState(1)
+  ApostropheState = ParserState(2)
+  QuotesBackslashState = ParserState(3)
+  ApostropheBackslashState = ParserState(4)
+  Plain = ParserState(5)
+
+
+  is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) or
     _is_same_class_with_order(x, y) or
     _is_same_class_with_order(y, x)
 
-  _is_same_class_with_order(x: Int, y: Int): Boolean =
+  _is_same_class_with_order(x: ParserState, y: ParserState): Boolean =
     (x == QuotesState and y == QuotesBackslashState) or
     (x == ApostropheState and y == ApostropheBackslashState)
 
@@ -23,13 +27,13 @@ package scopus.translator
 
 * ParserTransition() {
 
-  ps = ParserState()
+  ps = ParserStateCons()
   ch = CharTypeCons()
 
-  next_parser_state(parser_state: Int, char_type: CharType): Int =
+  next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
-  TransitionsThatChangeStates: Map[(Int, CharType), Int] =
+  TransitionsThatChangeStates: Map[(ParserState, CharType), ParserState] =
     Map(
       /* */
       ((ps.QuotesState, ch.UndefinedType), ps.UndefinedState),

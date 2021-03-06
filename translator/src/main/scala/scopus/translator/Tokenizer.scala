@@ -1,7 +1,7 @@
 package scopus.translator
 
 
-case class Token(text: String, parser_state: Int, index: Int) {
+case class Token(text: String, parser_state: ParserState, index: Int) {
 
   override
   val toString: String =
@@ -11,16 +11,16 @@ case class Token(text: String, parser_state: Int, index: Int) {
 case class Tokenizer() {
 
   def tokenize(line: String): Seq[Token] =
-    _tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
+    _tokenize_rec(line, 0, 0, ParserStateCons().Plain, Seq())
       .reverse
 
-  def _next_values (new_parser_state: Int, line: String,        last_index: Int, current_index: Int,        parser_state: Int, rev_tokens: Seq[Token]) =
-    if ( ParserState().is_same_class(new_parser_state, parser_state)
+  def _next_values (new_parser_state: ParserState, line: String,        last_index: Int, current_index: Int,        parser_state: ParserState, rev_tokens: Seq[Token]) =
+    if ( ParserStateCons().is_same_class(new_parser_state, parser_state)
     ) (last_index, current_index + 1, rev_tokens)
     else {
       val index =
-        if ( parser_state == ParserState().QuotesState ||
-           parser_state == ParserState().ApostropheState
+        if ( parser_state == ParserStateCons().QuotesState ||
+           parser_state == ParserStateCons().ApostropheState
         ) current_index + 1
         else current_index
 
@@ -30,7 +30,7 @@ case class Tokenizer() {
 
   import scala.annotation.tailrec
   @tailrec final
-  def _tokenize_rec(line: String,        last_index: Int, current_index: Int,        parser_state: Int, rev_tokens: Seq[Token]): Seq[Token] =
+  def _tokenize_rec(line: String,        last_index: Int, current_index: Int,        parser_state: ParserState, rev_tokens: Seq[Token]): Seq[Token] =
     if ( current_index >= line.length
     ) rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
     else {

@@ -1,21 +1,25 @@
 package scopus.translator
 
 
-case class ParserState() {
-  val UndefinedState = 0
-  val QuotesState = 1
-  val ApostropheState = 2
-  val QuotesBackslashState = 3
-  val ApostropheBackslashState = 4
-  val Plain = 5
+case class ParserState(index: Int)
 
 
-  def is_same_class(x: Int, y: Int): Boolean =
+case class ParserStateCons() {
+
+  val UndefinedState = ParserState(0)
+  val QuotesState = ParserState(1)
+  val ApostropheState = ParserState(2)
+  val QuotesBackslashState = ParserState(3)
+  val ApostropheBackslashState = ParserState(4)
+  val Plain = ParserState(5)
+
+
+  def is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) ||
     _is_same_class_with_order(x, y) ||
     _is_same_class_with_order(y, x)
 
-  def _is_same_class_with_order(x: Int, y: Int): Boolean =
+  def _is_same_class_with_order(x: ParserState, y: ParserState): Boolean =
     (x == QuotesState && y == QuotesBackslashState) ||
     (x == ApostropheState && y == ApostropheBackslashState)
 
@@ -23,13 +27,13 @@ case class ParserState() {
 
 case class ParserTransition() {
 
-  val ps = ParserState()
+  val ps = ParserStateCons()
   val ch = CharTypeCons()
 
-  def next_parser_state(parser_state: Int, char_type: CharType): Int =
+  def next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
-  def TransitionsThatChangeStates: Map[(Int, CharType), Int] =
+  def TransitionsThatChangeStates: Map[(ParserState, CharType), ParserState] =
     Map(
       /* */
       ((ps.QuotesState, ch.UndefinedType), ps.UndefinedState),      ((ps.QuotesState, ch.QuotesType), ps.Plain),      ((ps.QuotesState, ch.BackslashType), ps.QuotesBackslashState),      /* */

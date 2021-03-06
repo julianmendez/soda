@@ -1,7 +1,7 @@
 package scopus.translator
 
 
-* Token(text: String, parser_state: Int, index: Int) {
+* Token(text: String, parser_state: ParserState, index: Int) {
 
   @override
   toString: String =
@@ -11,18 +11,18 @@ package scopus.translator
 * Tokenizer() {
 
   tokenize(line: String): Seq[Token] =
-    _tokenize_rec(line, 0, 0, ParserState().Plain, Seq())
+    _tokenize_rec(line, 0, 0, ParserStateCons().Plain, Seq())
       .reverse
 
-  _next_values (new_parser_state: Int, line: String,
+  _next_values (new_parser_state: ParserState, line: String,
         last_index: Int, current_index: Int,
-        parser_state: Int, rev_tokens: Seq[Token]) =
-    if ParserState().is_same_class(new_parser_state, parser_state)
+        parser_state: ParserState, rev_tokens: Seq[Token]) =
+    if ParserStateCons().is_same_class(new_parser_state, parser_state)
     then (last_index, current_index + 1, rev_tokens)
     else {
       index =
-        if parser_state == ParserState().QuotesState or
-           parser_state == ParserState().ApostropheState
+        if parser_state == ParserStateCons().QuotesState or
+           parser_state == ParserStateCons().ApostropheState
         then current_index + 1
         else current_index
 
@@ -33,7 +33,7 @@ package scopus.translator
   @tailrec
   _tokenize_rec(line: String,
         last_index: Int, current_index: Int,
-        parser_state: Int, rev_tokens: Seq[Token]): Seq[Token] =
+        parser_state: ParserState, rev_tokens: Seq[Token]): Seq[Token] =
     if current_index >= line.length
     then rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
     else {
