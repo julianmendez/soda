@@ -16,7 +16,7 @@ case class CharType() {
 
   def get_char_type(ch: Char): Int =
     if ( is_quotes(ch) ) QuotesType
-    else if ( is_apostrophe(ch) ) ApostropheChar
+    else if ( is_apostrophe(ch) ) ApostropheType
     else if ( is_backslash(ch) ) BackslashType
     else if ( is_whitespace(ch) || is_letter_or_digit_or_underscore(ch) || is_symbol(ch) ) PlainType
     else UndefinedType

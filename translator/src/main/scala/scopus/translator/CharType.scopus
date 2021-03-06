@@ -16,7 +16,7 @@ package scopus.translator
 
   get_char_type(ch: Char): Int =
     if is_quotes(ch) then QuotesType
-    else if is_apostrophe(ch) then ApostropheChar
+    else if is_apostrophe(ch) then ApostropheType
     else if is_backslash(ch) then BackslashType
     else if is_whitespace(ch) or is_letter_or_digit_or_underscore(ch) or is_symbol(ch) then PlainType
     else UndefinedType
