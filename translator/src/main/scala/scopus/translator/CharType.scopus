@@ -1,16 +1,16 @@
 package scopus.translator
 
 
-* CharType(index: Int)
+* CharType(index: Int, name: String) extends Enum
 
 
 * CharTypeCons() {
 
-  UndefinedType = CharType(0)
-  QuotesType = CharType(1)
-  ApostropheType = CharType(2)
-  BackslashType = CharType(3)
-  PlainType = CharType(4)
+  UndefinedType = CharType(0, "UndefinedType")
+  QuotesType = CharType(1, "QuotesType")
+  ApostropheType = CharType(2, "ApostropheType")
+  BackslashType = CharType(3, "BackslashType")
+  PlainType = CharType(4, "PlainType")
 
   BackslashChar = '\\'
   QuotesChar = '\"'

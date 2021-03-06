@@ -1,17 +1,17 @@
 package scopus.translator
 
 
-* ParserState(index: Int)
+* ParserState(index: Int, name: String) extends Enum
 
 
 * ParserStateCons() {
 
-  UndefinedState = ParserState(0)
-  QuotesState = ParserState(1)
-  ApostropheState = ParserState(2)
-  QuotesBackslashState = ParserState(3)
-  ApostropheBackslashState = ParserState(4)
-  Plain = ParserState(5)
+  UndefinedState = ParserState(0, "UndefinedState")
+  QuotesState = ParserState(1, "QuotesState")
+  ApostropheState = ParserState(2, "ApostropheState")
+  QuotesBackslashState = ParserState(3, "QuotesBackslashState")
+  ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
+  Plain = ParserState(5, "Plain")
 
 
   is_same_class(x: ParserState, y: ParserState): Boolean =

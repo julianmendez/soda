@@ -1,17 +1,17 @@
 package scopus.translator
 
 
-case class ParserState(index: Int)
+case class ParserState(index: Int, name: String) extends Enum
 
 
 case class ParserStateCons() {
 
-  val UndefinedState = ParserState(0)
-  val QuotesState = ParserState(1)
-  val ApostropheState = ParserState(2)
-  val QuotesBackslashState = ParserState(3)
-  val ApostropheBackslashState = ParserState(4)
-  val Plain = ParserState(5)
+  val UndefinedState = ParserState(0, "UndefinedState")
+  val QuotesState = ParserState(1, "QuotesState")
+  val ApostropheState = ParserState(2, "ApostropheState")
+  val QuotesBackslashState = ParserState(3, "QuotesBackslashState")
+  val ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
+  val Plain = ParserState(5, "Plain")
 
 
   def is_same_class(x: ParserState, y: ParserState): Boolean =

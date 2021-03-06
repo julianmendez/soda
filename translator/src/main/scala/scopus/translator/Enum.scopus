@@ -1,0 +1,10 @@
+package scopus.translator
+
+* Enum {
+  has index: Int
+  has name: String
+
+  @override
+  toString: String = "" + index + "-" + name
+
+}

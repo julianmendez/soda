@@ -1,16 +1,16 @@
 package scopus.translator
 
 
-case class CharType(index: Int)
+case class CharType(index: Int, name: String) extends Enum
 
 
 case class CharTypeCons() {
 
-  val UndefinedType = CharType(0)
-  val QuotesType = CharType(1)
-  val ApostropheType = CharType(2)
-  val BackslashType = CharType(3)
-  val PlainType = CharType(4)
+  val UndefinedType = CharType(0, "UndefinedType")
+  val QuotesType = CharType(1, "QuotesType")
+  val ApostropheType = CharType(2, "ApostropheType")
+  val BackslashType = CharType(3, "BackslashType")
+  val PlainType = CharType(4, "PlainType")
 
   val BackslashChar = '\\'
   val QuotesChar = '\"'
