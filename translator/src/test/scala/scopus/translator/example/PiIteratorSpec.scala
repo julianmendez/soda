@@ -10,7 +10,7 @@ case class PiIteratorSpec() extends AnyFunSuite {
   test("first digits of Pi") {
     val piSequence = PiIterator().take(128)
     val obtained = "" + piSequence.head + "." + piSequence.tail.mkString("")
-    assert(obtained === piStart)
+    assert(obtained == piStart)
   }
 
 }
