@@ -7,7 +7,7 @@ import scala.language.implicitConversions
 
 case class DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
-case class DayOfTheWeekCons () {
+case class DayOfTheWeekEnum () {
 
   val Sunday = DayOfTheWeek(0, "Sunday")
   val Monday = DayOfTheWeek(1, "Monday")
@@ -25,7 +25,7 @@ case class EnumSpec() extends AnyFunSuite {
 
   test("the names of the elements in enumerations") {
     val expected = Seq("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")
-    val obtained = DayOfTheWeekCons().values.map(x => x.toString)
+    val obtained = DayOfTheWeekEnum().values.map(x => x.toString)
     assert(obtained == expected)
   }
 

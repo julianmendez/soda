@@ -69,7 +69,7 @@ package scopus.translator
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token ->
-        if token.parser_state == ParserStateCons().Plain
+        if token.parser_state == ParserStateEnum().Plain
         then {
           currentLine = token.text
           newText = Option(currentLine)

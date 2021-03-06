@@ -11,16 +11,16 @@ case class Token(text: String, parser_state: ParserState, index: Int) {
 case class Tokenizer() {
 
   def tokenize(line: String): Seq[Token] =
-    _tokenize_rec(line, 0, 0, ParserStateCons().Plain, Seq())
+    _tokenize_rec(line, 0, 0, ParserStateEnum().Plain, Seq())
       .reverse
 
   def _next_values (new_parser_state: ParserState, line: String,        last_index: Int, current_index: Int,        parser_state: ParserState, rev_tokens: Seq[Token]) =
-    if ( ParserStateCons().is_same_class(new_parser_state, parser_state)
+    if ( ParserStateEnum().is_same_class(new_parser_state, parser_state)
     ) (last_index, current_index + 1, rev_tokens)
     else {
       val index =
-        if ( parser_state == ParserStateCons().QuotesState ||
-           parser_state == ParserStateCons().ApostropheState
+        if ( parser_state == ParserStateEnum().QuotesState ||
+           parser_state == ParserStateEnum().ApostropheState
         ) current_index + 1
         else current_index
 
@@ -35,7 +35,7 @@ case class Tokenizer() {
     ) rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
     else {
       val ch = line.charAt(current_index)
-      val charType = CharTypeCons().get_char_type(ch)
+      val charType = CharTypeEnum().get_char_type(ch)
       val new_parser_state = ParserTransition().next_parser_state(parser_state, charType)
       val (new_last_index, new_current_index, new_rev_tokens) =
           _next_values (new_parser_state, line, last_index, current_index, parser_state, rev_tokens)

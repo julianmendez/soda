@@ -70,7 +70,7 @@ case class MicroTranslator() {
   def _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token =>
-        if ( token.parser_state == ParserStateCons().Plain
+        if ( token.parser_state == ParserStateEnum().Plain
         ) {
           val currentLine = token.text
           val newText = Option(currentLine)

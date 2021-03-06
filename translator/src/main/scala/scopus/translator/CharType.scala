@@ -4,7 +4,7 @@ package scopus.translator
 case class CharType(ordinal: Int, name: String) extends EnumConstant
 
 
-case class CharTypeCons() {
+case class CharTypeEnum() {
 
   val UndefinedType = CharType(0, "UndefinedType")
   val QuotesType = CharType(1, "QuotesType")

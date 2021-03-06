@@ -4,7 +4,7 @@ package scopus.translator
 case class ParserState(ordinal: Int, name: String) extends EnumConstant
 
 
-case class ParserStateCons() {
+case class ParserStateEnum() {
 
   val UndefinedState = ParserState(0, "UndefinedState")
   val QuotesState = ParserState(1, "QuotesState")
@@ -28,8 +28,8 @@ case class ParserStateCons() {
 
 case class ParserTransition() {
 
-  val ps = ParserStateCons()
-  val ch = CharTypeCons()
+  val ps = ParserStateEnum()
+  val ch = CharTypeEnum()
 
   def next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
