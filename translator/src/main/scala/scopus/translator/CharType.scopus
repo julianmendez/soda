@@ -1,12 +1,16 @@
 package scopus.translator
 
-* CharType() {
 
-  UndefinedType = 0
-  QuotesType = 1
-  ApostropheType = 2
-  BackslashType = 3
-  PlainType = 4
+* CharType(index: Int)
+
+
+* CharTypeCons() {
+
+  UndefinedType = CharType(0)
+  QuotesType = CharType(1)
+  ApostropheType = CharType(2)
+  BackslashType = CharType(3)
+  PlainType = CharType(4)
 
   BackslashChar = '\\'
   QuotesChar = '\"'
@@ -14,7 +18,7 @@ package scopus.translator
   UnderscoreChar = '_'
   SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
-  get_char_type(ch: Char): Int =
+  get_char_type(ch: Char): CharType =
     if is_quotes(ch) then QuotesType
     else if is_apostrophe(ch) then ApostropheType
     else if is_backslash(ch) then BackslashType

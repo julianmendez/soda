@@ -24,12 +24,12 @@ package scopus.translator
 * ParserTransition() {
 
   ps = ParserState()
-  ch = CharType()
+  ch = CharTypeCons()
 
-  next_parser_state(parser_state: Int, char_type: Int): Int =
+  next_parser_state(parser_state: Int, char_type: CharType): Int =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
-  TransitionsThatChangeStates: Map[(Int, Int), Int] =
+  TransitionsThatChangeStates: Map[(Int, CharType), Int] =
     Map(
       /* */
       ((ps.QuotesState, ch.UndefinedType), ps.UndefinedState),

@@ -35,7 +35,7 @@ case class Tokenizer() {
     ) rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
     else {
       val ch = line.charAt(current_index)
-      val charType = CharType().get_char_type(ch)
+      val charType = CharTypeCons().get_char_type(ch)
       val new_parser_state = ParserTransition().next_parser_state(parser_state, charType)
       val (new_last_index, new_current_index, new_rev_tokens) =
           _next_values (new_parser_state, line, last_index, current_index, parser_state, rev_tokens)

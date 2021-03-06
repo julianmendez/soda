@@ -1,12 +1,16 @@
 package scopus.translator
 
-case class CharType() {
 
-  val UndefinedType = 0
-  val QuotesType = 1
-  val ApostropheType = 2
-  val BackslashType = 3
-  val PlainType = 4
+case class CharType(index: Int)
+
+
+case class CharTypeCons() {
+
+  val UndefinedType = CharType(0)
+  val QuotesType = CharType(1)
+  val ApostropheType = CharType(2)
+  val BackslashType = CharType(3)
+  val PlainType = CharType(4)
 
   val BackslashChar = '\\'
   val QuotesChar = '\"'
@@ -14,7 +18,7 @@ case class CharType() {
   val UnderscoreChar = '_'
   val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
-  def get_char_type(ch: Char): Int =
+  def get_char_type(ch: Char): CharType =
     if ( is_quotes(ch) ) QuotesType
     else if ( is_apostrophe(ch) ) ApostropheType
     else if ( is_backslash(ch) ) BackslashType

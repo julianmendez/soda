@@ -24,12 +24,12 @@ case class ParserState() {
 case class ParserTransition() {
 
   val ps = ParserState()
-  val ch = CharType()
+  val ch = CharTypeCons()
 
-  def next_parser_state(parser_state: Int, char_type: Int): Int =
+  def next_parser_state(parser_state: Int, char_type: CharType): Int =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
-  def TransitionsThatChangeStates: Map[(Int, Int), Int] =
+  def TransitionsThatChangeStates: Map[(Int, CharType), Int] =
     Map(
       /* */
       ((ps.QuotesState, ch.UndefinedType), ps.UndefinedState),      ((ps.QuotesState, ch.QuotesType), ps.Plain),      ((ps.QuotesState, ch.BackslashType), ps.QuotesBackslashState),      /* */
