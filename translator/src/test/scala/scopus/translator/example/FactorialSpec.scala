@@ -2,8 +2,6 @@ package scopus.translator.example
 
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.language.implicitConversions
-
 case class FactorialSpec() extends AnyFunSuite {
 
   val factorialValues = Seq(

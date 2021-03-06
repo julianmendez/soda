@@ -2,8 +2,6 @@ package scopus.translator
 
 + org.scalatest.funsuite.AnyFunSuite
 
-+ scala.language.implicitConversions
-
 
 * DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 

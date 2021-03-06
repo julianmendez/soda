@@ -2,8 +2,6 @@ package scopus.translator
 
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.language.implicitConversions
-
 /**
  * This tests how translation is done for Scala reserved words that are not Scopus reserved words.
  */

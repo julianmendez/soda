@@ -4,7 +4,6 @@ import org.scalatest.Assertion
 import org.scalatest.funsuite.AnyFunSuite
 
 import java.nio.file.{Files, Paths}
-import scala.language.implicitConversions
 
 case class MicroTranslatorSpec() extends AnyFunSuite {
 

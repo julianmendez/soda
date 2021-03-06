@@ -2,8 +2,6 @@ package scopus.translator
 
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.language.implicitConversions
-
 
 case class MultiLineSpec() extends AnyFunSuite {
 

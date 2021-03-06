@@ -3,7 +3,6 @@ package scopus.translator
 + org.scalatest.funsuite.AnyFunSuite
 
 + java.io.File
-+ scala.language.implicitConversions
 
 * ScannerSpec() extends AnyFunSuite {
 

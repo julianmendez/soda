@@ -4,7 +4,6 @@ package scopus.translator
 + org.scalatest.funsuite.AnyFunSuite
 
 + java.nio.file.{Files, Paths}
-+ scala.language.implicitConversions
 
 * MicroTranslatorSpec() extends AnyFunSuite {
 
