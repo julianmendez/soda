@@ -1,7 +1,7 @@
 package scopus.translator
 
 
-case class ParserState(index: Int, name: String) extends Enum
+case class ParserState(ordinal: Int, name: String) extends EnumConstant
 
 
 case class ParserStateCons() {
@@ -13,6 +13,7 @@ case class ParserStateCons() {
   val ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
   val Plain = ParserState(5, "Plain")
 
+  val values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
 
   def is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) ||

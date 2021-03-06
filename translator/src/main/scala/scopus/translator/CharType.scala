@@ -1,7 +1,7 @@
 package scopus.translator
 
 
-case class CharType(index: Int, name: String) extends Enum
+case class CharType(ordinal: Int, name: String) extends EnumConstant
 
 
 case class CharTypeCons() {
@@ -11,6 +11,9 @@ case class CharTypeCons() {
   val ApostropheType = CharType(2, "ApostropheType")
   val BackslashType = CharType(3, "BackslashType")
   val PlainType = CharType(4, "PlainType")
+
+  val values = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
+
 
   val BackslashChar = '\\'
   val QuotesChar = '\"'

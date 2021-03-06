@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuite
 import scala.language.implicitConversions
 
 
-case class DayOfTheWeek (index: Int, name: String) extends Enum
+case class DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
 case class DayOfTheWeekCons () {
 
@@ -17,7 +17,7 @@ case class DayOfTheWeekCons () {
   val Friday = DayOfTheWeek(5, "Friday")
   val Saturday = DayOfTheWeek(6, "Saturday")
 
-  val All = Seq(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+  val values = Seq(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 
 }
 
@@ -25,7 +25,7 @@ case class EnumSpec() extends AnyFunSuite {
 
   test("the names of the elements in enumerations") {
     val expected = Seq("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")
-    val obtained = DayOfTheWeekCons().All.map(x => x.toString)
+    val obtained = DayOfTheWeekCons().values.map(x => x.toString)
     assert(obtained == expected)
   }
 

@@ -1,0 +1,11 @@
+package scopus.translator
+
+* EnumConstant {
+  has ordinal: Int
+  has name: String
+
+  @override
+  toString: String = "" + ordinal + "-" + name
+
+}
+
