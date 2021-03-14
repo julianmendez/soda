@@ -2,6 +2,13 @@ package scopus.translator.documentation
 
 import java.util.Date
 
+
+case class EqualsExample () {
+  def f (x: Int,    y: Int) = 2 * x + y
+
+  val answer = f (x=20, y=2)
+}
+
 /** Class for a registered person, in snake case */
 case class Registered_person (first_name: String, last_name: String) {
   val _separator = " "
@@ -112,6 +119,14 @@ case class Manual() {
     if ( n < 0
     ) accum
     else sum_rec (n - 1, n + accum)
+
+  def g (x: Int) = x + 1
+
+  def f (x: Int) = {
+    val a = g(x)
+    val b = g(a)
+    a + b
+  }
 
 }
 

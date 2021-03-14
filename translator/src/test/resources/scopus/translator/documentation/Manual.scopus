@@ -2,6 +2,14 @@ package scopus.translator.documentation
 
 import java.util.Date
 
+
+class EqualsExample () {
+  f (x: Int,
+    y: Int) = 2 * x + y
+
+  answer = f (x=20, y=2)
+}
+
 /** Class for a registered person, in snake case */
 class Registered_person (first_name: String, last_name: String) {
   _separator = " "
@@ -111,6 +119,14 @@ class Manual() {
     if n < 0
     then accum
     else sum_rec (n - 1, n + accum)
+
+  g (x: Int) = x + 1
+
+  f (x: Int) = {
+    a = g(x)
+    b = g(a)
+    a + b
+  }
 
 }
 

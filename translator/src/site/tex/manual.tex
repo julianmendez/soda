@@ -70,20 +70,20 @@
 \begin{document}
 
     \lstset{frame=tb,
-        language=Scopus,
-        aboveskip=3mm,
-        belowskip=3mm,
-        showstringspaces=false,
-        columns=flexible,
-        basicstyle={\small\ttfamily},
-        numbers=none,
-        numberstyle=\tiny\color{gray},
-        keywordstyle=\color{blue},
-        commentstyle=\color{gray},
-        stringstyle=\color{teal},
-        breaklines=true,
-        breakatwhitespace=true,
-        tabsize=3
+    language=Scopus,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
     }
 
     \begin{center}
@@ -233,10 +233,167 @@
     The JVM exception handling is done via \srccode{Try}.
 
 
+    \section{Philosophy}
+
+    \Scopus is designed to be a functional specification language.
+    There are some general rules that apply to it:
+
+    \begin{itemize}
+        \item the specification is inteded to be read and understood by a human, so it has to be very clear;
+        \item every defined thing is defined only once, in one place;
+        \item objects are immutable;
+        \item classes cannot be modified, but they can be extended.
+    \end{itemize}
+
+
+    \section{Mutability}
+
+    Mutability is one of the reason that algorithms get more difficult to understand.
+    Although it is a practical way to save memory usage, it could be error prone.
+    For this reason, \Scopus does not have ways to program mutability.
+
+    For technical reasons, it is possible to use mutable objects from the JVM in \Scopus.
+    This is strongly discouraged, since other design decisions are based assuming that objects are immutable.
+
+    \Scopus does not handle exceptions (except when they come from the JVM).
+    The exceptions are caught by Scala classes (like \srccode{Try}), as Scala does.
+
+    Functions with side effects, like input and output operations, are discouraged in \Scopus.
+    In exceptional cases, they could be managed by JVM libraries.
+
+
+    \section{Constants and Functions}
+
+    In \Scopus there are no mutable objects.
+    Every value is therefore constant.
+    In addition, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
+
+    There is a technical difference between constants and functions without parameters.
+    While in Scala, the use of parameters is expected to denote side effects, in \Scopus it only indicates the delation in its evaluation.
+    Thus, a constants is evaluated at the moment a class is instantiated, while the function without parameters is evaluated when it is called by another function.
+    This notation could be understood as a \textit{lazy evaluation} of a constant.
+
+    In \Scopus, it is possible to define a function that needs auxiliary computations.
+    This can be done by defining a block between braces (\srccode{\{ \}}).
+    In this block, all the auxiliary computations are in sequence, and the last line is the result.
+
+    For example, the mathematical formula:
+    \begin{center}
+        $f(x) = g(x) + g(g(x))$
+    \end{center}
+    can be rewritten as
+    \begin{center}
+        $f(x) = a + b$, where $a = g(x)$ and $b = g(a)$.
+    \end{center}
+
+    In \Scopus, the order is slightly changed, and the result is put at the end:
+    \begin{lstlisting}[label={lst:exampleFunctionWithBraces}]
+  f (x: Int) = {
+    a = g(x)
+    b = g(a)
+    a + b
+  }
+    \end{lstlisting}
+
+    This could be read as:
+    \begin{center}
+        $f(x) = $ a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
+    \end{center}
+
+
+    \section{Types and Classes}
+
+    \Scopus is statically typed.
+    It has some ideas of object orientation.
+    However, there are substantial differences with traditional object oriented programming.
+
+
+    \section{Object Inheritance and Overriding}
+
+    \Scopus has two types of classes: abstract classes, and concrete classes.
+
+    Abstract classes are like traits in Scala and interfaces in Java, and either do not have any implementation, or what is implemented cannot be overridden.
+    Concrete classes are like case classes in Scala, since they cannot be extended, and have a default constructor.
+    Abstract classes are the only classes that can be extended, since no concrete class can be extended.
+
+    Abstract classes can contain \textit{abstract} constants and functions, which are only signatures of constants and functions.
+
+    A class declaration of a concrete class has:
+    \begin{itemize}
+        \item the name for the new type;
+        \item a declaration of its super types, if any;
+        \item a possibly empty tuple of required instances to instantiate the class;
+        \item a possibly empty sequence of constants and functions.
+    \end{itemize}
+
+
+    An class declaration of an abstract class contains:
+    \begin{itemize}
+        \item the name for the new type;
+        \item a declaration of its super types, if any;
+        \item a possibly empty sequence of possibly abstract constants and functions.
+    \end{itemize}
+
+    All super types are abstract classes, since concrete classes cannot be extended.
+
+    The declaration of the sequence of constants and functions starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
+
+    All implemented functions are \textit{final} (cannot be extended), and the same for all defined constants.
+    This is to prevent that the behavior is changed after extending a class.
+    For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
+
+    In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
+    The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
+
+    It is important to observe that the syntax in \Scopus does not restrict the definition of constants in a class that depends on a constructor from the same class.
+    In \Scopus there is no lazy evaluation, though.
+    The evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
+    A direct solution to this situation is to emulate the lazy evaluation by using a function without parameters instead of a constant.
+    This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
+    The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
+
+
+    \section{Private Objects}
+
+    In \Scopus, there are no private objects.
+    Everything is visible from other objects.
+    Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
+
+
+    \section{Static Constants and Functions}
+
+    In \Scopus, there is no concept of static functions.
+    It is never assumed that there is one instance of an object.
+    The class constructors can be implemented as objects of another class, although not necessary unique.
+
+
+    \section{Parametric Types}
+
+    The use of parametric types are technically possible and allowed, but slightly discouraged.
+    Sometimes smaller code is not necessarily easier to understand.
+    Usually, parametric types are needed for highly generic data types, like collections.
+    Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
+
+
     \section{Style}
 
     \Scopus does not require a semicolon to finish each instruction, and the tabulation at the beginning of the line is irrelevant.
-    Blocks are defined with braces, but they can be omitted for one instruction.
+    Consecutive lines ending with a comma character (\srccode{,}) are considered to belong to the same line.
+
+    Braces in the definition of a function should be avoided whenever that is possible.
+
+    Defining a constant or a function requires a space around the equals character (\srccode{=}).
+    This character can be used to define parameter names.
+    In this case, there should not be any space around the character.
+
+    \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
+  class EqualsExample () {
+    f (x: Int,
+      y: Int) = 2 * x + y
+
+    answer = f (x=20, y=2)
+  }
+    \end{lstlisting}
 
     Comments are marked with the \srccode{/*} and  \srccode{*/}.
     The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
@@ -276,80 +433,6 @@
     fullName = firstName + _separator + lastName
   }
     \end{lstlisting}
-
-
-    \section{Mutability}
-
-    Mutability is one of the reason that algorithms get more difficult to understand.
-    Although it is a practical way to save memory usage, it could be error prone.
-    For this reason, \Scopus does not have ways to program mutability.
-
-    For technical reasons, it is possible to use mutable objects from the JVM in \Scopus.
-    This is strongly discouraged, since other design decisions are based assuming that objects are immutable.
-
-    \Scopus does not handle exceptions (except when they come from the JVM).
-    The exceptions are caught by Scala classes (like \srccode{Try}), as Scala does.
-
-    Functions with side effects, like input and output operations, are discouraged in \Scopus.
-    In exceptional cases, they could be managed by JVM libraries.
-
-
-    \section{Values and Functions}
-
-    In \Scopus there is no difference between functions and values.
-    Since immutability is assumed, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
-
-
-    \section{Types and Classes}
-
-    \Scopus is statically typed.
-    It has some ideas of object orientation.
-    However, there are substantial differences with traditional object oriented programming.
-
-
-    \section{Object Inheritance and Overriding}
-
-    \Scopus has two types of classes: abstract classes, and concrete classes.
-
-    Abstract classes are like traits in Scala and interfaces in Java, and either do not have any implementation, or what is implemented cannot be overridden.
-    Concrete classes are like case classes in Scala, since they cannot be extended, and have a default constructor.
-    Abstract classes are the only classes that can be extended, since no concrete class can be extended.
-
-    All implemented functions are final (cannot be extended), and the same for all defined constants.
-    This is to prevent that the behavior is changed after extending a class.
-    For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
-
-    In \Scopus, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
-    The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
-
-    It is important to observe that the syntax in \Scopus does not restrict the definition of constants in a class that depends on a constructor from the same class.
-    In \Scopus there is no lazy evaluation, though.
-    The evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
-    A direct solution to this situation is to emulate the lazy evaluation by using a function without parameters instead of a constant.
-    This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
-    The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
-
-
-    \section{Private Objects}
-
-    In \Scopus, there are no private objects.
-    Everything is visible from other objects.
-    Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
-
-
-    \section{Static Constants and Functions}
-
-    In \Scopus, there is no concept of static functions.
-    It is never assumed that there is one instance of an object.
-    The class constructors can be implemented as objects of another class, although not necessary unique.
-
-
-    \section{Parametric Types}
-
-    The use of parametric types are technically possible and allowed, but slightly discouraged.
-    Sometimes smaller code is not necessarily easier to understand.
-    Usually, parametric types are needed for highly generic data types, like collections.
-    Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
 
 
     \chapter{Reserved words}
