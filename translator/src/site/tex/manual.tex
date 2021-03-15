@@ -269,13 +269,13 @@
     In addition, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
 
     There is a technical difference between constants and functions without parameters.
-    While in Scala, the use of parameters is expected to denote side effects, in \Scopus it only indicates the delation in its evaluation.
-    Thus, a constants is evaluated at the moment a class is instantiated, while the function without parameters is evaluated when it is called by another function.
-    This notation could be understood as a \textit{lazy evaluation} of a constant.
+    While in Scala, the use of parameters is expected to denote side effects, in \Scopus it only indicates that the value is recalculated.
+    Thus, functions without parameters are evaluated every time they are invoked.
+    For constants, \Scopus uses \textit{lazy evaluation}, and they are only evaluated when they are used for the first time.
 
-    In \Scopus, it is possible to define a function that needs auxiliary computations.
+    In \Scopus, it is possible to define a function that needs auxiliary computations using bindings.
     This can be done by defining a block between braces (\srccode{\{ \}}).
-    In this block, all the auxiliary computations are in sequence, and the last line is the result.
+    In this block, all the auxiliary computations are evaluated only when the last line, the result, needs to be calculated.
 
     For example, the mathematical formula:
     \begin{center}

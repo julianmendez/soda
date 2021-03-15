@@ -6,7 +6,7 @@ case class Translation() {
   val ScopusDefinition: String = "="
 
   val ScalaDefinition: String = "def"
-  val ScalaValue: String = "val"
+  val ScalaValue: String = "lazy val"
   val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   val ScopusReservedWords = Seq(
@@ -27,7 +27,7 @@ case class Translation() {
   )
 
   def TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
-    ("class", "trait"),    ("has", "val"),    ("package", "package"),    ("import", "import"),    /** Annotations */
+    ("class", "trait"),    ("has", "lazy val"),    ("package", "package"),    ("import", "import"),    /** Annotations */
     ("@override", "override"),    ("@tailrec", "import scala.annotation.tailrec\n  @tailrec final"),    ("@private", "private"),    ("@main", ScalaEntryPoint)
   )
 

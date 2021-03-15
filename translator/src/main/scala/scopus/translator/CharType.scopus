@@ -1,7 +1,10 @@
 package scopus.translator
 
 
-* CharType(ordinal: Int, name: String) extends EnumConstant
+* CharType(ordinal0: Int, name0: String) extends EnumConstant {
+  ordinal = ordinal0
+  name = name0
+}
 
 
 * CharTypeEnum() {

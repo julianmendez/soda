@@ -1,7 +1,10 @@
 package scopus.translator
 
 
-* ParserState(ordinal: Int, name: String) extends EnumConstant
+* ParserState(ordinal0: Int, name0: String) extends EnumConstant {
+  ordinal = ordinal0
+  name = name0
+}
 
 
 * ParserStateEnum() {

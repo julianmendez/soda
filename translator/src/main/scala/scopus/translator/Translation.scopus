@@ -6,7 +6,7 @@ package scopus.translator
   ScopusDefinition: String = "="
 
   ScalaDefinition: String = "def"
-  ScalaValue: String = "val"
+  ScalaValue: String = "lazy val"
   ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   ScopusReservedWords = Seq(
@@ -105,7 +105,7 @@ package scopus.translator
 
   TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
     ("class", "trait"),
-    ("has", "val"),
+    ("has", "lazy val"),
     ("package", "package"),
     ("import", "import"),
 
