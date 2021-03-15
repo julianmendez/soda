@@ -121,6 +121,19 @@ case class Manual() {
     ) accum
     else sum_rec (n - 1, n + accum)
 
+  def sum2 (n: Int) = {
+    lazy val result = rec (n, 0)
+
+    import scala.annotation.tailrec
+        @tailrec
+    def rec (n: Int, accum: Int): Int =
+      if ( n < 0
+      ) accum
+      else rec (n - 1, n + accum)
+
+    result
+  }
+
   def g (x: Int) = x + 1
 
   def f (x: Int) = {

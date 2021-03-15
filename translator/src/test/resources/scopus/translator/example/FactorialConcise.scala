@@ -1,23 +1,20 @@
 package scopus.translator.example
 
 
-trait AbstractFactorialConcise {
+trait Abstract_factorial_concise {
   def factorial (n: Int): Int
 }
 
-case class FactorialConcise () extends AbstractFactorialConcise {
+case class Factorial_concise () extends Abstract_factorial_concise {
 
-  def factorial (n: Int) = {
-    lazy val result = rec (n, 1)
+  def factorial (n: Int) = factorial_rec (n, 1)
 
-    import scala.annotation.tailrec
+  import scala.annotation.tailrec
         @tailrec
-    def rec (n: Int, product: Int): Int =
-      if ( n == 0
-      ) product
-      else rec (n - 1, n * product)
-
-    result
-  }
+  private
+  def factorial_rec (n: Int, product: Int): Int =
+    if ( n == 0
+    ) product
+    else factorial_rec (n - 1, n * product)
 
 }

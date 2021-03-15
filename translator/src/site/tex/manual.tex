@@ -297,7 +297,7 @@
 
     This could be read as:
     \begin{center}
-        $f(x) = $ a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
+        $f(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
     \end{center}
 
 
@@ -651,27 +651,9 @@
 
     Annotations are not part of the language itself, but they are necessary to translate it into Scala.
 
-    \subsubsection{\stailrec}
-
-    The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
-    If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
-
-    For example, the following example shows a function \srccode{sum} that returns the sum of the first $n$ natural numbers, or 0 if $n \leq 0$.
-
-    \begin{lstlisting}[label={lst:exampleTailrec}]
-  sum (n: Int) = sum_rec (n, 0)
-
-  @tailrec
-  sum_rec (n: Int, accum: Int): Int =
-    if n < 0
-    then accum
-    else sum_rec (n - 1, n + accum)
-
-    \end{lstlisting}
-
     \subsubsection{\soverride}
 
-    The \soverride annotation may be necessary to override some JVM functions, like `toString()`.
+    The \soverride annotation may be necessary to override some JVM functions, like \srccode{toString()}.
     However, this could be misused to override functions and values of abstract classes.
     This could make that a concrete class does not behave as the abstract class that implements.
     For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Scopus functions.
@@ -700,6 +682,44 @@
     double = __double
   }
     \end{lstlisting}
+
+    \subsubsection{\stailrec}
+
+    The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
+    If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
+
+    For example, the following example shows a function \srccode{sum} that returns the sum of the first $n$ natural numbers, or 0 if $n \leq 0$.
+
+    \begin{lstlisting}[label={lst:exampleTailrecOutside}]
+  sum (n: Int) = sum_rec (n, 0)
+
+  @tailrec
+  @private
+  sum_rec (n: Int, accum: Int): Int =
+    if n < 0
+    then accum
+    else sum_rec (n - 1, n + accum)
+
+    \end{lstlisting}
+
+    For technical reasons, a function with tail recursion needs to be declared private in classes.
+    If they are used inside another function, this declaration is not necessary, since the tail recursive function is automatically private.
+
+    \begin{lstlisting}[label={lst:exampleTailrecInside}]
+  sum2 (n: Int) = {
+    result = rec (n, 0)
+
+    @tailrec
+    rec (n: Int, accum: Int): Int =
+      if n < 0
+      then accum
+      else rec (n - 1, n + accum)
+
+    result
+  }
+
+    \end{lstlisting}
+
 
     \subsubsection{\smain}
 
@@ -765,6 +785,7 @@
     factorial (n: Int) = factorial_rec (n, 1)
 
     @tailrec
+    @private
     factorial_rec (n: Int, product: Int): Int =
       if n == 0
       then product
@@ -784,6 +805,7 @@
     factorial (n in Int) is factorial_rec (n, 1)
 
     @tailrec
+    @private
     factorial_rec (n in Int, product in Int) in Int is
       if n == 0
       then product

@@ -121,6 +121,18 @@ class Manual() {
     then accum
     else sum_rec (n - 1, n + accum)
 
+  sum2 (n: Int) = {
+    result = rec (n, 0)
+
+    @tailrec
+    rec (n: Int, accum: Int): Int =
+      if n < 0
+      then accum
+      else rec (n - 1, n + accum)
+
+    result
+  }
+
   g (x: Int) = x + 1
 
   f (x: Int) = {

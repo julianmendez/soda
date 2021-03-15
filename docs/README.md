@@ -60,21 +60,21 @@ Comments are marked with `/*` and `*/`.
 Scaladoc / Javadoc markers are `/**` and `*/`.
 
 Annotations:
-- `@tailrec` to ensure a tail recursion
 - `@override` to override a JVM function
 - `@private` to force a function or a value to be private in the JVM bytecode
+- `@tailrec` to ensure a tail recursion
 - `@main` to indicate the entry point
 
 
 ## Side Effects
 
 In this language, variables cannot change their value.
-Therefore, there is no equivalent to 'var'.
+Therefore, there is no equivalent to `var`.
 
 For example, it is not possible to write `x = x + 1`.
 Loops can be managed with tail recursion, or directly using streams.
 
-The language does not provide 'throw', 'try', and 'catch', because those commands do not follow the functional style.
+The language does not provide `throw`, `try`, and `catch`, because those commands do not follow the functional style.
 
 
 ## Static Typing

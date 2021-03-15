@@ -12,7 +12,7 @@ package scopus.translator.example
     expected = factorial_values
     obtained = factorial_values
       .map(pair -> pair._1)
-      .map(n -> (n, FactorialConcise().factorial(n)))
+      .map(n -> (n, Factorial_concise().factorial(n)))
     assert(obtained == expected)
   }
 
@@ -20,7 +20,7 @@ package scopus.translator.example
     expected = factorial_values
     obtained = factorial_values
       .map(pair -> pair._1)
-      .map(n -> (n, FactorialVerbose().factorial(n)))
+      .map(n -> (n, Factorial_verbose().factorial(n)))
     assert(obtained == expected)
   }
 
