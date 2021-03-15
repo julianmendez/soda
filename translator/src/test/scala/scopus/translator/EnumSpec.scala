@@ -3,10 +3,7 @@ package scopus.translator
 import org.scalatest.funsuite.AnyFunSuite
 
 
-case class DayOfTheWeek (ordinal0: Int, name0: String) extends EnumConstant {
-  lazy val ordinal = ordinal0
-  lazy val name = name0
-}
+case class DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
 case class DayOfTheWeekEnum () {
 

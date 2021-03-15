@@ -3,10 +3,7 @@ package scopus.translator
 + org.scalatest.funsuite.AnyFunSuite
 
 
-* DayOfTheWeek (ordinal0: Int, name0: String) extends EnumConstant {
-  ordinal = ordinal0
-  name = name0
-}
+* DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
 * DayOfTheWeekEnum () {
 

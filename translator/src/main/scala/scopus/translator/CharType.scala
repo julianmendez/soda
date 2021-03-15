@@ -1,10 +1,7 @@
 package scopus.translator
 
 
-case class CharType(ordinal0: Int, name0: String) extends EnumConstant {
-  lazy val ordinal = ordinal0
-  lazy val name = name0
-}
+case class CharType(ordinal: Int, name: String) extends EnumConstant
 
 
 case class CharTypeEnum() {
