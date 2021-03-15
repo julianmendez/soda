@@ -24,7 +24,7 @@ case class RegisteredPerson (firstName: String, lastName: String) {
 }
 
 trait Agent {
-  lazy val identifier: String
+  def identifier: String
 }
 
 case class Person (name: String)
@@ -34,7 +34,7 @@ case class Agent_Person (name: String) extends Agent {
 }
 
 trait Ranked_Individual {
-  lazy val rank: Int
+  def rank: Int
 }
 
 case class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {

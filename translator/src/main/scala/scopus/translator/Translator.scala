@@ -3,7 +3,7 @@ package scopus.translator
 
 trait Translator {
   def translate (word: String): String
-  lazy val keys: Seq[String]
+  def keys: Seq[String]
 
   def _get(table: Seq[(String, String)], word: String) =
     table.toMap.get(word).getOrElse(word)

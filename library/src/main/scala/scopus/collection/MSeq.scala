@@ -2,7 +2,7 @@ package scopus.collection
 
 
 trait MSeq[T] {
-  lazy val isEmpty: Boolean
+  def isEmpty: Boolean
   def _head(): Option[T]
   def _tail(): Option[MSeq[T]]
 
