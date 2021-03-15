@@ -28,7 +28,7 @@ case class Translation() {
 
   def TranslationAtBeginningWithoutParen: Seq[(String, String)] = Seq(
     ("class", "trait"),    ("has", "def"),    ("package", "package"),    ("import", "import"),    /** Annotations */
-    ("@override", "override"),    ("@tailrec", "import scala.annotation.tailrec\n  @tailrec final"),    ("@private", "private"),    ("@main", ScalaEntryPoint)
+    ("@override", "override"),    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"),    ("@private", "private"),    ("@main", ScalaEntryPoint)
   )
 
   def Synonym: Seq[(String, String)] = Seq(
