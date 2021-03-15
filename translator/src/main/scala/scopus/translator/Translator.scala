@@ -3,7 +3,7 @@ package scopus.translator
 
 trait Translator {
   def translate (word: String): String
-  val keys: Seq[String]
+  lazy val keys: Seq[String]
 
   def _get(table: Seq[(String, String)], word: String) =
     table.toMap.get(word).getOrElse(word)
@@ -13,45 +13,45 @@ trait Translator {
 }
 
 case class SynonymAtBeginning () extends Translator {
-  val _table = Translation().SynonymAtBeginning
+  lazy val _table = Translation().SynonymAtBeginning
 
   def translate (word: String) = _get(_table, word)
 
-  val keys = _keys(_table)
+  lazy val keys = _keys(_table)
 }
 
 case class TranslationAtBeginningWithParen() extends Translator {
-  val _table = Translation().TranslationAtBeginningWithParen
+  lazy val _table = Translation().TranslationAtBeginningWithParen
 
   def translate (word: String) = _get(_table, word)
 
-  val keys = _keys(_table)
+  lazy val keys = _keys(_table)
 }
 
 case class TranslationAtBeginningWithoutParen() extends Translator {
-  val _table = Translation().TranslationAtBeginningWithoutParen
+  lazy val _table = Translation().TranslationAtBeginningWithoutParen
 
   def translate (word: String) = _get(_table, word)
 
-  val keys = _keys(_table)
+  lazy val keys = _keys(_table)
 }
 
 
 case class Synonym() extends Translator {
-  val _table = Translation().Synonym
+  lazy val _table = Translation().Synonym
 
   def translate (word: String) = _get(_table, word)
 
-  val keys = _keys(_table)
+  lazy val keys = _keys(_table)
 }
 
 
 case class MainTranslation() extends Translator {
-  val _table = Translation().MainTranslation
+  lazy val _table = Translation().MainTranslation
 
   def translate (word: String) = _get(_table, word)
 
-  val keys = _keys(_table)
+  lazy val keys = _keys(_table)
 }
 
 
@@ -63,6 +63,6 @@ case class ScalaNonScopus() extends Translator {
     else word
   }
 
-  val keys = Translation().ScalaNonScopusKeys
+  lazy val keys = Translation().ScalaNonScopusKeys
 
 }

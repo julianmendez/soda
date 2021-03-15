@@ -2,7 +2,7 @@ package scopus.translator.example
 
 
 trait Applicant {
-  val background_score: Double
+  lazy val background_score: Double
 }
 
 case class Fairness(

@@ -6,41 +6,41 @@ import java.util.Date
 case class EqualsExample () {
   def f (x: Int,    y: Int) = 2 * x + y
 
-  val answer = f (x=20, y=2)
+  lazy val answer = f (x=20, y=2)
 }
 
 /** Class for a registered person, in snake case */
 case class Registered_person (first_name: String, last_name: String) {
-  val _separator = " "
+  lazy val _separator = " "
 
-  val full_name = first_name + _separator + last_name
+  lazy val full_name = first_name + _separator + last_name
 }
 
 /** Class for a registered person, in camel case */
 case class RegisteredPerson (firstName: String, lastName: String) {
-  val _separator = " "
+  lazy val _separator = " "
 
-  val fullName = firstName + _separator + lastName
+  lazy val fullName = firstName + _separator + lastName
 }
 
 trait Agent {
-  val identifier: String
+  lazy val identifier: String
 }
 
 case class Person (name: String)
 
 case class Agent_Person (name: String) extends Agent {
-  val identifier = name
+  lazy val identifier = name
 }
 
 trait Ranked_Individual {
-  val rank: Int
+  lazy val rank: Int
 }
 
 case class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
-  val identifier = name
+  lazy val identifier = name
 
-  val rank = person_rank
+  lazy val rank = person_rank
 }
 
 trait Element {
@@ -57,14 +57,14 @@ case class Item (identifier: Int) extends Element {
 
 case class Person_Name (name: String) {
   override
-  val toString = name
+  lazy val toString = name
 }
 
 case class Group_Name (name: String) {
   private
-  val __double = name + " " + name
+  lazy val __double = name + " " + name
 
-  val double = __double
+  lazy val double = __double
 }
 
 /**
@@ -72,9 +72,9 @@ case class Group_Name (name: String) {
   */
 case class Manual() {
 
-  val a = 1
+  lazy val a = 1
 
-  val b: Int = 2
+  lazy val b: Int = 2
 
   def plus_one (x: Int): Int = x + 1
 
@@ -109,7 +109,7 @@ case class Manual() {
 
   def my_xor (x: Boolean, y: Boolean) = (x || y) && ! (x && y)
 
-  val now = new Date()
+  lazy val now = new Date()
 
   def sum (n: Int) = sum_rec (n, 0)
 
@@ -123,8 +123,8 @@ case class Manual() {
   def g (x: Int) = x + 1
 
   def f (x: Int) = {
-    val a = g(x)
-    val b = g(a)
+    lazy val a = g(x)
+    lazy val b = g(a)
     a + b
   }
 

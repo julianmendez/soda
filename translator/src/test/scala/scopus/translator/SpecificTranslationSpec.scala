@@ -5,20 +5,20 @@ import org.scalatest.funsuite.AnyFunSuite
 
 case class SpecificTranslationSpec() extends AnyFunSuite {
 
-  val original = "  input_lines = Seq(" +
+  lazy val original = "  input_lines = Seq(" +
     "\n    \"  f( x: Int,\\t\", " +
     "\n    \"     y: Int) =\"," +
     "\n    \"       x + y\")" +
     "\n"
 
-  val expected = "  val input_lines = Seq(" +
+  lazy val expected = "  val input_lines = Seq(" +
     "\n    \"  f( x: Int,\\t\", " +
     "    \"     y: Int) =\"," +
     "    \"       x + y\")" +
     "\n"
 
   test("should translate a small snippet") {
-    val obtained = MicroTranslator().translate_program(original)
+    lazy val obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)
   }
 

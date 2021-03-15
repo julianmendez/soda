@@ -6,14 +6,14 @@ case class Status(
 ) {
 
   override
-  val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
+  lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 
 }
 
 
 case class PiIterator() {
 
-  val initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1)
+  lazy val initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1)
 
   import scala.annotation.tailrec
   @tailrec final
@@ -21,26 +21,26 @@ case class PiIterator() {
     if ( (4 * s.q + s.r - s.t) < (s.n * s.t)
     ) s
     else {
-      val r = (2 * s.q + s.r) * s.l
-      val n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
-      val q = s.q * s.k
-      val t = s.t * s.l
-      val l = s.l + 2
-      val k = s.k + 1
-      val new_status = Status (r, n, q, t, l, k)
+      lazy val r = (2 * s.q + s.r) * s.l
+      lazy val n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
+      lazy val q = s.q * s.k
+      lazy val t = s.t * s.l
+      lazy val l = s.l + 2
+      lazy val k = s.k + 1
+      lazy val new_status = Status (r, n, q, t, l, k)
       compute_new_status (new_status)
     }
 
   def next (s: Status): (BigInt, Status) = {
-    val ns = compute_new_status (s)
-    val ret = ns.n
-    val r = 10 * (ns.r - ns.n * ns.t)
-    val n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
-    val q = ns.q * 10
-    val t = ns.t
-    val l = ns.l
-    val k = ns.k
-    val new_status = Status (r, n, q, t, l, k)
+    lazy val ns = compute_new_status (s)
+    lazy val ret = ns.n
+    lazy val r = 10 * (ns.r - ns.n * ns.t)
+    lazy val n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
+    lazy val q = ns.q * 10
+    lazy val t = ns.t
+    lazy val l = ns.l
+    lazy val k = ns.k
+    lazy val new_status = Status (r, n, q, t, l, k)
     (ret, new_status)
   }
 
@@ -53,7 +53,7 @@ case class PiIterator() {
     if ( n == 0
     ) rev_seq.reverse
     else {
-      val (digit, new_status) = next (s)
+      lazy val (digit, new_status) = next (s)
       take_rec (n - 1, rev_seq.+: (digit), new_status)
     }
 

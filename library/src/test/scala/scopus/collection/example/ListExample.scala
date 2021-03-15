@@ -2,8 +2,8 @@ package scopus.collection.example
 
 case class ListExample() {
 
-  val A: Seq[Char] = Seq('A', 'B', 'C', 'D', 'E', 'F')
-  val B: Seq[Int] = Seq(10, 20, 30, 40, 50, 60)
+  lazy val A: Seq[Char] = Seq('A', 'B', 'C', 'D', 'E', 'F')
+  lazy val B: Seq[Int] = Seq(10, 20, 30, 40, 50, 60)
 
   def aExample: (String, Seq[Char]) =
     ("A", A)

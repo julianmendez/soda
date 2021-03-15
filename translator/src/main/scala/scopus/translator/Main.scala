@@ -14,10 +14,10 @@ object EntryPoint {
  */
 case class Main() {
 
-  val ScopusExtension: String = ".scopus"
-  val ScalaExtension: String = ".scala"
+  lazy val ScopusExtension: String = ".scopus"
+  lazy val ScalaExtension: String = ".scala"
 
-  val Help: String = "\n" +
+  lazy val Help: String = "\n" +
     "\nUsage:" +
     "\n  scopus SCOPUS_SCALA_INPUT" +
     "\nor" +
@@ -38,10 +38,10 @@ case class Main() {
     "\n"
 
 
-  val get_title_and_version: String = {
-    val packg = this.getClass.getPackage
-    val name = Option(packg.getImplementationTitle).getOrElse("")
-    val version = Option(packg.getImplementationVersion).getOrElse("")
+  lazy val get_title_and_version: String = {
+    lazy val packg = this.getClass.getPackage
+    lazy val name = Option(packg.getImplementationTitle).getOrElse("")
+    lazy val version = Option(packg.getImplementationVersion).getOrElse("")
     (name + " " + version).trim
   }
 
@@ -54,8 +54,8 @@ case class Main() {
     DirectoryScanner()
       .get_scopus_files(new File(start))
       .map(file => {
-        val file_name = file.getAbsolutePath
-        val (input_file_name, output_file_name) = get_input_output_file_names(file_name)
+        lazy val file_name = file.getAbsolutePath
+        lazy val (input_file_name, output_file_name) = get_input_output_file_names(file_name)
         translate(input_file_name, output_file_name)
       })
 
@@ -65,9 +65,9 @@ case class Main() {
     else (input_name + ScopusExtension, input_name + ScalaExtension)
 
   def translate(input_file_name: String, output_file_name: String): Unit = {
-    val input = read_file(input_file_name)
-    val output = MicroTranslator().translate_program(input)
-    val writer = new FileWriter(output_file_name)
+    lazy val input = read_file(input_file_name)
+    lazy val output = MicroTranslator().translate_program(input)
+    lazy val writer = new FileWriter(output_file_name)
     writer.write(output)
     writer.flush()
   }

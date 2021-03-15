@@ -9,14 +9,14 @@ case class ScalaNonScopusSpec() extends AnyFunSuite {
 
 
   test("Scala reserved words are replaced"){
-    val program = "" +
+    lazy val program = "" +
       "\nval x = 0" +
       "\nwhile (x != 0)"
-    val expected = "" +
+    lazy val expected = "" +
       "\nval __scopus__val x = 0" +
       "\n__scopus__while (x != 0)" +
       "\n"
-    val obtained = MicroTranslator().translate_program(program)
+    lazy val obtained = MicroTranslator().translate_program(program)
     assert (obtained == expected)
   }
 

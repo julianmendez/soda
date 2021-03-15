@@ -29,7 +29,7 @@ case class MSeqTranslator[T]() {
 
 case class Min[T]() {
 
-  val empty: MSeq[T] = ESeq()
+  lazy val empty: MSeq[T] = ESeq()
 
   def prepended(s: MSeq[T], e: T): MSeq[T] = NESeq(e, s)
 
@@ -66,7 +66,7 @@ case class Min[T]() {
   def splitAt(s: MSeq[T], n: Int): (MSeq[T], MSeq[T]) = (take(s, n), drop(s, n))
 
   def span(s: MSeq[T], p: (T => Boolean)): (MSeq[T], MSeq[T]) = {
-    val pair = spanRevRec(s, p, taking = true, empty)
+    lazy val pair = spanRevRec(s, p, taking = true, empty)
     (reverse(pair._1), pair._2)
   }
 
@@ -173,8 +173,8 @@ case class Min[T]() {
     if ( isEmpty(s0) || ! taking
     ) (s1, s0)
     else {
-      val newTaking = p(head(s0))
-      val (newS1, newS0) =
+      lazy val newTaking = p(head(s0))
+      lazy val (newS1, newS0) =
         if ( newTaking
         ) (prepended(s1, head(s0)), tail(s0))
         else (s1, s0)
@@ -216,7 +216,7 @@ case class Min[T]() {
     if ( isEmpty(s0)
     ) s1
     else {
-      val newS1 =
+      lazy val newS1 =
         if ( f(head(s0))
         ) prepended(s1, head(s0))
         else s1

@@ -5,8 +5,8 @@ case class AnnotatedLine(line: String, isComment: Boolean)
 
 case class CommentPreprocessor() {
 
-  val ScopusBeginComment = "/*"
-  val ScopusEndComment = "*/"
+  lazy val ScopusBeginComment = "/*"
+  lazy val ScopusEndComment = "*/"
 
   def annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] =
     _identify_comments(lines, comment_state=false, Seq())
@@ -17,8 +17,8 @@ case class CommentPreprocessor() {
     if ( lines.isEmpty
     ) annotated_lines_rev.reverse
     else {
-      val line = lines.head
-      val (current_state, new_comment_state) =
+      lazy val line = lines.head
+      lazy val (current_state, new_comment_state) =
         if ( comment_state
         ) (true, ! line.trim.endsWith(ScopusEndComment))
         else

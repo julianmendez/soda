@@ -3,18 +3,18 @@ package scopus.translator
 
 case class Translation() {
 
-  val ScopusDefinition: String = "="
+  lazy val ScopusDefinition: String = "="
 
-  val ScalaDefinition: String = "def"
-  val ScalaValue: String = "lazy val"
-  val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  lazy val ScalaDefinition: String = "def"
+  lazy val ScalaValue: String = "lazy val"
+  lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  val ScopusReservedWords = Seq(
+  lazy val ScopusReservedWords = Seq(
     "=",    ":",    "->",    "if",    "then",    "else",    "class",    "has",    "extends",    "with",    "this",    "false",    "true",    "not",    "and",    "or",    "package",    "import",    "new",    "is",    "in",    "suchthat",    "*",    "-",    "+"
   )
 
   /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */
-  val ScalaReservedWords = Seq(
+  lazy val ScalaReservedWords = Seq(
     "abstract",    "case",    "catch",    "class",    "def",    "do",    "else",    "extends",    "false",    "final",    "finally",    "for",    "forSome",    "if",    "implicit",    "import",    "lazy",    "macro",    "match",    "new",    "null",    "object",    "override",    "package",    "private",    "protected",    "return",    "sealed",    "super",    "this",    "throw",    "trait",    "try",    "true",    "type",    "val",    "var",    "while",    "with",    "yield",    "_",    ":",    "=",    "=>",    "<-",    "<:",    "<%",    ">:",    "#",    "@",    "\u21D2",    "\u2190"
   )
 
@@ -39,9 +39,9 @@ case class Translation() {
     (":", ":"),    ("->", "=>"),    ("if", "if ("),    ("then", ")"),    ("else", "else"),    ("extends", "extends"),    ("with", "with"),    ("this", "this"),    ("false", "false"),    ("true", "true"),    ("not", "!"),    ("and", "&&"),    ("or", "||"),    ("new", "new")
   )
 
-  val PrefixScalaNonScopus = "__scopus__"
+  lazy val PrefixScalaNonScopus = "__scopus__"
 
-  val ScalaNonScopusKeys: Seq[String] =
+  lazy val ScalaNonScopusKeys: Seq[String] =
     ScalaReservedWords
       .filter(x => ! ScopusReservedWords.contains(x))
 

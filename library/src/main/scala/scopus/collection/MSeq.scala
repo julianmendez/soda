@@ -2,7 +2,7 @@ package scopus.collection
 
 
 trait MSeq[T] {
-  val isEmpty: Boolean
+  lazy val isEmpty: Boolean
   def _head(): Option[T]
   def _tail(): Option[MSeq[T]]
 
@@ -15,7 +15,7 @@ trait MSeq[T] {
 case class ESeq[T] ()
   extends MSeq[T] {
 
-  val isEmpty = true
+  lazy val isEmpty = true
 
   def _head() = Option.empty
 
@@ -27,7 +27,7 @@ case class ESeq[T] ()
 case class NESeq[T] (head0: T, tail0: MSeq[T])
   extends MSeq[T] {
 
-  val isEmpty = false
+  lazy val isEmpty = false
 
   def _head() = Some(head0)
 

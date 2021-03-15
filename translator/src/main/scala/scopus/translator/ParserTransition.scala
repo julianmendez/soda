@@ -1,19 +1,22 @@
 package scopus.translator
 
 
-case class ParserState(ordinal: Int, name: String) extends EnumConstant
+case class ParserState(ordinal0: Int, name0: String) extends EnumConstant {
+  lazy val ordinal = ordinal0
+  lazy val name = name0
+}
 
 
 case class ParserStateEnum() {
 
-  val UndefinedState = ParserState(0, "UndefinedState")
-  val QuotesState = ParserState(1, "QuotesState")
-  val ApostropheState = ParserState(2, "ApostropheState")
-  val QuotesBackslashState = ParserState(3, "QuotesBackslashState")
-  val ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
-  val Plain = ParserState(5, "Plain")
+  lazy val UndefinedState = ParserState(0, "UndefinedState")
+  lazy val QuotesState = ParserState(1, "QuotesState")
+  lazy val ApostropheState = ParserState(2, "ApostropheState")
+  lazy val QuotesBackslashState = ParserState(3, "QuotesBackslashState")
+  lazy val ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
+  lazy val Plain = ParserState(5, "Plain")
 
-  val values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
+  lazy val values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
 
   def is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) ||
@@ -28,8 +31,8 @@ case class ParserStateEnum() {
 
 case class ParserTransition() {
 
-  val ps = ParserStateEnum()
-  val ch = CharTypeEnum()
+  lazy val ps = ParserStateEnum()
+  lazy val ch = CharTypeEnum()
 
   def next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)

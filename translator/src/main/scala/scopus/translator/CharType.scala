@@ -1,25 +1,28 @@
 package scopus.translator
 
 
-case class CharType(ordinal: Int, name: String) extends EnumConstant
+case class CharType(ordinal0: Int, name0: String) extends EnumConstant {
+  lazy val ordinal = ordinal0
+  lazy val name = name0
+}
 
 
 case class CharTypeEnum() {
 
-  val UndefinedType = CharType(0, "UndefinedType")
-  val QuotesType = CharType(1, "QuotesType")
-  val ApostropheType = CharType(2, "ApostropheType")
-  val BackslashType = CharType(3, "BackslashType")
-  val PlainType = CharType(4, "PlainType")
+  lazy val UndefinedType = CharType(0, "UndefinedType")
+  lazy val QuotesType = CharType(1, "QuotesType")
+  lazy val ApostropheType = CharType(2, "ApostropheType")
+  lazy val BackslashType = CharType(3, "BackslashType")
+  lazy val PlainType = CharType(4, "PlainType")
 
-  val values = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
+  lazy val values = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
 
 
-  val BackslashChar = '\\'
-  val QuotesChar = '\"'
-  val ApostropheChar = '\''
-  val UnderscoreChar = '_'
-  val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+  lazy val BackslashChar = '\\'
+  lazy val QuotesChar = '\"'
+  lazy val ApostropheChar = '\''
+  lazy val UnderscoreChar = '_'
+  lazy val SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   def get_char_type(ch: Char): CharType =
     if ( is_quotes(ch) ) QuotesType

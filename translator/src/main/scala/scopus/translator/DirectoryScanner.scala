@@ -4,7 +4,7 @@ import java.io.File
 
 case class DirectoryScanner() {
 
-  val Scopus_suffix = ".scopus"
+  lazy val Scopus_suffix = ".scopus"
 
   def get_all_files(start: File): Seq[File] =
     if ( start.isFile
@@ -22,9 +22,9 @@ case class DirectoryScanner() {
     if ( to_scan.isEmpty
     ) found
     else {
-      val next_file = to_scan.head
-      val remaining = to_scan.tail
-      val new_to_scan =
+      lazy val next_file = to_scan.head
+      lazy val remaining = to_scan.tail
+      lazy val new_to_scan =
         if ( next_file.isDirectory
         ) remaining.++(next_file.listFiles())
         else remaining

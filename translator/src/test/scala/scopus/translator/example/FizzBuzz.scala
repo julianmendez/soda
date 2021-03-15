@@ -3,8 +3,8 @@ package scopus.translator.example
 
 case class FizzBuzz() {
 
-  val Fizz = "Fizz"
-  val Buzz = "Buzz"
+  lazy val Fizz = "Fizz"
+  lazy val Buzz = "Buzz"
 
   def fizz_buzz() = Range(1, 101).map(fizz_buzz_term)
 
