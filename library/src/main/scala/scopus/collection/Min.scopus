@@ -11,12 +11,14 @@ package scopus.collection
   asSeq(ms: MSeq[T]): Seq[T] = asSeqRec(ms, Seq()).reverse
 
   @tailrec
+  @private
   asMSeqRec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
     if seq.isEmpty
     then ms
     else asMSeqRec(seq.tail, Min().prepended(ms, seq.head))
 
   @tailrec
+  @private
   asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
     if Min().isEmpty(ms)
     then seq
@@ -109,18 +111,21 @@ package scopus.collection
   //
 
   @tailrec
+  @private
   reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else reverseRec(tail(s0), prepended(s1, head(s0)))
 
   @tailrec
+  @private
   lengthRec(s: MSeq[T], n: Int): Int =
     if isEmpty(s)
     then n
     else lengthRec(tail(s), n + 1)
 
   @tailrec
+  @private
   indexOfRec(s: MSeq[T], e: T, n: Int): Int =
     if isEmpty(s)
     then -1
@@ -129,6 +134,7 @@ package scopus.collection
     else indexOfRec(tail(s), e, n + 1)
 
   @tailrec
+  @private
   containsRec(s: MSeq[T], e: T): Boolean =
     if isEmpty(s)
     then false
@@ -137,6 +143,7 @@ package scopus.collection
     else containsRec(tail(s), e)
 
   @tailrec
+  @private
   atRec(s: MSeq[T], n: Int): T =
     if isEmpty(s) or n < 0
     then None.get
@@ -147,18 +154,21 @@ package scopus.collection
   //
 
   @tailrec
+  @private
   takeRevRec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0) or n <= 0
     then s1
     else takeRevRec(tail(s0), n - 1, prepended(s1, head(s0)))
 
   @tailrec
+  @private
   dropRec(s: MSeq[T], n: Int): MSeq[T] =
     if isEmpty(s) or n <= 0
     then s
     else dropRec(tail(s), n - 1)
 
   @tailrec
+  @private
   spanRevRec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
     if isEmpty(s0) or not taking
     then (s1, s0)
@@ -174,6 +184,7 @@ package scopus.collection
   //
 
   @tailrec
+  @private
   forallRec(s: MSeq[T], p: T -> Boolean): Boolean =
     if isEmpty(s)
     then true
@@ -182,6 +193,7 @@ package scopus.collection
     else forallRec(tail(s), p)
 
   @tailrec
+  @private
   existsRec(s: MSeq[T], p: T -> Boolean): Boolean =
     if isEmpty(s)
     then false
@@ -190,6 +202,7 @@ package scopus.collection
     else existsRec(tail(s), p)
 
   @tailrec
+  @private
   findRec(s: MSeq[T], p: T -> Boolean): Option[T] =
     if isEmpty(s)
     then None
@@ -198,6 +211,7 @@ package scopus.collection
     else findRec(tail(s), p)
 
   @tailrec
+  @private
   filterRevRec(s0: MSeq[T], f: T -> Boolean, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
@@ -210,12 +224,14 @@ package scopus.collection
     }
 
   @tailrec
+  @private
   mapRevRec(s0: MSeq[T], f: T -> T, s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1
     else mapRevRec(tail(s0), f, prepended(s1, f(head(s0))))
 
   @tailrec
+  @private
   foldLeftRec(s0: MSeq[T], f: (MSeq[T], T) -> MSeq[T], s1: MSeq[T]): MSeq[T] =
     if isEmpty(s0)
     then s1

@@ -28,6 +28,7 @@ package scopus.translator
     _join_lines_ending_with_comma_rec(lines, Seq())
 
   @tailrec
+  @private
   _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
     if to_process.isEmpty
     then processed_rev.reverse
@@ -150,6 +151,7 @@ package scopus.translator
     _replace_all_rec(line, pattern, replacement, Seq())
 
   @tailrec
+  @private
   _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
     pos = line.indexOf(pattern)
     if pos == -1
@@ -174,6 +176,7 @@ package scopus.translator
     Some(_replace_rec(line, translator.keys, translator, only_beginning))
 
   @tailrec
+  @private
   _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
     if to_replace.isEmpty
     then line

@@ -17,7 +17,8 @@ case class DirectoryScanner() {
       .filter(x => x.getName.endsWith(Scopus_suffix))
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def _scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
     if ( to_scan.isEmpty
     ) found

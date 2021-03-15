@@ -16,7 +16,8 @@ case class PiIterator() {
   lazy val initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def compute_new_status (s: Status): Status =
     if ( (4 * s.q + s.r - s.t) < (s.n * s.t)
     ) s
@@ -48,7 +49,8 @@ case class PiIterator() {
     take_rec (n, Seq(), initial_status)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def take_rec (n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
     if ( n == 0
     ) rev_seq.reverse

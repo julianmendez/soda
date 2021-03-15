@@ -115,6 +115,7 @@ class Manual() {
   sum (n: Int) = sum_rec (n, 0)
 
   @tailrec
+  @private
   sum_rec (n: Int, accum: Int): Int =
     if n < 0
     then accum
@@ -139,6 +140,7 @@ class Manual() {
   factorial (n: Int) = factorial_rec (n, 1)
 
   @tailrec
+  @private
   factorial_rec (n: Int, product: Int): Int =
     if n == 0
     then product
@@ -155,6 +157,7 @@ class Factorial_verbose () extends Abstract_factorial_verbose {
   factorial (n in Int) is factorial_rec (n, 1)
 
   @tailrec
+  @private
   factorial_rec (n in Int, product in Int) in Int is
     if n == 0
     then product

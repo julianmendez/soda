@@ -10,7 +10,8 @@ case class FactorialConcise () extends AbstractFactorialConcise {
   def factorial (n: Int) = __factorial_rec (n, 1)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def __factorial_rec (n: Int, product: Int): Int =
     if ( n == 0
     ) product

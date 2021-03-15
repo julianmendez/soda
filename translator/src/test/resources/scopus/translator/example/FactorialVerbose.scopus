@@ -10,6 +10,7 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
   factorial (n in Int) is __factorial_rec (n, 1)
 
   @tailrec
+  @private
   __factorial_rec (n in Int, product in Int) in Int is
     if n == 0
     then product

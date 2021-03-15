@@ -31,6 +31,7 @@ package scopus.translator
     }
 
   @tailrec
+  @private
   _tokenize_rec(line: String,
         last_index: Int, current_index: Int,
         parser_state: ParserState, rev_tokens: Seq[Token]): Seq[Token] =

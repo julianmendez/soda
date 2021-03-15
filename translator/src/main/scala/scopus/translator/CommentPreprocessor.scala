@@ -12,7 +12,8 @@ case class CommentPreprocessor() {
     _identify_comments(lines, comment_state=false, Seq())
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def _identify_comments(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
     if ( lines.isEmpty
     ) annotated_lines_rev.reverse

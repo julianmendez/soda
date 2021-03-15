@@ -114,7 +114,8 @@ case class Manual() {
   def sum (n: Int) = sum_rec (n, 0)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def sum_rec (n: Int, accum: Int): Int =
     if ( n < 0
     ) accum
@@ -139,7 +140,8 @@ case class Factorial_concise () extends Abstract_factorial_concise {
   def factorial (n: Int) = factorial_rec (n, 1)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def factorial_rec (n: Int, product: Int): Int =
     if ( n == 0
     ) product
@@ -156,7 +158,8 @@ case class Factorial_verbose () extends Abstract_factorial_verbose {
   def factorial (n : Int) = factorial_rec (n, 1)
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def factorial_rec (n : Int, product : Int) : Int =
     if ( n == 0
     ) product

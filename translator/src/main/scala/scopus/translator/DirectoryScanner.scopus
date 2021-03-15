@@ -17,6 +17,7 @@ package scopus.translator
       .filter(x -> x.getName.endsWith(Scopus_suffix))
 
   @tailrec
+  @private
   _scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
     if to_scan.isEmpty
     then found

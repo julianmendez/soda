@@ -28,7 +28,8 @@ case class MicroTranslator() {
     _join_lines_ending_with_comma_rec(lines, Seq())
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
     if ( to_process.isEmpty
     ) processed_rev.reverse
@@ -151,7 +152,8 @@ case class MicroTranslator() {
     _replace_all_rec(line, pattern, replacement, Seq())
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
     lazy val pos = line.indexOf(pattern)
     if ( pos == -1
@@ -176,7 +178,8 @@ case class MicroTranslator() {
     Some(_replace_rec(line, translator.keys, translator, only_beginning))
 
   import scala.annotation.tailrec
-  @tailrec final
+        @tailrec
+  private
   def _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
     if ( to_replace.isEmpty
     ) line
