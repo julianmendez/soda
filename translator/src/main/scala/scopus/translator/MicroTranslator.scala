@@ -24,22 +24,23 @@ case class MicroTranslator() {
   def split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
 
-  def join_lines_ending_with_comma(lines: Seq[String]): Seq[String] =
-    _join_lines_ending_with_comma_rec(lines, Seq())
+  def join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
+    lazy val result = rec(lines, Seq())
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
-    if ( to_process.isEmpty
-    ) processed_rev.reverse
-    else {
-      lazy val head = to_process.head
-      lazy val tail = to_process.tail
-      if ( _ends_with_comma(head) && ! tail.isEmpty
-      ) _join_lines_ending_with_comma_rec(tail.tail.+:(head + tail.head), processed_rev)
-      else _join_lines_ending_with_comma_rec(tail, processed_rev.+:(head))
-    }
+    def rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] =
+      if ( to_process.isEmpty
+      ) processed_rev.reverse
+      else {
+        lazy val head = to_process.head
+        lazy val tail = to_process.tail
+        if ( _ends_with_comma(head) && ! tail.isEmpty
+        ) rec(tail.tail.+:(head + tail.head), processed_rev)
+        else rec(tail, processed_rev.+:(head))
+      }
+
+    result
   }
 
   def _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
@@ -148,24 +149,26 @@ case class MicroTranslator() {
     else Some(position)
   }
 
-  def replace_all(line: String, pattern: String, replacement: String): String =
-    _replace_all_rec(line, pattern, replacement, Seq())
+  def replace_all(line: String, pattern: String, replacement: String): String = {
+    lazy val result = rec(line, pattern, replacement, Seq())
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
-    lazy val pos = line.indexOf(pattern)
-    if ( pos == -1
-    )
-      replaced_text_rev.+:(line)
-        .reverse
-        .mkString("")
-    else {
-      lazy val new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
-      lazy val new_line = line.substring(pos + pattern.length)
-      _replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
+    def rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
+      lazy val pos = line.indexOf(pattern)
+      if ( pos == -1
+      )
+        replaced_text_rev.+:(line)
+          .reverse
+          .mkString("")
+      else {
+        lazy val new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
+        lazy val new_line = line.substring(pos + pattern.length)
+        rec(new_line, pattern, replacement, new_replaced_text_rev)
+      }
     }
+
+    result
   }
 
   def replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
@@ -174,21 +177,23 @@ case class MicroTranslator() {
     else Some(line)
 
 
-  def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
-    Some(_replace_rec(line, translator.keys, translator, only_beginning))
+  def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
+    lazy val result = Some(rec(line, translator.keys, translator, only_beginning))
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
-    if ( to_replace.isEmpty
-    ) line
-    else {
-      lazy val reserved_word = to_replace.head
-      lazy val alreadyProcessedLine =
-        replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-      _replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
-    }
+    def rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+      if ( to_replace.isEmpty
+      ) line
+      else {
+        lazy val reserved_word = to_replace.head
+        lazy val alreadyProcessedLine =
+          replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+        rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
+      }
+
+    result
+  }
 
   def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
     if ( (only_beginning && line.trim.startsWith(pattern.trim)) ||

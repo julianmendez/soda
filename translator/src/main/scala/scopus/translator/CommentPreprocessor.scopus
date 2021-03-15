@@ -8,26 +8,28 @@ package scopus.translator
   ScopusBeginComment = "/*"
   ScopusEndComment = "*/"
 
-  annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] =
-    _identify_comments(lines, comment_state=false, Seq())
+  annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] = {
+    result = rec(lines, comment_state=false, Seq())
 
-  @tailrec
-  @private
-  _identify_comments(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
-    if lines.isEmpty
-    then annotated_lines_rev.reverse
-    else {
-      line = lines.head
-      (current_state, new_comment_state) =
-        if comment_state
-        then (true, not line.trim.endsWith(ScopusEndComment))
-        else
-          if line.trim.startsWith(ScopusBeginComment)
+    @tailrec
+    rec(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
+      if lines.isEmpty
+      then annotated_lines_rev.reverse
+      else {
+        line = lines.head
+        (current_state, new_comment_state) =
+          if comment_state
           then (true, not line.trim.endsWith(ScopusEndComment))
-          else (false, false)
+          else
+            if line.trim.startsWith(ScopusBeginComment)
+            then (true, not line.trim.endsWith(ScopusEndComment))
+            else (false, false)
 
-      _identify_comments(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
-    }
+        rec(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
+      }
+
+    result
+  }
 
 }
 

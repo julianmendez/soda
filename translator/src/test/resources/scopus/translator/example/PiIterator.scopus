@@ -20,21 +20,26 @@ package scopus.translator.example
 
   initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1)
 
-  @tailrec
-  @private
-  compute_new_status (s: Status): Status =
-    if (4 * s.q + s.r - s.t) < (s.n * s.t)
-    then s
-    else {
-      r = (2 * s.q + s.r) * s.l
-      n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
-      q = s.q * s.k
-      t = s.t * s.l
-      l = s.l + 2
-      k = s.k + 1
-      new_status = Status (r, n, q, t, l, k)
-      compute_new_status (new_status)
-    }
+  compute_new_status (s: Status): Status = {
+    result = rec(s)
+
+    @tailrec
+    rec (s: Status): Status =
+      if (4 * s.q + s.r - s.t) < (s.n * s.t)
+      then s
+      else {
+        r = (2 * s.q + s.r) * s.l
+        n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
+        q = s.q * s.k
+        t = s.t * s.l
+        l = s.l + 2
+        k = s.k + 1
+        new_status = Status (r, n, q, t, l, k)
+        rec (new_status)
+      }
+
+    result
+  }
 
   next (s: Status): (BigInt, Status) = {
     ns = compute_new_status (s)
@@ -49,17 +54,19 @@ package scopus.translator.example
     (ret, new_status)
   }
 
-  take (n: Int): Seq[BigInt] =
-    take_rec (n, Seq(), initial_status)
+  take (n: Int): Seq[BigInt] = {
+    result = rec (n, Seq(), initial_status)
 
-  @tailrec
-  @private
-  take_rec (n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
-    if n == 0
-    then rev_seq.reverse
-    else {
-      (digit, new_status) = next (s)
-      take_rec (n - 1, rev_seq.+: (digit), new_status)
-    }
+    @tailrec
+    rec (n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
+      if n == 0
+      then rev_seq.reverse
+      else {
+        (digit, new_status) = next (s)
+        rec (n - 1, rev_seq.+: (digit), new_status)
+      }
+
+    result
+  }
 
 }

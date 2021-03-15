@@ -7,14 +7,17 @@ trait AbstractFactorialConcise {
 
 case class FactorialConcise () extends AbstractFactorialConcise {
 
-  def factorial (n: Int) = __factorial_rec (n, 1)
+  def factorial (n: Int) = {
+    lazy val result = rec (n, 1)
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def __factorial_rec (n: Int, product: Int): Int =
-    if ( n == 0
-    ) product
-    else __factorial_rec (n - 1, n * product)
+    def rec (n: Int, product: Int): Int =
+      if ( n == 0
+      ) product
+      else rec (n - 1, n * product)
+
+    result
+  }
 
 }

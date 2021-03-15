@@ -15,14 +15,15 @@ case class ParserStateEnum() {
 
   lazy val values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
 
-  def is_same_class(x: ParserState, y: ParserState): Boolean =
-    (x == y) ||
-    _is_same_class_with_order(x, y) ||
-    _is_same_class_with_order(y, x)
+  def is_same_class(x: ParserState, y: ParserState): Boolean = {
+    lazy val result = (x == y) || is_like(x, y) || is_like(y, x)
 
-  def _is_same_class_with_order(x: ParserState, y: ParserState): Boolean =
-    (x == QuotesState && y == QuotesBackslashState) ||
-    (x == ApostropheState && y == ApostropheBackslashState)
+    def is_like(x: ParserState, y: ParserState): Boolean =
+      (x == QuotesState && y == QuotesBackslashState) ||
+      (x == ApostropheState && y == ApostropheBackslashState)
+
+    result
+  }
 
 }
 

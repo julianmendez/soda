@@ -24,21 +24,22 @@ package scopus.translator
   split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
 
-  join_lines_ending_with_comma(lines: Seq[String]): Seq[String] =
-    _join_lines_ending_with_comma_rec(lines, Seq())
+  join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
+    result = rec(lines, Seq())
 
-  @tailrec
-  @private
-  _join_lines_ending_with_comma_rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] = {
-    if to_process.isEmpty
-    then processed_rev.reverse
-    else {
-      head = to_process.head
-      tail = to_process.tail
-      if _ends_with_comma(head) and not tail.isEmpty
-      then _join_lines_ending_with_comma_rec(tail.tail.+:(head + tail.head), processed_rev)
-      else _join_lines_ending_with_comma_rec(tail, processed_rev.+:(head))
-    }
+    @tailrec
+    rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] =
+      if to_process.isEmpty
+      then processed_rev.reverse
+      else {
+        head = to_process.head
+        tail = to_process.tail
+        if _ends_with_comma(head) and not tail.isEmpty
+        then rec(tail.tail.+:(head + tail.head), processed_rev)
+        else rec(tail, processed_rev.+:(head))
+      }
+
+    result
   }
 
   _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
@@ -147,23 +148,25 @@ package scopus.translator
     else Some(position)
   }
 
-  replace_all(line: String, pattern: String, replacement: String): String =
-    _replace_all_rec(line, pattern, replacement, Seq())
+  replace_all(line: String, pattern: String, replacement: String): String = {
+    result = rec(line, pattern, replacement, Seq())
 
-  @tailrec
-  @private
-  _replace_all_rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
-    pos = line.indexOf(pattern)
-    if pos == -1
-    then
-      replaced_text_rev.+:(line)
-        .reverse
-        .mkString("")
-    else {
-      new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
-      new_line = line.substring(pos + pattern.length)
-      _replace_all_rec(new_line, pattern, replacement, new_replaced_text_rev)
+    @tailrec
+    rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
+      pos = line.indexOf(pattern)
+      if pos == -1
+      then
+        replaced_text_rev.+:(line)
+          .reverse
+          .mkString("")
+      else {
+        new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
+        new_line = line.substring(pos + pattern.length)
+        rec(new_line, pattern, replacement, new_replaced_text_rev)
+      }
     }
+
+    result
   }
 
   replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
@@ -172,20 +175,22 @@ package scopus.translator
     else Some(line)
 
 
-  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] =
-    Some(_replace_rec(line, translator.keys, translator, only_beginning))
+  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
+    result = Some(rec(line, translator.keys, translator, only_beginning))
 
-  @tailrec
-  @private
-  _replace_rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
-    if to_replace.isEmpty
-    then line
-    else {
-      reserved_word = to_replace.head
-      alreadyProcessedLine =
-        replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-      _replace_rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
-    }
+    @tailrec
+    rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+      if to_replace.isEmpty
+      then line
+      else {
+        reserved_word = to_replace.head
+        alreadyProcessedLine =
+          replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+        rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
+      }
+
+    result
+  }
 
   replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
     if (only_beginning and line.trim.startsWith(pattern.trim)) or

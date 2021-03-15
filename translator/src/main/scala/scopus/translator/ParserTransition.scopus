@@ -15,14 +15,15 @@ package scopus.translator
 
   values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
 
-  is_same_class(x: ParserState, y: ParserState): Boolean =
-    (x == y) or
-    _is_same_class_with_order(x, y) or
-    _is_same_class_with_order(y, x)
+  is_same_class(x: ParserState, y: ParserState): Boolean = {
+    result = (x == y) or is_like(x, y) or is_like(y, x)
 
-  _is_same_class_with_order(x: ParserState, y: ParserState): Boolean =
-    (x == QuotesState and y == QuotesBackslashState) or
-    (x == ApostropheState and y == ApostropheBackslashState)
+    is_like(x: ParserState, y: ParserState): Boolean =
+      (x == QuotesState and y == QuotesBackslashState) or
+      (x == ApostropheState and y == ApostropheBackslashState)
+
+    result
+  }
 
 }
 
