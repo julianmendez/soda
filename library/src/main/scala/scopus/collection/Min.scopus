@@ -6,23 +6,29 @@ package scopus.collection
 
 * MSeqTranslator[T]() {
 
-  asMSeq(s: Seq[T]): MSeq[T] = Min().reverse(asMSeqRec(s, Min().empty))
+  asMSeq(s: Seq[T]): MSeq[T] = {
+    result = Min().reverse(rec(s, Min().empty))
 
-  asSeq(ms: MSeq[T]): Seq[T] = asSeqRec(ms, Seq()).reverse
+    @tailrec
+    rec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
+      if seq.isEmpty
+      then ms
+      else rec(seq.tail, Min().prepended(ms, seq.head))
 
-  @tailrec
-  @private
-  asMSeqRec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
-    if seq.isEmpty
-    then ms
-    else asMSeqRec(seq.tail, Min().prepended(ms, seq.head))
+    result
+  }
 
-  @tailrec
-  @private
-  asSeqRec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
-    if Min().isEmpty(ms)
-    then seq
-    else asSeqRec(Min().tail(ms), seq.+:(Min().head(ms)))
+  asSeq(ms: MSeq[T]): Seq[T] = {
+    result = rec(ms, Seq()).reverse
+
+    @tailrec
+    rec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
+      if Min().isEmpty(ms)
+      then seq
+      else rec(Min().tail(ms), seq.+:(Min().head(ms)))
+
+    result
+  }
 
 }
 
@@ -45,19 +51,93 @@ package scopus.collection
 
   reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
-  length(s: MSeq[T]): Int = lengthRec(s, 0)
+  @tailrec
+  @private
+  reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
+    if isEmpty(s0)
+    then s1
+    else reverseRec(tail(s0), prepended(s1, head(s0)))
 
-  indexOf(s: MSeq[T], e: T): Int = indexOfRec(s, e, 0)
 
-  contains(s: MSeq[T], e: T): Boolean = containsRec(s, e)
+  length(s: MSeq[T]): Int = {
+    result = rec(s, 0)
 
-  at(s: MSeq[T], n: Int): T = atRec(s, n)
+    @tailrec
+    rec(s: MSeq[T], n: Int): Int =
+      if isEmpty(s)
+      then n
+      else rec(tail(s), n + 1)
+
+    result
+  }
+
+  indexOf(s: MSeq[T], e: T): Int = {
+    result = rec(s, e, 0)
+
+    @tailrec
+    rec(s: MSeq[T], e: T, n: Int): Int =
+      if isEmpty(s)
+      then -1
+      else if head(s) == e
+      then n
+      else rec(tail(s), e, n + 1)
+
+    result
+  }
+
+  contains(s: MSeq[T], e: T): Boolean = {
+    result = rec(s, e)
+
+    @tailrec
+    rec(s: MSeq[T], e: T): Boolean =
+      if isEmpty(s)
+      then false
+      else if head(s) == e
+      then true
+      else rec(tail(s), e)
+
+    result
+  }
+
+  at(s: MSeq[T], n: Int): T = {
+    result = rec(s, n)
+
+    @tailrec
+    rec(s: MSeq[T], n: Int): T =
+      if isEmpty(s) or n < 0
+      then None.get
+      else if n == 0
+      then head(s)
+      else rec(tail(s), n - 1)
+
+    result
+  }
 
   //
 
-  take(s: MSeq[T], n: Int): MSeq[T] = reverse(takeRevRec(s, n, empty))
+  take(s: MSeq[T], n: Int): MSeq[T] = {
+    result = reverse(rec(s, n, empty))
 
-  drop(s: MSeq[T], n: Int): MSeq[T] = dropRec(s, n)
+    @tailrec
+    rec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
+      if isEmpty(s0) or n <= 0
+      then s1
+      else rec(tail(s0), n - 1, prepended(s1, head(s0)))
+
+    result
+  }
+
+  drop(s: MSeq[T], n: Int): MSeq[T] = {
+    result = rec(s, n)
+
+    @tailrec
+    rec(s: MSeq[T], n: Int): MSeq[T] =
+      if isEmpty(s) or n <= 0
+      then s
+      else rec(tail(s), n - 1)
+
+    result
+  }
 
   takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p, taking = true, empty)._1)
 
@@ -82,15 +162,77 @@ package scopus.collection
 
   //
 
-  forall(s: MSeq[T], p: (T -> Boolean)): Boolean = forallRec(s, p)
+  forall(s: MSeq[T], p: (T -> Boolean)): Boolean = {
+    result = rec(s, p)
 
-  exists(s: MSeq[T], p: (T -> Boolean)): Boolean = existsRec(s, p)
+    @tailrec
+    rec(s: MSeq[T], p: T -> Boolean): Boolean =
+      if isEmpty(s)
+      then true
+      else if not p(head(s))
+      then false
+      else rec(tail(s), p)
 
-  find(s: MSeq[T], p: (T -> Boolean)): Option[T] = findRec(s, p)
+    result
+  }
 
-  filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(filterRevRec(s, p, empty))
+  exists(s: MSeq[T], p: (T -> Boolean)): Boolean = {
+    result = rec(s, p)
 
-  map0(s: MSeq[T], f: (T -> T)): MSeq[T] = reverse(mapRevRec(s, f, empty))
+    @tailrec
+    rec(s: MSeq[T], p: T -> Boolean): Boolean =
+      if isEmpty(s)
+      then false
+      else if p(head(s))
+      then true
+      else rec(tail(s), p)
+
+    result
+  }
+
+  find(s: MSeq[T], p: (T -> Boolean)): Option[T] = {
+    result = rec(s, p)
+
+    @tailrec
+    rec(s: MSeq[T], p: T -> Boolean): Option[T] =
+      if isEmpty(s)
+      then None
+      else if p(head(s))
+      then Some(head(s))
+      else rec(tail(s), p)
+
+    result
+  }
+
+  filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = {
+    result = reverse(rec(s, p, empty))
+
+    @tailrec
+    rec(s0: MSeq[T], f: T -> Boolean, s1: MSeq[T]): MSeq[T] =
+      if isEmpty(s0)
+      then s1
+      else {
+        newS1 =
+          if f(head(s0))
+          then prepended(s1, head(s0))
+          else s1
+        rec(tail(s0), f, newS1)
+      }
+
+    result
+  }
+
+  map0(s: MSeq[T], f: (T -> T)): MSeq[T] = {
+    result = reverse(rec(s, f, empty))
+
+    @tailrec
+    rec(s0: MSeq[T], f: T -> T, s1: MSeq[T]): MSeq[T] =
+      if isEmpty(s0)
+      then s1
+      else rec(tail(s0), f, prepended(s1, f(head(s0))))
+
+    result
+  }
 
   /**
    * <pre>
@@ -104,68 +246,20 @@ package scopus.collection
    * }
    * </pre>
    */
-  foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] =
-    (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) ->
-      foldLeftRec(s0, f, s1)
+  foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] = {
+    result = (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) -> rec(s0, f, s1)
+
+    @tailrec
+    rec(s0: MSeq[T], f: (MSeq[T], T) -> MSeq[T], s1: MSeq[T]): MSeq[T] =
+      if isEmpty(s0)
+      then s1
+      else rec(tail(s0), f, f(s1, head(s0)))
+
+    result
+
+   }
 
   //
-
-  @tailrec
-  @private
-  reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0)
-    then s1
-    else reverseRec(tail(s0), prepended(s1, head(s0)))
-
-  @tailrec
-  @private
-  lengthRec(s: MSeq[T], n: Int): Int =
-    if isEmpty(s)
-    then n
-    else lengthRec(tail(s), n + 1)
-
-  @tailrec
-  @private
-  indexOfRec(s: MSeq[T], e: T, n: Int): Int =
-    if isEmpty(s)
-    then -1
-    else if head(s) == e
-    then n
-    else indexOfRec(tail(s), e, n + 1)
-
-  @tailrec
-  @private
-  containsRec(s: MSeq[T], e: T): Boolean =
-    if isEmpty(s)
-    then false
-    else if head(s) == e
-    then true
-    else containsRec(tail(s), e)
-
-  @tailrec
-  @private
-  atRec(s: MSeq[T], n: Int): T =
-    if isEmpty(s) or n < 0
-    then None.get
-    else if n == 0
-    then head(s)
-    else atRec(tail(s), n - 1)
-
-  //
-
-  @tailrec
-  @private
-  takeRevRec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0) or n <= 0
-    then s1
-    else takeRevRec(tail(s0), n - 1, prepended(s1, head(s0)))
-
-  @tailrec
-  @private
-  dropRec(s: MSeq[T], n: Int): MSeq[T] =
-    if isEmpty(s) or n <= 0
-    then s
-    else dropRec(tail(s), n - 1)
 
   @tailrec
   @private
@@ -180,62 +274,6 @@ package scopus.collection
         else (s1, s0)
       spanRevRec(newS0, p, newTaking, newS1)
     }
-
-  //
-
-  @tailrec
-  @private
-  forallRec(s: MSeq[T], p: T -> Boolean): Boolean =
-    if isEmpty(s)
-    then true
-    else if not p(head(s))
-    then false
-    else forallRec(tail(s), p)
-
-  @tailrec
-  @private
-  existsRec(s: MSeq[T], p: T -> Boolean): Boolean =
-    if isEmpty(s)
-    then false
-    else if p(head(s))
-    then true
-    else existsRec(tail(s), p)
-
-  @tailrec
-  @private
-  findRec(s: MSeq[T], p: T -> Boolean): Option[T] =
-    if isEmpty(s)
-    then None
-    else if p(head(s))
-    then Some(head(s))
-    else findRec(tail(s), p)
-
-  @tailrec
-  @private
-  filterRevRec(s0: MSeq[T], f: T -> Boolean, s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0)
-    then s1
-    else {
-      newS1 =
-        if f(head(s0))
-        then prepended(s1, head(s0))
-        else s1
-      filterRevRec(tail(s0), f, newS1)
-    }
-
-  @tailrec
-  @private
-  mapRevRec(s0: MSeq[T], f: T -> T, s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0)
-    then s1
-    else mapRevRec(tail(s0), f, prepended(s1, f(head(s0))))
-
-  @tailrec
-  @private
-  foldLeftRec(s0: MSeq[T], f: (MSeq[T], T) -> MSeq[T], s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0)
-    then s1
-    else foldLeftRec(tail(s0), f, f(s1, head(s0)))
 
 }
 
