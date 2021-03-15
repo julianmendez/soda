@@ -11,7 +11,7 @@ case class SpecificTranslationSpec() extends AnyFunSuite {
     "\n    \"       x + y\")" +
     "\n"
 
-  lazy val expected = "  val input_lines = Seq(" +
+  lazy val expected = "  lazy val input_lines = Seq(" +
     "\n    \"  f( x: Int,\\t\", " +
     "    \"     y: Int) =\"," +
     "    \"       x + y\")" +

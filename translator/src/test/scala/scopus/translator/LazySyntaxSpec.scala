@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 case class ExampleWithWrongOrder() {
 
-  lazy val this_is_null = constant_defined_later
+  lazy val this_is_null_but = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
 
@@ -19,7 +19,7 @@ case class ExampleWithRightOrder() {
 
 }
 
-case class ExampleWithOneWorkAround() {
+case class ExampleWithEmptyParentheses() {
 
   def this_is_not_null () = constant_defined_later
 
@@ -27,7 +27,7 @@ case class ExampleWithOneWorkAround() {
 
 }
 
-case class ExampleWithAnotherWorkAround() {
+case class AnotherExampleWithEmptyParentheses() {
 
   lazy val this_is_not_null = constant_function_defined_later ()
 
@@ -43,8 +43,9 @@ case class ExampleWithAnotherWorkAround() {
 case class LazySyntaxSpec() extends AnyFunSuite {
 
   test("should show what happens when constants are defined in the wrong order") {
-    lazy val obtained = ExampleWithWrongOrder().this_is_null
-    assert(Option(obtained).isEmpty)
+    lazy val obtained = ExampleWithWrongOrder().this_is_null_but
+    lazy val expected = "Success!"
+    assert(obtained == expected)
   }
 
   test("should show what happens when constants are defined in the right order") {
@@ -54,13 +55,13 @@ case class LazySyntaxSpec() extends AnyFunSuite {
   }
 
   test("should show what happens when one work-around is used") {
-    lazy val obtained = ExampleWithOneWorkAround().this_is_not_null ()
+    lazy val obtained = ExampleWithEmptyParentheses().this_is_not_null ()
     lazy val expected = "Success!"
     assert(obtained == expected)
   }
 
   test("should show what happens when another work-around is used") {
-    lazy val obtained = ExampleWithAnotherWorkAround().this_is_not_null
+    lazy val obtained = AnotherExampleWithEmptyParentheses().this_is_not_null
     lazy val expected = "Success!"
     assert(obtained == expected)
   }

@@ -11,7 +11,7 @@ package scopus.translator
     "\n    \"       x + y\")" +
     "\n"
 
-  expected = "  val input_lines = Seq(" +
+  expected = "  lazy val input_lines = Seq(" +
     "\n    \"  f( x: Int,\\t\", " +
     "    \"     y: Int) =\"," +
     "    \"       x + y\")" +

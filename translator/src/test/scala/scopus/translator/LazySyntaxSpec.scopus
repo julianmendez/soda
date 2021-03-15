@@ -5,7 +5,7 @@ package scopus.translator
 
 * ExampleWithWrongOrder() {
 
-  this_is_null = constant_defined_later
+  this_is_null_but = constant_defined_later
 
   constant_defined_later = "Success!"
 
@@ -19,7 +19,7 @@ package scopus.translator
 
 }
 
-* ExampleWithOneWorkAround() {
+* ExampleWithEmptyParentheses() {
 
   this_is_not_null () = constant_defined_later
 
@@ -27,7 +27,7 @@ package scopus.translator
 
 }
 
-* ExampleWithAnotherWorkAround() {
+* AnotherExampleWithEmptyParentheses() {
 
   this_is_not_null = constant_function_defined_later ()
 
@@ -43,8 +43,9 @@ package scopus.translator
 * LazySyntaxSpec() extends AnyFunSuite {
 
   test("should show what happens when constants are defined in the wrong order") {
-    obtained = ExampleWithWrongOrder().this_is_null
-    assert(Option(obtained).isEmpty)
+    obtained = ExampleWithWrongOrder().this_is_null_but
+    expected = "Success!"
+    assert(obtained == expected)
   }
 
   test("should show what happens when constants are defined in the right order") {
@@ -54,13 +55,13 @@ package scopus.translator
   }
 
   test("should show what happens when one work-around is used") {
-    obtained = ExampleWithOneWorkAround().this_is_not_null ()
+    obtained = ExampleWithEmptyParentheses().this_is_not_null ()
     expected = "Success!"
     assert(obtained == expected)
   }
 
   test("should show what happens when another work-around is used") {
-    obtained = ExampleWithAnotherWorkAround().this_is_not_null
+    obtained = AnotherExampleWithEmptyParentheses().this_is_not_null
     expected = "Success!"
     assert(obtained == expected)
   }

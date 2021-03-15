@@ -13,7 +13,7 @@ case class ScalaNonScopusSpec() extends AnyFunSuite {
       "\nval x = 0" +
       "\nwhile (x != 0)"
     lazy val expected = "" +
-      "\nval __scopus__val x = 0" +
+      "\nlazy val __scopus__val x = 0" +
       "\n__scopus__while (x != 0)" +
       "\n"
     lazy val obtained = MicroTranslator().translate_program(program)
