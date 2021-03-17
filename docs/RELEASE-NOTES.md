@@ -7,8 +7,7 @@
     - accepts `,` at the end of a line to join lines and allow multi-line function signatures
     - includes annotation `@private` to force a function or a value to be private
     - makes annotation `@tailrec` be automatically imported, but requiring `@private` when used in public classes
-    - is compatible with Scala 2.13.5
-    - compiles with Scala 3.0.0-RC1
+    - compiles with Scala 3.0.0-RC1 and is compatible with Scala 2.11.12, Scala 2.12.13, Scala 2.13.5
   - deprecated_features:
     - synonym `to` for `->` is no longer supported
   - bug_fixes:

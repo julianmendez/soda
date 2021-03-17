@@ -20,5 +20,7 @@ pipelines:
           - sbt "++ 2.13.5" clean compile test package assembly
           - sbt "++ 2.12.13" scalaVersion sbtVersion version
           - sbt "++ 2.12.13" clean compile test package assembly
+          - sbt "++ 2.11.12" scalaVersion sbtVersion version
+          - sbt "++ 2.11.12" clean compile test package assembly
 
 
