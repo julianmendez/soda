@@ -247,16 +247,15 @@ package scopus.collection
    * </pre>
    */
   foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] = {
-    result = (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) -> rec(s0, f, s1)
+    result = (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) -> rec(s0, s1, f)
 
     @tailrec
-    rec(s0: MSeq[T], f: (MSeq[T], T) -> MSeq[T], s1: MSeq[T]): MSeq[T] =
+    rec(s0: MSeq[T], s1: MSeq[T], f: (MSeq[T], T) -> MSeq[T]): MSeq[T] =
       if isEmpty(s0)
       then s1
-      else rec(tail(s0), f, f(s1, head(s0)))
+      else rec(tail(s0), f(s1, head(s0)), f)
 
     result
-
    }
 
   //

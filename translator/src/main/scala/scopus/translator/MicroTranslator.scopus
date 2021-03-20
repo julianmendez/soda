@@ -176,27 +176,26 @@ package scopus.translator
 
 
   replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    result = Some(rec(line, translator.keys, translator, only_beginning))
+    result = Some(rec(translator.keys, line))
+
+    replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+      if (only_beginning and line.trim.startsWith(pattern.trim)) or
+        ( not only_beginning and line.contains(pattern))
+      then replace_all(line, pattern, newText)
+      else line
+
+    proc(reserved_word: String, line: String): String =
+      replace_if_found(line,
+        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
 
     @tailrec
-    rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+    rec(to_replace: Seq[String], line: String): String =
       if to_replace.isEmpty
       then line
-      else {
-        reserved_word = to_replace.head
-        alreadyProcessedLine =
-          replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-        rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
-      }
+      else rec(to_replace.tail, proc(to_replace.head, line))
 
     result
   }
-
-  replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
-    if (only_beginning and line.trim.startsWith(pattern.trim)) or
-      ( not only_beginning and line.contains(pattern))
-    then replace_all(line, pattern, newText)
-    else line
 
   _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 

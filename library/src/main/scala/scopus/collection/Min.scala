@@ -261,17 +261,16 @@ case class Min[T]() {
    * </pre>
    */
   def foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) => MSeq[T])) => MSeq[T] = {
-    lazy val result = (s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])) => rec(s0, f, s1)
+    lazy val result = (s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])) => rec(s0, s1, f)
 
     import scala.annotation.tailrec
         @tailrec
-    def rec(s0: MSeq[T], f: (MSeq[T], T) => MSeq[T], s1: MSeq[T]): MSeq[T] =
+    def rec(s0: MSeq[T], s1: MSeq[T], f: (MSeq[T], T) => MSeq[T]): MSeq[T] =
       if ( isEmpty(s0)
       ) s1
-      else rec(tail(s0), f, f(s1, head(s0)))
+      else rec(tail(s0), f(s1, head(s0)), f)
 
     result
-
    }
 
   //

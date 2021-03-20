@@ -178,28 +178,26 @@ case class MicroTranslator() {
 
 
   def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    lazy val result = Some(rec(line, translator.keys, translator, only_beginning))
+    lazy val result = Some(rec(translator.keys, line))
+
+    def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+      if ( (only_beginning && line.trim.startsWith(pattern.trim)) ||
+        ( ! only_beginning && line.contains(pattern))
+      ) replace_all(line, pattern, newText)
+      else line
+
+    def proc(reserved_word: String, line: String): String =
+      replace_if_found(line,        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
 
     import scala.annotation.tailrec
         @tailrec
-    def rec(line: String, to_replace: Seq[String], translator: Translator, only_beginning: Boolean): String =
+    def rec(to_replace: Seq[String], line: String): String =
       if ( to_replace.isEmpty
       ) line
-      else {
-        lazy val reserved_word = to_replace.head
-        lazy val alreadyProcessedLine =
-          replace_if_found(line, ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-        rec(alreadyProcessedLine, to_replace.tail, translator, only_beginning)
-      }
+      else rec(to_replace.tail, proc(to_replace.head, line))
 
     result
   }
-
-  def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
-    if ( (only_beginning && line.trim.startsWith(pattern.trim)) ||
-      ( ! only_beginning && line.contains(pattern))
-    ) replace_all(line, pattern, newText)
-    else line
 
   def _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 
