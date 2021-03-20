@@ -43,15 +43,12 @@ case class MSeqTranslator[T]() {
     result
   }
 
-  def asSeq(ms: MSeq[T]): Seq[T] = {
-    lazy val result = rec(ms, Seq()).reverse
+  def asSeq(mseq: MSeq[T]): Seq[T] = {
+    lazy val result = foldLeftMSeq(mseq, init, op).reverse
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
-      if ( Min().isEmpty(ms)
-      ) seq
-      else rec(Min().tail(ms), seq.+:(Min().head(ms)))
+    lazy val init: Seq[T] = Seq()
+
+    def op(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 
     result
   }

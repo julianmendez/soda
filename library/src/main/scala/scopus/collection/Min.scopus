@@ -41,14 +41,12 @@ package scopus.collection
     result
   }
 
-  asSeq(ms: MSeq[T]): Seq[T] = {
-    result = rec(ms, Seq()).reverse
+  asSeq(mseq: MSeq[T]): Seq[T] = {
+    result = foldLeftMSeq(mseq, init, op).reverse
 
-    @tailrec
-    rec(ms: MSeq[T], seq: Seq[T]): Seq[T] =
-      if Min().isEmpty(ms)
-      then seq
-      else rec(Min().tail(ms), seq.+:(Min().head(ms)))
+    init: Seq[T] = Seq()
+
+    op(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 
     result
   }
