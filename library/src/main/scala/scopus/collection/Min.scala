@@ -6,15 +6,39 @@ import scala.annotation.tailrec
 
 case class MSeqTranslator[T]() {
 
-  def asMSeq(s: Seq[T]): MSeq[T] = {
-    lazy val result = Min().reverse(rec(s, Min().empty))
+  def foldLeftSeq[B](seq: Seq[T], init: B, op: (B, T) => B): B = {
+    lazy val result = rec(seq, init, op)
 
     import scala.annotation.tailrec
         @tailrec
-    def rec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
+    def rec[B](seq: Seq[T], acc: B, op: (B, T) => B): B =
       if ( seq.isEmpty
-      ) ms
-      else rec(seq.tail, Min().prepended(ms, seq.head))
+      ) acc
+      else rec(seq.tail, op(acc, seq.head), op)
+
+    result
+  }
+
+  def asMSeq(seq: Seq[T]): MSeq[T] = {
+    lazy val result = Min().reverse(
+      foldLeftSeq[MSeq[T]](seq, init, op) )
+
+    lazy val init: MSeq[T] = Min().empty
+
+    def op(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
+
+    result
+  }
+
+  def foldLeftMSeq[B](mseq: MSeq[T], init: B, op: (B, T) => B): B = {
+    lazy val result = rec(mseq, init, op)
+
+    import scala.annotation.tailrec
+        @tailrec
+    def rec[B](mseq: MSeq[T], acc: B, op: (B, T) => B): B =
+      if ( mseq.isEmpty
+      ) acc
+      else rec(mseq.tail, op(acc, mseq.head), op)
 
     result
   }
@@ -260,15 +284,15 @@ case class Min[T]() {
    * }
    * </pre>
    */
-  def foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) => MSeq[T])) => MSeq[T] = {
-    lazy val result = (s1: MSeq[T], f: ((MSeq[T], T) => MSeq[T])) => rec(s0, s1, f)
+  def foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) => MSeq[T])) => MSeq[T] = {
+    lazy val result = (acc: MSeq[T], op: ((MSeq[T], T) => MSeq[T])) => rec(mseq, acc, op)
 
     import scala.annotation.tailrec
         @tailrec
-    def rec(s0: MSeq[T], s1: MSeq[T], f: (MSeq[T], T) => MSeq[T]): MSeq[T] =
-      if ( isEmpty(s0)
-      ) s1
-      else rec(tail(s0), f(s1, head(s0)), f)
+    def rec(mseq: MSeq[T], acc: MSeq[T], op: (MSeq[T], T) => MSeq[T]): MSeq[T] =
+      if ( isEmpty(mseq)
+      ) acc
+      else rec(tail(mseq), op(acc, head(mseq)), op)
 
     result
    }

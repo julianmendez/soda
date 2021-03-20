@@ -6,14 +6,37 @@ package scopus.collection
 
 * MSeqTranslator[T]() {
 
-  asMSeq(s: Seq[T]): MSeq[T] = {
-    result = Min().reverse(rec(s, Min().empty))
+  foldLeftSeq[B](seq: Seq[T], init: B, op: (B, T) -> B): B = {
+    result = rec(seq, init, op)
 
     @tailrec
-    rec(seq: Seq[T], ms: MSeq[T]): MSeq[T] =
+    rec[B](seq: Seq[T], acc: B, op: (B, T) -> B): B =
       if seq.isEmpty
-      then ms
-      else rec(seq.tail, Min().prepended(ms, seq.head))
+      then acc
+      else rec(seq.tail, op(acc, seq.head), op)
+
+    result
+  }
+
+  asMSeq(seq: Seq[T]): MSeq[T] = {
+    result = Min().reverse(
+      foldLeftSeq[MSeq[T]](seq, init, op) )
+
+    init: MSeq[T] = Min().empty
+
+    op(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
+
+    result
+  }
+
+  foldLeftMSeq[B](mseq: MSeq[T], init: B, op: (B, T) -> B): B = {
+    result = rec(mseq, init, op)
+
+    @tailrec
+    rec[B](mseq: MSeq[T], acc: B, op: (B, T) -> B): B =
+      if mseq.isEmpty
+      then acc
+      else rec(mseq.tail, op(acc, mseq.head), op)
 
     result
   }
@@ -246,14 +269,14 @@ package scopus.collection
    * }
    * </pre>
    */
-  foldLeft0(s0: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] = {
-    result = (s1: MSeq[T], f: ((MSeq[T], T) -> MSeq[T])) -> rec(s0, s1, f)
+  foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] = {
+    result = (acc: MSeq[T], op: ((MSeq[T], T) -> MSeq[T])) -> rec(mseq, acc, op)
 
     @tailrec
-    rec(s0: MSeq[T], s1: MSeq[T], f: (MSeq[T], T) -> MSeq[T]): MSeq[T] =
-      if isEmpty(s0)
-      then s1
-      else rec(tail(s0), f(s1, head(s0)), f)
+    rec(mseq: MSeq[T], acc: MSeq[T], op: (MSeq[T], T) -> MSeq[T]): MSeq[T] =
+      if isEmpty(mseq)
+      then acc
+      else rec(tail(mseq), op(acc, head(mseq)), op)
 
     result
    }
