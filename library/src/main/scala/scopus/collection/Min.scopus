@@ -58,7 +58,14 @@ package scopus.collection
 
   /* */
 
-  foldLeft[B](s: MSeq[T], initval: B, op: (B, T) -> B): B = s.foldLeft[B](initval, op)
+  foldLeftWhile[B](s: MSeq[T], initval: B, op: (B, T) -> B, cond: (B, T) -> Boolean): B =
+    s.foldLeftWhile[B](initval, op, cond)
+
+  foldLeft[B](s: MSeq[T], initval: B, op: (B, T) -> B): B = {
+    cond(acc: B, elem: T): Boolean = true
+
+    foldLeftWhile[B](s, initval, op, cond)
+  }
 
   reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
@@ -74,21 +81,19 @@ package scopus.collection
 
     op(acc: Int, elem: T): Int = acc + 1
 
-    s.foldLeft(initval, op)
+    foldLeft(s, initval, op)
   }
 
   indexOf(s: MSeq[T], e: T): Int = {
-    result = rec(s, e, 0)
+    initval: (Int, Int) = (0, -1)
 
-    @tailrec
-    rec(s: MSeq[T], e: T, n: Int): Int =
-      if isEmpty(s)
-      then -1
-      else if head(s) == e
-      then n
-      else rec(tail(s), e, n + 1)
+    op(acc: (Int, Int), elem: T): (Int, Int) =
+      (acc._1 + 1,
+        if elem == e then acc._1 else acc._2)
 
-    result
+    cond(acc: (Int, Int), elem: T): Boolean = acc._2 == -1
+
+    foldLeftWhile(s, initval, op, cond)._2
   }
 
   contains(s: MSeq[T], e: T): Boolean = {

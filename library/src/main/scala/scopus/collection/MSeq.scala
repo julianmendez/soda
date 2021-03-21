@@ -10,15 +10,20 @@ trait MSeq[T] {
 
   def tail() = _tail().get
 
-  def foldLeft[B](initval: B, op: (B, T) => B): B = {
-    lazy val result = rec(this, initval, op)
+  def foldLeftWhile[B](initval: B, op: (B, T) => B, cond: (B, T) => Boolean): B = {
+    lazy val result = rec(this, initval, op, cond)
 
     import scala.annotation.tailrec
         @tailrec
-    def rec[B](seq: MSeq[T], acc: B, op: (B, T) => B): B =
+    def rec[B](seq: MSeq[T], acc: B, op: (B, T) => B, cond: (B, T) => Boolean): B =
       if ( seq.isEmpty
       ) acc
-      else rec(seq.tail(), op(acc, seq.head()), op)
+      else {
+        lazy val (elem, rest) = (seq.head(), seq.tail())
+        if ( ! cond(acc, elem)
+        ) acc
+        else rec(rest, op(acc, elem), op, cond)
+      }
 
     result
   }

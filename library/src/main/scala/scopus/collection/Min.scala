@@ -59,7 +59,14 @@ case class Min[T]() {
 
   /* */
 
-  def foldLeft[B](s: MSeq[T], initval: B, op: (B, T) => B): B = s.foldLeft[B](initval, op)
+  def foldLeftWhile[B](s: MSeq[T], initval: B, op: (B, T) => B, cond: (B, T) => Boolean): B =
+    s.foldLeftWhile[B](initval, op, cond)
+
+  def foldLeft[B](s: MSeq[T], initval: B, op: (B, T) => B): B = {
+    def cond(acc: B, elem: T): Boolean = true
+
+    foldLeftWhile[B](s, initval, op, cond)
+  }
 
   def reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
@@ -76,22 +83,18 @@ case class Min[T]() {
 
     def op(acc: Int, elem: T): Int = acc + 1
 
-    s.foldLeft(initval, op)
+    foldLeft(s, initval, op)
   }
 
   def indexOf(s: MSeq[T], e: T): Int = {
-    lazy val result = rec(s, e, 0)
+    def initval: (Int, Int) = (0, -1)
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(s: MSeq[T], e: T, n: Int): Int =
-      if ( isEmpty(s)
-      ) -1
-      else if ( head(s) == e
-      ) n
-      else rec(tail(s), e, n + 1)
+    def op(acc: (Int, Int), elem: T): (Int, Int) =
+      (acc._1 + 1,        if ( elem == e ) acc._1 else acc._2)
 
-    result
+    def cond(acc: (Int, Int), elem: T): Boolean = acc._2 == -1
+
+    foldLeftWhile(s, initval, op, cond)._2
   }
 
   def contains(s: MSeq[T], e: T): Boolean = {
