@@ -6,8 +6,8 @@ import scala.annotation.tailrec
 
 case class MSeqTranslator[T]() {
 
-  def foldLeftSeq[B](seq: Seq[T], init: B, op: (B, T) => B): B = {
-    lazy val result = rec(seq, init, op)
+  def foldLeftSeq[B](seq: Seq[T], initval: B, op: (B, T) => B): B = {
+    lazy val result = rec(seq, initval, op)
 
     import scala.annotation.tailrec
         @tailrec
@@ -21,17 +21,17 @@ case class MSeqTranslator[T]() {
 
   def asMSeq(seq: Seq[T]): MSeq[T] = {
     lazy val result = Min().reverse(
-      foldLeftSeq[MSeq[T]](seq, init, op) )
+      foldLeftSeq[MSeq[T]](seq, initval, op) )
 
-    lazy val init: MSeq[T] = Min().empty
+    lazy val initval: MSeq[T] = Min().empty
 
     def op(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
 
     result
   }
 
-  def foldLeftMSeq[B](mseq: MSeq[T], init: B, op: (B, T) => B): B = {
-    lazy val result = rec(mseq, init, op)
+  def foldLeftMSeq[B](mseq: MSeq[T], initval: B, op: (B, T) => B): B = {
+    lazy val result = rec(mseq, initval, op)
 
     import scala.annotation.tailrec
         @tailrec
@@ -44,9 +44,9 @@ case class MSeqTranslator[T]() {
   }
 
   def asSeq(mseq: MSeq[T]): Seq[T] = {
-    lazy val result = foldLeftMSeq(mseq, init, op).reverse
+    lazy val result = foldLeftMSeq(mseq, initval, op).reverse
 
-    lazy val init: Seq[T] = Seq()
+    lazy val initval: Seq[T] = Seq()
 
     def op(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 

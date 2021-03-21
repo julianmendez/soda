@@ -6,8 +6,8 @@ package scopus.collection
 
 * MSeqTranslator[T]() {
 
-  foldLeftSeq[B](seq: Seq[T], init: B, op: (B, T) -> B): B = {
-    result = rec(seq, init, op)
+  foldLeftSeq[B](seq: Seq[T], initval: B, op: (B, T) -> B): B = {
+    result = rec(seq, initval, op)
 
     @tailrec
     rec[B](seq: Seq[T], acc: B, op: (B, T) -> B): B =
@@ -20,17 +20,17 @@ package scopus.collection
 
   asMSeq(seq: Seq[T]): MSeq[T] = {
     result = Min().reverse(
-      foldLeftSeq[MSeq[T]](seq, init, op) )
+      foldLeftSeq[MSeq[T]](seq, initval, op) )
 
-    init: MSeq[T] = Min().empty
+    initval: MSeq[T] = Min().empty
 
     op(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
 
     result
   }
 
-  foldLeftMSeq[B](mseq: MSeq[T], init: B, op: (B, T) -> B): B = {
-    result = rec(mseq, init, op)
+  foldLeftMSeq[B](mseq: MSeq[T], initval: B, op: (B, T) -> B): B = {
+    result = rec(mseq, initval, op)
 
     @tailrec
     rec[B](mseq: MSeq[T], acc: B, op: (B, T) -> B): B =
@@ -42,9 +42,9 @@ package scopus.collection
   }
 
   asSeq(mseq: MSeq[T]): Seq[T] = {
-    result = foldLeftMSeq(mseq, init, op).reverse
+    result = foldLeftMSeq(mseq, initval, op).reverse
 
-    init: Seq[T] = Seq()
+    initval: Seq[T] = Seq()
 
     op(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 
