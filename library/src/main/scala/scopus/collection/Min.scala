@@ -38,7 +38,7 @@ case class MSeqTranslator[T]() {
     def rec[B](mseq: MSeq[T], acc: B, op: (B, T) => B): B =
       if ( mseq.isEmpty
       ) acc
-      else rec(mseq.tail, op(acc, mseq.head), op)
+      else rec(mseq.tail(), op(acc, mseq.head()), op)
 
     result
   }
