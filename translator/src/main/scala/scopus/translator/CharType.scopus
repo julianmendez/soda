@@ -1,5 +1,7 @@
 package scopus.translator
 
++ scopus.lib.EnumConstant
+
 
 * CharType(ordinal: Int, name: String) extends EnumConstant
 

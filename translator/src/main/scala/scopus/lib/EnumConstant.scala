@@ -1,4 +1,4 @@
-package scopus.translator
+package scopus.lib
 
 trait EnumConstant {
   def ordinal: Int

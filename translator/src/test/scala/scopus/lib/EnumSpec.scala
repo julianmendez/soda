@@ -1,4 +1,4 @@
-package scopus.translator
+package scopus.lib
 
 import org.scalatest.funsuite.AnyFunSuite
 

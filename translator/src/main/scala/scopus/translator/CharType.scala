@@ -1,5 +1,7 @@
 package scopus.translator
 
+import scopus.lib.EnumConstant
+
 
 case class CharType(ordinal: Int, name: String) extends EnumConstant
 
