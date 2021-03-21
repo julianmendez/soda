@@ -1,0 +1,34 @@
+package scopus.lib
+
++ org.scalatest.funsuite.AnyFunSuite
+
+
+* RecSpec() extends AnyFunSuite {
+
+  exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
+
+  test("foldLeftWhile with Seq") {
+    initval = Seq()
+
+    op: (Seq[Int], Int) -> Seq[Int] = (s: Seq[Int], e: Int) -> s.+:((e + 100))
+
+    cond: (Seq[Int], Int) -> Boolean = (s: Seq[Int], e: Int) -> e < 5
+
+    expected = Seq(103, 102, 101, 101, 100)
+    obtained = Rec().foldLeftWhile(exampleSeq, Seq(), op, cond)
+    assert(obtained == expected)
+  }
+
+  test("foldLeft with Seq") {
+    initval = Seq()
+
+    op: (Seq[Int], Int) -> Seq[Int] = (s: Seq[Int], e: Int) -> s.+:((e + 100))
+
+    expected = Seq(108, 105, 103, 102, 101, 101, 100)
+    obtained = Rec().foldLeft(exampleSeq, Seq(), op)
+    assert(obtained == expected)
+  }
+
+}
+
+
