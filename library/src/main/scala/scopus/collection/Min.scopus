@@ -29,20 +29,8 @@ package scopus.collection
     result
   }
 
-  foldLeftMSeq[B](mseq: MSeq[T], initval: B, op: (B, T) -> B): B = {
-    result = rec(mseq, initval, op)
-
-    @tailrec
-    rec[B](mseq: MSeq[T], acc: B, op: (B, T) -> B): B =
-      if mseq.isEmpty
-      then acc
-      else rec(mseq.tail(), op(acc, mseq.head()), op)
-
-    result
-  }
-
   asSeq(mseq: MSeq[T]): Seq[T] = {
-    result = foldLeftMSeq(mseq, initval, op).reverse
+    result = Min().foldLeft(mseq, initval, op).reverse
 
     initval: Seq[T] = Seq()
 
@@ -68,7 +56,9 @@ package scopus.collection
 
   isEmpty(s: MSeq[T]): Boolean = s.isEmpty
 
-  //
+  /* */
+
+  foldLeft[B](s: MSeq[T], initval: B, op: (B, T) -> B): B = s.foldLeft[B](initval, op)
 
   reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
@@ -79,17 +69,12 @@ package scopus.collection
     then s1
     else reverseRec(tail(s0), prepended(s1, head(s0)))
 
-
   length(s: MSeq[T]): Int = {
-    result = rec(s, 0)
+    initval: Int = 0
 
-    @tailrec
-    rec(s: MSeq[T], n: Int): Int =
-      if isEmpty(s)
-      then n
-      else rec(tail(s), n + 1)
+    op(acc: Int, elem: T): Int = acc + 1
 
-    result
+    s.foldLeft(initval, op)
   }
 
   indexOf(s: MSeq[T], e: T): Int = {
@@ -134,7 +119,7 @@ package scopus.collection
     result
   }
 
-  //
+  /* */
 
   take(s: MSeq[T], n: Int): MSeq[T] = {
     result = reverse(rec(s, n, empty))
@@ -171,7 +156,7 @@ package scopus.collection
     (reverse(pair._1), pair._2)
   }
 
-  //
+  /* */
 
   appended(s: MSeq[T], e: T): MSeq[T] = reverse(prepended(reverse(s), e))
 
@@ -181,7 +166,7 @@ package scopus.collection
 
   slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 
-  //
+  /* */
 
   forall(s: MSeq[T], p: (T -> Boolean)): Boolean = {
     result = rec(s, p)
@@ -279,7 +264,7 @@ package scopus.collection
     result
    }
 
-  //
+  /* */
 
   @tailrec
   @private

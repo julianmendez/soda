@@ -30,21 +30,8 @@ case class MSeqTranslator[T]() {
     result
   }
 
-  def foldLeftMSeq[B](mseq: MSeq[T], initval: B, op: (B, T) => B): B = {
-    lazy val result = rec(mseq, initval, op)
-
-    import scala.annotation.tailrec
-        @tailrec
-    def rec[B](mseq: MSeq[T], acc: B, op: (B, T) => B): B =
-      if ( mseq.isEmpty
-      ) acc
-      else rec(mseq.tail(), op(acc, mseq.head()), op)
-
-    result
-  }
-
   def asSeq(mseq: MSeq[T]): Seq[T] = {
-    lazy val result = foldLeftMSeq(mseq, initval, op).reverse
+    lazy val result = Min().foldLeft(mseq, initval, op).reverse
 
     lazy val initval: Seq[T] = Seq()
 
@@ -70,7 +57,9 @@ case class Min[T]() {
 
   def isEmpty(s: MSeq[T]): Boolean = s.isEmpty
 
-  //
+  /* */
+
+  def foldLeft[B](s: MSeq[T], initval: B, op: (B, T) => B): B = s.foldLeft[B](initval, op)
 
   def reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
 
@@ -82,18 +71,12 @@ case class Min[T]() {
     ) s1
     else reverseRec(tail(s0), prepended(s1, head(s0)))
 
-
   def length(s: MSeq[T]): Int = {
-    lazy val result = rec(s, 0)
+    lazy val initval: Int = 0
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(s: MSeq[T], n: Int): Int =
-      if ( isEmpty(s)
-      ) n
-      else rec(tail(s), n + 1)
+    def op(acc: Int, elem: T): Int = acc + 1
 
-    result
+    s.foldLeft(initval, op)
   }
 
   def indexOf(s: MSeq[T], e: T): Int = {
@@ -141,7 +124,7 @@ case class Min[T]() {
     result
   }
 
-  //
+  /* */
 
   def take(s: MSeq[T], n: Int): MSeq[T] = {
     lazy val result = reverse(rec(s, n, empty))
@@ -180,7 +163,7 @@ case class Min[T]() {
     (reverse(pair._1), pair._2)
   }
 
-  //
+  /* */
 
   def appended(s: MSeq[T], e: T): MSeq[T] = reverse(prepended(reverse(s), e))
 
@@ -190,7 +173,7 @@ case class Min[T]() {
 
   def slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 
-  //
+  /* */
 
   def forall(s: MSeq[T], p: (T => Boolean)): Boolean = {
     lazy val result = rec(s, p)
@@ -294,7 +277,7 @@ case class Min[T]() {
     result
    }
 
-  //
+  /* */
 
   import scala.annotation.tailrec
         @tailrec

@@ -9,6 +9,20 @@ trait MSeq[T] {
   def head() = _head().get
 
   def tail() = _tail().get
+
+  def foldLeft[B](initval: B, op: (B, T) => B): B = {
+    lazy val result = rec(this, initval, op)
+
+    import scala.annotation.tailrec
+        @tailrec
+    def rec[B](seq: MSeq[T], acc: B, op: (B, T) => B): B =
+      if ( seq.isEmpty
+      ) acc
+      else rec(seq.tail(), op(acc, seq.head()), op)
+
+    result
+  }
+
 }
 
 
