@@ -1,5 +1,7 @@
 package scopus.translator
 
+import scopus.lib.Rec
+
 
 /**
  * This class translates Scopus source code into Scala source code.
@@ -178,7 +180,7 @@ case class MicroTranslator() {
 
 
   def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    lazy val result = Some(rec(translator.keys, line))
+    lazy val result = Some(Rec().foldLeft(translator.keys, initval, op))
 
     def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
       if ( (only_beginning && line.trim.startsWith(pattern.trim)) ||
@@ -186,15 +188,10 @@ case class MicroTranslator() {
       ) replace_all(line, pattern, newText)
       else line
 
-    def proc(reserved_word: String, line: String): String =
-      replace_if_found(line,        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+    lazy val initval: String = line
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(to_replace: Seq[String], line: String): String =
-      if ( to_replace.isEmpty
-      ) line
-      else rec(to_replace.tail, proc(to_replace.head, line))
+    def op(line: String, reserved_word: String): String =
+      replace_if_found(line,        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
 
     result
   }

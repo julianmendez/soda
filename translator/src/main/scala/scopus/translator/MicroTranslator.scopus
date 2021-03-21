@@ -1,5 +1,7 @@
 package scopus.translator
 
++ scopus.lib.Rec
+
 
 /**
  * This class translates Scopus source code into Scala source code.
@@ -176,7 +178,7 @@ package scopus.translator
 
 
   replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    result = Some(rec(translator.keys, line))
+    result = Some(Rec().foldLeft(translator.keys, initval, op))
 
     replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
       if (only_beginning and line.trim.startsWith(pattern.trim)) or
@@ -184,15 +186,11 @@ package scopus.translator
       then replace_all(line, pattern, newText)
       else line
 
-    proc(reserved_word: String, line: String): String =
+    initval: String = line
+
+    op(line: String, reserved_word: String): String =
       replace_if_found(line,
         ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-
-    @tailrec
-    rec(to_replace: Seq[String], line: String): String =
-      if to_replace.isEmpty
-      then line
-      else rec(to_replace.tail, proc(to_replace.head, line))
 
     result
   }
