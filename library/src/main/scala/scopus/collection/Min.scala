@@ -68,15 +68,13 @@ case class Min[T]() {
     foldLeftWhile[B](s, initval, op, cond)
   }
 
-  def reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
+  def reverse(s: MSeq[T]): MSeq[T] = {
+    lazy val init: MSeq[T] = empty
 
-  import scala.annotation.tailrec
-        @tailrec
-  private
-  def reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
-    if ( isEmpty(s0)
-    ) s1
-    else reverseRec(tail(s0), prepended(s1, head(s0)))
+    def op(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+
+    foldLeft(s, init, op)
+  }
 
   def length(s: MSeq[T]): Int = {
     lazy val initval: Int = 0
@@ -98,31 +96,27 @@ case class Min[T]() {
   }
 
   def contains(s: MSeq[T], e: T): Boolean = {
-    lazy val result = rec(s, e)
+    lazy val initval: Boolean = false
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(s: MSeq[T], e: T): Boolean =
-      if ( isEmpty(s)
-      ) false
-      else if ( head(s) == e
-      ) true
-      else rec(tail(s), e)
+    def op(acc: Boolean, elem: T): Boolean = elem == e
 
-    result
+    def cond(acc: Boolean, elem: T): Boolean = ! acc
+
+    foldLeftWhile(s, initval, op, cond)
   }
 
   def at(s: MSeq[T], n: Int): T = {
-    lazy val result = rec(s, n)
+    lazy val result = if ( isEmpty(s) || n < 0 || n >= length(s) ) None.get else atNonEmpty(s, n)
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(s: MSeq[T], n: Int): T =
-      if ( isEmpty(s) || n < 0
-      ) None.get
-      else if ( n == 0
-      ) head(s)
-      else rec(tail(s), n - 1)
+    def atNonEmpty(xs: MSeq[T], n: Int): T = {
+      def init: (T, Int) = (head(xs), -1)
+
+      def op(acc: (T, Int), elem: T): (T, Int) = (elem, acc._2 + 1)
+
+      def cond(acc: (T, Int), elem: T): Boolean = acc._2 < n
+
+      foldLeftWhile(xs, init, op, cond)._1
+    }
 
     result
   }
@@ -172,7 +166,15 @@ case class Min[T]() {
 
   def last(s: MSeq[T]): T = head(reverse(s))
 
-  def concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = reverseRec(reverse(s0), s1)
+  def concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = {
+    lazy val init: MSeq[T] = s1
+
+    def op(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+
+    lazy val s0rev = reverse(s0)
+
+    foldLeft(s0rev, init, op)
+  }
 
   def slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 

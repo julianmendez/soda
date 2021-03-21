@@ -67,14 +67,13 @@ package scopus.collection
     foldLeftWhile[B](s, initval, op, cond)
   }
 
-  reverse(s: MSeq[T]): MSeq[T] = reverseRec(s, empty)
+  reverse(s: MSeq[T]): MSeq[T] = {
+    init: MSeq[T] = empty
 
-  @tailrec
-  @private
-  reverseRec(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
-    if isEmpty(s0)
-    then s1
-    else reverseRec(tail(s0), prepended(s1, head(s0)))
+    op(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+
+    foldLeft(s, init, op)
+  }
 
   length(s: MSeq[T]): Int = {
     initval: Int = 0
@@ -97,29 +96,27 @@ package scopus.collection
   }
 
   contains(s: MSeq[T], e: T): Boolean = {
-    result = rec(s, e)
+    initval: Boolean = false
 
-    @tailrec
-    rec(s: MSeq[T], e: T): Boolean =
-      if isEmpty(s)
-      then false
-      else if head(s) == e
-      then true
-      else rec(tail(s), e)
+    op(acc: Boolean, elem: T): Boolean = elem == e
 
-    result
+    cond(acc: Boolean, elem: T): Boolean = not acc
+
+    foldLeftWhile(s, initval, op, cond)
   }
 
   at(s: MSeq[T], n: Int): T = {
-    result = rec(s, n)
+    result = if isEmpty(s) or n < 0 or n >= length(s) then None.get else atNonEmpty(s, n)
 
-    @tailrec
-    rec(s: MSeq[T], n: Int): T =
-      if isEmpty(s) or n < 0
-      then None.get
-      else if n == 0
-      then head(s)
-      else rec(tail(s), n - 1)
+    atNonEmpty(xs: MSeq[T], n: Int): T = {
+      init: (T, Int) = (head(xs), -1)
+
+      op(acc: (T, Int), elem: T): (T, Int) = (elem, acc._2 + 1)
+
+      cond(acc: (T, Int), elem: T): Boolean = acc._2 < n
+
+      foldLeftWhile(xs, init, op, cond)._1
+    }
 
     result
   }
@@ -167,7 +164,15 @@ package scopus.collection
 
   last(s: MSeq[T]): T = head(reverse(s))
 
-  concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = reverseRec(reverse(s0), s1)
+  concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = {
+    init: MSeq[T] = s1
+
+    op(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+
+    s0rev = reverse(s0)
+
+    foldLeft(s0rev, init, op)
+  }
 
   slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 
