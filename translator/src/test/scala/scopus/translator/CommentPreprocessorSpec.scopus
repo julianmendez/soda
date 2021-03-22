@@ -16,6 +16,7 @@ package scopus.translator
       "\n}" +
       "\n")
       .split("\n")
+      .toSeq
     expected = Seq(
       AnnotatedLine("", isComment=false),
       AnnotatedLine("", isComment=false),
