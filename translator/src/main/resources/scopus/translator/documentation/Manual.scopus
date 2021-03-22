@@ -61,13 +61,6 @@ class PersonName (name: String) {
   toString = name
 }
 
-class GroupName (name: String) {
-  @private
-  __double = name + " " + name
-
-  double = __double
-}
-
 /**
   * This contains the examples shown in the manual.
   */
@@ -112,16 +105,7 @@ class Manual() {
 
   now = new Date()
 
-  sum (n: Int) = sum_rec (n, 0)
-
-  @tailrec
-  @private
-  sum_rec (n: Int, accum: Int): Int =
-    if n < 0
-    then accum
-    else sum_rec (n - 1, n + accum)
-
-  sum2 (n: Int) = {
+  sum (n: Int) = {
     result = rec (n, 0)
 
     @tailrec
@@ -149,15 +133,17 @@ class Manual() {
 
 * FactorialConcise () extends AbstractFactorialConcise {
 
-  factorial (n: Int) = factorial_rec (n, 1)
+  factorial (n: Int) = {
+    result = rec (n, 1)
 
-  @tailrec
-  @private
-  factorial_rec (n: Int, product: Int): Int =
-    if n == 0
-    then product
-    else factorial_rec (n - 1, n * product)
+    @tailrec
+    rec (n: Int, product: Int): Int =
+      if n == 0
+      then product
+      else rec (n - 1, n * product)
 
+    result
+  }
 }
 
 class AbstractFactorialVerbose {
@@ -166,15 +152,17 @@ class AbstractFactorialVerbose {
 
 class FactorialVerbose () extends AbstractFactorialVerbose {
 
-  factorial (n in Int) is factorial_rec (n, 1)
+  factorial (n in Int) is {
+    result is rec (n, 1)
 
-  @tailrec
-  @private
-  factorial_rec (n in Int, product in Int) in Int is
-    if n == 0
-    then product
-    else factorial_rec (n - 1, n * product)
+    @tailrec
+    rec (n in Int, product in Int) in Int is
+      if n == 0
+      then product
+      else rec (n - 1, n * product)
 
+    result
+  }
 }
 
 class Main () {

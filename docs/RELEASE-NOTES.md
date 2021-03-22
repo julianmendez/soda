@@ -5,8 +5,8 @@
     - translates functions without parameters as `lazy val`
     - changes its main package to `scopus`
     - accepts `,` at the end of a line to join lines and allow multi-line function signatures
-    - includes annotation `@private` to force a function or a value to be private
-    - makes annotation `@tailrec` be automatically imported, but requiring `@private` when used in public classes
+    - makes annotation `@tailrec` be automatically imported
+    - allows annotation `@tailrec` only inside functions
     - compiles with Scala 3.0.0-RC1 and is compatible with Scala 2.11.12, Scala 2.12.13, Scala 2.13.5
   - deprecated_features:
     - synonym `to` for `->` is no longer supported

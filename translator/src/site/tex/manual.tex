@@ -9,7 +9,7 @@
 
 
 \lstdefinelanguage{Scopus}{
-    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, suchthat, @tailrec, @override, @private, @main},
+    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, suchthat, @tailrec, @override, @main},
     sensitive=true, % keywords are not case-sensitive
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
@@ -45,7 +45,6 @@
 
 \newcommand{\stailrec}{\annotation{@tailrec}}
 \newcommand{\soverride}{\annotation{@override}}
-\newcommand{\sprivate}{\annotation{@private}}
 \newcommand{\smain}{\annotation{@main}}
 
 \newcommand{\sequalsSign}{\srccode{==}}
@@ -158,7 +157,7 @@
 
     Since \Scopus is intended to maximize transparency, there is no reserved word to declare private methods.
     In object-oriented programming languages, classes and their attributes and methods are declared private to prevent using them outside the intended place.
-    In \Scopus, this can be identified by, for example, starting a class, attribute, or method name with an underscore.
+    In \Scopus, a protected class, attribute, or method name can be identified by using an underscore as prefix.
 
 
     \section{A Descriptive Language}
@@ -353,13 +352,6 @@
     The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
 
 
-    \section{Private Objects}
-
-    In \Scopus, there are no private objects.
-    Everything is visible from other objects.
-    Functions and constants that are meant to be internal of class can follow a naming convention of starting with an underscore.
-
-
     \section{Static Constants and Functions}
 
     In \Scopus, there is no concept of static functions.
@@ -369,7 +361,7 @@
 
     \section{Parametric Types}
 
-    The use of parametric types are technically possible and allowed, but slightly discouraged.
+    The use of parametric types is technically possible and allowed, but slightly discouraged.
     Sometimes smaller code is not necessarily easier to understand.
     Usually, parametric types are needed for highly generic data types, like collections.
     Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
@@ -665,48 +657,15 @@
   }
     \end{lstlisting}
 
-    \subsubsection{\sprivate}
-
-    The \sprivate annotation forces a function to be private.
-    This helps to detect that a private function is not used as public.
-    It also helps if, for some reason, the generated JVM bytecode needs to have private functions.
-
-    A private function cannot be tested directly, since it cannot be invoked from a testing instance in a different class.
-    For this reason, it is recommended to avoid using a private function, unless it is coupled to a non-private function that uses it.
-
-    \begin{lstlisting}[label={lst:examplePrivate}]
-  class GroupName (name: String) {
-    @private
-    __double = name + " " + name
-
-    double = __double
-  }
-    \end{lstlisting}
-
     \subsubsection{\stailrec}
 
     The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
     If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
 
-    For example, the following example shows a function \srccode{sum} that returns the sum of the first $n$ natural numbers, or 0 if $n \leq 0$.
-
-    \begin{lstlisting}[label={lst:exampleTailrecOutside}]
-  sum (n: Int) = sum_rec (n, 0)
-
-  @tailrec
-  @private
-  sum_rec (n: Int, accum: Int): Int =
-    if n < 0
-    then accum
-    else sum_rec (n - 1, n + accum)
-
-    \end{lstlisting}
-
-    For technical reasons, a function with tail recursion needs to be declared private in classes.
-    If they are used inside another function, this declaration is not necessary, since the tail recursive function is automatically private.
+    For technical reasons, a function with tail recursion needs to be used inside another function.
 
     \begin{lstlisting}[label={lst:exampleTailrecInside}]
-  sum2 (n: Int) = {
+  sum (n: Int) = {
     result = rec (n, 0)
 
     @tailrec
@@ -717,7 +676,6 @@
 
     result
   }
-
     \end{lstlisting}
 
 
@@ -782,15 +740,17 @@
 
   * FactorialConcise () extends AbstractFactorialConcise {
 
-    factorial (n: Int) = factorial_rec (n, 1)
+    factorial (n: Int) = {
+      result = rec (n, 1)
 
-    @tailrec
-    @private
-    factorial_rec (n: Int, product: Int): Int =
-      if n == 0
-      then product
-      else factorial_rec (n - 1, n * product)
+      @tailrec
+      rec (n: Int, product: Int): Int =
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
 
+      result
+    }
   }
     \end{lstlisting}
 
@@ -802,15 +762,17 @@
 
   class FactorialVerbose () extends AbstractFactorialVerbose {
 
-    factorial (n in Int) is factorial_rec (n, 1)
+    factorial (n in Int) is {
+      result is rec (n, 1)
 
-    @tailrec
-    @private
-    factorial_rec (n in Int, product in Int) in Int is
-      if n == 0
-      then product
-      else factorial_rec (n - 1, n * product)
+      @tailrec
+      rec (n in Int, product in Int) in Int is
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
 
+      result
+    }
   }
     \end{lstlisting}
 

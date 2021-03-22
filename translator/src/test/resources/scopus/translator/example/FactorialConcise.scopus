@@ -7,14 +7,16 @@ package scopus.translator.example
 
 * FactorialConcise () extends AbstractFactorialConcise {
 
-  factorial (n: Int) = factorial_rec (n, 1)
+  factorial (n: Int) = {
+    result = rec (n, 1)
 
-  @tailrec
-  @private
-  factorial_rec (n: Int, product: Int): Int =
-    if n == 0
-    then product
-    else factorial_rec (n - 1, n * product)
+    @tailrec
+    rec (n: Int, product: Int): Int =
+      if n == 0
+      then product
+      else rec (n - 1, n * product)
 
+    result
+  }
 }
 

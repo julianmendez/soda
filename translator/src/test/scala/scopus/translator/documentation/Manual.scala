@@ -60,13 +60,6 @@ case class PersonName (name: String) {
   lazy val toString = name
 }
 
-case class GroupName (name: String) {
-  private
-  lazy val __double = name + " " + name
-
-  lazy val double = __double
-}
-
 /**
   * This contains the examples shown in the manual.
   */
@@ -111,17 +104,7 @@ case class Manual() {
 
   lazy val now = new Date()
 
-  def sum (n: Int) = sum_rec (n, 0)
-
-  import scala.annotation.tailrec
-        @tailrec
-  private
-  def sum_rec (n: Int, accum: Int): Int =
-    if ( n < 0
-    ) accum
-    else sum_rec (n - 1, n + accum)
-
-  def sum2 (n: Int) = {
+  def sum (n: Int) = {
     lazy val result = rec (n, 0)
 
     import scala.annotation.tailrec
@@ -150,16 +133,18 @@ trait AbstractFactorialConcise {
 
 case class FactorialConcise () extends AbstractFactorialConcise {
 
-  def factorial (n: Int) = factorial_rec (n, 1)
+  def factorial (n: Int) = {
+    lazy val result = rec (n, 1)
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def factorial_rec (n: Int, product: Int): Int =
-    if ( n == 0
-    ) product
-    else factorial_rec (n - 1, n * product)
+    def rec (n: Int, product: Int): Int =
+      if ( n == 0
+      ) product
+      else rec (n - 1, n * product)
 
+    result
+  }
 }
 
 trait AbstractFactorialVerbose {
@@ -168,16 +153,18 @@ trait AbstractFactorialVerbose {
 
 case class FactorialVerbose () extends AbstractFactorialVerbose {
 
-  def factorial (n : Int) = factorial_rec (n, 1)
+  def factorial (n : Int) = {
+    lazy val result = rec (n, 1)
 
-  import scala.annotation.tailrec
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def factorial_rec (n : Int, product : Int) : Int =
-    if ( n == 0
-    ) product
-    else factorial_rec (n - 1, n * product)
+    def rec (n : Int, product : Int) : Int =
+      if ( n == 0
+      ) product
+      else rec (n - 1, n * product)
 
+    result
+  }
 }
 
 case class Main () {
