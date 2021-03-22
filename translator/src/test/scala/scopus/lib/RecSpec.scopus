@@ -10,11 +10,11 @@ package scopus.lib
   test("foldLeftWhile with Seq") {
     initval = Seq()
 
-    op: (Seq[Int], Int) -> Seq[Int] = (s: Seq[Int], e: Int) -> s.+:((e + 100))
+    op: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
 
-    cond: (Seq[Int], Int) -> Boolean = (s: Seq[Int], e: Int) -> e < 5
+    cond: (Seq[String], Int) -> Boolean = (s: Seq[String], e: Int) -> e < 5
 
-    expected = Seq(103, 102, 101, 101, 100)
+    expected = Seq("103", "102", "101", "101", "100")
     obtained = Rec().foldLeftWhile(exampleSeq, Seq(), op, cond)
     assert(obtained == expected)
   }
@@ -22,9 +22,9 @@ package scopus.lib
   test("foldLeft with Seq") {
     initval = Seq()
 
-    op: (Seq[Int], Int) -> Seq[Int] = (s: Seq[Int], e: Int) -> s.+:((e + 100))
+    op: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
 
-    expected = Seq(108, 105, 103, 102, 101, 101, 100)
+    expected = Seq("108", "105", "103", "102", "101", "101", "100")
     obtained = Rec().foldLeft(exampleSeq, Seq(), op)
     assert(obtained == expected)
   }
