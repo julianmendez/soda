@@ -29,15 +29,15 @@ trait Agent {
 
 case class Person (name: String)
 
-case class Agent_Person (name: String) extends Agent {
+case class AgentPerson (name: String) extends Agent {
   lazy val identifier = name
 }
 
-trait Ranked_Individual {
+trait RankedIndividual {
   def rank: Int
 }
 
-case class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
+case class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual {
   lazy val identifier = name
 
   lazy val rank = person_rank
@@ -55,12 +55,12 @@ case class Item (identifier: Int) extends Element {
   def accept (v: Visitor) = v.visit (this)
 }
 
-case class Person_Name (name: String) {
+case class PersonName (name: String) {
   override
   lazy val toString = name
 }
 
-case class Group_Name (name: String) {
+case class GroupName (name: String) {
   private
   lazy val __double = name + " " + name
 
@@ -144,11 +144,11 @@ case class Manual() {
 
 }
 
-trait Abstract_factorial_concise {
+trait AbstractFactorialConcise {
   def factorial (n: Int): Int
 }
 
-case class Factorial_concise () extends Abstract_factorial_concise {
+case class FactorialConcise () extends AbstractFactorialConcise {
 
   def factorial (n: Int) = factorial_rec (n, 1)
 
@@ -162,11 +162,11 @@ case class Factorial_concise () extends Abstract_factorial_concise {
 
 }
 
-trait Abstract_factorial_verbose {
+trait AbstractFactorialVerbose {
   def factorial (n : Int) : Int
 }
 
-case class Factorial_verbose () extends Abstract_factorial_verbose {
+case class FactorialVerbose () extends AbstractFactorialVerbose {
 
   def factorial (n : Int) = factorial_rec (n, 1)
 

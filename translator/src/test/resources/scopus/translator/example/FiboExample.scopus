@@ -1,14 +1,14 @@
 package scopus.translator.example
 
 
-class Fibo_example {
+class FiboExample {
 
   has fib (n in Int) in Int
 
 }
 
 
-class Fibo_example_in_scopus () extends Fibo_example {
+class FiboExampleInScopus () extends FiboExample {
 
   @private
   fa (m in Int, a in Int, b in Int) in Int is

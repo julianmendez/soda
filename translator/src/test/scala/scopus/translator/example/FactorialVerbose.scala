@@ -1,11 +1,11 @@
 package scopus.translator.example
 
 
-trait Abstract_factorial_verbose {
+trait AbstractFactorialVerbose {
   def factorial (n : Int) : Int
 }
 
-case class Factorial_verbose () extends Abstract_factorial_verbose {
+case class FactorialVerbose () extends AbstractFactorialVerbose {
 
   def factorial (n : Int) = factorial_rec (n, 1)
 

@@ -543,11 +543,11 @@
     Concrete classes can also extend multiple abstract classes.
     For example,
     \begin{lstlisting}[label={lst:exampleWith}]
-  class Ranked_Individual {
+  class RankedIndividual {
     has rank: Int
   }
 
-  class Ranked_Agent_Person (name: String, person_rank: Int) extends Agent with Ranked_Individual {
+  class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual {
     identifier = name
 
     rank = person_rank
@@ -659,7 +659,7 @@
     For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Scopus functions.
 
     \begin{lstlisting}[label={lst:exampleOverride}]
-  class Person_Name (name: String) {
+  class PersonName (name: String) {
     @override
     toString = name
   }
@@ -675,7 +675,7 @@
     For this reason, it is recommended to avoid using a private function, unless it is coupled to a non-private function that uses it.
 
     \begin{lstlisting}[label={lst:examplePrivate}]
-  class Group_Name (name: String) {
+  class GroupName (name: String) {
     @private
     __double = name + " " + name
 
@@ -776,11 +776,11 @@
     As an example we can see the factorial written first in a concise and then in a verbose manner.
 
     \begin{lstlisting}[label={lst:exampleFactorialConcise}]
-  * Abstract_factorial_concise {
+  * AbstractFactorialConcise {
     has factorial (n: Int): Int
   }
 
-  * Factorial_concise () extends Abstract_factorial_concise {
+  * FactorialConcise () extends AbstractFactorialConcise {
 
     factorial (n: Int) = factorial_rec (n, 1)
 
@@ -796,11 +796,11 @@
 
 
     \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
-  class Abstract_factorial_verbose {
+  class AbstractFactorialVerbose {
     has factorial (n in Int) in Int
   }
 
-  class Factorial_verbose () extends Abstract_factorial_verbose {
+  class FactorialVerbose () extends AbstractFactorialVerbose {
 
     factorial (n in Int) is factorial_rec (n, 1)
 

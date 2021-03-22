@@ -12,7 +12,7 @@ case class FactorialSpec() extends AnyFunSuite {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
       .map(pair => pair._1)
-      .map(n => (n, Factorial_concise().factorial(n)))
+      .map(n => (n, FactorialConcise().factorial(n)))
     assert(obtained == expected)
   }
 
@@ -20,7 +20,7 @@ case class FactorialSpec() extends AnyFunSuite {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
       .map(pair => pair._1)
-      .map(n => (n, Factorial_verbose().factorial(n)))
+      .map(n => (n, FactorialVerbose().factorial(n)))
     assert(obtained == expected)
   }
 

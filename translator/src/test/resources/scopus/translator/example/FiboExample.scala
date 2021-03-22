@@ -1,14 +1,14 @@
 package scopus.translator.example
 
 
-trait Fibo_example {
+trait FiboExample {
 
   def fib (n : Int) : Int
 
 }
 
 
-case class Fibo_example_in_scopus () extends Fibo_example {
+case class FiboExampleInScopus () extends FiboExample {
 
   private
   def fa (m : Int, a : Int, b : Int) : Int =

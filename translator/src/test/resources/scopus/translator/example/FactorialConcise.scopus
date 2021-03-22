@@ -1,11 +1,11 @@
 package scopus.translator.example
 
 
-* Abstract_factorial_concise {
+* AbstractFactorialConcise {
   has factorial (n: Int): Int
 }
 
-* Factorial_concise () extends Abstract_factorial_concise {
+* FactorialConcise () extends AbstractFactorialConcise {
 
   factorial (n: Int) = factorial_rec (n, 1)
 

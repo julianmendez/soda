@@ -1,11 +1,11 @@
 package scopus.translator.example
 
 
-class Abstract_factorial_verbose {
+class AbstractFactorialVerbose {
   has factorial (n in Int) in Int
 }
 
-class Factorial_verbose () extends Abstract_factorial_verbose {
+class FactorialVerbose () extends AbstractFactorialVerbose {
 
   factorial (n in Int) is factorial_rec (n, 1)
 
