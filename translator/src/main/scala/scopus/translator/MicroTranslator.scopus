@@ -62,11 +62,11 @@ package scopus.translator
       )
 
   _translate_non_comment(line: String): String = {
-    line_with_space = _add_space_to_scopus_line(line)
+    line_with_space = Replacement().add_space_to_scopus_line(line)
     tokenized_line = tokenize(line_with_space)
     translated_line = _translate_line(tokenized_line)
     joint_line = _join_tokens(translated_line)
-    final_line = _remove_space_from_scala_line(joint_line)
+    final_line = Replacement().remove_space_from_scala_line(joint_line)
     final_line
   }
 
@@ -77,12 +77,12 @@ package scopus.translator
         then {
           currentLine = token.text
           newText = Option(currentLine)
-            .flatMap(line -> replace(line, ScalaNonScopus(), only_beginning=false))
-            .flatMap(line -> replace_at_beginning(line, token.index, SynonymAtBeginning()))
-            .flatMap(line -> replace(line, Synonym(), only_beginning=false))
+            .flatMap(line -> Replacement().replace(line, ScalaNonScopus(), only_beginning=false))
+            .flatMap(line -> Replacement().replace_at_beginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line -> Replacement().replace(line, Synonym(), only_beginning=false))
             .flatMap(line -> try_definition(line))
-            .flatMap(line -> replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
-            .flatMap(line -> replace(line, MainTranslation(), only_beginning=false))
+            .flatMap(line -> Replacement().replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
+            .flatMap(line -> Replacement().replace(line, MainTranslation(), only_beginning=false))
             .getOrElse(currentLine)
           Token(newText, token.parser_state, token.index)
         }
@@ -127,8 +127,8 @@ package scopus.translator
       case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       if case1 or case2 or case3
-      then Some(_add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
-      else Some(_add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
+      then Some(Replacement().add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(Replacement().add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
     }
     else Some(line)
   }
@@ -148,72 +148,6 @@ package scopus.translator
     if position == -1
     then None
     else Some(position)
-  }
-
-  replace_all(line: String, pattern: String, replacement: String): String = {
-    result = rec(line, pattern, replacement, Seq())
-
-    @tailrec
-    rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
-      pos = line.indexOf(pattern)
-      if pos == -1
-      then
-        replaced_text_rev.+:(line)
-          .reverse
-          .mkString("")
-      else {
-        new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
-        new_line = line.substring(pos + pattern.length)
-        rec(new_line, pattern, replacement, new_replaced_text_rev)
-      }
-    }
-
-    result
-  }
-
-  replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
-    if index == 0
-    then replace(line, translator, only_beginning=true)
-    else Some(line)
-
-
-  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    result = Some(Rec().foldLeft(translator.keys, initval, op))
-
-    replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
-      if (only_beginning and line.trim.startsWith(pattern.trim)) or
-        ( not only_beginning and line.contains(pattern))
-      then replace_all(line, pattern, newText)
-      else line
-
-    initval: String = line
-
-    op(line: String, reserved_word: String): String =
-      replace_if_found(line,
-        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-
-    result
-  }
-
-  _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
-
-  _remove_space_from_scala_line(line: String): String = {
-    line_without_starting_space =
-      if line.startsWith(ScalaSpace)
-      then line.substring(1)
-      else line
-
-    line_without_ending_space =
-      if line_without_starting_space.endsWith(ScalaSpace)
-      then line_without_starting_space.substring(0, line_without_starting_space.length - 1)
-      else line_without_starting_space
-
-    line_without_ending_space
-  }
-
-  _add_after_spaces(text_to_prepend: String, line: String): String = {
-    prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
-    line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }
 
 }

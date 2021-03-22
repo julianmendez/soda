@@ -63,11 +63,11 @@ case class MicroTranslator() {
       )
 
   def _translate_non_comment(line: String): String = {
-    lazy val line_with_space = _add_space_to_scopus_line(line)
+    lazy val line_with_space = Replacement().add_space_to_scopus_line(line)
     lazy val tokenized_line = tokenize(line_with_space)
     lazy val translated_line = _translate_line(tokenized_line)
     lazy val joint_line = _join_tokens(translated_line)
-    lazy val final_line = _remove_space_from_scala_line(joint_line)
+    lazy val final_line = Replacement().remove_space_from_scala_line(joint_line)
     final_line
   }
 
@@ -78,12 +78,12 @@ case class MicroTranslator() {
         ) {
           lazy val currentLine = token.text
           lazy val newText = Option(currentLine)
-            .flatMap(line => replace(line, ScalaNonScopus(), only_beginning=false))
-            .flatMap(line => replace_at_beginning(line, token.index, SynonymAtBeginning()))
-            .flatMap(line => replace(line, Synonym(), only_beginning=false))
+            .flatMap(line => Replacement().replace(line, ScalaNonScopus(), only_beginning=false))
+            .flatMap(line => Replacement().replace_at_beginning(line, token.index, SynonymAtBeginning()))
+            .flatMap(line => Replacement().replace(line, Synonym(), only_beginning=false))
             .flatMap(line => try_definition(line))
-            .flatMap(line => replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
-            .flatMap(line => replace(line, MainTranslation(), only_beginning=false))
+            .flatMap(line => Replacement().replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
+            .flatMap(line => Replacement().replace(line, MainTranslation(), only_beginning=false))
             .getOrElse(currentLine)
           Token(newText, token.parser_state, token.index)
         }
@@ -128,8 +128,8 @@ case class MicroTranslator() {
       lazy val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       if ( case1 || case2 || case3
-      ) Some(_add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
-      else Some(_add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
+      ) Some(Replacement().add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
+      else Some(Replacement().add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
     }
     else Some(line)
   }
@@ -149,72 +149,6 @@ case class MicroTranslator() {
     if ( position == -1
     ) None
     else Some(position)
-  }
-
-  def replace_all(line: String, pattern: String, replacement: String): String = {
-    lazy val result = rec(line, pattern, replacement, Seq())
-
-    import scala.annotation.tailrec
-        @tailrec
-    def rec(line: String, pattern: String, replacement: String, replaced_text_rev: Seq[String]): String = {
-      lazy val pos = line.indexOf(pattern)
-      if ( pos == -1
-      )
-        replaced_text_rev.+:(line)
-          .reverse
-          .mkString("")
-      else {
-        lazy val new_replaced_text_rev = replaced_text_rev.+:(line.substring(0, pos) + replacement)
-        lazy val new_line = line.substring(pos + pattern.length)
-        rec(new_line, pattern, replacement, new_replaced_text_rev)
-      }
-    }
-
-    result
-  }
-
-  def replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
-    if ( index == 0
-    ) replace(line, translator, only_beginning=true)
-    else Some(line)
-
-
-  def replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    lazy val result = Some(Rec().foldLeft(translator.keys, initval, op))
-
-    def replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
-      if ( (only_beginning && line.trim.startsWith(pattern.trim)) ||
-        ( ! only_beginning && line.contains(pattern))
-      ) replace_all(line, pattern, newText)
-      else line
-
-    lazy val initval: String = line
-
-    def op(line: String, reserved_word: String): String =
-      replace_if_found(line,        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-
-    result
-  }
-
-  def _add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
-
-  def _remove_space_from_scala_line(line: String): String = {
-    lazy val line_without_starting_space =
-      if ( line.startsWith(ScalaSpace)
-      ) line.substring(1)
-      else line
-
-    lazy val line_without_ending_space =
-      if ( line_without_starting_space.endsWith(ScalaSpace)
-      ) line_without_starting_space.substring(0, line_without_starting_space.length - 1)
-      else line_without_starting_space
-
-    line_without_ending_space
-  }
-
-  def _add_after_spaces(text_to_prepend: String, line: String): String = {
-    lazy val prefix_length = line.takeWhile(ch => ch.isSpaceChar).length
-    line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }
 
 }
