@@ -3,10 +3,42 @@ package scopus.translator
 + scopus.lib.Rec
 
 
-* Replacement() {
+* Replacement(line: String) {
 
   ScopusSpace: String = " "
   ScalaSpace: String = " "
+
+  replace_with(function: String -> String): Replacement =
+    Replacement(function(line))
+
+  replace_at_beginning(index: Int, translator: Translator): Replacement =
+    Replacement(replace_at_beginning(line, index, translator))
+
+  replace_at_beginning(line: String, index: Int, translator: Translator): String =
+    if index == 0
+    then replace(line, translator, only_beginning=true)
+    else line
+
+  replace(translator: Translator, only_beginning: Boolean): Replacement =
+    Replacement(replace(line, translator, only_beginning))
+
+  replace(line: String, translator: Translator, only_beginning: Boolean): String = {
+    result = Rec().foldLeft(translator.keys, initval, op)
+
+    replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+      if (only_beginning and line.trim.startsWith(pattern.trim)) or
+        (not only_beginning and line.contains(pattern))
+      then replace_all(line, pattern, newText)
+      else line
+
+    initval: String = line
+
+    op(line: String, reserved_word: String): String =
+      replace_if_found(line,
+        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+
+    result
+  }
 
   replace_all(line: String, pattern: String, replacement: String): String = {
     result = rec(line, pattern, replacement, Seq())
@@ -29,33 +61,13 @@ package scopus.translator
     result
   }
 
-  replace_at_beginning(line: String, index: Int, translator: Translator): Some[String] =
-    if index == 0
-    then replace(line, translator, only_beginning=true)
-    else Some(line)
+  add_space_to_scopus_line(): Replacement =
+    Replacement(ScopusSpace + line + ScopusSpace)
 
+  add_spaces_to_symbols(symbols: Set[Char]): Replacement =
+    Replacement(add_spaces_to_symbols(line, symbols))
 
-  replace(line: String, translator: Translator, only_beginning: Boolean): Some[String] = {
-    result = Some(Rec().foldLeft(translator.keys, initval, op))
-
-    replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
-      if (only_beginning and line.trim.startsWith(pattern.trim)) or
-        (not only_beginning and line.contains(pattern))
-      then replace_all(line, pattern, newText)
-      else line
-
-    initval: String = line
-
-    op(line: String, reserved_word: String): String =
-      replace_if_found(line,
-        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
-
-    result
-  }
-
-  add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
-
-  add_spaces_to_symbols(line: String, symbols: Set[Char]): Some[String] = Some(
+  add_spaces_to_symbols(line: String, symbols: Set[Char]): String =
     line.indices.map(index -> {
       result = left_part + ch + right_part
 
@@ -77,8 +89,9 @@ package scopus.translator
 
       result
     } ).mkString("")
-  )
 
+  remove_space_from_scala_line(): Replacement =
+    Replacement(remove_space_from_scala_line(line))
 
   remove_space_from_scala_line(line: String): String = {
     line_without_starting_space =
@@ -94,7 +107,10 @@ package scopus.translator
     line_without_ending_space
   }
 
-  add_after_spaces(text_to_prepend: String, line: String): String = {
+  add_after_spaces(text_to_prepend: String): Replacement =
+    Replacement(add_after_spaces(line, text_to_prepend))
+
+  add_after_spaces(line: String, text_to_prepend: String): String = {
     prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
     line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }

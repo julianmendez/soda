@@ -3,10 +3,41 @@ package scopus.translator
 import scopus.lib.Rec
 
 
-case class Replacement (  ) {
+case class Replacement ( line: String ) {
 
   lazy val ScopusSpace: String = " "
   lazy val ScalaSpace: String = " "
+
+  def replace_with ( function: String => String ) : Replacement =
+    Replacement ( function ( line )  )
+
+  def replace_at_beginning ( index: Int , translator: Translator ) : Replacement =
+    Replacement ( replace_at_beginning ( line , index , translator )  )
+
+  def replace_at_beginning ( line: String , index: Int , translator: Translator ) : String =
+    if ( index == 0
+    ) replace ( line , translator , only_beginning=true )
+    else line
+
+  def replace ( translator: Translator , only_beginning: Boolean ) : Replacement =
+    Replacement ( replace ( line , translator , only_beginning )  )
+
+  def replace ( line: String , translator: Translator , only_beginning: Boolean ) : String = {
+    lazy val result = Rec (  ) .foldLeft ( translator.keys , initval , op )
+
+    def replace_if_found ( line: String , pattern: String , newText: String , only_beginning: Boolean ) : String =
+      if ( ( only_beginning && line.trim.startsWith ( pattern.trim )  ) ||
+        ( ! only_beginning && line.contains ( pattern )  )
+      ) replace_all ( line , pattern , newText )
+      else line
+
+    lazy val initval: String = line
+
+    def op ( line: String , reserved_word: String ) : String =
+      replace_if_found ( line ,        ScopusSpace + reserved_word + ScopusSpace , ScalaSpace + translator.translate ( reserved_word ) + ScalaSpace , only_beginning )
+
+    result
+  }
 
   def replace_all ( line: String , pattern: String , replacement: String ) : String = {
     lazy val result = rec ( line , pattern , replacement , Seq (  )  )
@@ -30,32 +61,13 @@ case class Replacement (  ) {
     result
   }
 
-  def replace_at_beginning ( line: String , index: Int , translator: Translator ) : Some [ String ] =
-    if ( index == 0
-    ) replace ( line , translator , only_beginning=true )
-    else Some ( line )
+  def add_space_to_scopus_line (  ) : Replacement =
+    Replacement ( ScopusSpace + line + ScopusSpace )
 
+  def add_spaces_to_symbols ( symbols: Set [ Char ]  ) : Replacement =
+    Replacement ( add_spaces_to_symbols ( line , symbols )  )
 
-  def replace ( line: String , translator: Translator , only_beginning: Boolean ) : Some [ String ] = {
-    lazy val result = Some ( Rec (  ) .foldLeft ( translator.keys , initval , op )  )
-
-    def replace_if_found ( line: String , pattern: String , newText: String , only_beginning: Boolean ) : String =
-      if ( ( only_beginning && line.trim.startsWith ( pattern.trim )  ) ||
-        ( ! only_beginning && line.contains ( pattern )  )
-      ) replace_all ( line , pattern , newText )
-      else line
-
-    lazy val initval: String = line
-
-    def op ( line: String , reserved_word: String ) : String =
-      replace_if_found ( line ,        ScopusSpace + reserved_word + ScopusSpace , ScalaSpace + translator.translate ( reserved_word ) + ScalaSpace , only_beginning )
-
-    result
-  }
-
-  def add_space_to_scopus_line ( line: String ) : String = ScopusSpace + line + ScopusSpace
-
-  def add_spaces_to_symbols ( line: String , symbols: Set [ Char ]  ) : Some [ String ] = Some (
+  def add_spaces_to_symbols ( line: String , symbols: Set [ Char ]  ) : String =
     line.indices.map ( index => {
       lazy val result = left_part + ch + right_part
 
@@ -77,8 +89,9 @@ case class Replacement (  ) {
 
       result
     } ) .mkString ("")
-  )
 
+  def remove_space_from_scala_line (  ) : Replacement =
+    Replacement ( remove_space_from_scala_line ( line )  )
 
   def remove_space_from_scala_line ( line: String ) : String = {
     lazy val line_without_starting_space =
@@ -94,7 +107,10 @@ case class Replacement (  ) {
     line_without_ending_space
   }
 
-  def add_after_spaces ( text_to_prepend: String , line: String ) : String = {
+  def add_after_spaces ( text_to_prepend: String ) : Replacement =
+    Replacement ( add_after_spaces ( line , text_to_prepend )  )
+
+  def add_after_spaces ( line: String , text_to_prepend: String ) : String = {
     lazy val prefix_length = line.takeWhile ( ch => ch.isSpaceChar ) .length
     line.substring ( 0 , prefix_length ) + text_to_prepend + line.substring ( prefix_length )
   }

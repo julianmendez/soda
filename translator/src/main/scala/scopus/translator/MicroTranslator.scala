@@ -63,11 +63,11 @@ case class MicroTranslator (  ) {
       )
 
   def _translate_non_comment ( line: String ) : String = {
-    lazy val line_with_space = Replacement (  ) .add_space_to_scopus_line ( line )
+    lazy val line_with_space = Replacement ( line ) .add_space_to_scopus_line (  ) .line
     lazy val tokenized_line = tokenize ( line_with_space )
     lazy val translated_line = _translate_line ( tokenized_line )
     lazy val joint_line = _join_tokens ( translated_line )
-    lazy val final_line = Replacement (  ) .remove_space_from_scala_line ( joint_line )
+    lazy val final_line = Replacement ( joint_line ) .remove_space_from_scala_line (  ) .line
     final_line
   }
 
@@ -76,16 +76,15 @@ case class MicroTranslator (  ) {
       token =>
         if ( token.parser_state == ParserStateEnum (  ) .Plain
         ) {
-          lazy val current_line = token.text
-          lazy val newText = Option ( current_line )
-            .flatMap ( line => Replacement (  ) .add_spaces_to_symbols ( line , symbols=Translation (  ) .ScopusBracketsAndComma.toSet )  )
-            .flatMap ( line => Replacement (  ) .replace ( line , ScalaNonScopus (  )  , only_beginning=false )  )
-            .flatMap ( line => Replacement (  ) .replace_at_beginning ( line , token.index , SynonymAtBeginning (  )  )  )
-            .flatMap ( line => Replacement (  ) .replace ( line , Synonym (  )  , only_beginning=false )  )
-            .flatMap ( line => try_definition ( line )  )
-            .flatMap ( line => Replacement (  ) .replace_at_beginning ( line , token.index , get_translation_table_at_beginning ( line )  )  )
-            .flatMap ( line => Replacement (  ) .replace ( line , MainTranslation (  )  , only_beginning=false )  )
-            .getOrElse ( current_line )
+          lazy val newText = Replacement ( token.text )
+            .add_spaces_to_symbols ( symbols=Translation (  ) .ScopusBracketsAndComma.toSet )
+            .replace ( ScalaNonScopus (  )  , only_beginning=false )
+            .replace_at_beginning ( token.index , SynonymAtBeginning (  )  )
+            .replace ( Synonym (  )  , only_beginning=false )
+            .replace_with ( try_definition )
+            .replace_at_beginning ( token.index , get_translation_table_at_beginning ( token.text )  )
+            .replace ( MainTranslation (  )  , only_beginning=false )
+            .line
           Token ( newText , token.parser_state , token.index )
         }
         else token
@@ -117,7 +116,7 @@ case class MicroTranslator (  ) {
    * @param line line
    * @return maybe a translated line
    */
-  def try_definition ( line: String ) : Some [ String ] = {
+  def try_definition ( line: String ) : String = {
     lazy val maybe_position = find_definition ( line )
     if ( maybe_position.nonEmpty
     ) {
@@ -128,11 +127,12 @@ case class MicroTranslator (  ) {
       lazy val case2 = line.trim.startsWith ( ScopusOpeningParenthesis )
       lazy val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
-      if ( case1 || case2 || case3
-      ) Some ( Replacement (  ) .add_after_spaces ( Translation (  ) .ScalaValue + ScalaSpace , line )  )
-      else Some ( Replacement (  ) .add_after_spaces ( Translation (  ) .ScalaDefinition + ScalaSpace , line )  )
+      lazy val new_text = if ( case1 || case2 || case3
+      ) Translation (  ) .ScalaValue + ScalaSpace
+      else Translation (  ) .ScalaDefinition + ScalaSpace
+      Replacement ( line ) .add_after_spaces ( new_text ) .line
     }
-    else Some ( line )
+    else line
   }
 
   /**
