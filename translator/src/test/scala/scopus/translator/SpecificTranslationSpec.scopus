@@ -13,7 +13,7 @@ package scopus.translator
       "\n    \"       x + y\")" +
       "\n"
 
-    expected = "  lazy val input_lines = Seq(" +
+    expected = "  lazy val input_lines = Seq (" +
       "\n    \"  f( x: Int,\\t\", " +
       "    \"     y: Int) =\"," +
       "    \"       x + y\")" +
@@ -25,14 +25,14 @@ package scopus.translator
 
   test("should leave content of apostrophes unchanged") {
     input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
-    expected = " lazy val a = Seq('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
+    expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     obtained = MicroTranslator().translate_program(input)
     assert(obtained == expected)
   }
 
   test("should leave content of quotation marks unchanged") {
     input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-    expected = " lazy val a = Seq(\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+    expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     obtained = MicroTranslator().translate_program(input)
     assert(obtained == expected)
 

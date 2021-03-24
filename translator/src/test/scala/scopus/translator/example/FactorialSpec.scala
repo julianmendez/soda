@@ -2,26 +2,26 @@ package scopus.translator.example
 
 import org.scalatest.funsuite.AnyFunSuite
 
-case class FactorialSpec() extends AnyFunSuite {
+case class FactorialSpec (  ) extends AnyFunSuite {
 
-  lazy val factorial_values = Seq(
-    (0, 1), (1, 1), (2, 2), (3, 6), (4, 24), (5, 120), (6, 720), (7, 5040), (8, 40320), (9, 362880), (10, 3628800)
+  lazy val factorial_values = Seq (
+    ( 0 , 1 )  , ( 1 , 1 )  , ( 2 , 2 )  , ( 3 , 6 )  , ( 4 , 24 )  , ( 5 , 120 )  , ( 6 , 720 )  , ( 7 , 5040 )  , ( 8 , 40320 )  , ( 9 , 362880 )  , ( 10 , 3628800 )
   )
 
-  test("should test the factorial - concise version") {
+  test ("should test the factorial - concise version") {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
-      .map(pair => pair._1)
-      .map(n => (n, FactorialConcise().factorial(n)))
-    assert(obtained == expected)
+      .map ( pair => pair._1 )
+      .map ( n => ( n , FactorialConcise (  ) .factorial ( n )  )  )
+    assert ( obtained == expected )
   }
 
-  test("should test the factorial - verbose version") {
+  test ("should test the factorial - verbose version") {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
-      .map(pair => pair._1)
-      .map(n => (n, FactorialVerbose().factorial(n)))
-    assert(obtained == expected)
+      .map ( pair => pair._1 )
+      .map ( n => ( n , FactorialVerbose (  ) .factorial ( n )  )  )
+    assert ( obtained == expected )
   }
 
 }

@@ -6,7 +6,7 @@ import scopus.lib.Rec
 /**
  * This class translates Scopus source code into Scala source code.
  */
-case class MicroTranslator() {
+case class MicroTranslator (  ) {
 
   lazy val NewLine = "\n"
   lazy val Comma = ","
@@ -16,90 +16,90 @@ case class MicroTranslator() {
   lazy val ScopusSpace: String = " "
   lazy val ScalaSpace: String = " "
 
-  def translate_program(program: String): String = {
-    lazy val original_lines = split_lines(program)
-    lazy val lines_to_translate = join_lines_ending_with_comma(original_lines)
-    lazy val translated_lines = translate_lines(lines_to_translate)
-    join_translated_lines (translated_lines)
+  def translate_program ( program: String ) : String = {
+    lazy val original_lines = split_lines ( program )
+    lazy val lines_to_translate = join_lines_ending_with_comma ( original_lines )
+    lazy val translated_lines = translate_lines ( lines_to_translate )
+    join_translated_lines ( translated_lines )
   }
 
-  def split_lines (program: String): Seq[String] =
-    program.split(NewLine).toIndexedSeq
+  def split_lines ( program: String ) : Seq [ String ] =
+    program.split ( NewLine ) .toIndexedSeq
 
-  def join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
-    lazy val result = rec(lines, Seq())
+  def join_lines_ending_with_comma ( lines: Seq [ String ]  ) : Seq [ String ] = {
+    lazy val result = rec ( lines , Seq (  )  )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] =
+    def rec ( to_process: Seq [ String ]  , processed_rev: Seq [ String ]  ) : Seq [ String ] =
       if ( to_process.isEmpty
       ) processed_rev.reverse
       else {
         lazy val head = to_process.head
         lazy val tail = to_process.tail
-        if ( _ends_with_comma(head) && ! tail.isEmpty
-        ) rec(tail.tail.+:(head + tail.head), processed_rev)
-        else rec(tail, processed_rev.+:(head))
+        if ( _ends_with_comma ( head ) && ! tail.isEmpty
+        ) rec ( tail.tail.+: ( head + tail.head )  , processed_rev )
+        else rec ( tail , processed_rev.+: ( head )  )
       }
 
     result
   }
 
-  def _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
+  def _ends_with_comma ( line:String ) : Boolean = line.trim (  ) .endsWith ( Comma )
 
-  def join_translated_lines (lines: Seq[String]): String =
-    lines.mkString(NewLine) + NewLine
+  def join_translated_lines ( lines: Seq [ String ]  ) : String =
+    lines.mkString ( NewLine ) + NewLine
 
-  def tokenize(line: String): Seq[Token] =
-    Tokenizer().tokenize(line)
+  def tokenize ( line: String ) : Seq [ Token ] =
+    Tokenizer (  ) .tokenize ( line )
 
-  def translate_lines(lines: Seq[String]): Seq[String] =
-    CommentPreprocessor()
-      .annotate_lines(lines)
-      .map(annotated_line =>
+  def translate_lines ( lines: Seq [ String ]  ) : Seq [ String ] =
+    CommentPreprocessor (  )
+      .annotate_lines ( lines )
+      .map ( annotated_line =>
         if ( annotated_line.isComment
         ) annotated_line.line
-        else _translate_non_comment(annotated_line.line)
+        else _translate_non_comment ( annotated_line.line )
       )
 
-  def _translate_non_comment(line: String): String = {
-    lazy val line_with_space = Replacement().add_space_to_scopus_line(line)
-    lazy val tokenized_line = tokenize(line_with_space)
-    lazy val translated_line = _translate_line(tokenized_line)
-    lazy val joint_line = _join_tokens(translated_line)
-    lazy val final_line = Replacement().remove_space_from_scala_line(joint_line)
+  def _translate_non_comment ( line: String ) : String = {
+    lazy val line_with_space = Replacement (  ) .add_space_to_scopus_line ( line )
+    lazy val tokenized_line = tokenize ( line_with_space )
+    lazy val translated_line = _translate_line ( tokenized_line )
+    lazy val joint_line = _join_tokens ( translated_line )
+    lazy val final_line = Replacement (  ) .remove_space_from_scala_line ( joint_line )
     final_line
   }
 
-  def _translate_line(tokens: Seq[Token]): Seq[Token] =
-    tokens.map(
+  def _translate_line ( tokens: Seq [ Token ]  ) : Seq [ Token ] =
+    tokens.map (
       token =>
-        if ( token.parser_state == ParserStateEnum().Plain
+        if ( token.parser_state == ParserStateEnum (  ) .Plain
         ) {
           lazy val current_line = token.text
-          lazy val newText = Option(current_line)
-            .flatMap(line => Replacement().add_spaces_to_brackets(line))
-            .flatMap(line => Replacement().replace(line, ScalaNonScopus(), only_beginning=false))
-            .flatMap(line => Replacement().replace_at_beginning(line, token.index, SynonymAtBeginning()))
-            .flatMap(line => Replacement().replace(line, Synonym(), only_beginning=false))
-            .flatMap(line => try_definition(line))
-            .flatMap(line => Replacement().replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
-            .flatMap(line => Replacement().replace(line, MainTranslation(), only_beginning=false))
-            .getOrElse(current_line)
-          Token(newText, token.parser_state, token.index)
+          lazy val newText = Option ( current_line )
+            .flatMap ( line => Replacement (  ) .add_spaces_to_brackets ( line )  )
+            .flatMap ( line => Replacement (  ) .replace ( line , ScalaNonScopus (  )  , only_beginning=false )  )
+            .flatMap ( line => Replacement (  ) .replace_at_beginning ( line , token.index , SynonymAtBeginning (  )  )  )
+            .flatMap ( line => Replacement (  ) .replace ( line , Synonym (  )  , only_beginning=false )  )
+            .flatMap ( line => try_definition ( line )  )
+            .flatMap ( line => Replacement (  ) .replace_at_beginning ( line , token.index , get_translation_table_at_beginning ( line )  )  )
+            .flatMap ( line => Replacement (  ) .replace ( line , MainTranslation (  )  , only_beginning=false )  )
+            .getOrElse ( current_line )
+          Token ( newText , token.parser_state , token.index )
         }
         else token
     )
 
-  def _join_tokens(tokens: Seq[Token]): String =
+  def _join_tokens ( tokens: Seq [ Token ]  ) : String =
     tokens
-      .map(token => token.text)
-      .mkString("")
+      .map ( token => token.text )
+      .mkString ("")
 
-  def get_translation_table_at_beginning(line: String): Translator =
-    if ( line.contains(ScopusOpeningParenthesis)
-    ) TranslationAtBeginningWithParen()
-    else TranslationAtBeginningWithoutParen()
+  def get_translation_table_at_beginning ( line: String ) : Translator =
+    if ( line.contains ( ScopusOpeningParenthesis )
+    ) TranslationAtBeginningWithParen (  )
+    else TranslationAtBeginningWithoutParen (  )
 
   /**
    * A line containing the definition sign will be classified as a definition.
@@ -117,22 +117,22 @@ case class MicroTranslator() {
    * @param line line
    * @return maybe a translated line
    */
-  def try_definition(line: String): Some[String] = {
-    lazy val maybe_position = find_definition(line)
+  def try_definition ( line: String ) : Some [ String ] = {
+    lazy val maybe_position = find_definition ( line )
     if ( maybe_position.nonEmpty
     ) {
       lazy val position_of_definition_sign = maybe_position.get
-      lazy val position_of_first_closing_parenthesis = line.indexOf(ScopusClosingParenthesis)
+      lazy val position_of_first_closing_parenthesis = line.indexOf ( ScopusClosingParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = line.trim.startsWith(ScopusOpeningParenthesis)
+      lazy val case2 = line.trim.startsWith ( ScopusOpeningParenthesis )
       lazy val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       if ( case1 || case2 || case3
-      ) Some(Replacement().add_after_spaces(Translation().ScalaValue + ScalaSpace, line))
-      else Some(Replacement().add_after_spaces(Translation().ScalaDefinition + ScalaSpace, line))
+      ) Some ( Replacement (  ) .add_after_spaces ( Translation (  ) .ScalaValue + ScalaSpace , line )  )
+      else Some ( Replacement (  ) .add_after_spaces ( Translation (  ) .ScalaDefinition + ScalaSpace , line )  )
     }
-    else Some(line)
+    else Some ( line )
   }
 
   /**
@@ -142,14 +142,14 @@ case class MicroTranslator() {
    * @param line line
    * @return maybe the position of the definition sign
    */
-  def find_definition(line: String): Option[Int] = {
+  def find_definition ( line: String ) : Option [ Int ] = {
     lazy val position =
-      if ( line.endsWith(ScopusSpace + Translation().ScopusDefinition)
-      ) line.length - Translation().ScopusDefinition.length
-      else line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+      if ( line.endsWith ( ScopusSpace + Translation (  ) .ScopusDefinition )
+      ) line.length - Translation (  ) .ScopusDefinition.length
+      else line.indexOf ( ScopusSpace + Translation (  ) .ScopusDefinition + ScopusSpace )
     if ( position == -1
     ) None
-    else Some(position)
+    else Some ( position )
   }
 
 }

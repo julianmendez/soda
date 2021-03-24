@@ -14,7 +14,7 @@ package scopus.translator
       "\nwhile (x != 0)"
     expected = "" +
       "\nlazy val __scopus__val x = 0" +
-      "\n__scopus__while (x != 0)" +
+      "\n__scopus__while ( x != 0 )" +
       "\n"
     obtained = MicroTranslator().translate_program(program)
     assert (obtained == expected)

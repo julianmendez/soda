@@ -1,5 +1,5 @@
 package scopus.example
 
-case class Example() {
+case class Example (  ) {
 
 }
