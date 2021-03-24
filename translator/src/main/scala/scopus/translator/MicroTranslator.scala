@@ -76,15 +76,15 @@ case class MicroTranslator() {
       token =>
         if ( token.parser_state == ParserStateEnum().Plain
         ) {
-          lazy val currentLine = token.text
-          lazy val newText = Option(currentLine)
+          lazy val current_line = token.text
+          lazy val newText = Option(current_line)
             .flatMap(line => Replacement().replace(line, ScalaNonScopus(), only_beginning=false))
             .flatMap(line => Replacement().replace_at_beginning(line, token.index, SynonymAtBeginning()))
             .flatMap(line => Replacement().replace(line, Synonym(), only_beginning=false))
             .flatMap(line => try_definition(line))
             .flatMap(line => Replacement().replace_at_beginning(line, token.index, get_translation_table_at_beginning(line)))
             .flatMap(line => Replacement().replace(line, MainTranslation(), only_beginning=false))
-            .getOrElse(currentLine)
+            .getOrElse(current_line)
           Token(newText, token.parser_state, token.index)
         }
         else token

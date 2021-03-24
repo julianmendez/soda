@@ -20,8 +20,8 @@ case class Tokenizer() {
       ) rev_tokens.+:(Token(line.substring(last_index), parser_state, last_index))
       else {
         lazy val ch = line.charAt(current_index)
-        lazy val charType = CharTypeEnum().get_char_type(ch)
-        lazy val new_parser_state = ParserTransition().next_parser_state(parser_state, charType)
+        lazy val char_type = CharTypeEnum().get_char_type(ch)
+        lazy val new_parser_state = ParserTransition().next_parser_state(parser_state, char_type)
         lazy val (new_last_index, new_current_index, new_rev_tokens) =
             _next_values (new_parser_state, line, last_index, current_index, parser_state, rev_tokens)
         rec(line, new_last_index, new_current_index, new_parser_state, new_rev_tokens)
