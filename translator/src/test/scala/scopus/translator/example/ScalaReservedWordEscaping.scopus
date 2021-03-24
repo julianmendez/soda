@@ -1,0 +1,17 @@
+package scopus.translator.example
+
+* ScalaReservedWordEscaping() {
+
+  var = "var"
+
+  val = 1
+
+  def[A, B](key: A, value: B): (A, B) = (key, value)
+
+  while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B) =
+    seq.takeWhile(cond).map(do)
+
+  protected = "protected"
+  private = "private"
+
+}
