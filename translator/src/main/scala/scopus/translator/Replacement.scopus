@@ -40,7 +40,7 @@ package scopus.translator
 
     replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
       if (only_beginning and line.trim.startsWith(pattern.trim)) or
-        ( not only_beginning and line.contains(pattern))
+        (not only_beginning and line.contains(pattern))
       then replace_all(line, pattern, newText)
       else line
 
