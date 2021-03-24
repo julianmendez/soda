@@ -1,0 +1,52 @@
+package scopus.translator.replacement
+
++ scopus.lib.EnumConstant
+
+
+* CharType(ordinal: Int, name: String) extends EnumConstant
+
+
+* CharTypeEnum() {
+
+  UndefinedType = CharType(0, "UndefinedType")
+  QuotesType = CharType(1, "QuotesType")
+  ApostropheType = CharType(2, "ApostropheType")
+  BackslashType = CharType(3, "BackslashType")
+  PlainType = CharType(4, "PlainType")
+
+  values = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
+
+
+  BackslashChar = '\\'
+  QuotesChar = '\"'
+  ApostropheChar = '\''
+  UnderscoreChar = '_'
+  SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+
+  get_char_type(ch: Char): CharType =
+    if is_quotes(ch) then QuotesType
+    else if is_apostrophe(ch) then ApostropheType
+    else if is_backslash(ch) then BackslashType
+    else if is_whitespace(ch) or is_letter_or_digit_or_underscore(ch) or is_symbol(ch) then PlainType
+    else UndefinedType
+
+  is_whitespace(ch: Char): Boolean =
+    ch.isWhitespace
+
+  is_letter_or_digit_or_underscore(ch: Char): Boolean =
+    ch.isLetterOrDigit or ch == UnderscoreChar
+
+  is_symbol(ch: Char): Boolean =
+    SymbolChars.contains(ch)
+
+  is_quotes(ch: Char): Boolean =
+    ch == QuotesChar
+
+  is_apostrophe(ch: Char): Boolean =
+    ch == ApostropheChar
+
+  is_backslash(ch: Char): Boolean =
+    ch == BackslashChar
+
+}
+

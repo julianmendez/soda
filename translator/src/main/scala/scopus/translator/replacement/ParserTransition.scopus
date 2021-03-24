@@ -1,0 +1,70 @@
+package scopus.translator.replacement
+
++ scopus.lib.EnumConstant
+
+
+* ParserState(ordinal: Int, name: String) extends EnumConstant
+
+
+* ParserStateEnum() {
+
+  UndefinedState = ParserState(0, "UndefinedState")
+  QuotesState = ParserState(1, "QuotesState")
+  ApostropheState = ParserState(2, "ApostropheState")
+  QuotesBackslashState = ParserState(3, "QuotesBackslashState")
+  ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
+  Plain = ParserState(5, "Plain")
+
+  values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
+
+  is_same_class(x: ParserState, y: ParserState): Boolean = {
+    result = (x == y) or is_like(x, y) or is_like(y, x)
+
+    is_like(x: ParserState, y: ParserState): Boolean =
+      (x == QuotesState and y == QuotesBackslashState) or
+      (x == ApostropheState and y == ApostropheBackslashState)
+
+    result
+  }
+
+}
+
+* ParserTransition() {
+
+  ps = ParserStateEnum()
+  ch = CharTypeEnum()
+
+  next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
+    TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
+
+  TransitionsThatChangeStates: Map[(ParserState, CharType), ParserState] =
+    Map(
+      /* */
+      ((ps.QuotesState, ch.UndefinedType), ps.UndefinedState),
+      ((ps.QuotesState, ch.QuotesType), ps.Plain),
+      ((ps.QuotesState, ch.BackslashType), ps.QuotesBackslashState),
+      /* */
+      ((ps.ApostropheState, ch.UndefinedType), ps.UndefinedState),
+      ((ps.ApostropheState, ch.ApostropheType), ps.Plain),
+      ((ps.ApostropheState, ch.BackslashType), ps.ApostropheBackslashState),
+      /* */
+      ((ps.QuotesBackslashState, ch.UndefinedType), ps.UndefinedState),
+      ((ps.QuotesBackslashState, ch.QuotesType), ps.QuotesState),
+      ((ps.QuotesBackslashState, ch.ApostropheType), ps.QuotesState),
+      ((ps.QuotesBackslashState, ch.BackslashType), ps.QuotesState),
+      ((ps.QuotesBackslashState, ch.PlainType), ps.QuotesState),
+      /* */
+      ((ps.ApostropheBackslashState, ch.UndefinedType), ps.UndefinedState),
+      ((ps.ApostropheBackslashState, ch.QuotesType), ps.ApostropheState),
+      ((ps.ApostropheBackslashState, ch.ApostropheType), ps.ApostropheState),
+      ((ps.ApostropheBackslashState, ch.BackslashType), ps.ApostropheState),
+      ((ps.ApostropheBackslashState, ch.PlainType), ps.ApostropheState),
+      /* */
+      ((ps.Plain, ch.UndefinedType), ps.UndefinedState),
+      ((ps.Plain, ch.QuotesType), ps.QuotesState),
+      ((ps.Plain, ch.ApostropheType), ps.ApostropheState),
+      ((ps.Plain, ch.BackslashType), ps.Plain),
+      ((ps.Plain, ch.PlainType), ps.Plain)
+    )
+
+}

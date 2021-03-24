@@ -51,7 +51,7 @@ lazy val translator = project
   .in(file("translator"))
   .settings(
     commonSettings,
-    mainClass in assembly := Some("scopus.translator.EntryPoint"),
+    mainClass in assembly := Some("scopus.translator.io.EntryPoint"),
     assemblyJarName in assembly := "translator-" + version.value + ".jar"
   )
 
@@ -74,7 +74,7 @@ lazy val root = project
   .dependsOn(translator, library)
   .settings(
     commonSettings,
-    mainClass in assembly := Some("scopus.translator.EntryPoint"),
+    mainClass in assembly := Some("scopus.translator.io.EntryPoint"),
     assemblyJarName in assembly := "scopus-" + version.value + ".jar"
   )
 

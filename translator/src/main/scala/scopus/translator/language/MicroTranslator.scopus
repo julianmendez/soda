@@ -1,0 +1,160 @@
+package scopus.translator.language
+
++ scopus.lib.Rec
++ scopus.translator.replacement.CommentPreprocessor
++ scopus.translator.replacement.ParserStateEnum
++ scopus.translator.replacement.Replacement
++ scopus.translator.replacement.Token
++ scopus.translator.replacement.Tokenizer
++ scopus.translator.replacement.Translator
+
+
+/**
+ * This class translates Scopus source code into Scala source code.
+ */
+* MicroTranslator() {
+
+  NewLine = "\n"
+  Comma = ","
+
+  ScopusOpeningParenthesis: String = "("
+  ScopusClosingParenthesis: String = ")"
+  ScopusSpace: String = " "
+  ScalaSpace: String = " "
+
+  translate_program(program: String): String = {
+    original_lines = split_lines(program)
+    lines_to_translate = join_lines_ending_with_comma(original_lines)
+    translated_lines = translate_lines(lines_to_translate)
+    join_translated_lines (translated_lines)
+  }
+
+  split_lines (program: String): Seq[String] =
+    program.split(NewLine).toIndexedSeq
+
+  join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
+    result = rec(lines, Seq())
+
+    @tailrec
+    rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] =
+      if to_process.isEmpty
+      then processed_rev.reverse
+      else {
+        head = to_process.head
+        tail = to_process.tail
+        if _ends_with_comma(head) and not tail.isEmpty
+        then rec(tail.tail.+:(head + tail.head), processed_rev)
+        else rec(tail, processed_rev.+:(head))
+      }
+
+    result
+  }
+
+  _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
+
+  join_translated_lines (lines: Seq[String]): String =
+    lines.mkString(NewLine) + NewLine
+
+  tokenize(line: String): Seq[Token] =
+    Tokenizer().tokenize(line)
+
+  translate_lines(lines: Seq[String]): Seq[String] =
+    CommentPreprocessor()
+      .annotate_lines(lines)
+      .map(annotated_line ->
+        if annotated_line.isComment
+        then annotated_line.line
+        else _translate_non_comment(annotated_line.line)
+      )
+
+  _translate_non_comment(line: String): String = {
+    line_with_space = Replacement(line).add_space_to_scopus_line().line
+    tokenized_line = tokenize(line_with_space)
+    translated_line = _translate_line(tokenized_line)
+    joint_line = _join_tokens(translated_line)
+    final_line = Replacement(joint_line).remove_space_from_scala_line().line
+    final_line
+  }
+
+  _translate_line(tokens: Seq[Token]): Seq[Token] =
+    tokens.map(
+      token ->
+        if token.parser_state == ParserStateEnum().Plain
+        then {
+          newText = Replacement(token.text)
+            .add_spaces_to_symbols(symbols=Translation().ScopusBracketsAndComma.toSet)
+            .replace(ScalaNonScopus(), only_beginning=false)
+            .replace_at_beginning(token.index, SynonymAtBeginning())
+            .replace(Synonym(), only_beginning=false)
+            .replace_with(try_definition)
+            .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
+            .replace(MainTranslation(), only_beginning=false)
+            .line
+          Token(newText, token.parser_state, token.index)
+        }
+        else token
+    )
+
+  _join_tokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token -> token.text)
+      .mkString("")
+
+  get_translation_table_at_beginning(line: String): Translator =
+    if line.contains(ScopusOpeningParenthesis)
+    then TranslationAtBeginningWithParen()
+    else TranslationAtBeginningWithoutParen()
+
+  /**
+   * A line containing the definition sign will be classified as a definition.
+   * The definitions need to be translated to either 'val' or 'def'.
+   *
+   * 'val' is for value definition.
+   * It is detected in three cases.
+   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
+   * Case 2: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   *
+   * 'def' is for function definition.
+   * If it does not fit in any of the 'val' cases.
+   *
+   * @param line line
+   * @return maybe a translated line
+   */
+  try_definition(line: String): String = {
+    maybe_position = find_definition(line)
+    if maybe_position.nonEmpty
+    then {
+      position_of_definition_sign = maybe_position.get
+      position_of_first_closing_parenthesis = line.indexOf(ScopusClosingParenthesis)
+
+      case1 = position_of_first_closing_parenthesis == -1
+      case2 = line.trim.startsWith(ScopusOpeningParenthesis)
+      case3 = position_of_first_closing_parenthesis > position_of_definition_sign
+
+      new_text = if case1 or case2 or case3
+      then Translation().ScalaValue + ScalaSpace
+      else Translation().ScalaDefinition + ScalaSpace
+      Replacement(line).add_after_spaces(new_text).line
+    }
+    else line
+  }
+
+  /**
+   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+  find_definition(line: String): Option[Int] = {
+    position =
+      if line.endsWith(ScopusSpace + Translation().ScopusDefinition)
+      then line.length - Translation().ScopusDefinition.length
+      else line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+    if position == -1
+    then None
+    else Some(position)
+  }
+
+}

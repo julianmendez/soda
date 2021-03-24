@@ -1,0 +1,60 @@
+package scopus.translator.replacement
+
++ org.scalatest.funsuite.AnyFunSuite
+
+
+* TokenizerSpec() extends AnyFunSuite {
+
+  test("should tokenize a small example") {
+    input = "    val Constant = \"my text\""
+    expected = Seq(
+      Token("    val Constant = ", ParserStateEnum().Plain, 0),
+      Token("\"my text\"", ParserStateEnum().QuotesState, 19),
+      Token("", ParserStateEnum().Plain, 28)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize a common tab in a string") {
+    input = "  x = \"abc\tde\""
+    expected = Seq(
+      Token("  x = ", ParserStateEnum().Plain, 0),
+      Token("\"abc\tde\"", ParserStateEnum().QuotesState, 6),
+      Token("", ParserStateEnum().Plain, 14)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize an escaped tab in a string") {
+    input = "  x = \"abc\\tde\""
+    expected = Seq(
+      Token("  x = ", ParserStateEnum().Plain, 0),
+      Token("\"abc\\tde\"", ParserStateEnum().QuotesState, 6),
+      Token("", ParserStateEnum().Plain, 15)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize a single function definition") {
+    input = "def f(x: Int): Int = x"
+    expected = Seq(
+      Token("def f(x: Int): Int = x", ParserStateEnum().Plain, 0)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+  test("should tokenize a function call") {
+    input = "\tas_digits (5 * number)"
+    expected = Seq(
+      Token("\tas_digits (5 * number)", ParserStateEnum().Plain, 0)
+    )
+    obtained = Tokenizer().tokenize(input)
+    assert(obtained == expected)
+  }
+
+
+}

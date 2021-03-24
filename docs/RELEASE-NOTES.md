@@ -3,7 +3,7 @@
   - date: unreleased
   - new_features:
     - translates functions without parameters as `lazy val`
-    - changes its main package to `scopus`
+    - changes its main package to `scopus`, and includes subpackages
     - accepts `,` at the end of a line to join lines and allow multi-line function signatures
     - makes annotation `@tailrec` be automatically imported
     - allows annotation `@tailrec` only inside functions

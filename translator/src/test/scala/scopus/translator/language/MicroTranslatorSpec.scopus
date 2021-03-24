@@ -1,0 +1,77 @@
+package scopus.translator.language
+
++ org.scalatest.Assertion
++ org.scalatest.funsuite.AnyFunSuite
+
++ java.nio.file.{Files, Paths}
+
+* MicroTranslatorSpec() extends AnyFunSuite {
+
+  Base = "/scopus/translator/example/"
+
+  ScopusSuffix = ".scopus"
+  ScalaSuffix = ".scala"
+
+  SwapExample = "SwapExample"
+  FiboExample = "FiboExample"
+  FactorialConcise = "FactorialConcise"
+  FactorialVerbose = "FactorialVerbose"
+  Fairness = "Fairness"
+  PiIterator = "PiIterator"
+  ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+
+  ManualInput = "/scopus/translator/documentation/Manual.scopus"
+  ManualExpected = "/scopus/translator/documentation/Manual.scala"
+
+
+
+  test_translation(file_name: String): Assertion = {
+    input_file_name = Base + file_name + ScopusSuffix
+    expected_file_name = Base + file_name + ScalaSuffix
+    test_translation(input_file_name, expected_file_name)
+  }
+
+  test_translation(input_file_name: String, expected_file_name: String): Assertion = {
+    input_file = read_file(input_file_name)
+    expected = read_file(expected_file_name)
+    obtained = MicroTranslator().translate_program(input_file)
+    assert(obtained == expected)
+  }
+
+  read_file(file_name: String): String = {
+    document_resource = getClass.getResource(file_name)
+    document_URI = document_resource.toURI
+    document_path = Paths.get(document_URI)
+    new String(Files.readAllBytes(document_path))
+  }
+
+  test("should translate the swap example") {
+    test_translation(SwapExample)
+  }
+
+  test("should translate the Fibonacci example") {
+    test_translation(FiboExample)
+  }
+
+  test("should translate the Factorial examples") {
+    test_translation(FactorialConcise)
+    test_translation(FactorialVerbose)
+  }
+
+  test("should translate the Fairness example") {
+    test_translation(Fairness)
+  }
+
+  test("should translate the example that calculates pi") {
+    test_translation(PiIterator)
+  }
+
+  test("should translated Scopus code that uses Scala reserved words as variables and functions") {
+    test_translation(ScalaReservedWordEscaping)
+  }
+
+  test("should translate the manual") {
+    test_translation(ManualInput, ManualExpected)
+  }
+
+}

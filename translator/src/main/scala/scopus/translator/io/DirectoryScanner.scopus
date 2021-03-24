@@ -1,0 +1,38 @@
+package scopus.translator.io
+
++ java.io.File
+
+* DirectoryScanner() {
+
+  Scopus_suffix = ".scopus"
+
+  get_all_files(start: File): Seq[File] =
+    if start.isFile
+    then Seq(start)
+    else scan(Seq(), start.listFiles().toSeq)
+
+  get_scopus_files(start: File): Seq[File] =
+    get_all_files(start)
+      .filter(x -> x.isFile)
+      .filter(x -> x.getName.endsWith(Scopus_suffix))
+
+  scan(found: Seq[File], to_scan: Seq[File]): Seq[File] = {
+    result = rec(found, to_scan)
+
+    @tailrec
+    rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
+      if to_scan.isEmpty
+      then found
+      else {
+        next_file = to_scan.head
+        remaining = to_scan.tail
+        new_to_scan =
+          if next_file.isDirectory
+          then remaining.++(next_file.listFiles())
+          else remaining
+        rec(found.+:(next_file), new_to_scan)
+      }
+
+    result
+  }
+}
