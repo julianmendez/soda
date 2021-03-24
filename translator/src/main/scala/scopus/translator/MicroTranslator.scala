@@ -78,6 +78,7 @@ case class MicroTranslator() {
         ) {
           lazy val current_line = token.text
           lazy val newText = Option(current_line)
+            .flatMap(line => Replacement().add_spaces_to_brackets(line))
             .flatMap(line => Replacement().replace(line, ScalaNonScopus(), only_beginning=false))
             .flatMap(line => Replacement().replace_at_beginning(line, token.index, SynonymAtBeginning()))
             .flatMap(line => Replacement().replace(line, Synonym(), only_beginning=false))

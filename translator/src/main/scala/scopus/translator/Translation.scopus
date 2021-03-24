@@ -149,4 +149,6 @@ package scopus.translator
 
   is_scopus_word(word: String): Boolean = ScopusReservedWords.contains(word)
 
+  ScopusBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
+
 }

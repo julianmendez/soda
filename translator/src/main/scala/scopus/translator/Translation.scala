@@ -49,4 +49,6 @@ case class Translation() {
 
   def is_scopus_word(word: String): Boolean = ScopusReservedWords.contains(word)
 
+  lazy val ScopusBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
+
 }
