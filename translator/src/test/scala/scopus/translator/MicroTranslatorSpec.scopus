@@ -7,36 +7,31 @@ package scopus.translator
 
 * MicroTranslatorSpec() extends AnyFunSuite {
 
-  InputFileName00 = "/scopus/translator/example/SwapExample.scopus"
-  ExpectedFileName00 = "/scopus/translator/example/SwapExample.scala"
+  Base = "/scopus/translator/example/"
 
-  InputFileName01 = "/scopus/translator/example/FiboExample.scopus"
-  ExpectedFileName01 = "/scopus/translator/example/FiboExample.scala"
+  ScopusSuffix = ".scopus"
+  ScalaSuffix = ".scala"
 
-  InputFileName02 = "/scopus/translator/example/FactorialConcise.scopus"
-  ExpectedFileName02 = "/scopus/translator/example/FactorialConcise.scala"
+  SwapExample = "SwapExample"
+  FiboExample = "FiboExample"
+  FactorialConcise = "FactorialConcise"
+  FactorialVerbose = "FactorialVerbose"
+  Fairness = "Fairness"
+  PiIterator = "PiIterator"
+  ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
 
-  InputFileName03 = "/scopus/translator/example/FactorialVerbose.scopus"
-  ExpectedFileName03 = "/scopus/translator/example/FactorialVerbose.scala"
-
-  InputFileName04 = "/scopus/translator/example/Fairness.scopus"
-  ExpectedFileName04 = "/scopus/translator/example/Fairness.scala"
-
-  InputFileName05 = "/scopus/translator/documentation/Manual.scopus"
-  ExpectedFileName05 = "/scopus/translator/documentation/Manual.scala"
-
-  InputFileName06 = "/scopus/translator/example/PiIterator.scopus"
-  ExpectedFileName06 = "/scopus/translator/example/PiIterator.scala"
+  ManualInput = "/scopus/translator/documentation/Manual.scopus"
+  ManualExpected = "/scopus/translator/documentation/Manual.scala"
 
 
-  test_translation(input_file_name: String, expected_file_name: String): Assertion = {
-    input_file = read_file(input_file_name)
-    expected = read_file(expected_file_name)
-    obtained = MicroTranslator().translate_program(input_file)
-    assert(obtained == expected)
+
+  test_translation(file_name: String): Assertion = {
+    input_file_name = Base + file_name + ScopusSuffix
+    expected_file_name = Base + file_name + ScalaSuffix
+    test_translation(input_file_name, expected_file_name)
   }
 
-  test_translation_in_scope(input_file_name: String, expected_file_name: String): Assertion = {
+  test_translation(input_file_name: String, expected_file_name: String): Assertion = {
     input_file = read_file(input_file_name)
     expected = read_file(expected_file_name)
     obtained = MicroTranslator().translate_program(input_file)
@@ -51,32 +46,32 @@ package scopus.translator
   }
 
   test("should translate the swap example") {
-    test_translation(InputFileName00, ExpectedFileName00)
-  }
-
-  test("should translate the swap example with the translated translator") {
-    test_translation_in_scope(InputFileName00, ExpectedFileName00)
+    test_translation(SwapExample)
   }
 
   test("should translate the Fibonacci example") {
-    test_translation(InputFileName01, ExpectedFileName01)
+    test_translation(FiboExample)
   }
 
   test("should translate the Factorial examples") {
-    test_translation(InputFileName02, ExpectedFileName02)
-    test_translation(InputFileName03, ExpectedFileName03)
+    test_translation(FactorialConcise)
+    test_translation(FactorialVerbose)
   }
 
   test("should translate the Fairness example") {
-    test_translation(InputFileName04, ExpectedFileName04)
-  }
-
-  test("should translate the manual") {
-    test_translation(InputFileName05, ExpectedFileName05)
+    test_translation(Fairness)
   }
 
   test("should translate the example that calculates pi") {
-    test_translation(InputFileName06, ExpectedFileName06)
+    test_translation(PiIterator)
+  }
+
+  test("should translated Scopus code that uses Scala reserved words as variables and functions") {
+    test_translation(ScalaReservedWordEscaping)
+  }
+
+  test("should translate the manual") {
+    test_translation(ManualInput, ManualExpected)
   }
 
 }

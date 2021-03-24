@@ -7,36 +7,31 @@ import java.nio.file. { Files , Paths }
 
 case class MicroTranslatorSpec (  ) extends AnyFunSuite {
 
-  lazy val InputFileName00 = "/scopus/translator/example/SwapExample.scopus"
-  lazy val ExpectedFileName00 = "/scopus/translator/example/SwapExample.scala"
+  lazy val Base = "/scopus/translator/example/"
 
-  lazy val InputFileName01 = "/scopus/translator/example/FiboExample.scopus"
-  lazy val ExpectedFileName01 = "/scopus/translator/example/FiboExample.scala"
+  lazy val ScopusSuffix = ".scopus"
+  lazy val ScalaSuffix = ".scala"
 
-  lazy val InputFileName02 = "/scopus/translator/example/FactorialConcise.scopus"
-  lazy val ExpectedFileName02 = "/scopus/translator/example/FactorialConcise.scala"
+  lazy val SwapExample = "SwapExample"
+  lazy val FiboExample = "FiboExample"
+  lazy val FactorialConcise = "FactorialConcise"
+  lazy val FactorialVerbose = "FactorialVerbose"
+  lazy val Fairness = "Fairness"
+  lazy val PiIterator = "PiIterator"
+  lazy val ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
 
-  lazy val InputFileName03 = "/scopus/translator/example/FactorialVerbose.scopus"
-  lazy val ExpectedFileName03 = "/scopus/translator/example/FactorialVerbose.scala"
-
-  lazy val InputFileName04 = "/scopus/translator/example/Fairness.scopus"
-  lazy val ExpectedFileName04 = "/scopus/translator/example/Fairness.scala"
-
-  lazy val InputFileName05 = "/scopus/translator/documentation/Manual.scopus"
-  lazy val ExpectedFileName05 = "/scopus/translator/documentation/Manual.scala"
-
-  lazy val InputFileName06 = "/scopus/translator/example/PiIterator.scopus"
-  lazy val ExpectedFileName06 = "/scopus/translator/example/PiIterator.scala"
+  lazy val ManualInput = "/scopus/translator/documentation/Manual.scopus"
+  lazy val ManualExpected = "/scopus/translator/documentation/Manual.scala"
 
 
-  def test_translation ( input_file_name: String , expected_file_name: String ) : Assertion = {
-    lazy val input_file = read_file ( input_file_name )
-    lazy val expected = read_file ( expected_file_name )
-    lazy val obtained = MicroTranslator (  ) .translate_program ( input_file )
-    assert ( obtained == expected )
+
+  def test_translation ( file_name: String ) : Assertion = {
+    lazy val input_file_name = Base + file_name + ScopusSuffix
+    lazy val expected_file_name = Base + file_name + ScalaSuffix
+    test_translation ( input_file_name , expected_file_name )
   }
 
-  def test_translation_in_scope ( input_file_name: String , expected_file_name: String ) : Assertion = {
+  def test_translation ( input_file_name: String , expected_file_name: String ) : Assertion = {
     lazy val input_file = read_file ( input_file_name )
     lazy val expected = read_file ( expected_file_name )
     lazy val obtained = MicroTranslator (  ) .translate_program ( input_file )
@@ -51,32 +46,32 @@ case class MicroTranslatorSpec (  ) extends AnyFunSuite {
   }
 
   test ("should translate the swap example") {
-    test_translation ( InputFileName00 , ExpectedFileName00 )
-  }
-
-  test ("should translate the swap example with the translated translator") {
-    test_translation_in_scope ( InputFileName00 , ExpectedFileName00 )
+    test_translation ( SwapExample )
   }
 
   test ("should translate the Fibonacci example") {
-    test_translation ( InputFileName01 , ExpectedFileName01 )
+    test_translation ( FiboExample )
   }
 
   test ("should translate the Factorial examples") {
-    test_translation ( InputFileName02 , ExpectedFileName02 )
-    test_translation ( InputFileName03 , ExpectedFileName03 )
+    test_translation ( FactorialConcise )
+    test_translation ( FactorialVerbose )
   }
 
   test ("should translate the Fairness example") {
-    test_translation ( InputFileName04 , ExpectedFileName04 )
-  }
-
-  test ("should translate the manual") {
-    test_translation ( InputFileName05 , ExpectedFileName05 )
+    test_translation ( Fairness )
   }
 
   test ("should translate the example that calculates pi") {
-    test_translation ( InputFileName06 , ExpectedFileName06 )
+    test_translation ( PiIterator )
+  }
+
+  test ("should translated Scopus code that uses Scala reserved words as variables and functions") {
+    test_translation ( ScalaReservedWordEscaping )
+  }
+
+  test ("should translate the manual") {
+    test_translation ( ManualInput , ManualExpected )
   }
 
 }
