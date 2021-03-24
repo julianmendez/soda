@@ -55,7 +55,7 @@ case class Replacement (  ) {
 
   def add_space_to_scopus_line ( line: String ) : String = ScopusSpace + line + ScopusSpace
 
-  def add_spaces_to_brackets ( line: String ) : Some [ String ] = Some (
+  def add_spaces_to_symbols ( line: String , symbols: Set [ Char ]  ) : Some [ String ] = Some (
     line.indices.map ( index => {
       lazy val result = left_part + ch + right_part
 
@@ -63,14 +63,14 @@ case class Replacement (  ) {
 
       lazy val left_part =
         if ( ( index > 0 ) &&
-          Translation (  ) .ScopusBracketsAndComma.contains ( ch ) &&
+          symbols.contains ( ch ) &&
           ! line ( index - 1 ) .isWhitespace
         ) ScalaSpace
         else ""
 
       lazy val right_part =
         if ( ( index < line.length - 1 ) &&
-          Translation (  ) .ScopusBracketsAndComma.contains ( ch ) &&
+          symbols.contains ( ch ) &&
           ! line ( index + 1 ) .isWhitespace
         ) ScalaSpace
         else ""

@@ -55,7 +55,7 @@ package scopus.translator
 
   add_space_to_scopus_line(line: String): String = ScopusSpace + line + ScopusSpace
 
-  add_spaces_to_brackets(line: String): Some[String] = Some(
+  add_spaces_to_symbols(line: String, symbols: Set[Char]): Some[String] = Some(
     line.indices.map(index -> {
       result = left_part + ch + right_part
 
@@ -63,14 +63,14 @@ package scopus.translator
 
       left_part =
         if (index > 0) and
-          Translation().ScopusBracketsAndComma.contains(ch) and
+          symbols.contains(ch) and
           not line(index - 1).isWhitespace
         then ScalaSpace
         else ""
 
       right_part =
         if (index < line.length - 1) and
-          Translation().ScopusBracketsAndComma.contains(ch) and
+          symbols.contains(ch) and
           not line(index + 1).isWhitespace
         then ScalaSpace
         else ""
