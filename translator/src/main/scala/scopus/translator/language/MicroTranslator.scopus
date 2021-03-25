@@ -33,31 +33,32 @@ package scopus.translator.language
     program.split(NewLine).toIndexedSeq
 
   join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
-    result = rec(lines, Seq()).reverse
+    result = processed_lines.reverse
 
-    * RecPair(to_process: Seq[String], processed_rev: Seq[String])
+    processed_lines = {
+      pairs = Rec().foldLeft(lines, initval, op)
+      if pairs.in_process_rev.isEmpty
+      then pairs.processed_rev
+      else pairs.processed_rev.+:(rev_list_as_element(pairs.in_process_rev, ""))
+    }
 
-    @tailrec
-    rec(to_process: Seq[String], processed_rev: Seq[String]): Seq[String] =
-      if to_process.isEmpty
-      then processed_rev
+    * RecPair(in_process_rev: Seq[String], processed_rev: Seq[String])
+
+    initval = RecPair(Seq(), Seq())
+
+    op(pair: RecPair, head: String): RecPair =
+      if head.trim().endsWith(Comma)
+      then RecPair(pair.in_process_rev.+:(head), pair.processed_rev)
       else {
-        pair = compute_next(to_process, processed_rev: Seq[String])
-        rec(pair.to_process, pair.processed_rev)
+        new_head = rev_list_as_element(pair.in_process_rev, head)
+        RecPair(Seq(), pair.processed_rev.+:(new_head))
       }
 
-    compute_next(to_process: Seq[String], processed_rev: Seq[String]): RecPair = {
-      head = to_process.head
-      tail = to_process.tail
-      if _ends_with_comma(head) and not tail.isEmpty
-      then RecPair(tail.tail.+:(head + tail.head), processed_rev)
-      else RecPair(tail, processed_rev.+:(head))
-    }
+    rev_list_as_element(in_process_rev: Seq[String], line: String): String =
+      in_process_rev.reverse.mkString("") + line
 
     result
   }
-
-  _ends_with_comma(line:String): Boolean = line.trim().endsWith(Comma)
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(NewLine) + NewLine
