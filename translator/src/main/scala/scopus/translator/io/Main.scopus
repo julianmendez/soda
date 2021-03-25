@@ -75,3 +75,4 @@ package scopus.translator.io
     new String(Files.readAllBytes(Paths.get(fileName)))
 
 }
+

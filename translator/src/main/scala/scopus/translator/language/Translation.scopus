@@ -152,3 +152,4 @@ package scopus.translator.language
   ScopusBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
 
 }
+

@@ -11,3 +11,4 @@ package scopus.translator.replacement
   _keys(table: Seq[(String, String)]) =
     table.map(pair -> pair._1)
 }
+
