@@ -1,5 +1,6 @@
 package scopus.translator.replacement
 
++ scopus.lib.Rec
 
 * AnnotatedLine(line: String, isComment: Boolean)
 
@@ -12,24 +13,27 @@ package scopus.translator.replacement
   ScopusEndComment = "*/"
 
   annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] = {
-    result = rec(lines, comment_state=false, Seq())
+    result =
+      Rec().foldLeft(lines, initval, op)
+        .annotated_lines_rev
+        .reverse
 
-    @tailrec
-    rec(lines: Seq[String], comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]): Seq[AnnotatedLine] =
-      if lines.isEmpty
-      then annotated_lines_rev.reverse
-      else {
-        line = lines.head
-        (current_state, new_comment_state) =
-          if comment_state
-          then (true, not line.trim.endsWith(ScopusEndComment))
-          else
-            if line.trim.startsWith(ScopusBeginComment)
-            then (true, not line.trim.endsWith(ScopusEndComment))
-            else (false, false)
+    * RecPair(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
 
-        rec(lines.tail, new_comment_state, annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
-      }
+    initval = RecPair(false, Seq())
+
+    op(pair: RecPair, line: String): RecPair = {
+      (current_state, new_comment_state) = annotate_this_line(line, pair.comment_state)
+      RecPair(new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
+    }
+
+    annotate_this_line(line: String, comment_state: Boolean): (Boolean, Boolean) =
+      if comment_state
+      then (true, not line.trim.endsWith(ScopusEndComment))
+      else
+        if line.trim.startsWith(ScopusBeginComment)
+        then (true, not line.trim.endsWith(ScopusEndComment))
+        else (false, false)
 
     result
   }
