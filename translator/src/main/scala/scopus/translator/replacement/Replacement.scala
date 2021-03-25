@@ -52,7 +52,7 @@ case class Replacement ( line: String ) {
       if ( pos == -1
       ) replaced_text_rev.+: ( line )
       else {
-        lazy val new_replaced_text_rev = replaced_text_rev.+: ( line.substring ( 0 , pos ) + replacement )
+        lazy val new_replaced_text_rev = ( replaced_text_rev.+: ( line.substring ( 0 , pos )  )  ) .+: ( replacement )
         lazy val new_line = line.substring ( pos + pattern.length )
         rec ( new_replaced_text_rev , new_line )
       }
