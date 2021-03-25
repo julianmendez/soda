@@ -1,7 +1,7 @@
 package scopus.translator.example
 
 
-case class My_example (  ) {
+case class SwapExample (  ) {
 
   def swap ( pair: ( Int , Int )  ) =
     ( pair._2 , pair._1 )

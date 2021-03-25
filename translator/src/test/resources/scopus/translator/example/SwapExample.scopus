@@ -1,9 +1,10 @@
 package scopus.translator.example
 
 
-* My_example() {
+* SwapExample() {
 
   swap (pair: (Int, Int)) =
     (pair._2, pair._1)
 
 }
+
