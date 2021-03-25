@@ -43,21 +43,18 @@ case class Replacement ( line: String ) {
   }
 
   def replace_all ( line: String , pattern: String , replacement: String ) : String = {
-    lazy val result = rec ( line , pattern , replacement , Seq (  )  )
+    lazy val result = rec ( Seq (  )  , line ) .reverse.mkString ("")
 
     import scala.annotation.tailrec
         @tailrec
-    def rec ( line: String , pattern: String , replacement: String , replaced_text_rev: Seq [ String ]  ) : String = {
+    def rec ( replaced_text_rev: Seq [ String ]  , line: String ) : Seq [ String ] = {
       lazy val pos = line.indexOf ( pattern )
       if ( pos == -1
-      )
-        replaced_text_rev.+: ( line )
-          .reverse
-          .mkString ("")
+      ) replaced_text_rev.+: ( line )
       else {
         lazy val new_replaced_text_rev = replaced_text_rev.+: ( line.substring ( 0 , pos ) + replacement )
         lazy val new_line = line.substring ( pos + pattern.length )
-        rec ( new_line , pattern , replacement , new_replaced_text_rev )
+        rec ( new_replaced_text_rev , new_line )
       }
     }
 
