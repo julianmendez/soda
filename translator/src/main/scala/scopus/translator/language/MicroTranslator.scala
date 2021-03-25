@@ -33,20 +33,27 @@ case class MicroTranslator (  ) {
     program.split ( NewLine ) .toIndexedSeq
 
   def join_lines_ending_with_comma ( lines: Seq [ String ]  ) : Seq [ String ] = {
-    lazy val result = rec ( lines , Seq (  )  )
+    lazy val result = rec ( lines , Seq (  )  ) .reverse
+
+    case class RecPair ( to_process: Seq [ String ]  , processed_rev: Seq [ String ]  )
 
     import scala.annotation.tailrec
         @tailrec
     def rec ( to_process: Seq [ String ]  , processed_rev: Seq [ String ]  ) : Seq [ String ] =
       if ( to_process.isEmpty
-      ) processed_rev.reverse
+      ) processed_rev
       else {
-        lazy val head = to_process.head
-        lazy val tail = to_process.tail
-        if ( _ends_with_comma ( head ) && ! tail.isEmpty
-        ) rec ( tail.tail.+: ( head + tail.head )  , processed_rev )
-        else rec ( tail , processed_rev.+: ( head )  )
+        lazy val pair = compute_next ( to_process , processed_rev: Seq [ String ]  )
+        rec ( pair.to_process , pair.processed_rev )
       }
+
+    def compute_next ( to_process: Seq [ String ]  , processed_rev: Seq [ String ]  ) : RecPair = {
+      lazy val head = to_process.head
+      lazy val tail = to_process.tail
+      if ( _ends_with_comma ( head ) && ! tail.isEmpty
+      ) RecPair ( tail.tail.+: ( head + tail.head )  , processed_rev )
+      else RecPair ( tail , processed_rev.+: ( head )  )
+    }
 
     result
   }
