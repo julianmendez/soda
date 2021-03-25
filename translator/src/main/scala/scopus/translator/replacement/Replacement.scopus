@@ -2,7 +2,10 @@ package scopus.translator.replacement
 
 + scopus.lib.Rec
 
-
+/**
+ * This models a collection of replacement functions.
+ * This is intended to be used as a pipeline.
+ */
 * Replacement(line: String) {
 
   ScopusSpace: String = " "

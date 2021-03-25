@@ -1,6 +1,8 @@
 package scopus.translator.language
 
-
+/**
+ * This class contains constants that are specific for the Scopus translator, like reserved words for Scopus and Scala.
+ */
 case class Translation (  ) {
 
   lazy val ScopusDefinition: String = "="

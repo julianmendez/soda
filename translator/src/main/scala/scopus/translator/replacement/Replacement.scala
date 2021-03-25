@@ -2,7 +2,10 @@ package scopus.translator.replacement
 
 import scopus.lib.Rec
 
-
+/**
+ * This models a collection of replacement functions.
+ * This is intended to be used as a pipeline.
+ */
 case class Replacement ( line: String ) {
 
   lazy val ScopusSpace: String = " "

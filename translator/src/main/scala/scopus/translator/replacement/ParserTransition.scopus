@@ -2,10 +2,14 @@ package scopus.translator.replacement
 
 + scopus.lib.EnumConstant
 
-
+/**
+ * This models all the possible states that the parser can be.
+ */
 * ParserState(ordinal: Int, name: String) extends EnumConstant
 
-
+/**
+ * This is an enumeration of all the parser states.
+ */
 * ParserStateEnum() {
 
   UndefinedState = ParserState(0, "UndefinedState")

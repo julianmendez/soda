@@ -1,6 +1,9 @@
 package scopus.translator.replacement
 
 
+/**
+ * A token is a piece of code, that can contain one or more words combined with symbols.
+ */
 case class Token ( text: String , parser_state: ParserState , index: Int ) {
 
   override
@@ -8,6 +11,9 @@ case class Token ( text: String , parser_state: ParserState , index: Int ) {
     "(\"" + text + "\"," + parser_state + ", " + index + ")"
 }
 
+/**
+ * This class processes a line to divide it into tokens.
+ */
 case class Tokenizer (  ) {
 
   def tokenize ( line: String ) : Seq [ Token ] = {

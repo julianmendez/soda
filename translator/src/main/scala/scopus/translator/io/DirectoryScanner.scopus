@@ -2,6 +2,9 @@ package scopus.translator.io
 
 + java.io.File
 
+/**
+ * This class is used to scan files in a given directory.
+ */
 * DirectoryScanner() {
 
   Scopus_suffix = ".scopus"
@@ -35,5 +38,6 @@ package scopus.translator.io
 
     result
   }
+
 }
 

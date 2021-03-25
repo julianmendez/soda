@@ -1,6 +1,9 @@
 package scopus.translator.replacement
 
 
+/**
+ * A token is a piece of code, that can contain one or more words combined with symbols.
+ */
 * Token(text: String, parser_state: ParserState, index: Int) {
 
   @override
@@ -8,6 +11,9 @@ package scopus.translator.replacement
     "(\"" + text + "\"," + parser_state + ", " + index + ")"
 }
 
+/**
+ * This class processes a line to divide it into tokens.
+ */
 * Tokenizer() {
 
   tokenize(line: String): Seq[Token] = {

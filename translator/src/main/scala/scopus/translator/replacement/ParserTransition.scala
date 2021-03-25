@@ -2,10 +2,14 @@ package scopus.translator.replacement
 
 import scopus.lib.EnumConstant
 
-
+/**
+ * This models all the possible states that the parser can be.
+ */
 case class ParserState ( ordinal: Int , name: String ) extends EnumConstant
 
-
+/**
+ * This is an enumeration of all the parser states.
+ */
 case class ParserStateEnum (  ) {
 
   lazy val UndefinedState = ParserState ( 0 , "UndefinedState")

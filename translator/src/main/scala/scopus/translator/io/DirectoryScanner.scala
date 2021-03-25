@@ -2,6 +2,9 @@ package scopus.translator.io
 
 import java.io.File
 
+/**
+ * This class is used to scan files in a given directory.
+ */
 case class DirectoryScanner (  ) {
 
   lazy val Scopus_suffix = ".scopus"
@@ -36,4 +39,5 @@ case class DirectoryScanner (  ) {
 
     result
   }
+
 }

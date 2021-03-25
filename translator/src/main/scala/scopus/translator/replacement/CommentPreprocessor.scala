@@ -3,6 +3,9 @@ package scopus.translator.replacement
 
 case class AnnotatedLine ( line: String , isComment: Boolean )
 
+/**
+ * This preprocessor annotates lines to determine whether they are comments.
+ */
 case class CommentPreprocessor (  ) {
 
   lazy val ScopusBeginComment = "/*"

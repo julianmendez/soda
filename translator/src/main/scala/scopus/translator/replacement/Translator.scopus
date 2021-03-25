@@ -1,6 +1,8 @@
 package scopus.translator.replacement
 
-
+/**
+ * This models an abstract translator..
+ */
 * Translator {
   has translate (word: String): String
   has keys: Seq[String]

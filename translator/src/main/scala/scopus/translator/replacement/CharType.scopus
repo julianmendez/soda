@@ -3,9 +3,14 @@ package scopus.translator.replacement
 + scopus.lib.EnumConstant
 
 
+/**
+ * This is to classify characters.
+ */
 * CharType(ordinal: Int, name: String) extends EnumConstant
 
-
+/**
+ * This is an enumeration for all types of characters.
+ */
 * CharTypeEnum() {
 
   UndefinedType = CharType(0, "UndefinedType")

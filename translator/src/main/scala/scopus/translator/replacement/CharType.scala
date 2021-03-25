@@ -3,9 +3,14 @@ package scopus.translator.replacement
 import scopus.lib.EnumConstant
 
 
+/**
+ * This is to classify characters.
+ */
 case class CharType ( ordinal: Int , name: String ) extends EnumConstant
 
-
+/**
+ * This is an enumeration for all types of characters.
+ */
 case class CharTypeEnum (  ) {
 
   lazy val UndefinedType = CharType ( 0 , "UndefinedType")
