@@ -284,19 +284,24 @@ case class Min [ T ]  (  ) {
 
   /* */
 
-  import scala.annotation.tailrec
+  def spanRevRec ( s0: MSeq [ T ]  , p: T => Boolean , taking: Boolean , s1: MSeq [ T ]  ) : ( MSeq [ T ]  , MSeq [ T ]  ) = {
+    lazy val result = rec ( s0 , p , taking , s1 )
+
+    import scala.annotation.tailrec
         @tailrec
-  private
-  def spanRevRec ( s0: MSeq [ T ]  , p: T => Boolean , taking: Boolean , s1: MSeq [ T ]  ) : ( MSeq [ T ]  , MSeq [ T ]  ) =
-    if ( isEmpty ( s0 ) || ! taking
-    ) ( s1 , s0 )
-    else {
-      lazy val newTaking = p ( head ( s0 )  )
-      lazy val ( newS1 , newS0 ) =
-        if ( newTaking
-        ) ( prepended ( s1 , head ( s0 )  )  , tail ( s0 )  )
-        else ( s1 , s0 )
-      spanRevRec ( newS0 , p , newTaking , newS1 )
-    }
+    def rec ( s0: MSeq [ T ]  , p: T => Boolean , taking: Boolean , s1: MSeq [ T ]  ) : ( MSeq [ T ]  , MSeq [ T ]  ) =
+      if ( isEmpty ( s0 ) || ! taking
+      ) ( s1 , s0 )
+      else {
+        lazy val newTaking = p ( head ( s0 )  )
+        lazy val ( newS1 , newS0 ) =
+          if ( newTaking
+          ) ( prepended ( s1 , head ( s0 )  )  , tail ( s0 )  )
+          else ( s1 , s0 )
+        rec ( newS0 , p , newTaking , newS1 )
+      }
+
+    result
+  }
 
 }

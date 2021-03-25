@@ -276,19 +276,24 @@ package scopus.collection
 
   /* */
 
-  @tailrec
-  @private
-  spanRevRec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
-    if isEmpty(s0) or not taking
-    then (s1, s0)
-    else {
-      newTaking = p(head(s0))
-      (newS1, newS0) =
-        if newTaking
-        then (prepended(s1, head(s0)), tail(s0))
-        else (s1, s0)
-      spanRevRec(newS0, p, newTaking, newS1)
-    }
+  spanRevRec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) = {
+    result = rec(s0, p, taking, s1)
+
+    @tailrec
+    rec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
+      if isEmpty(s0) or not taking
+      then (s1, s0)
+      else {
+        newTaking = p(head(s0))
+        (newS1, newS0) =
+          if newTaking
+          then (prepended(s1, head(s0)), tail(s0))
+          else (s1, s0)
+        rec(newS0, p, newTaking, newS1)
+      }
+
+    result
+  }
 
 }
 
