@@ -44,17 +44,19 @@ package scopus.translator.replacement
   }
 
   replace_all(line: String, pattern: String, replacement: String): String = {
-    result = rec(Seq(), line).reverse.mkString("")
+    result = postproc(rec(Seq(), 0))
+
+    postproc(seq: Seq[String]): String = seq.reverse.mkString("")
 
     @tailrec
-    rec(replaced_text_rev: Seq[String], line: String): Seq[String] = {
-      pos = line.indexOf(pattern)
+    rec(replaced_text_rev: Seq[String], start_index: Int): Seq[String] = {
+      pos = line.indexOf(pattern, start_index)
       if pos == -1
-      then replaced_text_rev.+:(line)
+      then replaced_text_rev.+:(line.substring(start_index))
       else {
-        new_replaced_text_rev = (replaced_text_rev.+:(line.substring(0, pos))).+:(replacement)
-        new_line = line.substring(pos + pattern.length)
-        rec(new_replaced_text_rev, new_line)
+        new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
+        new_index = pos + pattern.length
+        rec(new_replaced_text_rev, new_index)
       }
     }
 
