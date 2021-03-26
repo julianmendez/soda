@@ -12,7 +12,7 @@ case class Translation (  ) {
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   lazy val ScopusReservedWords = Seq (
-    "=",    ":",    "->",    "if",    "then",    "else",    "class",    "has",    "extends",    "with",    "this",    "false",    "true",    "not",    "and",    "or",    "package",    "import",    "new",    "is",    "in",    "suchthat",    "*",    "-",    "+"
+    "=",    ":",    "->",    "if",    "then",    "else",    "class",    "has",    "extends",    "with",    "this",    "false",    "true",    "not",    "and",    "or",    "package",    "import",    "new",    "is",    "suchthat",    "*",    "-",    "+"
   )
 
   /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */
@@ -31,11 +31,11 @@ case class Translation (  ) {
   def TranslationAtBeginningWithoutParen: Seq [  ( String , String )  ] = Seq (
     ("class", "trait")  ,    ("has", "def")  ,    ("package", "package")  ,    ("import", "import")  ,
     /** Annotations */
-    ("@override", "override")  ,    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec")  ,    ("@private", "private")  ,    ("@main", ScalaEntryPoint )
+    ("@override", "override")  ,    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec")  ,    ("@main", ScalaEntryPoint )
   )
 
   def Synonym: Seq [  ( String , String )  ] = Seq (
-    ("is", "=")  ,    ("in", ":")  ,    ("suchthat", "->")
+    ("is", "=")  ,    ("suchthat", "->")
   )
 
   def MainTranslation: Seq [  ( String , String )  ] = Seq (

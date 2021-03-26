@@ -9,7 +9,7 @@
 
 
 \lstdefinelanguage{Scopus}{
-    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, in, suchthat, @tailrec, @override, @main},
+    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, suchthat, @tailrec, @override, @main},
     sensitive=true, % keywords are not case-sensitive
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
@@ -53,7 +53,6 @@
 \newcommand{\splus}{\srccode{+}}
 
 \newcommand{\sis}{\reservedWord{is}}
-\newcommand{\scin}{\reservedWord{in}}
 \newcommand{\ssuchthat}{\reservedWord{suchthat}}
 
 \newcommand{\scalacase}{\reservedWord{case}}
@@ -724,8 +723,6 @@
             \hline
             \sis             & \sdef                  \\
             \hline
-            \scin            & \scolon                \\
-            \hline
             \ssuchthat       & \lambdaSymbol          \\
             \hline
         \end{tabular}
@@ -757,16 +754,16 @@
 
     \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
   class AbstractFactorialVerbose {
-    has factorial (n in Int) in Int
+    has factorial (n: Int): Int
   }
 
   class FactorialVerbose () extends AbstractFactorialVerbose {
 
-    factorial (n in Int) is {
+    factorial (n: Int) is {
       result is rec (n, 1)
 
       @tailrec
-      rec (n in Int, product in Int) in Int is
+      rec (n: Int, product: Int): Int is
         if n == 0
         then product
         else rec (n - 1, n * product)

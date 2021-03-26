@@ -39,7 +39,6 @@ The synonyms at the beginning of a line are:
 
 The synonyms in any part of a line are:
 - `is` for `=`
-- `in` for `:`
 - `suchthat` for `->`
 
 
@@ -60,9 +59,8 @@ Comments are marked with `/*` and `*/`.
 Scaladoc / Javadoc markers are `/**` and `*/`.
 
 Annotations:
-- `@override` to override a JVM function
-- `@private` to force a function or a value to be private in the JVM bytecode
 - `@tailrec` to ensure a tail recursion
+- `@override` to override a JVM function
 - `@main` to indicate the entry point
 
 

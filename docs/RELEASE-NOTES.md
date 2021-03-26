@@ -9,7 +9,7 @@
     - allows annotation `@tailrec` only inside functions
     - compiles with Scala 3.0.0-RC1 and is compatible with Scala 2.11.12, Scala 2.12.13, Scala 2.13.5
   - deprecated_features:
-    - synonym `to` for `->` is no longer supported
+    - synonym `to` for `->` and synonym `in` for `:` are no longer support
   - bug_fixes:
     - fixes the names of the created library jar files
     - fixes parsing of strings with escaped characters

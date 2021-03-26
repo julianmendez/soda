@@ -32,7 +32,6 @@ package scopus.translator.language
     "import",
     "new",
     "is",
-    "in",
     "suchthat",
     "*",
     "-",
@@ -114,13 +113,11 @@ package scopus.translator.language
     /** Annotations */
     ("@override", "override"),
     ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"),
-    ("@private", "private"),
     ("@main", ScalaEntryPoint)
   )
 
   Synonym: Seq[(String, String)] = Seq(
     ("is", "="),
-    ("in", ":"),
     ("suchthat", "->")
   )
 

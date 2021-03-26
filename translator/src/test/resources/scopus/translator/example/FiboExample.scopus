@@ -3,20 +3,20 @@ package scopus.translator.example
 
 class FiboExample {
 
-  has fib (n in Int) in Int
+  has fib (n: Int): Int
 
 }
 
 
 class FiboExampleInScopus () extends FiboExample {
 
-  fib (n in Int) is {
-    result is fa (n, 0, 1)
+  fib (n: Int) is {
+    result is rec (n, 0, 1)
 
-    fa (m in Int, a in Int, b in Int) in Int is
+    rec (m: Int, a: Int, b: Int): Int is
       if m == 0 then a
       else if m == 1 then b
-      else fa (m - 1, b, a + b)
+      else rec (m - 1, b, a + b)
 
     result
   }

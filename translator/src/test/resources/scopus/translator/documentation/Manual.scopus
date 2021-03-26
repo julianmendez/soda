@@ -147,16 +147,16 @@ class Manual() {
 }
 
 class AbstractFactorialVerbose {
-  has factorial (n in Int) in Int
+  has factorial (n: Int): Int
 }
 
 class FactorialVerbose () extends AbstractFactorialVerbose {
 
-  factorial (n in Int) is {
+  factorial (n: Int) is {
     result is rec (n, 1)
 
     @tailrec
-    rec (n in Int, product in Int) in Int is
+    rec (n: Int, product: Int): Int is
       if n == 0
       then product
       else rec (n - 1, n * product)
