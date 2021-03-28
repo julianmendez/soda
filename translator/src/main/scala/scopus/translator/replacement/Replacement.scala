@@ -43,22 +43,34 @@ case class Replacement ( line: String ) {
   }
 
   def replace_all ( line: String , pattern: String , replacement: String ) : String = {
-    lazy val result = postproc ( rec ( Seq (  )  , 0 )  )
+    lazy val result = postproc (
+      Rec (  ) .foldLeftWhile ( Range ( 0 , line.length )  , initval , op , cond )
+    )
 
-    def postproc ( seq: Seq [ String ]  ) : String = seq.reverse.mkString ("")
+    lazy val initval = FoldTuple ( Seq (  )  , 0 )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( replaced_text_rev: Seq [ String ]  , start_index: Int ) : Seq [ String ] = {
+    def op ( tuple: FoldTuple , x: Int ) : FoldTuple = {
+      lazy val replaced_text_rev = tuple.replaced_text_rev
+      lazy val start_index = tuple.start_index
       lazy val pos = line.indexOf ( pattern , start_index )
-      if ( pos == -1
-      ) replaced_text_rev.+: ( line.substring ( start_index )  )
-      else {
-        lazy val new_replaced_text_rev = ( replaced_text_rev.+: ( line.substring ( start_index , pos )  )  ) .+: ( replacement )
-        lazy val new_index = pos + pattern.length
-        rec ( new_replaced_text_rev , new_index )
-      }
+      lazy val next_tuple =
+        if ( pos == -1
+        ) FoldTuple ( replaced_text_rev.+: ( line.substring ( start_index )  )  , pos )
+        else {
+          lazy val new_replaced_text_rev = ( replaced_text_rev.+: ( line.substring ( start_index , pos )  )  ) .+: ( replacement )
+          lazy val new_index = pos + pattern.length
+          FoldTuple ( new_replaced_text_rev , new_index )
+        }
+      next_tuple
     }
+
+    def cond ( tuple: FoldTuple , x: Int ) : Boolean =
+      ! ( tuple.start_index == -1 )
+
+    def postproc ( tuple: FoldTuple ) : String =
+      tuple.replaced_text_rev.reverse.mkString ("")
+
+    case class FoldTuple ( replaced_text_rev: Seq [ String ]  , start_index: Int )
 
     result
   }

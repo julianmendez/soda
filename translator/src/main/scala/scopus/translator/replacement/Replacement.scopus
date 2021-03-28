@@ -44,21 +44,34 @@ package scopus.translator.replacement
   }
 
   replace_all(line: String, pattern: String, replacement: String): String = {
-    result = postproc(rec(Seq(), 0))
+    result = postproc(
+      Rec().foldLeftWhile( Range(0, line.length), initval, op, cond )
+    )
 
-    postproc(seq: Seq[String]): String = seq.reverse.mkString("")
+    initval = FoldTuple( Seq(), 0 )
 
-    @tailrec
-    rec(replaced_text_rev: Seq[String], start_index: Int): Seq[String] = {
+    op(tuple: FoldTuple, x: Int): FoldTuple = {
+      replaced_text_rev = tuple.replaced_text_rev
+      start_index = tuple.start_index
       pos = line.indexOf(pattern, start_index)
-      if pos == -1
-      then replaced_text_rev.+:(line.substring(start_index))
-      else {
-        new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
-        new_index = pos + pattern.length
-        rec(new_replaced_text_rev, new_index)
-      }
+      next_tuple =
+        if pos == -1
+        then FoldTuple( replaced_text_rev.+:(line.substring(start_index)), pos )
+        else {
+          new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
+          new_index = pos + pattern.length
+          FoldTuple( new_replaced_text_rev, new_index )
+        }
+      next_tuple
     }
+
+    cond(tuple: FoldTuple, x: Int): Boolean =
+      not (tuple.start_index == -1)
+
+    postproc(tuple: FoldTuple): String =
+      tuple.replaced_text_rev.reverse.mkString("")
+
+    * FoldTuple(replaced_text_rev: Seq[String], start_index: Int)
 
     result
   }
