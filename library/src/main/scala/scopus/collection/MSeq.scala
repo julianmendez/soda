@@ -10,19 +10,19 @@ trait MSeq [ T ] {
 
   def tail (  ) = _tail (  ) .get
 
-  def foldLeftWhile [ B ]  ( initval: B , op: ( B , T ) => B , cond: ( B , T ) => Boolean ) : B = {
-    lazy val result = rec ( this , initval , op , cond )
+  def foldLeftWhile [ B ]  ( initial_value: B , next_value: ( B , T ) => B , condition: ( B , T ) => Boolean ) : B = {
+    lazy val result = rec ( this , initial_value , next_value , condition )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [ B ]  ( seq: MSeq [ T ]  , acc: B , op: ( B , T ) => B , cond: ( B , T ) => Boolean ) : B =
+    def rec [ B ]  ( seq: MSeq [ T ]  , acc: B , next_value: ( B , T ) => B , condition: ( B , T ) => Boolean ) : B =
       if ( seq.isEmpty
       ) acc
       else {
         lazy val ( elem , rest ) = ( seq.head (  )  , seq.tail (  )  )
-        if ( ! cond ( acc , elem )
+        if ( ! condition ( acc , elem )
         ) acc
-        else rec ( rest , op ( acc , elem )  , op , cond )
+        else rec ( rest , next_value ( acc , elem )  , next_value , condition )
       }
 
     result

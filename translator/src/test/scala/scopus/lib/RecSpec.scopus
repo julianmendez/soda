@@ -8,24 +8,24 @@ package scopus.lib
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
 
   test("foldLeftWhile with Seq") {
-    initval = Seq()
+    initial_value = Seq()
 
-    op: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
+    next_value: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
 
-    cond: (Seq[String], Int) -> Boolean = (s: Seq[String], e: Int) -> e < 5
+    condition: (Seq[String], Int) -> Boolean = (s: Seq[String], e: Int) -> e < 5
 
     expected = Seq("103", "102", "101", "101", "100")
-    obtained = Rec().foldLeftWhile(exampleSeq, Seq(), op, cond)
+    obtained = Rec().foldLeftWhile(exampleSeq, initial_value, next_value, condition)
     assert(obtained == expected)
   }
 
   test("foldLeft with Seq") {
-    initval = Seq()
+    initial_value = Seq()
 
-    op: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
+    next_value: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
 
     expected = Seq("108", "105", "103", "102", "101", "101", "100")
-    obtained = Rec().foldLeft(exampleSeq, Seq(), op)
+    obtained = Rec().foldLeft(exampleSeq, initial_value, next_value)
     assert(obtained == expected)
   }
 

@@ -26,7 +26,7 @@ case class Replacement ( line: String ) {
     Replacement ( replace ( line , translator , only_beginning )  )
 
   def replace ( line: String , translator: Translator , only_beginning: Boolean ) : String = {
-    lazy val result = Rec (  ) .foldLeft ( translator.keys , initval , op )
+    lazy val result = Rec (  ) .foldLeft ( translator.keys , initial_value , next_value )
 
     def replace_if_found ( line: String , pattern: String , newText: String , only_beginning: Boolean ) : String =
       if ( ( only_beginning && line.trim.startsWith ( pattern.trim )  ) ||
@@ -34,9 +34,9 @@ case class Replacement ( line: String ) {
       ) replace_all ( line , pattern , newText )
       else line
 
-    lazy val initval: String = line
+    lazy val initial_value: String = line
 
-    def op ( line: String , reserved_word: String ) : String =
+    def next_value ( line: String , reserved_word: String ) : String =
       replace_if_found ( line ,        ScopusSpace + reserved_word + ScopusSpace , ScalaSpace + translator.translate ( reserved_word ) + ScalaSpace , only_beginning )
 
     result
@@ -44,12 +44,12 @@ case class Replacement ( line: String ) {
 
   def replace_all ( line: String , pattern: String , replacement: String ) : String = {
     lazy val result = postproc (
-      Rec (  ) .foldLeftWhile ( Range ( 0 , line.length )  , initval , op , cond )
+      Rec (  ) .foldLeftWhile ( Range ( 0 , line.length )  , initial_value , next_value , condition )
     )
 
-    lazy val initval = FoldTuple ( Seq (  )  , 0 )
+    lazy val initial_value = FoldTuple ( Seq (  )  , 0 )
 
-    def op ( tuple: FoldTuple , x: Int ) : FoldTuple = {
+    def next_value ( tuple: FoldTuple , x: Int ) : FoldTuple = {
       lazy val replaced_text_rev = tuple.replaced_text_rev
       lazy val start_index = tuple.start_index
       lazy val pos = line.indexOf ( pattern , start_index )
@@ -64,7 +64,7 @@ case class Replacement ( line: String ) {
       next_tuple
     }
 
-    def cond ( tuple: FoldTuple , x: Int ) : Boolean =
+    def condition ( tuple: FoldTuple , x: Int ) : Boolean =
       ! ( tuple.start_index == -1 )
 
     def postproc ( tuple: FoldTuple ) : String =

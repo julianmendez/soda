@@ -19,23 +19,23 @@ case class Token ( text: String , parser_state: ParserState , index: Int ) {
 case class Tokenizer (  ) {
 
   def tokenize ( line: String ) : Seq [ Token ] = {
-    lazy val result = postproc ( Rec (  ) .foldLeft ( Range ( 0 , line.length )  , initval , op )  )
+    lazy val result = postproc ( Rec (  ) .foldLeft ( Range ( 0 , line.length )  , initial_value , next_value )  )
 
-    case class RecTuple ( last_index: Int , parser_state: ParserState , rev_tokens: Seq [ Token ]  )
+    case class FoldTuple ( last_index: Int , parser_state: ParserState , rev_tokens: Seq [ Token ]  )
 
-    lazy val initval = RecTuple ( 0 , ParserStateEnum (  ) .Plain , Seq (  )  )
+    lazy val initial_value = FoldTuple ( 0 , ParserStateEnum (  ) .Plain , Seq (  )  )
 
-    def postproc ( tuple: RecTuple ) : Seq [ Token ] =
+    def postproc ( tuple: FoldTuple ) : Seq [ Token ] =
       ( tuple.rev_tokens.+: ( Token ( line.substring ( tuple.last_index )  , tuple.parser_state , tuple.last_index )  )  )
         .reverse
 
-    def op ( tuple: RecTuple , current_index: Int ) : RecTuple = {
+    def next_value ( tuple: FoldTuple , current_index: Int ) : FoldTuple = {
       lazy val ch = line.charAt ( current_index )
       lazy val char_type = CharTypeEnum (  ) .get_char_type ( ch )
       lazy val new_parser_state = ParserTransition (  ) .next_parser_state ( tuple.parser_state , char_type )
 
       if ( ParserStateEnum (  ) .is_same_class ( new_parser_state , tuple.parser_state )
-      ) RecTuple ( tuple.last_index , new_parser_state , tuple.rev_tokens )
+      ) FoldTuple ( tuple.last_index , new_parser_state , tuple.rev_tokens )
       else {
         lazy val index =
           if ( tuple.parser_state == ParserStateEnum (  ) .QuotesState ||
@@ -44,7 +44,7 @@ case class Tokenizer (  ) {
           else current_index
 
         lazy val text = line.substring ( tuple.last_index , index )
-        RecTuple ( index , new_parser_state ,          tuple.rev_tokens.+: ( Token ( text , tuple.parser_state , tuple.last_index )  )  )
+        FoldTuple ( index , new_parser_state ,          tuple.rev_tokens.+: ( Token ( text , tuple.parser_state , tuple.last_index )  )  )
       }
     }
 

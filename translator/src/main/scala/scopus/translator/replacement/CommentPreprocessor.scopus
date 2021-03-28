@@ -14,17 +14,17 @@ package scopus.translator.replacement
 
   annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] = {
     result =
-      Rec().foldLeft(lines, initval, op)
+      Rec().foldLeft(lines, initial_value, next_value)
         .annotated_lines_rev
         .reverse
 
-    * RecPair(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
+    * FoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
 
-    initval = RecPair(false, Seq())
+    initial_value = FoldTuple(false, Seq())
 
-    op(pair: RecPair, line: String): RecPair = {
+    next_value(pair: FoldTuple, line: String): FoldTuple = {
       (current_state, new_comment_state) = annotate_this_line(line, pair.comment_state)
-      RecPair(new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
+      FoldTuple(new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
     }
 
     annotate_this_line(line: String, comment_state: Boolean): (Boolean, Boolean) =

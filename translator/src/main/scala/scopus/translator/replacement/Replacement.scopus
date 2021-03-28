@@ -26,7 +26,7 @@ package scopus.translator.replacement
     Replacement(replace(line, translator, only_beginning))
 
   replace(line: String, translator: Translator, only_beginning: Boolean): String = {
-    result = Rec().foldLeft(translator.keys, initval, op)
+    result = Rec().foldLeft(translator.keys, initial_value, next_value)
 
     replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
       if (only_beginning and line.trim.startsWith(pattern.trim)) or
@@ -34,9 +34,9 @@ package scopus.translator.replacement
       then replace_all(line, pattern, newText)
       else line
 
-    initval: String = line
+    initial_value: String = line
 
-    op(line: String, reserved_word: String): String =
+    next_value(line: String, reserved_word: String): String =
       replace_if_found(line,
         ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
 
@@ -45,12 +45,12 @@ package scopus.translator.replacement
 
   replace_all(line: String, pattern: String, replacement: String): String = {
     result = postproc(
-      Rec().foldLeftWhile( Range(0, line.length), initval, op, cond )
+      Rec().foldLeftWhile( Range(0, line.length), initial_value, next_value, condition )
     )
 
-    initval = FoldTuple( Seq(), 0 )
+    initial_value = FoldTuple( Seq(), 0 )
 
-    op(tuple: FoldTuple, x: Int): FoldTuple = {
+    next_value(tuple: FoldTuple, x: Int): FoldTuple = {
       replaced_text_rev = tuple.replaced_text_rev
       start_index = tuple.start_index
       pos = line.indexOf(pattern, start_index)
@@ -65,7 +65,7 @@ package scopus.translator.replacement
       next_tuple
     }
 
-    cond(tuple: FoldTuple, x: Int): Boolean =
+    condition(tuple: FoldTuple, x: Int): Boolean =
       not (tuple.start_index == -1)
 
     postproc(tuple: FoldTuple): String =

@@ -10,18 +10,18 @@ package scopus.collection
 
   tail() = _tail().get
 
-  foldLeftWhile[B](initval: B, op: (B, T) -> B, cond: (B, T) -> Boolean): B = {
-    result = rec(this, initval, op, cond)
+  foldLeftWhile[B](initial_value: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B = {
+    result = rec(this, initial_value, next_value, condition)
 
     @tailrec
-    rec[B](seq: MSeq[T], acc: B, op: (B, T) -> B, cond: (B, T) -> Boolean): B =
+    rec[B](seq: MSeq[T], acc: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B =
       if seq.isEmpty
       then acc
       else {
         (elem, rest) = (seq.head(), seq.tail())
-        if not cond(acc, elem)
+        if not condition(acc, elem)
         then acc
-        else rec(rest, op(acc, elem), op, cond)
+        else rec(rest, next_value(acc, elem), next_value, condition)
       }
 
     result

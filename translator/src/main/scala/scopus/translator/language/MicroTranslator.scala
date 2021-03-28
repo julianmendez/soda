@@ -36,22 +36,22 @@ case class MicroTranslator (  ) {
     lazy val result = processed_lines.reverse
 
     lazy val processed_lines = {
-      lazy val pairs = Rec (  ) .foldLeft ( lines , initval , op )
+      lazy val pairs = Rec (  ) .foldLeft ( lines , initial_value , next_value )
       if ( pairs.in_process_rev.isEmpty
       ) pairs.processed_rev
       else pairs.processed_rev.+: ( rev_list_as_element ( pairs.in_process_rev , "")  )
     }
 
-    case class RecPair ( in_process_rev: Seq [ String ]  , processed_rev: Seq [ String ]  )
+    case class FoldTuple ( in_process_rev: Seq [ String ]  , processed_rev: Seq [ String ]  )
 
-    lazy val initval = RecPair ( Seq (  )  , Seq (  )  )
+    lazy val initial_value = FoldTuple ( Seq (  )  , Seq (  )  )
 
-    def op ( pair: RecPair , head: String ) : RecPair =
+    def next_value ( pair: FoldTuple , head: String ) : FoldTuple =
       if ( head.trim (  ) .endsWith ( Comma )
-      ) RecPair ( pair.in_process_rev.+: ( head )  , pair.processed_rev )
+      ) FoldTuple ( pair.in_process_rev.+: ( head )  , pair.processed_rev )
       else {
         lazy val new_head = rev_list_as_element ( pair.in_process_rev , head )
-        RecPair ( Seq (  )  , pair.processed_rev.+: ( new_head )  )
+        FoldTuple ( Seq (  )  , pair.processed_rev.+: ( new_head )  )
       }
 
     def rev_list_as_element ( in_process_rev: Seq [ String ]  , line: String ) : String =

@@ -5,32 +5,32 @@ package scopus.lib
  */
 * Rec() {
 
-  foldLeftWhile[A, B](s: Seq[A], initval: B, op: (B, A) -> B, cond: (B, A) -> Boolean): B = {
-    result = rec(s, initval, op, cond)
+  foldLeftWhile[A, B](s: Seq[A], initial_value: B, next_value: (B, A) -> B, cond: (B, A) -> Boolean): B = {
+    result = rec(s, initial_value, next_value, cond)
 
     @tailrec
-    rec[A, B](seq: Seq[A], acc: B, op: (B, A) -> B, cond: (B, A) -> Boolean): B =
+    rec[A, B](seq: Seq[A], acc: B, next_value: (B, A) -> B, cond: (B, A) -> Boolean): B =
       if seq.isEmpty
       then acc
       else {
         (elem, rest) = (seq.head, seq.tail)
         if not cond(acc, elem)
         then acc
-        else rec(rest, op(acc, elem), op, cond)
+        else rec(rest, next_value(acc, elem), next_value, cond)
       }
 
     result
   }
 
 
-  foldLeft[A, B](seq: Seq[A], initval: B, op: (B, A) -> B): B = {
-    result = rec(seq, initval, op)
+  foldLeft[A, B](seq: Seq[A], initial_value: B, next_value: (B, A) -> B): B = {
+    result = rec(seq, initial_value, next_value)
 
     @tailrec
-    rec[A, B](seq: Seq[A], acc: B, op: (B, A) -> B): B =
+    rec[A, B](seq: Seq[A], acc: B, next_value: (B, A) -> B): B =
       if seq.isEmpty
       then acc
-      else rec(seq.tail, op(acc, seq.head), op)
+      else rec(seq.tail, next_value(acc, seq.head), next_value)
 
     result
   }

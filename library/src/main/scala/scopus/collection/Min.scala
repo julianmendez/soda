@@ -6,36 +6,36 @@ import scala.annotation.tailrec
 
 case class MSeqTranslator [ T ]  (  ) {
 
-  def foldLeftSeq [ B ]  ( seq: Seq [ T ]  , initval: B , op: ( B , T ) => B ) : B = {
-    lazy val result = rec ( seq , initval , op )
+  def foldLeftSeq [ B ]  ( seq: Seq [ T ]  , initial_value: B , next_value: ( B , T ) => B ) : B = {
+    lazy val result = rec ( seq , initial_value , next_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [ B ]  ( seq: Seq [ T ]  , acc: B , op: ( B , T ) => B ) : B =
+    def rec [ B ]  ( seq: Seq [ T ]  , acc: B , next_value: ( B , T ) => B ) : B =
       if ( seq.isEmpty
       ) acc
-      else rec ( seq.tail , op ( acc , seq.head )  , op )
+      else rec ( seq.tail , next_value ( acc , seq.head )  , next_value )
 
     result
   }
 
   def asMSeq ( seq: Seq [ T ]  ) : MSeq [ T ] = {
     lazy val result = Min (  ) .reverse (
-      foldLeftSeq [ MSeq [ T ]  ]  ( seq , initval , op ) )
+      foldLeftSeq [ MSeq [ T ]  ]  ( seq , initial_value , next_value ) )
 
-    lazy val initval: MSeq [ T ] = Min (  ) .empty
+    lazy val initial_value: MSeq [ T ] = Min (  ) .empty
 
-    def op ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = Min (  ) .prepended ( acc , elem )
+    def next_value ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = Min (  ) .prepended ( acc , elem )
 
     result
   }
 
   def asSeq ( mseq: MSeq [ T ]  ) : Seq [ T ] = {
-    lazy val result = Min (  ) .foldLeft ( mseq , initval , op ) .reverse
+    lazy val result = Min (  ) .foldLeft ( mseq , initial_value , next_value ) .reverse
 
-    lazy val initval: Seq [ T ] = Seq (  )
+    lazy val initial_value: Seq [ T ] = Seq (  )
 
-    def op ( acc: Seq [ T ]  , elem: T ) : Seq [ T ] = acc.+: ( elem )
+    def next_value ( acc: Seq [ T ]  , elem: T ) : Seq [ T ] = acc.+: ( elem )
 
     result
   }
@@ -59,63 +59,63 @@ case class Min [ T ]  (  ) {
 
   /* */
 
-  def foldLeftWhile [ B ]  ( s: MSeq [ T ]  , initval: B , op: ( B , T ) => B , cond: ( B , T ) => Boolean ) : B =
-    s.foldLeftWhile [ B ]  ( initval , op , cond )
+  def foldLeftWhile [ B ]  ( s: MSeq [ T ]  , initial_value: B , next_value: ( B , T ) => B , condition: ( B , T ) => Boolean ) : B =
+    s.foldLeftWhile [ B ]  ( initial_value , next_value , condition )
 
-  def foldLeft [ B ]  ( s: MSeq [ T ]  , initval: B , op: ( B , T ) => B ) : B = {
-    def cond ( acc: B , elem: T ) : Boolean = true
+  def foldLeft [ B ]  ( s: MSeq [ T ]  , initial_value: B , next_value: ( B , T ) => B ) : B = {
+    def condition ( acc: B , elem: T ) : Boolean = true
 
-    foldLeftWhile [ B ]  ( s , initval , op , cond )
+    foldLeftWhile [ B ]  ( s , initial_value , next_value , condition )
   }
 
   def reverse ( s: MSeq [ T ]  ) : MSeq [ T ] = {
-    lazy val init: MSeq [ T ] = empty
+    lazy val initial_value: MSeq [ T ] = empty
 
-    def op ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = prepended ( acc , elem )
+    def next_value ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = prepended ( acc , elem )
 
-    foldLeft ( s , init , op )
+    foldLeft ( s , initial_value , next_value )
   }
 
   def length ( s: MSeq [ T ]  ) : Int = {
-    lazy val initval: Int = 0
+    lazy val initial_value: Int = 0
 
-    def op ( acc: Int , elem: T ) : Int = acc + 1
+    def next_value ( acc: Int , elem: T ) : Int = acc + 1
 
-    foldLeft ( s , initval , op )
+    foldLeft ( s , initial_value , next_value )
   }
 
   def indexOf ( s: MSeq [ T ]  , e: T ) : Int = {
-    def initval: ( Int , Int ) = ( 0 , -1 )
+    def initial_value: ( Int , Int ) = ( 0 , -1 )
 
-    def op ( acc: ( Int , Int )  , elem: T ) : ( Int , Int ) =
+    def next_value ( acc: ( Int , Int )  , elem: T ) : ( Int , Int ) =
       ( acc._1 + 1 ,        if ( elem == e ) acc._1 else acc._2 )
 
-    def cond ( acc: ( Int , Int )  , elem: T ) : Boolean = acc._2 == -1
+    def condition ( acc: ( Int , Int )  , elem: T ) : Boolean = acc._2 == -1
 
-    foldLeftWhile ( s , initval , op , cond ) ._2
+    foldLeftWhile ( s , initial_value , next_value , condition ) ._2
   }
 
   def contains ( s: MSeq [ T ]  , e: T ) : Boolean = {
-    lazy val initval: Boolean = false
+    lazy val initial_value: Boolean = false
 
-    def op ( acc: Boolean , elem: T ) : Boolean = elem == e
+    def next_value ( acc: Boolean , elem: T ) : Boolean = elem == e
 
-    def cond ( acc: Boolean , elem: T ) : Boolean = ! acc
+    def condition ( acc: Boolean , elem: T ) : Boolean = ! acc
 
-    foldLeftWhile ( s , initval , op , cond )
+    foldLeftWhile ( s , initial_value , next_value , condition )
   }
 
   def at ( s: MSeq [ T ]  , n: Int ) : T = {
     lazy val result = if ( isEmpty ( s ) || n < 0 || n >= length ( s ) ) None.get else atNonEmpty ( s , n )
 
     def atNonEmpty ( xs: MSeq [ T ]  , n: Int ) : T = {
-      def init: ( T , Int ) = ( head ( xs )  , -1 )
+      def initial_value: ( T , Int ) = ( head ( xs )  , -1 )
 
-      def op ( acc: ( T , Int )  , elem: T ) : ( T , Int ) = ( elem , acc._2 + 1 )
+      def next_value ( acc: ( T , Int )  , elem: T ) : ( T , Int ) = ( elem , acc._2 + 1 )
 
-      def cond ( acc: ( T , Int )  , elem: T ) : Boolean = acc._2 < n
+      def condition ( acc: ( T , Int )  , elem: T ) : Boolean = acc._2 < n
 
-      foldLeftWhile ( xs , init , op , cond ) ._1
+      foldLeftWhile ( xs , initial_value , next_value , condition ) ._1
     }
 
     result
@@ -167,13 +167,13 @@ case class Min [ T ]  (  ) {
   def last ( s: MSeq [ T ]  ) : T = head ( reverse ( s )  )
 
   def concat ( s0: MSeq [ T ]  , s1: MSeq [ T ]  ) : MSeq [ T ] = {
-    lazy val init: MSeq [ T ] = s1
+    lazy val initial_value: MSeq [ T ] = s1
 
-    def op ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = prepended ( acc , elem )
+    def next_value ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] = prepended ( acc , elem )
 
     lazy val s0rev = reverse ( s0 )
 
-    foldLeft ( s0rev , init , op )
+    foldLeft ( s0rev , initial_value , next_value )
   }
 
   def slice ( s: MSeq [ T ]  , from: Int , until: Int ) : MSeq [ T ] = take ( drop ( s , from )  , until - from )
@@ -270,14 +270,14 @@ case class Min [ T ]  (  ) {
    * </pre>
    */
   def foldLeft0 ( mseq: MSeq [ T ]  ) : ( MSeq [ T ]  , (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => MSeq [ T ] = {
-    lazy val result = ( acc: MSeq [ T ]  , op: (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => rec ( mseq , acc , op )
+    lazy val result = ( acc: MSeq [ T ]  , next_value: (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => rec ( mseq , acc , next_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec ( mseq: MSeq [ T ]  , acc: MSeq [ T ]  , op: ( MSeq [ T ]  , T ) => MSeq [ T ]  ) : MSeq [ T ] =
+    def rec ( mseq: MSeq [ T ]  , acc: MSeq [ T ]  , next_value: ( MSeq [ T ]  , T ) => MSeq [ T ]  ) : MSeq [ T ] =
       if ( isEmpty ( mseq )
       ) acc
-      else rec ( tail ( mseq )  , op ( acc , head ( mseq )  )  , op )
+      else rec ( tail ( mseq )  , next_value ( acc , head ( mseq )  )  , next_value )
 
     result
    }

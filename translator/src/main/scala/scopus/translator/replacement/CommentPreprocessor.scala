@@ -14,17 +14,17 @@ case class CommentPreprocessor (  ) {
 
   def annotate_lines ( lines: Seq [ String ]  ) : Seq [ AnnotatedLine ] = {
     lazy val result =
-      Rec (  ) .foldLeft ( lines , initval , op )
+      Rec (  ) .foldLeft ( lines , initial_value , next_value )
         .annotated_lines_rev
         .reverse
 
-    case class RecPair ( comment_state: Boolean , annotated_lines_rev: Seq [ AnnotatedLine ]  )
+    case class FoldTuple ( comment_state: Boolean , annotated_lines_rev: Seq [ AnnotatedLine ]  )
 
-    lazy val initval = RecPair ( false , Seq (  )  )
+    lazy val initial_value = FoldTuple ( false , Seq (  )  )
 
-    def op ( pair: RecPair , line: String ) : RecPair = {
+    def next_value ( pair: FoldTuple , line: String ) : FoldTuple = {
       lazy val ( current_state , new_comment_state ) = annotate_this_line ( line , pair.comment_state )
-      RecPair ( new_comment_state , pair.annotated_lines_rev.+: ( AnnotatedLine ( line , current_state )  )  )
+      FoldTuple ( new_comment_state , pair.annotated_lines_rev.+: ( AnnotatedLine ( line , current_state )  )  )
     }
 
     def annotate_this_line ( line: String , comment_state: Boolean ) : ( Boolean , Boolean ) =
