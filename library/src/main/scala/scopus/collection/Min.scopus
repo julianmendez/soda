@@ -84,15 +84,17 @@ package scopus.collection
   }
 
   indexOf(s: MSeq[T], e: T): Int = {
-    initial_value: (Int, Int) = (0, -1)
+    initial_value = FoldTuple(0, -1)
 
-    next_value(acc: (Int, Int), elem: T): (Int, Int) =
-      (acc._1 + 1,
-        if elem == e then acc._1 else acc._2)
+    next_value(tuple: FoldTuple, elem: T): FoldTuple =
+      FoldTuple(tuple.index + 1,
+        if elem == e then tuple.index else tuple.position)
 
-    condition(acc: (Int, Int), elem: T): Boolean = acc._2 == -1
+    condition(tuple: FoldTuple, elem: T): Boolean = tuple.position == -1
 
-    foldLeftWhile(s, initial_value, next_value, condition)._2
+    * FoldTuple(index: Int, position: Int)
+
+    foldLeftWhile(s, initial_value, next_value, condition).position
   }
 
   contains(s: MSeq[T], e: T): Boolean = {
@@ -109,13 +111,15 @@ package scopus.collection
     result = if isEmpty(s) or n < 0 or n >= length(s) then None.get else atNonEmpty(s, n)
 
     atNonEmpty(xs: MSeq[T], n: Int): T = {
-      initial_value: (T, Int) = (head(xs), -1)
+      initial_value = FoldTuple(head(xs), -1)
 
-      next_value(acc: (T, Int), elem: T): (T, Int) = (elem, acc._2 + 1)
+      next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
 
-      condition(acc: (T, Int), elem: T): Boolean = acc._2 < n
+      condition(tuple: FoldTuple, elem: T): Boolean = tuple.index < n
 
-      foldLeftWhile(xs, initial_value, next_value, condition)._1
+      * FoldTuple(elem: T, index: Int)
+
+      foldLeftWhile(xs, initial_value, next_value, condition).elem
     }
 
     result
@@ -124,13 +128,18 @@ package scopus.collection
   /* */
 
   take(s: MSeq[T], n: Int): MSeq[T] = {
-    result = reverse(rec(s, n, empty))
+    result = reverse(
+        foldLeftWhile(s, initial_value, next_value, condition).seq )
 
-    @tailrec
-    rec(s0: MSeq[T], n: Int, s1: MSeq[T]): MSeq[T] =
-      if isEmpty(s0) or n <= 0
-      then s1
-      else rec(tail(s0), n - 1, prepended(s1, head(s0)))
+    initial_value = FoldTuple(empty, 0)
+
+    next_value(tuple: FoldTuple, elem: T): FoldTuple =
+      FoldTuple(prepended(tuple.seq, elem), tuple.index + 1)
+
+    condition (tuple: FoldTuple, elem: T): Boolean =
+      tuple.index < n
+
+    * FoldTuple(seq: MSeq[T], index: Int)
 
     result
   }

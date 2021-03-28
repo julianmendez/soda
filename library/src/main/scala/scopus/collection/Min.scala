@@ -85,14 +85,16 @@ case class Min [ T ]  (  ) {
   }
 
   def indexOf ( s: MSeq [ T ]  , e: T ) : Int = {
-    def initial_value: ( Int , Int ) = ( 0 , -1 )
+    lazy val initial_value = FoldTuple ( 0 , -1 )
 
-    def next_value ( acc: ( Int , Int )  , elem: T ) : ( Int , Int ) =
-      ( acc._1 + 1 ,        if ( elem == e ) acc._1 else acc._2 )
+    def next_value ( tuple: FoldTuple , elem: T ) : FoldTuple =
+      FoldTuple ( tuple.index + 1 ,        if ( elem == e ) tuple.index else tuple.position )
 
-    def condition ( acc: ( Int , Int )  , elem: T ) : Boolean = acc._2 == -1
+    def condition ( tuple: FoldTuple , elem: T ) : Boolean = tuple.position == -1
 
-    foldLeftWhile ( s , initial_value , next_value , condition ) ._2
+    case class FoldTuple ( index: Int , position: Int )
+
+    foldLeftWhile ( s , initial_value , next_value , condition ) .position
   }
 
   def contains ( s: MSeq [ T ]  , e: T ) : Boolean = {
@@ -109,13 +111,15 @@ case class Min [ T ]  (  ) {
     lazy val result = if ( isEmpty ( s ) || n < 0 || n >= length ( s ) ) None.get else atNonEmpty ( s , n )
 
     def atNonEmpty ( xs: MSeq [ T ]  , n: Int ) : T = {
-      def initial_value: ( T , Int ) = ( head ( xs )  , -1 )
+      lazy val initial_value = FoldTuple ( head ( xs )  , -1 )
 
-      def next_value ( acc: ( T , Int )  , elem: T ) : ( T , Int ) = ( elem , acc._2 + 1 )
+      def next_value ( tuple: FoldTuple , elem: T ) : FoldTuple = FoldTuple ( elem , tuple.index + 1 )
 
-      def condition ( acc: ( T , Int )  , elem: T ) : Boolean = acc._2 < n
+      def condition ( tuple: FoldTuple , elem: T ) : Boolean = tuple.index < n
 
-      foldLeftWhile ( xs , initial_value , next_value , condition ) ._1
+      case class FoldTuple ( elem: T , index: Int )
+
+      foldLeftWhile ( xs , initial_value , next_value , condition ) .elem
     }
 
     result
@@ -124,14 +128,18 @@ case class Min [ T ]  (  ) {
   /* */
 
   def take ( s: MSeq [ T ]  , n: Int ) : MSeq [ T ] = {
-    lazy val result = reverse ( rec ( s , n , empty )  )
+    lazy val result = reverse (
+        foldLeftWhile ( s , initial_value , next_value , condition ) .seq )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s0: MSeq [ T ]  , n: Int , s1: MSeq [ T ]  ) : MSeq [ T ] =
-      if ( isEmpty ( s0 ) || n <= 0
-      ) s1
-      else rec ( tail ( s0 )  , n - 1 , prepended ( s1 , head ( s0 )  )  )
+    lazy val initial_value = FoldTuple ( empty , 0 )
+
+    def next_value ( tuple: FoldTuple , elem: T ) : FoldTuple =
+      FoldTuple ( prepended ( tuple.seq , elem )  , tuple.index + 1 )
+
+    def condition ( tuple: FoldTuple , elem: T ) : Boolean =
+      tuple.index < n
+
+    case class FoldTuple ( seq: MSeq [ T ]  , index: Int )
 
     result
   }
