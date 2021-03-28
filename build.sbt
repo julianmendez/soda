@@ -8,7 +8,7 @@ lazy val scala3 = "3.0.0-RC1"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.scopus",
-  version := "0.5.0-SNAPSHOT",
+  version := "0.5.0",
 
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),

@@ -104,7 +104,7 @@ The project can be build with [sbt](https://www.scala-sbt.org/).
 The command is:
 `sbt clean compile test package assembly`
 
-It is also possible to compile it for a different Scala version:
+It is also possible to compile it for different Scala versions:
 `sbt "++ 2.13.5" clean compile test package assembly`
 
 If (scala_version) and (scopus_version) is the Scala and Scopus version respectively, the created jar file are:
