@@ -48,13 +48,13 @@ package scopus.collection.example
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   prependExample: (String, Seq[Char]) =
-    ("'X' +: A", ('X' +: A))
+    ("A.+:('X')", (A.+:('X')))
 
   /**
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   appendExample: (String, Seq[Char]) =
-    ("A :+ 'X'", (A :+ 'X'))
+    ("A.:+('X')", (A.:+('X')))
 
   concatExample: (String, Seq[Int]) =
     ("A.map(_.toInt).++(B)", A.map(_.toInt).++(B))

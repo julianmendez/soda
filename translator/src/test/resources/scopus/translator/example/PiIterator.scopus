@@ -63,7 +63,7 @@ package scopus.translator.example
       then rev_seq.reverse
       else {
         (digit, new_status) = next (s)
-        rec (n - 1, rev_seq.+: (digit), new_status)
+        rec (n - 1, rev_seq.+:(digit), new_status)
       }
 
     result

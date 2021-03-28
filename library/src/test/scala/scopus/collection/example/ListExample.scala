@@ -48,13 +48,13 @@ case class ListExample (  ) {
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   def prependExample: ( String , Seq [ Char ]  ) =
-    ("'X' +: A", ('X' +: A )  )
+    ("A.+:('X')", ( A.+: ('X')  )  )
 
   /**
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   def appendExample: ( String , Seq [ Char ]  ) =
-    ("A :+ 'X'", ( A :+ 'X')  )
+    ("A.:+('X')", ( A.:+ ('X')  )  )
 
   def concatExample: ( String , Seq [ Int ]  ) =
     ("A.map(_.toInt).++(B)", A.map ( _.toInt ) .++ ( B )  )
