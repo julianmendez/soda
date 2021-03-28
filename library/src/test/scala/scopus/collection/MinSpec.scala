@@ -2,8 +2,6 @@ package scopus.collection
 
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.language.implicitConversions
-
 case class MinSpec (  ) extends AnyFunSuite {
 
   lazy val empty: ESeq [ Int ] = ESeq [ Int ]  (  )

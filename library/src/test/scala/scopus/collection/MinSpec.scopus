@@ -2,8 +2,6 @@ package scopus.collection
 
 + org.scalatest.funsuite.AnyFunSuite
 
-+ scala.language.implicitConversions
-
 * MinSpec() extends AnyFunSuite {
 
   empty: ESeq[Int] = ESeq[Int]()
