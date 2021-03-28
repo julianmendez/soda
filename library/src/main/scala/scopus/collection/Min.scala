@@ -1,9 +1,6 @@
 package scopus.collection
 
 
-import scala.annotation.tailrec
-
-
 case class MSeqTranslator [ T ]  (  ) {
 
   def foldLeftSeq [ B ]  ( seq: Seq [ T ]  , initial_value: B , next_value: ( B , T ) => B ) : B = {
@@ -145,26 +142,29 @@ case class Min [ T ]  (  ) {
   }
 
   def drop ( s: MSeq [ T ]  , n: Int ) : MSeq [ T ] = {
-    lazy val result = rec ( s , n )
+    lazy val result = foldLeftWhile ( s , initial_value , next_value , condition ) .seq
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s: MSeq [ T ]  , n: Int ) : MSeq [ T ] =
-      if ( isEmpty ( s ) || n <= 0
-      ) s
-      else rec ( tail ( s )  , n - 1 )
+    lazy val initial_value = FoldTuple ( s , 0 )
+
+    def next_value ( tuple: FoldTuple , elem: T ) : FoldTuple =
+      FoldTuple ( tail ( tuple.seq )  , tuple.index + 1 )
+
+    def condition ( tuple: FoldTuple , elem: T ) : Boolean =
+      tuple.index < n
+
+    case class FoldTuple ( seq: MSeq [ T ]  , index: Int )
 
     result
   }
 
-  def takeWhile ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : MSeq [ T ] = reverse ( spanRevRec ( s , p , taking = true , empty ) ._1 )
+  def takeWhile ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : MSeq [ T ] = reverse ( spanRevRec ( s , p ) ._1 )
 
-  def dropWhile ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : MSeq [ T ] = spanRevRec ( s , p , taking = true , empty ) ._2
+  def dropWhile ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : MSeq [ T ] = spanRevRec ( s , p ) ._2
 
   def splitAt ( s: MSeq [ T ]  , n: Int ) : ( MSeq [ T ]  , MSeq [ T ]  ) = ( take ( s , n )  , drop ( s , n )  )
 
   def span ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : ( MSeq [ T ]  , MSeq [ T ]  ) = {
-    lazy val pair = spanRevRec ( s , p , taking = true , empty )
+    lazy val pair = spanRevRec ( s , p )
     ( reverse ( pair._1 )  , pair._2 )
   }
 
@@ -189,78 +189,62 @@ case class Min [ T ]  (  ) {
   /* */
 
   def forall ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : Boolean = {
-    lazy val result = rec ( s , p )
+    lazy val result = foldLeftWhile ( s , initial_value , next_value , condition )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s: MSeq [ T ]  , p: T => Boolean ) : Boolean =
-      if ( isEmpty ( s )
-      ) true
-      else if ( ! p ( head ( s )  )
-      ) false
-      else rec ( tail ( s )  , p )
+    lazy val initial_value = true
+
+    def next_value ( acc: Boolean , elem: T ) : Boolean = acc && p ( elem )
+
+    def condition ( acc: Boolean , elem: T ) : Boolean = acc
 
     result
   }
 
   def exists ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : Boolean = {
-    lazy val result = rec ( s , p )
+    lazy val result = foldLeftWhile ( s , initial_value , next_value , condition )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s: MSeq [ T ]  , p: T => Boolean ) : Boolean =
-      if ( isEmpty ( s )
-      ) false
-      else if ( p ( head ( s )  )
-      ) true
-      else rec ( tail ( s )  , p )
+    lazy val initial_value = false
+
+    def next_value ( acc: Boolean , elem: T ) : Boolean = acc || p ( elem )
+
+    def condition ( acc: Boolean , elem: T ) : Boolean = ! acc
 
     result
   }
 
   def find ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : Option [ T ] = {
-    lazy val result = rec ( s , p )
+      lazy val result = foldLeftWhile ( s , initial_value , next_value , condition )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s: MSeq [ T ]  , p: T => Boolean ) : Option [ T ] =
-      if ( isEmpty ( s )
-      ) None
-      else if ( p ( head ( s )  )
-      ) Some ( head ( s )  )
-      else rec ( tail ( s )  , p )
+      lazy val initial_value = None
 
-    result
-  }
+      def next_value ( acc: Option [ T ]  , elem: T ) : Option [ T ] =
+        if ( p ( elem ) ) Some ( elem ) else None
+
+      def condition ( acc: Option [ T ]  , elem: T ) : Boolean = acc.isEmpty
+
+      result
+    }
 
   def filter ( s: MSeq [ T ]  , p: ( T => Boolean )  ) : MSeq [ T ] = {
-    lazy val result = reverse ( rec ( s , p , empty )  )
+      lazy val result = reverse ( foldLeft ( s , initial_value , next_value ) )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s0: MSeq [ T ]  , f: T => Boolean , s1: MSeq [ T ]  ) : MSeq [ T ] =
-      if ( isEmpty ( s0 )
-      ) s1
-      else {
-        lazy val newS1 =
-          if ( f ( head ( s0 )  )
-          ) prepended ( s1 , head ( s0 )  )
-          else s1
-        rec ( tail ( s0 )  , f , newS1 )
-      }
+      lazy val initial_value = empty
 
-    result
-  }
+      def next_value ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] =
+        if ( p ( elem )
+        ) prepended ( acc , elem )
+        else acc
+
+      result
+    }
 
   def map0 ( s: MSeq [ T ]  , f: ( T => T )  ) : MSeq [ T ] = {
-    lazy val result = reverse ( rec ( s , f , empty )  )
+    lazy val result = reverse ( foldLeft ( s , initial_value , next_value ) )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s0: MSeq [ T ]  , f: T => T , s1: MSeq [ T ]  ) : MSeq [ T ] =
-      if ( isEmpty ( s0 )
-      ) s1
-      else rec ( tail ( s0 )  , f , prepended ( s1 , f ( head ( s0 )  )  )  )
+    lazy val initial_value = empty
+
+    def next_value ( acc: MSeq [ T ]  , elem: T ) : MSeq [ T ] =
+      prepended ( acc , f ( elem )  )
 
     result
   }
@@ -277,37 +261,35 @@ case class Min [ T ]  (  ) {
    * }
    * </pre>
    */
-  def foldLeft0 ( mseq: MSeq [ T ]  ) : ( MSeq [ T ]  , (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => MSeq [ T ] = {
-    lazy val result = ( acc: MSeq [ T ]  , next_value: (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => rec ( mseq , acc , next_value )
-
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( mseq: MSeq [ T ]  , acc: MSeq [ T ]  , next_value: ( MSeq [ T ]  , T ) => MSeq [ T ]  ) : MSeq [ T ] =
-      if ( isEmpty ( mseq )
-      ) acc
-      else rec ( tail ( mseq )  , next_value ( acc , head ( mseq )  )  , next_value )
-
-    result
-   }
+  def foldLeft0 ( mseq: MSeq [ T ]  ) : ( MSeq [ T ]  , (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => MSeq [ T ] =
+    ( initial_value: MSeq [ T ]  , next_value: (  ( MSeq [ T ]  , T ) => MSeq [ T ]  )  ) => foldLeft ( mseq , initial_value , next_value )
 
   /* */
 
-  def spanRevRec ( s0: MSeq [ T ]  , p: T => Boolean , taking: Boolean , s1: MSeq [ T ]  ) : ( MSeq [ T ]  , MSeq [ T ]  ) = {
-    lazy val result = rec ( s0 , p , taking , s1 )
+  def spanRevRec ( s0: MSeq [ T ]  , p: T => Boolean ) : ( MSeq [ T ]  , MSeq [ T ]  ) = {
+    lazy val result = ( pair.right , pair.left )
+    lazy val pair = foldLeftWhile ( s0 , initial_value , next_value , condition )
 
-    import scala.annotation.tailrec
-        @tailrec
-    def rec ( s0: MSeq [ T ]  , p: T => Boolean , taking: Boolean , s1: MSeq [ T ]  ) : ( MSeq [ T ]  , MSeq [ T ]  ) =
-      if ( isEmpty ( s0 ) || ! taking
-      ) ( s1 , s0 )
+    lazy val initial_value = FoldTuple ( s0 , empty , true )
+
+    def next_value ( tuple: FoldTuple , elem: T ) : FoldTuple = {
+      lazy val left = tuple.left
+      lazy val right = tuple.right
+      if ( isEmpty ( left )
+      ) FoldTuple ( left , right , false )
       else {
-        lazy val newTaking = p ( head ( s0 )  )
-        lazy val ( newS1 , newS0 ) =
-          if ( newTaking
-          ) ( prepended ( s1 , head ( s0 )  )  , tail ( s0 )  )
-          else ( s1 , s0 )
-        rec ( newS0 , p , newTaking , newS1 )
+        lazy val e = head ( left )
+        lazy val new_taking = p ( e )
+
+        if ( new_taking
+        ) FoldTuple ( tail ( left )  , prepended ( right , e )  , new_taking )
+        else FoldTuple ( left , right , new_taking )
       }
+    }
+
+    def condition ( tuple: FoldTuple , elem: T ) : Boolean = tuple.taking
+
+    case class FoldTuple ( left: MSeq [ T ]  , right: MSeq [ T ]  , taking: Boolean )
 
     result
   }

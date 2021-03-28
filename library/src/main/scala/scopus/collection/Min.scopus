@@ -1,9 +1,6 @@
 package scopus.collection
 
 
-+ scala.annotation.tailrec
-
-
 * MSeqTranslator[T]() {
 
   foldLeftSeq[B](seq: Seq[T], initial_value: B, next_value: (B, T) -> B): B = {
@@ -145,25 +142,29 @@ package scopus.collection
   }
 
   drop(s: MSeq[T], n: Int): MSeq[T] = {
-    result = rec(s, n)
+    result = foldLeftWhile(s, initial_value, next_value, condition).seq
 
-    @tailrec
-    rec(s: MSeq[T], n: Int): MSeq[T] =
-      if isEmpty(s) or n <= 0
-      then s
-      else rec(tail(s), n - 1)
+    initial_value = FoldTuple(s, 0)
+
+    next_value(tuple: FoldTuple, elem: T): FoldTuple =
+      FoldTuple(tail(tuple.seq), tuple.index + 1)
+
+    condition (tuple: FoldTuple, elem: T): Boolean =
+      tuple.index < n
+
+    * FoldTuple(seq: MSeq[T], index: Int)
 
     result
   }
 
-  takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p, taking = true, empty)._1)
+  takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p)._1)
 
-  dropWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = spanRevRec(s, p, taking = true, empty)._2
+  dropWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = spanRevRec(s, p)._2
 
   splitAt(s: MSeq[T], n: Int): (MSeq[T], MSeq[T]) = (take(s, n), drop(s, n))
 
   span(s: MSeq[T], p: (T -> Boolean)): (MSeq[T], MSeq[T]) = {
-    pair = spanRevRec(s, p, taking = true, empty)
+    pair = spanRevRec(s, p)
     (reverse(pair._1), pair._2)
   }
 
@@ -188,73 +189,62 @@ package scopus.collection
   /* */
 
   forall(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    result = rec(s, p)
+    result = foldLeftWhile(s, initial_value, next_value, condition)
 
-    @tailrec
-    rec(s: MSeq[T], p: T -> Boolean): Boolean =
-      if isEmpty(s)
-      then true
-      else if not p(head(s))
-      then false
-      else rec(tail(s), p)
+    initial_value = true
+
+    next_value(acc: Boolean, elem: T): Boolean = acc and p(elem)
+
+    condition(acc: Boolean, elem: T): Boolean = acc
 
     result
   }
 
   exists(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    result = rec(s, p)
+    result = foldLeftWhile(s, initial_value, next_value, condition)
 
-    @tailrec
-    rec(s: MSeq[T], p: T -> Boolean): Boolean =
-      if isEmpty(s)
-      then false
-      else if p(head(s))
-      then true
-      else rec(tail(s), p)
+    initial_value = false
+
+    next_value(acc: Boolean, elem: T): Boolean = acc or p(elem)
+
+    condition(acc: Boolean, elem: T): Boolean = not acc
 
     result
   }
 
   find(s: MSeq[T], p: (T -> Boolean)): Option[T] = {
-    result = rec(s, p)
+      result = foldLeftWhile(s, initial_value, next_value, condition)
 
-    @tailrec
-    rec(s: MSeq[T], p: T -> Boolean): Option[T] =
-      if isEmpty(s)
-      then None
-      else if p(head(s))
-      then Some(head(s))
-      else rec(tail(s), p)
+      initial_value = None
 
-    result
-  }
+      next_value(acc: Option[T], elem: T): Option[T] =
+        if p(elem) then Some(elem) else None
+
+      condition(acc: Option[T], elem: T): Boolean = acc.isEmpty
+
+      result
+    }
 
   filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = {
-    result = reverse(rec(s, p, empty))
+      result = reverse( foldLeft(s, initial_value, next_value) )
 
-    @tailrec
-    rec(s0: MSeq[T], f: T -> Boolean, s1: MSeq[T]): MSeq[T] =
-      if isEmpty(s0)
-      then s1
-      else {
-        newS1 =
-          if f(head(s0))
-          then prepended(s1, head(s0))
-          else s1
-        rec(tail(s0), f, newS1)
-      }
+      initial_value = empty
 
-    result
-  }
+      next_value(acc: MSeq[T], elem: T): MSeq[T] =
+        if p(elem)
+        then prepended(acc, elem)
+        else acc
+
+      result
+    }
 
   map0(s: MSeq[T], f: (T -> T)): MSeq[T] = {
-    result = reverse(rec(s, f, empty))
+    result = reverse( foldLeft(s, initial_value, next_value) )
 
-    @tailrec
-    rec(s0: MSeq[T], f: T -> T, s1: MSeq[T]): MSeq[T] =
-      if isEmpty(s0)
-      then s1
-      else rec(tail(s0), f, prepended(s1, f(head(s0))))
+    initial_value = empty
+
+    next_value(acc: MSeq[T], elem: T): MSeq[T] =
+      prepended(acc, f(elem))
 
     result
   }
@@ -271,35 +261,35 @@ package scopus.collection
    * }
    * </pre>
    */
-  foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] = {
-    result = (acc: MSeq[T], next_value: ((MSeq[T], T) -> MSeq[T])) -> rec(mseq, acc, next_value)
-
-    @tailrec
-    rec(mseq: MSeq[T], acc: MSeq[T], next_value: (MSeq[T], T) -> MSeq[T]): MSeq[T] =
-      if isEmpty(mseq)
-      then acc
-      else rec(tail(mseq), next_value(acc, head(mseq)), next_value)
-
-    result
-   }
+  foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] =
+    (initial_value: MSeq[T], next_value: ((MSeq[T], T) -> MSeq[T])) -> foldLeft(mseq, initial_value, next_value)
 
   /* */
 
-  spanRevRec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) = {
-    result = rec(s0, p, taking, s1)
+  spanRevRec(s0: MSeq[T], p: T -> Boolean): (MSeq[T], MSeq[T]) = {
+    result = (pair.right, pair.left)
+    pair = foldLeftWhile(s0, initial_value, next_value, condition)
 
-    @tailrec
-    rec(s0: MSeq[T], p: T -> Boolean, taking: Boolean, s1: MSeq[T]): (MSeq[T], MSeq[T]) =
-      if isEmpty(s0) or not taking
-      then (s1, s0)
+    initial_value = FoldTuple(s0, empty, true)
+
+    next_value(tuple: FoldTuple, elem: T): FoldTuple = {
+      left = tuple.left
+      right = tuple.right
+      if isEmpty(left)
+      then FoldTuple(left, right, false)
       else {
-        newTaking = p(head(s0))
-        (newS1, newS0) =
-          if newTaking
-          then (prepended(s1, head(s0)), tail(s0))
-          else (s1, s0)
-        rec(newS0, p, newTaking, newS1)
+        e = head(left)
+        new_taking = p(e)
+
+        if new_taking
+        then FoldTuple(tail(left), prepended(right, e), new_taking)
+        else FoldTuple(left, right, new_taking)
       }
+    }
+
+    condition(tuple: FoldTuple, elem: T): Boolean = tuple.taking
+
+    * FoldTuple(left: MSeq[T], right: MSeq[T], taking: Boolean)
 
     result
   }
