@@ -1,6 +1,6 @@
-# Scopus
+# Soda
 
-*Scopus* is a functional language to describe ethical problems.
+*Soda* (Symbolic Objective Descriptive Analysis) is a functional language to describe ethical problems.
 Its main purpose is to be used to produce clear code.
 The source code should be easy to understand, somehow natural, although not necessarily easy to write.
 
@@ -94,7 +94,7 @@ It is possible to define the package and to declare the imports.
 
 The following tools can be configured to have syntax highlighting:
 - IntelliJ (instructions are provided)
-- gedit (configuration file: scopus.lang)
+- gedit (configuration file: soda.lang)
 
 
 ## Build
@@ -107,12 +107,12 @@ The command is:
 It is also possible to compile it for different Scala versions:
 `sbt "++ 2.13.5" clean compile test package assembly`
 
-If (scala_version) and (scopus_version) is the Scala and Scopus version respectively, the created jar file are:
-- **translator**: library with classes that implement the Scopus-Scala translator
-  `translator/target/(scala_version)/translator_(scala_version)-(scopus_version).jar`
-- **library**: library with classes to be used in Scopus programs
-  `library/target/(scala_version)/library_(scala_version)-(scopus_version).jar`
-- **scopus**: executable fat jar including the previous libraries and the Scala library.
-  `target/(scala_version)/scopus-(scopus_version).jar`
+If (scala_version) and (soda_version) is the Scala and Soda version respectively, the created jar file are:
+- **translator**: library with classes that implement the Soda-Scala translator
+  `translator/target/(scala_version)/translator_(scala_version)-(soda_version).jar`
+- **library**: library with classes to be used in Soda programs
+  `library/target/(scala_version)/library_(scala_version)-(soda_version).jar`
+- **soda**: executable fat jar including the previous libraries and the Scala library.
+  `target/(scala_version)/soda-(soda_version).jar`
 
 

@@ -1,4 +1,10 @@
 ---
+- - version: v0.6.0
+  - date: unreleased
+  - new_features:
+    - is renamed as 'Soda' (Symbolic Objective Descriptive Analysis)
+  - build: sbt clean compile test package assembly
+  - release: target/scala-3.0.0-RC1/scopus-0.6.0.jar
 - - version: v0.5.0
   - date: '2021-03-28'
   - new_features:

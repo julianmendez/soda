@@ -2,9 +2,9 @@ This is the configuration used at:
 
 Settings / Editor / File Types / Recognized File Types:
 
-Name: Scopus
+Name: Soda
 
-Description: Scopus
+Description: Soda
 
 Syntax Highlighting
 

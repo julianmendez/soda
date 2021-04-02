@@ -7,11 +7,11 @@ lazy val scala2_13 = "2.13.5"
 lazy val scala3 = "3.0.0-RC1"
 
 lazy val commonSettings = Seq(
-  organization := "se.umu.cs.rai.scopus",
+  organization := "se.umu.cs.rai.soda",
   version := "0.5.0",
 
   description := "Functional language to describe ethical problems",
-  homepage := Some(url("https://bitbucket.org/mendezjulian/scopus")),
+  homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
   startYear := Some(2020),
   licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
   organizationName := "Responsible Artificial Intelligence - Umea University",
@@ -51,7 +51,7 @@ lazy val translator = project
   .in(file("translator"))
   .settings(
     commonSettings,
-    mainClass in assembly := Some("scopus.translator.io.EntryPoint"),
+    mainClass in assembly := Some("soda.translator.io.EntryPoint"),
     assemblyJarName in assembly := "translator-" + version.value + ".jar"
   )
 
@@ -68,14 +68,14 @@ lazy val library = project
 
 
 lazy val root = project
-  .withId(id = "scopus")
+  .withId(id = "soda")
   .in(file("."))
   .aggregate(translator, library)
   .dependsOn(translator, library)
   .settings(
     commonSettings,
-    mainClass in assembly := Some("scopus.translator.io.EntryPoint"),
-    assemblyJarName in assembly := "scopus-" + version.value + ".jar"
+    mainClass in assembly := Some("soda.translator.io.EntryPoint"),
+    assemblyJarName in assembly := "soda-" + version.value + ".jar"
   )
 
 

@@ -6,7 +6,7 @@
 #
 
 # Update manual
-cp translator/src/main/resources/scopus/translator/documentation/Manual.* translator/src/test/resources/scopus/translator/documentation
+cp translator/src/main/resources/soda/translator/documentation/Manual.* translator/src/test/resources/soda/translator/documentation
 
 # Update other examples
 origin="src\/test\/resources"
