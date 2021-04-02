@@ -1,12 +1,12 @@
-package scopus.translator.language
+package soda.translator.language
 
-+ scopus.lib.Rec
-+ scopus.translator.replacement.CommentPreprocessor
-+ scopus.translator.replacement.ParserStateEnum
-+ scopus.translator.replacement.Replacement
-+ scopus.translator.replacement.Token
-+ scopus.translator.replacement.Tokenizer
-+ scopus.translator.replacement.Translator
++ soda.lib.Rec
++ soda.translator.replacement.CommentPreprocessor
++ soda.translator.replacement.ParserStateEnum
++ soda.translator.replacement.Replacement
++ soda.translator.replacement.Token
++ soda.translator.replacement.Tokenizer
++ soda.translator.replacement.Translator
 
 
 /**

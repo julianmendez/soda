@@ -1,6 +1,6 @@
-package scopus.translator.language
+package soda.translator.language
 
-+ scopus.translator.replacement.Translator
++ soda.translator.replacement.Translator
 
 * SynonymAtBeginning () extends Translator {
   _table = Translation().SynonymAtBeginning

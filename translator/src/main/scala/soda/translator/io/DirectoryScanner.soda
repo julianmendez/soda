@@ -1,4 +1,4 @@
-package scopus.translator.io
+package soda.translator.io
 
 + java.io.File
 

@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-+ scopus.lib.Rec
++ soda.lib.Rec
 
 /**
  * This models a collection of replacement functions.

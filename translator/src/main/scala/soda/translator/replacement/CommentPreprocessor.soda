@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-+ scopus.lib.Rec
++ soda.lib.Rec
 
 * AnnotatedLine(line: String, isComment: Boolean)
 

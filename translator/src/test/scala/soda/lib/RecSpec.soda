@@ -1,4 +1,4 @@
-package scopus.lib
+package soda.lib
 
 + org.scalatest.funsuite.AnyFunSuite
 

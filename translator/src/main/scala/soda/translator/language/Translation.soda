@@ -1,4 +1,4 @@
-package scopus.translator.language
+package soda.translator.language
 
 /**
  * This class contains constants that are specific for the Scopus translator, like reserved words for Scopus and Scala.

@@ -1,4 +1,4 @@
-package scopus.collection
+package soda.collection
 
 
 * MSeq[T] {
