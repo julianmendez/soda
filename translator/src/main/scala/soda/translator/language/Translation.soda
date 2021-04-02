@@ -1,17 +1,17 @@
 package soda.translator.language
 
 /**
- * This class contains constants that are specific for the Scopus translator, like reserved words for Scopus and Scala.
+ * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
 * Translation() {
 
-  ScopusDefinition: String = "="
+  SodaDefinition: String = "="
 
   ScalaDefinition: String = "def"
   ScalaValue: String = "lazy val"
   ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  ScopusReservedWords = Seq(
+  SodaReservedWords = Seq(
     "=",
     ":",
     "->",
@@ -138,17 +138,17 @@ package soda.translator.language
     ("new", "new")
   )
 
-  PrefixScalaNonScopus = "__scopus__"
+  PrefixScalaNonSoda = "__soda__"
 
-  ScalaNonScopusKeys: Seq[String] =
+  ScalaNonSodaKeys: Seq[String] =
     ScalaReservedWords
-      .filter(x -> not ScopusReservedWords.contains(x))
+      .filter(x -> not SodaReservedWords.contains(x))
 
   is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
 
-  is_scopus_word(word: String): Boolean = ScopusReservedWords.contains(word)
+  is_soda_word(word: String): Boolean = SodaReservedWords.contains(word)
 
-  ScopusBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
+  SodaBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
 
 }
 

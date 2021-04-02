@@ -7,9 +7,9 @@ package soda.translator.language
 
 * MicroTranslatorSpec() extends AnyFunSuite {
 
-  Base = "/scopus/translator/example/"
+  Base = "/soda/translator/example/"
 
-  ScopusSuffix = ".scopus"
+  SodaSuffix = ".soda"
   ScalaSuffix = ".scala"
 
   SwapExample = "SwapExample"
@@ -20,13 +20,13 @@ package soda.translator.language
   PiIterator = "PiIterator"
   ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
 
-  ManualInput = "/scopus/translator/documentation/Manual.scopus"
-  ManualExpected = "/scopus/translator/documentation/Manual.scala"
+  ManualInput = "/soda/translator/documentation/Manual.soda"
+  ManualExpected = "/soda/translator/documentation/Manual.scala"
 
 
 
   test_translation(file_name: String): Assertion = {
-    input_file_name = Base + file_name + ScopusSuffix
+    input_file_name = Base + file_name + SodaSuffix
     expected_file_name = Base + file_name + ScalaSuffix
     test_translation(input_file_name, expected_file_name)
   }
@@ -66,7 +66,7 @@ package soda.translator.language
     test_translation(PiIterator)
   }
 
-  test("should translated Scopus code that uses Scala reserved words as variables and functions") {
+  test("should translated Soda code that uses Scala reserved words as variables and functions") {
     test_translation(ScalaReservedWordEscaping)
   }
 

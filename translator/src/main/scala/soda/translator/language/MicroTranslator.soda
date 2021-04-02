@@ -10,16 +10,16 @@ package soda.translator.language
 
 
 /**
- * This class translates Scopus source code into Scala source code.
+ * This class translates Soda source code into Scala source code.
  */
 * MicroTranslator() {
 
   NewLine = "\n"
   Comma = ","
 
-  ScopusOpeningParenthesis: String = "("
-  ScopusClosingParenthesis: String = ")"
-  ScopusSpace: String = " "
+  SodaOpeningParenthesis: String = "("
+  SodaClosingParenthesis: String = ")"
+  SodaSpace: String = " "
   ScalaSpace: String = " "
 
   translate_program(program: String): String = {
@@ -76,7 +76,7 @@ package soda.translator.language
       )
 
   _translate_non_comment(line: String): String = {
-    line_with_space = Replacement(line).add_space_to_scopus_line().line
+    line_with_space = Replacement(line).add_space_to_soda_line().line
     tokenized_line = tokenize(line_with_space)
     translated_line = _translate_line(tokenized_line)
     joint_line = _join_tokens(translated_line)
@@ -90,8 +90,8 @@ package soda.translator.language
         if token.parser_state == ParserStateEnum().Plain
         then {
           newText = Replacement(token.text)
-            .add_spaces_to_symbols(symbols=Translation().ScopusBracketsAndComma.toSet)
-            .replace(ScalaNonScopus(), only_beginning=false)
+            .add_spaces_to_symbols(symbols=Translation().SodaBracketsAndComma.toSet)
+            .replace(ScalaNonSoda(), only_beginning=false)
             .replace_at_beginning(token.index, SynonymAtBeginning())
             .replace(Synonym(), only_beginning=false)
             .replace_with(try_definition)
@@ -109,7 +109,7 @@ package soda.translator.language
       .mkString("")
 
   get_translation_table_at_beginning(line: String): Translator =
-    if line.contains(ScopusOpeningParenthesis)
+    if line.contains(SodaOpeningParenthesis)
     then TranslationAtBeginningWithParen()
     else TranslationAtBeginningWithoutParen()
 
@@ -134,10 +134,10 @@ package soda.translator.language
     if maybe_position.nonEmpty
     then {
       position_of_definition_sign = maybe_position.get
-      position_of_first_closing_parenthesis = line.indexOf(ScopusClosingParenthesis)
+      position_of_first_closing_parenthesis = line.indexOf(SodaClosingParenthesis)
 
       case1 = position_of_first_closing_parenthesis == -1
-      case2 = line.trim.startsWith(ScopusOpeningParenthesis)
+      case2 = line.trim.startsWith(SodaOpeningParenthesis)
       case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       new_text = if case1 or case2 or case3
@@ -157,9 +157,9 @@ package soda.translator.language
    */
   find_definition(line: String): Option[Int] = {
     position =
-      if line.endsWith(ScopusSpace + Translation().ScopusDefinition)
-      then line.length - Translation().ScopusDefinition.length
-      else line.indexOf(ScopusSpace + Translation().ScopusDefinition + ScopusSpace)
+      if line.endsWith(SodaSpace + Translation().SodaDefinition)
+      then line.length - Translation().SodaDefinition.length
+      else line.indexOf(SodaSpace + Translation().SodaDefinition + SodaSpace)
     if position == -1
     then None
     else Some(position)

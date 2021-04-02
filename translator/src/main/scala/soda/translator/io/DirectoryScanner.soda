@@ -7,17 +7,17 @@ package soda.translator.io
  */
 * DirectoryScanner() {
 
-  Scopus_suffix = ".scopus"
+  Soda_suffix = ".soda"
 
   get_all_files(start: File): Seq[File] =
     if start.isFile
     then Seq(start)
     else scan(Seq(), start.listFiles().toSeq)
 
-  get_scopus_files(start: File): Seq[File] =
+  get_soda_files(start: File): Seq[File] =
     get_all_files(start)
       .filter(x -> x.isFile)
-      .filter(x -> x.getName.endsWith(Scopus_suffix))
+      .filter(x -> x.getName.endsWith(Soda_suffix))
 
   scan(found: Seq[File], to_scan: Seq[File]): Seq[File] = {
     result = rec(found, to_scan)

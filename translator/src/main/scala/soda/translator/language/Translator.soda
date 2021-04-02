@@ -45,15 +45,15 @@ package soda.translator.language
 }
 
 
-* ScalaNonScopus() extends Translator {
+* ScalaNonSoda() extends Translator {
   translate (word: String) = {
-    if not Translation().ScopusReservedWords.contains(word) and
+    if not Translation().SodaReservedWords.contains(word) and
       Translation().ScalaReservedWords.contains(word)
-    then Translation().PrefixScalaNonScopus + word
+    then Translation().PrefixScalaNonSoda + word
     else word
   }
 
-  keys = Translation().ScalaNonScopusKeys
+  keys = Translation().ScalaNonSodaKeys
 
 }
 

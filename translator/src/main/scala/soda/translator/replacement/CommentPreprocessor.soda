@@ -9,8 +9,8 @@ package soda.translator.replacement
  */
 * CommentPreprocessor() {
 
-  ScopusBeginComment = "/*"
-  ScopusEndComment = "*/"
+  SodaBeginComment = "/*"
+  SodaEndComment = "*/"
 
   annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] = {
     result =
@@ -29,10 +29,10 @@ package soda.translator.replacement
 
     annotate_this_line(line: String, comment_state: Boolean): (Boolean, Boolean) =
       if comment_state
-      then (true, not line.trim.endsWith(ScopusEndComment))
+      then (true, not line.trim.endsWith(SodaEndComment))
       else
-        if line.trim.startsWith(ScopusBeginComment)
-        then (true, not line.trim.endsWith(ScopusEndComment))
+        if line.trim.startsWith(SodaBeginComment)
+        then (true, not line.trim.endsWith(SodaEndComment))
         else (false, false)
 
     result

@@ -3,9 +3,9 @@ package soda.translator.language
 + org.scalatest.funsuite.AnyFunSuite
 
 /**
- * This tests how translation is done for Scala reserved words that are not Scopus reserved words.
+ * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
-* ScalaNonScopusSpec() extends AnyFunSuite {
+* ScalaNonSodaSpec() extends AnyFunSuite {
 
 
   test("Scala reserved words are replaced"){
@@ -13,8 +13,8 @@ package soda.translator.language
       "\nval x = 0" +
       "\nwhile (x != 0)"
     expected = "" +
-      "\nlazy val __scopus__val x = 0" +
-      "\n__scopus__while ( x != 0 )" +
+      "\nlazy val __soda__val x = 0" +
+      "\n__soda__while ( x != 0 )" +
       "\n"
     obtained = MicroTranslator().translate_program(program)
     assert (obtained == expected)

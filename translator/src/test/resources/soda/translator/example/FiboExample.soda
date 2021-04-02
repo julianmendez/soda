@@ -8,7 +8,7 @@ class FiboExample {
 }
 
 
-class FiboExampleInScopus () extends FiboExample {
+class FiboExampleInSoda () extends FiboExample {
 
   fib (n: Int) is {
     result is rec (n, 0, 1)

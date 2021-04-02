@@ -8,7 +8,7 @@ package soda.translator.replacement
  */
 * Replacement(line: String) {
 
-  ScopusSpace: String = " "
+  SodaSpace: String = " "
   ScalaSpace: String = " "
 
   replace_with(function: String -> String): Replacement =
@@ -38,7 +38,7 @@ package soda.translator.replacement
 
     next_value(line: String, reserved_word: String): String =
       replace_if_found(line,
-        ScopusSpace + reserved_word + ScopusSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
 
     result
   }
@@ -76,8 +76,8 @@ package soda.translator.replacement
     result
   }
 
-  add_space_to_scopus_line(): Replacement =
-    Replacement(ScopusSpace + line + ScopusSpace)
+  add_space_to_soda_line(): Replacement =
+    Replacement(SodaSpace + line + SodaSpace)
 
   add_spaces_to_symbols(symbols: Set[Char]): Replacement =
     Replacement(add_spaces_to_symbols(line, symbols))
