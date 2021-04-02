@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-import scopus.lib.Rec
+import soda.lib.Rec
 
 /**
  * This models a collection of replacement functions.
@@ -8,7 +8,7 @@ import scopus.lib.Rec
  */
 case class Replacement ( line: String ) {
 
-  lazy val ScopusSpace: String = " "
+  lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "
 
   def replace_with ( function: String => String ) : Replacement =
@@ -37,7 +37,7 @@ case class Replacement ( line: String ) {
     lazy val initial_value: String = line
 
     def next_value ( line: String , reserved_word: String ) : String =
-      replace_if_found ( line ,        ScopusSpace + reserved_word + ScopusSpace , ScalaSpace + translator.translate ( reserved_word ) + ScalaSpace , only_beginning )
+      replace_if_found ( line ,        SodaSpace + reserved_word + SodaSpace , ScalaSpace + translator.translate ( reserved_word ) + ScalaSpace , only_beginning )
 
     result
   }
@@ -75,8 +75,8 @@ case class Replacement ( line: String ) {
     result
   }
 
-  def add_space_to_scopus_line (  ) : Replacement =
-    Replacement ( ScopusSpace + line + ScopusSpace )
+  def add_space_to_soda_line (  ) : Replacement =
+    Replacement ( SodaSpace + line + SodaSpace )
 
   def add_spaces_to_symbols ( symbols: Set [ Char ]  ) : Replacement =
     Replacement ( add_spaces_to_symbols ( line , symbols )  )

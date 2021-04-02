@@ -1,4 +1,4 @@
-package scopus.translator.example
+package soda.translator.example
 
 
 trait FiboExample {
@@ -8,7 +8,7 @@ trait FiboExample {
 }
 
 
-case class FiboExampleInScopus (  ) extends FiboExample {
+case class FiboExampleInSoda (  ) extends FiboExample {
 
   def fib ( n: Int ) = {
     lazy val result = rec ( n , 0 , 1 )

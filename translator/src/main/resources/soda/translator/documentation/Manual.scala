@@ -1,4 +1,4 @@
-package scopus.translator.documentation
+package soda.translator.documentation
 
 import java.util.Date
 

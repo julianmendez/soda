@@ -1,4 +1,4 @@
-package scopus.collection.example
+package soda.collection.example
 
 import org.scalatest.funsuite.AnyFunSuite
 

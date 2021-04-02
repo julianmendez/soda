@@ -1,4 +1,4 @@
-package scopus.example.otherexample
+package soda.example.otherexample
 
 case class OtherExample (  ) {
 

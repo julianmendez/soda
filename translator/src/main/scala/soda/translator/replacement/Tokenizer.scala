@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-import scopus.lib.Rec
+import soda.lib.Rec
 
 
 /**

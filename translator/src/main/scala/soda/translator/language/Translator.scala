@@ -1,6 +1,6 @@
-package scopus.translator.language
+package soda.translator.language
 
-import scopus.translator.replacement.Translator
+import soda.translator.replacement.Translator
 
 case class SynonymAtBeginning (  ) extends Translator {
   lazy val _table = Translation (  ) .SynonymAtBeginning
@@ -45,14 +45,14 @@ case class MainTranslation (  ) extends Translator {
 }
 
 
-case class ScalaNonScopus (  ) extends Translator {
+case class ScalaNonSoda (  ) extends Translator {
   def translate ( word: String ) = {
-    if ( ! Translation (  ) .ScopusReservedWords.contains ( word ) &&
+    if ( ! Translation (  ) .SodaReservedWords.contains ( word ) &&
       Translation (  ) .ScalaReservedWords.contains ( word )
-    ) Translation (  ) .PrefixScalaNonScopus + word
+    ) Translation (  ) .PrefixScalaNonSoda + word
     else word
   }
 
-  lazy val keys = Translation (  ) .ScalaNonScopusKeys
+  lazy val keys = Translation (  ) .ScalaNonSodaKeys
 
 }

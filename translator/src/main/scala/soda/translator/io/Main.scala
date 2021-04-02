@@ -1,11 +1,11 @@
-package scopus.translator.io
+package soda.translator.io
 
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
-import scopus.translator.language.MicroTranslator
+import soda.translator.language.MicroTranslator
 
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
@@ -16,24 +16,24 @@ object EntryPoint {
  */
 case class Main (  ) {
 
-  lazy val ScopusExtension: String = ".scopus"
+  lazy val SodaExtension: String = ".soda"
   lazy val ScalaExtension: String = ".scala"
 
   lazy val Help: String = "\n" +
     "\nUsage:" +
-    "\n  scopus SCOPUS_SCALA_INPUT" +
+    "\n  soda SODA_SCALA_INPUT" +
     "\nor" +
-    "\n  scopus SCOPUS_INPUT SCALA_OUTPUT" +
+    "\n  soda SODA_INPUT SCALA_OUTPUT" +
     "\n" +
     "\nwhere" +
     "\n" +
-    "\n  SCOPUS_SCALA_INPUT is used to create the Scopus input file and Scala output file. " +
-    "\nIf it is a directory, it scans recursively the directory to translate Scopus files." +
-    "\nIf the extension is " + ScopusExtension + ", the output file has extension " + ScalaExtension + "." +
-    "\nOtherwise, the extension " + ScopusExtension + " and " + ScalaExtension + " are appended to create the input and output files respectively." +
+    "\n  SODA_SCALA_INPUT is used to create the Soda input file and Scala output file. " +
+    "\nIf it is a directory, it scans recursively the directory to translate Soda files." +
+    "\nIf the extension is " + SodaExtension + ", the output file has extension " + ScalaExtension + "." +
+    "\nOtherwise, the extension " + SodaExtension + " and " + ScalaExtension + " are appended to create the input and output files respectively." +
     "\n" +
     "\n" +
-    "\n  SCOPUS_INPUT is the Scopus input file, regardless of the extension" +
+    "\n  SODA_INPUT is the Soda input file, regardless of the extension" +
     "\n" +
     "\n  SCALA_OUTPUT is the Scala output file, regardless of the extension" +
     "\n" +
@@ -54,7 +54,7 @@ case class Main (  ) {
 
   def process_directory ( start: String ) =
     DirectoryScanner (  )
-      .get_scopus_files ( new File ( start )  )
+      .get_soda_files ( new File ( start )  )
       .map ( file => {
         lazy val file_name = file.getAbsolutePath
         lazy val ( input_file_name , output_file_name ) = get_input_output_file_names ( file_name )
@@ -62,9 +62,9 @@ case class Main (  ) {
       }  )
 
   def get_input_output_file_names ( input_name: String ) : ( String , String ) =
-    if ( input_name.endsWith ( ScopusExtension )
-    ) ( input_name , input_name.substring ( 0 , input_name.length - ScopusExtension.length ) + ScalaExtension )
-    else ( input_name + ScopusExtension , input_name + ScalaExtension )
+    if ( input_name.endsWith ( SodaExtension )
+    ) ( input_name , input_name.substring ( 0 , input_name.length - SodaExtension.length ) + ScalaExtension )
+    else ( input_name + SodaExtension , input_name + ScalaExtension )
 
   def translate ( input_file_name: String , output_file_name: String ) : Unit = {
     lazy val input = read_file ( input_file_name )

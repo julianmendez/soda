@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-import scopus.lib.EnumConstant
+import soda.lib.EnumConstant
 
 
 /**

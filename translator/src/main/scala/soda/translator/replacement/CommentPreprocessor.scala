@@ -1,6 +1,6 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
-import scopus.lib.Rec
+import soda.lib.Rec
 
 case class AnnotatedLine ( line: String , isComment: Boolean )
 
@@ -9,8 +9,8 @@ case class AnnotatedLine ( line: String , isComment: Boolean )
  */
 case class CommentPreprocessor (  ) {
 
-  lazy val ScopusBeginComment = "/*"
-  lazy val ScopusEndComment = "*/"
+  lazy val SodaBeginComment = "/*"
+  lazy val SodaEndComment = "*/"
 
   def annotate_lines ( lines: Seq [ String ]  ) : Seq [ AnnotatedLine ] = {
     lazy val result =
@@ -29,10 +29,10 @@ case class CommentPreprocessor (  ) {
 
     def annotate_this_line ( line: String , comment_state: Boolean ) : ( Boolean , Boolean ) =
       if ( comment_state
-      ) ( true , ! line.trim.endsWith ( ScopusEndComment )  )
+      ) ( true , ! line.trim.endsWith ( SodaEndComment )  )
       else
-        if ( line.trim.startsWith ( ScopusBeginComment )
-        ) ( true , ! line.trim.endsWith ( ScopusEndComment )  )
+        if ( line.trim.startsWith ( SodaBeginComment )
+        ) ( true , ! line.trim.endsWith ( SodaEndComment )  )
         else ( false , false )
 
     result

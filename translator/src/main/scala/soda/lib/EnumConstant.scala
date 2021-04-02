@@ -1,4 +1,4 @@
-package scopus.lib
+package soda.lib
 
 /**
  * This is a constant to be used in enumerations.

@@ -1,4 +1,4 @@
-package scopus.collection.example
+package soda.collection.example
 
 case class ListExample (  ) {
 

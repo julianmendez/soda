@@ -1,4 +1,4 @@
-package scopus.translator.language
+package soda.translator.language
 
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -37,7 +37,7 @@ case class AnotherExampleWithEmptyParentheses (  ) {
 
 
 /**
- * In Scopus constants cannot be defined as 'lazy val'.
+ * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
 case class LazySyntaxSpec (  ) extends AnyFunSuite {

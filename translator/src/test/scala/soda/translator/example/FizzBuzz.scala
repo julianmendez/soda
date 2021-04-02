@@ -1,4 +1,4 @@
-package scopus.translator.example
+package soda.translator.example
 
 
 case class FizzBuzz (  ) {

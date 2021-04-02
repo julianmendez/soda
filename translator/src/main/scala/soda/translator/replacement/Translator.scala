@@ -1,4 +1,4 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
 /**
  * This models an abstract translator.

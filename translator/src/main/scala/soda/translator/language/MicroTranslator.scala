@@ -1,25 +1,25 @@
-package scopus.translator.language
+package soda.translator.language
 
-import scopus.lib.Rec
-import scopus.translator.replacement.CommentPreprocessor
-import scopus.translator.replacement.ParserStateEnum
-import scopus.translator.replacement.Replacement
-import scopus.translator.replacement.Token
-import scopus.translator.replacement.Tokenizer
-import scopus.translator.replacement.Translator
+import soda.lib.Rec
+import soda.translator.replacement.CommentPreprocessor
+import soda.translator.replacement.ParserStateEnum
+import soda.translator.replacement.Replacement
+import soda.translator.replacement.Token
+import soda.translator.replacement.Tokenizer
+import soda.translator.replacement.Translator
 
 
 /**
- * This class translates Scopus source code into Scala source code.
+ * This class translates Soda source code into Scala source code.
  */
 case class MicroTranslator (  ) {
 
   lazy val NewLine = "\n"
   lazy val Comma = ","
 
-  lazy val ScopusOpeningParenthesis: String = "("
-  lazy val ScopusClosingParenthesis: String = ")"
-  lazy val ScopusSpace: String = " "
+  lazy val SodaOpeningParenthesis: String = "("
+  lazy val SodaClosingParenthesis: String = ")"
+  lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "
 
   def translate_program ( program: String ) : String = {
@@ -76,7 +76,7 @@ case class MicroTranslator (  ) {
       )
 
   def _translate_non_comment ( line: String ) : String = {
-    lazy val line_with_space = Replacement ( line ) .add_space_to_scopus_line (  ) .line
+    lazy val line_with_space = Replacement ( line ) .add_space_to_soda_line (  ) .line
     lazy val tokenized_line = tokenize ( line_with_space )
     lazy val translated_line = _translate_line ( tokenized_line )
     lazy val joint_line = _join_tokens ( translated_line )
@@ -90,8 +90,8 @@ case class MicroTranslator (  ) {
         if ( token.parser_state == ParserStateEnum (  ) .Plain
         ) {
           lazy val newText = Replacement ( token.text )
-            .add_spaces_to_symbols ( symbols=Translation (  ) .ScopusBracketsAndComma.toSet )
-            .replace ( ScalaNonScopus (  )  , only_beginning=false )
+            .add_spaces_to_symbols ( symbols=Translation (  ) .SodaBracketsAndComma.toSet )
+            .replace ( ScalaNonSoda (  )  , only_beginning=false )
             .replace_at_beginning ( token.index , SynonymAtBeginning (  )  )
             .replace ( Synonym (  )  , only_beginning=false )
             .replace_with ( try_definition )
@@ -109,7 +109,7 @@ case class MicroTranslator (  ) {
       .mkString ("")
 
   def get_translation_table_at_beginning ( line: String ) : Translator =
-    if ( line.contains ( ScopusOpeningParenthesis )
+    if ( line.contains ( SodaOpeningParenthesis )
     ) TranslationAtBeginningWithParen (  )
     else TranslationAtBeginningWithoutParen (  )
 
@@ -134,10 +134,10 @@ case class MicroTranslator (  ) {
     if ( maybe_position.nonEmpty
     ) {
       lazy val position_of_definition_sign = maybe_position.get
-      lazy val position_of_first_closing_parenthesis = line.indexOf ( ScopusClosingParenthesis )
+      lazy val position_of_first_closing_parenthesis = line.indexOf ( SodaClosingParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = line.trim.startsWith ( ScopusOpeningParenthesis )
+      lazy val case2 = line.trim.startsWith ( SodaOpeningParenthesis )
       lazy val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
 
       lazy val new_text = if ( case1 || case2 || case3
@@ -157,9 +157,9 @@ case class MicroTranslator (  ) {
    */
   def find_definition ( line: String ) : Option [ Int ] = {
     lazy val position =
-      if ( line.endsWith ( ScopusSpace + Translation (  ) .ScopusDefinition )
-      ) line.length - Translation (  ) .ScopusDefinition.length
-      else line.indexOf ( ScopusSpace + Translation (  ) .ScopusDefinition + ScopusSpace )
+      if ( line.endsWith ( SodaSpace + Translation (  ) .SodaDefinition )
+      ) line.length - Translation (  ) .SodaDefinition.length
+      else line.indexOf ( SodaSpace + Translation (  ) .SodaDefinition + SodaSpace )
     if ( position == -1
     ) None
     else Some ( position )

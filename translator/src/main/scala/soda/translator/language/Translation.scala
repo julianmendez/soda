@@ -1,17 +1,17 @@
-package scopus.translator.language
+package soda.translator.language
 
 /**
- * This class contains constants that are specific for the Scopus translator, like reserved words for Scopus and Scala.
+ * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
 case class Translation (  ) {
 
-  lazy val ScopusDefinition: String = "="
+  lazy val SodaDefinition: String = "="
 
   lazy val ScalaDefinition: String = "def"
   lazy val ScalaValue: String = "lazy val"
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val ScopusReservedWords = Seq (
+  lazy val SodaReservedWords = Seq (
     "=",    ":",    "->",    "if",    "then",    "else",    "class",    "has",    "extends",    "with",    "this",    "false",    "true",    "not",    "and",    "or",    "package",    "import",    "new",    "is",    "suchthat",    "*",    "-",    "+"
   )
 
@@ -42,16 +42,16 @@ case class Translation (  ) {
     (":", ":")  ,    ("->", "=>")  ,    ("if", "if (")  ,    ("then", ")")  ,    ("else", "else")  ,    ("extends", "extends")  ,    ("with", "with")  ,    ("this", "this")  ,    ("false", "false")  ,    ("true", "true")  ,    ("not", "!")  ,    ("and", "&&")  ,    ("or", "||")  ,    ("new", "new")
   )
 
-  lazy val PrefixScalaNonScopus = "__scopus__"
+  lazy val PrefixScalaNonSoda = "__soda__"
 
-  lazy val ScalaNonScopusKeys: Seq [ String ] =
+  lazy val ScalaNonSodaKeys: Seq [ String ] =
     ScalaReservedWords
-      .filter ( x => ! ScopusReservedWords.contains ( x )  )
+      .filter ( x => ! SodaReservedWords.contains ( x )  )
 
   def is_scala_word ( word: String ) : Boolean = ScalaReservedWords.contains ( word )
 
-  def is_scopus_word ( word: String ) : Boolean = ScopusReservedWords.contains ( word )
+  def is_soda_word ( word: String ) : Boolean = SodaReservedWords.contains ( word )
 
-  lazy val ScopusBracketsAndComma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
+  lazy val SodaBracketsAndComma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
 }

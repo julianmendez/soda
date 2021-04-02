@@ -1,4 +1,4 @@
-package scopus.collection
+package soda.collection
 
 
 case class MSeqTranslator [ T ]  (  ) {

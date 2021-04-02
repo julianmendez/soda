@@ -1,4 +1,4 @@
-package scopus.lib
+package soda.lib
 
 /**
  * This class contains tail recursive auxiliary functions.

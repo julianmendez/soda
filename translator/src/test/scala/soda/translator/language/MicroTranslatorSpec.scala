@@ -1,4 +1,4 @@
-package scopus.translator.language
+package soda.translator.language
 
 import org.scalatest.Assertion
 import org.scalatest.funsuite.AnyFunSuite
@@ -7,9 +7,9 @@ import java.nio.file. { Files , Paths }
 
 case class MicroTranslatorSpec (  ) extends AnyFunSuite {
 
-  lazy val Base = "/scopus/translator/example/"
+  lazy val Base = "/soda/translator/example/"
 
-  lazy val ScopusSuffix = ".scopus"
+  lazy val SodaSuffix = ".soda"
   lazy val ScalaSuffix = ".scala"
 
   lazy val SwapExample = "SwapExample"
@@ -20,13 +20,13 @@ case class MicroTranslatorSpec (  ) extends AnyFunSuite {
   lazy val PiIterator = "PiIterator"
   lazy val ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
 
-  lazy val ManualInput = "/scopus/translator/documentation/Manual.scopus"
-  lazy val ManualExpected = "/scopus/translator/documentation/Manual.scala"
+  lazy val ManualInput = "/soda/translator/documentation/Manual.soda"
+  lazy val ManualExpected = "/soda/translator/documentation/Manual.scala"
 
 
 
   def test_translation ( file_name: String ) : Assertion = {
-    lazy val input_file_name = Base + file_name + ScopusSuffix
+    lazy val input_file_name = Base + file_name + SodaSuffix
     lazy val expected_file_name = Base + file_name + ScalaSuffix
     test_translation ( input_file_name , expected_file_name )
   }
@@ -66,7 +66,7 @@ case class MicroTranslatorSpec (  ) extends AnyFunSuite {
     test_translation ( PiIterator )
   }
 
-  test ("should translated Scopus code that uses Scala reserved words as variables and functions") {
+  test ("should translated Soda code that uses Scala reserved words as variables and functions") {
     test_translation ( ScalaReservedWordEscaping )
   }
 

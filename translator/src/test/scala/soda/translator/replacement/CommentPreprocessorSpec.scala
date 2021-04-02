@@ -1,4 +1,4 @@
-package scopus.translator.replacement
+package soda.translator.replacement
 
 import org.scalatest.funsuite.AnyFunSuite
 
