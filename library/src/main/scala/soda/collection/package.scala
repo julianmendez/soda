@@ -1,7 +1,7 @@
-package scopus
+package soda
 
 /**
- * Scopus libraries written in Scopus
+ * Soda libraries written in Soda
  */
 package object collection{
 }

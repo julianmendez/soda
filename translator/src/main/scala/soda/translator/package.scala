@@ -1,7 +1,7 @@
-package scopus
+package soda
 
 /**
- * Translator from Scopus to Scala.
+ * Translator from Soda to Scala.
  */
 package object translator {
 }
