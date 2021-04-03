@@ -1,4 +1,10 @@
 ---
+- - version: v0.7.0
+  - date: unreleased
+  - new_features:
+    - compiles with Scala 3.0.0-RC2
+  - build: sbt clean compile test package assembly
+  - release: target/scala-3.0.0-RC2/soda-0.7.0.jar
 - - version: v0.6.0
   - date: '2021-04-03'
   - new_features:
