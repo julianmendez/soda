@@ -20,11 +20,11 @@
  along with this library; if not, see <http://www.gnu.org/licenses/>.
 
 -->
-<language id="scopus" name="Scopus" version="2.0" _section="Source">
+<language id="soda" name="Soda" version="2.0" _section="Source">
 
     <metadata>
-        <property name="mimetypes">text/x-scopus</property>
-        <property name="globs">*.scopus</property>
+        <property name="mimetypes">text/x-soda</property>
+        <property name="globs">*.soda</property>
         <property name="block-comment-start">/*</property>
         <property name="block-comment-end">*/</property>
     </metadata>
@@ -214,7 +214,7 @@
             <keyword>Vector</keyword>
         </context>
 
-        <context id="scopus" class="no-spell-check">
+        <context id="soda" class="no-spell-check">
             <include>
                 <context ref="literal-identifier"/>
                 <context ref="multiline-string"/>
