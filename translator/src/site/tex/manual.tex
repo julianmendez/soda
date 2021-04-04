@@ -68,20 +68,20 @@
 \begin{document}
 
     \lstset{frame=tb,
-        language=Soda,
-        aboveskip=3mm,
-        belowskip=3mm,
-        showstringspaces=false,
-        columns=flexible,
-        basicstyle={\small\ttfamily},
-        numbers=none,
-        numberstyle=\tiny\color{gray},
-        keywordstyle=\color{blue},
-        commentstyle=\color{gray},
-        stringstyle=\color{teal},
-        breaklines=true,
-        breakatwhitespace=true,
-        tabsize=3
+    language=Soda,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
     }
 
     \begin{center}
@@ -775,47 +775,48 @@
 
     \chapter{Appendix}
 
-    \begin{tabular}{ll}
+    \begin{tabular}{|l|l|}
         \hline
-        $f$ \sdef $e$ (with spaces)                    & function or constant definition of $f$ as $e$                                 \\
-        $t$\srccode{=}$e$ (no spaces)                  & assignment of parameter $t$ to have value $e$                                 \\
-        $x$ \scolon $A$                                & declaration that $x$ is of type $A$                                           \\
-        $x$ \slambda $e$                               & lambda definition for $\lambda x . e$                                         \\
+        $f$ \sdef $e$ (with spaces)                    & function or constant definition of $f$ as $e$          \\
+        $t$\srccode{=}$e$ (no spaces)                  & assignment of parameter $t$ to have value $e$          \\
+        $x$ \scolon $A$                                & declaration that $x$ is of type $A$                    \\
+        $x$ \slambda $e$                               & lambda definition for $\lambda x . e$                  \\
         \hline
-        \sif $b$ \sthen $e_{0}$ \selse $e_{1}$         & expression which value is, if $b$ is true, then $e_{0}$, else $e_{1}$         \\
+        \sif $b$ \sthen $e_{0}$ \selse $e_{1}$         & expression if $b$ is true, then $e_{0}$, else $e_{1}$  \\
         \hline
-        \sclass $A$                                    & definition of abstract class $A$                                              \\
-        \sclass $A(\ldots)$                            & definition of concrete class $A(\ldots )$                                                                       \\
-        (\sclass $B$) \sextends $A_{0}$ \swith $A_{1}$ & definition of class $B$ extending interfaces $A_{0}$ and $A_{1}$              \\
-        \shas $f$                                      & function or constant $f$ that has to be defined in a inherited concrete class \\
-        \sthis                                         & reference to an object instantiating a concrete class                         \\
+        \sclass $A$                                    & definition of abstract class $A$                       \\
+        \sclass $A(\ldots)$                            & definition of concrete class $A(\ldots )$              \\
+        (\sclass $B$) \sextends $A$                    & class $B$ extends abstract class $A$                   \\
+        (\sclass $B$ \sextends $A_{0}$) \swith $A_{1}$ & class $B$ extends abstract classes $A_{0}$ and $A_{1}$ \\
+        \shas $f$                                      & function or constant $f$ is to be defined              \\
+        \sthis                                         & reference to itself as an instance                     \\
         \hline
-        \sfalse                                        & Boolean constant False                                                        \\
-        \strue                                         & Boolean constant True                                                         \\
-        \snot $e$                                      & expression for $\lnot e$                                                      \\
-        $e_{0}$ \sand $e_{1}$                          & expression for lazy logic conjunction, $e_{0} \land _{L} e_{1}$               \\
-        $e_{1}$ \sor $e_{1}$                           & expression for lazy logic disjunction, $e_{0} \lor _{L} e_{1}$                \\
+        \sfalse                                        & Boolean constant False                                 \\
+        \strue                                         & Boolean constant True                                  \\
+        \snot $e$                                      & expression for $\lnot e$                               \\
+        $e_{0}$ \sand $e_{1}$                          & lazy logic conjunction, $e_{0} \land _{L} e_{1}$       \\
+        $e_{1}$ \sor $e_{1}$                           & lazy logic disjunction, $e_{0} \lor _{L} e_{1}$        \\
         \hline
-        \spackage $p$                                  & package declaration for this piece of code                                    \\
-        \simport $p$                                   & import declaration in this piece of code                                      \\
-        \snew                                          & creation of an instance of a JVM class                                        \\
+        \spackage $p$                                  & package declaration for this piece of code             \\
+        \simport $p$                                   & import declaration in this piece of code               \\
+        \snew                                          & creation of an instance of a JVM class                 \\
         \hline
-        \sequalsSign                                   & comparison of equality                                                        \\
-        $x$ \srccode{+} $y$                            & result of adding $x$ and $y$                                                  \\
-        $x$ \srccode{-} $y$                            & result of subtracting $y$ from $x$                                            \\
-        $x$ \srccode{*} $y$                            & result of multiplying $x$ by $y$                                              \\
-        $x$ \srccode{/} $y$                            & result of dividing $x$ by $y$                                                 \\
-        $x$ \srccode{\%} $y$                           & remainder from dividing $x$ by $y$                                            \\
+        \sequalsSign                                   & comparison of equality                                 \\
+        $x$ \srccode{+} $y$                            & result of adding $x$ and $y$                           \\
+        $x$ \srccode{-} $y$                            & result of subtracting $y$ from $x$                     \\
+        $x$ \srccode{*} $y$                            & result of multiplying $x$ by $y$                       \\
+        $x$ \srccode{/} $y$                            & result of dividing $x$ by $y$                          \\
+        $x$ \srccode{\%} $y$                           & remainder from dividing $x$ by $y$                     \\
         \hline
-        \stailrec                                      & annotation to enforce a tail recursion                                        \\
-        \soverride                                     & annotation to allow overriding                                                \\
-        \smain                                         & annotation to define the entry point                                          \\
+        \stailrec                                      & annotation to enforce a tail recursion                 \\
+        \soverride                                     & annotation to allow overriding                         \\
+        \smain                                         & annotation to define the entry point                   \\
         \hline
-        $f$ \sis $e$                                   & synonym for $f$ \sdef $e$                                                     \\
-        $x$ \ssuchthat $e$                             & synonym for $x$ \slambda $e$                                                  \\
-        \sasterisk $A$                                 & synonym for \sclass $A$                                                       \\
-        \sasterisk $A(\ldots)$                         & synonym for \sclass $A(\ldots)$                                               \\
-        \splus $p$                                     & synonym for \simport $p$                                                      \\
+        $f$ \sis $e$                                   & synonym for $f$ \sdef $e$                              \\
+        $x$ \ssuchthat $e$                             & synonym for $x$ \slambda $e$                           \\
+        \sasterisk $A$                                 & synonym for \sclass $A$                                \\
+        \sasterisk $A(\ldots)$                         & synonym for \sclass $A(\ldots)$                        \\
+        \splus $p$                                     & synonym for \simport $p$                               \\
         \hline
     \end{tabular}
 
