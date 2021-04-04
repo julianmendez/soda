@@ -20,8 +20,9 @@
 \newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
 \newcommand{\annotation}[1]{{\color{brown}\srccode{#1}}\xspace}
 
-\newcommand{\sdef}{\srccode{=}}
+\newcommand{\sdef}{\srccode{=}\xspace}
 \newcommand{\scolon}{\srccode{:}}
+\newcommand{\slambda}{{\tiny--\textgreater}\xspace}
 
 \newcommand{\sif}{\reservedWord{if}}
 \newcommand{\sthen}{\reservedWord{then}}
@@ -62,26 +63,25 @@
 
 
 \newcommand{\Soda}{\textsc{Soda}\xspace}
-\newcommand{\lambdaSymbol}{{\tiny--\textgreater}\xspace}
 
 
 \begin{document}
 
     \lstset{frame=tb,
-    language=Soda,
-    aboveskip=3mm,
-    belowskip=3mm,
-    showstringspaces=false,
-    columns=flexible,
-    basicstyle={\small\ttfamily},
-    numbers=none,
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{gray},
-    stringstyle=\color{teal},
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=3
+        language=Soda,
+        aboveskip=3mm,
+        belowskip=3mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{gray},
+        stringstyle=\color{teal},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3
     }
 
     \begin{center}
@@ -90,7 +90,7 @@
 
         \vspace{80mm}
 
-        {\huge{Soda}}
+        {\huge{\Soda}}
 
         \vspace{80mm}
         Julian Alfredo Mendez
@@ -134,11 +134,11 @@
     \Soda could be translated to other languages that support tail recursion like Kotlin, for example.
 
 
-    \section{The Intended User of Soda}
+    \section{The Intended User of \Soda}
 
     The purpose of \Soda is to give at least one way that is clear enough to describe things, paying less regard to efficiency.
 
-    Let us try to think what problems Soda tries to solve.
+    Let us try to think what problems \Soda tries to solve.
     If we think on the first programming languages, like Fortran, Cobol, and Lisp, they had challenges to parse the source code.
     Newer programming languages, like Python or Scala, have clearly more powerful computers to do the processing.
 
@@ -480,7 +480,7 @@
     else y
     \end{lstlisting}
 
-    \subsubsection{\lambdaSymbol (lambda symbol)}
+    \subsubsection{\slambda (lambda symbol)}
 
     The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
 
@@ -722,7 +722,7 @@
             \hline
             \sis             & \sdef                  \\
             \hline
-            \ssuchthat       & \lambdaSymbol          \\
+            \ssuchthat       & \slambda               \\
             \hline
         \end{tabular}
     \end{center}
@@ -777,46 +777,45 @@
 
     \begin{tabular}{ll}
         \hline
-        \srccode{x = y}  & function or constant definition \\
-        \srccode{x=y}    & give parameter $x$ value $y$    \\
-        \srccode{:}      &                                 \\
-        \srccode{->}     &                                 \\
+        $f$ \sdef $e$ (with spaces)                    & function or constant definition of $f$ as $e$                                 \\
+        $t$\srccode{=}$e$ (no spaces)                  & assignment of parameter $t$ to have value $e$                                 \\
+        $x$ \scolon $A$                                & declaration that $x$ is of type $A$                                           \\
+        $x$ \slambda $e$                               & lambda definition for $\lambda x . e$                                         \\
         \hline
-        \sif             &                                 \\
-        \sthen           &                                 \\
-        \selse           &                                 \\
+        \sif $b$ \sthen $e_{0}$ \selse $e_{1}$         & expression which value is, if $b$ is true, then $e_{0}$, else $e_{1}$         \\
         \hline
-        \sclass          &                                 \\
-        \shas            &                                 \\
-        \sextends        &                                 \\
-        \swith           &                                 \\
-        \sthis           &                                 \\
+        \sclass $A$                                    & definition of abstract class $A$                                              \\
+        \sclass $A(\ldots)$                            & definition of concrete class $A(\ldots )$                                                                       \\
+        (\sclass $B$) \sextends $A_{0}$ \swith $A_{1}$ & definition of class $B$ extending interfaces $A_{0}$ and $A_{1}$              \\
+        \shas $f$                                      & function or constant $f$ that has to be defined in a inherited concrete class \\
+        \sthis                                         & reference to an object instantiating a concrete class                         \\
         \hline
-        \sfalse          &                                 \\
-        \strue           &                                 \\
-        \snot            &                                 \\
-        \sand            &                                 \\
-        \sor             &                                 \\
+        \sfalse                                        & Boolean constant False                                                        \\
+        \strue                                         & Boolean constant True                                                         \\
+        \snot $e$                                      & expression for $\lnot e$                                                      \\
+        $e_{0}$ \sand $e_{1}$                          & expression for lazy logic conjunction, $e_{0} \land _{L} e_{1}$               \\
+        $e_{1}$ \sor $e_{1}$                           & expression for lazy logic disjunction, $e_{0} \lor _{L} e_{1}$                \\
         \hline
-        \spackage        &                                 \\
-        \simport         &                                 \\
-        \snew            &                                 \\
+        \spackage $p$                                  & package declaration for this piece of code                                    \\
+        \simport $p$                                   & import declaration in this piece of code                                      \\
+        \snew                                          & creation of an instance of a JVM class                                        \\
         \hline
-        \sequalsSign     &                                 \\
-        \srccode{x + y}  & addition                        \\
-        \srccode{x - y}  & subtraction                     \\
-        \srccode{x * y}  & multiplication                  \\
-        \srccode{x / y}  & division                        \\
-        \srccode{x \% y} & modulo                          \\
+        \sequalsSign                                   & comparison of equality                                                        \\
+        $x$ \srccode{+} $y$                            & result of adding $x$ and $y$                                                  \\
+        $x$ \srccode{-} $y$                            & result of subtracting $y$ from $x$                                            \\
+        $x$ \srccode{*} $y$                            & result of multiplying $x$ by $y$                                              \\
+        $x$ \srccode{/} $y$                            & result of dividing $x$ by $y$                                                 \\
+        $x$ \srccode{\%} $y$                           & remainder from dividing $x$ by $y$                                            \\
         \hline
-        \stailrec        &                                 \\
-        \soverride       &                                 \\
-        \smain           &                                 \\
+        \stailrec                                      & annotation to enforce a tail recursion                                        \\
+        \soverride                                     & annotation to allow overriding                                                \\
+        \smain                                         & annotation to define the entry point                                          \\
         \hline
-        \sis             &                                 \\
-        \ssuchthat       &                                 \\
-        \sasterisk       &                                 \\
-        \splus           &                                 \\
+        $f$ \sis $e$                                   & synonym for $f$ \sdef $e$                                                     \\
+        $x$ \ssuchthat $e$                             & synonym for $x$ \slambda $e$                                                  \\
+        \sasterisk $A$                                 & synonym for \sclass $A$                                                       \\
+        \sasterisk $A(\ldots)$                         & synonym for \sclass $A(\ldots)$                                               \\
+        \splus $p$                                     & synonym for \simport $p$                                                      \\
         \hline
     \end{tabular}
 
