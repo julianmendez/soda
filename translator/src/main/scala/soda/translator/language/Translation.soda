@@ -116,6 +116,10 @@ package soda.translator.language
     ("@main", ScalaEntryPoint)
   )
 
+  TranslationBetweenSquareBrackets: Seq[(String, String)] = Seq(
+    ("extends", "<:")
+  )
+
   Synonym: Seq[(String, String)] = Seq(
     ("is", "="),
     ("suchthat", "->")

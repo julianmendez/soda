@@ -19,6 +19,8 @@ case class MicroTranslator (  ) {
 
   lazy val SodaOpeningParenthesis: String = "("
   lazy val SodaClosingParenthesis: String = ")"
+  lazy val SodaOpeningBracket: String = "["
+  lazy val SodaClosingBracket: String = "]"
   lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "
 
@@ -92,6 +94,7 @@ case class MicroTranslator (  ) {
           lazy val newText = Replacement ( token.text )
             .add_spaces_to_symbols ( symbols=Translation (  ) .SodaBracketsAndComma.toSet )
             .replace ( ScalaNonSoda (  )  , only_beginning=false )
+            .replace_with ( try_extends_between_square_brackets )
             .replace_at_beginning ( token.index , SynonymAtBeginning (  )  )
             .replace ( Synonym (  )  , only_beginning=false )
             .replace_with ( try_definition )
@@ -127,7 +130,7 @@ case class MicroTranslator (  ) {
    * If it does not fit in any of the 'val' cases.
    *
    * @param line line
-   * @return maybe a translated line
+   * @return a translated line
    */
   def try_definition ( line: String ) : String = {
     lazy val maybe_position = find_definition ( line )
@@ -164,5 +167,69 @@ case class MicroTranslator (  ) {
     ) None
     else Some ( position )
   }
+
+  /**
+   * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
+   * This only applies to a parameter that is between square brackets.
+   * @param line line
+   * @return maybe a translated line
+   */
+  def try_extends_between_square_brackets ( line: String ) : String = {
+    lazy val result = Rec (  ) .foldLeft ( find_square_brackets ( line )  , initial_value , next_value )
+
+    lazy val initial_value = line
+
+    def next_value ( line: String , position: ( Int , Int )  ) : String = {
+      lazy val substr = line.substring ( position._1 , position._2 )
+      lazy val new_substr = Replacement ( substr )
+        .replace ( TranslationBetweenSquareBrackets (  )  , only_beginning=false )
+        .line
+      if ( substr == new_substr
+      ) line
+      else line.substring ( 0 , position._1 ) + new_substr + line.substring ( position._2 )
+    }
+
+    result
+  }
+
+  def find_square_brackets ( line: String ) : Seq [  ( Int , Int )  ] = {
+    lazy val result =
+      Rec (  )
+        .foldLeftWhile ( Range ( 0 , line.length )  , initial_value , next_value , condition )
+        .positions
+
+    lazy val initial_value = FoldTuple ( Seq (  )  , 0 )
+
+    def next_value ( tuple: FoldTuple , x: Int ) : FoldTuple = {
+      lazy val maybe_pair = find_square_brackets_from ( line , tuple.start )
+      if ( maybe_pair.isEmpty
+      ) FoldTuple ( tuple.positions , -1 )
+      else {
+        lazy val pair = maybe_pair.get
+        FoldTuple ( tuple.positions.+: ( pair )  , pair._2 + SodaClosingBracket.length )
+      }
+    }
+
+    def condition ( tuple: FoldTuple , x: Int ) : Boolean =
+      ( 0 <= tuple.start && tuple.start <= line.length )
+
+    case class FoldTuple ( positions: Seq [  ( Int , Int )  ]  , start: Int )
+
+    result
+  }
+
+  def find_square_brackets_from ( line: String , start: Int ) : Option [  ( Int , Int )  ] =
+    if ( start < 0 || start >= line.length
+    ) None
+    else {
+      lazy val left = line.indexOf ( SodaOpeningBracket , start )
+      lazy val right =
+        if ( left == -1
+        ) -1
+        else line.indexOf ( SodaClosingBracket , left + SodaOpeningBracket.length )
+      if ( right == -1
+      ) None
+      else Some (  ( left + SodaOpeningBracket.length , right )  )
+    }
 
 }

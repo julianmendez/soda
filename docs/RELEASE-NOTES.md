@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - compiles with Scala 3.0.0-RC2
+    - includes `extends` to declare upper bounds of type parameters, with the meaning 'subtype of'
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-RC2/soda-0.7.0.jar
 - - version: v0.6.0

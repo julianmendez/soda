@@ -19,6 +19,8 @@ package soda.translator.language
 
   SodaOpeningParenthesis: String = "("
   SodaClosingParenthesis: String = ")"
+  SodaOpeningBracket: String = "["
+  SodaClosingBracket: String = "]"
   SodaSpace: String = " "
   ScalaSpace: String = " "
 
@@ -92,6 +94,7 @@ package soda.translator.language
           newText = Replacement(token.text)
             .add_spaces_to_symbols(symbols=Translation().SodaBracketsAndComma.toSet)
             .replace(ScalaNonSoda(), only_beginning=false)
+            .replace_with(try_extends_between_square_brackets)
             .replace_at_beginning(token.index, SynonymAtBeginning())
             .replace(Synonym(), only_beginning=false)
             .replace_with(try_definition)
@@ -127,7 +130,7 @@ package soda.translator.language
    * If it does not fit in any of the 'val' cases.
    *
    * @param line line
-   * @return maybe a translated line
+   * @return a translated line
    */
   try_definition(line: String): String = {
     maybe_position = find_definition(line)
@@ -164,6 +167,70 @@ package soda.translator.language
     then None
     else Some(position)
   }
+
+  /**
+   * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
+   * This only applies to a parameter that is between square brackets.
+   * @param line line
+   * @return maybe a translated line
+   */
+  try_extends_between_square_brackets (line: String): String = {
+    result = Rec().foldLeft(find_square_brackets(line), initial_value, next_value)
+
+    initial_value = line
+
+    next_value(line: String, position: (Int, Int)): String = {
+      substr = line.substring(position._1, position._2)
+      new_substr = Replacement(substr)
+        .replace(TranslationBetweenSquareBrackets(), only_beginning=false)
+        .line
+      if substr == new_substr
+      then line
+      else line.substring(0, position._1) + new_substr + line.substring(position._2)
+    }
+
+    result
+  }
+
+  find_square_brackets(line: String): Seq[(Int, Int)] = {
+    result =
+      Rec()
+        .foldLeftWhile(Range(0, line.length), initial_value, next_value, condition)
+        .positions
+
+    initial_value = FoldTuple(Seq(), 0)
+
+    next_value(tuple: FoldTuple, x: Int): FoldTuple = {
+      maybe_pair = find_square_brackets_from(line, tuple.start)
+      if maybe_pair.isEmpty
+      then FoldTuple(tuple.positions, -1)
+      else {
+        pair = maybe_pair.get
+        FoldTuple(tuple.positions.+:(pair), pair._2 + SodaClosingBracket.length)
+      }
+    }
+
+    condition(tuple: FoldTuple, x: Int): Boolean =
+      (0 <= tuple.start and tuple.start <= line.length)
+
+    * FoldTuple(positions: Seq[(Int, Int)], start: Int)
+
+    result
+  }
+
+  find_square_brackets_from(line: String, start: Int): Option[(Int, Int)] =
+    if start < 0 or start >= line.length
+    then None
+    else {
+      left = line.indexOf(SodaOpeningBracket, start)
+      right =
+        if left == -1
+        then -1
+        else line.indexOf(SodaClosingBracket, left + SodaOpeningBracket.length)
+      if right == -1
+      then None
+      else Some((left + SodaOpeningBracket.length, right))
+    }
 
 }
 

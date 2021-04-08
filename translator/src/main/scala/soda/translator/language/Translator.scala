@@ -27,6 +27,15 @@ case class TranslationAtBeginningWithoutParen (  ) extends Translator {
 }
 
 
+case class TranslationBetweenSquareBrackets (  ) extends Translator {
+ lazy val _table = Translation (  ) .TranslationBetweenSquareBrackets
+
+  def translate ( word: String ) = _get ( _table , word )
+
+  lazy val keys = _keys ( _table )
+}
+
+
 case class Synonym (  ) extends Translator {
   lazy val _table = Translation (  ) .Synonym
 

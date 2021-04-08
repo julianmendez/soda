@@ -34,6 +34,10 @@ case class Translation (  ) {
     ("@override", "override")  ,    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec")  ,    ("@main", ScalaEntryPoint )
   )
 
+  def TranslationBetweenSquareBrackets: Seq [  ( String , String )  ] = Seq (
+    ("extends", "<:")
+  )
+
   def Synonym: Seq [  ( String , String )  ] = Seq (
     ("is", "=")  ,    ("suchthat", "->")
   )
