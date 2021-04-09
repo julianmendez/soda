@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuite
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
-case class ScalaNonSodaSpec (  ) extends AnyFunSuite {
+case class ScalaNonSodaSpec () extends AnyFunSuite {
 
 
   test ("Scala reserved words are replaced")  {
@@ -14,10 +14,10 @@ case class ScalaNonSodaSpec (  ) extends AnyFunSuite {
       "\nwhile (x != 0)"
     lazy val expected = "" +
       "\nlazy val __soda__val x = 0" +
-      "\n__soda__while ( x != 0 )" +
+      "\n__soda__while (x != 0 )" +
       "\n"
-    lazy val obtained = MicroTranslator (  ) .translate_program ( program )
-    assert ( obtained == expected )
+    lazy val obtained = MicroTranslator () .translate_program (program )
+    assert (obtained == expected )
   }
 
 }

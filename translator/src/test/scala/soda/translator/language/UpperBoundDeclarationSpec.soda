@@ -8,7 +8,7 @@ package soda.translator.language
   test("should translate a single upper bound") {
     original = "  * BlackBox() extends AbstractBlackBox[A extends AbstractInput]\n"
 
-    expected = "  case class BlackBox (  ) extends AbstractBlackBox [ A <: AbstractInput ]\n"
+    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
 
     obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)
@@ -18,7 +18,7 @@ package soda.translator.language
   test("should translate multiple upper bounds") {
     original = "  * BlackBox() extends AbstractBlackBox[A extends AbstractInput] with AbstractDevice[B extends AbstractDeviceInput]\n"
 
-    expected = "  case class BlackBox (  ) extends AbstractBlackBox [ A <: AbstractInput ] with AbstractDevice [ B <: AbstractDeviceInput ]\n"
+    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
 
     obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)
