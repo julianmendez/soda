@@ -58,4 +58,8 @@ case class Translation (  ) {
 
   lazy val SodaBracketsAndComma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
+  def Beautifier: Seq [  ( String , String )  ] = Seq (
+    ("\\.\\s+", ".")  ,    ("=\\s+", "= ")  ,    ("\\s+=", " =")  ,    ("\\(\\s+", "(")  ,    ("\\[\\s+", "[")  ,    ("\\s+\\]", "]")  ,    ("\\s+,", ",")  ,    (",\\s+", ", ")  ,    ("\\s+:", ":")  ,    (":\\s+", ": ")
+  )
+
 }

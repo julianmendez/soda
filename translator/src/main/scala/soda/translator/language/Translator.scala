@@ -65,3 +65,11 @@ case class ScalaNonSoda (  ) extends Translator {
   lazy val keys = Translation (  ) .ScalaNonSodaKeys
 
 }
+
+case class Beautifier (  ) extends Translator {
+  lazy val _table = Translation (  ) .Beautifier
+
+  def translate ( word: String ) = _get ( _table , word )
+
+  lazy val keys = _keys ( _table )
+}

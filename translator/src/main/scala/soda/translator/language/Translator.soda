@@ -66,3 +66,12 @@ package soda.translator.language
 
 }
 
+* Beautifier() extends Translator {
+  _table = Translation().Beautifier
+
+  translate (word: String) = _get(_table, word)
+
+  keys = _keys(_table)
+}
+
+

@@ -28,10 +28,10 @@ package soda.translator.replacement
   replace(line: String, translator: Translator, only_beginning: Boolean): String = {
     result = Rec().foldLeft(translator.keys, initial_value, next_value)
 
-    replace_if_found(line: String, pattern: String, newText: String, only_beginning: Boolean): String =
+    replace_if_found(line: String, pattern: String, new_text: String, only_beginning: Boolean): String =
       if (only_beginning and line.trim.startsWith(pattern.trim)) or
         (not only_beginning and line.contains(pattern))
-      then replace_all(line, pattern, newText)
+      then replace_all(line, pattern, new_text)
       else line
 
     initial_value: String = line
@@ -128,6 +128,20 @@ package soda.translator.replacement
   add_after_spaces(line: String, text_to_prepend: String): String = {
     prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
     line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
+  }
+
+  replace_regex(translator: Translator): Replacement =
+    Replacement(replace_regex(line, translator))
+
+  replace_regex(line: String, translator: Translator): String = {
+    result = Rec().foldLeft(translator.keys, initial_value, next_value)
+
+    initial_value: String = line
+
+    next_value(line: String, regex: String): String =
+      line.replaceAll(regex, translator.translate(regex))
+
+    result
   }
 
 }

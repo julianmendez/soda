@@ -28,10 +28,10 @@ case class Replacement ( line: String ) {
   def replace ( line: String , translator: Translator , only_beginning: Boolean ) : String = {
     lazy val result = Rec (  ) .foldLeft ( translator.keys , initial_value , next_value )
 
-    def replace_if_found ( line: String , pattern: String , newText: String , only_beginning: Boolean ) : String =
+    def replace_if_found ( line: String , pattern: String , new_text: String , only_beginning: Boolean ) : String =
       if ( ( only_beginning && line.trim.startsWith ( pattern.trim )  ) ||
         ( ! only_beginning && line.contains ( pattern )  )
-      ) replace_all ( line , pattern , newText )
+      ) replace_all ( line , pattern , new_text )
       else line
 
     lazy val initial_value: String = line
@@ -127,6 +127,20 @@ case class Replacement ( line: String ) {
   def add_after_spaces ( line: String , text_to_prepend: String ) : String = {
     lazy val prefix_length = line.takeWhile ( ch => ch.isSpaceChar ) .length
     line.substring ( 0 , prefix_length ) + text_to_prepend + line.substring ( prefix_length )
+  }
+
+  def replace_regex ( translator: Translator ) : Replacement =
+    Replacement ( replace_regex ( line , translator )  )
+
+  def replace_regex ( line: String , translator: Translator ) : String = {
+    lazy val result = Rec (  ) .foldLeft ( translator.keys , initial_value , next_value )
+
+    lazy val initial_value: String = line
+
+    def next_value ( line: String , regex: String ) : String =
+      line.replaceAll ( regex , translator.translate ( regex )  )
+
+    result
   }
 
 }
