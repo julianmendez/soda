@@ -1,9 +1,9 @@
 package soda.translator.example
 
 
-case class Main (  ) {
+case class Main () {
 
-  def main ( args: Array [ String ]  ) =
+  def main (args: Array [String]  ) =
     println ("Hello world!")
 
 }
