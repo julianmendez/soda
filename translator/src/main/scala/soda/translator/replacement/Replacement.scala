@@ -44,7 +44,7 @@ case class Replacement (line: String ) {
 
   def replace_all (line: String, pattern: String, replacement: String ): String = {
     lazy val result = postproc (
-      Rec () .foldLeftWhile (Range (0, line.length ), initial_value, next_value, condition )
+      Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition )
     )
 
     lazy val initial_value = FoldTuple (Seq (), 0 )

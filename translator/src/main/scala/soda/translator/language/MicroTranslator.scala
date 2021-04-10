@@ -196,7 +196,7 @@ case class MicroTranslator () {
   def find_square_brackets (line: String ): Seq [(Int, Int )] = {
     lazy val result =
       Rec ()
-        .foldLeftWhile (Range (0, line.length ), initial_value, next_value, condition )
+        .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition )
         .positions
 
     lazy val initial_value = FoldTuple (Seq (), 0 )

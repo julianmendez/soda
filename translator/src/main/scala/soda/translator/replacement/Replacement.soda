@@ -45,7 +45,7 @@ package soda.translator.replacement
 
   replace_all(line: String, pattern: String, replacement: String): String = {
     result = postproc(
-      Rec().foldLeftWhile( Range(0, line.length), initial_value, next_value, condition )
+      Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition )
     )
 
     initial_value = FoldTuple( Seq(), 0 )

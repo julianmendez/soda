@@ -19,7 +19,7 @@ package soda.translator.replacement
 * Tokenizer() {
 
   tokenize(line: String): Seq[Token] = {
-    result = postproc(Rec().foldLeft( Range(0, line.length), initial_value, next_value ))
+    result = postproc(Rec().foldLeft( Rec().range(line.length), initial_value, next_value ))
 
     * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 

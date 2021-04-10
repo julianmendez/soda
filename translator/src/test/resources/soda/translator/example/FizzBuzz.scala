@@ -1,12 +1,13 @@
 package soda.translator.example
 
+import soda.lib.Rec
 
 case class FizzBuzz () {
 
   lazy val Fizz = "Fizz"
   lazy val Buzz = "Buzz"
 
-  def fizz_buzz () = Range (1, 101 ) .map (fizz_buzz_term )
+  def fizz_buzz () = Rec () .range (100 ) .map (x => x + 1 ) .map (fizz_buzz_term )
 
   def fizz_buzz_term (n: Int ) =
     if (n % 15 == 0 ) Fizz + Buzz

@@ -1,12 +1,13 @@
 package soda.translator.example
 
++ soda.lib.Rec
 
 * FizzBuzz() {
 
   Fizz = "Fizz"
   Buzz = "Buzz"
 
-  fizz_buzz() = Range(1, 101).map(fizz_buzz_term)
+  fizz_buzz() = Rec().range(100).map(x -> x + 1).map(fizz_buzz_term)
 
   fizz_buzz_term(n: Int) =
     if n % 15 == 0 then Fizz + Buzz

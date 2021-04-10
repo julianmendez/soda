@@ -19,7 +19,7 @@ case class Token (text: String, parser_state: ParserState, index: Int ) {
 case class Tokenizer () {
 
   def tokenize (line: String ): Seq [Token] = {
-    lazy val result = postproc (Rec () .foldLeft (Range (0, line.length ), initial_value, next_value )  )
+    lazy val result = postproc (Rec () .foldLeft (Rec () .range (line.length ), initial_value, next_value )  )
 
     case class FoldTuple (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
 
