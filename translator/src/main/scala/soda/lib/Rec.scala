@@ -37,4 +37,20 @@ case class Rec () {
     result
   }
 
+  def range (n: Int ): Seq [Int] = {
+    lazy val result = rec (n, Seq [Int]  ()  )
+
+    import scala.annotation.tailrec
+        @tailrec
+    def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
+      if (n <= 0
+      ) seq
+      else {
+        lazy val next = n - 1
+        rec (next, seq.+: (next )  )
+      }
+
+    result
+  }
+
 }

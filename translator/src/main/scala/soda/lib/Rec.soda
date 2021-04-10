@@ -35,5 +35,20 @@ package soda.lib
     result
   }
 
+  range(n: Int): Seq[Int] = {
+    result = rec(n, Seq[Int]())
+
+    @tailrec
+    rec(n: Int, seq: Seq[Int]): Seq[Int] =
+      if n <= 0
+      then seq
+      else {
+        next = n - 1
+        rec(next, seq.+:(next))
+      }
+
+    result
+  }
+
 }
 
