@@ -5,11 +5,12 @@ package soda.lib
  */
 * Rec() {
 
-  foldLeftWhile[A, B](s: Seq[A], initial_value: B, next_value: (B, A) -> B, cond: (B, A) -> Boolean): B = {
+
+  foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C, next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
     result = rec(s, initial_value, next_value, cond)
 
     @tailrec
-    rec[A, B](seq: Seq[A], acc: B, next_value: (B, A) -> B, cond: (B, A) -> Boolean): B =
+    rec(seq: Seq[A], acc: C, next_value: (B, A) -> C, cond: (B, A) -> Boolean): C =
       if seq.isEmpty
       then acc
       else {
@@ -23,11 +24,11 @@ package soda.lib
   }
 
 
-  foldLeft[A, B](seq: Seq[A], initial_value: B, next_value: (B, A) -> B): B = {
+  foldLeft[A, B, C extends B](seq: Seq[A], initial_value: C, next_value: (B, A) -> C): C = {
     result = rec(seq, initial_value, next_value)
 
     @tailrec
-    rec[A, B](seq: Seq[A], acc: B, next_value: (B, A) -> B): B =
+    rec(seq: Seq[A], acc: C, next_value: (B, A) -> C): C =
       if seq.isEmpty
       then acc
       else rec(seq.tail, next_value(acc, seq.head), next_value)

@@ -5,12 +5,13 @@ package soda.lib
  */
 case class Rec () {
 
-  def foldLeftWhile [A, B]  (s: Seq [A], initial_value: B, next_value: (B, A ) => B, cond: (B, A ) => Boolean ): B = {
+
+  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
     lazy val result = rec (s, initial_value, next_value, cond )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [A, B]  (seq: Seq [A], acc: B, next_value: (B, A ) => B, cond: (B, A ) => Boolean ): B =
+    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C =
       if (seq.isEmpty
       ) acc
       else {
@@ -24,12 +25,12 @@ case class Rec () {
   }
 
 
-  def foldLeft [A, B]  (seq: Seq [A], initial_value: B, next_value: (B, A ) => B ): B = {
+  def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C = {
     lazy val result = rec (seq, initial_value, next_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [A, B]  (seq: Seq [A], acc: B, next_value: (B, A ) => B ): B =
+    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C ): C =
       if (seq.isEmpty
       ) acc
       else rec (seq.tail, next_value (acc, seq.head ), next_value )
