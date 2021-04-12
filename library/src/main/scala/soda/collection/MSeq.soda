@@ -6,11 +6,11 @@ package soda.collection
 
   has asNonEmpty: Option[NESeq[T]]
 
-  foldLeftWhile[B](initial_value: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B = {
+  foldLeftWhile[B, C extends B](initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
     result = rec(this, initial_value, next_value, condition)
 
     @tailrec
-    rec[B](seq: MSeq[T], acc: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B = {
+    rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
       maybe_neseq = seq.asNonEmpty
 
       if maybe_neseq.isEmpty

@@ -3,11 +3,11 @@ package soda.collection
 
 * MSeqTranslator[T]() {
 
-  foldLeftSeq[B](seq: Seq[T], initial_value: B, next_value: (B, T) -> B): B = {
+  foldLeftSeq[B, C extends B](seq: Seq[T], initial_value: C, next_value: (B, T) -> C): C = {
     result = rec(seq, initial_value, next_value)
 
     @tailrec
-    rec[B](seq: Seq[T], acc: B, next_value: (B, T) -> B): B =
+    rec(seq: Seq[T], acc: C, next_value: (B, T) -> C): C =
       if seq.isEmpty
       then acc
       else rec(seq.tail, next_value(acc, seq.head), next_value)
@@ -17,7 +17,7 @@ package soda.collection
 
   asMSeq(seq: Seq[T]): MSeq[T] = {
     result = Min().reverse(
-      foldLeftSeq[MSeq[T]](seq, initial_value, next_value) )
+      foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
 
     initial_value: MSeq[T] = Min().empty
 
@@ -41,7 +41,7 @@ package soda.collection
 
 * Min[T]() {
 
-  empty: MSeq[T] = ESeq()
+  empty: ESeq[T] = ESeq()
 
   prepended(s: MSeq[T], e: T): NESeq[T] = NESeq(e, s)
 
@@ -55,21 +55,29 @@ package soda.collection
 
   /* */
 
-  foldLeftWhile[B](s: MSeq[T], initial_value: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B =
-    s.foldLeftWhile[B](initial_value, next_value, condition)
+  foldLeftWhile[B, C extends B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+    s.foldLeftWhile[B, C](initial_value, next_value, condition)
 
-  foldLeft[B](s: MSeq[T], initial_value: B, next_value: (B, T) -> B): B = {
+  foldLeft[B, C extends B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C = {
     condition(acc: B, elem: T): Boolean = true
 
-    foldLeftWhile[B](s, initial_value, next_value, condition)
+    foldLeftWhile[B, C](s, initial_value, next_value, condition)
   }
 
   reverse(s: MSeq[T]): MSeq[T] = {
-    initial_value: MSeq[T] = empty
+    maybe_neseq = s.asNonEmpty
 
-    next_value(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+    if maybe_neseq.isEmpty
+    then empty
+    else reverseNonEmpty(maybe_neseq.get)
+  }
 
-    foldLeft(s, initial_value, next_value)
+  reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
+    initial_value: NESeq[T] = prepended(empty, s.head())
+
+    next_value(acc: MSeq[T], elem: T): NESeq[T] = prepended(acc, elem)
+
+    foldLeft(s.tail(), initial_value, next_value)
   }
 
   length(s: MSeq[T]): Int = {

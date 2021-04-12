@@ -3,12 +3,12 @@ package soda.collection
 
 case class MSeqTranslator [T]  () {
 
-  def foldLeftSeq [B]  (seq: Seq [T], initial_value: B, next_value: (B, T ) => B ): B = {
+  def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C = {
     lazy val result = rec (seq, initial_value, next_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [B]  (seq: Seq [T], acc: B, next_value: (B, T ) => B ): B =
+    def rec (seq: Seq [T], acc: C, next_value: (B, T ) => C ): C =
       if (seq.isEmpty
       ) acc
       else rec (seq.tail, next_value (acc, seq.head ), next_value )
@@ -18,7 +18,7 @@ case class MSeqTranslator [T]  () {
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] = {
     lazy val result = Min () .reverse (
-      foldLeftSeq [MSeq [T]]  (seq, initial_value, next_value ) )
+      foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
 
     lazy val initial_value: MSeq [T] = Min () .empty
 
@@ -42,7 +42,7 @@ case class MSeqTranslator [T]  () {
 
 case class Min [T]  () {
 
-  lazy val empty: MSeq [T] = ESeq ()
+  lazy val empty: ESeq [T] = ESeq ()
 
   def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq (e, s )
 
@@ -56,21 +56,29 @@ case class Min [T]  () {
 
   /* */
 
-  def foldLeftWhile [B]  (s: MSeq [T], initial_value: B, next_value: (B, T ) => B, condition: (B, T ) => Boolean ): B =
-    s.foldLeftWhile [B]  (initial_value, next_value, condition )
+  def foldLeftWhile [B, C <: B]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+    s.foldLeftWhile [B, C]  (initial_value, next_value, condition )
 
-  def foldLeft [B]  (s: MSeq [T], initial_value: B, next_value: (B, T ) => B ): B = {
+  def foldLeft [B, C <: B]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C ): C = {
     def condition (acc: B, elem: T ): Boolean = true
 
-    foldLeftWhile [B]  (s, initial_value, next_value, condition )
+    foldLeftWhile [B, C]  (s, initial_value, next_value, condition )
   }
 
   def reverse (s: MSeq [T]  ): MSeq [T] = {
-    lazy val initial_value: MSeq [T] = empty
+    lazy val maybe_neseq = s.asNonEmpty
 
-    def next_value (acc: MSeq [T], elem: T ): MSeq [T] = prepended (acc, elem )
+    if (maybe_neseq.isEmpty
+    ) empty
+    else reverseNonEmpty (maybe_neseq.get )
+  }
 
-    foldLeft (s, initial_value, next_value )
+  def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] = {
+    lazy val initial_value: NESeq [T] = prepended (empty, s.head ()  )
+
+    def next_value (acc: MSeq [T], elem: T ): NESeq [T] = prepended (acc, elem )
+
+    foldLeft (s.tail (), initial_value, next_value )
   }
 
   def length (s: MSeq [T]  ): Int = {

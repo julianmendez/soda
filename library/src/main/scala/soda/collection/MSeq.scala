@@ -6,12 +6,12 @@ trait MSeq [T] {
 
   def asNonEmpty: Option [NESeq [T]]
 
-  def foldLeftWhile [B]  (initial_value: B, next_value: (B, T ) => B, condition: (B, T ) => Boolean ): B = {
+  def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
     lazy val result = rec (this, initial_value, next_value, condition )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec [B]  (seq: MSeq [T], acc: B, next_value: (B, T ) => B, condition: (B, T ) => Boolean ): B = {
+    def rec (seq: MSeq [T], acc: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
       lazy val maybe_neseq = seq.asNonEmpty
 
       if (maybe_neseq.isEmpty
