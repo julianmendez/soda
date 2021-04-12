@@ -65,7 +65,7 @@ package soda.collection
   }
 
   test("at") {
-    expected = 3
+    expected = Some(3)
     obtained = Min().at(example, 4)
     assert(obtained == expected)
   }

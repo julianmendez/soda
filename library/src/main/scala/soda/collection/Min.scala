@@ -44,11 +44,11 @@ case class Min [T]  () {
 
   lazy val empty: MSeq [T] = ESeq ()
 
-  def prepended (s: MSeq [T], e: T ): MSeq [T] = NESeq (e, s )
+  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq (e, s )
 
-  def head (s: MSeq [T]  ): T = s.head ()
+  def head (s: MSeq [T]  ): T = s.asNonEmpty.get.head ()
 
-  def tail (s: MSeq [T]  ): MSeq [T] = s.tail ()
+  def tail (s: MSeq [T]  ): MSeq [T] = s.asNonEmpty.get.tail ()
 
   def nonEmpty (s: MSeq [T]  ): Boolean = ! isEmpty (s )
 
@@ -104,11 +104,16 @@ case class Min [T]  () {
     foldLeftWhile (s, initial_value, next_value, condition )
   }
 
-  def at (s: MSeq [T], n: Int ): T = {
-    lazy val result = if (isEmpty (s ) || n < 0 || n >= length (s ) ) None.get else atNonEmpty (s, n )
+  def at (s: MSeq [T], n: Int ): Option [T] = {
+    lazy val maybe_neseq = s.asNonEmpty
 
-    def atNonEmpty (xs: MSeq [T], n: Int ): T = {
-      lazy val initial_value = FoldTuple (head (xs ), -1 )
+    lazy val result =
+      if (maybe_neseq.isEmpty || n < 0 || n >= length (s )
+      ) None
+      else Some (atNonEmpty (maybe_neseq.get, n )  )
+
+    def atNonEmpty (xs: NESeq [T], n: Int ): T = {
+      lazy val initial_value = FoldTuple (xs.head (), -1 )
 
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple = FoldTuple (elem, tuple.index + 1 )
 

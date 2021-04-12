@@ -65,7 +65,7 @@ case class MinSpec () extends AnyFunSuite {
   }
 
   test ("at") {
-    lazy val expected = 3
+    lazy val expected = Some (3 )
     lazy val obtained = Min () .at (example, 4 )
     assert (obtained == expected )
   }

@@ -3,26 +3,26 @@ package soda.collection
 
 * MSeq[T] {
   has isEmpty: Boolean
-  has _head(): Option[T]
-  has _tail(): Option[MSeq[T]]
 
-  head() = _head().get
-
-  tail() = _tail().get
+  has asNonEmpty: Option[NESeq[T]]
 
   foldLeftWhile[B](initial_value: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B = {
     result = rec(this, initial_value, next_value, condition)
 
     @tailrec
-    rec[B](seq: MSeq[T], acc: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B =
-      if seq.isEmpty
+    rec[B](seq: MSeq[T], acc: B, next_value: (B, T) -> B, condition: (B, T) -> Boolean): B = {
+      maybe_neseq = seq.asNonEmpty
+
+      if maybe_neseq.isEmpty
       then acc
       else {
-        (elem, rest) = (seq.head(), seq.tail())
+        neseq = maybe_neseq.get
+        (elem, rest) = (neseq.head(), neseq.tail())
         if not condition(acc, elem)
         then acc
         else rec(rest, next_value(acc, elem), next_value, condition)
       }
+    }
 
     result
   }
@@ -30,26 +30,24 @@ package soda.collection
 }
 
 
-* ESeq[T] ()
-  extends MSeq[T] {
+* ESeq[T] () extends MSeq[T] {
 
   isEmpty = true
 
-  _head() = Option.empty
-
-  _tail() = Option.empty
+  asNonEmpty: Option[NESeq[T]] = None
 
 }
 
 
-* NESeq[T] (head0: T, tail0: MSeq[T])
-  extends MSeq[T] {
+* NESeq[T] (head0: T, tail0: MSeq[T]) extends MSeq[T] {
 
   isEmpty = false
 
-  _head() = Some(head0)
+  asNonEmpty: Option[NESeq[T]] = Some(this)
 
-  _tail() = Some(tail0)
+  head(): T = head0
+
+  tail(): MSeq[T] = tail0
 
 }
 

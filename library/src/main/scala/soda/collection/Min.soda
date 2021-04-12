@@ -43,11 +43,11 @@ package soda.collection
 
   empty: MSeq[T] = ESeq()
 
-  prepended(s: MSeq[T], e: T): MSeq[T] = NESeq(e, s)
+  prepended(s: MSeq[T], e: T): NESeq[T] = NESeq(e, s)
 
-  head(s: MSeq[T]): T = s.head()
+  head(s: MSeq[T]): T = s.asNonEmpty.get.head()
 
-  tail(s: MSeq[T]): MSeq[T] = s.tail()
+  tail(s: MSeq[T]): MSeq[T] = s.asNonEmpty.get.tail()
 
   nonEmpty(s: MSeq[T]): Boolean = not isEmpty(s)
 
@@ -104,11 +104,16 @@ package soda.collection
     foldLeftWhile(s, initial_value, next_value, condition)
   }
 
-  at(s: MSeq[T], n: Int): T = {
-    result = if isEmpty(s) or n < 0 or n >= length(s) then None.get else atNonEmpty(s, n)
+  at(s: MSeq[T], n: Int): Option[T] = {
+    maybe_neseq = s.asNonEmpty
 
-    atNonEmpty(xs: MSeq[T], n: Int): T = {
-      initial_value = FoldTuple(head(xs), -1)
+    result =
+      if maybe_neseq.isEmpty or n < 0 or n >= length(s)
+      then None
+      else Some(atNonEmpty(maybe_neseq.get, n))
+
+    atNonEmpty(xs: NESeq[T], n: Int): T = {
+      initial_value = FoldTuple(xs.head(), -1)
 
       next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
 
