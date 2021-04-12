@@ -288,15 +288,18 @@ case class Min [T]  () {
     def next_value (tuple: FoldTuple, elem: T ): FoldTuple = {
       lazy val left = tuple.left
       lazy val right = tuple.right
-      if (isEmpty (left )
+
+      lazy val maybe_neleft = left.asNonEmpty
+      if (maybe_neleft.isEmpty
       ) FoldTuple (left, right, false )
       else {
-        lazy val e = head (left )
+        lazy val neleft = maybe_neleft.get
+        lazy val e = neleft.head ()
         lazy val new_taking = p (e )
 
         if (new_taking
-        ) FoldTuple (tail (left ), prepended (right, e ), new_taking )
-        else FoldTuple (left, right, new_taking )
+        ) FoldTuple (neleft.tail (), prepended (right, e ), new_taking )
+        else FoldTuple (neleft, right, new_taking )
       }
     }
 

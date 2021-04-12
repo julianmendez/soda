@@ -288,15 +288,18 @@ package soda.collection
     next_value(tuple: FoldTuple, elem: T): FoldTuple = {
       left = tuple.left
       right = tuple.right
-      if isEmpty(left)
+
+      maybe_neleft = left.asNonEmpty
+      if maybe_neleft.isEmpty
       then FoldTuple(left, right, false)
       else {
-        e = head(left)
+        neleft = maybe_neleft.get
+        e = neleft.head()
         new_taking = p(e)
 
         if new_taking
-        then FoldTuple(tail(left), prepended(right, e), new_taking)
-        else FoldTuple(left, right, new_taking)
+        then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
+        else FoldTuple(neleft, right, new_taking)
       }
     }
 
