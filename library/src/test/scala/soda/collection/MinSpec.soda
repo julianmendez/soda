@@ -190,7 +190,7 @@ package soda.collection
 
   test("last") {
     expected = 8
-    obtained = Min().last(example)
+    obtained = Min().last(example.asNonEmpty.get)
     assert(obtained == expected)
   }
 

@@ -185,7 +185,7 @@ package soda.collection
 
   appended(s: MSeq[T], e: T): MSeq[T] = reverse(prepended(reverse(s), e))
 
-  last(s: MSeq[T]): T = head(reverse(s))
+  last(s: NESeq[T]): T = reverseNonEmpty(s).head()
 
   concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = {
     initial_value: MSeq[T] = s1

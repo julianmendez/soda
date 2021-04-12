@@ -185,7 +185,7 @@ case class Min [T]  () {
 
   def appended (s: MSeq [T], e: T ): MSeq [T] = reverse (prepended (reverse (s ), e )  )
 
-  def last (s: MSeq [T]  ): T = head (reverse (s )  )
+  def last (s: NESeq [T]  ): T = reverseNonEmpty (s ) .head ()
 
   def concat (s0: MSeq [T], s1: MSeq [T]  ): MSeq [T] = {
     lazy val initial_value: MSeq [T] = s1

@@ -190,7 +190,7 @@ case class MinSpec () extends AnyFunSuite {
 
   test ("last") {
     lazy val expected = 8
-    lazy val obtained = Min () .last (example )
+    lazy val obtained = Min () .last (example.asNonEmpty.get )
     assert (obtained == expected )
   }
 
