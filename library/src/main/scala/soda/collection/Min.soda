@@ -45,9 +45,9 @@ package soda.collection
 
   prepended(s: MSeq[T], e: T): NESeq[T] = NESeq(e, s)
 
-  head(s: MSeq[T]): T = s.asNonEmpty.get.head()
+  head(s: NESeq[T]): T = s.head()
 
-  tail(s: MSeq[T]): MSeq[T] = s.asNonEmpty.get.tail()
+  tail(s: NESeq[T]): MSeq[T] = s.tail()
 
   nonEmpty(s: MSeq[T]): Boolean = not isEmpty(s)
 
@@ -64,13 +64,8 @@ package soda.collection
     foldLeftWhile[B, C](s, initial_value, next_value, condition)
   }
 
-  reverse(s: MSeq[T]): MSeq[T] = {
-    maybe_neseq = s.asNonEmpty
-
-    if maybe_neseq.isEmpty
-    then empty
-    else reverseNonEmpty(maybe_neseq.get)
-  }
+  reverse(s: MSeq[T]): MSeq[T] =
+    s.open(ifEmpty=empty, ifNonEmpty=(neseq -> reverseNonEmpty(neseq)))
 
   reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
     initial_value: NESeq[T] = prepended(empty, s.head())
@@ -113,12 +108,13 @@ package soda.collection
   }
 
   at(s: MSeq[T], n: Int): Option[T] = {
-    maybe_neseq = s.asNonEmpty
-
     result =
-      if maybe_neseq.isEmpty or n < 0 or n >= length(s)
-      then None
-      else Some(atNonEmpty(maybe_neseq.get, n))
+      s.open(ifEmpty=None, ifNonEmpty=(neseq ->
+        if n < 0 or n >= length(s)
+        then None
+        else Some(atNonEmpty(neseq, n))
+      )
+    )
 
     atNonEmpty(xs: NESeq[T], n: Int): T = {
       initial_value = FoldTuple(xs.head(), -1)
@@ -160,7 +156,10 @@ package soda.collection
     initial_value = FoldTuple(s, 0)
 
     next_value(tuple: FoldTuple, elem: T): FoldTuple =
-      FoldTuple(tail(tuple.seq), tuple.index + 1)
+      tuple.seq.open(
+        ifEmpty=FoldTuple(tuple.seq, tuple.index + 1),
+        ifNonEmpty=(neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
+      )
 
     condition (tuple: FoldTuple, elem: T): Boolean =
       tuple.index < n
@@ -289,18 +288,17 @@ package soda.collection
       left = tuple.left
       right = tuple.right
 
-      maybe_neleft = left.asNonEmpty
-      if maybe_neleft.isEmpty
-      then FoldTuple(left, right, false)
-      else {
-        neleft = maybe_neleft.get
-        e = neleft.head()
-        new_taking = p(e)
+      left.open(
+        ifEmpty=FoldTuple(left, right, false),
+        ifNonEmpty=(neleft -> {
+          e = neleft.head()
+          new_taking = p(e)
 
-        if new_taking
-        then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
-        else FoldTuple(neleft, right, new_taking)
-      }
+          if new_taking
+          then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
+          else FoldTuple(neleft, right, new_taking)
+        } )
+      )
     }
 
     condition(tuple: FoldTuple, elem: T): Boolean = tuple.taking

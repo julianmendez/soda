@@ -6,6 +6,12 @@ trait MSeq [T] {
 
   def asNonEmpty: Option [NESeq [T]]
 
+  def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B =
+    if (isEmpty
+    ) ifEmpty
+    else ifNonEmpty (asNonEmpty.get )
+
+
   def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
     lazy val result = rec (this, initial_value, next_value, condition )
 

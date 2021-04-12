@@ -16,13 +16,13 @@ case class MinSpec () extends AnyFunSuite {
 
   test ("head") {
     lazy val expected = 0
-    lazy val obtained = Min () .head (example )
+    lazy val obtained = Min () .head (example.asNonEmpty.get )
     assert (obtained == expected )
   }
 
   test ("tail") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 1, 2, 3, 5, 8 )  )
-    lazy val obtained = Min () .tail (example )
+    lazy val obtained = Min () .tail (example.asNonEmpty.get )
     assert (obtained == expected )
   }
 

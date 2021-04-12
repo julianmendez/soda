@@ -16,13 +16,13 @@ package soda.collection
 
   test("head") {
     expected = 0
-    obtained = Min().head(example)
+    obtained = Min().head(example.asNonEmpty.get)
     assert(obtained == expected)
   }
 
   test("tail") {
     expected = MSeqTranslator().asMSeq(Seq(1, 1, 2, 3, 5, 8))
-    obtained = Min().tail(example)
+    obtained = Min().tail(example.asNonEmpty.get)
     assert(obtained == expected)
   }
 

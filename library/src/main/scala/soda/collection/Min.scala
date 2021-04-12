@@ -46,9 +46,9 @@ case class Min [T]  () {
 
   def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq (e, s )
 
-  def head (s: MSeq [T]  ): T = s.asNonEmpty.get.head ()
+  def head (s: NESeq [T]  ): T = s.head ()
 
-  def tail (s: MSeq [T]  ): MSeq [T] = s.asNonEmpty.get.tail ()
+  def tail (s: NESeq [T]  ): MSeq [T] = s.tail ()
 
   def nonEmpty (s: MSeq [T]  ): Boolean = ! isEmpty (s )
 
@@ -65,13 +65,8 @@ case class Min [T]  () {
     foldLeftWhile [B, C]  (s, initial_value, next_value, condition )
   }
 
-  def reverse (s: MSeq [T]  ): MSeq [T] = {
-    lazy val maybe_neseq = s.asNonEmpty
-
-    if (maybe_neseq.isEmpty
-    ) empty
-    else reverseNonEmpty (maybe_neseq.get )
-  }
+  def reverse (s: MSeq [T]  ): MSeq [T] =
+    s.open (ifEmpty=empty, ifNonEmpty= (neseq => reverseNonEmpty (neseq )  )  )
 
   def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] = {
     lazy val initial_value: NESeq [T] = prepended (empty, s.head ()  )
@@ -113,12 +108,13 @@ case class Min [T]  () {
   }
 
   def at (s: MSeq [T], n: Int ): Option [T] = {
-    lazy val maybe_neseq = s.asNonEmpty
-
     lazy val result =
-      if (maybe_neseq.isEmpty || n < 0 || n >= length (s )
-      ) None
-      else Some (atNonEmpty (maybe_neseq.get, n )  )
+      s.open (ifEmpty=None, ifNonEmpty= (neseq =>
+        if (n < 0 || n >= length (s )
+        ) None
+        else Some (atNonEmpty (neseq, n )  )
+      )
+    )
 
     def atNonEmpty (xs: NESeq [T], n: Int ): T = {
       lazy val initial_value = FoldTuple (xs.head (), -1 )
@@ -160,7 +156,9 @@ case class Min [T]  () {
     lazy val initial_value = FoldTuple (s, 0 )
 
     def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-      FoldTuple (tail (tuple.seq ), tuple.index + 1 )
+      tuple.seq.open (
+        ifEmpty=FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty= (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
+      )
 
     def condition (tuple: FoldTuple, elem: T ): Boolean =
       tuple.index < n
@@ -289,18 +287,16 @@ case class Min [T]  () {
       lazy val left = tuple.left
       lazy val right = tuple.right
 
-      lazy val maybe_neleft = left.asNonEmpty
-      if (maybe_neleft.isEmpty
-      ) FoldTuple (left, right, false )
-      else {
-        lazy val neleft = maybe_neleft.get
-        lazy val e = neleft.head ()
-        lazy val new_taking = p (e )
+      left.open (
+        ifEmpty=FoldTuple (left, right, false ), ifNonEmpty= (neleft => {
+          lazy val e = neleft.head ()
+          lazy val new_taking = p (e )
 
-        if (new_taking
-        ) FoldTuple (neleft.tail (), prepended (right, e ), new_taking )
-        else FoldTuple (neleft, right, new_taking )
-      }
+          if (new_taking
+          ) FoldTuple (neleft.tail (), prepended (right, e ), new_taking )
+          else FoldTuple (neleft, right, new_taking )
+        } )
+      )
     }
 
     def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.taking

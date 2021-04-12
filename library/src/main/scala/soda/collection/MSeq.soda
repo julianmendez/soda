@@ -6,6 +6,12 @@ package soda.collection
 
   has asNonEmpty: Option[NESeq[T]]
 
+  open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B =
+    if isEmpty
+    then ifEmpty
+    else ifNonEmpty(asNonEmpty.get)
+
+
   foldLeftWhile[B, C extends B](initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
     result = rec(this, initial_value, next_value, condition)
 
