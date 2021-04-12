@@ -6,7 +6,9 @@ package soda.collection
 
   empty: ESeq[Int] = ESeq[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
-  example: MSeq[Int] = MSeqTranslator().asMSeq(exampleSeq)
+  example: NESeq[Int] =
+    MSeqTranslator().asMSeq(exampleSeq)
+      .open(None, (neseq -> Some(neseq))).get
 
   test("prepended") {
     expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
@@ -16,13 +18,13 @@ package soda.collection
 
   test("head") {
     expected = 0
-    obtained = Min().head(example.asNonEmpty.get)
+    obtained = Min().head(example)
     assert(obtained == expected)
   }
 
   test("tail") {
     expected = MSeqTranslator().asMSeq(Seq(1, 1, 2, 3, 5, 8))
-    obtained = Min().tail(example.asNonEmpty.get)
+    obtained = Min().tail(example)
     assert(obtained == expected)
   }
 
@@ -190,7 +192,7 @@ package soda.collection
 
   test("last") {
     expected = 8
-    obtained = Min().last(example.asNonEmpty.get)
+    obtained = Min().last(example)
     assert(obtained == expected)
   }
 

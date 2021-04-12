@@ -6,7 +6,9 @@ case class MinSpec () extends AnyFunSuite {
 
   lazy val empty: ESeq [Int] = ESeq [Int]  ()
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
-  lazy val example: MSeq [Int] = MSeqTranslator () .asMSeq (exampleSeq )
+  lazy val example: NESeq [Int] =
+    MSeqTranslator () .asMSeq (exampleSeq )
+      .open (None, (neseq => Some (neseq )  )  ) .get
 
   test ("prepended") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
@@ -16,13 +18,13 @@ case class MinSpec () extends AnyFunSuite {
 
   test ("head") {
     lazy val expected = 0
-    lazy val obtained = Min () .head (example.asNonEmpty.get )
+    lazy val obtained = Min () .head (example )
     assert (obtained == expected )
   }
 
   test ("tail") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 1, 2, 3, 5, 8 )  )
-    lazy val obtained = Min () .tail (example.asNonEmpty.get )
+    lazy val obtained = Min () .tail (example )
     assert (obtained == expected )
   }
 
@@ -190,7 +192,7 @@ case class MinSpec () extends AnyFunSuite {
 
   test ("last") {
     lazy val expected = 8
-    lazy val obtained = Min () .last (example.asNonEmpty.get )
+    lazy val obtained = Min () .last (example )
     assert (obtained == expected )
   }
 

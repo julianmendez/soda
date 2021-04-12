@@ -4,13 +4,7 @@ package soda.collection
 trait MSeq [T] {
   def isEmpty: Boolean
 
-  def asNonEmpty: Option [NESeq [T]]
-
-  def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B =
-    if (isEmpty
-    ) ifEmpty
-    else ifNonEmpty (asNonEmpty.get )
-
+  def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
 
   def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
     lazy val result = rec (this, initial_value, next_value, condition )
@@ -18,12 +12,10 @@ trait MSeq [T] {
     import scala.annotation.tailrec
         @tailrec
     def rec (seq: MSeq [T], acc: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
-      lazy val maybe_neseq = seq.asNonEmpty
-
-      if (maybe_neseq.isEmpty
+      if (seq.isEmpty
       ) acc
       else {
-        lazy val neseq = maybe_neseq.get
+        lazy val neseq = seq.open (ifEmpty=None, ifNonEmpty= (x => Some (x )  )  ) .get
         lazy val (elem, rest ) = (neseq.head (), neseq.tail ()  )
         if (! condition (acc, elem )
         ) acc
@@ -41,7 +33,7 @@ case class ESeq [T] () extends MSeq [T] {
 
   lazy val isEmpty = true
 
-  lazy val asNonEmpty: Option [NESeq [T]] = None
+  def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifEmpty
 
 }
 
@@ -50,7 +42,7 @@ case class NESeq [T] (head0: T, tail0: MSeq [T]  ) extends MSeq [T] {
 
   lazy val isEmpty = false
 
-  lazy val asNonEmpty: Option [NESeq [T]] = Some (this )
+  def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifNonEmpty (this )
 
   def head (): T = head0
 
