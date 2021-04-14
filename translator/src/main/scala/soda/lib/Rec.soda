@@ -12,7 +12,8 @@ package soda.lib
     result = rec(s, initial_value, next_value, cond)
 
     @tailrec
-    rec(seq: Seq[A], acc: C, next_value: (B, A) -> C, cond: (B, A) -> Boolean): C =
+    rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
+        cond: (B, A) -> Boolean): C =
       if seq.isEmpty
       then acc
       else

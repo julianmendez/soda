@@ -7,7 +7,6 @@
 \usepackage{xcolor}
 \usepackage{xspace}
 
-
 \lstdefinelanguage{Soda}{
     morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, suchthat, @tailrec, @override, @main},
     sensitive=true, % keywords are not case-sensitive
@@ -772,8 +771,10 @@
   }
     \end{lstlisting}
 
+    \appendix
 
-    \chapter{Appendix A}
+
+    \chapter{A}
 
     \begin{tabular}{|l|l|}
         \hline
@@ -821,7 +822,7 @@
     \end{tabular}
 
 
-    \chapter{Appendix B}
+    \chapter{B}
 
     \begin{lstlisting}[label={lst:foldLeftWhile}]
     foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
@@ -830,7 +831,8 @@
       result = rec(s, initial_value, next_value, cond)
 
       @tailrec
-      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C, cond: (B, A) -> Boolean): C =
+      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
+          cond: (B, A) -> Boolean): C =
         if seq.isEmpty
         then acc
         else
