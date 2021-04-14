@@ -68,20 +68,20 @@
 \begin{document}
 
     \lstset{frame=tb,
-    language=Soda,
-    aboveskip=3mm,
-    belowskip=3mm,
-    showstringspaces=false,
-    columns=flexible,
-    basicstyle={\small\ttfamily},
-    numbers=none,
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{gray},
-    stringstyle=\color{teal},
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=3
+        language=Soda,
+        aboveskip=3mm,
+        belowskip=3mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{gray},
+        stringstyle=\color{teal},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3
     }
 
     \begin{center}
@@ -773,7 +773,7 @@
     \end{lstlisting}
 
 
-    \chapter{Appendix}
+    \chapter{Appendix A}
 
     \begin{tabular}{|l|l|}
         \hline
@@ -820,6 +820,42 @@
         \hline
     \end{tabular}
 
+
+    \chapter{Appendix B}
+
+    \begin{lstlisting}[label={lst:foldLeftWhile}]
+    foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
+        next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
+
+      result = rec(s, initial_value, next_value, cond)
+
+      @tailrec
+      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C, cond: (B, A) -> Boolean): C =
+        if seq.isEmpty
+        then acc
+        else
+          if not cond(acc, seq.head)
+          then acc
+          else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
+
+      result
+    }
+    \end{lstlisting}
+
+    \begin{lstlisting}[label={lst:range}]
+    range(n: Int): Seq[Int] = {
+
+      result = rec(n, Seq[Int]())
+
+      @tailrec
+      rec(n: Int, seq: Seq[Int]): Seq[Int] =
+        if n <= 0
+        then seq
+        else rec(n - 1, seq.+:(n - 1))
+
+      result
+    }
+    \end{lstlisting}
 
 \end{document}
 

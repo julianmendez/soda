@@ -4,6 +4,7 @@ package soda.collection
 case class MSeqTranslator [T]  () {
 
   def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C = {
+
     lazy val result = rec (seq, initial_value, next_value )
 
     import scala.annotation.tailrec

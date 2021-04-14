@@ -7,21 +7,20 @@ trait MSeq [T] {
   def open [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
 
   def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
+
     lazy val result = rec (this, initial_value, next_value, condition )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec (seq: MSeq [T], acc: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
+    def rec (seq: MSeq [T], acc: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
       if (seq.isEmpty
       ) acc
       else {
         lazy val neseq = seq.open (ifEmpty=None, ifNonEmpty= (x => Some (x )  )  ) .get
-        lazy val (elem, rest ) = (neseq.head (), neseq.tail ()  )
-        if (! condition (acc, elem )
+        if (! condition (acc, neseq.head ()  )
         ) acc
-        else rec (rest, next_value (acc, elem ), next_value, condition )
+        else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition )
       }
-    }
 
     result
   }

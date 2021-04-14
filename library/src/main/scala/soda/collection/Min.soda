@@ -3,7 +3,9 @@ package soda.collection
 
 * MSeqTranslator[T]() {
 
-  foldLeftSeq[B, C extends B](seq: Seq[T], initial_value: C, next_value: (B, T) -> C): C = {
+  foldLeftSeq[B, C extends B](seq: Seq[T], initial_value: C,
+      next_value: (B, T) -> C): C = {
+
     result = rec(seq, initial_value, next_value)
 
     @tailrec

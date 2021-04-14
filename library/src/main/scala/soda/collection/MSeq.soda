@@ -6,21 +6,21 @@ package soda.collection
 
   has open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
 
-  foldLeftWhile[B, C extends B](initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
+  foldLeftWhile[B, C extends B](initial_value: C,
+      next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
+
     result = rec(this, initial_value, next_value, condition)
 
     @tailrec
-    rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
+    rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
       if seq.isEmpty
       then acc
       else {
         neseq = seq.open(ifEmpty=None, ifNonEmpty=(x -> Some(x))).get
-        (elem, rest) = (neseq.head(), neseq.tail())
-        if not condition(acc, elem)
+        if not condition(acc, neseq.head())
         then acc
-        else rec(rest, next_value(acc, elem), next_value, condition)
+        else rec(neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
       }
-    }
 
     result
   }

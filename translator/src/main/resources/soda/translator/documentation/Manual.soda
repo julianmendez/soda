@@ -165,6 +165,43 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
   }
 }
 
+class Rec() {
+  foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
+      next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
+    result = rec(s, initial_value, next_value, cond)
+
+    @tailrec
+    rec(seq: Seq[A], acc: C,
+        next_value: (B, A) -> C, cond: (B, A) -> Boolean): C =
+      if seq.isEmpty
+      then acc
+      else {
+        (elem, rest) = (seq.head, seq.tail)
+        if not cond(acc, elem)
+        then acc
+        else rec(rest, next_value(acc, elem), next_value, cond)
+      }
+
+    result
+  }
+
+  range(n: Int): Seq[Int] = {
+    result = rec(n, Seq[Int]())
+
+    @tailrec
+    rec(n: Int, seq: Seq[Int]): Seq[Int] =
+      if n <= 0
+      then seq
+      else {
+        next = n - 1
+        rec(next, seq.+:(next))
+      }
+
+    result
+  }
+
+}
+
 class Main () {
   main (args: Array[String]) =
     println ("Hello world!")
