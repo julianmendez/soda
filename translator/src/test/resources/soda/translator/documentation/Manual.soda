@@ -3,9 +3,12 @@ package soda.translator.documentation
 import java.util.Date
 
 
+class Shape
+
+class ShapePainter[A extends Shape]
+
 class EqualsExample () {
-  f (x: Int,
-    y: Int) = 2 * x + y
+  f (x: Int, y: Int) = 2 * x + y
 
   answer = f (x=20, y=2)
 }

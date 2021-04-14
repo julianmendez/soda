@@ -3,6 +3,10 @@ package soda.translator.documentation
 import java.util.Date
 
 
+trait Shape
+
+trait ShapePainter [A <: Shape]
+
 case class EqualsExample () {
   def f (x: Int, y: Int ) = 2 * x + y
 

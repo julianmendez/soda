@@ -359,10 +359,21 @@
 
     \section{Parametric Types}
 
-    The use of parametric types is technically possible and allowed, but slightly discouraged.
-    Sometimes smaller code is not necessarily easier to understand.
+    The use of parametric types is technically possible.
+    It is possible to put upper bounds in the parameter, to define it as a subtype of another type.
+
+    \begin{lstlisting}[label={lst:exampleUpperBoundParameter}]
+  class Shape
+
+  class ShapePainter[A extends Shape]
+    \end{lstlisting}
+
+    In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
+    When a concrete class implements ShapePainter, it can use specific functions of a concrete type A, even if they are not in type Shape.
+
     Usually, parametric types are needed for highly generic data types, like collections.
-    Nevertheless, using parametric types could hide a design flaw, when the code looks ``very general'' but in practice is only applicable to a particular type.
+    Parameters are used to reduce code length, but sometimes smaller code is not necessarily easier to understand.
+    Using parametric types could hide a design flaw, when the code looks ``very general'', but in practice is only applicable to one specific type.
 
 
     \section{Style}
@@ -378,8 +389,7 @@
 
     \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
   class EqualsExample () {
-    f (x: Int,
-      y: Int) = 2 * x + y
+    f (x: Int, y: Int) = 2 * x + y
 
     answer = f (x=20, y=2)
   }
