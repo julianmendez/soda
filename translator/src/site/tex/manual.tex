@@ -365,11 +365,16 @@
     \begin{lstlisting}[label={lst:exampleUpperBoundParameter}]
   class Shape
 
+  class Movable
+
   class ShapePainter[A extends Shape]
+
+  class ShapeMover[A extends Shape with Movable]
     \end{lstlisting}
 
     In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
-    When a concrete class implements ShapePainter, it can use specific functions of a concrete type A, even if they are not in type Shape.
+    When a concrete class extends ShapePainter, it can use specific functions of a concrete type A, even if they are not in type Shape.
+    A concrete class extending ShapeMover require a parameter that is a Shape and that is Movable.
 
     Usually, parametric types are needed for highly generic data types, like collections.
     Parameters are used to reduce code length, but sometimes smaller code is not necessarily easier to understand.

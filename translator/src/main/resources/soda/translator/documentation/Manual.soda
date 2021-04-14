@@ -5,7 +5,11 @@ import java.util.Date
 
 class Shape
 
+class Movable
+
 class ShapePainter[A extends Shape]
+
+class ShapeMover[A extends Shape with Movable]
 
 class EqualsExample () {
   f (x: Int, y: Int) = 2 * x + y

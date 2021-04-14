@@ -5,7 +5,11 @@ import java.util.Date
 
 trait Shape
 
+trait Movable
+
 trait ShapePainter [A <: Shape]
+
+trait ShapeMover [A <: Shape with Movable]
 
 case class EqualsExample () {
   def f (x: Int, y: Int ) = 2 * x + y
