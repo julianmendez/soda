@@ -159,25 +159,25 @@ case class MinSpec () extends AnyFunSuite {
   }
 
   test ("splitAt with Seq") {
-    lazy val expected = (Seq (0, 1, 1 ), Seq (2, 3, 5, 8 )  )
+    lazy val expected = Tuple2 (Seq (0, 1, 1 ), Seq (2, 3, 5, 8 )  )
     lazy val obtained = exampleSeq.splitAt (3 )
     assert (obtained == expected )
   }
 
   test ("splitAt") {
-    lazy val expected = (MSeqTranslator () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator () .asMSeq (Seq (2, 3, 5, 8 )  )  )
+    lazy val expected = MSeqPair (MSeqTranslator () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator () .asMSeq (Seq (2, 3, 5, 8 )  )  )
     lazy val obtained = Min () .splitAt (example, 3 )
     assert (obtained == expected )
   }
 
   test ("span with Seq") {
-    lazy val expected = (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 )  )
+    lazy val expected = Tuple2 (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 )  )
     lazy val obtained = exampleSeq.span (x => ! (x == 5 )  )
     assert (obtained == expected )
   }
 
   test ("span") {
-    lazy val expected = (MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator () .asMSeq (Seq (5, 8 )  )  )
+    lazy val expected = MSeqPair (MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator () .asMSeq (Seq (5, 8 )  )  )
     lazy val obtained = Min () .span (example, (x: Int ) => ! (x == 5 )  )
     assert (obtained == expected )
   }

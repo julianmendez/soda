@@ -40,6 +40,7 @@ package soda.collection
 
 }
 
+* MSeqPair[T](left: MSeq[T], right: MSeq[T])
 
 * Min[T]() {
 
@@ -171,15 +172,15 @@ package soda.collection
     result
   }
 
-  takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p)._1)
+  takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p).left)
 
-  dropWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = spanRevRec(s, p)._2
+  dropWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = spanRevRec(s, p).right
 
-  splitAt(s: MSeq[T], n: Int): (MSeq[T], MSeq[T]) = (take(s, n), drop(s, n))
+  splitAt(s: MSeq[T], n: Int): MSeqPair[T] = MSeqPair(take(s, n), drop(s, n))
 
-  span(s: MSeq[T], p: (T -> Boolean)): (MSeq[T], MSeq[T]) = {
+  span(s: MSeq[T], p: (T -> Boolean)): MSeqPair[T] = {
     pair = spanRevRec(s, p)
-    (reverse(pair._1), pair._2)
+    MSeqPair(reverse(pair.left), pair.right)
   }
 
   /* */
@@ -280,8 +281,8 @@ package soda.collection
 
   /* */
 
-  spanRevRec(s0: MSeq[T], p: T -> Boolean): (MSeq[T], MSeq[T]) = {
-    result = (pair.right, pair.left)
+  spanRevRec(s0: MSeq[T], p: T -> Boolean): MSeqPair[T] = {
+    result = MSeqPair(pair.right, pair.left)
     pair = foldLeftWhile(s0, initial_value, next_value, condition)
 
     initial_value = FoldTuple(s0, empty, true)

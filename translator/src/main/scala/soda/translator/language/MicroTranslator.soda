@@ -180,20 +180,20 @@ package soda.translator.language
 
     initial_value = line
 
-    next_value(line: String, position: (Int, Int)): String = {
-      substr = line.substring(position._1, position._2)
+    next_value(line: String, position: Excerpt): String = {
+      substr = line.substring(position.beginning, position.end)
       new_substr = Replacement(substr)
         .replace(TranslationBetweenSquareBrackets(), only_beginning=false)
         .line
       if substr == new_substr
       then line
-      else line.substring(0, position._1) + new_substr + line.substring(position._2)
+      else line.substring(0, position.beginning) + new_substr + line.substring(position.end)
     }
 
     result
   }
 
-  find_square_brackets(line: String): Seq[(Int, Int)] = {
+  find_square_brackets(line: String): Seq[Excerpt] = {
     result =
       Rec()
         .foldLeftWhile(Rec().range(line.length), initial_value, next_value, condition)
@@ -207,19 +207,19 @@ package soda.translator.language
       then FoldTuple(tuple.positions, -1)
       else {
         pair = maybe_pair.get
-        FoldTuple(tuple.positions.+:(pair), pair._2 + SodaClosingBracket.length)
+        FoldTuple(tuple.positions.+:(pair), pair.end + SodaClosingBracket.length)
       }
     }
 
     condition(tuple: FoldTuple, x: Int): Boolean =
       (0 <= tuple.start and tuple.start <= line.length)
 
-    * FoldTuple(positions: Seq[(Int, Int)], start: Int)
+    * FoldTuple(positions: Seq[Excerpt], start: Int)
 
     result
   }
 
-  find_square_brackets_from(line: String, start: Int): Option[(Int, Int)] =
+  find_square_brackets_from(line: String, start: Int): Option[Excerpt] =
     if start < 0 or start >= line.length
     then None
     else {
@@ -230,8 +230,10 @@ package soda.translator.language
         else line.indexOf(SodaClosingBracket, left + SodaOpeningBracket.length)
       if right == -1
       then None
-      else Some((left + SodaOpeningBracket.length, right))
+      else Some(Excerpt(left + SodaOpeningBracket.length, right))
     }
+
+  * Excerpt(beginning: Int, end: Int)
 
 }
 

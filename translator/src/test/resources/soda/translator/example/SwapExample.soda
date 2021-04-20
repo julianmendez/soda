@@ -1,8 +1,9 @@
 package soda.translator.example
 
+* Pair (left:Int, right: Int)
 
 * SwapExample() {
-    swap (pair: (Int, Int)) =
-         (pair._2, pair._1)
+    swap (pair: Pair) =
+         Pair(pair.right, pair.left)
 }
 

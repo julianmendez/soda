@@ -6,13 +6,15 @@ package soda.translator.example
 
   val = 1
 
-  def[A, B](key: A, value: B): (A, B) = (key, value)
+  def[A, B](key: A, value: B): Pair[A, B] = Pair(key, value)
 
   while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B) =
     seq.takeWhile(cond).map(do)
 
   protected = "protected"
   private = "private"
+
+  * Pair[A, B](key: A, value: B)
 
 }
 

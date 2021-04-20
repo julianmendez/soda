@@ -159,25 +159,25 @@ package soda.collection
   }
 
   test("splitAt with Seq") {
-    expected = (Seq(0, 1, 1), Seq(2, 3, 5, 8))
+    expected = Tuple2(Seq(0, 1, 1), Seq(2, 3, 5, 8))
     obtained = exampleSeq.splitAt(3)
     assert(obtained == expected)
   }
 
   test("splitAt") {
-    expected = (MSeqTranslator().asMSeq(Seq(0, 1, 1)), MSeqTranslator().asMSeq(Seq(2, 3, 5, 8)))
+    expected = MSeqPair(MSeqTranslator().asMSeq(Seq(0, 1, 1)), MSeqTranslator().asMSeq(Seq(2, 3, 5, 8)))
     obtained = Min().splitAt(example, 3)
     assert(obtained == expected)
   }
 
   test("span with Seq") {
-    expected = (Seq(0, 1, 1, 2, 3), Seq(5, 8))
+    expected = Tuple2(Seq(0, 1, 1, 2, 3), Seq(5, 8))
     obtained = exampleSeq.span(x -> not (x == 5))
     assert(obtained == expected)
   }
 
   test("span") {
-    expected = (MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator().asMSeq(Seq(5, 8)))
+    expected = MSeqPair(MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator().asMSeq(Seq(5, 8)))
     obtained = Min().span(example, (x: Int) -> not (x == 5))
     assert(obtained == expected)
   }

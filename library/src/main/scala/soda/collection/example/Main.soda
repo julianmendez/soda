@@ -29,7 +29,7 @@ package soda.collection.example
       e.foldLeftExample,
       e.foldRightExample
     )
-      .map(pair -> pair._1 + " = " + pair._2.toString)
+      .map(pair -> pair.name + " = " + pair.result.toString)
       .mkString("\n")
     println(allExamples)
   }

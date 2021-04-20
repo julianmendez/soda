@@ -180,20 +180,20 @@ case class MicroTranslator () {
 
     lazy val initial_value = line
 
-    def next_value (line: String, position: (Int, Int )  ): String = {
-      lazy val substr = line.substring (position._1, position._2 )
+    def next_value (line: String, position: Excerpt ): String = {
+      lazy val substr = line.substring (position.beginning, position.end )
       lazy val new_substr = Replacement (substr )
         .replace (TranslationBetweenSquareBrackets (), only_beginning=false )
         .line
       if (substr == new_substr
       ) line
-      else line.substring (0, position._1 ) + new_substr + line.substring (position._2 )
+      else line.substring (0, position.beginning ) + new_substr + line.substring (position.end )
     }
 
     result
   }
 
-  def find_square_brackets (line: String ): Seq [(Int, Int )] = {
+  def find_square_brackets (line: String ): Seq [Excerpt] = {
     lazy val result =
       Rec ()
         .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition )
@@ -207,19 +207,19 @@ case class MicroTranslator () {
       ) FoldTuple (tuple.positions, -1 )
       else {
         lazy val pair = maybe_pair.get
-        FoldTuple (tuple.positions.+: (pair ), pair._2 + SodaClosingBracket.length )
+        FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
       }
     }
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =
       (0 <= tuple.start && tuple.start <= line.length )
 
-    case class FoldTuple (positions: Seq [(Int, Int )], start: Int )
+    case class FoldTuple (positions: Seq [Excerpt], start: Int )
 
     result
   }
 
-  def find_square_brackets_from (line: String, start: Int ): Option [(Int, Int )] =
+  def find_square_brackets_from (line: String, start: Int ): Option [Excerpt] =
     if (start < 0 || start >= line.length
     ) None
     else {
@@ -230,7 +230,9 @@ case class MicroTranslator () {
         else line.indexOf (SodaClosingBracket, left + SodaOpeningBracket.length )
       if (right == -1
       ) None
-      else Some ((left + SodaOpeningBracket.length, right )  )
+      else Some (Excerpt (left + SodaOpeningBracket.length, right )  )
     }
+
+  case class Excerpt (beginning: Int, end: Int )
 
 }

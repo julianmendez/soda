@@ -40,6 +40,7 @@ case class MSeqTranslator [T]  () {
 
 }
 
+case class MSeqPair [T]  (left: MSeq [T], right: MSeq [T]  )
 
 case class Min [T]  () {
 
@@ -169,15 +170,15 @@ case class Min [T]  () {
     result
   }
 
-  def takeWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = reverse (spanRevRec (s, p ) ._1 )
+  def takeWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = reverse (spanRevRec (s, p ) .left )
 
-  def dropWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = spanRevRec (s, p ) ._2
+  def dropWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = spanRevRec (s, p ) .right
 
-  def splitAt (s: MSeq [T], n: Int ): (MSeq [T], MSeq [T]  ) = (take (s, n ), drop (s, n )  )
+  def splitAt (s: MSeq [T], n: Int ): MSeqPair [T] = MSeqPair (take (s, n ), drop (s, n )  )
 
-  def span (s: MSeq [T], p: (T => Boolean )  ): (MSeq [T], MSeq [T]  ) = {
+  def span (s: MSeq [T], p: (T => Boolean )  ): MSeqPair [T] = {
     lazy val pair = spanRevRec (s, p )
-    (reverse (pair._1 ), pair._2 )
+    MSeqPair (reverse (pair.left ), pair.right )
   }
 
   /* */
@@ -278,8 +279,8 @@ case class Min [T]  () {
 
   /* */
 
-  def spanRevRec (s0: MSeq [T], p: T => Boolean ): (MSeq [T], MSeq [T]  ) = {
-    lazy val result = (pair.right, pair.left )
+  def spanRevRec (s0: MSeq [T], p: T => Boolean ): MSeqPair [T] = {
+    lazy val result = MSeqPair (pair.right, pair.left )
     lazy val pair = foldLeftWhile (s0, initial_value, next_value, condition )
 
     lazy val initial_value = FoldTuple (s0, empty, true )
