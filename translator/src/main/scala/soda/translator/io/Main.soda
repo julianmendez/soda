@@ -54,14 +54,17 @@ package soda.translator.io
       .get_soda_files(new File(start))
       .map(file -> {
         file_name = file.getAbsolutePath
-        (input_file_name, output_file_name) = get_input_output_file_names(file_name)
-        translate(input_file_name, output_file_name)
+        t = get_input_output_file_names(file_name)
+        translate(t.input_file_name, t.output_file_name)
       })
 
-  get_input_output_file_names(input_name: String): (String, String) =
+  * FileNamePair(input_file_name: String, output_file_name: String)
+
+  get_input_output_file_names(input_name: String): FileNamePair =
     if input_name.endsWith(SodaExtension)
-    then (input_name, input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
-    else (input_name + SodaExtension, input_name + ScalaExtension)
+    then FileNamePair(input_name,
+      input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
+    else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
 
   translate(input_file_name: String, output_file_name: String): Unit = {
     input = read_file(input_file_name)

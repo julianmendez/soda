@@ -23,17 +23,19 @@ package soda.translator.replacement
     initial_value = FoldTuple(false, Seq())
 
     next_value(pair: FoldTuple, line: String): FoldTuple = {
-      (current_state, new_comment_state) = annotate_this_line(line, pair.comment_state)
-      FoldTuple(new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, current_state)))
+      t = annotate_this_line(line, pair.comment_state)
+      FoldTuple(t.new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, t.current_state)))
     }
 
-    annotate_this_line(line: String, comment_state: Boolean): (Boolean, Boolean) =
+    * CurrentAndNewCommentState(current_state: Boolean, new_comment_state: Boolean)
+
+    annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
       if comment_state
-      then (true, not line.trim.endsWith(SodaEndComment))
+      then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
       else
         if line.trim.startsWith(SodaBeginComment)
-        then (true, not line.trim.endsWith(SodaEndComment))
-        else (false, false)
+        then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
+        else CurrentAndNewCommentState(false, false)
 
     result
   }

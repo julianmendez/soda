@@ -57,14 +57,16 @@ case class Main () {
       .get_soda_files (new File (start )  )
       .map (file => {
         lazy val file_name = file.getAbsolutePath
-        lazy val (input_file_name, output_file_name ) = get_input_output_file_names (file_name )
-        translate (input_file_name, output_file_name )
+        lazy val t = get_input_output_file_names (file_name )
+        translate (t.input_file_name, t.output_file_name )
       }  )
 
-  def get_input_output_file_names (input_name: String ): (String, String ) =
+  case class FileNamePair (input_file_name: String, output_file_name: String )
+
+  def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (SodaExtension )
-    ) (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
-    else (input_name + SodaExtension, input_name + ScalaExtension )
+    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
+    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
 
   def translate (input_file_name: String, output_file_name: String ): Unit = {
     lazy val input = read_file (input_file_name )

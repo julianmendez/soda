@@ -41,19 +41,6 @@ package soda.translator.example
     result
   }
 
-  next (s: Status): (BigInt, Status) = {
-    ns = compute_new_status (s)
-    ret = ns.n
-    r = 10 * (ns.r - ns.n * ns.t)
-    n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
-    q = ns.q * 10
-    t = ns.t
-    l = ns.l
-    k = ns.k
-    new_status = Status (r, n, q, t, l, k)
-    (ret, new_status)
-  }
-
   take (n: Int): Seq[BigInt] = {
     result = rec (n, Seq(), initial_status)
 
@@ -62,9 +49,24 @@ package soda.translator.example
       if n == 0
       then rev_seq.reverse
       else {
-        (digit, new_status) = next (s)
-        rec (n - 1, rev_seq.+:(digit), new_status)
+        t = next (s)
+        rec (n - 1, rev_seq.+:(t.digit), t.new_status)
       }
+
+    * BigIntAndStatus(digit: BigInt, new_status: Status)
+
+    next (s: Status): BigIntAndStatus = {
+      ns = compute_new_status (s)
+      ret = ns.n
+      r = 10 * (ns.r - ns.n * ns.t)
+      n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
+      q = ns.q * 10
+       t = ns.t
+      l = ns.l
+      k = ns.k
+      new_status = Status (r, n, q, t, l, k)
+      BigIntAndStatus(ret, new_status)
+    }
 
     result
   }

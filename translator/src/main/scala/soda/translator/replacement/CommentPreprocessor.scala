@@ -23,17 +23,19 @@ case class CommentPreprocessor () {
     lazy val initial_value = FoldTuple (false, Seq ()  )
 
     def next_value (pair: FoldTuple, line: String ): FoldTuple = {
-      lazy val (current_state, new_comment_state ) = annotate_this_line (line, pair.comment_state )
-      FoldTuple (new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, current_state )  )  )
+      lazy val t = annotate_this_line (line, pair.comment_state )
+      FoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  )
     }
 
-    def annotate_this_line (line: String, comment_state: Boolean ): (Boolean, Boolean ) =
+    case class CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean )
+
+    def annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
       if (comment_state
-      ) (true, ! line.trim.endsWith (SodaEndComment )  )
+      ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
       else
         if (line.trim.startsWith (SodaBeginComment )
-        ) (true, ! line.trim.endsWith (SodaEndComment )  )
-        else (false, false )
+        ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
+        else CurrentAndNewCommentState (false, false )
 
     result
   }
