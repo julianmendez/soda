@@ -1,9 +1,6 @@
 package soda.translator.io
 
 import java.io.File
-import java.io.FileWriter
-import java.nio.file.Files
-import java.nio.file.Paths
 
 import soda.translator.language.MicroTranslator
 
@@ -18,6 +15,11 @@ case class Main () {
 
   lazy val SodaExtension: String = ".soda"
   lazy val ScalaExtension: String = ".scala"
+
+  lazy val Library_marker_file = "lib.soda"
+  lazy val Library_content_file = "/sodalib.soda"
+  lazy val Soda_suffix = ".soda"
+
 
   lazy val Help: String = "\n" +
     "\nUsage:" +
@@ -50,16 +52,38 @@ case class Main () {
   def main (args: Array [String]  ): Unit =
     if (args.length == 1 ) process_directory (args (0 )  )
     else if (args.length == 2 ) translate (args (0 ), args (1 )  )
-    else println (get_title_and_version + Help )
+    else {
+      println (get_title_and_version + Help )
+      true
+    }
 
-  def process_directory (start: String ) =
-    DirectoryScanner ()
-      .get_soda_files (new File (start )  )
-      .map (file => {
-        lazy val file_name = file.getAbsolutePath
-        lazy val t = get_input_output_file_names (file_name )
-        translate (t.input_file_name, t.output_file_name )
-      }  )
+  def process_directory (start: String ): Boolean = {
+    lazy val lib_content = SimpleIO () .read_resource (Library_content_file )
+
+    lazy val result =
+      lib_files
+        .map (file => SimpleIO () .write_file (file.getAbsolutePath, content=lib_content )  )
+        .forall (x => x ) &&
+      soda_files
+        .map (file => process_soda_file (file )  )
+        .forall (x => x )
+
+    lazy val all_files = DirectoryScanner () .get_all_files (new File (start )  )
+    lazy val soda_files = all_files
+        .filter (x => x.isFile )
+        .filter (x => x.getName.endsWith (Soda_suffix )  )
+    lazy val lib_files = all_files
+        .filter (x => x.isFile )
+        .filter (file => file.getName == Library_marker_file )
+
+    result
+  }
+
+  def process_soda_file (file: File ): Boolean = {
+    lazy val file_name = file.getAbsolutePath
+    lazy val t = get_input_output_file_names (file_name )
+    translate (t.input_file_name, t.output_file_name )
+  }
 
   case class FileNamePair (input_file_name: String, output_file_name: String )
 
@@ -68,15 +92,10 @@ case class Main () {
     ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
     else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
 
-  def translate (input_file_name: String, output_file_name: String ): Unit = {
-    lazy val input = read_file (input_file_name )
+  def translate (input_file_name: String, output_file_name: String ): Boolean = {
+    lazy val input = SimpleIO () .read_file (input_file_name )
     lazy val output = MicroTranslator () .translate_program (input )
-    lazy val writer = new FileWriter (output_file_name )
-    writer.write (output )
-    writer.flush ()
+    SimpleIO () .write_file (output_file_name, content=output )
   }
-
-  def read_file (fileName: String ): String =
-    new String (Files.readAllBytes (Paths.get (fileName )  )  )
 
 }

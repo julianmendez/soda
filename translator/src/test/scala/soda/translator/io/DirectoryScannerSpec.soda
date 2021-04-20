@@ -4,7 +4,7 @@ package soda.translator.io
 
 + java.io.File
 
-* ScannerSpec() extends AnyFunSuite {
+* DirectoryScannerSpec() extends AnyFunSuite {
 
   start = "translator/src/test/resources/soda/example"
 
@@ -30,18 +30,6 @@ package soda.translator.io
     ).map(x -> new File(start, x)).toSet
     start_file = new File(start)
     obtained = scanner.get_all_files(start_file).toSet
-    assert(obtained == expected)
-  }
-
-  test("simple get all Soda files") {
-    scanner = DirectoryScanner()
-
-    expected = Seq(
-      "Example.soda",
-      "otherexample/OtherExample.soda"
-    ).map(x -> new File(start, x)).toSet
-    start_file = new File(start)
-    obtained = scanner.get_soda_files(start_file).toSet
     assert(obtained == expected)
   }
 

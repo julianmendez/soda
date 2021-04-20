@@ -1,9 +1,6 @@
 package soda.translator.io
 
 + java.io.File
-+ java.io.FileWriter
-+ java.nio.file.Files
-+ java.nio.file.Paths
 
 + soda.translator.language.MicroTranslator
 
@@ -15,6 +12,11 @@ package soda.translator.io
 
   SodaExtension: String = ".soda"
   ScalaExtension: String = ".scala"
+
+  Library_marker_file = "lib.soda"
+  Library_content_file = "/sodalib.soda"
+  Soda_suffix = ".soda"
+
 
   Help: String = "\n" +
     "\nUsage:" +
@@ -47,16 +49,38 @@ package soda.translator.io
   main(args: Array[String]): Unit =
     if args.length == 1 then process_directory(args(0))
     else if args.length == 2 then translate(args(0), args(1))
-    else println(get_title_and_version + Help)
+    else {
+      println(get_title_and_version + Help)
+      true
+    }
 
-  process_directory(start: String) =
-    DirectoryScanner()
-      .get_soda_files(new File(start))
-      .map(file -> {
-        file_name = file.getAbsolutePath
-        t = get_input_output_file_names(file_name)
-        translate(t.input_file_name, t.output_file_name)
-      })
+  process_directory(start: String): Boolean = {
+    lib_content = SimpleIO().read_resource(Library_content_file)
+
+    result =
+      lib_files
+        .map(file -> SimpleIO().write_file(file.getAbsolutePath, content=lib_content))
+        .forall(x -> x) and
+      soda_files
+        .map(file -> process_soda_file(file))
+        .forall(x -> x)
+
+    all_files = DirectoryScanner().get_all_files(new File(start))
+    soda_files = all_files
+        .filter(x -> x.isFile)
+        .filter(x -> x.getName.endsWith(Soda_suffix))
+    lib_files = all_files
+        .filter(x -> x.isFile)
+        .filter(file -> file.getName == Library_marker_file)
+
+    result
+  }
+
+  process_soda_file(file: File): Boolean = {
+    file_name = file.getAbsolutePath
+    t = get_input_output_file_names(file_name)
+    translate(t.input_file_name, t.output_file_name)
+  }
 
   * FileNamePair(input_file_name: String, output_file_name: String)
 
@@ -66,16 +90,11 @@ package soda.translator.io
       input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
     else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
 
-  translate(input_file_name: String, output_file_name: String): Unit = {
-    input = read_file(input_file_name)
+  translate(input_file_name: String, output_file_name: String): Boolean = {
+    input = SimpleIO().read_file(input_file_name)
     output = MicroTranslator().translate_program(input)
-    writer = new FileWriter(output_file_name)
-    writer.write(output)
-    writer.flush()
+    SimpleIO().write_file(output_file_name, content=output)
   }
-
-  read_file(fileName: String): String =
-    new String(Files.readAllBytes(Paths.get(fileName)))
 
 }
 

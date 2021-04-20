@@ -7,17 +7,10 @@ import java.io.File
  */
 case class DirectoryScanner () {
 
-  lazy val Soda_suffix = ".soda"
-
   def get_all_files (start: File ): Seq [File] =
     if (start.isFile
     ) Seq (start )
     else scan (Seq (), start.listFiles () .toSeq )
-
-  def get_soda_files (start: File ): Seq [File] =
-    get_all_files (start )
-      .filter (x => x.isFile )
-      .filter (x => x.getName.endsWith (Soda_suffix )  )
 
   def scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] = {
     lazy val result = rec (found, to_scan )

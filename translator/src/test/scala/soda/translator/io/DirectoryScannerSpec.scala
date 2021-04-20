@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 import java.io.File
 
-case class ScannerSpec () extends AnyFunSuite {
+case class DirectoryScannerSpec () extends AnyFunSuite {
 
   lazy val start = "translator/src/test/resources/soda/example"
 
@@ -24,17 +24,6 @@ case class ScannerSpec () extends AnyFunSuite {
     ) .map (x => new File (start, x )  ) .toSet
     lazy val start_file = new File (start )
     lazy val obtained = scanner.get_all_files (start_file ) .toSet
-    assert (obtained == expected )
-  }
-
-  test ("simple get all Soda files") {
-    lazy val scanner = DirectoryScanner ()
-
-    lazy val expected = Seq (
-      "Example.soda", "otherexample/OtherExample.soda"
-    ) .map (x => new File (start, x )  ) .toSet
-    lazy val start_file = new File (start )
-    lazy val obtained = scanner.get_soda_files (start_file ) .toSet
     assert (obtained == expected )
   }
 

@@ -1,0 +1,35 @@
+package soda.translator.io
+
++ java.io.BufferedReader
++ java.io.FileWriter
++ java.io.InputStreamReader
++ java.nio.file.Files
++ java.nio.file.Paths
++ java.util.stream.Collectors
+
+/**
+ * This is an auxiliary class to read and write small files.
+ */
+* SimpleIO() {
+
+  New_line = "\n"
+
+  read_file(file_name: String): String =
+    new String(Files.readAllBytes(Paths.get(file_name)))
+
+  read_resource(file_name: String): String = {
+    input_stream = getClass.getResourceAsStream(file_name)
+    reader = new BufferedReader(new InputStreamReader(input_stream))
+    reader.lines().collect(Collectors.joining(New_line))
+  }
+
+  write_file(file_name: String, content: String): Boolean = {
+      writer = new FileWriter(file_name)
+      writer.write(content)
+      writer.flush()
+      writer.close()
+      true
+  }
+
+}
+
