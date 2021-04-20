@@ -8,7 +8,7 @@ package soda.translator.example
 
   def[A, B](key: A, value: B): Pair[A, B] = Pair(key, value)
 
-  while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B) =
+  while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B): Seq[B] =
     seq.takeWhile(cond).map(do)
 
   protected = "protected"
