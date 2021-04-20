@@ -49,13 +49,15 @@ case class Main () {
     (name + " " + version ) .trim
   }
 
-  def main (args: Array [String]  ): Unit =
-    if (args.length == 1 ) process_directory (args (0 )  )
-    else if (args.length == 2 ) translate (args (0 ), args (1 )  )
-    else {
-      println (get_title_and_version + Help )
-      true
-    }
+  def main (args: Array [String]  ): Unit = {
+    lazy val result =
+      if (args.length == 1 ) process_directory (args (0 )  )
+      else if (args.length == 2 ) translate (args (0 ), args (1 )  )
+      else {
+        println (get_title_and_version + Help )
+        true
+      }
+  }
 
   def process_directory (start: String ): Boolean = {
     lazy val lib_content = SimpleIO () .read_resource (Library_content_file )

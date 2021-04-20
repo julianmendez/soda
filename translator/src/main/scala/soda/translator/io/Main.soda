@@ -46,13 +46,15 @@ package soda.translator.io
     (name + " " + version).trim
   }
 
-  main(args: Array[String]): Unit =
-    if args.length == 1 then process_directory(args(0))
-    else if args.length == 2 then translate(args(0), args(1))
-    else {
-      println(get_title_and_version + Help)
-      true
-    }
+  main(args: Array[String]): Unit = {
+    result =
+      if args.length == 1 then process_directory(args(0))
+      else if args.length == 2 then translate(args(0), args(1))
+      else {
+        println(get_title_and_version + Help)
+        true
+      }
+  }
 
   process_directory(start: String): Boolean = {
     lib_content = SimpleIO().read_resource(Library_content_file)
