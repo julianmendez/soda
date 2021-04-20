@@ -124,11 +124,16 @@ case class MicroTranslator () {
    * 'val' is for value definition.
    * It is detected in three cases.
    * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
-   * Case 2: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
-   * Case 3: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   * Case 2: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
    *
    * 'def' is for function definition.
    * If it does not fit in any of the 'val' cases.
+   *
+   * Formerly there was another case for 'val'.
+   * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+   * This was implemented simply as:
+   *  `line.trim.startsWith(SodaOpeningParenthesis)`
+   * This is no longer supported.
    *
    * @param line line
    * @return a translated line
@@ -141,10 +146,9 @@ case class MicroTranslator () {
       lazy val position_of_first_closing_parenthesis = line.indexOf (SodaClosingParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = line.trim.startsWith (SodaOpeningParenthesis )
-      lazy val case3 = position_of_first_closing_parenthesis > position_of_definition_sign
+      lazy val case2 = position_of_first_closing_parenthesis > position_of_definition_sign
 
-      lazy val new_text = if (case1 || case2 || case3
+      lazy val new_text = if (case1 || case2
       ) Translation () .ScalaValue + ScalaSpace
       else Translation () .ScalaDefinition + ScalaSpace
       Replacement (line ) .add_after_spaces (new_text ) .line

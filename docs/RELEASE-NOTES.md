@@ -6,6 +6,8 @@
     - includes `extends` to declare upper bounds of type parameters, with the meaning 'subtype of'
     - includes a file expansion of a basic library when it finds `lib.soda`
     - produces better looking Scala translated source code
+  - deprecated_features:
+    - does not longer support the use tuples on the left-hand side of a definition sign (`=`)
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-RC2/soda-0.7.0.jar
 - - version: v0.6.0
