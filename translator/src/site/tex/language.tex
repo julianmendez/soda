@@ -8,6 +8,22 @@
     morestring=[b]" % defines that strings are enclosed in double quotes
 } %
 
+\lstset{frame=tb,
+    language=Soda,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
 
 \newcommand{\srccode}[1]{\texttt{{#1}}}
 \newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
@@ -56,3 +72,4 @@
 
 
 \newcommand{\Soda}{\textsc{Soda}\xspace}
+
