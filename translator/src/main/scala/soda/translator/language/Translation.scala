@@ -22,29 +22,29 @@ case class Translation () {
     "abstract", "case", "catch", "class", "def", "do", "else", "extends", "false", "final", "finally", "for", "forSome", "if", "implicit", "import", "lazy", "macro", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "this", "throw", "trait", "try", "true", "type", "val", "var", "while", "with", "yield", "_", ":", "=", "=>", "<-", "<:", "<%", ">:", "#", "@", "\u21D2", "\u2190"
   )
 
-  def SynonymAtBeginning: Seq [(String, String )] = Seq (
+  lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (
     ("*", "class"), ("+", "import")
   )
 
-  def TranslationAtBeginningWithParen: Seq [(String, String )] = Seq (
+  lazy val TranslationAtBeginningWithParen: Seq [(String, String )] = Seq (
     ("class", "case class"), ("has", "def")
   )
 
-  def TranslationAtBeginningWithoutParen: Seq [(String, String )] = Seq (
+  lazy val TranslationAtBeginningWithoutParen: Seq [(String, String )] = Seq (
     ("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
     ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", ScalaEntryPoint )
   )
 
-  def TranslationBetweenSquareBrackets: Seq [(String, String )] = Seq (
+  lazy val TranslationBetweenSquareBrackets: Seq [(String, String )] = Seq (
     ("extends", "<:")
   )
 
-  def Synonym: Seq [(String, String )] = Seq (
+  lazy val Synonym: Seq [(String, String )] = Seq (
     ("is", "="), ("suchthat", "->")
   )
 
-  def MainTranslation: Seq [(String, String )] = Seq (
+  lazy val MainTranslation: Seq [(String, String )] = Seq (
     (":", ":"), ("->", "=>"), ("if", "if ("), ("then", ")"), ("else", "else"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"), ("new", "new")
   )
 
@@ -60,7 +60,7 @@ case class Translation () {
 
   lazy val SodaBracketsAndComma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  def Beautifier: Seq [(String, String )] = Seq (
+  lazy val Beautifier: Seq [(String, String )] = Seq (
     ("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")
   )
 

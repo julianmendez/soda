@@ -10,9 +10,9 @@ case class RecSpec () extends AnyFunSuite {
   test ("foldLeftWhile with Seq") {
     lazy val initial_value = Seq ()
 
-    def next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
 
-    def condition: (Seq [String], Int ) => Boolean = (s: Seq [String], e: Int ) => e < 5
+    lazy val condition: (Seq [String], Int ) => Boolean = (s: Seq [String], e: Int ) => e < 5
 
     lazy val expected = Seq ("103", "102", "101", "101", "100")
     lazy val obtained = Rec () .foldLeftWhile (exampleSeq, initial_value, next_value, condition )
@@ -22,7 +22,7 @@ case class RecSpec () extends AnyFunSuite {
   test ("foldLeft with Seq") {
     lazy val initial_value = Seq ()
 
-    def next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
 
     lazy val expected = Seq ("108", "105", "103", "102", "101", "101", "100")
     lazy val obtained = Rec () .foldLeft (exampleSeq, initial_value, next_value )

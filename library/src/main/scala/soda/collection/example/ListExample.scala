@@ -31,16 +31,16 @@ case class ListExample () {
   lazy val dropWhileExample: Pair [Seq [Char]] =
     Pair ("A.dropWhile(x -> not (x == 'E'))", A.dropWhile (x => ! (x == 'E')  )  )
 
-  def splitAtExample: Pair [(Seq [Char], Seq [Char]  )] =
+  lazy val splitAtExample: Pair [(Seq [Char], Seq [Char]  )] =
     Pair ("A.splitAt(3)", A.splitAt (3 )  )
 
   lazy val indicesExample: Pair [Range] =
     Pair ("A.indices", A.indices )
 
-  def zipWithIndexExample: Pair [Seq [(Char, Int )]] =
+  lazy val zipWithIndexExample: Pair [Seq [(Char, Int )]] =
     Pair ("A.zipWithIndex", A.zipWithIndex )
 
-  def zipExample: Pair [Seq [(Char, Int )]] =
+  lazy val zipExample: Pair [Seq [(Char, Int )]] =
     Pair ("A.zip(B)", A.zip (B )  )
 
   lazy val reverseExample: Pair [Seq [Char]] =
@@ -61,7 +61,7 @@ case class ListExample () {
   lazy val concatExample: Pair [Seq [Int]] =
     Pair ("A.map(_.toInt).++(B)", A.map (_.toInt ) .++ (B )  )
 
-  def spanExample: Pair [(Seq [Char], Seq [Char]  )] =
+  lazy val spanExample: Pair [(Seq [Char], Seq [Char]  )] =
     Pair ("A.span(x -> not (x == 'D'))", A.span (x => ! (x == 'D')  )  )
 
   lazy val mapExample: Pair [Seq [Int]] =
