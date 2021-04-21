@@ -1,0 +1,393 @@
+\documentclass[12pt,a4paper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\include{language}
+
+\begin{document}
+
+    \lstset{frame=tb,
+        language=Soda,
+        aboveskip=3mm,
+        belowskip=3mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{gray},
+        stringstyle=\color{teal},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3
+    }
+
+    \begin{center}
+
+        \phantom{H}
+
+        \vspace{80mm}
+
+        {\huge{\Soda}}
+
+        \vspace{80mm}
+        Julian Alfredo Mendez
+
+        \vspace{10mm}
+        0.7.0
+
+    \end{center}
+
+    \newpage
+
+
+    \chapter{Introduction}
+
+    \Soda (Symbolic Objective Descriptive Analysis) is a human-centered formalism to describe, formalize, and prototype ethical problems and constraints.
+    It could be seen as a specification language or as a functional programming language.
+    A specification or piece of source code written in \Soda needs to be especially easy to read, but it does not need to be easy to write.
+
+    A prototype written in \Soda does not need to be efficient, as long that it can be executed in a \textit{reasonable time}.
+    A reasonable time is not a mathematical definition, but a human perception for a specific task.
+
+    The current implementation of \Soda can be translated into Scala, and it relies on its data types.
+    Prototypes written in \Soda can be run in the Java Virtual Machine (JVM).
+    Therefore, it can be used as a JVM library and use libraries written in Java, Scala, or any other JVM language.
+
+    The reasons of translating \Soda into Scala and not just using Scala could be summarized in three main points.
+
+    The first point is to have a \textbf{lean syntax}.
+    \Soda is expected to maximize transparency of written code.
+    In general, less reserved words are used.
+    For example, there is no need to distinguish between values (in Scala, \scalaval) and variables (in Scala, \scalavar).
+    Also, there is no need to distinguish between public, protected or private methods.
+
+    The second point is to have a \textbf{constrained syntax}.
+    This means that the only available commands are those of a purely functional approach.
+    This prevents creating mutable objects, like when using \scalavar, or changing a class behavior by inheritance, like when using a \scalaclass that is not a \scalacase \scalaclass.
+    It is worth noticing that, since \Soda is a JVM language, it also accepts JVM mutable objects.
+    However, these objects need to be declared at the beginning, and can be forbidden if that is necessary.
+
+    Finally, the third point is to have \textbf{translation options}.
+    \Soda could be translated to other languages that support tail recursion like Kotlin, for example.
+
+
+    \section{The Intended User of \Soda}
+
+    The purpose of \Soda is to give at least one way that is clear enough to describe things, paying less regard to efficiency.
+
+    Let us try to think what problems \Soda tries to solve.
+    If we think on the first programming languages, like Fortran, Cobol, and Lisp, they had challenges to parse the source code.
+    Newer programming languages, like Python or Scala, have clearly more powerful computers to do the processing.
+
+    Lisp source code can look very flexible, but it could be challenging keeping track of the parentheses.
+
+    Fortran has been used by physicist thanks to its important number of libraries for physics.
+    Earlier versions of Fortran could not process recursion as we usually do it now, since it did not use a stack for the variables.
+    Programming backtracking was extremely intricate.
+
+    \Soda allows writing functions as tail recursive, as in other modern functional languages, and the compiler transforms the tail recursion to an iteration.
+
+    Someone who needs to understand the code does not necessarily need to know how to write a tail recursion.
+    Writing a tail recursion requires some knowledge of algorithms, but reading a tail recursion is very intuitive, in a mathematical way.
+    Because of this type of asymmetries, we say that \Soda is a language that is easy to read but not necessarily easy to write.
+
+    Since \Soda is intended to maximize transparency, there is no reserved word to declare private methods.
+    In object-oriented programming languages, classes and their attributes and methods are declared private to prevent using them outside the intended place.
+    In \Soda, a protected class, attribute, or method name can be identified by using an underscore as prefix.
+
+
+    \section{A Descriptive Language}
+
+    In traditional programming languages, if we need to represent a big data structure, every byte counts.
+    If we need to store numbers between 0 and 250, a byte (8 bits) would suffice.
+    However, if we need to store numbers between 0 and 260, we would need one more bit (9 bits), which is practice it would mean to use two bytes (16 bits).
+
+    In most cases, we do not care if an integer is 32-bit or 64-bit, and to understand an algorithm, we do not even care if an integer has a fixed length.
+    The number of bytes a system uses is a technical issue, and it could complicate the understanding of an algorithm.
+
+    This level of detail is usually irrelevant to describe a problem, unless the problem is about this technicality.
+    In other words, it is more natural that a human reads about a number, regardless of how many bits that number needs to be represented.
+
+    In an algorithm, we explain a sequence of steps to accomplish a particular goal.
+    If we want to order an array, we can either swap elements in an array, like in bubble sort, or we can choose a pivot, like in quicksort, or use other strategies.
+
+    Is it really important to describe a problem to know how an array is sorted?
+    Usually we do not care how an array is being sorted, as long as it takes a \textit{reasonable} time.
+
+    Let us consider another example.
+    If we are manipulating strings, and we want to find a particular pattern.
+    Finding a pattern is a very common problem.
+    As long as there is one way of finding a pattern, we do not really care how it is done.
+
+    \Soda could be seen mostly as a specification language, where we can specify without saying how.
+    It could be seen as a programming language as well.
+
+    The important point is that it can provide at least one implementation that is good enough, with an acceptable complexity, to test if something is compliant or not.
+
+
+    \section{Purpose of \Soda}
+
+    The purpose of \Soda is to give a ``yes'' or ``no'' answer to verify if something is compliant to ethical constraints.
+    Ideally, it should also provide an explanation for its answer.
+
+    As said before, \Soda is a formalism with some libraries.
+    It is not only a restricted variant of a functional language.
+    It is also all the collections of requirements that are useful for defining ethical problems.
+
+    In an iterative process, new ethical problems are formalized in \Soda, and when patterns are found in many problems, they join its libraries.
+    Thus, \Soda contains a collection of small classes and functions to accomplish particular tasks.
+
+    In some cases, it could look like a controlled natural language, but it is not its purpose to look like one.
+    For example, there are formulas that can be said as a sentence or written as a formula.
+    Reading ``the square root of two'' is harder than reading $\sqrt{2}$.
+    \Soda code has to be easy to read, not necessarily easy to say, or to write.
+
+
+    \section{General features}
+
+    The goal of \Soda is to specify without being too specific, giving some freedom for different implementations.
+    \Soda tries to keep a good balance between vagueness and concreteness, a good balance between specificity and generality,
+    a good balance between what is very descriptive, but also technically useful.
+
+    This happens in a way that is general enough to abstract implementations, but specific enough to constraint a problem.
+    We do not need to define how things are done, as long as they are done correctly and in a reasonable time.
+
+
+    \section{Technical Considerations}
+
+    \Soda needs to be abstract enough to describe, efficient enough, easy to read, easy to execute, and easy to integrate.
+    Because of that, \Soda is a JVM language and can be compiled into Java byte code.
+
+    For now, the translator converts \Soda code into Scala code, which in turn can be compiled to byte code.
+    For the sake of compatibility with the JVM, \Soda has an \soverride annotation and a \snew command.
+    The \soverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
+    The \snew command is to be able to create JVM objects.
+
+    \Soda uses the main types provided by Scala.
+    For example, numeric types like \srccode{Int}, \srccode{Float}, and immutable collections like \srccode{Seq}, \srccode{List}, \srccode{Array}, and \srccode{Map}.
+    The JVM exception handling is done via \srccode{Try}.
+
+
+    \section{Philosophy}
+
+    \Soda is designed to be a functional specification language.
+    There are some general rules that apply to it:
+
+    \begin{itemize}
+        \item the specification is inteded to be read and understood by a human, so it has to be very clear;
+        \item every defined thing is defined only once, in one place;
+        \item objects are immutable;
+        \item classes cannot be modified, but they can be extended.
+    \end{itemize}
+
+
+    \section{Mutability}
+
+    Mutability is one of the reason that algorithms get more difficult to understand.
+    Although it is a practical way to save memory usage, it could be error prone.
+    For this reason, \Soda does not have ways to program mutability.
+
+    For technical reasons, it is possible to use mutable objects from the JVM in \Soda.
+    This is strongly discouraged, since other design decisions are based assuming that objects are immutable.
+
+    \Soda does not handle exceptions (except when they come from the JVM).
+    The exceptions are caught by Scala classes (like \srccode{Try}), as Scala does.
+
+    Functions with side effects, like input and output operations, are discouraged in \Soda.
+    In exceptional cases, they could be managed by JVM libraries.
+
+
+    \section{Constants and Functions}
+
+    In \Soda there are no mutable objects.
+    Every value is therefore constant.
+    In addition, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
+
+    There is a technical difference between constants and functions without parameters.
+    While in Scala, the use of parameters is expected to denote side effects, in \Soda it only indicates that the value is recalculated.
+    Thus, functions without parameters are evaluated every time they are invoked.
+    For constants, \Soda uses \textit{lazy evaluation}, and they are only evaluated when they are used for the first time.
+
+    In \Soda, it is possible to define a function that needs auxiliary computations using bindings.
+    This can be done by defining a block between braces (\srccode{\{ \}}).
+    In this block, all the auxiliary computations are evaluated only when the last line, the result, needs to be calculated.
+
+    For example, the mathematical formula:
+    \begin{center}
+        $f(x) = g(x) + g(g(x))$
+    \end{center}
+    can be rewritten as
+    \begin{center}
+        $f(x) = a + b$, where $a = g(x)$ and $b = g(a)$.
+    \end{center}
+
+    In \Soda, the order is slightly changed, and the result is put at the end:
+    \begin{lstlisting}[label={lst:exampleFunctionWithBraces}]
+  f (x: Int) = {
+    a = g(x)
+    b = g(a)
+    a + b
+  }
+    \end{lstlisting}
+
+    This could be read as:
+    \begin{center}
+        $f(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
+    \end{center}
+
+
+    \section{Types and Classes}
+
+    \Soda is statically typed.
+    It has some ideas of object orientation.
+    However, there are substantial differences with traditional object oriented programming.
+
+
+    \section{Object Inheritance and Overriding}
+
+    \Soda has two types of classes: abstract classes, and concrete classes.
+
+    Abstract classes are like traits in Scala and interfaces in Java, and either do not have any implementation, or what is implemented cannot be overridden.
+    Concrete classes are like case classes in Scala, since they cannot be extended, and have a default constructor.
+    Abstract classes are the only classes that can be extended, since no concrete class can be extended.
+
+    Abstract classes can contain \textit{abstract} constants and functions, which are only signatures of constants and functions.
+
+    A class declaration of a concrete class has:
+    \begin{itemize}
+        \item the name for the new type;
+        \item a declaration of its super types, if any;
+        \item a possibly empty tuple of required instances to instantiate the class;
+        \item a possibly empty sequence of constants and functions.
+    \end{itemize}
+
+
+    An class declaration of an abstract class contains:
+    \begin{itemize}
+        \item the name for the new type;
+        \item a declaration of its super types, if any;
+        \item a possibly empty sequence of possibly abstract constants and functions.
+    \end{itemize}
+
+    All super types are abstract classes, since concrete classes cannot be extended.
+
+    The declaration of the sequence of constants and functions starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
+
+    All implemented functions are \textit{final} (cannot be extended), and the same for all defined constants.
+    This is to prevent that the behavior is changed after extending a class.
+    For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
+
+    In \Soda, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
+    The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
+
+    It is important to observe that the syntax in \Soda does not restrict the definition of constants in a class that depends on a constructor from the same class.
+    In \Soda there is no lazy evaluation, though.
+    The evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
+    A direct solution to this situation is to emulate the lazy evaluation by using a function without parameters instead of a constant.
+    This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
+    The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
+
+
+    \section{Static Constants and Functions}
+
+    In \Soda, there is no concept of static functions.
+    It is never assumed that there is one instance of an object.
+    The class constructors can be implemented as objects of another class, although not necessary unique.
+
+
+    \section{Parametric Types}
+
+    The use of parametric types is technically possible.
+    It is possible to put upper bounds in the parameter, to define it as a subtype of another type.
+
+    \begin{lstlisting}[label={lst:exampleUpperBoundParameter}]
+  class Shape
+
+  class Movable
+
+  class ShapePainter[A extends Shape]
+
+  class ShapeMover[A extends Shape with Movable]
+    \end{lstlisting}
+
+    In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
+    When a concrete class extends ShapePainter, it can use specific functions of a concrete type A, even if they are not in type Shape.
+    A concrete class extending ShapeMover require a parameter that is a Shape and that is Movable.
+
+    Usually, parametric types are needed for highly generic data types, like collections.
+    Parameters are used to reduce code length, but sometimes smaller code is not necessarily easier to understand.
+    Using parametric types could hide a design flaw, when the code looks ``very general'', but in practice is only applicable to one specific type.
+
+
+    \section{Style}
+
+    \Soda does not require a semicolon to finish each instruction, and the tabulation at the beginning of the line is irrelevant.
+    Consecutive lines ending with a comma character (\srccode{,}) are considered to belong to the same line.
+
+    Braces in the definition of a function should be avoided whenever that is possible.
+
+    Defining a constant or a function requires a space around the equals character (\srccode{=}).
+    This character can be used to define parameter names.
+    In this case, there should not be any space around the character.
+
+    \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
+  class EqualsExample () {
+    f (x: Int, y: Int) = 2 * x + y
+
+    answer = f (x=20, y=2)
+  }
+    \end{lstlisting}
+
+    Comments are marked with the \srccode{/*} and  \srccode{*/}.
+    The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
+    In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
+
+    In general, comments are slightly discouraged, because the code should be descriptive enough.
+    If the code is not descriptive enough, it should be refactored instead of commented.
+    Comments can very easily get outdated if the source is changed, and the comment is not updated.
+
+    Types are defined after the variables, and they are statically defined.
+
+    The recommended naming convention is using snake case, i.e. separating the words with underscore.
+    Class names should start with a capital letter, functions with a lowercase letter.
+
+    Since there are no private functions or constants in a class, the suggestion is to start their name with an underscore.
+
+    This is only a recommendation, since the JVM objects use camel case, i.e. all the words come together, starting with a capital letter.
+    Since \Soda can be integrated with other JVM languages, some \Soda code could use camel case.
+
+    Example using snake case, recommended in \Soda
+
+    \begin{lstlisting}[label={lst:exampleExtendsSnakeCase}]
+  /** Class for a registered person, in snake case */
+  class Registered_person (first_name: String, last_name: String) {
+    _separator = " "
+
+    full_name = first_name + _separator + last_name
+  }
+    \end{lstlisting}
+
+    Example using camel case, as in Java:
+    \begin{lstlisting}[label={lst:exampleExtendsCamelCase}]
+  /** Class for a registered person, in camel case */
+  class RegisteredPerson (firstName: String, lastName: String) {
+    _separator = " "
+
+    fullName = firstName + _separator + lastName
+  }
+    \end{lstlisting}
+
+    \appendix
+
+    \chapter{A}
+
+    \include{reservedwords}
+
+\end{document}
+

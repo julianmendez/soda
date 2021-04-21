@@ -1,0 +1,58 @@
+
+\usepackage{listings}
+
+\lstdefinelanguage{Soda}{
+    morekeywords={if, then, else, class, has, extends, with, this, false, true, not, and, or, package, import, new, is, suchthat, @tailrec, @override, @main},
+    sensitive=true, % keywords are not case-sensitive
+    morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+    morestring=[b]" % defines that strings are enclosed in double quotes
+} %
+
+
+\newcommand{\srccode}[1]{\texttt{{#1}}}
+\newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
+\newcommand{\annotation}[1]{{\color{brown}\srccode{#1}}\xspace}
+
+\newcommand{\sdef}{\srccode{=}\xspace}
+\newcommand{\scolon}{\srccode{:}}
+\newcommand{\slambda}{{\tiny--\textgreater}\xspace}
+
+\newcommand{\sif}{\reservedWord{if}}
+\newcommand{\sthen}{\reservedWord{then}}
+\newcommand{\selse}{\reservedWord{else}}
+
+\newcommand{\sclass}{\reservedWord{class}}
+\newcommand{\shas}{\reservedWord{has}}
+\newcommand{\sextends}{\reservedWord{extends}}
+\newcommand{\swith}{\reservedWord{with}}
+\newcommand{\sthis}{\reservedWord{this}}
+
+\newcommand{\sfalse}{\reservedWord{false}}
+\newcommand{\strue}{\reservedWord{true}}
+\newcommand{\snot}{\reservedWord{not}}
+\newcommand{\sand}{\reservedWord{and}}
+\newcommand{\sor}{\reservedWord{or}}
+
+\newcommand{\spackage}{\reservedWord{package}}
+\newcommand{\simport}{\reservedWord{import}}
+\newcommand{\snew}{\reservedWord{new}}
+
+\newcommand{\stailrec}{\annotation{@tailrec}}
+\newcommand{\soverride}{\annotation{@override}}
+\newcommand{\smain}{\annotation{@main}}
+
+\newcommand{\sequalsSign}{\srccode{==}}
+
+\newcommand{\sasterisk}{\srccode{*}}
+\newcommand{\splus}{\srccode{+}}
+
+\newcommand{\sis}{\reservedWord{is}}
+\newcommand{\ssuchthat}{\reservedWord{suchthat}}
+
+\newcommand{\scalacase}{\reservedWord{case}}
+\newcommand{\scalaclass}{\reservedWord{class}}
+\newcommand{\scalaval}{\reservedWord{val}}
+\newcommand{\scalavar}{\reservedWord{var}}
+
+
+\newcommand{\Soda}{\textsc{Soda}\xspace}
