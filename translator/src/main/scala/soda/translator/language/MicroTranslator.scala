@@ -94,10 +94,10 @@ case class MicroTranslator () {
           lazy val newText = Replacement (token.text )
             .add_spaces_to_symbols (symbols=Translation () .SodaBracketsAndComma.toSet )
             .replace (ScalaNonSoda (), only_beginning=false )
-            .replace_with (try_extends_between_square_brackets )
             .replace_at_beginning (token.index, SynonymAtBeginning ()  )
             .replace (Synonym (), only_beginning=false )
             .replace_with (try_definition )
+            .replace_with (try_extends_between_square_brackets )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
             .replace (MainTranslation (), only_beginning=false )
             .replace_regex (Beautifier ()  )
@@ -125,6 +125,7 @@ case class MicroTranslator () {
    * It is detected in three cases.
    * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
    * Case 2: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
    *
    * 'def' is for function definition.
    * If it does not fit in any of the 'val' cases.
@@ -139,16 +140,22 @@ case class MicroTranslator () {
    * @return a translated line
    */
   def try_definition (line: String ): String = {
-    lazy val maybe_position = find_definition (line )
-    if (maybe_position.nonEmpty
+    lazy val maybe_position_of_definition = find_definition (line )
+    if (maybe_position_of_definition.nonEmpty
     ) {
-      lazy val position_of_definition_sign = maybe_position.get
       lazy val position_of_first_closing_parenthesis = line.indexOf (SodaClosingParenthesis )
+      lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = position_of_first_closing_parenthesis > position_of_definition_sign
+      lazy val case2 = position_of_first_closing_parenthesis > maybe_position_of_definition.get
 
-      lazy val new_text = if (case1 || case2
+      lazy val maybe_position_of_colon = find_pattern (line, Translation () .SodaColon )
+      lazy val case3 =
+        if (maybe_position_of_colon.nonEmpty
+        ) position_of_first_opening_parenthesis > maybe_position_of_colon.get
+        else false
+
+      lazy val new_text = if (case1 || case2 || case3
       ) Translation () .ScalaValue + ScalaSpace
       else Translation () .ScalaDefinition + ScalaSpace
       Replacement (line ) .add_after_spaces (new_text ) .line
@@ -163,11 +170,13 @@ case class MicroTranslator () {
    * @param line line
    * @return maybe the position of the definition sign
    */
-  def find_definition (line: String ): Option [Int] = {
-    lazy val position =
-      if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
-      ) line.length - Translation () .SodaDefinition.length
-      else line.indexOf (SodaSpace + Translation () .SodaDefinition + SodaSpace )
+  def find_definition (line: String ): Option [Int] =
+    if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
+    ) Some (line.length - Translation () .SodaDefinition.length )
+    else find_pattern (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
+
+  def find_pattern (line: String, pattern: String ): Option [Int] = {
+    lazy val position = line.indexOf (pattern )
     if (position == -1
     ) None
     else Some (position )

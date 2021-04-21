@@ -8,6 +8,8 @@
     - produces better looking Scala translated source code
   - deprecated_features:
     - does not longer support the use tuples on the left-hand side of a definition sign (`=`)
+  - bug_fixes:
+    - fixes translation of constants that are lambda functions
   - build: sbt clean compile test package assembly
   - release: target/scala-3.0.0-RC2/soda-0.7.0.jar
 - - version: v0.6.0

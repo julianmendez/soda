@@ -14,6 +14,10 @@ case class ScalaReservedWordEscaping () {
   lazy val __soda__protected = "protected"
   lazy val __soda__private = "private"
 
+  def f (x: Int, y: Int ): Int = x + y
+
+  lazy val cons: (Int, Int ) => Int = (x, y ) => f (x, y )
+
   case class Pair [A, B]  (key: A, value: B )
 
 }
