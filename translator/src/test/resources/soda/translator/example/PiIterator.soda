@@ -18,7 +18,8 @@ package soda.translator.example
 
 * PiIterator() {
 
-  initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1)
+  initial_status =
+    Status (r=0, n=3, q=1, t=1, l=3, k=1)
 
   compute_new_status (s: Status): Status = {
     result = rec(s)
@@ -61,7 +62,7 @@ package soda.translator.example
       r = 10 * (ns.r - ns.n * ns.t)
       n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
       q = ns.q * 10
-       t = ns.t
+      t = ns.t
       l = ns.l
       k = ns.k
       new_status = Status (r, n, q, t, l, k)

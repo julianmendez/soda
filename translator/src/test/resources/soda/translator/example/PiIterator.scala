@@ -13,7 +13,8 @@ case class Status (
 
 case class PiIterator () {
 
-  lazy val initial_status = Status (r=0, n=3, q=1, t=1, l=3, k=1 )
+  lazy val initial_status =
+    Status (r=0, n=3, q=1, t=1, l=3, k=1 )
 
   def compute_new_status (s: Status ): Status = {
     lazy val result = rec (s )
@@ -58,7 +59,7 @@ case class PiIterator () {
       lazy val r = 10 * (ns.r - ns.n * ns.t )
       lazy val n = ((10 * (3 * ns.q + ns.r )  ) / ns.t ) - (10 * ns.n )
       lazy val q = ns.q * 10
-       lazy val t = ns.t
+      lazy val t = ns.t
       lazy val l = ns.l
       lazy val k = ns.k
       lazy val new_status = Status (r, n, q, t, l, k )
