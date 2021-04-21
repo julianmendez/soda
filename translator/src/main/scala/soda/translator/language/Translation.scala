@@ -45,7 +45,7 @@ case class Translation () {
   )
 
   lazy val MainTranslation: Seq [(String, String )] = Seq (
-    (":", ":"), ("->", "=>"), ("if", "if ("), ("then", ")"), ("else", "else"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"), ("new", "new")
+    (":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"), ("new", "new")
   )
 
   lazy val PrefixScalaNonSoda = "__soda__"

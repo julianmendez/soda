@@ -130,6 +130,7 @@ package soda.translator.language
   MainTranslation: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
+    (":=", "="),
     ("if", "if ("),
     ("then", ")"),
     ("else", "else"),
