@@ -68,7 +68,7 @@ case class Min [T]  () {
   }
 
   def reverse (s: MSeq [T]  ): MSeq [T] =
-    s.open (ifEmpty=empty, ifNonEmpty= (neseq => reverseNonEmpty (neseq )  )  )
+    s.open (ifEmpty = empty, ifNonEmpty = (neseq => reverseNonEmpty (neseq )  )  )
 
   def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] = {
     lazy val initial_value: NESeq [T] = prepended (empty, s.head ()  )
@@ -111,7 +111,7 @@ case class Min [T]  () {
 
   def at (s: MSeq [T], n: Int ): Option [T] = {
     lazy val result =
-      s.open (ifEmpty=None, ifNonEmpty= (neseq =>
+      s.open (ifEmpty = None, ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
         ) None
         else Some (atNonEmpty (neseq, n )  )
@@ -159,7 +159,7 @@ case class Min [T]  () {
 
     def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
       tuple.seq.open (
-        ifEmpty=FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty= (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
+        ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
       )
 
     def condition (tuple: FoldTuple, elem: T ): Boolean =
@@ -290,7 +290,7 @@ case class Min [T]  () {
       lazy val right = tuple.right
 
       left.open (
-        ifEmpty=FoldTuple (left, right, false ), ifNonEmpty= (neleft => {
+        ifEmpty = FoldTuple (left, right, false ), ifNonEmpty = (neleft => {
           lazy val e = neleft.head ()
           lazy val new_taking = p (e )
 

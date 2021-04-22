@@ -16,7 +16,7 @@ package soda.collection
       if seq.isEmpty
       then acc
       else {
-        neseq = seq.open(ifEmpty=None, ifNonEmpty=(x -> Some(x))).get
+        neseq = seq.open(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
         if not condition(acc, neseq.head())
         then acc
         else rec(neseq.tail(), next_value(acc, neseq.head()), next_value, condition)

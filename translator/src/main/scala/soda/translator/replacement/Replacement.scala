@@ -19,7 +19,7 @@ case class Replacement (line: String ) {
 
   def replace_at_beginning (line: String, index: Int, translator: Translator ): String =
     if (index == 0
-    ) replace (line, translator, only_beginning=true )
+    ) replace (line, translator, only_beginning = true )
     else line
 
   def replace (translator: Translator, only_beginning: Boolean ): Replacement =

@@ -18,7 +18,7 @@ case class CommentPreprocessorSpec () extends AnyFunSuite {
       .split ("\n")
       .toSeq
     lazy val expected = Seq (
-      AnnotatedLine ("", isComment=false ), AnnotatedLine ("", isComment=false ), AnnotatedLine ("/** This is an example */", isComment=true ), AnnotatedLine ("* Example() {", isComment=false ), AnnotatedLine ("  /* This is a comment */", isComment=true ), AnnotatedLine ("  a = \"/** this is not a comment */\"", isComment=false ), AnnotatedLine ("}", isComment=false )
+      AnnotatedLine ("", isComment = false ), AnnotatedLine ("", isComment = false ), AnnotatedLine ("/** This is an example */", isComment = true ), AnnotatedLine ("* Example() {", isComment = false ), AnnotatedLine ("  /* This is a comment */", isComment = true ), AnnotatedLine ("  a = \"/** this is not a comment */\"", isComment = false ), AnnotatedLine ("}", isComment = false )
     )
     lazy val obtained = CommentPreprocessor () .annotate_lines (input )
     assert (obtained == expected )

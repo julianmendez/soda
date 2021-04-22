@@ -16,7 +16,7 @@ trait MSeq [T] {
       if (seq.isEmpty
       ) acc
       else {
-        lazy val neseq = seq.open (ifEmpty=None, ifNonEmpty= (x => Some (x )  )  ) .get
+        lazy val neseq = seq.open (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
         if (! condition (acc, neseq.head ()  )
         ) acc
         else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition )

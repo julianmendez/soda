@@ -68,7 +68,7 @@ package soda.collection
   }
 
   reverse(s: MSeq[T]): MSeq[T] =
-    s.open(ifEmpty=empty, ifNonEmpty=(neseq -> reverseNonEmpty(neseq)))
+    s.open(ifEmpty := empty, ifNonEmpty := (neseq -> reverseNonEmpty(neseq)))
 
   reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
     initial_value: NESeq[T] = prepended(empty, s.head())
@@ -112,7 +112,7 @@ package soda.collection
 
   at(s: MSeq[T], n: Int): Option[T] = {
     result =
-      s.open(ifEmpty=None, ifNonEmpty=(neseq ->
+      s.open(ifEmpty := None, ifNonEmpty := (neseq ->
         if n < 0 or n >= length(s)
         then None
         else Some(atNonEmpty(neseq, n))
@@ -160,8 +160,8 @@ package soda.collection
 
     next_value(tuple: FoldTuple, elem: T): FoldTuple =
       tuple.seq.open(
-        ifEmpty=FoldTuple(tuple.seq, tuple.index + 1),
-        ifNonEmpty=(neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
+        ifEmpty := FoldTuple(tuple.seq, tuple.index + 1),
+        ifNonEmpty := (neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
       )
 
     condition (tuple: FoldTuple, elem: T): Boolean =
@@ -292,8 +292,8 @@ package soda.collection
       right = tuple.right
 
       left.open(
-        ifEmpty=FoldTuple(left, right, false),
-        ifNonEmpty=(neleft -> {
+        ifEmpty := FoldTuple(left, right, false),
+        ifNonEmpty := (neleft -> {
           e = neleft.head()
           new_taking = p(e)
 

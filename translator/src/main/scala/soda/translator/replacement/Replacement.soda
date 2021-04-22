@@ -19,7 +19,7 @@ package soda.translator.replacement
 
   replace_at_beginning(line: String, index: Int, translator: Translator): String =
     if index == 0
-    then replace(line, translator, only_beginning=true)
+    then replace(line, translator, only_beginning := true)
     else line
 
   replace(translator: Translator, only_beginning: Boolean): Replacement =
