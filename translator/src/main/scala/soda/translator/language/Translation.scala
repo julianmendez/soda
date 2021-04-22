@@ -14,7 +14,7 @@ case class Translation () {
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   lazy val SodaReservedWords = Seq (
-    "=", ":", "->", "if", "then", "else", "class", "has", "extends", "with", "this", "false", "true", "not", "and", "or", "package", "import", "new", "is", "suchthat", "*", "-", "+"
+    "=", ":", "->", ":=", "if", "then", "else", "class", "has", "extends", "with", "this", "false", "true", "not", "and", "or", "package", "import", "new", "is", "suchthat", "*", "-", "+"
   )
 
   /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */

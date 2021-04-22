@@ -328,15 +328,14 @@
 
     Braces in the definition of a function should be avoided whenever that is possible.
 
-    Defining a constant or a function requires a space around the equals character (\srccode{=}).
-    This character can be used to define parameter names.
-    In this case, there should not be any space around the character.
+    Defining a constant or a function requires a space around the equals character (\sdef).
+    With \sdefparam is also possible to define values for parameters when using named parameters.
 
     \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
   class EqualsExample () {
     f (x: Int, y: Int) = 2 * x + y
 
-    answer = f (x=20, y=2)
+    answer = f (x := 20, y := 2)
   }
     \end{lstlisting}
 

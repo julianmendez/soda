@@ -14,7 +14,7 @@ trait ShapeMover [A <: Shape with Movable]
 case class EqualsExample () {
   def f (x: Int, y: Int ) = 2 * x + y
 
-  lazy val answer = f (x=20, y=2 )
+  lazy val answer = f (x = 20, y = 2 )
 }
 
 /** Class for a registered person, in snake case */

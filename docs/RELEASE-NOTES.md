@@ -3,7 +3,7 @@
   - date: unreleased
   - new_features:
     - compiles with Scala 3.0.0-RC2
-    - makes `:=` (named parameter symbol) as the symbol to pass named parameters
+    - makes `:=` (parameter definition symbol) as the symbol to define values for named parameters
     - includes `extends` to declare upper bounds of type parameters, with the meaning 'subtype of'
     - includes a file expansion of a basic library when it finds `lib.soda`
     - produces better looking Scala translated source code

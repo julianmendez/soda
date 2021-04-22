@@ -25,6 +25,7 @@ Keywords
 1
 ->
 :
+:=
 =
 class
 else

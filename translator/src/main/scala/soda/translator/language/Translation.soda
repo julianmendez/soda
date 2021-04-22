@@ -17,6 +17,7 @@ package soda.translator.language
     "=",
     ":",
     "->",
+    ":=",
     "if",
     "then",
     "else",
