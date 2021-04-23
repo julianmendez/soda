@@ -1,0 +1,24 @@
+package soda.translator.io
+
++ org.scalatest.funsuite.AnyFunSuite
+
++ java.io.File
+
+* MainSpec() extends AnyFunSuite {
+
+  test("should get the input and output file names without path") {
+    instance = Main()
+    expected = instance.FileNamePair("my_file.soda", "my_file.scala")
+    obtained = instance.get_input_output_file_names("my_file.soda")
+    assert(obtained == expected)
+  }
+
+  test("should get the input and output file names with path") {
+    instance = Main()
+    expected = instance.FileNamePair("/path/to/file.soda", "/path/to/file.scala")
+    obtained = instance.get_input_output_file_names("/path/to/file.soda")
+    assert(obtained == expected)
+  }
+
+}
+
