@@ -8,7 +8,7 @@ lazy val scala3 = "3.0.0-RC2"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.soda",
-  version := "0.7.0-SNAPSHOT",
+  version := "0.7.0",
 
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
@@ -27,7 +27,7 @@ lazy val commonSettings = Seq(
    * [[https://repo1.maven.org/maven2/org/scala-lang/scalap/]]
    */
   crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3),
-  scalaVersion := scala2_13,
+  scalaVersion := scala3,
 
   /**
    * ScalaTest

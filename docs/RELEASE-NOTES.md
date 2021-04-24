@@ -1,6 +1,6 @@
 ---
 - - version: v0.7.0
-  - date: unreleased
+  - date: '2021-04-24'
   - new_features:
     - compiles with Scala 3.0.0-RC2
     - makes `:=` (parameter definition symbol) as the symbol to define values for named parameters
