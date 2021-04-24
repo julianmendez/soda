@@ -1,0 +1,38 @@
+\chapter{Libraries}
+
+\begin{lstlisting}[label={lst:foldLeftWhile}]
+    foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
+        next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
+
+      result = rec(s, initial_value, next_value, cond)
+
+      @tailrec
+      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
+          cond: (B, A) -> Boolean): C =
+        if seq.isEmpty
+        then acc
+        else
+          if not cond(acc, seq.head)
+          then acc
+          else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
+
+      result
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:range}]
+    range(n: Int): Seq[Int] = {
+
+      result = rec(n, Seq[Int]())
+
+      @tailrec
+      rec(n: Int, seq: Seq[Int]): Seq[Int] =
+        if n <= 0
+        then seq
+        else rec(n - 1, seq.+:(n - 1))
+
+      result
+    }
+\end{lstlisting}
+
+

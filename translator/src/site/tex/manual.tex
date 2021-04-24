@@ -1,146 +1,114 @@
-\documentclass[12pt,a4paper]{book}
+\chapter{Manual}
+
+\Soda (Symbolic Objective Descriptive Analysis) is a human-centered formalism to describe, formalize, and prototype ethical problems and constraints.
+It could be seen as a specification language or as a functional programming language.
+
+The reserved words in \Soda can be classified in the following categories:
+
+\begin{itemize}
+    \item Functional
+    \item Object Oriented
+    \item Boolean
+    \item Library
+    \item Annotations
+\end{itemize}
 
 
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\usepackage{amsmath}
-\usepackage{xcolor}
-\usepackage{xspace}
-
-\include{language}
-
-\begin{document}
-
-    \begin{center}
-
-        \phantom{H}
-
-        \vspace{80mm}
-
-        {\huge{\Soda}}
-
-        \vspace{80mm}
-        Julian Alfredo Mendez
-
-        \vspace{10mm}
-        0.7.0
-
-    \end{center}
-
-    \newpage
+%The reserved words considered in Scala are listed at this link:
+%\url{https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html}
 
 
-    \chapter{Manual}
+\section{Functional}
 
-    \Soda (Symbolic Objective Descriptive Analysis) is a human-centered formalism to describe, formalize, and prototype ethical problems and constraints.
-    It could be seen as a specification language or as a functional programming language.
+\subsubsection{= (definition symbol)}
 
-    The reserved words in \Soda can be classified in the following categories:
+The definition symbol, written as an equals symbol, is used to defined functions and constants.
 
-    \begin{itemize}
-        \item Functional
-        \item Object Oriented
-        \item Boolean
-        \item Library
-        \item Annotations
-    \end{itemize}
-
-
-    %The reserved words considered in Scala are listed at this link:
-    %\url{https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html}
-
-
-    \section{Functional}
-
-    \subsubsection{= (definition symbol)}
-
-    The definition symbol, written as an equals symbol, is used to defined functions and constants.
-
-    For example,
-    \begin{lstlisting}[label={lst:exampleDef}]
+For example,
+\begin{lstlisting}[label={lst:exampleDef}]
   a = 1
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{: (type symbol)}
+\subsubsection{: (type symbol)}
 
-    The type symbol, written as a colon symbol, is used to assign a statically defined type to a function or constant.
+The type symbol, written as a colon symbol, is used to assign a statically defined type to a function or constant.
 
-    For example,
-    \begin{lstlisting}[label={lst:exampleType01}]
+For example,
+\begin{lstlisting}[label={lst:exampleType01}]
   b: Int = 2
-    \end{lstlisting}
+\end{lstlisting}
 
-    Another example is the following:
-    \begin{lstlisting}[label={lst:exampleType02}]
+Another example is the following:
+\begin{lstlisting}[label={lst:exampleType02}]
   plus_one (x: Int): Int = x + 1
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\sif, \sthen, \selse}
+\subsubsection{\sif, \sthen, \selse}
 
-    The \sif-\sthen-\selse construct is used to define a conditional result in a function.
+The \sif-\sthen-\selse construct is used to define a conditional result in a function.
 
-    For example,
-    \begin{lstlisting}[label={lst:exampleIfThenElse}]
+For example,
+\begin{lstlisting}[label={lst:exampleIfThenElse}]
   max (x: Int, y: Int) =
     if x > y
     then x
     else y
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\slambda (lambda symbol)}
+\subsubsection{\slambda (lambda symbol)}
 
-    The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
+The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
 
-    For example, this piece of code
-    \begin{lstlisting}[label={lst:exampleLambda}]
+For example, this piece of code
+\begin{lstlisting}[label={lst:exampleLambda}]
   plus_one (sequence: Seq[Int]) =
     sequence.map(element -> element + 1)
-    \end{lstlisting}
-    returns a sequence of integers where each element is computed as the next integer from the input
+\end{lstlisting}
+returns a sequence of integers where each element is computed as the next integer from the input
 
 
-    \section{Object Oriented}
+\section{Object Oriented}
 
-    \subsubsection{\sclass, \shas}
+\subsubsection{\sclass, \shas}
 
-    As mentioned, there are two types of classes: the abstract and the concrete.
+As mentioned, there are two types of classes: the abstract and the concrete.
 
-    Abstract classes compare to interfaces in Java, or traits in Scala, and cannot be directly instantiated.
+Abstract classes compare to interfaces in Java, or traits in Scala, and cannot be directly instantiated.
 
-    Both types are declared using the \sclass reserved words.
+Both types are declared using the \sclass reserved words.
 
-    For example,
-    \begin{lstlisting}[label={lst:exampleAbstractClass}]
+For example,
+\begin{lstlisting}[label={lst:exampleAbstractClass}]
   class Agent {
     has identifier: String
   }
-    \end{lstlisting}
-    defines an abstract agent that has some identifier.
-    Agent is, however, an abstract class and cannot be instantiated.
+\end{lstlisting}
+defines an abstract agent that has some identifier.
+Agent is, however, an abstract class and cannot be instantiated.
 
-    By contrast, concrete classes compare to final classes in Java and case classes in Scala.
+By contrast, concrete classes compare to final classes in Java and case classes in Scala.
 
-    The following example shows a concrete class consisting only of a parameterized name.
-    \begin{lstlisting}[label={lst:exampleConcreteClass}]
+The following example shows a concrete class consisting only of a parameterized name.
+\begin{lstlisting}[label={lst:exampleConcreteClass}]
   class Person (name: String)
-    \end{lstlisting}
+\end{lstlisting}
 
-    The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
+The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
 
-    \subsubsection{\sextends, \swith}
+\subsubsection{\sextends, \swith}
 
-    It is possible to declare that a concrete class extends an abstract class using the \sextends reserved word.
-    Concrete classes are final and cannot be extended.
+It is possible to declare that a concrete class extends an abstract class using the \sextends reserved word.
+Concrete classes are final and cannot be extended.
 
-    \begin{lstlisting}[label={lst:exampleExtends}]
+\begin{lstlisting}[label={lst:exampleExtends}]
   class AgentPerson (name: String) extends Agent {
     identifier = name
   }
-    \end{lstlisting}
+\end{lstlisting}
 
-    Concrete classes can also extend multiple abstract classes.
-    For example,
-    \begin{lstlisting}[label={lst:exampleWith}]
+Concrete classes can also extend multiple abstract classes.
+For example,
+\begin{lstlisting}[label={lst:exampleWith}]
   class RankedIndividual {
     has rank: Int
   }
@@ -150,15 +118,15 @@
 
     rank = person_rank
   }
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\sthis}
+\subsubsection{\sthis}
 
-    In some cases, it could be necessary that an object can refer to itself.
-    For that, the \sthis reserved word is used.
+In some cases, it could be necessary that an object can refer to itself.
+For that, the \sthis reserved word is used.
 
-    For example,
-    \begin{lstlisting}[label={lst:exampleExtendsElement}]
+For example,
+\begin{lstlisting}[label={lst:exampleExtendsElement}]
   class Element {
     has accept (v: Visitor): Boolean
   }
@@ -170,16 +138,16 @@
   class Item (identifier: Int) extends Element {
     accept (v: Visitor) = v.visit (this)
   }
-    \end{lstlisting}
+\end{lstlisting}
 
 
-    \section{Boolean}
+\section{Boolean}
 
-    \subsubsection{\sfalse, \strue}
+\subsubsection{\sfalse, \strue}
 
-    As in other programming languages, the \sfalse and \strue reserved words are used for the Boolean values.
+As in other programming languages, the \sfalse and \strue reserved words are used for the Boolean values.
 
-    \begin{lstlisting}[label={lst:exampleFalseTrue}]
+\begin{lstlisting}[label={lst:exampleFalseTrue}]
 
   my_not (x: Boolean) =
     if x
@@ -201,76 +169,76 @@
       if y
       then true
       else false
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\snot, \sand, \sor}
+\subsubsection{\snot, \sand, \sor}
 
-    The reserved words \snot, \sand, \sor are introduced for the sake of readability.
+The reserved words \snot, \sand, \sor are introduced for the sake of readability.
 
-    \begin{lstlisting}[label={lst:exampleNotAndOr}]
+\begin{lstlisting}[label={lst:exampleNotAndOr}]
 
   my_xor (x: Boolean, y: Boolean) = (x or y) and not (x and y)
 
-    \end{lstlisting}
+\end{lstlisting}
 
 
-    \section{Library}
+\section{Library}
 
-    \subsubsection{\spackage}
+\subsubsection{\spackage}
 
-    The reserved word \spackage declares the package where the content should be included.
-    All classes then belong to that package.
+The reserved word \spackage declares the package where the content should be included.
+All classes then belong to that package.
 
-    \begin{lstlisting}[label={lst:examplePackage}]
+\begin{lstlisting}[label={lst:examplePackage}]
   package org.example.soda
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\simport}
+\subsubsection{\simport}
 
-    The reserved word \simport helps importing classes from other libraries and frameworks.
+The reserved word \simport helps importing classes from other libraries and frameworks.
 
-    \begin{lstlisting}[label={lst:exampleImport}]
+\begin{lstlisting}[label={lst:exampleImport}]
   import java.util.Date
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\snew}
+\subsubsection{\snew}
 
-    Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
-    For example,
+Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
+For example,
 
-    \begin{lstlisting}[label={lst:exampleImportDate}]
+\begin{lstlisting}[label={lst:exampleImportDate}]
   import java.util.Date
 
   now = new Date()
-    \end{lstlisting}
+\end{lstlisting}
 
 
-    \section{Annotations}
+\section{Annotations}
 
-    Annotations are not part of the language itself, but they are necessary to translate it into Scala.
+Annotations are not part of the language itself, but they are necessary to translate it into Scala.
 
-    \subsubsection{\soverride}
+\subsubsection{\soverride}
 
-    The \soverride annotation may be necessary to override some JVM functions, like \srccode{toString()}.
-    However, this could be misused to override functions and values of abstract classes.
-    This could make that a concrete class does not behave as the abstract class that implements.
-    For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Soda functions.
+The \soverride annotation may be necessary to override some JVM functions, like \srccode{toString()}.
+However, this could be misused to override functions and values of abstract classes.
+This could make that a concrete class does not behave as the abstract class that implements.
+For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Soda functions.
 
-    \begin{lstlisting}[label={lst:exampleOverride}]
+\begin{lstlisting}[label={lst:exampleOverride}]
   class PersonName (name: String) {
     @override
     toString = name
   }
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\stailrec}
+\subsubsection{\stailrec}
 
-    The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
-    If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
+The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
+If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
 
-    For technical reasons, a function with tail recursion needs to be used inside another function.
+For technical reasons, a function with tail recursion needs to be used inside another function.
 
-    \begin{lstlisting}[label={lst:exampleTailrecInside}]
+\begin{lstlisting}[label={lst:exampleTailrecInside}]
   sum (n: Int) = {
     result = rec (n, 0)
 
@@ -282,61 +250,61 @@
 
     result
   }
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{\smain}
+\subsubsection{\smain}
 
-    The \smain annotation is used to indicate that an entry point is needed.
-    This is kept to have functions that can be executed from the console.
+The \smain annotation is used to indicate that an entry point is needed.
+This is kept to have functions that can be executed from the console.
 
-    \begin{lstlisting}[label={lst:exampleMain}]
+\begin{lstlisting}[label={lst:exampleMain}]
   class Main () {
     main (args: Array[String]) =
       println ("Hello world!")
   }
 
   @main
-    \end{lstlisting}
+\end{lstlisting}
 
-    This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srccode{EntryPoint} located in the same package.
+This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srccode{EntryPoint} located in the same package.
 
 
-    \section{Synonyms}
+\section{Synonyms}
 
-    One of the interesting features of \Soda is the use of synonyms.
-    They can be used to shape the code for a particular domain.
+One of the interesting features of \Soda is the use of synonyms.
+They can be used to shape the code for a particular domain.
 
-    The synonyms found only at the beginning of a line are:
+The synonyms found only at the beginning of a line are:
 
-    \begin{center}
-        \begin{tabular}{|ll|}
-            \hline
-            \textbf{synonym} & \textbf{reserved word} \\
-            \hline
-            \sasterisk       & \sclass                \\
-            \hline
-            \splus           & \simport               \\
-            \hline
-        \end{tabular}
-    \end{center}
+\begin{center}
+    \begin{tabular}{|ll|}
+        \hline
+        \textbf{synonym} & \textbf{reserved word} \\
+        \hline
+        \sasterisk       & \sclass                \\
+        \hline
+        \splus           & \simport               \\
+        \hline
+    \end{tabular}
+\end{center}
 
-    The synonyms that can be at any part of a line are:
+The synonyms that can be at any part of a line are:
 
-    \begin{center}
-        \begin{tabular}{|ll|}
-            \hline
-            \textbf{synonym} & \textbf{reserved word} \\
-            \hline
-            \sis             & \sdef                  \\
-            \hline
-            \ssuchthat       & \slambda               \\
-            \hline
-        \end{tabular}
-    \end{center}
+\begin{center}
+    \begin{tabular}{|ll|}
+        \hline
+        \textbf{synonym} & \textbf{reserved word} \\
+        \hline
+        \sis             & \sdef                  \\
+        \hline
+        \ssuchthat       & \slambda               \\
+        \hline
+    \end{tabular}
+\end{center}
 
-    As an example we can see the factorial written first in a concise and then in a verbose manner.
+As an example we can see the factorial written first in a concise and then in a verbose manner.
 
-    \begin{lstlisting}[label={lst:exampleFactorialConcise}]
+\begin{lstlisting}[label={lst:exampleFactorialConcise}]
   * AbstractFactorialConcise {
     has factorial (n: Int): Int
   }
@@ -355,10 +323,10 @@
       result
     }
   }
-    \end{lstlisting}
+\end{lstlisting}
 
 
-    \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
+\begin{lstlisting}[label={lst:exampleFactorialVerbose}]
   class AbstractFactorialVerbose {
     has factorial (n: Int): Int
   }
@@ -377,50 +345,6 @@
       result
     }
   }
-    \end{lstlisting}
+\end{lstlisting}
 
-    \appendix
-
-    \chapter{A}
-
-    \include{reservedwords}
-
-    \chapter{B}
-
-    \begin{lstlisting}[label={lst:foldLeftWhile}]
-    foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
-        next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
-
-      result = rec(s, initial_value, next_value, cond)
-
-      @tailrec
-      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
-          cond: (B, A) -> Boolean): C =
-        if seq.isEmpty
-        then acc
-        else
-          if not cond(acc, seq.head)
-          then acc
-          else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
-
-      result
-    }
-    \end{lstlisting}
-
-    \begin{lstlisting}[label={lst:range}]
-    range(n: Int): Seq[Int] = {
-
-      result = rec(n, Seq[Int]())
-
-      @tailrec
-      rec(n: Int, seq: Seq[Int]): Seq[Int] =
-        if n <= 0
-        then seq
-        else rec(n - 1, seq.+:(n - 1))
-
-      result
-    }
-    \end{lstlisting}
-
-\end{document}
 
