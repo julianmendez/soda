@@ -1,0 +1,37 @@
+package soda.collection
+
++ org.scalatest.funsuite.AnyFunSuite
+
+* OptionSDSpec() extends AnyFunSuite {
+
+  test("should create an OptionSD and test isEmpty") {
+    empty = NoneSD()
+    assert(empty.isEmpty)
+
+    element = SomeSD(1)
+    assert(not element.isEmpty)
+  }
+
+  test("should create an OptionSD and test open") {
+     result_if_empty: String = "It is empty."
+     result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
+
+     empty = NoneSD[String]()
+
+     obtained_if_empty = empty.open(
+       ifEmpty := result_if_empty,
+       ifNonEmpty := result_if_non_empty)
+
+     assert(obtained_if_empty == "It is empty.")
+
+     some_element = SomeSD[String]("0")
+
+     obtained_if_non_empty = some_element.open(
+       ifEmpty := result_if_empty,
+       ifNonEmpty := result_if_non_empty)
+
+     assert(obtained_if_non_empty == "Its value is 0.")
+  }
+
+}
+
