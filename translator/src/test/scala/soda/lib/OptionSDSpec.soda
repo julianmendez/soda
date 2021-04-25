@@ -16,7 +16,7 @@ package soda.lib
 
   test("should open an empty option") {
     result_if_empty: String = "It is empty."
-    result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
+    result_if_non_empty(value: String): String = "Its value is " + value + "."
 
     empty = NoneSD[String]()
 
@@ -30,7 +30,7 @@ package soda.lib
 
   test("should open an non empty option") {
     result_if_empty: String = "It is empty."
-    result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
+    result_if_non_empty(value: String): String = "Its value is " + value + "."
 
     some_element = SomeSD[String]("0")
 

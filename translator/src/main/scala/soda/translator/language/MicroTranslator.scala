@@ -148,15 +148,15 @@ case class MicroTranslator () {
       ifEmpty = line, ifNonEmpty = try_found_definition
     )
 
-    def try_found_definition (some_position: SomeSD [Int]  ): String = {
+    def try_found_definition (position: Int ): String = {
       lazy val position_of_first_closing_parenthesis = line.indexOf (SodaClosingParenthesis )
       lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = position_of_first_closing_parenthesis > some_position.get
+      lazy val case2 = position_of_first_closing_parenthesis > position
       lazy val case3 =
         find_pattern (line, Translation () .SodaColon ) .open (
-          ifEmpty = false, ifNonEmpty = some_position => position_of_first_opening_parenthesis > some_position.get
+          ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
         )
 
       lazy val new_text = if (case1 || case2 || case3
@@ -222,8 +222,8 @@ case class MicroTranslator () {
 
     def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
       find_square_brackets_from (line, tuple.start ) .open (
-        ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = some_pair =>
-          FoldTuple (tuple.positions.+: (some_pair.get ), some_pair.get.end + SodaClosingBracket.length )
+        ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
+          FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
       )
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =

@@ -149,16 +149,16 @@ package soda.translator.language
       ifNonEmpty := try_found_definition
     )
 
-    try_found_definition(some_position: SomeSD[Int]): String = {
+    try_found_definition(position: Int): String = {
       position_of_first_closing_parenthesis = line.indexOf(SodaClosingParenthesis)
       position_of_first_opening_parenthesis = line.indexOf(SodaOpeningParenthesis)
 
       case1 = position_of_first_closing_parenthesis == -1
-      case2 = position_of_first_closing_parenthesis > some_position.get
+      case2 = position_of_first_closing_parenthesis > position
       case3 =
         find_pattern(line, Translation().SodaColon).open(
           ifEmpty := false,
-          ifNonEmpty := some_position -> position_of_first_opening_parenthesis > some_position.get
+          ifNonEmpty := other_position -> position_of_first_opening_parenthesis > other_position
         )
 
       new_text = if case1 or case2 or case3
@@ -225,8 +225,8 @@ package soda.translator.language
     next_value(tuple: FoldTuple, x: Int): FoldTuple =
       find_square_brackets_from(line, tuple.start).open(
         ifEmpty := FoldTuple(tuple.positions, -1),
-        ifNonEmpty := some_pair ->
-          FoldTuple(tuple.positions.+:(some_pair.get), some_pair.get.end + SodaClosingBracket.length)
+        ifNonEmpty := pair ->
+          FoldTuple(tuple.positions.+:(pair), pair.end + SodaClosingBracket.length)
       )
 
     condition(tuple: FoldTuple, x: Int): Boolean =
