@@ -1,6 +1,9 @@
 package soda.translator.language
 
 + soda.lib.Rec
++ soda.lib.OptionSD
++ soda.lib.NoneSD
++ soda.lib.SomeSD
 + soda.translator.replacement.CommentPreprocessor
 + soda.translator.replacement.ParserStateEnum
 + soda.translator.replacement.Replacement
@@ -140,28 +143,33 @@ package soda.translator.language
    * @return a translated line
    */
   try_definition(line: String): String = {
-    maybe_position_of_definition = find_definition(line)
-    if maybe_position_of_definition.nonEmpty
-    then {
+
+    result = find_definition(line).open(
+      ifEmpty := line,
+      ifNonEmpty := try_found_definition
+    )
+
+    try_found_definition(some_position: SomeSD[Int]): String = {
       position_of_first_closing_parenthesis = line.indexOf(SodaClosingParenthesis)
       position_of_first_opening_parenthesis = line.indexOf(SodaOpeningParenthesis)
 
       case1 = position_of_first_closing_parenthesis == -1
-      case2 = position_of_first_closing_parenthesis > maybe_position_of_definition.get
-
-      maybe_position_of_colon = find_pattern(line, Translation().SodaColon)
+      case2 = position_of_first_closing_parenthesis > some_position.get
       case3 =
-        if maybe_position_of_colon.nonEmpty
-        then position_of_first_opening_parenthesis > maybe_position_of_colon.get
-        else false
+        find_pattern(line, Translation().SodaColon).open(
+          ifEmpty := false,
+          ifNonEmpty := some_position -> position_of_first_opening_parenthesis > some_position.get
+        )
 
       new_text = if case1 or case2 or case3
       then Translation().ScalaValue + ScalaSpace
       else Translation().ScalaDefinition + ScalaSpace
       Replacement(line).add_after_spaces(new_text).line
     }
-    else line
+
+    result
   }
+
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -170,16 +178,16 @@ package soda.translator.language
    * @param line line
    * @return maybe the position of the definition sign
    */
-  find_definition(line: String): Option[Int] =
+  find_definition(line: String): OptionSD[Int] =
     if line.endsWith(SodaSpace + Translation().SodaDefinition)
-    then Some(line.length - Translation().SodaDefinition.length)
+    then SomeSD(line.length - Translation().SodaDefinition.length)
     else find_pattern(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
 
-  find_pattern(line: String, pattern: String): Option[Int] = {
+  find_pattern(line: String, pattern: String): OptionSD[Int] = {
     position = line.indexOf(pattern)
     if position == -1
-    then None
-    else Some(position)
+    then NoneSD()
+    else SomeSD(position)
   }
 
   /**

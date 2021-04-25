@@ -1,6 +1,9 @@
 package soda.translator.language
 
 import soda.lib.Rec
+import soda.lib.OptionSD
+import soda.lib.NoneSD
+import soda.lib.SomeSD
 import soda.translator.replacement.CommentPreprocessor
 import soda.translator.replacement.ParserStateEnum
 import soda.translator.replacement.Replacement
@@ -140,28 +143,31 @@ case class MicroTranslator () {
    * @return a translated line
    */
   def try_definition (line: String ): String = {
-    lazy val maybe_position_of_definition = find_definition (line )
-    if (maybe_position_of_definition.nonEmpty
-    ) {
+
+    lazy val result = find_definition (line ) .open (
+      ifEmpty = line, ifNonEmpty = try_found_definition
+    )
+
+    def try_found_definition (some_position: SomeSD [Int]  ): String = {
       lazy val position_of_first_closing_parenthesis = line.indexOf (SodaClosingParenthesis )
       lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
 
       lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = position_of_first_closing_parenthesis > maybe_position_of_definition.get
-
-      lazy val maybe_position_of_colon = find_pattern (line, Translation () .SodaColon )
+      lazy val case2 = position_of_first_closing_parenthesis > some_position.get
       lazy val case3 =
-        if (maybe_position_of_colon.nonEmpty
-        ) position_of_first_opening_parenthesis > maybe_position_of_colon.get
-        else false
+        find_pattern (line, Translation () .SodaColon ) .open (
+          ifEmpty = false, ifNonEmpty = some_position => position_of_first_opening_parenthesis > some_position.get
+        )
 
       lazy val new_text = if (case1 || case2 || case3
       ) Translation () .ScalaValue + ScalaSpace
       else Translation () .ScalaDefinition + ScalaSpace
       Replacement (line ) .add_after_spaces (new_text ) .line
     }
-    else line
+
+    result
   }
+
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -170,16 +176,16 @@ case class MicroTranslator () {
    * @param line line
    * @return maybe the position of the definition sign
    */
-  def find_definition (line: String ): Option [Int] =
+  def find_definition (line: String ): OptionSD [Int] =
     if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
-    ) Some (line.length - Translation () .SodaDefinition.length )
+    ) SomeSD (line.length - Translation () .SodaDefinition.length )
     else find_pattern (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
 
-  def find_pattern (line: String, pattern: String ): Option [Int] = {
+  def find_pattern (line: String, pattern: String ): OptionSD [Int] = {
     lazy val position = line.indexOf (pattern )
     if (position == -1
-    ) None
-    else Some (position )
+    ) NoneSD ()
+    else SomeSD (position )
   }
 
   /**
