@@ -222,15 +222,12 @@ package soda.translator.language
 
     initial_value = FoldTuple(Seq(), 0)
 
-    next_value(tuple: FoldTuple, x: Int): FoldTuple = {
-      maybe_pair = find_square_brackets_from(line, tuple.start)
-      if maybe_pair.isEmpty
-      then FoldTuple(tuple.positions, -1)
-      else {
-        pair = maybe_pair.get
-        FoldTuple(tuple.positions.+:(pair), pair.end + SodaClosingBracket.length)
-      }
-    }
+    next_value(tuple: FoldTuple, x: Int): FoldTuple =
+      find_square_brackets_from(line, tuple.start).open(
+        ifEmpty := FoldTuple(tuple.positions, -1),
+        ifNonEmpty := some_pair ->
+          FoldTuple(tuple.positions.+:(some_pair.get), some_pair.get.end + SodaClosingBracket.length)
+      )
 
     condition(tuple: FoldTuple, x: Int): Boolean =
       (0 <= tuple.start and tuple.start <= line.length)
@@ -240,9 +237,9 @@ package soda.translator.language
     result
   }
 
-  find_square_brackets_from(line: String, start: Int): Option[Excerpt] =
+  find_square_brackets_from(line: String, start: Int): OptionSD[Excerpt] =
     if start < 0 or start >= line.length
-    then None
+    then NoneSD()
     else {
       left = line.indexOf(SodaOpeningBracket, start)
       right =
@@ -250,8 +247,8 @@ package soda.translator.language
         then -1
         else line.indexOf(SodaClosingBracket, left + SodaOpeningBracket.length)
       if right == -1
-      then None
-      else Some(Excerpt(left + SodaOpeningBracket.length, right))
+      then NoneSD()
+      else SomeSD(Excerpt(left + SodaOpeningBracket.length, right))
     }
 
   * Excerpt(beginning: Int, end: Int)

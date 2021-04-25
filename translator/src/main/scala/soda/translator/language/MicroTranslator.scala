@@ -220,15 +220,11 @@ case class MicroTranslator () {
 
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
-    def next_value (tuple: FoldTuple, x: Int ): FoldTuple = {
-      lazy val maybe_pair = find_square_brackets_from (line, tuple.start )
-      if (maybe_pair.isEmpty
-      ) FoldTuple (tuple.positions, -1 )
-      else {
-        lazy val pair = maybe_pair.get
-        FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
-      }
-    }
+    def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
+      find_square_brackets_from (line, tuple.start ) .open (
+        ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = some_pair =>
+          FoldTuple (tuple.positions.+: (some_pair.get ), some_pair.get.end + SodaClosingBracket.length )
+      )
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =
       (0 <= tuple.start && tuple.start <= line.length )
@@ -238,9 +234,9 @@ case class MicroTranslator () {
     result
   }
 
-  def find_square_brackets_from (line: String, start: Int ): Option [Excerpt] =
+  def find_square_brackets_from (line: String, start: Int ): OptionSD [Excerpt] =
     if (start < 0 || start >= line.length
-    ) None
+    ) NoneSD ()
     else {
       lazy val left = line.indexOf (SodaOpeningBracket, start )
       lazy val right =
@@ -248,8 +244,8 @@ case class MicroTranslator () {
         ) -1
         else line.indexOf (SodaClosingBracket, left + SodaOpeningBracket.length )
       if (right == -1
-      ) None
-      else Some (Excerpt (left + SodaOpeningBracket.length, right )  )
+      ) NoneSD ()
+      else SomeSD (Excerpt (left + SodaOpeningBracket.length, right )  )
     }
 
   case class Excerpt (beginning: Int, end: Int )
