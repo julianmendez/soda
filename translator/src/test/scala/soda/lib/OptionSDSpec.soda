@@ -4,33 +4,64 @@ package soda.lib
 
 * OptionSDSpec() extends AnyFunSuite {
 
-  test("should create an OptionSD and test isEmpty") {
+  test("should test an empty option") {
     empty = NoneSD()
     assert(empty.isEmpty)
+  }
 
+  test("should test a non empty option") {
     element = SomeSD(1)
     assert(not element.isEmpty)
   }
 
-  test("should create an OptionSD and test open") {
-     result_if_empty: String = "It is empty."
-     result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
+  test("should open an empty option") {
+    result_if_empty: String = "It is empty."
+    result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
 
-     empty = NoneSD[String]()
+    empty = NoneSD[String]()
 
-     obtained_if_empty = empty.open(
-       ifEmpty := result_if_empty,
-       ifNonEmpty := result_if_non_empty)
+    expected = "It is empty."
+    obtained = empty.open(
+      ifEmpty := result_if_empty,
+      ifNonEmpty := result_if_non_empty)
 
-     assert(obtained_if_empty == "It is empty.")
+    assert(obtained == expected)
+  }
 
-     some_element = SomeSD[String]("0")
+  test("should open an non empty option") {
+    result_if_empty: String = "It is empty."
+    result_if_non_empty(value: SomeSD[String]): String = "Its value is " + value.get + "."
 
-     obtained_if_non_empty = some_element.open(
-       ifEmpty := result_if_empty,
-       ifNonEmpty := result_if_non_empty)
+    some_element = SomeSD[String]("0")
 
-     assert(obtained_if_non_empty == "Its value is 0.")
+    expected = "Its value is 0."
+    obtained = some_element.open(
+      ifEmpty := result_if_empty,
+      ifNonEmpty := result_if_non_empty)
+
+    assert(obtained == expected)
+  }
+
+  test("should map empty to empty") {
+    to_string(n: Int): String = "" + n
+
+    empty = NoneSD[Int]()
+
+    expected = NoneSD[String]()
+    obtained = empty.map(to_string)
+
+    assert(obtained == expected)
+  }
+
+  test("should map a non-empty to another non-empty") {
+    to_string(n: Int): String = "" + n
+
+    some_element = SomeSD[Int](2)
+
+    expected = SomeSD[String]("2")
+    obtained = some_element.map(to_string)
+
+    assert(obtained == expected)
   }
 
 }
