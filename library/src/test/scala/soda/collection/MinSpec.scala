@@ -12,8 +12,10 @@ case class MinSpec () extends AnyFunSuite {
   lazy val empty: ESeq [Int] = ESeq [Int]  ()
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
   lazy val revExampleSeq: Seq [Int] = exampleSeq.reverse
+
+  def prepend_elem (list: MSeq [Int], elem: Int ) = Min () .prepended (list, elem )
   lazy val example: NESeq [Int] =
-    Rec () .foldLeft (revExampleSeq.tail, NESeq [Int]  (revExampleSeq.head, ESeq [Int]  ()  ), (list, elem ) =>  Min () .prepended (list, elem ) )
+    Rec () .foldLeft (revExampleSeq.tail, NESeq [Int]  (revExampleSeq.head, ESeq [Int]  ()  ), prepend_elem )
 
   test ("prepended") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
