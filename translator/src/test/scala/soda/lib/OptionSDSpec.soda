@@ -1,4 +1,4 @@
-package soda.collection
+package soda.lib
 
 + org.scalatest.funsuite.AnyFunSuite
 

@@ -21,6 +21,32 @@ package soda.lib
 /*  ********  */
 
 /**
+ * This is an Option implemented without exceptions.
+ */
+* OptionSD[T] {
+  has isEmpty: Boolean
+  has open[B](ifEmpty: B, ifNonEmpty: SomeSD[T] -> B): B
+}
+
+* NoneSD[T] () extends OptionSD[T] {
+
+  isEmpty = true
+
+  open[B](ifEmpty: B, ifNonEmpty: SomeSD[T] -> B): B = ifEmpty
+}
+
+* SomeSD[T] (element: T) extends OptionSD[T] {
+
+  isEmpty = false
+
+  open[B](ifEmpty: B, ifNonEmpty: SomeSD[T] -> B): B = ifNonEmpty(this)
+
+  get: T = element
+}
+
+/*  ********  */
+
+/**
  * This class contains auxiliary functions for combinations.
  */
 * Comb() {
