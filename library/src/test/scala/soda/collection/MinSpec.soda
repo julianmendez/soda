@@ -1,14 +1,21 @@
 package soda.collection
 
++ soda.lib.OptionSD
++ soda.lib.NoneSD
++ soda.lib.SomeSD
++ soda.lib.Rec
+
 + org.scalatest.funsuite.AnyFunSuite
 
 * MinSpec() extends AnyFunSuite {
 
   empty: ESeq[Int] = ESeq[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
+  revExampleSeq: Seq[Int] = exampleSeq.reverse
   example: NESeq[Int] =
-    MSeqTranslator().asMSeq(exampleSeq)
-      .open(None, (neseq -> Some(neseq))).get
+    Rec().foldLeft(revExampleSeq.tail,
+      NESeq[Int](revExampleSeq.head, ESeq[Int]()),
+      (list, elem) ->  Min().prepended(list, elem) )
 
   test("prepended") {
     expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
@@ -67,7 +74,7 @@ package soda.collection
   }
 
   test("at") {
-    expected = Some(3)
+    expected = SomeSD(3)
     obtained = Min().at(example, 4)
     assert(obtained == expected)
   }
@@ -343,17 +350,17 @@ package soda.collection
   }
 
   test("find") {
-    expected0 = Some(0)
+    expected0 = SomeSD(0)
     pred0: Int -> Boolean = x -> not (x == 7)
     obtained0 = Min().find(example, pred0)
     assert(obtained0 == expected0)
 
-    expected1 = Some(8)
+    expected1 = SomeSD(8)
     pred1: Int -> Boolean = x -> x == 8
     obtained1 = Min().find(example, pred1)
     assert(obtained1 == expected1)
 
-    expected2 = None
+    expected2 = NoneSD()
     pred2: Int -> Boolean = x -> x == 7
     obtained2 = Min().find(empty, pred2)
     assert(obtained2 == expected2)

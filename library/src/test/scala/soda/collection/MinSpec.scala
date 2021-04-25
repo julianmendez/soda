@@ -1,14 +1,19 @@
 package soda.collection
 
+import soda.lib.OptionSD
+import soda.lib.NoneSD
+import soda.lib.SomeSD
+import soda.lib.Rec
+
 import org.scalatest.funsuite.AnyFunSuite
 
 case class MinSpec () extends AnyFunSuite {
 
   lazy val empty: ESeq [Int] = ESeq [Int]  ()
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
+  lazy val revExampleSeq: Seq [Int] = exampleSeq.reverse
   lazy val example: NESeq [Int] =
-    MSeqTranslator () .asMSeq (exampleSeq )
-      .open (None, (neseq => Some (neseq )  )  ) .get
+    Rec () .foldLeft (revExampleSeq.tail, NESeq [Int]  (revExampleSeq.head, ESeq [Int]  ()  ), (list, elem ) =>  Min () .prepended (list, elem ) )
 
   test ("prepended") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
@@ -67,7 +72,7 @@ case class MinSpec () extends AnyFunSuite {
   }
 
   test ("at") {
-    lazy val expected = Some (3 )
+    lazy val expected = SomeSD (3 )
     lazy val obtained = Min () .at (example, 4 )
     assert (obtained == expected )
   }
@@ -343,17 +348,17 @@ case class MinSpec () extends AnyFunSuite {
   }
 
   test ("find") {
-    lazy val expected0 = Some (0 )
+    lazy val expected0 = SomeSD (0 )
     lazy val pred0: Int => Boolean = x => ! (x == 7 )
     lazy val obtained0 = Min () .find (example, pred0 )
     assert (obtained0 == expected0 )
 
-    lazy val expected1 = Some (8 )
+    lazy val expected1 = SomeSD (8 )
     lazy val pred1: Int => Boolean = x => x == 8
     lazy val obtained1 = Min () .find (example, pred1 )
     assert (obtained1 == expected1 )
 
-    lazy val expected2 = None
+    lazy val expected2 = NoneSD ()
     lazy val pred2: Int => Boolean = x => x == 7
     lazy val obtained2 = Min () .find (empty, pred2 )
     assert (obtained2 == expected2 )

@@ -1,5 +1,8 @@
 package soda.collection
 
+import soda.lib.OptionSD
+import soda.lib.SomeSD
+import soda.lib.NoneSD
 
 case class MSeqTranslator [T]  () {
 
@@ -109,12 +112,12 @@ case class Min [T]  () {
     foldLeftWhile (s, initial_value, next_value, condition )
   }
 
-  def at (s: MSeq [T], n: Int ): Option [T] = {
+  def at (s: MSeq [T], n: Int ): OptionSD [T] = {
     lazy val result =
-      s.open (ifEmpty = None, ifNonEmpty = (neseq =>
+      s.open (ifEmpty = NoneSD [T]  (), ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
-        ) None
-        else Some (atNonEmpty (neseq, n )  )
+        ) NoneSD [T]  ()
+        else SomeSD [T]  (atNonEmpty (neseq, n )  )
       )
     )
 
@@ -225,15 +228,15 @@ case class Min [T]  () {
     result
   }
 
-  def find (s: MSeq [T], p: (T => Boolean )  ): Option [T] = {
+  def find (s: MSeq [T], p: (T => Boolean )  ): OptionSD [T] = {
       lazy val result = foldLeftWhile (s, initial_value, next_value, condition )
 
-      lazy val initial_value = None
+      lazy val initial_value = NoneSD [T]  ()
 
-      def next_value (acc: Option [T], elem: T ): Option [T] =
-        if (p (elem ) ) Some (elem ) else None
+      def next_value (acc: OptionSD [T], elem: T ): OptionSD [T] =
+        if (p (elem ) ) SomeSD [T]  (elem ) else NoneSD [T]  ()
 
-      def condition (acc: Option [T], elem: T ): Boolean = acc.isEmpty
+      def condition (acc: OptionSD [T], elem: T ): Boolean = acc.isEmpty
 
       result
     }
