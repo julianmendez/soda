@@ -17,7 +17,7 @@ case class Main () {
   lazy val ScalaExtension: String = ".scala"
 
   lazy val Library_marker_file = "lib.soda"
-  lazy val Library_content_file = "/sodalib.soda"
+  lazy val Library_content_file = "/lib/soda/lib/sodalib.soda"
   lazy val Soda_suffix = ".soda"
 
 

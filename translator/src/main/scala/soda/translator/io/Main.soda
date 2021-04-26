@@ -14,7 +14,7 @@ package soda.translator.io
   ScalaExtension: String = ".scala"
 
   Library_marker_file = "lib.soda"
-  Library_content_file = "/sodalib.soda"
+  Library_content_file = "/lib/soda/lib/sodalib.soda"
   Soda_suffix = ".soda"
 
 
