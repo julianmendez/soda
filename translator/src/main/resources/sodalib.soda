@@ -26,31 +26,31 @@ package soda.lib
  */
 * OptionSD[T] {
 
-  has isEmpty: Boolean
-
   has open[B](ifEmpty: B, ifNonEmpty: T -> B): B
 
-  has map[B](mapping: T -> B): OptionSD[B]
+  isEmpty: Boolean =
+    open(
+      ifEmpty := true,
+      ifNonEmpty := element -> false
+    )
+
+  map[B](mapping: T -> B): OptionSD[B] =
+    open(
+      ifEmpty := NoneSD[B](),
+      ifNonEmpty := element -> SomeSD[B](mapping(element))
+    )
 }
 
 * NoneSD[T] () extends OptionSD[T] {
 
-  isEmpty = true
-
   open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifEmpty
-
-  map[B](mapping: T -> B): NoneSD[B] = NoneSD[B]()
 }
 
 * SomeSD[T] (element: T) extends OptionSD[T] {
 
-  isEmpty = false
-
   get: T = element
 
   open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifNonEmpty(element)
-
-  map[B](mapping: T -> B): SomeSD[B] = SomeSD[B](mapping(element))
 }
 
 /*  ********  */

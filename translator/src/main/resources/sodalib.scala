@@ -26,31 +26,29 @@ trait EnumConstant {
  */
 trait OptionSD [T] {
 
-  def isEmpty: Boolean
-
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B
 
-  def map [B]  (mapping: T => B ): OptionSD [B]
+  lazy val isEmpty: Boolean =
+    open (
+      ifEmpty = true, ifNonEmpty = element => false
+    )
+
+  def map [B]  (mapping: T => B ): OptionSD [B] =
+    open (
+      ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
+    )
 }
 
 case class NoneSD [T] () extends OptionSD [T] {
 
-  lazy val isEmpty = true
-
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifEmpty
-
-  def map [B]  (mapping: T => B ): NoneSD [B] = NoneSD [B]  ()
 }
 
 case class SomeSD [T] (element: T ) extends OptionSD [T] {
 
-  lazy val isEmpty = false
-
   lazy val get: T = element
 
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifNonEmpty (element )
-
-  def map [B]  (mapping: T => B ): SomeSD [B] = SomeSD [B]  (mapping (element )  )
 }
 
 /*  ********  */
