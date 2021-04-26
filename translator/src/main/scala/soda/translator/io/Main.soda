@@ -14,7 +14,8 @@ package soda.translator.io
   ScalaExtension: String = ".scala"
 
   Library_marker_file = "lib.soda"
-  Library_content_file = "/lib/soda/lib/sodalib.soda"
+  Library_directory_in_jar = "/lib/soda/lib/"
+  Library_content_files: Seq[String] = Seq("Comb.soda", "EnumConstant.soda", "OptionSD.soda", "Rec.soda")
   Soda_suffix = ".soda"
 
 
@@ -52,12 +53,8 @@ package soda.translator.io
     else println(Title_and_version + Help)
 
   process_directory(start: String): Boolean = {
-    lib_content = SimpleIO().read_resource(Library_content_file)
 
-    result =
-      lib_files
-        .map(file -> SimpleIO().write_file(file.getAbsolutePath, content := lib_content))
-        .forall(x -> x) and
+    result = expand_library(lib_files) and
       soda_files
         .map(file -> process_soda_file(file))
         .forall(x -> x)
@@ -72,6 +69,19 @@ package soda.translator.io
 
     result
   }
+
+  expand_library(lib_files: Seq[File]): Boolean =
+    lib_files
+      .map(lib_file -> lib_file.getParent)
+      .map(parent_directory ->
+        Library_content_files
+          .map(lib_file_name ->
+            SimpleIO().write_file(
+              file := SimpleIO().create_file(parent_directory, lib_file_name),
+              content := SimpleIO().read_resource(Library_directory_in_jar + lib_file_name)
+            )
+          ).forall(x -> x)
+      ).forall(x -> x)
 
   process_soda_file(file: File): Boolean = {
     file_name = file.getAbsolutePath

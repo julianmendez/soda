@@ -1,6 +1,7 @@
 package soda.translator.io
 
 + java.io.BufferedReader
++ java.io.File
 + java.io.FileWriter
 + java.io.InputStreamReader
 + java.nio.file.Files
@@ -23,13 +24,19 @@ package soda.translator.io
     reader.lines().collect(Collectors.joining(New_line))
   }
 
-  write_file(file_name: String, content: String): Boolean = {
-      writer = new FileWriter(file_name)
-      writer.write(content)
-      writer.flush()
-      writer.close()
-      true
+  write_file(file_name: String, content: String): Boolean =
+    write_file(new File(file_name), content)
+
+  write_file(file: File, content: String): Boolean = {
+    writer = new FileWriter(file)
+    writer.write(content)
+    writer.flush()
+    writer.close()
+    true
   }
+
+  create_file(parent_directory: String, file_name: String): File =
+    new File(parent_directory, file_name)
 
 }
 

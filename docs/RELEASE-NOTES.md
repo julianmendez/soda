@@ -1,4 +1,10 @@
 ---
+- - version: v0.8.0
+  - date: unreleased
+  - new_features:
+    - expands Soda library in multiple files
+  - build: sbt '++ 3.0.0-RC2' clean compile test package assembly
+  - release: target/scala-3.0.0-RC2/soda-0.8.0.jar
 - - version: v0.7.0
   - date: '2021-04-24'
   - new_features:

@@ -13,7 +13,7 @@ The reserved words are:
 - `=` (definition symbol)
 - `:` (type symbol)
 - `->` (lambda symbol)
-- `:=` (parameter definition symbol)  
+- `:=` (parameter definition symbol)
 - `if`
 - `then`
 - `else`

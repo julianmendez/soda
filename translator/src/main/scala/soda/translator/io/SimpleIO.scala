@@ -1,6 +1,7 @@
 package soda.translator.io
 
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileWriter
 import java.io.InputStreamReader
 import java.nio.file.Files
@@ -23,12 +24,18 @@ case class SimpleIO () {
     reader.lines () .collect (Collectors.joining (New_line )  )
   }
 
-  def write_file (file_name: String, content: String ): Boolean = {
-      lazy val writer = new FileWriter (file_name )
-      writer.write (content )
-      writer.flush ()
-      writer.close ()
-      true
+  def write_file (file_name: String, content: String ): Boolean =
+    write_file (new File (file_name ), content )
+
+  def write_file (file: File, content: String ): Boolean = {
+    lazy val writer = new FileWriter (file )
+    writer.write (content )
+    writer.flush ()
+    writer.close ()
+    true
   }
+
+  def create_file (parent_directory: String, file_name: String ): File =
+    new File (parent_directory, file_name )
 
 }

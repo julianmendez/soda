@@ -17,7 +17,8 @@ case class Main () {
   lazy val ScalaExtension: String = ".scala"
 
   lazy val Library_marker_file = "lib.soda"
-  lazy val Library_content_file = "/lib/soda/lib/sodalib.soda"
+  lazy val Library_directory_in_jar = "/lib/soda/lib/"
+  lazy val Library_content_files: Seq [String] = Seq ("Comb.soda", "EnumConstant.soda", "OptionSD.soda", "Rec.soda")
   lazy val Soda_suffix = ".soda"
 
 
@@ -55,12 +56,8 @@ case class Main () {
     else println (Title_and_version + Help )
 
   def process_directory (start: String ): Boolean = {
-    lazy val lib_content = SimpleIO () .read_resource (Library_content_file )
 
-    lazy val result =
-      lib_files
-        .map (file => SimpleIO () .write_file (file.getAbsolutePath, content = lib_content )  )
-        .forall (x => x ) &&
+    lazy val result = expand_library (lib_files ) &&
       soda_files
         .map (file => process_soda_file (file )  )
         .forall (x => x )
@@ -75,6 +72,18 @@ case class Main () {
 
     result
   }
+
+  def expand_library (lib_files: Seq [File]  ): Boolean =
+    lib_files
+      .map (lib_file => lib_file.getParent )
+      .map (parent_directory =>
+        Library_content_files
+          .map (lib_file_name =>
+            SimpleIO () .write_file (
+              file = SimpleIO () .create_file (parent_directory, lib_file_name ), content = SimpleIO () .read_resource (Library_directory_in_jar + lib_file_name )
+            )
+          ) .forall (x => x )
+      ) .forall (x => x )
 
   def process_soda_file (file: File ): Boolean = {
     lazy val file_name = file.getAbsolutePath
