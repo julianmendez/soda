@@ -110,11 +110,6 @@ package soda.translator.language
         else token
     )
 
-  _join_tokens(tokens: Seq[Token]): String =
-    tokens
-      .map(token -> token.text)
-      .mkString("")
-
   get_translation_table_at_beginning(line: String): Translator =
     if line.contains(SodaOpeningParenthesis)
     then TranslationAtBeginningWithParen()
@@ -250,6 +245,11 @@ package soda.translator.language
       then NoneSD()
       else SomeSD(Excerpt(left + SodaOpeningBracket.length, right))
     }
+
+  _join_tokens(tokens: Seq[Token]): String =
+    tokens
+      .map(token -> token.text)
+      .mkString("")
 
   * Excerpt(beginning: Int, end: Int)
 

@@ -38,9 +38,6 @@ package soda.translator.replacement
   ps = ParserStateEnum()
   ch = CharTypeEnum()
 
-  next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
-    TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
-
   TransitionsThatChangeStates: Map[(ParserState, CharType), ParserState] =
     Map(
       /* */
@@ -70,6 +67,9 @@ package soda.translator.replacement
       ((ps.Plain, ch.BackslashType), ps.Plain),
       ((ps.Plain, ch.PlainType), ps.Plain)
     )
+
+  next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
+    TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
 
 }
 

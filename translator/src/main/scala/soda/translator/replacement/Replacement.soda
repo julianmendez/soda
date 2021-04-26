@@ -22,9 +22,6 @@ package soda.translator.replacement
     then replace(line, translator, only_beginning := true)
     else line
 
-  replace(translator: Translator, only_beginning: Boolean): Replacement =
-    Replacement(replace(line, translator, only_beginning))
-
   replace(line: String, translator: Translator, only_beginning: Boolean): String = {
     result = Rec().foldLeft(translator.keys, initial_value, next_value)
 
@@ -75,6 +72,9 @@ package soda.translator.replacement
 
     result
   }
+
+  replace(translator: Translator, only_beginning: Boolean): Replacement =
+    Replacement(replace(line, translator, only_beginning))
 
   add_space_to_soda_line(): Replacement =
     Replacement(SodaSpace + line + SodaSpace)

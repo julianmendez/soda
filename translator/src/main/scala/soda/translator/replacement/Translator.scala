@@ -5,6 +5,7 @@ package soda.translator.replacement
  */
 trait Translator {
   def translate (word: String ): String
+
   def keys: Seq [String]
 
   def _get (table: Seq [(String, String )], word: String ) =

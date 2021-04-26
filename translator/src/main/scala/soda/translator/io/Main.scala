@@ -1,8 +1,8 @@
 package soda.translator.io
 
-import java.io.File
-
 import soda.translator.language.MicroTranslator
+
+import java.io.File
 
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
@@ -82,8 +82,6 @@ case class Main () {
     translate (t.input_file_name, t.output_file_name )
   }
 
-  case class FileNamePair (input_file_name: String, output_file_name: String )
-
   def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (SodaExtension )
     ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
@@ -94,5 +92,7 @@ case class Main () {
     lazy val output = MicroTranslator () .translate_program (input )
     SimpleIO () .write_file (output_file_name, content = output )
   }
+
+  case class FileNamePair (input_file_name: String, output_file_name: String )
 
 }

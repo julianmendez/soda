@@ -38,9 +38,6 @@ case class ParserTransition () {
   lazy val ps = ParserStateEnum ()
   lazy val ch = CharTypeEnum ()
 
-  def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
-    TransitionsThatChangeStates.getOrElse ((parser_state, char_type ), parser_state )
-
   lazy val TransitionsThatChangeStates: Map [(ParserState, CharType ), ParserState] =
     Map (
       /* */
@@ -50,5 +47,8 @@ case class ParserTransition () {
       ((ps.ApostropheBackslashState, ch.UndefinedType ), ps.UndefinedState ), ((ps.ApostropheBackslashState, ch.QuotesType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.ApostropheType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.BackslashType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.PlainType ), ps.ApostropheState ), /* */
       ((ps.Plain, ch.UndefinedType ), ps.UndefinedState ), ((ps.Plain, ch.QuotesType ), ps.QuotesState ), ((ps.Plain, ch.ApostropheType ), ps.ApostropheState ), ((ps.Plain, ch.BackslashType ), ps.Plain ), ((ps.Plain, ch.PlainType ), ps.Plain )
     )
+
+  def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
+    TransitionsThatChangeStates.getOrElse ((parser_state, char_type ), parser_state )
 
 }

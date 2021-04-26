@@ -5,56 +5,64 @@ import soda.translator.replacement.Translator
 case class SynonymAtBeginning () extends Translator {
   lazy val _table = Translation () .SynonymAtBeginning
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 case class TranslationAtBeginningWithParen () extends Translator {
   lazy val _table = Translation () .TranslationAtBeginningWithParen
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 case class TranslationAtBeginningWithoutParen () extends Translator {
   lazy val _table = Translation () .TranslationAtBeginningWithoutParen
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 
 case class TranslationBetweenSquareBrackets () extends Translator {
  lazy val _table = Translation () .TranslationBetweenSquareBrackets
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 
 case class Synonym () extends Translator {
   lazy val _table = Translation () .Synonym
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 
 case class MainTranslation () extends Translator {
   lazy val _table = Translation () .MainTranslation
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }
 
 
 case class ScalaNonSoda () extends Translator {
+  lazy val keys = Translation () .ScalaNonSodaKeys
+
   def translate (word: String ) = {
     if (! Translation () .SodaReservedWords.contains (word ) &&
       Translation () .ScalaReservedWords.contains (word )
@@ -62,14 +70,13 @@ case class ScalaNonSoda () extends Translator {
     else word
   }
 
-  lazy val keys = Translation () .ScalaNonSodaKeys
-
 }
 
 case class Beautifier () extends Translator {
   lazy val _table = Translation () .Beautifier
 
+  lazy val keys = _keys (_table )
+
   def translate (word: String ) = _get (_table, word )
 
-  lazy val keys = _keys (_table )
 }

@@ -152,10 +152,6 @@ package soda.translator.language
     ScalaReservedWords
       .filter(x -> not SodaReservedWords.contains(x))
 
-  is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
-
-  is_soda_word(word: String): Boolean = SodaReservedWords.contains(word)
-
   SodaBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
 
   Beautifier: Seq[(String, String)] = Seq(
@@ -170,6 +166,10 @@ package soda.translator.language
     ("\\s+:", ":"),
     (":\\s+", ": ")
   )
+
+  is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
+
+  is_soda_word(word: String): Boolean = SodaReservedWords.contains(word)
 
 }
 

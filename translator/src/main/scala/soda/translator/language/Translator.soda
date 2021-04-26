@@ -5,56 +5,64 @@ package soda.translator.language
 * SynonymAtBeginning () extends Translator {
   _table = Translation().SynonymAtBeginning
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 * TranslationAtBeginningWithParen() extends Translator {
   _table = Translation().TranslationAtBeginningWithParen
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 * TranslationAtBeginningWithoutParen() extends Translator {
   _table = Translation().TranslationAtBeginningWithoutParen
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 
 * TranslationBetweenSquareBrackets() extends Translator {
  _table = Translation().TranslationBetweenSquareBrackets
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 
 * Synonym() extends Translator {
   _table = Translation().Synonym
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 
 * MainTranslation() extends Translator {
   _table = Translation().MainTranslation
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 
 * ScalaNonSoda() extends Translator {
+  keys = Translation().ScalaNonSodaKeys
+
   translate (word: String) = {
     if not Translation().SodaReservedWords.contains(word) and
       Translation().ScalaReservedWords.contains(word)
@@ -62,16 +70,15 @@ package soda.translator.language
     else word
   }
 
-  keys = Translation().ScalaNonSodaKeys
-
 }
 
 * Beautifier() extends Translator {
   _table = Translation().Beautifier
 
+  keys = _keys(_table)
+
   translate (word: String) = _get(_table, word)
 
-  keys = _keys(_table)
 }
 
 

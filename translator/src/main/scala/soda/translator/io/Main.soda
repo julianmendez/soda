@@ -1,8 +1,8 @@
 package soda.translator.io
 
-+ java.io.File
-
 + soda.translator.language.MicroTranslator
+
++ java.io.File
 
 @main
 /**
@@ -79,8 +79,6 @@ package soda.translator.io
     translate(t.input_file_name, t.output_file_name)
   }
 
-  * FileNamePair(input_file_name: String, output_file_name: String)
-
   get_input_output_file_names(input_name: String): FileNamePair =
     if input_name.endsWith(SodaExtension)
     then FileNamePair(input_name,
@@ -92,6 +90,8 @@ package soda.translator.io
     output = MicroTranslator().translate_program(input)
     SimpleIO().write_file(output_file_name, content := output)
   }
+
+  * FileNamePair(input_file_name: String, output_file_name: String)
 
 }
 

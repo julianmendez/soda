@@ -22,9 +22,6 @@ case class Replacement (line: String ) {
     ) replace (line, translator, only_beginning = true )
     else line
 
-  def replace (translator: Translator, only_beginning: Boolean ): Replacement =
-    Replacement (replace (line, translator, only_beginning )  )
-
   def replace (line: String, translator: Translator, only_beginning: Boolean ): String = {
     lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
 
@@ -74,6 +71,9 @@ case class Replacement (line: String ) {
 
     result
   }
+
+  def replace (translator: Translator, only_beginning: Boolean ): Replacement =
+    Replacement (replace (line, translator, only_beginning )  )
 
   def add_space_to_soda_line (): Replacement =
     Replacement (SodaSpace + line + SodaSpace )

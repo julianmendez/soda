@@ -110,11 +110,6 @@ case class MicroTranslator () {
         else token
     )
 
-  def _join_tokens (tokens: Seq [Token]  ): String =
-    tokens
-      .map (token => token.text )
-      .mkString ("")
-
   def get_translation_table_at_beginning (line: String ): Translator =
     if (line.contains (SodaOpeningParenthesis )
     ) TranslationAtBeginningWithParen ()
@@ -247,6 +242,11 @@ case class MicroTranslator () {
       ) NoneSD ()
       else SomeSD (Excerpt (left + SodaOpeningBracket.length, right )  )
     }
+
+  def _join_tokens (tokens: Seq [Token]  ): String =
+    tokens
+      .map (token => token.text )
+      .mkString ("")
 
   case class Excerpt (beginning: Int, end: Int )
 

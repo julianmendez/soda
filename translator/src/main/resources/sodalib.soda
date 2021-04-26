@@ -10,12 +10,13 @@ package soda.lib
  * This is a constant to be used in enumerations.
  */
 * EnumConstant {
+
   has ordinal: Int
+
   has name: String
 
   @override
   toString: String = "" + ordinal + "-" + name
-
 }
 
 /*  ********  */
@@ -24,8 +25,11 @@ package soda.lib
  * This is an Option implemented without exceptions.
  */
 * OptionSD[T] {
+
   has isEmpty: Boolean
+
   has open[B](ifEmpty: B, ifNonEmpty: T -> B): B
+
   has map[B](mapping: T -> B): OptionSD[B]
 }
 

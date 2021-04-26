@@ -10,12 +10,13 @@ package soda.lib
  * This is a constant to be used in enumerations.
  */
 trait EnumConstant {
+
   def ordinal: Int
+
   def name: String
 
   override
   lazy val toString: String = "" + ordinal + "-" + name
-
 }
 
 /*  ********  */
@@ -24,8 +25,11 @@ trait EnumConstant {
  * This is an Option implemented without exceptions.
  */
 trait OptionSD [T] {
+
   def isEmpty: Boolean
+
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B
+
   def map [B]  (mapping: T => B ): OptionSD [B]
 }
 
