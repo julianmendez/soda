@@ -7,7 +7,11 @@ package soda.translator.io
 
   Library_marker_file = "lib.soda"
   Library_directory_in_jar = "/lib/soda/lib/"
-  Library_content_files: Seq[String] = Seq("Comb.soda", "EnumConstant.soda", "OptionSD.soda", "Rec.soda")
+  Library_content_files: Seq[String] =
+    SimpleIO()
+      .read_resource(Library_directory_in_jar + "files.txt")
+      .split("\n")
+      .toSeq
 
   expand_library(lib_files: Seq[File]): Boolean =
     lib_files

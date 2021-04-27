@@ -7,7 +7,11 @@ case class LibraryDeployer () {
 
   lazy val Library_marker_file = "lib.soda"
   lazy val Library_directory_in_jar = "/lib/soda/lib/"
-  lazy val Library_content_files: Seq [String] = Seq ("Comb.soda", "EnumConstant.soda", "OptionSD.soda", "Rec.soda")
+  lazy val Library_content_files: Seq [String] =
+    SimpleIO ()
+      .read_resource (Library_directory_in_jar + "files.txt")
+      .split ("\n")
+      .toSeq
 
   def expand_library (lib_files: Seq [File]  ): Boolean =
     lib_files
