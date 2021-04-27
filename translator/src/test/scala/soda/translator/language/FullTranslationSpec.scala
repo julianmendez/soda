@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 import java.nio.file.{ Files, Paths }
 
-case class MicroTranslatorSpec () extends AnyFunSuite {
+case class FullTranslationSpec () extends AnyFunSuite {
 
   lazy val Base = "/soda/translator/example/"
 
@@ -22,8 +22,6 @@ case class MicroTranslatorSpec () extends AnyFunSuite {
 
   lazy val ManualInput = "/soda/translator/documentation/Manual.soda"
   lazy val ManualExpected = "/soda/translator/documentation/Manual.scala"
-
-
 
   def test_translation (file_name: String ): Assertion = {
     lazy val input_file_name = Base + file_name + SodaSuffix

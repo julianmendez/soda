@@ -5,7 +5,7 @@ package soda.translator.language
 
 + java.nio.file.{Files, Paths}
 
-* MicroTranslatorSpec() extends AnyFunSuite {
+* FullTranslationSpec() extends AnyFunSuite {
 
   Base = "/soda/translator/example/"
 
@@ -22,8 +22,6 @@ package soda.translator.language
 
   ManualInput = "/soda/translator/documentation/Manual.soda"
   ManualExpected = "/soda/translator/documentation/Manual.scala"
-
-
 
   test_translation(file_name: String): Assertion = {
     input_file_name = Base + file_name + SodaSuffix
