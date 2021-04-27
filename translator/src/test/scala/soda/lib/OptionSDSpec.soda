@@ -1,5 +1,8 @@
 package soda.lib
 
++ scala.util.Try
++ scala.util.Success
++ scala.util.Failure
 + org.scalatest.funsuite.AnyFunSuite
 
 * OptionSDSpec() extends AnyFunSuite {
@@ -60,6 +63,35 @@ package soda.lib
 
     expected = SomeSD[String]("2")
     obtained = some_element.map(to_string)
+
+    assert(obtained == expected)
+  }
+
+  test("should try how successive applications of open works") {
+
+    toInt(s: String): OptionSD[Int] =
+      OptionSDBuilder().build(
+        Try( Integer.parseInt(s.trim) )
+          .toOption
+      )
+
+    stringA = "1"
+    stringB = "2"
+    stringC = "3"
+
+    maybeA = toInt(stringA)
+    maybeB = toInt(stringB)
+    maybeC = toInt(stringC)
+
+    expected = SomeSD(6)
+    obtained =
+      maybeA.open(ifEmpty := NoneSD,
+        ifNonEmpty := a ->
+          maybeB.open(ifEmpty := NoneSD,
+            ifNonEmpty := b ->
+              maybeC.open(ifEmpty := NoneSD,
+                ifNonEmpty := c ->
+                  SomeSD(a + b + c) ) ) )
 
     assert(obtained == expected)
   }

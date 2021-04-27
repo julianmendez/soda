@@ -33,3 +33,12 @@ case class SomeSD [T] (element: T ) extends OptionSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifNonEmpty (element )
 }
+
+case class OptionSDBuilder [T]  () {
+
+  def build (opt: Option [T]  ): OptionSD [T] =
+    if (opt.isEmpty
+    ) NoneSD [T]  ()
+    else SomeSD [T]  (opt.get )
+
+}

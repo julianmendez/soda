@@ -1,5 +1,8 @@
 package soda.lib
 
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 import org.scalatest.funsuite.AnyFunSuite
 
 case class OptionSDSpec () extends AnyFunSuite {
@@ -58,6 +61,32 @@ case class OptionSDSpec () extends AnyFunSuite {
 
     lazy val expected = SomeSD [String]  ("2")
     lazy val obtained = some_element.map (to_string )
+
+    assert (obtained == expected )
+  }
+
+  test ("should try how successive applications of open works") {
+
+    def toInt (s: String ): OptionSD [Int] =
+      OptionSDBuilder () .build (
+        Try (Integer.parseInt (s.trim ) )
+          .toOption
+      )
+
+    lazy val stringA = "1"
+    lazy val stringB = "2"
+    lazy val stringC = "3"
+
+    lazy val maybeA = toInt (stringA )
+    lazy val maybeB = toInt (stringB )
+    lazy val maybeC = toInt (stringC )
+
+    lazy val expected = SomeSD (6 )
+    lazy val obtained =
+      maybeA.open (ifEmpty = NoneSD, ifNonEmpty = a =>
+          maybeB.open (ifEmpty = NoneSD, ifNonEmpty = b =>
+              maybeC.open (ifEmpty = NoneSD, ifNonEmpty = c =>
+                  SomeSD (a + b + c ) ) ) )
 
     assert (obtained == expected )
   }

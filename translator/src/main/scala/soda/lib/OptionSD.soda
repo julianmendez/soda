@@ -35,3 +35,12 @@ package soda.lib
 
   open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifNonEmpty(element)
 }
+
+* OptionSDBuilder[T]() {
+
+  build(opt: Option[T]): OptionSD[T] =
+    if opt.isEmpty
+    then NoneSD[T]()
+    else SomeSD[T](opt.get)
+
+}
