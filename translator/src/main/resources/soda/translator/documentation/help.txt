@@ -1,0 +1,18 @@
+Usage:
+  soda SODA_SCALA_INPUT
+or
+  soda SODA_INPUT SCALA_OUTPUT
+
+where
+
+  SODA_SCALA_INPUT is used to create the Soda input file and Scala output file.
+If it is a directory, it scans recursively the directory to translate Soda files.
+If the extension is .soda, the output file has extension .scala.
+Otherwise, the extension .soda and .scala are appended to create the input and output files respectively.
+
+
+  SODA_INPUT is the Soda input file, regardless of the extension
+
+  SCALA_OUTPUT is the Scala output file, regardless of the extension
+
+

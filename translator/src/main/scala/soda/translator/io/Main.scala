@@ -18,26 +18,7 @@ case class Main () {
 
   lazy val Soda_suffix = ".soda"
 
-  lazy val Help: String = "\n" +
-    "\nUsage:" +
-    "\n  soda SODA_SCALA_INPUT" +
-    "\nor" +
-    "\n  soda SODA_INPUT SCALA_OUTPUT" +
-    "\n" +
-    "\nwhere" +
-    "\n" +
-    "\n  SODA_SCALA_INPUT is used to create the Soda input file and Scala output file. " +
-    "\nIf it is a directory, it scans recursively the directory to translate Soda files." +
-    "\nIf the extension is " + SodaExtension + ", the output file has extension " + ScalaExtension + "." +
-    "\nOtherwise, the extension " + SodaExtension + " and " + ScalaExtension + " are appended to create the input and output files respectively." +
-    "\n" +
-    "\n" +
-    "\n  SODA_INPUT is the Soda input file, regardless of the extension" +
-    "\n" +
-    "\n  SCALA_OUTPUT is the Scala output file, regardless of the extension" +
-    "\n" +
-    "\n"
-
+  lazy val Help: String = SimpleIO () .read_resource ("/soda/translator/documentation/help.txt")
 
   lazy val Title_and_version: String = {
     lazy val packg = this.getClass.getPackage
@@ -49,7 +30,7 @@ case class Main () {
   def main (args: Array [String]  ): Unit =
     if (args.length == 1 ) process_directory (args (0 )  )
     else if (args.length == 2 ) translate (args (0 ), args (1 )  )
-    else println (Title_and_version + Help )
+    else println (Title_and_version + "\n\n" + Help )
 
   def process_directory (start: String ): Boolean = {
 
