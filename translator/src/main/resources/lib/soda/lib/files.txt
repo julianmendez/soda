@@ -2,3 +2,4 @@ Comb.soda
 EnumConstant.soda
 OptionSD.soda
 Rec.soda
+SeqSD.soda
