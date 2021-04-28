@@ -4,7 +4,6 @@ import org.scalatest.funsuite.AnyFunSuite
 
 case class SeqSDSpec () extends AnyFunSuite {
 
-
   test ("should detect an empty sequence") {
     lazy val input = Seq ()
     lazy val seqsd = SeqSDBuilder () .build (input )
@@ -25,12 +24,16 @@ case class SeqSDSpec () extends AnyFunSuite {
 
   test ("should get the maximum") {
     def max_of_2 (a: Int, b: Int ): Int = if (a > b ) a else b
-    def max (s: NESeqSD [Int]  ): Int =
-      Rec () .foldLeft (s.tailSeq, s.head, max_of_2 )
+
+    def max (s: NonEmptySeqSD [Int]  ): Int =
+      Rec () .foldLeft (s.tail.seq, s.head, max_of_2 )
 
     lazy val input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 )
-    lazy val expected = 9
-    lazy val obtained = max (NESeqSD [Int]  (input.head, input.tail )  )
+    lazy val expected = SomeSD [Int]  (9 )
+    lazy val obtained =
+      SeqSDBuilder () .build (input ) .open (
+        ifEmpty = NoneSD (), ifNonEmpty = sequence => SomeSD (max (sequence )  )
+      )
     assert (obtained == expected )
   }
 

@@ -9,7 +9,7 @@ package soda.lib
  */
 * SeqSD[T] {
 
-  has open[B](ifEmpty: B, ifNonEmpty: NESeqSD[T] -> B): B
+  has open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B
 
   has seq: Seq[T]
 
@@ -18,28 +18,36 @@ package soda.lib
 
 }
 
-* ESeqSD[T]() extends SeqSD[T] {
+* EmptySeqSD[T]() extends SeqSD[T] {
 
-  open[B](ifEmpty: B, ifNonEmpty: NESeqSD[T] -> B): B = ifEmpty
+  open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
 
   seq: Seq[T] = Seq[T]()
 
-}
-
-* NESeqSD[T](head: T, tailSeq: Seq[T]) extends SeqSD[T] {
-
-  open[B](ifEmpty: B, ifNonEmpty: NESeqSD[T] -> B): B = ifNonEmpty(this)
-
-  seq: Seq[T] = tailSeq.+:(head)
+  reverse: EmptySeqSD[T] = this
 
 }
+
+* NonEmptySeqSD[T] extends SeqSD[T] {
+
+  open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
+
+  head: T = seq.head
+
+  tail: SeqSD[T] = SeqSDBuilder[T]().build(seq.tail)
+
+  reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(seq.reverse)
+
+}
+
+* _NonEmptySeqSD[T](seq: Seq[T]) extends NonEmptySeqSD[T]
 
 * SeqSDBuilder[T]() {
 
   build(seq: Seq[T]): SeqSD[T] =
     if seq.isEmpty
-    then ESeqSD[T]()
-    else NESeqSD[T](seq.head, seq.tail)
+    then EmptySeqSD[T]()
+    else _NonEmptySeqSD[T](seq)
 
 }
 

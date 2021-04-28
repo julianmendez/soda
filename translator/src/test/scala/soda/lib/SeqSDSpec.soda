@@ -4,7 +4,6 @@ package soda.lib
 
 * SeqSDSpec() extends AnyFunSuite {
 
-
   test("should detect an empty sequence") {
     input = Seq()
     seqsd = SeqSDBuilder().build(input)
@@ -27,12 +26,17 @@ package soda.lib
 
   test("should get the maximum") {
     max_of_2(a: Int, b: Int): Int = if a > b then a else b
-    max(s: NESeqSD[Int]): Int =
-      Rec().foldLeft(s.tailSeq, s.head, max_of_2)
+
+    max(s: NonEmptySeqSD[Int]): Int =
+      Rec().foldLeft(s.tail.seq, s.head, max_of_2)
 
     input = Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
-    expected = 9
-    obtained = max(NESeqSD[Int](input.head, input.tail))
+    expected = SomeSD[Int](9)
+    obtained =
+      SeqSDBuilder().build(input).open(
+        ifEmpty := NoneSD(),
+        ifNonEmpty := sequence -> SomeSD(max(sequence))
+      )
     assert(obtained == expected)
   }
 
