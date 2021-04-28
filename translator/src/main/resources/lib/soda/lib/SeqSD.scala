@@ -11,12 +11,12 @@ trait SeqSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B
 
-  def seq: Seq [T]
+  def toSeq: Seq [T]
 
   def reverse: SeqSD [T]
 
   override
-  lazy val toString: String = seq.toString
+  lazy val toString: String = toSeq.toString
 
 }
 
@@ -24,7 +24,7 @@ case class EmptySeqSD [T]  () extends SeqSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifEmpty
 
-  lazy val seq: Seq [T] = Seq [T]  ()
+  lazy val toSeq: Seq [T] = Seq [T]  ()
 
   lazy val reverse: EmptySeqSD [T] = this
 
@@ -34,15 +34,15 @@ trait NonEmptySeqSD [T] extends SeqSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifNonEmpty (this )
 
-  lazy val head: T = seq.head
+  lazy val head: T = toSeq.head
 
-  lazy val tail: SeqSD [T] = SeqSDBuilder [T]  () .build (seq.tail )
+  lazy val tail: SeqSD [T] = SeqSDBuilder [T]  () .build (toSeq.tail )
 
-  lazy val reverse: NonEmptySeqSD [T] = _NonEmptySeqSD (seq.reverse )
+  lazy val reverse: NonEmptySeqSD [T] = _NonEmptySeqSD (toSeq.reverse )
 
 }
 
-case class _NonEmptySeqSD [T]  (seq: Seq [T]  ) extends NonEmptySeqSD [T]
+case class _NonEmptySeqSD [T]  (toSeq: Seq [T]  ) extends NonEmptySeqSD [T]
 
 case class SeqSDBuilder [T]  () {
 

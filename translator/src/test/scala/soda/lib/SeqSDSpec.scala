@@ -26,7 +26,7 @@ case class SeqSDSpec () extends AnyFunSuite {
     def max_of_2 (a: Int, b: Int ): Int = if (a > b ) a else b
 
     def max (s: NonEmptySeqSD [Int]  ): Int =
-      Rec () .foldLeft (s.tail.seq, s.head, max_of_2 )
+      Rec () .foldLeft (s.tail.toSeq, s.head, max_of_2 )
 
     lazy val input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 )
     lazy val expected = SomeSD [Int]  (9 )

@@ -11,12 +11,12 @@ package soda.lib
 
   has open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B
 
-  has seq: Seq[T]
+  has toSeq: Seq[T]
 
   has reverse: SeqSD[T]
 
   @override
-  toString: String = seq.toString
+  toString: String = toSeq.toString
 
 }
 
@@ -24,7 +24,7 @@ package soda.lib
 
   open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
 
-  seq: Seq[T] = Seq[T]()
+  toSeq: Seq[T] = Seq[T]()
 
   reverse: EmptySeqSD[T] = this
 
@@ -34,15 +34,15 @@ package soda.lib
 
   open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
 
-  head: T = seq.head
+  head: T = toSeq.head
 
-  tail: SeqSD[T] = SeqSDBuilder[T]().build(seq.tail)
+  tail: SeqSD[T] = SeqSDBuilder[T]().build(toSeq.tail)
 
-  reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(seq.reverse)
+  reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(toSeq.reverse)
 
 }
 
-* _NonEmptySeqSD[T](seq: Seq[T]) extends NonEmptySeqSD[T]
+* _NonEmptySeqSD[T](toSeq: Seq[T]) extends NonEmptySeqSD[T]
 
 * SeqSDBuilder[T]() {
 

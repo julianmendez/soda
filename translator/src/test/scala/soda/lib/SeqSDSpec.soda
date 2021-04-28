@@ -28,7 +28,7 @@ package soda.lib
     max_of_2(a: Int, b: Int): Int = if a > b then a else b
 
     max(s: NonEmptySeqSD[Int]): Int =
-      Rec().foldLeft(s.tail.seq, s.head, max_of_2)
+      Rec().foldLeft(s.tail.toSeq, s.head, max_of_2)
 
     input = Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
     expected = SomeSD[Int](9)
