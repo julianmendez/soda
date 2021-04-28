@@ -11,6 +11,8 @@ trait OptionSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B
 
+  def toOption: Option [T]
+
   lazy val isEmpty: Boolean =
     open (
       ifEmpty = true, ifNonEmpty = element => false
@@ -25,6 +27,8 @@ trait OptionSD [T] {
 case class NoneSD [T] () extends OptionSD [T] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifEmpty
+
+  lazy val toOption: None.type = None
 }
 
 case class SomeSD [T] (element: T ) extends OptionSD [T] {
@@ -32,6 +36,8 @@ case class SomeSD [T] (element: T ) extends OptionSD [T] {
   lazy val get: T = element
 
   def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifNonEmpty (element )
+
+  lazy val toOption: Some [T] = Some [T]  (element )
 }
 
 case class OptionSDBuilder [T]  () {

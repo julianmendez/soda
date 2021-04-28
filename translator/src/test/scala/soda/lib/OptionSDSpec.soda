@@ -96,5 +96,26 @@ package soda.lib
     assert(obtained == expected)
   }
 
+  test("toOption with non empty option") {
+    input: OptionSD[Int] = SomeSD(1)
+    expected: Option[Int] = Some(1)
+    obtained = input.toOption
+    assert(obtained == expected)
+  }
+
+  test("toOption with another non empty option") {
+    input: SomeSD[Int] = SomeSD(2)
+    expected: Some[Int] = Some(2)
+    obtained = input.toOption
+    assert(obtained == expected)
+  }
+
+  test("toOption with empty option") {
+    input: OptionSD[Int] = NoneSD()
+    expected = None
+    obtained = input.toOption
+    assert(obtained == expected)
+  }
+
 }
 

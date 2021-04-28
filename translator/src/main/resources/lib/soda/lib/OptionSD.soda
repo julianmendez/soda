@@ -11,6 +11,8 @@ package soda.lib
 
   has open[B](ifEmpty: B, ifNonEmpty: T -> B): B
 
+  has toOption: Option[T]
+
   isEmpty: Boolean =
     open(
       ifEmpty := true,
@@ -27,6 +29,8 @@ package soda.lib
 * NoneSD[T] () extends OptionSD[T] {
 
   open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifEmpty
+
+  toOption: None.type = None
 }
 
 * SomeSD[T] (element: T) extends OptionSD[T] {
@@ -34,6 +38,8 @@ package soda.lib
   get: T = element
 
   open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifNonEmpty(element)
+
+  toOption: Some[T] = Some[T](element)
 }
 
 * OptionSDBuilder[T]() {

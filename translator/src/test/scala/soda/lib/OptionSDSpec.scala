@@ -91,4 +91,25 @@ case class OptionSDSpec () extends AnyFunSuite {
     assert (obtained == expected )
   }
 
+  test ("toOption with non empty option") {
+    lazy val input: OptionSD [Int] = SomeSD (1 )
+    lazy val expected: Option [Int] = Some (1 )
+    lazy val obtained = input.toOption
+    assert (obtained == expected )
+  }
+
+  test ("toOption with another non empty option") {
+    lazy val input: SomeSD [Int] = SomeSD (2 )
+    lazy val expected: Some [Int] = Some (2 )
+    lazy val obtained = input.toOption
+    assert (obtained == expected )
+  }
+
+  test ("toOption with empty option") {
+    lazy val input: OptionSD [Int] = NoneSD ()
+    lazy val expected = None
+    lazy val obtained = input.toOption
+    assert (obtained == expected )
+  }
+
 }
