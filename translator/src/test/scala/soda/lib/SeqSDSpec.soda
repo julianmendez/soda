@@ -40,5 +40,21 @@ package soda.lib
     assert(obtained == expected)
   }
 
+  test("should reverse a sequence") {
+    input = SeqSDBuilder().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
+    expected = SeqSDBuilder().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
+    obtained = input.reverse
+    assert(obtained == expected)
+  }
+
+  test("should reverse another sequence") {
+    input = SeqSDBuilder().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
+    expected = SeqSDBuilder().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
+    obtained = input.open(
+      ifEmpty := EmptySeqSD(),
+      ifNonEmpty := sequence -> sequence.reverse
+    )
+    assert(obtained == expected)
+  }
 }
 

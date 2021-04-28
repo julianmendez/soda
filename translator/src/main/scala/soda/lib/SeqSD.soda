@@ -13,6 +13,8 @@ package soda.lib
 
   has seq: Seq[T]
 
+  has reverse: SeqSD[T]
+
   @override
   toString: String = seq.toString
 

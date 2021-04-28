@@ -13,6 +13,8 @@ trait SeqSD [T] {
 
   def seq: Seq [T]
 
+  def reverse: SeqSD [T]
+
   override
   lazy val toString: String = seq.toString
 

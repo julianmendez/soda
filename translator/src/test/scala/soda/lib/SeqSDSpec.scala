@@ -37,4 +37,19 @@ case class SeqSDSpec () extends AnyFunSuite {
     assert (obtained == expected )
   }
 
+  test ("should reverse a sequence") {
+    lazy val input = SeqSDBuilder () .build (Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 ) )
+    lazy val expected = SeqSDBuilder () .build (Seq (9, 5, 4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2 ) )
+    lazy val obtained = input.reverse
+    assert (obtained == expected )
+  }
+
+  test ("should reverse another sequence") {
+    lazy val input = SeqSDBuilder () .build (Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 ) )
+    lazy val expected = SeqSDBuilder () .build (Seq (9, 5, 4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2 ) )
+    lazy val obtained = input.open (
+      ifEmpty = EmptySeqSD (), ifNonEmpty = sequence => sequence.reverse
+    )
+    assert (obtained == expected )
+  }
 }
