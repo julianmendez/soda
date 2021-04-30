@@ -1,1 +1,1 @@
-package soda.lib
+/* Soda library */
