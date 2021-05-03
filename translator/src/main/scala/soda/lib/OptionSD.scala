@@ -7,44 +7,67 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-trait OptionSD [T] {
+trait OptionSD [A] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B
+  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B
 
-  def toOption: Option [T]
+  def toOption: Option [A]
+
+  def toSeq: Seq [A]
 
   lazy val isEmpty: Boolean =
     open (
       ifEmpty = true, ifNonEmpty = element => false
     )
 
-  def map [B]  (mapping: T => B ): OptionSD [B] =
+  lazy val isDefined: Boolean = ! isEmpty
+
+  lazy val nonEmpty: Boolean = ! isEmpty
+
+  def getOrElse (ifEmpty: A ): A
+
+  def fold [B]  (ifEmpty: B, f: A => B ): B = open (ifEmpty, f )
+
+  def map [B]  (mapping: A => B ): OptionSD [B] =
     open (
       ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
     )
+
+  def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
+    open (
+      ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
+    )
 }
 
-case class NoneSD [T] () extends OptionSD [T] {
+case class NoneSD [A] () extends OptionSD [A] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifEmpty
+  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
+
+  def getOrElse (ifEmpty: A ): A = ifEmpty
 
   lazy val toOption: None.type = None
+
+  lazy val toSeq: Seq [A] = Seq [A]  ()
 }
 
-case class SomeSD [T] (element: T ) extends OptionSD [T] {
+case class SomeSD [A] (element: A ) extends OptionSD [A] {
 
-  lazy val get: T = element
+  lazy val get: A = element
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: T => B ): B = ifNonEmpty (element )
+  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
 
-  lazy val toOption: Some [T] = Some [T]  (element )
+  def getOrElse (ifEmpty: A ): A = element
+
+  lazy val toOption: Some [A] = Some [A]  (element )
+
+  lazy val toSeq: Seq [A] = Seq [A]  (element )
 }
 
-case class OptionSDBuilder [T]  () {
+case class OptionSDBuilder [A]  () {
 
-  def build (opt: Option [T]  ): OptionSD [T] =
+  def build (opt: Option [A]  ): OptionSD [A] =
     if (opt.isEmpty
-    ) NoneSD [T]  ()
-    else SomeSD [T]  (opt.get )
+    ) NoneSD [A]  ()
+    else SomeSD [A]  (opt.get )
 
 }

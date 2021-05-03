@@ -10,11 +10,29 @@ case class OptionSDSpec () extends AnyFunSuite {
   test ("should test an empty option") {
     lazy val empty = NoneSD ()
     assert (empty.isEmpty )
+    assert (! empty.isDefined )
+    assert (! empty.nonEmpty )
   }
 
   test ("should test a non empty option") {
     lazy val element = SomeSD (1 )
     assert (! element.isEmpty )
+    assert (element.isDefined )
+    assert (element.nonEmpty )
+  }
+
+  test ("should get a default value, when empty") {
+    lazy val empty = NoneSD [Int]  ()
+    lazy val expected = 1
+    lazy val obtained = empty.getOrElse (1 )
+    assert (obtained == expected )
+  }
+
+  test ("should get a value") {
+    lazy val empty = SomeSD [Int]  (2 )
+    lazy val expected = 2
+    lazy val obtained = empty.getOrElse (1 )
+    assert (obtained == expected )
   }
 
   test ("should open an empty option") {
@@ -43,6 +61,32 @@ case class OptionSDSpec () extends AnyFunSuite {
     assert (obtained == expected )
   }
 
+  test ("should try fold an empty option") {
+    lazy val result_if_empty: String = "It is empty."
+    def result_if_non_empty (value: String ): String = "Its value is " + value + "."
+
+    lazy val empty = NoneSD [String]  ()
+
+    lazy val expected = "It is empty."
+    lazy val obtained = empty.fold (
+      ifEmpty = result_if_empty, f = result_if_non_empty )
+
+    assert (obtained == expected )
+  }
+
+  test ("should try fold an non empty option") {
+    lazy val result_if_empty: String = "It is empty."
+    def result_if_non_empty (value: String ): String = "Its value is " + value + "."
+
+    lazy val some_element = SomeSD [String]  ("0")
+
+    lazy val expected = "Its value is 0."
+    lazy val obtained = some_element.fold (
+      ifEmpty = result_if_empty, f = result_if_non_empty )
+
+    assert (obtained == expected )
+  }
+
   test ("should map empty to empty") {
     def to_string (n: Int ): String = "" + n
 
@@ -64,6 +108,29 @@ case class OptionSDSpec () extends AnyFunSuite {
 
     assert (obtained == expected )
   }
+
+  test ("should flat map empty to empty") {
+    def to_string (n: Int ): SomeSD [String] = SomeSD [String]  ("" + n )
+
+    lazy val empty = NoneSD [Int]  ()
+
+    lazy val expected = NoneSD [String]  ()
+    lazy val obtained = empty.flatMap (to_string )
+
+    assert (obtained == expected )
+  }
+
+  test ("should flat map a non-empty to another non-empty") {
+    def to_string (n: Int ): SomeSD [String] = SomeSD [String]  ("" + n )
+
+    lazy val some_element = SomeSD [Int]  (2 )
+
+    lazy val expected = SomeSD [String]  ("2")
+    lazy val obtained = some_element.flatMap (to_string )
+
+    assert (obtained == expected )
+  }
+
 
   test ("should try how successive applications of open works") {
 
@@ -109,6 +176,27 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val input: OptionSD [Int] = NoneSD ()
     lazy val expected = None
     lazy val obtained = input.toOption
+    assert (obtained == expected )
+  }
+
+  test ("toSeq with non empty option") {
+    lazy val input: OptionSD [Int] = SomeSD (1 )
+    lazy val expected: Seq [Int] = Seq (1 )
+    lazy val obtained = input.toSeq
+    assert (obtained == expected )
+  }
+
+  test ("toSeq with another non empty option") {
+    lazy val input: SomeSD [Int] = SomeSD (2 )
+    lazy val expected: Seq [Int] = Seq (2 )
+    lazy val obtained = input.toSeq
+    assert (obtained == expected )
+  }
+
+  test ("toSeq with empty option") {
+    lazy val input: OptionSD [Int] = NoneSD ()
+    lazy val expected = Seq ()
+    lazy val obtained = input.toSeq
     assert (obtained == expected )
   }
 

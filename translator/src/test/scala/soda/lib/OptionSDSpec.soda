@@ -10,11 +10,29 @@ package soda.lib
   test("should test an empty option") {
     empty = NoneSD()
     assert(empty.isEmpty)
+    assert(not empty.isDefined)
+    assert(not empty.nonEmpty)
   }
 
   test("should test a non empty option") {
     element = SomeSD(1)
     assert(not element.isEmpty)
+    assert(element.isDefined)
+    assert(element.nonEmpty)
+  }
+
+  test("should get a default value, when empty") {
+    empty = NoneSD[Int]()
+    expected = 1
+    obtained = empty.getOrElse(1)
+    assert(obtained == expected)
+  }
+
+  test("should get a value") {
+    empty = SomeSD[Int](2)
+    expected = 2
+    obtained = empty.getOrElse(1)
+    assert(obtained == expected)
   }
 
   test("should open an empty option") {
@@ -45,6 +63,34 @@ package soda.lib
     assert(obtained == expected)
   }
 
+  test("should try fold an empty option") {
+    result_if_empty: String = "It is empty."
+    result_if_non_empty(value: String): String = "Its value is " + value + "."
+
+    empty = NoneSD[String]()
+
+    expected = "It is empty."
+    obtained = empty.fold(
+      ifEmpty := result_if_empty,
+      f := result_if_non_empty)
+
+    assert(obtained == expected)
+  }
+
+  test("should try fold an non empty option") {
+    result_if_empty: String = "It is empty."
+    result_if_non_empty(value: String): String = "Its value is " + value + "."
+
+    some_element = SomeSD[String]("0")
+
+    expected = "Its value is 0."
+    obtained = some_element.fold(
+      ifEmpty := result_if_empty,
+      f := result_if_non_empty)
+
+    assert(obtained == expected)
+  }
+
   test("should map empty to empty") {
     to_string(n: Int): String = "" + n
 
@@ -66,6 +112,29 @@ package soda.lib
 
     assert(obtained == expected)
   }
+
+  test("should flat map empty to empty") {
+    to_string(n: Int): SomeSD[String] = SomeSD[String]("" + n)
+
+    empty = NoneSD[Int]()
+
+    expected = NoneSD[String]()
+    obtained = empty.flatMap(to_string)
+
+    assert(obtained == expected)
+  }
+
+  test("should flat map a non-empty to another non-empty") {
+    to_string(n: Int): SomeSD[String] = SomeSD[String]("" + n)
+
+    some_element = SomeSD[Int](2)
+
+    expected = SomeSD[String]("2")
+    obtained = some_element.flatMap(to_string)
+
+    assert(obtained == expected)
+  }
+
 
   test("should try how successive applications of open works") {
 
@@ -114,6 +183,27 @@ package soda.lib
     input: OptionSD[Int] = NoneSD()
     expected = None
     obtained = input.toOption
+    assert(obtained == expected)
+  }
+
+  test("toSeq with non empty option") {
+    input: OptionSD[Int] = SomeSD(1)
+    expected: Seq[Int] = Seq(1)
+    obtained = input.toSeq
+    assert(obtained == expected)
+  }
+
+  test("toSeq with another non empty option") {
+    input: SomeSD[Int] = SomeSD(2)
+    expected: Seq[Int] = Seq(2)
+    obtained = input.toSeq
+    assert(obtained == expected)
+  }
+
+  test("toSeq with empty option") {
+    input: OptionSD[Int] = NoneSD()
+    expected = Seq()
+    obtained = input.toSeq
     assert(obtained == expected)
   }
 

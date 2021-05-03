@@ -7,11 +7,13 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-* OptionSD[T] {
+* OptionSD[A] {
 
-  has open[B](ifEmpty: B, ifNonEmpty: T -> B): B
+  has open[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
-  has toOption: Option[T]
+  has toOption: Option[A]
+
+  has toSeq: Seq[A]
 
   isEmpty: Boolean =
     open(
@@ -19,34 +21,56 @@ package soda.lib
       ifNonEmpty := element -> false
     )
 
-  map[B](mapping: T -> B): OptionSD[B] =
+  isDefined: Boolean = not isEmpty
+
+  nonEmpty: Boolean = not isEmpty
+
+  has getOrElse(ifEmpty: A): A
+
+  fold[B](ifEmpty: B, f: A -> B): B = open(ifEmpty, f)
+
+  map[B](mapping: A -> B): OptionSD[B] =
     open(
       ifEmpty := NoneSD[B](),
       ifNonEmpty := element -> SomeSD[B](mapping(element))
     )
+
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
+    open(
+      ifEmpty := NoneSD[B](),
+      ifNonEmpty := element -> mapping(element)
+    )
 }
 
-* NoneSD[T] () extends OptionSD[T] {
+* NoneSD[A] () extends OptionSD[A] {
 
-  open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifEmpty
+  open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+
+  getOrElse(ifEmpty: A): A = ifEmpty
 
   toOption: None.type = None
+
+  toSeq: Seq[A] = Seq[A]()
 }
 
-* SomeSD[T] (element: T) extends OptionSD[T] {
+* SomeSD[A] (element: A) extends OptionSD[A] {
 
-  get: T = element
+  get: A = element
 
-  open[B](ifEmpty: B, ifNonEmpty: T -> B): B = ifNonEmpty(element)
+  open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
 
-  toOption: Some[T] = Some[T](element)
+  getOrElse(ifEmpty: A): A = element
+
+  toOption: Some[A] = Some[A](element)
+
+  toSeq: Seq[A] = Seq[A](element)
 }
 
-* OptionSDBuilder[T]() {
+* OptionSDBuilder[A]() {
 
-  build(opt: Option[T]): OptionSD[T] =
+  build(opt: Option[A]): OptionSD[A] =
     if opt.isEmpty
-    then NoneSD[T]()
-    else SomeSD[T](opt.get)
+    then NoneSD[A]()
+    else SomeSD[A](opt.get)
 
 }
