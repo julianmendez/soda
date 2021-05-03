@@ -11,22 +11,18 @@ trait OptionSD [A] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B
 
-  def toOption: Option [A]
-
-  def toSeq: Seq [A]
-
   lazy val isEmpty: Boolean =
-    open (
-      ifEmpty = true, ifNonEmpty = element => false
-    )
+    open (ifEmpty = true, ifNonEmpty = element => false )
 
   lazy val isDefined: Boolean = ! isEmpty
 
   lazy val nonEmpty: Boolean = ! isEmpty
 
-  def getOrElse (ifEmpty: A ): A
+  def getOrElse (default: A ): A =
+    open (ifEmpty = default, ifNonEmpty = element => element )
 
-  def fold [B]  (ifEmpty: B, f: A => B ): B = open (ifEmpty, f )
+  def fold [B]  (ifEmpty: B, f: A => B ): B =
+    open (ifEmpty, f )
 
   def map [B]  (mapping: A => B ): OptionSD [B] =
     open (
@@ -37,17 +33,19 @@ trait OptionSD [A] {
     open (
       ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
     )
+
+  lazy val toOption: Option [A] =
+    open (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
+
+  lazy val toSeq: Seq [A] =
+    open (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
+
 }
 
 case class NoneSD [A] () extends OptionSD [A] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
-  def getOrElse (ifEmpty: A ): A = ifEmpty
-
-  lazy val toOption: None.type = None
-
-  lazy val toSeq: Seq [A] = Seq [A]  ()
 }
 
 case class SomeSD [A] (element: A ) extends OptionSD [A] {
@@ -56,11 +54,6 @@ case class SomeSD [A] (element: A ) extends OptionSD [A] {
 
   def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
 
-  def getOrElse (ifEmpty: A ): A = element
-
-  lazy val toOption: Some [A] = Some [A]  (element )
-
-  lazy val toSeq: Seq [A] = Seq [A]  (element )
 }
 
 case class OptionSDBuilder [A]  () {
