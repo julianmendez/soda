@@ -39,6 +39,9 @@ case class Replacement (line: String ) {
     result
   }
 
+  def replace_all (pattern: String, replacement: String ): Replacement =
+    Replacement (replace_all (line, pattern, replacement )  )
+
   def replace_all (line: String, pattern: String, replacement: String ): String = {
     lazy val result = postproc (
       Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition )

@@ -9,6 +9,8 @@ case class Translation () {
 
   lazy val SodaColon: String = ":"
 
+  lazy val SodaClassReservedWord: String = "class"
+
   lazy val ScalaDefinition: String = "def"
   lazy val ScalaValue: String = "lazy val"
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"

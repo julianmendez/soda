@@ -9,6 +9,8 @@ package soda.translator.language
 
   SodaColon: String = ":"
 
+  SodaClassReservedWord: String = "class"
+
   ScalaDefinition: String = "def"
   ScalaValue: String = "lazy val"
   ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"

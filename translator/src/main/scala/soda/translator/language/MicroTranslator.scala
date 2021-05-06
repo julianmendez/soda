@@ -143,10 +143,18 @@ case class MicroTranslator () {
   def try_definition (line: String ): String = {
 
     lazy val result = find_definition (line ) .open (
-      ifEmpty = line, ifNonEmpty = try_found_definition
+      ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
     )
 
-    def try_found_definition (position: Int ): String = {
+    def try_found_definition (position: Int ): Replacement =
+      if (is_class_definition ) translate_class_definition
+      else if (is_val_definition (position ) ) translate_val_definition
+      else translate_def_definition
+
+    lazy val is_class_definition =
+      ! (line.indexOf (SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) == -1 )
+
+    def is_val_definition (position: Int ) = {
       lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
 
       lazy val case1 = position_of_first_opening_parenthesis == -1
@@ -156,11 +164,17 @@ case class MicroTranslator () {
           ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
         )
 
-      lazy val new_text = if (case1 || case2 || case3
-      ) Translation () .ScalaValue + ScalaSpace
-      else Translation () .ScalaDefinition + ScalaSpace
-      Replacement (line ) .add_after_spaces (new_text ) .line
+      case1 || case2 || case3
     }
+
+    lazy val translate_class_definition =
+      Replacement (line ) .replace_all (SodaSpace + Translation () .SodaDefinition, "")
+
+    lazy val translate_val_definition =
+      Replacement (line ) .add_after_spaces (Translation () .ScalaValue + ScalaSpace )
+
+    lazy val translate_def_definition =
+      Replacement (line ) .add_after_spaces (Translation () .ScalaDefinition + ScalaSpace )
 
     result
   }
