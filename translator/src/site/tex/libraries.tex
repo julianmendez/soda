@@ -36,3 +36,40 @@
 \end{lstlisting}
 
 
+\begin{lstlisting}[label={lst:option}]
+  class OptionSD[A] = {
+    has open[B](ifEmpty: B, ifNonEmpty: A -> B): B
+
+    isEmpty: Boolean =
+      open(ifEmpty := true, ifNonEmpty := element -> false)
+
+    getOrElse(default: A): A =
+      open(ifEmpty := default, ifNonEmpty := element -> element)
+
+    fold[B](ifEmpty: B, f: A -> B): B =
+      open(ifEmpty, f)
+
+    map[B](mapping: A -> B): OptionSD[B] =
+      open(
+        ifEmpty := NoneSD[B](),
+        ifNonEmpty := element -> SomeSD[B](mapping(element))
+      )
+
+    flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
+      open(
+        ifEmpty := NoneSD[B](),
+        ifNonEmpty := element -> mapping(element)
+      )
+  }
+
+  class NoneSD[A] () extends OptionSD[A] = {
+    open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+  }
+
+  class SomeSD[A] (element: A) extends OptionSD[A] = {
+    get: A = element
+
+    open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+  }
+\end{lstlisting}
+

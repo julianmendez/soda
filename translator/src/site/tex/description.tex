@@ -300,7 +300,7 @@ Defining a constant or a function requires a space around the equals character (
 With \sdefparam is also possible to define values for parameters when using named parameters.
 
 \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
-  class EqualsExample () {
+  class EqualsExample () = {
     f (x: Int, y: Int) = 2 * x + y
 
     answer = f (x := 20, y := 2)
@@ -329,7 +329,7 @@ Example using snake case, recommended in \Soda
 
 \begin{lstlisting}[label={lst:exampleExtendsSnakeCase}]
   /** Class for a registered person, in snake case */
-  class Registered_person (first_name: String, last_name: String) {
+  class Registered_person (first_name: String, last_name: String) = {
     _separator = " "
 
     full_name = first_name + _separator + last_name
@@ -339,7 +339,7 @@ Example using snake case, recommended in \Soda
 Example using camel case, as in Java:
 \begin{lstlisting}[label={lst:exampleExtendsCamelCase}]
   /** Class for a registered person, in camel case */
-  class RegisteredPerson (firstName: String, lastName: String) {
+  class RegisteredPerson (firstName: String, lastName: String) = {
     _separator = " "
 
     fullName = firstName + _separator + lastName
