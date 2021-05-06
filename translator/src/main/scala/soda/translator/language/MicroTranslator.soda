@@ -117,12 +117,15 @@ package soda.translator.language
 
   /**
    * A line containing the definition sign will be classified as a definition.
-   * The definitions need to be translated to either 'val' or 'def'.
+   * The definitions need to be identified as 'val', 'def', or 'class'.
+   *
+   * 'class' is for class definition.
+   * It is detected if the 'class' reserved word is also in the same line.
    *
    * 'val' is for value definition.
    * It is detected in three cases.
-   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
-   * Case 2: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+   * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
    * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
    *
    * 'def' is for function definition.
@@ -145,11 +148,10 @@ package soda.translator.language
     )
 
     try_found_definition(position: Int): String = {
-      position_of_first_closing_parenthesis = line.indexOf(SodaClosingParenthesis)
       position_of_first_opening_parenthesis = line.indexOf(SodaOpeningParenthesis)
 
-      case1 = position_of_first_closing_parenthesis == -1
-      case2 = position_of_first_closing_parenthesis > position
+      case1 = position_of_first_opening_parenthesis == -1
+      case2 = position_of_first_opening_parenthesis > position
       case3 =
         find_pattern(line, Translation().SodaColon).open(
           ifEmpty := false,

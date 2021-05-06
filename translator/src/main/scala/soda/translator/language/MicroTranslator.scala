@@ -117,12 +117,15 @@ case class MicroTranslator () {
 
   /**
    * A line containing the definition sign will be classified as a definition.
-   * The definitions need to be translated to either 'val' or 'def'.
+   * The definitions need to be identified as 'val', 'def', or 'class'.
+   *
+   * 'class' is for class definition.
+   * It is detected if the 'class' reserved word is also in the same line.
    *
    * 'val' is for value definition.
    * It is detected in three cases.
-   * Case 1: The line does not have a closing parenthesis, e.g. `a = 1`
-   * Case 2: The first closing parenthesis is after the definition sign, e.g. `x = f(y)`
+   * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+   * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
    * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
    *
    * 'def' is for function definition.
@@ -144,11 +147,10 @@ case class MicroTranslator () {
     )
 
     def try_found_definition (position: Int ): String = {
-      lazy val position_of_first_closing_parenthesis = line.indexOf (SodaClosingParenthesis )
       lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
 
-      lazy val case1 = position_of_first_closing_parenthesis == -1
-      lazy val case2 = position_of_first_closing_parenthesis > position
+      lazy val case1 = position_of_first_opening_parenthesis == -1
+      lazy val case2 = position_of_first_opening_parenthesis > position
       lazy val case3 =
         find_pattern (line, Translation () .SodaColon ) .open (
           ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
