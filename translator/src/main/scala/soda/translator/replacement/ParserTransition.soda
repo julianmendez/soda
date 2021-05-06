@@ -10,7 +10,7 @@ package soda.translator.replacement
 /**
  * This is an enumeration of all the parser states.
  */
-* ParserStateEnum() {
+* ParserStateEnum() = {
 
   UndefinedState = ParserState(0, "UndefinedState")
   QuotesState = ParserState(1, "QuotesState")
@@ -33,7 +33,7 @@ package soda.translator.replacement
 
 }
 
-* ParserTransition() {
+* ParserTransition() = {
 
   ps = ParserStateEnum()
   ch = CharTypeEnum()

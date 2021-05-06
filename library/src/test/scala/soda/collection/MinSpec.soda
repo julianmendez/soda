@@ -7,7 +7,7 @@ package soda.collection
 
 + org.scalatest.funsuite.AnyFunSuite
 
-* MinSpec() extends AnyFunSuite {
+* MinSpec() extends AnyFunSuite = {
 
   empty: ESeq[Int] = ESeq[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)

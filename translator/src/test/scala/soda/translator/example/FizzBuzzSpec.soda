@@ -3,7 +3,7 @@ package soda.translator.example
 + org.scalatest.funsuite.AnyFunSuite
 
 
-* FizzBuzzSpec() extends AnyFunSuite {
+* FizzBuzzSpec() extends AnyFunSuite = {
 
   expected = Seq(
     "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",

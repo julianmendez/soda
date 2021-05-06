@@ -1,11 +1,11 @@
 package soda.translator.example
 
 
-* AbstractFactorialConcise {
+* AbstractFactorialConcise = {
   has factorial (n: Int): Int
 }
 
-* FactorialConcise () extends AbstractFactorialConcise {
+* FactorialConcise () extends AbstractFactorialConcise = {
 
   factorial (n: Int) = {
     result = rec (n, 1)
@@ -18,5 +18,6 @@ package soda.translator.example
 
     result
   }
+
 }
 

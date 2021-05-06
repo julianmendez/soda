@@ -4,7 +4,7 @@ package soda.translator.io
 
 + java.io.File
 
-* DirectoryScannerSpec() extends AnyFunSuite {
+* DirectoryScannerSpec() extends AnyFunSuite = {
 
   start = "translator/src/test/resources/soda/example"
 

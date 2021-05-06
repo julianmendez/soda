@@ -5,7 +5,7 @@ package soda.translator.language
 
 + java.nio.file.{Files, Paths}
 
-* FullTranslationSpec() extends AnyFunSuite {
+* FullTranslationSpec() extends AnyFunSuite = {
 
   Base = "/soda/translator/example/"
 

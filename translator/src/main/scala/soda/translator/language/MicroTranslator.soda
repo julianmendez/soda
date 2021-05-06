@@ -15,7 +15,7 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-* MicroTranslator() {
+* MicroTranslator() = {
 
   NewLine = "\n"
   Comma = ","

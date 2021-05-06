@@ -2,7 +2,7 @@ package soda.lib
 
 + org.scalatest.funsuite.AnyFunSuite
 
-* SeqSDSpec() extends AnyFunSuite {
+* SeqSDSpec() extends AnyFunSuite = {
 
   test("should detect an empty sequence") {
     input = Seq()
@@ -56,5 +56,6 @@ package soda.lib
     )
     assert(obtained == expected)
   }
+
 }
 

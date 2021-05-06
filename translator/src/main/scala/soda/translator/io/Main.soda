@@ -8,7 +8,7 @@ package soda.translator.io
 /**
  * This is the main entry point.
  */
-* Main() {
+* Main() = {
 
   SodaExtension: String = ".soda"
   ScalaExtension: String = ".scala"

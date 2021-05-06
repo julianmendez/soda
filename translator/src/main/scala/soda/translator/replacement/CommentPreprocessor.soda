@@ -7,7 +7,7 @@ package soda.translator.replacement
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-* CommentPreprocessor() {
+* CommentPreprocessor() = {
 
   SodaBeginComment = "/*"
   SodaEndComment = "*/"

@@ -11,59 +11,59 @@ class ShapePainter[A extends Shape]
 
 class ShapeMover[A extends Shape with Movable]
 
-class EqualsExample () {
+class EqualsExample () = {
   f (x: Int, y: Int) = 2 * x + y
 
   answer = f (x := 20, y := 2)
 }
 
 /** Class for a registered person, in snake case */
-class Registered_person (first_name: String, last_name: String) {
+class Registered_person (first_name: String, last_name: String) ={
   _separator = " "
 
   full_name = first_name + _separator + last_name
 }
 
 /** Class for a registered person, in camel case */
-class RegisteredPerson (firstName: String, lastName: String) {
+class RegisteredPerson (firstName: String, lastName: String) = {
   _separator = " "
 
   fullName = firstName + _separator + lastName
 }
 
-class Agent {
+class Agent = {
   has identifier: String
 }
 
 class Person (name: String)
 
-class AgentPerson (name: String) extends Agent {
+class AgentPerson (name: String) extends Agent = {
   identifier = name
 }
 
-class RankedIndividual {
+class RankedIndividual = {
   has rank: Int
 }
 
-class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual {
+class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual = {
   identifier = name
 
   rank = person_rank
 }
 
-class Element {
+class Element = {
   has accept (v: Visitor): Boolean
 }
 
-class Visitor {
+class Visitor = {
   has visit (x: Element): Boolean
 }
 
-class Item (identifier: Int) extends Element {
+class Item (identifier: Int) extends Element = {
   accept (v: Visitor) = v.visit (this)
 }
 
-class PersonName (name: String) {
+class PersonName (name: String) = {
   @override
   toString = name
 }
@@ -71,7 +71,7 @@ class PersonName (name: String) {
 /**
   * This contains the examples shown in the manual.
   */
-class Manual() {
+class Manual() = {
 
   a = 1
 
@@ -134,11 +134,11 @@ class Manual() {
 
 }
 
-* AbstractFactorialConcise {
+* AbstractFactorialConcise = {
   has factorial (n: Int): Int
 }
 
-* FactorialConcise () extends AbstractFactorialConcise {
+* FactorialConcise () extends AbstractFactorialConcise = {
 
   factorial (n: Int) = {
     result = rec (n, 1)
@@ -153,11 +153,11 @@ class Manual() {
   }
 }
 
-class AbstractFactorialVerbose {
+class AbstractFactorialVerbose is {
   has factorial (n: Int): Int
 }
 
-class FactorialVerbose () extends AbstractFactorialVerbose {
+class FactorialVerbose () extends AbstractFactorialVerbose is {
 
   factorial (n: Int) is {
     result is rec (n, 1)
@@ -172,7 +172,7 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
   }
 }
 
-class Rec() {
+class Rec() = {
 
   foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
@@ -208,7 +208,7 @@ class Rec() {
 
 }
 
-class Main () {
+class Main () = {
   main (args: Array[String]) =
     println ("Hello world!")
 }

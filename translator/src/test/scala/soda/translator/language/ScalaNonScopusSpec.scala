@@ -8,7 +8,7 @@ import org.scalatest.funsuite.AnyFunSuite
 case class ScalaNonSodaSpec () extends AnyFunSuite {
 
 
-  test ("Scala reserved words are replaced")  {
+  test ("Scala reserved words are replaced") {
     lazy val program = "" +
       "\nval x = 0" +
       "\nwhile (x != 0)"

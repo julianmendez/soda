@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-* OptionSD[A] {
+* OptionSD[A] = {
 
   has open[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
@@ -44,13 +44,13 @@ package soda.lib
 
 }
 
-* NoneSD[A] () extends OptionSD[A] {
+* NoneSD[A] () extends OptionSD[A] = {
 
   open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
 }
 
-* SomeSD[A] (element: A) extends OptionSD[A] {
+* SomeSD[A] (element: A) extends OptionSD[A] = {
 
   get: A = element
 
@@ -58,7 +58,7 @@ package soda.lib
 
 }
 
-* OptionSDBuilder[A]() {
+* OptionSDBuilder[A]() = {
 
   build(opt: Option[A]): OptionSD[A] =
     if opt.isEmpty

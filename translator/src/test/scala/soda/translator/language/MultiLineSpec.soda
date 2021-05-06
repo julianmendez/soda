@@ -3,7 +3,7 @@ package soda.translator.language
 + org.scalatest.funsuite.AnyFunSuite
 
 
-* MultiLineSpec() extends AnyFunSuite {
+* MultiLineSpec() extends AnyFunSuite = {
 
   mt = MicroTranslator()
 

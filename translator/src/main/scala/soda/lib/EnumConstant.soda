@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This is a constant to be used in enumerations.
  */
-* EnumConstant {
+* EnumConstant = {
 
   has ordinal: Int
 

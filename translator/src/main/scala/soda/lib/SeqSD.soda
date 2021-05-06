@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-* SeqSD[T] {
+* SeqSD[T] = {
 
   has open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B
 
@@ -20,7 +20,7 @@ package soda.lib
 
 }
 
-* EmptySeqSD[T]() extends SeqSD[T] {
+* EmptySeqSD[T]() extends SeqSD[T] = {
 
   open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
 
@@ -30,7 +30,7 @@ package soda.lib
 
 }
 
-* NonEmptySeqSD[T] extends SeqSD[T] {
+* NonEmptySeqSD[T] extends SeqSD[T] = {
 
   open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
 
@@ -44,7 +44,7 @@ package soda.lib
 
 * _NonEmptySeqSD[T](toSeq: Seq[T]) extends NonEmptySeqSD[T]
 
-* SeqSDBuilder[T]() {
+* SeqSDBuilder[T]() = {
 
   build(seq: Seq[T]): SeqSD[T] =
     if seq.isEmpty

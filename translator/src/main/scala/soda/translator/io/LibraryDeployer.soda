@@ -3,7 +3,7 @@ package soda.translator.io
 + java.io.File
 
 
-* LibraryDeployer() {
+* LibraryDeployer() = {
 
   Library_marker_file = "lib.soda"
   Library_directory_in_jar = "/lib/soda/lib/"

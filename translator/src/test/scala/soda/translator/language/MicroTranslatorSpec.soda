@@ -3,7 +3,7 @@ package soda.translator.language
 + org.scalatest.Assertion
 + org.scalatest.funsuite.AnyFunSuite
 
-* MicroTranslatorSpec() extends AnyFunSuite {
+* MicroTranslatorSpec() extends AnyFunSuite = {
 
   test("should join lines ending in comma") {
     input = Seq("this ", "should join,", "all the lines , ", "  that end with", "comma.")

@@ -1,14 +1,12 @@
 package soda.translator.example
 
 
-* Status(
-  r: BigInt,
-  n: BigInt,
-  q: BigInt,
-  t: BigInt,
-  l: BigInt,
-  k: BigInt
-) {
+* Status( r: BigInt,
+    n: BigInt,
+    q: BigInt,
+    t: BigInt,
+    l: BigInt,
+    k: BigInt ) = {
 
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
@@ -16,7 +14,7 @@ package soda.translator.example
 }
 
 
-* PiIterator() {
+* PiIterator() = {
 
   initial_status =
     Status (r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)

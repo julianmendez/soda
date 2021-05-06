@@ -4,7 +4,7 @@ package soda.translator.io
 
 + java.io.File
 
-* MainSpec() extends AnyFunSuite {
+* MainSpec() extends AnyFunSuite = {
 
   test("should get the input and output file names without path") {
     instance = Main()

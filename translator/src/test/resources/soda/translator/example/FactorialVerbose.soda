@@ -1,11 +1,11 @@
 package soda.translator.example
 
 
-class AbstractFactorialVerbose {
+class AbstractFactorialVerbose = {
   has factorial (n: Int): Int
 }
 
-class FactorialVerbose () extends AbstractFactorialVerbose {
+class FactorialVerbose () extends AbstractFactorialVerbose = {
 
   factorial (n: Int) is {
     result is rec (n, 1)
@@ -18,5 +18,6 @@ class FactorialVerbose () extends AbstractFactorialVerbose {
 
     result
   }
+
 }
 

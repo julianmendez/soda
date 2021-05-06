@@ -3,7 +3,7 @@ package soda.translator.language
 + org.scalatest.funsuite.AnyFunSuite
 
 
-* SpecificTranslationSpec() extends AnyFunSuite {
+* SpecificTranslationSpec() extends AnyFunSuite = {
 
 
   test("should translate a small snippet") {

@@ -2,7 +2,7 @@ package soda.translator.example
 
 + soda.lib.Rec
 
-* FizzBuzz() {
+* FizzBuzz() = {
 
   Fizz = "Fizz"
   Buzz = "Buzz"

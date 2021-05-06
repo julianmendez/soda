@@ -4,7 +4,7 @@ package soda.collection
 + soda.lib.SomeSD
 + soda.lib.NoneSD
 
-* MSeqTranslator[T]() {
+* MSeqTranslator[T]() = {
 
   foldLeftSeq[B, C extends B](seq: Seq[T], initial_value: C,
       next_value: (B, T) -> C): C = {
@@ -45,7 +45,7 @@ package soda.collection
 
 * MSeqPair[T](left: MSeq[T], right: MSeq[T])
 
-* Min[T]() {
+* Min[T]() = {
 
   empty: ESeq[T] = ESeq()
 

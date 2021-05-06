@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* Rec() {
+* Rec() = {
 
 
   foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,

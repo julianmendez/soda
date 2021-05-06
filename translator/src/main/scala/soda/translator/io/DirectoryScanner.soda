@@ -5,7 +5,7 @@ package soda.translator.io
 /**
  * This class is used to scan files in a given directory.
  */
-* DirectoryScanner() {
+* DirectoryScanner() = {
 
   get_all_files(start: File): Seq[File] =
     if start.isFile

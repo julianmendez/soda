@@ -52,4 +52,5 @@ case class SeqSDSpec () extends AnyFunSuite {
     )
     assert (obtained == expected )
   }
+
 }

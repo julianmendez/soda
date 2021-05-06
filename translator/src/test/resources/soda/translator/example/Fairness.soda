@@ -1,17 +1,15 @@
 package soda.translator.example
 
 
-class Applicant {
+class Applicant is {
   has background_score: Double
 }
 
-class Fairness(
-  ranking_function: Applicant -> Double,
+class Fairness( ranking_function: Applicant -> Double,
   score_difference_tolerance: Double,
   ranking_difference_tolerance: Double,
   measure_time: Any -> Double,
-  maximum_execution_time: Double
-) {
+  maximum_execution_time: Double ) is {
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)

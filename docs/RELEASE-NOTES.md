@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - expands Soda library in multiple files
+    - makes `=` (definition symbol) used to define values, functions, and classes
   - build: sbt '++ 3.0.0-RC2' clean compile test package assembly
   - release: target/scala-3.0.0-RC2/soda-0.8.0.jar
 - - version: v0.7.0

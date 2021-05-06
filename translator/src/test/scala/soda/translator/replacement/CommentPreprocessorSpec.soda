@@ -4,7 +4,7 @@ package soda.translator.replacement
 
 + java.io.File
 
-* CommentPreprocessorSpec() extends AnyFunSuite {
+* CommentPreprocessorSpec() extends AnyFunSuite = {
 
   /* This is to test how to find commented text. */
   test("should find commented text") {

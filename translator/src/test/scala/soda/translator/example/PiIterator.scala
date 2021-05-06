@@ -1,9 +1,7 @@
 package soda.translator.example
 
 
-case class Status (
-  r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt
-) {
+case class Status (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt ) {
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k

@@ -11,7 +11,7 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read and write small files.
  */
-* SimpleIO() {
+* SimpleIO() = {
 
   New_line = "\n"
 

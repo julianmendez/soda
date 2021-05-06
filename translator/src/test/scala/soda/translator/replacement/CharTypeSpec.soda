@@ -3,7 +3,7 @@ package soda.translator.replacement
 + org.scalatest.funsuite.AnyFunSuite
 
 
-* CharTypeSpec() extends AnyFunSuite {
+* CharTypeSpec() extends AnyFunSuite = {
 
 
    test("should recognize quotation marks") {

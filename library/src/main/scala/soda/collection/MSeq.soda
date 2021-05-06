@@ -1,7 +1,7 @@
 package soda.collection
 
 
-* MSeq[T] {
+* MSeq[T] = {
   has isEmpty: Boolean
 
   has open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
@@ -28,7 +28,7 @@ package soda.collection
 }
 
 
-* ESeq[T] () extends MSeq[T] {
+* ESeq[T] () extends MSeq[T] = {
 
   isEmpty = true
 
@@ -37,7 +37,7 @@ package soda.collection
 }
 
 
-* NESeq[T] (head0: T, tail0: MSeq[T]) extends MSeq[T] {
+* NESeq[T] (head0: T, tail0: MSeq[T]) extends MSeq[T] = {
 
   isEmpty = false
 

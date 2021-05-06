@@ -5,9 +5,7 @@ trait Applicant {
   def background_score: Double
 }
 
-case class Fairness (
-  ranking_function: Applicant => Double, score_difference_tolerance: Double, ranking_difference_tolerance: Double, measure_time: Any => Double, maximum_execution_time: Double
-) {
+case class Fairness (ranking_function: Applicant => Double, score_difference_tolerance: Double, ranking_difference_tolerance: Double, measure_time: Any => Double, maximum_execution_time: Double ) {
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )

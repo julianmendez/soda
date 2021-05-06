@@ -5,7 +5,7 @@ package soda.lib
 
 * DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
-* DayOfTheWeekEnum () {
+* DayOfTheWeekEnum () = {
 
   Sunday = DayOfTheWeek(0, "Sunday")
   Monday = DayOfTheWeek(1, "Monday")
@@ -19,7 +19,7 @@ package soda.lib
 
 }
 
-* EnumSpec() extends AnyFunSuite {
+* EnumSpec() extends AnyFunSuite = {
 
   test("the names of the elements in enumerations") {
     expected = Seq("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")
