@@ -21,8 +21,7 @@ case class MSeqTranslator [T]  () {
   }
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] = {
-    lazy val result = Min () .reverse (
-      foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
+    lazy val result = Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
 
     lazy val initial_value: MSeq [T] = Min () .empty
 
@@ -139,8 +138,7 @@ case class Min [T]  () {
   /* */
 
   def take (s: MSeq [T], n: Int ): MSeq [T] = {
-    lazy val result = reverse (
-        foldLeftWhile (s, initial_value, next_value, condition ) .seq )
+    lazy val result = reverse (foldLeftWhile (s, initial_value, next_value, condition ) .seq )
 
     lazy val initial_value = FoldTuple (empty, 0 )
 
@@ -161,8 +159,7 @@ case class Min [T]  () {
     lazy val initial_value = FoldTuple (s, 0 )
 
     def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-      tuple.seq.open (
-        ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
+      tuple.seq.open (ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
       )
 
     def condition (tuple: FoldTuple, elem: T ): Boolean =
@@ -292,8 +289,7 @@ case class Min [T]  () {
       lazy val left = tuple.left
       lazy val right = tuple.right
 
-      left.open (
-        ifEmpty = FoldTuple (left, right, false ), ifNonEmpty = (neleft => {
+      left.open (ifEmpty = FoldTuple (left, right, false ), ifNonEmpty = (neleft => {
           lazy val e = neleft.head ()
           lazy val new_taking = p (e )
 

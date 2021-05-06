@@ -9,7 +9,6 @@ package soda.lib
  */
 case class Rec () {
 
-
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
 
     lazy val result = rec (s, initial_value, next_value, cond )

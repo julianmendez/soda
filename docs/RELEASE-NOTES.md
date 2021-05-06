@@ -2,8 +2,9 @@
 - - version: v0.8.0
   - date: unreleased
   - new_features:
-    - expands Soda library in multiple files
     - makes `=` (definition symbol) used to define values, functions, and classes
+    - expands Soda library in multiple files
+    - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
   - build: sbt '++ 3.0.0-RC2' clean compile test package assembly
   - release: target/scala-3.0.0-RC2/soda-0.8.0.jar
 - - version: v0.7.0
@@ -31,7 +32,7 @@
   - new_features:
     - translates functions without parameters as `lazy val`
     - changes its main package to `scopus`, and includes subpackages
-    - accepts `,` at the end of a line to join lines and allow multi-line function signatures
+    - accepts `,` (comma) at the end of a line to join lines and allow multi-line function signatures
     - makes annotation `@tailrec` be automatically imported
     - allows annotation `@tailrec` only inside functions
     - compiles with Scala 3.0.0-RC1 and is compatible with Scala 2.11.12, Scala 2.12.13, Scala 2.13.5

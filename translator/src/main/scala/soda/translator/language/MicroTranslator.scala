@@ -29,7 +29,7 @@ case class MicroTranslator () {
 
   def translate_program (program: String ): String = {
     lazy val original_lines = split_lines (program )
-    lazy val lines_to_translate = join_lines_ending_with_comma (original_lines )
+    lazy val lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis (original_lines )
     lazy val translated_lines = translate_lines (lines_to_translate )
     join_translated_lines (translated_lines )
   }
@@ -37,7 +37,7 @@ case class MicroTranslator () {
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
 
-  def join_lines_ending_with_comma (lines: Seq [String]  ): Seq [String] = {
+  def join_lines_ending_with_comma_or_opening_parenthesis (lines: Seq [String]  ): Seq [String] = {
     lazy val result = processed_lines.reverse
 
     lazy val processed_lines = {
@@ -52,7 +52,7 @@ case class MicroTranslator () {
     lazy val initial_value = FoldTuple (Seq (), Seq ()  )
 
     def next_value (pair: FoldTuple, head: String ): FoldTuple =
-      if (head.trim () .endsWith (Comma )
+      if (head.trim () .endsWith (Comma ) || head.trim () .endsWith (SodaOpeningParenthesis )
       ) FoldTuple (pair.in_process_rev.+: (head ), pair.processed_rev )
       else {
         lazy val new_head = rev_list_as_element (pair.in_process_rev, head )
@@ -90,8 +90,7 @@ case class MicroTranslator () {
   }
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
-    tokens.map (
-      token =>
+    tokens.map (token =>
         if (token.parser_state == ParserStateEnum () .Plain
         ) {
           lazy val newText = Replacement (token.text )
@@ -142,8 +141,7 @@ case class MicroTranslator () {
    */
   def try_definition (line: String ): String = {
 
-    lazy val result = find_definition (line ) .open (
-      ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
+    lazy val result = find_definition (line ) .open (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
     )
 
     def try_found_definition (position: Int ): Replacement =
@@ -160,8 +158,7 @@ case class MicroTranslator () {
       lazy val case1 = position_of_first_opening_parenthesis == -1
       lazy val case2 = position_of_first_opening_parenthesis > position
       lazy val case3 =
-        find_pattern (line, Translation () .SodaColon ) .open (
-          ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
+        find_pattern (line, Translation () .SodaColon ) .open (ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
         )
 
       case1 || case2 || case3
@@ -232,8 +229,7 @@ case class MicroTranslator () {
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
     def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      find_square_brackets_from (line, tuple.start ) .open (
-        ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
+      find_square_brackets_from (line, tuple.start ) .open (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
           FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
       )
 

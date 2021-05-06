@@ -17,11 +17,9 @@ case class MultiLineSpec () extends AnyFunSuite {
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  lazy val Original_input_lines = Seq (
-    "  value = 1", "  sequence = Seq(1 ,", "    2,  ", "    3)", "  f( x: Int,\t", "     y: Int,", "     z: Int) =", "       x * x + y * y + z * z")
+  lazy val Original_input_lines = Seq ("  value = 1", "  sequence = Seq(1 ,", "    2,  ", "    3)", "  f( x: Int,\t", "     y: Int,", "     z: Int) =", "       x * x + y * y + z * z")
 
-  lazy val Joined_comma_lines = Seq (
-    "  value = 1", "  sequence = Seq(1 ,    2,      3)", "  f( x: Int,\t     y: Int,     z: Int) =", "       x * x + y * y + z * z")
+  lazy val Joined_comma_lines = Seq ("  value = 1", "  sequence = Seq(1 ,    2,      3)", "  f( x: Int,\t     y: Int,     z: Int) =", "       x * x + y * y + z * z")
 
   lazy val Joined_output = "" +
     "  value = 1\n" +
@@ -41,7 +39,7 @@ case class MultiLineSpec () extends AnyFunSuite {
   }
 
   test ("should preprocess the comma in multiple lines") {
-    lazy val obtained = mt.join_lines_ending_with_comma (Original_input_lines )
+    lazy val obtained = mt.join_lines_ending_with_comma_or_opening_parenthesis (Original_input_lines )
     lazy val expected = Joined_comma_lines
     assert (obtained == expected )
   }

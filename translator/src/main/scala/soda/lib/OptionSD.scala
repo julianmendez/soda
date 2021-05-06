@@ -25,13 +25,11 @@ trait OptionSD [A] {
     open (ifEmpty, f )
 
   def map [B]  (mapping: A => B ): OptionSD [B] =
-    open (
-      ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
+    open (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
     )
 
   def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
-    open (
-      ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
+    open (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
     )
 
   lazy val toOption: Option [A] =

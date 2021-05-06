@@ -42,8 +42,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val empty = NoneSD [String]  ()
 
     lazy val expected = "It is empty."
-    lazy val obtained = empty.open (
-      ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+    lazy val obtained = empty.open (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -55,8 +54,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val some_element = SomeSD [String]  ("0")
 
     lazy val expected = "Its value is 0."
-    lazy val obtained = some_element.open (
-      ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+    lazy val obtained = some_element.open (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -68,8 +66,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val empty = NoneSD [String]  ()
 
     lazy val expected = "It is empty."
-    lazy val obtained = empty.fold (
-      ifEmpty = result_if_empty, f = result_if_non_empty )
+    lazy val obtained = empty.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -81,8 +78,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val some_element = SomeSD [String]  ("0")
 
     lazy val expected = "Its value is 0."
-    lazy val obtained = some_element.fold (
-      ifEmpty = result_if_empty, f = result_if_non_empty )
+    lazy val obtained = some_element.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -135,8 +131,7 @@ case class OptionSDSpec () extends AnyFunSuite {
   test ("should try how successive applications of open works") {
 
     def toInt (s: String ): OptionSD [Int] =
-      OptionSDBuilder () .build (
-        Try (Integer.parseInt (s.trim ) )
+      OptionSDBuilder () .build (Try (Integer.parseInt (s.trim ) )
           .toOption
       )
 

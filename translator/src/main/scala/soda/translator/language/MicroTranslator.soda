@@ -29,7 +29,7 @@ package soda.translator.language
 
   translate_program(program: String): String = {
     original_lines = split_lines(program)
-    lines_to_translate = join_lines_ending_with_comma(original_lines)
+    lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis(original_lines)
     translated_lines = translate_lines(lines_to_translate)
     join_translated_lines (translated_lines)
   }
@@ -37,7 +37,7 @@ package soda.translator.language
   split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
 
-  join_lines_ending_with_comma(lines: Seq[String]): Seq[String] = {
+  join_lines_ending_with_comma_or_opening_parenthesis(lines: Seq[String]): Seq[String] = {
     result = processed_lines.reverse
 
     processed_lines = {
@@ -52,7 +52,7 @@ package soda.translator.language
     initial_value = FoldTuple(Seq(), Seq())
 
     next_value(pair: FoldTuple, head: String): FoldTuple =
-      if head.trim().endsWith(Comma)
+      if head.trim().endsWith(Comma) or head.trim().endsWith(SodaOpeningParenthesis)
       then FoldTuple(pair.in_process_rev.+:(head), pair.processed_rev)
       else {
         new_head = rev_list_as_element(pair.in_process_rev, head)

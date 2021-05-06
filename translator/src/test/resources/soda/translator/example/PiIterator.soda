@@ -1,7 +1,8 @@
 package soda.translator.example
 
 
-* Status( r: BigInt,
+* Status(
+    r: BigInt,
     n: BigInt,
     q: BigInt,
     t: BigInt,

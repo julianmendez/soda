@@ -5,7 +5,8 @@ class Applicant is {
   has background_score: Double
 }
 
-class Fairness( ranking_function: Applicant -> Double,
+class Fairness(
+  ranking_function: Applicant -> Double,
   score_difference_tolerance: Double,
   ranking_difference_tolerance: Double,
   measure_time: Any -> Double,
