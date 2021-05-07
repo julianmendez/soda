@@ -96,13 +96,13 @@ case class MicroTranslator () {
         ) {
           lazy val newText = Replacement (token.text )
             .add_spaces_to_symbols (symbols = Translation () .SodaBracketsAndComma.toSet )
-            .replace (ScalaNonSoda (), only_beginning = false )
+            .replace (ScalaNonSoda ()  )
             .replace_at_beginning (token.index, SynonymAtBeginning ()  )
-            .replace (Synonym (), only_beginning = false )
+            .replace (Synonym ()  )
             .replace_with (try_definition )
             .replace_with (try_extends_between_square_brackets )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
-            .replace (MainTranslation (), only_beginning = false )
+            .replace (MainTranslation ()  )
             .replace_regex (Beautifier ()  )
             .line
           Token (newText, token.parser_state, token.index )
@@ -211,7 +211,7 @@ case class MicroTranslator () {
     def next_value (line: String, position: Excerpt ): String = {
       lazy val substr = line.substring (position.beginning, position.end )
       lazy val new_substr = Replacement (substr )
-        .replace (TranslationBetweenSquareBrackets (), only_beginning = false )
+        .replace (TranslationBetweenSquareBrackets ()  )
         .line
       if (substr == new_substr
       ) line

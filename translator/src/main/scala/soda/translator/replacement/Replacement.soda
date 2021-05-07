@@ -19,23 +19,39 @@ package soda.translator.replacement
 
   replace_at_beginning(line: String, index: Int, translator: Translator): String =
     if index == 0
-    then replace(line, translator, only_beginning := true)
+    then replace_only_beginning(line, translator)
     else line
 
-  replace(line: String, translator: Translator, only_beginning: Boolean): String = {
+  replace(line: String, translator: Translator): String = {
     result = Rec().foldLeft(translator.keys, initial_value, next_value)
-
-    replace_if_found(line: String, pattern: String, new_text: String, only_beginning: Boolean): String =
-      if (only_beginning and line.trim.startsWith(pattern.trim)) or
-        (not only_beginning and line.contains(pattern))
-      then replace_all(line, pattern, new_text)
-      else line
 
     initial_value: String = line
 
     next_value(line: String, reserved_word: String): String =
       replace_if_found(line,
-        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace, only_beginning)
+        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
+
+    replace_if_found(line: String, pattern: String, new_text: String): String =
+      if line.contains(pattern)
+      then replace_all(line, pattern, new_text)
+      else line
+
+    result
+  }
+
+  replace_only_beginning(line: String, translator: Translator): String = {
+    result = Rec().foldLeft(translator.keys, initial_value, next_value)
+
+    initial_value: String = line
+
+    next_value(line: String, reserved_word: String): String =
+      replace_if_found(line,
+        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
+
+    replace_if_found(line: String, pattern: String, new_text: String): String =
+      if line.trim.startsWith(pattern.trim)
+      then replace_all(line, pattern, new_text)
+      else line
 
     result
   }
@@ -76,8 +92,8 @@ package soda.translator.replacement
     result
   }
 
-  replace(translator: Translator, only_beginning: Boolean): Replacement =
-    Replacement(replace(line, translator, only_beginning))
+  replace(translator: Translator): Replacement =
+    Replacement(replace(line, translator))
 
   add_space_to_soda_line(): Replacement =
     Replacement(SodaSpace + line + SodaSpace)

@@ -19,22 +19,37 @@ case class Replacement (line: String ) {
 
   def replace_at_beginning (line: String, index: Int, translator: Translator ): String =
     if (index == 0
-    ) replace (line, translator, only_beginning = true )
+    ) replace_only_beginning (line, translator )
     else line
 
-  def replace (line: String, translator: Translator, only_beginning: Boolean ): String = {
+  def replace (line: String, translator: Translator ): String = {
     lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
-
-    def replace_if_found (line: String, pattern: String, new_text: String, only_beginning: Boolean ): String =
-      if ((only_beginning && line.trim.startsWith (pattern.trim )  ) ||
-        (! only_beginning && line.contains (pattern )  )
-      ) replace_all (line, pattern, new_text )
-      else line
 
     lazy val initial_value: String = line
 
     def next_value (line: String, reserved_word: String ): String =
-      replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace, only_beginning )
+      replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+
+    def replace_if_found (line: String, pattern: String, new_text: String ): String =
+      if (line.contains (pattern )
+      ) replace_all (line, pattern, new_text )
+      else line
+
+    result
+  }
+
+  def replace_only_beginning (line: String, translator: Translator ): String = {
+    lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
+
+    lazy val initial_value: String = line
+
+    def next_value (line: String, reserved_word: String ): String =
+      replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+
+    def replace_if_found (line: String, pattern: String, new_text: String ): String =
+      if (line.trim.startsWith (pattern.trim )
+      ) replace_all (line, pattern, new_text )
+      else line
 
     result
   }
@@ -74,8 +89,8 @@ case class Replacement (line: String ) {
     result
   }
 
-  def replace (translator: Translator, only_beginning: Boolean ): Replacement =
-    Replacement (replace (line, translator, only_beginning )  )
+  def replace (translator: Translator ): Replacement =
+    Replacement (replace (line, translator )  )
 
   def add_space_to_soda_line (): Replacement =
     Replacement (SodaSpace + line + SodaSpace )
