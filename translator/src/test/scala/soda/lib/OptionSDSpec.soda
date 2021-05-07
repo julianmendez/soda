@@ -222,7 +222,7 @@ package soda.lib
   }
 
   test("filter should work for None") {
-    input = NoneSD[Int]
+    input = NoneSD[Int]()
     expected = NoneSD[Int]()
     obtained = input.filter(x -> true)
     assert(obtained == expected)

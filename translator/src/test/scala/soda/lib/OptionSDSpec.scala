@@ -210,7 +210,7 @@ case class OptionSDSpec () extends AnyFunSuite {
   }
 
   test ("filter should work for None") {
-    lazy val input = NoneSD [Int]
+    lazy val input = NoneSD [Int]  ()
     lazy val expected = NoneSD [Int]  ()
     lazy val obtained = input.filter (x => true )
     assert (obtained == expected )
