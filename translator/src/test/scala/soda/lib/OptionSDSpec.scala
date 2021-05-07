@@ -195,4 +195,18 @@ case class OptionSDSpec () extends AnyFunSuite {
     assert (obtained == expected )
   }
 
+  test ("build Some using conditions") {
+    lazy val input = "an example"
+    lazy val expected = SomeSD (5 )
+    lazy val obtained = OptionSDBuilder () .build (input.indexOf ("ample"), (x: Int ) => ! (x == -1 )  )
+    assert (obtained == expected )
+  }
+
+  test ("build None using conditions") {
+    lazy val input = "an example"
+    lazy val expected = NoneSD ()
+    lazy val obtained = OptionSDBuilder () .build (input.indexOf ("sample"), (x: Int ) => ! (x == -1 )  )
+    assert (obtained == expected )
+  }
+
 }

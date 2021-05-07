@@ -65,5 +65,10 @@ package soda.lib
     then NoneSD[A]()
     else SomeSD[A](opt.get)
 
+  build(value: A, condition: A -> Boolean): OptionSD[A] =
+    if condition(value)
+    then SomeSD(value)
+    else NoneSD()
+
 }
 

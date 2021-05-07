@@ -207,5 +207,19 @@ package soda.lib
     assert(obtained == expected)
   }
 
+  test("build Some using conditions") {
+    input = "an example"
+    expected = SomeSD(5)
+    obtained = OptionSDBuilder().build(input.indexOf("ample"), (x: Int) -> not (x == -1))
+    assert(obtained == expected)
+  }
+
+  test("build None using conditions") {
+    input = "an example"
+    expected = NoneSD()
+    obtained = OptionSDBuilder().build(input.indexOf("sample"), (x: Int) -> not (x == -1))
+    assert(obtained == expected)
+  }
+
 }
 
