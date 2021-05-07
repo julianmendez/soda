@@ -4,6 +4,7 @@ package soda.translator.language
 + soda.lib.OptionSD
 + soda.lib.NoneSD
 + soda.lib.SomeSD
++ soda.lib.OptionSDBuilder
 + soda.translator.replacement.CommentPreprocessor
 + soda.translator.replacement.ParserStateEnum
 + soda.translator.replacement.Replacement
@@ -153,17 +154,18 @@ package soda.translator.language
       else translate_def_definition
 
     is_class_definition =
-      not (line.indexOf(SodaSpace + Translation().SodaClassReservedWord + SodaSpace) == -1)
+      indexOf(line, SodaSpace + Translation().SodaClassReservedWord + SodaSpace).isDefined
 
-    is_val_definition(position: Int) = {
-      position_of_first_opening_parenthesis = line.indexOf(SodaOpeningParenthesis)
+    is_val_definition(initial_position: Int) = {
+      position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
 
-      case1 = position_of_first_opening_parenthesis == -1
-      case2 = position_of_first_opening_parenthesis > position
+      case1 = position_of_first_opening_parenthesis.isEmpty
+      case2 = position_of_first_opening_parenthesis.open(false, position -> position > initial_position)
       case3 =
-        find_pattern(line, Translation().SodaColon).open(
+        indexOf(line, Translation().SodaColon).open(
           ifEmpty := false,
-          ifNonEmpty := other_position -> position_of_first_opening_parenthesis > other_position
+          ifNonEmpty := other_position ->
+            position_of_first_opening_parenthesis.open(false, position -> position > other_position)
         )
 
       case1 or case2 or case3
@@ -192,14 +194,15 @@ package soda.translator.language
   find_definition(line: String): OptionSD[Int] =
     if line.endsWith(SodaSpace + Translation().SodaDefinition)
     then SomeSD(line.length - Translation().SodaDefinition.length)
-    else find_pattern(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
+    else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
 
-  find_pattern(line: String, pattern: String): OptionSD[Int] = {
-    position = line.indexOf(pattern)
-    if position == -1
-    then NoneSD()
-    else SomeSD(position)
-  }
+  indexOf(line: String, pattern: String): OptionSD[Int] = indexOf(line, pattern, 0)
+
+  indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
+    OptionSDBuilder().build(
+      value := line.indexOf(pattern, start),
+      condition := (position: Int) -> not (position == -1)
+    )
 
   /**
    * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
@@ -234,7 +237,7 @@ package soda.translator.language
     initial_value = FoldTuple(Seq(), 0)
 
     next_value(tuple: FoldTuple, x: Int): FoldTuple =
-      find_square_brackets_from(line, tuple.start).open(
+      find_square_brackets(line, tuple.start).open(
         ifEmpty := FoldTuple(tuple.positions, -1),
         ifNonEmpty := pair ->
           FoldTuple(tuple.positions.+:(pair), pair.end + SodaClosingBracket.length)
@@ -248,19 +251,14 @@ package soda.translator.language
     result
   }
 
-  find_square_brackets_from(line: String, start: Int): OptionSD[Excerpt] =
-    if start < 0 or start >= line.length
-    then NoneSD()
-    else {
-      left = line.indexOf(SodaOpeningBracket, start)
-      right =
-        if left == -1
-        then -1
-        else line.indexOf(SodaClosingBracket, left + SodaOpeningBracket.length)
-      if right == -1
-      then NoneSD()
-      else SomeSD(Excerpt(left + SodaOpeningBracket.length, right))
-    }
+  find_square_brackets(line: String, start: Int): OptionSD[Excerpt] =
+    SomeSD(true)
+      .filter(x -> start >= 0 and start < line.length)
+      .flatMap(x -> indexOf(line, SodaOpeningBracket, start)
+        .flatMap(left -> indexOf(line, SodaClosingBracket, left + SodaOpeningBracket.length)
+          .map(right -> Excerpt(left + SodaOpeningBracket.length, right) )
+        )
+      )
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens

@@ -32,6 +32,10 @@ trait OptionSD [A] {
     open (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
     )
 
+  def filter (predicate: A => Boolean ): OptionSD [A] =
+    open (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
+    )
+
   lazy val toOption: Option [A] =
     open (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
 

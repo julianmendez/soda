@@ -36,6 +36,12 @@ package soda.lib
       ifNonEmpty := element -> mapping(element)
     )
 
+  filter(predicate: A -> Boolean): OptionSD[A] =
+    open(
+      ifEmpty := this,
+      ifNonEmpty := element -> if predicate(element) then this else NoneSD[A]()
+    )
+
   toOption: Option[A] =
     open(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
 

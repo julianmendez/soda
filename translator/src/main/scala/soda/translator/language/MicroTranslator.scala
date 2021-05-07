@@ -4,6 +4,7 @@ import soda.lib.Rec
 import soda.lib.OptionSD
 import soda.lib.NoneSD
 import soda.lib.SomeSD
+import soda.lib.OptionSDBuilder
 import soda.translator.replacement.CommentPreprocessor
 import soda.translator.replacement.ParserStateEnum
 import soda.translator.replacement.Replacement
@@ -150,15 +151,16 @@ case class MicroTranslator () {
       else translate_def_definition
 
     lazy val is_class_definition =
-      ! (line.indexOf (SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) == -1 )
+      indexOf (line, SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) .isDefined
 
-    def is_val_definition (position: Int ) = {
-      lazy val position_of_first_opening_parenthesis = line.indexOf (SodaOpeningParenthesis )
+    def is_val_definition (initial_position: Int ) = {
+      lazy val position_of_first_opening_parenthesis = indexOf (line, SodaOpeningParenthesis )
 
-      lazy val case1 = position_of_first_opening_parenthesis == -1
-      lazy val case2 = position_of_first_opening_parenthesis > position
+      lazy val case1 = position_of_first_opening_parenthesis.isEmpty
+      lazy val case2 = position_of_first_opening_parenthesis.open (false, position => position > initial_position )
       lazy val case3 =
-        find_pattern (line, Translation () .SodaColon ) .open (ifEmpty = false, ifNonEmpty = other_position => position_of_first_opening_parenthesis > other_position
+        indexOf (line, Translation () .SodaColon ) .open (ifEmpty = false, ifNonEmpty = other_position =>
+            position_of_first_opening_parenthesis.open (false, position => position > other_position )
         )
 
       case1 || case2 || case3
@@ -187,14 +189,13 @@ case class MicroTranslator () {
   def find_definition (line: String ): OptionSD [Int] =
     if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
     ) SomeSD (line.length - Translation () .SodaDefinition.length )
-    else find_pattern (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
+    else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
 
-  def find_pattern (line: String, pattern: String ): OptionSD [Int] = {
-    lazy val position = line.indexOf (pattern )
-    if (position == -1
-    ) NoneSD ()
-    else SomeSD (position )
-  }
+  def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
+
+  def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
+    OptionSDBuilder () .build (value = line.indexOf (pattern, start ), condition = (position: Int ) => ! (position == -1 )
+    )
 
   /**
    * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
@@ -229,7 +230,7 @@ case class MicroTranslator () {
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
     def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      find_square_brackets_from (line, tuple.start ) .open (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
+      find_square_brackets (line, tuple.start ) .open (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
           FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
       )
 
@@ -241,19 +242,14 @@ case class MicroTranslator () {
     result
   }
 
-  def find_square_brackets_from (line: String, start: Int ): OptionSD [Excerpt] =
-    if (start < 0 || start >= line.length
-    ) NoneSD ()
-    else {
-      lazy val left = line.indexOf (SodaOpeningBracket, start )
-      lazy val right =
-        if (left == -1
-        ) -1
-        else line.indexOf (SodaClosingBracket, left + SodaOpeningBracket.length )
-      if (right == -1
-      ) NoneSD ()
-      else SomeSD (Excerpt (left + SodaOpeningBracket.length, right )  )
-    }
+  def find_square_brackets (line: String, start: Int ): OptionSD [Excerpt] =
+    SomeSD (true )
+      .filter (x => start >= 0 && start < line.length )
+      .flatMap (x => indexOf (line, SodaOpeningBracket, start )
+        .flatMap (left => indexOf (line, SodaClosingBracket, left + SodaOpeningBracket.length )
+          .map (right => Excerpt (left + SodaOpeningBracket.length, right ) )
+        )
+      )
 
   def _join_tokens (tokens: Seq [Token]  ): String =
     tokens
