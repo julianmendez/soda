@@ -209,4 +209,25 @@ case class OptionSDSpec () extends AnyFunSuite {
     assert (obtained == expected )
   }
 
+  test ("filter should work for None") {
+    lazy val input = NoneSD [Int]
+    lazy val expected = NoneSD [Int]  ()
+    lazy val obtained = input.filter (x => true )
+    assert (obtained == expected )
+  }
+
+  test ("filter should work for Some, if predicate does not hold") {
+    lazy val input = SomeSD [Int]  (0 )
+    lazy val expected = NoneSD [Int]  ()
+    lazy val obtained = input.filter (x => x > 0 )
+    assert (obtained == expected )
+  }
+
+  test ("filter should work for Some, if predicate holds") {
+    lazy val input = SomeSD [Int]  (1 )
+    lazy val expected = SomeSD [Int]  (1 )
+    lazy val obtained = input.filter (x => x > 0 )
+    assert (obtained == expected )
+  }
+
 }

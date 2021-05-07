@@ -221,5 +221,26 @@ package soda.lib
     assert(obtained == expected)
   }
 
+  test("filter should work for None") {
+    input = NoneSD[Int]
+    expected = NoneSD[Int]()
+    obtained = input.filter(x -> true)
+    assert(obtained == expected)
+  }
+
+  test("filter should work for Some, if predicate does not hold") {
+    input = SomeSD[Int](0)
+    expected = NoneSD[Int]()
+    obtained = input.filter(x -> x > 0)
+    assert(obtained == expected)
+  }
+
+  test("filter should work for Some, if predicate holds") {
+    input = SomeSD[Int](1)
+    expected = SomeSD[Int](1)
+    obtained = input.filter(x -> x > 0)
+    assert(obtained == expected)
+  }
+
 }
 
