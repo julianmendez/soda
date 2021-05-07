@@ -65,9 +65,4 @@ case class OptionSDBuilder [A]  () {
     ) NoneSD [A]  ()
     else SomeSD [A]  (opt.get )
 
-  def build (value: A, condition: A => Boolean ): OptionSD [A] =
-    if (condition (value )
-    ) SomeSD (value )
-    else NoneSD ()
-
 }

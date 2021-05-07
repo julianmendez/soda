@@ -199,10 +199,8 @@ package soda.translator.language
   indexOf(line: String, pattern: String): OptionSD[Int] = indexOf(line, pattern, 0)
 
   indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
-    OptionSDBuilder().build(
-      value := line.indexOf(pattern, start),
-      condition := (position: Int) -> not (position == -1)
-    )
+    SomeSD(line.indexOf(pattern, start))
+      .filter(position -> not (position == -1))
 
   /**
    * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.

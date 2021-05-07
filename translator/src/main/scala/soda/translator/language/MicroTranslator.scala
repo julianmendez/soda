@@ -194,8 +194,8 @@ case class MicroTranslator () {
   def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
 
   def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
-    OptionSDBuilder () .build (value = line.indexOf (pattern, start ), condition = (position: Int ) => ! (position == -1 )
-    )
+    SomeSD (line.indexOf (pattern, start )  )
+      .filter (position => ! (position == -1 )  )
 
   /**
    * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
