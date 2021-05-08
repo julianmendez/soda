@@ -12,9 +12,9 @@ trait ShapePainter [A <: Shape]
 trait ShapeMover [A <: Shape with Movable]
 
 case class EqualsExample () {
-  def f (x: Int, y: Int ) = 2 * x + y
-
   lazy val answer = f (x = 20, y = 2 )
+
+  def f (x: Int, y: Int ) = 2 * x + y
 }
 
 /** Class for a registered person, in snake case */
@@ -77,6 +77,8 @@ case class Manual () {
 
   lazy val b: Int = 2
 
+  lazy val now = new Date ()
+
   def plus_one (x: Int ): Int = x + 1
 
   def max (x: Int, y: Int ) =
@@ -110,8 +112,6 @@ case class Manual () {
 
   def my_xor (x: Boolean, y: Boolean ) = (x || y ) && ! (x && y )
 
-  lazy val now = new Date ()
-
   def sum (n: Int ) = {
     lazy val result = rec (n, 0 )
 
@@ -125,13 +125,13 @@ case class Manual () {
     result
   }
 
-  def g (x: Int ) = x + 1
-
   def f (x: Int ) = {
     lazy val a = g (x )
     lazy val b = g (a )
     a + b
   }
+
+  def g (x: Int ) = x + 1
 
 }
 

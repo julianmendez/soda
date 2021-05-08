@@ -22,23 +22,6 @@ package soda.translator.replacement
     then replace_only_beginning(line, translator)
     else line
 
-  replace(line: String, translator: Translator): String = {
-    result = Rec().foldLeft(translator.keys, initial_value, next_value)
-
-    initial_value: String = line
-
-    next_value(line: String, reserved_word: String): String =
-      replace_if_found(line,
-        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
-
-    replace_if_found(line: String, pattern: String, new_text: String): String =
-      if line.contains(pattern)
-      then replace_all(line, pattern, new_text)
-      else line
-
-    result
-  }
-
   replace_only_beginning(line: String, translator: Translator): String = {
     result = Rec().foldLeft(translator.keys, initial_value, next_value)
 
@@ -94,6 +77,23 @@ package soda.translator.replacement
 
   replace(translator: Translator): Replacement =
     Replacement(replace(line, translator))
+
+  replace(line: String, translator: Translator): String = {
+    result = Rec().foldLeft(translator.keys, initial_value, next_value)
+
+    initial_value: String = line
+
+    next_value(line: String, reserved_word: String): String =
+      replace_if_found(line,
+        SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
+
+    replace_if_found(line: String, pattern: String, new_text: String): String =
+      if line.contains(pattern)
+      then replace_all(line, pattern, new_text)
+      else line
+
+    result
+  }
 
   add_space_to_soda_line(): Replacement =
     Replacement(SodaSpace + line + SodaSpace)

@@ -26,7 +26,7 @@ package soda.translator.replacement
 
     is_like(x: ParserState, y: ParserState): Boolean =
       (x == QuotesState and y == QuotesBackslashState) or
-      (x == ApostropheState and y == ApostropheBackslashState)
+        (x == ApostropheState and y == ApostropheBackslashState)
 
     result
   }

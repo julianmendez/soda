@@ -37,6 +37,7 @@ case class OptionSDSpec () extends AnyFunSuite {
 
   test ("should open an empty option") {
     lazy val result_if_empty: String = "It is empty."
+
     def result_if_non_empty (value: String ): String = "Its value is " + value + "."
 
     lazy val empty = NoneSD [String]  ()
@@ -49,6 +50,7 @@ case class OptionSDSpec () extends AnyFunSuite {
 
   test ("should open an non empty option") {
     lazy val result_if_empty: String = "It is empty."
+
     def result_if_non_empty (value: String ): String = "Its value is " + value + "."
 
     lazy val some_element = SomeSD [String]  ("0")
@@ -61,6 +63,7 @@ case class OptionSDSpec () extends AnyFunSuite {
 
   test ("should try fold an empty option") {
     lazy val result_if_empty: String = "It is empty."
+
     def result_if_non_empty (value: String ): String = "Its value is " + value + "."
 
     lazy val empty = NoneSD [String]  ()
@@ -73,6 +76,7 @@ case class OptionSDSpec () extends AnyFunSuite {
 
   test ("should try fold an non empty option") {
     lazy val result_if_empty: String = "It is empty."
+
     def result_if_non_empty (value: String ): String = "Its value is " + value + "."
 
     lazy val some_element = SomeSD [String]  ("0")

@@ -12,9 +12,9 @@ class ShapePainter[A extends Shape]
 class ShapeMover[A extends Shape with Movable]
 
 class EqualsExample () = {
-  f (x: Int, y: Int) = 2 * x + y
-
   answer = f (x := 20, y := 2)
+
+  f (x: Int, y: Int) = 2 * x + y
 }
 
 /** Class for a registered person, in snake case */
@@ -77,6 +77,8 @@ class Manual() = {
 
   b: Int = 2
 
+  now = new Date()
+
   plus_one (x: Int): Int = x + 1
 
   max (x: Int, y: Int) =
@@ -110,8 +112,6 @@ class Manual() = {
 
   my_xor (x: Boolean, y: Boolean) = (x or y) and not (x and y)
 
-  now = new Date()
-
   sum (n: Int) = {
     result = rec (n, 0)
 
@@ -124,13 +124,13 @@ class Manual() = {
     result
   }
 
-  g (x: Int) = x + 1
-
   f (x: Int) = {
     a = g(x)
     b = g(a)
     a + b
   }
+
+  g (x: Int) = x + 1
 
 }
 

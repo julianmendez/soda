@@ -18,6 +18,12 @@ package soda.lib
 
   nonEmpty: Boolean = not isEmpty
 
+  toOption: Option[A] =
+    open(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
+
+  toSeq: Seq[A] =
+    open(ifEmpty := Seq(), ifNonEmpty := element -> Seq(element))
+
   getOrElse(default: A): A =
     open(ifEmpty := default, ifNonEmpty := element -> element)
 
@@ -41,12 +47,6 @@ package soda.lib
       ifEmpty := this,
       ifNonEmpty := element -> if predicate(element) then this else NoneSD[A]()
     )
-
-  toOption: Option[A] =
-    open(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
-
-  toSeq: Seq[A] =
-    open(ifEmpty := Seq(), ifNonEmpty := element -> Seq(element))
 
 }
 

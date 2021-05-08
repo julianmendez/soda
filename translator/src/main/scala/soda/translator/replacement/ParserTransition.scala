@@ -26,7 +26,7 @@ case class ParserStateEnum () {
 
     def is_like (x: ParserState, y: ParserState ): Boolean =
       (x == QuotesState && y == QuotesBackslashState ) ||
-      (x == ApostropheState && y == ApostropheBackslashState )
+        (x == ApostropheState && y == ApostropheBackslashState )
 
     result
   }

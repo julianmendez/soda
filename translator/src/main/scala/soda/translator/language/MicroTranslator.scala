@@ -69,9 +69,6 @@ case class MicroTranslator () {
   def join_translated_lines (lines: Seq [String]  ): String =
     lines.mkString (NewLine ) + NewLine
 
-  def tokenize (line: String ): Seq [Token] =
-    Tokenizer () .tokenize (line )
-
   def translate_lines (lines: Seq [String]  ): Seq [String] =
     CommentPreprocessor ()
       .annotate_lines (lines )
@@ -89,6 +86,9 @@ case class MicroTranslator () {
     lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
     final_line
   }
+
+  def tokenize (line: String ): Seq [Token] =
+    Tokenizer () .tokenize (line )
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>
@@ -134,7 +134,7 @@ case class MicroTranslator () {
    * Formerly there was another case for 'val'.
    * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
    * This was implemented simply as:
-   *  `line.trim.startsWith(SodaOpeningParenthesis)`
+   * `line.trim.startsWith(SodaOpeningParenthesis)`
    * This is no longer supported.
    *
    * @param line line
@@ -191,12 +191,6 @@ case class MicroTranslator () {
     ) SomeSD (line.length - Translation () .SodaDefinition.length )
     else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
 
-  def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
-
-  def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
-    SomeSD (line.indexOf (pattern, start )  )
-      .filter (position => ! (position == -1 )  )
-
   /**
    * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
    * This only applies to a parameter that is between square brackets.
@@ -250,6 +244,12 @@ case class MicroTranslator () {
           .map (right => Excerpt (left + SodaOpeningBracket.length, right ) )
         )
       )
+
+  def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
+
+  def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
+    SomeSD (line.indexOf (pattern, start )  )
+      .filter (position => ! (position == -1 )  )
 
   def _join_tokens (tokens: Seq [Token]  ): String =
     tokens

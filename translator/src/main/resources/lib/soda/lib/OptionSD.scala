@@ -18,6 +18,12 @@ trait OptionSD [A] {
 
   lazy val nonEmpty: Boolean = ! isEmpty
 
+  lazy val toOption: Option [A] =
+    open (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
+
+  lazy val toSeq: Seq [A] =
+    open (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
+
   def getOrElse (default: A ): A =
     open (ifEmpty = default, ifNonEmpty = element => element )
 
@@ -35,12 +41,6 @@ trait OptionSD [A] {
   def filter (predicate: A => Boolean ): OptionSD [A] =
     open (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
     )
-
-  lazy val toOption: Option [A] =
-    open (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
-
-  lazy val toSeq: Seq [A] =
-    open (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
 
 }
 
