@@ -1,0 +1,123 @@
+\section{Why \Soda}
+
+This is a justification of how \Soda was designed.
+
+This justification is developed resembling a derivation.
+
+The purpose of \Soda is to give more control to humans on what computers do.
+
+This is part of concepts like \textbf{transparency} and \textbf{governance}.
+
+Transparency comes when the user is aware of what a system is doing.
+
+Some parts of the programming of a system are beyond the understanding and interest of most humans.
+However, it is necessary in critical parts that humans need to complete understand their functioning.
+
+Currently, this is achieved using different tools and techniques.
+These include diverse types of tests, best practices, optimal architecture designs, and other rituals to preserve a system under a human control.
+
+\Soda is a language to intends to be easy for and close to humans.
+This language is intended to be simple and direct.
+Because of that, this language can be considered a \textbf{specification language} or a \textbf{description language}.
+
+Several formalisms are suitable for this task.
+The following list is a comprehensive list of categories, although this list is not necessarily exhaustive.
+\begin{itemize}
+    \item Controlled natural languages, like Attempto Controlled English.
+    \item Families of non-classical logics, like modal logics, multi-modal logics, hybrid logics, description logics, epistemic logics, and temporal logics.
+    \item First-order logic.
+    \item Specification languages for software engineering, like Zed.
+    \item Theorem proving assistants, like Coq and Isabelle.
+    \item Descriptive programming languages, like Prolog, SmallTalk, Python, and their dialects.
+    \item Functional programming languages, like Haskell, Scala, Lisp, and their dialects.
+\end{itemize}
+
+Each category has advantages and disadvantages, and can model different aspects of a system.
+
+One of the first properties we want is that a message written with the language has to be \textbf{unambiguous for a human}, either describing formulas or relations.
+While a sentence in a controlled natural language is unambiguous for a computer, it could have some shades of ambiguity for humans.
+The same challenges that writing a formal text has, are present in a controlled language specification.
+
+In addition, some specifications are better described with mathematical formulas than reciting those formulas.
+Natural languages produce confusion in some people, since the common use is not necessarily consistent.
+For example, the fallacy ``$p \to q$ then $\lnot p \to \lnot q$'' is unfortunately very common.
+
+In a specification, we want to \textbf{describe qualities and quantities in a natural way}.
+We want to describe relations between them.
+Non-classical logics are very good to describe qualities, but they have some limitations to describe qualities.
+This does not mean that it is impossible, but rather unusual, needing to taylor a logic for each particular problem.
+Decidable fragments of non-classical logics can, however, \textbf{verify consistency} in a specification.
+This property is also desirable in the specification language.
+
+Another property is the possibility of \textbf{prototyping the specification}.
+This said, we want that the specification can be \textit{run} in some sense.
+This is very useful to test what the specification says, for example.
+
+First-order logic is with no doubt a powerful tool and it is \textbf{universally understood}.
+However, it is not simple to produce a program that satisfies the specification.
+The power of first-order logic backfires when a human is not aware of the limitations to prototype their specification.
+The semi-decidability of first-order logic is then problematic to automatically generate a prototype.
+
+The Z Specification Language combines the good properties of first-order logics and set theory.
+While this language is more suited for certain types of projects, prototyping is still not straight forward.
+
+Theorem proving assistants, like Coq and Isabelle, are excellent tools to model and prove small theorems.
+However, they are not that simple to use to prototype.
+
+Some very descriptive languages like SmallTalk, Python are dynamically typed.
+That means that many of the inconsistencies are found when the program is already running.
+In addition, Python still has an imperative approach.
+Some common errors made in imperative languages, like untracked side effects or unsafe thread execution, are rather common.
+
+Prolog is maybe one of the most innovative programming languages.
+It is with no doubt descriptive, but it is dynamically typed, and it has a single data type, the term, and subtypes atoms, numbers, variables, and compound terms.\footnote{\url{https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics}}
+Another disadvantage of Prolog is the need of the cut (!) symbol to operate, and its execution can become difficult to understand.
+
+Functional languages are then the best candidates for \Soda.
+Lisp and its dialects, like Clojure and Racket, have still some limitations regarding modelling.
+One of the disadvantages in Lisp is the absence of types.
+This issue is addressed in Racket\footnote{https://racket-lang.org}.
+Another disadvantage of Lisp is the technological gap that needs to be breached when integrating it with the most used technology.
+This issue is addressed in Clojure\footnote{https://clojure.org}, which is integrated with the Java Virtual Machine.
+The abundance of structures with parentheses makes a difficult readability, but it could be suitable for skilled technician.
+
+Another important functional language is Haskell.
+It is one of the most used and most influential functional languages.
+Haskell allows writing clean, descriptive, statically typed code.
+Its readability is very good, it is easy to write formulas in it.
+
+The only missing piece in Haskell is the definition of objects, although modules are available for a similar purpose.
+In the word of Haskell programmers, object-oriented methods are a \textit{syntactic sugar}.
+However, the source code with that syntactic sugar can make the code more intuitive.
+
+For this \Soda muse have \textbf{object-oriented notation}.
+The justification is that humans tend to group and categorize things.
+Humans are used to put things in shelves, drawers, wardrobes, boxes, rooms, etc., and then look for those things where they are supposed to be.
+Something similar may happen with functions, and objects capture this idea of having the functions (methods) that are related to them.
+
+This is, of course, an arguable position, since for some people having all functions together seems to be more natural.
+The fact of how the most used programming languages have been adopted somehow justifies which preferences were usually considered the most natural.
+The structured programming in Pascal was more adopted than the GOTO-based Basic.
+The object-oriented C++ and Java became more adopted than plain C.
+The thriving of functional languages and functional constructs in imperative languages shows an interest in society to adopt that property as the standard.
+
+Here are two more things we want in \Soda.
+One is to \textbf{limit its expressiveness to help the user}.
+In other words, the user is able to essentially the same things, but making fewer errors.
+
+Another thing is \textbf{minimality}.
+The reason beyond that is not only simplify how a specification is written, but also how it is read.
+Maybe Prolog would be, from the formalisms considered here, the language with optimal minimality.
+
+We can finally consider Scala\footnote{https://www.scala-lang.org}.
+Scala has every single thing we asked for \Soda, except limits in the expressiveness to avoid errors, and the minimality.
+
+Scala is a statically-typed general-purpose programming language.
+Scala is multi-paradigm, and fusions object-oriented and functional paradigms.
+In this fusion, Scala includes tail recursion, something typical of functional languages, and `while' statement, something typical of imperative languages.
+This symbiosis can, unfortunately, lead to mixed programs, which, even for skilled Scala programmers, are difficult to follow.
+
+\Soda is designed to take a minimal subset of the functional part of Scala.
+\Soda is anyway influenced by Haskell in its designed, and in some other aspects, by highly popular languages like Java and Python.
+
+
