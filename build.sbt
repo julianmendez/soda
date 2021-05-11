@@ -51,8 +51,8 @@ lazy val translator = project
   .in(file("translator"))
   .settings(
     commonSettings,
-    mainClass in assembly := Some("soda.translator.io.EntryPoint"),
-    assemblyJarName in assembly := "translator-" + version.value + ".jar"
+    assembly / mainClass := Some("soda.translator.io.EntryPoint"),
+    assembly / assemblyJarName := "translator-" + version.value + ".jar"
   )
 
 
@@ -63,7 +63,7 @@ lazy val library = project
   .dependsOn(translator)
   .settings(
     commonSettings,
-    assemblyJarName in assembly := "library-" + version.value + ".jar"
+    assembly / assemblyJarName := "library-" + version.value + ".jar"
   )
 
 
@@ -74,8 +74,8 @@ lazy val root = project
   .dependsOn(translator, library)
   .settings(
     commonSettings,
-    mainClass in assembly := Some("soda.translator.io.EntryPoint"),
-    assemblyJarName in assembly := "soda-" + version.value + ".jar"
+    assembly / mainClass := Some("soda.translator.io.EntryPoint"),
+    assembly / assemblyJarName := "soda-" + version.value + ".jar"
   )
 
 
