@@ -9,44 +9,44 @@ package soda.lib
  */
 trait OptionSD [A] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B
+  def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B
 
   lazy val isEmpty: Boolean =
-    open (ifEmpty = true, ifNonEmpty = element => false )
+    opt (ifEmpty = true, ifNonEmpty = element => false )
 
   lazy val isDefined: Boolean = ! isEmpty
 
   lazy val nonEmpty: Boolean = ! isEmpty
 
   lazy val toOption: Option [A] =
-    open (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
+    opt (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
 
   lazy val toSeq: Seq [A] =
-    open (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
+    opt (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
 
   def getOrElse (default: A ): A =
-    open (ifEmpty = default, ifNonEmpty = element => element )
+    opt (ifEmpty = default, ifNonEmpty = element => element )
 
   def fold [B]  (ifEmpty: B, f: A => B ): B =
-    open (ifEmpty, f )
+    opt (ifEmpty, f )
 
   def map [B]  (mapping: A => B ): OptionSD [B] =
-    open (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
+    opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
     )
 
   def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
-    open (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
+    opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
     )
 
   def filter (predicate: A => Boolean ): OptionSD [A] =
-    open (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
+    opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
     )
 
 }
 
 case class NoneSD [A] () extends OptionSD [A] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
+  def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
 }
 
@@ -54,15 +54,15 @@ case class SomeSD [A] (element: A ) extends OptionSD [A] {
 
   lazy val get: A = element
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
+  def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
 
 }
 
 case class OptionSDBuilder [A]  () {
 
-  def build (opt: Option [A]  ): OptionSD [A] =
-    if (opt.isEmpty
+  def build (option: Option [A]  ): OptionSD [A] =
+    if (option.isEmpty
     ) NoneSD [A]  ()
-    else SomeSD [A]  (opt.get )
+    else SomeSD [A]  (option.get )
 
 }

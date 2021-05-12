@@ -9,41 +9,41 @@ package soda.lib
  */
 * OptionSD[A] = {
 
-  has open[B](ifEmpty: B, ifNonEmpty: A -> B): B
+  has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
   isEmpty: Boolean =
-    open(ifEmpty := true, ifNonEmpty := element -> false)
+    opt(ifEmpty := true, ifNonEmpty := element -> false)
 
   isDefined: Boolean = not isEmpty
 
   nonEmpty: Boolean = not isEmpty
 
   toOption: Option[A] =
-    open(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
+    opt(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
 
   toSeq: Seq[A] =
-    open(ifEmpty := Seq(), ifNonEmpty := element -> Seq(element))
+    opt(ifEmpty := Seq(), ifNonEmpty := element -> Seq(element))
 
   getOrElse(default: A): A =
-    open(ifEmpty := default, ifNonEmpty := element -> element)
+    opt(ifEmpty := default, ifNonEmpty := element -> element)
 
   fold[B](ifEmpty: B, f: A -> B): B =
-    open(ifEmpty, f)
+    opt(ifEmpty, f)
 
   map[B](mapping: A -> B): OptionSD[B] =
-    open(
+    opt(
       ifEmpty := NoneSD[B](),
       ifNonEmpty := element -> SomeSD[B](mapping(element))
     )
 
   flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
-    open(
+    opt(
       ifEmpty := NoneSD[B](),
       ifNonEmpty := element -> mapping(element)
     )
 
   filter(predicate: A -> Boolean): OptionSD[A] =
-    open(
+    opt(
       ifEmpty := this,
       ifNonEmpty := element -> if predicate(element) then this else NoneSD[A]()
     )
@@ -52,7 +52,7 @@ package soda.lib
 
 * NoneSD[A] () extends OptionSD[A] = {
 
-  open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
 }
 
@@ -60,16 +60,16 @@ package soda.lib
 
   get: A = element
 
-  open[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
 
 }
 
 * OptionSDBuilder[A]() = {
 
-  build(opt: Option[A]): OptionSD[A] =
-    if opt.isEmpty
+  build(option: Option[A]): OptionSD[A] =
+    if option.isEmpty
     then NoneSD[A]()
-    else SomeSD[A](opt.get)
+    else SomeSD[A](option.get)
 
 }
 

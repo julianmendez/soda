@@ -9,7 +9,7 @@ package soda.lib
  */
 trait SeqSD [T] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B
 
   def toSeq: Seq [T]
 
@@ -22,7 +22,7 @@ trait SeqSD [T] {
 
 case class EmptySeqSD [T]  () extends SeqSD [T] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifEmpty
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifEmpty
 
   lazy val toSeq: Seq [T] = Seq [T]  ()
 
@@ -32,7 +32,7 @@ case class EmptySeqSD [T]  () extends SeqSD [T] {
 
 trait NonEmptySeqSD [T] extends SeqSD [T] {
 
-  def open [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifNonEmpty (this )
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifNonEmpty (this )
 
   lazy val head: T = toSeq.head
 

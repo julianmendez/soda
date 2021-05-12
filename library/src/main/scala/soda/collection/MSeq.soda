@@ -4,7 +4,7 @@ package soda.collection
 * MSeq[T] = {
   has isEmpty: Boolean
 
-  has open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
+  has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
 
   foldLeftWhile[B, C extends B](initial_value: C,
       next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
@@ -16,7 +16,7 @@ package soda.collection
       if seq.isEmpty
       then acc
       else {
-        neseq = seq.open(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
+        neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
         if not condition(acc, neseq.head())
         then acc
         else rec(neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
@@ -32,7 +32,7 @@ package soda.collection
 
   isEmpty = true
 
-  open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
+  opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
 
 }
 
@@ -41,7 +41,7 @@ package soda.collection
 
   isEmpty = false
 
-  open[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifNonEmpty(this)
+  opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifNonEmpty(this)
 
   head(): T = head0
 

@@ -142,7 +142,7 @@ case class MicroTranslator () {
    */
   def try_definition (line: String ): String = {
 
-    lazy val result = find_definition (line ) .open (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
+    lazy val result = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
     )
 
     def try_found_definition (position: Int ): Replacement =
@@ -157,10 +157,10 @@ case class MicroTranslator () {
       lazy val position_of_first_opening_parenthesis = indexOf (line, SodaOpeningParenthesis )
 
       lazy val case1 = position_of_first_opening_parenthesis.isEmpty
-      lazy val case2 = position_of_first_opening_parenthesis.open (false, position => position > initial_position )
+      lazy val case2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
       lazy val case3 =
-        indexOf (line, Translation () .SodaColon ) .open (ifEmpty = false, ifNonEmpty = other_position =>
-            position_of_first_opening_parenthesis.open (false, position => position > other_position )
+        indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+            position_of_first_opening_parenthesis.opt (false, position => position > other_position )
         )
 
       case1 || case2 || case3
@@ -224,7 +224,7 @@ case class MicroTranslator () {
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
     def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      find_square_brackets (line, tuple.start ) .open (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
+      find_square_brackets (line, tuple.start ) .opt (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
           FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
       )
 

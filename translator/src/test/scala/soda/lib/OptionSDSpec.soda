@@ -43,7 +43,7 @@ package soda.lib
     empty = NoneSD[String]()
 
     expected = "It is empty."
-    obtained = empty.open(
+    obtained = empty.opt(
       ifEmpty := result_if_empty,
       ifNonEmpty := result_if_non_empty)
 
@@ -58,7 +58,7 @@ package soda.lib
     some_element = SomeSD[String]("0")
 
     expected = "Its value is 0."
-    obtained = some_element.open(
+    obtained = some_element.opt(
       ifEmpty := result_if_empty,
       ifNonEmpty := result_if_non_empty)
 
@@ -158,11 +158,11 @@ package soda.lib
 
     expected = SomeSD(6)
     obtained =
-      maybeA.open(ifEmpty := NoneSD,
+      maybeA.opt(ifEmpty := NoneSD,
         ifNonEmpty := a ->
-          maybeB.open(ifEmpty := NoneSD,
+          maybeB.opt(ifEmpty := NoneSD,
             ifNonEmpty := b ->
-              maybeC.open(ifEmpty := NoneSD,
+              maybeC.opt(ifEmpty := NoneSD,
                 ifNonEmpty := c ->
                   SomeSD(a + b + c) ) ) )
 

@@ -43,7 +43,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val empty = NoneSD [String]  ()
 
     lazy val expected = "It is empty."
-    lazy val obtained = empty.open (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+    lazy val obtained = empty.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -56,7 +56,7 @@ case class OptionSDSpec () extends AnyFunSuite {
     lazy val some_element = SomeSD [String]  ("0")
 
     lazy val expected = "Its value is 0."
-    lazy val obtained = some_element.open (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+    lazy val obtained = some_element.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
   }
@@ -149,9 +149,9 @@ case class OptionSDSpec () extends AnyFunSuite {
 
     lazy val expected = SomeSD (6 )
     lazy val obtained =
-      maybeA.open (ifEmpty = NoneSD, ifNonEmpty = a =>
-          maybeB.open (ifEmpty = NoneSD, ifNonEmpty = b =>
-              maybeC.open (ifEmpty = NoneSD, ifNonEmpty = c =>
+      maybeA.opt (ifEmpty = NoneSD, ifNonEmpty = a =>
+          maybeB.opt (ifEmpty = NoneSD, ifNonEmpty = b =>
+              maybeC.opt (ifEmpty = NoneSD, ifNonEmpty = c =>
                   SomeSD (a + b + c ) ) ) )
 
     assert (obtained == expected )

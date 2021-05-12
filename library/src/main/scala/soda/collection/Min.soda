@@ -71,7 +71,7 @@ package soda.collection
   }
 
   reverse(s: MSeq[T]): MSeq[T] =
-    s.open(ifEmpty := empty, ifNonEmpty := (neseq -> reverseNonEmpty(neseq)))
+    s.opt(ifEmpty := empty, ifNonEmpty := (neseq -> reverseNonEmpty(neseq)))
 
   reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
     initial_value: NESeq[T] = prepended(empty, s.head())
@@ -115,7 +115,7 @@ package soda.collection
 
   at(s: MSeq[T], n: Int): OptionSD[T] = {
     result =
-      s.open(ifEmpty := NoneSD[T](), ifNonEmpty := (neseq ->
+      s.opt(ifEmpty := NoneSD[T](), ifNonEmpty := (neseq ->
         if n < 0 or n >= length(s)
         then NoneSD[T]()
         else SomeSD[T](atNonEmpty(neseq, n))
@@ -162,7 +162,7 @@ package soda.collection
     initial_value = FoldTuple(s, 0)
 
     next_value(tuple: FoldTuple, elem: T): FoldTuple =
-      tuple.seq.open(
+      tuple.seq.opt(
         ifEmpty := FoldTuple(tuple.seq, tuple.index + 1),
         ifNonEmpty := (neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
       )
@@ -294,7 +294,7 @@ package soda.collection
       left = tuple.left
       right = tuple.right
 
-      left.open(
+      left.opt(
         ifEmpty := FoldTuple(left, right, false),
         ifNonEmpty := (neleft -> {
           e = neleft.head()

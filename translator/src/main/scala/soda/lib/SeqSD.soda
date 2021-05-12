@@ -9,7 +9,7 @@ package soda.lib
  */
 * SeqSD[T] = {
 
-  has open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B
+  has opt[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B
 
   has toSeq: Seq[T]
 
@@ -22,7 +22,7 @@ package soda.lib
 
 * EmptySeqSD[T]() extends SeqSD[T] = {
 
-  open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
+  opt[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
 
   toSeq: Seq[T] = Seq[T]()
 
@@ -32,7 +32,7 @@ package soda.lib
 
 * NonEmptySeqSD[T] extends SeqSD[T] = {
 
-  open[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
+  opt[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
 
   head: T = toSeq.head
 
