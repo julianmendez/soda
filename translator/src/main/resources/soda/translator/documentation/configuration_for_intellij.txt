@@ -36,7 +36,9 @@ import
 is
 new
 package
+subof
 suchthat
+superof
 then
 this
 with

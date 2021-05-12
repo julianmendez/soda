@@ -9,7 +9,7 @@ package soda.lib
  */
 * Rec() = {
 
-  foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
+  foldLeftWhile[A, B, C subof B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
 
     result = rec(s, initial_value, next_value, cond)
@@ -28,7 +28,7 @@ package soda.lib
   }
 
 
-  foldLeft[A, B, C extends B](seq: Seq[A], initial_value: C,
+  foldLeft[A, B, C subof B](seq: Seq[A], initial_value: C,
       next_value: (B, A) -> C): C = {
 
     result = rec(seq, initial_value, next_value)

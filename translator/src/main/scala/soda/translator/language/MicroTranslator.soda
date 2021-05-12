@@ -101,7 +101,6 @@ package soda.translator.language
             .replace_at_beginning(token.index, SynonymAtBeginning())
             .replace(Synonym())
             .replace_with(try_definition)
-            .replace_with(try_extends_between_square_brackets)
             .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
             .replace(MainTranslation())
             .replace_regex(Beautifier())
@@ -195,62 +194,6 @@ package soda.translator.language
     if line.endsWith(SodaSpace + Translation().SodaDefinition)
     then SomeSD(line.length - Translation().SodaDefinition.length)
     else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
-
-  /**
-   * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
-   * This only applies to a parameter that is between square brackets.
-   * @param line line
-   * @return maybe a translated line
-   */
-  try_extends_between_square_brackets (line: String): String = {
-    result = Rec().foldLeft(find_square_brackets(line), initial_value, next_value)
-
-    initial_value = line
-
-    next_value(line: String, position: Excerpt): String = {
-      substr = line.substring(position.beginning, position.end)
-      new_substr = Replacement(substr)
-        .replace(TranslationBetweenSquareBrackets())
-        .line
-      if substr == new_substr
-      then line
-      else line.substring(0, position.beginning) + new_substr + line.substring(position.end)
-    }
-
-    result
-  }
-
-  find_square_brackets(line: String): Seq[Excerpt] = {
-    result =
-      Rec()
-        .foldLeftWhile(Rec().range(line.length), initial_value, next_value, condition)
-        .positions
-
-    initial_value = FoldTuple(Seq(), 0)
-
-    next_value(tuple: FoldTuple, x: Int): FoldTuple =
-      find_square_brackets(line, tuple.start).opt(
-        ifEmpty := FoldTuple(tuple.positions, -1),
-        ifNonEmpty := pair ->
-          FoldTuple(tuple.positions.+:(pair), pair.end + SodaClosingBracket.length)
-      )
-
-    condition(tuple: FoldTuple, x: Int): Boolean =
-      (0 <= tuple.start and tuple.start <= line.length)
-
-    * FoldTuple(positions: Seq[Excerpt], start: Int)
-
-    result
-  }
-
-  find_square_brackets(line: String, start: Int): OptionSD[Excerpt] =
-    SomeSD(true)
-      .filter(x -> start >= 0 and start < line.length)
-      .flatMap(x -> indexOf(line, SodaOpeningBracket, start)
-        .flatMap(left -> indexOf(line, SodaClosingBracket, left + SodaOpeningBracket.length)
-          .map(right -> Excerpt(left + SodaOpeningBracket.length, right) )
-        )
-      )
 
   indexOf(line: String, pattern: String): OptionSD[Int] = indexOf(line, pattern, 0)
 

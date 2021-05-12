@@ -7,6 +7,8 @@
     - expands Soda library in multiple files
     - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
     - lets Scala 3 reserved words be usable as variable, function, and class names
+    - replaces `extends` to declare upper bounds of type parameters by `subof`
+    - includes `superof` to declare lower bounds of type parameters
   - build: sbt '++ 3.0.0-RC3' clean compile test package assembly
   - release: target/scala-3.0.0-RC3/soda-0.8.0.jar
 - - version: v0.7.0

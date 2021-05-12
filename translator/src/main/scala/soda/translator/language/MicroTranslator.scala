@@ -100,7 +100,6 @@ case class MicroTranslator () {
             .replace_at_beginning (token.index, SynonymAtBeginning ()  )
             .replace (Synonym ()  )
             .replace_with (try_definition )
-            .replace_with (try_extends_between_square_brackets )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
             .replace (MainTranslation ()  )
             .replace_regex (Beautifier ()  )
@@ -190,60 +189,6 @@ case class MicroTranslator () {
     if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
     ) SomeSD (line.length - Translation () .SodaDefinition.length )
     else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
-
-  /**
-   * This tries to replace an `extends` by a subtype restriction, to define an upper bound of a parametric type.
-   * This only applies to a parameter that is between square brackets.
-   * @param line line
-   * @return maybe a translated line
-   */
-  def try_extends_between_square_brackets (line: String ): String = {
-    lazy val result = Rec () .foldLeft (find_square_brackets (line ), initial_value, next_value )
-
-    lazy val initial_value = line
-
-    def next_value (line: String, position: Excerpt ): String = {
-      lazy val substr = line.substring (position.beginning, position.end )
-      lazy val new_substr = Replacement (substr )
-        .replace (TranslationBetweenSquareBrackets ()  )
-        .line
-      if (substr == new_substr
-      ) line
-      else line.substring (0, position.beginning ) + new_substr + line.substring (position.end )
-    }
-
-    result
-  }
-
-  def find_square_brackets (line: String ): Seq [Excerpt] = {
-    lazy val result =
-      Rec ()
-        .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition )
-        .positions
-
-    lazy val initial_value = FoldTuple (Seq (), 0 )
-
-    def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      find_square_brackets (line, tuple.start ) .opt (ifEmpty = FoldTuple (tuple.positions, -1 ), ifNonEmpty = pair =>
-          FoldTuple (tuple.positions.+: (pair ), pair.end + SodaClosingBracket.length )
-      )
-
-    def condition (tuple: FoldTuple, x: Int ): Boolean =
-      (0 <= tuple.start && tuple.start <= line.length )
-
-    case class FoldTuple (positions: Seq [Excerpt], start: Int )
-
-    result
-  }
-
-  def find_square_brackets (line: String, start: Int ): OptionSD [Excerpt] =
-    SomeSD (true )
-      .filter (x => start >= 0 && start < line.length )
-      .flatMap (x => indexOf (line, SodaOpeningBracket, start )
-        .flatMap (left => indexOf (line, SodaClosingBracket, left + SodaOpeningBracket.length )
-          .map (right => Excerpt (left + SodaOpeningBracket.length, right ) )
-        )
-      )
 
   def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
 
