@@ -18,8 +18,22 @@ case class Translation () {
   lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "class", "has", "extends", "with", "this", "false", "true", "not", "and", "or", "package", "import", "new", "is", "suchthat", "*", "-", "+"
   )
 
-  /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */
-  lazy val ScalaReservedWords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "extends", "false", "final", "finally", "for", "forSome", "if", "implicit", "import", "lazy", "macro", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "this", "throw", "trait", "try", "true", "type", "val", "var", "while", "with", "yield", "_", ":", "=", "=>", "<-", "<:", "<%", ">:", "#", "@", "\u21D2", "\u2190"
+/**
+ * Scala 3 keywords:
+ *   https://dotty.epfl.ch/docs/internals/syntax.html
+ * Scala 2 keywords:
+ *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+ */
+  lazy val ScalaReservedWords =
+    Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
+
+  lazy val Scala3RegularKeywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ":>", "#", "@", "=>>", "?=>"
+  )
+
+  lazy val Scala3SoftKeywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"
+  )
+
+  lazy val Scala2ExtraKeywords = Seq ("forSome", "macro", "this", "_", "<%", ">:", "\u21D2", "\u2190"
   )
 
   lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")

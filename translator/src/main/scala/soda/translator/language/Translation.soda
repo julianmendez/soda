@@ -43,8 +43,16 @@ package soda.translator.language
     "+"
   )
 
-  /* https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html */
-  ScalaReservedWords = Seq(
+/**
+ * Scala 3 keywords:
+ *   https://dotty.epfl.ch/docs/internals/syntax.html
+ * Scala 2 keywords:
+ *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+ */
+  ScalaReservedWords =
+    Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
+
+  Scala3RegularKeywords = Seq(
     "abstract",
     "case",
     "catch",
@@ -52,17 +60,18 @@ package soda.translator.language
     "def",
     "do",
     "else",
+    "enum",
+    "export",
     "extends",
     "false",
     "final",
     "finally",
     "for",
-    "forSome",
+    "given",
     "if",
     "implicit",
     "import",
     "lazy",
-    "macro",
     "match",
     "new",
     "null",
@@ -74,27 +83,53 @@ package soda.translator.language
     "return",
     "sealed",
     "super",
-    "this",
+    "then",
     "throw",
     "trait",
-    "try",
     "true",
+    "try",
     "type",
     "val",
     "var",
     "while",
     "with",
     "yield",
-    "_",
     ":",
     "=",
-    "=>",
     "<-",
+    "=>",
     "<:",
-    "<%",
-    ">:",
+    ":>",
     "#",
     "@",
+    "=>>",
+    "?=>"
+  )
+
+  Scala3SoftKeywords = Seq(
+    "as",
+    "derives",
+    "end",
+    "extension",
+    "infix",
+    "inline",
+    "opaque",
+    "open",
+    "transparent",
+    "using",
+    "|",
+    "*",
+    "+",
+    "-"
+  )
+
+  Scala2ExtraKeywords = Seq(
+    "forSome",
+    "macro",
+    "this",
+    "_",
+    "<%",
+    ">:",
     "\u21D2",
     "\u2190"
   )
