@@ -2,15 +2,15 @@
 - - version: v0.8.0
   - date: unreleased
   - new_features:
-    - compiles with Scala 3.0.0-RC3
+    - compiles with Scala 3.0.0
     - makes `=` (definition symbol) used to define values, functions, and classes
     - expands Soda library in multiple files
     - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
     - lets Scala 3 reserved words be usable as variable, function, and class names
     - replaces `extends` to declare upper bounds of type parameters by `subof`
     - includes `superof` to declare lower bounds of type parameters
-  - build: sbt '++ 3.0.0-RC3' clean compile test package assembly
-  - release: target/scala-3.0.0-RC3/soda-0.8.0.jar
+  - build: sbt '++ 3.0.0' clean compile test package assembly
+  - release: target/scala-3.0.0/soda-0.8.0.jar
 - - version: v0.7.0
   - date: '2021-04-24'
   - new_features:
