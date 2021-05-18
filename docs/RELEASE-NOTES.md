@@ -2,7 +2,7 @@
 - - version: v0.8.0
   - date: unreleased
   - new_features:
-    - compiles with Scala 3.0.0 and Scala 2.13.6
+    - compiles with Scala 3.0.0 and is compatible with Scala 2.13.6, Scala 2.12.13, and Scala 2.11.12
     - makes `=` (definition symbol) used to define values, functions, and classes
     - expands Soda library in multiple files
     - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
