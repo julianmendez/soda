@@ -16,8 +16,6 @@ case class Main () {
   lazy val SodaExtension: String = ".soda"
   lazy val ScalaExtension: String = ".scala"
 
-  lazy val Soda_suffix = ".soda"
-
   lazy val Help: String = SimpleIO () .read_resource ("/soda/translator/documentation/help.txt")
 
   lazy val Title_and_version: String = {
@@ -32,34 +30,19 @@ case class Main () {
     else if (args.length == 2 ) translate (args (0 ), args (1 )  )
     else println (Title_and_version + "\n\n" + Help )
 
-  def process_directory (start: String ): Boolean = {
+  def process_directory (start: String ): Boolean =
+    DirectoryProcessor (start, process_soda_file ) .process ()
 
-    lazy val result = LibraryDeployer () .expand_library (lib_files ) &&
-      soda_files
-        .map (file => process_soda_file (file )  )
-        .forall (x => x )
-
-    lazy val all_files = DirectoryScanner () .get_all_files (new File (start )  )
-    lazy val soda_files = all_files
-        .filter (x => x.isFile )
-        .filter (x => x.getName.endsWith (Soda_suffix )  )
-    lazy val lib_files = all_files
-        .filter (x => x.isFile )
-        .filter (file => file.getName == LibraryDeployer () .Library_marker_file )
-
-    result
-  }
+  def get_input_output_file_names (input_name: String ): FileNamePair =
+    if (input_name.endsWith (SodaExtension )
+    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
+    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
 
   def process_soda_file (file: File ): Boolean = {
     lazy val file_name = file.getAbsolutePath
     lazy val t = get_input_output_file_names (file_name )
     translate (t.input_file_name, t.output_file_name )
   }
-
-  def get_input_output_file_names (input_name: String ): FileNamePair =
-    if (input_name.endsWith (SodaExtension )
-    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
-    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean = {
     lazy val input = SimpleIO () .read_file (input_file_name )

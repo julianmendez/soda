@@ -1,0 +1,27 @@
+package soda.translator.io
+
++ java.io.File
+
+* DirectoryProcessor(start: String, process_soda_file: File -> Boolean) = {
+
+  Soda_suffix = ".soda"
+
+  process(): Boolean =
+    LibraryDeployer().expand_library(lib_files) and
+      soda_files
+        .map(file -> process_soda_file(file))
+        .forall(x -> x)
+
+  all_files = DirectoryScanner().get_all_files(new File(start))
+
+  soda_files =
+    all_files
+      .filter(x -> x.isFile)
+      .filter(x -> x.getName.endsWith(Soda_suffix))
+
+  lib_files =
+    all_files
+      .filter(x -> x.isFile)
+      .filter(file -> file.getName == LibraryDeployer().Library_marker_file)
+
+}
