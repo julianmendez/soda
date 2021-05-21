@@ -9,19 +9,19 @@ package soda.lib
  */
 case class Rec () {
 
-  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
+  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C = {
 
-    lazy val result = rec (s, initial_value, next_value, cond )
+    lazy val result = rec (s, initial_value, next_value, condition )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C =
+    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
       if (seq.isEmpty
       ) acc
       else
-        if (! cond (acc, seq.head )
+        if (! condition (acc, seq.head )
         ) acc
-        else rec (seq.tail, next_value (acc, seq.head ), next_value, cond )
+        else rec (seq.tail, next_value (acc, seq.head ), next_value, condition )
 
     result
   }

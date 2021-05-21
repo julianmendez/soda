@@ -10,19 +10,19 @@ package soda.lib
 * Rec() = {
 
   foldLeftWhile[A, B, C subof B](s: Seq[A], initial_value: C,
-      next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
+      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
 
-    result = rec(s, initial_value, next_value, cond)
+    result = rec(s, initial_value, next_value, condition)
 
     @tailrec
     rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
-        cond: (B, A) -> Boolean): C =
+        condition: (B, A) -> Boolean): C =
       if seq.isEmpty
       then acc
       else
-        if not cond(acc, seq.head)
+        if not condition(acc, seq.head)
         then acc
-        else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
+        else rec(seq.tail, next_value(acc, seq.head), next_value, condition)
 
     result
   }
