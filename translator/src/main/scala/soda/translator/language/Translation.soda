@@ -208,9 +208,11 @@ package soda.translator.language
     (":\\s+", ": ")
   )
 
-  is_scala_word(word: String): Boolean = ScalaReservedWords.contains(word)
+  is_scala_word(word: String): Boolean =
+    ScalaReservedWords.contains(word)
 
-  is_soda_word(word: String): Boolean = SodaReservedWords.contains(word)
+  is_soda_word(word: String): Boolean =
+    SodaReservedWords.contains(word)
 
 }
 

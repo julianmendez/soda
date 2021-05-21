@@ -19,15 +19,12 @@ package soda.translator.io
     rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
       if to_scan.isEmpty
       then found
-      else {
-        next_file = to_scan.head
-        remaining = to_scan.tail
-        new_to_scan =
-          if next_file.isDirectory
-          then remaining.++(next_file.listFiles())
-          else remaining
-        rec(found.+:(next_file), new_to_scan)
-      }
+      else rec(found.+:(to_scan.head), new_to_scan(to_scan))
+
+    new_to_scan(to_scan: Seq[File]): Seq[File] =
+      if to_scan.head.isDirectory
+      then to_scan.tail.++(to_scan.head.listFiles())
+      else to_scan.tail
 
     result
   }

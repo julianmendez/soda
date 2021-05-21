@@ -63,12 +63,11 @@ package soda.translator.language
 * ScalaNonSoda() extends Translator = {
   keys = Translation().ScalaNonSodaKeys
 
-  translate (word: String) = {
+  translate (word: String) =
     if not Translation().SodaReservedWords.contains(word) and
       Translation().ScalaReservedWords.contains(word)
     then Translation().PrefixScalaNonSoda + word
     else word
-  }
 
 }
 

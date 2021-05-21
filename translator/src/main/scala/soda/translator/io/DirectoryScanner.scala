@@ -20,15 +20,12 @@ case class DirectoryScanner () {
     def rec (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
       if (to_scan.isEmpty
       ) found
-      else {
-        lazy val next_file = to_scan.head
-        lazy val remaining = to_scan.tail
-        lazy val new_to_scan =
-          if (next_file.isDirectory
-          ) remaining.++ (next_file.listFiles ()  )
-          else remaining
-        rec (found.+: (next_file ), new_to_scan )
-      }
+      else rec (found.+: (to_scan.head ), new_to_scan (to_scan )  )
+
+    def new_to_scan (to_scan: Seq [File]  ): Seq [File] =
+      if (to_scan.head.isDirectory
+      ) to_scan.tail.++ (to_scan.head.listFiles ()  )
+      else to_scan.tail
 
     result
   }

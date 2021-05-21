@@ -67,8 +67,10 @@ case class Translation () {
   lazy val Beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")
   )
 
-  def is_scala_word (word: String ): Boolean = ScalaReservedWords.contains (word )
+  def is_scala_word (word: String ): Boolean =
+    ScalaReservedWords.contains (word )
 
-  def is_soda_word (word: String ): Boolean = SodaReservedWords.contains (word )
+  def is_soda_word (word: String ): Boolean =
+    SodaReservedWords.contains (word )
 
 }
