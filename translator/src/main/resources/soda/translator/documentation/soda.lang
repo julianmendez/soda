@@ -125,7 +125,6 @@
         <context id="external" style-ref="external">
             <keyword>package</keyword>
             <keyword>import</keyword>
-            <keyword>new</keyword>
         </context>
 
         <context id="declaration" style-ref="keyword">

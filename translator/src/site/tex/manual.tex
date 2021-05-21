@@ -209,21 +209,23 @@ The reserved word \simport helps importing classes from other libraries and fram
   import java.util.Date
 \end{lstlisting}
 
+
+\section{Annotations}
+
+Annotations are not part of the language itself, but they are necessary to translate it into Scala.
+
 \subsubsection{\snew}
 
 Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
+This is only necessary when the code is translated into Scala 2.
+For translations to Scala 3, the \snew annotation can be omitted.
 For example,
 
 \begin{lstlisting}[label={lst:exampleImportDate}]
   import java.util.Date
 
-  now = new Date()
+  now = @new Date()
 \end{lstlisting}
-
-
-\section{Annotations}
-
-Annotations are not part of the language itself, but they are necessary to translate it into Scala.
 
 \subsubsection{\soverride}
 

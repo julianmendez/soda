@@ -16,19 +16,19 @@ package soda.translator.io
   New_line = "\n"
 
   read_file(file_name: String): String =
-    new String(Files.readAllBytes(Paths.get(file_name)))
+    @new String(Files.readAllBytes(Paths.get(file_name)))
 
   read_resource(file_name: String): String = {
     input_stream = getClass.getResourceAsStream(file_name)
-    reader = new BufferedReader(new InputStreamReader(input_stream))
+    reader = @new BufferedReader(@new InputStreamReader(input_stream))
     reader.lines().collect(Collectors.joining(New_line))
   }
 
   write_file(file_name: String, content: String): Boolean =
-    write_file(new File(file_name), content)
+    write_file(@new File(file_name), content)
 
   write_file(file: File, content: String): Boolean = {
-    writer = new FileWriter(file)
+    writer = @new FileWriter(file)
     writer.write(content)
     writer.flush()
     writer.close()
@@ -36,7 +36,7 @@ package soda.translator.io
   }
 
   create_file(parent_directory: String, file_name: String): File =
-    new File(parent_directory, file_name)
+    @new File(parent_directory, file_name)
 
 }
 

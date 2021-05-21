@@ -23,7 +23,7 @@ The reserved words are:
 - `with`
 - `this`
 - `subof`
-- `superof`  
+- `superof`
 - `false`
 - `true`
 - `not`
@@ -31,7 +31,6 @@ The reserved words are:
 - `or`
 - `package`
 - `import`
-- `new`
 
 
 ## Synonyms
@@ -62,6 +61,7 @@ Comments are marked with `/*` and `*/`.
 Scaladoc / Javadoc markers are `/**` and `*/`.
 
 Annotations:
+- `@new` to create JVM instances in translations to Scala 2
 - `@tailrec` to ensure a tail recursion
 - `@override` to override a JVM function
 - `@main` to indicate the entry point

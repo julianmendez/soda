@@ -15,7 +15,7 @@ case class Translation () {
   lazy val ScalaValue: String = "lazy val"
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "class", "has", "extends", "with", "this", "subof", "superof", "false", "true", "not", "and", "or", "package", "import", "new", "is", "suchthat", "*", "-", "+"
+  lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "class", "has", "extends", "with", "this", "subof", "superof", "false", "true", "not", "and", "or", "package", "import", "is", "suchthat", "*", "-", "+"
   )
 
 /**
@@ -53,7 +53,9 @@ case class Translation () {
   lazy val Synonym: Seq [(String, String )] = Seq (("is", "="), ("suchthat", "->")
   )
 
-  lazy val MainTranslation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subof", "<:"), ("superof", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"), ("new", "new")
+  lazy val MainTranslation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subof", "<:"), ("superof", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
+    /** Annotations */
+    ("@new", "new")
   )
 
   lazy val PrefixScalaNonSoda = "__soda__"

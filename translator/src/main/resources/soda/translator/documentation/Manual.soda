@@ -77,7 +77,7 @@ class Manual() = {
 
   b: Int = 2
 
-  now = new Date()
+  now = @new Date()
 
   plus_one (x: Int): Int = x + 1
 

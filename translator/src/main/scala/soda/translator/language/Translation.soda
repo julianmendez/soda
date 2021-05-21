@@ -37,7 +37,6 @@ package soda.translator.language
     "or",
     "package",
     "import",
-    "new",
     "is",
     "suchthat",
     "*",
@@ -184,7 +183,9 @@ package soda.translator.language
     ("not", "!"),
     ("and", "&&"),
     ("or", "||"),
-    ("new", "new")
+
+    /** Annotations */
+    ("@new", "new")
   )
 
   PrefixScalaNonSoda = "__soda__"

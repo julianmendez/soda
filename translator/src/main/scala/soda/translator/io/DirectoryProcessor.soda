@@ -12,7 +12,7 @@ package soda.translator.io
         .map(file -> process_soda_file(file))
         .forall(x -> x)
 
-  all_files = DirectoryScanner().get_all_files(new File(start))
+  all_files = DirectoryScanner().get_all_files(@new File(start))
 
   soda_files =
     all_files
@@ -25,3 +25,4 @@ package soda.translator.io
       .filter(file -> file.getName == LibraryDeployer().Library_marker_file)
 
 }
+

@@ -34,7 +34,6 @@ has
 if
 import
 is
-new
 package
 subof
 suchthat
@@ -69,6 +68,7 @@ true
 
 4
 @main
+@new
 @override
 @tailrec
 

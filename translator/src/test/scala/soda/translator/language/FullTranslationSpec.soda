@@ -40,7 +40,7 @@ package soda.translator.language
     document_resource = getClass.getResource(file_name)
     document_URI = document_resource.toURI
     document_path = Paths.get(document_URI)
-    new String(Files.readAllBytes(document_path))
+    @new String(Files.readAllBytes(document_path))
   }
 
   test("should translate the swap example") {

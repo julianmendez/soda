@@ -129,9 +129,10 @@ We do not need to define how things are done, as long as they are done correctly
 Because of that, \Soda is a JVM language and can be compiled into Java byte code.
 
 For now, the translator converts \Soda code into Scala code, which in turn can be compiled to byte code.
-For the sake of compatibility with the JVM, \Soda has an \soverride annotation and a \snew command.
+For the sake of compatibility with the JVM, \Soda has an \soverride and a \snew annotations.
 The \soverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
-The \snew command is to be able to create JVM objects.
+The \snew annotation is to be able to create JVM objects, but it is a technical compromise to be able to translate to Scala 2.
+In the translation to Scala 3 this annotation can be omitted.
 
 \Soda uses the main types provided by Scala.
 For example, numeric types like \srccode{Int}, \srccode{Float}, and immutable collections like \srccode{Seq}, \srccode{List}, \srccode{Array}, and \srccode{Map}.

@@ -4,6 +4,7 @@
   - new_features:
     - compiles with Scala 3.0.0 and is compatible with Scala 2.13.6, Scala 2.12.13, and Scala 2.11.12
     - makes `=` (definition symbol) used to define values, functions, and classes
+    - replaces `new` command by `@new` annotation, which is only required to translations to Scala 2
     - expands Soda library in multiple files
     - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
     - lets Scala 3 reserved words be usable as variable, function, and class names
