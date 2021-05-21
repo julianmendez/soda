@@ -11,17 +11,17 @@ case class Rec () {
 
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C = {
 
-    lazy val result = rec (s, initial_value, next_value, condition )
+    lazy val result = rec (s, initial_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+    def rec (seq: Seq [A], acc: C ): C =
       if (seq.isEmpty
       ) acc
       else
         if (! condition (acc, seq.head )
         ) acc
-        else rec (seq.tail, next_value (acc, seq.head ), next_value, condition )
+        else rec (seq.tail, next_value (acc, seq.head )  )
 
     result
   }
@@ -29,14 +29,14 @@ case class Rec () {
 
   def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C = {
 
-    lazy val result = rec (seq, initial_value, next_value )
+    lazy val result = rec (seq, initial_value )
 
     import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C ): C =
+    def rec (seq: Seq [A], acc: C ): C =
       if (seq.isEmpty
       ) acc
-      else rec (seq.tail, next_value (acc, seq.head ), next_value )
+      else rec (seq.tail, next_value (acc, seq.head )  )
 
     result
   }
