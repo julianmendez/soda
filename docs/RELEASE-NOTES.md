@@ -3,13 +3,14 @@
   - date: unreleased
   - new_features:
     - compiles with Scala 3.0.0 and is compatible with Scala 2.13.6, Scala 2.12.13, and Scala 2.11.12
+    - lets Scala 3 reserved words be usable as variable, function, and class names
     - makes `=` (definition symbol) used to define values, functions, and classes
     - replaces `new` command by `@new` annotation, which is only required to translations to Scala 2
     - expands Soda library in multiple files
     - accepts `(` (opening parenthesis) at the end of a line to join lines, like `,` (comma) does
-    - lets Scala 3 reserved words be usable as variable, function, and class names
     - replaces `extends` to declare upper bounds of type parameters by `subof`
     - includes `superof` to declare lower bounds of type parameters
+    - replaces all `package.scala` files by `Package` abstract classes to document the package
   - build: sbt '++ 3.0.0' clean compile test package assembly
   - release: target/scala-3.0.0/soda-0.8.0.jar
 - - version: v0.7.0
