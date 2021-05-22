@@ -37,8 +37,13 @@ package soda.translator.language
   split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
 
-  join_lines_ending_with_comma_or_opening_parenthesis(lines: Seq[String]): Seq[String] = {
-    result = processed_lines.reverse
+  join_lines_ending_with_comma_or_opening_parenthesis(lines: Seq[String]): Seq[String] =
+    LineJoiner(lines).get_joined_lines
+
+  * LineJoiner(lines: Seq[String]) = {
+
+    get_joined_lines =
+      processed_lines.reverse
 
     processed_lines = {
       pairs = Rec().foldLeft(lines, initial_value, next_value)
@@ -61,8 +66,6 @@ package soda.translator.language
 
     rev_list_as_element(in_process_rev: Seq[String], line: String): String =
       in_process_rev.reverse.mkString("") + line
-
-    result
   }
 
   join_translated_lines (lines: Seq[String]): String =

@@ -37,8 +37,13 @@ case class MicroTranslator () {
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
 
-  def join_lines_ending_with_comma_or_opening_parenthesis (lines: Seq [String]  ): Seq [String] = {
-    lazy val result = processed_lines.reverse
+  def join_lines_ending_with_comma_or_opening_parenthesis (lines: Seq [String]  ): Seq [String] =
+    LineJoiner (lines ) .get_joined_lines
+
+  case class LineJoiner (lines: Seq [String]  ) {
+
+    lazy val get_joined_lines =
+      processed_lines.reverse
 
     lazy val processed_lines = {
       lazy val pairs = Rec () .foldLeft (lines, initial_value, next_value )
@@ -61,8 +66,6 @@ case class MicroTranslator () {
 
     def rev_list_as_element (in_process_rev: Seq [String], line: String ): String =
       in_process_rev.reverse.mkString ("") + line
-
-    result
   }
 
   def join_translated_lines (lines: Seq [String]  ): String =
