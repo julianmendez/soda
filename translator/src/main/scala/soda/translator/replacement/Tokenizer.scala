@@ -35,16 +35,18 @@ case class Tokenizer (line: String ) {
 
     if (ParserStateEnum () .is_same_class (new_parser_state, tuple.parser_state )
     ) FoldTuple (tuple.last_index, new_parser_state, tuple.rev_tokens )
-    else {
-      lazy val index =
-        if (tuple.parser_state == ParserStateEnum () .QuotesState ||
-           tuple.parser_state == ParserStateEnum () .ApostropheState
-        ) current_index + 1
-        else current_index
+    else _next_value_of_different_class (tuple, current_index, new_parser_state )
+  }
 
-      lazy val text = line.substring (tuple.last_index, index )
-      FoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  )
-    }
+  def _next_value_of_different_class (tuple: FoldTuple, current_index: Int, new_parser_state: ParserState ): FoldTuple = {
+    lazy val index =
+      if (tuple.parser_state == ParserStateEnum () .QuotesState ||
+         tuple.parser_state == ParserStateEnum () .ApostropheState
+      ) current_index + 1
+      else current_index
+
+    lazy val text = line.substring (tuple.last_index, index )
+    FoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  )
   }
 
 }
