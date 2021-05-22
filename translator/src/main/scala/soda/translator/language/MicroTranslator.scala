@@ -93,15 +93,16 @@ case class MicroTranslator () {
     tokens.map (token =>
         if (token.parser_state == ParserStateEnum () .Plain
         ) {
+          lazy val tr = Tr ()
           lazy val newText = Replacement (token.text )
             .add_spaces_to_symbols (symbols = Translation () .SodaBracketsAndComma.toSet )
-            .replace (ScalaNonSoda ()  )
-            .replace_at_beginning (token.index, SynonymAtBeginning ()  )
-            .replace (Synonym ()  )
+            .replace (tr.ScalaNonSoda ()  )
+            .replace_at_beginning (token.index, tr.SynonymAtBeginning ()  )
+            .replace (tr.Synonym ()  )
             .replace_with (try_definition )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
-            .replace (MainTranslation ()  )
-            .replace_regex (Beautifier ()  )
+            .replace (tr.MainTranslation ()  )
+            .replace_regex (tr.Beautifier ()  )
             .line
           Token (newText, token.parser_state, token.index )
         }
@@ -110,8 +111,8 @@ case class MicroTranslator () {
 
   def get_translation_table_at_beginning (line: String ): Translator =
     if (line.contains (SodaOpeningParenthesis )
-    ) TranslationAtBeginningWithParen ()
-    else TranslationAtBeginningWithoutParen ()
+    ) Tr () .TranslationAtBeginningWithParen ()
+    else Tr () .TranslationAtBeginningWithoutParen ()
 
   /**
    * A line containing the definition sign will be classified as a definition.

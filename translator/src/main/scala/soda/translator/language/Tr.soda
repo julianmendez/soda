@@ -1,0 +1,79 @@
+package soda.translator.language
+
+
+/**
+ * This class contains the specific implementations of Translator.
+ */
+* Tr() = {
+  + soda.translator.replacement.Translator
+
+  * SynonymAtBeginning () extends Translator = {
+    _table = Translation().SynonymAtBeginning
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+  }
+
+  * TranslationAtBeginningWithParen() extends Translator = {
+    _table = Translation().TranslationAtBeginningWithParen
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+  }
+
+  * TranslationAtBeginningWithoutParen() extends Translator = {
+    _table = Translation().TranslationAtBeginningWithoutParen
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+  }
+
+  * TranslationBetweenSquareBrackets() extends Translator = {
+    _table = Translation().TranslationBetweenSquareBrackets
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+  }
+
+  * Synonym() extends Translator = {
+    _table = Translation().Synonym
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+  }
+
+
+  * MainTranslation() extends Translator = {
+    _table = Translation().MainTranslation
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+
+  }
+
+  * ScalaNonSoda() extends Translator = {
+    keys = Translation().ScalaNonSodaKeys
+
+    translate (word: String) =
+      if not Translation().SodaReservedWords.contains(word) and
+        Translation().ScalaReservedWords.contains(word)
+      then Translation().PrefixScalaNonSoda + word
+      else word
+  }
+
+  * Beautifier() extends Translator = {
+    _table = Translation().Beautifier
+
+    keys = _keys(_table)
+
+    translate (word: String) = _get(_table, word)
+
+  }
+}
+
