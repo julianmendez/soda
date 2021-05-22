@@ -28,24 +28,26 @@ package soda.translator.replacement
     initial_value: String = line
 
     next_value(line: String, reserved_word: String): String =
-      replace_if_found(line,
+      _replace_if_found(line,
         SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
-
-    replace_if_found(line: String, pattern: String, new_text: String): String =
-      if line.trim.startsWith(pattern.trim)
-      then replace_all(line, pattern, new_text)
-      else line
 
     result
   }
 
+  _replace_if_found(line: String, pattern: String, new_text: String): String =
+    if line.trim.startsWith(pattern.trim)
+    then replace_all(line, pattern, new_text)
+    else line
+
   replace_all(pattern: String, replacement: String): Replacement =
     Replacement(replace_all(line, pattern, replacement))
 
-  replace_all(line: String, pattern: String, replacement: String): String = {
-    result = postproc(
-      Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition )
-    )
+  replace_all(line: String, pattern: String, replacement: String): String =
+    Replacer(line, pattern, replacement).replace
+
+  * Replacer(line: String, pattern: String, replacement: String) = {
+    replace =
+      postproc( Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition ) )
 
     initial_value = FoldTuple( Seq(), 0 )
 
@@ -71,8 +73,6 @@ package soda.translator.replacement
       tuple.replaced_text_rev.reverse.mkString("")
 
     * FoldTuple(replaced_text_rev: Seq[String], start_index: Int)
-
-    result
   }
 
   replace(translator: Translator): Replacement =
