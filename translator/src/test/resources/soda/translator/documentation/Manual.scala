@@ -1,8 +1,5 @@
 package soda.translator.documentation
 
-import java.util.Date
-
-
 trait Shape
 
 trait Movable
@@ -72,6 +69,7 @@ case class PersonName (name: String ) {
   * This contains the examples shown in the manual.
   */
 case class Manual () {
+  import java.util.Date
 
   lazy val a = 1
 

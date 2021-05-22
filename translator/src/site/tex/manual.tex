@@ -204,6 +204,13 @@ All classes then belong to that package.
 \subsubsection{\simport}
 
 The reserved word \simport helps importing classes from other libraries and frameworks.
+It is recommended to put the \simport inside the class that is using it.
+This differs from common practice in Java, where all the import statements are at the beginning of the file, outside the class.
+It is important to notice that the imports can always be moved outwards, i.e. from inside the class to outside.
+Including the imports in the class and not in more general place helps removing a class with its own imports.
+If these imports are in general place, e.g. visible from the whole package, it becomes harder to maintain when classes are added or removed.
+To have a view of the imports needed by a package, it would be necessary to use a tool, like an IDE.
+
 
 \begin{lstlisting}[label={lst:exampleImport}]
   import java.util.Date

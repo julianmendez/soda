@@ -1,8 +1,5 @@
 package soda.translator.documentation
 
-import java.util.Date
-
-
 class Shape
 
 class Movable
@@ -72,6 +69,7 @@ class PersonName (name: String) = {
   * This contains the examples shown in the manual.
   */
 class Manual() = {
+  import java.util.Date
 
   a = 1
 
