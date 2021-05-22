@@ -1,17 +1,17 @@
 package soda.translator.io
 
-+ java.io.BufferedReader
-+ java.io.File
-+ java.io.FileWriter
-+ java.io.InputStreamReader
-+ java.nio.file.Files
-+ java.nio.file.Paths
-+ java.util.stream.Collectors
 
 /**
  * This is an auxiliary class to read and write small files.
  */
 * SimpleIO() = {
+  + java.io.BufferedReader
+  + java.io.File
+  + java.io.FileWriter
+  + java.io.InputStreamReader
+  + java.nio.file.Files
+  + java.nio.file.Paths
+  + java.util.stream.Collectors
 
   New_line = "\n"
 

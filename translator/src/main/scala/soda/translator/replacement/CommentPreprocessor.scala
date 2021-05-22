@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-import soda.lib.Rec
 
 case class AnnotatedLine (line: String, isComment: Boolean )
 
@@ -8,6 +7,7 @@ case class AnnotatedLine (line: String, isComment: Boolean )
  * This preprocessor annotates lines to determine whether they are comments.
  */
 case class CommentPreprocessor () {
+  import soda.lib.Rec
 
   lazy val SodaBeginComment = "/*"
   lazy val SodaEndComment = "*/"

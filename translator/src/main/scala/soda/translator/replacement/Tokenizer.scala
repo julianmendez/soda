@@ -1,7 +1,5 @@
 package soda.translator.replacement
 
-import soda.lib.Rec
-
 
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
@@ -17,6 +15,7 @@ case class Token (text: String, parser_state: ParserState, index: Int ) {
  * This class processes a line to divide it into tokens.
  */
 case class Tokenizer () {
+  import soda.lib.Rec
 
   def tokenize (line: String ): Seq [Token] = {
     lazy val result = postproc (Rec () .foldLeft (Rec () .range (line.length ), initial_value, next_value )  )

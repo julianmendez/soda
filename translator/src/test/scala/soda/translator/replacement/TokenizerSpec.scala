@@ -1,9 +1,7 @@
 package soda.translator.replacement
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class TokenizerSpec () extends AnyFunSuite {
+case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a small example") {
     lazy val input = "    val Constant = \"my text\""

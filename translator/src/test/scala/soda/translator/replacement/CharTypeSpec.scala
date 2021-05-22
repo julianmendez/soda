@@ -1,9 +1,7 @@
 package soda.translator.replacement
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class CharTypeSpec () extends AnyFunSuite {
+case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
 
    test ("should recognize quotation marks") {

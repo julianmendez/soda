@@ -1,12 +1,9 @@
 package soda.translator.replacement
 
-import soda.lib.EnumConstant
-
-
 /**
  * This is to classify characters.
  */
-case class CharType (ordinal: Int, name: String ) extends EnumConstant
+case class CharType (ordinal: Int, name: String ) extends soda.lib.EnumConstant
 
 /**
  * This is an enumeration for all types of characters.

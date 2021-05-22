@@ -1,8 +1,8 @@
 package soda.translator.language
 
-+ soda.translator.replacement.Translator
 
-* SynonymAtBeginning () extends Translator = {
+* SynonymAtBeginning () extends soda.translator.replacement.Translator = {
+
   _table = Translation().SynonymAtBeginning
 
   keys = _keys(_table)
@@ -11,7 +11,7 @@ package soda.translator.language
 
 }
 
-* TranslationAtBeginningWithParen() extends Translator = {
+* TranslationAtBeginningWithParen() extends soda.translator.replacement.Translator = {
   _table = Translation().TranslationAtBeginningWithParen
 
   keys = _keys(_table)
@@ -20,7 +20,7 @@ package soda.translator.language
 
 }
 
-* TranslationAtBeginningWithoutParen() extends Translator = {
+* TranslationAtBeginningWithoutParen() extends soda.translator.replacement.Translator = {
   _table = Translation().TranslationAtBeginningWithoutParen
 
   keys = _keys(_table)
@@ -30,7 +30,7 @@ package soda.translator.language
 }
 
 
-* TranslationBetweenSquareBrackets() extends Translator = {
+* TranslationBetweenSquareBrackets() extends soda.translator.replacement.Translator = {
  _table = Translation().TranslationBetweenSquareBrackets
 
   keys = _keys(_table)
@@ -40,7 +40,7 @@ package soda.translator.language
 }
 
 
-* Synonym() extends Translator = {
+* Synonym() extends soda.translator.replacement.Translator = {
   _table = Translation().Synonym
 
   keys = _keys(_table)
@@ -50,7 +50,7 @@ package soda.translator.language
 }
 
 
-* MainTranslation() extends Translator = {
+* MainTranslation() extends soda.translator.replacement.Translator = {
   _table = Translation().MainTranslation
 
   keys = _keys(_table)
@@ -60,7 +60,7 @@ package soda.translator.language
 }
 
 
-* ScalaNonSoda() extends Translator = {
+* ScalaNonSoda() extends soda.translator.replacement.Translator = {
   keys = Translation().ScalaNonSodaKeys
 
   translate (word: String) =
@@ -71,7 +71,7 @@ package soda.translator.language
 
 }
 
-* Beautifier() extends Translator = {
+* Beautifier() extends soda.translator.replacement.Translator = {
   _table = Translation().Beautifier
 
   keys = _keys(_table)

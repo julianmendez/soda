@@ -1,8 +1,8 @@
 package soda.translator.io
 
-import java.io.File
 
-case class DirectoryProcessor (start: String, process_soda_file: File => Boolean ) {
+case class DirectoryProcessor (start: String, process_soda_file: java.io.File => Boolean ) {
+  import java.io.File
 
   lazy val Soda_suffix = ".soda"
 

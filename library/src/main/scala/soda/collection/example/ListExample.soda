@@ -1,5 +1,6 @@
 package soda.collection.example
 
+
 * Pair[T](name: String, result: T)
 
 * ListExample() {

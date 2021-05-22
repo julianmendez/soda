@@ -1,8 +1,5 @@
 package soda.collection
 
-+ soda.lib.OptionSD
-+ soda.lib.SomeSD
-+ soda.lib.NoneSD
 
 * MSeqTranslator[T]() = {
 
@@ -46,6 +43,9 @@ package soda.collection
 * MSeqPair[T](left: MSeq[T], right: MSeq[T])
 
 * Min[T]() = {
+  + soda.lib.OptionSD
+  + soda.lib.SomeSD
+  + soda.lib.NoneSD
 
   empty: ESeq[T] = ESeq()
 

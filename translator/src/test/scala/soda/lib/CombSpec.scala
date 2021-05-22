@@ -1,9 +1,7 @@
 package soda.lib
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class CombSpec () extends AnyFunSuite {
+case class CombSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Cartesian product of two sequences") {
     lazy val expected = Seq (Seq (10, 100 ), Seq (10, 200 ), Seq (10, 300 ), Seq (20, 100 ), Seq (20, 200 ), Seq (20, 300 )

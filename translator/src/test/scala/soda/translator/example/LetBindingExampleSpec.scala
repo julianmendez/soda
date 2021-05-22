@@ -1,9 +1,7 @@
 package soda.translator.example
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class LetBindingSpec () extends AnyFunSuite {
+case class LetBindingSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should evaluate an expression like 'where'") {
     lazy val obtained = LetBindingExample () .three_parts_like_where

@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-+ soda.lib.Rec
 
 * AnnotatedLine(line: String, isComment: Boolean)
 
@@ -8,6 +7,7 @@ package soda.translator.replacement
  * This preprocessor annotates lines to determine whether they are comments.
  */
 * CommentPreprocessor() = {
+  + soda.lib.Rec
 
   SodaBeginComment = "/*"
   SodaEndComment = "*/"

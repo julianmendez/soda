@@ -1,13 +1,11 @@
 package soda.collection
 
-import soda.lib.OptionSD
-import soda.lib.NoneSD
-import soda.lib.SomeSD
-import soda.lib.Rec
 
-import org.scalatest.funsuite.AnyFunSuite
-
-case class MinSpec () extends AnyFunSuite {
+case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import soda.lib.OptionSD
+  import soda.lib.NoneSD
+  import soda.lib.SomeSD
+  import soda.lib.Rec
 
   lazy val empty: ESeq [Int] = ESeq [Int]  ()
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )

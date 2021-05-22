@@ -1,14 +1,13 @@
 package soda.translator.io
 
-+ soda.translator.language.MicroTranslator
-
-+ java.io.File
 
 @main
 /**
  * This is the main entry point.
  */
 * Main() = {
+  + java.io.File
+  + soda.translator.language.MicroTranslator
 
   SodaExtension: String = ".soda"
   ScalaExtension: String = ".scala"

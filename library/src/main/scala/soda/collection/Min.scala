@@ -1,8 +1,5 @@
 package soda.collection
 
-import soda.lib.OptionSD
-import soda.lib.SomeSD
-import soda.lib.NoneSD
 
 case class MSeqTranslator [T]  () {
 
@@ -45,6 +42,9 @@ case class MSeqTranslator [T]  () {
 case class MSeqPair [T]  (left: MSeq [T], right: MSeq [T]  )
 
 case class Min [T]  () {
+  import soda.lib.OptionSD
+  import soda.lib.SomeSD
+  import soda.lib.NoneSD
 
   lazy val empty: ESeq [T] = ESeq ()
 

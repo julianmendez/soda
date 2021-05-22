@@ -1,8 +1,5 @@
 package soda.translator.io
 
-import soda.translator.language.MicroTranslator
-
-import java.io.File
 
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
@@ -12,6 +9,8 @@ object EntryPoint {
  * This is the main entry point.
  */
 case class Main () {
+  import java.io.File
+  import soda.translator.language.MicroTranslator
 
   lazy val SodaExtension: String = ".soda"
   lazy val ScalaExtension: String = ".scala"

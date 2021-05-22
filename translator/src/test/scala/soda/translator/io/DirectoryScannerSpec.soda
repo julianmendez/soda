@@ -1,10 +1,8 @@
 package soda.translator.io
 
-+ org.scalatest.funsuite.AnyFunSuite
 
-+ java.io.File
-
-* DirectoryScannerSpec() extends AnyFunSuite = {
+* DirectoryScannerSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+  + java.io.File
 
   start = "translator/src/test/resources/soda/example"
 

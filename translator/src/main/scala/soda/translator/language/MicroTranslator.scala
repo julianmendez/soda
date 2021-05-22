@@ -1,22 +1,21 @@
 package soda.translator.language
 
-import soda.lib.Rec
-import soda.lib.OptionSD
-import soda.lib.NoneSD
-import soda.lib.SomeSD
-import soda.lib.OptionSDBuilder
-import soda.translator.replacement.CommentPreprocessor
-import soda.translator.replacement.ParserStateEnum
-import soda.translator.replacement.Replacement
-import soda.translator.replacement.Token
-import soda.translator.replacement.Tokenizer
-import soda.translator.replacement.Translator
-
 
 /**
  * This class translates Soda source code into Scala source code.
  */
 case class MicroTranslator () {
+  import soda.lib.Rec
+  import soda.lib.OptionSD
+  import soda.lib.NoneSD
+  import soda.lib.SomeSD
+  import soda.lib.OptionSDBuilder
+  import soda.translator.replacement.CommentPreprocessor
+  import soda.translator.replacement.ParserStateEnum
+  import soda.translator.replacement.Replacement
+  import soda.translator.replacement.Token
+  import soda.translator.replacement.Tokenizer
+  import soda.translator.replacement.Translator
 
   lazy val NewLine = "\n"
   lazy val Comma = ","

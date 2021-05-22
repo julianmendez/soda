@@ -1,11 +1,10 @@
 package soda.lib
 
-import scala.util.Try
-import scala.util.Success
-import scala.util.Failure
-import org.scalatest.funsuite.AnyFunSuite
 
-case class OptionSDSpec () extends AnyFunSuite {
+case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import scala.util.Try
+  import scala.util.Success
+  import scala.util.Failure
 
   test ("should test an empty option") {
     lazy val empty = NoneSD ()

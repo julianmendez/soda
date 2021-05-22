@@ -1,5 +1,6 @@
 package soda.collection.example
 
+
 case class Pair [T]  (name: String, result: T )
 
 case class ListExample () {

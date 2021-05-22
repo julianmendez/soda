@@ -1,9 +1,7 @@
 package soda.translator.language
 
-import org.scalatest.Assertion
-import org.scalatest.funsuite.AnyFunSuite
 
-case class MicroTranslatorSpec () extends AnyFunSuite {
+case class MicroTranslatorSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should join lines ending in comma") {
     lazy val input = Seq ("this ", "should join,", "all the lines , ", "  that end with", "comma.")

@@ -1,11 +1,10 @@
 package soda.translator.replacement
 
-import soda.lib.EnumConstant
 
 /**
  * This models all the possible states that the parser can be.
  */
-case class ParserState (ordinal: Int, name: String ) extends EnumConstant
+case class ParserState (ordinal: Int, name: String ) extends soda.lib.EnumConstant
 
 /**
  * This is an enumeration of all the parser states.

@@ -1,7 +1,5 @@
 package soda.translator.language
 
-import org.scalatest.funsuite.AnyFunSuite
-
 
 case class ExampleWithWrongOrder () {
 
@@ -40,7 +38,7 @@ case class AnotherExampleWithEmptyParentheses () {
  * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
-case class LazySyntaxSpec () extends AnyFunSuite {
+case class LazySyntaxSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should show what happens when constants are defined in the wrong order") {
     lazy val obtained = ExampleWithWrongOrder () .this_is_null_but

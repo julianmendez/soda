@@ -1,8 +1,8 @@
 package soda.translator.language
 
-import soda.translator.replacement.Translator
 
-case class SynonymAtBeginning () extends Translator {
+case class SynonymAtBeginning () extends soda.translator.replacement.Translator {
+
   lazy val _table = Translation () .SynonymAtBeginning
 
   lazy val keys = _keys (_table )
@@ -11,7 +11,7 @@ case class SynonymAtBeginning () extends Translator {
 
 }
 
-case class TranslationAtBeginningWithParen () extends Translator {
+case class TranslationAtBeginningWithParen () extends soda.translator.replacement.Translator {
   lazy val _table = Translation () .TranslationAtBeginningWithParen
 
   lazy val keys = _keys (_table )
@@ -20,7 +20,7 @@ case class TranslationAtBeginningWithParen () extends Translator {
 
 }
 
-case class TranslationAtBeginningWithoutParen () extends Translator {
+case class TranslationAtBeginningWithoutParen () extends soda.translator.replacement.Translator {
   lazy val _table = Translation () .TranslationAtBeginningWithoutParen
 
   lazy val keys = _keys (_table )
@@ -30,7 +30,7 @@ case class TranslationAtBeginningWithoutParen () extends Translator {
 }
 
 
-case class TranslationBetweenSquareBrackets () extends Translator {
+case class TranslationBetweenSquareBrackets () extends soda.translator.replacement.Translator {
  lazy val _table = Translation () .TranslationBetweenSquareBrackets
 
   lazy val keys = _keys (_table )
@@ -40,7 +40,7 @@ case class TranslationBetweenSquareBrackets () extends Translator {
 }
 
 
-case class Synonym () extends Translator {
+case class Synonym () extends soda.translator.replacement.Translator {
   lazy val _table = Translation () .Synonym
 
   lazy val keys = _keys (_table )
@@ -50,7 +50,7 @@ case class Synonym () extends Translator {
 }
 
 
-case class MainTranslation () extends Translator {
+case class MainTranslation () extends soda.translator.replacement.Translator {
   lazy val _table = Translation () .MainTranslation
 
   lazy val keys = _keys (_table )
@@ -60,7 +60,7 @@ case class MainTranslation () extends Translator {
 }
 
 
-case class ScalaNonSoda () extends Translator {
+case class ScalaNonSoda () extends soda.translator.replacement.Translator {
   lazy val keys = Translation () .ScalaNonSodaKeys
 
   def translate (word: String ) =
@@ -71,7 +71,7 @@ case class ScalaNonSoda () extends Translator {
 
 }
 
-case class Beautifier () extends Translator {
+case class Beautifier () extends soda.translator.replacement.Translator {
   lazy val _table = Translation () .Beautifier
 
   lazy val keys = _keys (_table )

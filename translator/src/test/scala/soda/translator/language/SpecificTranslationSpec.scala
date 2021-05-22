@@ -1,9 +1,7 @@
 package soda.translator.language
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class SpecificTranslationSpec () extends AnyFunSuite {
+case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
 
   test ("should translate a small snippet") {

@@ -1,8 +1,8 @@
 package soda.translator.io
 
-+ java.io.File
 
-* DirectoryProcessor(start: String, process_soda_file: File -> Boolean) = {
+* DirectoryProcessor(start: String, process_soda_file: java.io.File -> Boolean) = {
+  + java.io.File
 
   Soda_suffix = ".soda"
 

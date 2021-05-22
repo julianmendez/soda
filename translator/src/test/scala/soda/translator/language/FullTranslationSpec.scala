@@ -1,11 +1,9 @@
 package soda.translator.language
 
-import org.scalatest.Assertion
-import org.scalatest.funsuite.AnyFunSuite
 
-import java.nio.file.{ Files, Paths }
-
-case class FullTranslationSpec () extends AnyFunSuite {
+case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import org.scalatest.Assertion
+  import java.nio.file.{ Files, Paths }
 
   lazy val Base = "/soda/translator/example/"
 

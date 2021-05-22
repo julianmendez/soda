@@ -1,11 +1,9 @@
 package soda.translator.language
 
-+ org.scalatest.Assertion
-+ org.scalatest.funsuite.AnyFunSuite
 
-+ java.nio.file.{Files, Paths}
-
-* FullTranslationSpec() extends AnyFunSuite = {
+* FullTranslationSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+  + org.scalatest.Assertion
+  + java.nio.file.{Files, Paths}
 
   Base = "/soda/translator/example/"
 

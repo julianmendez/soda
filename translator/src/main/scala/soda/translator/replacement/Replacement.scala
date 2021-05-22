@@ -1,12 +1,12 @@
 package soda.translator.replacement
 
-import soda.lib.Rec
 
 /**
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
 case class Replacement (line: String ) {
+  import soda.lib.Rec
 
   lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "

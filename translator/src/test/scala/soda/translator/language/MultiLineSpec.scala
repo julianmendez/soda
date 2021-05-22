@@ -1,9 +1,7 @@
 package soda.translator.language
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class MultiLineSpec () extends AnyFunSuite {
+case class MultiLineSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val mt = MicroTranslator ()
 

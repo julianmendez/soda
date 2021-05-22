@@ -1,7 +1,5 @@
 package soda.lib
 
-+ org.scalatest.funsuite.AnyFunSuite
-
 
 * DayOfTheWeek (ordinal: Int, name: String) extends EnumConstant
 
@@ -19,7 +17,7 @@ package soda.lib
 
 }
 
-* EnumSpec() extends AnyFunSuite = {
+* EnumSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("the names of the elements in enumerations") {
     expected = Seq("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")

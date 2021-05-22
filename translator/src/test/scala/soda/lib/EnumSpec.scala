@@ -1,7 +1,5 @@
 package soda.lib
 
-import org.scalatest.funsuite.AnyFunSuite
-
 
 case class DayOfTheWeek (ordinal: Int, name: String ) extends EnumConstant
 
@@ -19,7 +17,7 @@ case class DayOfTheWeekEnum () {
 
 }
 
-case class EnumSpec () extends AnyFunSuite {
+case class EnumSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("the names of the elements in enumerations") {
     lazy val expected = Seq ("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")

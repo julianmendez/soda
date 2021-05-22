@@ -1,9 +1,7 @@
 package soda.translator.language
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class UpperAndLowerBoundDeclarationSpec () extends AnyFunSuite {
+case class UpperAndLowerBoundDeclarationSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should translate a single upper bound") {
     lazy val original = "  * BlackBox() extends AbstractBlackBox[A subof AbstractInput]\n"

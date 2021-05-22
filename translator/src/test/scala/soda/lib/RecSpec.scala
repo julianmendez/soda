@@ -1,9 +1,7 @@
 package soda.lib
 
-import org.scalatest.funsuite.AnyFunSuite
 
-
-case class RecSpec () extends AnyFunSuite {
+case class RecSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
 

@@ -1,9 +1,8 @@
 package soda.translator.io
 
-import java.io.File
-
 
 case class LibraryDeployer () {
+  import java.io.File
 
   lazy val Library_marker_file = "lib.soda"
   lazy val Library_directory_in_jar = "/lib/soda/lib/"

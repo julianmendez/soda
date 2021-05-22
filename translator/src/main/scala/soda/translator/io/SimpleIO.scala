@@ -1,17 +1,17 @@
 package soda.translator.io
 
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileWriter
-import java.io.InputStreamReader
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.stream.Collectors
 
 /**
  * This is an auxiliary class to read and write small files.
  */
 case class SimpleIO () {
+  import java.io.BufferedReader
+  import java.io.File
+  import java.io.FileWriter
+  import java.io.InputStreamReader
+  import java.nio.file.Files
+  import java.nio.file.Paths
+  import java.util.stream.Collectors
 
   lazy val New_line = "\n"
 

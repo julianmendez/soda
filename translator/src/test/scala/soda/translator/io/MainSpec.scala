@@ -1,10 +1,8 @@
 package soda.translator.io
 
-import org.scalatest.funsuite.AnyFunSuite
 
-import java.io.File
-
-case class MainSpec () extends AnyFunSuite {
+case class MainSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import java.io.File
 
   test ("should get the input and output file names without path") {
     lazy val instance = Main ()

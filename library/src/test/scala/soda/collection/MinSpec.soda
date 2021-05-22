@@ -1,13 +1,11 @@
 package soda.collection
 
-+ soda.lib.OptionSD
-+ soda.lib.NoneSD
-+ soda.lib.SomeSD
-+ soda.lib.Rec
 
-+ org.scalatest.funsuite.AnyFunSuite
-
-* MinSpec() extends AnyFunSuite = {
+* MinSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+  + soda.lib.OptionSD
+  + soda.lib.NoneSD
+  + soda.lib.SomeSD
+  + soda.lib.Rec
 
   empty: ESeq[Int] = ESeq[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)

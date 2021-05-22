@@ -1,11 +1,10 @@
 package soda.translator.language
 
-import org.scalatest.funsuite.AnyFunSuite
 
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
-case class ScalaNonSodaSpec () extends AnyFunSuite {
+case class ScalaNonSodaSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
 
   test ("Scala reserved words are replaced") {

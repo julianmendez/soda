@@ -1,10 +1,8 @@
 package soda.translator.io
 
-import org.scalatest.funsuite.AnyFunSuite
 
-import java.io.File
-
-case class DirectoryScannerSpec () extends AnyFunSuite {
+case class DirectoryScannerSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import java.io.File
 
   lazy val start = "translator/src/test/resources/soda/example"
 

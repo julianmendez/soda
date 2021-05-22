@@ -1,8 +1,7 @@
 package soda.lib
 
-import org.scalatest.funsuite.AnyFunSuite
 
-case class SeqSDSpec () extends AnyFunSuite {
+case class SeqSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should detect an empty sequence") {
     lazy val input = Seq ()
