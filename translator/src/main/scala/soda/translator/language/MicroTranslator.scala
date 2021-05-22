@@ -79,15 +79,12 @@ case class MicroTranslator () {
 
   def _translate_non_comment (line: String ): String = {
     lazy val line_with_space = Replacement (line ) .add_space_to_soda_line () .line
-    lazy val tokenized_line = tokenize (line_with_space )
+    lazy val tokenized_line = Tokenizer (line_with_space ) .get_tokens
     lazy val translated_line = _translate_line (tokenized_line )
     lazy val joint_line = _join_tokens (translated_line )
     lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
     final_line
   }
-
-  def tokenize (line: String ): Seq [Token] =
-    Tokenizer () .tokenize (line )
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>

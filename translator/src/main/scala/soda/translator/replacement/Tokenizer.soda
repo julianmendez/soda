@@ -14,41 +14,38 @@ package soda.translator.replacement
 /**
  * This class processes a line to divide it into tokens.
  */
-* Tokenizer() = {
+* Tokenizer(line: String) = {
   + soda.lib.Rec
 
-  tokenize(line: String): Seq[Token] = {
-    result = postproc(Rec().foldLeft( Rec().range(line.length), initial_value, next_value ))
+  get_tokens: Seq[Token] =
+    _postproc(Rec().foldLeft( Rec().range(line.length), _initial_value, _next_value ))
 
-    * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
+  * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 
-    initial_value = FoldTuple(0, ParserStateEnum().Plain, Seq())
+  _initial_value = FoldTuple(0, ParserStateEnum().Plain, Seq())
 
-    postproc(tuple: FoldTuple): Seq[Token] =
-      (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
-        .reverse
+  _postproc(tuple: FoldTuple): Seq[Token] =
+    (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
+      .reverse
 
-    next_value(tuple: FoldTuple, current_index: Int): FoldTuple = {
-      ch = line.charAt(current_index)
-      char_type = CharTypeEnum().get_char_type(ch)
-      new_parser_state = ParserTransition().next_parser_state(tuple.parser_state, char_type)
+  _next_value(tuple: FoldTuple, current_index: Int): FoldTuple = {
+    ch = line.charAt(current_index)
+    char_type = CharTypeEnum().get_char_type(ch)
+    new_parser_state = ParserTransition().next_parser_state(tuple.parser_state, char_type)
 
-      if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
-      then FoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
-      else {
-        index =
-          if tuple.parser_state == ParserStateEnum().QuotesState or
-             tuple.parser_state == ParserStateEnum().ApostropheState
-          then current_index + 1
-          else current_index
+    if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
+    then FoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
+    else {
+      index =
+        if tuple.parser_state == ParserStateEnum().QuotesState or
+           tuple.parser_state == ParserStateEnum().ApostropheState
+        then current_index + 1
+        else current_index
 
-        text = line.substring(tuple.last_index, index)
-        FoldTuple(index, new_parser_state,
-          tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
-      }
+      text = line.substring(tuple.last_index, index)
+      FoldTuple(index, new_parser_state,
+        tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
     }
-
-    result
   }
 
 }
