@@ -69,8 +69,8 @@ package soda.translator.language
     lines.mkString(NewLine) + NewLine
 
   translate_lines(lines: Seq[String]): Seq[String] =
-    CommentPreprocessor()
-      .annotate_lines(lines)
+    CommentPreprocessor(lines)
+      .get_annotated_lines
       .map(annotated_line ->
         if annotated_line.isComment
         then annotated_line.line

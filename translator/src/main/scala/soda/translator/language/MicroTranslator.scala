@@ -69,8 +69,8 @@ case class MicroTranslator () {
     lines.mkString (NewLine ) + NewLine
 
   def translate_lines (lines: Seq [String]  ): Seq [String] =
-    CommentPreprocessor ()
-      .annotate_lines (lines )
+    CommentPreprocessor (lines )
+      .get_annotated_lines
       .map (annotated_line =>
         if (annotated_line.isComment
         ) annotated_line.line

@@ -6,39 +6,34 @@ package soda.translator.replacement
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-* CommentPreprocessor() = {
+* CommentPreprocessor(lines: Seq[String]) = {
   + soda.lib.Rec
 
   SodaBeginComment = "/*"
   SodaEndComment = "*/"
 
-  annotate_lines(lines: Seq[String]): Seq[AnnotatedLine] = {
-    result =
-      Rec().foldLeft(lines, initial_value, next_value)
-        .annotated_lines_rev
-        .reverse
+  get_annotated_lines: Seq[AnnotatedLine] =
+    Rec().foldLeft(lines, initial_value, next_value)
+      .annotated_lines_rev
+      .reverse
 
-    * FoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
+  * FoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
 
-    initial_value = FoldTuple(false, Seq())
+  initial_value = FoldTuple(false, Seq())
 
-    next_value(pair: FoldTuple, line: String): FoldTuple = {
-      t = annotate_this_line(line, pair.comment_state)
-      FoldTuple(t.new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, t.current_state)))
-    }
-
-    * CurrentAndNewCommentState(current_state: Boolean, new_comment_state: Boolean)
-
-    annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
-      if comment_state
-      then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
-      else
-        if line.trim.startsWith(SodaBeginComment)
-        then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
-        else CurrentAndNewCommentState(false, false)
-
-    result
+  next_value(pair: FoldTuple, line: String): FoldTuple = {
+    t = annotate_this_line(line, pair.comment_state)
+    FoldTuple(t.new_comment_state, pair.annotated_lines_rev.+:(AnnotatedLine(line, t.current_state)))
   }
 
+  * CurrentAndNewCommentState(current_state: Boolean, new_comment_state: Boolean)
+
+  annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
+    if comment_state
+    then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
+    else
+      if line.trim.startsWith(SodaBeginComment)
+      then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
+      else CurrentAndNewCommentState(false, false)
 }
 
