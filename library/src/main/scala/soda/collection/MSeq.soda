@@ -6,7 +6,7 @@ package soda.collection
 
   has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
 
-  foldLeftWhile[B, C subof B](initial_value: C,
+  foldLeftWhile[B, C subtype (B)](initial_value: C,
       next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
 
     result = rec(this, initial_value, next_value, condition)

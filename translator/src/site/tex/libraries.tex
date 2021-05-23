@@ -1,20 +1,19 @@
 \chapter{Libraries}
 
 \begin{lstlisting}[label={lst:foldLeftWhile}]
-    foldLeftWhile[A, B, C extends B](s: Seq[A], initial_value: C,
-        next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
+    foldLeftWhile[A, B, C subtype (B)](s: Seq[A], initial_value: C,
+        next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
 
-      result = rec(s, initial_value, next_value, cond)
+      result = rec(s, initial_value)
 
       @tailrec
-      rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
-          cond: (B, A) -> Boolean): C =
+      rec(seq: Seq[A], acc: C): C =
         if seq.isEmpty
         then acc
         else
-          if not cond(acc, seq.head)
+          if not condition(acc, seq.head)
           then acc
-          else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
+          else rec(seq.tail, next_value(acc, seq.head))
 
       result
     }

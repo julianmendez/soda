@@ -133,8 +133,8 @@
             <keyword>extends</keyword>
             <keyword>with</keyword>
             <keyword>this</keyword>
-            <keyword>subof</keyword>
-            <keyword>superof</keyword>
+            <keyword>subtype</keyword>
+            <keyword>supertype</keyword>
         </context>
 
         <context id="condition" style-ref="keyword">

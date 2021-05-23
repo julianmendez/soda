@@ -4,9 +4,9 @@ trait Shape
 
 trait Movable
 
-trait ShapePainter [A <: Shape]
+case class ShapePainter [A <: (Shape )]
 
-trait ShapeMover [A <: Shape with Movable]
+case class ShapeMover [A <: (Shape with Movable )]
 
 case class EqualsExample () {
   lazy val answer = f (x = 20, y = 2 )
@@ -175,7 +175,7 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
 
 case class Rec () {
 
-  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
+  def foldLeftWhile [A, B, C <: (B )]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
 
     lazy val result = rec (s, initial_value, next_value, cond )
 

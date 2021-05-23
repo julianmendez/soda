@@ -22,8 +22,8 @@ The reserved words are:
 - `extends`
 - `with`
 - `this`
-- `subof`
-- `superof`
+- `subtype`
+- `supertype`
 - `false`
 - `true`
 - `not`

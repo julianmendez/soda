@@ -3,7 +3,7 @@ package soda.collection
 
 * MSeqTranslator[T]() = {
 
-  foldLeftSeq[B, C subof B](seq: Seq[T], initial_value: C,
+  foldLeftSeq[B, C subtype (B)](seq: Seq[T], initial_value: C,
       next_value: (B, T) -> C): C = {
 
     result = rec(seq, initial_value, next_value)
@@ -61,10 +61,10 @@ package soda.collection
 
   /* */
 
-  foldLeftWhile[B, C subof B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+  foldLeftWhile[B, C subtype (B)](s: MSeq[T], initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
     s.foldLeftWhile[B, C](initial_value, next_value, condition)
 
-  foldLeft[B, C subof B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C = {
+  foldLeft[B, C subtype (B)](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C = {
     condition(acc: B, elem: T): Boolean = true
 
     foldLeftWhile[B, C](s, initial_value, next_value, condition)

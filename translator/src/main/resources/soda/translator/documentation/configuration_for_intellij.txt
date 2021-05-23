@@ -35,9 +35,9 @@ if
 import
 is
 package
-subof
+subtype
 suchthat
-superof
+supertype
 then
 this
 with
