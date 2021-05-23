@@ -3,7 +3,7 @@ package soda.collection
 
 case class MSeqTranslator [T]  () {
 
-  def foldLeftSeq [B, C <: (B )]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C = {
+  def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C = {
 
     lazy val result = rec (seq, initial_value, next_value )
 
@@ -60,10 +60,10 @@ case class Min [T]  () {
 
   /* */
 
-  def foldLeftWhile [B, C <: (B )]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+  def foldLeftWhile [B, C <: B]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
     s.foldLeftWhile [B, C]  (initial_value, next_value, condition )
 
-  def foldLeft [B, C <: (B )]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C ): C = {
+  def foldLeft [B, C <: B]  (s: MSeq [T], initial_value: C, next_value: (B, T ) => C ): C = {
     def condition (acc: B, elem: T ): Boolean = true
 
     foldLeftWhile [B, C]  (s, initial_value, next_value, condition )

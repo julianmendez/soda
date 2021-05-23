@@ -6,7 +6,7 @@ trait MSeq [T] {
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
 
-  def foldLeftWhile [B, C <: (B )]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
+  def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C = {
 
     lazy val result = rec (this, initial_value, next_value, condition )
 

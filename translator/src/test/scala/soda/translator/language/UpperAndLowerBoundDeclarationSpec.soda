@@ -4,9 +4,9 @@ package soda.translator.language
 * UpperAndLowerBoundDeclarationSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("should translate a single upper bound") {
-    original = "  * BlackBox() extends AbstractBlackBox[A subtype (AbstractInput)]\n"
+    original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput]\n"
 
-    expected = "  case class BlackBox () extends AbstractBlackBox [A <: (AbstractInput )]\n"
+    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
 
     obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)
@@ -14,9 +14,9 @@ package soda.translator.language
 
 
   test("should translate multiple upper bounds") {
-    original = "  * BlackBox() extends AbstractBlackBox[A subtype (AbstractInput)] with AbstractDevice[B subtype (AbstractDeviceInput)]\n"
+    original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
 
-    expected = "  case class BlackBox () extends AbstractBlackBox [A <: (AbstractInput )] with AbstractDevice [B <: (AbstractDeviceInput )]\n"
+    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
 
     obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)

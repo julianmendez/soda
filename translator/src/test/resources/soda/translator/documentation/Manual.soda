@@ -4,9 +4,9 @@ class Shape
 
 class Movable
 
-class ShapePainter[A subtype (Shape)]
+class ShapePainter[A subtype Shape]
 
-class ShapeMover[A subtype (Shape with Movable)]
+class ShapeMover[A subtype Shape with Movable]
 
 class EqualsExample () = {
   answer = f (x := 20, y := 2)
@@ -172,7 +172,7 @@ class FactorialVerbose () extends AbstractFactorialVerbose is {
 
 class Rec() = {
 
-  foldLeftWhile[A, B, C subtype (B)](s: Seq[A], initial_value: C,
+  foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
 
     result = rec(s, initial_value, next_value, cond)
