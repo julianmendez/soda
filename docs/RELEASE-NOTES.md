@@ -1,6 +1,6 @@
 ---
 - - version: v0.8.0
-  - date: unreleased
+  - date: '2021-05-23'
   - new_features:
     - compiles with Scala 3.0.0 and is compatible with Scala 2.13.6, Scala 2.12.13, and Scala 2.11.12
     - lets Scala 3 reserved words be usable as variable, function, and class names
