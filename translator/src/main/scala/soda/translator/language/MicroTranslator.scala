@@ -114,6 +114,9 @@ case class MicroTranslator () {
     ) Tr () .TranslationAtBeginningWithParen ()
     else Tr () .TranslationAtBeginningWithoutParen ()
 
+  def try_definition (line: String ): String =
+    DefinitionTranslator (line ) .get_translation
+
   /**
    * A line containing the definition sign will be classified as a definition.
    * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -139,9 +142,8 @@ case class MicroTranslator () {
    * @param line line
    * @return a translated line
    */
-  def try_definition (line: String ): String = {
-
-    lazy val result = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
+  case class DefinitionTranslator (line: String ) {
+    lazy val get_translation = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
     )
 
     def try_found_definition (position: Int ): Replacement =
@@ -173,10 +175,7 @@ case class MicroTranslator () {
 
     lazy val translate_def_definition =
       Replacement (line ) .add_after_spaces (Translation () .ScalaDefinition + ScalaSpace )
-
-    result
   }
-
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
