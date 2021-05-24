@@ -12,6 +12,7 @@ case class SimpleIO () {
   import java.nio.file.Files
   import java.nio.file.Paths
   import java.util.stream.Collectors
+  import soda.lib.SomeSD
 
   lazy val New_line = "\n"
 
@@ -29,10 +30,13 @@ case class SimpleIO () {
 
   def write_file (file: File, content: String ): Boolean = {
     lazy val writer = new FileWriter (file )
-    writer.write (content )
-    writer.flush ()
-    writer.close ()
-    true
+
+    SomeSD (true )
+      .map (x => writer.write (content ) )
+      .map (x => writer.flush () )
+      .map (x => writer.close () )
+      .map (x => true )
+      .getOrElse (false )
   }
 
   def create_file (parent_directory: String, file_name: String ): File =

@@ -12,6 +12,7 @@ package soda.translator.io
   + java.nio.file.Files
   + java.nio.file.Paths
   + java.util.stream.Collectors
+  + soda.lib.SomeSD
 
   New_line = "\n"
 
@@ -29,10 +30,13 @@ package soda.translator.io
 
   write_file(file: File, content: String): Boolean = {
     writer = @new FileWriter(file)
-    writer.write(content)
-    writer.flush()
-    writer.close()
-    true
+
+    SomeSD(true)
+      .map( x -> writer.write(content) )
+      .map( x -> writer.flush() )
+      .map( x -> writer.close() )
+      .map( x -> true )
+      .getOrElse(false)
   }
 
   create_file(parent_directory: String, file_name: String): File =
