@@ -22,5 +22,4 @@ case class LetBindingExample () {
     /* in */
     Seq (first_part, second_part, third_part )
   }
-
 }

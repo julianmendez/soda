@@ -25,5 +25,4 @@ case class Fairness (ranking_function: Applicant => Double, score_difference_tol
     if (measure_time (ranking_function (applicant )  ) < maximum_execution_time
     ) true
     else false
-
 }

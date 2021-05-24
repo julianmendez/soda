@@ -69,5 +69,4 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("should translate the manual") {
     test_translation (ManualInput, ManualExpected )
   }
-
 }

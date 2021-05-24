@@ -14,7 +14,6 @@ case class DayOfTheWeekEnum () {
   lazy val Saturday = DayOfTheWeek (6, "Saturday")
 
   lazy val values = Seq (Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday )
-
 }
 
 case class EnumSpec () extends org.scalatest.funsuite.AnyFunSuite {
@@ -24,5 +23,4 @@ case class EnumSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = DayOfTheWeekEnum () .values.map (x => x.toString )
     assert (obtained == expected )
   }
-
 }

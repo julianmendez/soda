@@ -21,5 +21,4 @@ case class FactorialSpec () extends org.scalatest.funsuite.AnyFunSuite {
       .map (n => (n, FactorialVerbose () .factorial (n )  )  )
     assert (obtained == expected )
   }
-
 }

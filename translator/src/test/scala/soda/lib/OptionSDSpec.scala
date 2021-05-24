@@ -218,5 +218,4 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.filter (x => x > 0 )
     assert (obtained == expected )
   }
-
 }

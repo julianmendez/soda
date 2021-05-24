@@ -22,6 +22,5 @@ package soda.translator.example
       .map(n -> (n, FactorialVerbose().factorial(n)))
     assert(obtained == expected)
   }
-
 }
 

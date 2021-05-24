@@ -30,6 +30,5 @@ package soda.translator.io
     obtained = scanner.get_all_files(start_file).toSet
     assert(obtained == expected)
   }
-
 }
 

@@ -17,6 +17,5 @@ package soda.translator.io
     obtained = instance.get_input_output_file_names("/path/to/file.soda")
     assert(obtained == expected)
   }
-
 }
 

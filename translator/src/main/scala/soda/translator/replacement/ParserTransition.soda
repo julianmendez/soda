@@ -29,7 +29,6 @@ package soda.translator.replacement
 
     result
   }
-
 }
 
 * ParserTransition() = {
@@ -69,6 +68,5 @@ package soda.translator.replacement
 
   next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
     TransitionsThatChangeStates.getOrElse((parser_state, char_type), parser_state)
-
 }
 

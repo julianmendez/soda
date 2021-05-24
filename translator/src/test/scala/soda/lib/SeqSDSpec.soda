@@ -55,6 +55,5 @@ package soda.lib
     )
     assert(obtained == expected)
   }
-
 }
 

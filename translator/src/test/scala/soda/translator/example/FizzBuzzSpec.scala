@@ -10,5 +10,4 @@ case class FizzBuzzSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = FizzBuzz () .fizz_buzz ()
     assert (obtained == expected )
   }
-
 }

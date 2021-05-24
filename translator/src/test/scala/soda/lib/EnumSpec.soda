@@ -14,7 +14,6 @@ package soda.lib
   Saturday = DayOfTheWeek(6, "Saturday")
 
   values = Seq(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
-
 }
 
 * EnumSpec() extends org.scalatest.funsuite.AnyFunSuite = {
@@ -24,6 +23,5 @@ package soda.lib
     obtained = DayOfTheWeekEnum().values.map(x -> x.toString)
     assert(obtained == expected)
   }
-
 }
 

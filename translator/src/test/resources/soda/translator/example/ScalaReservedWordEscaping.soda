@@ -19,6 +19,5 @@ package soda.translator.example
   cons: (Int, Int) -> Int = (x, y) -> f(x, y)
 
   * Pair[A, B](key: A, value: B)
-
 }
 

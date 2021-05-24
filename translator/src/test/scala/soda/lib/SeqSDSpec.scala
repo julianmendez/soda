@@ -47,5 +47,4 @@ case class SeqSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
     )
     assert (obtained == expected )
   }
-
 }

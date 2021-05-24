@@ -44,6 +44,5 @@ package soda.lib
     obtained = Rec().range(-1)
     assert(obtained == expected)
   }
-
 }
 

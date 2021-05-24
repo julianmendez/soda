@@ -29,7 +29,6 @@ case class ParserStateEnum () {
 
     result
   }
-
 }
 
 case class ParserTransition () {
@@ -48,5 +47,4 @@ case class ParserTransition () {
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
     TransitionsThatChangeStates.getOrElse ((parser_state, char_type ), parser_state )
-
 }

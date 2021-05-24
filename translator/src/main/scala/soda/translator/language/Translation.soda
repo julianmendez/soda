@@ -215,6 +215,5 @@ package soda.translator.language
 
   is_soda_word(word: String): Boolean =
     SodaReservedWords.contains(word)
-
 }
 

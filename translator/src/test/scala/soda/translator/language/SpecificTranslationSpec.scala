@@ -3,7 +3,6 @@ package soda.translator.language
 
 case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
-
   test ("should translate a small snippet") {
     lazy val original = "  input_lines = Seq(" +
       "\n    \"  f( x: Int,\\t\", " +
@@ -33,7 +32,5 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
     lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     lazy val obtained = MicroTranslator () .translate_program (input )
     assert (obtained == expected )
-
   }
-
 }

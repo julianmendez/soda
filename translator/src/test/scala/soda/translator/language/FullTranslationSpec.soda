@@ -69,6 +69,5 @@ package soda.translator.language
   test("should translate the manual") {
     test_translation(ManualInput, ManualExpected)
   }
-
 }
 

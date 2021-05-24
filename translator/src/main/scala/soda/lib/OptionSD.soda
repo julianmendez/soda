@@ -47,13 +47,11 @@ package soda.lib
       ifEmpty := this,
       ifNonEmpty := element -> if predicate(element) then this else NoneSD[A]()
     )
-
 }
 
 * NoneSD[A] () extends OptionSD[A] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
-
 }
 
 * SomeSD[A] (element: A) extends OptionSD[A] = {
@@ -61,7 +59,6 @@ package soda.lib
   get: A = element
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
-
 }
 
 * OptionSDBuilder[A]() = {
@@ -70,5 +67,4 @@ package soda.lib
     if option.isEmpty
     then NoneSD[A]()
     else SomeSD[A](option.get)
-
 }

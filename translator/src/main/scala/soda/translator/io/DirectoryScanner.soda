@@ -30,8 +30,6 @@ package soda.translator.io
       if to_scan.head.isDirectory
       then to_scan.tail.++(to_scan.head.listFiles())
       else to_scan.tail
-
   }
-
 }
 

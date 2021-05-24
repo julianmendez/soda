@@ -45,6 +45,4 @@ case class CombSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (obtained == expected )
   }
-
-
 }

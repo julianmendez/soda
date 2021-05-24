@@ -18,7 +18,6 @@ case class CharTypeEnum () {
 
   lazy val values = Seq (UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType )
 
-
   lazy val BackslashChar = '\\'
   lazy val QuotesChar = '\"'
   lazy val ApostropheChar = '\''
@@ -49,5 +48,4 @@ case class CharTypeEnum () {
 
   def is_backslash (ch: Char ): Boolean =
     ch == BackslashChar
-
 }

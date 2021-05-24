@@ -137,7 +137,6 @@ case class Manual () {
   }
 
   def g (x: Int ) = x + 1
-
 }
 
 trait AbstractFactorialConcise {
@@ -198,7 +197,6 @@ case class Rec () {
     result
   }
 
-
   def range (n: Int ): Seq [Int] = {
     lazy val result = rec (n, Seq [Int]  ()  )
 
@@ -211,7 +209,6 @@ case class Rec () {
 
     result
   }
-
 }
 
 case class Main () {

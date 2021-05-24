@@ -31,7 +31,5 @@ case class DirectoryScanner () {
       if (to_scan.head.isDirectory
       ) to_scan.tail.++ (to_scan.head.listFiles ()  )
       else to_scan.tail
-
   }
-
 }

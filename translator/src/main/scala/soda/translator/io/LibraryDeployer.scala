@@ -22,5 +22,4 @@ case class LibraryDeployer () {
             )
           ) .forall (x => x )
       ) .forall (x => x )
-
 }

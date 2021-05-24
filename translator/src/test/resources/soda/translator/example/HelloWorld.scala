@@ -5,7 +5,6 @@ case class Main () {
 
   def main (args: Array [String]  ) =
     println ("Hello world!")
-
 }
 
 object EntryPoint {

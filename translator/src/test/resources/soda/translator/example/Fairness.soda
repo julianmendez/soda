@@ -30,6 +30,5 @@ class Fairness(
     if measure_time (ranking_function (applicant)) < maximum_execution_time
     then true
     else false
-
 }
 

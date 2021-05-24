@@ -162,6 +162,5 @@ package soda.translator.replacement
 
     result
   }
-
 }
 

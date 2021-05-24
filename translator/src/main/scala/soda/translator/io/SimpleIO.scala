@@ -41,5 +41,4 @@ case class SimpleIO () {
 
   def create_file (parent_directory: String, file_name: String ): File =
     new File (parent_directory, file_name )
-
 }

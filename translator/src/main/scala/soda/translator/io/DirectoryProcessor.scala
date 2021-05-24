@@ -23,5 +23,4 @@ case class DirectoryProcessor (start: String, process_soda_file: java.io.File =>
     all_files
       .filter (x => x.isFile )
       .filter (file => file.getName == LibraryDeployer () .Library_marker_file )
-
 }

@@ -19,5 +19,4 @@ case class ScalaReservedWordEscaping () {
   lazy val cons: (Int, Int ) => Int = (x, y ) => f (x, y )
 
   case class Pair [A, B]  (key: A, value: B )
-
 }

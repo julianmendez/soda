@@ -18,7 +18,6 @@ package soda.translator.replacement
 
   values = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
 
-
   BackslashChar = '\\'
   QuotesChar = '\"'
   ApostropheChar = '\''
@@ -49,6 +48,5 @@ package soda.translator.replacement
 
   is_backslash(ch: Char): Boolean =
     ch == BackslashChar
-
 }
 

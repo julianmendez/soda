@@ -11,7 +11,6 @@ package soda.translator.example
 
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
-
 }
 
 
@@ -70,6 +69,5 @@ package soda.translator.example
 
     result
   }
-
 }
 

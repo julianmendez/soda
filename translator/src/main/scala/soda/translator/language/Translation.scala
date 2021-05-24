@@ -75,5 +75,4 @@ case class Translation () {
 
   def is_soda_word (word: String ): Boolean =
     SodaReservedWords.contains (word )
-
 }

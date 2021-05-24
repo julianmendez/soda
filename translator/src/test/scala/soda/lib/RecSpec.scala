@@ -44,5 +44,4 @@ case class RecSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Rec () .range (-1 )
     assert (obtained == expected )
   }
-
 }

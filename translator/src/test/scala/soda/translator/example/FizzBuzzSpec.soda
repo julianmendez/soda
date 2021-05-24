@@ -20,6 +20,5 @@ package soda.translator.example
     obtained = FizzBuzz().fizz_buzz()
     assert(obtained == expected)
   }
-
 }
 

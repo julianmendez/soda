@@ -6,7 +6,6 @@ case class ExampleWithWrongOrder () {
   lazy val this_is_null_but = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
-
 }
 
 case class ExampleWithRightOrder () {
@@ -14,7 +13,6 @@ case class ExampleWithRightOrder () {
   lazy val constant_defined_before = "Success!"
 
   lazy val this_is_not_null = constant_defined_before
-
 }
 
 case class ExampleWithEmptyParentheses () {
@@ -22,7 +20,6 @@ case class ExampleWithEmptyParentheses () {
   def this_is_not_null () = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
-
 }
 
 case class AnotherExampleWithEmptyParentheses () {
@@ -30,9 +27,7 @@ case class AnotherExampleWithEmptyParentheses () {
   lazy val this_is_not_null = constant_function_defined_later ()
 
   def constant_function_defined_later () = "Success!"
-
 }
-
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
@@ -63,5 +58,4 @@ case class LazySyntaxSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = "Success!"
     assert (obtained == expected )
   }
-
 }

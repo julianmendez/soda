@@ -50,6 +50,5 @@ package soda.translator.replacement
     FoldTuple(index, new_parser_state,
       tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
   }
-
 }
 

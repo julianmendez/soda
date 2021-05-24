@@ -12,7 +12,6 @@ package soda.translator.language
     assert(obtained == expected)
   }
 
-
   test("should translate multiple upper bounds") {
     original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
 
@@ -40,5 +39,5 @@ package soda.translator.language
     obtained = MicroTranslator().translate_program(original)
     assert(obtained == expected)
   }
-
 }
+

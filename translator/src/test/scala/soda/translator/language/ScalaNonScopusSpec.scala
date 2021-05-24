@@ -6,7 +6,6 @@ package soda.translator.language
  */
 case class ScalaNonSodaSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
-
   test ("Scala reserved words are replaced") {
     lazy val program = "" +
       "\nval x = 0" +
@@ -18,5 +17,4 @@ case class ScalaNonSodaSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = MicroTranslator () .translate_program (program )
     assert (obtained == expected )
   }
-
 }

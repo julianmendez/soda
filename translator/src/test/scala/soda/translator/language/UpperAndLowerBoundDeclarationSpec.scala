@@ -12,7 +12,6 @@ case class UpperAndLowerBoundDeclarationSpec () extends org.scalatest.funsuite.A
     assert (obtained == expected )
   }
 
-
   test ("should translate multiple upper bounds") {
     lazy val original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
 
@@ -40,5 +39,4 @@ case class UpperAndLowerBoundDeclarationSpec () extends org.scalatest.funsuite.A
     lazy val obtained = MicroTranslator () .translate_program (original )
     assert (obtained == expected )
   }
-
 }

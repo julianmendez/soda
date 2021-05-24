@@ -59,6 +59,5 @@ package soda.translator.language
     expected = Joined_output
     assert (obtained == expected)
   }
-
 }
 

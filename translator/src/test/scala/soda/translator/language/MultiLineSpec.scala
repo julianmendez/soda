@@ -47,5 +47,4 @@ case class MultiLineSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Joined_output
     assert (obtained == expected )
   }
-
 }

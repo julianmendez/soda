@@ -47,14 +47,12 @@ package soda.translator.language
     translate (word: String) = _get(_table, word)
   }
 
-
   * MainTranslation() extends Translator = {
     _table = Translation().MainTranslation
 
     keys = _keys(_table)
 
     translate (word: String) = _get(_table, word)
-
   }
 
   * ScalaNonSoda() extends Translator = {
@@ -73,7 +71,6 @@ package soda.translator.language
     keys = _keys(_table)
 
     translate (word: String) = _get(_table, word)
-
   }
 }
 

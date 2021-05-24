@@ -27,6 +27,5 @@ package soda.translator.replacement
     obtained = CommentPreprocessor(input).get_annotated_lines
     assert(obtained == expected)
   }
-
 }
 

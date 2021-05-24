@@ -23,6 +23,5 @@ package soda.translator.io
     all_files
       .filter(x -> x.isFile)
       .filter(file -> file.getName == LibraryDeployer().Library_marker_file)
-
 }
 

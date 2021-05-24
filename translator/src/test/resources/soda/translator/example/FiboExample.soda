@@ -4,9 +4,7 @@ package soda.translator.example
 class FiboExample is {
 
   has fib (n: Int): Int
-
 }
-
 
 class FiboExampleInSoda () extends FiboExample {
 
@@ -20,6 +18,5 @@ class FiboExampleInSoda () extends FiboExample {
 
     result
   }
-
 }
 

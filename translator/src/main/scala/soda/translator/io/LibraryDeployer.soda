@@ -24,6 +24,5 @@ package soda.translator.io
             )
           ).forall(x -> x)
       ).forall(x -> x)
-
 }
 

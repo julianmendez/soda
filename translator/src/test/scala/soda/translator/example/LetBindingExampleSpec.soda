@@ -14,6 +14,5 @@ package soda.translator.example
     expected = Seq("first part", "second part", "third part")
     assert(obtained == expected)
   }
-
 }
 

@@ -47,14 +47,12 @@ case class Tr () {
     def translate (word: String ) = _get (_table, word )
   }
 
-
   case class MainTranslation () extends Translator {
     lazy val _table = Translation () .MainTranslation
 
     lazy val keys = _keys (_table )
 
     def translate (word: String ) = _get (_table, word )
-
   }
 
   case class ScalaNonSoda () extends Translator {
@@ -73,6 +71,5 @@ case class Tr () {
     lazy val keys = _keys (_table )
 
     def translate (word: String ) = _get (_table, word )
-
   }
 }

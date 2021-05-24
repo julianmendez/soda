@@ -43,5 +43,4 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 
-
 }

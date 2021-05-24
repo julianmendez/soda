@@ -25,7 +25,6 @@ case class Rec () {
     result
   }
 
-
   def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C = {
     lazy val result = rec (seq, initial_value )
 
@@ -39,7 +38,6 @@ case class Rec () {
     result
   }
 
-
   def range (n: Int ): Seq [Int] = {
     lazy val result = rec (n, Seq [Int]  ()  )
 
@@ -52,5 +50,4 @@ case class Rec () {
 
     result
   }
-
 }

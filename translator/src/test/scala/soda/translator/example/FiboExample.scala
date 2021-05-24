@@ -4,9 +4,7 @@ package soda.translator.example
 trait FiboExample {
 
   def fib (n: Int ): Int
-
 }
-
 
 case class FiboExampleInSoda () extends FiboExample {
 
@@ -20,5 +18,4 @@ case class FiboExampleInSoda () extends FiboExample {
 
     result
   }
-
 }

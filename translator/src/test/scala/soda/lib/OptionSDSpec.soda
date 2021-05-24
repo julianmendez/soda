@@ -230,6 +230,5 @@ package soda.lib
     obtained = input.filter(x -> x > 0)
     assert(obtained == expected)
   }
-
 }
 

@@ -19,5 +19,4 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
 
     result
   }
-
 }

@@ -25,7 +25,6 @@ package soda.lib
     result
   }
 
-
   foldLeft[A, B, C subtype B](seq: Seq[A], initial_value: C,
       next_value: (B, A) -> C): C = {
     result = rec(seq, initial_value)
@@ -39,7 +38,6 @@ package soda.lib
     result
   }
 
-
   range(n: Int): Seq[Int] = {
     result = rec(n, Seq[Int]())
 
@@ -51,6 +49,5 @@ package soda.lib
 
     result
   }
-
 }
 

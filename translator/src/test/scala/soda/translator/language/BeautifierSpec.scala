@@ -13,5 +13,4 @@ case class BeautifierSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = MicroTranslator () .translate_program (original )
     assert (obtained == expected )
   }
-
 }

@@ -14,5 +14,4 @@ case class LetBindingSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq ("first part", "second part", "third part")
     assert (obtained == expected )
   }
-
 }

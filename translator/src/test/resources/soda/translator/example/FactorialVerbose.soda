@@ -18,6 +18,5 @@ class FactorialVerbose () extends AbstractFactorialVerbose = {
 
     result
   }
-
 }
 

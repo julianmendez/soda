@@ -17,5 +17,4 @@ case class MainSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.get_input_output_file_names ("/path/to/file.soda")
     assert (obtained == expected )
   }
-
 }

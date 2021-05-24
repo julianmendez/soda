@@ -9,6 +9,5 @@ package soda.translator.language
     obtained = MicroTranslator().join_lines_ending_with_comma_or_opening_parenthesis(input)
     assert(obtained == expected)
   }
-
 }
 
