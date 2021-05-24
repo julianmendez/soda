@@ -3,7 +3,6 @@
 \begin{lstlisting}[label={lst:foldLeftWhile}]
     foldLeftWhile[A, B, C subtype (B)](s: Seq[A], initial_value: C,
         next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
-
       result = rec(s, initial_value)
 
       @tailrec
@@ -21,7 +20,6 @@
 
 \begin{lstlisting}[label={lst:range}]
     range(n: Int): Seq[Int] = {
-
       result = rec(n, Seq[Int]())
 
       @tailrec

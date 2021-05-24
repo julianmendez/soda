@@ -17,7 +17,6 @@ package soda.lib
 
   @override
   toString: String = toSeq.toString
-
 }
 
 * EmptySeqSD[T]() extends SeqSD[T] = {
@@ -27,7 +26,6 @@ package soda.lib
   toSeq: Seq[T] = Seq[T]()
 
   reverse: EmptySeqSD[T] = this
-
 }
 
 * NonEmptySeqSD[T] extends SeqSD[T] = {
@@ -39,7 +37,6 @@ package soda.lib
   tail: SeqSD[T] = SeqSDBuilder[T]().build(toSeq.tail)
 
   reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(toSeq.reverse)
-
 }
 
 * _NonEmptySeqSD[T](toSeq: Seq[T]) extends NonEmptySeqSD[T]
@@ -50,5 +47,4 @@ package soda.lib
     if seq.isEmpty
     then EmptySeqSD[T]()
     else _NonEmptySeqSD[T](seq)
-
 }

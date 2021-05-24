@@ -17,7 +17,6 @@ trait SeqSD [T] {
 
   override
   lazy val toString: String = toSeq.toString
-
 }
 
 case class EmptySeqSD [T]  () extends SeqSD [T] {
@@ -27,7 +26,6 @@ case class EmptySeqSD [T]  () extends SeqSD [T] {
   lazy val toSeq: Seq [T] = Seq [T]  ()
 
   lazy val reverse: EmptySeqSD [T] = this
-
 }
 
 trait NonEmptySeqSD [T] extends SeqSD [T] {
@@ -39,7 +37,6 @@ trait NonEmptySeqSD [T] extends SeqSD [T] {
   lazy val tail: SeqSD [T] = SeqSDBuilder [T]  () .build (toSeq.tail )
 
   lazy val reverse: NonEmptySeqSD [T] = _NonEmptySeqSD (toSeq.reverse )
-
 }
 
 case class _NonEmptySeqSD [T]  (toSeq: Seq [T]  ) extends NonEmptySeqSD [T]
@@ -50,5 +47,4 @@ case class SeqSDBuilder [T]  () {
     if (seq.isEmpty
     ) EmptySeqSD [T]  ()
     else _NonEmptySeqSD [T]  (seq )
-
 }

@@ -129,6 +129,13 @@ case class Manual () {
     a + b
   }
 
+  def f1 (x: Int ) = {
+    lazy val result = a + b
+    lazy val a = g (x )
+    lazy val b = g (a )
+    result
+  }
+
   def g (x: Int ) = x + 1
 
 }
@@ -176,7 +183,6 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
 case class Rec () {
 
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
-
     lazy val result = rec (s, initial_value, next_value, cond )
 
     import scala.annotation.tailrec
@@ -194,7 +200,6 @@ case class Rec () {
 
 
   def range (n: Int ): Seq [Int] = {
-
     lazy val result = rec (n, Seq [Int]  ()  )
 
     import scala.annotation.tailrec

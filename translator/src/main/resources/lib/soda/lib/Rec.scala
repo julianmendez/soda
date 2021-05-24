@@ -10,7 +10,6 @@ package soda.lib
 case class Rec () {
 
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C = {
-
     lazy val result = rec (s, initial_value )
 
     import scala.annotation.tailrec
@@ -28,7 +27,6 @@ case class Rec () {
 
 
   def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C = {
-
     lazy val result = rec (seq, initial_value )
 
     import scala.annotation.tailrec
@@ -43,7 +41,6 @@ case class Rec () {
 
 
   def range (n: Int ): Seq [Int] = {
-
     lazy val result = rec (n, Seq [Int]  ()  )
 
     import scala.annotation.tailrec

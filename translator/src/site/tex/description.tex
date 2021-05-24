@@ -145,7 +145,7 @@ The JVM exception handling is done via \srccode{Try}.
 There are some general rules that apply to it:
 
 \begin{itemize}
-    \item the specification is inteded to be read and understood by a human, so it has to be very clear;
+    \item the specification is intended to be read and understood by a human, so it has to be very clear;
     \item every defined thing is defined only once, in one place;
     \item objects are immutable;
     \item classes cannot be modified, but they can be extended.
@@ -206,6 +206,19 @@ This could be read as:
     $f(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
 \end{center}
 
+The block must have exactly one result at the end.
+To use a structure that has a result at the beginning, like in a \textit{where} example.
+The constant name \srccode{result} is not really a reserved word, but it is a suggested name to write this pattern:
+
+\begin{lstlisting}[label={lst:exampleFunctionLikeWhere}]
+  f1 (x: Int) = {
+    result = a + b
+    a = g(x)
+    b = g(a)
+    result
+  }
+\end{lstlisting}
+
 
 \section{Types and Classes}
 
@@ -242,7 +255,8 @@ An class declaration of an abstract class contains:
 
 All super types are abstract classes, since concrete classes cannot be extended.
 
-The declaration of the sequence of constants and functions starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
+The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
+This declaration if different from the block use to define an expression, since that block always requires a result, and all the content is private.
 
 All implemented functions are \textit{final} (cannot be extended), and the same for all defined constants.
 This is to prevent that the behavior is changed after extending a class.
@@ -276,9 +290,9 @@ It is possible to put upper bounds in the parameter, to define it as a subtype o
 
   class Movable
 
-  class ShapePainter[A extends Shape]
+  class ShapePainter[A subtype Shape]
 
-  class ShapeMover[A extends Shape with Movable]
+  class ShapeMover[A subtype Shape with Movable]
 \end{lstlisting}
 
 In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
