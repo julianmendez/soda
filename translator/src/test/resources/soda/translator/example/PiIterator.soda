@@ -13,7 +13,6 @@ package soda.translator.example
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 }
 
-
 * PiIterator() = {
 
   initial_status =
@@ -48,26 +47,27 @@ package soda.translator.example
       if n == 0
       then rev_seq.reverse
       else {
-        t = next (s)
+        t = _next (s)
         rec (n - 1, rev_seq.+:(t.digit), t.new_status)
       }
 
-    * BigIntAndStatus(digit: BigInt, new_status: Status)
-
-    next (s: Status): BigIntAndStatus = {
-      ns = compute_new_status (s)
-      ret = ns.n
-      r = 10 * (ns.r - ns.n * ns.t)
-      n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
-      q = ns.q * 10
-      t = ns.t
-      l = ns.l
-      k = ns.k
-      new_status = Status (r, n, q, t, l, k)
-      BigIntAndStatus(ret, new_status)
-    }
-
     result
   }
+
+  _next (s: Status): BigIntAndStatus = {
+    result = BigIntAndStatus(ret, new_status)
+    ns = compute_new_status (s)
+    ret = ns.n
+    r = 10 * (ns.r - ns.n * ns.t)
+    n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
+    q = ns.q * 10
+    t = ns.t
+    l = ns.l
+    k = ns.k
+    new_status = Status (r, n, q, t, l, k)
+    result
+  }
+
+  * BigIntAndStatus(digit: BigInt, new_status: Status)
 }
 
