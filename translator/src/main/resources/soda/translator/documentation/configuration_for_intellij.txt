@@ -36,7 +36,6 @@ import
 is
 package
 subtype
-suchthat
 supertype
 then
 this

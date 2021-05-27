@@ -31,14 +31,6 @@ package soda.translator.language
     translate (word: String) = _get(_table, word)
   }
 
-  * TranslationBetweenSquareBrackets() extends Translator = {
-    _table = Translation().TranslationBetweenSquareBrackets
-
-    keys = _keys(_table)
-
-    translate (word: String) = _get(_table, word)
-  }
-
   * Synonym() extends Translator = {
     _table = Translation().Synonym
 

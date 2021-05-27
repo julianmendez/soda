@@ -31,14 +31,6 @@ case class Tr () {
     def translate (word: String ) = _get (_table, word )
   }
 
-  case class TranslationBetweenSquareBrackets () extends Translator {
-    lazy val _table = Translation () .TranslationBetweenSquareBrackets
-
-    lazy val keys = _keys (_table )
-
-    def translate (word: String ) = _get (_table, word )
-  }
-
   case class Synonym () extends Translator {
     lazy val _table = Translation () .Synonym
 

@@ -1,6 +1,8 @@
 ---
 - - version: v0.9.0
   - date: unreleased
+  - deprecated_features:
+    - synonym `suchthat` for `->` is no longer supported
   - build: sbt '++ 3.0.0' clean compile test package assembly
   - release: target/scala-3.0.0/soda-0.9.0.jar
 - - version: v0.8.0
@@ -47,7 +49,7 @@
     - allows annotation `@tailrec` only inside functions
     - compiles with Scala 3.0.0-RC1 and is compatible with Scala 2.11.12, Scala 2.12.13, Scala 2.13.5
   - deprecated_features:
-    - synonym `to` for `->` and synonym `in` for `:` are no longer support
+    - synonym `to` for `->` and synonym `in` for `:` are no longer supported
   - bug_fixes:
     - fixes the names of the created library jar files
     - fixes parsing of strings with escaped characters
