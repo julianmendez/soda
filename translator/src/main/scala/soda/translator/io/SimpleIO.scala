@@ -36,7 +36,7 @@ case class SimpleIO () {
       .map (x => writer.flush () )
       .map (x => writer.close () )
       .map (x => true )
-      .getOrElse (false )
+      .get
   }
 
   def create_file (parent_directory: String, file_name: String ): File =
