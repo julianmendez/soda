@@ -122,18 +122,24 @@ class Manual() = {
     result
   }
 
-  f (x: Int) = {
+  f0 (x: Int) = {
     a = g(x)
     b = g(a)
     a + b
   }
 
-  f1 (x: Int) = {
-    result = a + b
-    a = g(x)
-    b = g(a)
-    result
-  }
+  f1 (x: Int) =
+    let
+      a = g(x)
+      b = g(a)
+    in a + b
+
+  f2 (x: Int) =
+    let
+      result = a + b
+      a = g(x)
+      b = g(a)
+    in result
 
   g (x: Int) = x + 1
 }
@@ -163,53 +169,48 @@ class AbstractFactorialVerbose is {
 
 class FactorialVerbose () extends AbstractFactorialVerbose is {
 
-  factorial (n: Int) is {
-    result is rec (n, 1)
+  factorial (n: Int) is
+    let
+      result is rec (n, 1)
 
-    @tailrec
-    rec (n: Int, product: Int): Int is
-      if n == 0
-      then product
-      else rec (n - 1, n * product)
+      @tailrec
+      rec (n: Int, product: Int): Int is
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
 
-    result
-  }
+    in result
 }
 
 class Rec() = {
 
   foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
-      next_value: (B, A) -> C, cond: (B, A) -> Boolean): C = {
-    result = rec(s, initial_value, next_value, cond)
-
-    @tailrec
-    rec(seq: Seq[A], acc: C, next_value: (B, A) -> C,
-        cond: (B, A) -> Boolean): C =
-      if seq.isEmpty
-      then acc
-      else
-        if not cond(acc, seq.head)
+      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
+    let
+      @tailrec
+      rec(seq: Seq[A], acc: C): C =
+        if seq.isEmpty
         then acc
-        else rec(seq.tail, next_value(acc, seq.head), next_value, cond)
+        else
+          if not condition(acc, seq.head)
+          then acc
+          else rec(seq.tail, next_value(acc, seq.head))
 
-    result
-  }
+    in rec(s, initial_value)
 
-  range(n: Int): Seq[Int] = {
-    result = rec(n, Seq[Int]())
+  range(n: Int): Seq[Int] =
+    let
+      @tailrec
+      rec(n: Int, seq: Seq[Int]): Seq[Int] =
+        if n <= 0
+        then seq
+        else rec(n - 1, seq.+:(n - 1))
 
-    @tailrec
-    rec(n: Int, seq: Seq[Int]): Seq[Int] =
-      if n <= 0
-      then seq
-      else rec(n - 1, seq.+:(n - 1))
-
-    result
-  }
+    in rec(n, Seq[Int]())
 }
 
 class Main () = {
-  main (args: Array[String]) =
+  main (args: Array[String]): Unit =
     println ("Hello world!")
 }
 

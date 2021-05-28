@@ -10,37 +10,37 @@ package soda.lib
 * Rec() = {
 
   foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
-      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
-    @tailrec
-    rec(seq: Seq[A], acc: C): C =
-      if seq.isEmpty
-      then acc
-      else
-        if not condition(acc, seq.head)
+      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
+    let
+      @tailrec
+      rec(seq: Seq[A], acc: C): C =
+        if seq.isEmpty
+        then acc
+        else
+          if not condition(acc, seq.head)
+          then acc
+          else rec(seq.tail, next_value(acc, seq.head))
+
+    in rec(s, initial_value)
+
+  foldLeft[A, B, C subtype B](seq: Seq[A], initial_value: C,
+      next_value: (B, A) -> C): C =
+    let
+      @tailrec
+      rec(seq: Seq[A], acc: C): C =
+        if seq.isEmpty
         then acc
         else rec(seq.tail, next_value(acc, seq.head))
 
-    rec(s, initial_value)
-  }
+    in rec(seq, initial_value)
 
-  foldLeft[A, B, C subtype B](seq: Seq[A], initial_value: C,
-      next_value: (B, A) -> C): C = {
-    @tailrec
-    rec(seq: Seq[A], acc: C): C =
-      if seq.isEmpty
-      then acc
-      else rec(seq.tail, next_value(acc, seq.head))
+  range(n: Int): Seq[Int] =
+    let
+      @tailrec
+      rec(n: Int, seq: Seq[Int]): Seq[Int] =
+        if n <= 0
+        then seq
+        else rec(n - 1, seq.+:(n - 1))
 
-    rec(seq, initial_value)
-  }
-
-  range(n: Int): Seq[Int] = {
-    @tailrec
-    rec(n: Int, seq: Seq[Int]): Seq[Int] =
-      if n <= 0
-      then seq
-      else rec(n - 1, seq.+:(n - 1))
-
-    rec(n, Seq[Int]())
-  }
+    in rec(n, Seq[Int]())
 }

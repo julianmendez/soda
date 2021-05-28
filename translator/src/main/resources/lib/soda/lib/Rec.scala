@@ -9,39 +9,39 @@ package soda.lib
  */
 case class Rec () {
 
-  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C = {
-    import scala.annotation.tailrec
+  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+    {
+      import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C ): C =
-      if (seq.isEmpty
-      ) acc
-      else
-        if (! condition (acc, seq.head )
+      def rec (seq: Seq [A], acc: C ): C =
+        if (seq.isEmpty
+        ) acc
+        else
+          if (! condition (acc, seq.head )
+          ) acc
+          else rec (seq.tail, next_value (acc, seq.head )  )
+
+      rec (s, initial_value )  }
+
+  def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C =
+    {
+      import scala.annotation.tailrec
+        @tailrec
+      def rec (seq: Seq [A], acc: C ): C =
+        if (seq.isEmpty
         ) acc
         else rec (seq.tail, next_value (acc, seq.head )  )
 
-    rec (s, initial_value )
-  }
+      rec (seq, initial_value )  }
 
-  def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C = {
-    import scala.annotation.tailrec
+  def range (n: Int ): Seq [Int] =
+    {
+      import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C ): C =
-      if (seq.isEmpty
-      ) acc
-      else rec (seq.tail, next_value (acc, seq.head )  )
+      def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
+        if (n <= 0
+        ) seq
+        else rec (n - 1, seq.+: (n - 1 )  )
 
-    rec (seq, initial_value )
-  }
-
-  def range (n: Int ): Seq [Int] = {
-    import scala.annotation.tailrec
-        @tailrec
-    def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
-      if (n <= 0
-      ) seq
-      else rec (n - 1, seq.+: (n - 1 )  )
-
-    rec (n, Seq [Int]  ()  )
-  }
+      rec (n, Seq [Int]  ()  )  }
 }

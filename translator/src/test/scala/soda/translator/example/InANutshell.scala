@@ -13,14 +13,18 @@ case class InANutshell () {
     a * b
   }
 
-  def h1 (x: Int, y: Int ): Int = {
-    lazy val result = a * b
+  def h1 (x: Int, y: Int ): Int =
+    {
+      lazy val a = x + y
+      lazy val b = x - y
+      a * b  }
 
-    lazy val a = x + y
-    lazy val b = x - y
-
-    result
-  }
+  def h2 (x: Int, y: Int ): Int =
+    {
+      lazy val result = a * b
+      lazy val a = x + y
+      lazy val b = x - y
+      result  }
 
   def geater_than (a: Int, b: Int ): Boolean =
     a > b
@@ -81,7 +85,7 @@ case class InANutshell () {
   }
 
   case class Main () {
-    def main (args: Array [String]  ) =
+    def main (args: Array [String]  ): Unit =
       println ("Hello world!")
   }
 

@@ -7,21 +7,19 @@ package soda.collection
   has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
 
   foldLeftWhile[B, C subtype B](initial_value: C,
-      next_value: (B, T) -> C, condition: (B, T) -> Boolean): C = {
-    @tailrec
-    rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
-      if seq.isEmpty
-      then acc
-      else {
-        neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
-        if not condition(acc, neseq.head())
+      next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+    let
+      @tailrec
+      rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+        if seq.isEmpty
         then acc
-        else rec(neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
-      }
+        else
+          let
+            neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
+          in if not condition(acc, neseq.head()) then acc else rec(
+               neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
 
-    rec(this, initial_value, next_value, condition)
-  }
-
+    in rec(this, initial_value, next_value, condition)
 }
 
 
@@ -30,7 +28,6 @@ package soda.collection
   isEmpty = true
 
   opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
-
 }
 
 
@@ -43,6 +40,5 @@ package soda.collection
   head(): T = head0
 
   tail(): MSeq[T] = tail0
-
 }
 

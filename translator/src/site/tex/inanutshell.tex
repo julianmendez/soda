@@ -64,7 +64,7 @@ The right arrow (\srccode(->)) is used to define a domain mapping and also to de
 
 
 We can use a block to compute a value, for example:
-\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithBlock}]
+\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithBraces}]
   h0(x: Int, y: Int): Int = {
     a = x + y
     b = x - y
@@ -75,16 +75,29 @@ returns $(x + y)(x - y)$, which is $x^{2} - y^{2}$.
 
 Although the order of the bindings does not matter, the result of the function has to be always at the end.
 This is completely conventional.
+
+It is also possible to explicitly write the expression as a \slet-\sdin expression.
+\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithLetIn}]
+  h1(x: Int, y: Int): Int =
+    let
+      a = x + y
+      b = x - y
+    in a * b
+\end{lstlisting}
+
+For technical reasons, each definition should be in its own line, and not in the line of the \slet reserved word.
+In addition, the expression evaluated with the bindings has to be in the same line as the \sdin reserved word.
+
 For some people, the result at the beginning could be readable.
 This can be somehow mimic by using a temporary constant stating that it contains the result.
 Something like,
 \begin{lstlisting}[label={lst:exampleFunctionDefinitionWithBlockAndResult}]
-  h1(x: Int, y: Int): Int = {
-    result = a * b
-    a = x + y
-    b = x - y
-    result
-  }
+  h2(x: Int, y: Int): Int =
+    let
+      result = a * b
+      a = x + y
+      b = x - y
+    in result
 \end{lstlisting}
 
 Standard arithmetic comparisons are also very useful.

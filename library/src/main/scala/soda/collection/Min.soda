@@ -4,31 +4,31 @@ package soda.collection
 * MSeqTranslator[T]() = {
 
   foldLeftSeq[B, C subtype B](seq: Seq[T], initial_value: C,
-      next_value: (B, T) -> C): C = {
-    @tailrec
-    rec(seq: Seq[T], acc: C, next_value: (B, T) -> C): C =
-      if seq.isEmpty
-      then acc
-      else rec(seq.tail, next_value(acc, seq.head), next_value)
+      next_value: (B, T) -> C): C =
+    let
+      @tailrec
+      rec(seq: Seq[T], acc: C, next_value: (B, T) -> C): C =
+        if seq.isEmpty
+        then acc
+        else rec(seq.tail, next_value(acc, seq.head), next_value)
 
-    rec(seq, initial_value, next_value)
-  }
+    in rec(seq, initial_value, next_value)
 
-  asMSeq(seq: Seq[T]): MSeq[T] = {
-    initial_value: MSeq[T] = Min().empty
-    next_value(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
+  asMSeq(seq: Seq[T]): MSeq[T] =
+    let
+      initial_value: MSeq[T] = Min().empty
+      next_value(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
 
-    Min().reverse(
-          foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
-  }
+      result = Min().reverse(
+        foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
+    in result
 
-  asSeq(mseq: MSeq[T]): Seq[T] = {
-    initial_value: Seq[T] = Seq()
-    next_value(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
+  asSeq(mseq: MSeq[T]): Seq[T] =
+    let
+      initial_value: Seq[T] = Seq()
+      next_value(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 
-    Min().foldLeft(mseq, initial_value, next_value).reverse
-  }
-
+    in Min().foldLeft(mseq, initial_value, next_value).reverse
 }
 
 * MSeqPair[T](left: MSeq[T], right: MSeq[T])
@@ -52,111 +52,109 @@ package soda.collection
 
   /* */
 
-  foldLeftWhile[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+  foldLeftWhile[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C,
+      condition: (B, T) -> Boolean): C =
     s.foldLeftWhile[B, C](initial_value, next_value, condition)
 
-  foldLeft[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C = {
-    condition(acc: B, elem: T): Boolean = true
-
-    foldLeftWhile[B, C](s, initial_value, next_value, condition)
-  }
+  foldLeft[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C =
+    let
+      condition(acc: B, elem: T): Boolean = true
+    in foldLeftWhile[B, C](s, initial_value, next_value, condition)
 
   reverse(s: MSeq[T]): MSeq[T] =
     s.opt(ifEmpty := empty, ifNonEmpty := (neseq -> reverseNonEmpty(neseq)))
 
-  reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
-    initial_value: NESeq[T] = prepended(empty, s.head())
-    next_value(acc: MSeq[T], elem: T): NESeq[T] = prepended(acc, elem)
+  reverseNonEmpty(s: NESeq[T]): NESeq[T] =
+    let
+      initial_value: NESeq[T] = prepended(empty, s.head())
+      next_value(acc: MSeq[T], elem: T): NESeq[T] = prepended(acc, elem)
+    in foldLeft(s.tail(), initial_value, next_value)
 
-    foldLeft(s.tail(), initial_value, next_value)
-  }
+  length(s: MSeq[T]): Int =
+    let
+      initial_value: Int = 0
+      next_value(acc: Int, elem: T): Int = acc + 1
 
-  length(s: MSeq[T]): Int = {
-    initial_value: Int = 0
-    next_value(acc: Int, elem: T): Int = acc + 1
+    in foldLeft(s, initial_value, next_value)
 
-    foldLeft(s, initial_value, next_value)
-  }
+  indexOf(s: MSeq[T], e: T): Int =
+    let
+      initial_value = FoldTuple(0, -1)
+      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+        FoldTuple(tuple.index + 1,
+          if elem == e then tuple.index else tuple.position)
+      condition(tuple: FoldTuple, elem: T): Boolean = tuple.position == -1
 
-  indexOf(s: MSeq[T], e: T): Int = {
-    initial_value = FoldTuple(0, -1)
-    next_value(tuple: FoldTuple, elem: T): FoldTuple =
-      FoldTuple(tuple.index + 1,
-        if elem == e then tuple.index else tuple.position)
-    condition(tuple: FoldTuple, elem: T): Boolean = tuple.position == -1
+      * FoldTuple(index: Int, position: Int)
 
-    * FoldTuple(index: Int, position: Int)
+    in foldLeftWhile(s, initial_value, next_value, condition).position
 
-    foldLeftWhile(s, initial_value, next_value, condition).position
-  }
+  contains(s: MSeq[T], e: T): Boolean =
+    let
+      initial_value: Boolean = false
+      next_value(acc: Boolean, elem: T): Boolean = elem == e
+      condition(acc: Boolean, elem: T): Boolean = not acc
+    in foldLeftWhile(s, initial_value, next_value, condition)
 
-  contains(s: MSeq[T], e: T): Boolean = {
-    initial_value: Boolean = false
-    next_value(acc: Boolean, elem: T): Boolean = elem == e
-    condition(acc: Boolean, elem: T): Boolean = not acc
-
-    foldLeftWhile(s, initial_value, next_value, condition)
-  }
-
-  at(s: MSeq[T], n: Int): OptionSD[T] = {
-    result =
-      s.opt(ifEmpty := NoneSD[T](), ifNonEmpty := (neseq ->
-        if n < 0 or n >= length(s)
-        then NoneSD[T]()
-        else SomeSD[T](atNonEmpty(neseq, n))
+  at(s: MSeq[T], n: Int): OptionSD[T] =
+    let
+      result =
+        s.opt(ifEmpty := NoneSD[T](), ifNonEmpty := (neseq ->
+          if n < 0 or n >= length(s)
+          then NoneSD[T]()
+          else SomeSD[T](atNonEmpty(neseq, n))
+        )
       )
-    )
 
-    atNonEmpty(xs: NESeq[T], n: Int): T = {
-      initial_value = FoldTuple(xs.head(), -1)
-      next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
-      condition(tuple: FoldTuple, elem: T): Boolean = tuple.index < n
+      atNonEmpty(xs: NESeq[T], n: Int): T =
+        let
+          initial_value = FoldTuple(xs.head(), -1)
+          next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
+          condition(tuple: FoldTuple, elem: T): Boolean = tuple.index < n
 
-      * FoldTuple(elem: T, index: Int)
+          * FoldTuple(elem: T, index: Int)
 
-      foldLeftWhile(xs, initial_value, next_value, condition).elem
-    }
+        in foldLeftWhile(xs, initial_value, next_value, condition).elem
 
-    result
-  }
+    in result
 
   /* */
 
-  take(s: MSeq[T], n: Int): MSeq[T] = {
-    result = reverse(
+  take(s: MSeq[T], n: Int): MSeq[T] =
+    let
+      result = reverse(
         foldLeftWhile(s, initial_value, next_value, condition).seq )
 
-    initial_value = FoldTuple(empty, 0)
+      initial_value = FoldTuple(empty, 0)
 
-    next_value(tuple: FoldTuple, elem: T): FoldTuple =
-      FoldTuple(prepended(tuple.seq, elem), tuple.index + 1)
+      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+        FoldTuple(prepended(tuple.seq, elem), tuple.index + 1)
 
-    condition (tuple: FoldTuple, elem: T): Boolean =
-      tuple.index < n
+      condition (tuple: FoldTuple, elem: T): Boolean =
+        tuple.index < n
 
-    * FoldTuple(seq: MSeq[T], index: Int)
+      * FoldTuple(seq: MSeq[T], index: Int)
 
-    result
-  }
+    in result
 
-  drop(s: MSeq[T], n: Int): MSeq[T] = {
-    result = foldLeftWhile(s, initial_value, next_value, condition).seq
+  drop(s: MSeq[T], n: Int): MSeq[T] =
+    let
+      result = foldLeftWhile(s, initial_value, next_value, condition).seq
 
-    initial_value = FoldTuple(s, 0)
+      initial_value = FoldTuple(s, 0)
 
-    next_value(tuple: FoldTuple, elem: T): FoldTuple =
-      tuple.seq.opt(
-        ifEmpty := FoldTuple(tuple.seq, tuple.index + 1),
-        ifNonEmpty := (neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
-      )
+      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+        tuple.seq.opt(
+          ifEmpty := FoldTuple(tuple.seq, tuple.index + 1),
+          ifNonEmpty := (neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
+        )
 
-    condition (tuple: FoldTuple, elem: T): Boolean =
-      tuple.index < n
+      condition (tuple: FoldTuple, elem: T): Boolean =
+        tuple.index < n
 
-    * FoldTuple(seq: MSeq[T], index: Int)
+      * FoldTuple(seq: MSeq[T], index: Int)
 
-    result
-  }
+    in result
 
   takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p).left)
 
@@ -164,10 +162,10 @@ package soda.collection
 
   splitAt(s: MSeq[T], n: Int): MSeqPair[T] = MSeqPair(take(s, n), drop(s, n))
 
-  span(s: MSeq[T], p: (T -> Boolean)): MSeqPair[T] = {
-    pair = spanRevRec(s, p)
-    MSeqPair(reverse(pair.left), pair.right)
-  }
+  span(s: MSeq[T], p: (T -> Boolean)): MSeqPair[T] =
+    let
+      pair = spanRevRec(s, p)
+    in MSeqPair(reverse(pair.left), pair.right)
 
   /* */
 
@@ -175,62 +173,54 @@ package soda.collection
 
   last(s: NESeq[T]): T = reverseNonEmpty(s).head()
 
-  concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] = {
-    initial_value: MSeq[T] = s1
-
-    next_value(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
-
-    s0rev = reverse(s0)
-
-    foldLeft(s0rev, initial_value, next_value)
-  }
+  concat(s0: MSeq[T], s1: MSeq[T]): MSeq[T] =
+    let
+      initial_value: MSeq[T] = s1
+      next_value(acc: MSeq[T], elem: T): MSeq[T] = prepended(acc, elem)
+      s0rev = reverse(s0)
+    in foldLeft(s0rev, initial_value, next_value)
 
   slice(s: MSeq[T], from: Int, until: Int): MSeq[T] = take(drop(s, from), until - from)
 
   /* */
 
-  forall(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    initial_value = true
-    next_value(acc: Boolean, elem: T): Boolean = acc and p(elem)
-    condition(acc: Boolean, elem: T): Boolean = acc
+  forall(s: MSeq[T], p: (T -> Boolean)): Boolean =
+    let
+      initial_value = true
+      next_value(acc: Boolean, elem: T): Boolean = acc and p(elem)
+      condition(acc: Boolean, elem: T): Boolean = acc
+    in foldLeftWhile(s, initial_value, next_value, condition)
 
-    foldLeftWhile(s, initial_value, next_value, condition)
-  }
+  exists(s: MSeq[T], p: (T -> Boolean)): Boolean =
+    let
+      initial_value = false
+      next_value(acc: Boolean, elem: T): Boolean = acc or p(elem)
+      condition(acc: Boolean, elem: T): Boolean = not acc
+    in foldLeftWhile(s, initial_value, next_value, condition)
 
-  exists(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    initial_value = false
-    next_value(acc: Boolean, elem: T): Boolean = acc or p(elem)
-    condition(acc: Boolean, elem: T): Boolean = not acc
-
-    foldLeftWhile(s, initial_value, next_value, condition)
-  }
-
-  find(s: MSeq[T], p: (T -> Boolean)): OptionSD[T] = {
+  find(s: MSeq[T], p: (T -> Boolean)): OptionSD[T] =
+    let
       initial_value = NoneSD[T]()
       next_value(acc: OptionSD[T], elem: T): OptionSD[T] =
         if p(elem) then SomeSD[T](elem) else NoneSD[T]()
       condition(acc: OptionSD[T], elem: T): Boolean = acc.isEmpty
+    in foldLeftWhile(s, initial_value, next_value, condition)
 
-      foldLeftWhile(s, initial_value, next_value, condition)
-    }
-
-  filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = {
+  filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] =
+    let
       initial_value = empty
       next_value(acc: MSeq[T], elem: T): MSeq[T] =
         if p(elem)
         then prepended(acc, elem)
         else acc
+    in reverse( foldLeft(s, initial_value, next_value) )
 
-      reverse( foldLeft(s, initial_value, next_value) )
-    }
-
-  map0(s: MSeq[T], f: (T -> T)): MSeq[T] = {
-    initial_value = empty
-    next_value(acc: MSeq[T], elem: T): MSeq[T] =
-      prepended(acc, f(elem))
-
-    reverse( foldLeft(s, initial_value, next_value) )
-  }
+  map0(s: MSeq[T], f: (T -> T)): MSeq[T] =
+    let
+      initial_value = empty
+      next_value(acc: MSeq[T], elem: T): MSeq[T] =
+        prepended(acc, f(elem))
+    in reverse( foldLeft(s, initial_value, next_value) )
 
   /**
    * <pre>
@@ -249,34 +239,37 @@ package soda.collection
 
   /* */
 
-  spanRevRec(s0: MSeq[T], p: T -> Boolean): MSeqPair[T] = {
-    result = MSeqPair(pair.right, pair.left)
-    pair = foldLeftWhile(s0, initial_value, next_value, condition)
+  spanRevRec(s0: MSeq[T], p: T -> Boolean): MSeqPair[T] =
+    let
+      result = MSeqPair(pair.right, pair.left)
+      pair = foldLeftWhile(s0, initial_value, next_value, condition)
 
-    initial_value = FoldTuple(s0, empty, true)
+      initial_value = FoldTuple(s0, empty, true)
 
-    next_value(tuple: FoldTuple, elem: T): FoldTuple = {
-      left = tuple.left
-      right = tuple.right
+      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+        let
+          left = tuple.left
+          right = tuple.right
+          result = left.opt(
+            ifEmpty := FoldTuple(left, right, false),
+            ifNonEmpty := (neleft ->
+              let
+                e = neleft.head()
+                new_taking = p(e)
 
-      left.opt(
-        ifEmpty := FoldTuple(left, right, false),
-        ifNonEmpty := (neleft -> {
-          e = neleft.head()
-          new_taking = p(e)
+                new_tuple =
+                  if new_taking
+                  then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
+                  else FoldTuple(neleft, right, new_taking)
+              in new_tuple
+            )
+          )
+        in result
 
-          if new_taking
-          then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
-          else FoldTuple(neleft, right, new_taking)
-        } )
-      )
-    }
+      condition(tuple: FoldTuple, elem: T): Boolean = tuple.taking
 
-    condition(tuple: FoldTuple, elem: T): Boolean = tuple.taking
+      * FoldTuple(left: MSeq[T], right: MSeq[T], taking: Boolean)
 
-    * FoldTuple(left: MSeq[T], right: MSeq[T], taking: Boolean)
-
-    result
-  }
+    in result
 }
 

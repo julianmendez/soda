@@ -256,17 +256,17 @@ If a tail recursive function is not properly converted to a loop, it could produ
 For technical reasons, a function with tail recursion needs to be used inside another function.
 
 \begin{lstlisting}[label={lst:exampleTailrecInside}]
-  sum (n: Int) = {
-    result = rec (n, 0)
+  sum (n: Int) =
+    let
+      result = rec (n, 0)
 
-    @tailrec
-    rec (n: Int, accum: Int): Int =
-      if n < 0
-      then accum
-      else rec (n - 1, n + accum)
+      @tailrec
+      rec (n: Int, accum: Int): Int =
+        if n < 0
+        then accum
+        else rec (n - 1, n + accum)
 
-    result
-  }
+    in result
 \end{lstlisting}
 
 \subsubsection{\smain}
@@ -276,7 +276,7 @@ This is kept to have functions that can be executed from the console.
 
 \begin{lstlisting}[label={lst:exampleMain}]
   class Main () = {
-    main (args: Array[String]) =
+    main (args: Array[String]): Unit =
       println ("Hello world!")
   }
 
@@ -350,17 +350,17 @@ As an example we can see the factorial written first in a concise and then in a 
 
   class FactorialVerbose () extends AbstractFactorialVerbose is {
 
-    factorial (n: Int) is {
-      result is rec (n, 1)
+    factorial (n: Int) is
+      let
+        result is rec (n, 1)
 
-      @tailrec
-      rec (n: Int, product: Int): Int is
-        if n == 0
-        then product
-        else rec (n - 1, n * product)
+        @tailrec
+        rec (n: Int, product: Int): Int is
+          if n == 0
+          then product
+          else rec (n - 1, n * product)
 
-      result
-    }
+      in result
   }
 \end{lstlisting}
 

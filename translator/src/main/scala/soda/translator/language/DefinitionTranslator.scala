@@ -55,17 +55,16 @@ case class DefinitionTranslator (line: String ) {
     else if (is_val_definition (position ) ) translate_val_definition
     else translate_def_definition
 
-  def is_val_definition (initial_position: Int ) = {
-    lazy val position_of_first_opening_parenthesis = indexOf (line, SodaOpeningParenthesis )
-    lazy val case1 = position_of_first_opening_parenthesis.isEmpty
-    lazy val case2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
-    lazy val case3 =
-      indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
-          position_of_first_opening_parenthesis.opt (false, position => position > other_position )
-      )
-
-    case1 || case2 || case3
-  }
+  def is_val_definition (initial_position: Int ) =
+    {
+      lazy val position_of_first_opening_parenthesis = indexOf (line, SodaOpeningParenthesis )
+      lazy val case1 = position_of_first_opening_parenthesis.isEmpty
+      lazy val case2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
+      lazy val case3 =
+        indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+            position_of_first_opening_parenthesis.opt (false, position => position > other_position )
+        )
+      case1 || case2 || case3  }
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.

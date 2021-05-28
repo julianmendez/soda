@@ -57,19 +57,18 @@ package soda.translator.language
     else if is_val_definition(position) then translate_val_definition
     else translate_def_definition
 
-  is_val_definition(initial_position: Int) = {
-    position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
-    case1 = position_of_first_opening_parenthesis.isEmpty
-    case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
-    case3 =
-      indexOf(line, Translation().SodaColon).opt(
-        ifEmpty := false,
-        ifNonEmpty := other_position ->
-          position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
-      )
-
-    case1 or case2 or case3
-  }
+  is_val_definition(initial_position: Int) =
+    let
+      position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
+      case1 = position_of_first_opening_parenthesis.isEmpty
+      case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
+      case3 =
+        indexOf(line, Translation().SodaColon).opt(
+          ifEmpty := false,
+          ifNonEmpty := other_position ->
+            position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
+        )
+    in case1 or case2 or case3
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.

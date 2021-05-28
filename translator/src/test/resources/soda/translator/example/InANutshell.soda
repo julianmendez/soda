@@ -13,14 +13,18 @@ package soda.translator.example
     a * b
   }
 
-  h1(x: Int, y: Int): Int = {
-    result = a * b
+  h1(x: Int, y: Int): Int =
+    let
+      a = x + y
+      b = x - y
+    in a * b
 
-    a = x + y
-    b = x - y
-
-    result
-  }
+  h2(x: Int, y: Int): Int =
+    let
+      result = a * b
+      a = x + y
+      b = x - y
+    in result
 
   geater_than(a: Int, b: Int): Boolean =
     a > b
@@ -83,7 +87,7 @@ package soda.translator.example
   }
 
   class Main() = {
-    main (args: Array[String]) =
+    main (args: Array[String]): Unit =
       println("Hello world!")
   }
 

@@ -3,7 +3,7 @@ package soda.collection.example
 
 * Pair[T](name: String, result: T)
 
-* ListExample() {
+* ListExample() = {
 
   A: Seq[Char] = Seq('A', 'B', 'C', 'D', 'E', 'F')
   B: Seq[Int] = Seq(10, 20, 30, 40, 50, 60)

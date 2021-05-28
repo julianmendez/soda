@@ -22,13 +22,13 @@ case class Replacement (line: String ) {
     ) replace_only_beginning (line, translator )
     else line
 
-  def replace_only_beginning (line: String, translator: Translator ): String = {
-    lazy val initial_value: String = line
-    def next_value (line: String, reserved_word: String ): String =
-      _replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+  def replace_only_beginning (line: String, translator: Translator ): String =
+    {
+      lazy val initial_value: String = line
+      def next_value (line: String, reserved_word: String ): String =
+        _replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
 
-    Rec () .foldLeft (translator.keys, initial_value, next_value )
-  }
+      Rec () .foldLeft (translator.keys, initial_value, next_value )  }
 
   def _replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
@@ -44,21 +44,21 @@ case class Replacement (line: String ) {
   def replace (translator: Translator ): Replacement =
     Replacement (replace (line, translator )  )
 
-  def replace (line: String, translator: Translator ): String = {
-    lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
+  def replace (line: String, translator: Translator ): String =
+    {
+      lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
 
-    lazy val initial_value: String = line
+      lazy val initial_value: String = line
 
-    def next_value (line: String, reserved_word: String ): String =
-      replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+      def next_value (line: String, reserved_word: String ): String =
+        replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
 
-    def replace_if_found (line: String, pattern: String, new_text: String ): String =
-      if (line.contains (pattern )
-      ) replace_all (line, pattern, new_text )
-      else line
+      def replace_if_found (line: String, pattern: String, new_text: String ): String =
+        if (line.contains (pattern )
+        ) replace_all (line, pattern, new_text )
+        else line
 
-    result
-  }
+      result  }
 
   def add_space_to_soda_line (): Replacement =
     Replacement (SodaSpace + line + SodaSpace )
@@ -67,25 +67,26 @@ case class Replacement (line: String ) {
     Replacement (add_spaces_to_symbols (line, symbols )  )
 
   def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
-    line.indices.map (index => {
-      lazy val result = left_part + ch + right_part
+    line.indices.map (index =>
+      {
+        lazy val result = left_part + ch + right_part
 
-      lazy val ch = line (index )
+        lazy val ch = line (index )
 
-      lazy val left_part =
-        if ((index > 0 ) && symbols.contains (ch ) &&
-          ! line (index - 1 ) .isWhitespace
-        ) ScalaSpace
-        else ""
+        lazy val left_part =
+          if ((index > 0 ) && symbols.contains (ch ) &&
+            ! line (index - 1 ) .isWhitespace
+          ) ScalaSpace
+          else ""
 
-      lazy val right_part =
-        if ((index < line.length - 1 ) && symbols.contains (ch ) &&
-          ! line (index + 1 ) .isWhitespace
-        ) ScalaSpace
-        else ""
+        lazy val right_part =
+          if ((index < line.length - 1 ) && symbols.contains (ch ) &&
+            ! line (index + 1 ) .isWhitespace
+          ) ScalaSpace
+          else ""
 
-      result
-    } ) .mkString ("")
+        result  }
+    ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
     Replacement (remove_space_from_scala_line (line )  )
@@ -137,21 +138,20 @@ case class Replacement (line: String ) {
 
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
-    def next_value (tuple: FoldTuple, x: Int ): FoldTuple = {
-      lazy val replaced_text_rev = tuple.replaced_text_rev
-      lazy val start_index = tuple.start_index
-      lazy val pos = line.indexOf (pattern, start_index )
-      lazy val next_tuple =
-        if (pos == -1
-        ) FoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
-        else {
-          lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
-          lazy val new_index = pos + pattern.length
-
-          FoldTuple (new_replaced_text_rev, new_index )
-        }
-      next_tuple
-    }
+    def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
+      {
+        lazy val replaced_text_rev = tuple.replaced_text_rev
+        lazy val start_index = tuple.start_index
+        lazy val pos = line.indexOf (pattern, start_index )
+        lazy val next_tuple =
+          if (pos == -1
+          ) FoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
+          else
+            {
+              lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
+              lazy val new_index = pos + pattern.length
+              FoldTuple (new_replaced_text_rev, new_index )  }
+        next_tuple  }
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =
       ! (tuple.start_index == -1 )

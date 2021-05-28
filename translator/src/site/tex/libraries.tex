@@ -1,10 +1,9 @@
 \chapter{Libraries}
 
 \begin{lstlisting}[label={lst:foldLeftWhile}]
-    foldLeftWhile[A, B, C subtype (B)](s: Seq[A], initial_value: C,
-        next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
-      result = rec(s, initial_value)
-
+  foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
+      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
+    let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
         if seq.isEmpty
@@ -14,22 +13,19 @@
           then acc
           else rec(seq.tail, next_value(acc, seq.head))
 
-      result
-    }
+    in rec(s, initial_value)
 \end{lstlisting}
 
 \begin{lstlisting}[label={lst:range}]
-    range(n: Int): Seq[Int] = {
-      result = rec(n, Seq[Int]())
-
+  range(n: Int): Seq[Int] =
+    let
       @tailrec
       rec(n: Int, seq: Seq[Int]): Seq[Int] =
         if n <= 0
         then seq
         else rec(n - 1, seq.+:(n - 1))
 
-      result
-    }
+    in rec(n, Seq[Int]())
 \end{lstlisting}
 
 

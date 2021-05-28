@@ -9,24 +9,22 @@ package soda.lib
  */
 * Comb() = {
 
-  cartesianProduct[T](sequences: Seq[Seq[T]]): Seq[Seq[T]] = {
-    result =
-      if sequences.isEmpty
-      then sequences
-      else {
-        rev_sequences = sequences.reverse
+  cartesianProduct[T](sequences: Seq[Seq[T]]): Seq[Seq[T]] =
+    let
+      result =
+        if sequences.isEmpty
+        then sequences
+        else
+          let
+            rev_sequences = sequences.reverse
+          in Rec().foldLeft(rev_sequences.tail, initial_value(rev_sequences.head), next_value)
 
-        Rec().foldLeft(rev_sequences.tail, initial_value(rev_sequences.head), next_value)
-      }
+      initial_value(seq: Seq[T]): Seq[Seq[T]] = seq.map(elem -> Seq(elem))
 
-    initial_value(seq: Seq[T]): Seq[Seq[T]] = seq.map(elem -> Seq(elem))
+      next_value(accum: Seq[Seq[T]], seq_a: Seq[T]): Seq[Seq[T]] =
+        seq_a.flatMap(elem_a ->
+          accum.map(seq_b -> seq_b.+:(elem_a) ) )
 
-    next_value(accum: Seq[Seq[T]], seq_a: Seq[T]): Seq[Seq[T]] =
-      seq_a.flatMap(elem_a ->
-        accum.map(seq_b -> seq_b.+:(elem_a) ) )
-
-    result
-  }
-
+    in result
 }
 

@@ -7,16 +7,15 @@ class AbstractFactorialVerbose = {
 
 class FactorialVerbose () extends AbstractFactorialVerbose = {
 
-  factorial (n: Int) is {
-    result is rec (n, 1)
+  factorial (n: Int) is
+    let
+      result is rec (n, 1)
 
-    @tailrec
-    rec (n: Int, product: Int): Int is
-      if n == 0
-      then product
-      else rec (n - 1, n * product)
-
-    result
-  }
+      @tailrec
+      rec (n: Int, product: Int): Int is
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
+    in result
 }
 

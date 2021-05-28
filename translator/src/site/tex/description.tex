@@ -194,29 +194,38 @@ can be rewritten as
 
 In \Soda, the order is slightly changed, and the result is put at the end:
 \begin{lstlisting}[label={lst:exampleFunctionWithBraces}]
-  f (x: Int) = {
+  f0 (x: Int) = {
     a = g(x)
     b = g(a)
     a + b
   }
 \end{lstlisting}
+The block must have exactly one result at the end.
 
 This could be read as:
 \begin{center}
-    $f(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
+    $f0(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
 \end{center}
 
-The block must have exactly one result at the end.
-To use a structure that has a result at the beginning, like in a \textit{where} example.
+It is possible to use a \slet-\sdin structure for the same purpose.
+\begin{lstlisting}[label={lst:exampleFunctionWithLetIn}]
+  f1 (x: Int) =
+    let
+      a = g(x)
+      b = g(a)
+    in a + b
+\end{lstlisting}
+
+It is possible to use a variable at the beginning to emphasize the result instead the other bindings, like in a \textit{where} example.
 The constant name \srccode{result} is not really a reserved word, but it is a suggested name to write this pattern:
 
 \begin{lstlisting}[label={lst:exampleFunctionLikeWhere}]
-  f1 (x: Int) = {
-    result = a + b
-    a = g(x)
-    b = g(a)
-    result
-  }
+  f2 (x: Int) =
+    let
+      result = a + b
+      a = g(x)
+      b = g(a)
+    in result
 \end{lstlisting}
 
 

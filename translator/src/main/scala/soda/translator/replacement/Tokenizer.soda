@@ -26,28 +26,30 @@ package soda.translator.replacement
     (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
       .reverse
 
-  _next_value(tuple: FoldTuple, current_index: Int): FoldTuple = {
-    ch = line.charAt(current_index)
-    char_type = CharTypeEnum().get_char_type(ch)
-    new_parser_state = ParserTransition().next_parser_state(tuple.parser_state, char_type)
-
-    if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
-    then FoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
-    else _next_value_of_different_class(tuple, current_index, new_parser_state)
-  }
+  _next_value(tuple: FoldTuple, current_index: Int): FoldTuple =
+    let
+      ch = line.charAt(current_index)
+      char_type = CharTypeEnum().get_char_type(ch)
+      new_parser_state = ParserTransition().next_parser_state(tuple.parser_state, char_type)
+      result =
+        if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
+        then FoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
+        else _next_value_of_different_class(tuple, current_index, new_parser_state)
+    in result
 
   _next_value_of_different_class(tuple: FoldTuple, current_index: Int,
-      new_parser_state: ParserState): FoldTuple = {
-    index =
-      if tuple.parser_state == ParserStateEnum().QuotesState or
-         tuple.parser_state == ParserStateEnum().ApostropheState
-      then current_index + 1
-      else current_index
-    text = line.substring(tuple.last_index, index)
+      new_parser_state: ParserState): FoldTuple =
+    let
+      index =
+        if tuple.parser_state == ParserStateEnum().QuotesState or
+           tuple.parser_state == ParserStateEnum().ApostropheState
+        then current_index + 1
+        else current_index
+      text = line.substring(tuple.last_index, index)
 
-    FoldTuple(index, new_parser_state,
-      tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
-  }
+      result = FoldTuple(index, new_parser_state,
+        tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
+    in result
 
   * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 }

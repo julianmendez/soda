@@ -15,13 +15,12 @@ case class MicroTranslator () {
   lazy val NewLine = "\n"
   lazy val SodaOpeningParenthesis: String = "("
 
-  def translate_program (program: String ): String = {
-    lazy val original_lines = split_lines (program )
-    lazy val lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis (original_lines )
-    lazy val translated_lines = translate_lines (lines_to_translate )
-
-    join_translated_lines (translated_lines )
-  }
+  def translate_program (program: String ): String =
+    {
+      lazy val original_lines = split_lines (program )
+      lazy val lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis (original_lines )
+      lazy val translated_lines = translate_lines (lines_to_translate )
+      join_translated_lines (translated_lines )  }
 
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
@@ -41,15 +40,14 @@ case class MicroTranslator () {
         else _translate_non_comment (annotated_line.line )
       )
 
-  def _translate_non_comment (line: String ): String = {
-    lazy val line_with_space = Replacement (line ) .add_space_to_soda_line () .line
-    lazy val tokenized_line = Tokenizer (line_with_space ) .get_tokens
-    lazy val translated_line = _translate_line (tokenized_line )
-    lazy val joint_line = _join_tokens (translated_line )
-    lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
-
-    final_line
-  }
+  def _translate_non_comment (line: String ): String =
+    {
+      lazy val line_with_space = Replacement (line ) .add_space_to_soda_line () .line
+      lazy val tokenized_line = Tokenizer (line_with_space ) .get_tokens
+      lazy val translated_line = _translate_line (tokenized_line )
+      lazy val joint_line = _join_tokens (translated_line )
+      lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
+      final_line  }
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>

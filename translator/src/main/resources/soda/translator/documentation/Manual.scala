@@ -123,18 +123,24 @@ case class Manual () {
     result
   }
 
-  def f (x: Int ) = {
+  def f0 (x: Int ) = {
     lazy val a = g (x )
     lazy val b = g (a )
     a + b
   }
 
-  def f1 (x: Int ) = {
-    lazy val result = a + b
-    lazy val a = g (x )
-    lazy val b = g (a )
-    result
-  }
+  def f1 (x: Int ) =
+    {
+      lazy val a = g (x )
+      lazy val b = g (a )
+      a + b  }
+
+  def f2 (x: Int ) =
+    {
+      lazy val result = a + b
+      lazy val a = g (x )
+      lazy val b = g (a )
+      result  }
 
   def g (x: Int ) = x + 1
 }
@@ -165,54 +171,50 @@ trait AbstractFactorialVerbose {
 
 case class FactorialVerbose () extends AbstractFactorialVerbose {
 
-  def factorial (n: Int ) = {
-    lazy val result = rec (n, 1 )
+  def factorial (n: Int ) =
+    {
+      lazy val result = rec (n, 1 )
 
-    import scala.annotation.tailrec
+      import scala.annotation.tailrec
         @tailrec
-    def rec (n: Int, product: Int ): Int =
-      if (n == 0
-      ) product
-      else rec (n - 1, n * product )
+      def rec (n: Int, product: Int ): Int =
+        if (n == 0
+        ) product
+        else rec (n - 1, n * product )
 
-    result
-  }
+      result  }
 }
 
 case class Rec () {
 
-  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C = {
-    lazy val result = rec (s, initial_value, next_value, cond )
-
-    import scala.annotation.tailrec
+  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+    {
+      import scala.annotation.tailrec
         @tailrec
-    def rec (seq: Seq [A], acc: C, next_value: (B, A ) => C, cond: (B, A ) => Boolean ): C =
-      if (seq.isEmpty
-      ) acc
-      else
-        if (! cond (acc, seq.head )
+      def rec (seq: Seq [A], acc: C ): C =
+        if (seq.isEmpty
         ) acc
-        else rec (seq.tail, next_value (acc, seq.head ), next_value, cond )
+        else
+          if (! condition (acc, seq.head )
+          ) acc
+          else rec (seq.tail, next_value (acc, seq.head )  )
 
-    result
-  }
+      rec (s, initial_value )  }
 
-  def range (n: Int ): Seq [Int] = {
-    lazy val result = rec (n, Seq [Int]  ()  )
-
-    import scala.annotation.tailrec
+  def range (n: Int ): Seq [Int] =
+    {
+      import scala.annotation.tailrec
         @tailrec
-    def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
-      if (n <= 0
-      ) seq
-      else rec (n - 1, seq.+: (n - 1 )  )
+      def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
+        if (n <= 0
+        ) seq
+        else rec (n - 1, seq.+: (n - 1 )  )
 
-    result
-  }
+      rec (n, Seq [Int]  ()  )  }
 }
 
 case class Main () {
-  def main (args: Array [String]  ) =
+  def main (args: Array [String]  ): Unit =
     println ("Hello world!")
 }
 

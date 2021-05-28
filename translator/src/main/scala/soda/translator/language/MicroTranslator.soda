@@ -15,13 +15,12 @@ package soda.translator.language
   NewLine = "\n"
   SodaOpeningParenthesis: String = "("
 
-  translate_program(program: String): String = {
-    original_lines = split_lines(program)
-    lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis(original_lines)
-    translated_lines = translate_lines(lines_to_translate)
-
-    join_translated_lines (translated_lines)
-  }
+  translate_program(program: String): String =
+    let
+      original_lines = split_lines(program)
+      lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis(original_lines)
+      translated_lines = translate_lines(lines_to_translate)
+    in join_translated_lines (translated_lines)
 
   split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
@@ -41,15 +40,14 @@ package soda.translator.language
         else _translate_non_comment(annotated_line.line)
       )
 
-  _translate_non_comment(line: String): String = {
-    line_with_space = Replacement(line).add_space_to_soda_line().line
-    tokenized_line = Tokenizer(line_with_space).get_tokens
-    translated_line = _translate_line(tokenized_line)
-    joint_line = _join_tokens(translated_line)
-    final_line = Replacement(joint_line).remove_space_from_scala_line().line
-
-    final_line
-  }
+  _translate_non_comment(line: String): String =
+    let
+      line_with_space = Replacement(line).add_space_to_soda_line().line
+      tokenized_line = Tokenizer(line_with_space).get_tokens
+      translated_line = _translate_line(tokenized_line)
+      joint_line = _join_tokens(translated_line)
+      final_line = Replacement(joint_line).remove_space_from_scala_line().line
+    in final_line
 
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(

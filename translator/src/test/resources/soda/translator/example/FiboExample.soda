@@ -8,15 +8,15 @@ class FiboExample is {
 
 class FiboExampleInSoda () extends FiboExample {
 
-  fib (n: Int) is {
-    result is rec (n, 0, 1)
+  fib (n: Int) is
+    let
+      result is rec (n, 0, 1)
 
-    rec (m: Int, a: Int, b: Int): Int is
-      if m == 0 then a
-      else if m == 1 then b
-      else rec (m - 1, b, a + b)
+      rec (m: Int, a: Int, b: Int): Int is
+        if m == 0 then a
+        else if m == 1 then b
+        else rec (m - 1, b, a + b)
 
-    result
-  }
+    in result
 }
 
