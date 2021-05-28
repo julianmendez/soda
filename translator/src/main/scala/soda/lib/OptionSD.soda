@@ -50,9 +50,9 @@ package soda.lib
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
-  toOption: None.type = None
-
   map[B](mapping: A -> B): NoneSD[B] = NoneSD[B]()
+
+  toOption: None.type = None
 }
 
 * SomeSD[A] (element: A) extends OptionSD[A] = {

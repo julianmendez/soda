@@ -46,9 +46,9 @@ case class NoneSD [A] () extends OptionSD [A] {
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
-  lazy val toOption: None.type = None
-
   def map [B]  (mapping: A => B ): NoneSD [B] = NoneSD [B]  ()
+
+  lazy val toOption: None.type = None
 }
 
 case class SomeSD [A] (element: A ) extends OptionSD [A] {
