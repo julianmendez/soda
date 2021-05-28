@@ -346,152 +346,152 @@ package soda.collection
 
   test("forall with Seq 0") {
     expected = true
-    pred: Int -> Boolean = x -> not (x == 7)
-    obtained = exampleSeq.forall(pred)
+    predicate: Int -> Boolean = x -> not (x == 7)
+    obtained = exampleSeq.forall(predicate)
 
     assert(obtained == expected)
   }
 
   test("forall with Seq 1") {
     expected = false
-    pred: Int -> Boolean = x -> x < 7
-    obtained = exampleSeq.forall(pred)
+    predicate: Int -> Boolean = x -> x < 7
+    obtained = exampleSeq.forall(predicate)
 
     assert(obtained == expected)
   }
 
   test("forall with Seq 2") {
     expected = true
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Seq().forall(pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Seq().forall(predicate)
 
     assert(obtained == expected)
   }
 
   test("forall 0") {
     expected = true
-    pred: Int -> Boolean = x -> not (x == 7)
-    obtained = Min().forall(example, pred)
+    predicate: Int -> Boolean = x -> not (x == 7)
+    obtained = Min().forall(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("forall 1") {
     expected = false
-    pred: Int -> Boolean = x -> x < 7
-    obtained = Min().forall(example, pred)
+    predicate: Int -> Boolean = x -> x < 7
+    obtained = Min().forall(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("forall 2") {
     expected = true
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Min().forall(empty, pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Min().forall(empty, predicate)
 
     assert(obtained == expected)
   }
 
   test("exists with Seq 0") {
     expected = true
-    pred: Int -> Boolean = x -> x == 8
-    obtained = exampleSeq.exists(pred)
+    predicate: Int -> Boolean = x -> x == 8
+    obtained = exampleSeq.exists(predicate)
 
     assert(obtained == expected)
   }
 
   test("exists with Seq 1") {
     expected = false
-    pred: Int -> Boolean = x -> x == 7
-    obtained = exampleSeq.exists(pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = exampleSeq.exists(predicate)
 
     assert(obtained == expected)
   }
 
   test("exists with Seq 2") {
     expected = false
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Seq().exists(pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Seq().exists(predicate)
 
     assert(obtained == expected)
   }
 
   test("exists 0") {
     expected = true
-    pred: Int -> Boolean = x -> x == 8
-    obtained = Min().exists(example, pred)
+    predicate: Int -> Boolean = x -> x == 8
+    obtained = Min().exists(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("exists 1") {
     expected = false
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Min().exists(example, pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Min().exists(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("exists 2") {
     expected = false
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Min().exists(empty, pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Min().exists(empty, predicate)
 
     assert(obtained == expected)
   }
 
   test("find with Seq 0") {
     expected = Some(0)
-    pred: Int -> Boolean = x -> not (x == 7)
-    obtained = exampleSeq.find(pred)
+    predicate: Int -> Boolean = x -> not (x == 7)
+    obtained = exampleSeq.find(predicate)
 
     assert(obtained == expected)
   }
 
   test("find with Seq 1") {
     expected = Some(8)
-    pred: Int -> Boolean = x -> x == 8
-    obtained = exampleSeq.find(pred)
+    predicate: Int -> Boolean = x -> x == 8
+    obtained = exampleSeq.find(predicate)
 
     assert(obtained == expected)
   }
 
   test("find with Seq 2") {
     expected = None
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Seq().find(pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Seq().find(predicate)
 
     assert(obtained == expected)
   }
 
   test("find 0") {
     expected = SomeSD(0)
-    pred: Int -> Boolean = x -> not (x == 7)
-    obtained = Min().find(example, pred)
+    predicate: Int -> Boolean = x -> not (x == 7)
+    obtained = Min().find(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("find 1") {
     expected = SomeSD(8)
-    pred: Int -> Boolean = x -> x == 8
-    obtained = Min().find(example, pred)
+    predicate: Int -> Boolean = x -> x == 8
+    obtained = Min().find(example, predicate)
 
     assert(obtained == expected)
   }
 
   test("find 2") {
     expected = NoneSD()
-    pred: Int -> Boolean = x -> x == 7
-    obtained = Min().find(empty, pred)
+    predicate: Int -> Boolean = x -> x == 7
+    obtained = Min().find(empty, predicate)
 
     assert(obtained == expected)
   }
 
   test("filter with Seq") {
     expected = Seq(0, 3)
-    pred: Int -> Boolean = x -> x % 3 == 0
-    obtained = exampleSeq.filter(pred)
+    predicate: Int -> Boolean = x -> x % 3 == 0
+    obtained = exampleSeq.filter(predicate)
 
     assert(obtained == expected)
   }

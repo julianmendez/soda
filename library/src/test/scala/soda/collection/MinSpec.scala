@@ -345,152 +345,152 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("forall with Seq 0") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained = exampleSeq.forall (pred )
+    lazy val predicate: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = exampleSeq.forall (predicate )
 
     assert (obtained == expected )
   }
 
   test ("forall with Seq 1") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x < 7
-    lazy val obtained = exampleSeq.forall (pred )
+    lazy val predicate: Int => Boolean = x => x < 7
+    lazy val obtained = exampleSeq.forall (predicate )
 
     assert (obtained == expected )
   }
 
   test ("forall with Seq 2") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Seq () .forall (pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .forall (predicate )
 
     assert (obtained == expected )
   }
 
   test ("forall 0") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained = Min () .forall (example, pred )
+    lazy val predicate: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = Min () .forall (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("forall 1") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x < 7
-    lazy val obtained = Min () .forall (example, pred )
+    lazy val predicate: Int => Boolean = x => x < 7
+    lazy val obtained = Min () .forall (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("forall 2") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Min () .forall (empty, pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .forall (empty, predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists with Seq 0") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => x == 8
-    lazy val obtained = exampleSeq.exists (pred )
+    lazy val predicate: Int => Boolean = x => x == 8
+    lazy val obtained = exampleSeq.exists (predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists with Seq 1") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = exampleSeq.exists (pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = exampleSeq.exists (predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists with Seq 2") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Seq () .exists (pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .exists (predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists 0") {
     lazy val expected = true
-    lazy val pred: Int => Boolean = x => x == 8
-    lazy val obtained = Min () .exists (example, pred )
+    lazy val predicate: Int => Boolean = x => x == 8
+    lazy val obtained = Min () .exists (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists 1") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Min () .exists (example, pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .exists (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("exists 2") {
     lazy val expected = false
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Min () .exists (empty, pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .exists (empty, predicate )
 
     assert (obtained == expected )
   }
 
   test ("find with Seq 0") {
     lazy val expected = Some (0 )
-    lazy val pred: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained = exampleSeq.find (pred )
+    lazy val predicate: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = exampleSeq.find (predicate )
 
     assert (obtained == expected )
   }
 
   test ("find with Seq 1") {
     lazy val expected = Some (8 )
-    lazy val pred: Int => Boolean = x => x == 8
-    lazy val obtained = exampleSeq.find (pred )
+    lazy val predicate: Int => Boolean = x => x == 8
+    lazy val obtained = exampleSeq.find (predicate )
 
     assert (obtained == expected )
   }
 
   test ("find with Seq 2") {
     lazy val expected = None
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Seq () .find (pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .find (predicate )
 
     assert (obtained == expected )
   }
 
   test ("find 0") {
     lazy val expected = SomeSD (0 )
-    lazy val pred: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained = Min () .find (example, pred )
+    lazy val predicate: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = Min () .find (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("find 1") {
     lazy val expected = SomeSD (8 )
-    lazy val pred: Int => Boolean = x => x == 8
-    lazy val obtained = Min () .find (example, pred )
+    lazy val predicate: Int => Boolean = x => x == 8
+    lazy val obtained = Min () .find (example, predicate )
 
     assert (obtained == expected )
   }
 
   test ("find 2") {
     lazy val expected = NoneSD ()
-    lazy val pred: Int => Boolean = x => x == 7
-    lazy val obtained = Min () .find (empty, pred )
+    lazy val predicate: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .find (empty, predicate )
 
     assert (obtained == expected )
   }
 
   test ("filter with Seq") {
     lazy val expected = Seq (0, 3 )
-    lazy val pred: Int => Boolean = x => x % 3 == 0
-    lazy val obtained = exampleSeq.filter (pred )
+    lazy val predicate: Int => Boolean = x => x % 3 == 0
+    lazy val obtained = exampleSeq.filter (predicate )
 
     assert (obtained == expected )
   }
