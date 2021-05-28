@@ -64,6 +64,7 @@ package soda.translator.language
             .replace(tr.Synonym())
             .replace_with(try_definition)
             .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
+            .append_if_condition(starts_with_in, Translation().ScalaInTranslation)
             .replace(tr.MainTranslation())
             .replace_regex(tr.Beautifier())
             .line
@@ -85,6 +86,9 @@ package soda.translator.language
     tokens
       .map(token -> token.text)
       .mkString("")
+
+  starts_with_in(line: String): Boolean =
+    line.trim().startsWith(Translation().SodaInPattern)
 
   * Excerpt(beginning: Int, end: Int)
 }

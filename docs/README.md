@@ -17,6 +17,8 @@ The reserved words are:
 - `if`
 - `then`
 - `else`
+- `let`
+- `in`
 - `class`
 - `has`
 - `extends`

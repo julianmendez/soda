@@ -1,6 +1,8 @@
 ---
 - - version: v0.9.0
   - date: unreleased
+  - new_features:
+    - includes `let` and `in` reserved words to define a block of bindings
   - deprecated_features:
     - synonym `suchthat` for `->` is no longer supported
   - build: sbt '++ 3.0.0' clean compile test package assembly

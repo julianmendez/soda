@@ -10,6 +10,10 @@ package soda.translator.language
 
   SodaColon: String = ":"
 
+  SodaInReservedWord: String = "in"
+  SodaInPattern: String = SodaInReservedWord + " "
+  ScalaInTranslation: String = " } "
+
   SodaClassReservedWord: String = "class"
 
   ScalaDefinition: String = "def"
@@ -24,6 +28,8 @@ package soda.translator.language
     "if",
     "then",
     "else",
+    "let",
+    "in",
     "class",
     "has",
     "extends",
@@ -168,6 +174,8 @@ package soda.translator.language
     ("if", "if ("),
     ("then", ")"),
     ("else", "else"),
+    ("let", "{"),
+    ("in", " "),
     ("extends", "extends"),
     ("with", "with"),
     ("this", "this"),

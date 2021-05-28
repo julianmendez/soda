@@ -123,6 +123,14 @@ case class Replacement (line: String ) {
     Rec () .foldLeft (translator.keys, initial_value, next_value )
   }
 
+  def append_if_condition (condition: String => Boolean, to_append: String ): Replacement =
+    Replacement (append_if_condition (line, condition, to_append )  )
+
+  def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
+    if (condition (line )
+    ) line + to_append
+    else line
+
   case class Replacer (line: String, pattern: String, replacement: String ) {
     lazy val replace =
       postproc (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition ) )

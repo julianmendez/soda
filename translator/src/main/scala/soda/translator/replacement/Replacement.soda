@@ -125,6 +125,14 @@ package soda.translator.replacement
     Rec().foldLeft(translator.keys, initial_value, next_value)
   }
 
+  append_if_condition(condition: String -> Boolean, to_append: String): Replacement =
+    Replacement(append_if_condition(line, condition, to_append))
+
+  append_if_condition(line: String, condition: String -> Boolean, to_append: String): String =
+    if condition(line)
+    then line + to_append
+    else line
+
   * Replacer(line: String, pattern: String, replacement: String) = {
     replace =
       postproc( Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition ) )

@@ -63,6 +63,7 @@ case class MicroTranslator () {
             .replace (tr.Synonym ()  )
             .replace_with (try_definition )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
+            .append_if_condition (starts_with_in, Translation () .ScalaInTranslation )
             .replace (tr.MainTranslation ()  )
             .replace_regex (tr.Beautifier ()  )
             .line
@@ -84,6 +85,9 @@ case class MicroTranslator () {
     tokens
       .map (token => token.text )
       .mkString ("")
+
+  def starts_with_in (line: String ): Boolean =
+    line.trim () .startsWith (Translation () .SodaInPattern )
 
   case class Excerpt (beginning: Int, end: Int )
 }
