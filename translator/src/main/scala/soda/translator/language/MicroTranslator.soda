@@ -5,11 +5,6 @@ package soda.translator.language
  * This class translates Soda source code into Scala source code.
  */
 * MicroTranslator() = {
-  + soda.lib.Rec
-  + soda.lib.OptionSD
-  + soda.lib.NoneSD
-  + soda.lib.SomeSD
-  + soda.lib.OptionSDBuilder
   + soda.translator.replacement.CommentPreprocessor
   + soda.translator.replacement.ParserStateEnum
   + soda.translator.replacement.Replacement
@@ -18,14 +13,7 @@ package soda.translator.language
   + soda.translator.replacement.Translator
 
   NewLine = "\n"
-  Comma = ","
-
   SodaOpeningParenthesis: String = "("
-  SodaClosingParenthesis: String = ")"
-  SodaOpeningBracket: String = "["
-  SodaClosingBracket: String = "]"
-  SodaSpace: String = " "
-  ScalaSpace: String = " "
 
   translate_program(program: String): String = {
     original_lines = split_lines(program)
@@ -39,34 +27,6 @@ package soda.translator.language
 
   join_lines_ending_with_comma_or_opening_parenthesis(lines: Seq[String]): Seq[String] =
     LineJoiner(lines).get_joined_lines
-
-  * LineJoiner(lines: Seq[String]) = {
-
-    get_joined_lines =
-      processed_lines.reverse
-
-    processed_lines = {
-      pairs = Rec().foldLeft(lines, initial_value, next_value)
-      if pairs.in_process_rev.isEmpty
-      then pairs.processed_rev
-      else pairs.processed_rev.+:(rev_list_as_element(pairs.in_process_rev, ""))
-    }
-
-    * FoldTuple(in_process_rev: Seq[String], processed_rev: Seq[String])
-
-    initial_value = FoldTuple(Seq(), Seq())
-
-    next_value(pair: FoldTuple, head: String): FoldTuple =
-      if head.trim().endsWith(Comma) or head.trim().endsWith(SodaOpeningParenthesis)
-      then FoldTuple(pair.in_process_rev.+:(head), pair.processed_rev)
-      else {
-        new_head = rev_list_as_element(pair.in_process_rev, head)
-        FoldTuple(Seq(), pair.processed_rev.+:(new_head))
-      }
-
-    rev_list_as_element(in_process_rev: Seq[String], line: String): String =
-      in_process_rev.reverse.mkString("") + line
-  }
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(NewLine) + NewLine
@@ -118,94 +78,11 @@ package soda.translator.language
   try_definition(line: String): String =
     DefinitionTranslator(line).get_translation
 
-  /**
-   * A line containing the definition sign will be classified as a definition.
-   * The definitions need to be identified as 'val', 'def', or 'class'.
-   *
-   * 'class' is for class definition.
-   * It is detected if the 'class' reserved word is also in the same line.
-   *
-   * 'val' is for value definition.
-   * It is detected in three cases.
-   * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
-   * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
-   * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
-   *
-   * 'def' is for function definition.
-   * If it does not fit in any of the 'val' cases.
-   *
-   * Formerly there was another case for 'val'.
-   * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
-   * This was implemented simply as:
-   * `line.trim.startsWith(SodaOpeningParenthesis)`
-   * This is no longer supported.
-   *
-   * @param line line
-   * @return a translated line
-   */
-  * DefinitionTranslator(line: String) = {
-    get_translation = find_definition(line).opt(
-      ifEmpty := line,
-      ifNonEmpty := position -> try_found_definition(position).line
-    )
-
-    try_found_definition(position: Int): Replacement =
-      if is_class_definition then translate_class_definition
-      else if is_val_definition(position) then translate_val_definition
-      else translate_def_definition
-
-    is_class_definition =
-      indexOf(line, SodaSpace + Translation().SodaClassReservedWord + SodaSpace).isDefined
-
-    is_val_definition(initial_position: Int) = {
-      position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
-
-      case1 = position_of_first_opening_parenthesis.isEmpty
-      case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
-      case3 =
-        indexOf(line, Translation().SodaColon).opt(
-          ifEmpty := false,
-          ifNonEmpty := other_position ->
-            position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
-        )
-
-      case1 or case2 or case3
-    }
-
-    translate_class_definition =
-      Replacement(line).replace_all(SodaSpace + Translation().SodaDefinition, "")
-
-    translate_val_definition =
-      Replacement(line).add_after_spaces( Translation().ScalaValue + ScalaSpace )
-
-    translate_def_definition =
-      Replacement(line).add_after_spaces( Translation().ScalaDefinition + ScalaSpace )
-  }
-
-  /**
-   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-  find_definition(line: String): OptionSD[Int] =
-    if line.endsWith(SodaSpace + Translation().SodaDefinition)
-    then SomeSD(line.length - Translation().SodaDefinition.length)
-    else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
-
-  indexOf(line: String, pattern: String): OptionSD[Int] = indexOf(line, pattern, 0)
-
-  indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
-    SomeSD(line.indexOf(pattern, start))
-      .filter(position -> not (position == -1))
-
   _join_tokens(tokens: Seq[Token]): String =
     tokens
       .map(token -> token.text)
       .mkString("")
 
   * Excerpt(beginning: Int, end: Int)
-
 }
 
