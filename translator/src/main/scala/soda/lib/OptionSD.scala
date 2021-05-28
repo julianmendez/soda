@@ -11,15 +11,16 @@ trait OptionSD [A] {
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B
 
+  def map [B]  (mapping: A => B ): OptionSD [B]
+
+  def toOption: Option [A]
+
   lazy val isEmpty: Boolean =
     opt (ifEmpty = true, ifNonEmpty = element => false )
 
   lazy val isDefined: Boolean = ! isEmpty
 
   lazy val nonEmpty: Boolean = ! isEmpty
-
-  lazy val toOption: Option [A] =
-    opt (ifEmpty = None, ifNonEmpty = element => Some [A]  (element )  )
 
   lazy val toSeq: Seq [A] =
     opt (ifEmpty = Seq (), ifNonEmpty = element => Seq (element )  )
@@ -30,13 +31,11 @@ trait OptionSD [A] {
   def fold [B]  (ifEmpty: B, f: A => B ): B =
     opt (ifEmpty, f )
 
-  def map [B]  (mapping: A => B ): OptionSD [B] =
-    opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => SomeSD [B]  (mapping (element )  )
-    )
-
   def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
     opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
     )
+
+  def bind [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] = flatMap [B]  (mapping )
 
   def filter (predicate: A => Boolean ): OptionSD [A] =
     opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
@@ -46,6 +45,10 @@ trait OptionSD [A] {
 case class NoneSD [A] () extends OptionSD [A] {
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
+
+  lazy val toOption: None.type = None
+
+  def map [B]  (mapping: A => B ): NoneSD [B] = NoneSD [B]  ()
 }
 
 case class SomeSD [A] (element: A ) extends OptionSD [A] {
@@ -53,6 +56,10 @@ case class SomeSD [A] (element: A ) extends OptionSD [A] {
   lazy val get: A = element
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
+
+  def map [B]  (mapping: A => B ): SomeSD [B] = SomeSD [B]  (mapping (element )  )
+
+  lazy val toOption: Some [A] = Some [A]  (element )
 }
 
 case class OptionSDBuilder [A]  () {

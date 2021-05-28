@@ -11,15 +11,16 @@ package soda.lib
 
   has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
+  has map[B](mapping: A -> B): OptionSD[B]
+
+  has toOption: Option[A]
+
   isEmpty: Boolean =
     opt(ifEmpty := true, ifNonEmpty := element -> false)
 
   isDefined: Boolean = not isEmpty
 
   nonEmpty: Boolean = not isEmpty
-
-  toOption: Option[A] =
-    opt(ifEmpty := None, ifNonEmpty := element -> Some[A](element))
 
   toSeq: Seq[A] =
     opt(ifEmpty := Seq(), ifNonEmpty := element -> Seq(element))
@@ -30,17 +31,13 @@ package soda.lib
   fold[B](ifEmpty: B, f: A -> B): B =
     opt(ifEmpty, f)
 
-  map[B](mapping: A -> B): OptionSD[B] =
-    opt(
-      ifEmpty := NoneSD[B](),
-      ifNonEmpty := element -> SomeSD[B](mapping(element))
-    )
-
   flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
     opt(
       ifEmpty := NoneSD[B](),
       ifNonEmpty := element -> mapping(element)
     )
+
+  bind[B](mapping: A -> OptionSD[B]): OptionSD[B] = flatMap[B](mapping)
 
   filter(predicate: A -> Boolean): OptionSD[A] =
     opt(
@@ -52,6 +49,10 @@ package soda.lib
 * NoneSD[A] () extends OptionSD[A] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+
+  toOption: None.type = None
+
+  map[B](mapping: A -> B): NoneSD[B] = NoneSD[B]()
 }
 
 * SomeSD[A] (element: A) extends OptionSD[A] = {
@@ -59,6 +60,10 @@ package soda.lib
   get: A = element
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+
+  map[B](mapping: A -> B): SomeSD[B] = SomeSD[B](mapping(element))
+
+  toOption: Some[A] = Some[A](element)
 }
 
 * OptionSDBuilder[A]() = {
