@@ -24,6 +24,7 @@ package soda.translator.language
   test_translation(file_name: String): Assertion = {
     input_file_name = Base + file_name + SodaSuffix
     expected_file_name = Base + file_name + ScalaSuffix
+
     test_translation(input_file_name, expected_file_name)
   }
 
@@ -31,6 +32,7 @@ package soda.translator.language
     input_file = read_file(input_file_name)
     expected = read_file(expected_file_name)
     obtained = MicroTranslator().translate_program(input_file)
+
     assert(obtained == expected)
   }
 
@@ -38,6 +40,7 @@ package soda.translator.language
     document_resource = getClass.getResource(file_name)
     document_URI = document_resource.toURI
     document_path = Paths.get(document_URI)
+
     @new String(Files.readAllBytes(document_path))
   }
 
@@ -49,8 +52,11 @@ package soda.translator.language
     test_translation(FiboExample)
   }
 
-  test("should translate the Factorial examples") {
+  test("should translate the Factorial Concise example") {
     test_translation(FactorialConcise)
+  }
+
+  test("should translate the Factorial Verbose example") {
     test_translation(FactorialVerbose)
   }
 

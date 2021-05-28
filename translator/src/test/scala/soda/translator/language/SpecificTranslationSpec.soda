@@ -9,14 +9,13 @@ package soda.translator.language
       "\n    \"     y: Int) =\"," +
       "\n    \"       x + y\")" +
       "\n"
-
     expected = "  lazy val input_lines = Seq (" +
       "\"  f( x: Int,\\t\", " +
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-
     obtained = MicroTranslator().translate_program(original)
+
     assert(obtained == expected)
   }
 
@@ -24,6 +23,7 @@ package soda.translator.language
     input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     obtained = MicroTranslator().translate_program(input)
+
     assert(obtained == expected)
   }
 
@@ -31,6 +31,7 @@ package soda.translator.language
     input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     obtained = MicroTranslator().translate_program(input)
+
     assert(obtained == expected)
   }
 }

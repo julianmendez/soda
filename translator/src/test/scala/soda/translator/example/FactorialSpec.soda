@@ -12,6 +12,7 @@ package soda.translator.example
     obtained = factorial_values
       .map(pair -> pair._1)
       .map(n -> (n, FactorialConcise().factorial(n)))
+
     assert(obtained == expected)
   }
 

@@ -20,8 +20,6 @@ case class Tokenizer (line: String ) {
   lazy val get_tokens: Seq [Token] =
     _postproc (Rec () .foldLeft (Rec () .range (line.length ), _initial_value, _next_value )  )
 
-  case class FoldTuple (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
-
   lazy val _initial_value = FoldTuple (0, ParserStateEnum () .Plain, Seq ()  )
 
   def _postproc (tuple: FoldTuple ): Seq [Token] =
@@ -44,8 +42,10 @@ case class Tokenizer (line: String ) {
          tuple.parser_state == ParserStateEnum () .ApostropheState
       ) current_index + 1
       else current_index
-
     lazy val text = line.substring (tuple.last_index, index )
+
     FoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  )
   }
+
+  case class FoldTuple (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
 }

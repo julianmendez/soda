@@ -15,6 +15,7 @@ case class Comb () {
       ) sequences
       else {
         lazy val rev_sequences = sequences.reverse
+
         Rec () .foldLeft (rev_sequences.tail, initial_value (rev_sequences.head ), next_value )
       }
 

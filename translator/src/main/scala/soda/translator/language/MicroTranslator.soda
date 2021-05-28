@@ -19,6 +19,7 @@ package soda.translator.language
     original_lines = split_lines(program)
     lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis(original_lines)
     translated_lines = translate_lines(lines_to_translate)
+
     join_translated_lines (translated_lines)
   }
 
@@ -46,6 +47,7 @@ package soda.translator.language
     translated_line = _translate_line(tokenized_line)
     joint_line = _join_tokens(translated_line)
     final_line = Replacement(joint_line).remove_space_from_scala_line().line
+
     final_line
   }
 
@@ -65,6 +67,7 @@ package soda.translator.language
             .replace(tr.MainTranslation())
             .replace_regex(tr.Beautifier())
             .line
+
           Token(newText, token.parser_state, token.index)
         }
         else token

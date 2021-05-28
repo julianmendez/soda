@@ -20,15 +20,12 @@ case class ParserStateEnum () {
 
   lazy val values = Seq (UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain )
 
-  def is_same_class (x: ParserState, y: ParserState ): Boolean = {
-    lazy val result = (x == y ) || is_like (x, y ) || is_like (y, x )
+  def is_same_class (x: ParserState, y: ParserState ): Boolean =
+    (x == y ) || is_like (x, y ) || is_like (y, x )
 
-    def is_like (x: ParserState, y: ParserState ): Boolean =
-      (x == QuotesState && y == QuotesBackslashState ) ||
-        (x == ApostropheState && y == ApostropheBackslashState )
-
-    result
-  }
+  def is_like (x: ParserState, y: ParserState ): Boolean =
+    (x == QuotesState && y == QuotesBackslashState ) ||
+      (x == ApostropheState && y == ApostropheBackslashState )
 }
 
 case class ParserTransition () {

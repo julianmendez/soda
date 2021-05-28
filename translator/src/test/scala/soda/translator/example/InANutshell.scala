@@ -9,13 +9,16 @@ case class InANutshell () {
   def h0 (x: Int, y: Int ): Int = {
     lazy val a = x + y
     lazy val b = x - y
+
     a * b
   }
 
   def h1 (x: Int, y: Int ): Int = {
     lazy val result = a * b
+
     lazy val a = x + y
     lazy val b = x - y
+
     result
   }
 

@@ -18,6 +18,7 @@ package soda.translator.example
 
   test("first elements of FizzBuzz") {
     obtained = FizzBuzz().fizz_buzz()
+
     assert(obtained == expected)
   }
 }

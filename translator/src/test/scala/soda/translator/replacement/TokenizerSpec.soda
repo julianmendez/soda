@@ -11,6 +11,7 @@ package soda.translator.replacement
       Token("", ParserStateEnum().Plain, 28)
     )
     obtained = Tokenizer(input).get_tokens
+
     assert(obtained == expected)
   }
 
@@ -22,6 +23,7 @@ package soda.translator.replacement
       Token("", ParserStateEnum().Plain, 14)
     )
     obtained = Tokenizer(input).get_tokens
+
     assert(obtained == expected)
   }
 
@@ -33,6 +35,7 @@ package soda.translator.replacement
       Token("", ParserStateEnum().Plain, 15)
     )
     obtained = Tokenizer(input).get_tokens
+
     assert(obtained == expected)
   }
 
@@ -42,6 +45,7 @@ package soda.translator.replacement
       Token("def f(x: Int): Int = x", ParserStateEnum().Plain, 0)
     )
     obtained = Tokenizer(input).get_tokens
+
     assert(obtained == expected)
   }
 
@@ -51,6 +55,7 @@ package soda.translator.replacement
       Token("\tas_digits (5 * number)", ParserStateEnum().Plain, 0)
     )
     obtained = Tokenizer(input).get_tokens
+
     assert(obtained == expected)
   }
 

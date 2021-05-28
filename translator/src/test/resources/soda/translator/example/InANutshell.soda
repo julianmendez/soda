@@ -9,13 +9,16 @@ package soda.translator.example
   h0(x: Int, y: Int): Int = {
     a = x + y
     b = x - y
+
     a * b
   }
 
   h1(x: Int, y: Int): Int = {
     result = a * b
+
     a = x + y
     b = x - y
+
     result
   }
 

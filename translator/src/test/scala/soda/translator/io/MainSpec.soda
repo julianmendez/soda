@@ -8,6 +8,7 @@ package soda.translator.io
     instance = Main()
     expected = instance.FileNamePair("my_file.soda", "my_file.scala")
     obtained = instance.get_input_output_file_names("my_file.soda")
+
     assert(obtained == expected)
   }
 
@@ -15,6 +16,7 @@ package soda.translator.io
     instance = Main()
     expected = instance.FileNamePair("/path/to/file.soda", "/path/to/file.scala")
     obtained = instance.get_input_output_file_names("/path/to/file.soda")
+
     assert(obtained == expected)
   }
 }

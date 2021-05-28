@@ -59,7 +59,6 @@ package soda.translator.language
 
   is_val_definition(initial_position: Int) = {
     position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
-
     case1 = position_of_first_opening_parenthesis.isEmpty
     case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
     case3 =

@@ -19,6 +19,7 @@ case class MicroTranslator () {
     lazy val original_lines = split_lines (program )
     lazy val lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis (original_lines )
     lazy val translated_lines = translate_lines (lines_to_translate )
+
     join_translated_lines (translated_lines )
   }
 
@@ -46,6 +47,7 @@ case class MicroTranslator () {
     lazy val translated_line = _translate_line (tokenized_line )
     lazy val joint_line = _join_tokens (translated_line )
     lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
+
     final_line
   }
 
@@ -64,6 +66,7 @@ case class MicroTranslator () {
             .replace (tr.MainTranslation ()  )
             .replace_regex (tr.Beautifier ()  )
             .line
+
           Token (newText, token.parser_state, token.index )
         }
         else token

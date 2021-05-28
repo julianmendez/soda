@@ -24,6 +24,7 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
   def test_translation (file_name: String ): Assertion = {
     lazy val input_file_name = Base + file_name + SodaSuffix
     lazy val expected_file_name = Base + file_name + ScalaSuffix
+
     test_translation (input_file_name, expected_file_name )
   }
 
@@ -31,6 +32,7 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val input_file = read_file (input_file_name )
     lazy val expected = read_file (expected_file_name )
     lazy val obtained = MicroTranslator () .translate_program (input_file )
+
     assert (obtained == expected )
   }
 
@@ -38,6 +40,7 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val document_resource = getClass.getResource (file_name )
     lazy val document_URI = document_resource.toURI
     lazy val document_path = Paths.get (document_URI )
+
     new String (Files.readAllBytes (document_path )  )
   }
 
@@ -49,8 +52,11 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
     test_translation (FiboExample )
   }
 
-  test ("should translate the Factorial examples") {
+  test ("should translate the Factorial Concise example") {
     test_translation (FactorialConcise )
+  }
+
+  test ("should translate the Factorial Verbose example") {
     test_translation (FactorialVerbose )
   }
 

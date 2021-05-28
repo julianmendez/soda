@@ -15,7 +15,8 @@ package soda.translator.language
       "\n__soda__while (x != 0 )" +
       "\n"
     obtained = MicroTranslator().translate_program(program)
-    assert (obtained == expected)
+
+    assert(obtained == expected)
   }
 }
 

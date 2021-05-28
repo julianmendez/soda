@@ -9,14 +9,13 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
       "\n    \"     y: Int) =\"," +
       "\n    \"       x + y\")" +
       "\n"
-
     lazy val expected = "  lazy val input_lines = Seq (" +
       "\"  f( x: Int,\\t\", " +
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-
     lazy val obtained = MicroTranslator () .translate_program (original )
+
     assert (obtained == expected )
   }
 
@@ -24,6 +23,7 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
     lazy val input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     lazy val expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     lazy val obtained = MicroTranslator () .translate_program (input )
+
     assert (obtained == expected )
   }
 
@@ -31,6 +31,7 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
     lazy val input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     lazy val obtained = MicroTranslator () .translate_program (input )
+
     assert (obtained == expected )
   }
 }

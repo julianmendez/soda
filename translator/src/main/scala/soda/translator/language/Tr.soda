@@ -8,6 +8,7 @@ package soda.translator.language
   + soda.translator.replacement.Translator
 
   * SynonymAtBeginning () extends Translator = {
+
     _table = Translation().SynonymAtBeginning
 
     keys = _keys(_table)
@@ -16,6 +17,7 @@ package soda.translator.language
   }
 
   * TranslationAtBeginningWithParen() extends Translator = {
+
     _table = Translation().TranslationAtBeginningWithParen
 
     keys = _keys(_table)
@@ -24,6 +26,7 @@ package soda.translator.language
   }
 
   * TranslationAtBeginningWithoutParen() extends Translator = {
+
     _table = Translation().TranslationAtBeginningWithoutParen
 
     keys = _keys(_table)
@@ -32,6 +35,7 @@ package soda.translator.language
   }
 
   * Synonym() extends Translator = {
+
     _table = Translation().Synonym
 
     keys = _keys(_table)
@@ -40,6 +44,7 @@ package soda.translator.language
   }
 
   * MainTranslation() extends Translator = {
+
     _table = Translation().MainTranslation
 
     keys = _keys(_table)
@@ -48,6 +53,7 @@ package soda.translator.language
   }
 
   * ScalaNonSoda() extends Translator = {
+
     keys = Translation().ScalaNonSodaKeys
 
     translate (word: String) =
@@ -58,6 +64,7 @@ package soda.translator.language
   }
 
   * Beautifier() extends Translator = {
+
     _table = Translation().Beautifier
 
     keys = _keys(_table)

@@ -11,8 +11,6 @@ package soda.lib
 
   foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, condition: (B, A) -> Boolean): C = {
-    result = rec(s, initial_value)
-
     @tailrec
     rec(seq: Seq[A], acc: C): C =
       if seq.isEmpty
@@ -22,32 +20,28 @@ package soda.lib
         then acc
         else rec(seq.tail, next_value(acc, seq.head))
 
-    result
+    rec(s, initial_value)
   }
 
   foldLeft[A, B, C subtype B](seq: Seq[A], initial_value: C,
       next_value: (B, A) -> C): C = {
-    result = rec(seq, initial_value)
-
     @tailrec
     rec(seq: Seq[A], acc: C): C =
       if seq.isEmpty
       then acc
       else rec(seq.tail, next_value(acc, seq.head))
 
-    result
+    rec(seq, initial_value)
   }
 
   range(n: Int): Seq[Int] = {
-    result = rec(n, Seq[Int]())
-
     @tailrec
     rec(n: Int, seq: Seq[Int]): Seq[Int] =
       if n <= 0
       then seq
       else rec(n - 1, seq.+:(n - 1))
 
-    result
+    rec(n, Seq[Int]())
   }
 }
 

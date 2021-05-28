@@ -8,6 +8,7 @@ case class PiIteratorSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("first digits of Pi") {
     lazy val piSequence = PiIterator () .take (128 )
     lazy val obtained = "" + piSequence.head + "." + piSequence.tail.mkString ("")
+
     assert (obtained == piStart )
   }
 }

@@ -7,6 +7,7 @@ package soda.translator.replacement
      input = '"'
      obtained = CharTypeEnum().get_char_type(input)
      expected = CharTypeEnum().QuotesType
+
      assert(obtained == expected)
    }
 
@@ -14,6 +15,7 @@ package soda.translator.replacement
      input = '\''
      obtained = CharTypeEnum().get_char_type(input)
      expected = CharTypeEnum().ApostropheType
+
      assert(obtained == expected)
    }
 
@@ -21,6 +23,7 @@ package soda.translator.replacement
      input = '\\'
      obtained = CharTypeEnum().get_char_type(input)
      expected = CharTypeEnum().BackslashType
+
      assert(obtained == expected)
    }
 
@@ -28,6 +31,7 @@ package soda.translator.replacement
      input = 'a'
      obtained = CharTypeEnum().get_char_type(input)
      expected = CharTypeEnum().PlainType
+
      assert(obtained == expected)
    }
 
@@ -39,6 +43,7 @@ package soda.translator.replacement
          .map(ch -> CharTypeEnum().get_char_type(ch))
          .toSet
          .toSeq
+
      assert(obtained == expected)
    }
 }

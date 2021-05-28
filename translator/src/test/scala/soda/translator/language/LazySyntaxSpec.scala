@@ -38,24 +38,28 @@ case class LazySyntaxSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("should show what happens when constants are defined in the wrong order") {
     lazy val obtained = ExampleWithWrongOrder () .this_is_null_but
     lazy val expected = "Success!"
+
     assert (obtained == expected )
   }
 
   test ("should show what happens when constants are defined in the right order") {
     lazy val obtained = ExampleWithRightOrder () .this_is_not_null
     lazy val expected = "Success!"
+
     assert (obtained == expected )
   }
 
   test ("should show what happens when one work-around is used") {
     lazy val obtained = ExampleWithEmptyParentheses () .this_is_not_null ()
     lazy val expected = "Success!"
+
     assert (obtained == expected )
   }
 
   test ("should show what happens when another work-around is used") {
     lazy val obtained = AnotherExampleWithEmptyParentheses () .this_is_not_null
     lazy val expected = "Success!"
+
     assert (obtained == expected )
   }
 }

@@ -20,8 +20,6 @@ package soda.translator.replacement
   get_tokens: Seq[Token] =
     _postproc(Rec().foldLeft( Rec().range(line.length), _initial_value, _next_value ))
 
-  * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
-
   _initial_value = FoldTuple(0, ParserStateEnum().Plain, Seq())
 
   _postproc(tuple: FoldTuple): Seq[Token] =
@@ -45,10 +43,12 @@ package soda.translator.replacement
          tuple.parser_state == ParserStateEnum().ApostropheState
       then current_index + 1
       else current_index
-
     text = line.substring(tuple.last_index, index)
+
     FoldTuple(index, new_parser_state,
       tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
   }
+
+  * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 }
 

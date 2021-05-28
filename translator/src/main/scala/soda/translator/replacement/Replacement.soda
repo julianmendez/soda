@@ -23,15 +23,12 @@ package soda.translator.replacement
     else line
 
   replace_only_beginning(line: String, translator: Translator): String = {
-    result = Rec().foldLeft(translator.keys, initial_value, next_value)
-
     initial_value: String = line
-
     next_value(line: String, reserved_word: String): String =
       _replace_if_found(line,
         SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
 
-    result
+    Rec().foldLeft(translator.keys, initial_value, next_value)
   }
 
   _replace_if_found(line: String, pattern: String, new_text: String): String =
@@ -44,36 +41,6 @@ package soda.translator.replacement
 
   replace_all(line: String, pattern: String, replacement: String): String =
     Replacer(line, pattern, replacement).replace
-
-  * Replacer(line: String, pattern: String, replacement: String) = {
-    replace =
-      postproc( Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition ) )
-
-    initial_value = FoldTuple( Seq(), 0 )
-
-    next_value(tuple: FoldTuple, x: Int): FoldTuple = {
-      replaced_text_rev = tuple.replaced_text_rev
-      start_index = tuple.start_index
-      pos = line.indexOf(pattern, start_index)
-      next_tuple =
-        if pos == -1
-        then FoldTuple( replaced_text_rev.+:(line.substring(start_index)), pos )
-        else {
-          new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
-          new_index = pos + pattern.length
-          FoldTuple( new_replaced_text_rev, new_index )
-        }
-      next_tuple
-    }
-
-    condition(tuple: FoldTuple, x: Int): Boolean =
-      not (tuple.start_index == -1)
-
-    postproc(tuple: FoldTuple): String =
-      tuple.replaced_text_rev.reverse.mkString("")
-
-    * FoldTuple(replaced_text_rev: Seq[String], start_index: Int)
-  }
 
   replace(translator: Translator): Replacement =
     Replacement(replace(line, translator))
@@ -108,15 +75,13 @@ package soda.translator.replacement
       ch = line(index)
 
       left_part =
-        if (index > 0) and
-          symbols.contains(ch) and
+        if (index > 0) and symbols.contains(ch) and
           not line(index - 1).isWhitespace
         then ScalaSpace
         else ""
 
       right_part =
-        if (index < line.length - 1) and
-          symbols.contains(ch) and
+        if (index < line.length - 1) and symbols.contains(ch) and
           not line(index + 1).isWhitespace
         then ScalaSpace
         else ""
@@ -132,7 +97,6 @@ package soda.translator.replacement
       if line.startsWith(ScalaSpace)
       then line.substring(1)
       else line
-
     line_without_ending_space =
       if line_without_starting_space.endsWith(ScalaSpace)
       then line_without_starting_space.substring(0, line_without_starting_space.length - 1)
@@ -146,6 +110,7 @@ package soda.translator.replacement
 
   add_after_spaces(line: String, text_to_prepend: String): String = {
     prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
+
     line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
   }
 
@@ -153,14 +118,42 @@ package soda.translator.replacement
     Replacement(replace_regex(line, translator))
 
   replace_regex(line: String, translator: Translator): String = {
-    result = Rec().foldLeft(translator.keys, initial_value, next_value)
-
     initial_value: String = line
-
     next_value(line: String, regex: String): String =
       line.replaceAll(regex, translator.translate(regex))
 
-    result
+    Rec().foldLeft(translator.keys, initial_value, next_value)
+  }
+
+  * Replacer(line: String, pattern: String, replacement: String) = {
+    replace =
+      postproc( Rec().foldLeftWhile( Rec().range(line.length), initial_value, next_value, condition ) )
+
+    initial_value = FoldTuple( Seq(), 0 )
+
+    next_value(tuple: FoldTuple, x: Int): FoldTuple = {
+      replaced_text_rev = tuple.replaced_text_rev
+      start_index = tuple.start_index
+      pos = line.indexOf(pattern, start_index)
+      next_tuple =
+        if pos == -1
+        then FoldTuple( replaced_text_rev.+:(line.substring(start_index)), pos )
+        else {
+          new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
+          new_index = pos + pattern.length
+
+          FoldTuple( new_replaced_text_rev, new_index )
+        }
+      next_tuple
+    }
+
+    condition(tuple: FoldTuple, x: Int): Boolean =
+      not (tuple.start_index == -1)
+
+    postproc(tuple: FoldTuple): String =
+      tuple.replaced_text_rev.reverse.mkString("")
+
+    * FoldTuple(replaced_text_rev: Seq[String], start_index: Int)
   }
 }
 

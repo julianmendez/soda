@@ -22,6 +22,7 @@ case class SimpleIO () {
   def read_resource (file_name: String ): String = {
     lazy val input_stream = getClass.getResourceAsStream (file_name )
     lazy val reader = new BufferedReader (new InputStreamReader (input_stream )  )
+
     reader.lines () .collect (Collectors.joining (New_line )  )
   }
 

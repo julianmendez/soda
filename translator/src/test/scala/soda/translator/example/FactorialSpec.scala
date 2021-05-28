@@ -11,6 +11,7 @@ case class FactorialSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = factorial_values
       .map (pair => pair._1 )
       .map (n => (n, FactorialConcise () .factorial (n )  )  )
+
     assert (obtained == expected )
   }
 

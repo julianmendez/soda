@@ -10,6 +10,7 @@ package soda.translator.example
     second_part = "second" + part
     third_part = "third" + part
     part = " part"
+
     result
   }
 
@@ -20,6 +21,7 @@ package soda.translator.example
     third_part = "third" + part
     part = " part"
     /* in */
+
     Seq(first_part, second_part, third_part)
   }
 }

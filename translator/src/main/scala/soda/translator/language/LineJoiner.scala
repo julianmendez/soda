@@ -12,6 +12,7 @@ case class LineJoiner (lines: Seq [String]  ) {
 
   lazy val processed_lines = {
     lazy val pairs = Rec () .foldLeft (lines, initial_value, next_value )
+
     if (pairs.in_process_rev.isEmpty
     ) pairs.processed_rev
     else pairs.processed_rev.+: (rev_list_as_element (pairs.in_process_rev, "")  )
@@ -24,6 +25,7 @@ case class LineJoiner (lines: Seq [String]  ) {
     ) FoldTuple (pair.in_process_rev.+: (head ), pair.processed_rev )
     else {
       lazy val new_head = rev_list_as_element (pair.in_process_rev, head )
+
       FoldTuple (Seq (), pair.processed_rev.+: (new_head )  )
     }
 

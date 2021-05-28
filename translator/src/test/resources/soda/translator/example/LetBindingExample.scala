@@ -10,6 +10,7 @@ case class LetBindingExample () {
     lazy val second_part = "second" + part
     lazy val third_part = "third" + part
     lazy val part = " part"
+
     result
   }
 
@@ -20,6 +21,7 @@ case class LetBindingExample () {
     lazy val third_part = "third" + part
     lazy val part = " part"
     /* in */
+
     Seq (first_part, second_part, third_part )
   }
 }

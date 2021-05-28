@@ -5,37 +5,28 @@ package soda.collection
 
   foldLeftSeq[B, C subtype B](seq: Seq[T], initial_value: C,
       next_value: (B, T) -> C): C = {
-
-    result = rec(seq, initial_value, next_value)
-
     @tailrec
     rec(seq: Seq[T], acc: C, next_value: (B, T) -> C): C =
       if seq.isEmpty
       then acc
       else rec(seq.tail, next_value(acc, seq.head), next_value)
 
-    result
+    rec(seq, initial_value, next_value)
   }
 
   asMSeq(seq: Seq[T]): MSeq[T] = {
-    result = Min().reverse(
-      foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
-
     initial_value: MSeq[T] = Min().empty
-
     next_value(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
 
-    result
+    Min().reverse(
+          foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
   }
 
   asSeq(mseq: MSeq[T]): Seq[T] = {
-    result = Min().foldLeft(mseq, initial_value, next_value).reverse
-
     initial_value: Seq[T] = Seq()
-
     next_value(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
 
-    result
+    Min().foldLeft(mseq, initial_value, next_value).reverse
   }
 
 }
@@ -75,7 +66,6 @@ package soda.collection
 
   reverseNonEmpty(s: NESeq[T]): NESeq[T] = {
     initial_value: NESeq[T] = prepended(empty, s.head())
-
     next_value(acc: MSeq[T], elem: T): NESeq[T] = prepended(acc, elem)
 
     foldLeft(s.tail(), initial_value, next_value)
@@ -83,7 +73,6 @@ package soda.collection
 
   length(s: MSeq[T]): Int = {
     initial_value: Int = 0
-
     next_value(acc: Int, elem: T): Int = acc + 1
 
     foldLeft(s, initial_value, next_value)
@@ -91,11 +80,9 @@ package soda.collection
 
   indexOf(s: MSeq[T], e: T): Int = {
     initial_value = FoldTuple(0, -1)
-
     next_value(tuple: FoldTuple, elem: T): FoldTuple =
       FoldTuple(tuple.index + 1,
         if elem == e then tuple.index else tuple.position)
-
     condition(tuple: FoldTuple, elem: T): Boolean = tuple.position == -1
 
     * FoldTuple(index: Int, position: Int)
@@ -105,9 +92,7 @@ package soda.collection
 
   contains(s: MSeq[T], e: T): Boolean = {
     initial_value: Boolean = false
-
     next_value(acc: Boolean, elem: T): Boolean = elem == e
-
     condition(acc: Boolean, elem: T): Boolean = not acc
 
     foldLeftWhile(s, initial_value, next_value, condition)
@@ -124,9 +109,7 @@ package soda.collection
 
     atNonEmpty(xs: NESeq[T], n: Int): T = {
       initial_value = FoldTuple(xs.head(), -1)
-
       next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
-
       condition(tuple: FoldTuple, elem: T): Boolean = tuple.index < n
 
       * FoldTuple(elem: T, index: Int)
@@ -207,64 +190,46 @@ package soda.collection
   /* */
 
   forall(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    result = foldLeftWhile(s, initial_value, next_value, condition)
-
     initial_value = true
-
     next_value(acc: Boolean, elem: T): Boolean = acc and p(elem)
-
     condition(acc: Boolean, elem: T): Boolean = acc
 
-    result
+    foldLeftWhile(s, initial_value, next_value, condition)
   }
 
   exists(s: MSeq[T], p: (T -> Boolean)): Boolean = {
-    result = foldLeftWhile(s, initial_value, next_value, condition)
-
     initial_value = false
-
     next_value(acc: Boolean, elem: T): Boolean = acc or p(elem)
-
     condition(acc: Boolean, elem: T): Boolean = not acc
 
-    result
+    foldLeftWhile(s, initial_value, next_value, condition)
   }
 
   find(s: MSeq[T], p: (T -> Boolean)): OptionSD[T] = {
-      result = foldLeftWhile(s, initial_value, next_value, condition)
-
       initial_value = NoneSD[T]()
-
       next_value(acc: OptionSD[T], elem: T): OptionSD[T] =
         if p(elem) then SomeSD[T](elem) else NoneSD[T]()
-
       condition(acc: OptionSD[T], elem: T): Boolean = acc.isEmpty
 
-      result
+      foldLeftWhile(s, initial_value, next_value, condition)
     }
 
   filter(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = {
-      result = reverse( foldLeft(s, initial_value, next_value) )
-
       initial_value = empty
-
       next_value(acc: MSeq[T], elem: T): MSeq[T] =
         if p(elem)
         then prepended(acc, elem)
         else acc
 
-      result
+      reverse( foldLeft(s, initial_value, next_value) )
     }
 
   map0(s: MSeq[T], f: (T -> T)): MSeq[T] = {
-    result = reverse( foldLeft(s, initial_value, next_value) )
-
     initial_value = empty
-
     next_value(acc: MSeq[T], elem: T): MSeq[T] =
       prepended(acc, f(elem))
 
-    result
+    reverse( foldLeft(s, initial_value, next_value) )
   }
 
   /**
@@ -313,6 +278,5 @@ package soda.collection
 
     result
   }
-
 }
 

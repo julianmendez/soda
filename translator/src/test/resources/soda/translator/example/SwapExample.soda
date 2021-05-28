@@ -3,6 +3,7 @@ package soda.translator.example
 * Pair (left:Int, right: Int)
 
 * SwapExample() = {
+
     swap (pair: Pair) =
          Pair(pair.right, pair.left)
 }

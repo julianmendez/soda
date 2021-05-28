@@ -33,6 +33,7 @@ package soda.translator.example
         l = s.l + 2
         k = s.k + 1
         new_status = Status (r, n, q, t, l, k)
+
         rec (new_status)
       }
 
@@ -48,6 +49,7 @@ package soda.translator.example
       then rev_seq.reverse
       else {
         t = _next (s)
+
         rec (n - 1, rev_seq.+:(t.digit), t.new_status)
       }
 
@@ -65,6 +67,7 @@ package soda.translator.example
     l = ns.l
     k = ns.k
     new_status = Status (r, n, q, t, l, k)
+
     result
   }
 

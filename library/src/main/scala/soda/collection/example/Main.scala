@@ -15,5 +15,4 @@ case class Main () {
       .mkString ("\n")
     println (allExamples )
   }
-
 }

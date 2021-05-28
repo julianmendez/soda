@@ -7,41 +7,41 @@ package soda.lib
 
   test("foldLeftWhile with Seq") {
     initial_value = Seq()
-
     next_value: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
-
     condition: (Seq[String], Int) -> Boolean = (s: Seq[String], e: Int) -> e < 5
-
     expected = Seq("103", "102", "101", "101", "100")
     obtained = Rec().foldLeftWhile(exampleSeq, initial_value, next_value, condition)
+
     assert(obtained == expected)
   }
 
   test("foldLeft with Seq") {
     initial_value = Seq()
-
     next_value: (Seq[String], Int) -> Seq[String] = (s: Seq[String], e: Int) -> s.+:("" + (e + 100))
-
     expected = Seq("108", "105", "103", "102", "101", "101", "100")
     obtained = Rec().foldLeft(exampleSeq, initial_value, next_value)
+
     assert(obtained == expected)
   }
 
   test("range with positive number") {
     expected = Seq(0, 1, 2, 3, 4, 5, 6, 7)
     obtained = Rec().range(8)
+
     assert(obtained == expected)
   }
 
   test("range with zero size") {
     expected = Seq()
     obtained = Rec().range(-1)
+
     assert(obtained == expected)
   }
 
   test("range with negative number") {
     expected = Seq()
     obtained = Rec().range(-1)
+
     assert(obtained == expected)
   }
 }

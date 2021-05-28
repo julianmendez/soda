@@ -7,6 +7,7 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
      lazy val input = '"'
      lazy val obtained = CharTypeEnum () .get_char_type (input )
      lazy val expected = CharTypeEnum () .QuotesType
+
      assert (obtained == expected )
    }
 
@@ -14,6 +15,7 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
      lazy val input = '\''
      lazy val obtained = CharTypeEnum () .get_char_type (input )
      lazy val expected = CharTypeEnum () .ApostropheType
+
      assert (obtained == expected )
    }
 
@@ -21,6 +23,7 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
      lazy val input = '\\'
      lazy val obtained = CharTypeEnum () .get_char_type (input )
      lazy val expected = CharTypeEnum () .BackslashType
+
      assert (obtained == expected )
    }
 
@@ -28,6 +31,7 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
      lazy val input = 'a'
      lazy val obtained = CharTypeEnum () .get_char_type (input )
      lazy val expected = CharTypeEnum () .PlainType
+
      assert (obtained == expected )
    }
 
@@ -39,6 +43,7 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
          .map (ch => CharTypeEnum () .get_char_type (ch )  )
          .toSet
          .toSeq
+
      assert (obtained == expected )
    }
 }

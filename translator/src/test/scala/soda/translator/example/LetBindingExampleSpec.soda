@@ -6,12 +6,14 @@ package soda.translator.example
   test("should evaluate an expression like 'where'") {
     obtained = LetBindingExample().three_parts_like_where
     expected = Seq("first part", "second part", "third part")
+
     assert(obtained == expected)
   }
 
   test("should evaluate an expression like 'let in'") {
     obtained = LetBindingExample().three_parts_like_let_in
     expected = Seq("first part", "second part", "third part")
+
     assert(obtained == expected)
   }
 }

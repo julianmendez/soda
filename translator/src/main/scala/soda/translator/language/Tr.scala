@@ -8,6 +8,7 @@ case class Tr () {
   import soda.translator.replacement.Translator
 
   case class SynonymAtBeginning () extends Translator {
+
     lazy val _table = Translation () .SynonymAtBeginning
 
     lazy val keys = _keys (_table )
@@ -16,6 +17,7 @@ case class Tr () {
   }
 
   case class TranslationAtBeginningWithParen () extends Translator {
+
     lazy val _table = Translation () .TranslationAtBeginningWithParen
 
     lazy val keys = _keys (_table )
@@ -24,6 +26,7 @@ case class Tr () {
   }
 
   case class TranslationAtBeginningWithoutParen () extends Translator {
+
     lazy val _table = Translation () .TranslationAtBeginningWithoutParen
 
     lazy val keys = _keys (_table )
@@ -32,6 +35,7 @@ case class Tr () {
   }
 
   case class Synonym () extends Translator {
+
     lazy val _table = Translation () .Synonym
 
     lazy val keys = _keys (_table )
@@ -40,6 +44,7 @@ case class Tr () {
   }
 
   case class MainTranslation () extends Translator {
+
     lazy val _table = Translation () .MainTranslation
 
     lazy val keys = _keys (_table )
@@ -48,6 +53,7 @@ case class Tr () {
   }
 
   case class ScalaNonSoda () extends Translator {
+
     lazy val keys = Translation () .ScalaNonSodaKeys
 
     def translate (word: String ) =
@@ -58,6 +64,7 @@ case class Tr () {
   }
 
   case class Beautifier () extends Translator {
+
     lazy val _table = Translation () .Beautifier
 
     lazy val keys = _keys (_table )

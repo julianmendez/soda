@@ -20,15 +20,12 @@ package soda.translator.replacement
 
   values = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
 
-  is_same_class(x: ParserState, y: ParserState): Boolean = {
-    result = (x == y) or is_like(x, y) or is_like(y, x)
+  is_same_class(x: ParserState, y: ParserState): Boolean =
+    (x == y) or is_like(x, y) or is_like(y, x)
 
-    is_like(x: ParserState, y: ParserState): Boolean =
-      (x == QuotesState and y == QuotesBackslashState) or
-        (x == ApostropheState and y == ApostropheBackslashState)
-
-    result
-  }
+  is_like(x: ParserState, y: ParserState): Boolean =
+    (x == QuotesState and y == QuotesBackslashState) or
+      (x == ApostropheState and y == ApostropheBackslashState)
 }
 
 * ParserTransition() = {

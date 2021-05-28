@@ -79,5 +79,4 @@ case class ListExample () {
 
   lazy val foldRightExample: Pair [Seq [Char]] =
     Pair ("A.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", A.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
-
 }

@@ -15,6 +15,7 @@ case class ScalaNonSodaSpec () extends org.scalatest.funsuite.AnyFunSuite {
       "\n__soda__while (x != 0 )" +
       "\n"
     lazy val obtained = MicroTranslator () .translate_program (program )
+
     assert (obtained == expected )
   }
 }

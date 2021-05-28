@@ -38,24 +38,28 @@ package soda.translator.language
   test("should show what happens when constants are defined in the wrong order") {
     obtained = ExampleWithWrongOrder().this_is_null_but
     expected = "Success!"
+
     assert(obtained == expected)
   }
 
   test("should show what happens when constants are defined in the right order") {
     obtained = ExampleWithRightOrder().this_is_not_null
     expected = "Success!"
+
     assert(obtained == expected)
   }
 
   test("should show what happens when one work-around is used") {
     obtained = ExampleWithEmptyParentheses().this_is_not_null ()
     expected = "Success!"
+
     assert(obtained == expected)
   }
 
   test("should show what happens when another work-around is used") {
     obtained = AnotherExampleWithEmptyParentheses().this_is_not_null
     expected = "Success!"
+
     assert(obtained == expected)
   }
 }

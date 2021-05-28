@@ -22,6 +22,7 @@ package soda.translator.io
   read_resource(file_name: String): String = {
     input_stream = getClass.getResourceAsStream(file_name)
     reader = @new BufferedReader(@new InputStreamReader(input_stream))
+
     reader.lines().collect(Collectors.joining(New_line))
   }
 

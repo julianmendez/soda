@@ -8,6 +8,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Token ("    val Constant = ", ParserStateEnum () .Plain, 0 ), Token ("\"my text\"", ParserStateEnum () .QuotesState, 19 ), Token ("", ParserStateEnum () .Plain, 28 )
     )
     lazy val obtained = Tokenizer (input ) .get_tokens
+
     assert (obtained == expected )
   }
 
@@ -16,6 +17,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Token ("  x = ", ParserStateEnum () .Plain, 0 ), Token ("\"abc\tde\"", ParserStateEnum () .QuotesState, 6 ), Token ("", ParserStateEnum () .Plain, 14 )
     )
     lazy val obtained = Tokenizer (input ) .get_tokens
+
     assert (obtained == expected )
   }
 
@@ -24,6 +26,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Token ("  x = ", ParserStateEnum () .Plain, 0 ), Token ("\"abc\\tde\"", ParserStateEnum () .QuotesState, 6 ), Token ("", ParserStateEnum () .Plain, 15 )
     )
     lazy val obtained = Tokenizer (input ) .get_tokens
+
     assert (obtained == expected )
   }
 
@@ -32,6 +35,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Token ("def f(x: Int): Int = x", ParserStateEnum () .Plain, 0 )
     )
     lazy val obtained = Tokenizer (input ) .get_tokens
+
     assert (obtained == expected )
   }
 
@@ -40,6 +44,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Token ("\tas_digits (5 * number)", ParserStateEnum () .Plain, 0 )
     )
     lazy val obtained = Tokenizer (input ) .get_tokens
+
     assert (obtained == expected )
   }
 

@@ -7,6 +7,7 @@ package soda.translator.language
     input = Seq("this ", "should join,", "all the lines , ", "  that end with", "comma.")
     expected = Seq("this ", "should join,all the lines ,   that end with", "comma.")
     obtained = MicroTranslator().join_lines_ending_with_comma_or_opening_parenthesis(input)
+
     assert(obtained == expected)
   }
 }

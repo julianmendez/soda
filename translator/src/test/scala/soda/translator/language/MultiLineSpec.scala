@@ -33,18 +33,21 @@ case class MultiLineSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("should split a program in multiple lines") {
     lazy val obtained = mt.split_lines (Original_input )
     lazy val expected = Original_input_lines
+
     assert (obtained == expected )
   }
 
   test ("should preprocess the comma in multiple lines") {
     lazy val obtained = mt.join_lines_ending_with_comma_or_opening_parenthesis (Original_input_lines )
     lazy val expected = Joined_comma_lines
+
     assert (obtained == expected )
   }
 
   test ("should join the translated lines of a program") {
     lazy val obtained = mt.join_translated_lines (Joined_comma_lines )
     lazy val expected = Joined_output
+
     assert (obtained == expected )
   }
 }

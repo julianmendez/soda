@@ -18,18 +18,21 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("prepended") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
     lazy val obtained = Min () .prepended (example, 1 )
+
     assert (obtained == expected )
   }
 
   test ("head") {
     lazy val expected = 0
     lazy val obtained = Min () .head (example )
+
     assert (obtained == expected )
   }
 
   test ("tail") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 1, 2, 3, 5, 8 )  )
     lazy val obtained = Min () .tail (example )
+
     assert (obtained == expected )
   }
 
@@ -38,107 +41,143 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("reverse") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (8, 5, 3, 2, 1, 1, 0 )  )
     lazy val obtained = Min () .reverse (example )
+
     assert (obtained == expected )
   }
 
   test ("length") {
     lazy val expected = 7
     lazy val obtained = Min () .length (example )
+
     assert (obtained == expected )
   }
 
   test ("indexOf something found") {
     lazy val expected = 6
     lazy val obtained = Min () .indexOf (example, 8 )
+
     assert (obtained == expected )
   }
 
   test ("indexOf something not found") {
     lazy val expected = -1
     lazy val obtained = Min () .indexOf (example, 7 )
+
     assert (obtained == expected )
   }
 
   test ("contains something found") {
     lazy val expected = true
     lazy val obtained = Min () .contains (example, 8 )
+
     assert (obtained == expected )
   }
 
   test ("contains something not found") {
     lazy val expected = false
     lazy val obtained = Min () .contains (example, 7 )
+
     assert (obtained == expected )
   }
 
   test ("at") {
     lazy val expected = SomeSD (3 )
     lazy val obtained = Min () .at (example, 4 )
+
     assert (obtained == expected )
   }
 
   //
 
-  test ("take with Seq") {
-    lazy val expected0 = Seq (0, 1, 1, 2, 3 )
-    lazy val obtained0 = exampleSeq.take (5 )
-    assert (obtained0 == expected0 )
+  test ("take with Seq 0") {
+    lazy val expected = Seq (0, 1, 1, 2, 3 )
+    lazy val obtained = exampleSeq.take (5 )
 
-    lazy val expected1 = Seq ()
-    lazy val obtained1 = exampleSeq.take (-100 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = exampleSeq
-    lazy val obtained2 = exampleSeq.take (100 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("take") {
-    lazy val expected0 = MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3 )  )
-    lazy val obtained0 = Min () .take (example, 5 )
-    assert (obtained0 == expected0 )
+  test ("take with Seq 1") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.take (-100 )
 
-    lazy val expected1 = empty
-    lazy val obtained1 = Min () .take (example, -100 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = example
-    lazy val obtained2 = Min () .take (example, 100 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("drop with Seq") {
-    lazy val expected0 = Seq (2, 3, 5, 8 )
-    lazy val obtained0 = exampleSeq.drop (3 )
-    assert (obtained0 == expected0 )
+  test ("take with Seq 2") {
+    lazy val expected = exampleSeq
+    lazy val obtained = exampleSeq.take (100 )
 
-    lazy val expected1 = exampleSeq
-    lazy val obtained1 = exampleSeq.drop (-100 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = Seq ()
-    lazy val obtained2 = exampleSeq.drop (100 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("drop") {
-    lazy val expected0 = MSeqTranslator () .asMSeq (Seq (2, 3, 5, 8 )  )
-    lazy val obtained0 = Min () .drop (example, 3 )
-    assert (obtained0 == expected0 )
+  test ("take 0") {
+    lazy val expected = MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3 )  )
+    lazy val obtained = Min () .take (example, 5 )
 
-    lazy val expected1 = example
-    lazy val obtained1 = Min () .drop (example, -100 )
-    assert (obtained1 == expected1 )
+    assert (obtained == expected )
+  }
 
-    lazy val expected2 = empty
-    lazy val obtained2 = Min () .drop (example, 100 )
-    assert (obtained2 == expected2 )
+  test ("take 1") {
+    lazy val expected = empty
+    lazy val obtained = Min () .take (example, -100 )
+
+    assert (obtained == expected )
+  }
+
+  test ("take 2") {
+    lazy val expected = example
+    lazy val obtained = Min () .take (example, 100 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop with Seq 0") {
+    lazy val expected = Seq (2, 3, 5, 8 )
+    lazy val obtained = exampleSeq.drop (3 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop with Seq 1") {
+    lazy val expected = exampleSeq
+    lazy val obtained = exampleSeq.drop (-100 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop with Seq 2") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.drop (100 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop 0") {
+    lazy val expected = MSeqTranslator () .asMSeq (Seq (2, 3, 5, 8 )  )
+    lazy val obtained = Min () .drop (example, 3 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop 1") {
+    lazy val expected = example
+    lazy val obtained = Min () .drop (example, -100 )
+
+    assert (obtained == expected )
+  }
+
+  test ("drop 2") {
+    lazy val expected = empty
+    lazy val obtained = Min () .drop (example, 100 )
+
+    assert (obtained == expected )
   }
 
   test ("takeWhile with Seq") {
     lazy val expected = Seq (0, 1, 1, 2 )
     lazy val f: Int => Boolean = e => ! (e == 3 )
     lazy val obtained = exampleSeq.takeWhile (f )
+
     assert (obtained == expected )
   }
 
@@ -146,6 +185,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2 )  )
     lazy val f: Int => Boolean = e => ! (e == 3 )
     lazy val obtained = Min () .takeWhile (example, f )
+
     assert (obtained == expected )
   }
 
@@ -153,6 +193,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (3, 5, 8 )
     lazy val f: Int => Boolean = e => ! (e == 3 )
     lazy val obtained = exampleSeq.dropWhile (f )
+
     assert (obtained == expected )
   }
 
@@ -160,30 +201,35 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (3, 5, 8 )  )
     lazy val f: Int => Boolean = e => ! (e == 3 )
     lazy val obtained = Min () .dropWhile (example, f )
+
     assert (obtained == expected )
   }
 
   test ("splitAt with Seq") {
     lazy val expected = Tuple2 (Seq (0, 1, 1 ), Seq (2, 3, 5, 8 )  )
     lazy val obtained = exampleSeq.splitAt (3 )
+
     assert (obtained == expected )
   }
 
   test ("splitAt") {
     lazy val expected = MSeqPair (MSeqTranslator () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator () .asMSeq (Seq (2, 3, 5, 8 )  )  )
     lazy val obtained = Min () .splitAt (example, 3 )
+
     assert (obtained == expected )
   }
 
   test ("span with Seq") {
     lazy val expected = Tuple2 (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 )  )
     lazy val obtained = exampleSeq.span (x => ! (x == 5 )  )
+
     assert (obtained == expected )
   }
 
   test ("span") {
     lazy val expected = MSeqPair (MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator () .asMSeq (Seq (5, 8 )  )  )
     lazy val obtained = Min () .span (example, (x: Int ) => ! (x == 5 )  )
+
     assert (obtained == expected )
   }
 
@@ -192,12 +238,14 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("append") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13 )  )
     lazy val obtained = Min () .appended (example, 13 )
+
     assert (obtained == expected )
   }
 
   test ("last") {
     lazy val expected = 8
     lazy val obtained = Min () .last (example )
+
     assert (obtained == expected )
   }
 
@@ -205,169 +253,245 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 )  )
     lazy val second = MSeqTranslator () .asMSeq (Seq (13, 21, 34, 55 )  )
     lazy val obtained = Min () .concat (example, second )
+
     assert (obtained == expected )
   }
 
-  test ("slice with Seq") {
-    lazy val expected0 = Seq (1, 2, 3 )
-    lazy val obtained0 = exampleSeq.slice (2, 5 )
-    assert (obtained0 == expected0 )
+  test ("slice with Seq 0") {
+    lazy val expected = Seq (1, 2, 3 )
+    lazy val obtained = exampleSeq.slice (2, 5 )
 
-    lazy val expected1 = Seq ()
-    lazy val obtained1 = exampleSeq.slice (5, 2 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = Seq ()
-    lazy val obtained2 = exampleSeq.slice (3, 3 )
-    assert (obtained2 == expected2 )
-
-    lazy val expected3 = Seq ()
-    lazy val obtained3 = exampleSeq.slice (100, 5 )
-    assert (obtained3 == expected3 )
-
-    lazy val expected4 = Seq ()
-    lazy val obtained4 = exampleSeq.slice (100, 200 )
-    assert (obtained4 == expected4 )
-
-    lazy val expected5 = exampleSeq
-    lazy val obtained5 = exampleSeq.slice (-100, 200 )
-    assert (obtained5 == expected5 )
+    assert (obtained == expected )
   }
 
-  test ("slice") {
-    lazy val expected0 = MSeqTranslator () .asMSeq (Seq (1, 2, 3 )  )
-    lazy val obtained0 = Min () .slice (example, 2, 5 )
-    assert (obtained0 == expected0 )
+  test ("slice with Seq 1") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.slice (5, 2 )
 
-    lazy val expected1 = empty
-    lazy val obtained1 = Min () .slice (example, 5, 2 )
-    assert (obtained1 == expected1 )
+    assert (obtained == expected )
+  }
 
-    lazy val expected2 = empty
-    lazy val obtained2 = Min () .slice (example, 3, 3 )
-    assert (obtained2 == expected2 )
+  test ("slice with Seq 2") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.slice (3, 3 )
 
-    lazy val expected3 = empty
-    lazy val obtained3 = Min () .slice (example, 100, 5 )
-    assert (obtained3 == expected3 )
+    assert (obtained == expected )
+  }
 
-    lazy val expected4 = empty
-    lazy val obtained4 = Min () .slice (example, 100, 200 )
-    assert (obtained4 == expected4 )
+  test ("slice with Seq 3") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.slice (100, 5 )
 
-    lazy val expected5 = example
-    lazy val obtained5 = Min () .slice (example, -100, 200 )
-    assert (obtained5 == expected5 )
+    assert (obtained == expected )
+  }
+
+  test ("slice with Seq 4") {
+    lazy val expected = Seq ()
+    lazy val obtained = exampleSeq.slice (100, 200 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice with Seq 5") {
+    lazy val expected = exampleSeq
+    lazy val obtained = exampleSeq.slice (-100, 200 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 0") {
+    lazy val expected = MSeqTranslator () .asMSeq (Seq (1, 2, 3 )  )
+    lazy val obtained = Min () .slice (example, 2, 5 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 1") {
+    lazy val expected = empty
+    lazy val obtained = Min () .slice (example, 5, 2 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 2") {
+    lazy val expected = empty
+    lazy val obtained = Min () .slice (example, 3, 3 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 3") {
+    lazy val expected = empty
+    lazy val obtained = Min () .slice (example, 100, 5 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 4") {
+    lazy val expected = empty
+    lazy val obtained = Min () .slice (example, 100, 200 )
+
+    assert (obtained == expected )
+  }
+
+  test ("slice 5") {
+    lazy val expected = example
+    lazy val obtained = Min () .slice (example, -100, 200 )
+
+    assert (obtained == expected )
   }
 
   //
 
-  test ("forall with Seq") {
-    lazy val expected0 = true
-    lazy val pred0: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained0 = exampleSeq.forall (pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall with Seq 0") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = exampleSeq.forall (pred )
 
-    lazy val expected1 = false
-    lazy val pred1: Int => Boolean = x => x < 7
-    lazy val obtained1 = exampleSeq.forall (pred1 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = true
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Seq () .forall (pred2 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("forall") {
-    lazy val expected0 = true
-    lazy val pred0: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained0 = Min () .forall (example, pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall with Seq 1") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x < 7
+    lazy val obtained = exampleSeq.forall (pred )
 
-    lazy val expected1 = false
-    lazy val pred1: Int => Boolean = x => x < 7
-    lazy val obtained1 = Min () .forall (example, pred1 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = true
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Min () .forall (empty, pred2 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("exists with Seq") {
-    lazy val expected0 = true
-    lazy val pred0: Int => Boolean = x => x == 8
-    lazy val obtained0 = exampleSeq.exists (pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall with Seq 2") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .forall (pred )
 
-    lazy val expected1 = false
-    lazy val pred1: Int => Boolean = x => x == 7
-    lazy val obtained1 = exampleSeq.exists (pred1 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = false
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Seq () .exists (pred2 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("exists") {
-    lazy val expected0 = true
-    lazy val pred0: Int => Boolean = x => x == 8
-    lazy val obtained0 = Min () .exists (example, pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall 0") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = Min () .forall (example, pred )
 
-    lazy val expected1 = false
-    lazy val pred1: Int => Boolean = x => x == 7
-    lazy val obtained1 = Min () .exists (example, pred1 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = false
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Min () .exists (empty, pred2 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("find with Seq") {
-    lazy val expected0 = Some (0 )
-    lazy val pred0: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained0 = exampleSeq.find (pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall 1") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x < 7
+    lazy val obtained = Min () .forall (example, pred )
 
-    lazy val expected1 = Some (8 )
-    lazy val pred1: Int => Boolean = x => x == 8
-    lazy val obtained1 = exampleSeq.find (pred1 )
-    assert (obtained1 == expected1 )
-
-    lazy val expected2 = None
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Seq () .find (pred2 )
-    assert (obtained2 == expected2 )
+    assert (obtained == expected )
   }
 
-  test ("find") {
-    lazy val expected0 = SomeSD (0 )
-    lazy val pred0: Int => Boolean = x => ! (x == 7 )
-    lazy val obtained0 = Min () .find (example, pred0 )
-    assert (obtained0 == expected0 )
+  test ("forall 2") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .forall (empty, pred )
 
-    lazy val expected1 = SomeSD (8 )
-    lazy val pred1: Int => Boolean = x => x == 8
-    lazy val obtained1 = Min () .find (example, pred1 )
-    assert (obtained1 == expected1 )
+    assert (obtained == expected )
+  }
 
-    lazy val expected2 = NoneSD ()
-    lazy val pred2: Int => Boolean = x => x == 7
-    lazy val obtained2 = Min () .find (empty, pred2 )
-    assert (obtained2 == expected2 )
+  test ("exists with Seq 0") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => x == 8
+    lazy val obtained = exampleSeq.exists (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("exists with Seq 1") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = exampleSeq.exists (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("exists with Seq 2") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .exists (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("exists 0") {
+    lazy val expected = true
+    lazy val pred: Int => Boolean = x => x == 8
+    lazy val obtained = Min () .exists (example, pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("exists 1") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .exists (example, pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("exists 2") {
+    lazy val expected = false
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .exists (empty, pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find with Seq 0") {
+    lazy val expected = Some (0 )
+    lazy val pred: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = exampleSeq.find (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find with Seq 1") {
+    lazy val expected = Some (8 )
+    lazy val pred: Int => Boolean = x => x == 8
+    lazy val obtained = exampleSeq.find (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find with Seq 2") {
+    lazy val expected = None
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Seq () .find (pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find 0") {
+    lazy val expected = SomeSD (0 )
+    lazy val pred: Int => Boolean = x => ! (x == 7 )
+    lazy val obtained = Min () .find (example, pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find 1") {
+    lazy val expected = SomeSD (8 )
+    lazy val pred: Int => Boolean = x => x == 8
+    lazy val obtained = Min () .find (example, pred )
+
+    assert (obtained == expected )
+  }
+
+  test ("find 2") {
+    lazy val expected = NoneSD ()
+    lazy val pred: Int => Boolean = x => x == 7
+    lazy val obtained = Min () .find (empty, pred )
+
+    assert (obtained == expected )
   }
 
   test ("filter with Seq") {
     lazy val expected = Seq (0, 3 )
     lazy val pred: Int => Boolean = x => x % 3 == 0
     lazy val obtained = exampleSeq.filter (pred )
+
     assert (obtained == expected )
   }
 
@@ -375,6 +499,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (0, 3 )  )
     lazy val f: Int => Boolean = x => x % 3 == 0
     lazy val obtained = Min () .filter (example, f )
+
     assert (obtained == expected )
   }
 
@@ -382,6 +507,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (100, 101, 101, 102, 103, 105, 108 )
     lazy val f: Int => Int = x => x + 100
     lazy val obtained = exampleSeq.map (f )
+
     assert (obtained == expected )
   }
 
@@ -389,12 +515,14 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (100, 101, 101, 102, 103, 105, 108 )  )
     lazy val f: Int => Int = x => x + 100
     lazy val obtained = Min () .map0 (example, f )
+
     assert (obtained == expected )
   }
 
   test ("foldLeft with Seq") {
     lazy val expected = Seq (108, 105, 103, 102, 101, 101, 100 )
     lazy val obtained = exampleSeq.foldLeft (Seq [Int]  ()  )  ((s: Seq [Int], e: Int ) => s.+: ((e + 100 )  )  )
+
     assert (obtained == expected )
   }
 
@@ -402,7 +530,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 )  )
     lazy val obtained = Min () .foldLeft0 (example )  (Min () .empty, (s: MSeq [Int], e: Int ) => Min () .prepended (s, e + 100 )
     )
+
     assert (obtained == expected )
   }
-
 }

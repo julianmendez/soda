@@ -8,6 +8,7 @@ package soda.translator.example
   test("first digits of Pi") {
     piSequence = PiIterator().take(128)
     obtained = "" + piSequence.head + "." + piSequence.tail.mkString("")
+
     assert(obtained == piStart)
   }
 }

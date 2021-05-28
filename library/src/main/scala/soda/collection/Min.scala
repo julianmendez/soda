@@ -4,9 +4,6 @@ package soda.collection
 case class MSeqTranslator [T]  () {
 
   def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C = {
-
-    lazy val result = rec (seq, initial_value, next_value )
-
     import scala.annotation.tailrec
         @tailrec
     def rec (seq: Seq [T], acc: C, next_value: (B, T ) => C ): C =
@@ -14,27 +11,21 @@ case class MSeqTranslator [T]  () {
       ) acc
       else rec (seq.tail, next_value (acc, seq.head ), next_value )
 
-    result
+    rec (seq, initial_value, next_value )
   }
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] = {
-    lazy val result = Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
-
     lazy val initial_value: MSeq [T] = Min () .empty
-
     def next_value (acc: MSeq [T], elem: T ): MSeq [T] = Min () .prepended (acc, elem )
 
-    result
+    Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
   }
 
   def asSeq (mseq: MSeq [T]  ): Seq [T] = {
-    lazy val result = Min () .foldLeft (mseq, initial_value, next_value ) .reverse
-
     lazy val initial_value: Seq [T] = Seq ()
-
     def next_value (acc: Seq [T], elem: T ): Seq [T] = acc.+: (elem )
 
-    result
+    Min () .foldLeft (mseq, initial_value, next_value ) .reverse
   }
 
 }
@@ -74,7 +65,6 @@ case class Min [T]  () {
 
   def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] = {
     lazy val initial_value: NESeq [T] = prepended (empty, s.head ()  )
-
     def next_value (acc: MSeq [T], elem: T ): NESeq [T] = prepended (acc, elem )
 
     foldLeft (s.tail (), initial_value, next_value )
@@ -82,7 +72,6 @@ case class Min [T]  () {
 
   def length (s: MSeq [T]  ): Int = {
     lazy val initial_value: Int = 0
-
     def next_value (acc: Int, elem: T ): Int = acc + 1
 
     foldLeft (s, initial_value, next_value )
@@ -90,10 +79,8 @@ case class Min [T]  () {
 
   def indexOf (s: MSeq [T], e: T ): Int = {
     lazy val initial_value = FoldTuple (0, -1 )
-
     def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
       FoldTuple (tuple.index + 1, if (elem == e ) tuple.index else tuple.position )
-
     def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.position == -1
 
     case class FoldTuple (index: Int, position: Int )
@@ -103,9 +90,7 @@ case class Min [T]  () {
 
   def contains (s: MSeq [T], e: T ): Boolean = {
     lazy val initial_value: Boolean = false
-
     def next_value (acc: Boolean, elem: T ): Boolean = elem == e
-
     def condition (acc: Boolean, elem: T ): Boolean = ! acc
 
     foldLeftWhile (s, initial_value, next_value, condition )
@@ -122,9 +107,7 @@ case class Min [T]  () {
 
     def atNonEmpty (xs: NESeq [T], n: Int ): T = {
       lazy val initial_value = FoldTuple (xs.head (), -1 )
-
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple = FoldTuple (elem, tuple.index + 1 )
-
       def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
 
       case class FoldTuple (elem: T, index: Int )
@@ -202,64 +185,46 @@ case class Min [T]  () {
   /* */
 
   def forall (s: MSeq [T], p: (T => Boolean )  ): Boolean = {
-    lazy val result = foldLeftWhile (s, initial_value, next_value, condition )
-
     lazy val initial_value = true
-
     def next_value (acc: Boolean, elem: T ): Boolean = acc && p (elem )
-
     def condition (acc: Boolean, elem: T ): Boolean = acc
 
-    result
+    foldLeftWhile (s, initial_value, next_value, condition )
   }
 
   def exists (s: MSeq [T], p: (T => Boolean )  ): Boolean = {
-    lazy val result = foldLeftWhile (s, initial_value, next_value, condition )
-
     lazy val initial_value = false
-
     def next_value (acc: Boolean, elem: T ): Boolean = acc || p (elem )
-
     def condition (acc: Boolean, elem: T ): Boolean = ! acc
 
-    result
+    foldLeftWhile (s, initial_value, next_value, condition )
   }
 
   def find (s: MSeq [T], p: (T => Boolean )  ): OptionSD [T] = {
-      lazy val result = foldLeftWhile (s, initial_value, next_value, condition )
-
       lazy val initial_value = NoneSD [T]  ()
-
       def next_value (acc: OptionSD [T], elem: T ): OptionSD [T] =
         if (p (elem ) ) SomeSD [T]  (elem ) else NoneSD [T]  ()
-
       def condition (acc: OptionSD [T], elem: T ): Boolean = acc.isEmpty
 
-      result
+      foldLeftWhile (s, initial_value, next_value, condition )
     }
 
   def filter (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = {
-      lazy val result = reverse (foldLeft (s, initial_value, next_value ) )
-
       lazy val initial_value = empty
-
       def next_value (acc: MSeq [T], elem: T ): MSeq [T] =
         if (p (elem )
         ) prepended (acc, elem )
         else acc
 
-      result
+      reverse (foldLeft (s, initial_value, next_value ) )
     }
 
   def map0 (s: MSeq [T], f: (T => T )  ): MSeq [T] = {
-    lazy val result = reverse (foldLeft (s, initial_value, next_value ) )
-
     lazy val initial_value = empty
-
     def next_value (acc: MSeq [T], elem: T ): MSeq [T] =
       prepended (acc, f (elem )  )
 
-    result
+    reverse (foldLeft (s, initial_value, next_value ) )
   }
 
   /**
@@ -306,5 +271,4 @@ case class Min [T]  () {
 
     result
   }
-
 }
