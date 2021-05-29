@@ -19,8 +19,10 @@ case class MicroTranslator () {
     {
       lazy val original_lines = split_lines (program )
       lazy val lines_to_translate = join_lines_ending_with_comma_or_opening_parenthesis (original_lines )
-      lazy val translated_lines = translate_lines (lines_to_translate )
-      join_translated_lines (translated_lines )  }
+      lazy val preprocessed_lines = preprocess_letin_commands (lines_to_translate )
+      lazy val translated_lines = translate_lines (preprocessed_lines )
+      lazy val translated_program = join_translated_lines (translated_lines )
+      translated_program  }
 
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
@@ -61,7 +63,6 @@ case class MicroTranslator () {
             .replace (tr.Synonym ()  )
             .replace_with (try_definition )
             .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
-            .append_if_condition (starts_with_in, Translation () .ScalaInTranslation )
             .replace (tr.MainTranslation ()  )
             .replace_regex (tr.Beautifier ()  )
             .line
@@ -84,8 +85,17 @@ case class MicroTranslator () {
       .map (token => token.text )
       .mkString ("")
 
+  def preprocess_letin_commands (lines: Seq [String]  ): Seq [String] =
+    lines.map (line =>
+      append_if_condition (line, starts_with_in, Translation () .ScalaInTranslation ) )
+
   def starts_with_in (line: String ): Boolean =
     line.trim () .startsWith (Translation () .SodaInPattern )
+
+  def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
+    if (condition (line )
+    ) line + to_append
+    else line
 
   case class Excerpt (beginning: Int, end: Int )
 }

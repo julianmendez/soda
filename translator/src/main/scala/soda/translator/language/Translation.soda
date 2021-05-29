@@ -12,7 +12,7 @@ package soda.translator.language
 
   SodaInReservedWord: String = "in"
   SodaInPattern: String = SodaInReservedWord + " "
-  ScalaInTranslation: String = " } "
+  ScalaInTranslation: String = " }"
 
   SodaClassReservedWord: String = "class"
 

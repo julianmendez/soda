@@ -12,7 +12,7 @@ case class Translation () {
 
   lazy val SodaInReservedWord: String = "in"
   lazy val SodaInPattern: String = SodaInReservedWord + " "
-  lazy val ScalaInTranslation: String = " } "
+  lazy val ScalaInTranslation: String = " }"
 
   lazy val SodaClassReservedWord: String = "class"
 
