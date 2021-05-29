@@ -1,0 +1,78 @@
+\section{Techniques}
+
+This section is intended to describe techniques to produce \Soda source code.
+This could be considered simple design patterns that use the features of \Soda.
+
+One of the techniques is to have a kind of \textit{weak scope}.
+
+Let us assume we have the following snippet:
+\begin{lstlisting}[label={lst:techniquesWeakScope0}]
+  class SomeClass = {
+
+    relevant_function(x: Input) =
+      let
+        auxiliary_function_1 = ...
+        auxiliary_function_2 = ...
+        auxiliary_function_3 = ...
+        ...
+      in result
+
+
+    unrelated_function_1 = ...
+
+    unrelated_function_2 = ...
+  }
+\end{lstlisting}
+
+As we can see, the auxiliary functions are \textbf{private}, and cannot be tested outside \srccode{relevant_function}.
+An alternative, would be to put the auxiliary functions in the class, but outside \srccode{relevant_function}.
+
+\begin{lstlisting}[label={lst:techniquesWeakScope1}]
+  class SomeClass = {
+
+    relevant_function(x: Input) =
+      let
+        ...
+      in result
+
+    auxiliary_function_1 = ...
+
+    auxiliary_function_2 = ...
+
+    auxiliary_function_3 = ...
+
+    unrelated_function_1 = ...
+
+    unrelated_function_2 = ...
+  }
+\end{lstlisting}
+
+This works, but the auxiliary functions are mixed together with the unrelated functions.
+This is when the weak scope pattern can be useful.
+
+\begin{lstlisting}[label={lst:techniquesWeakScope2}]
+  class SomeClass = {
+
+    relevant_function(x: Input) =
+      let
+        ...
+      in result
+
+    class _AuxRF() = {
+
+      auxiliary_function_1 = ...
+
+      auxiliary_function_2 = ...
+
+      auxiliary_function_3 = ...
+    }
+
+    unrelated_function_1 = ...
+
+    unrelated_function_2 = ...
+  }
+\end{lstlisting}
+
+In this case, \srccode{relevant_function} can use the auxiliary functions in class \srccode{_AuxRF}.
+These functions can be tested from outside, but it is clear that its content is not meant to be exported.
+
