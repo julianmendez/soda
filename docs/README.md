@@ -106,10 +106,10 @@ The following tools can be configured to have syntax highlighting:
 The project can be build with [sbt](https://www.scala-sbt.org/).
 
 The command is:
-`sbt clean compile test package assembly`
+`sbt "++ 3.0.0" clean compile test package assembly`
 
 It is also possible to compile it for different Scala versions:
-`sbt "++ 2.13.5" clean compile test package assembly`
+`sbt "++ 2.13.6" clean compile test package assembly`
 
 If (scala_version) and (soda_version) is the Scala and Soda version respectively, the created jar file are:
 - **translator**: library with classes that implement the Soda-Scala translator
