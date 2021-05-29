@@ -24,8 +24,8 @@ Let us assume we have the following snippet:
   }
 \end{lstlisting}
 
-As we can see, the auxiliary functions are \textbf{private}, and cannot be tested outside \srccode{relevant_function}.
-An alternative, would be to put the auxiliary functions in the class, but outside \srccode{relevant_function}.
+As we can see, the auxiliary functions are \textbf{private}, and cannot be tested outside \srccode{relevant\_function}.
+An alternative, would be to put the auxiliary functions in the class, but outside \srccode{relevant\_function}.
 
 \begin{lstlisting}[label={lst:techniquesWeakScope1}]
   class SomeClass = {
@@ -73,6 +73,6 @@ This is when the weak scope pattern can be useful.
   }
 \end{lstlisting}
 
-In this case, \srccode{relevant_function} can use the auxiliary functions in class \srccode{_AuxRF}.
+In this case, \srccode{relevant\_function} can use the auxiliary functions in class \srccode{\_AuxRF}.
 These functions can be tested from outside, but it is clear that its content is not meant to be exported.
 
