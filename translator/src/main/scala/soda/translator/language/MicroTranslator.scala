@@ -22,7 +22,7 @@ case class MicroTranslator () {
       lazy val preprocessed_lines = preprocess_letin_commands (lines_to_translate )
       lazy val translated_lines = translate_lines (preprocessed_lines )
       lazy val translated_program = join_translated_lines (translated_lines )
-      translated_program  }
+      translated_program }
 
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
@@ -49,7 +49,7 @@ case class MicroTranslator () {
       lazy val translated_line = _translate_line (tokenized_line )
       lazy val joint_line = _join_tokens (translated_line )
       lazy val final_line = Replacement (joint_line ) .remove_space_from_scala_line () .line
-      final_line  }
+      final_line }
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>

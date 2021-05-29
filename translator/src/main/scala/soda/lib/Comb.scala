@@ -17,7 +17,7 @@ case class Comb () {
         else
           {
             lazy val rev_sequences = sequences.reverse
-            Rec () .foldLeft (rev_sequences.tail, initial_value (rev_sequences.head ), next_value )  }
+            Rec () .foldLeft (rev_sequences.tail, initial_value (rev_sequences.head ), next_value ) }
 
       def initial_value (seq: Seq [T]  ): Seq [Seq [T]] = seq.map (elem => Seq (elem )  )
 
@@ -25,5 +25,5 @@ case class Comb () {
         seq_a.flatMap (elem_a =>
           accum.map (seq_b => seq_b.+: (elem_a ) ) )
 
-      result  }
+      result }
 }

@@ -11,7 +11,7 @@ case class LetBindingExample () {
       lazy val second_part = "second" + part
       lazy val third_part = "third" + part
       lazy val part = " part"
-      result  }
+      result }
 
   lazy val three_parts_like_let_in =
     {
@@ -19,5 +19,5 @@ case class LetBindingExample () {
       lazy val second_part = "second" + part
       lazy val third_part = "third" + part
       lazy val part = " part"
-      Seq (first_part, second_part, third_part )  }
+      Seq (first_part, second_part, third_part ) }
 }

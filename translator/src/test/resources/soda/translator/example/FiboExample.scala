@@ -17,5 +17,5 @@ case class FiboExampleInSoda () extends FiboExample {
         else if (m == 1 ) b
         else rec (m - 1, b, a + b )
 
-      result  }
+      result }
 }

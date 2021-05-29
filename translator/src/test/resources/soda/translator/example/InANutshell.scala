@@ -17,14 +17,14 @@ case class InANutshell () {
     {
       lazy val a = x + y
       lazy val b = x - y
-      a * b  }
+      a * b }
 
   def h2 (x: Int, y: Int ): Int =
     {
       lazy val result = a * b
       lazy val a = x + y
       lazy val b = x - y
-      result  }
+      result }
 
   def geater_than (a: Int, b: Int ): Boolean =
     a > b

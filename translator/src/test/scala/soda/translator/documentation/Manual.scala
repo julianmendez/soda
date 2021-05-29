@@ -133,14 +133,14 @@ case class Manual () {
     {
       lazy val a = g (x )
       lazy val b = g (a )
-      a + b  }
+      a + b }
 
   def f2 (x: Int ) =
     {
       lazy val result = a + b
       lazy val a = g (x )
       lazy val b = g (a )
-      result  }
+      result }
 
   def g (x: Int ) = x + 1
 }
@@ -182,7 +182,7 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
         ) product
         else rec (n - 1, n * product )
 
-      result  }
+      result }
 }
 
 case class Rec () {
@@ -199,7 +199,7 @@ case class Rec () {
           ) acc
           else rec (seq.tail, next_value (acc, seq.head )  )
 
-      rec (s, initial_value )  }
+      rec (s, initial_value ) }
 
   def range (n: Int ): Seq [Int] =
     {
@@ -210,7 +210,7 @@ case class Rec () {
         ) seq
         else rec (n - 1, seq.+: (n - 1 )  )
 
-      rec (n, Seq [Int]  ()  )  }
+      rec (n, Seq [Int]  ()  ) }
 }
 
 case class Main () {

@@ -21,7 +21,7 @@ case class Rec () {
           ) acc
           else rec (seq.tail, next_value (acc, seq.head )  )
 
-      rec (s, initial_value )  }
+      rec (s, initial_value ) }
 
   def foldLeft [A, B, C <: B]  (seq: Seq [A], initial_value: C, next_value: (B, A ) => C ): C =
     {
@@ -32,7 +32,7 @@ case class Rec () {
         ) acc
         else rec (seq.tail, next_value (acc, seq.head )  )
 
-      rec (seq, initial_value )  }
+      rec (seq, initial_value ) }
 
   def range (n: Int ): Seq [Int] =
     {
@@ -43,5 +43,5 @@ case class Rec () {
         ) seq
         else rec (n - 1, seq.+: (n - 1 )  )
 
-      rec (n, Seq [Int]  ()  )  }
+      rec (n, Seq [Int]  ()  ) }
 }

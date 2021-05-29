@@ -17,5 +17,5 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
         if (n == 0
         ) product
         else rec (n - 1, n * product )
-      result  }
+      result }
 }

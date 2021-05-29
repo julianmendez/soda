@@ -28,7 +28,7 @@ case class Replacement (line: String ) {
       def next_value (line: String, reserved_word: String ): String =
         _replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
 
-      Rec () .foldLeft (translator.keys, initial_value, next_value )  }
+      Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 
   def _replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
@@ -58,7 +58,7 @@ case class Replacement (line: String ) {
         ) replace_all (line, pattern, new_text )
         else line
 
-      result  }
+      result }
 
   def add_space_to_soda_line (): Replacement =
     Replacement (SodaSpace + line + SodaSpace )
@@ -85,7 +85,7 @@ case class Replacement (line: String ) {
           ) ScalaSpace
           else ""
 
-        result  }
+        result }
     ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
@@ -142,8 +142,8 @@ case class Replacement (line: String ) {
             {
               lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
               lazy val new_index = pos + pattern.length
-              FoldTuple (new_replaced_text_rev, new_index )  }
-        next_tuple  }
+              FoldTuple (new_replaced_text_rev, new_index ) }
+        next_tuple }
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =
       ! (tuple.start_index == -1 )

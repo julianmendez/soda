@@ -16,9 +16,9 @@ trait MSeq [T] {
         else
           {
             lazy val neseq = seq.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
-            if (! condition (acc, neseq.head ()  ) ) acc else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition )  }
+            if (! condition (acc, neseq.head ()  ) ) acc else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition ) }
 
-      rec (this, initial_value, next_value, condition )  }
+      rec (this, initial_value, next_value, condition ) }
 }
 
 

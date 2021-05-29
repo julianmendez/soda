@@ -30,9 +30,9 @@ case class PiIterator () {
             lazy val l = s.l + 2
             lazy val k = s.k + 1
             lazy val new_status = Status (r, n, q, t, l, k )
-            rec (new_status )  }
+            rec (new_status ) }
 
-      result  }
+      result }
 
   def take (n: Int ): Seq [BigInt] =
     {
@@ -46,9 +46,9 @@ case class PiIterator () {
         else
           {
             lazy val t = _next (s )
-            rec (n - 1, rev_seq.+: (t.digit ), t.new_status )  }
+            rec (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
 
-      result  }
+      result }
 
   def _next (s: Status ): BigIntAndStatus =
     {
@@ -62,7 +62,7 @@ case class PiIterator () {
       lazy val l = ns.l
       lazy val k = ns.k
       lazy val new_status = Status (r, n, q, t, l, k )
-      result  }
+      result }
 
   case class BigIntAndStatus (digit: BigInt, new_status: Status )
 }

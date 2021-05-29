@@ -15,5 +15,5 @@ case class Main () {
         .map (pair => pair.name + " = " + pair.result.toString )
         .mkString ("\n")
 
-      println (allExamples )  }
+      println (allExamples ) }
 }

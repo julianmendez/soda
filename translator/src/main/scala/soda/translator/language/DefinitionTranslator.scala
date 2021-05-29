@@ -64,7 +64,7 @@ case class DefinitionTranslator (line: String ) {
         indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
             position_of_first_opening_parenthesis.opt (false, position => position > other_position )
         )
-      case1 || case2 || case3  }
+      case1 || case2 || case3 }
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
