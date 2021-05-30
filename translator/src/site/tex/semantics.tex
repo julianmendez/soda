@@ -1,0 +1,35 @@
+\section{Semantics}
+
+\newcommand{\I}[1]{\ensuremath{{#1}^{\mathcal{I}}}}
+
+The semantics for \Soda can be defined as follows.
+
+
+An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \Delta _\mathcal{\I} , \I{\cdot} \rangle$, where $\Delta$ is the domain and $\I{\cdot}$ is the interpretation function.
+
+They are defined as follows:
+
+\begin{itemize}
+    \item $\I{f =_{S} g}$ can be read as replacing every free occurrence of $f$ by $g$ in scope $S$
+
+    \item $\I{\sif b \sthen e_{1} \selse e_{2}}$ = \I{e_{1}} if $b$ is true, or \I{e_{2}} if $b$ is false
+
+    \item $\slet f_{1} = g_{1}, \ldots f_{n} = g_{n} \sdin e$ =
+    \I{e[g_{1} / f_{1}, g_{n} / f_{n}]}, which reads as the interpretation of
+    replacing in $e$ every free occurrence of $f_{1}$ by $g_{1}$, $f_{2}$ by $g_{2}$, and so on until replacing $f_{n}$ by $g_{n}$
+\end{itemize}
+
+where:
+\begin{itemize}
+    \item $f, f_{i}$ are variable names for lambda expressions
+    \item $g, g_{i}$ are typed lambda expressions
+    \item $S$ is a scope
+\end{itemize}
+
+
+In addition, we can operate on a Monad with the following definitions
+
+$\I{bind(a, b)} = $
+
+
+
