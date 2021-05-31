@@ -27,23 +27,26 @@ case class LineJoiner (lines: Seq [String]  ) {
       line.startsWith (SodaClosingBracket )
 
   def reverse_join (lines_to_join: Seq [String]  ): Seq [String] =
-    {
-      lazy val tuples = Rec () .foldLeft (lines_to_join, initial_value, next_value )
-      lazy val result =
-        if (tuples.in_process_rev.isEmpty
-        ) tuples.processed_rev
-        else tuples.processed_rev.+: (_rev_list_as_element (tuples.in_process_rev, "")  )
-      result }
-
-  lazy val initial_value = FoldTuple (Seq (), Seq (), "")
-
-  def next_value (pair: FoldTuple, head: String ): FoldTuple =
-    if (condition_for_forward_join (head.trim )
-    ) FoldTuple (pair.in_process_rev.+: (head ), pair.processed_rev, head )
+    if (lines_to_join.isEmpty
+    ) lines_to_join
     else
       {
-        lazy val new_head = _rev_list_as_element (pair.in_process_rev, head )
-        FoldTuple (Seq (), pair.processed_rev.+: (new_head ), head ) }
+        lazy val tuple = Rec () .foldLeft (lines_to_join.tail, initial_value (lines_to_join.head ), next_value )
+        lazy val result =
+          if (tuple.in_process_rev.isEmpty
+          ) tuple.processed_rev.+: (tuple.previous_line )
+          else tuple.processed_rev.+: (_rev_list_as_element (tuple.in_process_rev, tuple.previous_line )  )
+        result }
+
+  def initial_value (first_line: String ): FoldTuple = FoldTuple (Seq (), Seq (), first_line )
+
+  def next_value (tuple: FoldTuple, head: String ): FoldTuple =
+    if (condition_for_forward_join (tuple.previous_line.trim )
+    ) FoldTuple (tuple.in_process_rev.+: (tuple.previous_line ), tuple.processed_rev, head )
+    else
+      {
+        lazy val processed_line = _rev_list_as_element (tuple.in_process_rev, tuple.previous_line )
+        FoldTuple (Seq (), tuple.processed_rev.+: (processed_line ), head ) }
 
   def _rev_list_as_element (in_process_rev: Seq [String], line: String ): String =
     in_process_rev.reverse.mkString ("") + line
