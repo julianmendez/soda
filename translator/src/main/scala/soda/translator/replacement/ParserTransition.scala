@@ -39,8 +39,7 @@ case class ParserTransition () {
       ((ps.ApostropheState, ch.UndefinedType ), ps.UndefinedState ), ((ps.ApostropheState, ch.ApostropheType ), ps.Plain ), ((ps.ApostropheState, ch.BackslashType ), ps.ApostropheBackslashState ), /* */
       ((ps.QuotesBackslashState, ch.UndefinedType ), ps.UndefinedState ), ((ps.QuotesBackslashState, ch.QuotesType ), ps.QuotesState ), ((ps.QuotesBackslashState, ch.ApostropheType ), ps.QuotesState ), ((ps.QuotesBackslashState, ch.BackslashType ), ps.QuotesState ), ((ps.QuotesBackslashState, ch.PlainType ), ps.QuotesState ), /* */
       ((ps.ApostropheBackslashState, ch.UndefinedType ), ps.UndefinedState ), ((ps.ApostropheBackslashState, ch.QuotesType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.ApostropheType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.BackslashType ), ps.ApostropheState ), ((ps.ApostropheBackslashState, ch.PlainType ), ps.ApostropheState ), /* */
-      ((ps.Plain, ch.UndefinedType ), ps.UndefinedState ), ((ps.Plain, ch.QuotesType ), ps.QuotesState ), ((ps.Plain, ch.ApostropheType ), ps.ApostropheState ), ((ps.Plain, ch.BackslashType ), ps.Plain ), ((ps.Plain, ch.PlainType ), ps.Plain )
-    )
+      ((ps.Plain, ch.UndefinedType ), ps.UndefinedState ), ((ps.Plain, ch.QuotesType ), ps.QuotesState ), ((ps.Plain, ch.ApostropheType ), ps.ApostropheState ), ((ps.Plain, ch.BackslashType ), ps.Plain ), ((ps.Plain, ch.PlainType ), ps.Plain )    )
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
     TransitionsThatChangeStates.getOrElse ((parser_state, char_type ), parser_state )

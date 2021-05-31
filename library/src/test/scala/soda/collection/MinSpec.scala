@@ -528,8 +528,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("foldLeft in the same type") {
     lazy val expected = MSeqTranslator () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 )  )
-    lazy val obtained = Min () .foldLeft0 (example )  (Min () .empty, (s: MSeq [Int], e: Int ) => Min () .prepended (s, e + 100 )
-    )
+    lazy val obtained = Min () .foldLeft0 (example )  (Min () .empty, (s: MSeq [Int], e: Int ) => Min () .prepended (s, e + 100 )    )
 
     assert (obtained == expected )
   }

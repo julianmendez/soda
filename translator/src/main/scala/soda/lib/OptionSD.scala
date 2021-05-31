@@ -32,14 +32,12 @@ trait OptionSD [A] {
     opt (ifEmpty, f )
 
   def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
-    opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )
-    )
+    opt (ifEmpty = NoneSD [B]  (), ifNonEmpty = element => mapping (element )    )
 
   def bind [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] = flatMap [B]  (mapping )
 
   def filter (predicate: A => Boolean ): OptionSD [A] =
-    opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()
-    )
+    opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD [A]  ()    )
 }
 
 case class NoneSD [A] () extends OptionSD [A] {

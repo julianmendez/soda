@@ -18,8 +18,5 @@ case class LibraryDeployer () {
       .map (parent_directory =>
         Library_content_files
           .map (lib_file_name =>
-            SimpleIO () .write_file (file = SimpleIO () .create_file (parent_directory, lib_file_name ), content = SimpleIO () .read_resource (Library_directory_in_jar + lib_file_name )
-            )
-          ) .forall (x => x )
-      ) .forall (x => x )
+            SimpleIO () .write_file (file = SimpleIO () .create_file (parent_directory, lib_file_name ), content = SimpleIO () .read_resource (Library_directory_in_jar + lib_file_name )            )          ) .forall (x => x )      ) .forall (x => x )
 }

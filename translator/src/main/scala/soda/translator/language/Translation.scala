@@ -20,8 +20,7 @@ case class Translation () {
   lazy val ScalaValue: String = "lazy val"
   lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"
-  )
+  lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
 
 /**
  * Scala 3 keywords:
@@ -32,33 +31,25 @@ case class Translation () {
   lazy val ScalaReservedWords =
     Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
 
-  lazy val Scala3RegularKeywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ":>", "#", "@", "=>>", "?=>"
-  )
+  lazy val Scala3RegularKeywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ":>", "#", "@", "=>>", "?=>"  )
 
-  lazy val Scala3SoftKeywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"
-  )
+  lazy val Scala3SoftKeywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"  )
 
-  lazy val Scala2ExtraKeywords = Seq ("forSome", "macro", "this", "_", "<%", ">:", "\u21D2", "\u2190"
-  )
+  lazy val Scala2ExtraKeywords = Seq ("forSome", "macro", "this", "_", "<%", ">:", "\u21D2", "\u2190"  )
 
-  lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")
-  )
+  lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
-  lazy val TranslationAtBeginningWithParen: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")
-  )
+  lazy val TranslationAtBeginningWithParen: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
 
   lazy val TranslationAtBeginningWithoutParen: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
-    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", ScalaEntryPoint )
-  )
+    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", ScalaEntryPoint )  )
 
-  lazy val Synonym: Seq [(String, String )] = Seq (("is", "=")
-  )
+  lazy val Synonym: Seq [(String, String )] = Seq (("is", "=")  )
 
   lazy val MainTranslation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
     /** Annotations */
-    ("@new", "new")
-  )
+    ("@new", "new")  )
 
   lazy val PrefixScalaNonSoda = "__soda__"
 
@@ -68,8 +59,7 @@ case class Translation () {
 
   lazy val SodaBracketsAndComma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val Beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")
-  )
+  lazy val Beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
 
   def is_scala_word (word: String ): Boolean =
     ScalaReservedWords.contains (word )

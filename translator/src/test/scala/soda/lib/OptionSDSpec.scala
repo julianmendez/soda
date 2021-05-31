@@ -118,8 +118,7 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
   test ("should try how successive applications of open works") {
     def toInt (s: String ): OptionSD [Int] =
       OptionSDBuilder () .build (Try (Integer.parseInt (s.trim ) )
-          .toOption
-      )
+          .toOption      )
 
     lazy val stringA = "1"
     lazy val stringB = "2"

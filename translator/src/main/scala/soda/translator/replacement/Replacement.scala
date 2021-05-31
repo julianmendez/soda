@@ -81,8 +81,7 @@ case class Replacement (line: String ) {
           ) ScalaSpace
           else ""
 
-        left_part + ch + right_part }
-    ) .mkString ("")
+        left_part + ch + right_part }    ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
     Replacement (remove_space_from_scala_line (line )  )

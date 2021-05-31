@@ -46,8 +46,7 @@ case class MicroTranslator () {
       .map (annotated_line =>
         if (annotated_line.isComment
         ) annotated_line.line
-        else _translate_non_comment (annotated_line.line )
-      )
+        else _translate_non_comment (annotated_line.line )      )
 
   def _translate_non_comment (line: String ): String =
       SomeSD (line )
@@ -62,8 +61,7 @@ case class MicroTranslator () {
     tokens.map (token =>
         if (token.parser_state == ParserStateEnum () .Plain
         ) Token (_get_all_replacements (token ), token.parser_state, token.index )
-        else token
-    )
+        else token    )
 
   def _get_all_replacements (token: Token ): String =
     Replacement (token.text )

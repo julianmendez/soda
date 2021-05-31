@@ -92,9 +92,7 @@ case class Min [T]  () {
     s.opt (ifEmpty = NoneSD [T]  (), ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
         ) NoneSD [T]  ()
-        else SomeSD [T]  (_atNonEmpty (neseq, n )  )
-      )
-    )
+        else SomeSD [T]  (_atNonEmpty (neseq, n )  )      )    )
 
   def _atNonEmpty (xs: NESeq [T], n: Int ): T =
     {
@@ -123,8 +121,7 @@ case class Min [T]  () {
     {
       lazy val initial_value = FoldTuple (s, 0 )
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-        tuple.seq.opt (ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
-        )
+        tuple.seq.opt (ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )        )
       def condition (tuple: FoldTuple, elem: T ): Boolean =
         tuple.index < n
 
@@ -235,9 +232,7 @@ case class Min [T]  () {
                   if (new_taking
                   ) FoldTuple (neleft.tail (), prepended (right, e ), new_taking )
                   else FoldTuple (neleft, right, new_taking )
-                new_tuple }
-            )
-          )
+                new_tuple }            )          )
           result }
 
       def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.taking

@@ -35,8 +35,7 @@ case class DefinitionTranslator (line: String ) {
   lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "
 
-  lazy val get_translation = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line
-  )
+  lazy val get_translation = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line  )
 
   lazy val is_class_definition =
     indexOf (line, SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) .isDefined
@@ -62,8 +61,7 @@ case class DefinitionTranslator (line: String ) {
       lazy val case2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
       lazy val case3 =
         indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
-            position_of_first_opening_parenthesis.opt (false, position => position > other_position )
-        )
+            position_of_first_opening_parenthesis.opt (false, position => position > other_position )        )
       case1 || case2 || case3 }
 
   /**

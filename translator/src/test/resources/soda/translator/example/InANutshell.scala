@@ -52,8 +52,7 @@ case class InANutshell () {
 
   case class Example (index: Int ) {
     def min_max (a: Int, b: Int ): MinMaxPair =
-      MinMaxPair (min = ConcreteMaxAndMin () .min (a, b ), max = ConcreteMaxAndMin () .max (a, b )
-      )
+      MinMaxPair (min = ConcreteMaxAndMin () .min (a, b ), max = ConcreteMaxAndMin () .max (a, b )      )
   }
 
   trait Comparable {
