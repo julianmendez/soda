@@ -14,18 +14,15 @@ case class DirectoryScanner () {
 
   case class RecursiveScanner (found: Seq [File], to_scan: Seq [File]  ) {
 
-    def scan (): Seq [File] = {
-      lazy val result = rec (found, to_scan )
-
-      import scala.annotation.tailrec
+    def scan (): Seq [File] =
+      {
+        import scala.annotation.tailrec
         @tailrec
-      def rec (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
-        if (to_scan.isEmpty
-        ) found
-        else rec (found.+: (to_scan.head ), get_files_to_scan (to_scan )  )
-
-      result
-    }
+        def rec (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
+          if (to_scan.isEmpty
+          ) found
+          else rec (found.+: (to_scan.head ), get_files_to_scan (to_scan )  )
+        rec (found, to_scan ) }
 
     def get_files_to_scan (to_scan: Seq [File]  ): Seq [File] =
       if (to_scan.head.isDirectory

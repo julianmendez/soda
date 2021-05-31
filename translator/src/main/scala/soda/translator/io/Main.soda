@@ -14,13 +14,12 @@ package soda.translator.io
 
   Help: String = SimpleIO().read_resource("/soda/translator/documentation/help.txt")
 
-  Title_and_version: String = {
-    packg = this.getClass.getPackage
-    name = Option(packg.getImplementationTitle).getOrElse("")
-    version = Option(packg.getImplementationVersion).getOrElse("")
-
-    (name + " " + version).trim
-  }
+  Title_and_version: String =
+    let
+      packg = this.getClass.getPackage
+      name = Option(packg.getImplementationTitle).getOrElse("")
+      version = Option(packg.getImplementationVersion).getOrElse("")
+    in (name + " " + version).trim
 
   main(args: Array[String]): Unit =
     if args.length == 1 then process_directory(args(0))
@@ -36,19 +35,17 @@ package soda.translator.io
       input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
     else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
 
-  process_soda_file(file: File): Boolean = {
-    file_name = file.getAbsolutePath
-    t = get_input_output_file_names(file_name)
+  process_soda_file(file: File): Boolean =
+    let
+      file_name = file.getAbsolutePath
+      t = get_input_output_file_names(file_name)
+    in translate(t.input_file_name, t.output_file_name)
 
-    translate(t.input_file_name, t.output_file_name)
-  }
-
-  translate(input_file_name: String, output_file_name: String): Boolean = {
-    input = SimpleIO().read_file(input_file_name)
-    output = MicroTranslator().translate_program(input)
-
-    SimpleIO().write_file(output_file_name, content := output)
-  }
+  translate(input_file_name: String, output_file_name: String): Boolean =
+    let
+      input = SimpleIO().read_file(input_file_name)
+      output = MicroTranslator().translate_program(input)
+    in SimpleIO().write_file(output_file_name, content := output)
 
   * FileNamePair(input_file_name: String, output_file_name: String)
 }

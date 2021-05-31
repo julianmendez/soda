@@ -9,6 +9,7 @@ package soda.translator.io
   + java.io.File
   + java.io.FileWriter
   + java.io.InputStreamReader
+  + java.io.Writer
   + java.nio.file.Files
   + java.nio.file.Paths
   + java.util.stream.Collectors
@@ -19,26 +20,25 @@ package soda.translator.io
   read_file(file_name: String): String =
     @new String(Files.readAllBytes(Paths.get(file_name)))
 
-  read_resource(file_name: String): String = {
-    input_stream = getClass.getResourceAsStream(file_name)
-    reader = @new BufferedReader(@new InputStreamReader(input_stream))
-
-    reader.lines().collect(Collectors.joining(New_line))
-  }
+  read_resource(file_name: String): String =
+    let
+      input_stream = getClass.getResourceAsStream(file_name)
+      reader = @new BufferedReader(@new InputStreamReader(input_stream))
+    in reader.lines().collect(Collectors.joining(New_line))
 
   write_file(file_name: String, content: String): Boolean =
     write_file(@new File(file_name), content)
 
-  write_file(file: File, content: String): Boolean = {
-    writer = @new FileWriter(file)
+  write_file(file: File, content: String): Boolean =
+    _write_content(@new FileWriter(file), content)
 
+  _write_content(writer: Writer, content: String): Boolean =
     SomeSD(true)
       .map( x -> writer.write(content) )
       .map( x -> writer.flush() )
       .map( x -> writer.close() )
       .map( x -> true )
       .get
-  }
 
   create_file(parent_directory: String, file_name: String): File =
     @new File(parent_directory, file_name)

@@ -69,62 +69,56 @@ case class Replacement (line: String ) {
   def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
     line.indices.map (index =>
       {
-        lazy val result = left_part + ch + right_part
-
         lazy val ch = line (index )
-
         lazy val left_part =
           if ((index > 0 ) && symbols.contains (ch ) &&
             ! line (index - 1 ) .isWhitespace
           ) ScalaSpace
           else ""
-
         lazy val right_part =
           if ((index < line.length - 1 ) && symbols.contains (ch ) &&
             ! line (index + 1 ) .isWhitespace
           ) ScalaSpace
           else ""
 
-        result }
+        left_part + ch + right_part }
     ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
     Replacement (remove_space_from_scala_line (line )  )
 
-  def remove_space_from_scala_line (line: String ): String = {
-    lazy val line_without_starting_space =
-      if (line.startsWith (ScalaSpace )
-      ) line.substring (1 )
-      else line
-    lazy val line_without_ending_space =
-      if (line_without_starting_space.endsWith (ScalaSpace )
-      ) line_without_starting_space.substring (0, line_without_starting_space.length - 1 )
-      else line_without_starting_space
-
-    line_without_ending_space
-  }
+  def remove_space_from_scala_line (line: String ): String =
+    {
+      lazy val line_without_starting_space =
+        if (line.startsWith (ScalaSpace )
+        ) line.substring (1 )
+        else line
+      lazy val line_without_ending_space =
+        if (line_without_starting_space.endsWith (ScalaSpace )
+        ) line_without_starting_space.substring (0, line_without_starting_space.length - 1 )
+        else line_without_starting_space
+      line_without_ending_space }
 
   def add_after_spaces (text_to_prepend: String ): Replacement =
     Replacement (add_after_spaces (line, text_to_prepend )  )
 
-  def add_after_spaces (line: String, text_to_prepend: String ): String = {
-    lazy val prefix_length = line.takeWhile (ch => ch.isSpaceChar ) .length
-
-    line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length )
-  }
+  def add_after_spaces (line: String, text_to_prepend: String ): String =
+    {
+      lazy val prefix_length = line.takeWhile (ch => ch.isSpaceChar ) .length
+      line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length ) }
 
   def replace_regex (translator: Translator ): Replacement =
     Replacement (replace_regex (line, translator )  )
 
-  def replace_regex (line: String, translator: Translator ): String = {
-    lazy val initial_value: String = line
-    def next_value (line: String, regex: String ): String =
-      line.replaceAll (regex, translator.translate (regex )  )
-
-    Rec () .foldLeft (translator.keys, initial_value, next_value )
-  }
+  def replace_regex (line: String, translator: Translator ): String =
+    {
+      lazy val initial_value: String = line
+      def next_value (line: String, regex: String ): String =
+        line.replaceAll (regex, translator.translate (regex )  )
+      Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 
   case class Replacer (line: String, pattern: String, replacement: String ) {
+
     lazy val replace =
       postproc (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition ) )
 

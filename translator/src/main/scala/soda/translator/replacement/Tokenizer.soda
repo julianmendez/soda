@@ -47,9 +47,8 @@ package soda.translator.replacement
         else current_index
       text = line.substring(tuple.last_index, index)
 
-      result = FoldTuple(index, new_parser_state,
+    in FoldTuple(index, new_parser_state,
         tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
-    in result
 
   * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 }

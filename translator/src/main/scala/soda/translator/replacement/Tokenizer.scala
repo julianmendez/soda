@@ -46,8 +46,7 @@ case class Tokenizer (line: String ) {
         else current_index
       lazy val text = line.substring (tuple.last_index, index )
 
-      lazy val result = FoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  )
-      result }
+      FoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  ) }
 
   case class FoldTuple (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
 }
