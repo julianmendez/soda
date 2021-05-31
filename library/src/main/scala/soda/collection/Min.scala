@@ -18,15 +18,12 @@ case class MSeqTranslator [T]  () {
     {
       lazy val initial_value: MSeq [T] = Min () .empty
       def next_value (acc: MSeq [T], elem: T ): MSeq [T] = Min () .prepended (acc, elem )
-
-      lazy val result = Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) )
-      result }
+      Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) ) }
 
   def asSeq (mseq: MSeq [T]  ): Seq [T] =
     {
       lazy val initial_value: Seq [T] = Seq ()
       def next_value (acc: Seq [T], elem: T ): Seq [T] = acc.+: (elem )
-
       Min () .foldLeft (mseq, initial_value, next_value ) .reverse }
 }
 
@@ -72,7 +69,6 @@ case class Min [T]  () {
     {
       lazy val initial_value: Int = 0
       def next_value (acc: Int, elem: T ): Int = acc + 1
-
       foldLeft (s, initial_value, next_value ) }
 
   def indexOf (s: MSeq [T], e: T ): Int =
@@ -81,7 +77,6 @@ case class Min [T]  () {
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
         FoldTuple (tuple.index + 1, if (elem == e ) tuple.index else tuple.position )
       def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.position == -1
-
       case class FoldTuple (index: Int, position: Int )
 
       foldLeftWhile (s, initial_value, next_value, condition ) .position }
@@ -94,61 +89,48 @@ case class Min [T]  () {
       foldLeftWhile (s, initial_value, next_value, condition ) }
 
   def at (s: MSeq [T], n: Int ): OptionSD [T] =
-    {
-      lazy val result =
-        s.opt (ifEmpty = NoneSD [T]  (), ifNonEmpty = (neseq =>
-          if (n < 0 || n >= length (s )
-          ) NoneSD [T]  ()
-          else SomeSD [T]  (atNonEmpty (neseq, n )  )
-        )
+    s.opt (ifEmpty = NoneSD [T]  (), ifNonEmpty = (neseq =>
+        if (n < 0 || n >= length (s )
+        ) NoneSD [T]  ()
+        else SomeSD [T]  (_atNonEmpty (neseq, n )  )
       )
+    )
 
-      def atNonEmpty (xs: NESeq [T], n: Int ): T =
-        {
-          lazy val initial_value = FoldTuple (xs.head (), -1 )
-          def next_value (tuple: FoldTuple, elem: T ): FoldTuple = FoldTuple (elem, tuple.index + 1 )
-          def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
+  def _atNonEmpty (xs: NESeq [T], n: Int ): T =
+    {
+      lazy val initial_value = FoldTuple (xs.head (), -1 )
+      def next_value (tuple: FoldTuple, elem: T ): FoldTuple = FoldTuple (elem, tuple.index + 1 )
+      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
 
-          case class FoldTuple (elem: T, index: Int )
+      case class FoldTuple (elem: T, index: Int )
 
-          foldLeftWhile (xs, initial_value, next_value, condition ) .elem }
-
-      result }
+      foldLeftWhile (xs, initial_value, next_value, condition ) .elem }
 
   /* */
 
   def take (s: MSeq [T], n: Int ): MSeq [T] =
     {
-      lazy val result = reverse (foldLeftWhile (s, initial_value, next_value, condition ) .seq )
-
       lazy val initial_value = FoldTuple (empty, 0 )
-
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
         FoldTuple (prepended (tuple.seq, elem ), tuple.index + 1 )
-
-      def condition (tuple: FoldTuple, elem: T ): Boolean =
-        tuple.index < n
+      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
 
       case class FoldTuple (seq: MSeq [T], index: Int )
 
-      result }
+      reverse (foldLeftWhile (s, initial_value, next_value, condition ) .seq ) }
 
   def drop (s: MSeq [T], n: Int ): MSeq [T] =
     {
-      lazy val result = foldLeftWhile (s, initial_value, next_value, condition ) .seq
-
       lazy val initial_value = FoldTuple (s, 0 )
-
       def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
         tuple.seq.opt (ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )
         )
-
       def condition (tuple: FoldTuple, elem: T ): Boolean =
         tuple.index < n
 
       case class FoldTuple (seq: MSeq [T], index: Int )
 
-      result }
+      foldLeftWhile (s, initial_value, next_value, condition ) .seq }
 
   def takeWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = reverse (spanRevRec (s, p ) .left )
 
