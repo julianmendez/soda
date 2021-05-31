@@ -38,7 +38,7 @@ case class MultiLineSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("should preprocess the comma in multiple lines") {
-    lazy val obtained = mt.join_lines_that_should_be_in_the_same_line (Original_input_lines )
+    lazy val obtained = mt.join_lines_with_opening_brackets (Original_input_lines )
     lazy val expected = Joined_comma_lines
 
     assert (obtained == expected )

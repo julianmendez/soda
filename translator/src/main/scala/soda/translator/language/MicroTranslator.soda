@@ -21,8 +21,9 @@ package soda.translator.language
   translate_program(program: String): String =
     SomeSD(program)
       .map(x -> split_lines(x))
-      .map(x -> join_lines_that_should_be_in_the_same_line(x))
+      .map(x -> join_lines_with_opening_brackets(x))
       .map(x -> preprocess_let_in_commands(x))
+      .map(x -> join_lines_with_closing_brackets(x))
       .map(x -> translate_lines(x))
       .map(x -> join_translated_lines(x))
       .get
@@ -30,8 +31,11 @@ package soda.translator.language
   split_lines (program: String): Seq[String] =
     program.split(NewLine).toIndexedSeq
 
-  join_lines_that_should_be_in_the_same_line(lines: Seq[String]): Seq[String] =
-    LineJoiner(lines).get_joined_lines
+  join_lines_with_opening_brackets(lines: Seq[String]): Seq[String] =
+    LineJoiner(lines).get_joined_lines_with_opening_brackets
+
+  join_lines_with_closing_brackets(lines: Seq[String]): Seq[String] =
+    LineJoiner(lines).get_joined_lines_with_closing_brackets
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(NewLine) + NewLine
