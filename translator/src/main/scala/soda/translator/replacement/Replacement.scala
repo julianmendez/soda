@@ -124,19 +124,16 @@ case class Replacement (line: String ) {
     lazy val initial_value = FoldTuple (Seq (), 0 )
 
     def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      {
-        lazy val replaced_text_rev = tuple.replaced_text_rev
-        lazy val start_index = tuple.start_index
-        lazy val pos = line.indexOf (pattern, start_index )
-        lazy val next_tuple =
-          if (pos == -1
-          ) FoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
-          else
-            {
-              lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
-              lazy val new_index = pos + pattern.length
-              FoldTuple (new_replaced_text_rev, new_index ) }
-        next_tuple }
+      _next_tuple (replaced_text_rev = tuple.replaced_text_rev, start_index = tuple.start_index, pos = line.indexOf (pattern, tuple.start_index )      )
+
+    def _next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): FoldTuple =
+      if (pos == -1
+      ) FoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
+      else
+        {
+          lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
+          lazy val new_index = pos + pattern.length
+          FoldTuple (new_replaced_text_rev, new_index ) }
 
     def condition (tuple: FoldTuple, x: Int ): Boolean =
       ! (tuple.start_index == -1 )

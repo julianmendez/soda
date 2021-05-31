@@ -22,9 +22,8 @@ package soda.translator.replacement
   next_value(pair: FoldTuple, line: String): FoldTuple =
     let
       t = annotate_this_line(line, pair.comment_state)
-      result = FoldTuple(t.new_comment_state,
+    in FoldTuple(t.new_comment_state,
         pair.annotated_lines_rev.+:(AnnotatedLine(line, t.current_state)))
-    in result
 
   annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
     if comment_state

@@ -22,8 +22,7 @@ case class CommentPreprocessor (lines: Seq [String]  ) {
   def next_value (pair: FoldTuple, line: String ): FoldTuple =
     {
       lazy val t = annotate_this_line (line, pair.comment_state )
-      lazy val result = FoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  )
-      result }
+      FoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  ) }
 
   def annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state
