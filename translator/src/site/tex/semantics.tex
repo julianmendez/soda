@@ -32,4 +32,38 @@ In addition, we can operate on a Monad with the following definitions
 $\I{bind(a, b)} = $
 
 
+One problem is the infinetely recursive definition:
+\begin{lstlisting}[label={lst:exampleOfRecursion}]
+  f (x: Int) = g(x)
+  g (x: Int) = f(x)
+\end{lstlisting}
+
+Because of that, conventionally, every recursive function should be declared as such, by being named or starting with the prefix \srccode{rec}.
+
+For example, instead of writing this function
+\begin{lstlisting}[label={lst:exampleOfFactorialBadNaming}]
+  f (n: Int) =
+    if n <= 0
+    then 1
+    else n * f(n - 1)
+\end{lstlisting}
+
+writing this other function
+\begin{lstlisting}[label={lst:exampleOfFactorialGoodNaming}]
+  rec_f (n: Int) =
+    if n <= 0
+    then 1
+    else n * rec_f(n - 1)
+\end{lstlisting}
+
+The purpose is to highlight that it requires extra care to verify that its recursion finishes.
+
+Alternatively, it is possible to use \srccode{foldLeft} over an finite iterable structure.
+\begin{lstlisting}[label={lst:exampleOfFactorialFoldLeft}]
+  f (n: Int) =
+    let
+      initial_value = 1
+      next_value(acc: Int, elem: Int): Int = acc * elem
+    in Range(0, n).foldLeft(initial_value)(next_value)
+\end{lstlisting}
 
