@@ -3,35 +3,51 @@ package soda.translator.language
 
 * LineJoiner(lines: Seq[String]) = {
   + soda.lib.Rec
+  + soda.lib.SomeSD
 
   Comma = ","
   SodaOpeningParenthesis: String = "("
+  SodaClosingParenthesis: String = ")"
+  SodaOpeningBracket: String = "["
+  SodaClosingBracket: String = "]"
 
-  get_joined_lines =
-    processed_lines.reverse
+  get_joined_lines: Seq[String] =
+    reverse_join(lines).reverse
 
-  processed_lines =
+  condition_to_join(previous_line: String, current_line: String): Boolean =
+    condition_for_forward_join(previous_line) or condition_for_backward_join(current_line)
+
+  condition_for_forward_join(line: String): Boolean =
+    line.endsWith(Comma) or
+      line.endsWith(SodaOpeningParenthesis) or
+      line.endsWith(SodaOpeningBracket)
+
+  condition_for_backward_join(line: String): Boolean =
+    line.startsWith(SodaClosingParenthesis) or
+      line.startsWith(SodaClosingBracket)
+
+  reverse_join(lines_to_join: Seq[String]): Seq[String] =
     let
-      pairs = Rec().foldLeft(lines, initial_value, next_value)
+      tuples = Rec().foldLeft(lines_to_join, initial_value, next_value)
       result =
-        if pairs.in_process_rev.isEmpty
-        then pairs.processed_rev
-        else pairs.processed_rev.+:(rev_list_as_element(pairs.in_process_rev, ""))
+        if tuples.in_process_rev.isEmpty
+        then tuples.processed_rev
+        else tuples.processed_rev.+:(_rev_list_as_element(tuples.in_process_rev, ""))
     in result
 
-  initial_value = FoldTuple(Seq(), Seq())
+  initial_value = FoldTuple(Seq(), Seq(), "")
 
   next_value(pair: FoldTuple, head: String): FoldTuple =
-    if head.trim().endsWith(Comma) or head.trim().endsWith(SodaOpeningParenthesis)
-    then FoldTuple(pair.in_process_rev.+:(head), pair.processed_rev)
+    if condition_for_forward_join(head.trim)
+    then FoldTuple(pair.in_process_rev.+:(head), pair.processed_rev, head)
     else
       let
-        new_head = rev_list_as_element(pair.in_process_rev, head)
-      in FoldTuple(Seq(), pair.processed_rev.+:(new_head))
+        new_head = _rev_list_as_element(pair.in_process_rev, head)
+      in FoldTuple(Seq(), pair.processed_rev.+:(new_head), head)
 
-  rev_list_as_element(in_process_rev: Seq[String], line: String): String =
+  _rev_list_as_element(in_process_rev: Seq[String], line: String): String =
     in_process_rev.reverse.mkString("") + line
 
-  * FoldTuple(in_process_rev: Seq[String], processed_rev: Seq[String])
+  * FoldTuple(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)
 }
 

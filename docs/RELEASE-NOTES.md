@@ -3,6 +3,8 @@
   - date: unreleased
   - new_features:
     - includes `let` and `in` reserved words to define a block of bindings
+    - makes opening brackets (`[`) in the same line as the following
+    - makes closing parenthesis (`)`) and closing brackets (`]`) be in the same line as the previous one 
   - deprecated_features:
     - synonym `suchthat` for `->` is no longer supported
   - build: sbt '++ 3.0.0' clean compile test package assembly

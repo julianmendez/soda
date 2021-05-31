@@ -21,8 +21,8 @@ case class MicroTranslator () {
   def translate_program (program: String ): String =
     SomeSD (program )
       .map (x => split_lines (x )  )
-      .map (x => join_lines_ending_with_comma_or_opening_parenthesis (x )  )
-      .map (x => preprocess_letin_commands (x )  )
+      .map (x => join_lines_that_should_be_in_the_same_line (x )  )
+      .map (x => preprocess_let_in_commands (x )  )
       .map (x => translate_lines (x )  )
       .map (x => join_translated_lines (x )  )
       .get
@@ -30,7 +30,7 @@ case class MicroTranslator () {
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
 
-  def join_lines_ending_with_comma_or_opening_parenthesis (lines: Seq [String]  ): Seq [String] =
+  def join_lines_that_should_be_in_the_same_line (lines: Seq [String]  ): Seq [String] =
     LineJoiner (lines ) .get_joined_lines
 
   def join_translated_lines (lines: Seq [String]  ): String =
@@ -86,7 +86,7 @@ case class MicroTranslator () {
       .map (token => token.text )
       .mkString ("")
 
-  def preprocess_letin_commands (lines: Seq [String]  ): Seq [String] =
+  def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
     lines.map (line =>
       append_if_condition (line, starts_with_in, Translation () .ScalaInTranslation ) )
 
