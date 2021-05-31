@@ -4,7 +4,7 @@ package soda.translator.language
 /**
  * This class contains the specific implementations of Translator.
  */
-case class Tr () {
+case class TranslatorImplementation () {
   import soda.translator.replacement.Translator
 
   case class SynonymAtBeginning () extends Translator {
