@@ -9,7 +9,7 @@ case class DirectoryProcessor (start: String, process_soda_file: java.io.File =>
   def process (): Boolean =
     LibraryDeployer () .expand_library (lib_files ) &&
       soda_files
-        .map (file => process_soda_file (file )  )
+        .map (process_soda_file )
         .forall (x => x )
 
   lazy val all_files = DirectoryScanner () .get_all_files (new File (start )  )

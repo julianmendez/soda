@@ -20,12 +20,12 @@ package soda.translator.language
 
   translate_program(program: String): String =
     SomeSD(program)
-      .map(x -> split_lines(x))
-      .map(x -> join_lines_with_opening_brackets(x))
-      .map(x -> preprocess_let_in_commands(x))
-      .map(x -> join_lines_with_closing_brackets(x))
-      .map(x -> translate_lines(x))
-      .map(x -> join_translated_lines(x))
+      .map(split_lines)
+      .map(join_lines_with_opening_brackets)
+      .map(preprocess_let_in_commands)
+      .map(join_lines_with_closing_brackets)
+      .map(translate_lines)
+      .map(join_translated_lines)
       .get
 
   split_lines (program: String): Seq[String] =
