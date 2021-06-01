@@ -1,0 +1,51 @@
+\section{Why and why not}
+
+
+\subsection{Mutability}
+Mutable structures are extremely error prone, since a variable can change its value without any apparent change.
+
+Example:
+
+/* a = ?, b = ?, c = ? */
+a = C(5)
+
+/* a = C(5), b = ?, c = ? */
+b = compute(a)
+
+/* a = C(6), b = C(a), c = ? */
+c = compute(b)
+/* a = C(6), b = C(7), c = C(7) */
+
+
+compute(a)
+a.increment(1)
+return a
+
+
+expected
+/* a = ?, b = ?, c = ? */
+a = C(5)
+
+/* a = C(5), b = ?, c = ? */
+b = compute(a)
+
+/* a = C(5), b = C(6), c = ? */
+c = compute(b)
+/* a = C(5), b = C(6), c = C(7) */
+
+
+
+\subsection{Tuples}
+
+The use of tuple can hide an error in design.
+Unlike sequences, tuples may accept different types in their components.
+
+For example,
+
+("Jon", true, true, false)
+
+is far less legible than
+
+Individual(name := "Jon", registered := true, evaluated := true, passed := true)
+
+
