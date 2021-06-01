@@ -2,36 +2,95 @@
 
 \newcommand{\I}[1]{\ensuremath{{#1}^{\mathcal{I}}}}
 
+\newcommand{\DeltaI}{\ensuremath{\Delta _{\mathcal{I}}}}
+\newcommand{\ThetaI}{\ensuremath{\Theta _{\mathcal{I}}}}
+\newcommand{\PhiI}{\ensuremath{\Phi _{\mathcal{I}}}}
 
-The semantics for \Soda can be defined as follows.
+The simplified semantics for \Soda can be defined as follows.
 
 This definition is for a non-recursive definition of \Soda.
 The recursive definition requires extra constraints to prevent undecidability.
 This is discussed in the following section.
 
-An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \Delta _{\mathcal{I}} , \Theta _{\mathcal{I}}, \I{\cdot} \rangle$, where $\Delta _{\mathcal{I}}$ is the interpretation domain, $\Theta _{\mathcal{I}}$ is a set of types, and $\I{\cdot}$ is the interpretation function.
+An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \DeltaI, \PhiI, \I{\cdot} \rangle$, where $\DeltaI$ is the interpretation domain, $\PhiI$ is a set of functions defined with elements of $\DeltaI$, and $\I{\cdot}$ is the interpretation function.
 
-For this definition, let us assume $\{\srccode{Boolean}, \srccode{Int}\} \in \Theta _{\mathcal{I}}$
+As defined above, $\DeltaI \subseteq \PhiI$, because constant are considered functions without parameters.
 
-They are defined as follows:
+For this definition, let us assume $\{\srccode{Boolean}, \srccode{Int}\} \in \Theta _{\mathcal{I}}$.
 
+Let $\mathbb{B}$ the set $\{false, true\}$.
+
+A \textbf{function definition} is a formula of the form
+$$f = e$$
+such that $f$ is a function name and $e$ is an expression.
+At this point, we can distinguish between \textbf{recursive function definition} and \textbf{non-recursive function definition} considering whether $f$ occurs free on $e$, in the first case, or not, in the second case.
+
+Please observe that a non-recursive function definition can be recursive by using another function, for example:
+\begin{center}
+    $$f = g$$
+    $$g = f$$
+\end{center}
+are two non-recursive function definitions that are mutually recursive.
+
+An \textbf{atomic function definition} is a non-recursive function definition of the form
+$$f = g_{A}$$
+such that $f$ is a fresh function name, not occurring in $g_{A}$, and $g_{A}$ is such that $\I{g_{A}} \in \PhiI$.
+
+For example, these could be possible values for $g_{A}$:
 \begin{itemize}
-    \item $\I{\srccode{Boolean}} = \{\text{false}, \text{true}\}$
+    \item 0
+    \item true
+    \item -1
+    \item $(\lambda x: \mathbb{Z} \to (\lambda y: \mathbb{Z} \to x + y))$
+    \item $(\lambda x: \mathbb{B} \to (\lambda y: \mathbb{B} \to x \land y) )$
+\end{itemize}
+
+A \textbf{class definition} is a formula of the form
+$$\sclass\ A (V) \ \sextends\ P = S$$
+where $A$ is a fresh class name, $V$ is a sequence of typed function names, $C$ is a sequence of parametric types with their constraints, $P$ is a superclass or conjunction of superclasses, and $S$ is a set of definitions.
+
+``$(V)$'' can be excluded to define a class that cannot be instantiated, which is call an \textbf{abstract class}.
+By contrast, a \textbf{concrete class} is a class that can be instantiated.
+If $V$ is an empty sequence, the class does not need parameters to be instantiated.
+
+If $S$ is empty, the equals sign can be omitted.
+
+It is assumed that there exists a class \srccode{Top} such that all classes extend from it.
+Hence, if $A$ extends \srccode{Top}, ``$\sextends\ P$'' can be omitted.
+
+$P$ can be a conjunction of class names, which can be notated as:
+$$P_{1} \ \swith\ P_{2} \ \swith\ \ldots \ \swith\ P_{n}$$
+
+A \textbf{class scope} is a set of definitions, which can be function definitions or class definitions.
+
+A \textbf{function scope} is a set of functions definitions.
+
+
+There is a small divergence between \Soda as defined here and its implementation, because the implementation uses class scopes instead of function scopes.
+
+The interpretation function is defined as follows:
+\begin{itemize}
+    \item $\I{\srccode{Boolean}} = \mathbb{B}$
     \item $\I{\srccode{Int}} = \mathbb{Z}$
     \item $\I{(f : T)} = \I{f} \in \I{T}$
-    \item $\I{(\sif\ f_{B} \ \sthen\ e_{1} \ \selse\ e_{2})}$ = $\I{e_{1}}$ if $\I{f_{B}}$ is true, or $\I{e_{2}}$ if $\I{f_{B}}$ is false
+    \item $\I{(\sif\ f_{B} \ \sthen\ e_{1} \ \selse\ e_{2})} =
+    \begin{cases}
+        \I{e_{1}}, & \text{if } \I{f_{B}} \text{ is true }\\
+        \I{e_{2}}, & \text{otherwise}
+    \end{cases}
+    $
 
     \item $\I{(\slet\ f = g \ \sdin\ e)}$ =
     \I{(e[f := g])}, provided that $f$ does not occur free in $g$.
-    This reads as the interpretation of
-    replacing in $e$ every free occurrence of $f$ by $g$
+    This is the interpretation of
+    replacing in $e$ every free occurrence of $f$ by $g$.
 
     \item $\I{(\slet\ f_{1} = g_{1}, \ldots , f_{n} = g_{n} \ \sdin\ e)}$ = \\
     $\I{(\slet\ f_{1} = g_{1}[f_{n} := g_{n}], \ldots , f_{n - 1} = g_{n - 1}[f_{n} := g_{n}] \ \sdin\ e[f_{n} := g_{n}])}$, provided that $f_{n}$ does not occur free in $g_{n}$.
-    This reads as the interpretation of
-    replacing in $e$ and in all $g_{1}, \ldots , g_{n - 1}$ every free occurrence of $f_{n}$ by $g_{n}$
+    This is the interpretation of
+    replacing in $e$ and in all $g_{1}, \ldots , g_{n - 1}$ every free occurrence of $f_{n}$ by $g_{n}$.
 
-    \item $\I{(\sclass\ A = \{ S \})}$ =
+    \item $\I{(\sclass\ A (V) \ \sextends\ P = \{ d_{1}, \ldots ,d_{n} \})}$ =
 \end{itemize}
 
 
