@@ -18,13 +18,12 @@ case class LineJoiner (lines: Seq [String]  ) {
     Joiner (lines, condition_for_backward_join ) .join
 
   def condition_for_forward_join (previous_line: String, current_line: String ): Boolean =
-    previous_line.endsWith (Comma ) ||
-      previous_line.endsWith (SodaOpeningParenthesis ) ||
-      previous_line.endsWith (SodaOpeningBracket )
+    Translation () .ForwardJoiner
+      .exists (previous_line.endsWith )
 
   def condition_for_backward_join (previous_line: String, current_line: String ): Boolean =
-    current_line.startsWith (SodaClosingParenthesis ) ||
-      current_line.startsWith (SodaClosingBracket )
+    Translation () .BackwardJoiner
+      .exists (current_line.startsWith )
 
   case class Joiner (lines_to_join: Seq [String], condition_for_join: (String, String ) => Boolean ) {
 
