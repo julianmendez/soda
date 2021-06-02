@@ -11,13 +11,9 @@ pipelines:
         caches:
           - sbt
         script:
-          - sbt '++ 3.0.0' scalaVersion sbtVersion version
-          - sbt '++ 3.0.0' clean compile test package assembly
-          - sbt '++ 2.13.6' scalaVersion sbtVersion version
-          - sbt '++ 2.13.6' clean compile test package assembly
-          - sbt '++ 2.12.13' scalaVersion sbtVersion version
-          - sbt '++ 2.12.13' clean compile test package assembly
-          - sbt '++ 2.11.12' scalaVersion sbtVersion version
-          - sbt '++ 2.11.12' clean compile test package assembly
+          - sbt '++ 3.0.0' scalaVersion sbtVersion version clean compile test package assembly
+          - sbt '++ 2.13.6' scalaVersion sbtVersion version clean compile test package assembly
+          - sbt '++ 2.12.13' scalaVersion sbtVersion version clean compile test package assembly
+          - sbt '++ 2.11.12' scalaVersion sbtVersion version clean compile test package assembly
 
 
