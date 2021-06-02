@@ -79,6 +79,42 @@ can be rewritten as:
 
 In practice, this is a little more complicated since this would involve a renaming and access the class names using points.
 
+In addition, the variables can be included in the function definitions.
+This means that
+\[\sclass\ A (V_{A}) \ \sextends\ P = \{
+f_{1} = g_{1},
+\ldots ,
+f_{n} = g_{n}
+\}
+\]
+
+can be rewritten as
+\[\sclass\ A() \ \sextends\ P = \{
+f_{1}(V_{A}) = g_{1},
+\ldots ,
+f_{n}(V_{A}) = g_{n}
+\}
+\]
+
+In practice, all function calls should also include the parameters in $V_{A}$.
+
+Finally, the empty parameters can be also rewritten.
+This means that
+\[\sclass\ A() \ \sextends\ P = \{
+f_{1} = g_{1},
+\ldots ,
+f_{n} = g_{n}
+\}
+\]
+can be rewritten as:
+\[\sclass\ A \ \sextends\ P = \{
+f_{1}(self) = g_{1},
+\ldots ,
+f_{n}(self) = g_{n}
+\}
+\]
+where $self$ is an extra variable needed to invoke the functions, and it is given when a class instance is created.
+
 It is assumed that there exists a class \srccode{Top} such that all classes extend from it.
 Hence, if $A$ extends \srccode{Top}, ``$\sextends\ P$'' can be omitted.
 
@@ -122,25 +158,15 @@ The interpretation function is defined as follows:
     \item $\I{(\sclass\ A = S_{A})}$ = \\
     $\{ (f_{d}, d) \mid d \in S_{A} \land f_{d} \text{ is the definiendum in } d \land A \in \ThetaI \}$, provided that the definienda are unique.
 
-    \item $\I{(\sclass\ A (V_{A}) \ \sextends\ P = S_{A})}$ = \\
-    $\I{(\sclass\ A (V_{A}) = S_{P} \cup S_{A})}$, provided that $S_{P}$ and $S_{A}$ do not share any definition of the same function name or class name.
+    \item $\I{(\sclass\ A \ \sextends\ P = S_{A})}$ = \\
+    $\I{(\sclass\ A = S_{P} \cup S_{A})}$, provided that $S_{P}$ and $S_{A}$ do not share any definition of the same function name or class name.
 
-    \item $\I{(\sclass\ A (V_{A}) \ \sextends\ P_{1} \ \swith\ P_{2} = S_{A})}$ = \\
-    $\I{(\sclass\ A (V_{A}) \ \sextends\ P_{1} = S_{P_{2}} \cup S_{A})}$, provided that $S_{P_{2}}$ and $S_{A}$ do not share any definition of the same function name or class name.
+    \item $\I{(\sclass\ A \ \sextends\ P_{1} \ \swith\ P_{2} = S_{A})}$ = \\
+    $\I{(\sclass\ A \ \sextends\ P_{1} = S_{P_{2}} \cup S_{A})}$, provided that $S_{P_{2}}$ and $S_{A}$ do not share any definition of the same function name or class name.
 
 \end{itemize}
 
-
-\begin{itemize}
-    \item $f, f_{i}$ are variable names for lambda expressions
-    \item $g, g_{i}$ are typed lambda expressions
-    \item $S$ is a scope
-\end{itemize}
-
-
-In addition, we can operate on a Monad with the following definitions
-
-$\I{bind(a, b)} = $
+\subsection{Recursive definitions}
 
 
 One problem is the infinitely recursive definition:
@@ -179,3 +205,9 @@ Alternatively, it is possible to use \srccode{foldLeft} over an finite iterable 
 \end{lstlisting}
 
 More information about it can be found in \textbf{System-F}, \textbf{Martin-L\"{o}f type theory}, and in \textbf{dependent types}.
+
+In addition, we can operate on a Monad with the following definitions
+
+$\I{bind(a, b)} = $ (to be defined)
+
+
