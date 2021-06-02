@@ -6,34 +6,45 @@
 \newcommand{\ThetaI}{\ensuremath{\Theta _{\mathcal{I}}}}
 \newcommand{\PhiI}{\ensuremath{\Phi _{\mathcal{I}}}}
 
+\newcommand{\lambd}[2]{\ensuremath{(\lambda {#1} \to {#2})}}
+
 The simplified semantics for \Soda can be defined as follows.
 
 This definition is for a non-recursive definition of \Soda.
 The recursive definition requires extra constraints to prevent undecidability.
 This is discussed in the following section.
 
-An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \DeltaI, \PhiI, \I{\cdot} \rangle$, where $\DeltaI$ is the interpretation domain, $\PhiI$ is a set of functions defined with elements of $\DeltaI$, and $\I{\cdot}$ is the interpretation function.
+An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \DeltaI, \PhiI, \ThetaI, \I{\cdot} \rangle$, where $\DeltaI$ is the interpretation domain, $\PhiI$ is a set of functions defined with elements of $\DeltaI$, $\ThetaI$ is a set of type names, and $\I{\cdot}$ is the interpretation function.
 
-As defined above, $\DeltaI \subseteq \PhiI$, because constant are considered functions without parameters.
-
-For this definition, let us assume $\{\srccode{Boolean}, \srccode{Int}\} \in \Theta _{\mathcal{I}}$.
+As defined above, $\DeltaI \subseteq \PhiI$, because constants are considered functions without parameters.
 
 Let $\mathbb{B}$ the set $\{false, true\}$.
 
+We assume that:
+\begin{itemize}
+    \item $\mathbb{B} \subseteq \DeltaI$
+    \item $\lambd{x: \mathbb{B}}{\lnot x} \in \PhiI$
+    \item $\lambd{x: \mathbb{B}}{\lambd{y: \mathbb{B}}{x \land y}} \in \PhiI$
+    \item $\lambd{x: \mathbb{B}}{\lambd{y: \mathbb{B}}{x \lor y}} \in \PhiI$
+\end{itemize}
+
 A \textbf{function definition} is a formula of the form
-$$f = e$$
+\[f = e\]
 such that $f$ is a function name and $e$ is an expression.
+$f$ is the \textbf{definiendum} and $g$ is the \textbf{definiens}.
+
+
 At this point, we can distinguish between \textbf{recursive function definition} and \textbf{non-recursive function definition} considering whether $f$ occurs free on $e$, in the first case, or not, in the second case.
 
 Please observe that a non-recursive function definition can be recursive by using another function, for example:
 \begin{center}
-    $$f = g$$
-    $$g = f$$
+    \[f = g\]
+    \[g = f\]
 \end{center}
 are two non-recursive function definitions that are mutually recursive.
 
 An \textbf{atomic function definition} is a non-recursive function definition of the form
-$$f = g_{A}$$
+\[f = g_{A}\]
 such that $f$ is a fresh function name, not occurring in $g_{A}$, and $g_{A}$ is such that $\I{g_{A}} \in \PhiI$.
 
 For example, these could be possible values for $g_{A}$:
@@ -46,27 +57,49 @@ For example, these could be possible values for $g_{A}$:
 \end{itemize}
 
 A \textbf{class definition} is a formula of the form
-$$\sclass\ A (V) \ \sextends\ P = S$$
-where $A$ is a fresh class name, $V$ is a sequence of typed function names, $C$ is a sequence of parametric types with their constraints, $P$ is a superclass or conjunction of superclasses, and $S$ is a set of definitions.
+\[\sclass\ A (V_{A}) \ \sextends\ P = S_{A}\]
+where $A$ is a fresh class name, $V_{A}$ is a sequence of typed function names, $P$ is a possibly empty sequence of class names, and $S_{A}$ is a set of function definitions.
+
+$P$ is said to be a conjunction of super classes, and this conjunction is notated:
+\[P_{1} \ \swith\ P_{2} \ \swith\ \ldots \ \swith\ P_{n}\]
+
+In the following, $S_{P}, S_{P_{1}}, \ldots , S_{P_{n}}$ denotes the set of definitions of $P, P_{1}, \ldots, P_{n}$ respectively.
+
+We define the class in class definition as a syntactic variant of defining the class outside, but accessing with scope.
+
+This means that
+\[\sclass\ A (V_{A}) \ \sextends\ P_{1} = \{
+\sclass\ B (V_{B}) \ \sextends\ P_{2} = S_{B} \} \cup S_{A}
+\]
+can be rewritten as:
+\[\sclass\ A (V_{A}) \ \sextends\ P_{1} = S_{A}
+\]
+\[\sclass\ B (V_{A} + V_{B}) \ \sextends\ P_{2} = S_{A} \cup S_{B}
+\]
+
+In practice, this is a little more complicated since this would involve a renaming and access the class names using points.
+
+It is assumed that there exists a class \srccode{Top} such that all classes extend from it.
+Hence, if $A$ extends \srccode{Top}, ``$\sextends\ P$'' can be omitted.
 
 ``$(V)$'' can be excluded to define a class that cannot be instantiated, which is call an \textbf{abstract class}.
 By contrast, a \textbf{concrete class} is a class that can be instantiated.
 If $V$ is an empty sequence, the class does not need parameters to be instantiated.
 
-If $S$ is empty, the equals sign can be omitted.
+If $S_{A}$ is empty, the equals sign can be omitted.
 
-It is assumed that there exists a class \srccode{Top} such that all classes extend from it.
-Hence, if $A$ extends \srccode{Top}, ``$\sextends\ P$'' can be omitted.
+There is a small divergence between \Soda as defined here and its implementation, because the implementation allows defining classes inside classes, and even inside functions.
 
-$P$ can be a conjunction of class names, which can be notated as:
-$$P_{1} \ \swith\ P_{2} \ \swith\ \ldots \ \swith\ P_{n}$$
+\textbf{Notation}: $e[f \coloneqq g]$ is a notation that means replacing every free occurrence of $f$ in $e$ by $g$, where bound variables in $e$ can be renamed to avoid that the insertion of free variables in $g$ are bound.
 
-A \textbf{class scope} is a set of definitions, which can be function definitions or class definitions.
+For example,
+\begin{itemize}
+    \item $f = g$
+    \item $g = \lambd {x}{x + y}$
+    \item $e = \lambd {y}{2 f(y)}$
+    \item then $e[f \coloneqq g] = \lambd {y_{1}}{2 (y_{1} + y)}$
+\end{itemize}
 
-A \textbf{function scope} is a set of functions definitions.
-
-
-There is a small divergence between \Soda as defined here and its implementation, because the implementation uses class scopes instead of function scopes.
 
 The interpretation function is defined as follows:
 \begin{itemize}
@@ -82,15 +115,19 @@ The interpretation function is defined as follows:
 
     \item $\I{(\slet\ f = g \ \sdin\ e)}$ =
     \I{(e[f := g])}, provided that $f$ does not occur free in $g$.
-    This is the interpretation of
-    replacing in $e$ every free occurrence of $f$ by $g$.
 
     \item $\I{(\slet\ f_{1} = g_{1}, \ldots , f_{n} = g_{n} \ \sdin\ e)}$ = \\
-    $\I{(\slet\ f_{1} = g_{1}[f_{n} := g_{n}], \ldots , f_{n - 1} = g_{n - 1}[f_{n} := g_{n}] \ \sdin\ e[f_{n} := g_{n}])}$, provided that $f_{n}$ does not occur free in $g_{n}$.
-    This is the interpretation of
-    replacing in $e$ and in all $g_{1}, \ldots , g_{n - 1}$ every free occurrence of $f_{n}$ by $g_{n}$.
+    $\I{(\slet\ f_{1} = g_{1}[f_{n} \coloneqq g_{n}], \ldots , f_{n - 1} = g_{n - 1}[f_{n} \coloneqq g_{n}] \ \sdin\ e[f_{n} \coloneqq g_{n}])}$, provided that $f_{n}$ does not occur free in $g_{n}$.
 
-    \item $\I{(\sclass\ A (V) \ \sextends\ P = \{ d_{1}, \ldots ,d_{n} \})}$ =
+    \item $\I{(\sclass\ A = S_{A})}$ = \\
+    $\{ (f_{d}, d) \mid d \in S_{A} \land f_{d} \text{ is the definiendum in } d \land A \in \ThetaI \}$, provided that the definienda are unique.
+
+    \item $\I{(\sclass\ A (V_{A}) \ \sextends\ P = S_{A})}$ = \\
+    $\I{(\sclass\ A (V_{A}) = S_{P} \cup S_{A})}$, provided that $S_{P}$ and $S_{A}$ do not share any definition of the same function name or class name.
+
+    \item $\I{(\sclass\ A (V_{A}) \ \sextends\ P_{1} \ \swith\ P_{2} = S_{A})}$ = \\
+    $\I{(\sclass\ A (V_{A}) \ \sextends\ P_{1} = S_{P_{2}} \cup S_{A})}$, provided that $S_{P_{2}}$ and $S_{A}$ do not share any definition of the same function name or class name.
+
 \end{itemize}
 
 
