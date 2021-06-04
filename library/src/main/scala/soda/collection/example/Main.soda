@@ -2,7 +2,7 @@ package soda.collection.example
 
 
 @main
-* Main() {
+* Main() = {
 
   main(args: Array[String]): Unit =
     let
@@ -33,7 +33,6 @@ package soda.collection.example
       )
         .map(pair -> pair.name + " = " + pair.result.toString)
         .mkString("\n")
-
     in println(allExamples)
 }
 

@@ -73,12 +73,10 @@ case class Min [T]  () {
 
   def indexOf (s: MSeq [T], e: T ): Int =
     {
-      lazy val initial_value = FoldTuple (0, -1 )
-      def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-        FoldTuple (tuple.index + 1, if (elem == e ) tuple.index else tuple.position )
-      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.position == -1
-      case class FoldTuple (index: Int, position: Int )
-
+      lazy val initial_value = IndexFoldTuple [T]  (0, -1 )
+      def next_value (tuple: IndexFoldTuple [T], elem: T ): IndexFoldTuple [T] =
+        IndexFoldTuple [T]  (tuple.index + 1, if (elem == e ) tuple.index else tuple.position )
+      def condition (tuple: IndexFoldTuple [T], elem: T ): Boolean = tuple.position == -1
       foldLeftWhile (s, initial_value, next_value, condition ) .position }
 
   def contains (s: MSeq [T], e: T ): Boolean =
@@ -96,37 +94,28 @@ case class Min [T]  () {
 
   def _atNonEmpty (xs: NESeq [T], n: Int ): T =
     {
-      lazy val initial_value = FoldTuple (xs.head (), -1 )
-      def next_value (tuple: FoldTuple, elem: T ): FoldTuple = FoldTuple (elem, tuple.index + 1 )
-      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
-
-      case class FoldTuple (elem: T, index: Int )
-
+      lazy val initial_value = AtFoldTuple [T]  (xs.head (), -1 )
+      def next_value (tuple: AtFoldTuple [T], elem: T ): AtFoldTuple [T] = AtFoldTuple [T]  (elem, tuple.index + 1 )
+      def condition (tuple: AtFoldTuple [T], elem: T ): Boolean = tuple.index < n
       foldLeftWhile (xs, initial_value, next_value, condition ) .elem }
 
   /* */
 
   def take (s: MSeq [T], n: Int ): MSeq [T] =
     {
-      lazy val initial_value = FoldTuple (empty, 0 )
-      def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-        FoldTuple (prepended (tuple.seq, elem ), tuple.index + 1 )
-      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.index < n
-
-      case class FoldTuple (seq: MSeq [T], index: Int )
-
+      lazy val initial_value = TakeDropFoldTuple [T]  (empty, 0 )
+      def next_value (tuple: TakeDropFoldTuple [T], elem: T ): TakeDropFoldTuple [T] =
+        TakeDropFoldTuple [T]  (prepended (tuple.seq, elem ), tuple.index + 1 )
+      def condition (tuple: TakeDropFoldTuple [T], elem: T ): Boolean = tuple.index < n
       reverse (foldLeftWhile (s, initial_value, next_value, condition ) .seq ) }
 
   def drop (s: MSeq [T], n: Int ): MSeq [T] =
     {
-      lazy val initial_value = FoldTuple (s, 0 )
-      def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
-        tuple.seq.opt (ifEmpty = FoldTuple (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => FoldTuple (neseq.tail (), tuple.index + 1 ) )        )
-      def condition (tuple: FoldTuple, elem: T ): Boolean =
+      lazy val initial_value = TakeDropFoldTuple [T]  (s, 0 )
+      def next_value (tuple: TakeDropFoldTuple [T], elem: T ): TakeDropFoldTuple [T] =
+        tuple.seq.opt (ifEmpty = TakeDropFoldTuple [T]  (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => TakeDropFoldTuple [T]  (neseq.tail (), tuple.index + 1 ) )        )
+      def condition (tuple: TakeDropFoldTuple [T], elem: T ): Boolean =
         tuple.index < n
-
-      case class FoldTuple (seq: MSeq [T], index: Int )
-
       foldLeftWhile (s, initial_value, next_value, condition ) .seq }
 
   def takeWhile (s: MSeq [T], p: (T => Boolean )  ): MSeq [T] = reverse (spanRevRec (s, p ) .left )
@@ -217,27 +206,33 @@ case class Min [T]  () {
       lazy val result = MSeqPair (pair.right, pair.left )
       lazy val pair = foldLeftWhile (s0, initial_value, next_value, condition )
 
-      lazy val initial_value = FoldTuple (s0, empty, true )
+      lazy val initial_value = SpanRevFoldTuple [T]  (s0, empty, true )
 
-      def next_value (tuple: FoldTuple, elem: T ): FoldTuple =
+      def next_value (tuple: SpanRevFoldTuple [T], elem: T ): SpanRevFoldTuple [T] =
         {
           lazy val left = tuple.left
           lazy val right = tuple.right
-          lazy val result = left.opt (ifEmpty = FoldTuple (left, right, false ), ifNonEmpty = (neleft =>
+          lazy val result = left.opt (ifEmpty = SpanRevFoldTuple [T]  (left, right, false ), ifNonEmpty = (neleft =>
               {
                 lazy val e = neleft.head ()
                 lazy val new_taking = p (e )
 
                 lazy val new_tuple =
                   if (new_taking
-                  ) FoldTuple (neleft.tail (), prepended (right, e ), new_taking )
-                  else FoldTuple (neleft, right, new_taking )
+                  ) SpanRevFoldTuple [T]  (neleft.tail (), prepended (right, e ), new_taking )
+                  else SpanRevFoldTuple [T]  (neleft, right, new_taking )
                 new_tuple }            )          )
           result }
 
-      def condition (tuple: FoldTuple, elem: T ): Boolean = tuple.taking
-
-      case class FoldTuple (left: MSeq [T], right: MSeq [T], taking: Boolean )
+      def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking
 
       result }
 }
+
+case class IndexFoldTuple [T]  (index: Int, position: Int )
+
+case class AtFoldTuple [T]  (elem: T, index: Int )
+
+case class TakeDropFoldTuple [T]  (seq: MSeq [T], index: Int )
+
+case class SpanRevFoldTuple [T]  (left: MSeq [T], right: MSeq [T], taking: Boolean )

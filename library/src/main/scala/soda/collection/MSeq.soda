@@ -18,7 +18,6 @@ package soda.collection
             neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
           in if not condition(acc, neseq.head()) then acc else rec(
                neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
-
     in rec(this, initial_value, next_value, condition)
 }
 

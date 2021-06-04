@@ -75,13 +75,11 @@ package soda.collection
 
   indexOf(s: MSeq[T], e: T): Int =
     let
-      initial_value = FoldTuple(0, -1)
-      next_value(tuple: FoldTuple, elem: T): FoldTuple =
-        FoldTuple(tuple.index + 1,
+      initial_value = IndexFoldTuple[T](0, -1)
+      next_value(tuple: IndexFoldTuple[T], elem: T): IndexFoldTuple[T] =
+        IndexFoldTuple[T](tuple.index + 1,
           if elem == e then tuple.index else tuple.position)
-      condition(tuple: FoldTuple, elem: T): Boolean = tuple.position == -1
-      * FoldTuple(index: Int, position: Int)
-
+      condition(tuple: IndexFoldTuple[T], elem: T): Boolean = tuple.position == -1
     in foldLeftWhile(s, initial_value, next_value, condition).position
 
   contains(s: MSeq[T], e: T): Boolean =
@@ -103,41 +101,32 @@ package soda.collection
 
   _atNonEmpty(xs: NESeq[T], n: Int): T =
     let
-      initial_value = FoldTuple(xs.head(), -1)
-      next_value(tuple: FoldTuple, elem: T): FoldTuple = FoldTuple(elem, tuple.index + 1)
-      condition(tuple: FoldTuple, elem: T): Boolean = tuple.index < n
-
-      * FoldTuple(elem: T, index: Int)
-
+      initial_value = AtFoldTuple[T](xs.head(), -1)
+      next_value(tuple: AtFoldTuple[T], elem: T): AtFoldTuple[T] = AtFoldTuple[T](elem, tuple.index + 1)
+      condition(tuple: AtFoldTuple[T], elem: T): Boolean = tuple.index < n
     in foldLeftWhile(xs, initial_value, next_value, condition).elem
 
   /* */
 
   take(s: MSeq[T], n: Int): MSeq[T] =
     let
-      initial_value = FoldTuple(empty, 0)
-      next_value(tuple: FoldTuple, elem: T): FoldTuple =
-        FoldTuple(prepended(tuple.seq, elem), tuple.index + 1)
-      condition (tuple: FoldTuple, elem: T): Boolean = tuple.index < n
-
-      * FoldTuple(seq: MSeq[T], index: Int)
-
+      initial_value = TakeDropFoldTuple[T](empty, 0)
+      next_value(tuple: TakeDropFoldTuple[T], elem: T): TakeDropFoldTuple[T] =
+        TakeDropFoldTuple[T](prepended(tuple.seq, elem), tuple.index + 1)
+      condition (tuple: TakeDropFoldTuple[T], elem: T): Boolean = tuple.index < n
     in reverse(
         foldLeftWhile(s, initial_value, next_value, condition).seq )
 
   drop(s: MSeq[T], n: Int): MSeq[T] =
     let
-      initial_value = FoldTuple(s, 0)
-      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+      initial_value = TakeDropFoldTuple[T](s, 0)
+      next_value(tuple: TakeDropFoldTuple[T], elem: T): TakeDropFoldTuple[T] =
         tuple.seq.opt(
-          ifEmpty := FoldTuple(tuple.seq, tuple.index + 1),
-          ifNonEmpty := (neseq -> FoldTuple(neseq.tail(), tuple.index + 1) )
+          ifEmpty := TakeDropFoldTuple[T](tuple.seq, tuple.index + 1),
+          ifNonEmpty := (neseq -> TakeDropFoldTuple[T](neseq.tail(), tuple.index + 1) )
         )
-      condition (tuple: FoldTuple, elem: T): Boolean =
+      condition (tuple: TakeDropFoldTuple[T], elem: T): Boolean =
         tuple.index < n
-
-      * FoldTuple(seq: MSeq[T], index: Int)
-
     in foldLeftWhile(s, initial_value, next_value, condition).seq
 
   takeWhile(s: MSeq[T], p: (T -> Boolean)): MSeq[T] = reverse(spanRevRec(s, p).left)
@@ -228,14 +217,14 @@ package soda.collection
       result = MSeqPair(pair.right, pair.left)
       pair = foldLeftWhile(s0, initial_value, next_value, condition)
 
-      initial_value = FoldTuple(s0, empty, true)
+      initial_value = SpanRevFoldTuple[T](s0, empty, true)
 
-      next_value(tuple: FoldTuple, elem: T): FoldTuple =
+      next_value(tuple: SpanRevFoldTuple[T], elem: T): SpanRevFoldTuple[T] =
         let
           left = tuple.left
           right = tuple.right
           result = left.opt(
-            ifEmpty := FoldTuple(left, right, false),
+            ifEmpty := SpanRevFoldTuple[T](left, right, false),
             ifNonEmpty := (neleft ->
               let
                 e = neleft.head()
@@ -243,17 +232,23 @@ package soda.collection
 
                 new_tuple =
                   if new_taking
-                  then FoldTuple(neleft.tail(), prepended(right, e), new_taking)
-                  else FoldTuple(neleft, right, new_taking)
+                  then SpanRevFoldTuple[T](neleft.tail(), prepended(right, e), new_taking)
+                  else SpanRevFoldTuple[T](neleft, right, new_taking)
               in new_tuple
             )
           )
         in result
 
-      condition(tuple: FoldTuple, elem: T): Boolean = tuple.taking
-
-      * FoldTuple(left: MSeq[T], right: MSeq[T], taking: Boolean)
+      condition(tuple: SpanRevFoldTuple[T], elem: T): Boolean = tuple.taking
 
     in result
 }
+
+* IndexFoldTuple[T](index: Int, position: Int)
+
+* AtFoldTuple[T](elem: T, index: Int)
+
+* TakeDropFoldTuple[T](seq: MSeq[T], index: Int)
+
+* SpanRevFoldTuple[T](left: MSeq[T], right: MSeq[T], taking: Boolean)
 
