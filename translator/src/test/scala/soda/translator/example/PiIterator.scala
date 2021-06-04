@@ -63,6 +63,6 @@ case class PiIterator () {
       lazy val k = ns.k
       lazy val new_status = Status (r, n, q, t, l, k )
       result }
-
-  case class BigIntAndStatus (digit: BigInt, new_status: Status )
 }
+
+case class BigIntAndStatus (digit: BigInt, new_status: Status )

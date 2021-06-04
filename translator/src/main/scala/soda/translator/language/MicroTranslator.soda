@@ -15,8 +15,6 @@ package soda.translator.language
 
   NewLine = "\n"
   SodaOpeningParenthesis: String = "("
-  Tr = TranslatorImplementation()
-
 
   translate_program(program: String): String =
     SomeSD(program)
@@ -69,19 +67,19 @@ package soda.translator.language
   _get_all_replacements(token: Token): String =
     Replacement(token.text)
       .add_spaces_to_symbols(symbols := Translation().SodaBracketsAndComma.toSet)
-      .replace(Tr.ScalaNonSoda())
-      .replace_at_beginning(token.index, Tr.SynonymAtBeginning())
-      .replace(Tr.Synonym())
+      .replace(ScalaNonSoda())
+      .replace_at_beginning(token.index, SynonymAtBeginning())
+      .replace(Synonym())
       .replace_with(try_definition)
       .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
-      .replace(Tr.MainTranslation())
-      .replace_regex(Tr.Beautifier())
+      .replace(MainTranslation())
+      .replace_regex(Beautifier())
       .line
 
   get_translation_table_at_beginning(line: String): Translator =
     if line.contains(SodaOpeningParenthesis)
-    then Tr.TranslationAtBeginningWithParen()
-    else Tr.TranslationAtBeginningWithoutParen()
+    then TranslationAtBeginningWithParen()
+    else TranslationAtBeginningWithoutParen()
 
   try_definition(line: String): String =
     DefinitionTranslator(line).get_translation
@@ -102,7 +100,7 @@ package soda.translator.language
     if condition(line)
     then line + to_append
     else line
-
-  * Excerpt(beginning: Int, end: Int)
 }
+
+* Excerpt(beginning: Int, end: Int)
 

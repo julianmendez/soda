@@ -48,6 +48,6 @@ case class Main () {
       lazy val input = SimpleIO () .read_file (input_file_name )
       lazy val output = MicroTranslator () .translate_program (input )
       SimpleIO () .write_file (output_file_name, content = output ) }
-
-  case class FileNamePair (input_file_name: String, output_file_name: String )
 }
+
+case class FileNamePair (input_file_name: String, output_file_name: String )

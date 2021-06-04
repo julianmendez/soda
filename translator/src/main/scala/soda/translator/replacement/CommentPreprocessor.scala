@@ -17,12 +17,12 @@ case class CommentPreprocessor (lines: Seq [String]  ) {
       .annotated_lines_rev
       .reverse
 
-  lazy val initial_value = FoldTuple (false, Seq ()  )
+  lazy val initial_value = PreprocessorFoldTuple (false, Seq ()  )
 
-  def next_value (pair: FoldTuple, line: String ): FoldTuple =
+  def next_value (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
     {
       lazy val t = annotate_this_line (line, pair.comment_state )
-      FoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  ) }
+      PreprocessorFoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  ) }
 
   def annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state
@@ -31,8 +31,8 @@ case class CommentPreprocessor (lines: Seq [String]  ) {
       if (line.trim.startsWith (SodaBeginComment )
       ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
       else CurrentAndNewCommentState (false, false )
-
-  case class FoldTuple (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )
-
-  case class CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean )
 }
+
+case class PreprocessorFoldTuple (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )
+
+case class CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean )

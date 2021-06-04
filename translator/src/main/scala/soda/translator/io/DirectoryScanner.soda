@@ -11,22 +11,23 @@ package soda.translator.io
     if start.isFile
     then Seq(start)
     else RecursiveScanner(Seq(), start.listFiles().toSeq).scan()
+}
 
-  * RecursiveScanner(found: Seq[File], to_scan: Seq[File]) = {
+* RecursiveScanner(found: Seq[java.io.File], to_scan: Seq[java.io.File]) = {
+  + java.io.File
 
-    scan(): Seq[File] =
-      let
-        @tailrec
-        rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
-          if to_scan.isEmpty
-          then found
-          else rec(found.+:(to_scan.head), get_files_to_scan(to_scan))
-      in rec(found, to_scan)
+  scan(): Seq[File] =
+    let
+      @tailrec
+      rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
+        if to_scan.isEmpty
+        then found
+        else rec(found.+:(to_scan.head), get_files_to_scan(to_scan))
+    in rec(found, to_scan)
 
-    get_files_to_scan(to_scan: Seq[File]): Seq[File] =
-      if to_scan.head.isDirectory
-      then to_scan.tail.++(to_scan.head.listFiles())
-      else to_scan.tail
-  }
+  get_files_to_scan(to_scan: Seq[File]): Seq[File] =
+    if to_scan.head.isDirectory
+    then to_scan.tail.++(to_scan.head.listFiles())
+    else to_scan.tail
 }
 

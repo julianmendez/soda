@@ -65,19 +65,19 @@ $P$ is said to be a conjunction of super classes, and this conjunction is notate
 
 In the following, $S_{P}, S_{P_{1}}, \ldots , S_{P_{n}}$ denotes the set of definitions of $P, P_{1}, \ldots, P_{n}$ respectively.
 
-We define the class in class definition as a syntactic variant of defining the class outside, but accessing with scope.
+Please observe that this definition does not consider defining classes inside other classes.
 
-This means that
+For those acquainted with class-inside-class definition, this expression:
 \[\sclass\ A (V_{A}) \ \sextends\ P_{1} = \{
 \sclass\ B (V_{B}) \ \sextends\ P_{2} = S_{B} \} \cup S_{A}
 \]
 can be rewritten as:
 \[\sclass\ A (V_{A}) \ \sextends\ P_{1} = S_{A}
 \]
-\[\sclass\ B (V_{A} + V_{B}) \ \sextends\ P_{2} = S_{A} \cup S_{B}
+\[\sclass\ AB (V_{A}, V_{B}) \ \sextends\ P_{2} = S_{A} \cup S_{B}
 \]
 
-In practice, this is a little more complicated since this would involve a renaming and access the class names using points.
+where ``$V_{A}$, $V_{B}$'' contains the variables from $A$ and $B$.
 
 In addition, the variables can be included in the function definitions.
 This means that
@@ -141,13 +141,16 @@ The interpretation function is defined as follows:
 \begin{itemize}
     \item $\I{\srccode{Boolean}} = \mathbb{B}$
     \item $\I{\srccode{Int}} = \mathbb{Z}$
+
     \item $\I{(f : T)} = \I{f} \in \I{T}$
+
     \item $\I{(\sif\ f_{B} \ \sthen\ e_{1} \ \selse\ e_{2})} =
     \begin{cases}
         \I{e_{1}}, & \text{if } \I{f_{B}} \text{ is true }\\
         \I{e_{2}}, & \text{otherwise}
     \end{cases}
-    $
+    $\\
+    provided that $f_{B}$ returns a Boolean value.
 
     \item $\I{(\slet\ f = g \ \sdin\ e)}$ =
     \I{(e[f := g])}, provided that $f$ does not occur free in $g$.
@@ -205,6 +208,9 @@ Alternatively, it is possible to use \srccode{foldLeft} over an finite iterable 
 \end{lstlisting}
 
 More information about it can be found in \textbf{System-F}, \textbf{Martin-L\"{o}f type theory}, and in \textbf{dependent types}.
+
+
+\url{https://en.wikipedia.org/wiki/Operational_semantics}
 
 In addition, we can operate on a Monad with the following definitions
 

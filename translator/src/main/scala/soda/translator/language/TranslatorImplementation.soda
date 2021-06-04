@@ -1,75 +1,68 @@
 package soda.translator.language
 
 
-/**
- * This class contains the specific implementations of Translator.
- */
-* TranslatorImplementation() = {
-  + soda.translator.replacement.Translator
+* SynonymAtBeginning () extends soda.translator.replacement.Translator = {
 
-  * SynonymAtBeginning () extends Translator = {
+  _table = Translation().SynonymAtBeginning
 
-    _table = Translation().SynonymAtBeginning
+  keys = _keys(_table)
 
-    keys = _keys(_table)
+  translate (word: String) = _get(_table, word)
+}
 
-    translate (word: String) = _get(_table, word)
-  }
+* TranslationAtBeginningWithParen() extends soda.translator.replacement.Translator = {
 
-  * TranslationAtBeginningWithParen() extends Translator = {
+  _table = Translation().TranslationAtBeginningWithParen
 
-    _table = Translation().TranslationAtBeginningWithParen
+  keys = _keys(_table)
 
-    keys = _keys(_table)
+  translate (word: String) = _get(_table, word)
+}
 
-    translate (word: String) = _get(_table, word)
-  }
+* TranslationAtBeginningWithoutParen() extends soda.translator.replacement.Translator = {
 
-  * TranslationAtBeginningWithoutParen() extends Translator = {
+  _table = Translation().TranslationAtBeginningWithoutParen
 
-    _table = Translation().TranslationAtBeginningWithoutParen
+  keys = _keys(_table)
 
-    keys = _keys(_table)
+  translate (word: String) = _get(_table, word)
+}
 
-    translate (word: String) = _get(_table, word)
-  }
+* Synonym() extends soda.translator.replacement.Translator = {
 
-  * Synonym() extends Translator = {
+  _table = Translation().Synonym
 
-    _table = Translation().Synonym
+  keys = _keys(_table)
 
-    keys = _keys(_table)
+  translate (word: String) = _get(_table, word)
+}
 
-    translate (word: String) = _get(_table, word)
-  }
+* MainTranslation() extends soda.translator.replacement.Translator = {
 
-  * MainTranslation() extends Translator = {
+  _table = Translation().MainTranslation
 
-    _table = Translation().MainTranslation
+  keys = _keys(_table)
 
-    keys = _keys(_table)
+  translate (word: String) = _get(_table, word)
+}
 
-    translate (word: String) = _get(_table, word)
-  }
+* ScalaNonSoda() extends soda.translator.replacement.Translator = {
 
-  * ScalaNonSoda() extends Translator = {
+  keys = Translation().ScalaNonSodaKeys
 
-    keys = Translation().ScalaNonSodaKeys
+  translate (word: String) =
+    if not Translation().SodaReservedWords.contains(word) and
+      Translation().ScalaReservedWords.contains(word)
+    then Translation().PrefixScalaNonSoda + word
+    else word
+}
 
-    translate (word: String) =
-      if not Translation().SodaReservedWords.contains(word) and
-        Translation().ScalaReservedWords.contains(word)
-      then Translation().PrefixScalaNonSoda + word
-      else word
-  }
+* Beautifier() extends soda.translator.replacement.Translator = {
 
-  * Beautifier() extends Translator = {
+  _table = Translation().Beautifier
 
-    _table = Translation().Beautifier
+  keys = _keys(_table)
 
-    keys = _keys(_table)
-
-    translate (word: String) = _get(_table, word)
-  }
+  translate (word: String) = _get(_table, word)
 }
 

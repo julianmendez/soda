@@ -67,7 +67,7 @@ package soda.translator.example
       k = ns.k
       new_status = Status (r, n, q, t, l, k)
     in result
-
-  * BigIntAndStatus(digit: BigInt, new_status: Status)
 }
+
+* BigIntAndStatus(digit: BigInt, new_status: Status)
 

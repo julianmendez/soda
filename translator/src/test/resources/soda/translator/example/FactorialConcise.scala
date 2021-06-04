@@ -19,5 +19,4 @@ case class FactorialConcise () extends AbstractFactorialConcise {
 
     result
   }
-
 }

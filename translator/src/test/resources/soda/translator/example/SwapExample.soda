@@ -1,10 +1,10 @@
 package soda.translator.example
 
-* Pair (left:Int, right: Int)
+* Tuple2(left: Int, right: Int)
 
 * SwapExample() = {
 
-    swap (pair: Pair) =
-         Pair(pair.right, pair.left)
+  swap(pair: Tuple2) =
+    Tuple2(pair.right, pair.left)
 }
 

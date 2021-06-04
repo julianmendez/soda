@@ -115,32 +115,33 @@ case class Replacement (line: String ) {
       def next_value (line: String, regex: String ): String =
         line.replaceAll (regex, translator.translate (regex )  )
       Rec () .foldLeft (translator.keys, initial_value, next_value ) }
-
-  case class Replacer (line: String, pattern: String, replacement: String ) {
-
-    lazy val replace =
-      postproc (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition ) )
-
-    lazy val initial_value = FoldTuple (Seq (), 0 )
-
-    def next_value (tuple: FoldTuple, x: Int ): FoldTuple =
-      _next_tuple (replaced_text_rev = tuple.replaced_text_rev, start_index = tuple.start_index, pos = line.indexOf (pattern, tuple.start_index )      )
-
-    def _next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): FoldTuple =
-      if (pos == -1
-      ) FoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
-      else
-        {
-          lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
-          lazy val new_index = pos + pattern.length
-          FoldTuple (new_replaced_text_rev, new_index ) }
-
-    def condition (tuple: FoldTuple, x: Int ): Boolean =
-      ! (tuple.start_index == -1 )
-
-    def postproc (tuple: FoldTuple ): String =
-      tuple.replaced_text_rev.reverse.mkString ("")
-
-    case class FoldTuple (replaced_text_rev: Seq [String], start_index: Int )
-  }
 }
+
+case class Replacer (line: String, pattern: String, replacement: String ) {
+  import soda.lib.Rec
+
+  lazy val replace =
+    postproc (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition ) )
+
+  lazy val initial_value = ReplacerFoldTuple (Seq (), 0 )
+
+  def next_value (tuple: ReplacerFoldTuple, x: Int ): ReplacerFoldTuple =
+    _next_tuple (replaced_text_rev = tuple.replaced_text_rev, start_index = tuple.start_index, pos = line.indexOf (pattern, tuple.start_index )    )
+
+  def _next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): ReplacerFoldTuple =
+    if (pos == -1
+    ) ReplacerFoldTuple (replaced_text_rev.+: (line.substring (start_index )  ), pos )
+    else
+      {
+        lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
+        lazy val new_index = pos + pattern.length
+        ReplacerFoldTuple (new_replaced_text_rev, new_index ) }
+
+  def condition (tuple: ReplacerFoldTuple, x: Int ): Boolean =
+    ! (tuple.start_index == -1 )
+
+  def postproc (tuple: ReplacerFoldTuple ): String =
+    tuple.replaced_text_rev.reverse.mkString ("")
+}
+
+case class ReplacerFoldTuple (replaced_text_rev: Seq [String], start_index: Int )

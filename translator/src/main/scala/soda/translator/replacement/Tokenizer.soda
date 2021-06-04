@@ -20,25 +20,25 @@ package soda.translator.replacement
   get_tokens: Seq[Token] =
     _postproc(Rec().foldLeft( Rec().range(line.length), _initial_value, _next_value ))
 
-  _initial_value = FoldTuple(0, ParserStateEnum().Plain, Seq())
+  _initial_value = TokenizerFoldTuple(0, ParserStateEnum().Plain, Seq())
 
-  _postproc(tuple: FoldTuple): Seq[Token] =
+  _postproc(tuple: TokenizerFoldTuple): Seq[Token] =
     (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
       .reverse
 
-  _next_value(tuple: FoldTuple, current_index: Int): FoldTuple =
+  _next_value(tuple: TokenizerFoldTuple, current_index: Int): TokenizerFoldTuple =
     let
       ch = line.charAt(current_index)
       char_type = CharTypeEnum().get_char_type(ch)
       new_parser_state = ParserTransition().next_parser_state(tuple.parser_state, char_type)
       result =
         if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
-        then FoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
+        then TokenizerFoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
         else _next_value_of_different_class(tuple, current_index, new_parser_state)
     in result
 
-  _next_value_of_different_class(tuple: FoldTuple, current_index: Int,
-      new_parser_state: ParserState): FoldTuple =
+  _next_value_of_different_class(tuple: TokenizerFoldTuple, current_index: Int,
+      new_parser_state: ParserState): TokenizerFoldTuple =
     let
       index =
         if tuple.parser_state == ParserStateEnum().QuotesState or
@@ -47,9 +47,9 @@ package soda.translator.replacement
         else current_index
       text = line.substring(tuple.last_index, index)
 
-    in FoldTuple(index, new_parser_state,
+    in TokenizerFoldTuple(index, new_parser_state,
         tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
-
-  * FoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 }
+
+* TokenizerFoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
 

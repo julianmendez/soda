@@ -17,12 +17,12 @@ package soda.translator.replacement
       .annotated_lines_rev
       .reverse
 
-  initial_value = FoldTuple(false, Seq())
+  initial_value = PreprocessorFoldTuple(false, Seq())
 
-  next_value(pair: FoldTuple, line: String): FoldTuple =
+  next_value(pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
     let
       t = annotate_this_line(line, pair.comment_state)
-    in FoldTuple(t.new_comment_state,
+    in PreprocessorFoldTuple(t.new_comment_state,
         pair.annotated_lines_rev.+:(AnnotatedLine(line, t.current_state)))
 
   annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
@@ -32,9 +32,9 @@ package soda.translator.replacement
       if line.trim.startsWith(SodaBeginComment)
       then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
       else CurrentAndNewCommentState(false, false)
-
-  * FoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
-
-  * CurrentAndNewCommentState(current_state: Boolean, new_comment_state: Boolean)
 }
+
+* PreprocessorFoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
+
+* CurrentAndNewCommentState(current_state: Boolean, new_comment_state: Boolean)
 
