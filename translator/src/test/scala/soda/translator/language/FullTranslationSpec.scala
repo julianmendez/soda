@@ -17,6 +17,7 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
   lazy val Fairness = "Fairness"
   lazy val PiIterator = "PiIterator"
   lazy val ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  lazy val InANutshell = "inanutshell/InANutshell"
 
   lazy val ManualInput = "/soda/translator/documentation/Manual.soda"
   lazy val ManualExpected = "/soda/translator/documentation/Manual.scala"
@@ -67,6 +68,10 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should translated Soda code that uses Scala reserved words as variables and functions") {
     test_translation (ScalaReservedWordEscaping )
+  }
+
+  test ("should translate the manual In A Nutshell") {
+    test_translation (InANutshell )
   }
 
   test ("should translate the manual") {

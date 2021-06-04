@@ -1,9 +1,9 @@
 package soda.translator.example
 
-case class Tuple2 (left: Int, right: Int )
+case class PairExample (left: Int, right: Int )
 
 case class SwapExample () {
 
-  def swap (pair: Tuple2 ) =
+  def swap (pair: PairExample ) =
     Tuple2 (pair.right, pair.left )
 }

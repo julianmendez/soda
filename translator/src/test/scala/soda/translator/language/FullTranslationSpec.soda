@@ -17,6 +17,7 @@ package soda.translator.language
   Fairness = "Fairness"
   PiIterator = "PiIterator"
   ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  InANutshell = "inanutshell/InANutshell"
 
   ManualInput = "/soda/translator/documentation/Manual.soda"
   ManualExpected = "/soda/translator/documentation/Manual.scala"
@@ -67,6 +68,10 @@ package soda.translator.language
 
   test("should translated Soda code that uses Scala reserved words as variables and functions") {
     test_translation(ScalaReservedWordEscaping)
+  }
+
+  test("should translate the manual In A Nutshell") {
+    test_translation(InANutshell)
   }
 
   test("should translate the manual") {
