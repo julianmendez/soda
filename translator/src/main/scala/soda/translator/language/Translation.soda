@@ -50,12 +50,12 @@ package soda.translator.language
     "+"
   )
 
-/**
- * Scala 3 keywords:
- *   https://dotty.epfl.ch/docs/internals/syntax.html
- * Scala 2 keywords:
- *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
- */
+  /**
+   * Scala 3 keywords:
+   *   https://dotty.epfl.ch/docs/internals/syntax.html
+   * Scala 2 keywords:
+   *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+   */
   ScalaReservedWords =
     Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
 

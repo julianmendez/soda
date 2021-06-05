@@ -22,12 +22,12 @@ case class Translation () {
 
   lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
 
-/**
- * Scala 3 keywords:
- *   https://dotty.epfl.ch/docs/internals/syntax.html
- * Scala 2 keywords:
- *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
- */
+  /**
+   * Scala 3 keywords:
+   *   https://dotty.epfl.ch/docs/internals/syntax.html
+   * Scala 2 keywords:
+   *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+   */
   lazy val ScalaReservedWords =
     Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
 

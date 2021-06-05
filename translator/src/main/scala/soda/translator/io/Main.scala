@@ -9,8 +9,8 @@ object EntryPoint {
  * This is the main entry point.
  */
 case class Main () {
-  import java.io.File
   import soda.translator.language.MicroTranslator
+  import java.io.File
 
   lazy val SodaExtension: String = ".soda"
   lazy val ScalaExtension: String = ".scala"
@@ -32,16 +32,16 @@ case class Main () {
   def process_directory (start: String ): Boolean =
     DirectoryProcessor (start, process_soda_file ) .process ()
 
-  def get_input_output_file_names (input_name: String ): FileNamePair =
-    if (input_name.endsWith (SodaExtension )
-    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
-    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
-
   def process_soda_file (file: File ): Boolean =
     {
       lazy val file_name = file.getAbsolutePath
       lazy val t = get_input_output_file_names (file_name )
       translate (t.input_file_name, t.output_file_name ) }
+
+  def get_input_output_file_names (input_name: String ): FileNamePair =
+    if (input_name.endsWith (SodaExtension )
+    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
+    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {

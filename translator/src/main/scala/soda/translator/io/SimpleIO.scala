@@ -5,6 +5,7 @@ package soda.translator.io
  * This is an auxiliary class to read and write small files.
  */
 case class SimpleIO () {
+  import soda.lib.SomeSD
   import java.io.BufferedReader
   import java.io.File
   import java.io.FileWriter
@@ -13,7 +14,6 @@ case class SimpleIO () {
   import java.nio.file.Files
   import java.nio.file.Paths
   import java.util.stream.Collectors
-  import soda.lib.SomeSD
 
   lazy val New_line = "\n"
 

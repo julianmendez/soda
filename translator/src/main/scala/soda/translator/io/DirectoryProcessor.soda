@@ -6,12 +6,6 @@ package soda.translator.io
 
   Soda_suffix = ".soda"
 
-  process(): Boolean =
-    LibraryDeployer().expand_library(lib_files) and
-      soda_files
-        .map(process_soda_file)
-        .forall(x -> x)
-
   all_files = DirectoryScanner().get_all_files(@new File(start))
 
   soda_files =
@@ -23,5 +17,11 @@ package soda.translator.io
     all_files
       .filter(x -> x.isFile)
       .filter(file -> file.getName == LibraryDeployer().Library_marker_file)
+
+  process(): Boolean =
+    LibraryDeployer().expand_library(lib_files) and
+      soda_files
+        .map(process_soda_file)
+        .forall(x -> x)
 }
 

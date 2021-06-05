@@ -7,7 +7,7 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 
 * TranslationAtBeginningWithParen() extends soda.translator.replacement.Translator = {
@@ -16,7 +16,7 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 
 * TranslationAtBeginningWithoutParen() extends soda.translator.replacement.Translator = {
@@ -25,7 +25,7 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 
 * Synonym() extends soda.translator.replacement.Translator = {
@@ -34,7 +34,7 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 
 * MainTranslation() extends soda.translator.replacement.Translator = {
@@ -43,14 +43,14 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 
 * ScalaNonSoda() extends soda.translator.replacement.Translator = {
 
   keys = Translation().ScalaNonSodaKeys
 
-  translate (word: String) =
+  translate(word: String): String =
     if not Translation().SodaReservedWords.contains(word) and
       Translation().ScalaReservedWords.contains(word)
     then Translation().PrefixScalaNonSoda + word
@@ -63,6 +63,6 @@ package soda.translator.language
 
   keys = _keys(_table)
 
-  translate (word: String) = _get(_table, word)
+  translate(word: String): String = _get(_table, word)
 }
 

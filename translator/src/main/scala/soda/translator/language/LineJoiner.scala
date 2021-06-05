@@ -2,7 +2,6 @@ package soda.translator.language
 
 
 case class LineJoiner (lines: Seq [String]  ) {
-  import soda.lib.SomeSD
 
   lazy val Comma = ","
   lazy val SodaOpeningParenthesis: String = "("

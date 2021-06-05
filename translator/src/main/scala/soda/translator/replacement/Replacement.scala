@@ -38,9 +38,6 @@ case class Replacement (line: String ) {
   def replace_all (pattern: String, replacement: String ): Replacement =
     Replacement (replace_all (line, pattern, replacement )  )
 
-  def replace_all (line: String, pattern: String, replacement: String ): String =
-    Replacer (line, pattern, replacement ) .replace
-
   def replace (translator: Translator ): Replacement =
     Replacement (replace (line, translator )  )
 
@@ -59,6 +56,9 @@ case class Replacement (line: String ) {
         else line
 
       result }
+
+  def replace_all (line: String, pattern: String, replacement: String ): String =
+    Replacer (line, pattern, replacement ) .replace
 
   def add_space_to_soda_line (): Replacement =
     Replacement (SodaSpace + line + SodaSpace )

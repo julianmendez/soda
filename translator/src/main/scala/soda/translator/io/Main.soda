@@ -6,8 +6,8 @@ package soda.translator.io
  * This is the main entry point.
  */
 * Main() = {
-  + java.io.File
   + soda.translator.language.MicroTranslator
+  + java.io.File
 
   SodaExtension: String = ".soda"
   ScalaExtension: String = ".scala"
@@ -29,17 +29,17 @@ package soda.translator.io
   process_directory(start: String): Boolean =
     DirectoryProcessor(start, process_soda_file).process()
 
-  get_input_output_file_names(input_name: String): FileNamePair =
-    if input_name.endsWith(SodaExtension)
-    then FileNamePair(input_name,
-      input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
-    else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
-
   process_soda_file(file: File): Boolean =
     let
       file_name = file.getAbsolutePath
       t = get_input_output_file_names(file_name)
     in translate(t.input_file_name, t.output_file_name)
+
+  get_input_output_file_names(input_name: String): FileNamePair =
+    if input_name.endsWith(SodaExtension)
+    then FileNamePair(input_name,
+      input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
+    else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let

@@ -2,7 +2,6 @@ package soda.translator.language
 
 
 * LineJoiner(lines: Seq[String]) = {
-  + soda.lib.SomeSD
 
   Comma = ","
   SodaOpeningParenthesis: String = "("
