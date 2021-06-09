@@ -2,67 +2,156 @@
 
 \newcommand{\question}[1]{\textit{#1}}
 
-\newcommand{\unclear}{{\small{(say more here)}}}
+
+\section{Why a Language}
+
+To check that an AI system is following ethical principles, it is required to have a system that checks it.
+
+The encoding of ethical values and principles should be reachable to those affected.
+If ethical values are encoded in very complex formalisms are not reachable to the affected humans, and could be highly error prone.
+
+The purpose of the language is to have formal specifications that can be \textbf{easily understood by a human reader}, and can be immediately prototyped.
+This is used to verify if ethical values are properly encoded in a verification system.
+
+Human-centered specifications are intended to be clearly understood by human.
+Please note that this is not necessarily the most abstract form of specification, since a very abstract specification could be hard to understand for the intended reader.
+
+As a rule of thumb, the \textbf{intended reader} is a human that can read a formal specification, probably a second-year undergraduate student of a scientific or engineering course of studies.
+
+There is a marked distinction between the reader and the writer.
+In standard formalisms, it is common to find that the gap from reading to writing in that formalism can be small or even trivial.
+
+This is not necessary in the language we are presenting.
+The language to be very easily, although not necessarily very easily written.
+
+The \textbf{intended writer} is then an experienced technician that can model ethical values using the provided constructs, but producing a highly readable description.
+
+
+\section{Properties for the Language}
 
 This section discusses what kind of language is needed.
 
 The following is a list of properties required for a useful specification language for ethical problems.
 
-Necessary properties:
+At most:
 \begin{itemize}
-    \item Semantics
+    \item Formal semantics
     \item Consistency
     \item Decidability
-    \item Unary predicates, properties or types
-    \item Logical connectors
-    \item Distinction
 \end{itemize}
 
-Desirable properties:
+At least:
 \begin{itemize}
+    \item Unary predicates, properties or types
     \item Relations or binary predicates
-    \item All logical connectors
-    \item Properties on relations
-    \item Quantifiers
-    \item Counting
+    \item Logical connectors
+    \item Distinction and counting
     \item States or time
-    \item Concrete domains
+    \item Specific domains
 \end{itemize}
 
 
-\section{Necessary properties}
+\section{At-most requirements}
 
-\subsection{Semantics}
-\question{Why do we need a semantics?}
-The semantics is intended to give meaning to the language.
-\unclear
+\subsection{Formal semantics}
 
+(filter $\leq $)
 
+A formal semantics is intended to give meaning to the language.
+This could be used not only to present to humans, but also to prove formal properties on the language.
+This allows for rewriting to have consistency checking and/or formal verification.
+
+(This discards most of the informally developed programming languages.)
 
 \subsection{Consistency}
 
+(filter $\leq $)
+
+The language has to produce consistent specifications.
+Consistency is a key property to ensure that a system really follows what is has been specified.
+In other words, if a specification is not consistent, it is not usable.
+
+Please note that this requires that descriptions are well-defined.
+Some programming languages handle undefined values poorly, letting a program throw an exception when this occurs, instead of preventing it from happening in the first place.
+
+(This property is maybe obvious, but discards unusable formal languages.)
+
 \subsection{Decidability}
+
+(filter $\leq $)
+
+Decidability is intended to ensure that an answer exists and it is computable.
+This comes, of course, to a gray area, since decidability has a high price tag by reducing expressivenes.
+Thus, the requirement is to have a language with a well defined useful decidable fragment.
+
+
+\section{At-least requirements}
 
 \subsection{Unary predicates, properties or types}
 
+(filter $\geq $)
+
+Predicates and properties are a very natural way of expressing ideas.
+If a formal language does not have them, it becomes more intricate to read.
+
+(This discards low-expressive formalisms, like proposition logic.)
+
 \subsection{Logical connectors}
 
-\subsection{Distinction}
+(filter $\geq $)
 
+The language should include some logical connectors used in natural languages.
+Things like \textit{and}, \textit{or}, \textit{not} should be able to be expressed in a direct way.
 
-\section{Desirable properties}
+(This discards many decidable fragments of FOL, like lightweight description logics. )
+
+\subsection{Distinction and counting}
+
+(filter $\geq $)
+
+Expressing distinction is a simple way to count.
+Without distinction, there is no way to say ``at least 3 elements''.
+
+Even if it is possible, some formalisms do not provide constructs to do it.
+In other words, to say that a set has at least 3 elements, we need to explicitly mention $a, b, c$, and then state
+$\{a, b, c\} \subseteq A$, $a \neq b$, $a \neq c$, $b \neq c$.
+
+This grows quadratically in the number of elements.
+This is not human friendly, and a construct should be provided, something like $size(A) \geq 3$
+
+(This discards formalisms without counting.)
 
 \subsection{Relations or binary predicates}
 
-\subsection{All logical connectors}
+(filter $\geq $)
 
-\subsection{Properties on relations}
+Relating objects is necessary to express basic ideas.
+For example, to express that something belongs to someone, it is necessary to relate two elements.
+An alternative would be creating separate predicates for each object or for each owner.
+This grows linearly in the number of properties (for objects or owners) and it is not human friendly.
 
-\subsection{Quantifiers}
-
-\subsection{Counting}
+(This discards formalisms without relations.)
 
 \subsection{States or time}
 
-\subsection{Concrete domains}
+(filter $\geq $)
+
+It should be possible to reflect the conceptual idea of time and a sequence.
+This means that things happen in a certain order, there is a \textit{before} and an \textit{after}.
+In addition, in these transitions, there are \textit{states} associated.
+This is a human way of understanding \textit{how things go}.
+
+(This discards formalisms without states.)
+
+\subsection{Specific domains}
+
+(filter $\geq $)
+
+It should be possible to describe things going without modelling them completely.
+This means, for example, using operations with floating point, without specifying how floating point works.
+When modelling problems, it is reasonable to assume that underlying types would work as expected.
+
+(This discard formalisms that cannot use specific domains / concrete domains.)
+
+
 
