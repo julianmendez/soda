@@ -25,6 +25,8 @@ trait CharTypeConstant {
  */
 case class CharTypeEnum () extends CharTypeConstant {
 
+  lazy val values = CharTypeValues
+
   lazy val BackslashChar = '\\'
   lazy val QuotesChar = '\"'
   lazy val ApostropheChar = '\''

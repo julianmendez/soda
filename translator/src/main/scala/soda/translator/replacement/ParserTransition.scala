@@ -23,6 +23,8 @@ trait ParserStateConstant {
  */
 case class ParserStateEnum () extends ParserStateConstant {
 
+  lazy val values = ParserStateValues
+
   def is_same_class (x: ParserState, y: ParserState ): Boolean =
     (x == y ) || is_like (x, y ) || is_like (y, x )
 

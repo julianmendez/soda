@@ -3,7 +3,7 @@ package soda.lib
 
 case class DayOfTheWeek (ordinal: Int, name: String ) extends EnumConstant
 
-case class DayOfTheWeekEnum () {
+trait DayOfTheWeekConstant {
 
   lazy val Sunday = DayOfTheWeek (0, "Sunday")
   lazy val Monday = DayOfTheWeek (1, "Monday")
@@ -13,7 +13,12 @@ case class DayOfTheWeekEnum () {
   lazy val Friday = DayOfTheWeek (5, "Friday")
   lazy val Saturday = DayOfTheWeek (6, "Saturday")
 
-  lazy val values = Seq (Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday )
+  lazy val DayOfTheWeekValues = Seq (Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday )
+}
+
+case class DayOfTheWeekEnum () extends DayOfTheWeekConstant {
+
+  lazy val values = DayOfTheWeekValues
 }
 
 case class EnumSpec () extends org.scalatest.funsuite.AnyFunSuite {

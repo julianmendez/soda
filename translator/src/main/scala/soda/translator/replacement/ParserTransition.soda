@@ -23,6 +23,8 @@ package soda.translator.replacement
  */
 * ParserStateEnum() extends ParserStateConstant = {
 
+  values = ParserStateValues
+
   is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) or is_like(x, y) or is_like(y, x)
 

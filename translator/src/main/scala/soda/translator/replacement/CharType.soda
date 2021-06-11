@@ -25,6 +25,8 @@ package soda.translator.replacement
  */
 * CharTypeEnum() extends CharTypeConstant = {
 
+  values = CharTypeValues
+
   BackslashChar = '\\'
   QuotesChar = '\"'
   ApostropheChar = '\''
