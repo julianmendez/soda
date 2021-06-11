@@ -1,14 +1,15 @@
 package soda.translator.replacement
 
+
 /**
  * This is to classify characters.
  */
 case class CharType (ordinal: Int, name: String ) extends soda.lib.EnumConstant
 
 /**
- * This is an enumeration for all types of characters.
+ * This class can be extended to include its constants.
  */
-case class CharTypeEnum () {
+trait CharTypeConstant {
 
   lazy val UndefinedType = CharType (0, "UndefinedType")
   lazy val QuotesType = CharType (1, "QuotesType")
@@ -16,7 +17,13 @@ case class CharTypeEnum () {
   lazy val BackslashType = CharType (3, "BackslashType")
   lazy val PlainType = CharType (4, "PlainType")
 
-  lazy val values = Seq (UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType )
+  lazy val CharTypeValues = Seq (UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType )
+}
+
+/**
+ * This is an enumeration for all types of characters.
+ */
+case class CharTypeEnum () extends CharTypeConstant {
 
   lazy val BackslashChar = '\\'
   lazy val QuotesChar = '\"'
