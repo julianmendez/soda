@@ -2,7 +2,7 @@ import sbt.Keys.scalacOptions
 
 
 lazy val scala2_11 = "2.11.12"
-lazy val scala2_12 = "2.12.13"
+lazy val scala2_12 = "2.12.14"
 lazy val scala2_13 = "2.13.6"
 lazy val scala3 = "3.0.0"
 
