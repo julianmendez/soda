@@ -76,3 +76,40 @@ This is when the weak scope pattern can be useful.
 In this case, \srccode{relevant\_function} can use the auxiliary functions in class \srccode{\_AuxRF}.
 These functions can be tested from outside, but it is clear that its content is not meant to be exported.
 
+\subsection{Common patterns when writing in \Soda}
+\begin{itemize}
+    \item use of flatMap / ... / flatMap / map
+    \item use abstract classes to contain constants
+\end{itemize}
+
+\subsection{How to translate Scala source code into \Soda}
+
+\begin{itemize}
+    \item remove any use of 'null'
+    \item make the source code completely functional (no 'var', no 'for', no 'while')
+    \item optimize source code and clean up imports
+    \item make all classes either 'case class' or 'trait', and make any class renaming if necessary
+    \item fix syntax for comments and Scaladoc
+    \item remove all braces possible
+    \item replace 'enum' and create traits with constants
+    \item move imports into the classes that use them
+    \item take inner classes outside their parent classes, and add an underscore prefix if they are meant to be protected
+    \item take inner functions outside and make them protected adding an underscore prefix
+    \item rename private functions and add an underscore prefix
+    \item replace the 'object' constructs, for example, by traits with constants and builder case classes
+    \item replace 'try' and 'catch' by Scala class Try
+    \item replace Scala Try by Option
+    \item replace 'for' comprehension expressions by flatMap/map combinations
+    \item replace use of underscore '\_'
+    \item replace 'case' and 'match' reserved words, if it is a type casting, it could be done:
+    if (obj.isInstanceOf[SpecificType]) {
+        map = obj.asInstanceOf[SpecificType]
+    }
+    \item copy Scala files as Soda files
+    \item remove 'def', remove 'val' and 'final val'
+    \item replace 'case class' by '*', replace 'trait' by '*', replace 'import' by '+', add '=' in class declarations, replace 'new' by '@new', replace '=>' by '->', replace '=' in parameters by ':=', replace '&&' by 'and', replace '||' by 'or', replace '!' by 'not'
+    \item adapt 'if-then-else' structures
+    \item add '@main' in 'Main' class
+    \item replace braces by 'let-in' structures
+\end{itemize}
+
