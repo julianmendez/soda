@@ -9,7 +9,7 @@
 \usepackage{xspace}
 \usepackage{mathtools}
 
-\include{language}
+\include{common/language}
 
 \begin{document}
 
@@ -31,19 +31,19 @@
 
     \newpage
 
-    \include{motivation}
-    \include{inanutshell}
-    \include{manual}
-    \include{description}
-    \include{tutorial}
-    \include{typetheory}
-    \include{techniques}
-    \include{semantics}
+    \include{discussion/motivation}
+    \include{discussion/description}
+    \include{discussion/notes}
+    \include{discussion/tutorial}
 
-    \appendix
+    \include{abstraction/typetheory}
+    \include{abstraction/semantics}
 
-    \include{reservedwords}
-    \include{libraries}
+    \include{manual/inanutshell}
+    \include{manual/explanation}
+    \include{manual/techniques}
+    \include{manual/reservedwords}
+    \include{manual/libraries}
 
 \end{document}
 
