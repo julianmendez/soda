@@ -47,6 +47,12 @@ lazy val commonSettings = Seq(
 )
 
 
+lazy val documentation = project
+  .withId(id = "documentation")
+  .in(file("documentation"))
+  .settings(commonSettings)
+
+
 lazy val translator = project
   .withId(id = "translator")
   .in(file("translator"))
@@ -71,8 +77,8 @@ lazy val library = project
 lazy val root = project
   .withId(id = "soda")
   .in(file("."))
-  .aggregate(translator, library)
-  .dependsOn(translator, library)
+  .aggregate(documentation, translator, library)
+  .dependsOn(documentation, translator, library)
   .settings(
     commonSettings,
     assembly / mainClass := Some("soda.translator.io.EntryPoint"),
