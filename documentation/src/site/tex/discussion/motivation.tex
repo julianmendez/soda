@@ -2,17 +2,21 @@
 
 \newcommand{\question}[1]{\textit{#1}}
 
+\newcommand{\comment}[1]{{#1}}
+
 
 \section{Why - An Itemized Justification}
 
 \begin{itemize}
-    \item AI systems can be dangerous, not only at an ethical level.
-    \item AI systems can be very complex.
-    \item Governance can only be achieved by framing and understanding a system.
+    \item AI systems can be dangerous, not only at an ethical level
+    \item AI systems can be very complex\footnote{\url{https://builtin.com/artificial-intelligence}}.
+    \item Governance can only be achieved by framing and understanding a system.~\cite{doi:10.1145/3278721.3278745}
     \item Communication with computers is formal.
     \item Formal languages are not yet descriptive and resilient to humans, and efficient for computers.
+    \footnote{\url{https://www.quora.com/What-are-the-biggest-problems-with-modern-programming-languages}}
     \item A new descriptive and efficient language would better ensure that AI systems are not dangerous to humans.
 \end{itemize}
+
 
 
 \textbf{Research Question 1}: How would it be a human-oriented descriptive language used for communication with computers?
@@ -28,9 +32,26 @@
 AI systems can outperform single or multiple human beings in specific tasks, like massively performed face recognition.
 If they are used indulgently, they can threaten human well-being.
 
+\footnote{\url{https://www.cser.ac.uk/research/risks-from-artificial-intelligence/}}\footnote{\url{https://futureoflife.org/open-letter-autonomous-weapons/}}.
+
+\comment{
+    The problem of finding references regarding this is that many (popular) articles are concerned about Artificial General Intelligence.
+    From my understanding, we are technologically very far to get there, and the degree of speculation needed makes it difficult to develop a scientifically solid statement.
+}
+
 \subsection{AI Systems complexity}
 
 Even it is difficult to define precisely what AI means, it is common accepted in the literature that are complex systems.
+\comment{
+    The problem here is that it is difficult to find a crystal-clear definition of Artificial Intelligence.
+    Some people would think of the \textit{new} artificial intelligence as machine learning, which is not only wrong, but also not conducive to a \textit{more accurate} definition.
+    For now, and in the context of this report, AI is either one of two things:
+    \begin{itemize}
+        \item a very complex system
+        \item AI is whatever hasn't been done yet. (Larry Tesler's theorem)
+    \end{itemize}
+
+}
 
 \subsection{Governance of AI Systems}
 
@@ -48,6 +69,14 @@ It does not matter how beautiful and human friendly a graphic interface can look
 the communication with a system is through a sequence of 0's and 1's that are interpreted by the computer.
 In other words, the human understanding of an approximate explanation, does not apply to computers.
 They simulate it, but in the end, everything inside is 0's and 1's.
+
+\comment{
+    This is very difficult to \textit{prove}.
+    Papers that mention \textit{communication} usually is about \textit{communication protocols} or similar topics.
+    This is almost completely unrelated to the human-computer communication.
+    There is also Human-Computer Interaction, which focuses on user interfaces (UI) and user experiences (UX).
+    However, every interaction is translated to a sequence of events or commands, which can be perfectly described by a computer language.
+}
 
 \subsection{Formal languages}
 
@@ -72,6 +101,50 @@ See section about this point.
 
 This is discussed in the corresponding section.
 
+\comment{
+    This is a difficult topic.
+    How can I make something better without saying that what is done is worse?
+    The answer: every language has its own domain.
+    It is difficult to criticize programming languages with long trajectory.
+    It is better to give a context for their application.
+    \begin{itemize}
+        \item C -> pro: efficient and long running, con: difficult to maintain, code can be unreadable
+        \item Python -> pro: fast prototyping, con: you never know where it crashes
+        \item Java -> pro: reliable engineering, con: verbose and difficult to read
+        \item Scala -> pro: highly flexible and elegant, con: things can be written in a completely illegible way
+    \end{itemize}
+
+    The list can continue, but how to prove that \textit{none} of the developed languages is \textit{good enough}?
+    The answer: by clustering them in groups sharing similar issues.
+    The clusters are:
+    \begin{itemize}
+        \item Dynamically typed languages
+        \item Imperative language with mutable values
+        \item Highly verbose languages
+        \item Languages with very limited expressive power
+        \item Languages without classes
+        \item Languages without lambda expressions
+        \item Non-portable languages
+        \item Languages without prototyping
+    \end{itemize}
+
+    These clusters capture almost all (if not all) mainstream programming languages, and most of unimplemented formal languages.
+
+    The individual justification of each of the points goes in a different section.
+    Some are rather easy (dynamically typed languages). Other are not that easy (highly verbose languages) because they rely in a perception of quality (how much is too much?) rather in an objective principle.
+
+    There are languages that can be distinguished competitors.
+    They are:
+    \begin{itemize}
+        \item Coq: because it can create a program and prove its correctness, which competes with the human checking, and it complements with it. Its code can be exported to Haskell.
+        \item Idris: because it is a Haskell dialect based on dependent types. Its programs can be made more reliable than standard Haskell.
+        \item Haskell: because it is a long running functional language, with a large community. It is a kind of de-facto standard in functional languages.
+        \item Closure: because it is Lisp dialect that runs on the JVM.
+        \item Prolog: because it is highly minimalistic. It is language with long trajectory, and widely accepted in the scientific community.
+        \item Python: because it is becoming the de-facto standard language in teaching. Many students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. So, in practice many people will understand Python before any other computer language.
+    \end{itemize}
+}
+
 \subsection{A New Language}
 
 A new language is needed, something descriptive and efficient enough.
@@ -81,6 +154,13 @@ In other words, a human needs to be able to follow what it is written, and deter
 This does not mean that a computer cannot help, but it means that a computer is not needed to understand its operation.
 This language needs a way of using it.
 This is discussed in the corresponding section.
+
+\comment{
+    The approach to prove a new better language is possible is similar to Cantor's diagonal argument.
+    Given a set of constraints that are convenient, i.e. make a language better for ethical purposes, I show that the language here proposed has all those properties.
+    Every language in the \textit{bad categories} fails at least one of the constraint.
+    Finally, I analyze the \textit{distinguished competitors} one by one, giving sufficient reasons why I prefer not to use them.
+}
 
 
 \section{Why a Language}
