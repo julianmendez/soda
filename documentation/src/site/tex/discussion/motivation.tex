@@ -9,11 +9,10 @@
 
 \begin{itemize}
     \item AI systems can be dangerous, not only at an ethical level
-    \item AI systems can be very complex\footnote{\url{https://builtin.com/artificial-intelligence}}.
+    \item AI systems can be very complex.
     \item Governance can only be achieved by framing and understanding a system.~\cite{doi:10.1145/3278721.3278745}
     \item Communication with computers is formal.
     \item Formal languages are not yet descriptive and resilient to humans, and efficient for computers.
-    \footnote{\url{https://www.quora.com/What-are-the-biggest-problems-with-modern-programming-languages}}
     \item A new descriptive and efficient language would better ensure that AI systems are not dangerous to humans.
 \end{itemize}
 
@@ -32,7 +31,9 @@
 AI systems can outperform single or multiple human beings in specific tasks, like massively performed face recognition.
 If they are used indulgently, they can threaten human well-being.
 
-\footnote{\url{https://www.cser.ac.uk/research/risks-from-artificial-intelligence/}}\footnote{\url{https://futureoflife.org/open-letter-autonomous-weapons/}}.
+\footnote{\url{https://www.cser.ac.uk/research/risks-from-artificial-intelligence/}}
+\footnote{\url{https://futureoflife.org/open-letter-autonomous-weapons/}}.
+\footnote{\url{https://builtin.com/artificial-intelligence}}
 
 \comment{
     The problem of finding references regarding this is that many (popular) articles are concerned about Artificial General Intelligence.
@@ -47,21 +48,20 @@ Even it is difficult to define precisely what AI means, it is common accepted in
     Some people would think of the \textit{new} artificial intelligence as machine learning, which is not only wrong, but also not conducive to a \textit{more accurate} definition.
     For now, and in the context of this report, AI is either one of two things:
     \begin{itemize}
-        \item a very complex system
-        \item AI is whatever hasn't been done yet. (Larry Tesler's theorem)
+        \item a very complex computer system
+        \item whatever hasn't been done yet. (Larry Tesler's theorem)
     \end{itemize}
-
 }
 
 \subsection{Governance of AI Systems}
 
-This means that it is not enough to have an 'off-switch'.
+This means that it is not enough to have an `off-switch'.
 Governance can only be achieved when a system is properly understood by those using it.
 
 When a customer buys a product, and the package is transparent, the customer has more trust than when it is opaque, and only has a nice picture.
 The same happens with a system.
 It is good a recognized expert validates how a system work, but it is a lot better if the users can see it by themselves.
-Transparency together with governance are not 'nice-to-have' properties in a trustable system, they are 'must-have' properties.
+Transparency together with governance are not `nice-to-have' properties in a trustable system, they are `must-have' properties.
 
 \subsection{Communication with computers}
 
@@ -88,6 +88,7 @@ They simulate it, but in the end, everything inside is 0's and 1's.
 \end{itemize}
 The answer is simple: source code is not easy to read.
 Source code needs to be learned, needs to be practiced, and even with many years, pieces of code can be deceiving.
+\footnote{\url{https://www.quora.com/What-are-the-biggest-problems-with-modern-programming-languages}}
 
 It seems that most of the code is written for computers, and not for other humans.
 
@@ -107,12 +108,21 @@ This is discussed in the corresponding section.
     The answer: every language has its own domain.
     It is difficult to criticize programming languages with long trajectory.
     It is better to give a context for their application.
-    \begin{itemize}
-        \item C -> pro: efficient and long running, con: difficult to maintain, code can be unreadable
-        \item Python -> pro: fast prototyping, con: you never know where it crashes
-        \item Java -> pro: reliable engineering, con: verbose and difficult to read
-        \item Scala -> pro: highly flexible and elegant, con: things can be written in a completely illegible way
-    \end{itemize}
+
+    \begin{tabular}{lll}
+        C
+        & pro: efficient and long running                          \\
+        & con: difficult to maintain, code can be unreadable       \\
+        Python
+        & pro: fast prototyping                                    \\
+        & con: one never knows where it crashes                    \\
+        Java
+        & pro: reliable engineering                                \\
+        & con: verbose and difficult to read                       \\
+        Scala
+        & pro: highly flexible and elegant                         \\
+        & con: things can be written in a completely illegible way \\
+    \end{tabular}
 
     The list can continue, but how to prove that \textit{none} of the developed languages is \textit{good enough}?
     The answer: by clustering them in groups sharing similar issues.
@@ -138,11 +148,19 @@ This is discussed in the corresponding section.
     \begin{itemize}
         \item Coq: because it can create a program and prove its correctness, which competes with the human checking, and it complements with it. Its code can be exported to Haskell.
         \item Idris: because it is a Haskell dialect based on dependent types. Its programs can be made more reliable than standard Haskell.
-        \item Haskell: because it is a long running functional language, with a large community. It is a kind of de-facto standard in functional languages.
+        \item Haskell: because it is a long running functional language, with a large community. It is a de-facto standard in functional languages.
         \item Closure: because it is Lisp dialect that runs on the JVM.
         \item Prolog: because it is highly minimalistic. It is language with long trajectory, and widely accepted in the scientific community.
-        \item Python: because it is becoming the de-facto standard language in teaching. Many students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. So, in practice many people will understand Python before any other computer language.
+        \item Python: because it is becoming the de-facto standard language in teaching. Many students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. In practice many people will understand Python before any other computer language.
     \end{itemize}
+
+    An important observation that needs to be answer is why relying on humans to understand a program.
+    Python is highly readable, and very likely to be a global standard in the following 10 years, but the interpreter does very little verification on the code.
+    Coq, on the other side, is a little more difficult to read, but the compiler creates a proof on its code, and it even can be exported to functional languages.
+    The new language has to have a readability comparable to Python, but the compiler has to help proving its correctness as much as possible.
+    This idea is how a spreadsheet works.
+    It is not about challenging the operations done by the computer.
+    It is about checking that the calculations are done using the right cells with the right operations.
 }
 
 \subsection{A New Language}
