@@ -5,6 +5,8 @@
     - includes `let` and `in` reserved words to define a block of bindings
     - makes opening brackets (`[`) in the same line as the following
     - makes closing parenthesis (`)`) and closing brackets (`]`) be in the same line as the previous one
+    - makes reserved words `extends` and `with` be able to join lines,
+      either written at the beginning to join the previous line, or at the end to join the following line
     - is compatible with Scala 2.12.14
   - deprecated_features:
     - synonym `suchthat` for `->` is no longer supported

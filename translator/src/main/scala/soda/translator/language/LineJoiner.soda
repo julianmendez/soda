@@ -8,19 +8,38 @@ package soda.translator.language
   SodaClosingParenthesis: String = ")"
   SodaOpeningBracket: String = "["
   SodaClosingBracket: String = "]"
+  Space = " "
 
-  get_joined_lines_with_opening_brackets: Seq[String] =
+  get_joined_lines_with_forward_join: Seq[String] =
     Joiner(lines, condition_for_forward_join).join
 
-  get_joined_lines_with_closing_brackets: Seq[String] =
+  get_joined_lines_with_backward_join: Seq[String] =
     Joiner(lines, condition_for_backward_join).join
 
   condition_for_forward_join(previous_line: String, current_line: String): Boolean =
-    Translation().ForwardJoiner
+    condition_for_symbol_forward_join(previous_line) or
+    condition_for_reserved_word_forward_join(previous_line)
+
+  condition_for_symbol_forward_join(previous_line: String): Boolean =
+    Translation().SymbolForwardJoiner
+      .exists(previous_line.endsWith)
+
+  condition_for_reserved_word_forward_join(previous_line: String): Boolean =
+    Translation().ReservedWordJoiner
+      .map(x -> Space + x)
       .exists(previous_line.endsWith)
 
   condition_for_backward_join(previous_line: String, current_line: String): Boolean =
-    Translation().BackwardJoiner
+    condition_for_symbol_backward_join(current_line) or
+    condition_for_reserved_word_backward_join(current_line)
+
+  condition_for_symbol_backward_join(current_line: String): Boolean =
+    Translation().SymbolBackwardJoiner
+      .exists(current_line.startsWith)
+
+  condition_for_reserved_word_backward_join(current_line: String): Boolean =
+    Translation().ReservedWordJoiner
+      .map(x -> x + Space)
       .exists(current_line.startsWith)
 }
 

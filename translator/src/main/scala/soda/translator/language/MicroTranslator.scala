@@ -19,9 +19,9 @@ case class MicroTranslator () {
   def translate_program (program: String ): String =
     SomeSD (program )
       .map (split_lines )
-      .map (join_lines_with_opening_brackets )
+      .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
-      .map (join_lines_with_closing_brackets )
+      .map (join_lines_with_backward_join )
       .map (translate_lines )
       .map (join_translated_lines )
       .get
@@ -29,11 +29,11 @@ case class MicroTranslator () {
   def split_lines (program: String ): Seq [String] =
     program.split (NewLine ) .toIndexedSeq
 
-  def join_lines_with_opening_brackets (lines: Seq [String]  ): Seq [String] =
-    LineJoiner (lines ) .get_joined_lines_with_opening_brackets
+  def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
+    LineJoiner (lines ) .get_joined_lines_with_forward_join
 
-  def join_lines_with_closing_brackets (lines: Seq [String]  ): Seq [String] =
-    LineJoiner (lines ) .get_joined_lines_with_closing_brackets
+  def join_lines_with_backward_join (lines: Seq [String]  ): Seq [String] =
+    LineJoiner (lines ) .get_joined_lines_with_backward_join
 
   def join_translated_lines (lines: Seq [String]  ): String =
     lines.mkString (NewLine ) + NewLine

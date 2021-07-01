@@ -211,11 +211,15 @@ package soda.translator.language
     (":\\s+", ": ")
   )
 
-  ForwardJoiner: Seq[String] = Seq(
+  ReservedWordJoiner: Seq[String] = Seq(
+    "extends", "with"
+  )
+
+  SymbolForwardJoiner: Seq[String] = Seq(
     ",", "(", "["
   )
 
-  BackwardJoiner: Seq[String] = Seq(
+  SymbolBackwardJoiner: Seq[String] = Seq(
     ")", "]"
   )
 

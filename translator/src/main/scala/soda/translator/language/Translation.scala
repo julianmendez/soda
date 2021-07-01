@@ -61,9 +61,11 @@ case class Translation () {
 
   lazy val Beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
 
-  lazy val ForwardJoiner: Seq [String] = Seq (",", "(", "["  )
+  lazy val ReservedWordJoiner: Seq [String] = Seq ("extends", "with"  )
 
-  lazy val BackwardJoiner: Seq [String] = Seq (")", "]"  )
+  lazy val SymbolForwardJoiner: Seq [String] = Seq (",", "(", "["  )
+
+  lazy val SymbolBackwardJoiner: Seq [String] = Seq (")", "]"  )
 
   def is_scala_word (word: String ): Boolean =
     ScalaReservedWords.contains (word )

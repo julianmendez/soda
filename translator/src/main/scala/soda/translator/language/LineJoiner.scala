@@ -8,19 +8,38 @@ case class LineJoiner (lines: Seq [String]  ) {
   lazy val SodaClosingParenthesis: String = ")"
   lazy val SodaOpeningBracket: String = "["
   lazy val SodaClosingBracket: String = "]"
+  lazy val Space = " "
 
-  lazy val get_joined_lines_with_opening_brackets: Seq [String] =
+  lazy val get_joined_lines_with_forward_join: Seq [String] =
     Joiner (lines, condition_for_forward_join ) .join
 
-  lazy val get_joined_lines_with_closing_brackets: Seq [String] =
+  lazy val get_joined_lines_with_backward_join: Seq [String] =
     Joiner (lines, condition_for_backward_join ) .join
 
   def condition_for_forward_join (previous_line: String, current_line: String ): Boolean =
-    Translation () .ForwardJoiner
+    condition_for_symbol_forward_join (previous_line ) ||
+    condition_for_reserved_word_forward_join (previous_line )
+
+  def condition_for_symbol_forward_join (previous_line: String ): Boolean =
+    Translation () .SymbolForwardJoiner
+      .exists (previous_line.endsWith )
+
+  def condition_for_reserved_word_forward_join (previous_line: String ): Boolean =
+    Translation () .ReservedWordJoiner
+      .map (x => Space + x )
       .exists (previous_line.endsWith )
 
   def condition_for_backward_join (previous_line: String, current_line: String ): Boolean =
-    Translation () .BackwardJoiner
+    condition_for_symbol_backward_join (current_line ) ||
+    condition_for_reserved_word_backward_join (current_line )
+
+  def condition_for_symbol_backward_join (current_line: String ): Boolean =
+    Translation () .SymbolBackwardJoiner
+      .exists (current_line.startsWith )
+
+  def condition_for_reserved_word_backward_join (current_line: String ): Boolean =
+    Translation () .ReservedWordJoiner
+      .map (x => x + Space )
       .exists (current_line.startsWith )
 }
 

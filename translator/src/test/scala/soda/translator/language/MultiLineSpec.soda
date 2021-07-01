@@ -50,7 +50,7 @@ package soda.translator.language
   }
 
   test("should preprocess the comma in multiple lines") {
-    obtained = mt.join_lines_with_opening_brackets(Original_input_lines)
+    obtained = mt.join_lines_with_forward_join(Original_input_lines)
     expected = Joined_comma_lines
 
     assert(obtained == expected)
