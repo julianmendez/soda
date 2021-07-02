@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-case class Rec () {
+trait Recursive {
 
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     {
@@ -45,3 +45,5 @@ case class Rec () {
 
       rec (n, Seq [Int]  ()  ) }
 }
+
+case class Rec () extends Recursive

@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* Rec() = {
+* Recursive = {
 
   foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
@@ -44,4 +44,6 @@ package soda.lib
 
     in rec(n, Seq[Int]())
 }
+
+* Rec() extends Recursive
 
