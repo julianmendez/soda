@@ -4,7 +4,7 @@ package soda.translator.language
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-case class Translation () {
+trait TranslationConstant {
 
   lazy val SodaDefinition: String = "="
 
@@ -73,3 +73,5 @@ case class Translation () {
   def is_soda_word (word: String ): Boolean =
     SodaReservedWords.contains (word )
 }
+
+case class Translation () extends TranslationConstant
