@@ -39,6 +39,28 @@ package soda.translator.language
       "a[ T ]( x: Int, y: Int ) = f[T](x + y)"
     )
 
+  Example_using_extends_and_with =
+    Seq(
+      "it should join lines ending with the extends",
+      "keyword",
+      "it should join lines ending with the with",
+      "keyword",
+      "it should join lines starting with the",
+      "extends keyword",
+      "it should join lines starting with the",
+      "with keyword",
+      "it should not join lines ending with suffixextends",
+      "it should not join lines ending with suffixwith",
+      "extendsprefix should not join lines",
+      "withprefix should not join lines",
+      "trailing spaces using extends  ",
+      "and using with ",
+      "should be respected",
+      "leading spaces using",
+      " extends and using ",
+      "  with should be respected"
+    )
+
   test("should join lines ending in comma") {
     input = Seq("this ", "should join,", "all the lines , ", "  that end with a", "comma.")
     expected = Seq("this ", "should join,all the lines ,   that end with a", "comma.")
@@ -75,50 +97,50 @@ package soda.translator.language
     assert(obtained == expected)
   }
 
-  test("should join lines starting or ending with keyword 'extends'") {
-    input = Seq(
-      "this should join the lines ending with the extends",
-      "keyword",
-      "this should join the lines starting with the",
-      " extends keyword",
-      "but not if theextends",
-      "keyword is a suffix",
-      "or if the",
-      "extendskeyword is a prefix"
-    )
-    expected = Seq(
-      "this should join the lines ending with the extends keyword",
-      "this should join the lines starting with the extends keyword",
-      "but not if theextends",
-      "keyword is a suffix",
-      "or if the",
-      "extendskeyword is a prefix"
-    )
+  test("should join lines starting or ending with keyword 'extends' and 'with' with forward join") {
+    input = Example_using_extends_and_with
+    expected =
+      Seq(
+        "it should join lines ending with the extendskeyword",
+        "it should join lines ending with the withkeyword",
+        "it should join lines starting with the",
+        "extends keyword",
+        "it should join lines starting with the",
+        "with keyword",
+        "it should not join lines ending with suffixextends",
+        "it should not join lines ending with suffixwith",
+        "extendsprefix should not join lines",
+        "withprefix should not join lines",
+        "trailing spaces using extends  and using with should be respected",
+        "leading spaces using",
+        " extends and using ",
+        "  with should be respected"
+      )
     obtained = mt.join_lines_with_forward_join(input)
 
     assert(obtained == expected)
   }
 
-  test("should join lines starting or ending with keyword 'with'") {
-    input = Seq(
-      "this should join the lines ending with the with",
-      "keyword",
-      "this should join the lines starting with the",
-      "with keyword",
-      "but not if thewith",
-      "keyword is a suffix",
-      "or if the",
-      "withkeyword is a prefix."
-    )
-    expected = Seq(
-      "this should join the lines ending with the with keyword",
-      "this should join the lines starting with the with keyword",
-      "but not if thewith",
-      "keyword is a suffix",
-      "or if the",
-      "withkeyword is a prefix."
-    )
-    obtained = mt.join_lines_with_forward_join(input)
+  test("should join lines starting or ending with keyword 'extends' and 'with' with backward join") {
+    input = Example_using_extends_and_with
+    expected =
+      Seq(
+        "it should join lines ending with the extends",
+        "keyword",
+        "it should join lines ending with the with",
+        "keyword",
+        "it should join lines starting with theextends keyword",
+        "it should join lines starting with thewith keyword",
+        "it should not join lines ending with suffixextends",
+        "it should not join lines ending with suffixwith",
+        "extendsprefix should not join lines",
+        "withprefix should not join lines",
+        "trailing spaces using extends  ",
+        "and using with ",
+        "should be respected",
+        "leading spaces using extends and using   with should be respected"
+      )
+    obtained = mt.join_lines_with_backward_join(input)
 
     assert(obtained == expected)
   }
