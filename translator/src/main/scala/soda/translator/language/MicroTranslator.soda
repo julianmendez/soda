@@ -16,6 +16,14 @@ package soda.translator.language
   NewLine = "\n"
   SodaOpeningParenthesis: String = "("
 
+  SynonymAtBeginning = DefaultTranslator(Translation().SynonymAtBeginning)
+  TranslationAtBeginningWithParen = DefaultTranslator(Translation().TranslationAtBeginningWithParen)
+  TranslationAtBeginningWithoutParen = DefaultTranslator(Translation().TranslationAtBeginningWithoutParen)
+  Synonym = DefaultTranslator(Translation().Synonym)
+  MainTranslation = DefaultTranslator(Translation().MainTranslation)
+  ScalaNonSoda = DefaultTranslator(Translation().ScalaNonSoda)
+  Beautifier = DefaultTranslator(Translation().Beautifier)
+
   translate_program(program: String): String =
     SomeSD(program)
       .map(split_lines)
@@ -67,19 +75,19 @@ package soda.translator.language
   _get_all_replacements(token: Token): String =
     Replacement(token.text)
       .add_spaces_to_symbols(symbols := Translation().SodaBracketsAndComma.toSet)
-      .replace(ScalaNonSoda())
-      .replace_at_beginning(token.index, SynonymAtBeginning())
-      .replace(Synonym())
+      .replace(ScalaNonSoda)
+      .replace_at_beginning(token.index, SynonymAtBeginning)
+      .replace(Synonym)
       .replace_with(try_definition)
       .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
-      .replace(MainTranslation())
-      .replace_regex(Beautifier())
+      .replace(MainTranslation)
+      .replace_regex(Beautifier)
       .line
 
   get_translation_table_at_beginning(line: String): Translator =
     if line.contains(SodaOpeningParenthesis)
-    then TranslationAtBeginningWithParen()
-    else TranslationAtBeginningWithoutParen()
+    then TranslationAtBeginningWithParen
+    else TranslationAtBeginningWithoutParen
 
   try_definition(line: String): String =
     DefinitionTranslator(line).get_translation
@@ -100,5 +108,13 @@ package soda.translator.language
     if condition(line)
     then line + to_append
     else line
+}
+
+* DefaultTranslator(table: Seq[(String, String)]) extends soda.translator.replacement.Translator = {
+
+  keys = table.map(pair -> pair._1)
+
+  translate(word: String): String =
+    table.toMap.get(word).getOrElse(word)
 }
 

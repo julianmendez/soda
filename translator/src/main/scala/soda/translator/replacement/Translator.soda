@@ -5,14 +5,8 @@ package soda.translator.replacement
  */
 * Translator = {
 
-  has translate (word: String): String
+  has translate(word: String): String
 
   has keys: Seq[String]
-
-  _get(table: Seq[(String, String)], word: String) =
-    table.toMap.get(word).getOrElse(word)
-
-  _keys(table: Seq[(String, String)]) =
-    table.map(pair -> pair._1)
 }
 

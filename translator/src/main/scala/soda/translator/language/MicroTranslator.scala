@@ -16,6 +16,14 @@ case class MicroTranslator () {
   lazy val NewLine = "\n"
   lazy val SodaOpeningParenthesis: String = "("
 
+  lazy val SynonymAtBeginning = DefaultTranslator (Translation () .SynonymAtBeginning )
+  lazy val TranslationAtBeginningWithParen = DefaultTranslator (Translation () .TranslationAtBeginningWithParen )
+  lazy val TranslationAtBeginningWithoutParen = DefaultTranslator (Translation () .TranslationAtBeginningWithoutParen )
+  lazy val Synonym = DefaultTranslator (Translation () .Synonym )
+  lazy val MainTranslation = DefaultTranslator (Translation () .MainTranslation )
+  lazy val ScalaNonSoda = DefaultTranslator (Translation () .ScalaNonSoda )
+  lazy val Beautifier = DefaultTranslator (Translation () .Beautifier )
+
   def translate_program (program: String ): String =
     SomeSD (program )
       .map (split_lines )
@@ -64,19 +72,19 @@ case class MicroTranslator () {
   def _get_all_replacements (token: Token ): String =
     Replacement (token.text )
       .add_spaces_to_symbols (symbols = Translation () .SodaBracketsAndComma.toSet )
-      .replace (ScalaNonSoda ()  )
-      .replace_at_beginning (token.index, SynonymAtBeginning ()  )
-      .replace (Synonym ()  )
+      .replace (ScalaNonSoda )
+      .replace_at_beginning (token.index, SynonymAtBeginning )
+      .replace (Synonym )
       .replace_with (try_definition )
       .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
-      .replace (MainTranslation ()  )
-      .replace_regex (Beautifier ()  )
+      .replace (MainTranslation )
+      .replace_regex (Beautifier )
       .line
 
   def get_translation_table_at_beginning (line: String ): Translator =
     if (line.contains (SodaOpeningParenthesis )
-    ) TranslationAtBeginningWithParen ()
-    else TranslationAtBeginningWithoutParen ()
+    ) TranslationAtBeginningWithParen
+    else TranslationAtBeginningWithoutParen
 
   def try_definition (line: String ): String =
     DefinitionTranslator (line ) .get_translation
@@ -97,4 +105,12 @@ case class MicroTranslator () {
     if (condition (line )
     ) line + to_append
     else line
+}
+
+case class DefaultTranslator (table: Seq [(String, String )]  ) extends soda.translator.replacement.Translator {
+
+  lazy val keys = table.map (pair => pair._1 )
+
+  def translate (word: String ): String =
+    table.toMap.get (word ) .getOrElse (word )
 }
