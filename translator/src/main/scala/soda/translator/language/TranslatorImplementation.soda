@@ -49,13 +49,11 @@ package soda.translator.language
 
 * ScalaNonSoda() extends Translator = {
 
-  keys = Translation().ScalaNonSodaKeys
+  _table = Translation().ScalaNonSoda
 
-  translate(word: String): String =
-    if not Translation().SodaReservedWords.contains(word) and
-      Translation().ScalaReservedWords.contains(word)
-    then Translation().PrefixScalaNonSoda + word
-    else word
+  keys = _keys(_table)
+
+  translate(word: String): String = _get(_table, word)
 }
 
 * Beautifier() extends Translator = {

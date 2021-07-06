@@ -192,9 +192,10 @@ package soda.translator.language
 
   PrefixScalaNonSoda = "__soda__"
 
-  ScalaNonSodaKeys: Seq[String] =
+  ScalaNonSoda: Seq[(String, String)] =
     ScalaReservedWords
       .filter(x -> not SodaReservedWords.contains(x))
+      .map(x -> (x, PrefixScalaNonSoda + x) )
 
   SodaBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
 

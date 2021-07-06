@@ -53,9 +53,10 @@ trait TranslationConstant {
 
   lazy val PrefixScalaNonSoda = "__soda__"
 
-  lazy val ScalaNonSodaKeys: Seq [String] =
+  lazy val ScalaNonSoda: Seq [(String, String )] =
     ScalaReservedWords
       .filter (x => ! SodaReservedWords.contains (x )  )
+      .map (x => (x, PrefixScalaNonSoda + x ) )
 
   lazy val SodaBracketsAndComma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 

@@ -49,13 +49,11 @@ case class MainTranslation () extends Translator {
 
 case class ScalaNonSoda () extends Translator {
 
-  lazy val keys = Translation () .ScalaNonSodaKeys
+  lazy val _table = Translation () .ScalaNonSoda
 
-  def translate (word: String ): String =
-    if (! Translation () .SodaReservedWords.contains (word ) &&
-      Translation () .ScalaReservedWords.contains (word )
-    ) Translation () .PrefixScalaNonSoda + word
-    else word
+  lazy val keys = _keys (_table )
+
+  def translate (word: String ): String = _get (_table, word )
 }
 
 case class Beautifier () extends Translator {
