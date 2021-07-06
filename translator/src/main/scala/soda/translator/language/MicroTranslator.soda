@@ -102,5 +102,3 @@ package soda.translator.language
     else line
 }
 
-* Excerpt(beginning: Int, end: Int)
-

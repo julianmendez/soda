@@ -98,5 +98,3 @@ case class MicroTranslator () {
     ) line + to_append
     else line
 }
-
-case class Excerpt (beginning: Int, end: Int )
