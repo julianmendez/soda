@@ -53,16 +53,17 @@ case class Joiner (lines_to_join: Seq [String], condition_for_join: (String, Str
     ) lines_to_join
     else
       {
-        lazy val tuple = Rec () .foldLeft (lines_to_join.tail, initial_value (lines_to_join.head ), next_value )
+        lazy val tuple = Rec () .foldLeft (lines_to_join.tail, _initial_value (lines_to_join.head ), _next_value )
         lazy val result =
           if (tuple.in_process_rev.isEmpty
           ) tuple.processed_rev.+: (tuple.previous_line )
           else tuple.processed_rev.+: (_rev_list_as_element (tuple.in_process_rev, tuple.previous_line )  )
         result }
 
-  def initial_value (first_line: String ): JoinerFoldTuple = JoinerFoldTuple (Seq (), Seq (), first_line )
+  def _initial_value (first_line: String ): JoinerFoldTuple =
+    JoinerFoldTuple (Seq (), Seq (), first_line )
 
-  def next_value (tuple: JoinerFoldTuple, head: String ): JoinerFoldTuple =
+  def _next_value (tuple: JoinerFoldTuple, head: String ): JoinerFoldTuple =
     if (condition_for_join (tuple.previous_line.trim, head.trim )
     ) JoinerFoldTuple (tuple.in_process_rev.+: (tuple.previous_line ), tuple.processed_rev, head )
     else

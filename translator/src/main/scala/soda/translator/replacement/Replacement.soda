@@ -25,6 +25,7 @@ package soda.translator.replacement
   replace_only_beginning(line: String, translator: Translator): String =
     let
       initial_value: String = line
+
       next_value(line: String, reserved_word: String): String =
         _replace_if_found(line,
           SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
@@ -44,20 +45,18 @@ package soda.translator.replacement
 
   replace(line: String, translator: Translator): String =
     let
-      result = Rec().foldLeft(translator.keys, initial_value, next_value)
-
       initial_value: String = line
 
       next_value(line: String, reserved_word: String): String =
         replace_if_found(line,
           SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
 
-      replace_if_found(line: String, pattern: String, new_text: String): String =
-        if line.contains(pattern)
-        then replace_all(line, pattern, new_text)
-        else line
+    in Rec().foldLeft(translator.keys, initial_value, next_value)
 
-    in result
+  replace_if_found(line: String, pattern: String, new_text: String): String =
+    if line.contains(pattern)
+    then replace_all(line, pattern, new_text)
+    else line
 
   replace_all(line: String, pattern: String, replacement: String): String =
     Replacer(line, pattern, replacement).replace

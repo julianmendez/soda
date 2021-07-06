@@ -76,7 +76,8 @@ case class DefinitionTranslator (line: String ) {
     ) SomeSD (line.length - Translation () .SodaDefinition.length )
     else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
 
-  def indexOf (line: String, pattern: String ): OptionSD [Int] = indexOf (line, pattern, 0 )
+  def indexOf (line: String, pattern: String ): OptionSD [Int] =
+    indexOf (line, pattern, 0 )
 
   def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
     SomeSD (line.indexOf (pattern, start )  )

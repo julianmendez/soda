@@ -82,7 +82,8 @@ package soda.translator.language
     then SomeSD(line.length - Translation().SodaDefinition.length)
     else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
 
-  indexOf(line: String, pattern: String): OptionSD[Int] = indexOf(line, pattern, 0)
+  indexOf(line: String, pattern: String): OptionSD[Int] =
+    indexOf(line, pattern, 0)
 
   indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
     SomeSD(line.indexOf(pattern, start))

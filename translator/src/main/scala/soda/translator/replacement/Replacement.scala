@@ -25,6 +25,7 @@ case class Replacement (line: String ) {
   def replace_only_beginning (line: String, translator: Translator ): String =
     {
       lazy val initial_value: String = line
+
       def next_value (line: String, reserved_word: String ): String =
         _replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
 
@@ -43,19 +44,17 @@ case class Replacement (line: String ) {
 
   def replace (line: String, translator: Translator ): String =
     {
-      lazy val result = Rec () .foldLeft (translator.keys, initial_value, next_value )
-
       lazy val initial_value: String = line
 
       def next_value (line: String, reserved_word: String ): String =
         replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
 
-      def replace_if_found (line: String, pattern: String, new_text: String ): String =
-        if (line.contains (pattern )
-        ) replace_all (line, pattern, new_text )
-        else line
+      Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 
-      result }
+  def replace_if_found (line: String, pattern: String, new_text: String ): String =
+    if (line.contains (pattern )
+    ) replace_all (line, pattern, new_text )
+    else line
 
   def replace_all (line: String, pattern: String, replacement: String ): String =
     Replacer (line, pattern, replacement ) .replace

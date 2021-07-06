@@ -53,16 +53,17 @@ package soda.translator.language
     then lines_to_join
     else
       let
-        tuple = Rec().foldLeft(lines_to_join.tail, initial_value(lines_to_join.head), next_value)
+        tuple = Rec().foldLeft(lines_to_join.tail, _initial_value(lines_to_join.head), _next_value)
         result =
           if tuple.in_process_rev.isEmpty
           then tuple.processed_rev.+:(tuple.previous_line)
           else tuple.processed_rev.+:(_rev_list_as_element(tuple.in_process_rev, tuple.previous_line))
       in result
 
-  initial_value(first_line: String): JoinerFoldTuple = JoinerFoldTuple(Seq(), Seq(), first_line)
+  _initial_value(first_line: String): JoinerFoldTuple =
+    JoinerFoldTuple(Seq(), Seq(), first_line)
 
-  next_value(tuple: JoinerFoldTuple, head: String): JoinerFoldTuple =
+  _next_value(tuple: JoinerFoldTuple, head: String): JoinerFoldTuple =
     if condition_for_join(tuple.previous_line.trim, head.trim)
     then JoinerFoldTuple(tuple.in_process_rev.+:(tuple.previous_line), tuple.processed_rev, head)
     else
