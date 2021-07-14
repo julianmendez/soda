@@ -320,7 +320,7 @@ Consecutive lines ending with a comma character (\srccode{,}) are considered to 
 
 Braces in the definition of a function should be avoided whenever that is possible.
 
-Defining a constant or a function requires a space around the equals character (\sdef).
+Defining a constant or a function requires a space around the `equals' character (\sdef).
 With \sdefparam is also possible to define values for parameters when using named parameters.
 
 \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
@@ -331,15 +331,8 @@ With \sdefparam is also possible to define values for parameters when using name
   }
 \end{lstlisting}
 
-Comments are marked with the \srccode{/*} and  \srccode{*/}.
-The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
-In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
 
-In general, comments are slightly discouraged, because the code should be descriptive enough.
-If the code is not descriptive enough, it should be refactored instead of commented.
-Comments can very easily get outdated if the source is changed, and the comment is not updated.
-
-Types are defined after the variables, and they are statically defined.
+Variables are statically defined.
 
 The recommended naming convention is using snake case, i.e. separating the words with underscore.
 Class names should start with a capital letter, functions with a lowercase letter.
@@ -369,4 +362,48 @@ Example using camel case, as in Java:
     fullName = firstName + _separator + lastName
   }
 \end{lstlisting}
+
+
+\section{Comments}
+
+Comments are marked with the \srccode{/*} and  \srccode{*/}.
+The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
+In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
+
+In general, comments are slightly discouraged, because the code should be descriptive enough.
+If the code is not descriptive enough, it should be refactored instead of commented.
+Comments can very easily get outdated if the source is changed, and the comment is not updated.
+
+Comments can be part of the implementation itself as constants in classes.
+The advantage of this type of comment is that it can be accessed in runtime.
+This does not prevent the synchronization issue between written text and written code, though.
+For example,
+
+\begin{lstlisting}[label={lst:exampleClassWithComment}]
+  class InterestingClass() = {
+    doc = "This class is just an example of how to include comments as part of the code."
+  }
+\end{lstlisting}
+
+A similar feature can be found in Python, for example, where Docstrings can be accessed by reading variable \code{__doc__}.
+
+The \code{doc} constant is only recommended for concrete classes.
+For abstract classes, it should contain a suffix with the class name.
+
+For example,
+\begin{lstlisting}[label={lst:exampleAbstractAndConcreteClassesWithComment}]
+  class AbstractClassA = {
+    doc_AbstractClassA = "Documentation of abstract class A. "
+  }
+
+  class AbstractClassB extends AbstractClassA = {
+    doc_AbstractClassB = "Documentation of abstract class B. " + doc_AbstractClassA
+  }
+
+  class ConcreteClassC() extends AbstractClassB = {
+    doc = "Documentation of concrete class C. " + doc_AbstractClassB
+  }
+\end{lstlisting}
+
+Clearly, an extending class does not need to include the documentation of its superclasses.
 
