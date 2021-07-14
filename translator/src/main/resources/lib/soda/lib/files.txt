@@ -1,4 +1,5 @@
 Comb.soda
+Doc.soda
 EnumConstant.soda
 OptionSD.soda
 Package.soda
