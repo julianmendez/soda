@@ -1,6 +1,6 @@
 ---
 - - version: v0.9.0
-  - date: unreleased
+  - date: '2021-07-23'
   - new_features:
     - includes `let` and `in` reserved words to define a block of bindings
     - makes opening brackets (`[`) in the same line as the following
