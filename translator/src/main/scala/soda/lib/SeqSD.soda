@@ -19,7 +19,7 @@ package soda.lib
   toString: String = toSeq.toString
 }
 
-* EmptySeqSD[T]() extends SeqSD[T] = {
+* EmptySeqSD[T] extends SeqSD[T] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifEmpty
 
@@ -28,23 +28,27 @@ package soda.lib
   reverse: EmptySeqSD[T] = this
 }
 
+* _EmptySeqSD[T]() extends EmptySeqSD[T]
+
 * NonEmptySeqSD[T] extends SeqSD[T] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: NonEmptySeqSD[T] -> B): B = ifNonEmpty(this)
 
   head: T = toSeq.head
 
-  tail: SeqSD[T] = SeqSDBuilder[T]().build(toSeq.tail)
+  tail: SeqSD[T] = SeqSDBuilderImpl[T]().build(toSeq.tail)
 
   reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(toSeq.reverse)
 }
 
 * _NonEmptySeqSD[T](toSeq: Seq[T]) extends NonEmptySeqSD[T]
 
-* SeqSDBuilder[T]() = {
+* SeqSDBuilder[T] = {
 
   build(seq: Seq[T]): SeqSD[T] =
     if seq.isEmpty
-    then EmptySeqSD[T]()
+    then _EmptySeqSD[T]()
     else _NonEmptySeqSD[T](seq)
 }
+
+* SeqSDBuilderImpl[T]() extends SeqSDBuilder[T]

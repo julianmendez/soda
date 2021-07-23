@@ -3,8 +3,8 @@ package soda.collection
 
 case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.OptionSD
-  import soda.lib.NoneSD
-  import soda.lib.SomeSD
+  import soda.lib.NoInst
+  import soda.lib.SomeInst
   import soda.lib.Rec
 
   lazy val empty: ESeq [Int] = ESeqImpl [Int]  ()
@@ -81,7 +81,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("at") {
-    lazy val expected = SomeSD (3 )
+    lazy val expected = SomeInst (3 )
     lazy val obtained = MinImpl () .at (example, 4 )
 
     assert (obtained == expected )
@@ -464,7 +464,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 0") {
-    lazy val expected = SomeSD (0 )
+    lazy val expected = SomeInst (0 )
     lazy val predicate: Int => Boolean = x => ! (x == 7 )
     lazy val obtained = MinImpl () .find (example, predicate )
 
@@ -472,7 +472,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 1") {
-    lazy val expected = SomeSD (8 )
+    lazy val expected = SomeInst (8 )
     lazy val predicate: Int => Boolean = x => x == 8
     lazy val obtained = MinImpl () .find (example, predicate )
 
@@ -480,7 +480,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 2") {
-    lazy val expected = NoneSD ()
+    lazy val expected = NoInst ()
     lazy val predicate: Int => Boolean = x => x == 7
     lazy val obtained = MinImpl () .find (empty, predicate )
 

@@ -7,7 +7,7 @@ package soda.lib
   + scala.util.Failure
 
   test("should test an empty option") {
-    empty = NoneSD()
+    empty = NoInst()
 
     assert(empty.isEmpty and
       not empty.isDefined and
@@ -15,7 +15,7 @@ package soda.lib
   }
 
   test("should test a non empty option") {
-    element = SomeSD(1)
+    element = SomeInst(1)
 
     assert(not element.isEmpty and
       element.isDefined and
@@ -23,7 +23,7 @@ package soda.lib
   }
 
   test("should get a default value, when empty") {
-    empty = NoneSD[Int]()
+    empty = NoInst[Int]()
     expected = 1
     obtained = empty.getOrElse(1)
 
@@ -31,7 +31,7 @@ package soda.lib
   }
 
   test("should get a value") {
-    empty = SomeSD[Int](2)
+    empty = SomeInst[Int](2)
     expected = 2
     obtained = empty.getOrElse(1)
 
@@ -41,7 +41,7 @@ package soda.lib
   test("should open an empty option") {
     result_if_empty: String = "It is empty."
     result_if_non_empty(value: String): String = "Its value is " + value + "."
-    empty = NoneSD[String]()
+    empty = NoInst[String]()
     expected = "It is empty."
     obtained = empty.opt(
       ifEmpty := result_if_empty,
@@ -53,7 +53,7 @@ package soda.lib
   test("should open an non empty option") {
     result_if_empty: String = "It is empty."
     result_if_non_empty(value: String): String = "Its value is " + value + "."
-    some_element = SomeSD[String]("0")
+    some_element = SomeInst[String]("0")
     expected = "Its value is 0."
     obtained = some_element.opt(
       ifEmpty := result_if_empty,
@@ -65,7 +65,7 @@ package soda.lib
   test("should try fold an empty option") {
     result_if_empty: String = "It is empty."
     result_if_non_empty(value: String): String = "Its value is " + value + "."
-    empty = NoneSD[String]()
+    empty = NoInst[String]()
     expected = "It is empty."
     obtained = empty.fold(
       ifEmpty := result_if_empty,
@@ -77,7 +77,7 @@ package soda.lib
   test("should try fold an non empty option") {
     result_if_empty: String = "It is empty."
     result_if_non_empty(value: String): String = "Its value is " + value + "."
-    some_element = SomeSD[String]("0")
+    some_element = SomeInst[String]("0")
     expected = "Its value is 0."
     obtained = some_element.fold(
       ifEmpty := result_if_empty,
@@ -88,8 +88,8 @@ package soda.lib
 
   test("should map empty to empty") {
     to_string(n: Int): String = "" + n
-    empty = NoneSD[Int]()
-    expected = NoneSD[String]()
+    empty = NoInst[Int]()
+    expected = NoInst[String]()
     obtained = empty.map(to_string)
 
     assert(obtained == expected)
@@ -97,26 +97,26 @@ package soda.lib
 
   test("should map a non-empty to another non-empty") {
     to_string(n: Int): String = "" + n
-    some_element = SomeSD[Int](2)
-    expected = SomeSD[String]("2")
+    some_element = SomeInst[Int](2)
+    expected = SomeInst[String]("2")
     obtained = some_element.map(to_string)
 
     assert(obtained == expected)
   }
 
   test("should flat map empty to empty") {
-    to_string(n: Int): SomeSD[String] = SomeSD[String]("" + n)
-    empty = NoneSD[Int]()
-    expected = NoneSD[String]()
+    to_string(n: Int): SomeInst[String] = SomeInst[String]("" + n)
+    empty = NoInst[Int]()
+    expected = NoInst[String]()
     obtained = empty.flatMap(to_string)
 
     assert(obtained == expected)
   }
 
   test("should flat map a non-empty to another non-empty") {
-    to_string(n: Int): SomeSD[String] = SomeSD[String]("" + n)
-    some_element = SomeSD[Int](2)
-    expected = SomeSD[String]("2")
+    to_string(n: Int): SomeInst[String] = SomeInst[String]("" + n)
+    some_element = SomeInst[Int](2)
+    expected = SomeInst[String]("2")
     obtained = some_element.flatMap(to_string)
 
     assert(obtained == expected)
@@ -125,7 +125,7 @@ package soda.lib
 
   test("should try how successive applications of open works") {
     toInt(s: String): OptionSD[Int] =
-      OptionSDBuilder().build(
+      OptionSDBuilderImpl().build(
         Try( Integer.parseInt(s.trim) )
           .toOption
       )
@@ -138,21 +138,21 @@ package soda.lib
     maybeB = toInt(stringB)
     maybeC = toInt(stringC)
 
-    expected = SomeSD(6)
+    expected = SomeInst(6)
     obtained =
-      maybeA.opt(ifEmpty := NoneSD,
+      maybeA.opt(ifEmpty := NoInst,
         ifNonEmpty := a ->
-          maybeB.opt(ifEmpty := NoneSD,
+          maybeB.opt(ifEmpty := NoInst,
             ifNonEmpty := b ->
-              maybeC.opt(ifEmpty := NoneSD,
+              maybeC.opt(ifEmpty := NoInst,
                 ifNonEmpty := c ->
-                  SomeSD(a + b + c) ) ) )
+                  SomeInst(a + b + c) ) ) )
 
     assert(obtained == expected)
   }
 
   test("toOption with non empty option") {
-    input: OptionSD[Int] = SomeSD(1)
+    input: OptionSD[Int] = SomeInst(1)
     expected: Option[Int] = Some(1)
     obtained = input.toOption
 
@@ -160,7 +160,7 @@ package soda.lib
   }
 
   test("toOption with another non empty option") {
-    input: SomeSD[Int] = SomeSD(2)
+    input: SomeInst[Int] = SomeInst(2)
     expected: Some[Int] = Some(2)
     obtained = input.toOption
 
@@ -168,7 +168,7 @@ package soda.lib
   }
 
   test("toOption with empty option") {
-    input: OptionSD[Int] = NoneSD()
+    input: OptionSD[Int] = NoInst()
     expected = None
     obtained = input.toOption
 
@@ -176,7 +176,7 @@ package soda.lib
   }
 
   test("toSeq with non empty option") {
-    input: OptionSD[Int] = SomeSD(1)
+    input: OptionSD[Int] = SomeInst(1)
     expected: Seq[Int] = Seq(1)
     obtained = input.toSeq
 
@@ -184,7 +184,7 @@ package soda.lib
   }
 
   test("toSeq with another non empty option") {
-    input: SomeSD[Int] = SomeSD(2)
+    input: SomeInst[Int] = SomeInst(2)
     expected: Seq[Int] = Seq(2)
     obtained = input.toSeq
 
@@ -192,7 +192,7 @@ package soda.lib
   }
 
   test("toSeq with empty option") {
-    input: OptionSD[Int] = NoneSD()
+    input: OptionSD[Int] = NoInst()
     expected = Seq()
     obtained = input.toSeq
 
@@ -200,24 +200,24 @@ package soda.lib
   }
 
   test("filter should work for None") {
-    input = NoneSD[Int]()
-    expected = NoneSD[Int]()
+    input = NoInst[Int]()
+    expected = NoInst[Int]()
     obtained = input.filter(x -> true)
 
     assert(obtained == expected)
   }
 
   test("filter should work for Some, if predicate does not hold") {
-    input = SomeSD[Int](0)
-    expected = NoneSD[Int]()
+    input = SomeInst[Int](0)
+    expected = NoInst[Int]()
     obtained = input.filter(x -> x > 0)
 
     assert(obtained == expected)
   }
 
   test("filter should work for Some, if predicate holds") {
-    input = SomeSD[Int](1)
-    expected = SomeSD[Int](1)
+    input = SomeInst[Int](1)
+    expected = SomeInst[Int](1)
     obtained = input.filter(x -> x > 0)
 
     assert(obtained == expected)

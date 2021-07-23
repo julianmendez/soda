@@ -26,7 +26,7 @@ package soda.translator.language
  */
 * DefinitionTranslator = {
   + soda.lib.OptionSD
-  + soda.lib.SomeSD
+  + soda.lib.SomeInst
   + soda.translator.replacement.Replacement
   + soda.translator.replacement.ReplacementImpl
 
@@ -80,14 +80,14 @@ package soda.translator.language
    */
   find_definition(line: String): OptionSD[Int] =
     if line.endsWith(SodaSpace + Translation().SodaDefinition)
-    then SomeSD(line.length - Translation().SodaDefinition.length)
+    then SomeInst(line.length - Translation().SodaDefinition.length)
     else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
 
   indexOf(line: String, pattern: String): OptionSD[Int] =
     indexOf(line, pattern, 0)
 
   indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
-    SomeSD(line.indexOf(pattern, start))
+    SomeInst(line.indexOf(pattern, start))
       .filter(position -> not (position == -1))
 }
 

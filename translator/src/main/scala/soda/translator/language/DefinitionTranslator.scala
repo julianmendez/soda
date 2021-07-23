@@ -26,7 +26,7 @@ package soda.translator.language
  */
 trait DefinitionTranslator {
   import soda.lib.OptionSD
-  import soda.lib.SomeSD
+  import soda.lib.SomeInst
   import soda.translator.replacement.Replacement
   import soda.translator.replacement.ReplacementImpl
 
@@ -74,14 +74,14 @@ trait DefinitionTranslator {
    */
   def find_definition (line: String ): OptionSD [Int] =
     if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
-    ) SomeSD (line.length - Translation () .SodaDefinition.length )
+    ) SomeInst (line.length - Translation () .SodaDefinition.length )
     else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
 
   def indexOf (line: String, pattern: String ): OptionSD [Int] =
     indexOf (line, pattern, 0 )
 
   def indexOf (line: String, pattern: String, start: Int ): OptionSD [Int] =
-    SomeSD (line.indexOf (pattern, start )  )
+    SomeInst (line.indexOf (pattern, start )  )
       .filter (position => ! (position == -1 )  )
 }
 
