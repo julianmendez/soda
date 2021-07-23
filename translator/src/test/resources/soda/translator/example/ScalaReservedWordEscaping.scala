@@ -1,6 +1,6 @@
 package soda.translator.example
 
-case class ScalaReservedWordEscaping () {
+trait ScalaReservedWordEscaping {
 
   lazy val __soda__var = "var"
 

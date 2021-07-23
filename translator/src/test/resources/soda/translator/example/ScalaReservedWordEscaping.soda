@@ -1,6 +1,6 @@
 package soda.translator.example
 
-* ScalaReservedWordEscaping() = {
+* ScalaReservedWordEscaping = {
 
   var = "var"
 

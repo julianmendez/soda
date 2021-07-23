@@ -6,7 +6,7 @@ trait FiboExample {
   def fib (n: Int ): Int
 }
 
-case class FiboExampleInSoda () extends FiboExample {
+trait FiboExampleInSoda extends FiboExample {
 
   def fib (n: Int ) =
     {

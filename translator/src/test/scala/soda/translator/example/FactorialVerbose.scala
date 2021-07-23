@@ -5,7 +5,7 @@ trait AbstractFactorialVerbose {
   def factorial (n: Int ): Int
 }
 
-case class FactorialVerbose () extends AbstractFactorialVerbose {
+trait FactorialVerbose extends AbstractFactorialVerbose {
 
   def factorial (n: Int ) =
     {
@@ -19,3 +19,5 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
         else rec (n - 1, n * product )
       result }
 }
+
+case class FactorialVerboseImpl () extends FactorialVerbose

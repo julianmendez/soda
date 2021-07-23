@@ -1,11 +1,13 @@
 package soda.translator.example
 
 
-* Main() = {
+* MainClass = {
 
   main (args: Array[String]): Unit =
     println("Hello world!")
 }
+
+* Main() extends MainClass
 
 @main
 

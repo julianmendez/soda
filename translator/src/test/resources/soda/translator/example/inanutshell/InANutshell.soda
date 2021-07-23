@@ -1,17 +1,16 @@
 package soda.translator.example.inanutshell
 
-* InANutshell() = {
+* InANutshell = {
 
   f(x: Int): Int = x + 16
   b = f(a)
   a = 1 + 2 + 4 + 8
 
-  h0(x: Int, y: Int): Int = {
-    a = x + y
-    b = x - y
-
-    a * b
-  }
+  h0(x: Int, y: Int): Int =
+    let
+      a = x + y
+      b = x - y
+    in a * b
 
   h1(x: Int, y: Int): Int =
     let
@@ -51,7 +50,10 @@ class ConcreteMaxAndMin() extends MaxAndMin
 
 class MinMaxPair(min: Int, max: Int)
 
-class Example(index: Int) = {
+class Example = {
+
+  has index: Int
+
   min_max(a: Int, b: Int): MinMaxPair =
     MinMaxPair(
       min := ConcreteMaxAndMin().min(a, b),
@@ -59,18 +61,23 @@ class Example(index: Int) = {
     )
 }
 
+class ExampleImpl(index: Int) extends Example
+
 class Comparable = {
   has is_greater_than(x: Comparable): Boolean
 }
 
-class ComparableMax[T subtype Comparable]() = {
+class ComparableMax[T subtype Comparable] = {
   max(a: T, b: T): T =
     if a.is_greater_than(b)
     then a
     else b
 }
 
-class MyClass (instance_parameter: Int) = {
+class MyClass = {
+
+  has instance_parameter: Int
+
   class_constant: Int = 1
 
   another_function (x: Int): Int = 2 * x
@@ -81,18 +88,23 @@ class MyClass (instance_parameter: Int) = {
   }
 }
 
-class TimeOfToday() {
+class TimeOfToday {
   import java.util.Date
 
   get_time: Date = @new Date()
 }
 
-class Main() = {
+class MainClass = {
   main (args: Array[String]): Unit =
     println("Hello world!")
 }
 
-class PersonName (name: String) = {
+class Main() extends MainClass
+
+class PersonName = {
+
+  has name: String
+
   @override
   toString = name
 }

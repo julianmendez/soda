@@ -2,10 +2,21 @@ package soda.translator.example
 
 
 trait Applicant {
+
   def background_score: Double
 }
 
-case class Fairness (ranking_function: Applicant => Double, score_difference_tolerance: Double, ranking_difference_tolerance: Double, measure_time: Any => Double, maximum_execution_time: Double ) {
+trait Fairness {
+
+  def ranking_function: Applicant => Double
+
+  def score_difference_tolerance: Double
+
+  def ranking_difference_tolerance: Double
+
+  def measure_time: Any => Double
+
+  def maximum_execution_time: Double
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )

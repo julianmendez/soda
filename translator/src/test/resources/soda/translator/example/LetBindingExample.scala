@@ -1,7 +1,7 @@
 package soda.translator.example
 
 
-case class LetBindingExample () {
+trait LetBindingExample {
 
   lazy val three_parts_like_where =
     {
@@ -21,3 +21,5 @@ case class LetBindingExample () {
       lazy val part = " part"
       Seq (first_part, second_part, third_part ) }
 }
+
+case class LetBindingExampleImpl () extends LetBindingExample

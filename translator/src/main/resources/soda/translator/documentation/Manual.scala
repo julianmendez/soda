@@ -14,59 +14,72 @@ trait ShapePainter [A <: Shape]
 
 trait ShapeMover [A <: Shape with Movable]
 
-case class EqualsExample () {
+trait EqualsExample {
+
   lazy val answer = f (x = 20, y = 2 )
 
   def f (x: Int, y: Int ) = 2 * x + y
 }
 
 /** Class for a registered person, in snake case */
-case class Registered_person (first_name: String, last_name: String ) {
+trait Registered_person {
+
+  def first_name: String
+
+  def last_name: String
+
   lazy val _separator = " "
 
   lazy val full_name = first_name + _separator + last_name
 }
 
 /** Class for a registered person, in camel case */
-case class RegisteredPerson (firstName: String, lastName: String ) {
+trait RegisteredPerson {
+
+  def firstName: String
+
+  def lastName: String
+
   lazy val _separator = " "
 
   lazy val fullName = firstName + _separator + lastName
 }
 
 trait Agent {
+
   def identifier: String
 }
 
 case class Person (name: String )
 
-case class AgentPerson (name: String ) extends Agent {
-  lazy val identifier = name
-}
+case class AgentPerson (identifier: String ) extends Agent
 
 trait RankedIndividual {
+
   def rank: Int
 }
 
-case class RankedAgentPerson (name: String, person_rank: Int ) extends Agent with RankedIndividual {
-  lazy val identifier = name
-
-  lazy val rank = person_rank
-}
+case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent with RankedIndividual
 
 trait Element {
+
   def accept (v: Visitor ): Boolean
 }
 
 trait Visitor {
+
   def visit (x: Element ): Boolean
 }
 
 case class Item (identifier: Int ) extends Element {
+
   def accept (v: Visitor ) = v.visit (this )
 }
 
-case class PersonName (name: String ) {
+trait PersonName {
+
+  def name: String
+
   override
   lazy val toString = name
 }
@@ -74,7 +87,7 @@ case class PersonName (name: String ) {
 /**
   * This contains the examples shown in the manual.
   */
-case class Manual () {
+trait Manual {
   import java.util.Date
 
   lazy val a = 1
@@ -114,26 +127,27 @@ case class Manual () {
       ) true
       else false
 
-  def my_xor (x: Boolean, y: Boolean ) = (x || y ) && ! (x && y )
+  def my_xor (x: Boolean, y: Boolean ) =
+    (x || y ) && ! (x && y )
 
-  def sum (n: Int ) = {
-    lazy val result = rec (n, 0 )
+  def sum (n: Int ) =
+    {
+      lazy val result = rec (n, 0 )
 
-    import scala.annotation.tailrec
+      import scala.annotation.tailrec
         @tailrec
-    def rec (n: Int, accum: Int ): Int =
-      if (n < 0
-      ) accum
-      else rec (n - 1, n + accum )
+      def rec (n: Int, accum: Int ): Int =
+        if (n < 0
+        ) accum
+        else rec (n - 1, n + accum )
 
-    result
-  }
+      result }
 
-  def f0 (x: Int ) = {
-    lazy val a = g (x )
-    lazy val b = g (a )
-    a + b
-  }
+  def f0 (x: Int ) =
+    {
+      lazy val a = g (x )
+      lazy val b = g (a )
+      a + b }
 
   def f1 (x: Int ) =
     {
@@ -155,27 +169,7 @@ trait AbstractFactorialConcise {
   def factorial (n: Int ): Int
 }
 
-case class FactorialConcise () extends AbstractFactorialConcise {
-
-  def factorial (n: Int ) = {
-    lazy val result = rec (n, 1 )
-
-    import scala.annotation.tailrec
-        @tailrec
-    def rec (n: Int, product: Int ): Int =
-      if (n == 0
-      ) product
-      else rec (n - 1, n * product )
-
-    result
-  }
-}
-
-trait AbstractFactorialVerbose {
-  def factorial (n: Int ): Int
-}
-
-case class FactorialVerbose () extends AbstractFactorialVerbose {
+trait FactorialConcise extends AbstractFactorialConcise {
 
   def factorial (n: Int ) =
     {
@@ -191,7 +185,27 @@ case class FactorialVerbose () extends AbstractFactorialVerbose {
       result }
 }
 
-case class Rec () {
+trait AbstractFactorialVerbose {
+  def factorial (n: Int ): Int
+}
+
+trait FactorialVerbose extends AbstractFactorialVerbose {
+
+  def factorial (n: Int ) =
+    {
+      lazy val result = rec (n, 1 )
+
+      import scala.annotation.tailrec
+        @tailrec
+      def rec (n: Int, product: Int ): Int =
+        if (n == 0
+        ) product
+        else rec (n - 1, n * product )
+
+      result }
+}
+
+trait Recursive {
 
   def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     {
@@ -219,10 +233,14 @@ case class Rec () {
       rec (n, Seq [Int]  ()  ) }
 }
 
-case class Main () {
+case class Rec () extends Recursive
+
+trait MainClass {
   def main (args: Array [String]  ): Unit =
     println ("Hello world!")
 }
+
+case class Main () extends MainClass
 
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)

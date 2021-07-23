@@ -1,7 +1,7 @@
 package soda.translator.example.miniexample
 
 
-case class MiniExample () extends soda.lib.Recursive {
+trait MiniExample extends soda.lib.Recursive {
 
   def run () =
     range (50 )
@@ -9,11 +9,15 @@ case class MiniExample () extends soda.lib.Recursive {
 
 }
 
+case class MiniExampleImpl () extends MiniExample
+
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
 }
 
-case class Main () {
+trait MainClass {
   def main (args: Array [String]  ): Unit =
-    MiniExample () .run ()
+    MiniExampleImpl () .run ()
 }
+
+case class Main () extends MainClass

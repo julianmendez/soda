@@ -14,59 +14,73 @@ class ShapePainter[A subtype Shape]
 
 class ShapeMover[A subtype Shape with Movable]
 
-class EqualsExample () = {
+class EqualsExample = {
+
   answer = f (x := 20, y := 2)
 
   f (x: Int, y: Int) = 2 * x + y
 }
 
 /** Class for a registered person, in snake case */
-class Registered_person (first_name: String, last_name: String) ={
+class Registered_person = {
+
+  has first_name: String
+
+  has last_name: String
+
   _separator = " "
 
   full_name = first_name + _separator + last_name
 }
 
 /** Class for a registered person, in camel case */
-class RegisteredPerson (firstName: String, lastName: String) = {
+class RegisteredPerson = {
+
+  has firstName: String
+
+  has lastName: String
+
   _separator = " "
 
   fullName = firstName + _separator + lastName
 }
 
 class Agent = {
+
   has identifier: String
 }
 
-class Person (name: String)
+class Person(name: String)
 
-class AgentPerson (name: String) extends Agent = {
-  identifier = name
-}
+class AgentPerson(identifier: String) extends Agent
 
 class RankedIndividual = {
+
   has rank: Int
 }
 
-class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual = {
-  identifier = name
-
-  rank = person_rank
-}
+class RankedAgentPerson (identifier: String, rank: Int)
+  extends Agent with RankedIndividual
 
 class Element = {
-  has accept (v: Visitor): Boolean
+
+  has accept(v: Visitor): Boolean
 }
 
 class Visitor = {
-  has visit (x: Element): Boolean
+
+  has visit(x: Element): Boolean
 }
 
 class Item (identifier: Int) extends Element = {
+
   accept (v: Visitor) = v.visit (this)
 }
 
-class PersonName (name: String) = {
+class PersonName = {
+
+  has name: String
+
   @override
   toString = name
 }
@@ -74,7 +88,7 @@ class PersonName (name: String) = {
 /**
   * This contains the examples shown in the manual.
   */
-class Manual() = {
+class Manual = {
   import java.util.Date
 
   a = 1
@@ -114,25 +128,26 @@ class Manual() = {
       then true
       else false
 
-  my_xor (x: Boolean, y: Boolean) = (x or y) and not (x and y)
+  my_xor (x: Boolean, y: Boolean) =
+    (x or y) and not (x and y)
 
-  sum (n: Int) = {
-    result = rec (n, 0)
+  sum (n: Int) =
+    let
+      result = rec (n, 0)
 
-    @tailrec
-    rec (n: Int, accum: Int): Int =
-      if n < 0
-      then accum
-      else rec (n - 1, n + accum)
+      @tailrec
+      rec (n: Int, accum: Int): Int =
+        if n < 0
+        then accum
+        else rec (n - 1, n + accum)
 
-    result
-  }
+    in result
 
-  f0 (x: Int) = {
-    a = g(x)
-    b = g(a)
-    a + b
-  }
+  f0 (x: Int) =
+    let
+      a = g(x)
+      b = g(a)
+    in a + b
 
   f1 (x: Int) =
     let
@@ -154,26 +169,26 @@ class Manual() = {
   has factorial (n: Int): Int
 }
 
-* FactorialConcise () extends AbstractFactorialConcise = {
+* FactorialConcise extends AbstractFactorialConcise = {
 
-  factorial (n: Int) = {
-    result = rec (n, 1)
+  factorial (n: Int) =
+    let
+      result = rec (n, 1)
 
-    @tailrec
-    rec (n: Int, product: Int): Int =
-      if n == 0
-      then product
-      else rec (n - 1, n * product)
+      @tailrec
+      rec (n: Int, product: Int): Int =
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
 
-    result
-  }
+    in result
 }
 
 class AbstractFactorialVerbose is {
   has factorial (n: Int): Int
 }
 
-class FactorialVerbose () extends AbstractFactorialVerbose is {
+class FactorialVerbose extends AbstractFactorialVerbose is {
 
   factorial (n: Int) is
     let
@@ -188,7 +203,7 @@ class FactorialVerbose () extends AbstractFactorialVerbose is {
     in result
 }
 
-class Rec() = {
+class Recursive = {
 
   foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
       next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
@@ -215,10 +230,14 @@ class Rec() = {
     in rec(n, Seq[Int]())
 }
 
-class Main () = {
-  main (args: Array[String]): Unit =
+class Rec() extends Recursive
+
+class MainClass = {
+  main(args: Array[String]): Unit =
     println ("Hello world!")
 }
+
+class Main() extends MainClass
 
 @main
 

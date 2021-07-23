@@ -1,13 +1,21 @@
 package soda.translator.example
 
 
-case class Status (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt ) {
+trait PrintableStatus {
+  def r: BigInt
+  def n: BigInt
+  def q: BigInt
+  def t: BigInt
+  def l: BigInt
+  def k: BigInt
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 }
 
-case class PiIterator () {
+case class Status (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt  ) extends PrintableStatus
+
+trait PiIterator {
 
   lazy val initial_status =
     Status (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1 )
@@ -64,5 +72,7 @@ case class PiIterator () {
       lazy val new_status = Status (r, n, q, t, l, k )
       result }
 }
+
+case class PiIteratorImpl () extends PiIterator
 
 case class BigIntAndStatus (digit: BigInt, new_status: Status )

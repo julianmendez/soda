@@ -5,18 +5,20 @@ package soda.translator.example
   has factorial (n: Int): Int
 }
 
-* FactorialConcise () extends AbstractFactorialConcise = {
+* FactorialConcise extends AbstractFactorialConcise = {
 
-  factorial (n: Int) = {
-    result = rec (n, 1)
+  factorial (n: Int) =
+    let
+      result = rec (n, 1)
 
-    @tailrec
-    rec (n: Int, product: Int): Int =
-      if n == 0
-      then product
-      else rec (n - 1, n * product)
+      @tailrec
+      rec (n: Int, product: Int): Int =
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
 
-    result
-  }
+    in result
 }
+
+* FactorialConciseImpl () extends FactorialConcise
 

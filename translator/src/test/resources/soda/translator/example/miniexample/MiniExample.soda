@@ -1,7 +1,7 @@
 package soda.translator.example.miniexample
 
 
-* MiniExample() extends soda.lib.Recursive = {
+* MiniExample extends soda.lib.Recursive = {
 
   run() =
     range(50)
@@ -9,10 +9,13 @@ package soda.translator.example.miniexample
 
 }
 
+* MiniExampleImpl() extends MiniExample
+
 @main
-* Main() = {
+* MainClass = {
   main (args: Array[String]): Unit =
-    MiniExample().run()
+    MiniExampleImpl().run()
 }
 
+* Main() extends MainClass
 

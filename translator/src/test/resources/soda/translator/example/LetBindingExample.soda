@@ -1,7 +1,7 @@
 package soda.translator.example
 
 
-* LetBindingExample() = {
+* LetBindingExample = {
 
   three_parts_like_where =
     let
@@ -21,4 +21,6 @@ package soda.translator.example
       part = " part"
     in Seq(first_part, second_part, third_part)
 }
+
+* LetBindingExampleImpl() extends LetBindingExample
 
