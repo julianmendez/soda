@@ -1,7 +1,9 @@
 package soda.translator.language
 
 
-* LineJoiner(lines: Seq[String]) = {
+* LineJoiner = {
+
+  has lines: Seq[String]
 
   Comma = ","
   SodaOpeningParenthesis: String = "("
@@ -11,10 +13,10 @@ package soda.translator.language
   Space = " "
 
   get_joined_lines_with_forward_join: Seq[String] =
-    Joiner(lines, condition_for_forward_join).join
+    JoinerImpl(lines, condition_for_forward_join).join
 
   get_joined_lines_with_backward_join: Seq[String] =
-    Joiner(lines, condition_for_backward_join).join
+    JoinerImpl(lines, condition_for_backward_join).join
 
   condition_for_forward_join(previous_line: String, current_line: String): Boolean =
     condition_for_symbol_forward_join(previous_line) or
@@ -43,8 +45,14 @@ package soda.translator.language
       .exists(current_line.startsWith)
 }
 
-* Joiner(lines_to_join: Seq[String], condition_for_join: (String, String) -> Boolean) = {
+* LineJoinerImpl(lines: Seq[String]) extends LineJoiner
+
+* Joiner = {
   + soda.lib.Rec
+
+  has lines_to_join: Seq[String]
+
+  has condition_for_join: (String, String) -> Boolean
 
   join: Seq[String] = reverse_join.reverse
 
@@ -74,6 +82,9 @@ package soda.translator.language
   _rev_list_as_element(in_process_rev: Seq[String], line: String): String =
     in_process_rev.reverse.mkString("") + line
 }
+
+* JoinerImpl(lines_to_join: Seq[String], condition_for_join: (String, String) -> Boolean)
+  extends Joiner
 
 * JoinerFoldTuple(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)
 

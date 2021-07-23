@@ -1,7 +1,7 @@
 package soda.collection
 
 
-* MSeqTranslator[T]() = {
+* MSeqTranslator[T] = {
 
   foldLeftSeq[B, C subtype B](seq: Seq[T], initial_value: C,
       next_value: (B, T) -> C): C =
@@ -16,28 +16,30 @@ package soda.collection
 
   asMSeq(seq: Seq[T]): MSeq[T] =
     let
-      initial_value: MSeq[T] = Min().empty
-      next_value(acc: MSeq[T], elem: T): MSeq[T] = Min().prepended(acc, elem)
-    in Min().reverse(
+      initial_value: MSeq[T] = MinImpl().empty
+      next_value(acc: MSeq[T], elem: T): MSeq[T] = MinImpl().prepended(acc, elem)
+    in MinImpl().reverse(
         foldLeftSeq[MSeq[T], MSeq[T]](seq, initial_value, next_value) )
 
   asSeq(mseq: MSeq[T]): Seq[T] =
     let
       initial_value: Seq[T] = Seq()
       next_value(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
-    in Min().foldLeft(mseq, initial_value, next_value).reverse
+    in MinImpl().foldLeft(mseq, initial_value, next_value).reverse
 }
+
+* MSeqTranslatorImpl[T]() extends MSeqTranslator[T]
 
 * MSeqPair[T](left: MSeq[T], right: MSeq[T])
 
-* Min[T]() = {
+* Min[T] = {
   + soda.lib.OptionSD
   + soda.lib.SomeSD
   + soda.lib.NoneSD
 
-  empty: ESeq[T] = ESeq()
+  empty: ESeq[T] = ESeqImpl()
 
-  prepended(s: MSeq[T], e: T): NESeq[T] = NESeq(e, s)
+  prepended(s: MSeq[T], e: T): NESeq[T] = NESeqImpl(e, s)
 
   head(s: NESeq[T]): T = s.head()
 
@@ -243,6 +245,8 @@ package soda.collection
 
     in result
 }
+
+* MinImpl[T]() extends Min[T]
 
 * IndexFoldTuple[T](index: Int, position: Int)
 

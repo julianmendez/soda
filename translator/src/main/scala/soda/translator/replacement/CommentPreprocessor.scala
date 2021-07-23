@@ -6,8 +6,10 @@ case class AnnotatedLine (line: String, isComment: Boolean )
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-case class CommentPreprocessor (lines: Seq [String]  ) {
+trait CommentPreprocessor {
   import soda.lib.Rec
+
+  def lines: Seq [String]
 
   lazy val SodaBeginComment = "/*"
   lazy val SodaEndComment = "*/"
@@ -32,6 +34,8 @@ case class CommentPreprocessor (lines: Seq [String]  ) {
       ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
       else CurrentAndNewCommentState (false, false )
 }
+
+case class CommentPreprocessorImpl (lines: Seq [String]  ) extends CommentPreprocessor
 
 case class PreprocessorFoldTuple (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )
 

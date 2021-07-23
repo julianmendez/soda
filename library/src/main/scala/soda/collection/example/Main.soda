@@ -2,11 +2,11 @@ package soda.collection.example
 
 
 @main
-* Main() = {
+* MainClass = {
 
   main(args: Array[String]): Unit =
     let
-      e = ListExample()
+      e = ListExampleImpl()
       allExamples = Seq(
         e.aExample,
         e.bExample,
@@ -35,4 +35,6 @@ package soda.collection.example
         .mkString("\n")
     in println(allExamples)
 }
+
+* Main() extends MainClass
 

@@ -1,7 +1,7 @@
 package soda.collection
 
 
-case class MSeqTranslator [T]  () {
+trait MSeqTranslator [T] {
 
   def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C =
     {
@@ -16,27 +16,29 @@ case class MSeqTranslator [T]  () {
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] =
     {
-      lazy val initial_value: MSeq [T] = Min () .empty
-      def next_value (acc: MSeq [T], elem: T ): MSeq [T] = Min () .prepended (acc, elem )
-      Min () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) ) }
+      lazy val initial_value: MSeq [T] = MinImpl () .empty
+      def next_value (acc: MSeq [T], elem: T ): MSeq [T] = MinImpl () .prepended (acc, elem )
+      MinImpl () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) ) }
 
   def asSeq (mseq: MSeq [T]  ): Seq [T] =
     {
       lazy val initial_value: Seq [T] = Seq ()
       def next_value (acc: Seq [T], elem: T ): Seq [T] = acc.+: (elem )
-      Min () .foldLeft (mseq, initial_value, next_value ) .reverse }
+      MinImpl () .foldLeft (mseq, initial_value, next_value ) .reverse }
 }
+
+case class MSeqTranslatorImpl [T]  () extends MSeqTranslator [T]
 
 case class MSeqPair [T]  (left: MSeq [T], right: MSeq [T]  )
 
-case class Min [T]  () {
+trait Min [T] {
   import soda.lib.OptionSD
   import soda.lib.SomeSD
   import soda.lib.NoneSD
 
-  lazy val empty: ESeq [T] = ESeq ()
+  lazy val empty: ESeq [T] = ESeqImpl ()
 
-  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq (e, s )
+  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeqImpl (e, s )
 
   def head (s: NESeq [T]  ): T = s.head ()
 
@@ -228,6 +230,8 @@ case class Min [T]  () {
 
       result }
 }
+
+case class MinImpl [T]  () extends Min [T]
 
 case class IndexFoldTuple [T]  (index: Int, position: Int )
 

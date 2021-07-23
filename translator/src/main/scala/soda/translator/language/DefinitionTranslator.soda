@@ -23,13 +23,14 @@ package soda.translator.language
  * `line.trim.startsWith(SodaOpeningParenthesis)`
  * This is no longer supported.
  *
- * @param line line
- * @return a translated line
  */
-* DefinitionTranslator(line: String) = {
+* DefinitionTranslator = {
   + soda.lib.OptionSD
   + soda.lib.SomeSD
   + soda.translator.replacement.Replacement
+  + soda.translator.replacement.ReplacementImpl
+
+  has line: String
 
   SodaOpeningParenthesis: String = "("
   SodaSpace: String = " "
@@ -44,13 +45,13 @@ package soda.translator.language
     indexOf(line, SodaSpace + Translation().SodaClassReservedWord + SodaSpace).isDefined
 
   translate_class_definition =
-    Replacement(line).replace_all(SodaSpace + Translation().SodaDefinition, "")
+    ReplacementImpl(line).replace_all(SodaSpace + Translation().SodaDefinition, "")
 
   translate_val_definition =
-    Replacement(line).add_after_spaces( Translation().ScalaValue + ScalaSpace )
+    ReplacementImpl(line).add_after_spaces( Translation().ScalaValue + ScalaSpace )
 
   translate_def_definition =
-    Replacement(line).add_after_spaces( Translation().ScalaDefinition + ScalaSpace )
+    ReplacementImpl(line).add_after_spaces( Translation().ScalaDefinition + ScalaSpace )
 
   try_found_definition(position: Int): Replacement =
     if is_class_definition then translate_class_definition
@@ -89,4 +90,6 @@ package soda.translator.language
     SomeSD(line.indexOf(pattern, start))
       .filter(position -> not (position == -1))
 }
+
+* DefinitionTranslatorImpl(line: String) extends DefinitionTranslator
 

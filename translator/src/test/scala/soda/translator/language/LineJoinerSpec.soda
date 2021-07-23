@@ -3,7 +3,7 @@ package soda.translator.language
 
 * LineJoinerSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 
-  mt = MicroTranslator()
+  mt = MicroTranslatorImpl()
 
   Original_parenthesis_example =
     Seq(

@@ -6,8 +6,10 @@ package soda.translator.replacement
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-* CommentPreprocessor(lines: Seq[String]) = {
+* CommentPreprocessor = {
   + soda.lib.Rec
+
+  has lines: Seq[String]
 
   SodaBeginComment = "/*"
   SodaEndComment = "*/"
@@ -33,6 +35,8 @@ package soda.translator.replacement
       then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
       else CurrentAndNewCommentState(false, false)
 }
+
+* CommentPreprocessorImpl(lines: Seq[String]) extends CommentPreprocessor
 
 * PreprocessorFoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
 

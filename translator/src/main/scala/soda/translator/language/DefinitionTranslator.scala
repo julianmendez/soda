@@ -23,13 +23,14 @@ package soda.translator.language
  * `line.trim.startsWith(SodaOpeningParenthesis)`
  * This is no longer supported.
  *
- * @param line line
- * @return a translated line
  */
-case class DefinitionTranslator (line: String ) {
+trait DefinitionTranslator {
   import soda.lib.OptionSD
   import soda.lib.SomeSD
   import soda.translator.replacement.Replacement
+  import soda.translator.replacement.ReplacementImpl
+
+  def line: String
 
   lazy val SodaOpeningParenthesis: String = "("
   lazy val SodaSpace: String = " "
@@ -41,13 +42,13 @@ case class DefinitionTranslator (line: String ) {
     indexOf (line, SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) .isDefined
 
   lazy val translate_class_definition =
-    Replacement (line ) .replace_all (SodaSpace + Translation () .SodaDefinition, "")
+    ReplacementImpl (line ) .replace_all (SodaSpace + Translation () .SodaDefinition, "")
 
   lazy val translate_val_definition =
-    Replacement (line ) .add_after_spaces (Translation () .ScalaValue + ScalaSpace )
+    ReplacementImpl (line ) .add_after_spaces (Translation () .ScalaValue + ScalaSpace )
 
   lazy val translate_def_definition =
-    Replacement (line ) .add_after_spaces (Translation () .ScalaDefinition + ScalaSpace )
+    ReplacementImpl (line ) .add_after_spaces (Translation () .ScalaDefinition + ScalaSpace )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translate_class_definition
@@ -83,3 +84,5 @@ case class DefinitionTranslator (line: String ) {
     SomeSD (line.indexOf (pattern, start )  )
       .filter (position => ! (position == -1 )  )
 }
+
+case class DefinitionTranslatorImpl (line: String ) extends DefinitionTranslator

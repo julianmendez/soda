@@ -7,32 +7,32 @@ package soda.collection
   + soda.lib.SomeSD
   + soda.lib.Rec
 
-  empty: ESeq[Int] = ESeq[Int]()
+  empty: ESeq[Int] = ESeqImpl[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
   revExampleSeq: Seq[Int] = exampleSeq.reverse
 
-  prepend_elem(list: MSeq[Int], elem: Int) = Min().prepended(list, elem)
+  prepend_elem(list: MSeq[Int], elem: Int) = MinImpl().prepended(list, elem)
   example: NESeq[Int] =
     Rec().foldLeft(revExampleSeq.tail,
-      NESeq[Int](revExampleSeq.head, ESeq[Int]()), prepend_elem )
+      NESeqImpl[Int](revExampleSeq.head, ESeqImpl[Int]()), prepend_elem )
 
   test("prepended") {
-    expected = MSeqTranslator().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
-    obtained = Min().prepended(example, 1)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(1, 0, 1, 1, 2, 3, 5, 8))
+    obtained = MinImpl().prepended(example, 1)
 
     assert(obtained == expected)
   }
 
   test("head") {
     expected = 0
-    obtained = Min().head(example)
+    obtained = MinImpl().head(example)
 
     assert(obtained == expected)
   }
 
   test("tail") {
-    expected = MSeqTranslator().asMSeq(Seq(1, 1, 2, 3, 5, 8))
-    obtained = Min().tail(example)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(1, 1, 2, 3, 5, 8))
+    obtained = MinImpl().tail(example)
 
     assert(obtained == expected)
   }
@@ -40,50 +40,50 @@ package soda.collection
   //
 
   test("reverse") {
-    expected = MSeqTranslator().asMSeq(Seq(8, 5, 3, 2, 1, 1, 0))
-    obtained = Min().reverse(example)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(8, 5, 3, 2, 1, 1, 0))
+    obtained = MinImpl().reverse(example)
 
     assert(obtained == expected)
   }
 
   test("length") {
     expected = 7
-    obtained = Min().length(example)
+    obtained = MinImpl().length(example)
 
     assert(obtained == expected)
   }
 
   test("indexOf something found") {
     expected = 6
-    obtained = Min().indexOf(example, 8)
+    obtained = MinImpl().indexOf(example, 8)
 
     assert(obtained == expected)
   }
 
   test("indexOf something not found") {
     expected = -1
-    obtained = Min().indexOf(example, 7)
+    obtained = MinImpl().indexOf(example, 7)
 
     assert(obtained == expected)
   }
 
   test("contains something found") {
     expected = true
-    obtained = Min().contains(example, 8)
+    obtained = MinImpl().contains(example, 8)
 
     assert(obtained == expected)
   }
 
   test("contains something not found") {
     expected = false
-    obtained = Min().contains(example, 7)
+    obtained = MinImpl().contains(example, 7)
 
     assert(obtained == expected)
   }
 
   test("at") {
     expected = SomeSD(3)
-    obtained = Min().at(example, 4)
+    obtained = MinImpl().at(example, 4)
 
     assert(obtained == expected)
   }
@@ -112,22 +112,22 @@ package soda.collection
   }
 
   test("take 0") {
-    expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3))
-    obtained = Min().take(example, 5)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1, 2, 3))
+    obtained = MinImpl().take(example, 5)
 
     assert(obtained == expected)
   }
 
   test("take 1") {
     expected = empty
-    obtained = Min().take(example, -100)
+    obtained = MinImpl().take(example, -100)
 
     assert(obtained == expected)
   }
 
   test("take 2") {
     expected = example
-    obtained = Min().take(example, 100)
+    obtained = MinImpl().take(example, 100)
 
     assert(obtained == expected)
   }
@@ -154,22 +154,22 @@ package soda.collection
   }
 
   test("drop 0") {
-    expected = MSeqTranslator().asMSeq(Seq(2, 3, 5, 8))
-    obtained = Min().drop(example, 3)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(2, 3, 5, 8))
+    obtained = MinImpl().drop(example, 3)
 
     assert(obtained == expected)
   }
 
   test("drop 1") {
     expected = example
-    obtained = Min().drop(example, -100)
+    obtained = MinImpl().drop(example, -100)
 
     assert(obtained == expected)
   }
 
   test("drop 2") {
     expected = empty
-    obtained = Min().drop(example, 100)
+    obtained = MinImpl().drop(example, 100)
 
     assert(obtained == expected)
   }
@@ -183,9 +183,9 @@ package soda.collection
   }
 
   test("takeWhile") {
-    expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2))
+    expected = MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1, 2))
     f: Int -> Boolean = e -> not (e == 3)
-    obtained = Min().takeWhile(example, f)
+    obtained = MinImpl().takeWhile(example, f)
 
     assert(obtained == expected)
   }
@@ -199,9 +199,9 @@ package soda.collection
   }
 
   test("dropWhile") {
-    expected = MSeqTranslator().asMSeq(Seq(3, 5, 8))
+    expected = MSeqTranslatorImpl().asMSeq(Seq(3, 5, 8))
     f: Int -> Boolean = e -> not (e == 3)
-    obtained = Min().dropWhile(example, f)
+    obtained = MinImpl().dropWhile(example, f)
 
     assert(obtained == expected)
   }
@@ -214,8 +214,8 @@ package soda.collection
   }
 
   test("splitAt") {
-    expected = MSeqPair(MSeqTranslator().asMSeq(Seq(0, 1, 1)), MSeqTranslator().asMSeq(Seq(2, 3, 5, 8)))
-    obtained = Min().splitAt(example, 3)
+    expected = MSeqPair(MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1)), MSeqTranslatorImpl().asMSeq(Seq(2, 3, 5, 8)))
+    obtained = MinImpl().splitAt(example, 3)
 
     assert(obtained == expected)
   }
@@ -228,8 +228,8 @@ package soda.collection
   }
 
   test("span") {
-    expected = MSeqPair(MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator().asMSeq(Seq(5, 8)))
-    obtained = Min().span(example, (x: Int) -> not (x == 5))
+    expected = MSeqPair(MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslatorImpl().asMSeq(Seq(5, 8)))
+    obtained = MinImpl().span(example, (x: Int) -> not (x == 5))
 
     assert(obtained == expected)
   }
@@ -237,23 +237,23 @@ package soda.collection
   //
 
   test("append") {
-    expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13))
-    obtained = Min().appended(example, 13)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13))
+    obtained = MinImpl().appended(example, 13)
 
     assert(obtained == expected)
   }
 
   test("last") {
     expected = 8
-    obtained = Min().last(example)
+    obtained = MinImpl().last(example)
 
     assert(obtained == expected)
   }
 
   test("concat") {
-    expected = MSeqTranslator().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
-    second = MSeqTranslator().asMSeq(Seq(13, 21, 34, 55))
-    obtained = Min().concat(example, second)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
+    second = MSeqTranslatorImpl().asMSeq(Seq(13, 21, 34, 55))
+    obtained = MinImpl().concat(example, second)
 
     assert(obtained == expected)
   }
@@ -301,43 +301,43 @@ package soda.collection
   }
 
   test("slice 0") {
-    expected = MSeqTranslator().asMSeq(Seq(1, 2, 3))
-    obtained = Min().slice(example, 2, 5)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(1, 2, 3))
+    obtained = MinImpl().slice(example, 2, 5)
 
     assert(obtained == expected)
   }
 
   test("slice 1") {
     expected = empty
-    obtained = Min().slice(example, 5, 2)
+    obtained = MinImpl().slice(example, 5, 2)
 
     assert(obtained == expected)
   }
 
   test("slice 2") {
     expected = empty
-    obtained = Min().slice(example, 3, 3)
+    obtained = MinImpl().slice(example, 3, 3)
 
     assert(obtained == expected)
   }
 
   test("slice 3") {
     expected = empty
-    obtained = Min().slice(example, 100, 5)
+    obtained = MinImpl().slice(example, 100, 5)
 
     assert(obtained == expected)
   }
 
   test("slice 4") {
     expected = empty
-    obtained = Min().slice(example, 100, 200)
+    obtained = MinImpl().slice(example, 100, 200)
 
     assert(obtained == expected)
   }
 
   test("slice 5") {
     expected = example
-    obtained = Min().slice(example, -100, 200)
+    obtained = MinImpl().slice(example, -100, 200)
 
     assert(obtained == expected)
   }
@@ -371,7 +371,7 @@ package soda.collection
   test("forall 0") {
     expected = true
     predicate: Int -> Boolean = x -> not (x == 7)
-    obtained = Min().forall(example, predicate)
+    obtained = MinImpl().forall(example, predicate)
 
     assert(obtained == expected)
   }
@@ -379,7 +379,7 @@ package soda.collection
   test("forall 1") {
     expected = false
     predicate: Int -> Boolean = x -> x < 7
-    obtained = Min().forall(example, predicate)
+    obtained = MinImpl().forall(example, predicate)
 
     assert(obtained == expected)
   }
@@ -387,7 +387,7 @@ package soda.collection
   test("forall 2") {
     expected = true
     predicate: Int -> Boolean = x -> x == 7
-    obtained = Min().forall(empty, predicate)
+    obtained = MinImpl().forall(empty, predicate)
 
     assert(obtained == expected)
   }
@@ -419,7 +419,7 @@ package soda.collection
   test("exists 0") {
     expected = true
     predicate: Int -> Boolean = x -> x == 8
-    obtained = Min().exists(example, predicate)
+    obtained = MinImpl().exists(example, predicate)
 
     assert(obtained == expected)
   }
@@ -427,7 +427,7 @@ package soda.collection
   test("exists 1") {
     expected = false
     predicate: Int -> Boolean = x -> x == 7
-    obtained = Min().exists(example, predicate)
+    obtained = MinImpl().exists(example, predicate)
 
     assert(obtained == expected)
   }
@@ -435,7 +435,7 @@ package soda.collection
   test("exists 2") {
     expected = false
     predicate: Int -> Boolean = x -> x == 7
-    obtained = Min().exists(empty, predicate)
+    obtained = MinImpl().exists(empty, predicate)
 
     assert(obtained == expected)
   }
@@ -467,7 +467,7 @@ package soda.collection
   test("find 0") {
     expected = SomeSD(0)
     predicate: Int -> Boolean = x -> not (x == 7)
-    obtained = Min().find(example, predicate)
+    obtained = MinImpl().find(example, predicate)
 
     assert(obtained == expected)
   }
@@ -475,7 +475,7 @@ package soda.collection
   test("find 1") {
     expected = SomeSD(8)
     predicate: Int -> Boolean = x -> x == 8
-    obtained = Min().find(example, predicate)
+    obtained = MinImpl().find(example, predicate)
 
     assert(obtained == expected)
   }
@@ -483,7 +483,7 @@ package soda.collection
   test("find 2") {
     expected = NoneSD()
     predicate: Int -> Boolean = x -> x == 7
-    obtained = Min().find(empty, predicate)
+    obtained = MinImpl().find(empty, predicate)
 
     assert(obtained == expected)
   }
@@ -497,9 +497,9 @@ package soda.collection
   }
 
   test("filter") {
-    expected = MSeqTranslator().asMSeq(Seq(0, 3))
+    expected = MSeqTranslatorImpl().asMSeq(Seq(0, 3))
     f: Int -> Boolean = x -> x % 3 == 0
-    obtained = Min().filter(example, f)
+    obtained = MinImpl().filter(example, f)
 
     assert(obtained == expected)
   }
@@ -513,9 +513,9 @@ package soda.collection
   }
 
   test("map in the same type") {
-    expected = MSeqTranslator().asMSeq(Seq(100, 101, 101, 102, 103, 105, 108))
+    expected = MSeqTranslatorImpl().asMSeq(Seq(100, 101, 101, 102, 103, 105, 108))
     f: Int -> Int = x -> x + 100
-    obtained = Min().map0(example, f)
+    obtained = MinImpl().map0(example, f)
 
     assert(obtained == expected)
   }
@@ -528,9 +528,9 @@ package soda.collection
   }
 
   test("foldLeft in the same type") {
-    expected = MSeqTranslator().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
-    obtained = Min().foldLeft0(example)(Min().empty,
-      (s: MSeq[Int], e: Int) -> Min().prepended(s, e + 100)
+    expected = MSeqTranslatorImpl().asMSeq(Seq(108, 105, 103, 102, 101, 101, 100))
+    obtained = MinImpl().foldLeft0(example)(MinImpl().empty,
+      (s: MSeq[Int], e: Int) -> MinImpl().prepended(s, e + 100)
     )
 
     assert(obtained == expected)

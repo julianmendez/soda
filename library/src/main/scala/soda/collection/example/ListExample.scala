@@ -3,7 +3,7 @@ package soda.collection.example
 
 case class Pair [T]  (name: String, result: T )
 
-case class ListExample () {
+trait ListExample {
 
   lazy val A: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
   lazy val B: Seq [Int] = Seq (10, 20, 30, 40, 50, 60 )
@@ -80,3 +80,5 @@ case class ListExample () {
   lazy val foldRightExample: Pair [Seq [Char]] =
     Pair ("A.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", A.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
 }
+
+case class ListExampleImpl () extends ListExample

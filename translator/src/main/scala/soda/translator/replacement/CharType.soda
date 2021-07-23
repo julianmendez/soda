@@ -23,7 +23,7 @@ package soda.translator.replacement
 /**
  * This is an enumeration for all types of characters.
  */
-* CharTypeEnum() extends CharTypeConstant = {
+* CharTypeEnum extends CharTypeConstant = {
 
   values = CharTypeValues
 
@@ -58,4 +58,6 @@ package soda.translator.replacement
   is_backslash(ch: Char): Boolean =
     ch == BackslashChar
 }
+
+* CharTypeEnumImpl() extends CharTypeEnum
 

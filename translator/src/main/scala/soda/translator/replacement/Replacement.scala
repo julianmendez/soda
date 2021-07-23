@@ -5,17 +5,19 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-case class Replacement (line: String ) {
+trait Replacement {
   import soda.lib.Rec
+
+  def line: String
 
   lazy val SodaSpace: String = " "
   lazy val ScalaSpace: String = " "
 
   def replace_with (function: String => String ): Replacement =
-    Replacement (function (line )  )
+    ReplacementImpl (function (line )  )
 
   def replace_at_beginning (index: Int, translator: Translator ): Replacement =
-    Replacement (replace_at_beginning (line, index, translator )  )
+    ReplacementImpl (replace_at_beginning (line, index, translator )  )
 
   def replace_at_beginning (line: String, index: Int, translator: Translator ): String =
     if (index == 0
@@ -37,10 +39,10 @@ case class Replacement (line: String ) {
     else line
 
   def replace_all (pattern: String, replacement: String ): Replacement =
-    Replacement (replace_all (line, pattern, replacement )  )
+    ReplacementImpl (replace_all (line, pattern, replacement )  )
 
   def replace (translator: Translator ): Replacement =
-    Replacement (replace (line, translator )  )
+    ReplacementImpl (replace (line, translator )  )
 
   def replace (line: String, translator: Translator ): String =
     {
@@ -57,13 +59,13 @@ case class Replacement (line: String ) {
     else line
 
   def replace_all (line: String, pattern: String, replacement: String ): String =
-    Replacer (line, pattern, replacement ) .replace
+    ReplacerImpl (line, pattern, replacement ) .replace
 
   def add_space_to_soda_line (): Replacement =
-    Replacement (SodaSpace + line + SodaSpace )
+    ReplacementImpl (SodaSpace + line + SodaSpace )
 
   def add_spaces_to_symbols (symbols: Set [Char]  ): Replacement =
-    Replacement (add_spaces_to_symbols (line, symbols )  )
+    ReplacementImpl (add_spaces_to_symbols (line, symbols )  )
 
   def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
     line.indices.map (index =>
@@ -83,7 +85,7 @@ case class Replacement (line: String ) {
         left_part + ch + right_part }    ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
-    Replacement (remove_space_from_scala_line (line )  )
+    ReplacementImpl (remove_space_from_scala_line (line )  )
 
   def remove_space_from_scala_line (line: String ): String =
     {
@@ -98,7 +100,7 @@ case class Replacement (line: String ) {
       line_without_ending_space }
 
   def add_after_spaces (text_to_prepend: String ): Replacement =
-    Replacement (add_after_spaces (line, text_to_prepend )  )
+    ReplacementImpl (add_after_spaces (line, text_to_prepend )  )
 
   def add_after_spaces (line: String, text_to_prepend: String ): String =
     {
@@ -106,7 +108,7 @@ case class Replacement (line: String ) {
       line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length ) }
 
   def replace_regex (translator: Translator ): Replacement =
-    Replacement (replace_regex (line, translator )  )
+    ReplacementImpl (replace_regex (line, translator )  )
 
   def replace_regex (line: String, translator: Translator ): String =
     {
@@ -116,8 +118,16 @@ case class Replacement (line: String ) {
       Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 }
 
-case class Replacer (line: String, pattern: String, replacement: String ) {
+case class ReplacementImpl (line: String ) extends Replacement
+
+trait Replacer {
   import soda.lib.Rec
+
+  def line: String
+
+  def pattern: String
+
+  def replacement: String
 
   lazy val replace =
     postproc (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, next_value, condition ) )
@@ -142,5 +152,7 @@ case class Replacer (line: String, pattern: String, replacement: String ) {
   def postproc (tuple: ReplacerFoldTuple ): String =
     tuple.replaced_text_rev.reverse.mkString ("")
 }
+
+case class ReplacerImpl (line: String, pattern: String, replacement: String ) extends Replacer
 
 case class ReplacerFoldTuple (replaced_text_rev: Seq [String], start_index: Int )

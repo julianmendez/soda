@@ -14,7 +14,7 @@ package soda.translator.language
       "\nlazy val __soda__val x = 0" +
       "\n__soda__while (x != 0 )" +
       "\n"
-    obtained = MicroTranslator().translate_program(program)
+    obtained = MicroTranslatorImpl().translate_program(program)
 
     assert(obtained == expected)
   }

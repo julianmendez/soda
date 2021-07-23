@@ -14,7 +14,7 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-    lazy val obtained = MicroTranslator () .translate_program (original )
+    lazy val obtained = MicroTranslatorImpl () .translate_program (original )
 
     assert (obtained == expected )
   }
@@ -22,7 +22,7 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
   test ("should leave content of apostrophes unchanged") {
     lazy val input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     lazy val expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-    lazy val obtained = MicroTranslator () .translate_program (input )
+    lazy val obtained = MicroTranslatorImpl () .translate_program (input )
 
     assert (obtained == expected )
   }
@@ -30,7 +30,7 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
   test ("should leave content of quotation marks unchanged") {
     lazy val input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-    lazy val obtained = MicroTranslator () .translate_program (input )
+    lazy val obtained = MicroTranslatorImpl () .translate_program (input )
 
     assert (obtained == expected )
   }

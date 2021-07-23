@@ -4,25 +4,25 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-* MicroTranslator() = {
+* MicroTranslator = {
   + soda.lib.SomeSD
-  + soda.translator.replacement.CommentPreprocessor
-  + soda.translator.replacement.ParserStateEnum
-  + soda.translator.replacement.Replacement
+  + soda.translator.replacement.CommentPreprocessorImpl
+  + soda.translator.replacement.ParserStateEnumImpl
+  + soda.translator.replacement.ReplacementImpl
   + soda.translator.replacement.Token
-  + soda.translator.replacement.Tokenizer
+  + soda.translator.replacement.TokenizerImpl
   + soda.translator.replacement.Translator
 
   NewLine = "\n"
   SodaOpeningParenthesis: String = "("
 
-  SynonymAtBeginning = DefaultTranslator(Translation().SynonymAtBeginning)
-  TranslationAtBeginningWithParen = DefaultTranslator(Translation().TranslationAtBeginningWithParen)
-  TranslationAtBeginningWithoutParen = DefaultTranslator(Translation().TranslationAtBeginningWithoutParen)
-  Synonym = DefaultTranslator(Translation().Synonym)
-  MainTranslation = DefaultTranslator(Translation().MainTranslation)
-  ScalaNonSoda = DefaultTranslator(Translation().ScalaNonSoda)
-  Beautifier = DefaultTranslator(Translation().Beautifier)
+  SynonymAtBeginning = DefaultTranslatorImpl(Translation().SynonymAtBeginning)
+  TranslationAtBeginningWithParen = DefaultTranslatorImpl(Translation().TranslationAtBeginningWithParen)
+  TranslationAtBeginningWithoutParen = DefaultTranslatorImpl(Translation().TranslationAtBeginningWithoutParen)
+  Synonym = DefaultTranslatorImpl(Translation().Synonym)
+  MainTranslation = DefaultTranslatorImpl(Translation().MainTranslation)
+  ScalaNonSoda = DefaultTranslatorImpl(Translation().ScalaNonSoda)
+  Beautifier = DefaultTranslatorImpl(Translation().Beautifier)
 
   translate_program(program: String): String =
     SomeSD(program)
@@ -38,16 +38,16 @@ package soda.translator.language
     program.split(NewLine).toIndexedSeq
 
   join_lines_with_forward_join(lines: Seq[String]): Seq[String] =
-    LineJoiner(lines).get_joined_lines_with_forward_join
+    LineJoinerImpl(lines).get_joined_lines_with_forward_join
 
   join_lines_with_backward_join(lines: Seq[String]): Seq[String] =
-    LineJoiner(lines).get_joined_lines_with_backward_join
+    LineJoinerImpl(lines).get_joined_lines_with_backward_join
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(NewLine) + NewLine
 
   translate_lines(lines: Seq[String]): Seq[String] =
-    CommentPreprocessor(lines)
+    CommentPreprocessorImpl(lines)
       .get_annotated_lines
       .map(annotated_line ->
         if annotated_line.isComment
@@ -57,23 +57,23 @@ package soda.translator.language
 
   _translate_non_comment(line: String): String =
       SomeSD(line)
-        .map(x -> Replacement(x).add_space_to_soda_line().line)
-        .map(x -> Tokenizer(x).get_tokens)
+        .map(x -> ReplacementImpl(x).add_space_to_soda_line().line)
+        .map(x -> TokenizerImpl(x).get_tokens)
         .map(x -> _translate_line(x))
         .map(x -> _join_tokens(x))
-        .map(x -> Replacement(x).remove_space_from_scala_line().line)
+        .map(x -> ReplacementImpl(x).remove_space_from_scala_line().line)
         .get
 
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token ->
-        if token.parser_state == ParserStateEnum().Plain
+        if token.parser_state == ParserStateEnumImpl().Plain
         then Token(_get_all_replacements(token), token.parser_state, token.index)
         else token
     )
 
   _get_all_replacements(token: Token): String =
-    Replacement(token.text)
+    ReplacementImpl(token.text)
       .add_spaces_to_symbols(symbols := Translation().SodaBracketsAndComma.toSet)
       .replace(ScalaNonSoda)
       .replace_at_beginning(token.index, SynonymAtBeginning)
@@ -90,7 +90,7 @@ package soda.translator.language
     else TranslationAtBeginningWithoutParen
 
   try_definition(line: String): String =
-    DefinitionTranslator(line).get_translation
+    DefinitionTranslatorImpl(line).get_translation
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens
@@ -110,11 +110,17 @@ package soda.translator.language
     else line
 }
 
-* DefaultTranslator(table: Seq[(String, String)]) extends soda.translator.replacement.Translator = {
+* MicroTranslatorImpl() extends MicroTranslator
+
+* DefaultTranslator extends soda.translator.replacement.Translator = {
+
+  has table: Seq[(String, String)]
 
   keys = table.map(pair -> pair._1)
 
   translate(word: String): String =
     table.toMap.get(word).getOrElse(word)
 }
+
+* DefaultTranslatorImpl(table: Seq[(String, String)]) extends DefaultTranslator
 

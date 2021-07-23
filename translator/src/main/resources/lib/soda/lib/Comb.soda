@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains auxiliary functions for combinations.
  */
-* Comb() = {
+* CartesianProduct = {
 
   cartesianProduct[T](sequences: Seq[Seq[T]]): Seq[Seq[T]] =
     let
@@ -27,4 +27,6 @@ package soda.lib
 
     in result
 }
+
+* Comb() extends CartesianProduct
 

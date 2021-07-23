@@ -1,7 +1,9 @@
 package soda.translator.language
 
 
-case class LineJoiner (lines: Seq [String]  ) {
+trait LineJoiner {
+
+  def lines: Seq [String]
 
   lazy val Comma = ","
   lazy val SodaOpeningParenthesis: String = "("
@@ -11,10 +13,10 @@ case class LineJoiner (lines: Seq [String]  ) {
   lazy val Space = " "
 
   lazy val get_joined_lines_with_forward_join: Seq [String] =
-    Joiner (lines, condition_for_forward_join ) .join
+    JoinerImpl (lines, condition_for_forward_join ) .join
 
   lazy val get_joined_lines_with_backward_join: Seq [String] =
-    Joiner (lines, condition_for_backward_join ) .join
+    JoinerImpl (lines, condition_for_backward_join ) .join
 
   def condition_for_forward_join (previous_line: String, current_line: String ): Boolean =
     condition_for_symbol_forward_join (previous_line ) ||
@@ -43,8 +45,14 @@ case class LineJoiner (lines: Seq [String]  ) {
       .exists (current_line.startsWith )
 }
 
-case class Joiner (lines_to_join: Seq [String], condition_for_join: (String, String ) => Boolean ) {
+case class LineJoinerImpl (lines: Seq [String]  ) extends LineJoiner
+
+trait Joiner {
   import soda.lib.Rec
+
+  def lines_to_join: Seq [String]
+
+  def condition_for_join: (String, String ) => Boolean
 
   lazy val join: Seq [String] = reverse_join.reverse
 
@@ -74,5 +82,7 @@ case class Joiner (lines_to_join: Seq [String], condition_for_join: (String, Str
   def _rev_list_as_element (in_process_rev: Seq [String], line: String ): String =
     in_process_rev.reverse.mkString ("") + line
 }
+
+case class JoinerImpl (lines_to_join: Seq [String], condition_for_join: (String, String ) => Boolean )  extends Joiner
 
 case class JoinerFoldTuple (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String )

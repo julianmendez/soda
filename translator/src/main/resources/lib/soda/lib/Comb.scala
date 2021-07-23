@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains auxiliary functions for combinations.
  */
-case class Comb () {
+trait CartesianProduct {
 
   def cartesianProduct [T]  (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
     {
@@ -27,3 +27,5 @@ case class Comb () {
 
       result }
 }
+
+case class Comb () extends CartesianProduct

@@ -20,16 +20,20 @@ trait MSeq [T] {
       rec (this, initial_value, next_value, condition ) }
 }
 
-
-case class ESeq [T] () extends MSeq [T] {
+trait ESeq [T] extends MSeq [T] {
 
   lazy val isEmpty = true
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifEmpty
 }
 
+case class ESeqImpl [T]  () extends ESeq [T]
 
-case class NESeq [T] (head0: T, tail0: MSeq [T]  ) extends MSeq [T] {
+trait NESeq [T] extends MSeq [T] {
+
+  def head0: T
+
+  def tail0: MSeq [T]
 
   lazy val isEmpty = false
 
@@ -39,3 +43,5 @@ case class NESeq [T] (head0: T, tail0: MSeq [T]  ) extends MSeq [T] {
 
   def tail (): MSeq [T] = tail0
 }
+
+case class NESeqImpl [T]  (head0: T, tail0: MSeq [T]  ) extends NESeq [T]

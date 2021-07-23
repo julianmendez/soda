@@ -1,12 +1,16 @@
 package soda.translator.io
 
 
-case class DirectoryProcessor (start: String, process_soda_file: java.io.File => Boolean ) {
+trait DirectoryProcessor {
   import java.io.File
+
+  def start: String
+
+  def process_soda_file: File => Boolean
 
   lazy val Soda_suffix = ".soda"
 
-  lazy val all_files = DirectoryScanner () .get_all_files (new File (start )  )
+  lazy val all_files = DirectoryScannerImpl () .get_all_files (new File (start )  )
 
   lazy val soda_files =
     all_files
@@ -16,11 +20,13 @@ case class DirectoryProcessor (start: String, process_soda_file: java.io.File =>
   lazy val lib_files =
     all_files
       .filter (x => x.isFile )
-      .filter (file => file.getName == LibraryDeployer () .Library_marker_file )
+      .filter (file => file.getName == LibraryDeployerImpl () .Library_marker_file )
 
   def process (): Boolean =
-    LibraryDeployer () .expand_library (lib_files ) &&
+    LibraryDeployerImpl () .expand_library (lib_files ) &&
       soda_files
         .map (process_soda_file )
         .forall (x => x )
 }
+
+case class DirectoryProcessorImpl (start: String, process_soda_file: java.io.File => Boolean )  extends DirectoryProcessor

@@ -4,7 +4,7 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read and write small files.
  */
-case class SimpleIO () {
+trait SimpleIO {
   import soda.lib.SomeSD
   import java.io.BufferedReader
   import java.io.File
@@ -43,3 +43,5 @@ case class SimpleIO () {
   def create_file (parent_directory: String, file_name: String ): File =
     new File (parent_directory, file_name )
 }
+
+case class SimpleIOImpl () extends SimpleIO

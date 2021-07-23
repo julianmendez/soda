@@ -5,154 +5,154 @@ package soda.collection.example
 
   test("should test A") {
     expected = Pair("A", List('A', 'B', 'C', 'D', 'E', 'F'))
-    obtained = ListExample().aExample
+    obtained = ListExampleImpl().aExample
 
     assert(obtained == expected)
   }
 
   test("should test B") {
     expected = Pair("B", List(10, 20, 30, 40, 50, 60))
-    obtained = ListExample().bExample
+    obtained = ListExampleImpl().bExample
 
     assert(obtained == expected)
   }
 
   test("should test A.take") {
     expected = Pair("A.take(3)", List('A', 'B', 'C'))
-    obtained = ListExample().takeExample
+    obtained = ListExampleImpl().takeExample
 
     assert(obtained == expected)
   }
 
   test("should test A.takeRight") {
     expected = Pair("A.takeRight(3)", List('D', 'E', 'F'))
-    obtained = ListExample().takeRightExample
+    obtained = ListExampleImpl().takeRightExample
 
     assert(obtained == expected)
   }
 
   test("should test A.takeWhile") {
     expected = Pair("A.takeWhile(x -> not (x == 'E'))", List('A', 'B', 'C', 'D'))
-    obtained = ListExample().takeWhileExample
+    obtained = ListExampleImpl().takeWhileExample
 
     assert(obtained == expected)
   }
 
   test("should test A.drop") {
     expected = Pair("A.drop(2)", List('C', 'D', 'E', 'F'))
-    obtained = ListExample().dropExample
+    obtained = ListExampleImpl().dropExample
 
     assert(obtained == expected)
   }
 
   test("should test A.dropRight") {
     expected = Pair("A.dropRight(2)", List('A', 'B', 'C', 'D'))
-    obtained = ListExample().dropRightExample
+    obtained = ListExampleImpl().dropRightExample
 
     assert(obtained == expected)
   }
 
   test("should test A.dropWhile") {
     expected = Pair("A.dropWhile(x -> not (x == 'E'))", List('E', 'F'))
-    obtained = ListExample().dropWhileExample
+    obtained = ListExampleImpl().dropWhileExample
 
     assert(obtained == expected)
   }
 
   test("should test A.splitAt") {
     expected = Pair("A.splitAt(3)", (List('A', 'B', 'C'), List('D', 'E', 'F')))
-    obtained = ListExample().splitAtExample
+    obtained = ListExampleImpl().splitAtExample
 
     assert(obtained == expected)
   }
 
   test("should test A.indices") {
     expected = Pair("A.indices", Range(0, 6))
-    obtained = ListExample().indicesExample
+    obtained = ListExampleImpl().indicesExample
 
     assert(obtained == expected)
   }
 
   test("should test A.zipWithIndex") {
     expected = Pair("A.zipWithIndex", List(('A',0), ('B',1), ('C',2), ('D',3), ('E',4), ('F',5)))
-    obtained = ListExample().zipWithIndexExample
+    obtained = ListExampleImpl().zipWithIndexExample
 
     assert(obtained == expected)
   }
 
   test("should test A.zip") {
     expected = Pair("A.zip(B)", List(('A', 10), ('B', 20), ('C', 30), ('D', 40), ('E', 50), ('F', 60)))
-    obtained = ListExample().zipExample
+    obtained = ListExampleImpl().zipExample
 
     assert(obtained == expected)
   }
 
   test("should test A.reverse") {
     expected = Pair("A.reverse", List('F', 'E', 'D', 'C', 'B', 'A'))
-    obtained = ListExample().reverseExample
+    obtained = ListExampleImpl().reverseExample
 
     assert(obtained == expected)
   }
 
   test("should test A.+") {
     expected = Pair("A.+:('X')", List('X', 'A', 'B', 'C', 'D', 'E', 'F'))
-    obtained = ListExample().prependedExample
+    obtained = ListExampleImpl().prependedExample
 
     assert(obtained == expected)
   }
 
   test("should test A.:") {
     expected = Pair("A.:+('X')", List('A', 'B', 'C', 'D', 'E', 'F', 'X'))
-    obtained = ListExample().appendedExample
+    obtained = ListExampleImpl().appendedExample
 
     assert(obtained == expected)
   }
 
   test("should test A.++") {
     expected = Pair("A.map(_.toInt).++(B)", List(65, 66, 67, 68, 69, 70, 10, 20, 30, 40, 50, 60))
-    obtained = ListExample().concatExample
+    obtained = ListExampleImpl().concatExample
 
     assert(obtained == expected)
   }
 
   test("should test A.span") {
     expected = Pair("A.span(x -> not (x == 'D'))", (List('A', 'B', 'C'), List('D', 'E', 'F')))
-    obtained = ListExample().spanExample
+    obtained = ListExampleImpl().spanExample
 
     assert(obtained == expected)
   }
 
   test("should test A.map") {
     expected = Pair("A.map(x -> x.toInt)", List(65, 66, 67, 68, 69, 70))
-    obtained = ListExample().mapExample
+    obtained = ListExampleImpl().mapExample
 
     assert(obtained == expected)
   }
 
   test("should test A.filter") {
     expected = Pair("A.filter(x -> x.toInt % 2 == 0)", List('B', 'D', 'F'))
-    obtained = ListExample().filterExample
+    obtained = ListExampleImpl().filterExample
 
     assert(obtained == expected)
   }
 
   test("should test B.fold") {
     expected = Pair("B.fold(0)((a, b) -> a + b)", 210)
-    obtained = ListExample().foldExample
+    obtained = ListExampleImpl().foldExample
 
     assert(obtained == expected)
   }
 
   test("should test A.foldLeft") {
     expected = Pair("A.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq)
-    obtained = ListExample().foldLeftExample
+    obtained = ListExampleImpl().foldLeftExample
 
     assert(obtained == expected)
   }
 
   test("should test A.foldRight") {
     expected = Pair("A.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq)
-    obtained = ListExample().foldRightExample
+    obtained = ListExampleImpl().foldRightExample
 
     assert(obtained == expected)
   }

@@ -1,11 +1,5 @@
 package soda.translator.documentation
 
-/*
- * This is a Soda tutorial written in Soda.
- * Copyright 2021 Julian Mendez
- * Version: 2021-07-22
- */
-
 trait Shape
 
 trait Movable

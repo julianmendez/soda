@@ -4,19 +4,15 @@ package soda.translator.io
 /**
  * This class is used to scan files in a given directory.
  */
-* DirectoryScanner() = {
+* DirectoryScanner = {
   + java.io.File
 
   get_all_files(start: File): Seq[File] =
     if start.isFile
     then Seq(start)
-    else RecursiveScanner(Seq(), start.listFiles().toSeq).scan()
-}
+    else scan(Seq(), start.listFiles().toSeq)
 
-* RecursiveScanner(found: Seq[java.io.File], to_scan: Seq[java.io.File]) = {
-  + java.io.File
-
-  scan(): Seq[File] =
+  scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
     let
       @tailrec
       rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
@@ -30,4 +26,6 @@ package soda.translator.io
     then to_scan.tail.++(to_scan.head.listFiles())
     else to_scan.tail
 }
+
+* DirectoryScannerImpl() extends DirectoryScanner
 
