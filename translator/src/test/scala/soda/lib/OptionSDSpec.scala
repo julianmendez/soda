@@ -114,7 +114,6 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 
-
   test ("should try how successive applications of open works") {
     def toInt (s: String ): OptionSD [Int] =
       OptionSDBuilderImpl () .build (Try (Integer.parseInt (s.trim ) )

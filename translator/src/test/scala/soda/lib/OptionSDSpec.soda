@@ -122,7 +122,6 @@ package soda.lib
     assert(obtained == expected)
   }
 
-
   test("should try how successive applications of open works") {
     toInt(s: String): OptionSD[Int] =
       OptionSDBuilderImpl().build(
