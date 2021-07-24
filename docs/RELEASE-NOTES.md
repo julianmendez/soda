@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - has its functions separated from concrete classes making abstract classes the only classes containing functions
+    - renames concrete classes in `OptionSD`, mapping `NoneSD` to `NoElem` and `SomeSD` to `SomeElem`
   - build: sbt '++ 3.0.0' clean compile test package assembly
   - release: target/scala-3.0.0/soda-0.10.0.jar
 - - version: v0.9.0

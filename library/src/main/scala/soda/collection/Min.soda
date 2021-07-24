@@ -34,8 +34,8 @@ package soda.collection
 
 * Min[T] = {
   + soda.lib.OptionSD
-  + soda.lib.SomeInst
-  + soda.lib.NoInst
+  + soda.lib.SomeElem
+  + soda.lib.NoElem
 
   empty: ESeq[T] = ESeqImpl()
 
@@ -93,11 +93,11 @@ package soda.collection
 
   at(s: MSeq[T], n: Int): OptionSD[T] =
     s.opt(
-      ifEmpty := NoInst[T](),
+      ifEmpty := NoElem[T](),
       ifNonEmpty := (neseq ->
         if n < 0 or n >= length(s)
-        then NoInst[T]()
-        else SomeInst[T](_atNonEmpty(neseq, n))
+        then NoElem[T]()
+        else SomeElem[T](_atNonEmpty(neseq, n))
       )
     )
 
@@ -175,9 +175,9 @@ package soda.collection
 
   find(s: MSeq[T], p: (T -> Boolean)): OptionSD[T] =
     let
-      initial_value = NoInst[T]()
+      initial_value = NoElem[T]()
       next_value(acc: OptionSD[T], elem: T): OptionSD[T] =
-        if p(elem) then SomeInst[T](elem) else NoInst[T]()
+        if p(elem) then SomeElem[T](elem) else NoElem[T]()
       condition(acc: OptionSD[T], elem: T): Boolean = acc.isEmpty
     in foldLeftWhile(s, initial_value, next_value, condition)
 

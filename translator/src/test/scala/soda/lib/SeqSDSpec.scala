@@ -24,9 +24,9 @@ case class SeqSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
     def max (s: NonEmptySeqSD [Int]  ): Int =
       Rec () .foldLeft (s.tail.toSeq, s.head, max_of_2 )
     lazy val input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 )
-    lazy val expected = SomeInst [Int]  (9 )
+    lazy val expected = SomeElem [Int]  (9 )
     lazy val obtained =
-      SeqSDBuilderImpl () .build (input ) .opt (ifEmpty = NoInst (), ifNonEmpty = sequence => SomeInst (max (sequence )  )      )
+      SeqSDBuilderImpl () .build (input ) .opt (ifEmpty = NoElem (), ifNonEmpty = sequence => SomeElem (max (sequence )  )      )
 
     assert (obtained == expected )
   }

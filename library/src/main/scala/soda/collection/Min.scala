@@ -33,8 +33,8 @@ case class MSeqPair [T]  (left: MSeq [T], right: MSeq [T]  )
 
 trait Min [T] {
   import soda.lib.OptionSD
-  import soda.lib.SomeInst
-  import soda.lib.NoInst
+  import soda.lib.SomeElem
+  import soda.lib.NoElem
 
   lazy val empty: ESeq [T] = ESeqImpl ()
 
@@ -89,10 +89,10 @@ trait Min [T] {
       foldLeftWhile (s, initial_value, next_value, condition ) }
 
   def at (s: MSeq [T], n: Int ): OptionSD [T] =
-    s.opt (ifEmpty = NoInst [T]  (), ifNonEmpty = (neseq =>
+    s.opt (ifEmpty = NoElem [T]  (), ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
-        ) NoInst [T]  ()
-        else SomeInst [T]  (_atNonEmpty (neseq, n )  )      )    )
+        ) NoElem [T]  ()
+        else SomeElem [T]  (_atNonEmpty (neseq, n )  )      )    )
 
   def _atNonEmpty (xs: NESeq [T], n: Int ): T =
     {
@@ -164,9 +164,9 @@ trait Min [T] {
 
   def find (s: MSeq [T], p: (T => Boolean )  ): OptionSD [T] =
     {
-      lazy val initial_value = NoInst [T]  ()
+      lazy val initial_value = NoElem [T]  ()
       def next_value (acc: OptionSD [T], elem: T ): OptionSD [T] =
-        if (p (elem ) ) SomeInst [T]  (elem ) else NoInst [T]  ()
+        if (p (elem ) ) SomeElem [T]  (elem ) else NoElem [T]  ()
       def condition (acc: OptionSD [T], elem: T ): Boolean = acc.isEmpty
       foldLeftWhile (s, initial_value, next_value, condition ) }
 

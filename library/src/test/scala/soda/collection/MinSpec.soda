@@ -3,8 +3,8 @@ package soda.collection
 
 * MinSpec() extends org.scalatest.funsuite.AnyFunSuite = {
   + soda.lib.OptionSD
-  + soda.lib.NoInst
-  + soda.lib.SomeInst
+  + soda.lib.NoElem
+  + soda.lib.SomeElem
   + soda.lib.Rec
 
   empty: ESeq[Int] = ESeqImpl[Int]()
@@ -82,7 +82,7 @@ package soda.collection
   }
 
   test("at") {
-    expected = SomeInst(3)
+    expected = SomeElem(3)
     obtained = MinImpl().at(example, 4)
 
     assert(obtained == expected)
@@ -465,7 +465,7 @@ package soda.collection
   }
 
   test("find 0") {
-    expected = SomeInst(0)
+    expected = SomeElem(0)
     predicate: Int -> Boolean = x -> not (x == 7)
     obtained = MinImpl().find(example, predicate)
 
@@ -473,7 +473,7 @@ package soda.collection
   }
 
   test("find 1") {
-    expected = SomeInst(8)
+    expected = SomeElem(8)
     predicate: Int -> Boolean = x -> x == 8
     obtained = MinImpl().find(example, predicate)
 
@@ -481,7 +481,7 @@ package soda.collection
   }
 
   test("find 2") {
-    expected = NoInst()
+    expected = NoElem()
     predicate: Int -> Boolean = x -> x == 7
     obtained = MinImpl().find(empty, predicate)
 

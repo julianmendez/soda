@@ -5,7 +5,7 @@ package soda.translator.io
  * This is an auxiliary class to read and write small files.
  */
 trait SimpleIO {
-  import soda.lib.SomeInst
+  import soda.lib.SomeElem
   import java.io.BufferedReader
   import java.io.File
   import java.io.FileWriter
@@ -33,7 +33,7 @@ trait SimpleIO {
     _write_content (new FileWriter (file ), content )
 
   def _write_content (writer: Writer, content: String ): Boolean =
-    SomeInst (true )
+    SomeElem (true )
       .map (x => writer.write (content ) )
       .map (x => writer.flush () )
       .map (x => writer.close () )

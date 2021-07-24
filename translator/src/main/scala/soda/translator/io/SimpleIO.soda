@@ -5,7 +5,7 @@ package soda.translator.io
  * This is an auxiliary class to read and write small files.
  */
 * SimpleIO = {
-  + soda.lib.SomeInst
+  + soda.lib.SomeElem
   + java.io.BufferedReader
   + java.io.File
   + java.io.FileWriter
@@ -33,7 +33,7 @@ package soda.translator.io
     _write_content(@new FileWriter(file), content)
 
   _write_content(writer: Writer, content: String): Boolean =
-    SomeInst(true)
+    SomeElem(true)
       .map( x -> writer.write(content) )
       .map( x -> writer.flush() )
       .map( x -> writer.close() )

@@ -33,7 +33,7 @@ package soda.lib
 
   flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
     opt(
-      ifEmpty := NoInst[B](),
+      ifEmpty := NoElem[B](),
       ifNonEmpty := element -> mapping(element)
     )
 
@@ -42,7 +42,7 @@ package soda.lib
   filter(predicate: A -> Boolean): OptionSD[A] =
     opt(
       ifEmpty := this,
-      ifNonEmpty := element -> if predicate(element) then this else NoInst[A]()
+      ifNonEmpty := element -> if predicate(element) then this else NoElem[A]()
     )
 }
 
@@ -50,12 +50,12 @@ package soda.lib
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
-  map[B](mapping: A -> B): NoneSD[B] = NoInst[B]()
+  map[B](mapping: A -> B): NoneSD[B] = NoElem[B]()
 
   toOption: None.type = None
 }
 
-* NoInst[A]() extends NoneSD[A]
+* NoElem[A]() extends NoneSD[A]
 
 * SomeSD[A] extends OptionSD[A] = {
 
@@ -65,19 +65,19 @@ package soda.lib
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
 
-  map[B](mapping: A -> B): SomeSD[B] = SomeInst[B](mapping(element))
+  map[B](mapping: A -> B): SomeSD[B] = SomeElem[B](mapping(element))
 
   toOption: Some[A] = Some[A](element)
 }
 
-* SomeInst[A](element: A) extends SomeSD[A]
+* SomeElem[A](element: A) extends SomeSD[A]
 
 * OptionSDBuilder[A] = {
 
   build(option: Option[A]): OptionSD[A] =
     if option.isEmpty
-    then NoInst[A]()
-    else SomeInst[A](option.get)
+    then NoElem[A]()
+    else SomeElem[A](option.get)
 }
 
 * OptionSDBuilderImpl[A]() extends OptionSDBuilder[A]
