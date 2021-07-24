@@ -124,6 +124,13 @@ If $V$ is an empty sequence, the class does not need parameters to be instantiat
 
 If $S_{A}$ is empty, the equals sign can be omitted.
 
+We say that $A$ is a \textbf{trivial extension} of an abstract class $B$ for the formula when $A$ extends only $B$ and $A$ has no parameters.
+A \textbf{concrete trivial extension} is a trivial extension by using a concrete class.
+
+The \shas reserved word allows declaring functions in abstract classes.
+As a simple approach, each function or constant declared with \shas can be thought as a kind of parameter needed to instantiate a class.
+An abstract class without \shas needed to be satisfied can be instantiated by a concrete trivial extension.
+
 There is a small divergence between \Soda as defined here and its implementation, because the implementation allows defining classes inside classes, and even inside functions.
 
 \textbf{Notation}: $e[f \coloneqq g]$ is a notation that means replacing every free occurrence of $f$ in $e$ by $g$, where bound variables in $e$ can be renamed to avoid that the insertion of free variables in $g$ are bound.
