@@ -21,7 +21,7 @@ trait ParserStateConstant {
 /**
  * This is an enumeration of all the parser states.
  */
-trait ParserStateEnum extends ParserStateConstant {
+trait ParserStateFunction extends ParserStateConstant {
 
   lazy val values = ParserStateValues
 
@@ -33,7 +33,7 @@ trait ParserStateEnum extends ParserStateConstant {
       (x == ApostropheState && y == ApostropheBackslashState )
 }
 
-case class ParserStateEnumImpl () extends ParserStateEnum
+case class ParserStateEnum () extends ParserStateFunction
 
 trait ParserTransition extends ParserStateConstant with CharTypeConstant {
 

@@ -16,10 +16,12 @@ package soda.lib
   DayOfTheWeekValues = Seq(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 }
 
-* DayOfTheWeekEnum () extends DayOfTheWeekConstant = {
+* DayOfTheWeekFunction extends DayOfTheWeekConstant = {
 
   values = DayOfTheWeekValues
 }
+
+* DayOfTheWeekEnum() extends DayOfTheWeekFunction
 
 * EnumSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 

@@ -21,7 +21,7 @@ package soda.translator.replacement
 /**
  * This is an enumeration of all the parser states.
  */
-* ParserStateEnum extends ParserStateConstant = {
+* ParserStateFunction extends ParserStateConstant = {
 
   values = ParserStateValues
 
@@ -33,7 +33,7 @@ package soda.translator.replacement
       (x == ApostropheState and y == ApostropheBackslashState)
 }
 
-* ParserStateEnumImpl() extends ParserStateEnum
+* ParserStateEnum() extends ParserStateFunction
 
 * ParserTransition extends ParserStateConstant with CharTypeConstant = {
 

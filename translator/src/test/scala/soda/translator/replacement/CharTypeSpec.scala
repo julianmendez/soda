@@ -5,42 +5,42 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
    test ("should recognize quotation marks") {
      lazy val input = '"'
-     lazy val obtained = CharTypeEnumImpl () .get_char_type (input )
-     lazy val expected = CharTypeEnumImpl () .QuotesType
+     lazy val obtained = CharTypeEnum () .get_char_type (input )
+     lazy val expected = CharTypeEnum () .QuotesType
 
      assert (obtained == expected )
    }
 
    test ("should recognize apostrophes") {
      lazy val input = '\''
-     lazy val obtained = CharTypeEnumImpl () .get_char_type (input )
-     lazy val expected = CharTypeEnumImpl () .ApostropheType
+     lazy val obtained = CharTypeEnum () .get_char_type (input )
+     lazy val expected = CharTypeEnum () .ApostropheType
 
      assert (obtained == expected )
    }
 
    test ("should recognize backslash") {
      lazy val input = '\\'
-     lazy val obtained = CharTypeEnumImpl () .get_char_type (input )
-     lazy val expected = CharTypeEnumImpl () .BackslashType
+     lazy val obtained = CharTypeEnum () .get_char_type (input )
+     lazy val expected = CharTypeEnum () .BackslashType
 
      assert (obtained == expected )
    }
 
    test ("should recognize a simple char") {
      lazy val input = 'a'
-     lazy val obtained = CharTypeEnumImpl () .get_char_type (input )
-     lazy val expected = CharTypeEnumImpl () .PlainType
+     lazy val obtained = CharTypeEnum () .get_char_type (input )
+     lazy val expected = CharTypeEnum () .PlainType
 
      assert (obtained == expected )
    }
 
    test ("should recognize plain text") {
      lazy val inputStr = "This is plain text with symbols. 0123456789 _ . !?"
-     lazy val expected = Seq (CharTypeEnumImpl () .PlainType )
+     lazy val expected = Seq (CharTypeEnum () .PlainType )
      lazy val obtained =
        inputStr
-         .map (ch => CharTypeEnumImpl () .get_char_type (ch )  )
+         .map (ch => CharTypeEnum () .get_char_type (ch )  )
          .toSet
          .toSeq
 

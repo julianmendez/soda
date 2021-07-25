@@ -23,7 +23,7 @@ trait CharTypeConstant {
 /**
  * This is an enumeration for all types of characters.
  */
-trait CharTypeEnum extends CharTypeConstant {
+trait CharTypeFunction extends CharTypeConstant {
 
   lazy val values = CharTypeValues
 
@@ -59,4 +59,4 @@ trait CharTypeEnum extends CharTypeConstant {
     ch == BackslashChar
 }
 
-case class CharTypeEnumImpl () extends CharTypeEnum
+case class CharTypeEnum () extends CharTypeFunction

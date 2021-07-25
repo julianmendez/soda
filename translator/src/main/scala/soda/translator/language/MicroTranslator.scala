@@ -7,7 +7,7 @@ package soda.translator.language
 trait MicroTranslator {
   import soda.lib.SomeElem
   import soda.translator.replacement.CommentPreprocessorImpl
-  import soda.translator.replacement.ParserStateEnumImpl
+  import soda.translator.replacement.ParserStateEnum
   import soda.translator.replacement.ReplacementImpl
   import soda.translator.replacement.Token
   import soda.translator.replacement.TokenizerImpl
@@ -65,7 +65,7 @@ trait MicroTranslator {
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>
-        if (token.parser_state == ParserStateEnumImpl () .Plain
+        if (token.parser_state == ParserStateEnum () .Plain
         ) Token (_get_all_replacements (token ), token.parser_state, token.index )
         else token    )
 
