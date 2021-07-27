@@ -407,3 +407,35 @@ For example,
 
 Clearly, an extending class does not need to include the documentation of its superclasses.
 
+
+\section{Minimality and orthogonality}
+
+The importance of minimality and orthogonality is simplification and standardization.
+
+Minimality helps the user to understand remembering a smaller set of reserved words.
+Less reserved words also implies less combinations of them.
+
+Orthogonality helps to achieve common design patterns and tend to have some sort of normal form.
+Patterns make source code easier to understand and to detect mistakes in it.
+
+The reason that pattern matching is (at the moment) not available is to maximize orthogonality.
+
+
+\section{Definitions, theorems, and examples}
+
+In mathematics books, it is common to find Definitions, Theorems, and Examples.
+
+Mathematics uses a very compact notation, defining and redefining symbols to achieve complex expressions.
+Mathematicians take some time to get acquainted to the notation by reading examples, and understanding lemmas, theorems, and their proofs.
+Mathematics is known to be one of disciplines, most difficult to understand.
+This is often attributed, not only to its complex abstract nature, but also to its notation.
+
+The main purpose of \Soda is to make a formal description easy to understand.
+For this, we can take advantage of similar techniques used in mathematics.
+
+A set of \Soda classes can be seen as \textit{definitions}.
+
+Properties of those definitions can be seen as \textit{theorems}.
+
+Unit tests are the \textit{examples}, as they contain specific instances.
+
