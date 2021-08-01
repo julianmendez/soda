@@ -439,3 +439,50 @@ Properties of those definitions can be seen as \textit{theorems}.
 
 Unit tests are the \textit{examples}, as they contain specific instances.
 
+\Soda is not especially designed to prove correctness of programs, but provides some elements thar simplifies the human part on this verification.
+
+\subsection{Static Types}
+
+The first and most relevant is the static type system.
+This provides the first check in compile time to ensure that \Soda code is consistent.
+
+\subsection{Immutable Variables}
+
+The pure functional approach keeps consistency across the evaluation of a function, because variables do not change.
+
+\subsection{Unambiguous Syntax}
+
+Some functional languages like Haskell allow the user to change precedence of its operators, leaving the possibility of writing without parentheses.
+Although this could look aesthetically better, leaves room for ambiguity but for the human reader, who might mistake the order of evaluation.
+
+\subsection{Less Format Errors}
+
+Some languages have significant whitespace, like Python.
+These makes it easier to, for example, wrongly put a function outside or inside a class, or execute a function after a block, which should be inside.
+Signficant whitespace has been a strong motivation to keep the code well indented, but at a very high price of making the code writing more error-prone.
+
+\subsection{Less Verbosity}
+
+Some languages can be very verbose, like Java.
+This verbosity can hinder sometimes the true intention in the code.
+\Sode is designed to be lightweight and say what it is necessary, but not more.
+
+\subsection{Explicit forms}
+
+\texttt{Implicits} is maybe one of the most powerful features of Scala, but also one of the most confusing.
+They are exactly that, implicit, which makes them hard to find without using tools.
+Implicits have been considered overused (and misused) in Scala 2, and motivated a change in Scala 3 as \textit{givens}.
+
+\subsection{Clear Location of Definitions}
+
+In some languages, it is possible to partially define functions, like in Haskell, or predicates, like in Prolog.
+In the latter, having multiple definitions might make it harder to understand or predict how the interpreter will evalute a program.
+In \Soda each class and in each function is defined only once, in one unique place.
+They are final and immutable, simplifying to the human reader understanding their result.
+
+\subsection{Used to Check}
+
+\Soda is a language designed to \textit{check} whether something is right, rather that \textit{explaining} how it should be done.
+As in an example of sorting a sequence, \Soda can be used to explain a process in a naturel way, although not necessarily in an efficient way.
+
+
