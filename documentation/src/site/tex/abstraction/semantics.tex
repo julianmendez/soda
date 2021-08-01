@@ -230,46 +230,14 @@ In this encoding, it is possible to determine whether two classes are subsumed w
 
 For this, we consider the \textbf{primitive} classes those who extend only from Top (or \srccode{Thing}).
 
-We assign each primitive class a different prime number, starting with 3.
+We assign a different prime number to each relation (or edge) between two classes.
+Each class (or vertex) is the multiplication of the edges in the path leading to Top.
+Please note that assigning the number to edges instead of the vertices ensures that the divisibility properties hold only in the same path.
 
-If a $B$ class is non-primitive and extends classes $A_{1}, \ldots , A_{n}$, the number is
+With this definition, class $A$ extends (or is subsumed by) class $B$ if and only if the encoding of $A$ is divisible by the encoding of $B$.
 
-\[ \text{enc}(B) = 2 \cdot \text{lcm}(A_{1}, \ldots, A_{n}) \]
-
-where $\text{lcm}$ is the least-common multiple calculated on $A_{1}, \ldots , A_{n}$.
-
-$A \ \sextends\ B$ if and only if $\text{enc}(B)$ divides $\text{enc}(A)$.
-
-We define a distance
-\[
-    d(A, B) =
-    \begin{cases}
-        \log_{2} \frac{\text{enc}(A)}{\text{enc}(B)} & \text{if } \text{enc}(B) \text{ divides }\text{enc}(A) \\
-        \infty & \text{otherwise}
-    \end{cases}
-\]
-
-In the following example, we can see a class hierarchy using a naming convention following the encoding.
-
-\begin{lstlisting}[label={lst:exampleOfIntegerEncoding}]
-  class A3
-  class A5
-  class A7
-  class A11
-  class A6 extends A3
-  class A30 extends A3 with A5
-  class A42 extends A3 with A7
-  class A420 extends A30 with A42
-  class A60 extends A6 with A30
-\end{lstlisting}
-
-
-Please note that two different classes have the same encoding if they extend the same classes.
-This encoding cannot be used as identifier.
-
-This encoding can be used to measure \textbf{similarity} between two classes.
+This encoding can be used to measure \textbf{similarity} between two classes, by counting the number of common factors.
 This concept of similarity is completely structural and does not depend on the intended meaning modelling the classes.
 
-Similarity can be used to
-group similar concepts, either to detect coupling or lack of cohesion.
+Similarity can be used to group similar concepts, either to detect coupling or lack of cohesion.
 
