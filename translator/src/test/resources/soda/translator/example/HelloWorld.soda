@@ -3,7 +3,7 @@ package soda.translator.example
 
 * MainClass = {
 
-  main (args: Array[String]): Unit =
+  main(arguments: Array[String]): Unit =
     println("Hello world!")
 }
 

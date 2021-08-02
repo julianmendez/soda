@@ -4,8 +4,8 @@ package soda.translator.example
 * FizzBuzz = {
   + soda.lib.Rec
 
-  Fizz = "Fizz"
-  Buzz = "Buzz"
+  fizz = "Fizz"
+  buzz = "Buzz"
 
   fizz_buzz() =
     Rec()
@@ -14,10 +14,13 @@ package soda.translator.example
       .map(fizz_buzz_term)
 
   fizz_buzz_term(n: Int) =
-    if n % 15 == 0 then Fizz + Buzz
-    else if n % 3 == 0 then Fizz
-    else if n % 5 == 0 then Buzz
+    if is_divisible_by(n, 15) then fizz + buzz
+    else if is_divisible_by(n, 3) then fizz
+    else if is_divisible_by(n, 5) then buzz
     else n.toString
+
+  is_divisible_by(n: Int, k: Int): Boolean =
+    n % k == 0
 }
 
 * FizzBuzzImpl() extends FizzBuzz
