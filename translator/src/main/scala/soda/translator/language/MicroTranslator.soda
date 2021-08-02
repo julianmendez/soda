@@ -58,7 +58,7 @@ package soda.translator.language
   _translate_non_comment(line: String): String =
       SomeElem(line)
         .map(x -> ReplacementImpl(x).add_space_to_soda_line().line)
-        .map(x -> TokenizerImpl(x).get_tokens)
+        .map(x -> TokenizerImpl(x).tokens)
         .map(x -> _translate_line(x))
         .map(x -> _join_tokens(x))
         .map(x -> ReplacementImpl(x).remove_space_from_scala_line().line)

@@ -10,7 +10,7 @@ package soda.translator.replacement
       Token("\"my text\"", ParserStateEnum().quotes_state, 19),
       Token("", ParserStateEnum().plain, 28)
     )
-    obtained = TokenizerImpl(input).get_tokens
+    obtained = TokenizerImpl(input).tokens
 
     assert(obtained == expected)
   }
@@ -22,7 +22,7 @@ package soda.translator.replacement
       Token("\"abc\tde\"", ParserStateEnum().quotes_state, 6),
       Token("", ParserStateEnum().plain, 14)
     )
-    obtained = TokenizerImpl(input).get_tokens
+    obtained = TokenizerImpl(input).tokens
 
     assert(obtained == expected)
   }
@@ -34,7 +34,7 @@ package soda.translator.replacement
       Token("\"abc\\tde\"", ParserStateEnum().quotes_state, 6),
       Token("", ParserStateEnum().plain, 15)
     )
-    obtained = TokenizerImpl(input).get_tokens
+    obtained = TokenizerImpl(input).tokens
 
     assert(obtained == expected)
   }
@@ -44,7 +44,7 @@ package soda.translator.replacement
     expected = Seq(
       Token("def f(x: Int): Int = x", ParserStateEnum().plain, 0)
     )
-    obtained = TokenizerImpl(input).get_tokens
+    obtained = TokenizerImpl(input).tokens
 
     assert(obtained == expected)
   }
@@ -54,7 +54,7 @@ package soda.translator.replacement
     expected = Seq(
       Token("\tas_digits (5 * number)", ParserStateEnum().plain, 0)
     )
-    obtained = TokenizerImpl(input).get_tokens
+    obtained = TokenizerImpl(input).tokens
 
     assert(obtained == expected)
   }

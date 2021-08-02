@@ -5,80 +5,80 @@ package soda.collection.example
 
 * ListExample = {
 
-  A: Seq[Char] = Seq('A', 'B', 'C', 'D', 'E', 'F')
-  B: Seq[Int] = Seq(10, 20, 30, 40, 50, 60)
+  a: Seq[Char] = Seq('A', 'B', 'C', 'D', 'E', 'F')
+  b: Seq[Int] = Seq(10, 20, 30, 40, 50, 60)
 
   aExample: Pair[Seq[Char]] =
-    Pair("A", A)
+    Pair("a", a)
 
   bExample: Pair[Seq[Int]] =
-    Pair("B", B)
+    Pair("b", b)
 
   takeExample: Pair[Seq[Char]] =
-    Pair("A.take(3)", A.take(3))
+    Pair("a.take(3)", a.take(3))
 
   takeRightExample: Pair[Seq[Char]] =
-    Pair("A.takeRight(3)", A.takeRight(3))
+    Pair("a.takeRight(3)", a.takeRight(3))
 
   takeWhileExample: Pair[Seq[Char]] =
-    Pair("A.takeWhile(x -> not (x == 'E'))", A.takeWhile(x -> not (x == 'E')))
+    Pair("a.takeWhile(x -> not (x == 'E'))", a.takeWhile(x -> not (x == 'E')))
 
   dropExample: Pair[Seq[Char]] =
-    Pair("A.drop(2)", A.drop(2))
+    Pair("a.drop(2)", a.drop(2))
 
   dropRightExample: Pair[Seq[Char]] =
-    Pair("A.dropRight(2)", A.dropRight(2))
+    Pair("a.dropRight(2)", a.dropRight(2))
 
   dropWhileExample: Pair[Seq[Char]] =
-    Pair("A.dropWhile(x -> not (x == 'E'))", A.dropWhile(x -> not (x == 'E')))
+    Pair("a.dropWhile(x -> not (x == 'E'))", a.dropWhile(x -> not (x == 'E')))
 
   splitAtExample: Pair[(Seq[Char], Seq[Char])] =
-    Pair("A.splitAt(3)", A.splitAt(3))
+    Pair("a.splitAt(3)", a.splitAt(3))
 
   indicesExample: Pair[Range] =
-    Pair("A.indices", A.indices)
+    Pair("a.indices", a.indices)
 
   zipWithIndexExample: Pair[Seq[(Char, Int)]] =
-    Pair("A.zipWithIndex", A.zipWithIndex)
+    Pair("a.zipWithIndex", a.zipWithIndex)
 
   zipExample: Pair[Seq[(Char, Int)]] =
-    Pair("A.zip(B)", A.zip(B))
+    Pair("a.zip(b)", a.zip(b))
 
   reverseExample: Pair[Seq[Char]] =
-    Pair("A.reverse", A.reverse)
+    Pair("a.reverse", a.reverse)
 
   /**
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   prependedExample: Pair[Seq[Char]] =
-    Pair("A.+:('X')", (A.+:('X')))
+    Pair("a.+:('X')", (a.+:('X')))
 
   /**
    * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
    */
   appendedExample: Pair[Seq[Char]] =
-    Pair("A.:+('X')", (A.:+('X')))
+    Pair("a.:+('X')", (a.:+('X')))
 
   concatExample: Pair[Seq[Int]] =
-    Pair("A.map(_.toInt).++(B)", A.map(_.toInt).++(B))
+    Pair("a.map(_.toInt).++(b)", a.map(_.toInt).++(b))
 
   spanExample: Pair[(Seq[Char], Seq[Char])] =
-    Pair("A.span(x -> not (x == 'D'))", A.span(x -> not (x == 'D')))
+    Pair("a.span(x -> not (x == 'D'))", a.span(x -> not (x == 'D')))
 
   mapExample: Pair[Seq[Int]] =
-    Pair("A.map(x -> x.toInt)", A.map(x -> x.toInt))
+    Pair("a.map(x -> x.toInt)", a.map(x -> x.toInt))
 
   filterExample: Pair[Seq[Char]] =
-    Pair("A.filter(x -> x.toInt % 2 == 0)", A.filter(x -> x.toInt % 2 == 0))
+    Pair("a.filter(x -> x.toInt % 2 == 0)", a.filter(x -> x.toInt % 2 == 0))
 
   foldExample: Pair[Int] =
-    Pair("B.fold(0)((a, b) -> a + b)", B.fold(0)((a, b) -> a + b))
+    Pair("b.fold(0)((a, b) -> a + b)", b.fold(0)((a, b) -> a + b))
 
   foldLeftExample: Pair[Seq[Char]] =
-    Pair("A.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", A.foldLeft(Seq('*'))((list, elem) -> "(" + list + " :+ " + elem + ")"))
+    Pair("a.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft(Seq('*'))((list, elem) -> "(" + list + " :+ " + elem + ")"))
 
   foldRightExample: Pair[Seq[Char]] =
-    Pair("A.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", A.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
+    Pair("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
 }
 
 * ListExampleImpl() extends ListExample

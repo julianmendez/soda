@@ -14,16 +14,16 @@ package soda.translator.replacement
 
   has line: String
 
-  get_tokens: Seq[Token] =
-    _postproc(Rec().foldLeft( Rec().range(line.length), _initial_value, _next_value ))
+  tokens: Seq[Token] =
+    _postprocess(Rec().foldLeft( Rec().range(line.length), _initial_value, _get_next_value ))
 
   _initial_value = TokenizerFoldTuple(0, ParserStateEnum().plain, Seq())
 
-  _postproc(tuple: TokenizerFoldTuple): Seq[Token] =
+  _postprocess(tuple: TokenizerFoldTuple): Seq[Token] =
     (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
       .reverse
 
-  _next_value(tuple: TokenizerFoldTuple, current_index: Int): TokenizerFoldTuple =
+  _get_next_value(tuple: TokenizerFoldTuple, current_index: Int): TokenizerFoldTuple =
     let
       ch = line.charAt(current_index)
       char_type = CharTypeEnum().get_char_type(ch)
@@ -31,10 +31,10 @@ package soda.translator.replacement
       result =
         if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
         then TokenizerFoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
-        else _next_value_of_different_class(tuple, current_index, new_parser_state)
+        else _get_next_value_of_different_class(tuple, current_index, new_parser_state)
     in result
 
-  _next_value_of_different_class(tuple: TokenizerFoldTuple, current_index: Int,
+  _get_next_value_of_different_class(tuple: TokenizerFoldTuple, current_index: Int,
       new_parser_state: ParserState): TokenizerFoldTuple =
     let
       index =
