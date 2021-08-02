@@ -11,6 +11,7 @@ package soda.translator.replacement
   has line: String
 
   soda_space: String = " "
+
   scala_space: String = " "
 
   replace_with(function: String -> String): Replacement =

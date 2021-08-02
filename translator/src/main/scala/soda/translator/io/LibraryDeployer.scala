@@ -5,7 +5,9 @@ trait LibraryDeployer {
   import java.io.File
 
   lazy val library_marker_file = "lib.soda"
+
   lazy val library_directory_in_jar = "/lib/soda/lib/"
+
   lazy val library_content_files: Seq [String] =
     SimpleIOImpl ()
       .read_resource (library_directory_in_jar + "files.txt")

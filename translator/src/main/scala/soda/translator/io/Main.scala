@@ -13,6 +13,7 @@ trait MainClass {
   import java.io.File
 
   lazy val soda_extension: String = ".soda"
+
   lazy val scala_extension: String = ".scala"
 
   lazy val help: String =
@@ -25,9 +26,9 @@ trait MainClass {
       lazy val version = Option (packg.getImplementationVersion ) .getOrElse ("")
       (name + " " + version ) .trim }
 
-  def main (args: Array [String]  ): Unit =
-    if (args.length == 1 ) process_directory (args (0 )  )
-    else if (args.length == 2 ) translate (args (0 ), args (1 )  )
+  def main (arguments: Array [String]  ): Unit =
+    if (arguments.length == 1 ) process_directory (arguments (0 )  )
+    else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
     else println (title_and_version + "\n\n" + help )
 
   def process_directory (start: String ): Boolean =

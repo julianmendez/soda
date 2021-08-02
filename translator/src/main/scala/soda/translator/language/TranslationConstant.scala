@@ -11,13 +11,17 @@ trait TranslationConstant {
   lazy val soda_colon: String = ":"
 
   lazy val soda_in_reserved_word: String = "in"
+
   lazy val soda_in_pattern: String = soda_in_reserved_word + " "
+
   lazy val scala_in_translation: String = " }"
 
   lazy val soda_class_reserved_word: String = "class"
 
   lazy val scala_definition: String = "def"
+
   lazy val scala_value: String = "lazy val"
+
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
   lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
@@ -37,36 +41,36 @@ trait TranslationConstant {
 
   lazy val scala_2_extra_keywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
 
-  lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
+  lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
-  lazy val TranslationAtBeginningWithParen: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
+  lazy val translation_at_beginning_with_paren: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
 
-  lazy val TranslationAtBeginningWithoutParen: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
+  lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
     ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", scala_entry_point )  )
 
-  lazy val Synonym: Seq [(String, String )] = Seq (("is", "=")  )
+  lazy val synonym: Seq [(String, String )] = Seq (("is", "=")  )
 
-  lazy val MainTranslation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
+  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
     /** Annotations */
     ("@new", "new")  )
 
-  lazy val PrefixScalaNonSoda = "__soda__"
+  lazy val prefix_scala_non_soda = "__soda__"
 
-  lazy val ScalaNonSoda: Seq [(String, String )] =
+  lazy val scala_non_soda: Seq [(String, String )] =
     scala_reserved_words
       .filter (x => ! soda_reserved_words.contains (x )  )
-      .map (x => (x, PrefixScalaNonSoda + x ) )
+      .map (x => (x, prefix_scala_non_soda + x ) )
 
-  lazy val SodaBracketsAndComma = Seq ('(', ')', '[', ']', '{', '}', ',' )
+  lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val Beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
+  lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
 
-  lazy val ReservedWordJoiner: Seq [String] = Seq ("extends", "with"  )
+  lazy val reserved_word_joiner: Seq [String] = Seq ("extends", "with"  )
 
-  lazy val SymbolForwardJoiner: Seq [String] = Seq (",", "(", "["  )
+  lazy val symbol_forward_joiner: Seq [String] = Seq (",", "(", "["  )
 
-  lazy val SymbolBackwardJoiner: Seq [String] = Seq (")", "]"  )
+  lazy val symbol_backward_joiner: Seq [String] = Seq (")", "]"  )
 
   def is_scala_word (word: String ): Boolean =
     scala_reserved_words.contains (word )

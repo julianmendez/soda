@@ -9,10 +9,15 @@ package soda.translator.replacement
 * ParserStateConstant = {
 
   undefined_state = ParserState(0, "undefined_state")
+
   quotes_state = ParserState(1, "quotes_state")
+
   apostrophe_state = ParserState(2, "apostrophe_state")
+
   quotes_backslash_state = ParserState(3, "quotes_backslash_state")
+
   apostrophe_backslash_state = ParserState(4, "apostrophe_backslash_state")
+
   plain = ParserState(5, "plain")
 
   parser_state_values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)

@@ -33,10 +33,13 @@ trait DefinitionTranslator {
   def line: String
 
   lazy val soda_opening_parenthesis: String = "("
+
   lazy val soda_space: String = " "
+
   lazy val scala_space: String = " "
 
-  lazy val get_translation = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line  )
+  lazy val translation =
+    find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line    )
 
   lazy val is_class_definition =
     indexOf (line, soda_space + Translation () .soda_class_reserved_word + soda_space ) .isDefined
@@ -55,7 +58,7 @@ trait DefinitionTranslator {
     else if (is_val_definition (position ) ) translate_val_definition
     else translate_def_definition
 
-  def is_val_definition (initial_position: Int ) =
+  def is_val_definition (initial_position: Int ): Boolean =
     {
       lazy val position_of_first_opening_parenthesis = indexOf (line, soda_opening_parenthesis )
       lazy val case1 = position_of_first_opening_parenthesis.isEmpty

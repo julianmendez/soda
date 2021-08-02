@@ -12,12 +12,16 @@ case class CharType (ordinal: Int, name: String ) extends soda.lib.EnumConstant
 trait CharTypeConstant {
 
   lazy val undefined_type = CharType (0, "undefined_type")
+
   lazy val quotes_type = CharType (1, "quotes_type")
+
   lazy val apostrophe_type = CharType (2, "apostrophe_type")
+
   lazy val backslash_type = CharType (3, "backslash_type")
+
   lazy val plain_type = CharType (4, "plain_type")
 
-  lazy val CharTypeValues = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type )
+  lazy val char_type_values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type )
 }
 
 /**
@@ -25,7 +29,7 @@ trait CharTypeConstant {
  */
 trait CharTypeFunction extends CharTypeConstant {
 
-  lazy val values = CharTypeValues
+  lazy val values = char_type_values
 
   lazy val backslash_char = '\\'
   lazy val quotes_char = '\"'

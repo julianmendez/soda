@@ -5,7 +5,9 @@ package soda.translator.io
   + java.io.File
 
   library_marker_file = "lib.soda"
+
   library_directory_in_jar = "/lib/soda/lib/"
+
   library_content_files: Seq[String] =
     SimpleIOImpl()
       .read_resource(library_directory_in_jar + "files.txt")

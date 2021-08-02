@@ -9,10 +9,15 @@ case class ParserState (ordinal: Int, name: String ) extends soda.lib.EnumConsta
 trait ParserStateConstant {
 
   lazy val undefined_state = ParserState (0, "undefined_state")
+
   lazy val quotes_state = ParserState (1, "quotes_state")
+
   lazy val apostrophe_state = ParserState (2, "apostrophe_state")
+
   lazy val quotes_backslash_state = ParserState (3, "quotes_backslash_state")
+
   lazy val apostrophe_backslash_state = ParserState (4, "apostrophe_backslash_state")
+
   lazy val plain = ParserState (5, "plain")
 
   lazy val parser_state_values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )

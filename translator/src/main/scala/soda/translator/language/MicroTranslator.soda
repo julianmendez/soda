@@ -13,16 +13,23 @@ package soda.translator.language
   + soda.translator.replacement.TokenizerImpl
   + soda.translator.replacement.Translator
 
-  NewLine = "\n"
+  new_line = "\n"
+
   soda_opening_parenthesis: String = "("
 
-  SynonymAtBeginning = DefaultTranslatorImpl(Translation().SynonymAtBeginning)
-  TranslationAtBeginningWithParen = DefaultTranslatorImpl(Translation().TranslationAtBeginningWithParen)
-  TranslationAtBeginningWithoutParen = DefaultTranslatorImpl(Translation().TranslationAtBeginningWithoutParen)
-  Synonym = DefaultTranslatorImpl(Translation().Synonym)
-  MainTranslation = DefaultTranslatorImpl(Translation().MainTranslation)
-  ScalaNonSoda = DefaultTranslatorImpl(Translation().ScalaNonSoda)
-  Beautifier = DefaultTranslatorImpl(Translation().Beautifier)
+  synonym_at_beginning = DefaultTranslatorImpl(Translation().synonym_at_beginning)
+
+  translation_at_beginning_with_paren = DefaultTranslatorImpl(Translation().translation_at_beginning_with_paren)
+
+  translation_at_beginning_without_paren = DefaultTranslatorImpl(Translation().translation_at_beginning_without_paren)
+
+  synonym = DefaultTranslatorImpl(Translation().synonym)
+
+  main_translation = DefaultTranslatorImpl(Translation().main_translation)
+
+  scala_non_soda = DefaultTranslatorImpl(Translation().scala_non_soda)
+
+  beautifier = DefaultTranslatorImpl(Translation().beautifier)
 
   translate_program(program: String): String =
     SomeElem(program)
@@ -35,7 +42,7 @@ package soda.translator.language
       .get
 
   split_lines (program: String): Seq[String] =
-    program.split(NewLine).toIndexedSeq
+    program.split(new_line).toIndexedSeq
 
   join_lines_with_forward_join(lines: Seq[String]): Seq[String] =
     LineJoinerImpl(lines).get_joined_lines_with_forward_join
@@ -44,7 +51,7 @@ package soda.translator.language
     LineJoinerImpl(lines).get_joined_lines_with_backward_join
 
   join_translated_lines (lines: Seq[String]): String =
-    lines.mkString(NewLine) + NewLine
+    lines.mkString(new_line) + new_line
 
   translate_lines(lines: Seq[String]): Seq[String] =
     CommentPreprocessorImpl(lines)
@@ -74,23 +81,23 @@ package soda.translator.language
 
   _get_all_replacements(token: Token): String =
     ReplacementImpl(token.text)
-      .add_spaces_to_symbols(symbols := Translation().SodaBracketsAndComma.toSet)
-      .replace(ScalaNonSoda)
-      .replace_at_beginning(token.index, SynonymAtBeginning)
-      .replace(Synonym)
+      .add_spaces_to_symbols(symbols := Translation().soda_brackets_and_comma.toSet)
+      .replace(scala_non_soda)
+      .replace_at_beginning(token.index, synonym_at_beginning)
+      .replace(synonym)
       .replace_with(try_definition)
       .replace_at_beginning(token.index, get_translation_table_at_beginning(token.text))
-      .replace(MainTranslation)
-      .replace_regex(Beautifier)
+      .replace(main_translation)
+      .replace_regex(beautifier)
       .line
 
   get_translation_table_at_beginning(line: String): Translator =
     if line.contains(soda_opening_parenthesis)
-    then TranslationAtBeginningWithParen
-    else TranslationAtBeginningWithoutParen
+    then translation_at_beginning_with_paren
+    else translation_at_beginning_without_paren
 
   try_definition(line: String): String =
-    DefinitionTranslatorImpl(line).get_translation
+    DefinitionTranslatorImpl(line).translation
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens

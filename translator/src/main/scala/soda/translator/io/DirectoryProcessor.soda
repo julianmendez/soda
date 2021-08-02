@@ -10,7 +10,8 @@ package soda.translator.io
 
   soda_suffix = ".soda"
 
-  all_files = DirectoryScannerImpl().get_all_files(@new File(start))
+  all_files =
+    DirectoryScannerImpl().get_all_files(@new File(start))
 
   soda_files =
     all_files

@@ -5,12 +5,17 @@ package soda.translator.language
 
   has lines: Seq[String]
 
-  Comma = ","
+  comma = ","
+
   soda_opening_parenthesis: String = "("
-  SodaClosingParenthesis: String = ")"
-  SodaOpeningBracket: String = "["
-  SodaClosingBracket: String = "]"
-  Space = " "
+
+  soda_closing_parenthesis: String = ")"
+
+  soda_opening_bracket: String = "["
+
+  soda_closing_bracket: String = "]"
+
+  space = " "
 
   get_joined_lines_with_forward_join: Seq[String] =
     JoinerImpl(lines, condition_for_forward_join).join
@@ -23,12 +28,12 @@ package soda.translator.language
     condition_for_reserved_word_forward_join(previous_line)
 
   condition_for_symbol_forward_join(previous_line: String): Boolean =
-    Translation().SymbolForwardJoiner
+    Translation().symbol_forward_joiner
       .exists(previous_line.endsWith)
 
   condition_for_reserved_word_forward_join(previous_line: String): Boolean =
-    Translation().ReservedWordJoiner
-      .map(x -> Space + x)
+    Translation().reserved_word_joiner
+      .map(x -> space + x)
       .exists(previous_line.endsWith)
 
   condition_for_backward_join(previous_line: String, current_line: String): Boolean =
@@ -36,12 +41,12 @@ package soda.translator.language
     condition_for_reserved_word_backward_join(current_line)
 
   condition_for_symbol_backward_join(current_line: String): Boolean =
-    Translation().SymbolBackwardJoiner
+    Translation().symbol_backward_joiner
       .exists(current_line.startsWith)
 
   condition_for_reserved_word_backward_join(current_line: String): Boolean =
-    Translation().ReservedWordJoiner
-      .map(x -> x + Space)
+    Translation().reserved_word_joiner
+      .map(x -> x + space)
       .exists(current_line.startsWith)
 }
 

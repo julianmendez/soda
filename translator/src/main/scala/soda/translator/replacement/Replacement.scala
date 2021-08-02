@@ -11,6 +11,7 @@ trait Replacement {
   def line: String
 
   lazy val soda_space: String = " "
+
   lazy val scala_space: String = " "
 
   def replace_with (function: String => String ): Replacement =

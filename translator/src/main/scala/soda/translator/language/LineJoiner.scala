@@ -5,12 +5,17 @@ trait LineJoiner {
 
   def lines: Seq [String]
 
-  lazy val Comma = ","
+  lazy val comma = ","
+
   lazy val soda_opening_parenthesis: String = "("
-  lazy val SodaClosingParenthesis: String = ")"
-  lazy val SodaOpeningBracket: String = "["
-  lazy val SodaClosingBracket: String = "]"
-  lazy val Space = " "
+
+  lazy val soda_closing_parenthesis: String = ")"
+
+  lazy val soda_opening_bracket: String = "["
+
+  lazy val soda_closing_bracket: String = "]"
+
+  lazy val space = " "
 
   lazy val get_joined_lines_with_forward_join: Seq [String] =
     JoinerImpl (lines, condition_for_forward_join ) .join
@@ -23,12 +28,12 @@ trait LineJoiner {
     condition_for_reserved_word_forward_join (previous_line )
 
   def condition_for_symbol_forward_join (previous_line: String ): Boolean =
-    Translation () .SymbolForwardJoiner
+    Translation () .symbol_forward_joiner
       .exists (previous_line.endsWith )
 
   def condition_for_reserved_word_forward_join (previous_line: String ): Boolean =
-    Translation () .ReservedWordJoiner
-      .map (x => Space + x )
+    Translation () .reserved_word_joiner
+      .map (x => space + x )
       .exists (previous_line.endsWith )
 
   def condition_for_backward_join (previous_line: String, current_line: String ): Boolean =
@@ -36,12 +41,12 @@ trait LineJoiner {
     condition_for_reserved_word_backward_join (current_line )
 
   def condition_for_symbol_backward_join (current_line: String ): Boolean =
-    Translation () .SymbolBackwardJoiner
+    Translation () .symbol_backward_joiner
       .exists (current_line.startsWith )
 
   def condition_for_reserved_word_backward_join (current_line: String ): Boolean =
-    Translation () .ReservedWordJoiner
-      .map (x => x + Space )
+    Translation () .reserved_word_joiner
+      .map (x => x + space )
       .exists (current_line.startsWith )
 }
 

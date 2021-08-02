@@ -12,12 +12,16 @@ package soda.translator.replacement
 * CharTypeConstant = {
 
   undefined_type = CharType(0, "undefined_type")
+
   quotes_type = CharType(1, "quotes_type")
+
   apostrophe_type = CharType(2, "apostrophe_type")
+
   backslash_type = CharType(3, "backslash_type")
+
   plain_type = CharType(4, "plain_type")
 
-  CharTypeValues = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
+  char_type_values = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
 }
 
 /**
@@ -25,7 +29,7 @@ package soda.translator.replacement
  */
 * CharTypeFunction extends CharTypeConstant = {
 
-  values = CharTypeValues
+  values = char_type_values
 
   backslash_char = '\\'
   quotes_char = '\"'

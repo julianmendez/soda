@@ -10,7 +10,8 @@ trait DirectoryProcessor {
 
   lazy val soda_suffix = ".soda"
 
-  lazy val all_files = DirectoryScannerImpl () .get_all_files (new File (start )  )
+  lazy val all_files =
+    DirectoryScannerImpl () .get_all_files (new File (start )  )
 
   lazy val soda_files =
     all_files
