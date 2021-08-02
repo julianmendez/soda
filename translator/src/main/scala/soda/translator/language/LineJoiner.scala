@@ -6,7 +6,7 @@ trait LineJoiner {
   def lines: Seq [String]
 
   lazy val Comma = ","
-  lazy val SodaOpeningParenthesis: String = "("
+  lazy val soda_opening_parenthesis: String = "("
   lazy val SodaClosingParenthesis: String = ")"
   lazy val SodaOpeningBracket: String = "["
   lazy val SodaClosingBracket: String = "]"

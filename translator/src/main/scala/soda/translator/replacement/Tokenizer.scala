@@ -17,7 +17,7 @@ trait Tokenizer {
   lazy val get_tokens: Seq [Token] =
     _postproc (Rec () .foldLeft (Rec () .range (line.length ), _initial_value, _next_value )  )
 
-  lazy val _initial_value = TokenizerFoldTuple (0, ParserStateEnum () .Plain, Seq ()  )
+  lazy val _initial_value = TokenizerFoldTuple (0, ParserStateEnum () .plain, Seq ()  )
 
   def _postproc (tuple: TokenizerFoldTuple ): Seq [Token] =
     (tuple.rev_tokens.+: (Token (line.substring (tuple.last_index ), tuple.parser_state, tuple.last_index )  )  )
@@ -37,8 +37,8 @@ trait Tokenizer {
   def _next_value_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
     {
       lazy val index =
-        if (tuple.parser_state == ParserStateEnum () .QuotesState ||
-           tuple.parser_state == ParserStateEnum () .ApostropheState
+        if (tuple.parser_state == ParserStateEnum () .quotes_state ||
+           tuple.parser_state == ParserStateEnum () .apostrophe_state
         ) current_index + 1
         else current_index
       lazy val text = line.substring (tuple.last_index, index )

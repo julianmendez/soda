@@ -12,12 +12,13 @@ trait MainClass {
   import soda.translator.language.MicroTranslatorImpl
   import java.io.File
 
-  lazy val SodaExtension: String = ".soda"
-  lazy val ScalaExtension: String = ".scala"
+  lazy val soda_extension: String = ".soda"
+  lazy val scala_extension: String = ".scala"
 
-  lazy val Help: String = SimpleIOImpl () .read_resource ("/soda/translator/documentation/help.txt")
+  lazy val help: String =
+    SimpleIOImpl () .read_resource ("/soda/translator/documentation/help.txt")
 
-  lazy val Title_and_version: String =
+  lazy val title_and_version: String =
     {
       lazy val packg = this.getClass.getPackage
       lazy val name = Option (packg.getImplementationTitle ) .getOrElse ("")
@@ -27,7 +28,7 @@ trait MainClass {
   def main (args: Array [String]  ): Unit =
     if (args.length == 1 ) process_directory (args (0 )  )
     else if (args.length == 2 ) translate (args (0 ), args (1 )  )
-    else println (Title_and_version + "\n\n" + Help )
+    else println (title_and_version + "\n\n" + help )
 
   def process_directory (start: String ): Boolean =
     DirectoryProcessorImpl (start, process_soda_file ) .process ()
@@ -39,9 +40,9 @@ trait MainClass {
       translate (t.input_file_name, t.output_file_name ) }
 
   def get_input_output_file_names (input_name: String ): FileNamePair =
-    if (input_name.endsWith (SodaExtension )
-    ) FileNamePair (input_name, input_name.substring (0, input_name.length - SodaExtension.length ) + ScalaExtension )
-    else FileNamePair (input_name + SodaExtension, input_name + ScalaExtension )
+    if (input_name.endsWith (soda_extension )
+    ) FileNamePair (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + scala_extension )
+    else FileNamePair (input_name + soda_extension, input_name + scala_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {

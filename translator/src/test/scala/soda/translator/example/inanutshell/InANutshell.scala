@@ -25,7 +25,7 @@ trait InANutshell {
       lazy val b = x - y
       result }
 
-  def geater_than (a: Int, b: Int ): Boolean =
+  def greater_than (a: Int, b: Int ): Boolean =
     a > b
 
   def max (a: Int, b: Int ): Int =
@@ -78,11 +78,6 @@ trait MyClass {
   lazy val class_constant: Int = 1
 
   def another_function (x: Int ): Int = 2 * x
-
-  case class InnerClass () {
-    def main_function (function_parameter: Int ): Int =
-      another_function (instance_parameter + class_constant + function_parameter )
-  }
 }
 
 trait TimeOfToday {

@@ -4,8 +4,8 @@ package soda.translator.example
 trait FizzBuzz {
   import soda.lib.Rec
 
-  lazy val Fizz = "Fizz"
-  lazy val Buzz = "Buzz"
+  lazy val fizz = "Fizz"
+  lazy val buzz = "Buzz"
 
   def fizz_buzz () =
     Rec ()
@@ -14,10 +14,13 @@ trait FizzBuzz {
       .map (fizz_buzz_term )
 
   def fizz_buzz_term (n: Int ) =
-    if (n % 15 == 0 ) Fizz + Buzz
-    else if (n % 3 == 0 ) Fizz
-    else if (n % 5 == 0 ) Buzz
+    if (is_divisible_by (n, 15 ) ) fizz + buzz
+    else if (is_divisible_by (n, 3 ) ) fizz
+    else if (is_divisible_by (n, 5 ) ) buzz
     else n.toString
+
+  def is_divisible_by (n: Int, k: Int ): Boolean =
+    n % k == 0
 }
 
 case class FizzBuzzImpl () extends FizzBuzz

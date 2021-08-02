@@ -14,7 +14,7 @@ package soda.translator.language
   + soda.translator.replacement.Translator
 
   NewLine = "\n"
-  SodaOpeningParenthesis: String = "("
+  soda_opening_parenthesis: String = "("
 
   SynonymAtBeginning = DefaultTranslatorImpl(Translation().SynonymAtBeginning)
   TranslationAtBeginningWithParen = DefaultTranslatorImpl(Translation().TranslationAtBeginningWithParen)
@@ -67,7 +67,7 @@ package soda.translator.language
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token ->
-        if token.parser_state == ParserStateEnum().Plain
+        if token.parser_state == ParserStateEnum().plain
         then Token(_get_all_replacements(token), token.parser_state, token.index)
         else token
     )
@@ -85,7 +85,7 @@ package soda.translator.language
       .line
 
   get_translation_table_at_beginning(line: String): Translator =
-    if line.contains(SodaOpeningParenthesis)
+    if line.contains(soda_opening_parenthesis)
     then TranslationAtBeginningWithParen
     else TranslationAtBeginningWithoutParen
 
@@ -99,10 +99,10 @@ package soda.translator.language
 
   preprocess_let_in_commands(lines: Seq[String]): Seq[String] =
     lines.map(line ->
-      append_if_condition(line, starts_with_in, Translation().ScalaInTranslation) )
+      append_if_condition(line, starts_with_in, Translation().scala_in_translation) )
 
   starts_with_in(line: String): Boolean =
-    line.trim().startsWith(Translation().SodaInPattern)
+    line.trim().startsWith(Translation().soda_in_pattern)
 
   append_if_condition(line: String, condition: String -> Boolean, to_append: String): String =
     if condition(line)

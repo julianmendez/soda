@@ -11,8 +11,8 @@ trait CommentPreprocessor {
 
   def lines: Seq [String]
 
-  lazy val SodaBeginComment = "/*"
-  lazy val SodaEndComment = "*/"
+  lazy val soda_begin_comment = "/*"
+  lazy val soda_end_comment = "*/"
 
   lazy val get_annotated_lines: Seq [AnnotatedLine] =
     Rec () .foldLeft (lines, initial_value, next_value )
@@ -28,10 +28,10 @@ trait CommentPreprocessor {
 
   def annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state
-    ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
+    ) CurrentAndNewCommentState (true, ! line.trim.endsWith (soda_end_comment )  )
     else
-      if (line.trim.startsWith (SodaBeginComment )
-      ) CurrentAndNewCommentState (true, ! line.trim.endsWith (SodaEndComment )  )
+      if (line.trim.startsWith (soda_begin_comment )
+      ) CurrentAndNewCommentState (true, ! line.trim.endsWith (soda_end_comment )  )
       else CurrentAndNewCommentState (false, false )
 }
 

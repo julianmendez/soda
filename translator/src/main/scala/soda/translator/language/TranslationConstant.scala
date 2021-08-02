@@ -6,21 +6,21 @@ package soda.translator.language
  */
 trait TranslationConstant {
 
-  lazy val SodaDefinition: String = "="
+  lazy val soda_definition: String = "="
 
-  lazy val SodaColon: String = ":"
+  lazy val soda_colon: String = ":"
 
-  lazy val SodaInReservedWord: String = "in"
-  lazy val SodaInPattern: String = SodaInReservedWord + " "
-  lazy val ScalaInTranslation: String = " }"
+  lazy val soda_in_reserved_word: String = "in"
+  lazy val soda_in_pattern: String = soda_in_reserved_word + " "
+  lazy val scala_in_translation: String = " }"
 
-  lazy val SodaClassReservedWord: String = "class"
+  lazy val soda_class_reserved_word: String = "class"
 
-  lazy val ScalaDefinition: String = "def"
-  lazy val ScalaValue: String = "lazy val"
-  lazy val ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  lazy val scala_definition: String = "def"
+  lazy val scala_value: String = "lazy val"
+  lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val SodaReservedWords = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
+  lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
 
   /**
    * Scala 3 keywords:
@@ -28,14 +28,14 @@ trait TranslationConstant {
    * Scala 2 keywords:
    *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
    */
-  lazy val ScalaReservedWords =
-    Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
+  lazy val scala_reserved_words =
+    scala_3_regular_keywords ++ scala_3_soft_keywords ++ scala_2_extra_keywords
 
-  lazy val Scala3RegularKeywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ">:", "#", "@", "=>>", "?=>"  )
+  lazy val scala_3_regular_keywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ">:", "#", "@", "=>>", "?=>"  )
 
-  lazy val Scala3SoftKeywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"  )
+  lazy val scala_3_soft_keywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"  )
 
-  lazy val Scala2ExtraKeywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
+  lazy val scala_2_extra_keywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
 
   lazy val SynonymAtBeginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
@@ -43,7 +43,7 @@ trait TranslationConstant {
 
   lazy val TranslationAtBeginningWithoutParen: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
-    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", ScalaEntryPoint )  )
+    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", scala_entry_point )  )
 
   lazy val Synonym: Seq [(String, String )] = Seq (("is", "=")  )
 
@@ -54,8 +54,8 @@ trait TranslationConstant {
   lazy val PrefixScalaNonSoda = "__soda__"
 
   lazy val ScalaNonSoda: Seq [(String, String )] =
-    ScalaReservedWords
-      .filter (x => ! SodaReservedWords.contains (x )  )
+    scala_reserved_words
+      .filter (x => ! soda_reserved_words.contains (x )  )
       .map (x => (x, PrefixScalaNonSoda + x ) )
 
   lazy val SodaBracketsAndComma = Seq ('(', ')', '[', ']', '{', '}', ',' )
@@ -69,10 +69,10 @@ trait TranslationConstant {
   lazy val SymbolBackwardJoiner: Seq [String] = Seq (")", "]"  )
 
   def is_scala_word (word: String ): Boolean =
-    ScalaReservedWords.contains (word )
+    scala_reserved_words.contains (word )
 
   def is_soda_word (word: String ): Boolean =
-    SodaReservedWords.contains (word )
+    soda_reserved_words.contains (word )
 }
 
 case class Translation () extends TranslationConstant

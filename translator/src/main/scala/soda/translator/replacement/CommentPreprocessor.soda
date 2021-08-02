@@ -11,8 +11,8 @@ package soda.translator.replacement
 
   has lines: Seq[String]
 
-  SodaBeginComment = "/*"
-  SodaEndComment = "*/"
+  soda_begin_comment = "/*"
+  soda_end_comment = "*/"
 
   get_annotated_lines: Seq[AnnotatedLine] =
     Rec().foldLeft(lines, initial_value, next_value)
@@ -29,10 +29,10 @@ package soda.translator.replacement
 
   annotate_this_line(line: String, comment_state: Boolean): CurrentAndNewCommentState =
     if comment_state
-    then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
+    then CurrentAndNewCommentState(true, not line.trim.endsWith(soda_end_comment))
     else
-      if line.trim.startsWith(SodaBeginComment)
-      then CurrentAndNewCommentState(true, not line.trim.endsWith(SodaEndComment))
+      if line.trim.startsWith(soda_begin_comment)
+      then CurrentAndNewCommentState(true, not line.trim.endsWith(soda_end_comment))
       else CurrentAndNewCommentState(false, false)
 }
 

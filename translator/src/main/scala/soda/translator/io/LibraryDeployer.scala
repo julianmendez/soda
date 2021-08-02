@@ -4,11 +4,11 @@ package soda.translator.io
 trait LibraryDeployer {
   import java.io.File
 
-  lazy val Library_marker_file = "lib.soda"
-  lazy val Library_directory_in_jar = "/lib/soda/lib/"
-  lazy val Library_content_files: Seq [String] =
+  lazy val library_marker_file = "lib.soda"
+  lazy val library_directory_in_jar = "/lib/soda/lib/"
+  lazy val library_content_files: Seq [String] =
     SimpleIOImpl ()
-      .read_resource (Library_directory_in_jar + "files.txt")
+      .read_resource (library_directory_in_jar + "files.txt")
       .split ("\n")
       .toSeq
 
@@ -16,9 +16,9 @@ trait LibraryDeployer {
     lib_files
       .map (lib_file => lib_file.getParent )
       .map (parent_directory =>
-        Library_content_files
+        library_content_files
           .map (lib_file_name =>
-            SimpleIOImpl () .write_file (file = SimpleIOImpl () .create_file (parent_directory, lib_file_name ), content = SimpleIOImpl () .read_resource (Library_directory_in_jar + lib_file_name )            )          ) .forall (x => x )      ) .forall (x => x )
+            SimpleIOImpl () .write_file (file = SimpleIOImpl () .create_file (parent_directory, lib_file_name ), content = SimpleIOImpl () .read_resource (library_directory_in_jar + lib_file_name )            )          ) .forall (x => x )      ) .forall (x => x )
 }
 
 case class LibraryDeployerImpl () extends LibraryDeployer

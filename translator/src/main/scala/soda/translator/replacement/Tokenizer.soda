@@ -17,7 +17,7 @@ package soda.translator.replacement
   get_tokens: Seq[Token] =
     _postproc(Rec().foldLeft( Rec().range(line.length), _initial_value, _next_value ))
 
-  _initial_value = TokenizerFoldTuple(0, ParserStateEnum().Plain, Seq())
+  _initial_value = TokenizerFoldTuple(0, ParserStateEnum().plain, Seq())
 
   _postproc(tuple: TokenizerFoldTuple): Seq[Token] =
     (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
@@ -38,8 +38,8 @@ package soda.translator.replacement
       new_parser_state: ParserState): TokenizerFoldTuple =
     let
       index =
-        if tuple.parser_state == ParserStateEnum().QuotesState or
-           tuple.parser_state == ParserStateEnum().ApostropheState
+        if tuple.parser_state == ParserStateEnum().quotes_state or
+           tuple.parser_state == ParserStateEnum().apostrophe_state
         then current_index + 1
         else current_index
       text = line.substring(tuple.last_index, index)

@@ -15,7 +15,7 @@ trait SimpleIO {
   import java.nio.file.Paths
   import java.util.stream.Collectors
 
-  lazy val New_line = "\n"
+  lazy val new_line = "\n"
 
   def read_file (file_name: String ): String =
     new String (Files.readAllBytes (Paths.get (file_name )  )  )
@@ -24,7 +24,7 @@ trait SimpleIO {
     {
       lazy val input_stream = getClass.getResourceAsStream (file_name )
       lazy val reader = new BufferedReader (new InputStreamReader (input_stream )  )
-      reader.lines () .collect (Collectors.joining (New_line )  ) }
+      reader.lines () .collect (Collectors.joining (new_line )  ) }
 
   def write_file (file_name: String, content: String ): Boolean =
     write_file (new File (file_name ), content )

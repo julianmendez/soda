@@ -6,7 +6,7 @@ package soda.translator.replacement
    test("should recognize quotation marks") {
      input = '"'
      obtained = CharTypeEnum().get_char_type(input)
-     expected = CharTypeEnum().QuotesType
+     expected = CharTypeEnum().quotes_type
 
      assert(obtained == expected)
    }
@@ -14,7 +14,7 @@ package soda.translator.replacement
    test("should recognize apostrophes") {
      input = '\''
      obtained = CharTypeEnum().get_char_type(input)
-     expected = CharTypeEnum().ApostropheType
+     expected = CharTypeEnum().apostrophe_type
 
      assert(obtained == expected)
    }
@@ -22,7 +22,7 @@ package soda.translator.replacement
    test("should recognize backslash") {
      input = '\\'
      obtained = CharTypeEnum().get_char_type(input)
-     expected = CharTypeEnum().BackslashType
+     expected = CharTypeEnum().backslash_type
 
      assert(obtained == expected)
    }
@@ -30,14 +30,14 @@ package soda.translator.replacement
    test("should recognize a simple char") {
      input = 'a'
      obtained = CharTypeEnum().get_char_type(input)
-     expected = CharTypeEnum().PlainType
+     expected = CharTypeEnum().plain_type
 
      assert(obtained == expected)
    }
 
    test("should recognize plain text") {
      inputStr = "This is plain text with symbols. 0123456789 _ . !?"
-     expected = Seq( CharTypeEnum().PlainType )
+     expected = Seq( CharTypeEnum().plain_type )
      obtained =
        inputStr
          .map(ch -> CharTypeEnum().get_char_type(ch))

@@ -3,7 +3,7 @@ package soda.translator.example
 
 trait MainClass {
 
-  def main (args: Array [String]  ): Unit =
+  def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
 }
 

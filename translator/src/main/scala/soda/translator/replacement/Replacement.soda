@@ -10,8 +10,8 @@ package soda.translator.replacement
 
   has line: String
 
-  SodaSpace: String = " "
-  ScalaSpace: String = " "
+  soda_space: String = " "
+  scala_space: String = " "
 
   replace_with(function: String -> String): Replacement =
     ReplacementImpl(function(line))
@@ -30,7 +30,7 @@ package soda.translator.replacement
 
       next_value(line: String, reserved_word: String): String =
         _replace_if_found(line,
-          SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
+          soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
     in Rec().foldLeft(translator.keys, initial_value, next_value)
 
@@ -51,7 +51,7 @@ package soda.translator.replacement
 
       next_value(line: String, reserved_word: String): String =
         replace_if_found(line,
-          SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate(reserved_word) + ScalaSpace)
+          soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
     in Rec().foldLeft(translator.keys, initial_value, next_value)
 
@@ -64,7 +64,7 @@ package soda.translator.replacement
     ReplacerImpl(line, pattern, replacement).replace
 
   add_space_to_soda_line(): Replacement =
-    ReplacementImpl(SodaSpace + line + SodaSpace)
+    ReplacementImpl(soda_space + line + soda_space)
 
   add_spaces_to_symbols(symbols: Set[Char]): Replacement =
     ReplacementImpl(add_spaces_to_symbols(line, symbols))
@@ -76,12 +76,12 @@ package soda.translator.replacement
         left_part =
           if (index > 0) and symbols.contains(ch) and
             not line(index - 1).isWhitespace
-          then ScalaSpace
+          then scala_space
           else ""
         right_part =
           if (index < line.length - 1) and symbols.contains(ch) and
             not line(index + 1).isWhitespace
-          then ScalaSpace
+          then scala_space
           else ""
 
       in left_part + ch + right_part
@@ -93,11 +93,11 @@ package soda.translator.replacement
   remove_space_from_scala_line(line: String): String =
     let
       line_without_starting_space =
-        if line.startsWith(ScalaSpace)
+        if line.startsWith(scala_space)
         then line.substring(1)
         else line
       line_without_ending_space =
-        if line_without_starting_space.endsWith(ScalaSpace)
+        if line_without_starting_space.endsWith(scala_space)
         then line_without_starting_space.substring(0, line_without_starting_space.length - 1)
         else line_without_starting_space
     in line_without_ending_space

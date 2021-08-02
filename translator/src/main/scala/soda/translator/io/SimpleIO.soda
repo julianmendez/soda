@@ -15,7 +15,7 @@ package soda.translator.io
   + java.nio.file.Paths
   + java.util.stream.Collectors
 
-  New_line = "\n"
+  new_line = "\n"
 
   read_file(file_name: String): String =
     @new String(Files.readAllBytes(Paths.get(file_name)))
@@ -24,7 +24,7 @@ package soda.translator.io
     let
       input_stream = getClass.getResourceAsStream(file_name)
       reader = @new BufferedReader(@new InputStreamReader(input_stream))
-    in reader.lines().collect(Collectors.joining(New_line))
+    in reader.lines().collect(Collectors.joining(new_line))
 
   write_file(file_name: String, content: String): Boolean =
     write_file(@new File(file_name), content)

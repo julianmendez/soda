@@ -11,13 +11,13 @@ package soda.translator.replacement
  */
 * CharTypeConstant = {
 
-  UndefinedType = CharType(0, "UndefinedType")
-  QuotesType = CharType(1, "QuotesType")
-  ApostropheType = CharType(2, "ApostropheType")
-  BackslashType = CharType(3, "BackslashType")
-  PlainType = CharType(4, "PlainType")
+  undefined_type = CharType(0, "undefined_type")
+  quotes_type = CharType(1, "quotes_type")
+  apostrophe_type = CharType(2, "apostrophe_type")
+  backslash_type = CharType(3, "backslash_type")
+  plain_type = CharType(4, "plain_type")
 
-  CharTypeValues = Seq(UndefinedType, QuotesType, ApostropheType, BackslashType, PlainType)
+  CharTypeValues = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
 }
 
 /**
@@ -27,36 +27,36 @@ package soda.translator.replacement
 
   values = CharTypeValues
 
-  BackslashChar = '\\'
-  QuotesChar = '\"'
-  ApostropheChar = '\''
-  UnderscoreChar = '_'
-  SymbolChars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+  backslash_char = '\\'
+  quotes_char = '\"'
+  apostrophe_char = '\''
+  underscore_char = '_'
+  symbol_chars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   get_char_type(ch: Char): CharType =
-    if is_quotes(ch) then QuotesType
-    else if is_apostrophe(ch) then ApostropheType
-    else if is_backslash(ch) then BackslashType
-    else if is_whitespace(ch) or is_letter_or_digit_or_underscore(ch) or is_symbol(ch) then PlainType
-    else UndefinedType
+    if is_quotes(ch) then quotes_type
+    else if is_apostrophe(ch) then apostrophe_type
+    else if is_backslash(ch) then backslash_type
+    else if is_whitespace(ch) or is_letter_or_digit_or_underscore(ch) or is_symbol(ch) then plain_type
+    else undefined_type
 
   is_whitespace(ch: Char): Boolean =
     ch.isWhitespace
 
   is_letter_or_digit_or_underscore(ch: Char): Boolean =
-    ch.isLetterOrDigit or ch == UnderscoreChar
+    ch.isLetterOrDigit or ch == underscore_char
 
   is_symbol(ch: Char): Boolean =
-    SymbolChars.contains(ch)
+    symbol_chars.contains(ch)
 
   is_quotes(ch: Char): Boolean =
-    ch == QuotesChar
+    ch == quotes_char
 
   is_apostrophe(ch: Char): Boolean =
-    ch == ApostropheChar
+    ch == apostrophe_char
 
   is_backslash(ch: Char): Boolean =
-    ch == BackslashChar
+    ch == backslash_char
 }
 
 * CharTypeEnum() extends CharTypeFunction

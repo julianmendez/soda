@@ -10,8 +10,8 @@ trait Replacement {
 
   def line: String
 
-  lazy val SodaSpace: String = " "
-  lazy val ScalaSpace: String = " "
+  lazy val soda_space: String = " "
+  lazy val scala_space: String = " "
 
   def replace_with (function: String => String ): Replacement =
     ReplacementImpl (function (line )  )
@@ -29,7 +29,7 @@ trait Replacement {
       lazy val initial_value: String = line
 
       def next_value (line: String, reserved_word: String ): String =
-        _replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+        _replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
       Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 
@@ -49,7 +49,7 @@ trait Replacement {
       lazy val initial_value: String = line
 
       def next_value (line: String, reserved_word: String ): String =
-        replace_if_found (line, SodaSpace + reserved_word + SodaSpace, ScalaSpace + translator.translate (reserved_word ) + ScalaSpace )
+        replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
       Rec () .foldLeft (translator.keys, initial_value, next_value ) }
 
@@ -62,7 +62,7 @@ trait Replacement {
     ReplacerImpl (line, pattern, replacement ) .replace
 
   def add_space_to_soda_line (): Replacement =
-    ReplacementImpl (SodaSpace + line + SodaSpace )
+    ReplacementImpl (soda_space + line + soda_space )
 
   def add_spaces_to_symbols (symbols: Set [Char]  ): Replacement =
     ReplacementImpl (add_spaces_to_symbols (line, symbols )  )
@@ -74,12 +74,12 @@ trait Replacement {
         lazy val left_part =
           if ((index > 0 ) && symbols.contains (ch ) &&
             ! line (index - 1 ) .isWhitespace
-          ) ScalaSpace
+          ) scala_space
           else ""
         lazy val right_part =
           if ((index < line.length - 1 ) && symbols.contains (ch ) &&
             ! line (index + 1 ) .isWhitespace
-          ) ScalaSpace
+          ) scala_space
           else ""
 
         left_part + ch + right_part }    ) .mkString ("")
@@ -90,11 +90,11 @@ trait Replacement {
   def remove_space_from_scala_line (line: String ): String =
     {
       lazy val line_without_starting_space =
-        if (line.startsWith (ScalaSpace )
+        if (line.startsWith (scala_space )
         ) line.substring (1 )
         else line
       lazy val line_without_ending_space =
-        if (line_without_starting_space.endsWith (ScalaSpace )
+        if (line_without_starting_space.endsWith (scala_space )
         ) line_without_starting_space.substring (0, line_without_starting_space.length - 1 )
         else line_without_starting_space
       line_without_ending_space }

@@ -6,7 +6,7 @@ package soda.translator.language
   has lines: Seq[String]
 
   Comma = ","
-  SodaOpeningParenthesis: String = "("
+  soda_opening_parenthesis: String = "("
   SodaClosingParenthesis: String = ")"
   SodaOpeningBracket: String = "["
   SodaClosingBracket: String = "]"

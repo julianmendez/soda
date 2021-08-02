@@ -14,7 +14,7 @@ trait MicroTranslator {
   import soda.translator.replacement.Translator
 
   lazy val NewLine = "\n"
-  lazy val SodaOpeningParenthesis: String = "("
+  lazy val soda_opening_parenthesis: String = "("
 
   lazy val SynonymAtBeginning = DefaultTranslatorImpl (Translation () .SynonymAtBeginning )
   lazy val TranslationAtBeginningWithParen = DefaultTranslatorImpl (Translation () .TranslationAtBeginningWithParen )
@@ -65,7 +65,7 @@ trait MicroTranslator {
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>
-        if (token.parser_state == ParserStateEnum () .Plain
+        if (token.parser_state == ParserStateEnum () .plain
         ) Token (_get_all_replacements (token ), token.parser_state, token.index )
         else token    )
 
@@ -82,7 +82,7 @@ trait MicroTranslator {
       .line
 
   def get_translation_table_at_beginning (line: String ): Translator =
-    if (line.contains (SodaOpeningParenthesis )
+    if (line.contains (soda_opening_parenthesis )
     ) TranslationAtBeginningWithParen
     else TranslationAtBeginningWithoutParen
 
@@ -96,10 +96,10 @@ trait MicroTranslator {
 
   def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
     lines.map (line =>
-      append_if_condition (line, starts_with_in, Translation () .ScalaInTranslation ) )
+      append_if_condition (line, starts_with_in, Translation () .scala_in_translation ) )
 
   def starts_with_in (line: String ): Boolean =
-    line.trim () .startsWith (Translation () .SodaInPattern )
+    line.trim () .startsWith (Translation () .soda_in_pattern )
 
   def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
     if (condition (line )

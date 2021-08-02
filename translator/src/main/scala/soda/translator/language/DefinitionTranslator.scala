@@ -20,7 +20,7 @@ package soda.translator.language
  * Formerly there was another case for 'val'.
  * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
  * This was implemented simply as:
- * `line.trim.startsWith(SodaOpeningParenthesis)`
+ * `line.trim.startsWith(soda_opening_parenthesis)`
  * This is no longer supported.
  *
  */
@@ -32,23 +32,23 @@ trait DefinitionTranslator {
 
   def line: String
 
-  lazy val SodaOpeningParenthesis: String = "("
-  lazy val SodaSpace: String = " "
-  lazy val ScalaSpace: String = " "
+  lazy val soda_opening_parenthesis: String = "("
+  lazy val soda_space: String = " "
+  lazy val scala_space: String = " "
 
   lazy val get_translation = find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line  )
 
   lazy val is_class_definition =
-    indexOf (line, SodaSpace + Translation () .SodaClassReservedWord + SodaSpace ) .isDefined
+    indexOf (line, soda_space + Translation () .soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translate_class_definition =
-    ReplacementImpl (line ) .replace_all (SodaSpace + Translation () .SodaDefinition, "")
+    ReplacementImpl (line ) .replace_all (soda_space + Translation () .soda_definition, "")
 
   lazy val translate_val_definition =
-    ReplacementImpl (line ) .add_after_spaces (Translation () .ScalaValue + ScalaSpace )
+    ReplacementImpl (line ) .add_after_spaces (Translation () .scala_value + scala_space )
 
   lazy val translate_def_definition =
-    ReplacementImpl (line ) .add_after_spaces (Translation () .ScalaDefinition + ScalaSpace )
+    ReplacementImpl (line ) .add_after_spaces (Translation () .scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translate_class_definition
@@ -57,11 +57,11 @@ trait DefinitionTranslator {
 
   def is_val_definition (initial_position: Int ) =
     {
-      lazy val position_of_first_opening_parenthesis = indexOf (line, SodaOpeningParenthesis )
+      lazy val position_of_first_opening_parenthesis = indexOf (line, soda_opening_parenthesis )
       lazy val case1 = position_of_first_opening_parenthesis.isEmpty
       lazy val case2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
       lazy val case3 =
-        indexOf (line, Translation () .SodaColon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+        indexOf (line, Translation () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
             position_of_first_opening_parenthesis.opt (false, position => position > other_position )        )
       case1 || case2 || case3 }
 
@@ -73,9 +73,9 @@ trait DefinitionTranslator {
    * @return maybe the position of the definition sign
    */
   def find_definition (line: String ): OptionSD [Int] =
-    if (line.endsWith (SodaSpace + Translation () .SodaDefinition )
-    ) SomeElem (line.length - Translation () .SodaDefinition.length )
-    else indexOf (line, SodaSpace + Translation () .SodaDefinition + SodaSpace )
+    if (line.endsWith (soda_space + Translation () .soda_definition )
+    ) SomeElem (line.length - Translation () .soda_definition.length )
+    else indexOf (line, soda_space + Translation () .soda_definition + soda_space )
 
   def indexOf (line: String, pattern: String ): OptionSD [Int] =
     indexOf (line, pattern, 0 )

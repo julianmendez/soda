@@ -4,11 +4,11 @@ package soda.translator.io
 * LibraryDeployer = {
   + java.io.File
 
-  Library_marker_file = "lib.soda"
-  Library_directory_in_jar = "/lib/soda/lib/"
-  Library_content_files: Seq[String] =
+  library_marker_file = "lib.soda"
+  library_directory_in_jar = "/lib/soda/lib/"
+  library_content_files: Seq[String] =
     SimpleIOImpl()
-      .read_resource(Library_directory_in_jar + "files.txt")
+      .read_resource(library_directory_in_jar + "files.txt")
       .split("\n")
       .toSeq
 
@@ -16,11 +16,11 @@ package soda.translator.io
     lib_files
       .map(lib_file -> lib_file.getParent)
       .map(parent_directory ->
-        Library_content_files
+        library_content_files
           .map(lib_file_name ->
             SimpleIOImpl().write_file(
               file := SimpleIOImpl().create_file(parent_directory, lib_file_name),
-              content := SimpleIOImpl().read_resource(Library_directory_in_jar + lib_file_name)
+              content := SimpleIOImpl().read_resource(library_directory_in_jar + lib_file_name)
             )
           ).forall(x -> x)
       ).forall(x -> x)

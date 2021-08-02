@@ -6,21 +6,21 @@ package soda.translator.language
  */
 * TranslationConstant = {
 
-  SodaDefinition: String = "="
+  soda_definition: String = "="
 
-  SodaColon: String = ":"
+  soda_colon: String = ":"
 
-  SodaInReservedWord: String = "in"
-  SodaInPattern: String = SodaInReservedWord + " "
-  ScalaInTranslation: String = " }"
+  soda_in_reserved_word: String = "in"
+  soda_in_pattern: String = soda_in_reserved_word + " "
+  scala_in_translation: String = " }"
 
-  SodaClassReservedWord: String = "class"
+  soda_class_reserved_word: String = "class"
 
-  ScalaDefinition: String = "def"
-  ScalaValue: String = "lazy val"
-  ScalaEntryPoint: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  scala_definition: String = "def"
+  scala_value: String = "lazy val"
+  scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  SodaReservedWords = Seq(
+  soda_reserved_words = Seq(
     "=",
     ":",
     "->",
@@ -56,10 +56,10 @@ package soda.translator.language
    * Scala 2 keywords:
    *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
    */
-  ScalaReservedWords =
-    Scala3RegularKeywords ++ Scala3SoftKeywords ++ Scala2ExtraKeywords
+  scala_reserved_words =
+    scala_3_regular_keywords ++ scala_3_soft_keywords ++ scala_2_extra_keywords
 
-  Scala3RegularKeywords = Seq(
+  scala_3_regular_keywords = Seq(
     "abstract",
     "case",
     "catch",
@@ -113,7 +113,7 @@ package soda.translator.language
     "?=>"
   )
 
-  Scala3SoftKeywords = Seq(
+  scala_3_soft_keywords = Seq(
     "as",
     "derives",
     "end",
@@ -130,7 +130,7 @@ package soda.translator.language
     "-"
   )
 
-  Scala2ExtraKeywords = Seq(
+  scala_2_extra_keywords = Seq(
     "forSome",
     "macro",
     "this",
@@ -159,7 +159,7 @@ package soda.translator.language
     /** Annotations */
     ("@override", "override"),
     ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"),
-    ("@main", ScalaEntryPoint)
+    ("@main", scala_entry_point)
   )
 
   Synonym: Seq[(String, String)] = Seq(
@@ -193,8 +193,8 @@ package soda.translator.language
   PrefixScalaNonSoda = "__soda__"
 
   ScalaNonSoda: Seq[(String, String)] =
-    ScalaReservedWords
-      .filter(x -> not SodaReservedWords.contains(x))
+    scala_reserved_words
+      .filter(x -> not soda_reserved_words.contains(x))
       .map(x -> (x, PrefixScalaNonSoda + x) )
 
   SodaBracketsAndComma = Seq( '(', ')', '[', ']', '{', '}', ',' )
@@ -225,10 +225,10 @@ package soda.translator.language
   )
 
   is_scala_word(word: String): Boolean =
-    ScalaReservedWords.contains(word)
+    scala_reserved_words.contains(word)
 
   is_soda_word(word: String): Boolean =
-    SodaReservedWords.contains(word)
+    soda_reserved_words.contains(word)
 }
 
 * Translation() extends TranslationConstant

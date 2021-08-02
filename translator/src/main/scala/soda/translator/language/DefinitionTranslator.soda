@@ -20,7 +20,7 @@ package soda.translator.language
  * Formerly there was another case for 'val'.
  * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
  * This was implemented simply as:
- * `line.trim.startsWith(SodaOpeningParenthesis)`
+ * `line.trim.startsWith(soda_opening_parenthesis)`
  * This is no longer supported.
  *
  */
@@ -32,9 +32,9 @@ package soda.translator.language
 
   has line: String
 
-  SodaOpeningParenthesis: String = "("
-  SodaSpace: String = " "
-  ScalaSpace: String = " "
+  soda_opening_parenthesis: String = "("
+  soda_space: String = " "
+  scala_space: String = " "
 
   get_translation = find_definition(line).opt(
     ifEmpty := line,
@@ -42,16 +42,16 @@ package soda.translator.language
   )
 
   is_class_definition =
-    indexOf(line, SodaSpace + Translation().SodaClassReservedWord + SodaSpace).isDefined
+    indexOf(line, soda_space + Translation().soda_class_reserved_word + soda_space).isDefined
 
   translate_class_definition =
-    ReplacementImpl(line).replace_all(SodaSpace + Translation().SodaDefinition, "")
+    ReplacementImpl(line).replace_all(soda_space + Translation().soda_definition, "")
 
   translate_val_definition =
-    ReplacementImpl(line).add_after_spaces( Translation().ScalaValue + ScalaSpace )
+    ReplacementImpl(line).add_after_spaces( Translation().scala_value + scala_space )
 
   translate_def_definition =
-    ReplacementImpl(line).add_after_spaces( Translation().ScalaDefinition + ScalaSpace )
+    ReplacementImpl(line).add_after_spaces( Translation().scala_definition + scala_space )
 
   try_found_definition(position: Int): Replacement =
     if is_class_definition then translate_class_definition
@@ -60,11 +60,11 @@ package soda.translator.language
 
   is_val_definition(initial_position: Int) =
     let
-      position_of_first_opening_parenthesis = indexOf(line, SodaOpeningParenthesis)
+      position_of_first_opening_parenthesis = indexOf(line, soda_opening_parenthesis)
       case1 = position_of_first_opening_parenthesis.isEmpty
       case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
       case3 =
-        indexOf(line, Translation().SodaColon).opt(
+        indexOf(line, Translation().soda_colon).opt(
           ifEmpty := false,
           ifNonEmpty := other_position ->
             position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
@@ -79,9 +79,9 @@ package soda.translator.language
    * @return maybe the position of the definition sign
    */
   find_definition(line: String): OptionSD[Int] =
-    if line.endsWith(SodaSpace + Translation().SodaDefinition)
-    then SomeElem(line.length - Translation().SodaDefinition.length)
-    else indexOf(line, SodaSpace + Translation().SodaDefinition + SodaSpace)
+    if line.endsWith(soda_space + Translation().soda_definition)
+    then SomeElem(line.length - Translation().soda_definition.length)
+    else indexOf(line, soda_space + Translation().soda_definition + soda_space)
 
   indexOf(line: String, pattern: String): OptionSD[Int] =
     indexOf(line, pattern, 0)

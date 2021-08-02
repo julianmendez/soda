@@ -8,14 +8,14 @@ package soda.translator.replacement
 
 * ParserStateConstant = {
 
-  UndefinedState = ParserState(0, "UndefinedState")
-  QuotesState = ParserState(1, "QuotesState")
-  ApostropheState = ParserState(2, "ApostropheState")
-  QuotesBackslashState = ParserState(3, "QuotesBackslashState")
-  ApostropheBackslashState = ParserState(4, "ApostropheBackslashState")
-  Plain = ParserState(5, "Plain")
+  undefined_state = ParserState(0, "undefined_state")
+  quotes_state = ParserState(1, "quotes_state")
+  apostrophe_state = ParserState(2, "apostrophe_state")
+  quotes_backslash_state = ParserState(3, "quotes_backslash_state")
+  apostrophe_backslash_state = ParserState(4, "apostrophe_backslash_state")
+  plain = ParserState(5, "plain")
 
-  ParserStateValues = Seq(UndefinedState, QuotesState, ApostropheState, QuotesBackslashState, ApostropheBackslashState, Plain)
+  parser_state_values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 }
 
 /**
@@ -23,14 +23,14 @@ package soda.translator.replacement
  */
 * ParserStateFunction extends ParserStateConstant = {
 
-  values = ParserStateValues
+  values = parser_state_values
 
   is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) or is_like(x, y) or is_like(y, x)
 
   is_like(x: ParserState, y: ParserState): Boolean =
-    (x == QuotesState and y == QuotesBackslashState) or
-      (x == ApostropheState and y == ApostropheBackslashState)
+    (x == quotes_state and y == quotes_backslash_state) or
+      (x == apostrophe_state and y == apostrophe_backslash_state)
 }
 
 * ParserStateEnum() extends ParserStateFunction
@@ -40,31 +40,31 @@ package soda.translator.replacement
   TransitionsThatChangeStates: Map[(ParserState, CharType), ParserState] =
     Map(
       /* */
-      ((QuotesState, UndefinedType), UndefinedState),
-      ((QuotesState, QuotesType), Plain),
-      ((QuotesState, BackslashType), QuotesBackslashState),
+      ((quotes_state, undefined_type), undefined_state),
+      ((quotes_state, quotes_type), plain),
+      ((quotes_state, backslash_type), quotes_backslash_state),
       /* */
-      ((ApostropheState, UndefinedType), UndefinedState),
-      ((ApostropheState, ApostropheType), Plain),
-      ((ApostropheState, BackslashType), ApostropheBackslashState),
+      ((apostrophe_state, undefined_type), undefined_state),
+      ((apostrophe_state, apostrophe_type), plain),
+      ((apostrophe_state, backslash_type), apostrophe_backslash_state),
       /* */
-      ((QuotesBackslashState, UndefinedType), UndefinedState),
-      ((QuotesBackslashState, QuotesType), QuotesState),
-      ((QuotesBackslashState, ApostropheType), QuotesState),
-      ((QuotesBackslashState, BackslashType), QuotesState),
-      ((QuotesBackslashState, PlainType), QuotesState),
+      ((quotes_backslash_state, undefined_type), undefined_state),
+      ((quotes_backslash_state, quotes_type), quotes_state),
+      ((quotes_backslash_state, apostrophe_type), quotes_state),
+      ((quotes_backslash_state, backslash_type), quotes_state),
+      ((quotes_backslash_state, plain_type), quotes_state),
       /* */
-      ((ApostropheBackslashState, UndefinedType), UndefinedState),
-      ((ApostropheBackslashState, QuotesType), ApostropheState),
-      ((ApostropheBackslashState, ApostropheType), ApostropheState),
-      ((ApostropheBackslashState, BackslashType), ApostropheState),
-      ((ApostropheBackslashState, PlainType), ApostropheState),
+      ((apostrophe_backslash_state, undefined_type), undefined_state),
+      ((apostrophe_backslash_state, quotes_type), apostrophe_state),
+      ((apostrophe_backslash_state, apostrophe_type), apostrophe_state),
+      ((apostrophe_backslash_state, backslash_type), apostrophe_state),
+      ((apostrophe_backslash_state, plain_type), apostrophe_state),
       /* */
-      ((Plain, UndefinedType), UndefinedState),
-      ((Plain, QuotesType), QuotesState),
-      ((Plain, ApostropheType), ApostropheState),
-      ((Plain, BackslashType), Plain),
-      ((Plain, PlainType), Plain)
+      ((plain, undefined_type), undefined_state),
+      ((plain, quotes_type), quotes_state),
+      ((plain, apostrophe_type), apostrophe_state),
+      ((plain, backslash_type), plain),
+      ((plain, plain_type), plain)
     )
 
   next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =

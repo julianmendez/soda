@@ -9,12 +9,13 @@ package soda.translator.io
   + soda.translator.language.MicroTranslatorImpl
   + java.io.File
 
-  SodaExtension: String = ".soda"
-  ScalaExtension: String = ".scala"
+  soda_extension: String = ".soda"
+  scala_extension: String = ".scala"
 
-  Help: String = SimpleIOImpl().read_resource("/soda/translator/documentation/help.txt")
+  help: String =
+    SimpleIOImpl().read_resource("/soda/translator/documentation/help.txt")
 
-  Title_and_version: String =
+  title_and_version: String =
     let
       packg = this.getClass.getPackage
       name = Option(packg.getImplementationTitle).getOrElse("")
@@ -24,7 +25,7 @@ package soda.translator.io
   main(args: Array[String]): Unit =
     if args.length == 1 then process_directory(args(0))
     else if args.length == 2 then translate(args(0), args(1))
-    else println(Title_and_version + "\n\n" + Help)
+    else println(title_and_version + "\n\n" + help)
 
   process_directory(start: String): Boolean =
     DirectoryProcessorImpl(start, process_soda_file).process()
@@ -36,10 +37,10 @@ package soda.translator.io
     in translate(t.input_file_name, t.output_file_name)
 
   get_input_output_file_names(input_name: String): FileNamePair =
-    if input_name.endsWith(SodaExtension)
+    if input_name.endsWith(soda_extension)
     then FileNamePair(input_name,
-      input_name.substring(0, input_name.length - SodaExtension.length) + ScalaExtension)
-    else FileNamePair(input_name + SodaExtension, input_name + ScalaExtension)
+      input_name.substring(0, input_name.length - soda_extension.length) + scala_extension)
+    else FileNamePair(input_name + soda_extension, input_name + scala_extension)
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
