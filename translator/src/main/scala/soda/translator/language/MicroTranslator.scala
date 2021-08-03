@@ -45,10 +45,10 @@ trait MicroTranslator {
     program.split (new_line ) .toIndexedSeq
 
   def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerImpl (lines ) .get_joined_lines_with_forward_join
+    LineJoinerImpl (lines ) .joined_lines_with_forward_join
 
   def join_lines_with_backward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerImpl (lines ) .get_joined_lines_with_backward_join
+    LineJoinerImpl (lines ) .joined_lines_with_backward_join
 
   def join_translated_lines (lines: Seq [String]  ): String =
     lines.mkString (new_line ) + new_line

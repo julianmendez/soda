@@ -42,7 +42,7 @@ case class ParserStateEnum () extends ParserStateFunction
 
 trait ParserTransition extends ParserStateConstant with CharTypeConstant {
 
-  lazy val TransitionsThatChangeStates: Map [(ParserState, CharType ), ParserState] =
+  lazy val transitions_that_change_states: Map [(ParserState, CharType ), ParserState] =
     Map (/* */
       ((quotes_state, undefined_type ), undefined_state ), ((quotes_state, quotes_type ), plain ), ((quotes_state, backslash_type ), quotes_backslash_state ), /* */
       ((apostrophe_state, undefined_type ), undefined_state ), ((apostrophe_state, apostrophe_type ), plain ), ((apostrophe_state, backslash_type ), apostrophe_backslash_state ), /* */
@@ -51,7 +51,7 @@ trait ParserTransition extends ParserStateConstant with CharTypeConstant {
       ((plain, undefined_type ), undefined_state ), ((plain, quotes_type ), quotes_state ), ((plain, apostrophe_type ), apostrophe_state ), ((plain, backslash_type ), plain ), ((plain, plain_type ), plain )    )
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
-    TransitionsThatChangeStates.getOrElse ((parser_state, char_type ), parser_state )
+    transitions_that_change_states.getOrElse ((parser_state, char_type ), parser_state )
 }
 
 case class ParserTransitionImpl () extends ParserTransition

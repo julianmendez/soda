@@ -32,9 +32,13 @@ trait CharTypeFunction extends CharTypeConstant {
   lazy val values = char_type_values
 
   lazy val backslash_char = '\\'
+
   lazy val quotes_char = '\"'
+
   lazy val apostrophe_char = '\''
+
   lazy val underscore_char = '_'
+
   lazy val symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   def get_char_type (ch: Char ): CharType =

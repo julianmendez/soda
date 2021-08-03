@@ -32,9 +32,13 @@ package soda.translator.replacement
   values = char_type_values
 
   backslash_char = '\\'
+
   quotes_char = '\"'
+
   apostrophe_char = '\''
+
   underscore_char = '_'
+
   symbol_chars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   get_char_type(ch: Char): CharType =

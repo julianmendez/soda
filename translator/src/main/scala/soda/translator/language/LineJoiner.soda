@@ -17,34 +17,34 @@ package soda.translator.language
 
   space = " "
 
-  get_joined_lines_with_forward_join: Seq[String] =
-    JoinerImpl(lines, condition_for_forward_join).join
+  joined_lines_with_forward_join: Seq[String] =
+    JoinerImpl(lines, is_a_forward_join).join
 
-  get_joined_lines_with_backward_join: Seq[String] =
-    JoinerImpl(lines, condition_for_backward_join).join
+  joined_lines_with_backward_join: Seq[String] =
+    JoinerImpl(lines, is_a_backward_join).join
 
-  condition_for_forward_join(previous_line: String, current_line: String): Boolean =
-    condition_for_symbol_forward_join(previous_line) or
-    condition_for_reserved_word_forward_join(previous_line)
+  is_a_forward_join(previous_line: String, current_line: String): Boolean =
+    is_a_symbol_forward_join(previous_line) or
+    is_a_reserved_word_forward_join(previous_line)
 
-  condition_for_symbol_forward_join(previous_line: String): Boolean =
+  is_a_symbol_forward_join(previous_line: String): Boolean =
     Translation().symbol_forward_joiner
       .exists(previous_line.endsWith)
 
-  condition_for_reserved_word_forward_join(previous_line: String): Boolean =
+  is_a_reserved_word_forward_join(previous_line: String): Boolean =
     Translation().reserved_word_joiner
       .map(x -> space + x)
       .exists(previous_line.endsWith)
 
-  condition_for_backward_join(previous_line: String, current_line: String): Boolean =
-    condition_for_symbol_backward_join(current_line) or
-    condition_for_reserved_word_backward_join(current_line)
+  is_a_backward_join(previous_line: String, current_line: String): Boolean =
+    is_a_symbol_backward_join(current_line) or
+    is_a_reserved_word_backward_join(current_line)
 
-  condition_for_symbol_backward_join(current_line: String): Boolean =
+  is_a_symbol_backward_join(current_line: String): Boolean =
     Translation().symbol_backward_joiner
       .exists(current_line.startsWith)
 
-  condition_for_reserved_word_backward_join(current_line: String): Boolean =
+  is_a_reserved_word_backward_join(current_line: String): Boolean =
     Translation().reserved_word_joiner
       .map(x -> x + space)
       .exists(current_line.startsWith)
@@ -57,7 +57,7 @@ package soda.translator.language
 
   has lines_to_join: Seq[String]
 
-  has condition_for_join: (String, String) -> Boolean
+  has is_a_join: (String, String) -> Boolean
 
   join: Seq[String] = reverse_join.reverse
 
@@ -77,7 +77,7 @@ package soda.translator.language
     JoinerFoldTuple(Seq(), Seq(), first_line)
 
   _next_value(tuple: JoinerFoldTuple, head: String): JoinerFoldTuple =
-    if condition_for_join(tuple.previous_line.trim, head.trim)
+    if is_a_join(tuple.previous_line.trim, head.trim)
     then JoinerFoldTuple(tuple.in_process_rev.+:(tuple.previous_line), tuple.processed_rev, head)
     else
       let
@@ -88,7 +88,7 @@ package soda.translator.language
     in_process_rev.reverse.mkString("") + line
 }
 
-* JoinerImpl(lines_to_join: Seq[String], condition_for_join: (String, String) -> Boolean)
+* JoinerImpl(lines_to_join: Seq[String], is_a_join: (String, String) -> Boolean)
   extends Joiner
 
 * JoinerFoldTuple(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)

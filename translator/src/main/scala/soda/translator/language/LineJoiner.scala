@@ -17,34 +17,34 @@ trait LineJoiner {
 
   lazy val space = " "
 
-  lazy val get_joined_lines_with_forward_join: Seq [String] =
-    JoinerImpl (lines, condition_for_forward_join ) .join
+  lazy val joined_lines_with_forward_join: Seq [String] =
+    JoinerImpl (lines, is_a_forward_join ) .join
 
-  lazy val get_joined_lines_with_backward_join: Seq [String] =
-    JoinerImpl (lines, condition_for_backward_join ) .join
+  lazy val joined_lines_with_backward_join: Seq [String] =
+    JoinerImpl (lines, is_a_backward_join ) .join
 
-  def condition_for_forward_join (previous_line: String, current_line: String ): Boolean =
-    condition_for_symbol_forward_join (previous_line ) ||
-    condition_for_reserved_word_forward_join (previous_line )
+  def is_a_forward_join (previous_line: String, current_line: String ): Boolean =
+    is_a_symbol_forward_join (previous_line ) ||
+    is_a_reserved_word_forward_join (previous_line )
 
-  def condition_for_symbol_forward_join (previous_line: String ): Boolean =
+  def is_a_symbol_forward_join (previous_line: String ): Boolean =
     Translation () .symbol_forward_joiner
       .exists (previous_line.endsWith )
 
-  def condition_for_reserved_word_forward_join (previous_line: String ): Boolean =
+  def is_a_reserved_word_forward_join (previous_line: String ): Boolean =
     Translation () .reserved_word_joiner
       .map (x => space + x )
       .exists (previous_line.endsWith )
 
-  def condition_for_backward_join (previous_line: String, current_line: String ): Boolean =
-    condition_for_symbol_backward_join (current_line ) ||
-    condition_for_reserved_word_backward_join (current_line )
+  def is_a_backward_join (previous_line: String, current_line: String ): Boolean =
+    is_a_symbol_backward_join (current_line ) ||
+    is_a_reserved_word_backward_join (current_line )
 
-  def condition_for_symbol_backward_join (current_line: String ): Boolean =
+  def is_a_symbol_backward_join (current_line: String ): Boolean =
     Translation () .symbol_backward_joiner
       .exists (current_line.startsWith )
 
-  def condition_for_reserved_word_backward_join (current_line: String ): Boolean =
+  def is_a_reserved_word_backward_join (current_line: String ): Boolean =
     Translation () .reserved_word_joiner
       .map (x => x + space )
       .exists (current_line.startsWith )
@@ -57,7 +57,7 @@ trait Joiner {
 
   def lines_to_join: Seq [String]
 
-  def condition_for_join: (String, String ) => Boolean
+  def is_a_join: (String, String ) => Boolean
 
   lazy val join: Seq [String] = reverse_join.reverse
 
@@ -77,7 +77,7 @@ trait Joiner {
     JoinerFoldTuple (Seq (), Seq (), first_line )
 
   def _next_value (tuple: JoinerFoldTuple, head: String ): JoinerFoldTuple =
-    if (condition_for_join (tuple.previous_line.trim, head.trim )
+    if (is_a_join (tuple.previous_line.trim, head.trim )
     ) JoinerFoldTuple (tuple.in_process_rev.+: (tuple.previous_line ), tuple.processed_rev, head )
     else
       {
@@ -88,6 +88,6 @@ trait Joiner {
     in_process_rev.reverse.mkString ("") + line
 }
 
-case class JoinerImpl (lines_to_join: Seq [String], condition_for_join: (String, String ) => Boolean )  extends Joiner
+case class JoinerImpl (lines_to_join: Seq [String], is_a_join: (String, String ) => Boolean )  extends Joiner
 
 case class JoinerFoldTuple (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String )

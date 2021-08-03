@@ -12,16 +12,17 @@ trait CommentPreprocessor {
   def lines: Seq [String]
 
   lazy val soda_begin_comment = "/*"
+
   lazy val soda_end_comment = "*/"
 
   lazy val get_annotated_lines: Seq [AnnotatedLine] =
-    Rec () .foldLeft (lines, initial_value, next_value )
+    Rec () .foldLeft (lines, initial_value, get_next_value )
       .annotated_lines_rev
       .reverse
 
   lazy val initial_value = PreprocessorFoldTuple (false, Seq ()  )
 
-  def next_value (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
+  def get_next_value (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
     {
       lazy val t = annotate_this_line (line, pair.comment_state )
       PreprocessorFoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  ) }

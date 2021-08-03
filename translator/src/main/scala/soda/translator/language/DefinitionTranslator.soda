@@ -45,34 +45,34 @@ package soda.translator.language
     )
 
   is_class_definition =
-    indexOf(line, soda_space + Translation().soda_class_reserved_word + soda_space).isDefined
+    get_index(line, soda_space + Translation().soda_class_reserved_word + soda_space).isDefined
 
-  translate_class_definition =
+  translation_of_class_definition =
     ReplacementImpl(line).replace_all(soda_space + Translation().soda_definition, "")
 
-  translate_val_definition =
+  translation_of_val_definition =
     ReplacementImpl(line).add_after_spaces( Translation().scala_value + scala_space )
 
-  translate_def_definition =
+  translation_of_def_definition =
     ReplacementImpl(line).add_after_spaces( Translation().scala_definition + scala_space )
 
   try_found_definition(position: Int): Replacement =
-    if is_class_definition then translate_class_definition
-    else if is_val_definition(position) then translate_val_definition
-    else translate_def_definition
+    if is_class_definition then translation_of_class_definition
+    else if is_val_definition(position) then translation_of_val_definition
+    else translation_of_def_definition
 
   is_val_definition(initial_position: Int): Boolean =
     let
-      position_of_first_opening_parenthesis = indexOf(line, soda_opening_parenthesis)
-      case1 = position_of_first_opening_parenthesis.isEmpty
-      case2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
-      case3 =
-        indexOf(line, Translation().soda_colon).opt(
+      position_of_first_opening_parenthesis = get_index(line, soda_opening_parenthesis)
+      is_case_1 = position_of_first_opening_parenthesis.isEmpty
+      is_case_2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
+      is_case_3 =
+        get_index(line, Translation().soda_colon).opt(
           ifEmpty := false,
           ifNonEmpty := other_position ->
             position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
         )
-    in case1 or case2 or case3
+    in is_case_1 or is_case_2 or is_case_3
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -84,12 +84,12 @@ package soda.translator.language
   find_definition(line: String): OptionSD[Int] =
     if line.endsWith(soda_space + Translation().soda_definition)
     then SomeElem(line.length - Translation().soda_definition.length)
-    else indexOf(line, soda_space + Translation().soda_definition + soda_space)
+    else get_index(line, soda_space + Translation().soda_definition + soda_space)
 
-  indexOf(line: String, pattern: String): OptionSD[Int] =
-    indexOf(line, pattern, 0)
+  get_index(line: String, pattern: String): OptionSD[Int] =
+    get_index(line, pattern, 0)
 
-  indexOf(line: String, pattern: String, start: Int): OptionSD[Int] =
+  get_index(line: String, pattern: String, start: Int): OptionSD[Int] =
     SomeElem(line.indexOf(pattern, start))
       .filter(position -> not (position == -1))
 }

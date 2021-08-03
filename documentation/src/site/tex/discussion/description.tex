@@ -342,6 +342,25 @@ A function should always receive at least one parameter, except when it produces
 
 Some exceptions are the constants that start with prefix "is", "as", and "to", which do not need parameters.
 
+In addition, a parameter name should always be a nound, even if the signature is of a function.
+Although redundant, this could be eased by adding the suffix "function".
+Thus, the contrast of reading a noun used as a function is reduced.
+
+This example shows the three cases
+
+\begin{lstlisting}[label={lst:exampleFunctionsAsParameter}]
+    naive_definition(values: Seq[Int], weighted_average: Seq[Int] -> Int): Int =
+      weighted_average(values)
+
+    alternative_definition(values: Seq[Int], compute_weighted_average: Seq[Int] -> Int): Int =
+      compute_weighted_average(values)
+
+    recommended_definition(values: Seq[Int], weighted_average_function: Seq[Int] -> Int): Int =
+      weighted_average_function(values)
+\end{lstlisting}
+
+Analogously, for a boolean function, the suffix "condition" could simplify the reading.
+
 Since there are no private functions or constants in a class, the suggestion is to start their name with an underscore.
 
 Recursive functions should start with prefix "rec", for example, just "rec", or "rec_find_elem".

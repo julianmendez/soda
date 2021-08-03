@@ -12,16 +12,17 @@ package soda.translator.replacement
   has lines: Seq[String]
 
   soda_begin_comment = "/*"
+
   soda_end_comment = "*/"
 
   get_annotated_lines: Seq[AnnotatedLine] =
-    Rec().foldLeft(lines, initial_value, next_value)
+    Rec().foldLeft(lines, initial_value, get_next_value)
       .annotated_lines_rev
       .reverse
 
   initial_value = PreprocessorFoldTuple(false, Seq())
 
-  next_value(pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+  get_next_value(pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
     let
       t = annotate_this_line(line, pair.comment_state)
     in PreprocessorFoldTuple(t.new_comment_state,
