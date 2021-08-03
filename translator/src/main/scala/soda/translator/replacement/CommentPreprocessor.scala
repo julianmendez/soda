@@ -15,14 +15,14 @@ trait CommentPreprocessor {
 
   lazy val soda_end_comment = "*/"
 
-  lazy val get_annotated_lines: Seq [AnnotatedLine] =
-    Rec () .fold (lines, initial_value, get_next_value )
+  lazy val annotated_lines: Seq [AnnotatedLine] =
+    Rec () .fold (lines, initial_value, next_value_function )
       .annotated_lines_rev
       .reverse
 
   lazy val initial_value = PreprocessorFoldTuple (false, Seq ()  )
 
-  def get_next_value (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
+  def next_value_function (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
     {
       lazy val t = annotate_this_line (line, pair.comment_state )
       PreprocessorFoldTuple (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine (line, t.current_state )  )  ) }

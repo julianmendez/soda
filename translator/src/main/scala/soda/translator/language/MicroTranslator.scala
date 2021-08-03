@@ -55,7 +55,7 @@ trait MicroTranslator {
 
   def translate_lines (lines: Seq [String]  ): Seq [String] =
     CommentPreprocessorImpl (lines )
-      .get_annotated_lines
+      .annotated_lines
       .map (annotated_line =>
         if (annotated_line.isComment
         ) annotated_line.line

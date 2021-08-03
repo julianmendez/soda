@@ -66,17 +66,17 @@ trait Joiner {
     ) lines_to_join
     else
       {
-        lazy val tuple = Rec () .fold (lines_to_join.tail, _initial_value (lines_to_join.head ), _next_value )
+        lazy val tuple = Rec () .fold (lines_to_join.tail, _initial_value_function (lines_to_join.head ), _next_value_function )
         lazy val result =
           if (tuple.in_process_rev.isEmpty
           ) tuple.processed_rev.+: (tuple.previous_line )
           else tuple.processed_rev.+: (_rev_list_as_element (tuple.in_process_rev, tuple.previous_line )  )
         result }
 
-  def _initial_value (first_line: String ): JoinerFoldTuple =
+  def _initial_value_function (first_line: String ): JoinerFoldTuple =
     JoinerFoldTuple (Seq (), Seq (), first_line )
 
-  def _next_value (tuple: JoinerFoldTuple, head: String ): JoinerFoldTuple =
+  def _next_value_function (tuple: JoinerFoldTuple, head: String ): JoinerFoldTuple =
     if (is_a_join (tuple.previous_line.trim, head.trim )
     ) JoinerFoldTuple (tuple.in_process_rev.+: (tuple.previous_line ), tuple.processed_rev, head )
     else

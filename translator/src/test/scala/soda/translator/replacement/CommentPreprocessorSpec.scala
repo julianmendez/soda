@@ -16,7 +16,7 @@ case class CommentPreprocessorSpec () extends org.scalatest.funsuite.AnyFunSuite
       .split ("\n")
       .toSeq
     lazy val expected = Seq (AnnotatedLine ("", isComment = false ), AnnotatedLine ("", isComment = false ), AnnotatedLine ("/** This is an example */", isComment = true ), AnnotatedLine ("* Example() {", isComment = false ), AnnotatedLine ("  /* This is a comment */", isComment = true ), AnnotatedLine ("  a = \"/** this is not a comment */\"", isComment = false ), AnnotatedLine ("}", isComment = false )    )
-    lazy val obtained = CommentPreprocessorImpl (input ) .get_annotated_lines
+    lazy val obtained = CommentPreprocessorImpl (input ) .annotated_lines
 
     assert (obtained == expected )
   }

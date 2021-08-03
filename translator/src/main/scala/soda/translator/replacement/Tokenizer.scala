@@ -15,7 +15,7 @@ trait Tokenizer {
   def line: String
 
   lazy val tokens: Seq [Token] =
-    _postprocess (Rec () .fold (Rec () .range (line.length ), _initial_value, _get_next_value )  )
+    _postprocess (Rec () .fold (Rec () .range (line.length ), _initial_value, _next_value_function )  )
 
   lazy val _initial_value = TokenizerFoldTuple (0, ParserStateEnum () .plain, Seq ()  )
 
@@ -23,7 +23,7 @@ trait Tokenizer {
     (tuple.rev_tokens.+: (Token (line.substring (tuple.last_index ), tuple.parser_state, tuple.last_index )  )  )
       .reverse
 
-  def _get_next_value (tuple: TokenizerFoldTuple, current_index: Int ): TokenizerFoldTuple =
+  def _next_value_function (tuple: TokenizerFoldTuple, current_index: Int ): TokenizerFoldTuple =
     {
       lazy val ch = line.charAt (current_index )
       lazy val char_type = CharTypeEnum () .get_char_type (ch )
@@ -31,10 +31,10 @@ trait Tokenizer {
       lazy val result =
         if (ParserStateEnum () .is_same_class (new_parser_state, tuple.parser_state )
         ) TokenizerFoldTuple (tuple.last_index, new_parser_state, tuple.rev_tokens )
-        else _get_next_value_of_different_class (tuple, current_index, new_parser_state )
+        else _next_value_function_of_different_class (tuple, current_index, new_parser_state )
       result }
 
-  def _get_next_value_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
+  def _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
     {
       lazy val index =
         if (tuple.parser_state == ParserStateEnum () .quotes_state ||

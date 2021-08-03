@@ -29,11 +29,11 @@ package soda.translator.replacement
     let
       initial_value: String = line
 
-      get_next_value(line: String, reserved_word: String): String =
+      next_value_function(line: String, reserved_word: String): String =
         _replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().fold(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, next_value_function)
 
   _replace_if_found(line: String, pattern: String, new_text: String): String =
     if line.trim.startsWith(pattern.trim)
@@ -50,11 +50,11 @@ package soda.translator.replacement
     let
       initial_value: String = line
 
-      get_next_value(line: String, reserved_word: String): String =
+      next_value_function(line: String, reserved_word: String): String =
         replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().fold(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, next_value_function)
 
   replace_if_found(line: String, pattern: String, new_text: String): String =
     if line.contains(pattern)
@@ -117,9 +117,9 @@ package soda.translator.replacement
   replace_regex(line: String, translator: Translator): String =
     let
       initial_value: String = line
-      get_next_value(line: String, regex: String): String =
+      next_value_function(line: String, regex: String): String =
         line.replaceAll(regex, translator.translate(regex))
-    in Rec().fold(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, next_value_function)
 }
 
 * ReplacementImpl(line: String) extends Replacement
@@ -134,11 +134,11 @@ package soda.translator.replacement
   has replacement: String
 
   replaced_text =
-    postprocess( Rec().fold( Rec().range(line.length), initial_value, get_next_value, should_continue ) )
+    postprocess( Rec().fold( Rec().range(line.length), initial_value, next_value_function, should_continue ) )
 
   initial_value = ReplacerFoldTuple( Seq(), 0 )
 
-  get_next_value(tuple: ReplacerFoldTuple, x: Int): ReplacerFoldTuple =
+  next_value_function(tuple: ReplacerFoldTuple, x: Int): ReplacerFoldTuple =
     _get_next_tuple(
       replaced_text_rev := tuple.replaced_text_rev,
       start_index := tuple.start_index,
