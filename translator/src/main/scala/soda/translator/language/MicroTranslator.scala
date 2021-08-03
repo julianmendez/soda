@@ -39,7 +39,7 @@ trait MicroTranslator {
       .map (join_lines_with_backward_join )
       .map (translate_lines )
       .map (join_translated_lines )
-      .get
+      .value
 
   def split_lines (program: String ): Seq [String] =
     program.split (new_line ) .toIndexedSeq
@@ -68,7 +68,7 @@ trait MicroTranslator {
         .map (x => _translate_line (x )  )
         .map (x => _join_tokens (x )  )
         .map (x => ReplacementImpl (x ) .remove_space_from_scala_line () .line )
-        .get
+        .value
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>

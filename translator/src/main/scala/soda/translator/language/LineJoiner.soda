@@ -66,7 +66,7 @@ package soda.translator.language
     then lines_to_join
     else
       let
-        tuple = Rec().foldLeft(lines_to_join.tail, _initial_value(lines_to_join.head), _next_value)
+        tuple = Rec().fold(lines_to_join.tail, _initial_value(lines_to_join.head), _next_value)
         result =
           if tuple.in_process_rev.isEmpty
           then tuple.processed_rev.+:(tuple.previous_line)

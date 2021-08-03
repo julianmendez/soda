@@ -32,7 +32,7 @@ trait Replacement {
       def get_next_value (line: String, reserved_word: String ): String =
         _replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
-      Rec () .foldLeft (translator.keys, initial_value, get_next_value ) }
+      Rec () .fold (translator.keys, initial_value, get_next_value ) }
 
   def _replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
@@ -52,7 +52,7 @@ trait Replacement {
       def get_next_value (line: String, reserved_word: String ): String =
         replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
-      Rec () .foldLeft (translator.keys, initial_value, get_next_value ) }
+      Rec () .fold (translator.keys, initial_value, get_next_value ) }
 
   def replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.contains (pattern )
@@ -116,7 +116,7 @@ trait Replacement {
       lazy val initial_value: String = line
       def get_next_value (line: String, regex: String ): String =
         line.replaceAll (regex, translator.translate (regex )  )
-      Rec () .foldLeft (translator.keys, initial_value, get_next_value ) }
+      Rec () .fold (translator.keys, initial_value, get_next_value ) }
 }
 
 case class ReplacementImpl (line: String ) extends Replacement
@@ -131,7 +131,7 @@ trait Replacer {
   def replacement: String
 
   lazy val replaced_text =
-    postprocess (Rec () .foldLeftWhile (Rec () .range (line.length ), initial_value, get_next_value, should_continue ) )
+    postprocess (Rec () .fold (Rec () .range (line.length ), initial_value, get_next_value, should_continue ) )
 
   lazy val initial_value = ReplacerFoldTuple (Seq (), 0 )
 

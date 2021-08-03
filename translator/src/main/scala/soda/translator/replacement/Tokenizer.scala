@@ -15,7 +15,7 @@ trait Tokenizer {
   def line: String
 
   lazy val tokens: Seq [Token] =
-    _postprocess (Rec () .foldLeft (Rec () .range (line.length ), _initial_value, _get_next_value )  )
+    _postprocess (Rec () .fold (Rec () .range (line.length ), _initial_value, _get_next_value )  )
 
   lazy val _initial_value = TokenizerFoldTuple (0, ParserStateEnum () .plain, Seq ()  )
 

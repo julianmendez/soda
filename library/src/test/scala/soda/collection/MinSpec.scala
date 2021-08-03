@@ -13,7 +13,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   def prepend_elem (list: MSeq [Int], elem: Int ) = MinImpl () .prepended (list, elem )
   lazy val example: NESeq [Int] =
-    Rec () .foldLeft (revExampleSeq.tail, NESeqImpl [Int]  (revExampleSeq.head, ESeqImpl [Int]  ()  ), prepend_elem )
+    Rec () .fold (revExampleSeq.tail, NESeqImpl [Int]  (revExampleSeq.head, ESeqImpl [Int]  ()  ), prepend_elem )
 
   test ("prepended") {
     lazy val expected = MSeqTranslatorImpl () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )

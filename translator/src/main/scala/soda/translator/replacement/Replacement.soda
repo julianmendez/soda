@@ -33,7 +33,7 @@ package soda.translator.replacement
         _replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().foldLeft(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, get_next_value)
 
   _replace_if_found(line: String, pattern: String, new_text: String): String =
     if line.trim.startsWith(pattern.trim)
@@ -54,7 +54,7 @@ package soda.translator.replacement
         replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().foldLeft(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, get_next_value)
 
   replace_if_found(line: String, pattern: String, new_text: String): String =
     if line.contains(pattern)
@@ -119,7 +119,7 @@ package soda.translator.replacement
       initial_value: String = line
       get_next_value(line: String, regex: String): String =
         line.replaceAll(regex, translator.translate(regex))
-    in Rec().foldLeft(translator.keys, initial_value, get_next_value)
+    in Rec().fold(translator.keys, initial_value, get_next_value)
 }
 
 * ReplacementImpl(line: String) extends Replacement
@@ -134,7 +134,7 @@ package soda.translator.replacement
   has replacement: String
 
   replaced_text =
-    postprocess( Rec().foldLeftWhile( Rec().range(line.length), initial_value, get_next_value, should_continue ) )
+    postprocess( Rec().fold( Rec().range(line.length), initial_value, get_next_value, should_continue ) )
 
   initial_value = ReplacerFoldTuple( Seq(), 0 )
 

@@ -11,7 +11,7 @@ package soda.lib
 
     assert(empty.isEmpty and
       not empty.isDefined and
-      not empty.nonEmpty)
+      not empty.isNonEmpty)
   }
 
   test("should test a non empty option") {
@@ -19,7 +19,7 @@ package soda.lib
 
     assert(not element.isEmpty and
       element.isDefined and
-      element.nonEmpty)
+      element.isNonEmpty)
   }
 
   test("should get a default value, when empty") {

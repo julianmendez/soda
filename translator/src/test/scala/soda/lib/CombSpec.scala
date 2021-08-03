@@ -7,28 +7,28 @@ case class CombSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = Seq (Seq (10, 100 ), Seq (10, 200 ), Seq (10, 300 ), Seq (20, 100 ), Seq (20, 200 ), Seq (20, 300 )    )
     lazy val seq_a = Seq (10, 20 )
     lazy val seq_b = Seq (100, 200, 300 )
-    lazy val obtained = Comb () .cartesianProduct (Seq (seq_a, seq_b )  )
+    lazy val obtained = Comb () .get_cartesian_product (Seq (seq_a, seq_b )  )
 
     assert (obtained == expected )
   }
 
   test ("Cartesian product of an empty sequence") {
     lazy val expected = Seq ()
-    lazy val obtained = Comb () .cartesianProduct (Seq ()  )
+    lazy val obtained = Comb () .get_cartesian_product (Seq ()  )
 
     assert (obtained == expected )
   }
 
   test ("Cartesian product of only empty sequences") {
     lazy val expected = Seq ()
-    lazy val obtained = Comb () .cartesianProduct (Seq (Seq (), Seq (), Seq ()  )  )
+    lazy val obtained = Comb () .get_cartesian_product (Seq (Seq (), Seq (), Seq ()  )  )
 
     assert (obtained == expected )
   }
 
   test ("Cartesian product with at least one empty sequence") {
     lazy val expected = Seq ()
-    lazy val obtained = Comb () .cartesianProduct (Seq (Seq ("A"), Seq ()  )  )
+    lazy val obtained = Comb () .get_cartesian_product (Seq (Seq ("A"), Seq ()  )  )
 
     assert (obtained == expected )
   }
@@ -38,7 +38,7 @@ case class CombSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val seq_a = Seq ("A", "B")
     lazy val seq_b = Seq ("0", "1", "2")
     lazy val seq_c = Seq ("a", "b", "c", "d")
-    lazy val obtained = Comb () .cartesianProduct (Seq (seq_a, seq_b, seq_c )  )
+    lazy val obtained = Comb () .get_cartesian_product (Seq (seq_a, seq_b, seq_c )  )
 
     assert (obtained == expected )
   }

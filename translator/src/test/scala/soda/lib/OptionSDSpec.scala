@@ -11,7 +11,7 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (empty.isEmpty &&
       ! empty.isDefined &&
-      ! empty.nonEmpty )
+      ! empty.isNonEmpty )
   }
 
   test ("should test a non empty option") {
@@ -19,7 +19,7 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (! element.isEmpty &&
       element.isDefined &&
-      element.nonEmpty )
+      element.isNonEmpty )
   }
 
   test ("should get a default value, when empty") {

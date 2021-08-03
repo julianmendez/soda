@@ -10,28 +10,28 @@ package soda.lib
     )
     seq_a = Seq(10, 20)
     seq_b = Seq(100, 200, 300)
-    obtained = Comb().cartesianProduct(Seq(seq_a, seq_b))
+    obtained = Comb().get_cartesian_product(Seq(seq_a, seq_b))
 
     assert(obtained == expected)
   }
 
   test("Cartesian product of an empty sequence") {
     expected = Seq()
-    obtained = Comb().cartesianProduct(Seq())
+    obtained = Comb().get_cartesian_product(Seq())
 
     assert(obtained == expected)
   }
 
   test("Cartesian product of only empty sequences") {
     expected = Seq()
-    obtained = Comb().cartesianProduct(Seq(Seq(), Seq(), Seq()))
+    obtained = Comb().get_cartesian_product(Seq(Seq(), Seq(), Seq()))
 
     assert(obtained == expected)
   }
 
   test("Cartesian product with at least one empty sequence") {
     expected = Seq()
-    obtained = Comb().cartesianProduct(Seq(Seq("A"), Seq()))
+    obtained = Comb().get_cartesian_product(Seq(Seq("A"), Seq()))
 
     assert(obtained == expected)
   }
@@ -48,7 +48,7 @@ package soda.lib
     seq_a = Seq("A", "B")
     seq_b = Seq("0", "1", "2")
     seq_c = Seq("a", "b", "c", "d")
-    obtained = Comb().cartesianProduct(Seq(seq_a, seq_b, seq_c))
+    obtained = Comb().get_cartesian_product(Seq(seq_a, seq_b, seq_c))
 
     assert(obtained == expected)
   }

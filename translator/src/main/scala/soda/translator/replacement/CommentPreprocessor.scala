@@ -16,7 +16,7 @@ trait CommentPreprocessor {
   lazy val soda_end_comment = "*/"
 
   lazy val get_annotated_lines: Seq [AnnotatedLine] =
-    Rec () .foldLeft (lines, initial_value, get_next_value )
+    Rec () .fold (lines, initial_value, get_next_value )
       .annotated_lines_rev
       .reverse
 

@@ -15,7 +15,7 @@ package soda.translator.replacement
   has line: String
 
   tokens: Seq[Token] =
-    _postprocess(Rec().foldLeft( Rec().range(line.length), _initial_value, _get_next_value ))
+    _postprocess(Rec().fold( Rec().range(line.length), _initial_value, _get_next_value ))
 
   _initial_value = TokenizerFoldTuple(0, ParserStateEnum().plain, Seq())
 

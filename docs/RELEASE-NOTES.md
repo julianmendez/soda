@@ -4,6 +4,7 @@
   - new_features:
     - has its functions separated from concrete classes making abstract classes the only classes containing functions
     - uses a uniform standard for constant names, function names, and class names
+    - renames `foldLeft` and `foldLeftWhile` to just `fold` in `Recursive` library class
     - renames concrete classes in `OptionSD`, mapping `NoneSD` to `NoElem` and `SomeSD` to `SomeElem`
   - build: sbt '++ 3.0.0' clean compile test package assembly
   - release: target/scala-3.0.0/soda-0.10.0.jar

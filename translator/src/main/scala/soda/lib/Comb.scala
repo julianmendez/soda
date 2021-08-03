@@ -9,7 +9,7 @@ package soda.lib
  */
 trait CartesianProduct {
 
-  def cartesianProduct [T]  (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
+  def get_cartesian_product [T]  (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
     {
       lazy val result =
         if (sequences.isEmpty
@@ -17,7 +17,7 @@ trait CartesianProduct {
         else
           {
             lazy val rev_sequences = sequences.reverse
-            Rec () .foldLeft (rev_sequences.tail, initial_value (rev_sequences.head ), next_value ) }
+            Rec () .fold (rev_sequences.tail, initial_value (rev_sequences.head ), next_value ) }
 
       def initial_value (seq: Seq [T]  ): Seq [Seq [T]] = seq.map (elem => Seq (elem )  )
 

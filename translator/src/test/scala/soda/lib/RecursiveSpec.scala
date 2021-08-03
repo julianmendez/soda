@@ -5,21 +5,21 @@ case class RecursiveSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
 
-  test ("foldLeftWhile with Seq") {
+  test ("fold left while with Seq") {
     lazy val initial_value = Seq ()
-    lazy val next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val next_value_function: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
     lazy val condition: (Seq [String], Int ) => Boolean = (s: Seq [String], e: Int ) => e < 5
     lazy val expected = Seq ("103", "102", "101", "101", "100")
-    lazy val obtained = Rec () .foldLeftWhile (exampleSeq, initial_value, next_value, condition )
+    lazy val obtained = Rec () .fold (exampleSeq, initial_value, next_value_function, condition )
 
     assert (obtained == expected )
   }
 
-  test ("foldLeft with Seq") {
+  test ("fold left with Seq") {
     lazy val initial_value = Seq ()
-    lazy val next_value: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val next_value_function: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
     lazy val expected = Seq ("108", "105", "103", "102", "101", "101", "100")
-    lazy val obtained = Rec () .foldLeft (exampleSeq, initial_value, next_value )
+    lazy val obtained = Rec () .fold (exampleSeq, initial_value, next_value_function )
 
     assert (obtained == expected )
   }
