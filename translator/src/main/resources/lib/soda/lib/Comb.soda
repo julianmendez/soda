@@ -9,7 +9,7 @@ package soda.lib
  */
 * CartesianProduct = {
 
-  cartesianProduct[T](sequences: Seq[Seq[T]]): Seq[Seq[T]] =
+  get_cartesian_product[T](sequences: Seq[Seq[T]]): Seq[Seq[T]] =
     let
       result =
         if sequences.isEmpty
