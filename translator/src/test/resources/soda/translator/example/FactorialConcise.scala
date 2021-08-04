@@ -2,12 +2,13 @@ package soda.translator.example
 
 
 trait AbstractFactorialConcise {
-  def factorial (n: Int ): Int
+
+  def get_factorial (n: Int ): Int
 }
 
 trait FactorialConcise extends AbstractFactorialConcise {
 
-  def factorial (n: Int ) =
+  def get_factorial (n: Int ) =
     {
       lazy val result = rec (n, 1 )
 

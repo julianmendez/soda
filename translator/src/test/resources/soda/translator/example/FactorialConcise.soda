@@ -2,12 +2,13 @@ package soda.translator.example
 
 
 * AbstractFactorialConcise = {
-  has factorial (n: Int): Int
+
+  has get_factorial (n: Int): Int
 }
 
 * FactorialConcise extends AbstractFactorialConcise = {
 
-  factorial (n: Int) =
+  get_factorial (n: Int) =
     let
       result = rec (n, 1)
 

@@ -7,13 +7,13 @@ package soda.translator.example
   fizz = "Fizz"
   buzz = "Buzz"
 
-  fizz_buzz() =
+  fizz_buzz =
     Rec()
       .range(100)
       .map(x -> x + 1)
-      .map(fizz_buzz_term)
+      .map(get_fizz_buzz_term)
 
-  fizz_buzz_term(n: Int) =
+  get_fizz_buzz_term(n: Int) =
     if is_divisible_by(n, 15) then fizz + buzz
     else if is_divisible_by(n, 3) then fizz
     else if is_divisible_by(n, 5) then buzz

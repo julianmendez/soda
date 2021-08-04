@@ -2,12 +2,13 @@ package soda.translator.example
 
 
 class AbstractFactorialVerbose = {
-  has factorial (n: Int): Int
+
+  has get_factorial (n: Int): Int
 }
 
 class FactorialVerbose extends AbstractFactorialVerbose = {
 
-  factorial (n: Int) is
+  get_factorial (n: Int) is
     let
       result is rec (n, 1)
 

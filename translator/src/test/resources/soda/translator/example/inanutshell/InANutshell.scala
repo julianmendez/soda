@@ -25,7 +25,7 @@ trait InANutshell {
       lazy val b = x - y
       result }
 
-  def greater_than (a: Int, b: Int ): Boolean =
+  def is_greater_than (a: Int, b: Int ): Boolean =
     a > b
 
   def max (a: Int, b: Int ): Int =

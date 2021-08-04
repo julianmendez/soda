@@ -9,7 +9,7 @@ case class FactorialSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
       .map (pair => pair._1 )
-      .map (n => (n, FactorialConciseImpl () .factorial (n )  )  )
+      .map (n => (n, FactorialConciseImpl () .get_factorial (n )  )  )
 
     assert (obtained == expected )
   }
@@ -18,7 +18,7 @@ case class FactorialSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = factorial_values
     lazy val obtained = factorial_values
       .map (pair => pair._1 )
-      .map (n => (n, FactorialVerboseImpl () .factorial (n )  )  )
+      .map (n => (n, FactorialVerboseImpl () .get_factorial (n )  )  )
     assert (obtained == expected )
   }
 }

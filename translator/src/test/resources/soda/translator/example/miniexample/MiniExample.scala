@@ -6,7 +6,6 @@ trait MiniExample extends soda.lib.Recursive {
   def run () =
     range (50 )
       .map (x => print (" " + (2 * x + 1 )  ) )
-
 }
 
 case class MiniExampleImpl () extends MiniExample

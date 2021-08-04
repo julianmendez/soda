@@ -8,7 +8,7 @@ class Applicant is {
 
 class Fairness is {
 
-  has ranking_function: Applicant -> Double
+  has rank: Applicant -> Double
 
   has score_difference_tolerance: Double
 
@@ -20,7 +20,7 @@ class Fairness is {
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)
-    then have_similar_ranking (ranking_function (alice), ranking_function (bob))
+    then have_similar_ranking (rank (alice), rank (bob))
     else true
 
   have_similar_score (score1: Double, score2: Double) is
@@ -33,7 +33,7 @@ class Fairness is {
     Math.abs(value - another_value)
 
   is_response_time_acceptable (applicant: Applicant) is
-    if measure_time (ranking_function (applicant)) < maximum_execution_time
+    if measure_time (rank (applicant)) < maximum_execution_time
     then true
     else false
 }

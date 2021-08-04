@@ -25,7 +25,7 @@ package soda.translator.example.inanutshell
       b = x - y
     in result
 
-  greater_than(a: Int, b: Int): Boolean =
+  is_greater_than(a: Int, b: Int): Boolean =
     a > b
 
   max(a: Int, b: Int): Int =
@@ -103,5 +103,4 @@ class PersonName = {
   @override
   toString = name
 }
-
 

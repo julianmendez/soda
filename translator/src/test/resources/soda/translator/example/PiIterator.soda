@@ -25,14 +25,14 @@ package soda.translator.example
 * PiIterator = {
 
   initial_status =
-    Status (r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
+    Status(r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
 
-  compute_new_status (s: Status): Status =
+  compute_new_status(s: Status): Status =
     let
       result = rec(s)
 
       @tailrec
-      rec (s: Status): Status =
+      rec(s: Status): Status =
         if (4 * s.q + s.r - s.t) < (s.n * s.t)
         then s
         else
@@ -43,30 +43,30 @@ package soda.translator.example
             t = s.t * s.l
             l = s.l + 2
             k = s.k + 1
-            new_status = Status (r, n, q, t, l, k)
-          in rec (new_status)
+            new_status = Status(r, n, q, t, l, k)
+          in rec(new_status)
 
     in result
 
-  take (n: Int): Seq[BigInt] =
+  take(n: Int): Seq[BigInt] =
     let
-      result = rec (n, Seq(), initial_status)
+      result = rec(n, Seq(), initial_status)
 
       @tailrec
-      rec (n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
+      rec(n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
         if n == 0
         then rev_seq.reverse
         else
           let
-            t = _next (s)
-          in rec (n - 1, rev_seq.+:(t.digit), t.new_status)
+            t = _get_next(s)
+          in rec(n - 1, rev_seq.+:(t.digit), t.new_status)
 
     in result
 
-  _next (s: Status): BigIntAndStatus =
+  _get_next(s: Status): BigIntAndStatus =
     let
       result = BigIntAndStatus(ret, new_status)
-      ns = compute_new_status (s)
+      ns = compute_new_status(s)
       ret = ns.n
       r = 10 * (ns.r - ns.n * ns.t)
       n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
@@ -74,7 +74,7 @@ package soda.translator.example
       t = ns.t
       l = ns.l
       k = ns.k
-      new_status = Status (r, n, q, t, l, k)
+      new_status = Status(r, n, q, t, l, k)
     in result
 }
 

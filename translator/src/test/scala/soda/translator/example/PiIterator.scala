@@ -53,12 +53,12 @@ trait PiIterator {
         ) rev_seq.reverse
         else
           {
-            lazy val t = _next (s )
+            lazy val t = _get_next (s )
             rec (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
 
       result }
 
-  def _next (s: Status ): BigIntAndStatus =
+  def _get_next (s: Status ): BigIntAndStatus =
     {
       lazy val result = BigIntAndStatus (ret, new_status )
       lazy val ns = compute_new_status (s )
