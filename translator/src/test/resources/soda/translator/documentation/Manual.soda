@@ -205,8 +205,8 @@ class FactorialVerbose extends AbstractFactorialVerbose is {
 
 class Recursive = {
 
-  foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
-      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
+      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -215,11 +215,11 @@ class Recursive = {
         else
           if not condition(acc, seq.head)
           then acc
-          else rec(seq.tail, next_value(acc, seq.head))
+          else rec(seq.tail, next_value_function(acc, seq.head))
 
-    in rec(s, initial_value)
+    in rec(sequence, initial_value)
 
-  range(n: Int): Seq[Int] =
+  range(length: Int): Seq[Int] =
     let
       @tailrec
       rec(n: Int, seq: Seq[Int]): Seq[Int] =
@@ -227,7 +227,7 @@ class Recursive = {
         then seq
         else rec(n - 1, seq.+:(n - 1))
 
-    in rec(n, Seq[Int]())
+    in rec(length, Seq[Int]())
 }
 
 class Rec() extends Recursive

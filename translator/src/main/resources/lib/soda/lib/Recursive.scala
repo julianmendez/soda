@@ -34,7 +34,7 @@ trait Recursive {
 
       rec (sequence, initial_value ) }
 
-  def range (size: Int ): Seq [Int] =
+  def range (length: Int ): Seq [Int] =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -43,7 +43,7 @@ trait Recursive {
         ) seq
         else rec (n - 1, seq.+: (n - 1 )  )
 
-      rec (size, Seq [Int]  ()  ) }
+      rec (length, Seq [Int]  ()  ) }
 }
 
 case class Rec () extends Recursive

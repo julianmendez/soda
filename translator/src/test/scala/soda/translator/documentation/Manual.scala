@@ -207,7 +207,7 @@ trait FactorialVerbose extends AbstractFactorialVerbose {
 
 trait Recursive {
 
-  def foldLeftWhile [A, B, C <: B]  (s: Seq [A], initial_value: C, next_value: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -217,11 +217,11 @@ trait Recursive {
         else
           if (! condition (acc, seq.head )
           ) acc
-          else rec (seq.tail, next_value (acc, seq.head )  )
+          else rec (seq.tail, next_value_function (acc, seq.head )  )
 
-      rec (s, initial_value ) }
+      rec (sequence, initial_value ) }
 
-  def range (n: Int ): Seq [Int] =
+  def range (length: Int ): Seq [Int] =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -230,7 +230,7 @@ trait Recursive {
         ) seq
         else rec (n - 1, seq.+: (n - 1 )  )
 
-      rec (n, Seq [Int]  ()  ) }
+      rec (length, Seq [Int]  ()  ) }
 }
 
 case class Rec () extends Recursive
