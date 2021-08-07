@@ -263,7 +263,12 @@ An class declaration of an abstract class contains:
 \end{itemize}
 
 All super types are abstract classes, since concrete classes cannot be extended.
-For this reason, it is recommended to use abstract classes as much as possible, and only use empty concrete classes containing trivial constants or functions.
+For this reason, it is recommended to use abstract classes as much as possible, and using empty concrete classes, or concrete classes containing trivial constants or functions.
+
+It is also recommended to have small abstract classes.
+Ideally, they should contain the smallest number of constants and functions to describe a \textit{concept}.
+It is important to highlight that the concept should look familiar to a human being.
+The larger the class, the more vague its purpose, and therefore, the less useful it is.
 
 The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
 This declaration if different from the block use to define an expression, since that block always requires a result, and all the content is private.
