@@ -1,0 +1,24 @@
+package soda.translator.example
+
+
+* SortExample = {
+
+  has is_sorted(sequence: Seq[Int]): Boolean
+}
+
+* SortExampleNaive = {
+
+  is_sorted_with_at(sequence: Seq[Int]): Boolean =
+    sequence
+      .indices
+      .filter(index -> index > 0)
+      .forall(index -> sequence(index - 1) <= sequence(index))
+
+  is_sorted_with_zip(sequence: Seq[Int]): Boolean =
+    sequence
+      .zip(sequence.tail)
+      .forall(pair -> (pair._1 <= pair._2))
+}
+
+* SortExampleNaive_() extends SortExampleNaive
+
