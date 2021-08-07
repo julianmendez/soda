@@ -2,6 +2,7 @@ package soda.translator.example
 
 
 case class SortExampleSpec () extends org.scalatest.funsuite.AnyFunSuite {
+  import soda.lib.SomeElem
 
   test ("test sorted sequence with at") {
     lazy val sorted_sequence = Seq (1, 3, 5, 5, 8, 9 )
@@ -57,6 +58,15 @@ case class SortExampleSpec () extends org.scalatest.funsuite.AnyFunSuite {
     lazy val instance = SortAlgorithmExampleWithFold_ ()
     lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 )
     lazy val expected = Seq (1, 3, 4, 5, 8, 9 )
+    lazy val obtained = instance.sort (unsorted_sequence )
+
+    assert (obtained == expected )
+  }
+
+  test ("sort unsorted sequence applying constraints to verify correctness") {
+    lazy val instance = ConstrainedSortAlgorithm_ ()
+    lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 )
+    lazy val expected = SomeElem (Seq (1, 3, 4, 5, 8, 9 )  )
     lazy val obtained = instance.sort (unsorted_sequence )
 
     assert (obtained == expected )

@@ -58,3 +58,21 @@ package soda.translator.example
 
 * SortAlgorithmExampleWithFold_() extends SortAlgorithmExampleWithFold
 
+* ConstrainedSortAlgorithm = {
+  + soda.lib.OptionSD
+  + soda.lib.SomeElem
+  + soda.lib.NoElem
+
+  sort(sequence: Seq[Int]): OptionSD[Seq[Int]] =
+    let
+      sorted_sequence =
+        SortAlgorithmExampleWithFold_().sort(sequence)
+      result =
+        if SortExampleWithZip_().is_sorted(sorted_sequence)
+        then SomeElem(sorted_sequence)
+        else NoElem[Seq[Int]]()
+    in result
+}
+
+* ConstrainedSortAlgorithm_() extends ConstrainedSortAlgorithm
+

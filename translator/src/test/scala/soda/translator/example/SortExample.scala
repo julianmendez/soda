@@ -54,3 +54,21 @@ trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
 }
 
 case class SortAlgorithmExampleWithFold_ () extends SortAlgorithmExampleWithFold
+
+trait ConstrainedSortAlgorithm {
+  import soda.lib.OptionSD
+  import soda.lib.SomeElem
+  import soda.lib.NoElem
+
+  def sort (sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
+    {
+      lazy val sorted_sequence =
+        SortAlgorithmExampleWithFold_ () .sort (sequence )
+      lazy val result =
+        if (SortExampleWithZip_ () .is_sorted (sorted_sequence )
+        ) SomeElem (sorted_sequence )
+        else NoElem [Seq [Int]]  ()
+      result }
+}
+
+case class ConstrainedSortAlgorithm_ () extends ConstrainedSortAlgorithm
