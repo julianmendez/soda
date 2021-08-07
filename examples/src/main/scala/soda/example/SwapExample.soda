@@ -1,0 +1,10 @@
+package soda.translator.example
+
+* PairExample(left: Int, right: Int)
+
+* SwapExample = {
+
+  swap(pair: PairExample): PairExample =
+    PairExample(pair.right, pair.left)
+}
+

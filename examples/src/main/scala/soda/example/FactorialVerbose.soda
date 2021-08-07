@@ -1,0 +1,24 @@
+package soda.translator.example
+
+
+class AbstractFactorialVerbose = {
+
+  has get_factorial (n: Int): Int
+}
+
+class FactorialVerbose extends AbstractFactorialVerbose = {
+
+  get_factorial (n: Int) is
+    let
+      result is rec (n, 1)
+
+      @tailrec
+      rec (n: Int, product: Int): Int is
+        if n == 0
+        then product
+        else rec (n - 1, n * product)
+    in result
+}
+
+class FactorialVerboseImpl() extends FactorialVerbose
+

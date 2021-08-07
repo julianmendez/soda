@@ -1,0 +1,20 @@
+package soda.translator.example.miniexample
+
+
+* MiniExample extends soda.lib.Recursive = {
+
+  run() =
+    range(50)
+      .map(x -> print(" " + (2 * x + 1)) )
+}
+
+* MiniExampleImpl() extends MiniExample
+
+@main
+* MainClass = {
+  main (args: Array[String]): Unit =
+    MiniExampleImpl().run()
+}
+
+* Main() extends MainClass
+
