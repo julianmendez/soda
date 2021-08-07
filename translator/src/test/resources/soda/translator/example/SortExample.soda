@@ -6,19 +6,55 @@ package soda.translator.example
   has is_sorted(sequence: Seq[Int]): Boolean
 }
 
-* SortExampleNaive = {
+* SortExampleWithAt
+  extends SortExample = {
 
-  is_sorted_with_at(sequence: Seq[Int]): Boolean =
+  is_sorted(sequence: Seq[Int]): Boolean =
     sequence
       .indices
       .filter(index -> index > 0)
       .forall(index -> sequence(index - 1) <= sequence(index))
+}
 
-  is_sorted_with_zip(sequence: Seq[Int]): Boolean =
+* SortExampleWithAt_() extends SortExampleWithAt
+
+* SortExampleWithZip
+  extends SortExample = {
+
+  is_sorted(sequence: Seq[Int]): Boolean =
     sequence
       .zip(sequence.tail)
       .forall(pair -> (pair._1 <= pair._2))
 }
 
-* SortExampleNaive_() extends SortExampleNaive
+* SortExampleWithZip_() extends SortExampleWithZip
+
+* SortAlgorithmExample = {
+
+  has sort(sequence: Seq[Int]): Seq[Int]
+}
+
+* SortAlgorithmExampleWithFold
+  extends SortAlgorithmExample = {
+  + soda.lib.Rec
+
+  sort(sequence: Seq[Int]): Seq[Int] =
+    if sequence.length < 2
+    then sequence
+    else Rec().fold(sequence, _initial_value, _next_value_function)
+
+  _initial_value = Seq[Int]()
+
+  _next_value_function(current_sequence: Seq[Int], elem: Int): Seq[Int] =
+    insert_sorted(current_sequence, elem)
+
+  insert_sorted(sequence: Seq[Int], element: Int): Seq[Int] =
+    let
+      first_part = sequence.takeWhile(x -> x < element)
+      middle = Seq(element)
+      last_part = sequence.dropWhile(x -> x < element)
+    in first_part.++(middle.++(last_part))
+}
+
+* SortAlgorithmExampleWithFold_() extends SortAlgorithmExampleWithFold
 

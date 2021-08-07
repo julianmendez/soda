@@ -6,18 +6,51 @@ trait SortExample {
   def is_sorted (sequence: Seq [Int]  ): Boolean
 }
 
-trait SortExampleNaive {
+trait SortExampleWithAt  extends SortExample {
 
-  def is_sorted_with_at (sequence: Seq [Int]  ): Boolean =
+  def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
       .indices
       .filter (index => index > 0 )
       .forall (index => sequence (index - 1 ) <= sequence (index )  )
+}
 
-  def is_sorted_with_zip (sequence: Seq [Int]  ): Boolean =
+case class SortExampleWithAt_ () extends SortExampleWithAt
+
+trait SortExampleWithZip  extends SortExample {
+
+  def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
       .zip (sequence.tail )
       .forall (pair => (pair._1 <= pair._2 )  )
 }
 
-case class SortExampleNaive_ () extends SortExampleNaive
+case class SortExampleWithZip_ () extends SortExampleWithZip
+
+trait SortAlgorithmExample {
+
+  def sort (sequence: Seq [Int]  ): Seq [Int]
+}
+
+trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
+  import soda.lib.Rec
+
+  def sort (sequence: Seq [Int]  ): Seq [Int] =
+    if (sequence.length < 2
+    ) sequence
+    else Rec () .fold (sequence, _initial_value, _next_value_function )
+
+  lazy val _initial_value = Seq [Int]  ()
+
+  def _next_value_function (current_sequence: Seq [Int], elem: Int ): Seq [Int] =
+    insert_sorted (current_sequence, elem )
+
+  def insert_sorted (sequence: Seq [Int], element: Int ): Seq [Int] =
+    {
+      lazy val first_part = sequence.takeWhile (x => x < element )
+      lazy val middle = Seq (element )
+      lazy val last_part = sequence.dropWhile (x => x < element )
+      first_part.++ (middle.++ (last_part )  ) }
+}
+
+case class SortAlgorithmExampleWithFold_ () extends SortAlgorithmExampleWithFold
