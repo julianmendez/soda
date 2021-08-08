@@ -36,7 +36,7 @@ trait NonEmptySeqSD [T] extends SeqSD [T] {
 
   lazy val head: T = toSeq.head
 
-  lazy val tail: SeqSD [T] = SeqSDBuilderImpl [T]  () .build (toSeq.tail )
+  lazy val tail: SeqSD [T] = SeqSDBuilder_ [T]  () .build (toSeq.tail )
 
   lazy val reverse: NonEmptySeqSD [T] = _NonEmptySeqSD (toSeq.reverse )
 }
@@ -51,4 +51,4 @@ trait SeqSDBuilder [T] {
     else _NonEmptySeqSD [T]  (seq )
 }
 
-case class SeqSDBuilderImpl [T]  () extends SeqSDBuilder [T]
+case class SeqSDBuilder_ [T]  () extends SeqSDBuilder [T]

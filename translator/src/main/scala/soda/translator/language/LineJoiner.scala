@@ -18,10 +18,10 @@ trait LineJoiner {
   lazy val space = " "
 
   lazy val joined_lines_with_forward_join: Seq [String] =
-    JoinerImpl (lines, is_a_forward_join ) .join
+    Joiner_ (lines, is_a_forward_join ) .join
 
   lazy val joined_lines_with_backward_join: Seq [String] =
-    JoinerImpl (lines, is_a_backward_join ) .join
+    Joiner_ (lines, is_a_backward_join ) .join
 
   def is_a_forward_join (previous_line: String, current_line: String ): Boolean =
     is_a_symbol_forward_join (previous_line ) ||
@@ -50,7 +50,7 @@ trait LineJoiner {
       .exists (current_line.startsWith )
 }
 
-case class LineJoinerImpl (lines: Seq [String]  ) extends LineJoiner
+case class LineJoiner_ (lines: Seq [String]  ) extends LineJoiner
 
 trait Joiner {
   import soda.lib.Rec
@@ -88,6 +88,6 @@ trait Joiner {
     in_process_rev.reverse.mkString ("") + line
 }
 
-case class JoinerImpl (lines_to_join: Seq [String], is_a_join: (String, String ) => Boolean )  extends Joiner
+case class Joiner_ (lines_to_join: Seq [String], is_a_join: (String, String ) => Boolean )  extends Joiner
 
 case class JoinerFoldTuple (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String )

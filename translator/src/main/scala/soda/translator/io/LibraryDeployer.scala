@@ -9,7 +9,7 @@ trait LibraryDeployer {
   lazy val library_directory_in_jar = "/lib/soda/lib/"
 
   lazy val library_content_files: Seq [String] =
-    SimpleIOImpl ()
+    SimpleFileReader_ ()
       .read_resource (library_directory_in_jar + "files.txt")
       .split ("\n")
       .toSeq
@@ -20,7 +20,7 @@ trait LibraryDeployer {
       .map (parent_directory =>
         library_content_files
           .map (lib_file_name =>
-            SimpleIOImpl () .write_file (file = SimpleIOImpl () .create_file (parent_directory, lib_file_name ), content = SimpleIOImpl () .read_resource (library_directory_in_jar + lib_file_name )            )          ) .forall (x => x )      ) .forall (x => x )
+            SimpleFileWriter_ () .write_file (file = SimpleFileWriter_ () .create_file (parent_directory, lib_file_name ), content = SimpleFileReader_ () .read_resource (library_directory_in_jar + lib_file_name )            )          ) .forall (x => x )      ) .forall (x => x )
 }
 
-case class LibraryDeployerImpl () extends LibraryDeployer
+case class LibraryDeployer_ () extends LibraryDeployer

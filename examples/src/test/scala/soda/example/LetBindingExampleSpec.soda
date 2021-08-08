@@ -4,14 +4,14 @@ package soda.translator.example
 * LetBindingSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("should evaluate an expression like 'where'") {
-    obtained = LetBindingExampleImpl().three_parts_like_where
+    obtained = LetBindingExample_().three_parts_like_where
     expected = Seq("first part", "second part", "third part")
 
     assert(obtained == expected)
   }
 
   test("should evaluate an expression like 'let in'") {
-    obtained = LetBindingExampleImpl().three_parts_like_let_in
+    obtained = LetBindingExample_().three_parts_like_let_in
     expected = Seq("first part", "second part", "third part")
 
     assert(obtained == expected)

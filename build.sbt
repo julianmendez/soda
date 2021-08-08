@@ -8,7 +8,7 @@ lazy val scala3 = "3.0.0"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.soda",
-  version := "0.10.0-SNAPSHOT",
+  version := "0.10.0",
 
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
@@ -74,11 +74,22 @@ lazy val library = project
   )
 
 
+lazy val examples = project
+  .withId(id = "examples")
+  .in(file("examples"))
+  .aggregate(translator, library)
+  .dependsOn(translator, library)
+  .settings(
+    commonSettings,
+    assembly / assemblyJarName := "examples-" + version.value + ".jar"
+  )
+
+
 lazy val root = project
   .withId(id = "soda")
   .in(file("."))
-  .aggregate(documentation, translator, library)
-  .dependsOn(documentation, translator, library)
+  .aggregate(documentation, translator, library, examples)
+  .dependsOn(documentation, translator, library, examples)
   .settings(
     commonSettings,
     assembly / mainClass := Some("soda.translator.io.EntryPoint"),

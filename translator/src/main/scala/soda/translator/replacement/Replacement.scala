@@ -15,10 +15,10 @@ trait Replacement {
   lazy val scala_space: String = " "
 
   def replace_with (function: String => String ): Replacement =
-    ReplacementImpl (function (line )  )
+    Replacement_ (function (line )  )
 
   def replace_at_beginning (index: Int, translator: Translator ): Replacement =
-    ReplacementImpl (replace_at_beginning (line, index, translator )  )
+    Replacement_ (replace_at_beginning (line, index, translator )  )
 
   def replace_at_beginning (line: String, index: Int, translator: Translator ): String =
     if (index == 0
@@ -40,10 +40,10 @@ trait Replacement {
     else line
 
   def replace_all (pattern: String, replacement: String ): Replacement =
-    ReplacementImpl (replace_all (line, pattern, replacement )  )
+    Replacement_ (replace_all (line, pattern, replacement )  )
 
   def replace (translator: Translator ): Replacement =
-    ReplacementImpl (replace (line, translator )  )
+    Replacement_ (replace (line, translator )  )
 
   def replace (line: String, translator: Translator ): String =
     {
@@ -60,13 +60,13 @@ trait Replacement {
     else line
 
   def replace_all (line: String, pattern: String, replacement: String ): String =
-    ReplacerImpl (line, pattern, replacement ) .replaced_text
+    Replacer_ (line, pattern, replacement ) .replaced_text
 
   def add_space_to_soda_line (): Replacement =
-    ReplacementImpl (soda_space + line + soda_space )
+    Replacement_ (soda_space + line + soda_space )
 
   def add_spaces_to_symbols (symbols: Set [Char]  ): Replacement =
-    ReplacementImpl (add_spaces_to_symbols (line, symbols )  )
+    Replacement_ (add_spaces_to_symbols (line, symbols )  )
 
   def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
     line.indices.map (index =>
@@ -86,7 +86,7 @@ trait Replacement {
         left_part + ch + right_part }    ) .mkString ("")
 
   def remove_space_from_scala_line (): Replacement =
-    ReplacementImpl (remove_space_from_scala_line (line )  )
+    Replacement_ (remove_space_from_scala_line (line )  )
 
   def remove_space_from_scala_line (line: String ): String =
     {
@@ -101,7 +101,7 @@ trait Replacement {
       line_without_ending_space }
 
   def add_after_spaces (text_to_prepend: String ): Replacement =
-    ReplacementImpl (add_after_spaces (line, text_to_prepend )  )
+    Replacement_ (add_after_spaces (line, text_to_prepend )  )
 
   def add_after_spaces (line: String, text_to_prepend: String ): String =
     {
@@ -109,7 +109,7 @@ trait Replacement {
       line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length ) }
 
   def replace_regex (translator: Translator ): Replacement =
-    ReplacementImpl (replace_regex (line, translator )  )
+    Replacement_ (replace_regex (line, translator )  )
 
   def replace_regex (line: String, translator: Translator ): String =
     {
@@ -119,7 +119,7 @@ trait Replacement {
       Rec () .fold (translator.keys, initial_value, next_value_function ) }
 }
 
-case class ReplacementImpl (line: String ) extends Replacement
+case class Replacement_ (line: String ) extends Replacement
 
 trait Replacer {
   import soda.lib.Rec
@@ -154,6 +154,6 @@ trait Replacer {
     tuple.replaced_text_rev.reverse.mkString ("")
 }
 
-case class ReplacerImpl (line: String, pattern: String, replacement: String ) extends Replacer
+case class Replacer_ (line: String, pattern: String, replacement: String ) extends Replacer
 
 case class ReplacerFoldTuple (replaced_text_rev: Seq [String], start_index: Int )

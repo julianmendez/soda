@@ -6,30 +6,30 @@ package soda.translator.language
  */
 trait MicroTranslator {
   import soda.lib.SomeElem
-  import soda.translator.replacement.CommentPreprocessorImpl
+  import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum
-  import soda.translator.replacement.ReplacementImpl
+  import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
-  import soda.translator.replacement.TokenizerImpl
+  import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Translator
 
   lazy val new_line = "\n"
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val synonym_at_beginning = DefaultTranslatorImpl (Translation () .synonym_at_beginning )
+  lazy val synonym_at_beginning = DefaultTranslator_ (Translation () .synonym_at_beginning )
 
-  lazy val translation_at_beginning_with_paren = DefaultTranslatorImpl (Translation () .translation_at_beginning_with_paren )
+  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (Translation () .translation_at_beginning_with_paren )
 
-  lazy val translation_at_beginning_without_paren = DefaultTranslatorImpl (Translation () .translation_at_beginning_without_paren )
+  lazy val translation_at_beginning_without_paren = DefaultTranslator_ (Translation () .translation_at_beginning_without_paren )
 
-  lazy val synonym = DefaultTranslatorImpl (Translation () .synonym )
+  lazy val synonym = DefaultTranslator_ (Translation () .synonym )
 
-  lazy val main_translation = DefaultTranslatorImpl (Translation () .main_translation )
+  lazy val main_translation = DefaultTranslator_ (Translation () .main_translation )
 
-  lazy val scala_non_soda = DefaultTranslatorImpl (Translation () .scala_non_soda )
+  lazy val scala_non_soda = DefaultTranslator_ (Translation () .scala_non_soda )
 
-  lazy val beautifier = DefaultTranslatorImpl (Translation () .beautifier )
+  lazy val beautifier = DefaultTranslator_ (Translation () .beautifier )
 
   def translate_program (program: String ): String =
     SomeElem (program )
@@ -45,16 +45,16 @@ trait MicroTranslator {
     program.split (new_line ) .toIndexedSeq
 
   def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerImpl (lines ) .joined_lines_with_forward_join
+    LineJoiner_ (lines ) .joined_lines_with_forward_join
 
   def join_lines_with_backward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerImpl (lines ) .joined_lines_with_backward_join
+    LineJoiner_ (lines ) .joined_lines_with_backward_join
 
   def join_translated_lines (lines: Seq [String]  ): String =
     lines.mkString (new_line ) + new_line
 
   def translate_lines (lines: Seq [String]  ): Seq [String] =
-    CommentPreprocessorImpl (lines )
+    CommentPreprocessor_ (lines )
       .annotated_lines
       .map (annotated_line =>
         if (annotated_line.isComment
@@ -63,11 +63,11 @@ trait MicroTranslator {
 
   def _translate_non_comment (line: String ): String =
       SomeElem (line )
-        .map (x => ReplacementImpl (x ) .add_space_to_soda_line () .line )
-        .map (x => TokenizerImpl (x ) .tokens )
+        .map (x => Replacement_ (x ) .add_space_to_soda_line () .line )
+        .map (x => Tokenizer_ (x ) .tokens )
         .map (x => _translate_line (x )  )
         .map (x => _join_tokens (x )  )
-        .map (x => ReplacementImpl (x ) .remove_space_from_scala_line () .line )
+        .map (x => Replacement_ (x ) .remove_space_from_scala_line () .line )
         .value
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
@@ -77,7 +77,7 @@ trait MicroTranslator {
         else token    )
 
   def _get_all_replacements (token: Token ): String =
-    ReplacementImpl (token.text )
+    Replacement_ (token.text )
       .add_spaces_to_symbols (symbols = Translation () .soda_brackets_and_comma.toSet )
       .replace (scala_non_soda )
       .replace_at_beginning (token.index, synonym_at_beginning )
@@ -94,7 +94,7 @@ trait MicroTranslator {
     else translation_at_beginning_without_paren
 
   def try_definition (line: String ): String =
-    DefinitionTranslatorImpl (line ) .translation
+    DefinitionTranslator_ (line ) .translation
 
   def _join_tokens (tokens: Seq [Token]  ): String =
     tokens
@@ -114,7 +114,7 @@ trait MicroTranslator {
     else line
 }
 
-case class MicroTranslatorImpl () extends MicroTranslator
+case class MicroTranslator_ () extends MicroTranslator
 
 trait DefaultTranslator extends soda.translator.replacement.Translator {
 
@@ -126,4 +126,4 @@ trait DefaultTranslator extends soda.translator.replacement.Translator {
     table.toMap.get (word ) .getOrElse (word )
 }
 
-case class DefaultTranslatorImpl (table: Seq [(String, String )]  ) extends DefaultTranslator
+case class DefaultTranslator_ (table: Seq [(String, String )]  ) extends DefaultTranslator

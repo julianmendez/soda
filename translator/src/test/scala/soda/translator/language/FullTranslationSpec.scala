@@ -32,7 +32,7 @@ case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
     {
       lazy val input_file = read_file (input_file_name )
       lazy val expected = read_file (expected_file_name )
-      lazy val obtained = MicroTranslatorImpl () .translate_program (input_file )
+      lazy val obtained = MicroTranslator_ () .translate_program (input_file )
       assert (obtained == expected ) }
 
   def read_file (file_name: String ): String =

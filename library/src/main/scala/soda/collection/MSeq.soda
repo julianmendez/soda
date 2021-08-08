@@ -28,7 +28,7 @@ package soda.collection
   opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
 }
 
-* ESeqImpl[T]() extends ESeq[T]
+* ESeq_[T]() extends ESeq[T]
 
 * NESeq[T] extends MSeq[T] = {
 
@@ -45,5 +45,5 @@ package soda.collection
   tail(): MSeq[T] = tail0
 }
 
-* NESeqImpl[T](head0: T, tail0: MSeq[T]) extends NESeq[T]
+* NESeq_[T](head0: T, tail0: MSeq[T]) extends NESeq[T]
 

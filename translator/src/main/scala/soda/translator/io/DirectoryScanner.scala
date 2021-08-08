@@ -28,4 +28,4 @@ trait DirectoryScanner {
     else to_scan.tail
 }
 
-case class DirectoryScannerImpl () extends DirectoryScanner
+case class DirectoryScanner_ () extends DirectoryScanner

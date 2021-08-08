@@ -1,0 +1,75 @@
+package soda.translator.example
+
+
+* SortExampleSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+  + soda.lib.SomeElem
+
+  test("test sorted sequence with at") {
+    sorted_sequence = Seq(1, 3, 5, 5, 8, 9)
+    expected = true
+    obtained = SortExampleWithAt_().is_sorted(sorted_sequence)
+
+    assert(obtained == expected)
+  }
+
+  test("test unsorted sequence with at") {
+    unsorted_sequence = Seq(1, 3, 5, 4, 8, 9)
+    expected = false
+    obtained = SortExampleWithAt_().is_sorted(unsorted_sequence)
+
+    assert(obtained == expected)
+  }
+
+  test("test sorted sequence with zip") {
+    sorted_sequence = Seq(1, 3, 5, 5, 8, 9)
+    expected = true
+    obtained = SortExampleWithZip_().is_sorted(sorted_sequence)
+
+    assert(obtained == expected)
+  }
+
+  test("test unsorted sequence with zip") {
+    unsorted_sequence = Seq(1, 3, 5, 4, 8, 9)
+    expected = false
+    obtained = SortExampleWithZip_().is_sorted(unsorted_sequence)
+
+    assert(obtained == expected)
+  }
+
+  test("insert sorted simple") {
+    instance = SortAlgorithmExampleWithFold_()
+    sorted_sequence = Seq(1, 2, 3, 6, 8, 9)
+    expected = Seq(1, 2, 3, 5, 6, 8, 9)
+    obtained = instance.insert_sorted(sorted_sequence, 5)
+
+    assert(obtained == expected)
+  }
+
+  test("insert sorted with repetition") {
+    instance = SortAlgorithmExampleWithFold_()
+    sorted_sequence = Seq(1, 2, 3, 5, 6, 8, 9)
+    expected = Seq(1, 2, 3, 5, 5, 6, 8, 9)
+    obtained = instance.insert_sorted(sorted_sequence, 5)
+
+    assert(obtained == expected)
+  }
+
+  test("sort unsorted sequence") {
+    instance = SortAlgorithmExampleWithFold_()
+    unsorted_sequence = Seq(3, 5, 1, 9, 8, 4)
+    expected = Seq(1, 3, 4, 5, 8 ,9)
+    obtained = instance.sort(unsorted_sequence)
+
+    assert(obtained == expected)
+  }
+
+  test("sort unsorted sequence applying constraints to verify correctness") {
+    instance = ConstrainedSortAlgorithm_()
+    unsorted_sequence = Seq(3, 5, 1, 9, 8, 4)
+    expected = SomeElem(Seq(1, 3, 4, 5, 8 ,9))
+    obtained = instance.sort(unsorted_sequence)
+
+    assert(obtained == expected)
+  }
+}
+

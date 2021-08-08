@@ -21,4 +21,4 @@ trait FactorialVerbose extends AbstractFactorialVerbose {
       result }
 }
 
-case class FactorialVerboseImpl () extends FactorialVerbose
+case class FactorialVerbose_ () extends FactorialVerbose

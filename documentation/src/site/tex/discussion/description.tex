@@ -263,6 +263,28 @@ An class declaration of an abstract class contains:
 \end{itemize}
 
 All super types are abstract classes, since concrete classes cannot be extended.
+For this reason, it is recommended to use abstract classes as much as possible, and using empty concrete classes, or concrete classes containing trivial constants or functions.
+
+It is also recommended to have small abstract classes.
+Ideally, they should contain the smallest number of constants and functions to describe a \textit{concept}.
+It is important to highlight that the concept should look familiar to a human being.
+The larger the class, the more vague its purpose, and therefore, the less useful it is.
+
+It is recommended to use inheritance only when a classes clearly extends another one.
+If a class contains only constants, then another class can easily use them by extending the class with constants.
+This is not, however, the purpose of extending of a class containing functions.
+If the concept is different, the class that needs another one should instantiate the latter as use its classes through the instance.
+
+The name of a concrete class that is a default implementation of another class could be the name of the abstract class with a suffix underscore.
+
+\begin{lstlisting}[label={lst:exampleDefaultImplementation}]
+  class MyModule = {
+
+    f(x: Int) = x + 1
+  }
+
+  class MyModule_() extends MyModule
+\end{lstlisting}
 
 The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
 This declaration if different from the block use to define an expression, since that block always requires a result, and all the content is private.
@@ -363,7 +385,7 @@ Analogously, for a boolean function, the suffix "condition" could simplify the r
 
 Since there are no private functions or constants in a class, the suggestion is to start their name with an underscore.
 
-Recursive functions should start with prefix "rec", for example, just "rec", or "rec_find_elem".
+Recursive functions should start with prefix "\srccode{rec}", for example, just "\srccode{rec}", or "\srccode{rec\_find\_elem}".
 This is to indicate that there is a recursion, and extra care should be taken into account to verify termination.
 
 Although in the current version of \Soda there is no check for detection of recursive calls, it could be implemented in the future a warning or an error if the one or multiple functions participating in recursions do not indicate that with prefix "rec".
@@ -374,17 +396,18 @@ Since \Soda can be integrated with other JVM languages, some \Soda code could us
 The following table intends to summarize the naming convention.
 
 \begin{tabular}{lll}
-    LocalTranslator                         & class               & noun that starts with a capital letter and uses camel case                                       \\
-    first\_name                             & constant            & noun that starts with a lowercase letter and uses snake case                                     \\
-    translate\_paragraph(s: String)         & function            & predicate that starts with lowercase letter and uses snake case                                  \\
-    is\_empty                               & constant            & predicate "is-" that starts with lowercase letter and uses snake case                            \\
-    as\_translator                          & constant            & predicate "as-" that starts with lowercase letter and uses snake case                            \\
-    to\_global\_translator                  & constant            & predicate "to-" that starts with lowercase letter and uses snake case                            \\
-    toGlobalTranslator                      & constant            & predicate "to-" that starts with lowercase letter and uses camel case to be used by JVM projects \\
-    \_LocalModel                            & non-public class    & noun that starts with an underscore and then capital letter and uses camel case                  \\
-    \_internal_identifier                   & non-public constant & noun that starts with an underscore and then a lowercase letter and uses snake case              \\
-    \_find\_internal\_identifier(s: String) & non-public function & predicate that starts with an underscore and then a lowercase letter and uses snake case         \\
-    rec\_find\_elem(s: String)              & recursive function  & predicate that starts with prefix "rec" and then lowercase letter and uses snake case            \\
+    \srccode{LocalTranslator}                         & class               & noun that starts with a capital letter and uses camel case                                       \\
+    \srccode{first\_name}                             & constant            & noun that starts with a lowercase letter and uses snake case                                     \\
+    \srccode{translate\_paragraph(s: String)}         & function            & predicate that starts with lowercase letter and uses snake case                                  \\
+    \srccode{is\_empty}                               & constant            & predicate "is-" that starts with lowercase letter and uses snake case                            \\
+    \srccode{as\_translator}                          & constant            & predicate "as-" that starts with lowercase letter and uses snake case                            \\
+    \srccode{to\_global\_translator}                  & constant            & predicate "to-" that starts with lowercase letter and uses snake case                            \\
+    \srccode{toGlobalTranslator}                      & constant            & predicate "to-" that starts with lowercase letter and uses camel case to be used by JVM projects \\
+    \srccode{LocalTranslator\_}                       & concrete class      & noun that starts with a capital letter and uses camel case and ends with an underscore           \\
+    \srccode{\_LocalModel}                            & non-public class    & noun that starts with an underscore and then capital letter and uses camel case                  \\
+    \srccode{\_internal\_identifier}                  & non-public constant & noun that starts with an underscore and then a lowercase letter and uses snake case              \\
+    \srccode{\_find\_internal\_identifier(s: String)} & non-public function & predicate that starts with an underscore and then a lowercase letter and uses snake case         \\
+    \srccode{rec\_find\_elem(s: String)}              & recursive function  & predicate that starts with prefix "rec" and then lowercase letter and uses snake case            \\
 \end{tabular}
 
 Example using snake case, recommended in \Soda
@@ -510,7 +533,7 @@ Signficant whitespace has been a strong motivation to keep the code well indente
 
 Some languages can be very verbose, like Java.
 This verbosity can hinder sometimes the true intention in the code.
-\Sode is designed to be lightweight and say what it is necessary, but not more.
+\Soda is designed to be lightweight and say what it is necessary, but not more.
 
 \subsection{Explicit forms}
 

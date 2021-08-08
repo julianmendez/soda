@@ -84,4 +84,4 @@ package soda.lib
     else SomeElem[A](option.get)
 }
 
-* OptionSDBuilderImpl[A]() extends OptionSDBuilder[A]
+* OptionSDBuilder_[A]() extends OptionSDBuilder[A]

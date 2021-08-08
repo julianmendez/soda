@@ -1,5 +1,11 @@
 \section{Type Theory}
 
+\Soda has pure functional notation.
+Correctness of functions can be proven using an external tool like Coq or Isabelle.
+In addition, functions can include some sort of \textit{assertion} that checks in runtime that the function has properly computed the input.
+For example, a \srccode{sort} function can be later called by a \srccode{is\_sorted} function, to verify that the sorting function correctly sort a sequence.
+The return of this check could be an \srccode{OptionSD}, so that this needs to be handled in case of an error.
+
 \Soda can be used to ``prove'' theorems by using its type system.
 
 There is some relation between Proof Theory in Philosophy, Category Theory in Mathematics, and Type Theory in Computer Science.

@@ -73,6 +73,6 @@ trait PiIterator {
       result }
 }
 
-case class PiIteratorImpl () extends PiIterator
+case class PiIterator_ () extends PiIterator
 
 case class BigIntAndStatus (digit: BigInt, new_status: Status )

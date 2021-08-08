@@ -6,7 +6,7 @@ package soda.translator.io
  * This is the main entry point.
  */
 * MainClass = {
-  + soda.translator.language.MicroTranslatorImpl
+  + soda.translator.language.MicroTranslator_
   + java.io.File
 
   soda_extension: String = ".soda"
@@ -14,7 +14,7 @@ package soda.translator.io
   scala_extension: String = ".scala"
 
   help: String =
-    SimpleIOImpl().read_resource("/soda/translator/documentation/help.txt")
+    SimpleFileReader_().read_resource("/soda/translator/documentation/help.txt")
 
   title_and_version: String =
     let
@@ -29,7 +29,7 @@ package soda.translator.io
     else println(title_and_version + "\n\n" + help)
 
   process_directory(start: String): Boolean =
-    DirectoryProcessorImpl(start, process_soda_file).process()
+    DirectoryProcessor_(start, process_soda_file).process()
 
   process_soda_file(file: File): Boolean =
     let
@@ -45,9 +45,9 @@ package soda.translator.io
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
-      input = SimpleIOImpl().read_file(input_file_name)
-      output = MicroTranslatorImpl().translate_program(input)
-    in SimpleIOImpl().write_file(output_file_name, content := output)
+      input = SimpleFileReader_().read_file(input_file_name)
+      output = MicroTranslator_().translate_program(input)
+    in SimpleFileWriter_().write_file(output_file_name, content := output)
 }
 
 * Main() extends MainClass

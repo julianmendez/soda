@@ -54,4 +54,4 @@ trait ParserTransition extends ParserStateConstant with CharTypeConstant {
     transitions_that_change_states.getOrElse ((parser_state, char_type ), parser_state )
 }
 
-case class ParserTransitionImpl () extends ParserTransition
+case class ParserTransition_ () extends ParserTransition

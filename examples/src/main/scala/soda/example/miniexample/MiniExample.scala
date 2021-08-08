@@ -8,7 +8,7 @@ trait MiniExample extends soda.lib.Recursive {
       .map (x => print (" " + (2 * x + 1 )  ) )
 }
 
-case class MiniExampleImpl () extends MiniExample
+case class MiniExample_ () extends MiniExample
 
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
@@ -16,7 +16,7 @@ object EntryPoint {
 
 trait MainClass {
   def main (args: Array [String]  ): Unit =
-    MiniExampleImpl () .run ()
+    MiniExample_ () .run ()
 }
 
 case class Main () extends MainClass

@@ -14,7 +14,7 @@ package soda.translator.language
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-    obtained = MicroTranslatorImpl().translate_program(original)
+    obtained = MicroTranslator_().translate_program(original)
 
     assert(obtained == expected)
   }
@@ -22,7 +22,7 @@ package soda.translator.language
   test("should leave content of apostrophes unchanged") {
     input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-    obtained = MicroTranslatorImpl().translate_program(input)
+    obtained = MicroTranslator_().translate_program(input)
 
     assert(obtained == expected)
   }
@@ -30,7 +30,7 @@ package soda.translator.language
   test("should leave content of quotation marks unchanged") {
     input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-    obtained = MicroTranslatorImpl().translate_program(input)
+    obtained = MicroTranslator_().translate_program(input)
 
     assert(obtained == expected)
   }

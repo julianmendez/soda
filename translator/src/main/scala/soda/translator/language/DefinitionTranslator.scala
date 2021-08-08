@@ -28,7 +28,7 @@ trait DefinitionTranslator {
   import soda.lib.OptionSD
   import soda.lib.SomeElem
   import soda.translator.replacement.Replacement
-  import soda.translator.replacement.ReplacementImpl
+  import soda.translator.replacement.Replacement_
 
   def line: String
 
@@ -45,13 +45,13 @@ trait DefinitionTranslator {
     get_index (line, soda_space + Translation () .soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translation_of_class_definition =
-    ReplacementImpl (line ) .replace_all (soda_space + Translation () .soda_definition, "")
+    Replacement_ (line ) .replace_all (soda_space + Translation () .soda_definition, "")
 
   lazy val translation_of_val_definition =
-    ReplacementImpl (line ) .add_after_spaces (Translation () .scala_value + scala_space )
+    Replacement_ (line ) .add_after_spaces (Translation () .scala_value + scala_space )
 
   lazy val translation_of_def_definition =
-    ReplacementImpl (line ) .add_after_spaces (Translation () .scala_definition + scala_space )
+    Replacement_ (line ) .add_after_spaces (Translation () .scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translation_of_class_definition
@@ -88,4 +88,4 @@ trait DefinitionTranslator {
       .filter (position => ! (position == -1 )  )
 }
 
-case class DefinitionTranslatorImpl (line: String ) extends DefinitionTranslator
+case class DefinitionTranslator_ (line: String ) extends DefinitionTranslator

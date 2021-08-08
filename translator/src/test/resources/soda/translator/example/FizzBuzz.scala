@@ -23,4 +23,4 @@ trait FizzBuzz {
     n % k == 0
 }
 
-case class FizzBuzzImpl () extends FizzBuzz
+case class FizzBuzz_ () extends FizzBuzz

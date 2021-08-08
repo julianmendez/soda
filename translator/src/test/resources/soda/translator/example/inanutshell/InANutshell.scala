@@ -58,7 +58,7 @@ trait Example {
     MinMaxPair (min = ConcreteMaxAndMin () .min (a, b ), max = ConcreteMaxAndMin () .max (a, b )    )
 }
 
-case class ExampleImpl (index: Int ) extends Example
+case class Example_ (index: Int ) extends Example
 
 trait Comparable {
   def is_greater_than (x: Comparable ): Boolean

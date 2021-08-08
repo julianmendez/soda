@@ -27,5 +27,5 @@ package soda.translator.io
     else to_scan.tail
 }
 
-* DirectoryScannerImpl() extends DirectoryScanner
+* DirectoryScanner_() extends DirectoryScanner
 

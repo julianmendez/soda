@@ -9,7 +9,7 @@ object EntryPoint {
  * This is the main entry point.
  */
 trait MainClass {
-  import soda.translator.language.MicroTranslatorImpl
+  import soda.translator.language.MicroTranslator_
   import java.io.File
 
   lazy val soda_extension: String = ".soda"
@@ -17,7 +17,7 @@ trait MainClass {
   lazy val scala_extension: String = ".scala"
 
   lazy val help: String =
-    SimpleIOImpl () .read_resource ("/soda/translator/documentation/help.txt")
+    SimpleFileReader_ () .read_resource ("/soda/translator/documentation/help.txt")
 
   lazy val title_and_version: String =
     {
@@ -32,7 +32,7 @@ trait MainClass {
     else println (title_and_version + "\n\n" + help )
 
   def process_directory (start: String ): Boolean =
-    DirectoryProcessorImpl (start, process_soda_file ) .process ()
+    DirectoryProcessor_ (start, process_soda_file ) .process ()
 
   def process_soda_file (file: File ): Boolean =
     {
@@ -47,9 +47,9 @@ trait MainClass {
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
-      lazy val input = SimpleIOImpl () .read_file (input_file_name )
-      lazy val output = MicroTranslatorImpl () .translate_program (input )
-      SimpleIOImpl () .write_file (output_file_name, content = output ) }
+      lazy val input = SimpleFileReader_ () .read_file (input_file_name )
+      lazy val output = MicroTranslator_ () .translate_program (input )
+      SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 }
 
 case class Main () extends MainClass

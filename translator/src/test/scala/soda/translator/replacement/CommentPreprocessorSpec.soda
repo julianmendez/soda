@@ -24,7 +24,7 @@ package soda.translator.replacement
       AnnotatedLine("  a = \"/** this is not a comment */\"", isComment := false),
       AnnotatedLine("}", isComment := false)
     )
-    obtained = CommentPreprocessorImpl(input).annotated_lines
+    obtained = CommentPreprocessor_(input).annotated_lines
 
     assert(obtained == expected)
   }

@@ -16,18 +16,18 @@ trait MSeqTranslator [T] {
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] =
     {
-      lazy val initial_value: MSeq [T] = MinImpl () .empty
-      def next_value (acc: MSeq [T], elem: T ): MSeq [T] = MinImpl () .prepended (acc, elem )
-      MinImpl () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) ) }
+      lazy val initial_value: MSeq [T] = Min_ () .empty
+      def next_value (acc: MSeq [T], elem: T ): MSeq [T] = Min_ () .prepended (acc, elem )
+      Min_ () .reverse (foldLeftSeq [MSeq [T], MSeq [T]]  (seq, initial_value, next_value ) ) }
 
   def asSeq (mseq: MSeq [T]  ): Seq [T] =
     {
       lazy val initial_value: Seq [T] = Seq ()
       def next_value (acc: Seq [T], elem: T ): Seq [T] = acc.+: (elem )
-      MinImpl () .foldLeft (mseq, initial_value, next_value ) .reverse }
+      Min_ () .foldLeft (mseq, initial_value, next_value ) .reverse }
 }
 
-case class MSeqTranslatorImpl [T]  () extends MSeqTranslator [T]
+case class MSeqTranslator_ [T]  () extends MSeqTranslator [T]
 
 case class MSeqPair [T]  (left: MSeq [T], right: MSeq [T]  )
 
@@ -36,9 +36,9 @@ trait Min [T] {
   import soda.lib.SomeElem
   import soda.lib.NoElem
 
-  lazy val empty: ESeq [T] = ESeqImpl ()
+  lazy val empty: ESeq [T] = ESeq_ ()
 
-  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeqImpl (e, s )
+  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq_ (e, s )
 
   def head (s: NESeq [T]  ): T = s.head ()
 
@@ -231,7 +231,7 @@ trait Min [T] {
       result }
 }
 
-case class MinImpl [T]  () extends Min [T]
+case class Min_ [T]  () extends Min [T]
 
 case class IndexFoldTuple [T]  (index: Int, position: Int )
 

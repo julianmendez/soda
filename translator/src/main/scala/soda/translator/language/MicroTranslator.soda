@@ -6,30 +6,30 @@ package soda.translator.language
  */
 * MicroTranslator = {
   + soda.lib.SomeElem
-  + soda.translator.replacement.CommentPreprocessorImpl
+  + soda.translator.replacement.CommentPreprocessor_
   + soda.translator.replacement.ParserStateEnum
-  + soda.translator.replacement.ReplacementImpl
+  + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
-  + soda.translator.replacement.TokenizerImpl
+  + soda.translator.replacement.Tokenizer_
   + soda.translator.replacement.Translator
 
   new_line = "\n"
 
   soda_opening_parenthesis: String = "("
 
-  synonym_at_beginning = DefaultTranslatorImpl(Translation().synonym_at_beginning)
+  synonym_at_beginning = DefaultTranslator_(Translation().synonym_at_beginning)
 
-  translation_at_beginning_with_paren = DefaultTranslatorImpl(Translation().translation_at_beginning_with_paren)
+  translation_at_beginning_with_paren = DefaultTranslator_(Translation().translation_at_beginning_with_paren)
 
-  translation_at_beginning_without_paren = DefaultTranslatorImpl(Translation().translation_at_beginning_without_paren)
+  translation_at_beginning_without_paren = DefaultTranslator_(Translation().translation_at_beginning_without_paren)
 
-  synonym = DefaultTranslatorImpl(Translation().synonym)
+  synonym = DefaultTranslator_(Translation().synonym)
 
-  main_translation = DefaultTranslatorImpl(Translation().main_translation)
+  main_translation = DefaultTranslator_(Translation().main_translation)
 
-  scala_non_soda = DefaultTranslatorImpl(Translation().scala_non_soda)
+  scala_non_soda = DefaultTranslator_(Translation().scala_non_soda)
 
-  beautifier = DefaultTranslatorImpl(Translation().beautifier)
+  beautifier = DefaultTranslator_(Translation().beautifier)
 
   translate_program(program: String): String =
     SomeElem(program)
@@ -45,16 +45,16 @@ package soda.translator.language
     program.split(new_line).toIndexedSeq
 
   join_lines_with_forward_join(lines: Seq[String]): Seq[String] =
-    LineJoinerImpl(lines).joined_lines_with_forward_join
+    LineJoiner_(lines).joined_lines_with_forward_join
 
   join_lines_with_backward_join(lines: Seq[String]): Seq[String] =
-    LineJoinerImpl(lines).joined_lines_with_backward_join
+    LineJoiner_(lines).joined_lines_with_backward_join
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(new_line) + new_line
 
   translate_lines(lines: Seq[String]): Seq[String] =
-    CommentPreprocessorImpl(lines)
+    CommentPreprocessor_(lines)
       .annotated_lines
       .map(annotated_line ->
         if annotated_line.isComment
@@ -64,11 +64,11 @@ package soda.translator.language
 
   _translate_non_comment(line: String): String =
       SomeElem(line)
-        .map(x -> ReplacementImpl(x).add_space_to_soda_line().line)
-        .map(x -> TokenizerImpl(x).tokens)
+        .map(x -> Replacement_(x).add_space_to_soda_line().line)
+        .map(x -> Tokenizer_(x).tokens)
         .map(x -> _translate_line(x))
         .map(x -> _join_tokens(x))
-        .map(x -> ReplacementImpl(x).remove_space_from_scala_line().line)
+        .map(x -> Replacement_(x).remove_space_from_scala_line().line)
         .value
 
   _translate_line(tokens: Seq[Token]): Seq[Token] =
@@ -80,7 +80,7 @@ package soda.translator.language
     )
 
   _get_all_replacements(token: Token): String =
-    ReplacementImpl(token.text)
+    Replacement_(token.text)
       .add_spaces_to_symbols(symbols := Translation().soda_brackets_and_comma.toSet)
       .replace(scala_non_soda)
       .replace_at_beginning(token.index, synonym_at_beginning)
@@ -97,7 +97,7 @@ package soda.translator.language
     else translation_at_beginning_without_paren
 
   try_definition(line: String): String =
-    DefinitionTranslatorImpl(line).translation
+    DefinitionTranslator_(line).translation
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens
@@ -117,7 +117,7 @@ package soda.translator.language
     else line
 }
 
-* MicroTranslatorImpl() extends MicroTranslator
+* MicroTranslator_() extends MicroTranslator
 
 * DefaultTranslator extends soda.translator.replacement.Translator = {
 
@@ -129,5 +129,5 @@ package soda.translator.language
     table.toMap.get(word).getOrElse(word)
 }
 
-* DefaultTranslatorImpl(table: Seq[(String, String)]) extends DefaultTranslator
+* DefaultTranslator_(table: Seq[(String, String)]) extends DefaultTranslator
 

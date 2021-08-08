@@ -3,7 +3,7 @@ package soda.translator.language
 
 case class LineJoinerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
-  lazy val mt = MicroTranslatorImpl ()
+  lazy val mt = MicroTranslator_ ()
 
   lazy val Original_parenthesis_example =
     Seq ("a[ ", "T", " ]( ", "x: Int,", " y: Int", " ) = f[T](", "x + y", ")"    )

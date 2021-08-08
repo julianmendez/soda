@@ -4,13 +4,9 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read and write small files.
  */
-* SimpleIO = {
-  + soda.lib.SomeElem
+* SimpleFileReader = {
   + java.io.BufferedReader
-  + java.io.File
-  + java.io.FileWriter
   + java.io.InputStreamReader
-  + java.io.Writer
   + java.nio.file.Files
   + java.nio.file.Paths
   + java.util.stream.Collectors
@@ -25,6 +21,15 @@ package soda.translator.io
       input_stream = getClass.getResourceAsStream(file_name)
       reader = @new BufferedReader(@new InputStreamReader(input_stream))
     in reader.lines().collect(Collectors.joining(new_line))
+}
+
+* SimpleFileReader_() extends SimpleFileReader
+
+* SimpleFileWriter = {
+  + soda.lib.SomeElem
+  + java.io.File
+  + java.io.FileWriter
+  + java.io.Writer
 
   write_file(file_name: String, content: String): Boolean =
     write_file(@new File(file_name), content)
@@ -44,5 +49,5 @@ package soda.translator.io
     @new File(parent_directory, file_name)
 }
 
-* SimpleIOImpl() extends SimpleIO
+* SimpleFileWriter_() extends SimpleFileWriter
 
