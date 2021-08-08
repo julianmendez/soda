@@ -6,6 +6,7 @@
     - uses a uniform standard for constant names, function names, and class names
     - renames `foldLeft` and `foldLeftWhile` to just `fold` in `Recursive` library class
     - renames concrete classes in `OptionSD`, mapping `NoneSD` to `NoElem` and `SomeSD` to `SomeElem`
+    - includes a module for examples
   - build: sbt '++ 3.0.0' clean compile test package assembly
   - release: target/scala-3.0.0/soda-0.10.0.jar
 - - version: v0.9.0

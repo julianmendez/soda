@@ -270,6 +270,22 @@ Ideally, they should contain the smallest number of constants and functions to d
 It is important to highlight that the concept should look familiar to a human being.
 The larger the class, the more vague its purpose, and therefore, the less useful it is.
 
+It is recommended to use inheritance only when a classes clearly extends another one.
+If a class contains only constants, then another class can easily use them by extending the class with constants.
+This is not, however, the purpose of extending of a class containing functions.
+If the concept is different, the class that needs another one should instantiate the latter as use its classes through the instance.
+
+The name of a concrete class that is a default implementation of another class could be the name of the abstract class with a suffix underscore.
+
+\begin{lstlisting}[label={lst:exampleDefaultImplementation}]
+  class MyModule = {
+
+    f(x: Int) = x + 1
+  }
+
+  class MyModule_() extends MyModule
+\end{lstlisting}
+
 The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
 This declaration if different from the block use to define an expression, since that block always requires a result, and all the content is private.
 
