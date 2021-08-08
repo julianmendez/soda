@@ -4,13 +4,9 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read and write small files.
  */
-trait SimpleIO {
-  import soda.lib.SomeElem
+trait SimpleFileReader {
   import java.io.BufferedReader
-  import java.io.File
-  import java.io.FileWriter
   import java.io.InputStreamReader
-  import java.io.Writer
   import java.nio.file.Files
   import java.nio.file.Paths
   import java.util.stream.Collectors
@@ -25,6 +21,15 @@ trait SimpleIO {
       lazy val input_stream = getClass.getResourceAsStream (file_name )
       lazy val reader = new BufferedReader (new InputStreamReader (input_stream )  )
       reader.lines () .collect (Collectors.joining (new_line )  ) }
+}
+
+case class SimpleFileReader_ () extends SimpleFileReader
+
+trait SimpleFileWriter {
+  import soda.lib.SomeElem
+  import java.io.File
+  import java.io.FileWriter
+  import java.io.Writer
 
   def write_file (file_name: String, content: String ): Boolean =
     write_file (new File (file_name ), content )
@@ -44,4 +49,4 @@ trait SimpleIO {
     new File (parent_directory, file_name )
 }
 
-case class SimpleIOImpl () extends SimpleIO
+case class SimpleIOImpl () extends SimpleFileReader with SimpleFileWriter
