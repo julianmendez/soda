@@ -12,6 +12,11 @@ pipelines:
       - sbt
       script:
       - sbt '++ 3.0.0' scalaVersion sbtVersion version clean compile test package assembly
+      - apt update
+      - apt install -y texlive-latex-recommended texlive-latex-extra
+      - cd documentation/src/site/tex
+      - pdflatex main.tex
+      - cd ../../../..
       - sbt '++ 2.13.6' scalaVersion sbtVersion version clean compile test package assembly
       - sbt '++ 2.12.14' scalaVersion sbtVersion version clean compile test package assembly
       - sbt '++ 2.11.12' scalaVersion sbtVersion version clean compile test package assembly
