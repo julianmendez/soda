@@ -49,4 +49,4 @@ trait SimpleFileWriter {
     new File (parent_directory, file_name )
 }
 
-case class SimpleIOImpl () extends SimpleFileReader with SimpleFileWriter
+case class SimpleFileWriter_ () extends SimpleFileWriter

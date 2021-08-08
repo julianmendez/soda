@@ -36,7 +36,7 @@ trait CommentPreprocessor {
       else CurrentAndNewCommentState (false, false )
 }
 
-case class CommentPreprocessorImpl (lines: Seq [String]  ) extends CommentPreprocessor
+case class CommentPreprocessor_ (lines: Seq [String]  ) extends CommentPreprocessor
 
 case class PreprocessorFoldTuple (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )
 

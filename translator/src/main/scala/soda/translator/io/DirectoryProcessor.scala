@@ -11,7 +11,7 @@ trait DirectoryProcessor {
   lazy val soda_suffix = ".soda"
 
   lazy val all_files =
-    DirectoryScannerImpl () .get_all_files (new File (start )  )
+    DirectoryScanner_ () .get_all_files (new File (start )  )
 
   lazy val soda_files =
     all_files
@@ -21,13 +21,13 @@ trait DirectoryProcessor {
   lazy val lib_files =
     all_files
       .filter (x => x.isFile )
-      .filter (file => file.getName == LibraryDeployerImpl () .library_marker_file )
+      .filter (file => file.getName == LibraryDeployer_ () .library_marker_file )
 
   def process (): Boolean =
-    LibraryDeployerImpl () .expand_library (lib_files ) &&
+    LibraryDeployer_ () .expand_library (lib_files ) &&
       soda_files
         .map (process_soda_file )
         .forall (x => x )
 }
 
-case class DirectoryProcessorImpl (start: String, process_soda_file: java.io.File => Boolean )  extends DirectoryProcessor
+case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean )  extends DirectoryProcessor

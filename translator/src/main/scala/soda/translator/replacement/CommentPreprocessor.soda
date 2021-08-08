@@ -37,7 +37,7 @@ package soda.translator.replacement
       else CurrentAndNewCommentState(false, false)
 }
 
-* CommentPreprocessorImpl(lines: Seq[String]) extends CommentPreprocessor
+* CommentPreprocessor_(lines: Seq[String]) extends CommentPreprocessor
 
 * PreprocessorFoldTuple(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
 

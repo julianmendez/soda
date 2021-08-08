@@ -81,4 +81,4 @@ trait ListExample {
     Pair ("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
 }
 
-case class ListExampleImpl () extends ListExample
+case class ListExample_ () extends ListExample

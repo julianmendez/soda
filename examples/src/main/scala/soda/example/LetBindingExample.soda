@@ -22,5 +22,5 @@ package soda.translator.example
     in Seq(first_part, second_part, third_part)
 }
 
-* LetBindingExampleImpl() extends LetBindingExample
+* LetBindingExample_() extends LetBindingExample
 

@@ -78,7 +78,7 @@ package soda.translator.example
     in result
 }
 
-* PiIteratorImpl() extends PiIterator
+* PiIterator_() extends PiIterator
 
 * BigIntAndStatus(digit: BigInt, new_status: Status)
 

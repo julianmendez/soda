@@ -6,7 +6,7 @@ package soda.collection.example
 
   main(args: Array[String]): Unit =
     let
-      e = ListExampleImpl()
+      e = ListExample_()
       all_examples = Seq(
         e.a_example,
         e.b_example,

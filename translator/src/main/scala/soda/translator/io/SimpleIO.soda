@@ -49,5 +49,5 @@ package soda.translator.io
     @new File(parent_directory, file_name)
 }
 
-* SimpleIOImpl() extends SimpleFileReader with SimpleFileWriter
+* SimpleFileWriter_() extends SimpleFileWriter
 

@@ -8,12 +8,12 @@ package soda.translator.example.miniexample
       .map(x -> print(" " + (2 * x + 1)) )
 }
 
-* MiniExampleImpl() extends MiniExample
+* MiniExample_() extends MiniExample
 
 @main
 * MainClass = {
   main (args: Array[String]): Unit =
-    MiniExampleImpl().run()
+    MiniExample_().run()
 }
 
 * Main() extends MainClass

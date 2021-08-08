@@ -3,7 +3,7 @@ package soda.translator.language
 
 case class MultiLineSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
-  lazy val mt = MicroTranslatorImpl ()
+  lazy val mt = MicroTranslator_ ()
 
   lazy val Original_input = "" +
     "  value = 1\n" +

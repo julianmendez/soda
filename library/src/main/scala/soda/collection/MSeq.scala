@@ -27,7 +27,7 @@ trait ESeq [T] extends MSeq [T] {
   def opt [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifEmpty
 }
 
-case class ESeqImpl [T]  () extends ESeq [T]
+case class ESeq_ [T]  () extends ESeq [T]
 
 trait NESeq [T] extends MSeq [T] {
 
@@ -44,4 +44,4 @@ trait NESeq [T] extends MSeq [T] {
   def tail (): MSeq [T] = tail0
 }
 
-case class NESeqImpl [T]  (head0: T, tail0: MSeq [T]  ) extends NESeq [T]
+case class NESeq_ [T]  (head0: T, tail0: MSeq [T]  ) extends NESeq [T]

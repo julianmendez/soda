@@ -27,7 +27,7 @@ trait Tokenizer {
     {
       lazy val ch = line.charAt (current_index )
       lazy val char_type = CharTypeEnum () .get_char_type (ch )
-      lazy val new_parser_state = ParserTransitionImpl () .next_parser_state (tuple.parser_state, char_type )
+      lazy val new_parser_state = ParserTransition_ () .next_parser_state (tuple.parser_state, char_type )
       lazy val result =
         if (ParserStateEnum () .is_same_class (new_parser_state, tuple.parser_state )
         ) TokenizerFoldTuple (tuple.last_index, new_parser_state, tuple.rev_tokens )
@@ -46,6 +46,6 @@ trait Tokenizer {
       TokenizerFoldTuple (index, new_parser_state, tuple.rev_tokens.+: (Token (text, tuple.parser_state, tuple.last_index )  )  ) }
 }
 
-case class TokenizerImpl (line: String ) extends Tokenizer
+case class Tokenizer_ (line: String ) extends Tokenizer
 
 case class TokenizerFoldTuple (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )

@@ -28,7 +28,7 @@ package soda.translator.language
   + soda.lib.OptionSD
   + soda.lib.SomeElem
   + soda.translator.replacement.Replacement
-  + soda.translator.replacement.ReplacementImpl
+  + soda.translator.replacement.Replacement_
 
   has line: String
 
@@ -48,13 +48,13 @@ package soda.translator.language
     get_index(line, soda_space + Translation().soda_class_reserved_word + soda_space).isDefined
 
   translation_of_class_definition =
-    ReplacementImpl(line).replace_all(soda_space + Translation().soda_definition, "")
+    Replacement_(line).replace_all(soda_space + Translation().soda_definition, "")
 
   translation_of_val_definition =
-    ReplacementImpl(line).add_after_spaces( Translation().scala_value + scala_space )
+    Replacement_(line).add_after_spaces( Translation().scala_value + scala_space )
 
   translation_of_def_definition =
-    ReplacementImpl(line).add_after_spaces( Translation().scala_definition + scala_space )
+    Replacement_(line).add_after_spaces( Translation().scala_definition + scala_space )
 
   try_found_definition(position: Int): Replacement =
     if is_class_definition then translation_of_class_definition
@@ -94,5 +94,5 @@ package soda.translator.language
       .filter(position -> not (position == -1))
 }
 
-* DefinitionTranslatorImpl(line: String) extends DefinitionTranslator
+* DefinitionTranslator_(line: String) extends DefinitionTranslator
 

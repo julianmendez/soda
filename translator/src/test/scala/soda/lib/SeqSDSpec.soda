@@ -5,7 +5,7 @@ package soda.lib
 
   test("should detect an empty sequence") {
     input = Seq()
-    seqsd = SeqSDBuilderImpl().build(input)
+    seqsd = SeqSDBuilder_().build(input)
     obtained = seqsd.opt(
       ifEmpty := true,
       ifNonEmpty := nonEmpty -> false
@@ -16,7 +16,7 @@ package soda.lib
 
   test("should detect an non empty sequence") {
     input = Seq(1)
-    seqsd = SeqSDBuilderImpl().build(input)
+    seqsd = SeqSDBuilder_().build(input)
     obtained = seqsd.opt(
       ifEmpty := false,
       ifNonEmpty := nonEmpty -> true
@@ -32,7 +32,7 @@ package soda.lib
     input = Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
     expected = SomeElem[Int](9)
     obtained =
-      SeqSDBuilderImpl().build(input).opt(
+      SeqSDBuilder_().build(input).opt(
         ifEmpty := NoElem(),
         ifNonEmpty := sequence -> SomeElem(max(sequence))
       )
@@ -41,16 +41,16 @@ package soda.lib
   }
 
   test("should reverse a sequence") {
-    input = SeqSDBuilderImpl().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
-    expected = SeqSDBuilderImpl().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
+    input = SeqSDBuilder_().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
+    expected = SeqSDBuilder_().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
     obtained = input.reverse
 
     assert(obtained == expected)
   }
 
   test("should reverse another sequence") {
-    input = SeqSDBuilderImpl().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
-    expected = SeqSDBuilderImpl().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
+    input = SeqSDBuilder_().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
+    expected = SeqSDBuilder_().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
     obtained = input.opt(
       ifEmpty := _EmptySeqSD(),
       ifNonEmpty := sequence -> sequence.reverse

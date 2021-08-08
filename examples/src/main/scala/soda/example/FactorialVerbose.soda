@@ -20,5 +20,5 @@ class FactorialVerbose extends AbstractFactorialVerbose = {
     in result
 }
 
-class FactorialVerboseImpl() extends FactorialVerbose
+class FactorialVerbose_() extends FactorialVerbose
 

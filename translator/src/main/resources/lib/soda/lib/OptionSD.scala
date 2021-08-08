@@ -78,4 +78,4 @@ trait OptionSDBuilder [A] {
     else SomeElem [A]  (option.get )
 }
 
-case class OptionSDBuilderImpl [A]  () extends OptionSDBuilder [A]
+case class OptionSDBuilder_ [A]  () extends OptionSDBuilder [A]

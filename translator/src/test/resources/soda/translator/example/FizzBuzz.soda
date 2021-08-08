@@ -23,5 +23,5 @@ package soda.translator.example
     n % k == 0
 }
 
-* FizzBuzzImpl() extends FizzBuzz
+* FizzBuzz_() extends FizzBuzz
 

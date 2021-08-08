@@ -22,4 +22,4 @@ trait FactorialConcise extends AbstractFactorialConcise {
       result }
 }
 
-case class FactorialConciseImpl () extends FactorialConcise
+case class FactorialConcise_ () extends FactorialConcise

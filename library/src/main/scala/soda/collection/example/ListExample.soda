@@ -81,5 +81,5 @@ package soda.collection.example
     Pair("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
 }
 
-* ListExampleImpl() extends ListExample
+* ListExample_() extends ListExample
 

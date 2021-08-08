@@ -22,4 +22,4 @@ trait LetBindingExample {
       Seq (first_part, second_part, third_part ) }
 }
 
-case class LetBindingExampleImpl () extends LetBindingExample
+case class LetBindingExample_ () extends LetBindingExample

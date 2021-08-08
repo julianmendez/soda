@@ -36,7 +36,7 @@ package soda.lib
 
   head: T = toSeq.head
 
-  tail: SeqSD[T] = SeqSDBuilderImpl[T]().build(toSeq.tail)
+  tail: SeqSD[T] = SeqSDBuilder_[T]().build(toSeq.tail)
 
   reverse: NonEmptySeqSD[T] = _NonEmptySeqSD(toSeq.reverse)
 }
@@ -51,4 +51,4 @@ package soda.lib
     else _NonEmptySeqSD[T](seq)
 }
 
-* SeqSDBuilderImpl[T]() extends SeqSDBuilder[T]
+* SeqSDBuilder_[T]() extends SeqSDBuilder[T]

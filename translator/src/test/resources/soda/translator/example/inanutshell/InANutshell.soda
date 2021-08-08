@@ -61,7 +61,7 @@ class Example = {
     )
 }
 
-class ExampleImpl(index: Int) extends Example
+class Example_(index: Int) extends Example
 
 class Comparable = {
   has is_greater_than(x: Comparable): Boolean

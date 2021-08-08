@@ -7,7 +7,7 @@ package soda.translator.io
   start = "translator/src/test/resources/soda/example"
 
   test("scan a file that is not a directory") {
-    scanner = DirectoryScannerImpl()
+    scanner = DirectoryScanner_()
     start_file = @new File(start, "Example.soda")
     expected = Seq(start_file).toSet
     obtained = scanner.get_all_files(start_file).toSet
@@ -16,7 +16,7 @@ package soda.translator.io
   }
 
   test("simple scan of all files") {
-    scanner = DirectoryScannerImpl()
+    scanner = DirectoryScanner_()
     expected = Seq(
       "otherexample",
       "Example.md",

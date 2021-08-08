@@ -8,7 +8,7 @@ package soda.translator.language
       "    original .  replaceAll(\"  \" ,  \" \")   \n"
     expected = "  def beautify_this  (original: String   ): String =\n" +
       "    original .replaceAll (\"  \", \" \")   \n"
-    obtained = MicroTranslatorImpl().translate_program(original)
+    obtained = MicroTranslator_().translate_program(original)
 
     assert(obtained == expected)
   }
