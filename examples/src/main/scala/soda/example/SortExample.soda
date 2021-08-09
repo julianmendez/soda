@@ -80,12 +80,27 @@ package soda.translator.example
   doc_SortedSequence = "This models a sequence that is always sorted."
 
   has sequence: Seq[A]
+
+  has add(element: A): SortedSequence[A]
+
+  is_less_than(x: A, y: A): Boolean =
+    x.compareTo(y) < 0
+
+  is_sorted(other_sequence: Seq[A]): Boolean =
+    other_sequence
+      .zip(other_sequence.tail)
+      .forall(pair -> is_less_than(pair._1, pair._2))
+
+  invariant: Boolean = is_sorted(sequence)
 }
 
 * EmptySortedSequence[A subtype Comparable[A]]
   extends SortedSequence[A] = {
 
   sequence = Seq()
+
+  add(element: A): SortedSequence[A] =
+     _NonEmptySortedSequence_(Seq(element))
 }
 
 * EmptySortedSequence_[A subtype Comparable[A]]()
@@ -94,26 +109,24 @@ package soda.translator.example
 * NonEmptySortedSequence[A subtype Comparable[A]]
   extends SortedSequence[A] = {
 
-  has _remaining: Seq[A]
+  has sequence: Seq[A]
 
-  has _element: A
+  add(element: A): SortedSequence[A] =
+    _NonEmptySortedSequence_(_insert_sorted(sequence, element))
 
-  is_less_than(x: A, y: A): Boolean =
-    x.compareTo(y) < 0
-
-  sequence =
+  _insert_sorted(original_sequence: Seq[A], element: A): Seq[A] =
     let
       first_part =
-        _remaining.takeWhile(x -> is_less_than(x, _element))
+        original_sequence.takeWhile(x -> is_less_than(x, element))
 
-      middle = Seq(_element)
+      middle = Seq(element)
 
       last_part =
-        _remaining.dropWhile(x -> is_less_than(x, _element))
+        original_sequence.dropWhile(x -> is_less_than(x, element))
     in first_part.++(middle.++(last_part))
 }
 
-* _NonEmptySortedSequence_[A subtype Comparable[A]](_element: A, _remaining: Seq[A])
+* _NonEmptySortedSequence_[A subtype Comparable[A]](sequence: Seq[A])
   extends NonEmptySortedSequence[A]
 
 * SortedSequenceBuilder[A subtype Comparable[A]] = {
@@ -125,7 +138,7 @@ package soda.translator.example
   _initial_value = EmptySortedSequence_[A]()
 
   _next_value_function(sorted_sequence: SortedSequence[A], element: A): SortedSequence[A] =
-    _NonEmptySortedSequence_[A](_remaining := sorted_sequence.sequence, _element := element)
+    sorted_sequence.add(element)
 }
 
 * SortedSequenceBuilder_[A subtype Comparable[A]]() extends SortedSequenceBuilder[A]
