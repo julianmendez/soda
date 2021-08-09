@@ -72,3 +72,46 @@ trait ConstrainedSortAlgorithm {
 }
 
 case class ConstrainedSortAlgorithm_ () extends ConstrainedSortAlgorithm
+
+trait SortedSequence [A <: Comparable [A]] {
+  lazy val doc_SortedSequence = "This models a sequence that is always sorted."
+
+  def sequence: Seq [A]
+}
+
+trait EmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
+
+  lazy val sequence = Seq ()
+}
+
+case class EmptySortedSequence_ [A <: Comparable [A]]  ()  extends EmptySortedSequence [A]
+
+trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
+
+  def sorted_sequence: SortedSequence [A]
+
+  def element: A
+
+  lazy val sequence =
+    {
+      lazy val first_part = sorted_sequence.sequence.takeWhile (x => x.compareTo (element ) < 0 )
+      lazy val middle = Seq (element )
+      lazy val last_part = sorted_sequence.sequence.dropWhile (x => x.compareTo (element ) < 0 )
+      first_part.++ (middle.++ (last_part )  ) }
+}
+
+case class NonEmptySortedSequence_ [A <: Comparable [A]]  (sorted_sequence: SortedSequence [A], element: A )  extends NonEmptySortedSequence [A]
+
+trait SortedSequenceBuilder [A <: Comparable [A]] {
+  import soda.lib.Rec
+
+  def build (sequence: Seq [A]  ): SortedSequence [A] =
+    Rec () .fold (sequence, _initial_value, _next_value_function )
+
+  lazy val _initial_value = EmptySortedSequence_ [A]  ()
+
+  def _next_value_function (sorted_sequence: SortedSequence [A], element: A ): SortedSequence [A] =
+    NonEmptySortedSequence_ [A]  (sorted_sequence, element )
+}
+
+case class SortedSequenceBuilder_ [A <: Comparable [A]]  () extends SortedSequenceBuilder [A]

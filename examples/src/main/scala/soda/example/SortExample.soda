@@ -76,3 +76,50 @@ package soda.translator.example
 
 * ConstrainedSortAlgorithm_() extends ConstrainedSortAlgorithm
 
+* SortedSequence[A subtype Comparable[A]] = {
+  doc_SortedSequence = "This models a sequence that is always sorted."
+
+  has sequence: Seq[A]
+}
+
+* EmptySortedSequence[A subtype Comparable[A]]
+  extends SortedSequence[A] = {
+
+  sequence = Seq()
+}
+
+* EmptySortedSequence_[A subtype Comparable[A]]()
+  extends EmptySortedSequence[A]
+
+* NonEmptySortedSequence[A subtype Comparable[A]]
+  extends SortedSequence[A] = {
+
+  has sorted_sequence: SortedSequence[A]
+
+  has element: A
+
+  sequence =
+    let
+      first_part = sorted_sequence.sequence.takeWhile(x -> x.compareTo(element) < 0)
+      middle = Seq(element)
+      last_part = sorted_sequence.sequence.dropWhile(x -> x.compareTo(element) < 0)
+    in first_part.++(middle.++(last_part))
+}
+
+* NonEmptySortedSequence_[A subtype Comparable[A]](sorted_sequence: SortedSequence[A], element: A)
+  extends NonEmptySortedSequence[A]
+
+* SortedSequenceBuilder[A subtype Comparable[A]] = {
+  + soda.lib.Rec
+
+  build(sequence: Seq[A]): SortedSequence[A] =
+    Rec().fold(sequence, _initial_value, _next_value_function)
+
+  _initial_value = EmptySortedSequence_[A]()
+
+  _next_value_function(sorted_sequence: SortedSequence[A], element: A): SortedSequence[A] =
+    NonEmptySortedSequence_[A](sorted_sequence, element)
+}
+
+* SortedSequenceBuilder_[A subtype Comparable[A]]() extends SortedSequenceBuilder[A]
+
