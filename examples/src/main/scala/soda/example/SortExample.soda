@@ -94,19 +94,19 @@ package soda.translator.example
 * NonEmptySortedSequence[A subtype Comparable[A]]
   extends SortedSequence[A] = {
 
-  has sorted_sequence: SortedSequence[A]
+  has _remaining_sequence: Seq[A]
 
-  has element: A
+  has _some_element: A
 
   sequence =
     let
-      first_part = sorted_sequence.sequence.takeWhile(x -> x.compareTo(element) < 0)
-      middle = Seq(element)
-      last_part = sorted_sequence.sequence.dropWhile(x -> x.compareTo(element) < 0)
+      first_part = _remaining_sequence.takeWhile(x -> x.compareTo(_some_element) < 0)
+      middle = Seq(_some_element)
+      last_part = _remaining_sequence.dropWhile(x -> x.compareTo(_some_element) < 0)
     in first_part.++(middle.++(last_part))
 }
 
-* NonEmptySortedSequence_[A subtype Comparable[A]](sorted_sequence: SortedSequence[A], element: A)
+* _NonEmptySortedSequence_[A subtype Comparable[A]](_some_element: A, _remaining_sequence: Seq[A])
   extends NonEmptySortedSequence[A]
 
 * SortedSequenceBuilder[A subtype Comparable[A]] = {
@@ -118,7 +118,7 @@ package soda.translator.example
   _initial_value = EmptySortedSequence_[A]()
 
   _next_value_function(sorted_sequence: SortedSequence[A], element: A): SortedSequence[A] =
-    NonEmptySortedSequence_[A](sorted_sequence, element)
+    _NonEmptySortedSequence_[A](_remaining_sequence := sorted_sequence.sequence, _some_element := element)
 }
 
 * SortedSequenceBuilder_[A subtype Comparable[A]]() extends SortedSequenceBuilder[A]

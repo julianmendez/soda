@@ -71,4 +71,17 @@ case class SortExampleSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (obtained == expected )
   }
+
+  test ("sort unsorted sequence with SortedSequenceBuilder") {
+    lazy val instance = SortedSequenceBuilder_ [Integer]  ()
+    lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 ) .map (x => Integer.valueOf (x )  )
+    lazy val expected = Seq (1, 3, 4, 5, 8, 9 )
+    lazy val obtained =
+      instance
+        .build (unsorted_sequence )
+        .sequence
+        .map (x => x.intValue )
+
+    assert (obtained == expected )
+  }
 }

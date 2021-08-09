@@ -88,19 +88,19 @@ case class EmptySortedSequence_ [A <: Comparable [A]]  ()  extends EmptySortedSe
 
 trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
 
-  def sorted_sequence: SortedSequence [A]
+  def _remaining_sequence: Seq [A]
 
-  def element: A
+  def _some_element: A
 
   lazy val sequence =
     {
-      lazy val first_part = sorted_sequence.sequence.takeWhile (x => x.compareTo (element ) < 0 )
-      lazy val middle = Seq (element )
-      lazy val last_part = sorted_sequence.sequence.dropWhile (x => x.compareTo (element ) < 0 )
+      lazy val first_part = _remaining_sequence.takeWhile (x => x.compareTo (_some_element ) < 0 )
+      lazy val middle = Seq (_some_element )
+      lazy val last_part = _remaining_sequence.dropWhile (x => x.compareTo (_some_element ) < 0 )
       first_part.++ (middle.++ (last_part )  ) }
 }
 
-case class NonEmptySortedSequence_ [A <: Comparable [A]]  (sorted_sequence: SortedSequence [A], element: A )  extends NonEmptySortedSequence [A]
+case class _NonEmptySortedSequence_ [A <: Comparable [A]]  (_some_element: A, _remaining_sequence: Seq [A]  )  extends NonEmptySortedSequence [A]
 
 trait SortedSequenceBuilder [A <: Comparable [A]] {
   import soda.lib.Rec
@@ -111,7 +111,7 @@ trait SortedSequenceBuilder [A <: Comparable [A]] {
   lazy val _initial_value = EmptySortedSequence_ [A]  ()
 
   def _next_value_function (sorted_sequence: SortedSequence [A], element: A ): SortedSequence [A] =
-    NonEmptySortedSequence_ [A]  (sorted_sequence, element )
+    _NonEmptySortedSequence_ [A]  (_remaining_sequence = sorted_sequence.sequence, _some_element = element )
 }
 
 case class SortedSequenceBuilder_ [A <: Comparable [A]]  () extends SortedSequenceBuilder [A]
