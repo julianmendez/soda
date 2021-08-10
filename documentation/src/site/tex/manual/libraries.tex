@@ -1,8 +1,8 @@
 \chapter{Libraries}
 
 \begin{lstlisting}[label={lst:foldLeftWhile}]
-  foldLeftWhile[A, B, C subtype B](s: Seq[A], initial_value: C,
-      next_value: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
+      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -11,13 +11,13 @@
         else
           if not condition(acc, seq.head)
           then acc
-          else rec(seq.tail, next_value(acc, seq.head))
+          else rec(seq.tail, next_value_function(acc, seq.head))
 
-    in rec(s, initial_value)
+    in rec(sequence, initial_value)
 \end{lstlisting}
 
 \begin{lstlisting}[label={lst:range}]
-  range(n: Int): Seq[Int] =
+  range(length: Int): Seq[Int] =
     let
       @tailrec
       rec(n: Int, seq: Seq[Int]): Seq[Int] =
@@ -25,44 +25,40 @@
         then seq
         else rec(n - 1, seq.+:(n - 1))
 
-    in rec(n, Seq[Int]())
+    in rec(length, Seq[Int]())
 \end{lstlisting}
 
 
 \begin{lstlisting}[label={lst:option}]
-  class OptionSD[A] = {
-    has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
+class OptionSD[A] = {
 
-    isEmpty: Boolean =
-      opt(ifEmpty := true, ifNonEmpty := element -> false)
+  has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
-    getOrElse(default: A): A =
-      opt(ifEmpty := default, ifNonEmpty := element -> element)
+  isEmpty: Boolean = opt(ifEmpty := true, ifNonEmpty := element -> false)
 
-    fold[B](ifEmpty: B, f: A -> B): B =
-      opt(ifEmpty, f)
+  getOrElse(default: A): A =
+    opt(ifEmpty := default, ifNonEmpty := element -> element)
 
-    map[B](mapping: A -> B): OptionSD[B] =
-      opt(
-        ifEmpty := NoneSD[B](),
-        ifNonEmpty := element -> SomeSD[B](mapping(element))
-      )
+  fold[B](ifEmpty: B, f: A -> B): B =
+    opt(ifEmpty, f)
 
-    flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
-      opt(
-        ifEmpty := NoneSD[B](),
-        ifNonEmpty := element -> mapping(element)
-      )
-  }
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
+    opt(
+      ifEmpty := NoElem[B](),
+      ifNonEmpty := element -> mapping(element)
+    )
+}
 
-  class NoneSD[A] () extends OptionSD[A] = {
-    opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
-  }
+class NoneSD[A] () extends OptionSD[A] = {
 
-  class SomeSD[A] (element: A) extends OptionSD[A] = {
-    get: A = element
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+}
 
-    opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
-  }
+class SomeSD[A] (element: A) extends OptionSD[A] = {
+
+  value: A = element
+
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+}
 \end{lstlisting}
 
