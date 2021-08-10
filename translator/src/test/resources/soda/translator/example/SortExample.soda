@@ -76,3 +76,70 @@ package soda.translator.example
 
 * ConstrainedSortAlgorithm_() extends ConstrainedSortAlgorithm
 
+* SortedSequence[A subtype Comparable[A]] = {
+  doc_SortedSequence = "This models a sequence that is always sorted."
+
+  has sequence: Seq[A]
+
+  has add(element: A): SortedSequence[A]
+
+  is_less_than(x: A, y: A): Boolean =
+    x.compareTo(y) < 0
+
+  is_sorted(other_sequence: Seq[A]): Boolean =
+    other_sequence
+      .zip(other_sequence.tail)
+      .forall(pair -> is_less_than(pair._1, pair._2))
+
+  invariant: Boolean = is_sorted(sequence)
+}
+
+* EmptySortedSequence[A subtype Comparable[A]]
+  extends SortedSequence[A] = {
+
+  sequence = Seq()
+
+  add(element: A): SortedSequence[A] =
+     _NonEmptySortedSequence_(Seq(element))
+}
+
+* EmptySortedSequence_[A subtype Comparable[A]]()
+  extends EmptySortedSequence[A]
+
+* NonEmptySortedSequence[A subtype Comparable[A]]
+  extends SortedSequence[A] = {
+
+  has sequence: Seq[A]
+
+  add(element: A): SortedSequence[A] =
+    _NonEmptySortedSequence_(_insert_sorted(sequence, element))
+
+  _insert_sorted(original_sequence: Seq[A], element: A): Seq[A] =
+    let
+      first_part =
+        original_sequence.takeWhile(x -> is_less_than(x, element))
+
+      middle = Seq(element)
+
+      last_part =
+        original_sequence.dropWhile(x -> is_less_than(x, element))
+    in first_part.++(middle.++(last_part))
+}
+
+* _NonEmptySortedSequence_[A subtype Comparable[A]](sequence: Seq[A])
+  extends NonEmptySortedSequence[A]
+
+* SortedSequenceBuilder[A subtype Comparable[A]] = {
+  + soda.lib.Rec
+
+  build(sequence: Seq[A]): SortedSequence[A] =
+    Rec().fold(sequence, _initial_value, _next_value_function)
+
+  _initial_value = EmptySortedSequence_[A]()
+
+  _next_value_function(sorted_sequence: SortedSequence[A], element: A): SortedSequence[A] =
+    sorted_sequence.add(element)
+}
+
+* SortedSequenceBuilder_[A subtype Comparable[A]]() extends SortedSequenceBuilder[A]
+
