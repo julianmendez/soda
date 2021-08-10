@@ -1,8 +1,12 @@
 \chapter{Libraries}
 
 \begin{lstlisting}[label={lst:foldLeftWhile}]
-  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
-      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C,
+      condition: (B, A) -> Boolean
+  ): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
