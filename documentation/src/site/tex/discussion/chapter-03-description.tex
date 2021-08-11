@@ -21,7 +21,7 @@ Also, there is no need to distinguish between public, protected or private metho
 
 The second point is to have a \textbf{constrained syntax}.
 This means that the only available commands are those of a purely functional approach.
-This prevents creating mutable objects, like when using \scalavar, or changing a class behavior by inheritance, like when using a \scalaclass that is not a \scalacase \scalaclass.
+This prevents creating mutable objects, like when using \scalavar, or changing a class behavior by inheritance, like when using a \scalaclass that is not a \scalacase \ \scalaclass.
 It is worth noticing that, since \Soda is a JVM language, it also accepts JVM mutable objects.
 However, these objects need to be declared at the beginning, and can be forbidden if that is necessary.
 
@@ -362,10 +362,10 @@ Class names should start with a capital letter, functions with a lowercase lette
 In addition, it is recommended to use nouns representing properties for constants and verbs for functions.
 A function should always receive at least one parameter, except when it produces some sort of side effect.
 
-Some exceptions are the constants that start with prefix "is", "as", and "to", which do not need parameters.
+Some exceptions are the constants that start with prefix ``\srccode{is}'', ``\srccode{as}'', and ``\srccode{to}'', which do not need parameters.
 
 In addition, a parameter name should always be a nound, even if the signature is of a function.
-Although redundant, this could be eased by adding the suffix "function".
+Although redundant, this could be eased by adding the suffix ``\srccode{function}''.
 Thus, the contrast of reading a noun used as a function is reduced.
 
 This example shows the three cases
@@ -381,11 +381,11 @@ This example shows the three cases
       weighted_average_function(values)
 \end{lstlisting}
 
-Analogously, for a boolean function, the suffix "condition" could simplify the reading.
+Analogously, for a boolean function, the suffix ``\srccode{condition}'' could simplify the reading.
 
 Since there are no private functions or constants in a class, the suggestion is to start their name with an underscore.
 
-Recursive functions should start with prefix "\srccode{rec}", for example, just "\srccode{rec}", or "\srccode{rec\_find\_elem}".
+Recursive functions should start with prefix ``\srccode{rec}'', for example, just ``\srccode{rec}'', or ``\srccode{rec\_find\_elem}''.
 This is to indicate that there is a recursion, and extra care should be taken into account to verify termination.
 
 Although in the current version of \Soda there is no check for detection of recursive calls, it could be implemented in the future a warning or an error if the one or multiple functions participating in recursions do not indicate that with prefix "rec".
@@ -393,22 +393,46 @@ Although in the current version of \Soda there is no check for detection of recu
 This is only a recommendation, since the JVM objects use camel case, i.e. all the words come together, starting with a capital letter.
 Since \Soda can be integrated with other JVM languages, some \Soda code could use camel case.
 
-The following table intends to summarize the naming convention.
+The following list is an example to summarize the naming convention.
 
-\begin{tabular}{lll}
-    \srccode{LocalTranslator}                         & class               & noun that starts with a capital letter and uses camel case                                       \\
-    \srccode{first\_name}                             & constant            & noun that starts with a lowercase letter and uses snake case                                     \\
-    \srccode{translate\_paragraph(s: String)}         & function            & predicate that starts with lowercase letter and uses snake case                                  \\
-    \srccode{is\_empty}                               & constant            & predicate "is-" that starts with lowercase letter and uses snake case                            \\
-    \srccode{as\_translator}                          & constant            & predicate "as-" that starts with lowercase letter and uses snake case                            \\
-    \srccode{to\_global\_translator}                  & constant            & predicate "to-" that starts with lowercase letter and uses snake case                            \\
-    \srccode{toGlobalTranslator}                      & constant            & predicate "to-" that starts with lowercase letter and uses camel case to be used by JVM projects \\
-    \srccode{LocalTranslator\_}                       & concrete class      & noun that starts with a capital letter and uses camel case and ends with an underscore           \\
-    \srccode{\_LocalModel}                            & non-public class    & noun that starts with an underscore and then capital letter and uses camel case                  \\
-    \srccode{\_internal\_identifier}                  & non-public constant & noun that starts with an underscore and then a lowercase letter and uses snake case              \\
-    \srccode{\_find\_internal\_identifier(s: String)} & non-public function & predicate that starts with an underscore and then a lowercase letter and uses snake case         \\
-    \srccode{rec\_find\_elem(s: String)}              & recursive function  & predicate that starts with prefix "rec" and then lowercase letter and uses snake case            \\
-\end{tabular}
+\begin{itemize}
+    \item \srccode{LocalTranslator} \\
+    \textbf{class} - noun that starts with a capital letter and uses camel case
+
+    \item \srccode{first\_name} \\
+    \textbf{constant} - noun that starts with a lowercase letter and uses snake case
+
+    \item \srccode{translate\_paragraph(s: String)} \\
+    \textbf{function} - predicate that starts with lowercase letter and uses snake case
+
+    \item \srccode{is\_empty} \\
+    \textbf{constant} - predicate ``is-'' that starts with lowercase letter and uses snake case
+
+    \item \srccode{as\_translator} \\
+    \textbf{constant} - predicate ``as-'' that starts with lowercase letter and uses snake case
+
+    \item \srccode{to\_global\_translator} \\
+    \textbf{constant} - predicate ``to-'' that starts with lowercase letter and uses snake case
+
+    \item \srccode{toGlobalTranslator} \\
+    \textbf{constant} - predicate ``to-'' that starts with lowercase letter and uses camel case to be used by JVM projects
+
+    \item \srccode{LocalTranslator\_} \\
+    \textbf{concrete class} - noun that starts with a capital letter and uses camel case and ends with an underscore
+
+    \item \srccode{\_LocalModel} \\
+    \textbf{non-public class} - noun that starts with an underscore and then capital letter and uses camel case
+
+    \item \srccode{\_internal\_identifier} \\
+    \textbf{non-public constant} - noun that starts with an underscore and then a lowercase letter and uses snake case
+
+    \item \srccode{\_find\_internal\_identifier(s: String)} \\
+    \textbf{non-public function} - predicate that starts with an underscore and then a lowercase letter and uses snake case
+
+    \item \srccode{rec\_find\_elem(s: String)} \\
+    \textbf{recursive function} - predicate that starts with prefix ``rec'' and then lowercase letter and uses snake case
+
+\end{itemize}
 
 Example using snake case, recommended in \Soda
 

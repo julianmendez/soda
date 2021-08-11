@@ -1,3 +1,6 @@
+\chapter{State of the Art}
+
+
 \section{Why \Soda}
 
 This is a justification of how \Soda was designed.
@@ -11,12 +14,12 @@ This is part of concepts like \textbf{transparency} and \textbf{governance}.
 Transparency comes when the user is aware of what a system is doing.
 
 Some parts of the programming of a system are beyond the understanding and interest of most humans.
-However, it is necessary in critical parts that humans need to complete understand their functioning.
+However, it is necessary in critical parts that humans need to completely understand their functioning.
 
 Currently, this is achieved using different tools and techniques.
 These include diverse types of tests, best practices, optimal architecture designs, and other rituals to preserve a system under a human control.
 
-\Soda is a language to intends to be easy for and close to humans.
+\Soda is a language that intends to be easy for and close to humans.
 This language is intended to be simple and direct.
 Because of that, this language can be considered a \textbf{specification language} or a \textbf{description language}.
 
@@ -44,30 +47,29 @@ For example, the fallacy ``$p \to q$ then $\lnot p \to \lnot q$'' is unfortunate
 
 In a specification, we want to \textbf{describe qualities and quantities in a natural way}.
 We want to describe relations between them.
-Non-classical logics are very good to describe qualities, but they have some limitations to describe qualities.
+Non-classical logics are very good to describe qualities, but they have some limitations to describe quantities.
 This does not mean that it is impossible, but rather unusual, needing to tailor a logic for each particular problem.
 Decidable fragments of non-classical logics can, however, \textbf{verify consistency} in a specification.
 This property is also desirable in the specification language.
 
 Another property is the possibility of \textbf{prototyping the specification}.
-This said, we want that the specification can be \textit{run} in some sense.
+We want that the specification can be \textit{run} in some sense.
 This is very useful to test what the specification says, for example.
 
 First-order logic is with no doubt a powerful tool and it is \textbf{universally understood}.
-However, it is not simple to produce a program that satisfies the specification.
-The power of first-order logic backfires when a human is not aware of the limitations to prototype their specification.
+However, it is not simple to produce a program that satisfies a specification.
+The power of first-order logic backfires when a human is not aware of its limitations to prototype their specification.
 The semi-decidability of first-order logic is then problematic to automatically generate a prototype.
 
-The Z Specification Language combines the good properties of first-order logics and set theory.
+The Z Specification Language combines the good properties of first-order logic and set theory.
 While this language is more suited for certain types of projects, prototyping is still not straight forward.
 
 Theorem proving assistants, like Coq and Isabelle, are excellent tools to model and prove small theorems.
 However, they are not that simple to use to prototype.
 
-Some very descriptive languages like SmallTalk, Python are dynamically typed.
-That means that many of the inconsistencies are found when the program is already running.
-In addition, Python still has an imperative approach.
-Some common errors made in imperative languages, like untracked side effects or unsafe thread execution, are rather common.
+Some very descriptive languages like SmallTalk and Python are dynamically typed.
+That means that type inconsistencies could be found when the program is already running.
+Python has an imperative approach which can carry in the source code some common errors made in imperative languages, like untracked side effects or unsafe thread execution.
 
 Prolog is maybe one of the most innovative programming languages.
 It is with no doubt descriptive, but it is dynamically typed, and it has a single data type, the term, and subtypes atoms, numbers, variables, and compound terms.\footnote{\url{https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics}}
@@ -79,7 +81,7 @@ One of the disadvantages in Lisp is the absence of types.
 This issue is addressed in Racket\footnote{https://racket-lang.org}.
 Another disadvantage of Lisp is the technological gap that needs to be breached when integrating it with the most used technology.
 This issue is addressed in Clojure\footnote{https://clojure.org}, which is integrated with the Java Virtual Machine.
-The abundance of structures with parentheses makes a difficult readability, but it could be suitable for skilled technician.
+The abundance of structures with parentheses difficults readability, but it could be suitable for a skilled technician.
 
 Another important functional language is Haskell.
 It is one of the most used and most influential functional languages.

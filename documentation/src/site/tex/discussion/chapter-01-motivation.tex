@@ -42,7 +42,7 @@ If they are used indulgently, they can threaten human well-being.
 
 \subsection{AI Systems complexity}
 
-Even it is difficult to define precisely what AI means, it is common accepted in the literature that are complex systems.
+Even it is difficult to define precisely what AI means, it is commonly accepted in the literature that they are complex systems.
 \comment{
     The problem here is that it is difficult to find a crystal-clear definition of Artificial Intelligence.
     Some people would think of the \textit{new} artificial intelligence as machine learning, which is not only wrong, but also not conducive to a \textit{more accurate} definition.
@@ -60,12 +60,12 @@ Governance can only be achieved when a system is properly understood by those us
 
 When a customer buys a product, and the package is transparent, the customer has more trust than when it is opaque, and only has a nice picture.
 The same happens with a system.
-It is good a recognized expert validates how a system work, but it is a lot better if the users can see it by themselves.
+It is good if a recognized expert validates how a system works, but it is a lot better if its users can see it by themselves.
 Transparency together with governance are not `nice-to-have' properties in a trustable system, they are `must-have' properties.
 
 \subsection{Communication with computers}
 
-It does not matter how beautiful and human friendly a graphic interface can look,
+It does not matter how beautiful and human-friendly a graphic interface can look,
 the communication with a system is through a sequence of 0's and 1's that are interpreted by the computer.
 In other words, the human understanding of an approximate explanation, does not apply to computers.
 They simulate it, but in the end, everything inside is 0's and 1's.
@@ -86,11 +86,11 @@ They simulate it, but in the end, everything inside is 0's and 1's.
     \item Why do developers need a debugging tools at all?
     \item Why cannot most of the people read code as they read a newspaper?
 \end{itemize}
-The answer is simple: source code is not easy to read.
+The answer to the above questions is simple: source code is not easy to read.
 Source code needs to be learned, needs to be practiced, and even with many years, pieces of code can be deceiving.
 \footnote{\url{https://www.quora.com/What-are-the-biggest-problems-with-modern-programming-languages}}
 
-It seems that most of the code is written for computers, and not for other humans.
+It seems that most of the code is written to simplify its parsing by computers, and not for other humans.
 
 This can be since the beginning of computing.
 Languages like Fortran, Cobol, and Lisp sought a simplified communication in some sense.
@@ -98,9 +98,7 @@ Fortran is to write mathematical formulas, Cobol looks like writing English sent
 A long list of programming languages, can prove how hard it is to express things clearly.
 
 Python is probably one of the most popular languages in the direction of achieving being both descriptive and useful.
-See section about this point.
-
-This is discussed in the corresponding section.
+This point is discussed in the corresponding section.
 
 \comment{
     This is a difficult topic.
@@ -154,7 +152,7 @@ This is discussed in the corresponding section.
         \item Python: because it is becoming the de-facto standard language in teaching. Many students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. In practice many people will understand Python before any other computer language.
     \end{itemize}
 
-    An important observation that needs to be answer is why relying on humans to understand a program.
+    An important observation that needs to be answered is why relying on humans to understand a program.
     Python is highly readable, and very likely to be a global standard in the following 10 years, but the interpreter does very little verification on the code.
     Coq, on the other side, is a little more difficult to read, but the compiler creates a proof on its code, and it even can be exported to functional languages.
     The new language has to have a readability comparable to Python, but the compiler has to help proving its correctness as much as possible.
@@ -166,15 +164,15 @@ This is discussed in the corresponding section.
 \subsection{A New Language}
 
 A new language is needed, something descriptive and efficient enough.
-With efficient we do not necessary mean that is faster than C, for example, we mean that its execution or evaluation time in a human scale.
-This language needs to have a human size.
+In this context, `efficient' does not necessary mean that is faster than C, for example.
+We mean that its execution or evaluation time in a human scale.
 In other words, a human needs to be able to follow what it is written, and determine whether it is right or wrong.
 This does not mean that a computer cannot help, but it means that a computer is not needed to understand its operation.
 This language needs a way of using it.
 This is discussed in the corresponding section.
 
 \comment{
-    The approach to prove a new better language is possible is similar to Cantor's diagonal argument.
+    The approach to prove that a new better language is possible is similar to Cantor's diagonal argument.
     Given a set of constraints that are convenient, i.e. make a language better for ethical purposes, I show that the language here proposed has all those properties.
     Every language in the \textit{bad categories} fails at least one of the constraint.
     Finally, I analyze the \textit{distinguished competitors} one by one, giving sufficient reasons why I prefer not to use them.
@@ -186,12 +184,12 @@ This is discussed in the corresponding section.
 To check that an AI system is following ethical principles, it is required to have a system that checks it.
 
 The encoding of ethical values and principles should be reachable to those affected.
-If ethical values are encoded in very complex formalisms are not reachable to the affected humans, and could be highly error prone.
+If ethical values are encoded in very complex formalisms, they are not reachable to the affected humans, and could be highly error prone.
 
 The purpose of the language is to have formal specifications that can be \textbf{easily understood by a human reader}, and can be immediately prototyped.
 This is used to verify if ethical values are properly encoded in a verification system.
 
-Human-centered specifications are intended to be clearly understood by human.
+Human-centered specifications are intended to be clearly understood by humans.
 Please note that this is not necessarily the most abstract form of specification, since a very abstract specification could be hard to understand for the intended reader.
 
 As a rule of thumb, the \textbf{intended reader} is a human that can read a formal specification, probably a second-year undergraduate student of a scientific or engineering course of studies.
@@ -199,8 +197,8 @@ As a rule of thumb, the \textbf{intended reader} is a human that can read a form
 There is a marked distinction between the reader and the writer.
 In standard formalisms, it is common to find that the gap from reading to writing in that formalism can be small or even trivial.
 
-This is not necessary in the language we are presenting.
-The language to be very easily, although not necessarily very easily written.
+This is not necessarily the case in the language we are presenting.
+The language needs to be very easily understood, although not necessarily very easily written.
 
 The \textbf{intended writer} is then an experienced technician that can model ethical values using the provided constructs, but producing a highly readable description.
 
@@ -237,7 +235,7 @@ At least:
 
 A formal semantics is intended to give meaning to the language.
 This could be used not only to present to humans, but also to prove formal properties on the language.
-This allows for rewriting to have consistency checking and/or formal verification.
+This allows for rewriting, to have consistency checking and/or formal verification.
 
 (This discards most of the informally developed programming languages.)
 
