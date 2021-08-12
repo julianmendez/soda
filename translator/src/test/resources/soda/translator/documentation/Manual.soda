@@ -3,7 +3,7 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-07-22
+ * Version: 2021-08-12
  */
 
 class Shape
@@ -21,8 +21,7 @@ class EqualsExample = {
   f (x: Int, y: Int) = 2 * x + y
 }
 
-/** Class for a registered person, in snake case */
-class Registered_person = {
+class RegisteredPerson = {
 
   has first_name: String
 
@@ -33,26 +32,14 @@ class Registered_person = {
   full_name = first_name + _separator + last_name
 }
 
-/** Class for a registered person, in camel case */
-class RegisteredPerson = {
-
-  has firstName: String
-
-  has lastName: String
-
-  _separator = " "
-
-  fullName = firstName + _separator + lastName
-}
+class Person(name: String)
 
 class Agent = {
 
   has identifier: String
 }
 
-class Person(name: String)
-
-class AgentPerson(identifier: String) extends Agent
+class Agent_(identifier: String) extends Agent
 
 class RankedIndividual = {
 
@@ -99,20 +86,20 @@ class Manual = {
 
   plus_one (x: Int): Int = x + 1
 
-  max (x: Int, y: Int) =
+  max (x: Int, y: Int): Int =
     if x > y
     then x
     else y
 
-  plus_one (sequence: Seq[Int]) =
+  plus_one (sequence: Seq[Int]): Seq[Int] =
     sequence.map(element -> element + 1)
 
-  my_not (x: Boolean) =
+  my_not (x: Boolean): Boolean =
     if x
     then false
     else true
 
-  my_and (x: Boolean, y: Boolean) =
+  my_and (x: Boolean, y: Boolean): Boolean =
     if x
     then
       if y
@@ -120,7 +107,7 @@ class Manual = {
       else false
     else false
 
-  my_or (x: Boolean, y: Boolean) =
+  my_or (x: Boolean, y: Boolean): Boolean =
     if x
     then true
     else
@@ -143,33 +130,29 @@ class Manual = {
 
     in result
 
-  f0 (x: Int) =
+  f0 (x: Int): Int =
     let
       a = g(x)
       b = g(a)
     in a + b
 
-  f1 (x: Int) =
-    let
-      a = g(x)
-      b = g(a)
-    in a + b
-
-  f2 (x: Int) =
+  f1 (x: Int): Int =
     let
       result = a + b
       a = g(x)
       b = g(a)
     in result
 
-  g (x: Int) = x + 1
+  g (x: Int): Int = x + 1
 }
 
 * AbstractFactorialConcise = {
+
   has factorial (n: Int): Int
 }
 
-* FactorialConcise extends AbstractFactorialConcise = {
+* FactorialConcise
+  extends AbstractFactorialConcise = {
 
   factorial (n: Int) =
     let
@@ -185,10 +168,12 @@ class Manual = {
 }
 
 class AbstractFactorialVerbose is {
+
   has factorial (n: Int): Int
 }
 
-class FactorialVerbose extends AbstractFactorialVerbose is {
+class FactorialVerbose
+  extends AbstractFactorialVerbose is {
 
   factorial (n: Int) is
     let
@@ -205,8 +190,12 @@ class FactorialVerbose extends AbstractFactorialVerbose is {
 
 class Recursion = {
 
-  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
-      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C,
+      condition: (B, A) -> Boolean
+  ): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -233,7 +222,8 @@ class Recursion = {
 class Recursion_() extends Recursion
 
 class MainClass = {
-  main(args: Array[String]): Unit =
+
+  main(arguments: Array[String]): Unit =
     println ("Hello world!")
 }
 

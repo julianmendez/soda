@@ -3,7 +3,7 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-07-22
+ * Version: 2021-08-12
  */
 
 trait Shape
@@ -21,8 +21,7 @@ trait EqualsExample {
   def f (x: Int, y: Int ) = 2 * x + y
 }
 
-/** Class for a registered person, in snake case */
-trait Registered_person {
+trait RegisteredPerson {
 
   def first_name: String
 
@@ -33,26 +32,14 @@ trait Registered_person {
   lazy val full_name = first_name + _separator + last_name
 }
 
-/** Class for a registered person, in camel case */
-trait RegisteredPerson {
-
-  def firstName: String
-
-  def lastName: String
-
-  lazy val _separator = " "
-
-  lazy val fullName = firstName + _separator + lastName
-}
+case class Person (name: String )
 
 trait Agent {
 
   def identifier: String
 }
 
-case class Person (name: String )
-
-case class AgentPerson (identifier: String ) extends Agent
+case class Agent_ (identifier: String ) extends Agent
 
 trait RankedIndividual {
 
@@ -98,20 +85,20 @@ trait Manual {
 
   def plus_one (x: Int ): Int = x + 1
 
-  def max (x: Int, y: Int ) =
+  def max (x: Int, y: Int ): Int =
     if (x > y
     ) x
     else y
 
-  def plus_one (sequence: Seq [Int]  ) =
+  def plus_one (sequence: Seq [Int]  ): Seq [Int] =
     sequence.map (element => element + 1 )
 
-  def my_not (x: Boolean ) =
+  def my_not (x: Boolean ): Boolean =
     if (x
     ) false
     else true
 
-  def my_and (x: Boolean, y: Boolean ) =
+  def my_and (x: Boolean, y: Boolean ): Boolean =
     if (x
     )
       if (y
@@ -119,7 +106,7 @@ trait Manual {
       else false
     else false
 
-  def my_or (x: Boolean, y: Boolean ) =
+  def my_or (x: Boolean, y: Boolean ): Boolean =
     if (x
     ) true
     else
@@ -143,33 +130,28 @@ trait Manual {
 
       result }
 
-  def f0 (x: Int ) =
+  def f0 (x: Int ): Int =
     {
       lazy val a = g (x )
       lazy val b = g (a )
       a + b }
 
-  def f1 (x: Int ) =
-    {
-      lazy val a = g (x )
-      lazy val b = g (a )
-      a + b }
-
-  def f2 (x: Int ) =
+  def f1 (x: Int ): Int =
     {
       lazy val result = a + b
       lazy val a = g (x )
       lazy val b = g (a )
       result }
 
-  def g (x: Int ) = x + 1
+  def g (x: Int ): Int = x + 1
 }
 
 trait AbstractFactorialConcise {
+
   def factorial (n: Int ): Int
 }
 
-trait FactorialConcise extends AbstractFactorialConcise {
+trait FactorialConcise  extends AbstractFactorialConcise {
 
   def factorial (n: Int ) =
     {
@@ -186,10 +168,11 @@ trait FactorialConcise extends AbstractFactorialConcise {
 }
 
 trait AbstractFactorialVerbose {
+
   def factorial (n: Int ): Int
 }
 
-trait FactorialVerbose extends AbstractFactorialVerbose {
+trait FactorialVerbose  extends AbstractFactorialVerbose {
 
   def factorial (n: Int ) =
     {
@@ -207,7 +190,7 @@ trait FactorialVerbose extends AbstractFactorialVerbose {
 
 trait Recursion {
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -236,7 +219,8 @@ trait Recursion {
 case class Recursion_ () extends Recursion
 
 trait MainClass {
-  def main (args: Array [String]  ): Unit =
+
+  def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
 }
 
