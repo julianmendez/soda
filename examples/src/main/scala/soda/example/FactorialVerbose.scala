@@ -6,7 +6,7 @@ trait AbstractFactorialVerbose {
   def get_factorial (n: Int ): Int
 }
 
-trait FactorialVerbose extends AbstractFactorialVerbose {
+trait FactorialVerbose  extends AbstractFactorialVerbose {
 
   def get_factorial (n: Int ) =
     {

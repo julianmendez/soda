@@ -42,16 +42,16 @@ trait DefinitionTranslator {
     find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line    )
 
   lazy val is_class_definition =
-    get_index (line, soda_space + Translation () .soda_class_reserved_word + soda_space ) .isDefined
+    get_index (line, soda_space + TranslationConstant_ () .soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translation_of_class_definition =
-    Replacement_ (line ) .replace_all (soda_space + Translation () .soda_definition, "")
+    Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, "")
 
   lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces (Translation () .scala_value + scala_space )
+    Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_value + scala_space )
 
   lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces (Translation () .scala_definition + scala_space )
+    Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translation_of_class_definition
@@ -64,7 +64,7 @@ trait DefinitionTranslator {
       lazy val is_case_1 = position_of_first_opening_parenthesis.isEmpty
       lazy val is_case_2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
       lazy val is_case_3 =
-        get_index (line, Translation () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+        get_index (line, TranslationConstant_ () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
             position_of_first_opening_parenthesis.opt (false, position => position > other_position )        )
       is_case_1 || is_case_2 || is_case_3 }
 
@@ -76,9 +76,9 @@ trait DefinitionTranslator {
    * @return maybe the position of the definition sign
    */
   def find_definition (line: String ): OptionSD [Int] =
-    if (line.endsWith (soda_space + Translation () .soda_definition )
-    ) SomeElem (line.length - Translation () .soda_definition.length )
-    else get_index (line, soda_space + Translation () .soda_definition + soda_space )
+    if (line.endsWith (soda_space + TranslationConstant_ () .soda_definition )
+    ) SomeElem (line.length - TranslationConstant_ () .soda_definition.length )
+    else get_index (line, soda_space + TranslationConstant_ () .soda_definition + soda_space )
 
   def get_index (line: String, pattern: String ): OptionSD [Int] =
     get_index (line, pattern, 0 )

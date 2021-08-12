@@ -12,7 +12,8 @@ package soda.translator.example.miniexample
 
 @main
 * MainClass = {
-  main (args: Array[String]): Unit =
+
+  main(arguments: Array[String]): Unit =
     MiniExample_().run()
 }
 

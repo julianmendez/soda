@@ -2,6 +2,7 @@ package soda.collection
 
 
 * MSeq[T] = {
+
   has isEmpty: Boolean
 
   has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B

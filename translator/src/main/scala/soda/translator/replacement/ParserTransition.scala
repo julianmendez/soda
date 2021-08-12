@@ -4,21 +4,23 @@ package soda.translator.replacement
 /**
  * This models all the possible states that the parser can be.
  */
-case class ParserState (ordinal: Int, name: String ) extends soda.lib.EnumConstant
+trait ParserState extends soda.lib.EnumConstant
+
+case class ParserState_ (ordinal: Int, name: String ) extends ParserState
 
 trait ParserStateConstant {
 
-  lazy val undefined_state = ParserState (0, "undefined_state")
+  lazy val undefined_state = ParserState_ (0, "undefined_state")
 
-  lazy val quotes_state = ParserState (1, "quotes_state")
+  lazy val quotes_state = ParserState_ (1, "quotes_state")
 
-  lazy val apostrophe_state = ParserState (2, "apostrophe_state")
+  lazy val apostrophe_state = ParserState_ (2, "apostrophe_state")
 
-  lazy val quotes_backslash_state = ParserState (3, "quotes_backslash_state")
+  lazy val quotes_backslash_state = ParserState_ (3, "quotes_backslash_state")
 
-  lazy val apostrophe_backslash_state = ParserState (4, "apostrophe_backslash_state")
+  lazy val apostrophe_backslash_state = ParserState_ (4, "apostrophe_backslash_state")
 
-  lazy val plain = ParserState (5, "plain")
+  lazy val plain = ParserState_ (5, "plain")
 
   lazy val parser_state_values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
 }
@@ -26,7 +28,7 @@ trait ParserStateConstant {
 /**
  * This is an enumeration of all the parser states.
  */
-trait ParserStateFunction extends ParserStateConstant {
+trait ParserStateEnum extends ParserStateConstant {
 
   lazy val values = parser_state_values
 
@@ -38,9 +40,9 @@ trait ParserStateFunction extends ParserStateConstant {
       (x == apostrophe_state && y == apostrophe_backslash_state )
 }
 
-case class ParserStateEnum () extends ParserStateFunction
+case class ParserStateEnum_ () extends ParserStateEnum
 
-trait ParserTransition extends ParserStateConstant with CharTypeConstant {
+trait ParserTransition  extends ParserStateConstant  with CharTypeConstant {
 
   lazy val transitions_that_change_states: Map [(ParserState, CharType ), ParserState] =
     Map (/* */

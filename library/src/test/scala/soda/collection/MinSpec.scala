@@ -213,7 +213,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("splitAt") {
-    lazy val expected = MSeqPair (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 )  )  )
+    lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 )  )  )
     lazy val obtained = Min_ () .splitAt (example, 3 )
 
     assert (obtained == expected )
@@ -227,7 +227,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("span") {
-    lazy val expected = MSeqPair (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator_ () .asMSeq (Seq (5, 8 )  )  )
+    lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator_ () .asMSeq (Seq (5, 8 )  )  )
     lazy val obtained = Min_ () .span (example, (x: Int ) => ! (x == 5 )  )
 
     assert (obtained == expected )

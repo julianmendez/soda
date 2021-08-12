@@ -1,10 +1,11 @@
 ---
-- - version: v0.11.0
-  - date: unreleased
-  - new_features:
-    - has an improved documentation
-  - build: sbt '++ 3.0.0' clean compile test package assembly
-  - release: target/scala-3.0.0/soda-0.11.0.jar
+- version: v0.11.0
+- date: unreleased
+- new_features:
+  - has an improved documentation
+  - adopts a naming standard for concrete classes to end in underscore
+- build: sbt '++ 3.0.0' clean compile test package assembly
+- release: target/scala-3.0.0/soda-0.11.0.jar
 - - version: v0.10.0
   - date: '2021-08-08'
   - new_features:

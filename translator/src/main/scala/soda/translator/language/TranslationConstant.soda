@@ -235,5 +235,5 @@ package soda.translator.language
     soda_reserved_words.contains(word)
 }
 
-* Translation() extends TranslationConstant
+* TranslationConstant_() extends TranslationConstant
 

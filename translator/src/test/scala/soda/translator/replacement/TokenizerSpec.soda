@@ -6,9 +6,9 @@ package soda.translator.replacement
   test("should tokenize a small example") {
     input = "    val Constant = \"my text\""
     expected = Seq(
-      Token("    val Constant = ", ParserStateEnum().plain, 0),
-      Token("\"my text\"", ParserStateEnum().quotes_state, 19),
-      Token("", ParserStateEnum().plain, 28)
+      Token_("    val Constant = ", ParserStateEnum_().plain, 0),
+      Token_("\"my text\"", ParserStateEnum_().quotes_state, 19),
+      Token_("", ParserStateEnum_().plain, 28)
     )
     obtained = Tokenizer_(input).tokens
 
@@ -18,9 +18,9 @@ package soda.translator.replacement
   test("should tokenize a common tab in a string") {
     input = "  x = \"abc\tde\""
     expected = Seq(
-      Token("  x = ", ParserStateEnum().plain, 0),
-      Token("\"abc\tde\"", ParserStateEnum().quotes_state, 6),
-      Token("", ParserStateEnum().plain, 14)
+      Token_("  x = ", ParserStateEnum_().plain, 0),
+      Token_("\"abc\tde\"", ParserStateEnum_().quotes_state, 6),
+      Token_("", ParserStateEnum_().plain, 14)
     )
     obtained = Tokenizer_(input).tokens
 
@@ -30,9 +30,9 @@ package soda.translator.replacement
   test("should tokenize an escaped tab in a string") {
     input = "  x = \"abc\\tde\""
     expected = Seq(
-      Token("  x = ", ParserStateEnum().plain, 0),
-      Token("\"abc\\tde\"", ParserStateEnum().quotes_state, 6),
-      Token("", ParserStateEnum().plain, 15)
+      Token_("  x = ", ParserStateEnum_().plain, 0),
+      Token_("\"abc\\tde\"", ParserStateEnum_().quotes_state, 6),
+      Token_("", ParserStateEnum_().plain, 15)
     )
     obtained = Tokenizer_(input).tokens
 
@@ -42,7 +42,7 @@ package soda.translator.replacement
   test("should tokenize a single function definition") {
     input = "def f(x: Int): Int = x"
     expected = Seq(
-      Token("def f(x: Int): Int = x", ParserStateEnum().plain, 0)
+      Token_("def f(x: Int): Int = x", ParserStateEnum_().plain, 0)
     )
     obtained = Tokenizer_(input).tokens
 
@@ -52,7 +52,7 @@ package soda.translator.replacement
   test("should tokenize a function call") {
     input = "\tas_digits (5 * number)"
     expected = Seq(
-      Token("\tas_digits (5 * number)", ParserStateEnum().plain, 0)
+      Token_("\tas_digits (5 * number)", ParserStateEnum_().plain, 0)
     )
     obtained = Tokenizer_(input).tokens
 

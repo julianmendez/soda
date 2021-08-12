@@ -6,7 +6,7 @@ trait DirectoryProcessor {
 
   def start: String
 
-  def process_soda_file: File => Boolean
+  def process_soda_file: java.io.File => Boolean
 
   lazy val soda_suffix = ".soda"
 

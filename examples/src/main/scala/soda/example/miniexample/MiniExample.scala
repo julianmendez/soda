@@ -15,7 +15,8 @@ object EntryPoint {
 }
 
 trait MainClass {
-  def main (args: Array [String]  ): Unit =
+
+  def main (arguments: Array [String]  ): Unit =
     MiniExample_ () .run ()
 }
 

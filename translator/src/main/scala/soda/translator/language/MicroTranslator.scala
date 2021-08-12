@@ -7,9 +7,10 @@ package soda.translator.language
 trait MicroTranslator {
   import soda.lib.SomeElem
   import soda.translator.replacement.CommentPreprocessor_
-  import soda.translator.replacement.ParserStateEnum
+  import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
+  import soda.translator.replacement.Token_
   import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Translator
 
@@ -17,19 +18,19 @@ trait MicroTranslator {
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val synonym_at_beginning = DefaultTranslator_ (Translation () .synonym_at_beginning )
+  lazy val synonym_at_beginning = DefaultTranslator_ (TranslationConstant_ () .synonym_at_beginning )
 
-  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (Translation () .translation_at_beginning_with_paren )
+  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_with_paren )
 
-  lazy val translation_at_beginning_without_paren = DefaultTranslator_ (Translation () .translation_at_beginning_without_paren )
+  lazy val translation_at_beginning_without_paren = DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_without_paren )
 
-  lazy val synonym = DefaultTranslator_ (Translation () .synonym )
+  lazy val synonym = DefaultTranslator_ (TranslationConstant_ () .synonym )
 
-  lazy val main_translation = DefaultTranslator_ (Translation () .main_translation )
+  lazy val main_translation = DefaultTranslator_ (TranslationConstant_ () .main_translation )
 
-  lazy val scala_non_soda = DefaultTranslator_ (Translation () .scala_non_soda )
+  lazy val scala_non_soda = DefaultTranslator_ (TranslationConstant_ () .scala_non_soda )
 
-  lazy val beautifier = DefaultTranslator_ (Translation () .beautifier )
+  lazy val beautifier = DefaultTranslator_ (TranslationConstant_ () .beautifier )
 
   def translate_program (program: String ): String =
     SomeElem (program )
@@ -72,13 +73,13 @@ trait MicroTranslator {
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>
-        if (token.parser_state == ParserStateEnum () .plain
-        ) Token (_get_all_replacements (token ), token.parser_state, token.index )
+        if (token.parser_state == ParserStateEnum_ () .plain
+        ) Token_ (_get_all_replacements (token ), token.parser_state, token.index )
         else token    )
 
   def _get_all_replacements (token: Token ): String =
     Replacement_ (token.text )
-      .add_spaces_to_symbols (symbols = Translation () .soda_brackets_and_comma.toSet )
+      .add_spaces_to_symbols (symbols = TranslationConstant_ () .soda_brackets_and_comma.toSet )
       .replace (scala_non_soda )
       .replace_at_beginning (token.index, synonym_at_beginning )
       .replace (synonym )
@@ -103,10 +104,10 @@ trait MicroTranslator {
 
   def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
     lines.map (line =>
-      append_if_condition (line, starts_with_in, Translation () .scala_in_translation ) )
+      append_if_condition (line, starts_with_in, TranslationConstant_ () .scala_in_translation ) )
 
   def starts_with_in (line: String ): Boolean =
-    line.trim () .startsWith (Translation () .soda_in_pattern )
+    line.trim () .startsWith (TranslationConstant_ () .soda_in_pattern )
 
   def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
     if (condition (line )

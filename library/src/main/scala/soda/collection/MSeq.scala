@@ -2,6 +2,7 @@ package soda.collection
 
 
 trait MSeq [T] {
+
   def isEmpty: Boolean
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B

@@ -79,4 +79,4 @@ trait TranslationConstant {
     soda_reserved_words.contains (word )
 }
 
-case class Translation () extends TranslationConstant
+case class TranslationConstant_ () extends TranslationConstant

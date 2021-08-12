@@ -4,22 +4,24 @@ package soda.translator.replacement
 /**
  * This is to classify characters.
  */
-* CharType(ordinal: Int, name: String) extends soda.lib.EnumConstant
+* CharType extends soda.lib.EnumConstant
+
+* CharType_(ordinal: Int, name: String) extends CharType
 
 /**
  * This class can be extended to include its constants.
  */
 * CharTypeConstant = {
 
-  undefined_type = CharType(0, "undefined_type")
+  undefined_type = CharType_(0, "undefined_type")
 
-  quotes_type = CharType(1, "quotes_type")
+  quotes_type = CharType_(1, "quotes_type")
 
-  apostrophe_type = CharType(2, "apostrophe_type")
+  apostrophe_type = CharType_(2, "apostrophe_type")
 
-  backslash_type = CharType(3, "backslash_type")
+  backslash_type = CharType_(3, "backslash_type")
 
-  plain_type = CharType(4, "plain_type")
+  plain_type = CharType_(4, "plain_type")
 
   char_type_values = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
 }
@@ -27,7 +29,7 @@ package soda.translator.replacement
 /**
  * This is an enumeration for all types of characters.
  */
-* CharTypeFunction extends CharTypeConstant = {
+* CharTypeEnum extends CharTypeConstant = {
 
   values = char_type_values
 
@@ -67,5 +69,5 @@ package soda.translator.replacement
     ch == backslash_char
 }
 
-* CharTypeEnum() extends CharTypeFunction
+* CharTypeEnum_() extends CharTypeEnum
 

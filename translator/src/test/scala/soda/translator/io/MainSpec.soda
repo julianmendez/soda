@@ -6,7 +6,7 @@ package soda.translator.io
 
   test("should get the input and output file names without path") {
     instance = Main()
-    expected = FileNamePair("my_file.soda", "my_file.scala")
+    expected = FileNamePair_("my_file.soda", "my_file.scala")
     obtained = instance.get_input_output_file_names("my_file.soda")
 
     assert(obtained == expected)
@@ -14,7 +14,7 @@ package soda.translator.io
 
   test("should get the input and output file names with path") {
     instance = Main()
-    expected = FileNamePair("/path/to/file.soda", "/path/to/file.scala")
+    expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
     obtained = instance.get_input_output_file_names("/path/to/file.soda")
 
     assert(obtained == expected)

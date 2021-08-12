@@ -5,7 +5,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a small example") {
     lazy val input = "    val Constant = \"my text\""
-    lazy val expected = Seq (Token ("    val Constant = ", ParserStateEnum () .plain, 0 ), Token ("\"my text\"", ParserStateEnum () .quotes_state, 19 ), Token ("", ParserStateEnum () .plain, 28 )    )
+    lazy val expected = Seq (Token_ ("    val Constant = ", ParserStateEnum_ () .plain, 0 ), Token_ ("\"my text\"", ParserStateEnum_ () .quotes_state, 19 ), Token_ ("", ParserStateEnum_ () .plain, 28 )    )
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
@@ -13,7 +13,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a common tab in a string") {
     lazy val input = "  x = \"abc\tde\""
-    lazy val expected = Seq (Token ("  x = ", ParserStateEnum () .plain, 0 ), Token ("\"abc\tde\"", ParserStateEnum () .quotes_state, 6 ), Token ("", ParserStateEnum () .plain, 14 )    )
+    lazy val expected = Seq (Token_ ("  x = ", ParserStateEnum_ () .plain, 0 ), Token_ ("\"abc\tde\"", ParserStateEnum_ () .quotes_state, 6 ), Token_ ("", ParserStateEnum_ () .plain, 14 )    )
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
@@ -21,7 +21,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize an escaped tab in a string") {
     lazy val input = "  x = \"abc\\tde\""
-    lazy val expected = Seq (Token ("  x = ", ParserStateEnum () .plain, 0 ), Token ("\"abc\\tde\"", ParserStateEnum () .quotes_state, 6 ), Token ("", ParserStateEnum () .plain, 15 )    )
+    lazy val expected = Seq (Token_ ("  x = ", ParserStateEnum_ () .plain, 0 ), Token_ ("\"abc\\tde\"", ParserStateEnum_ () .quotes_state, 6 ), Token_ ("", ParserStateEnum_ () .plain, 15 )    )
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
@@ -29,7 +29,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a single function definition") {
     lazy val input = "def f(x: Int): Int = x"
-    lazy val expected = Seq (Token ("def f(x: Int): Int = x", ParserStateEnum () .plain, 0 )    )
+    lazy val expected = Seq (Token_ ("def f(x: Int): Int = x", ParserStateEnum_ () .plain, 0 )    )
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
@@ -37,7 +37,7 @@ case class TokenizerSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a function call") {
     lazy val input = "\tas_digits (5 * number)"
-    lazy val expected = Seq (Token ("\tas_digits (5 * number)", ParserStateEnum () .plain, 0 )    )
+    lazy val expected = Seq (Token_ ("\tas_digits (5 * number)", ParserStateEnum_ () .plain, 0 )    )
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )

@@ -7,9 +7,10 @@ package soda.translator.language
 * MicroTranslator = {
   + soda.lib.SomeElem
   + soda.translator.replacement.CommentPreprocessor_
-  + soda.translator.replacement.ParserStateEnum
+  + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
+  + soda.translator.replacement.Token_
   + soda.translator.replacement.Tokenizer_
   + soda.translator.replacement.Translator
 
@@ -17,19 +18,19 @@ package soda.translator.language
 
   soda_opening_parenthesis: String = "("
 
-  synonym_at_beginning = DefaultTranslator_(Translation().synonym_at_beginning)
+  synonym_at_beginning = DefaultTranslator_(TranslationConstant_().synonym_at_beginning)
 
-  translation_at_beginning_with_paren = DefaultTranslator_(Translation().translation_at_beginning_with_paren)
+  translation_at_beginning_with_paren = DefaultTranslator_(TranslationConstant_().translation_at_beginning_with_paren)
 
-  translation_at_beginning_without_paren = DefaultTranslator_(Translation().translation_at_beginning_without_paren)
+  translation_at_beginning_without_paren = DefaultTranslator_(TranslationConstant_().translation_at_beginning_without_paren)
 
-  synonym = DefaultTranslator_(Translation().synonym)
+  synonym = DefaultTranslator_(TranslationConstant_().synonym)
 
-  main_translation = DefaultTranslator_(Translation().main_translation)
+  main_translation = DefaultTranslator_(TranslationConstant_().main_translation)
 
-  scala_non_soda = DefaultTranslator_(Translation().scala_non_soda)
+  scala_non_soda = DefaultTranslator_(TranslationConstant_().scala_non_soda)
 
-  beautifier = DefaultTranslator_(Translation().beautifier)
+  beautifier = DefaultTranslator_(TranslationConstant_().beautifier)
 
   translate_program(program: String): String =
     SomeElem(program)
@@ -74,14 +75,14 @@ package soda.translator.language
   _translate_line(tokens: Seq[Token]): Seq[Token] =
     tokens.map(
       token ->
-        if token.parser_state == ParserStateEnum().plain
-        then Token(_get_all_replacements(token), token.parser_state, token.index)
+        if token.parser_state == ParserStateEnum_().plain
+        then Token_(_get_all_replacements(token), token.parser_state, token.index)
         else token
     )
 
   _get_all_replacements(token: Token): String =
     Replacement_(token.text)
-      .add_spaces_to_symbols(symbols := Translation().soda_brackets_and_comma.toSet)
+      .add_spaces_to_symbols(symbols := TranslationConstant_().soda_brackets_and_comma.toSet)
       .replace(scala_non_soda)
       .replace_at_beginning(token.index, synonym_at_beginning)
       .replace(synonym)
@@ -106,10 +107,10 @@ package soda.translator.language
 
   preprocess_let_in_commands(lines: Seq[String]): Seq[String] =
     lines.map(line ->
-      append_if_condition(line, starts_with_in, Translation().scala_in_translation) )
+      append_if_condition(line, starts_with_in, TranslationConstant_().scala_in_translation) )
 
   starts_with_in(line: String): Boolean =
-    line.trim().startsWith(Translation().soda_in_pattern)
+    line.trim().startsWith(TranslationConstant_().soda_in_pattern)
 
   append_if_condition(line: String, condition: String -> Boolean, to_append: String): String =
     if condition(line)

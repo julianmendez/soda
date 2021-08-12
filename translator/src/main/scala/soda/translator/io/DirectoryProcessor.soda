@@ -6,7 +6,7 @@ package soda.translator.io
 
   has start: String
 
-  has process_soda_file: File -> Boolean
+  has process_soda_file: java.io.File -> Boolean
 
   soda_suffix = ".soda"
 

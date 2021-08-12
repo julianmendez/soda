@@ -39,9 +39,9 @@ package soda.translator.io
 
   get_input_output_file_names(input_name: String): FileNamePair =
     if input_name.endsWith(soda_extension)
-    then FileNamePair(input_name,
+    then FileNamePair_(input_name,
       input_name.substring(0, input_name.length - soda_extension.length) + scala_extension)
-    else FileNamePair(input_name + soda_extension, input_name + scala_extension)
+    else FileNamePair_(input_name + soda_extension, input_name + scala_extension)
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
@@ -52,5 +52,12 @@ package soda.translator.io
 
 * Main() extends MainClass
 
-* FileNamePair(input_file_name: String, output_file_name: String)
+* FileNamePair = {
+
+  has input_file_name: String
+
+  has output_file_name: String
+}
+
+* FileNamePair_(input_file_name: String, output_file_name: String) extends FileNamePair
 
