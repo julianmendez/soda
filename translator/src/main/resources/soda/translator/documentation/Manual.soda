@@ -203,7 +203,7 @@ class FactorialVerbose extends AbstractFactorialVerbose is {
     in result
 }
 
-class Recursive = {
+class Recursion = {
 
   fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
       next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
@@ -230,7 +230,7 @@ class Recursive = {
     in rec(length, Seq[Int]())
 }
 
-class Rec() extends Recursive
+class Recursion_() extends Recursion
 
 class MainClass = {
   main(args: Array[String]): Unit =

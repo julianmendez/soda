@@ -1,7 +1,7 @@
 package soda.translator.example.miniexample
 
 
-trait MiniExample extends soda.lib.Recursive {
+trait MiniExample extends soda.lib.Recursion {
 
   def run () =
     range (50 )

@@ -19,12 +19,12 @@ case class Token_ (text: String, parser_state: ParserState, index: Int ) extends
  * This class processes a line to divide it into tokens.
  */
 trait Tokenizer {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   def line: String
 
   lazy val tokens: Seq [Token] =
-    _postprocess (Rec () .fold (Rec () .range (line.length ), _initial_value, _next_value_function )  )
+    _postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), _initial_value, _next_value_function )  )
 
   lazy val _initial_value = TokenizerFoldTuple_ (0, ParserStateEnum_ () .plain, Seq ()  )
 

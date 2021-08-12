@@ -19,12 +19,12 @@ package soda.translator.replacement
  * This class processes a line to divide it into tokens.
  */
 * Tokenizer = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   has line: String
 
   tokens: Seq[Token] =
-    _postprocess(Rec().fold( Rec().range(line.length), _initial_value, _next_value_function ))
+    _postprocess(Recursion_().fold( Recursion_().range(line.length), _initial_value, _next_value_function ))
 
   _initial_value = TokenizerFoldTuple_(0, ParserStateEnum_().plain, Seq())
 

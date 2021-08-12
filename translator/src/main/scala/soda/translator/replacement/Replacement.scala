@@ -6,7 +6,7 @@ package soda.translator.replacement
  * This is intended to be used as a pipeline.
  */
 trait Replacement {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   def line: String
 
@@ -32,7 +32,7 @@ trait Replacement {
       def next_value_function (line: String, reserved_word: String ): String =
         _replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
-      Rec () .fold (translator.keys, initial_value, next_value_function ) }
+      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
   def _replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
@@ -52,7 +52,7 @@ trait Replacement {
       def next_value_function (line: String, reserved_word: String ): String =
         replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
-      Rec () .fold (translator.keys, initial_value, next_value_function ) }
+      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
   def replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.contains (pattern )
@@ -116,13 +116,13 @@ trait Replacement {
       lazy val initial_value: String = line
       def next_value_function (line: String, regex: String ): String =
         line.replaceAll (regex, translator.translate (regex )  )
-      Rec () .fold (translator.keys, initial_value, next_value_function ) }
+      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 }
 
 case class Replacement_ (line: String ) extends Replacement
 
 trait Replacer {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   def line: String
 
@@ -131,7 +131,7 @@ trait Replacer {
   def replacement: String
 
   lazy val replaced_text =
-    postprocess (Rec () .fold (Rec () .range (line.length ), initial_value, next_value_function, should_continue ) )
+    postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )
 
   lazy val initial_value = ReplacerFoldTuple_ (Seq (), 0 )
 

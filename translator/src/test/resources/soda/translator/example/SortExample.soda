@@ -36,12 +36,12 @@ package soda.translator.example
 
 * SortAlgorithmExampleWithFold
   extends SortAlgorithmExample = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   sort(sequence: Seq[Int]): Seq[Int] =
     if sequence.length < 2
     then sequence
-    else Rec().fold(sequence, _initial_value, _next_value_function)
+    else Recursion_().fold(sequence, _initial_value, _next_value_function)
 
   _initial_value = Seq[Int]()
 
@@ -60,8 +60,8 @@ package soda.translator.example
 
 * ConstrainedSortAlgorithm = {
   + soda.lib.OptionSD
-  + soda.lib.SomeElem
-  + soda.lib.NoElem
+  + soda.lib.SomeSD_
+  + soda.lib.NoneSD_
 
   sort(sequence: Seq[Int]): OptionSD[Seq[Int]] =
     let
@@ -69,8 +69,8 @@ package soda.translator.example
         SortAlgorithmExampleWithFold_().sort(sequence)
       result =
         if SortExampleWithZip_().is_sorted(sorted_sequence)
-        then SomeElem(sorted_sequence)
-        else NoElem[Seq[Int]]()
+        then SomeSD_(sorted_sequence)
+        else NoneSD_[Seq[Int]]()
     in result
 }
 
@@ -130,10 +130,10 @@ package soda.translator.example
   extends NonEmptySortedSequence[A]
 
 * SortedSequenceBuilder[A subtype Comparable[A]] = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   build(sequence: Seq[A]): SortedSequence[A] =
-    Rec().fold(sequence, _initial_value, _next_value_function)
+    Recursion_().fold(sequence, _initial_value, _next_value_function)
 
   _initial_value = EmptySortedSequence_[A]()
 

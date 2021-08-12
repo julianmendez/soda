@@ -1,24 +1,30 @@
 package soda.translator.example
 
 
-trait PrintableStatus {
+trait Status {
+
   def r: BigInt
+
   def n: BigInt
+
   def q: BigInt
+
   def t: BigInt
+
   def l: BigInt
+
   def k: BigInt
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 }
 
-case class Status (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt  ) extends PrintableStatus
+case class Status_ (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt  ) extends Status
 
 trait PiIterator {
 
   lazy val initial_status =
-    Status (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1 )
+    Status_ (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1 )
 
   def compute_new_status (s: Status ): Status =
     {
@@ -37,7 +43,7 @@ trait PiIterator {
             lazy val t = s.t * s.l
             lazy val l = s.l + 2
             lazy val k = s.k + 1
-            lazy val new_status = Status (r, n, q, t, l, k )
+            lazy val new_status = Status_ (r, n, q, t, l, k )
             rec (new_status ) }
 
       result }
@@ -60,7 +66,7 @@ trait PiIterator {
 
   def _get_next (s: Status ): BigIntAndStatus =
     {
-      lazy val result = BigIntAndStatus (ret, new_status )
+      lazy val result = BigIntAndStatus_ (ret, new_status )
       lazy val ns = compute_new_status (s )
       lazy val ret = ns.n
       lazy val r = 10 * (ns.r - ns.n * ns.t )
@@ -69,10 +75,17 @@ trait PiIterator {
       lazy val t = ns.t
       lazy val l = ns.l
       lazy val k = ns.k
-      lazy val new_status = Status (r, n, q, t, l, k )
+      lazy val new_status = Status_ (r, n, q, t, l, k )
       result }
 }
 
 case class PiIterator_ () extends PiIterator
 
-case class BigIntAndStatus (digit: BigInt, new_status: Status )
+trait BigIntAndStatus {
+
+  def digit: BigInt
+
+  def new_status: Status
+}
+
+case class BigIntAndStatus_ (digit: BigInt, new_status: Status ) extends BigIntAndStatus

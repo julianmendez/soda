@@ -17,7 +17,7 @@ package soda.lib
         else
           let
             rev_sequences = sequences.reverse
-          in Rec().fold(rev_sequences.tail, initial_value(rev_sequences.head), next_value)
+          in Recursion_().fold(rev_sequences.tail, initial_value(rev_sequences.head), next_value)
 
       initial_value(seq: Seq[T]): Seq[Seq[T]] = seq.map(elem -> Seq(elem))
 
@@ -28,5 +28,4 @@ package soda.lib
     in result
 }
 
-* Comb() extends CartesianProduct
-
+* CartesianProduct_() extends CartesianProduct

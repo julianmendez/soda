@@ -14,7 +14,7 @@ package soda.translator.replacement
  * This preprocessor annotates lines to determine whether they are comments.
  */
 * CommentPreprocessor = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   has lines: Seq[String]
 
@@ -23,7 +23,7 @@ package soda.translator.replacement
   soda_end_comment = "*/"
 
   annotated_lines: Seq[AnnotatedLine] =
-    Rec().fold(lines, initial_value, next_value_function)
+    Recursion_().fold(lines, initial_value, next_value_function)
       .annotated_lines_rev
       .reverse
 

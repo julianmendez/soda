@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* Recursive = {
+* Recursion = {
 
   fold[A, B, C subtype B](
       sequence: Seq[A],
@@ -52,5 +52,4 @@ package soda.lib
     in rec(length, Seq[Int]())
 }
 
-* Rec() extends Recursive
-
+* Recursion_() extends Recursion

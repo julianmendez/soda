@@ -1,7 +1,7 @@
 package soda.lib
 
 
-* CombSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* CartesianProductSpec() extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("Cartesian product of two sequences") {
     expected = Seq(
@@ -10,28 +10,28 @@ package soda.lib
     )
     seq_a = Seq(10, 20)
     seq_b = Seq(100, 200, 300)
-    obtained = Comb().get_cartesian_product(Seq(seq_a, seq_b))
+    obtained = CartesianProduct_().get_cartesian_product(Seq(seq_a, seq_b))
 
     assert(obtained == expected)
   }
 
   test("Cartesian product of an empty sequence") {
     expected = Seq()
-    obtained = Comb().get_cartesian_product(Seq())
+    obtained = CartesianProduct_().get_cartesian_product(Seq())
 
     assert(obtained == expected)
   }
 
   test("Cartesian product of only empty sequences") {
     expected = Seq()
-    obtained = Comb().get_cartesian_product(Seq(Seq(), Seq(), Seq()))
+    obtained = CartesianProduct_().get_cartesian_product(Seq(Seq(), Seq(), Seq()))
 
     assert(obtained == expected)
   }
 
   test("Cartesian product with at least one empty sequence") {
     expected = Seq()
-    obtained = Comb().get_cartesian_product(Seq(Seq("A"), Seq()))
+    obtained = CartesianProduct_().get_cartesian_product(Seq(Seq("A"), Seq()))
 
     assert(obtained == expected)
   }
@@ -48,7 +48,7 @@ package soda.lib
     seq_a = Seq("A", "B")
     seq_b = Seq("0", "1", "2")
     seq_c = Seq("a", "b", "c", "d")
-    obtained = Comb().get_cartesian_product(Seq(seq_a, seq_b, seq_c))
+    obtained = CartesianProduct_().get_cartesian_product(Seq(seq_a, seq_b, seq_c))
 
     assert(obtained == expected)
   }

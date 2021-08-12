@@ -6,7 +6,8 @@ package soda.translator.example
   has get_factorial (n: Int): Int
 }
 
-* FactorialConcise extends AbstractFactorialConcise = {
+* FactorialConcise
+  extends AbstractFactorialConcise = {
 
   get_factorial (n: Int) =
     let

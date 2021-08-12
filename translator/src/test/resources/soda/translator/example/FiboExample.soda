@@ -6,7 +6,8 @@ class FiboExample is {
   has fib (n: Int): Int
 }
 
-class FiboExampleInSoda extends FiboExample is {
+class FiboExampleInSoda
+  extends FiboExample is {
 
   fib (n: Int) is
     let

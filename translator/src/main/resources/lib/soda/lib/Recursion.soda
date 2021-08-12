@@ -7,10 +7,14 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* Recursive = {
+* Recursion = {
 
-  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
-      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C,
+      condition: (B, A) -> Boolean
+  ): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -23,8 +27,11 @@ package soda.lib
 
     in rec(sequence, initial_value)
 
-  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
-      next_value_function: (B, A) -> C): C =
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C
+  ): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -45,4 +52,5 @@ package soda.lib
     in rec(length, Seq[Int]())
 }
 
-* Rec() extends Recursive
+* Recursion_() extends Recursion
+

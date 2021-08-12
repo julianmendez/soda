@@ -26,7 +26,7 @@ package soda.translator.io
 * SimpleFileReader_() extends SimpleFileReader
 
 * SimpleFileWriter = {
-  + soda.lib.SomeElem
+  + soda.lib.SomeSD_
   + java.io.File
   + java.io.FileWriter
   + java.io.Writer
@@ -38,7 +38,7 @@ package soda.translator.io
     _write_content(@new FileWriter(file), content)
 
   _write_content(writer: Writer, content: String): Boolean =
-    SomeElem(true)
+    SomeSD_(true)
       .map( x -> writer.write(content) )
       .map( x -> writer.flush() )
       .map( x -> writer.close() )

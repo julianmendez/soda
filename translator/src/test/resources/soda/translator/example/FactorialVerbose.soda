@@ -6,7 +6,8 @@ class AbstractFactorialVerbose = {
   has get_factorial (n: Int): Int
 }
 
-class FactorialVerbose extends AbstractFactorialVerbose = {
+class FactorialVerbose
+  extends AbstractFactorialVerbose = {
 
   get_factorial (n: Int) is
     let

@@ -3,9 +3,9 @@ package soda.collection
 
 case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.OptionSD
-  import soda.lib.NoElem
-  import soda.lib.SomeElem
-  import soda.lib.Rec
+  import soda.lib.NoneSD_
+  import soda.lib.SomeSD_
+  import soda.lib.Recursion_
 
   lazy val empty: ESeq [Int] = ESeq_ [Int]  ()
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
@@ -13,7 +13,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
 
   def prepend_elem (list: MSeq [Int], elem: Int ) = Min_ () .prepended (list, elem )
   lazy val example: NESeq [Int] =
-    Rec () .fold (revExampleSeq.tail, NESeq_ [Int]  (revExampleSeq.head, ESeq_ [Int]  ()  ), prepend_elem )
+    Recursion_ () .fold (revExampleSeq.tail, NESeq_ [Int]  (revExampleSeq.head, ESeq_ [Int]  ()  ), prepend_elem )
 
   test ("prepended") {
     lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
@@ -81,7 +81,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("at") {
-    lazy val expected = SomeElem (3 )
+    lazy val expected = SomeSD_ (3 )
     lazy val obtained = Min_ () .at (example, 4 )
 
     assert (obtained == expected )
@@ -464,7 +464,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 0") {
-    lazy val expected = SomeElem (0 )
+    lazy val expected = SomeSD_ (0 )
     lazy val predicate: Int => Boolean = x => ! (x == 7 )
     lazy val obtained = Min_ () .find (example, predicate )
 
@@ -472,7 +472,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 1") {
-    lazy val expected = SomeElem (8 )
+    lazy val expected = SomeSD_ (8 )
     lazy val predicate: Int => Boolean = x => x == 8
     lazy val obtained = Min_ () .find (example, predicate )
 
@@ -480,7 +480,7 @@ case class MinSpec () extends org.scalatest.funsuite.AnyFunSuite {
   }
 
   test ("find 2") {
-    lazy val expected = NoElem ()
+    lazy val expected = NoneSD_ ()
     lazy val predicate: Int => Boolean = x => x == 7
     lazy val obtained = Min_ () .find (empty, predicate )
 

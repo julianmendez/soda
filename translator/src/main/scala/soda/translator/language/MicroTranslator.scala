@@ -5,7 +5,7 @@ package soda.translator.language
  * This class translates Soda source code into Scala source code.
  */
 trait MicroTranslator {
-  import soda.lib.SomeElem
+  import soda.lib.SomeSD_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
@@ -33,7 +33,7 @@ trait MicroTranslator {
   lazy val beautifier = DefaultTranslator_ (TranslationConstant_ () .beautifier )
 
   def translate_program (program: String ): String =
-    SomeElem (program )
+    SomeSD_ (program )
       .map (split_lines )
       .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
@@ -63,7 +63,7 @@ trait MicroTranslator {
         else _translate_non_comment (annotated_line.line )      )
 
   def _translate_non_comment (line: String ): String =
-      SomeElem (line )
+      SomeSD_ (line )
         .map (x => Replacement_ (x ) .add_space_to_soda_line () .line )
         .map (x => Tokenizer_ (x ) .tokens )
         .map (x => _translate_line (x )  )

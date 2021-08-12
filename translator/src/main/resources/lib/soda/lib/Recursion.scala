@@ -7,9 +7,9 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-trait Recursive {
+trait Recursion {
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -23,7 +23,7 @@ trait Recursive {
 
       rec (sequence, initial_value ) }
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C ): C =
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C  ): C =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -46,4 +46,4 @@ trait Recursive {
       rec (length, Seq [Int]  ()  ) }
 }
 
-case class Rec () extends Recursive
+case class Recursion_ () extends Recursion

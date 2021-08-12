@@ -14,7 +14,7 @@ case class AnnotatedLine_ (line: String, isComment: Boolean ) extends AnnotatedL
  * This preprocessor annotates lines to determine whether they are comments.
  */
 trait CommentPreprocessor {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   def lines: Seq [String]
 
@@ -23,7 +23,7 @@ trait CommentPreprocessor {
   lazy val soda_end_comment = "*/"
 
   lazy val annotated_lines: Seq [AnnotatedLine] =
-    Rec () .fold (lines, initial_value, next_value_function )
+    Recursion_ () .fold (lines, initial_value, next_value_function )
       .annotated_lines_rev
       .reverse
 

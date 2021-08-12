@@ -53,7 +53,7 @@ trait LineJoiner {
 case class LineJoiner_ (lines: Seq [String]  ) extends LineJoiner
 
 trait Joiner {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   def lines_to_join: Seq [String]
 
@@ -66,7 +66,7 @@ trait Joiner {
     ) lines_to_join
     else
       {
-        lazy val tuple = Rec () .fold (lines_to_join.tail, _initial_value_function (lines_to_join.head ), _next_value_function )
+        lazy val tuple = Recursion_ () .fold (lines_to_join.tail, _initial_value_function (lines_to_join.head ), _next_value_function )
         lazy val result =
           if (tuple.in_process_rev.isEmpty
           ) tuple.processed_rev.+: (tuple.previous_line )

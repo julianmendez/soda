@@ -31,13 +31,13 @@ trait OptionSD [A] {
     opt (ifEmpty, f )
 
   def flatMap [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
-    opt (ifEmpty = NoElem [B]  (), ifNonEmpty = element => mapping (element )    )
+    opt (ifEmpty = NoneSD_ [B]  (), ifNonEmpty = element => mapping (element )    )
 
   def bind [B]  (mapping: A => OptionSD [B]  ): OptionSD [B] =
     flatMap [B]  (mapping )
 
   def filter (predicate: A => Boolean ): OptionSD [A] =
-    opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoElem [A]  ()    )
+    opt (ifEmpty = this, ifNonEmpty = element => if (predicate (element ) ) this else NoneSD_ [A]  ()    )
 }
 
 trait NoneSD [A] extends OptionSD [A] {
@@ -46,12 +46,12 @@ trait NoneSD [A] extends OptionSD [A] {
     ifEmpty
 
   def map [B]  (mapping: A => B ): NoneSD [B] =
-    NoElem [B]  ()
+    NoneSD_ [B]  ()
 
   lazy val toOption: None.type = None
 }
 
-case class NoElem [A]  () extends NoneSD [A]
+case class NoneSD_ [A]  () extends NoneSD [A]
 
 trait SomeSD [A] extends OptionSD [A] {
 
@@ -63,19 +63,19 @@ trait SomeSD [A] extends OptionSD [A] {
     ifNonEmpty (element )
 
   def map [B]  (mapping: A => B ): SomeSD [B] =
-    SomeElem [B]  (mapping (element )  )
+    SomeSD_ [B]  (mapping (element )  )
 
   lazy val toOption: Some [A] = Some [A]  (element )
 }
 
-case class SomeElem [A]  (element: A ) extends SomeSD [A]
+case class SomeSD_ [A]  (element: A ) extends SomeSD [A]
 
 trait OptionSDBuilder [A] {
 
   def build (option: Option [A]  ): OptionSD [A] =
     if (option.isEmpty
-    ) NoElem [A]  ()
-    else SomeElem [A]  (option.get )
+    ) NoneSD_ [A]  ()
+    else SomeSD_ [A]  (option.get )
 }
 
 case class OptionSDBuilder_ [A]  () extends OptionSDBuilder [A]

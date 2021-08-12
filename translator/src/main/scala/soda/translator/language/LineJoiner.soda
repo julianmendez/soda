@@ -53,7 +53,7 @@ package soda.translator.language
 * LineJoiner_(lines: Seq[String]) extends LineJoiner
 
 * Joiner = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   has lines_to_join: Seq[String]
 
@@ -66,7 +66,7 @@ package soda.translator.language
     then lines_to_join
     else
       let
-        tuple = Rec().fold(lines_to_join.tail, _initial_value_function(lines_to_join.head), _next_value_function)
+        tuple = Recursion_().fold(lines_to_join.tail, _initial_value_function(lines_to_join.head), _next_value_function)
         result =
           if tuple.in_process_rev.isEmpty
           then tuple.processed_rev.+:(tuple.previous_line)
