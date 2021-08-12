@@ -1,7 +1,7 @@
 package soda.lib
 
 
-case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait OptionSDSpec  extends org.scalatest.funsuite.AnyFunSuite {
   import scala.util.Try
   import scala.util.Success
   import scala.util.Failure
@@ -209,3 +209,5 @@ case class OptionSDSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
+
+case class OptionSDSpec_ () extends OptionSDSpec

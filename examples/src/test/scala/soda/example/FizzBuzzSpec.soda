@@ -1,7 +1,8 @@
 package soda.translator.example
 
 
-* FizzBuzzSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* FizzBuzzSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   expected = Seq(
     "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
@@ -22,4 +23,6 @@ package soda.translator.example
     assert(obtained == expected)
   }
 }
+
+* FizzBuzzSpec_() extends FizzBuzzSpec
 

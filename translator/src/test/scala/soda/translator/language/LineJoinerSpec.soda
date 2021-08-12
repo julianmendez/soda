@@ -1,7 +1,8 @@
 package soda.translator.language
 
 
-* LineJoinerSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* LineJoinerSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   mt = MicroTranslator_()
 
@@ -145,4 +146,6 @@ package soda.translator.language
     assert(obtained == expected)
   }
 }
+
+* LineJoinerSpec_() extends LineJoinerSpec
 

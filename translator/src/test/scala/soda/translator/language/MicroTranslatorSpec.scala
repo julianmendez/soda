@@ -1,7 +1,8 @@
 package soda.translator.language
 
 
-case class MicroTranslatorSpec () extends org.scalatest.funsuite.AnyFunSuite {
-
+trait MicroTranslatorSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
 }
+
+case class MicroTranslatorSpec_ () extends MicroTranslatorSpec

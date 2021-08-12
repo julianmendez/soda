@@ -1,7 +1,8 @@
 package soda.collection.example
 
 
-* ListExampleSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* ListExampleSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("should test a") {
     expected = Pair_("a", List('A', 'B', 'C', 'D', 'E', 'F'))
@@ -157,4 +158,6 @@ package soda.collection.example
     assert(obtained == expected)
   }
 }
+
+* ListExampleSpec_() extends ListExampleSpec
 

@@ -1,7 +1,7 @@
 package soda.translator.replacement
 
 
-case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait CharTypeSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
    test ("should recognize quotation marks") {
      lazy val input = '"'
@@ -47,3 +47,5 @@ case class CharTypeSpec () extends org.scalatest.funsuite.AnyFunSuite {
      assert (obtained == expected )
    }
 }
+
+case class CharTypeSpec_ () extends CharTypeSpec

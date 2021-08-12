@@ -1,7 +1,7 @@
 package soda.translator.language
 
 
-case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait SpecificTranslationSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should translate a small snippet") {
     lazy val original = "  input_lines = Seq(" +
@@ -35,3 +35,5 @@ case class SpecificTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite
     assert (obtained == expected )
   }
 }
+
+case class SpecificTranslationSpec_ () extends SpecificTranslationSpec

@@ -1,7 +1,7 @@
 package soda.translator.language
 
 
-case class LineJoinerSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait LineJoinerSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val mt = MicroTranslator_ ()
 
@@ -74,3 +74,5 @@ case class LineJoinerSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
+
+case class LineJoinerSpec_ () extends LineJoinerSpec

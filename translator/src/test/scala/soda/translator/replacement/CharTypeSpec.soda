@@ -1,7 +1,8 @@
 package soda.translator.replacement
 
 
-* CharTypeSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* CharTypeSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
    test("should recognize quotation marks") {
      input = '"'
@@ -47,4 +48,6 @@ package soda.translator.replacement
      assert(obtained == expected)
    }
 }
+
+* CharTypeSpec_() extends CharTypeSpec
 

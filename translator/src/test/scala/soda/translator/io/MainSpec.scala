@@ -1,7 +1,7 @@
 package soda.translator.io
 
 
-case class MainSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait MainSpec  extends org.scalatest.funsuite.AnyFunSuite {
   import java.io.File
 
   test ("should get the input and output file names without path") {
@@ -20,3 +20,5 @@ case class MainSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
+
+case class MainSpec_ () extends MainSpec

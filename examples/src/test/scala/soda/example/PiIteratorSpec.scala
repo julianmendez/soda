@@ -1,7 +1,7 @@
 package soda.translator.example
 
 
-case class PiIteratorSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait PiIteratorSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val piStart = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446"
 
@@ -12,3 +12,5 @@ case class PiIteratorSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == piStart )
   }
 }
+
+case class PiIteratorSpec_ () extends PiIteratorSpec

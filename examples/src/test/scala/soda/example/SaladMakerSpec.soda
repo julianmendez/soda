@@ -1,20 +1,21 @@
 package soda.translator.example
 
 
-* SaladIngredient(ordinal: Int, name: String)
-  extends soda.lib.EnumConstant
+* SaladIngredient extends soda.lib.EnumConstant
+
+* SaladIngredient_(ordinal: Int, name: String) extends SaladIngredient
 
 * SaladIngredientConstant = {
 
-  tomato = SaladIngredient(1, "tomato")
-  lettuce = SaladIngredient(2, "lettuce")
-  sunflower_seeds = SaladIngredient(3, "sunflower seeds")
-  olive_oil = SaladIngredient(4, "olive_oil")
+  tomato = SaladIngredient_(1, "tomato")
+  lettuce = SaladIngredient_(2, "lettuce")
+  sunflower_seeds = SaladIngredient_(3, "sunflower seeds")
+  olive_oil = SaladIngredient_(4, "olive_oil")
 
   SaladIngredient_values = Seq(tomato, lettuce, sunflower_seeds, olive_oil)
 }
 
-* SaladMakerSpec()
+* SaladMakerSpec
   extends org.scalatest.funsuite.AnyFunSuite
   with SaladIngredientConstant = {
 
@@ -39,4 +40,5 @@ package soda.translator.example
   }
 }
 
+* SaladMakerSpec_() extends SaladMakerSpec
 

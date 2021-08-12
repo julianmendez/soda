@@ -1,7 +1,7 @@
 package soda.lib
 
 
-case class CartesianProductSpec () extends org.scalatest.funsuite.AnyFunSuite {
+trait CartesianProductSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Cartesian product of two sequences") {
     lazy val expected = Seq (Seq (10, 100 ), Seq (10, 200 ), Seq (10, 300 ), Seq (20, 100 ), Seq (20, 200 ), Seq (20, 300 )    )
@@ -43,3 +43,5 @@ case class CartesianProductSpec () extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
+
+case class CartesianProductSpec_ () extends CartesianProductSpec

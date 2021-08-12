@@ -1,7 +1,8 @@
 package soda.lib
 
 
-* RecursionSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* RecursionSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
 
@@ -45,4 +46,6 @@ package soda.lib
     assert(obtained == expected)
   }
 }
+
+* RecursionSpec_() extends RecursionSpec
 

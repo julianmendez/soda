@@ -1,7 +1,8 @@
 package soda.collection
 
 
-* MinSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* MinSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
   + soda.lib.OptionSD
   + soda.lib.NoneSD_
   + soda.lib.SomeSD_
@@ -536,4 +537,6 @@ package soda.collection
     assert(obtained == expected)
   }
 }
+
+* MinSpec_() extends MinSpec
 

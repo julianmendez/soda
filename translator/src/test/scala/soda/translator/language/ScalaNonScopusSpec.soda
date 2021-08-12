@@ -4,7 +4,8 @@ package soda.translator.language
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
-* ScalaNonSodaSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* ScalaNonSodaSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("Scala reserved words are replaced") {
     program = "" +
@@ -19,4 +20,6 @@ package soda.translator.language
     assert(obtained == expected)
   }
 }
+
+* ScalaNonSodaSpec_() extends ScalaNonSodaSpec
 

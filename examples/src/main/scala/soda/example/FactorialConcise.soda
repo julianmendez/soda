@@ -22,5 +22,5 @@ package soda.translator.example
     in result
 }
 
-* FactorialConcise_ () extends FactorialConcise
+* FactorialConcise_() extends FactorialConcise
 

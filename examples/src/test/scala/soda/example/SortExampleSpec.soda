@@ -1,7 +1,8 @@
 package soda.translator.example
 
 
-* SortExampleSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* SortExampleSpec
+  extends org.scalatest.funsuite.AnyFunSuite = {
   + soda.lib.SomeSD_
 
   test("test sorted sequence with at") {
@@ -85,4 +86,6 @@ package soda.translator.example
     assert(obtained == expected)
   }
 }
+
+* SortExampleSpec_() extends SortExampleSpec
 
