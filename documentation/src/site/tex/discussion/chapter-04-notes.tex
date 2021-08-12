@@ -47,28 +47,32 @@ is far less legible than
 
 Individual(name := "Jon", registered := true, evaluated := true, passed := true)
 
-\subsection{Meaningful tabulations}
+\subsection{Significant tabulations}
 
 In Python, horizontal tabulations can make a big difference.
 
 This is the intended snippet:
 
-if x > 0:
-positive = True
-y = x
-else:
-positive = False
-y = 0
+\begin{lstlisting}[label={lst:snippetInPython1}]
+  if x > 0:
+    positive = True
+    y = x
+  else:
+    positive = False
+    y = 0
+\end{lstlisting}
 
 
 This function has a bug, since it always assigns 0 to variable $y$.
 
-if x > 0:
-positive = True
-y = x
-else:
-positive = False
-y = 0
+\begin{lstlisting}[label={lst:snippetInPython2}]
+  if x > 0:
+    positive = True
+    y = x
+  else:
+    positive = False
+  y = 0
+\end{lstlisting}
 
 This kind of bug is for a 6-line snippet.
 This can propagate when thousands of lines are written.
