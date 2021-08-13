@@ -49,7 +49,7 @@ The synonyms in any part of a line are:
 
 In addition, the language has:
 - `(` and `)` (parentheses) for parameters, operator precedence, and arrays
-- `{` and `}` (braces) for multi-line functions and classes
+- `{` and `}` (braces) for classes
 - `[` and `]` (square brackets) for types
 
 The main arithmetic operators are:
@@ -82,10 +82,10 @@ The language does not provide `throw`, `try`, and `catch`, because those command
 ## Static Typing
 
 This language is statically typed.
-It is possible to define concrete and abstract classes.
+It is possible to define abstract and concrete classes.
 
-A *concrete class* is like a *case class* in Scala.
 An *abstract class* is like a *trait* in Scala.
+A *concrete class* is like a *case class* in Scala.
 
 
 ## Package Declaration and Imports
