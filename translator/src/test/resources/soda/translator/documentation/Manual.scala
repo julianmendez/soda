@@ -47,13 +47,13 @@ trait EqualsExample {
  * Conversely, concrete classes cannot be extended but can be instantiated.
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
- * Concrete classes extending only one class should be named as its superclass, but ending with an underscore (`_`). */
+ * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
 case class EqualsExample_ () extends EqualsExample
 
-/* A class does not need to declare the all its constants and functions. */
+/* A class does not need to define all its constants and functions. */
 trait RegisteredPerson {
 
-  /* A line starting with `has` denotes a constant or function that needs to be declared in extending classes. */
+  /* A line starting with `has` denotes a constant or function that needs to be defined in extending classes. */
   def first_name: String
 
   def last_name: String
