@@ -44,6 +44,10 @@ The synonyms at the beginning of a line are:
 The synonyms in any part of a line are:
 - `is` for `=`
 
+Technical synonyms:
+- `<:` for `subtype`
+- `>:` for `supertype`
+
 
 ## Other Symbols
 

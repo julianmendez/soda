@@ -49,9 +49,12 @@ package soda.translator.language
     "package",
     "import",
     "is",
-    "*",
+    "<:",
+    ">:",
+    "+",
     "-",
-    "+"
+    "*",
+    "/"
   )
 
   /**
@@ -167,7 +170,9 @@ package soda.translator.language
   )
 
   synonym: Seq[(String, String)] = Seq(
-    ("is", "=")
+    ("is", "="),
+    ("<:", "subtype"),
+    (">:", "supertype")
   )
 
   main_translation: Seq[(String, String)] = Seq(
