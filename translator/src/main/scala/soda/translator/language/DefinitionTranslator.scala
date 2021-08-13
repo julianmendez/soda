@@ -32,8 +32,6 @@ trait DefinitionTranslator {
 
   def line: String
 
-  lazy val soda_opening_parenthesis: String = "("
-
   lazy val soda_space: String = " "
 
   lazy val scala_space: String = " "
@@ -45,7 +43,13 @@ trait DefinitionTranslator {
     get_index (line, soda_space + TranslationConstant_ () .soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translation_of_class_definition =
-    Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, "")
+    {
+      lazy val position_of_opening_braces = get_index (line, TranslationConstant_ () .soda_opening_braces )
+      lazy val new_text =
+        if (position_of_opening_braces.isEmpty
+        ) TranslationConstant_ () .scala_3_class_definition
+        else ""
+      Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, new_text ) }
 
   lazy val translation_of_val_definition =
     Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_value + scala_space )
@@ -60,7 +64,7 @@ trait DefinitionTranslator {
 
   def is_val_definition (initial_position: Int ): Boolean =
     {
-      lazy val position_of_first_opening_parenthesis = get_index (line, soda_opening_parenthesis )
+      lazy val position_of_first_opening_parenthesis = get_index (line, TranslationConstant_ () .soda_opening_parenthesis )
       lazy val is_case_1 = position_of_first_opening_parenthesis.isEmpty
       lazy val is_case_2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
       lazy val is_case_3 =

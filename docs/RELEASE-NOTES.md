@@ -5,6 +5,7 @@
   - has an improved documentation
   - adopts a naming standard for concrete classes to end in underscore
   - includes new synonyms, `<:` for `subtype` and `>:` for `supertype`
+  - allows defining the body of a class without braces when the code is translated to Scala 3
 - build: sbt '++ 3.0.0' clean compile test package assembly
 - release: target/scala-3.0.0/soda-0.11.0.jar
 - - version: v0.10.0

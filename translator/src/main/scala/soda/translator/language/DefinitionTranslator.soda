@@ -32,8 +32,6 @@ package soda.translator.language
 
   has line: String
 
-  soda_opening_parenthesis: String = "("
-
   soda_space: String = " "
 
   scala_space: String = " "
@@ -48,7 +46,13 @@ package soda.translator.language
     get_index(line, soda_space + TranslationConstant_().soda_class_reserved_word + soda_space).isDefined
 
   translation_of_class_definition =
-    Replacement_(line).replace_all(soda_space + TranslationConstant_().soda_definition, "")
+    let
+      position_of_opening_braces = get_index(line, TranslationConstant_().soda_opening_braces)
+      new_text =
+        if position_of_opening_braces.isEmpty
+        then TranslationConstant_().scala_3_class_definition
+        else ""
+    in Replacement_(line).replace_all(soda_space + TranslationConstant_().soda_definition, new_text)
 
   translation_of_val_definition =
     Replacement_(line).add_after_spaces( TranslationConstant_().scala_value + scala_space )
@@ -63,7 +67,7 @@ package soda.translator.language
 
   is_val_definition(initial_position: Int): Boolean =
     let
-      position_of_first_opening_parenthesis = get_index(line, soda_opening_parenthesis)
+      position_of_first_opening_parenthesis = get_index(line, TranslationConstant_().soda_opening_parenthesis)
       is_case_1 = position_of_first_opening_parenthesis.isEmpty
       is_case_2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
       is_case_3 =

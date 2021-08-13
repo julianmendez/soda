@@ -10,6 +10,12 @@ package soda.translator.language
 
   soda_colon: String = ":"
 
+  soda_opening_parenthesis: String = "("
+
+  soda_opening_braces: String = "{"
+
+  scala_3_class_definition: String = ":"
+
   soda_in_reserved_word: String = "in"
 
   soda_in_pattern: String = soda_in_reserved_word + " "

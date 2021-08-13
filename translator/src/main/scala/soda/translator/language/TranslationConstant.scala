@@ -10,6 +10,12 @@ trait TranslationConstant {
 
   lazy val soda_colon: String = ":"
 
+  lazy val soda_opening_parenthesis: String = "("
+
+  lazy val soda_opening_braces: String = "{"
+
+  lazy val scala_3_class_definition: String = ":"
+
   lazy val soda_in_reserved_word: String = "in"
 
   lazy val soda_in_pattern: String = soda_in_reserved_word + " "
