@@ -287,7 +287,7 @@ The name of a concrete class that is a default implementation of another class c
 \end{lstlisting}
 
 The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
-This declaration if different from the block use to define an expression, since that block always requires a result, and all the content is private.
+This declaration if different from the block used to define an expression, since that block always requires a result, and all the content is private.
 
 All implemented functions are \textit{final} (cannot be extended), and the same for all defined constants.
 This is to prevent that the behavior is changed after extending a class.
@@ -297,11 +297,17 @@ In \Soda, there is a \sthis reserved word where an object can refer to its own i
 The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
 
 It is important to observe that the syntax in \Soda does not restrict the definition of constants in a class that depends on a constructor from the same class.
-In \Soda there is no lazy evaluation, though.
-The evaluation of a constant occurs at the moment of instantiation, trying to evaluate a constant that uses an instance of the same class produces an infinite loop.
-A direct solution to this situation is to emulate the lazy evaluation by using a function without parameters instead of a constant.
-This subtle difference between a constant and a function without parameters are relevant to distinguish the moment when they are evaluated.
-The lack of lazy evaluation makes it relevant the order in which constants are defined in a class.
+
+In \Soda, it is possible to define a \textit{type alias}.
+This is just a renaming of a more complex definition.
+
+This can be done by defining a class equals to another class instead of defining the body.
+
+\begin{lstlisting}[label={lst:exampleTypeAlias}]
+  class MyMap = Map[Int, Seq[Int]]
+
+  class A[T] = Seq[Int, String]
+\end{lstlisting}
 
 
 \section{Static Constants and Functions}
@@ -568,13 +574,13 @@ Implicits have been considered overused (and misused) in Scala 2, and motivated 
 \subsection{Clear Location of Definitions}
 
 In some languages, it is possible to partially define functions, like in Haskell, or predicates, like in Prolog.
-In the latter, having multiple definitions might make it harder to understand or predict how the interpreter will evalute a program.
+In the latter, having multiple definitions might make it harder to understand or predict how the interpreter will evaluate a program.
 In \Soda each class and in each function is defined only once, in one unique place.
 They are final and immutable, simplifying to the human reader understanding their result.
 
 \subsection{Used to Check}
 
 \Soda is a language designed to \textit{check} whether something is right, rather that \textit{explaining} how it should be done.
-As in an example of sorting a sequence, \Soda can be used to explain a process in a naturel way, although not necessarily in an efficient way.
+As in an example of sorting a sequence, \Soda can be used to explain a process in a natural way, although not necessarily in an efficient way.
 
 

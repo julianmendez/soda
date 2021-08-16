@@ -44,12 +44,27 @@ trait DefinitionTranslator {
 
   lazy val translation_of_class_definition =
     {
-      lazy val position_of_opening_braces = get_index (line, TranslationConstant_ () .soda_opening_braces )
       lazy val new_text =
-        if (position_of_opening_braces.isEmpty
+        if (ends_with_equals
         ) TranslationConstant_ () .scala_3_class_definition
         else ""
-      Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, new_text ) }
+      lazy val result =
+        if (condition_for_type_alias
+        ) Replacement_ (line )
+        else Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, new_text )
+      result }
+
+  lazy val ends_with_equals =
+    line.trim () .endsWith (TranslationConstant_ () .soda_definition )
+
+  lazy val ends_with_opening_brace =
+    line.trim () .endsWith (TranslationConstant_ () .soda_opening_brace )
+
+  lazy val contains_equals =
+    line.trim () .contains (TranslationConstant_ () .soda_definition )
+
+  lazy val condition_for_type_alias =
+    contains_equals && ! (ends_with_equals || ends_with_opening_brace )
 
   lazy val translation_of_val_definition =
     Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_value + scala_space )

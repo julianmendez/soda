@@ -78,6 +78,26 @@ trait SpecificTranslationSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (obtained == expected )
   }
+
+  test ("should translate type aliases") {
+    lazy val original =
+      "* A[T] = B[T]" +
+      "\n" +
+      "\nclass C = D" +
+      "\n" +
+      "\n* M = Map[Int, Seq[Int]]" +
+      "\n"
+    lazy val expected =
+      "type A [T] = B [T]" +
+      "\n" +
+      "\ntype C = D" +
+      "\n" +
+      "\ntype M = Map [Int, Seq [Int]]" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
 }
 
 case class SpecificTranslationSpec_ () extends SpecificTranslationSpec

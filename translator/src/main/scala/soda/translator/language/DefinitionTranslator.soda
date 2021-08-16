@@ -47,12 +47,27 @@ package soda.translator.language
 
   translation_of_class_definition =
     let
-      position_of_opening_braces = get_index(line, TranslationConstant_().soda_opening_braces)
       new_text =
-        if position_of_opening_braces.isEmpty
+        if ends_with_equals
         then TranslationConstant_().scala_3_class_definition
         else ""
-    in Replacement_(line).replace_all(soda_space + TranslationConstant_().soda_definition, new_text)
+      result =
+        if condition_for_type_alias
+        then Replacement_(line)
+        else Replacement_(line).replace_all(soda_space + TranslationConstant_().soda_definition, new_text)
+    in result
+
+  ends_with_equals =
+    line.trim().endsWith(TranslationConstant_().soda_definition)
+
+  ends_with_opening_brace =
+    line.trim().endsWith(TranslationConstant_().soda_opening_brace)
+
+  contains_equals =
+    line.trim().contains(TranslationConstant_().soda_definition)
+
+  condition_for_type_alias =
+    contains_equals and not (ends_with_equals or ends_with_opening_brace)
 
   translation_of_val_definition =
     Replacement_(line).add_after_spaces( TranslationConstant_().scala_value + scala_space )

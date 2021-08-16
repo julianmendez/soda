@@ -79,6 +79,26 @@ package soda.translator.language
 
     assert(obtained == expected)
   }
+
+  test("should translate type aliases") {
+    original =
+      "* A[T] = B[T]" +
+      "\n" +
+      "\nclass C = D" +
+      "\n" +
+      "\n* M = Map[Int, Seq[Int]]" +
+      "\n"
+    expected =
+      "type A [T] = B [T]" +
+      "\n" +
+      "\ntype C = D" +
+      "\n" +
+      "\ntype M = Map [Int, Seq [Int]]" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert(obtained == expected)
+  }
 }
 
 * SpecificTranslationSpec_() extends SpecificTranslationSpec

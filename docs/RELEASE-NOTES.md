@@ -2,6 +2,7 @@
 - version: v0.11.0
 - date: unreleased
 - new_features:
+  - includes type aliases
   - has an improved documentation
   - adopts a naming standard for concrete classes to end in underscore
   - includes new synonyms, `<:` for `subtype` and `>:` for `supertype`

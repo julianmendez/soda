@@ -12,7 +12,7 @@ trait TranslationConstant {
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val soda_opening_braces: String = "{"
+  lazy val soda_opening_brace: String = "{"
 
   lazy val scala_3_class_definition: String = ":"
 
@@ -50,6 +50,8 @@ trait TranslationConstant {
   lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
   lazy val translation_at_beginning_with_paren: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
+
+  lazy val translation_at_beginning_without_paren_for_type_alias: Seq [(String, String )] = Seq (("class", "type")  )
 
   lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */

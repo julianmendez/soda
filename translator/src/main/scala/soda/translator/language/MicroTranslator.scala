@@ -22,7 +22,11 @@ trait MicroTranslator {
 
   lazy val translation_at_beginning_with_paren = DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_with_paren )
 
-  lazy val translation_at_beginning_without_paren = DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_without_paren )
+  lazy val translation_at_beginning_without_paren_for_type_alias =
+      DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_without_paren_for_type_alias )
+
+  lazy val translation_at_beginning_without_paren =
+      DefaultTranslator_ (TranslationConstant_ () .translation_at_beginning_without_paren )
 
   lazy val synonym = DefaultTranslator_ (TranslationConstant_ () .synonym )
 
@@ -92,7 +96,10 @@ trait MicroTranslator {
   def get_translation_table_at_beginning (line: String ): Translator =
     if (line.contains (soda_opening_parenthesis )
     ) translation_at_beginning_with_paren
-    else translation_at_beginning_without_paren
+    else
+      if (DefinitionTranslator_ (line ) .condition_for_type_alias
+      ) translation_at_beginning_without_paren_for_type_alias
+      else translation_at_beginning_without_paren
 
   def try_definition (line: String ): String =
     DefinitionTranslator_ (line ) .translation
