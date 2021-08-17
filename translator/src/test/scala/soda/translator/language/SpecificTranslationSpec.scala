@@ -98,6 +98,20 @@ trait SpecificTranslationSpec  extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (obtained == expected )
   }
+
+  test ("should translate a tuple assignment") {
+    lazy val original = "  (x, y) = (f(a), g(a))" +
+      "\n  (p, q) =" +
+      "\n    h(1, 2)" +
+      "\n"
+    lazy val expected = "  lazy val (x, y ) = (f (a ), g (a )  )" +
+      "\n  lazy val (p, q ) =" +
+      "\n    h (1, 2 )" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
 }
 
 case class SpecificTranslationSpec_ () extends SpecificTranslationSpec

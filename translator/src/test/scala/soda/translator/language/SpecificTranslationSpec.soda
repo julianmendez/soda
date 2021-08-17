@@ -99,6 +99,20 @@ package soda.translator.language
 
     assert(obtained == expected)
   }
+
+  test("should translate a tuple assignment") {
+    original = "  (x, y) = (f(a), g(a))" +
+      "\n  (p, q) =" +
+      "\n    h(1, 2)" +
+      "\n"
+    expected = "  lazy val (x, y ) = (f (a ), g (a )  )" +
+      "\n  lazy val (p, q ) =" +
+      "\n    h (1, 2 )" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert(obtained == expected)
+  }
 }
 
 * SpecificTranslationSpec_() extends SpecificTranslationSpec
