@@ -4,7 +4,7 @@
 It could be seen as a specification language or as a functional programming language.
 A specification or piece of source code written in \Soda needs to be especially easy to read, but it does not need to be easy to write.
 
-A prototype written in \Soda does not need to be efficient, as long that it can be executed in a \textit{reasonable time}.
+A prototype written in \Soda does not need to be efficient, as long as it can be executed in a \textit{reasonable time}.
 A reasonable time is not a mathematical definition, but a human perception for a specific task.
 
 The current implementation of \Soda can be translated into Scala, and it relies on its data types.
@@ -23,7 +23,7 @@ The second point is to have a \textbf{constrained syntax}.
 This means that the only available commands are those of a purely functional approach.
 This prevents creating mutable objects, like when using \scalavar, or changing a class behavior by inheritance, like when using a \scalaclass that is not a \scalacase \ \scalaclass.
 It is worth noticing that, since \Soda is a JVM language, it also accepts JVM mutable objects.
-However, these objects need to be declared at the beginning, and can be forbidden if that is necessary.
+However, these objects need to be explicitly declared, and can be restricted, if that is necessary.
 
 Finally, the third point is to have \textbf{translation options}.
 \Soda could be translated to other languages that support tail recursion like Kotlin, for example.
@@ -116,8 +116,8 @@ Reading ``the square root of two'' is harder than reading $\sqrt{2}$.
 \section{General features}
 
 The goal of \Soda is to specify without being too specific, giving some freedom for different implementations.
-\Soda tries to keep a good balance between vagueness and concreteness, a good balance between specificity and generality,
-a good balance between what is very descriptive, but also technically useful.
+\Soda tries to keep a good balance between vagueness and concreteness, specificity and generality,
+and what is very descriptive but also technically useful.
 
 This happens in a way that is general enough to abstract implementations, but specific enough to constraint a problem.
 We do not need to define how things are done, as long as they are done correctly and in a reasonable time.
@@ -155,7 +155,8 @@ There are some general rules that apply to it:
 \section{Mutability}
 
 Mutability is one of the reason that algorithms get more difficult to understand.
-Although it is a practical way to save memory usage, it could be error prone.
+It is not a matter to understand what the algorithms seems to be doing, it is about what it is actually doing.
+Although it could be a practical way to reduce memory usage, it could also be error prone.
 For this reason, \Soda does not have ways to program mutability.
 
 For technical reasons, it is possible to use mutable objects from the JVM in \Soda.
@@ -170,13 +171,11 @@ In exceptional cases, they could be managed by JVM libraries.
 
 \section{Constants and Functions}
 
-In \Soda there are no mutable objects.
-Every value is therefore constant.
-In addition, if a function has no parameters, it is computed as a constant, i.e. it is computed only once and remains unchanged.
+In \Soda there are no mutable objects and therefore every value is constant.
+In addition, a function without parameters is computed as a constant, i.e. it is computed only once and remains unchanged.
 
-There is a technical difference between constants and functions without parameters.
-While in Scala, the use of parameters is expected to denote side effects, in \Soda it only indicates that the value is recalculated.
-Thus, functions without parameters are evaluated every time they are invoked.
+There is a technical difference between constants and functions with empty parameters.
+As in Scala, the use of parameters is expected to denote side effects, and indicates that the value is recalculated every time they are invoked.
 For constants, \Soda uses \textit{lazy evaluation}, and they are only evaluated when they are used for the first time.
 
 In \Soda, it is possible to define a function that needs auxiliary computations using bindings.
@@ -192,32 +191,26 @@ can be rewritten as
     $f(x) = a + b$, where $a = g(x)$ and $b = g(a)$.
 \end{center}
 
-In \Soda, the order is slightly changed, and the result is put at the end:
-\begin{lstlisting}[label={lst:exampleFunctionWithBraces}]
-  f0 (x: Int) = {
-    a = g(x)
-    b = g(a)
-    a + b
-  }
-\end{lstlisting}
-The block must have exactly one result at the end.
+In \Soda, the order is slightly changed.
+A \slet-\sdin structure is used for the same purpose, with the result put at the end.
 
-This could be read as:
-\begin{center}
-    $f0(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
-\end{center}
-
-It is possible to use a \slet-\sdin structure for the same purpose.
+It is possible to use a
 \begin{lstlisting}[label={lst:exampleFunctionWithLetIn}]
-  f1 (x: Int) =
+  f (x: Int) =
     let
       a = g(x)
       b = g(a)
     in a + b
 \end{lstlisting}
 
+This could be read as:
+\begin{center}
+    $f(x)$ is a value such that, if $a = g(x)$ and $b = g(a)$, that value is $a + b$.
+\end{center}
+
 It is possible to use a variable at the beginning to emphasize the result instead the other bindings, like in a \textit{where} example.
-The constant name \srccode{result} is not really a reserved word, but it is a suggested name to write this pattern:
+The constant name \srccode{result} is not really a reserved word, but it is a suggested name to write this pattern.
+As in a mathematical description, the order of the auxiliary functions is not relevant.
 
 \begin{lstlisting}[label={lst:exampleFunctionLikeWhere}]
   f2 (x: Int) =
@@ -233,47 +226,36 @@ The constant name \srccode{result} is not really a reserved word, but it is a su
 
 \Soda is statically typed.
 It has some ideas of object orientation.
-However, there are substantial differences with traditional object oriented programming.
+However, there are substantial differences with traditional object-oriented programming.
 
 
 \section{Object Inheritance and Overriding}
 
-\Soda has two types of classes: abstract classes, and concrete classes.
+\subsection{Abstract and concrete classes}
+
+\Soda has two types of classes: \textbf{abstract classes}, and \textbf{concrete classes}.
 
 Abstract classes are like traits in Scala and interfaces in Java, and either do not have any implementation, or what is implemented cannot be overridden.
+In addition, abstract classes can contain \textit{abstract} constants and functions, which are only signatures of constants and functions.
+A definition of an abstract class has the name for the new type, a declaration of its super types, and a sequence of possibly abstract constants and functions.
+
 Concrete classes are like case classes in Scala, since they cannot be extended, and have a default constructor.
-Abstract classes are the only classes that can be extended, since no concrete class can be extended.
+Since concrete classes cannot be extended, it is recommended to use abstract classes as much as possible, and let concrete classes contain only trivial constants or functions.
+A definition of a concrete class has the name for the new type, a declaration of its super types, a tuple of parameters, and a sequence of constants and functions.
 
-Abstract classes can contain \textit{abstract} constants and functions, which are only signatures of constants and functions.
+\subsection{Classes to define concepts}
 
-A class declaration of a concrete class has:
-\begin{itemize}
-    \item the name for the new type;
-    \item a declaration of its super types, if any;
-    \item a possibly empty tuple of required instances to instantiate the class;
-    \item a possibly empty sequence of constants and functions.
-\end{itemize}
+Classes should contain the smallest number of constants and functions to describe a \textbf{concept}.
+It is important to highlight that the concept should look familiar to a human being for the particular domain being modelled.
+While \srccode{Dog} could be a familiar concept to model in a general domain, \srccode{CanisLupusFamiliaris} could be more appropriate in a zoology-centered domain.
 
-
-An class declaration of an abstract class contains:
-\begin{itemize}
-    \item the name for the new type;
-    \item a declaration of its super types, if any;
-    \item a possibly empty sequence of possibly abstract constants and functions.
-\end{itemize}
-
-All super types are abstract classes, since concrete classes cannot be extended.
-For this reason, it is recommended to use abstract classes as much as possible, and using empty concrete classes, or concrete classes containing trivial constants or functions.
-
-It is also recommended to have small abstract classes.
-Ideally, they should contain the smallest number of constants and functions to describe a \textit{concept}.
-It is important to highlight that the concept should look familiar to a human being.
+As a matter of design, it is then recommended to have small abstract classes.
 The larger the class, the more vague its purpose, and therefore, the less useful it is.
 
-It is recommended to use inheritance only when a classes clearly extends another one.
 If a class contains only constants, then another class can easily use them by extending the class with constants.
-This is not, however, the purpose of extending of a class containing functions.
-If the concept is different, the class that needs another one should instantiate the latter as use its classes through the instance.
+In this case, extension is used to import shared constants as local.
+Otherwise, extension should only be used when a concept modelled by a class clearly extends another one.
+If a class modelling a concept uses functions from another class modelling a different concept, the former should instantiate the latter to use the functions.
 
 The name of a concrete class that is a default implementation of another class could be the name of the abstract class with a suffix underscore.
 
@@ -286,17 +268,14 @@ The name of a concrete class that is a default implementation of another class c
   class MyModule_() extends MyModule
 \end{lstlisting}
 
-The declaration of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
-This declaration if different from the block used to define an expression, since that block always requires a result, and all the content is private.
+The definition of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
 
-All implemented functions are \textit{final} (cannot be extended), and the same for all defined constants.
-This is to prevent that the behavior is changed after extending a class.
+All constants and functions in a class are meant to be \textit{final}, i.e. if another classes extends the former, it cannot change any defined constant or function from a super class.
+This is to prevent that the modelled behavior in a class is changed after extending a it.
 For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
 
-In \Soda, there is a \sthis reserved word where an object can refer to its own instance, but there is no \srccode{super} reserved word.
-The reason is that there is no difference between a function or constant defined in a class or in a super class, if defined.
-
-It is important to observe that the syntax in \Soda does not restrict the definition of constants in a class that depends on a constructor from the same class.
+In \Soda, there is a \sthis reserved word where an object can refer to its own instance, but there is no \scalasuper reserved word.
+The reason is that there is no difference between a constant or function defined in a class or in a super class.
 
 In \Soda, it is possible to define a \textit{type alias}.
 This is just a renaming of a more complex definition.
@@ -309,6 +288,8 @@ This can be done by defining a class equals to another class instead of defining
   class A[T] = Seq[Int, String]
 \end{lstlisting}
 
+This feature is only available when translating to Scala 3.
+
 
 \section{Static Constants and Functions}
 
@@ -319,13 +300,15 @@ The class constructors can be implemented as objects of another class, although 
 
 \section{Parametric Types}
 
-The use of parametric types is technically possible.
+Parametric types are technically possible.
 It is possible to put upper bounds in the parameter, to define it as a subtype of another type.
 
 \begin{lstlisting}[label={lst:exampleUpperBoundParameter}]
   class Shape
 
   class Movable
+
+  class Painter[A]
 
   class ShapePainter[A subtype Shape]
 
@@ -334,7 +317,7 @@ It is possible to put upper bounds in the parameter, to define it as a subtype o
 
 In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
 When a concrete class extends ShapePainter, it can use specific functions of a concrete type A, even if they are not in type Shape.
-A concrete class extending ShapeMover require a parameter that is a Shape and that is Movable.
+A concrete class extending ShapeMover requires a parameter that is a Shape and that is Movable.
 
 Usually, parametric types are needed for highly generic data types, like collections.
 Parameters are used to reduce code length, but sometimes smaller code is not necessarily easier to understand.
