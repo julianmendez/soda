@@ -13,12 +13,13 @@ package soda.translator.language
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
  * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
+ * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
  *
  * Formerly there was another case for 'val'.
- * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+ * Deprecated Case:
  * This was implemented simply as:
  * `line.trim.startsWith(soda_opening_parenthesis)`
  * This is no longer supported.
@@ -31,6 +32,8 @@ package soda.translator.language
   + soda.translator.replacement.Replacement_
 
   has line: String
+
+  trimmed_line = line.trim
 
   soda_space: String = " "
 
@@ -58,13 +61,13 @@ package soda.translator.language
     in result
 
   ends_with_equals =
-    line.trim().endsWith(TranslationConstant_().soda_definition)
+    trimmed_line.endsWith(TranslationConstant_().soda_definition)
 
   ends_with_opening_brace =
-    line.trim().endsWith(TranslationConstant_().soda_opening_brace)
+    trimmed_line.endsWith(TranslationConstant_().soda_opening_brace)
 
   contains_equals =
-    line.trim().contains(TranslationConstant_().soda_definition)
+    trimmed_line.contains(TranslationConstant_().soda_definition)
 
   condition_for_type_alias =
     contains_equals and not (ends_with_equals or ends_with_opening_brace)
@@ -80,18 +83,30 @@ package soda.translator.language
     else if is_val_definition(position) then translation_of_val_definition
     else translation_of_def_definition
 
-  is_val_definition(initial_position: Int): Boolean =
-    let
-      position_of_first_opening_parenthesis = get_index(line, TranslationConstant_().soda_opening_parenthesis)
-      is_case_1 = position_of_first_opening_parenthesis.isEmpty
-      is_case_2 = position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
-      is_case_3 =
-        get_index(line, TranslationConstant_().soda_colon).opt(
-          ifEmpty := false,
-          ifNonEmpty := other_position ->
-            position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
-        )
-    in is_case_1 or is_case_2 or is_case_3
+  is_val_definition(initial_position: Int) =
+    is_val_definition_case_1 or
+    is_val_definition_case_2(initial_position) or
+    is_val_definition_case_3 or
+    is_val_definition_case_4
+
+  position_of_first_opening_parenthesis =
+    get_index(line, TranslationConstant_().soda_opening_parenthesis)
+
+  is_val_definition_case_1 =
+    position_of_first_opening_parenthesis.isEmpty
+
+  is_val_definition_case_2(initial_position: Int) =
+    position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
+
+  is_val_definition_case_3 =
+    get_index(line, TranslationConstant_().soda_colon).opt(
+      ifEmpty := false,
+      ifNonEmpty := other_position ->
+        position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
+    )
+
+  is_val_definition_case_4 =
+    trimmed_line.startsWith(TranslationConstant_().soda_opening_parenthesis)
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.

@@ -13,12 +13,13 @@ package soda.translator.language
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
  * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
+ * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
  *
  * Formerly there was another case for 'val'.
- * Deprecated Case: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+ * Deprecated Case:
  * This was implemented simply as:
  * `line.trim.startsWith(soda_opening_parenthesis)`
  * This is no longer supported.
@@ -31,6 +32,8 @@ trait DefinitionTranslator {
   import soda.translator.replacement.Replacement_
 
   def line: String
+
+  lazy val trimmed_line = line.trim
 
   lazy val soda_space: String = " "
 
@@ -55,13 +58,13 @@ trait DefinitionTranslator {
       result }
 
   lazy val ends_with_equals =
-    line.trim () .endsWith (TranslationConstant_ () .soda_definition )
+    trimmed_line.endsWith (TranslationConstant_ () .soda_definition )
 
   lazy val ends_with_opening_brace =
-    line.trim () .endsWith (TranslationConstant_ () .soda_opening_brace )
+    trimmed_line.endsWith (TranslationConstant_ () .soda_opening_brace )
 
   lazy val contains_equals =
-    line.trim () .contains (TranslationConstant_ () .soda_definition )
+    trimmed_line.contains (TranslationConstant_ () .soda_definition )
 
   lazy val condition_for_type_alias =
     contains_equals && ! (ends_with_equals || ends_with_opening_brace )
@@ -77,15 +80,27 @@ trait DefinitionTranslator {
     else if (is_val_definition (position ) ) translation_of_val_definition
     else translation_of_def_definition
 
-  def is_val_definition (initial_position: Int ): Boolean =
-    {
-      lazy val position_of_first_opening_parenthesis = get_index (line, TranslationConstant_ () .soda_opening_parenthesis )
-      lazy val is_case_1 = position_of_first_opening_parenthesis.isEmpty
-      lazy val is_case_2 = position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
-      lazy val is_case_3 =
-        get_index (line, TranslationConstant_ () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
-            position_of_first_opening_parenthesis.opt (false, position => position > other_position )        )
-      is_case_1 || is_case_2 || is_case_3 }
+  def is_val_definition (initial_position: Int ) =
+    is_val_definition_case_1 ||
+    is_val_definition_case_2 (initial_position ) ||
+    is_val_definition_case_3 ||
+    is_val_definition_case_4
+
+  lazy val position_of_first_opening_parenthesis =
+    get_index (line, TranslationConstant_ () .soda_opening_parenthesis )
+
+  lazy val is_val_definition_case_1 =
+    position_of_first_opening_parenthesis.isEmpty
+
+  def is_val_definition_case_2 (initial_position: Int ) =
+    position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
+
+  lazy val is_val_definition_case_3 =
+    get_index (line, TranslationConstant_ () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+        position_of_first_opening_parenthesis.opt (false, position => position > other_position )    )
+
+  lazy val is_val_definition_case_4 =
+    trimmed_line.startsWith (TranslationConstant_ () .soda_opening_parenthesis )
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
