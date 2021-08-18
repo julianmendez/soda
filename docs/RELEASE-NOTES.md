@@ -8,6 +8,7 @@
   - adopts a naming standard for concrete classes to end in underscore
   - includes new synonyms, `<:` for `subtype` and `>:` for `supertype`
   - supports (again) the use of tuples on the left-hand side of a definition sign (`=`)
+  - renames (again) concrete classes in `OptionSD`, mapping `NoneSD` to `NoneSD_` and `SomeSD` to `SomeSD_`
 - build: sbt '++ 3.0.0' clean compile test package assembly
 - release: target/scala-3.0.0/soda-0.11.0.jar
 - - version: v0.10.0
