@@ -1,5 +1,6 @@
 \chapter{Semantics}
 
+
 \section{Semantics}
 
 \newcommand{\I}[1]{\ensuremath{{#1}^{\mathcal{I}}}}
@@ -127,12 +128,12 @@ If $V$ is an empty sequence, the class does not need parameters to be instantiat
 
 If $S_{A}$ is empty, the equals sign can be omitted.
 
-We say that $A$ is a \textbf{trivial extension} of an abstract class $B$ for the formula when $A$ extends only $B$ and $A$ has no parameters.
+We say that $A$ is a \textbf{trivial extension} of an abstract class $B$ when $A$ extends only $B$ and $A$ has no parameters.
 A \textbf{concrete trivial extension} is a trivial extension by using a concrete class.
 
 The \shas reserved word allows declaring functions in abstract classes.
-As a simple approach, each function or constant declared with \shas can be thought as a kind of parameter needed to instantiate a class.
-An abstract class without \shas needed to be satisfied can be instantiated by a concrete trivial extension.
+As a simple approach, each function or constant declared with \shas can be thought as a parameter needed to instantiate a class.
+An abstract class without uses of \shas can be instantiated by a concrete trivial extension.
 
 There is a small divergence between \Soda as defined here and its implementation, because the implementation allows defining classes inside classes, and even inside functions.
 
@@ -146,6 +147,7 @@ For example,
     \item then $e[f \coloneqq g] = \lambd {y_{1}}{2 (y_{1} + y)}$
 \end{itemize}
 
+\subsection{Interpretation function}
 
 The interpretation function is defined as follows:
 \begin{itemize}
@@ -182,13 +184,14 @@ The interpretation function is defined as follows:
 \subsection{Recursive definitions}
 
 
-One problem is the infinitely recursive definition:
+One problem to avoid is the definition of infinite recursions, like in the example below:
+
 \begin{lstlisting}[label={lst:exampleOfRecursion}]
   f (x: Int) = g(x)
   g (x: Int) = f(x)
 \end{lstlisting}
 
-Because of that, conventionally, every recursive function should be declared as such, by being named or starting with the prefix \srccode{rec}.
+Because of that, conventionally, every recursive function should be declared as such, by being named or starting with prefix \srccode{rec}.
 
 For example, instead of writing this function
 \begin{lstlisting}[label={lst:exampleOfFactorialBadNaming}]
