@@ -1,5 +1,6 @@
 \chapter{Decisions}
 
+
 \section{Why and why not}
 
 \subsection{Mutability}
@@ -36,18 +37,22 @@ c = compute(b)
 
 \subsection{Tuples}
 
-The use of tuple can hide an error in design.
+The use of tuple can sometimes hide an error in design.
 Unlike sequences, tuples may accept different types in their components.
 
 For example,
 
-("Jon", true, true, false)
+\begin{lstlisting}[label={lst:exampleJonTuple}]
+  ("Jon", true, true, false)
+\end{lstlisting}
 
 is far less legible than
 
-Individual(name := "Jon", registered := true, evaluated := true, passed := true)
+\begin{lstlisting}[label={lst:exampleJonIndividual}]
+  Individual(name := "Jon", registered := true, evaluated := true, passed := true)
+\end{lstlisting}
 
-\subsection{Significant tabulations}
+\subsection{Significant whitespace}
 
 In Python, horizontal tabulations can make a big difference.
 
@@ -63,7 +68,7 @@ This is the intended snippet:
 \end{lstlisting}
 
 
-This function has a bug, since it always assigns 0 to variable $y$.
+The following function has a bug, since it always assigns 0 to variable $y$.
 
 \begin{lstlisting}[label={lst:snippetInPython2}]
   if x > 0:
@@ -78,35 +83,39 @@ This kind of bug is for a 6-line snippet.
 This can propagate when thousands of lines are written.
 
 In Scala 3, it is possible to define classes using a similar criterion.
-We decided to avoid this notation, because \Soda also allows declaring classes inside classes.
 
 If we used this type of notation in \Soda, this could produce a similar type of error:
 
 Original expected declaration
 
+\begin{lstlisting}[label={lst:classesWithBraces}]
 class A = {
-    ...
+  f_a = 0
 }
 
 class B = {
-    ...
+  f_b = 1
 }
+\end{lstlisting}
 
 With this notation
+\begin{lstlisting}[label={lst:classesWithColons}]
 class A:
-...
+  f_a = 0
 
 class B:
-...
+  f_b = 1
+\end{lstlisting}
 
 With a bug:
+\begin{lstlisting}[label={lst:classesWithColonsAndMistake}]
 class A:
-...
-class B:
-...
+  f_a = 0
+
+  class B:
+    f_b = 1
+\end{lstlisting}
 
 In the last example, class B is part of class A.
 The compiler will accept it, and a human can accept it.
-
-In addition, Scala 3 accepts declaring functions outside classes, which \Soda does not.
 

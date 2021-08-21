@@ -343,7 +343,7 @@ With \sdefparam is also possible to define values for parameters when using name
 \end{lstlisting}
 
 
-Variables are statically defined.
+Variables are statically defined and are used as bound variables in typed lambda expressions, and unlike mutable variables in standard imperative languages.
 
 The recommended naming convention is using snake case, i.e. separating the words with underscore.
 Class names should start with a capital letter, functions with a lowercase letter.
@@ -377,10 +377,11 @@ Since there are no private functions or constants in a class, the suggestion is 
 Recursive functions should start with prefix ``\srccode{rec}'', for example, just ``\srccode{rec}'', or ``\srccode{rec\_find\_elem}''.
 This is to indicate that there is a recursion, and extra care should be taken into account to verify termination.
 
-Although in the current version of \Soda there is no check for detection of recursive calls, it could be implemented in the future a warning or an error if the one or multiple functions participating in recursions do not indicate that with prefix "rec".
+Although in the current version of \Soda there is no check for detection of recursive calls, this could be implemented in the future.
+For example, a warning or an error could be shown if one or multiple functions participating in recursions do not indicate that with prefix ``rec''.
 
-This is only a recommendation, since the JVM objects use camel case, i.e. all the words come together, starting with a capital letter.
-Since \Soda can be integrated with other JVM languages, some \Soda code could use camel case.
+Since JVM objects use camel case, i.e. multiple words come together starting with a capital letter,
+some \Soda code could use camel case to be integrated with other JVM languages.
 
 The following list is an example to summarize the naming convention.
 
@@ -447,13 +448,13 @@ Example using camel case, as in Java:
 
 \section{Comments}
 
-Comments are marked with the \srccode{/*} and  \srccode{*/}.
-The Scaladoc can be used by starting the comment with \srccode{/**}, as in Scala.
-In each line, comments and source code are mutually exclusive, a line that has a comment does not have source code, a line that has source code does not have a comment.
+Comments are marked with \srccode{/*} and \srccode{*/}.
+It is possible to use Scaladoc by starting the comment with \srccode{/**}, as in Scala.
+In each line, comments and source code are mutually exclusive: a line that has comments does not have source code, a line that has source code does not have comments.
 
-In general, comments are slightly discouraged, because the code should be descriptive enough.
+In general, comments are slightly discouraged, because the code should be descriptive enough. %% TODO : Cite Robert Martin
 If the code is not descriptive enough, it should be refactored instead of commented.
-Comments can very easily get outdated if the source is changed, and the comment is not updated.
+Comments can very easily get outdated if the source is changed and the comment is not updated.
 
 Comments can be part of the implementation itself as constants in classes.
 The advantage of this type of comment is that it can be accessed in runtime.
@@ -469,7 +470,7 @@ For example,
 A similar feature can be found in Python, for example, where Docstrings can be accessed by reading variable \srccode{\_\_doc\_\_}.
 
 The \srccode{doc} constant is only recommended for concrete classes.
-For abstract classes, it should contain a suffix with the class name.
+For abstract classes, the constant should contain a suffix with the class name.
 
 For example,
 \begin{lstlisting}[label={lst:exampleAbstractAndConcreteClassesWithComment}]
@@ -496,10 +497,11 @@ The importance of minimality and orthogonality is simplification and standardiza
 Minimality helps the user to understand remembering a smaller set of reserved words.
 Less reserved words also implies less combinations of them.
 
-Orthogonality helps to achieve common design patterns and tend to have some sort of normal form.
+Orthogonality helps to achieve common design patterns and helps to define a normal form.
 Patterns make source code easier to understand and to detect mistakes in it.
 
 The reason that pattern matching is (at the moment) not available is to maximize orthogonality.
+However, this could be included in a future development.
 
 
 \section{Definitions, theorems, and examples}
@@ -507,8 +509,8 @@ The reason that pattern matching is (at the moment) not available is to maximize
 In mathematics books, it is common to find Definitions, Theorems, and Examples.
 
 Mathematics uses a very compact notation, defining and redefining symbols to achieve complex expressions.
-Mathematicians take some time to get acquainted to the notation by reading examples, and understanding lemmas, theorems, and their proofs.
-Mathematics is known to be one of disciplines, most difficult to understand.
+Mathematicians take some time to get acquainted to the notation by reading examples, understanding lemmas, theorems, and their proofs.
+Mathematics is believed to be difficult to understand.
 This is often attributed, not only to its complex abstract nature, but also to its notation.
 
 The main purpose of \Soda is to make a formal description easy to understand.
@@ -516,15 +518,19 @@ For this, we can take advantage of similar techniques used in mathematics.
 
 A set of \Soda classes can be seen as \textit{definitions}.
 
-Properties of those definitions can be seen as \textit{theorems}.
-
 Unit tests are the \textit{examples}, as they contain specific instances.
 
+Properties of classes and their functions can be seen as \textit{theorems}.
 \Soda is not especially designed to prove correctness of programs, but provides some elements thar simplifies the human part on this verification.
+Properties can be proven by using a theorem prover assistant, like Coq or Isabelle, which can export a proof to Haskell code.
+This code should be translated to \Soda.
+
+This approach is currently future work and has not yet implemented.
+There are, however, some automated checks that are already implemented.
 
 \subsection{Static Types}
 
-The first and most relevant is the static type system.
+The first and most relevant check is the static type system.
 This provides the first check in compile time to ensure that \Soda code is consistent.
 
 \subsection{Immutable Variables}
@@ -533,14 +539,14 @@ The pure functional approach keeps consistency across the evaluation of a functi
 
 \subsection{Unambiguous Syntax}
 
-Some functional languages like Haskell allow the user to change precedence of its operators, leaving the possibility of writing without parentheses.
-Although this could look aesthetically better, leaves room for ambiguity but for the human reader, who might mistake the order of evaluation.
+Some functional languages, like Haskell, allow the user to change precedence of its operators, leaving the possibility of writing without parentheses.
+Although this could look aesthetically better, leaves room for ambiguity for the human reader, who might mistake the order of evaluation.
 
 \subsection{Less Format Errors}
 
 Some languages have significant whitespace, like Python.
-These makes it easier to, for example, wrongly put a function outside or inside a class, or execute a function after a block, which should be inside.
-Signficant whitespace has been a strong motivation to keep the code well indented, but at a very high price of making the code writing more error-prone.
+This is error-prone and, for example, makes it easier to wrongly put a function outside or inside a class, or execute a function after a block, which should be inside.
+Significant whitespace has been a strong motivation to keep the code well indented, but at a very high price of making code writing more error-prone.
 
 \subsection{Less Verbosity}
 
@@ -558,8 +564,8 @@ Implicits have been considered overused (and misused) in Scala 2, and motivated 
 
 In some languages, it is possible to partially define functions, like in Haskell, or predicates, like in Prolog.
 In the latter, having multiple definitions might make it harder to understand or predict how the interpreter will evaluate a program.
-In \Soda each class and in each function is defined only once, in one unique place.
-They are final and immutable, simplifying to the human reader understanding their result.
+In \Soda, each class and each function is defined only once, in one unique place.
+They are final and immutable, simplifying to the human reader the process of understanding their result.
 
 \subsection{Used to Check}
 

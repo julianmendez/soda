@@ -16,7 +16,7 @@ This definition is for a non-recursive definition of \Soda.
 The recursive definition requires extra constraints to prevent undecidability.
 This is discussed in the following section.
 
-An interpretation of a \Soda formula is a pair $\mathcal{I} = \langle \DeltaI, \PhiI, \ThetaI, \I{\cdot} \rangle$, where $\DeltaI$ is the interpretation domain, $\PhiI$ is a set of functions defined with elements of $\DeltaI$, $\ThetaI$ is a set of type names, and $\I{\cdot}$ is the interpretation function.
+An interpretation of a \Soda formula is a tuple $\mathcal{I} = \langle \DeltaI, \PhiI, \ThetaI, \I{\cdot} \rangle$, where $\DeltaI$ is the interpretation domain, $\PhiI$ is a set of functions defined with elements of $\DeltaI$, $\ThetaI$ is a set of type names, and $\I{\cdot}$ is the interpretation function.
 
 As defined above, $\DeltaI \subseteq \PhiI$, because constants are considered functions without parameters.
 
@@ -33,10 +33,11 @@ We assume that:
 A \textbf{function definition} is a formula of the form
 \[f = e\]
 such that $f$ is a function name and $e$ is an expression.
-$f$ is the \textbf{definiendum} and $g$ is the \textbf{definiens}.
+$f$ is the \textbf{definiendum} and $e$ is the \textbf{definiens}.
 
 
-At this point, we can distinguish between \textbf{recursive function definition} and \textbf{non-recursive function definition} considering whether $f$ occurs free on $e$, in the first case, or not, in the second case.
+At this point, we can distinguish between \textbf{recursive function definition} and \textbf{non-recursive function definition} considering whether $f$ occurs free on $e$,
+as in the first case, or not, as in the second case.
 
 Please observe that a non-recursive function definition can be recursive by using another function, for example:
 \begin{center}
