@@ -1,0 +1,46 @@
+package soda.translator.example
+
+
+* HardProblemSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  test("some calculations 13") {
+    instance = HardProblemBuilder_().build
+    value = 13
+    expected = 11
+    computed = instance.compute(value)
+    obtained = computed.get(value).get
+
+    assert(obtained == expected)
+  }
+
+  test("some calculations 14") {
+    instance = HardProblemBuilder_().build
+    value = 14
+    expected = 19
+    computed = instance.compute(value)
+    obtained = computed.get(value).get
+
+    assert(obtained == expected)
+  }
+
+  test("some calculations 16") {
+    instance = HardProblemBuilder_().build
+    value = 16
+    expected = 6
+    computed = instance.compute(value)
+    obtained = computed.get(value).get
+
+    assert(obtained == expected)
+  }
+
+  test("some calculations 20") {
+    instance = HardProblemBuilder_().build
+    value = 20
+    expected = 9
+    computed = instance.compute(value)
+    obtained = computed.get(value).get
+
+    assert(obtained == expected)
+  }
+}
