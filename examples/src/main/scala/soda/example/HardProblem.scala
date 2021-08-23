@@ -1,41 +1,24 @@
 package soda.translator.example
 
-
 trait Memoizer [A, B] {
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD
-  import soda.lib.NoneSD
 
-  def memoized_values: Map [A, B]
+  def main_function (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]]
 
-  def main_function: A => B
-
-  def computation_condition: A => Boolean
-
-  def compute (x: A ): Memoizer [A, B] =
-    if (computation_condition (x )
-    )
-      {
-        lazy val new_pair = (x, _get (x )  )
-        _Memoizer_ (memoized_values + new_pair, main_function, computation_condition ) }
-    else this
-
-  def get (x: A ): Option [B] =
-    if (computation_condition (x )
-    ) Some (_get (x )  )
-    else None
-
-  def _get (x: A ): B =
+  def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
     {
-      lazy val maybe_value = memoized_values.get (x )
+      lazy val maybe_res = memoized_values.get (x )
       lazy val result =
-        if (maybe_value.isEmpty
-        ) main_function (x )
-        else maybe_value.get
+        if (maybe_res.isEmpty
+        ) compute_and_update (x, memoized_values )
+        else (maybe_res.get, memoized_values )
       result }
-}
 
-case class _Memoizer_ [A, B]  (memoized_values: Map [A, B], main_function: A => B, computation_condition: A => Boolean )  extends Memoizer [A, B]
+  def compute_and_update (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
+    {
+      lazy val (res, map ) = main_function (x, memoized_values )
+      lazy val new_pair = (x, res )
+      (res, map + new_pair ) }
+}
 
 trait HardProblem  extends Memoizer [Int, Int] {
 
@@ -47,23 +30,29 @@ trait HardProblem  extends Memoizer [Int, Int] {
     ) n / 2
     else 3 * n + 1
 
-  lazy val main_function: Int => Int = (n: Int ) =>
+  def main_function (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
     if (n == 1
-    ) 2
-    else get (one_step (n )  ) .get + 1
-
-  lazy val computation_condition: Int => Boolean = (n: Int ) =>
-    n > 0
+    ) (0, memoized_values )
+    else
+      {
+        lazy val (res, new_map ) = compute (one_step (n ), memoized_values )
+        (1 + res, new_map ) }
 }
 
-case class _HardProblem_ (memoized_values: Map [Int, Int]  )  extends HardProblem
+case class HardProblem_ () extends HardProblem
 
-trait HardProblemBuilder {
+trait MemoizedFibonacci  extends Memoizer [Int, Int] {
 
-  lazy val memoized_values = Map [Int, Int]  ()
-
-  lazy val build =
-    _HardProblem_ (memoized_values )
+  def main_function (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
+    if (n == 0 ) (0, memoized_values )
+    else if (n == 1 ) (1, memoized_values )
+    else
+      {
+        lazy val (res1, map1 ) = compute (n - 2, memoized_values )
+        lazy val (res2, map2 ) = compute (n - 1, map1 )
+        lazy val res = res1 + res2
+        lazy val new_pair = (n, res )
+        (res, map2 + new_pair ) }
 }
 
-case class HardProblemBuilder_ () extends HardProblemBuilder
+case class MemoizedFibonacci_ () extends MemoizedFibonacci

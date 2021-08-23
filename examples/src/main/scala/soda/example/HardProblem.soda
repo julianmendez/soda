@@ -1,45 +1,24 @@
 package soda.translator.example
 
-
 * Memoizer[A, B] = {
-  + soda.lib.OptionSD
-  + soda.lib.SomeSD
-  + soda.lib.NoneSD
 
-  has memoized_values: Map[A, B]
+  has main_function(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
 
-  has main_function: A -> B
-
-  has computation_condition: A -> Boolean
-
-  compute(x: A): Memoizer[A, B] =
-    if computation_condition(x)
-    then
-      let
-        new_pair = (x, _get(x))
-      in _Memoizer_(memoized_values + new_pair, main_function, computation_condition)
-    else this
-
-  get(x: A): Option[B] =
-    if computation_condition(x)
-    then Some(_get(x))
-    else None
-
-  _get(x: A): B =
+  compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]] =
     let
-      maybe_value = memoized_values.get(x)
+      maybe_res = memoized_values.get(x)
       result =
-        if maybe_value.isEmpty
-        then main_function(x)
-        else maybe_value.get
+        if maybe_res.isEmpty
+        then compute_and_update(x, memoized_values)
+        else (maybe_res.get, memoized_values)
     in result
-}
 
-* _Memoizer_[A, B](
-    memoized_values: Map[A, B],
-    main_function: A -> B,
-    computation_condition: A -> Boolean )
-  extends Memoizer[A, B]
+  compute_and_update(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]] =
+    let
+      (res, map) = main_function(x, memoized_values)
+      new_pair = (x, res)
+    in (res, map + new_pair)
+}
 
 * HardProblem
   extends Memoizer[Int, Int] = {
@@ -52,25 +31,31 @@ package soda.translator.example
     then n / 2
     else 3 * n + 1
 
-  main_function: Int -> Int = (n: Int) ->
+  main_function(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
     if n == 1
-    then 2
-    else get(one_step(n)).get + 1
-
-  computation_condition: Int -> Boolean = (n: Int) ->
-    n > 0
+    then (0, memoized_values)
+    else
+      let
+        (res, new_map) = compute(one_step(n), memoized_values)
+      in (1 + res, new_map)
 }
 
-* _HardProblem_(memoized_values: Map[Int, Int])
-  extends HardProblem
+* HardProblem_() extends HardProblem
 
-* HardProblemBuilder = {
+* MemoizedFibonacci
+  extends Memoizer[Int, Int] = {
 
-  memoized_values = Map[Int, Int]()
-
-  build =
-    _HardProblem_(memoized_values)
+  main_function(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
+    if n == 0 then (0, memoized_values)
+    else if n == 1 then (1, memoized_values)
+    else
+      let
+        (res1, map1) = compute(n - 2, memoized_values)
+        (res2, map2) = compute(n - 1, map1)
+        res = res1 + res2
+        new_pair = (n, res)
+      in (res, map2 + new_pair)
 }
 
-* HardProblemBuilder_() extends HardProblemBuilder
+* MemoizedFibonacci_() extends MemoizedFibonacci
 
