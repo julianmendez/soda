@@ -1,4 +1,3 @@
-
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
@@ -63,12 +62,15 @@
 \newcommand{\soverride}{\annotation{@override}}
 \newcommand{\smain}{\annotation{@main}}
 
-\newcommand{\sequalsSign}{\srccode{==}}
+\newcommand{\sequalsSign}{\reservedWord{==}}
 
-\newcommand{\sasterisk}{\srccode{*}}
-\newcommand{\splus}{\srccode{+}}
+\newcommand{\sasterisk}{\reservedWord{*}}
+\newcommand{\splus}{\reservedWord{+}}
 
 \newcommand{\sis}{\reservedWord{is}}
+
+\newcommand{\slessthancolon}{\reservedWord{<:}}
+\newcommand{\sgreaterthancolon}{\reservedWord{>:}}
 
 \newcommand{\scalacase}{\reservedWord{case}}
 \newcommand{\scalaclass}{\reservedWord{class}}
@@ -82,4 +84,4 @@
 
 \newcommand{\Sodalogo}{$\lambda $
 
-\vspace{-5.5pt} $ \bigcup \hspace{-13pt} = $}
+    \vspace{-5.5pt} $ \bigcup \hspace{-13pt} = $}
