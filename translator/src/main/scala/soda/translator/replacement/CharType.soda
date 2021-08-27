@@ -9,9 +9,9 @@ package soda.translator.replacement
 * CharType_(ordinal: Int, name: String) extends CharType
 
 /**
- * This class can be extended to include its constants.
+ * This is an enumeration for all types of characters.
  */
-* CharTypeConstant = {
+* CharTypeEnum extends soda.lib.Enum[CharType] = {
 
   undefined_type = CharType_(0, "undefined_type")
 
@@ -23,15 +23,7 @@ package soda.translator.replacement
 
   plain_type = CharType_(4, "plain_type")
 
-  char_type_values = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
-}
-
-/**
- * This is an enumeration for all types of characters.
- */
-* CharTypeEnum extends CharTypeConstant = {
-
-  values = char_type_values
+  values = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
 
   backslash_char = '\\'
 

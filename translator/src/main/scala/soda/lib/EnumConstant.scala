@@ -13,3 +13,8 @@ trait EnumConstant {
 
   def name: String
 }
+
+trait Enum [A <: EnumConstant] {
+
+  def values: Seq [A]
+}

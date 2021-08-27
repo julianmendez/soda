@@ -14,3 +14,8 @@ package soda.lib
   has name: String
 }
 
+* Enum[A subtype EnumConstant] = {
+
+  has values: Seq[A]
+}
+

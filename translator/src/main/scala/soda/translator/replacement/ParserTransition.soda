@@ -8,7 +8,10 @@ package soda.translator.replacement
 
 * ParserState_(ordinal: Int, name: String) extends ParserState
 
-* ParserStateConstant = {
+/**
+ * This is an enumeration of all the parser states.
+ */
+* ParserStateEnum extends soda.lib.Enum[ParserState] = {
 
   undefined_state = ParserState_(0, "undefined_state")
 
@@ -22,15 +25,7 @@ package soda.translator.replacement
 
   plain = ParserState_(5, "plain")
 
-  parser_state_values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
-}
-
-/**
- * This is an enumeration of all the parser states.
- */
-* ParserStateEnum extends ParserStateConstant = {
-
-  values = parser_state_values
+  values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 
   is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) or is_like(x, y) or is_like(y, x)

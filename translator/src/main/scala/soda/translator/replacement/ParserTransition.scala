@@ -8,7 +8,10 @@ trait ParserState extends soda.lib.EnumConstant
 
 case class ParserState_ (ordinal: Int, name: String ) extends ParserState
 
-trait ParserStateConstant {
+/**
+ * This is an enumeration of all the parser states.
+ */
+trait ParserStateEnum extends soda.lib.Enum [ParserState] {
 
   lazy val undefined_state = ParserState_ (0, "undefined_state")
 
@@ -22,15 +25,7 @@ trait ParserStateConstant {
 
   lazy val plain = ParserState_ (5, "plain")
 
-  lazy val parser_state_values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
-}
-
-/**
- * This is an enumeration of all the parser states.
- */
-trait ParserStateEnum extends ParserStateConstant {
-
-  lazy val values = parser_state_values
+  lazy val values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
 
   def is_same_class (x: ParserState, y: ParserState ): Boolean =
     (x == y ) || is_like (x, y ) || is_like (y, x )

@@ -9,9 +9,9 @@ trait CharType extends soda.lib.EnumConstant
 case class CharType_ (ordinal: Int, name: String ) extends CharType
 
 /**
- * This class can be extended to include its constants.
+ * This is an enumeration for all types of characters.
  */
-trait CharTypeConstant {
+trait CharTypeEnum extends soda.lib.Enum [CharType] {
 
   lazy val undefined_type = CharType_ (0, "undefined_type")
 
@@ -23,15 +23,7 @@ trait CharTypeConstant {
 
   lazy val plain_type = CharType_ (4, "plain_type")
 
-  lazy val char_type_values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type )
-}
-
-/**
- * This is an enumeration for all types of characters.
- */
-trait CharTypeEnum extends CharTypeConstant {
-
-  lazy val values = char_type_values
+  lazy val values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type )
 
   lazy val backslash_char = '\\'
 
