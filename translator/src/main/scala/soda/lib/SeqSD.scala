@@ -7,48 +7,45 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-trait SeqSD [T] {
+trait SeqSD [A] {
 
-  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B
 
-  def toSeq: Seq [T]
+  def toSeq: Seq [A]
 
-  def reverse: SeqSD [T]
-
-  override
-  lazy val toString: String = toSeq.toString
+  def reverse: SeqSD [A]
 }
 
-trait EmptySeqSD [T] extends SeqSD [T] {
+trait EmptySeqSD [A] extends SeqSD [A] {
 
-  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifEmpty
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifEmpty
 
-  lazy val toSeq: Seq [T] = Seq [T]  ()
+  lazy val toSeq: Seq [A] = Seq [A]  ()
 
-  lazy val reverse: EmptySeqSD [T] = this
+  lazy val reverse: EmptySeqSD [A] = this
 }
 
-case class EmptySeqSD_ [T]  () extends EmptySeqSD [T]
+case class EmptySeqSD_ [A]  () extends EmptySeqSD [A]
 
-trait NonEmptySeqSD [T] extends SeqSD [T] {
+trait NonEmptySeqSD [A] extends SeqSD [A] {
 
-  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [T] => B ): B = ifNonEmpty (this )
+  def opt [B]  (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifNonEmpty (this )
 
-  lazy val head: T = toSeq.head
+  lazy val head: A = toSeq.head
 
-  lazy val tail: SeqSD [T] = SeqSDBuilder_ [T]  () .build (toSeq.tail )
+  lazy val tail: SeqSD [A] = SeqSDBuilder_ [A]  () .build (toSeq.tail )
 
-  lazy val reverse: NonEmptySeqSD [T] = NonEmptySeqSD_ (toSeq.reverse )
+  lazy val reverse: NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse )
 }
 
-case class NonEmptySeqSD_ [T]  (toSeq: Seq [T]  ) extends NonEmptySeqSD [T]
+case class NonEmptySeqSD_ [A]  (toSeq: Seq [A]  ) extends NonEmptySeqSD [A]
 
-trait SeqSDBuilder [T] {
+trait SeqSDBuilder [A] {
 
-  def build (seq: Seq [T]  ): SeqSD [T] =
+  def build (seq: Seq [A]  ): SeqSD [A] =
     if (seq.isEmpty
-    ) EmptySeqSD_ [T]  ()
-    else NonEmptySeqSD_ [T]  (seq )
+    ) EmptySeqSD_ [A]  ()
+    else NonEmptySeqSD_ [A]  (seq )
 }
 
-case class SeqSDBuilder_ [T]  () extends SeqSDBuilder [T]
+case class SeqSDBuilder_ [A]  () extends SeqSDBuilder [A]
