@@ -7,7 +7,7 @@ package soda.translator.example
 
 * Memoizer[A, B] extends MemoizableFunction[A, B] = {
 
-  has main_function: (x: A, memoized_values: Map[A, B]) -> Tuple2[B, Map[A, B]]
+  has main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]]
 
   compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]] =
     let
@@ -25,7 +25,7 @@ package soda.translator.example
     in (res, map + new_pair)
 }
 
-* Memoizer_[A, B](main_function: (x: A, memoized_values: Map[A, B]) -> Tuple2[B, Map[A, B]]) extends Memoizer[A, B]
+* Memoizer_[A, B](main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]]) extends Memoizer[A, B]
 
 * HardProblem
   extends MemoizableFunction[Int, Int] = {

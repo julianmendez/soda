@@ -7,7 +7,7 @@ trait MemoizableFunction [A, B] {
 
 trait Memoizer [A, B] extends MemoizableFunction [A, B] {
 
-  def main_function: (x: A, memoized_values: Map [A, B]  ) => Tuple2 [B, Map [A, B]]
+  def main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]
 
   def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
     {
@@ -25,7 +25,7 @@ trait Memoizer [A, B] extends MemoizableFunction [A, B] {
       (res, map + new_pair ) }
 }
 
-case class Memoizer_ [A, B]  (main_function: (x: A, memoized_values: Map [A, B]  ) => Tuple2 [B, Map [A, B]]  ) extends Memoizer [A, B]
+case class Memoizer_ [A, B]  (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  ) extends Memoizer [A, B]
 
 trait HardProblem  extends MemoizableFunction [Int, Int] {
 
