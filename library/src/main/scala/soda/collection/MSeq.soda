@@ -6,9 +6,12 @@ package soda.collection
   has isEmpty: Boolean
 
   has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
+}
 
-  foldLeftWhile[B, C subtype B](initial_value: C,
-      next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
+* MSeqRec[T] = {
+
+  fold[B, C subtype B](mseq: MSeq[T],
+      initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
     let
       @tailrec
       rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
@@ -19,8 +22,10 @@ package soda.collection
             neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
           in if not condition(acc, neseq.head()) then acc else rec(
                neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
-    in rec(this, initial_value, next_value, condition)
+    in rec(mseq, initial_value, next_value, condition)
 }
+
+* MSeqRec_[T]() extends MSeqRec[T]
 
 * ESeq[T] extends MSeq[T] = {
 

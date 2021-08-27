@@ -6,8 +6,11 @@ trait MSeq [T] {
   def isEmpty: Boolean
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
+}
 
-  def foldLeftWhile [B, C <: B]  (initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+trait MSeqRec [T] {
+
+  def fold [B, C <: B]  (mseq: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
     {
       import scala.annotation.tailrec
         @tailrec
@@ -18,8 +21,10 @@ trait MSeq [T] {
           {
             lazy val neseq = seq.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
             if (! condition (acc, neseq.head ()  ) ) acc else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition ) }
-      rec (this, initial_value, next_value, condition ) }
+      rec (mseq, initial_value, next_value, condition ) }
 }
+
+case class MSeqRec_ [T]  () extends MSeqRec [T]
 
 trait ESeq [T] extends MSeq [T] {
 

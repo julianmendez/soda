@@ -60,7 +60,7 @@ package soda.collection
 
   foldLeftWhile[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C,
       condition: (B, T) -> Boolean): C =
-    s.foldLeftWhile[B, C](initial_value, next_value, condition)
+    MSeqRec_[T]().fold[B, C](s, initial_value, next_value, condition)
 
   foldLeft[B, C subtype B](s: MSeq[T], initial_value: C, next_value: (B, T) -> C): C =
     let
