@@ -1,4 +1,4 @@
-\chapter{Techniques}
+\chapter{Usage}
 
 \section{Techniques}
 
@@ -300,4 +300,122 @@ can be split as
     extends AbstractPartOfSomeClass
 \end{lstlisting}
 
+
+\section{Why and why not}
+
+\subsection{Mutability}
+Mutable structures are extremely error-prone, since a variable can change its value without any apparent change.
+
+Example:
+
+/* a = ?, b = ?, c = ? */
+a = C(5)
+
+/* a = C(5), b = ?, c = ? */
+b = compute(a)
+
+/* a = C(6), b = C(a), c = ? */
+c = compute(b)
+/* a = C(6), b = C(7), c = C(7) */
+
+
+compute(a)
+a.increment(1)
+return a
+
+
+expected
+/* a = ?, b = ?, c = ? */
+a = C(5)
+
+/* a = C(5), b = ?, c = ? */
+b = compute(a)
+
+/* a = C(5), b = C(6), c = ? */
+c = compute(b)
+/* a = C(5), b = C(6), c = C(7) */
+
+\subsection{Tuples}
+
+The use of tuple can sometimes hide an error in design.
+Unlike sequences, tuples may accept different types in their components.
+
+For example,
+
+\begin{lstlisting}[label={lst:exampleJonTuple}]
+  ("Jon", true, true, false)
+\end{lstlisting}
+
+is far less legible than
+
+\begin{lstlisting}[label={lst:exampleJonIndividual}]
+  Individual(name := "Jon", registered := true, evaluated := true, passed := true)
+\end{lstlisting}
+
+\subsection{Significant whitespace}
+
+In Python, horizontal tabulations can make a big difference.
+
+This is the intended snippet:
+
+\begin{lstlisting}[label={lst:snippetInPython1}]
+  if x > 0:
+    positive = True
+    y = x
+  else:
+    positive = False
+    y = 0
+\end{lstlisting}
+
+
+The following function has a bug, since it always assigns 0 to variable $y$.
+
+\begin{lstlisting}[label={lst:snippetInPython2}]
+  if x > 0:
+    positive = True
+    y = x
+  else:
+    positive = False
+  y = 0
+\end{lstlisting}
+
+This kind of bug is for a 6-line snippet.
+This can propagate when thousands of lines are written.
+
+In Scala 3, it is possible to define classes using a similar criterion.
+
+If we used this type of notation in \Soda, this could produce a similar type of error:
+
+Original expected declaration
+
+\begin{lstlisting}[label={lst:classesWithBraces}]
+class A = {
+  f_a = 0
+}
+
+class B = {
+  f_b = 1
+}
+\end{lstlisting}
+
+With this notation
+\begin{lstlisting}[label={lst:classesWithColons}]
+class A:
+  f_a = 0
+
+class B:
+  f_b = 1
+\end{lstlisting}
+
+With a bug:
+\begin{lstlisting}[label={lst:classesWithColonsAndMistake}]
+class A:
+  f_a = 0
+
+  class B:
+    f_b = 1
+\end{lstlisting}
+
+In the last example, class B is part of class A.
+The compiler will accept it, and a human can accept it.
 

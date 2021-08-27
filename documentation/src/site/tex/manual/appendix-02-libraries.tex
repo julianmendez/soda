@@ -38,31 +38,47 @@ class OptionSD[A] = {
 
   has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
 
-  isEmpty: Boolean = opt(ifEmpty := true, ifNonEmpty := element -> false)
+  has isEmpty: Boolean
 
-  getOrElse(default: A): A =
-    opt(ifEmpty := default, ifNonEmpty := element -> element)
+  has getOrElse(default: A): A
 
-  fold[B](ifEmpty: B, f: A -> B): B =
-    opt(ifEmpty, f)
+  has fold[B](ifEmpty: B, f: A -> B): B
 
-  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] =
-    opt(
-      ifEmpty := NoElem[B](),
-      ifNonEmpty := element -> mapping(element)
-    )
+  has flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B]
 }
 
-class NoneSD[A] () extends OptionSD[A] = {
+class NoneSD[A] extends OptionSD[A] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+
+  isEmpty: Boolean = true
+
+  getOrElse(default: A): A = default
+
+  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = NoneSD_[B]()
 }
 
-class SomeSD[A] (element: A) extends OptionSD[A] = {
+class NoneSD_[A]() extends NoneSD[A]
+
+class SomeSD[A] extends OptionSD[A] = {
+
+  has element: A
 
   value: A = element
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+
+  isEmpty: Boolean = false
+
+  getOrElse(default: A): A = element
+
+  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = mapping(element)
 }
+
+class SomeSD_[A](element: A) extends SomeSD[A]
 \end{lstlisting}
 
