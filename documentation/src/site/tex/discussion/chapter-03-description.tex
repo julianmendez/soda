@@ -252,10 +252,8 @@ While \srccode{Dog} could be a familiar concept to model in a general domain, \s
 As a matter of design, it is then recommended to have small abstract classes.
 The larger the class, the more vague its purpose, and therefore, the less useful it is.
 
-If a class contains only constants, then another class can easily use them by extending the class with constants.
-In this case, extension is used to import shared constants as local.
-Otherwise, extension should only be used when a concept modelled by a class clearly extends another one.
-If a class modelling a concept uses functions from another class modelling a different concept, the former should instantiate the latter to use the functions.
+An extension should only be used when a concept modelled by a class clearly extends another one.
+If a class modelling a concept uses functions from another class modelling a different concept, the former should instantiate the latter to use the constants and functions.
 
 The name of a concrete class that is a default implementation of another class could be the name of the abstract class with a suffix underscore.
 
