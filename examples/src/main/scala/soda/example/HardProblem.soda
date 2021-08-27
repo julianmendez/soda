@@ -1,8 +1,13 @@
 package soda.translator.example
 
-* Memoizer[A, B] = {
+* MemoizableFunction[A, B] = {
 
-  has main_function(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
+  has compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
+}
+
+* Memoizer[A, B] extends MemoizableFunction[A, B] = {
+
+  has main_function: (x: A, memoized_values: Map[A, B]) -> Tuple2[B, Map[A, B]]
 
   compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]] =
     let
@@ -20,8 +25,12 @@ package soda.translator.example
     in (res, map + new_pair)
 }
 
+* Memoizer_[A, B](main_function: (x: A, memoized_values: Map[A, B]) -> Tuple2[B, Map[A, B]]) extends Memoizer[A, B]
+
 * HardProblem
-  extends Memoizer[Int, Int] = {
+  extends MemoizableFunction[Int, Int] = {
+
+  memoizer = Memoizer_[Int, Int](main_function)
 
   is_even(n: Int): Boolean =
     n % 2 == 0
@@ -38,12 +47,17 @@ package soda.translator.example
       let
         (res, new_map) = compute(one_step(n), memoized_values)
       in (1 + res, new_map)
+
+  compute(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
+    memoizer.compute(n, memoized_values)
 }
 
 * HardProblem_() extends HardProblem
 
 * MemoizedFibonacci
-  extends Memoizer[Int, Int] = {
+  extends MemoizableFunction[Int, Int] = {
+
+  memoizer = Memoizer_[Int, Int](main_function)
 
   main_function(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
     if n == 0 then (0, memoized_values)
@@ -55,6 +69,9 @@ package soda.translator.example
         res = res1 + res2
         new_pair = (n, res)
       in (res, map2 + new_pair)
+
+  compute(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
+    memoizer.compute(n, memoized_values)
 }
 
 * MemoizedFibonacci_() extends MemoizedFibonacci
