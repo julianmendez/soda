@@ -33,6 +33,8 @@ package soda.translator.language
 
   has line: String
 
+  tc = TranslationConstant_()
+
   trimmed_line = line.trim
 
   soda_space: String = " "
@@ -46,37 +48,37 @@ package soda.translator.language
     )
 
   is_class_definition =
-    get_index(line, soda_space + TranslationConstant_().soda_class_reserved_word + soda_space).isDefined
+    get_index(line, soda_space + tc.soda_class_reserved_word + soda_space).isDefined
 
   translation_of_class_definition =
     let
       new_text =
         if ends_with_equals
-        then TranslationConstant_().scala_3_class_definition
+        then tc.scala_3_class_definition
         else ""
       result =
         if condition_for_type_alias
         then Replacement_(line)
-        else Replacement_(line).replace_all(soda_space + TranslationConstant_().soda_definition, new_text)
+        else Replacement_(line).replace_all(soda_space + tc.soda_definition, new_text)
     in result
 
   ends_with_equals =
-    trimmed_line.endsWith(TranslationConstant_().soda_definition)
+    trimmed_line.endsWith(tc.soda_definition)
 
   ends_with_opening_brace =
-    trimmed_line.endsWith(TranslationConstant_().soda_opening_brace)
+    trimmed_line.endsWith(tc.soda_opening_brace)
 
   contains_equals =
-    trimmed_line.contains(TranslationConstant_().soda_definition)
+    trimmed_line.contains(tc.soda_definition)
 
   condition_for_type_alias =
     contains_equals and not (ends_with_equals or ends_with_opening_brace)
 
   translation_of_val_definition =
-    Replacement_(line).add_after_spaces( TranslationConstant_().scala_value + scala_space )
+    Replacement_(line).add_after_spaces( tc.scala_value + scala_space )
 
   translation_of_def_definition =
-    Replacement_(line).add_after_spaces( TranslationConstant_().scala_definition + scala_space )
+    Replacement_(line).add_after_spaces( tc.scala_definition + scala_space )
 
   try_found_definition(position: Int): Replacement =
     if is_class_definition then translation_of_class_definition
@@ -90,7 +92,7 @@ package soda.translator.language
     is_val_definition_case_4
 
   position_of_first_opening_parenthesis =
-    get_index(line, TranslationConstant_().soda_opening_parenthesis)
+    get_index(line, tc.soda_opening_parenthesis)
 
   is_val_definition_case_1 =
     position_of_first_opening_parenthesis.isEmpty
@@ -99,14 +101,14 @@ package soda.translator.language
     position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
 
   is_val_definition_case_3 =
-    get_index(line, TranslationConstant_().soda_colon).opt(
+    get_index(line, tc.soda_colon).opt(
       ifEmpty := false,
       ifNonEmpty := other_position ->
         position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
     )
 
   is_val_definition_case_4 =
-    trimmed_line.startsWith(TranslationConstant_().soda_opening_parenthesis)
+    trimmed_line.startsWith(tc.soda_opening_parenthesis)
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -116,9 +118,9 @@ package soda.translator.language
    * @return maybe the position of the definition sign
    */
   find_definition(line: String): OptionSD[Int] =
-    if line.endsWith(soda_space + TranslationConstant_().soda_definition)
-    then SomeSD_(line.length - TranslationConstant_().soda_definition.length)
-    else get_index(line, soda_space + TranslationConstant_().soda_definition + soda_space)
+    if line.endsWith(soda_space + tc.soda_definition)
+    then SomeSD_(line.length - tc.soda_definition.length)
+    else get_index(line, soda_space + tc.soda_definition + soda_space)
 
   get_index(line: String, pattern: String): OptionSD[Int] =
     get_index(line, pattern, 0)

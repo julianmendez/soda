@@ -33,6 +33,8 @@ trait DefinitionTranslator {
 
   def line: String
 
+  lazy val tc = TranslationConstant_ ()
+
   lazy val trimmed_line = line.trim
 
   lazy val soda_space: String = " "
@@ -43,37 +45,37 @@ trait DefinitionTranslator {
     find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line    )
 
   lazy val is_class_definition =
-    get_index (line, soda_space + TranslationConstant_ () .soda_class_reserved_word + soda_space ) .isDefined
+    get_index (line, soda_space + tc.soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translation_of_class_definition =
     {
       lazy val new_text =
         if (ends_with_equals
-        ) TranslationConstant_ () .scala_3_class_definition
+        ) tc.scala_3_class_definition
         else ""
       lazy val result =
         if (condition_for_type_alias
         ) Replacement_ (line )
-        else Replacement_ (line ) .replace_all (soda_space + TranslationConstant_ () .soda_definition, new_text )
+        else Replacement_ (line ) .replace_all (soda_space + tc.soda_definition, new_text )
       result }
 
   lazy val ends_with_equals =
-    trimmed_line.endsWith (TranslationConstant_ () .soda_definition )
+    trimmed_line.endsWith (tc.soda_definition )
 
   lazy val ends_with_opening_brace =
-    trimmed_line.endsWith (TranslationConstant_ () .soda_opening_brace )
+    trimmed_line.endsWith (tc.soda_opening_brace )
 
   lazy val contains_equals =
-    trimmed_line.contains (TranslationConstant_ () .soda_definition )
+    trimmed_line.contains (tc.soda_definition )
 
   lazy val condition_for_type_alias =
     contains_equals && ! (ends_with_equals || ends_with_opening_brace )
 
   lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_value + scala_space )
+    Replacement_ (line ) .add_after_spaces (tc.scala_value + scala_space )
 
   lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces (TranslationConstant_ () .scala_definition + scala_space )
+    Replacement_ (line ) .add_after_spaces (tc.scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translation_of_class_definition
@@ -87,7 +89,7 @@ trait DefinitionTranslator {
     is_val_definition_case_4
 
   lazy val position_of_first_opening_parenthesis =
-    get_index (line, TranslationConstant_ () .soda_opening_parenthesis )
+    get_index (line, tc.soda_opening_parenthesis )
 
   lazy val is_val_definition_case_1 =
     position_of_first_opening_parenthesis.isEmpty
@@ -96,11 +98,11 @@ trait DefinitionTranslator {
     position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
 
   lazy val is_val_definition_case_3 =
-    get_index (line, TranslationConstant_ () .soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
+    get_index (line, tc.soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
         position_of_first_opening_parenthesis.opt (false, position => position > other_position )    )
 
   lazy val is_val_definition_case_4 =
-    trimmed_line.startsWith (TranslationConstant_ () .soda_opening_parenthesis )
+    trimmed_line.startsWith (tc.soda_opening_parenthesis )
 
   /**
    * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
@@ -110,9 +112,9 @@ trait DefinitionTranslator {
    * @return maybe the position of the definition sign
    */
   def find_definition (line: String ): OptionSD [Int] =
-    if (line.endsWith (soda_space + TranslationConstant_ () .soda_definition )
-    ) SomeSD_ (line.length - TranslationConstant_ () .soda_definition.length )
-    else get_index (line, soda_space + TranslationConstant_ () .soda_definition + soda_space )
+    if (line.endsWith (soda_space + tc.soda_definition )
+    ) SomeSD_ (line.length - tc.soda_definition.length )
+    else get_index (line, soda_space + tc.soda_definition + soda_space )
 
   def get_index (line: String, pattern: String ): OptionSD [Int] =
     get_index (line, pattern, 0 )

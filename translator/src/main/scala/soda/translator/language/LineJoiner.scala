@@ -5,6 +5,8 @@ trait LineJoiner {
 
   def lines: Seq [String]
 
+  lazy val tc = TranslationConstant_ ()
+
   lazy val comma = ","
 
   lazy val soda_opening_parenthesis: String = "("
@@ -28,11 +30,11 @@ trait LineJoiner {
     is_a_reserved_word_forward_join (previous_line )
 
   def is_a_symbol_forward_join (previous_line: String ): Boolean =
-    TranslationConstant_ () .symbol_forward_joiner
+    tc.symbol_forward_joiner
       .exists (previous_line.endsWith )
 
   def is_a_reserved_word_forward_join (previous_line: String ): Boolean =
-    TranslationConstant_ () .reserved_word_joiner
+    tc.reserved_word_joiner
       .map (x => space + x )
       .exists (previous_line.endsWith )
 
@@ -41,11 +43,11 @@ trait LineJoiner {
     is_a_reserved_word_backward_join (current_line )
 
   def is_a_symbol_backward_join (current_line: String ): Boolean =
-    TranslationConstant_ () .symbol_backward_joiner
+    tc.symbol_backward_joiner
       .exists (current_line.startsWith )
 
   def is_a_reserved_word_backward_join (current_line: String ): Boolean =
-    TranslationConstant_ () .reserved_word_joiner
+    tc.reserved_word_joiner
       .map (x => x + space )
       .exists (current_line.startsWith )
 }
