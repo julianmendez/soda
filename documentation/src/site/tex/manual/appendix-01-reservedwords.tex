@@ -1,52 +1,88 @@
 \chapter{Reserved Words}
 
-\begin{tabular}{|l|l|}
-    \hline
-    $f$ \sdef $e$                                & function or constant definition of $f$ as $e$                   \\
-    $x$ \scolon $A$                              & declaration that $x$ is of type $A$                             \\
-    $x$ \slambda $e$                             & lambda definition for $\lambda x . e$                           \\
-    $t$ \sdefparam $e$                           & assignment of parameter $t$ to have value $e$                   \\
-    \hline
-    \sif $b$ \sthen $e_{0}$ \selse $e_{1}$       & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
-    \hline
-    \slet $e_{0} \ldots e_{n}$ \sdin $e$         & expression with bindings $e_{0}, \ldots, e_{n}$ in $e$          \\
-    \hline
-    \sclass $A$                                  & definition of abstract class $A$                                \\
-    \sclass $A(\ldots)$                          & definition of concrete class $A(\ldots )$                       \\
-    \sclass $B$ \sextends $A$                    & class $B$ extends class $A$                                     \\
-    \sclass $B$ \sextends $A_{0}$ \swith $A_{1}$ & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
-    \sclass $B$[$A_{0}$ \ssubtype ($A_{1}$)]     & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
-    \sclass $B$[$A_{0}$ \ssupertype ($A_{1}$)]   & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
-    \shas $f$                                    & function or constant $f$ is to be defined                       \\
-    \sthis                                       & reference to itself as an instance                              \\
-    \hline
-    \sfalse                                      & Boolean constant False                                          \\
-    \strue                                       & Boolean constant True                                           \\
-    \snot $e$                                    & expression for $\lnot e$                                        \\
-    $e_{0}$ \sand $e_{1}$                        & lazy logic conjunction, $e_{0} \land _{L} e_{1}$                \\
-    $e_{1}$ \sor $e_{1}$                         & lazy logic disjunction, $e_{0} \lor _{L} e_{1}$                 \\
-    \hline
-    \spackage $p$                                & package declaration for this piece of code                      \\
-    \simport $p$                                 & import declaration in this piece of code                        \\
-    \hline
-    \sequalsSign                                 & comparison of equality                                          \\
-    $x$ \srccode{+} $y$                          & result of adding $x$ and $y$                                    \\
-    $x$ \srccode{-} $y$                          & result of subtracting $y$ from $x$                              \\
-    $x$ \srccode{*} $y$                          & result of multiplying $x$ by $y$                                \\
-    $x$ \srccode{/} $y$                          & result of dividing $x$ by $y$                                   \\
-    $x$ \srccode{\%} $y$                         & remainder from dividing $x$ by $y$                              \\
-    \hline
-    \snew                                        & creation of an instance of a JVM class (for Scala 2)            \\
-    \stailrec                                    & annotation to enforce a tail recursion                          \\
-    \soverride                                   & annotation to allow overriding                                  \\
-    \smain                                       & annotation to define the entry point                            \\
-    \hline
-    $f$ \sis $e$                                 & synonym for $f$ \sdef $e$                                       \\
-    \sasterisk $A$                               & synonym for \sclass $A$                                         \\
-    \sasterisk $A(\ldots)$                       & synonym for \sclass $A(\ldots)$                                 \\
-    \splus $p$                                   & synonym for \simport $p$                                        \\
-    $A$ \slessthancolon $B$                      & synonym for $A$ \ssubtype $B$                                   \\
-    $A$ \sgreaterthancolon $B$                   & synonym for $A$ \ssupertype $B$                                 \\
-    \hline
-\end{tabular}
+\begin{table}[t]
+    \caption{Basic constructs}
+    \label{tab:basic_constructs}
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            $f$ \sdef $e$                                & function or constant definition of $f$ as $e$                   \\
+            $x$ \scolon $A$                              & declaration that $x$ is of type $A$                             \\
+            $x$ \slambda $e$                             & lambda definition for $\lambda x . e$                           \\
+            $t$ \sdefparam $e$                           & assignment of parameter $t$ to have value $e$                   \\
+            \hline
+            \sif $b$ \sthen $e_{0}$ \selse $e_{1}$       & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
+            \hline
+            \slet $e_{0} \ldots e_{n}$ \sdin $e$         & expression with bindings $e_{0}, \ldots, e_{n}$ in $e$          \\
+            \hline
+            \sclass $A$                                  & definition of abstract class $A$                                \\
+            \sclass $A(\ldots)$                          & definition of concrete class $A(\ldots )$                       \\
+            \sclass $B$ \sextends $A$                    & class $B$ extends class $A$                                     \\
+            \sclass $B$ \sextends $A_{0}$ \swith $A_{1}$ & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
+            \sclass $B$[$A_{0}$ \ssubtype ($A_{1}$)]     & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
+            \sclass $B$[$A_{0}$ \ssupertype ($A_{1}$)]   & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
+            \shas $f$                                    & function or constant $f$ is to be defined                       \\
+            \sthis                                       & reference to itself as an instance                              \\
+            \hline
+            \spackage $p$                                & package declaration for this piece of code                      \\
+            \simport $p$                                 & import declaration in this piece of code                        \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\begin{table}[t]
+    \caption{Built-in functions}
+    \label{tab:built_in_functions}
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            \sfalse               & Boolean constant False                           \\
+            \strue                & Boolean constant True                            \\
+            \snot $e$             & expression for $\lnot e$                         \\
+            $e_{0}$ \sand $e_{1}$ & lazy logic conjunction, $e_{0} \land _{L} e_{1}$ \\
+            $e_{1}$ \sor $e_{1}$  & lazy logic disjunction, $e_{0} \lor _{L} e_{1}$  \\
+            \hline
+            \sequalsSign          & comparison of equality                           \\
+            $x$ \srccode{+} $y$   & result of adding $x$ and $y$                     \\
+            $x$ \srccode{-} $y$   & result of subtracting $y$ from $x$               \\
+            $x$ \srccode{*} $y$   & result of multiplying $x$ by $y$                 \\
+            $x$ \srccode{/} $y$   & result of dividing $x$ by $y$                    \\
+            $x$ \srccode{\%} $y$  & remainder from dividing $x$ by $y$               \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\begin{table}[t]
+    \caption{Annotations for the compiler}
+    \label{tab:annotations_for_the_compiler}
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            \snew      & creation of an instance of a JVM class (for Scala 2) \\
+            \stailrec  & annotation to enforce a tail recursion               \\
+            \soverride & annotation to allow overriding                       \\
+            \smain     & annotation to define the entry point                 \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\begin{table}[t]
+    \caption{Synonyms}
+    \label{tab:synonyms}
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            $f$ \sis $e$               & synonym for $f$ \sdef $e$       \\
+            \sasterisk $A$             & synonym for \sclass $A$         \\
+            \sasterisk $A(\ldots)$     & synonym for \sclass $A(\ldots)$ \\
+            \splus $p$                 & synonym for \simport $p$        \\
+            $A$ \slessthancolon $B$    & synonym for $A$ \ssubtype $B$   \\
+            $A$ \sgreaterthancolon $B$ & synonym for $A$ \ssupertype $B$ \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
 
