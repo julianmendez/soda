@@ -12,8 +12,5 @@ package soda.lib
   has ordinal: Int
 
   has name: String
-
-  @override
-  toString: String = "" + ordinal + "-" + name
 }
 
