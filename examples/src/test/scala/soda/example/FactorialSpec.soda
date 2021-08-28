@@ -24,6 +24,14 @@ package soda.translator.example
       .map(n -> (n, FactorialVerbose_().get_factorial(n)))
     assert(obtained == expected)
   }
+
+  test("should test the factorial - with fold") {
+    expected = factorial_values
+    obtained = factorial_values
+      .map(pair -> pair._1)
+      .map(n -> (n, FactorialWithFold_().get_factorial(n)))
+    assert(obtained == expected)
+  }
 }
 
 * FactorialSpec_() extends FactorialSpec
