@@ -9,7 +9,7 @@ package soda.translator.example
 * FactorialConcise
   extends AbstractFactorialConcise = {
 
-  get_factorial (n: Int) =
+  get_factorial (n: Int): Int =
     let
       result = rec (n, 1)
 

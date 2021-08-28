@@ -8,7 +8,7 @@ trait AbstractFactorialConcise {
 
 trait FactorialConcise  extends AbstractFactorialConcise {
 
-  def get_factorial (n: Int ) =
+  def get_factorial (n: Int ): Int =
     {
       lazy val result = rec (n, 1 )
 
