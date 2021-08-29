@@ -63,7 +63,9 @@ Because of this type of asymmetries, we say that \Soda is a language that is eas
 
 Since \Soda is intended to maximize transparency, there is no reserved word to declare private methods.
 In object-oriented programming languages, classes and their attributes and methods are declared private to prevent using them outside the intended place.
-In \Soda, a protected class, attribute, or method name can be identified by using an underscore as prefix.
+In \Soda, a protected class, a constant, or a function name can be identified by using an underscore as prefix.
+Sometimes, many auxiliary functions could be in fact part of an entity by themselves.
+In that case, it is better to collect those functions in a separate class instead of having them protected in the original class.
 
 
 \section{A Descriptive Language}
@@ -571,7 +573,6 @@ They are final and immutable, simplifying to the human reader the process of und
 As in an example of sorting a sequence, \Soda can be used to explain a process in a natural way, although not necessarily in an efficient way.
 
 
-
 \section{Semantics}
 
 \newcommand{\I}[1]{\ensuremath{{#1}^{\mathcal{I}}}}
@@ -817,9 +818,6 @@ This encoding can be used to measure \textbf{similarity} between two classes, by
 This concept of similarity is completely structural and does not depend on the intended meaning modelling the classes.
 
 Similarity can be used to group similar concepts, either to detect coupling or lack of cohesion.
-
-
-
 
 
 \section{Type Theory}
