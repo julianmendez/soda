@@ -6,7 +6,7 @@ package soda.translator.example
 
   get_factorial(n: Int): Int =
     Recursion_().fold(
-      Recursion_().range(n), 1, (product, k) -> product * (k + 1) )
+      Recursion_().range(n), 1, (product: Int, k: Int) -> product * (k + 1) )
 }
 
 * FactorialWithFold_() extends FactorialWithFold
