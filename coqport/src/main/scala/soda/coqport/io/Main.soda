@@ -1,0 +1,56 @@
+package soda.coqport.io
+
+
+@main
+/**
+ * This is the main entry point.
+ */
+* MainClass = {
+  + java.io.File
+  + soda.translator.io.DirectoryProcessor_
+  + soda.translator.io.SimpleFileReader_
+  + soda.translator.io.SimpleFileWriter_
+  + soda.coqport.language.MicroTranslator_
+
+  soda_extension: String = ".soda"
+
+  coq_extension: String = ".v"
+
+  tr = soda.translator.io.Main()
+
+  help: String =
+    SimpleFileReader_().read_resource("/soda/coqport/documentation/help.txt")
+
+  main(arguments: Array[String]): Unit =
+    if arguments.length == 1 then tr.process_directory(arguments(0))
+    else if arguments.length == 2 then translate(arguments(0), arguments(1))
+    else println(tr.title_and_version + "\n\n" + help)
+
+  process_directory(start: String): Boolean =
+    DirectoryProcessor_(start, process_soda_file).process()
+
+  process_soda_file(file: File): Boolean =
+    let
+      file_name = file.getAbsolutePath
+      t = tr.get_input_output_file_names(file_name)
+    in translate(t.input_file_name, t.output_file_name)
+
+  translate(input_file_name: String, output_file_name: String): Boolean =
+    let
+      input = SimpleFileReader_().read_file(input_file_name)
+      output = MicroTranslator_().translate_program(input)
+    in SimpleFileWriter_().write_file(output_file_name, content := output)
+}
+
+* Main() extends MainClass
+
+* FileNamePair = {
+
+  has input_file_name: String
+
+  has output_file_name: String
+}
+
+* FileNamePair_(input_file_name: String, output_file_name: String) extends FileNamePair
+
+

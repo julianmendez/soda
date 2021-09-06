@@ -1,0 +1,20 @@
+package soda.coqport.language
+
+
+/**
+ * This class translates Soda source code into Scala source code.
+ */
+* MicroTranslator = {
+  + soda.lib.SomeSD_
+
+  tc = TranslationConstant_()
+
+  new_line = "\n"
+
+  translate_program(program: String): String =
+    SomeSD_(program)
+      .value
+}
+
+* MicroTranslator_() extends MicroTranslator
+
