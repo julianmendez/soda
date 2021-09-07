@@ -1,12 +1,16 @@
 Usage:
-  sodatocoq SODA_SCALA_INPUT
+  sodatocoq SODA_COQ_INPUT
 or
-  sodatocoq SODA_INPUT SCALA_OUTPUT
+  sodatocoq SODA_INPUT COQ_OUTPUT
 
 where
 
-  SODA_SCALA_INPUT is used for the Soda input file and Coq output file.
+  SODA_COQ_INPUT is used for the Soda input file and Coq output file.
 If it is a directory, it scans recursively the directory to translate Soda files.
 If the extension is .soda, the output file has extension .v .
 
+
+  SODA_INPUT is the input file containing Soda snippets
+
+  COQ_OUTPUT is the output file for Coq snippets
 

@@ -2,7 +2,7 @@ package soda.coqport.language
 
 
 /**
- * This class translates Soda source code into Scala source code.
+ * This class translates Soda snippets into Coq snippets.
  */
 trait MicroTranslator {
   import soda.lib.SomeSD_

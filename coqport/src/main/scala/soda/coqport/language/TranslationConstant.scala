@@ -24,7 +24,7 @@ trait TranslationConstant {
 
   lazy val soda_class_reserved_word: String = "class"
 
-  lazy val scala_definition: String = "def"
+  lazy val coq_definition: String = "Definition"
 
   lazy val scala_value: String = "lazy val"
 
@@ -59,7 +59,7 @@ trait TranslationConstant {
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("<:", "subtype"), (">:", "supertype")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
+  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "/\\"), ("or", "\\/"),
     /** Annotations */
     ("@new", "new")  )
 

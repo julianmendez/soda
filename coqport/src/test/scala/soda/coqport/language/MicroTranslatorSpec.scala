@@ -1,7 +1,7 @@
 package soda.coqport.language
 
 
-trait MicroTranslatorSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Coq translation") {
     lazy val original = "x = 0"
@@ -13,5 +13,3 @@ trait MicroTranslatorSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class MicroTranslatorSpec_ () extends MicroTranslatorSpec

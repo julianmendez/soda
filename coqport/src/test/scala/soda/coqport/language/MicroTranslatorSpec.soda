@@ -1,7 +1,7 @@
 package soda.coqport.language
 
 
-* MicroTranslatorSpec
+* MicroTranslatorSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("Coq translation") {
@@ -15,5 +15,4 @@ package soda.coqport.language
   }
 }
 
-* MicroTranslatorSpec_() extends MicroTranslatorSpec
 

@@ -24,7 +24,7 @@ package soda.coqport.language
 
   soda_class_reserved_word: String = "class"
 
-  scala_definition: String = "def"
+  coq_definition: String = "Definition"
 
   scala_value: String = "lazy val"
 
@@ -202,8 +202,8 @@ package soda.coqport.language
     ("false", "false"),
     ("true", "true"),
     ("not", "!"),
-    ("and", "&&"),
-    ("or", "||"),
+    ("and", "/\\"),
+    ("or", "\\/"),
 
     /** Annotations */
     ("@new", "new")
