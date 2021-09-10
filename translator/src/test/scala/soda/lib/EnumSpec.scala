@@ -25,7 +25,7 @@ trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
-trait EnumSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class EnumSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("the names of the elements in enumerations") {
     lazy val expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
@@ -34,5 +34,3 @@ trait EnumSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class EnumSpec_ () extends EnumSpec

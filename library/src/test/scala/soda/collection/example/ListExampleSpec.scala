@@ -1,7 +1,7 @@
 package soda.collection.example
 
 
-trait ListExampleSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class ListExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should test a") {
     lazy val expected = Pair_ ("a", List ('A', 'B', 'C', 'D', 'E', 'F')  )
@@ -157,5 +157,3 @@ trait ListExampleSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class ListExampleSpec_ () extends ListExampleSpec

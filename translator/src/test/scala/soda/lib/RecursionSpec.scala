@@ -1,7 +1,7 @@
 package soda.lib
 
 
-trait RecursionSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class RecursionSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
 
@@ -45,5 +45,3 @@ trait RecursionSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class RecursionSpec_ () extends RecursionSpec

@@ -41,7 +41,7 @@ case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmpt
  * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
-trait LazySyntaxSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class LazySyntaxSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should show what happens when constants are defined in the wrong order") {
     lazy val obtained = ExampleWithWrongOrder_ () .this_is_null_but
@@ -71,5 +71,3 @@ trait LazySyntaxSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class LazySyntaxSpec_ () extends LazySyntaxSpec

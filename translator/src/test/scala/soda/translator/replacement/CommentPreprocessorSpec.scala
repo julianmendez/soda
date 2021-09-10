@@ -1,7 +1,7 @@
 package soda.translator.replacement
 
 
-trait CommentPreprocessorSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class CommentPreprocessorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import java.io.File
 
   /* This is to test how to find commented text. */
@@ -21,5 +21,3 @@ trait CommentPreprocessorSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class CommentPreprocessorSpec_ () extends CommentPreprocessorSpec

@@ -15,7 +15,7 @@ trait SaladIngredientConstant {
   lazy val SaladIngredient_values = Seq (tomato, lettuce, sunflower_seeds, olive_oil )
 }
 
-trait SaladMakerSpec  extends org.scalatest.funsuite.AnyFunSuite  with SaladIngredientConstant {
+case class SaladMakerSpec ()  extends org.scalatest.funsuite.AnyFunSuite  with SaladIngredientConstant {
 
   def add_next_ingredient (salad_so_far: Seq [SaladIngredient], ingredient: SaladIngredient ): Seq [SaladIngredient] =
     salad_so_far.+: (ingredient )
@@ -32,5 +32,3 @@ trait SaladMakerSpec  extends org.scalatest.funsuite.AnyFunSuite  with SaladIngr
     assert (obtained == expected )
   }
 }
-
-case class SaladMakerSpec_ () extends SaladMakerSpec

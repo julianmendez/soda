@@ -1,7 +1,7 @@
 package soda.translator.example
 
 
-trait SortExampleSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.SomeSD_
 
   test ("test sorted sequence with at") {
@@ -85,5 +85,3 @@ trait SortExampleSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class SortExampleSpec_ () extends SortExampleSpec

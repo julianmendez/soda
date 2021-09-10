@@ -25,7 +25,7 @@ package soda.lib
 
 * DayOfTheWeekEnum_() extends DayOfTheWeekEnum
 
-* EnumSpec
+* EnumSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("the names of the elements in enumerations") {
@@ -35,6 +35,4 @@ package soda.lib
     assert(obtained == expected)
   }
 }
-
-* EnumSpec_() extends EnumSpec
 

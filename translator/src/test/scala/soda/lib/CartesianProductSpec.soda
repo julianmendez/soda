@@ -1,7 +1,7 @@
 package soda.lib
 
 
-* CartesianProductSpec
+* CartesianProductSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("Cartesian product of two sequences") {
@@ -54,6 +54,4 @@ package soda.lib
     assert(obtained == expected)
   }
 }
-
-* CartesianProductSpec_() extends CartesianProductSpec
 

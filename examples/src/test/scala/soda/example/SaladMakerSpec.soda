@@ -15,7 +15,7 @@ package soda.translator.example
   SaladIngredient_values = Seq(tomato, lettuce, sunflower_seeds, olive_oil)
 }
 
-* SaladMakerSpec
+* SaladMakerSpec()
   extends org.scalatest.funsuite.AnyFunSuite
   with SaladIngredientConstant = {
 
@@ -39,6 +39,4 @@ package soda.translator.example
     assert(obtained == expected)
   }
 }
-
-* SaladMakerSpec_() extends SaladMakerSpec
 

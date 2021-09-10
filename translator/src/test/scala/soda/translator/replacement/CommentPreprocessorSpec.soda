@@ -1,7 +1,7 @@
 package soda.translator.replacement
 
 
-* CommentPreprocessorSpec
+* CommentPreprocessorSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
   + java.io.File
 
@@ -30,6 +30,4 @@ package soda.translator.replacement
     assert(obtained == expected)
   }
 }
-
-* CommentPreprocessorSpec_() extends CommentPreprocessorSpec
 

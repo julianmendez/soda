@@ -1,7 +1,7 @@
 package soda.collection
 
 
-trait MinSpec  extends org.scalatest.funsuite.AnyFunSuite {
+case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.OptionSD
   import soda.lib.NoneSD_
   import soda.lib.SomeSD_
@@ -533,5 +533,3 @@ trait MinSpec  extends org.scalatest.funsuite.AnyFunSuite {
     assert (obtained == expected )
   }
 }
-
-case class MinSpec_ () extends MinSpec

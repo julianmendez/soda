@@ -1,7 +1,7 @@
 package soda.translator.io
 
 
-* MainSpec
+* MainSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
   + java.io.File
 
@@ -21,6 +21,4 @@ package soda.translator.io
     assert(obtained == expected)
   }
 }
-
-* MainSpec_() extends MainSpec
 
