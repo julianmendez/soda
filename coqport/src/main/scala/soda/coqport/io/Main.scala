@@ -25,7 +25,7 @@ trait MainClass {
     SimpleFileReader_ () .read_resource ("/soda/coqport/documentation/help.txt")
 
   def main (arguments: Array [String]  ): Unit =
-    if (arguments.length == 1 ) tr.process_directory (arguments (0 )  )
+    if (arguments.length == 1 ) process_directory (arguments (0 )  )
     else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
     else println (tr.title_and_version + "\n\n" + help )
 
@@ -35,8 +35,13 @@ trait MainClass {
   def process_soda_file (file: File ): Boolean =
     {
       lazy val file_name = file.getAbsolutePath
-      lazy val t = tr.get_input_output_file_names (file_name )
+      lazy val t = get_input_output_file_names (file_name )
       translate (t.input_file_name, t.output_file_name ) }
+
+  def get_input_output_file_names (input_name: String ): FileNamePair =
+    if (input_name.endsWith (soda_extension )
+    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + coq_extension )
+    else FileNamePair_ (input_name + soda_extension, input_name + coq_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
