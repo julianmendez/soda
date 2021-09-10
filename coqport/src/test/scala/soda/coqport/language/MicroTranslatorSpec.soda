@@ -6,7 +6,7 @@ package soda.coqport.language
 
   test("Coq translation") {
     original = "x = 0"
-    expected = "x = 0"
+    expected = "x = 0\n"
     /* FIXME */
 
     obtained = MicroTranslator_().translate_program(original)
