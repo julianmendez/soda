@@ -8,23 +8,21 @@ package localhost.sandbox.scala
 
 * PatternMatching = {
 
-  get_value(p: Parameter): Int = {
+  get_value(p: Parameter): Int =
     p match {
       | Singleton(x) -> x
       | Pair(x, y) -> (x + y) / 2
       | Triplet(x, y, z) -> (x + y + z) / 3
       | otherwise -> 0
     }
-  }
 
-  get_type_name(p: Parameter): String = {
+  get_type_name(p: Parameter): String =
     p match {
       | x: Singleton -> x.name + "(x)"
       | x: Pair -> x.name + "(x, y)"
       | x: Triplet -> x.name + "(x, y, z)"
       | otherwise -> ""
     }
-  }
 }
 
 * PatternMatching_()
