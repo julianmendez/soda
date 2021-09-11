@@ -130,6 +130,8 @@
         <context id="declaration" style-ref="keyword">
             <keyword>let</keyword>
             <keyword>in</keyword>
+            <keyword>match</keyword>
+            <keyword>case</keyword>
             <keyword>class</keyword>
             <keyword>has</keyword>
             <keyword>extends</keyword>
@@ -147,6 +149,7 @@
 
         <context id="synonym" style-ref="keyword">
             <keyword>is</keyword>
+            <keyword>lambda</keyword>
         </context>
 
         <context id="special" style-ref="special">

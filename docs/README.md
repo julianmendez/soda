@@ -19,6 +19,8 @@ The reserved words are:
 - `else`
 - `let`
 - `in`
+- `match`
+- `case`
 - `class`
 - `has`
 - `extends`
@@ -40,9 +42,11 @@ The reserved words are:
 The synonyms at the beginning of a line are:
 - `*` for `class`
 - `+` for `import`
+- `|` for `case`
 
 The synonyms in any part of a line are:
 - `is` for `=`
+- `lambda` is optional to explicitly denote lambda expressions
 
 Technical synonyms:
 - `<:` for `subtype`

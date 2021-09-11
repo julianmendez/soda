@@ -3,6 +3,8 @@
 - date: unreleased
 - new_features:
   - has an improved documentation
+  - includes `match` and `case` for pattern matching, and synonym `|` at the beginning of the line for `case`
+  - includes an optional `lambda` reserved word to make lambda expressions more explicit
   - includes type aliases for code translated to Scala 3
   - allows defining the body of a class without braces when the code is translated to Scala 3
   - adopts a naming standard for concrete classes to end in underscore

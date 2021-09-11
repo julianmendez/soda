@@ -6,26 +6,29 @@
     \begin{center}
         \begin{tabular}{|l|l|}
             \hline
-            $f$ \sdef $e$                                & function or constant definition of $f$ as $e$                   \\
-            $x$ \scolon $A$                              & declaration that $x$ is of type $A$                             \\
-            $x$ \slambda $e$                             & lambda definition for $\lambda x . e$                           \\
-            $t$ \sdefparam $e$                           & assignment of parameter $t$ to have value $e$                   \\
+            $f$ \sdef $e$                                    & function or constant definition of $f$ as $e$                   \\
+            $x$ \scolon $A$                                  & declaration that $x$ is of type $A$                             \\
+            $x$ \sarrow $e$                                  & lambda definition for $\lambda x . e$                           \\
+            (\slambda $x$) \sarrow $e$                       & lambda definition for $\lambda x . e$, with `lambda' word       \\
+            $t$ \sdefparam $e$                               & assignment of parameter $t$ to have value $e$                   \\
             \hline
-            \sif $b$ \sthen $e_{0}$ \selse $e_{1}$       & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
+            \sif $b$ \sthen $e_{0}$ \selse $e_{1}$           & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
             \hline
-            \slet $e_{0} \ldots e_{n}$ \sdin $e$         & expression with bindings $e_{0}, \ldots, e_{n}$ in $e$          \\
+            \slet $e_{1} \ldots e_{n}$ \sdin $e$             & expression with bindings $e_{1}, \ldots, e_{n}$ in $e$          \\
             \hline
-            \sclass $A$                                  & definition of abstract class $A$                                \\
-            \sclass $A(\ldots)$                          & definition of concrete class $A(\ldots )$                       \\
-            \sclass $B$ \sextends $A$                    & class $B$ extends class $A$                                     \\
-            \sclass $B$ \sextends $A_{0}$ \swith $A_{1}$ & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
-            \sclass $B$[$A_{0}$ \ssubtype ($A_{1}$)]     & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
-            \sclass $B$[$A_{0}$ \ssupertype ($A_{1}$)]   & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
-            \shas $f$                                    & function or constant $f$ is to be defined                       \\
-            \sthis                                       & reference to itself as an instance                              \\
+            $x$ \smatch \{ \scase $p_{i}$ \sarrow $e_{i}$ \} & pattern matching from $p_{i}$ to $e_{i}$ for $1 \leq i \leq n$  \\
             \hline
-            \spackage $p$                                & package declaration for this piece of code                      \\
-            \simport $p$                                 & import declaration in this piece of code                        \\
+            \sclass $A$                                      & definition of abstract class $A$                                \\
+            \sclass $A(\ldots)$                              & definition of concrete class $A(\ldots )$                       \\
+            \sclass $B$ \sextends $A$                        & class $B$ extends class $A$                                     \\
+            \sclass $B$ \sextends $A_{0}$ \swith $A_{1}$     & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
+            \sclass $B$[$A_{0}$ \ssubtype ($A_{1}$)]         & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
+            \sclass $B$[$A_{0}$ \ssupertype ($A_{1}$)]       & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
+            \shas $f$                                        & function or constant $f$ is to be defined                       \\
+            \sthis                                           & reference to itself as an instance                              \\
+            \hline
+            \spackage $p$                                    & package declaration for this piece of code                      \\
+            \simport $p$                                     & import declaration in this piece of code                        \\
             \hline
         \end{tabular}
     \end{center}
@@ -79,6 +82,7 @@
             \sasterisk $A$             & synonym for \sclass $A$         \\
             \sasterisk $A(\ldots)$     & synonym for \sclass $A(\ldots)$ \\
             \splus $p$                 & synonym for \simport $p$        \\
+            \sbar $p$                  & synonym for \scase $p$          \\
             $A$ \slessthancolon $B$    & synonym for $A$ \ssubtype $B$   \\
             $A$ \sgreaterthancolon $B$ & synonym for $A$ \ssupertype $B$ \\
             \hline

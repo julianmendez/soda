@@ -40,6 +40,8 @@ package soda.translator.language
     "else",
     "let",
     "in",
+    "match",
+    "case",
     "class",
     "has",
     "extends",
@@ -55,12 +57,14 @@ package soda.translator.language
     "package",
     "import",
     "is",
+    "lambda",
     "<:",
     ">:",
     "+",
     "-",
     "*",
-    "/"
+    "/",
+    "|"
   )
 
   /**
@@ -155,7 +159,8 @@ package soda.translator.language
 
   synonym_at_beginning: Seq[(String, String)] = Seq(
     ("*", "class"),
-    ("+", "import")
+    ("+", "import"),
+    ("|", "case")
   )
 
   translation_at_beginning_with_paren: Seq[(String, String)] = Seq(
@@ -181,6 +186,7 @@ package soda.translator.language
 
   synonym: Seq[(String, String)] = Seq(
     ("is", "="),
+    ("lambda", ""),
     ("<:", "subtype"),
     (">:", "supertype")
   )
@@ -194,6 +200,8 @@ package soda.translator.language
     ("else", "else"),
     ("let", "{"),
     ("in", " "),
+    ("match", "match"),
+    ("case", "case"),
     ("extends", "extends"),
     ("with", "with"),
     ("this", "this"),
