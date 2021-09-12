@@ -114,7 +114,7 @@ The following tools can be configured to have syntax highlighting:
 The project can be build with [sbt](https://www.scala-sbt.org/).
 
 The command is:
-`sbt "++ 3.0.0" clean compile test package assembly`
+`sbt "++ 3.0.2" clean compile test package assembly`
 
 It is also possible to compile it for different Scala versions:
 `sbt "++ 2.13.6" clean compile test package assembly`
