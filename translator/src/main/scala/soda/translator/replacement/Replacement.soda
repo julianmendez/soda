@@ -6,19 +6,49 @@ package soda.translator.replacement
  * This is intended to be used as a pipeline.
  */
 * Replacement = {
-  + soda.lib.Rec
 
   has line: String
 
-  soda_space: String = " "
+  aux = ReplacementAux_()
 
-  scala_space: String = " "
+  soda_space = aux.soda_space
 
   replace_with(function: String -> String): Replacement =
     Replacement_(function(line))
 
   replace_at_beginning(index: Int, translator: Translator): Replacement =
-    Replacement_(replace_at_beginning(line, index, translator))
+    Replacement_(aux.replace_at_beginning(line, index, translator))
+
+  replace_all(pattern: String, replacement: String): Replacement =
+    Replacement_(aux.replace_all(line, pattern, replacement))
+
+  replace(translator: Translator): Replacement =
+    Replacement_(aux.replace(line, translator))
+
+  add_space_to_soda_line(): Replacement =
+    Replacement_(soda_space + line + soda_space)
+
+  add_spaces_to_symbols(symbols: Set[Char]): Replacement =
+    Replacement_(aux.add_spaces_to_symbols(line, symbols))
+
+  remove_space_from_scala_line(): Replacement =
+    Replacement_(aux.remove_space_from_scala_line(line))
+
+  add_after_spaces(text_to_prepend: String): Replacement =
+    Replacement_(aux.add_after_spaces(line, text_to_prepend))
+
+  replace_regex(translator: Translator): Replacement =
+    Replacement_(aux.replace_regex(line, translator))
+}
+
+* Replacement_(line: String) extends Replacement
+
+* ReplacementAux = {
+  + soda.lib.Recursion_
+
+  soda_space = " "
+
+  scala_space = " "
 
   replace_at_beginning(line: String, index: Int, translator: Translator): String =
     if index == 0
@@ -30,21 +60,15 @@ package soda.translator.replacement
       initial_value: String = line
 
       next_value_function(line: String, reserved_word: String): String =
-        _replace_if_found(line,
+        replace_if_found_at_beginning(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().fold(translator.keys, initial_value, next_value_function)
+    in Recursion_().fold(translator.keys, initial_value, next_value_function)
 
-  _replace_if_found(line: String, pattern: String, new_text: String): String =
+  replace_if_found_at_beginning(line: String, pattern: String, new_text: String): String =
     if line.trim.startsWith(pattern.trim)
     then replace_all(line, pattern, new_text)
     else line
-
-  replace_all(pattern: String, replacement: String): Replacement =
-    Replacement_(replace_all(line, pattern, replacement))
-
-  replace(translator: Translator): Replacement =
-    Replacement_(replace(line, translator))
 
   replace(line: String, translator: Translator): String =
     let
@@ -54,7 +78,7 @@ package soda.translator.replacement
         replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
 
-    in Rec().fold(translator.keys, initial_value, next_value_function)
+    in Recursion_().fold(translator.keys, initial_value, next_value_function)
 
   replace_if_found(line: String, pattern: String, new_text: String): String =
     if line.contains(pattern)
@@ -63,12 +87,6 @@ package soda.translator.replacement
 
   replace_all(line: String, pattern: String, replacement: String): String =
     Replacer_(line, pattern, replacement).replaced_text
-
-  add_space_to_soda_line(): Replacement =
-    Replacement_(soda_space + line + soda_space)
-
-  add_spaces_to_symbols(symbols: Set[Char]): Replacement =
-    Replacement_(add_spaces_to_symbols(line, symbols))
 
   add_spaces_to_symbols(line: String, symbols: Set[Char]): String =
     line.indices.map(index ->
@@ -88,9 +106,6 @@ package soda.translator.replacement
       in left_part + ch + right_part
     ).mkString("")
 
-  remove_space_from_scala_line(): Replacement =
-    Replacement_(remove_space_from_scala_line(line))
-
   remove_space_from_scala_line(line: String): String =
     let
       line_without_starting_space =
@@ -103,29 +118,23 @@ package soda.translator.replacement
         else line_without_starting_space
     in line_without_ending_space
 
-  add_after_spaces(text_to_prepend: String): Replacement =
-    Replacement_(add_after_spaces(line, text_to_prepend))
-
   add_after_spaces(line: String, text_to_prepend: String): String =
     let
       prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
     in line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
-
-  replace_regex(translator: Translator): Replacement =
-    Replacement_(replace_regex(line, translator))
 
   replace_regex(line: String, translator: Translator): String =
     let
       initial_value: String = line
       next_value_function(line: String, regex: String): String =
         line.replaceAll(regex, translator.translate(regex))
-    in Rec().fold(translator.keys, initial_value, next_value_function)
+    in Recursion_().fold(translator.keys, initial_value, next_value_function)
 }
 
-* Replacement_(line: String) extends Replacement
+* ReplacementAux_() extends ReplacementAux
 
 * Replacer = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   has line: String
 
@@ -134,9 +143,9 @@ package soda.translator.replacement
   has replacement: String
 
   replaced_text =
-    postprocess( Rec().fold( Rec().range(line.length), initial_value, next_value_function, should_continue ) )
+    postprocess( Recursion_().fold( Recursion_().range(line.length), initial_value, next_value_function, should_continue ) )
 
-  initial_value = ReplacerFoldTuple( Seq(), 0 )
+  initial_value = ReplacerFoldTuple_( Seq(), 0 )
 
   next_value_function(tuple: ReplacerFoldTuple, x: Int): ReplacerFoldTuple =
     _get_next_tuple(
@@ -147,12 +156,12 @@ package soda.translator.replacement
 
   _get_next_tuple(replaced_text_rev: Seq[String], start_index: Int, pos: Int): ReplacerFoldTuple =
     if pos == -1
-    then ReplacerFoldTuple( replaced_text_rev.+:(line.substring(start_index)), pos )
+    then ReplacerFoldTuple_( replaced_text_rev.+:(line.substring(start_index)), pos )
     else
       let
         new_replaced_text_rev = (replaced_text_rev.+:(line.substring(start_index, pos))).+:(replacement)
         new_index = pos + pattern.length
-      in ReplacerFoldTuple( new_replaced_text_rev, new_index )
+      in ReplacerFoldTuple_( new_replaced_text_rev, new_index )
 
   should_continue(tuple: ReplacerFoldTuple, x: Int): Boolean =
     not (tuple.start_index == -1)
@@ -163,5 +172,12 @@ package soda.translator.replacement
 
 * Replacer_(line: String, pattern: String, replacement: String) extends Replacer
 
-* ReplacerFoldTuple(replaced_text_rev: Seq[String], start_index: Int)
+* ReplacerFoldTuple = {
+
+  has replaced_text_rev: Seq[String]
+
+  has start_index: Int
+}
+
+* ReplacerFoldTuple_(replaced_text_rev: Seq[String], start_index: Int) extends ReplacerFoldTuple
 

@@ -10,6 +10,12 @@ package soda.translator.language
 
   soda_colon: String = ":"
 
+  soda_opening_parenthesis: String = "("
+
+  soda_opening_brace: String = "{"
+
+  scala_3_class_definition: String = ":"
+
   soda_in_reserved_word: String = "in"
 
   soda_in_pattern: String = soda_in_reserved_word + " "
@@ -34,6 +40,8 @@ package soda.translator.language
     "else",
     "let",
     "in",
+    "match",
+    "case",
     "class",
     "has",
     "extends",
@@ -49,9 +57,14 @@ package soda.translator.language
     "package",
     "import",
     "is",
-    "*",
+    "lambda",
+    "<:",
+    ">:",
+    "+",
     "-",
-    "+"
+    "*",
+    "/",
+    "|"
   )
 
   /**
@@ -146,12 +159,17 @@ package soda.translator.language
 
   synonym_at_beginning: Seq[(String, String)] = Seq(
     ("*", "class"),
-    ("+", "import")
+    ("+", "import"),
+    ("|", "case")
   )
 
   translation_at_beginning_with_paren: Seq[(String, String)] = Seq(
     ("class", "case class"),
     ("has", "def")
+  )
+
+  translation_at_beginning_without_paren_for_type_alias: Seq[(String, String)] = Seq(
+    ("class", "type")
   )
 
   translation_at_beginning_without_paren: Seq[(String, String)] = Seq(
@@ -167,7 +185,10 @@ package soda.translator.language
   )
 
   synonym: Seq[(String, String)] = Seq(
-    ("is", "=")
+    ("is", "="),
+    ("lambda", ""),
+    ("<:", "subtype"),
+    (">:", "supertype")
   )
 
   main_translation: Seq[(String, String)] = Seq(
@@ -179,6 +200,8 @@ package soda.translator.language
     ("else", "else"),
     ("let", "{"),
     ("in", " "),
+    ("match", "match"),
+    ("case", "case"),
     ("extends", "extends"),
     ("with", "with"),
     ("this", "this"),
@@ -235,5 +258,5 @@ package soda.translator.language
     soda_reserved_words.contains(word)
 }
 
-* Translation() extends TranslationConstant
+* TranslationConstant_() extends TranslationConstant
 

@@ -1,7 +1,7 @@
 package soda.translator.language
 
 
-case class FullTranslationSpec () extends org.scalatest.funsuite.AnyFunSuite {
+case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import org.scalatest.Assertion
   import java.nio.file.{ Files, Paths }
 

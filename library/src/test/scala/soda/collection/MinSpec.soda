@@ -1,11 +1,12 @@
 package soda.collection
 
 
-* MinSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* MinSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
   + soda.lib.OptionSD
-  + soda.lib.NoElem
-  + soda.lib.SomeElem
-  + soda.lib.Rec
+  + soda.lib.NoneSD_
+  + soda.lib.SomeSD_
+  + soda.lib.Recursion_
 
   empty: ESeq[Int] = ESeq_[Int]()
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
@@ -13,7 +14,7 @@ package soda.collection
 
   prepend_elem(list: MSeq[Int], elem: Int) = Min_().prepended(list, elem)
   example: NESeq[Int] =
-    Rec().fold(revExampleSeq.tail,
+    Recursion_().fold(revExampleSeq.tail,
       NESeq_[Int](revExampleSeq.head, ESeq_[Int]()), prepend_elem )
 
   test("prepended") {
@@ -82,7 +83,7 @@ package soda.collection
   }
 
   test("at") {
-    expected = SomeElem(3)
+    expected = SomeSD_(3)
     obtained = Min_().at(example, 4)
 
     assert(obtained == expected)
@@ -214,7 +215,7 @@ package soda.collection
   }
 
   test("splitAt") {
-    expected = MSeqPair(MSeqTranslator_().asMSeq(Seq(0, 1, 1)), MSeqTranslator_().asMSeq(Seq(2, 3, 5, 8)))
+    expected = MSeqPair_(MSeqTranslator_().asMSeq(Seq(0, 1, 1)), MSeqTranslator_().asMSeq(Seq(2, 3, 5, 8)))
     obtained = Min_().splitAt(example, 3)
 
     assert(obtained == expected)
@@ -228,7 +229,7 @@ package soda.collection
   }
 
   test("span") {
-    expected = MSeqPair(MSeqTranslator_().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator_().asMSeq(Seq(5, 8)))
+    expected = MSeqPair_(MSeqTranslator_().asMSeq(Seq(0, 1, 1, 2, 3)), MSeqTranslator_().asMSeq(Seq(5, 8)))
     obtained = Min_().span(example, (x: Int) -> not (x == 5))
 
     assert(obtained == expected)
@@ -465,7 +466,7 @@ package soda.collection
   }
 
   test("find 0") {
-    expected = SomeElem(0)
+    expected = SomeSD_(0)
     predicate: Int -> Boolean = x -> not (x == 7)
     obtained = Min_().find(example, predicate)
 
@@ -473,7 +474,7 @@ package soda.collection
   }
 
   test("find 1") {
-    expected = SomeElem(8)
+    expected = SomeSD_(8)
     predicate: Int -> Boolean = x -> x == 8
     obtained = Min_().find(example, predicate)
 
@@ -481,7 +482,7 @@ package soda.collection
   }
 
   test("find 2") {
-    expected = NoElem()
+    expected = NoneSD_()
     predicate: Int -> Boolean = x -> x == 7
     obtained = Min_().find(empty, predicate)
 

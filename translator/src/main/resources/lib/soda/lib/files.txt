@@ -1,7 +1,7 @@
-Comb.soda
+CartesianProduct.soda
 Doc.soda
 EnumConstant.soda
 OptionSD.soda
 Package.soda
-Recursive.soda
+Recursion.soda
 SeqSD.soda

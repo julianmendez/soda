@@ -1,9 +1,12 @@
 package soda.translator.example.inanutshell
 
+
 * InANutshell = {
 
   f(x: Int): Int = x + 16
+
   b = f(a)
+
   a = 1 + 2 + 4 + 8
 
   h0(x: Int, y: Int): Int =
@@ -35,6 +38,7 @@ package soda.translator.example.inanutshell
 }
 
 class MaxAndMin = {
+
   max(a: Int, b: Int): Int =
     if a > b
     then a
@@ -64,10 +68,12 @@ class Example = {
 class Example_(index: Int) extends Example
 
 class Comparable = {
+
   has is_greater_than(x: Comparable): Boolean
 }
 
 class ComparableMax[T subtype Comparable] = {
+
   max(a: T, b: T): T =
     if a.is_greater_than(b)
     then a
@@ -83,14 +89,14 @@ class MyClass = {
   another_function (x: Int): Int = 2 * x
 }
 
-class TimeOfToday {
+class TimeOfToday = {
   import java.util.Date
 
   get_time: Date = @new Date()
 }
 
 class MainClass = {
-  main (args: Array[String]): Unit =
+  main (arguments: Array[String]): Unit =
     println("Hello world!")
 }
 

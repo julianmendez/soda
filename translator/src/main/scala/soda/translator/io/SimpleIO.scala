@@ -26,7 +26,7 @@ trait SimpleFileReader {
 case class SimpleFileReader_ () extends SimpleFileReader
 
 trait SimpleFileWriter {
-  import soda.lib.SomeElem
+  import soda.lib.SomeSD_
   import java.io.File
   import java.io.FileWriter
   import java.io.Writer
@@ -38,7 +38,7 @@ trait SimpleFileWriter {
     _write_content (new FileWriter (file ), content )
 
   def _write_content (writer: Writer, content: String ): Boolean =
-    SomeElem (true )
+    SomeSD_ (true )
       .map (x => writer.write (content ) )
       .map (x => writer.flush () )
       .map (x => writer.close () )

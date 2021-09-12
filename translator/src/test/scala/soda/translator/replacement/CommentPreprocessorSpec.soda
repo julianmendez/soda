@@ -1,7 +1,8 @@
 package soda.translator.replacement
 
 
-* CommentPreprocessorSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* CommentPreprocessorSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
   + java.io.File
 
   /* This is to test how to find commented text. */
@@ -16,13 +17,13 @@ package soda.translator.replacement
       .split("\n")
       .toSeq
     expected = Seq(
-      AnnotatedLine("", isComment := false),
-      AnnotatedLine("", isComment := false),
-      AnnotatedLine("/** This is an example */", isComment := true),
-      AnnotatedLine("* Example() {", isComment := false),
-      AnnotatedLine("  /* This is a comment */", isComment := true),
-      AnnotatedLine("  a = \"/** this is not a comment */\"", isComment := false),
-      AnnotatedLine("}", isComment := false)
+      AnnotatedLine_("", isComment := false),
+      AnnotatedLine_("", isComment := false),
+      AnnotatedLine_("/** This is an example */", isComment := true),
+      AnnotatedLine_("* Example() {", isComment := false),
+      AnnotatedLine_("  /* This is a comment */", isComment := true),
+      AnnotatedLine_("  a = \"/** this is not a comment */\"", isComment := false),
+      AnnotatedLine_("}", isComment := false)
     )
     obtained = CommentPreprocessor_(input).annotated_lines
 

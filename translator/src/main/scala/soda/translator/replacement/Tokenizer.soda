@@ -4,33 +4,42 @@ package soda.translator.replacement
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */
-* Token(text: String, parser_state: ParserState, index: Int)
+* Token = {
+
+  has text: String
+
+  has parser_state: ParserState
+
+  has index: Int
+}
+
+* Token_(text: String, parser_state: ParserState, index: Int) extends Token
 
 /**
  * This class processes a line to divide it into tokens.
  */
 * Tokenizer = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   has line: String
 
   tokens: Seq[Token] =
-    _postprocess(Rec().fold( Rec().range(line.length), _initial_value, _next_value_function ))
+    _postprocess(Recursion_().fold( Recursion_().range(line.length), _initial_value, _next_value_function ))
 
-  _initial_value = TokenizerFoldTuple(0, ParserStateEnum().plain, Seq())
+  _initial_value = TokenizerFoldTuple_(0, ParserStateEnum_().plain, Seq())
 
   _postprocess(tuple: TokenizerFoldTuple): Seq[Token] =
-    (tuple.rev_tokens.+:(Token(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
+    (tuple.rev_tokens.+:(Token_(line.substring(tuple.last_index), tuple.parser_state, tuple.last_index)))
       .reverse
 
   _next_value_function(tuple: TokenizerFoldTuple, current_index: Int): TokenizerFoldTuple =
     let
       ch = line.charAt(current_index)
-      char_type = CharTypeEnum().get_char_type(ch)
+      char_type = CharTypeEnum_().get_char_type(ch)
       new_parser_state = ParserTransition_().next_parser_state(tuple.parser_state, char_type)
       result =
-        if ParserStateEnum().is_same_class(new_parser_state, tuple.parser_state)
-        then TokenizerFoldTuple(tuple.last_index, new_parser_state, tuple.rev_tokens)
+        if ParserStateEnum_().is_same_class(new_parser_state, tuple.parser_state)
+        then TokenizerFoldTuple_(tuple.last_index, new_parser_state, tuple.rev_tokens)
         else _next_value_function_of_different_class(tuple, current_index, new_parser_state)
     in result
 
@@ -38,17 +47,26 @@ package soda.translator.replacement
       new_parser_state: ParserState): TokenizerFoldTuple =
     let
       index =
-        if tuple.parser_state == ParserStateEnum().quotes_state or
-           tuple.parser_state == ParserStateEnum().apostrophe_state
+        if tuple.parser_state == ParserStateEnum_().quotes_state or
+           tuple.parser_state == ParserStateEnum_().apostrophe_state
         then current_index + 1
         else current_index
       text = line.substring(tuple.last_index, index)
 
-    in TokenizerFoldTuple(index, new_parser_state,
-        tuple.rev_tokens.+:(Token(text, tuple.parser_state, tuple.last_index)))
+    in TokenizerFoldTuple_(index, new_parser_state,
+        tuple.rev_tokens.+:(Token_(text, tuple.parser_state, tuple.last_index)))
 }
 
 * Tokenizer_(line: String) extends Tokenizer
 
-* TokenizerFoldTuple(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
+* TokenizerFoldTuple = {
+
+  has last_index: Int
+
+  has parser_state: ParserState
+
+  has rev_tokens: Seq[Token]
+}
+
+* TokenizerFoldTuple_(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token]) extends TokenizerFoldTuple
 

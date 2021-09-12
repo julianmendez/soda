@@ -1,9 +1,12 @@
 package soda.translator.example.inanutshell
 
+
 trait InANutshell {
 
   def f (x: Int ): Int = x + 16
+
   lazy val b = f (a )
+
   lazy val a = 1 + 2 + 4 + 8
 
   def h0 (x: Int, y: Int ): Int =
@@ -35,6 +38,7 @@ trait InANutshell {
 }
 
 trait MaxAndMin {
+
   def max (a: Int, b: Int ): Int =
     if (a > b
     ) a
@@ -61,10 +65,12 @@ trait Example {
 case class Example_ (index: Int ) extends Example
 
 trait Comparable {
+
   def is_greater_than (x: Comparable ): Boolean
 }
 
 trait ComparableMax [T <: Comparable] {
+
   def max (a: T, b: T ): T =
     if (a.is_greater_than (b )
     ) a
@@ -87,7 +93,7 @@ trait TimeOfToday {
 }
 
 trait MainClass {
-  def main (args: Array [String]  ): Unit =
+  def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
 }
 

@@ -4,31 +4,28 @@ package soda.translator.replacement
 /**
  * This models all the possible states that the parser can be.
  */
-* ParserState(ordinal: Int, name: String) extends soda.lib.EnumConstant
+* ParserState extends soda.lib.EnumConstant
 
-* ParserStateConstant = {
-
-  undefined_state = ParserState(0, "undefined_state")
-
-  quotes_state = ParserState(1, "quotes_state")
-
-  apostrophe_state = ParserState(2, "apostrophe_state")
-
-  quotes_backslash_state = ParserState(3, "quotes_backslash_state")
-
-  apostrophe_backslash_state = ParserState(4, "apostrophe_backslash_state")
-
-  plain = ParserState(5, "plain")
-
-  parser_state_values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
-}
+* ParserState_(ordinal: Int, name: String) extends ParserState
 
 /**
  * This is an enumeration of all the parser states.
  */
-* ParserStateFunction extends ParserStateConstant = {
+* ParserStateEnum extends soda.lib.Enum[ParserState] = {
 
-  values = parser_state_values
+  undefined_state = ParserState_(0, "undefined_state")
+
+  quotes_state = ParserState_(1, "quotes_state")
+
+  apostrophe_state = ParserState_(2, "apostrophe_state")
+
+  quotes_backslash_state = ParserState_(3, "quotes_backslash_state")
+
+  apostrophe_backslash_state = ParserState_(4, "apostrophe_backslash_state")
+
+  plain = ParserState_(5, "plain")
+
+  values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 
   is_same_class(x: ParserState, y: ParserState): Boolean =
     (x == y) or is_like(x, y) or is_like(y, x)
@@ -38,38 +35,42 @@ package soda.translator.replacement
       (x == apostrophe_state and y == apostrophe_backslash_state)
 }
 
-* ParserStateEnum() extends ParserStateFunction
+* ParserStateEnum_() extends ParserStateEnum
 
-* ParserTransition extends ParserStateConstant with CharTypeConstant = {
+* ParserTransition = {
+
+  ps = ParserStateEnum_()
+
+  ct = CharTypeEnum_()
 
   transitions_that_change_states: Map[(ParserState, CharType), ParserState] =
     Map(
       /* */
-      ((quotes_state, undefined_type), undefined_state),
-      ((quotes_state, quotes_type), plain),
-      ((quotes_state, backslash_type), quotes_backslash_state),
+      ((ps.quotes_state, ct.undefined_type), ps.undefined_state),
+      ((ps.quotes_state, ct.quotes_type), ps.plain),
+      ((ps.quotes_state, ct.backslash_type), ps.quotes_backslash_state),
       /* */
-      ((apostrophe_state, undefined_type), undefined_state),
-      ((apostrophe_state, apostrophe_type), plain),
-      ((apostrophe_state, backslash_type), apostrophe_backslash_state),
+      ((ps.apostrophe_state, ct.undefined_type), ps.undefined_state),
+      ((ps.apostrophe_state, ct.apostrophe_type), ps.plain),
+      ((ps.apostrophe_state, ct.backslash_type), ps.apostrophe_backslash_state),
       /* */
-      ((quotes_backslash_state, undefined_type), undefined_state),
-      ((quotes_backslash_state, quotes_type), quotes_state),
-      ((quotes_backslash_state, apostrophe_type), quotes_state),
-      ((quotes_backslash_state, backslash_type), quotes_state),
-      ((quotes_backslash_state, plain_type), quotes_state),
+      ((ps.quotes_backslash_state, ct.undefined_type), ps.undefined_state),
+      ((ps.quotes_backslash_state, ct.quotes_type), ps.quotes_state),
+      ((ps.quotes_backslash_state, ct.apostrophe_type), ps.quotes_state),
+      ((ps.quotes_backslash_state, ct.backslash_type), ps.quotes_state),
+      ((ps.quotes_backslash_state, ct.plain_type), ps.quotes_state),
       /* */
-      ((apostrophe_backslash_state, undefined_type), undefined_state),
-      ((apostrophe_backslash_state, quotes_type), apostrophe_state),
-      ((apostrophe_backslash_state, apostrophe_type), apostrophe_state),
-      ((apostrophe_backslash_state, backslash_type), apostrophe_state),
-      ((apostrophe_backslash_state, plain_type), apostrophe_state),
+      ((ps.apostrophe_backslash_state, ct.undefined_type), ps.undefined_state),
+      ((ps.apostrophe_backslash_state, ct.quotes_type), ps.apostrophe_state),
+      ((ps.apostrophe_backslash_state, ct.apostrophe_type), ps.apostrophe_state),
+      ((ps.apostrophe_backslash_state, ct.backslash_type), ps.apostrophe_state),
+      ((ps.apostrophe_backslash_state, ct.plain_type), ps.apostrophe_state),
       /* */
-      ((plain, undefined_type), undefined_state),
-      ((plain, quotes_type), quotes_state),
-      ((plain, apostrophe_type), apostrophe_state),
-      ((plain, backslash_type), plain),
-      ((plain, plain_type), plain)
+      ((ps.plain, ct.undefined_type), ps.undefined_state),
+      ((ps.plain, ct.quotes_type), ps.quotes_state),
+      ((ps.plain, ct.apostrophe_type), ps.apostrophe_state),
+      ((ps.plain, ct.backslash_type), ps.plain),
+      ((ps.plain, ct.plain_type), ps.plain)
     )
 
   next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =

@@ -19,6 +19,8 @@ The reserved words are:
 - `else`
 - `let`
 - `in`
+- `match`
+- `case`
 - `class`
 - `has`
 - `extends`
@@ -40,16 +42,22 @@ The reserved words are:
 The synonyms at the beginning of a line are:
 - `*` for `class`
 - `+` for `import`
+- `|` for `case`
 
 The synonyms in any part of a line are:
 - `is` for `=`
+- `lambda` is optional to explicitly denote lambda expressions
+
+Technical synonyms:
+- `<:` for `subtype`
+- `>:` for `supertype`
 
 
 ## Other Symbols
 
 In addition, the language has:
 - `(` and `)` (parentheses) for parameters, operator precedence, and arrays
-- `{` and `}` (braces) for multi-line functions and classes
+- `{` and `}` (braces) for classes
 - `[` and `]` (square brackets) for types
 
 The main arithmetic operators are:
@@ -82,10 +90,10 @@ The language does not provide `throw`, `try`, and `catch`, because those command
 ## Static Typing
 
 This language is statically typed.
-It is possible to define concrete and abstract classes.
+It is possible to define abstract and concrete classes.
 
-A *concrete class* is like a *case class* in Scala.
 An *abstract class* is like a *trait* in Scala.
+A *concrete class* is like a *case class* in Scala.
 
 
 ## Package Declaration and Imports
@@ -106,7 +114,7 @@ The following tools can be configured to have syntax highlighting:
 The project can be build with [sbt](https://www.scala-sbt.org/).
 
 The command is:
-`sbt "++ 3.0.0" clean compile test package assembly`
+`sbt "++ 3.0.2" clean compile test package assembly`
 
 It is also possible to compile it for different Scala versions:
 `sbt "++ 2.13.6" clean compile test package assembly`

@@ -10,6 +10,12 @@ trait TranslationConstant {
 
   lazy val soda_colon: String = ":"
 
+  lazy val soda_opening_parenthesis: String = "("
+
+  lazy val soda_opening_brace: String = "{"
+
+  lazy val scala_3_class_definition: String = ":"
+
   lazy val soda_in_reserved_word: String = "in"
 
   lazy val soda_in_pattern: String = soda_in_reserved_word + " "
@@ -24,7 +30,7 @@ trait TranslationConstant {
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "*", "-", "+"  )
+  lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "match", "case", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
 
   /**
    * Scala 3 keywords:
@@ -41,17 +47,19 @@ trait TranslationConstant {
 
   lazy val scala_2_extra_keywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
 
-  lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
+  lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import"), ("|", "case")  )
 
   lazy val translation_at_beginning_with_paren: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
+
+  lazy val translation_at_beginning_without_paren_for_type_alias: Seq [(String, String )] = Seq (("class", "type")  )
 
   lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
     ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", scala_entry_point )  )
 
-  lazy val synonym: Seq [(String, String )] = Seq (("is", "=")  )
+  lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("lambda", ""), ("<:", "subtype"), (">:", "supertype")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
+  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("match", "match"), ("case", "case"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
     /** Annotations */
     ("@new", "new")  )
 
@@ -79,4 +87,4 @@ trait TranslationConstant {
     soda_reserved_words.contains (word )
 }
 
-case class Translation () extends TranslationConstant
+case class TranslationConstant_ () extends TranslationConstant

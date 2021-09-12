@@ -1,63 +1,72 @@
 package soda.translator.language
 
 
-* ExampleWithWrongOrder() = {
+* ExampleWithWrongOrder = {
 
   this_is_null_but = constant_defined_later
 
   constant_defined_later = "Success!"
 }
 
-* ExampleWithRightOrder() = {
+* ExampleWithWrongOrder_() extends ExampleWithWrongOrder
+
+* ExampleWithRightOrder = {
 
   constant_defined_before = "Success!"
 
   this_is_not_null = constant_defined_before
 }
 
-* ExampleWithEmptyParentheses() = {
+* ExampleWithRightOrder_() extends ExampleWithRightOrder
+
+* ExampleWithEmptyParentheses = {
 
   this_is_not_null () = constant_defined_later
 
   constant_defined_later = "Success!"
 }
 
-* AnotherExampleWithEmptyParentheses() = {
+* ExampleWithEmptyParentheses_() extends ExampleWithEmptyParentheses
+
+* AnotherExampleWithEmptyParentheses = {
 
   this_is_not_null = constant_function_defined_later ()
 
   constant_function_defined_later () = "Success!"
 }
 
+* AnotherExampleWithEmptyParentheses_() extends AnotherExampleWithEmptyParentheses
+
 /**
  * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
-* LazySyntaxSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* LazySyntaxSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("should show what happens when constants are defined in the wrong order") {
-    obtained = ExampleWithWrongOrder().this_is_null_but
+    obtained = ExampleWithWrongOrder_().this_is_null_but
     expected = "Success!"
 
     assert(obtained == expected)
   }
 
   test("should show what happens when constants are defined in the right order") {
-    obtained = ExampleWithRightOrder().this_is_not_null
+    obtained = ExampleWithRightOrder_().this_is_not_null
     expected = "Success!"
 
     assert(obtained == expected)
   }
 
   test("should show what happens when one work-around is used") {
-    obtained = ExampleWithEmptyParentheses().this_is_not_null ()
+    obtained = ExampleWithEmptyParentheses_().this_is_not_null ()
     expected = "Success!"
 
     assert(obtained == expected)
   }
 
   test("should show what happens when another work-around is used") {
-    obtained = AnotherExampleWithEmptyParentheses().this_is_not_null
+    obtained = AnotherExampleWithEmptyParentheses_().this_is_not_null
     expected = "Success!"
 
     assert(obtained == expected)

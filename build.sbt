@@ -4,11 +4,11 @@ import sbt.Keys.scalacOptions
 lazy val scala2_11 = "2.11.12"
 lazy val scala2_12 = "2.12.14"
 lazy val scala2_13 = "2.13.6"
-lazy val scala3 = "3.0.0"
+lazy val scala3 = "3.0.2"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.soda",
-  version := "0.10.0",
+  version := "0.11.0",
 
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
@@ -63,6 +63,18 @@ lazy val translator = project
   )
 
 
+lazy val coqport = project
+  .withId(id = "coqport")
+  .in(file("coqport"))
+  .aggregate(translator)
+  .dependsOn(translator)
+  .settings(
+    commonSettings,
+    assembly / mainClass := Some("soda.coqport.io.EntryPoint"),
+    assembly / assemblyJarName := "coqport-" + version.value + ".jar"
+  )
+
+
 lazy val library = project
   .withId(id = "library")
   .in(file("library"))
@@ -88,8 +100,8 @@ lazy val examples = project
 lazy val root = project
   .withId(id = "soda")
   .in(file("."))
-  .aggregate(documentation, translator, library, examples)
-  .dependsOn(documentation, translator, library, examples)
+  .aggregate(documentation, translator, coqport, library, examples)
+  .dependsOn(documentation, translator, coqport, library, examples)
   .settings(
     commonSettings,
     assembly / mainClass := Some("soda.translator.io.EntryPoint"),

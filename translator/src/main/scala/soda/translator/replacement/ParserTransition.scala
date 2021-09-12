@@ -4,31 +4,28 @@ package soda.translator.replacement
 /**
  * This models all the possible states that the parser can be.
  */
-case class ParserState (ordinal: Int, name: String ) extends soda.lib.EnumConstant
+trait ParserState extends soda.lib.EnumConstant
 
-trait ParserStateConstant {
-
-  lazy val undefined_state = ParserState (0, "undefined_state")
-
-  lazy val quotes_state = ParserState (1, "quotes_state")
-
-  lazy val apostrophe_state = ParserState (2, "apostrophe_state")
-
-  lazy val quotes_backslash_state = ParserState (3, "quotes_backslash_state")
-
-  lazy val apostrophe_backslash_state = ParserState (4, "apostrophe_backslash_state")
-
-  lazy val plain = ParserState (5, "plain")
-
-  lazy val parser_state_values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
-}
+case class ParserState_ (ordinal: Int, name: String ) extends ParserState
 
 /**
  * This is an enumeration of all the parser states.
  */
-trait ParserStateFunction extends ParserStateConstant {
+trait ParserStateEnum extends soda.lib.Enum [ParserState] {
 
-  lazy val values = parser_state_values
+  lazy val undefined_state = ParserState_ (0, "undefined_state")
+
+  lazy val quotes_state = ParserState_ (1, "quotes_state")
+
+  lazy val apostrophe_state = ParserState_ (2, "apostrophe_state")
+
+  lazy val quotes_backslash_state = ParserState_ (3, "quotes_backslash_state")
+
+  lazy val apostrophe_backslash_state = ParserState_ (4, "apostrophe_backslash_state")
+
+  lazy val plain = ParserState_ (5, "plain")
+
+  lazy val values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
 
   def is_same_class (x: ParserState, y: ParserState ): Boolean =
     (x == y ) || is_like (x, y ) || is_like (y, x )
@@ -38,17 +35,21 @@ trait ParserStateFunction extends ParserStateConstant {
       (x == apostrophe_state && y == apostrophe_backslash_state )
 }
 
-case class ParserStateEnum () extends ParserStateFunction
+case class ParserStateEnum_ () extends ParserStateEnum
 
-trait ParserTransition extends ParserStateConstant with CharTypeConstant {
+trait ParserTransition {
+
+  lazy val ps = ParserStateEnum_ ()
+
+  lazy val ct = CharTypeEnum_ ()
 
   lazy val transitions_that_change_states: Map [(ParserState, CharType ), ParserState] =
     Map (/* */
-      ((quotes_state, undefined_type ), undefined_state ), ((quotes_state, quotes_type ), plain ), ((quotes_state, backslash_type ), quotes_backslash_state ), /* */
-      ((apostrophe_state, undefined_type ), undefined_state ), ((apostrophe_state, apostrophe_type ), plain ), ((apostrophe_state, backslash_type ), apostrophe_backslash_state ), /* */
-      ((quotes_backslash_state, undefined_type ), undefined_state ), ((quotes_backslash_state, quotes_type ), quotes_state ), ((quotes_backslash_state, apostrophe_type ), quotes_state ), ((quotes_backslash_state, backslash_type ), quotes_state ), ((quotes_backslash_state, plain_type ), quotes_state ), /* */
-      ((apostrophe_backslash_state, undefined_type ), undefined_state ), ((apostrophe_backslash_state, quotes_type ), apostrophe_state ), ((apostrophe_backslash_state, apostrophe_type ), apostrophe_state ), ((apostrophe_backslash_state, backslash_type ), apostrophe_state ), ((apostrophe_backslash_state, plain_type ), apostrophe_state ), /* */
-      ((plain, undefined_type ), undefined_state ), ((plain, quotes_type ), quotes_state ), ((plain, apostrophe_type ), apostrophe_state ), ((plain, backslash_type ), plain ), ((plain, plain_type ), plain )    )
+      ((ps.quotes_state, ct.undefined_type ), ps.undefined_state ), ((ps.quotes_state, ct.quotes_type ), ps.plain ), ((ps.quotes_state, ct.backslash_type ), ps.quotes_backslash_state ), /* */
+      ((ps.apostrophe_state, ct.undefined_type ), ps.undefined_state ), ((ps.apostrophe_state, ct.apostrophe_type ), ps.plain ), ((ps.apostrophe_state, ct.backslash_type ), ps.apostrophe_backslash_state ), /* */
+      ((ps.quotes_backslash_state, ct.undefined_type ), ps.undefined_state ), ((ps.quotes_backslash_state, ct.quotes_type ), ps.quotes_state ), ((ps.quotes_backslash_state, ct.apostrophe_type ), ps.quotes_state ), ((ps.quotes_backslash_state, ct.backslash_type ), ps.quotes_state ), ((ps.quotes_backslash_state, ct.plain_type ), ps.quotes_state ), /* */
+      ((ps.apostrophe_backslash_state, ct.undefined_type ), ps.undefined_state ), ((ps.apostrophe_backslash_state, ct.quotes_type ), ps.apostrophe_state ), ((ps.apostrophe_backslash_state, ct.apostrophe_type ), ps.apostrophe_state ), ((ps.apostrophe_backslash_state, ct.backslash_type ), ps.apostrophe_state ), ((ps.apostrophe_backslash_state, ct.plain_type ), ps.apostrophe_state ), /* */
+      ((ps.plain, ct.undefined_type ), ps.undefined_state ), ((ps.plain, ct.quotes_type ), ps.quotes_state ), ((ps.plain, ct.apostrophe_type ), ps.apostrophe_state ), ((ps.plain, ct.backslash_type ), ps.plain ), ((ps.plain, ct.plain_type ), ps.plain )    )
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
     transitions_that_change_states.getOrElse ((parser_state, char_type ), parser_state )

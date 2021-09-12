@@ -1,8 +1,8 @@
 package soda.translator.language
 
 
-* MicroTranslatorSpec() extends org.scalatest.funsuite.AnyFunSuite = {
-
+* MicroTranslatorSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
 }
 

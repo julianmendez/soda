@@ -1,7 +1,7 @@
 package soda.translator.replacement
 
 
-case class CommentPreprocessorSpec () extends org.scalatest.funsuite.AnyFunSuite {
+case class CommentPreprocessorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import java.io.File
 
   /* This is to test how to find commented text. */
@@ -15,7 +15,7 @@ case class CommentPreprocessorSpec () extends org.scalatest.funsuite.AnyFunSuite
       "\n")
       .split ("\n")
       .toSeq
-    lazy val expected = Seq (AnnotatedLine ("", isComment = false ), AnnotatedLine ("", isComment = false ), AnnotatedLine ("/** This is an example */", isComment = true ), AnnotatedLine ("* Example() {", isComment = false ), AnnotatedLine ("  /* This is a comment */", isComment = true ), AnnotatedLine ("  a = \"/** this is not a comment */\"", isComment = false ), AnnotatedLine ("}", isComment = false )    )
+    lazy val expected = Seq (AnnotatedLine_ ("", isComment = false ), AnnotatedLine_ ("", isComment = false ), AnnotatedLine_ ("/** This is an example */", isComment = true ), AnnotatedLine_ ("* Example() {", isComment = false ), AnnotatedLine_ ("  /* This is a comment */", isComment = true ), AnnotatedLine_ ("  a = \"/** this is not a comment */\"", isComment = false ), AnnotatedLine_ ("}", isComment = false )    )
     lazy val obtained = CommentPreprocessor_ (input ) .annotated_lines
 
     assert (obtained == expected )

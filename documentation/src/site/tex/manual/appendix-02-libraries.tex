@@ -1,0 +1,84 @@
+\chapter{Libraries}
+
+\begin{lstlisting}[label={lst:fold}]
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C,
+      condition: (B, A) -> Boolean
+  ): C =
+    let
+      @tailrec
+      rec(seq: Seq[A], acc: C): C =
+        if seq.isEmpty
+        then acc
+        else
+          if not condition(acc, seq.head)
+          then acc
+          else rec(seq.tail, next_value_function(acc, seq.head))
+
+    in rec(sequence, initial_value)
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:range}]
+  range(length: Int): Seq[Int] =
+    let
+      @tailrec
+      rec(n: Int, seq: Seq[Int]): Seq[Int] =
+        if n <= 0
+        then seq
+        else rec(n - 1, seq.+:(n - 1))
+
+    in rec(length, Seq[Int]())
+\end{lstlisting}
+
+
+\begin{lstlisting}[label={lst:option}]
+class OptionSD[A] = {
+
+  has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
+
+  has isEmpty: Boolean
+
+  has getOrElse(default: A): A
+
+  has fold[B](ifEmpty: B, f: A -> B): B
+
+  has flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B]
+}
+
+class NoneSD[A] extends OptionSD[A] = {
+
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+
+  isEmpty: Boolean = true
+
+  getOrElse(default: A): A = default
+
+  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = NoneSD_[B]()
+}
+
+class NoneSD_[A]() extends NoneSD[A]
+
+class SomeSD[A] extends OptionSD[A] = {
+
+  has element: A
+
+  value: A = element
+
+  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+
+  isEmpty: Boolean = false
+
+  getOrElse(default: A): A = element
+
+  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+
+  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = mapping(element)
+}
+
+class SomeSD_[A](element: A) extends SomeSD[A]
+\end{lstlisting}
+

@@ -1,7 +1,8 @@
 package soda.lib
 
 
-* SeqSDSpec() extends org.scalatest.funsuite.AnyFunSuite = {
+* SeqSDSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("should detect an empty sequence") {
     input = Seq()
@@ -28,13 +29,13 @@ package soda.lib
   test("should get the maximum") {
     max_of_2(a: Int, b: Int): Int = if a > b then a else b
     max(s: NonEmptySeqSD[Int]): Int =
-      Rec().fold(s.tail.toSeq, s.head, max_of_2)
+      Recursion_().fold(s.tail.toSeq, s.head, max_of_2)
     input = Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
-    expected = SomeElem[Int](9)
+    expected = SomeSD_[Int](9)
     obtained =
       SeqSDBuilder_().build(input).opt(
-        ifEmpty := NoElem(),
-        ifNonEmpty := sequence -> SomeElem(max(sequence))
+        ifEmpty := NoneSD_(),
+        ifNonEmpty := sequence -> SomeSD_(max(sequence))
       )
 
     assert(obtained == expected)
@@ -52,7 +53,7 @@ package soda.lib
     input = SeqSDBuilder_().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
     expected = SeqSDBuilder_().build( Seq(9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
     obtained = input.opt(
-      ifEmpty := _EmptySeqSD(),
+      ifEmpty := EmptySeqSD_(),
       ifNonEmpty := sequence -> sequence.reverse
     )
 

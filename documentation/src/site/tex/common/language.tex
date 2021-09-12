@@ -1,8 +1,7 @@
-
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={if, then, else, let, in, class, has, extends, with, this, subtype, supertype, false, true, not, and, or, package, import, is, @new, @tailrec, @override, @main},
+    morekeywords={if, then, else, let, in, match, case, class, has, extends, with, this, subtype, supertype, false, true, not, and, or, package, import, is, lambda, @new, @tailrec, @override, @main},
     sensitive=true, % keywords are not case-sensitive
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
@@ -31,7 +30,7 @@
 
 \newcommand{\sdef}{\srccode{=}\xspace}
 \newcommand{\scolon}{\srccode{:}\xspace}
-\newcommand{\slambda}{{\tiny--\textgreater}\xspace}
+\newcommand{\sarrow}{{\tiny--\textgreater}\xspace}
 \newcommand{\sdefparam}{\srccode{:=}\xspace}
 
 \newcommand{\sif}{\reservedWord{if}}
@@ -40,6 +39,9 @@
 
 \newcommand{\slet}{\reservedWord{let}}
 \newcommand{\sdin}{\reservedWord{in}}
+
+\newcommand{\smatch}{\reservedWord{match}}
+\newcommand{\scase}{\reservedWord{case}}
 
 \newcommand{\sclass}{\reservedWord{class}}
 \newcommand{\shas}{\reservedWord{has}}
@@ -63,21 +65,28 @@
 \newcommand{\soverride}{\annotation{@override}}
 \newcommand{\smain}{\annotation{@main}}
 
-\newcommand{\sequalsSign}{\srccode{==}}
+\newcommand{\sequalsSign}{\reservedWord{==}}
 
-\newcommand{\sasterisk}{\srccode{*}}
-\newcommand{\splus}{\srccode{+}}
+\newcommand{\sasterisk}{\reservedWord{*}}
+\newcommand{\splus}{\reservedWord{+}}
+\newcommand{\sbar}{\reservedWord{|}}
 
 \newcommand{\sis}{\reservedWord{is}}
+\newcommand{\slambda}{\reservedWord{lambda}}
+
+\newcommand{\slessthancolon}{\reservedWord{<:}}
+\newcommand{\sgreaterthancolon}{\reservedWord{>:}}
 
 \newcommand{\scalacase}{\reservedWord{case}}
 \newcommand{\scalaclass}{\reservedWord{class}}
+\newcommand{\scalasuper}{\reservedWord{super}}
 \newcommand{\scalaval}{\reservedWord{val}}
 \newcommand{\scalavar}{\reservedWord{var}}
+\newcommand{\scalawhile}{\reservedWord{while}}
 
 
 \newcommand{\Soda}{\textsc{Soda}\xspace}
 
 \newcommand{\Sodalogo}{$\lambda $
 
-\vspace{-5.5pt} $ \bigcup \hspace{-13pt} = $}
+    \vspace{-5.5pt} $ \bigcup \hspace{-13pt} = $}

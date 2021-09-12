@@ -1,33 +1,35 @@
 package soda.lib
 
 
-case class DayOfTheWeek (ordinal: Int, name: String ) extends EnumConstant
+trait DayOfTheWeek extends EnumConstant
+
+case class DayOfTheWeek_ (ordinal: Int, name: String ) extends DayOfTheWeek
 
 trait DayOfTheWeekConstant {
 
-  lazy val Sunday = DayOfTheWeek (0, "Sunday")
-  lazy val Monday = DayOfTheWeek (1, "Monday")
-  lazy val Tuesday = DayOfTheWeek (2, "Tuesday")
-  lazy val Wednesday = DayOfTheWeek (3, "Wednesday")
-  lazy val Thursday = DayOfTheWeek (4, "Thursday")
-  lazy val Friday = DayOfTheWeek (5, "Friday")
-  lazy val Saturday = DayOfTheWeek (6, "Saturday")
+  lazy val sunday = DayOfTheWeek_ (0, "Sunday")
+  lazy val monday = DayOfTheWeek_ (1, "Monday")
+  lazy val tuesday = DayOfTheWeek_ (2, "Tuesday")
+  lazy val wednesday = DayOfTheWeek_ (3, "Wednesday")
+  lazy val thursday = DayOfTheWeek_ (4, "Thursday")
+  lazy val friday = DayOfTheWeek_ (5, "Friday")
+  lazy val saturday = DayOfTheWeek_ (6, "Saturday")
 
-  lazy val DayOfTheWeekValues = Seq (Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday )
+  lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday )
 }
 
-trait DayOfTheWeekFunction extends DayOfTheWeekConstant {
+trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
 
-  lazy val values = DayOfTheWeekValues
+  lazy val values = DayOfTheWeek_values
 }
 
-case class DayOfTheWeekEnum () extends DayOfTheWeekFunction
+case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
-case class EnumSpec () extends org.scalatest.funsuite.AnyFunSuite {
+case class EnumSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("the names of the elements in enumerations") {
-    lazy val expected = Seq ("0-Sunday", "1-Monday", "2-Tuesday", "3-Wednesday", "4-Thursday", "5-Friday", "6-Saturday")
-    lazy val obtained = DayOfTheWeekEnum () .values.map (x => x.toString )
+    lazy val expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
+    lazy val obtained = DayOfTheWeekEnum_ () .values.map (x => x.toString )
 
     assert (obtained == expected )
   }

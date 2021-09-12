@@ -1,4 +1,19 @@
 ---
+- version: v0.11.0
+- date: '2021-09-12'
+- new_features:
+  - compiles with Scala 3.0.2
+  - has an improved documentation
+  - includes `match` and `case` for pattern matching, and synonym `|` at the beginning of the line for `case`
+  - includes an optional `lambda` reserved word to make lambda expressions more explicit
+  - includes type aliases for code translated to Scala 3
+  - allows defining the body of a class without braces when the code is translated to Scala 3
+  - adopts a naming standard for concrete classes to end in underscore
+  - includes new synonyms, `<:` for `subtype` and `>:` for `supertype`
+  - supports (again) the use of tuples on the left-hand side of a definition sign (`=`)
+  - renames (again) concrete classes in `OptionSD`, mapping `NoneSD` to `NoneSD_` and `SomeSD` to `SomeSD_`
+- build: sbt '++ 3.0.2' clean compile test package assembly
+- release: target/scala-3.0.2/soda-0.11.0.jar
 - - version: v0.10.0
   - date: '2021-08-08'
   - new_features:
@@ -45,7 +60,7 @@
     - includes a file expansion of a basic library when it finds `lib.soda`
     - produces better looking Scala translated source code
   - deprecated_features:
-    - does not longer support the use tuples on the left-hand side of a definition sign (`=`)
+    - does not longer support the use of tuples on the left-hand side of a definition sign (`=`)
   - bug_fixes:
     - fixes translation of constants that are lambda functions
   - build: sbt '++ 3.0.0-RC2' clean compile test package assembly

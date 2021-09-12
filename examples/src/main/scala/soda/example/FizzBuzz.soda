@@ -2,15 +2,15 @@ package soda.translator.example
 
 
 * FizzBuzz = {
-  + soda.lib.Rec
+  + soda.lib.Recursion_
 
   fizz = "Fizz"
   buzz = "Buzz"
 
   fizz_buzz =
-    Rec()
+    Recursion_()
       .range(100)
-      .map(x -> x + 1)
+      .map((lambda x: Int) -> x + 1)
       .map(get_fizz_buzz_term)
 
   get_fizz_buzz_term(n: Int) =

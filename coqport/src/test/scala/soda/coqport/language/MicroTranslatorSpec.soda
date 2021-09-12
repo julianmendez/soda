@@ -1,0 +1,18 @@
+package soda.coqport.language
+
+
+* MicroTranslatorSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  test("Coq translation") {
+    original = "x = 0"
+    expected = "x = 0\n"
+    /* FIXME */
+
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert(obtained == expected)
+  }
+}
+
+

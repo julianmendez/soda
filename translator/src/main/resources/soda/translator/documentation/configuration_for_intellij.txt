@@ -27,6 +27,7 @@ Keywords
 :
 :=
 =
+case
 class
 else
 extends
@@ -35,15 +36,19 @@ if
 import
 in
 is
+lambda
 let
+match
 package
 subtype
 supertype
 then
 this
 with
+|
 
 2
+%
 *
 +
 -

@@ -3,63 +3,87 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-07-22
+ * Version: 2021-08-12
  */
 
+/* To declare a class, just add `class` before a class name.
+ * It is recommended to use camel case style starting with a capital letter.
+ * The name could be a noun or an adjective, but it should not be a verb. */
 class Shape
 
-class Movable
+/* There is an abbreviation for class declaration.
+ * For this, just start a line with an asterisk (`*`). */
+* Movable
 
+/* A class can be parameterized.
+ * The parameter type can be constrained using `subtype` and `supertype`.
+ * For example, `A subtype B` means that `A` is a subtype of `B`. */
 class ShapePainter[A subtype Shape]
 
+/* It is possible to constrain a class parameter with more than one type.
+ * Connect them using `with`. */
 class ShapeMover[A subtype Shape with Movable]
 
+/* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
+ * It is recommended to indent the constants and functions declared inside. */
 class EqualsExample = {
 
-  answer = f (x := 20, y := 2)
+  /* A constant does not have parameters, and it is declared with the equals sign (`=`).
+   * It is recommended to use snake case and start in lowercase.
+   * The constant name should be a noun.
+   * In a function call the parameters can be specified with the colon-equals sign (`:=`).
+   * This is especially recommended when the parameters are of the same type.
+   * Constants are only evaluated once, which is the first time they are needed. */
+  answer: Int = f (x := 20, y := 2)
 
-  f (x: Int, y: Int) = 2 * x + y
+  /* A function has parameters.
+   * If the parameters are empty, it is implied that the function produces some side effect.
+   * Functions, even with empty parameters, are evaluated every time they are invoked. */
+  f (x: Int, y: Int): Int = 2 * x + y
 }
 
-/** Class for a registered person, in snake case */
-class Registered_person = {
+/* A class can extend another one by using `extends`.
+ * Abstract classes cannot be instantiated but can be extended.
+ * Conversely, concrete classes cannot be extended but can be instantiated.
+ * Concrete classes are declared with parentheses `(` and `)`.
+ * It is recommended that concrete classes do not have a body, because this cannot be reused.
+ * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
+class EqualsExample_() extends EqualsExample
 
+/* A class does not need to define all its constants and functions. */
+class RegisteredPerson = {
+
+  /* A line starting with `has` denotes a constant or function that needs to be defined in extending classes. */
   has first_name: String
 
   has last_name: String
 
+  /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
   _separator = " "
 
+  /* Strings can be concatenated by using the plus sign (`+`). */
   full_name = first_name + _separator + last_name
 }
 
-/** Class for a registered person, in camel case */
-class RegisteredPerson = {
-
-  has firstName: String
-
-  has lastName: String
-
-  _separator = " "
-
-  fullName = firstName + _separator + lastName
-}
+/* A concrete class can be declared with parameters.
+ * It is not recommended to use this pattern when using this class as receiving parameters in functions. */
+class Person(name: String)
 
 class Agent = {
 
   has identifier: String
 }
 
-class Person(name: String)
-
-class AgentPerson(identifier: String) extends Agent
+/* A concrete class needs as parameters all the constants and functions that have not be defined in its super class.
+ * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
+class Agent_(identifier: String) extends Agent
 
 class RankedIndividual = {
 
   has rank: Int
 }
 
-class RankedAgentPerson (identifier: String, rank: Int)
+class RankedAgentPerson(identifier: String, rank: Int)
   extends Agent with RankedIndividual
 
 class Element = {
@@ -74,6 +98,7 @@ class Visitor = {
 
 class Item (identifier: Int) extends Element = {
 
+  /* It is possible to refer to an object instance by using `this`. */
   accept (v: Visitor) = v.visit (this)
 }
 
@@ -81,6 +106,8 @@ class PersonName = {
 
   has name: String
 
+  /* It is possible to override a function by using annotation `@override`.
+   * This is intended only for exceptional cases, like the `toString` function. */
   @override
   toString = name
 }
@@ -95,24 +122,31 @@ class Manual = {
 
   b: Int = 2
 
+  /* An instance of a JVM class can be created with annotation `@new`.
+   * If the code is translated to Scala 3, this annotation is not required. */
   now = @new Date()
 
   plus_one (x: Int): Int = x + 1
 
-  max (x: Int, y: Int) =
+  /* A function can be defined using a `if`-`then`-`else` structure.
+   * The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. */
+  max (x: Int, y: Int): Int =
     if x > y
     then x
     else y
 
-  plus_one (sequence: Seq[Int]) =
+  /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
+   * Lambda functions are declared using a right arrow (`->`). */
+  plus_one (sequence: Seq[Int]): Seq[Int] =
     sequence.map(element -> element + 1)
 
-  my_not (x: Boolean) =
+  /* Boolean values `false` and `true` are available. */
+  my_not (x: Boolean): Boolean =
     if x
     then false
     else true
 
-  my_and (x: Boolean, y: Boolean) =
+  my_and (x: Boolean, y: Boolean): Boolean =
     if x
     then
       if y
@@ -120,7 +154,7 @@ class Manual = {
       else false
     else false
 
-  my_or (x: Boolean, y: Boolean) =
+  my_or (x: Boolean, y: Boolean): Boolean =
     if x
     then true
     else
@@ -128,13 +162,20 @@ class Manual = {
       then true
       else false
 
+  /* Boolean values have the standard `not`-`and`-`or` functions. */
   my_xor (x: Boolean, y: Boolean) =
     (x or y) and not (x and y)
 
+  /* To evaluate a constant or a function, it is possible to declare intermediate functions.
+   * This is done in a block `let`-`in`.
+   * The block starts with a `let` containing the intermediate functions in no particular order.
+   * This block is evaluated in an expression after the `in`. */
   sum (n: Int) =
     let
       result = rec (n, 0)
 
+      /* A tail recursive function should be declared inside another function.
+       * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
       @tailrec
       rec (n: Int, accum: Int): Int =
         if n < 0
@@ -143,33 +184,31 @@ class Manual = {
 
     in result
 
-  f0 (x: Int) =
+  f0 (x: Int): Int =
     let
       a = g(x)
       b = g(a)
     in a + b
 
-  f1 (x: Int) =
-    let
-      a = g(x)
-      b = g(a)
-    in a + b
-
-  f2 (x: Int) =
+  /* Since the order in a `let`-`in` block is not important, a constant `result` at the beginning could easily indicate
+   * what is the main result to be evaluated. */
+  f1 (x: Int): Int =
     let
       result = a + b
       a = g(x)
       b = g(a)
     in result
 
-  g (x: Int) = x + 1
+  g (x: Int): Int = x + 1
 }
 
 * AbstractFactorialConcise = {
+
   has factorial (n: Int): Int
 }
 
-* FactorialConcise extends AbstractFactorialConcise = {
+* FactorialConcise
+  extends AbstractFactorialConcise = {
 
   factorial (n: Int) =
     let
@@ -177,6 +216,7 @@ class Manual = {
 
       @tailrec
       rec (n: Int, product: Int): Int =
+        /* The function to compare equality is a long equals (`==`). */
         if n == 0
         then product
         else rec (n - 1, n * product)
@@ -184,11 +224,14 @@ class Manual = {
     in result
 }
 
+/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 class AbstractFactorialVerbose is {
+
   has factorial (n: Int): Int
 }
 
-class FactorialVerbose extends AbstractFactorialVerbose is {
+class FactorialVerbose
+  extends AbstractFactorialVerbose is {
 
   factorial (n: Int) is
     let
@@ -203,10 +246,14 @@ class FactorialVerbose extends AbstractFactorialVerbose is {
     in result
 }
 
-class Recursive = {
+class Recursion = {
 
-  fold[A, B, C subtype B](sequence: Seq[A], initial_value: C,
-      next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  fold[A, B, C subtype B](
+      sequence: Seq[A],
+      initial_value: C,
+      next_value_function: (B, A) -> C,
+      condition: (B, A) -> Boolean
+  ): C =
     let
       @tailrec
       rec(seq: Seq[A], acc: C): C =
@@ -230,14 +277,22 @@ class Recursive = {
     in rec(length, Seq[Int]())
 }
 
-class Rec() extends Recursive
+class Recursion_() extends Recursion
 
-class MainClass = {
-  main(args: Array[String]): Unit =
-    println ("Hello world!")
-}
 
+/* The main class is concrete and it is called `Main()`. */
 class Main() extends MainClass
 
+/* The main class requires a `main` function that receives an `Array[String]` and returns a `Unit`. */
+class MainClass = {
+
+  main(arguments: Array[String]): Unit =
+    /* An output to the standard output can be send with a `println` command.
+     * This is a shorter form of JVM's `System.out.println`. */
+    println("Hello world!")
+}
+
+/* The main class needs to be indicated with annotation `@main`.
+ * Only one main class per package is allowed. */
 @main
 

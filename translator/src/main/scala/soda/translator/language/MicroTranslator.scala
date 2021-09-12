@@ -5,34 +5,41 @@ package soda.translator.language
  * This class translates Soda source code into Scala source code.
  */
 trait MicroTranslator {
-  import soda.lib.SomeElem
+  import soda.lib.SomeSD_
   import soda.translator.replacement.CommentPreprocessor_
-  import soda.translator.replacement.ParserStateEnum
+  import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
+  import soda.translator.replacement.Token_
   import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Translator
+
+  lazy val tc = TranslationConstant_ ()
 
   lazy val new_line = "\n"
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val synonym_at_beginning = DefaultTranslator_ (Translation () .synonym_at_beginning )
+  lazy val synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning )
 
-  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (Translation () .translation_at_beginning_with_paren )
+  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (tc.translation_at_beginning_with_paren )
 
-  lazy val translation_at_beginning_without_paren = DefaultTranslator_ (Translation () .translation_at_beginning_without_paren )
+  lazy val translation_at_beginning_without_paren_for_type_alias =
+      DefaultTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias )
 
-  lazy val synonym = DefaultTranslator_ (Translation () .synonym )
+  lazy val translation_at_beginning_without_paren =
+      DefaultTranslator_ (tc.translation_at_beginning_without_paren )
 
-  lazy val main_translation = DefaultTranslator_ (Translation () .main_translation )
+  lazy val synonym = DefaultTranslator_ (tc.synonym )
 
-  lazy val scala_non_soda = DefaultTranslator_ (Translation () .scala_non_soda )
+  lazy val main_translation = DefaultTranslator_ (tc.main_translation )
 
-  lazy val beautifier = DefaultTranslator_ (Translation () .beautifier )
+  lazy val scala_non_soda = DefaultTranslator_ (tc.scala_non_soda )
+
+  lazy val beautifier = DefaultTranslator_ (tc.beautifier )
 
   def translate_program (program: String ): String =
-    SomeElem (program )
+    SomeSD_ (program )
       .map (split_lines )
       .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
@@ -62,7 +69,7 @@ trait MicroTranslator {
         else _translate_non_comment (annotated_line.line )      )
 
   def _translate_non_comment (line: String ): String =
-      SomeElem (line )
+      SomeSD_ (line )
         .map (x => Replacement_ (x ) .add_space_to_soda_line () .line )
         .map (x => Tokenizer_ (x ) .tokens )
         .map (x => _translate_line (x )  )
@@ -72,13 +79,13 @@ trait MicroTranslator {
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (token =>
-        if (token.parser_state == ParserStateEnum () .plain
-        ) Token (_get_all_replacements (token ), token.parser_state, token.index )
+        if (token.parser_state == ParserStateEnum_ () .plain
+        ) Token_ (_get_all_replacements (token ), token.parser_state, token.index )
         else token    )
 
   def _get_all_replacements (token: Token ): String =
     Replacement_ (token.text )
-      .add_spaces_to_symbols (symbols = Translation () .soda_brackets_and_comma.toSet )
+      .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet )
       .replace (scala_non_soda )
       .replace_at_beginning (token.index, synonym_at_beginning )
       .replace (synonym )
@@ -91,7 +98,10 @@ trait MicroTranslator {
   def get_translation_table_at_beginning (line: String ): Translator =
     if (line.contains (soda_opening_parenthesis )
     ) translation_at_beginning_with_paren
-    else translation_at_beginning_without_paren
+    else
+      if (DefinitionTranslator_ (line ) .condition_for_type_alias
+      ) translation_at_beginning_without_paren_for_type_alias
+      else translation_at_beginning_without_paren
 
   def try_definition (line: String ): String =
     DefinitionTranslator_ (line ) .translation
@@ -103,10 +113,10 @@ trait MicroTranslator {
 
   def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
     lines.map (line =>
-      append_if_condition (line, starts_with_in, Translation () .scala_in_translation ) )
+      append_if_condition (line, starts_with_in, tc.scala_in_translation ) )
 
   def starts_with_in (line: String ): Boolean =
-    line.trim () .startsWith (Translation () .soda_in_pattern )
+    line.trim () .startsWith (tc.soda_in_pattern )
 
   def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
     if (condition (line )

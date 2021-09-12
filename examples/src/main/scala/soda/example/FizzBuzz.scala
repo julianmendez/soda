@@ -2,15 +2,15 @@ package soda.translator.example
 
 
 trait FizzBuzz {
-  import soda.lib.Rec
+  import soda.lib.Recursion_
 
   lazy val fizz = "Fizz"
   lazy val buzz = "Buzz"
 
   lazy val fizz_buzz =
-    Rec ()
+    Recursion_ ()
       .range (100 )
-      .map (x => x + 1 )
+      .map ((x: Int ) => x + 1 )
       .map (get_fizz_buzz_term )
 
   def get_fizz_buzz_term (n: Int ) =

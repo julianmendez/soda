@@ -42,8 +42,8 @@ trait MainClass {
 
   def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (soda_extension )
-    ) FileNamePair (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + scala_extension )
-    else FileNamePair (input_name + soda_extension, input_name + scala_extension )
+    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + scala_extension )
+    else FileNamePair_ (input_name + soda_extension, input_name + scala_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
@@ -54,4 +54,11 @@ trait MainClass {
 
 case class Main () extends MainClass
 
-case class FileNamePair (input_file_name: String, output_file_name: String )
+trait FileNamePair {
+
+  def input_file_name: String
+
+  def output_file_name: String
+}
+
+case class FileNamePair_ (input_file_name: String, output_file_name: String ) extends FileNamePair
