@@ -35,23 +35,20 @@ If they are used indulgently, they can threaten human well-being.
 \footnote{\url{https://futureoflife.org/open-letter-autonomous-weapons/}}.
 \footnote{\url{https://builtin.com/artificial-intelligence}}
 
-\comment{
-    The problem of finding references regarding this is that many (popular) articles are concerned about Artificial General Intelligence.
-    From my understanding, we are technologically very far to get there, and the degree of speculation needed makes it difficult to develop a scientifically solid statement.
-}
+Please observe that we are not considering the risks as consequences of the so-called Artificial General Intelligence.
+We consider that the technological gap to reach that point is considerably large and the degree of speculation needed makes it difficult to develop a scientifically solid statement.
 
 \subsection{AI Systems complexity}
 
 Even it is difficult to define precisely what AI means, it is commonly accepted in the literature that they are complex systems.
-\comment{
-    The problem here is that it is difficult to find a crystal-clear definition of Artificial Intelligence.
-    Some people would think of the \textit{new} artificial intelligence as machine learning, which is not only wrong, but also not conducive to a \textit{more accurate} definition.
-    For now, and in the context of this report, AI is either one of two things:
-    \begin{itemize}
-        \item a very complex computer system
-        \item whatever hasn't been done yet. (Larry Tesler's theorem)
-    \end{itemize}
-}
+
+The problem here is that it is difficult to find a crystal-clear definition of Artificial Intelligence.
+Some people would think of the \textit{new} artificial intelligence as machine learning, which is not only wrong, but also not conducive to a \textit{more accurate} definition.
+For now, and in the context of this report, AI is either one of two things:
+\begin{itemize}
+    \item a very complex computer system
+    \item whatever hasn't been done yet. (Larry Tesler's theorem)
+\end{itemize}
 
 \subsection{Governance of AI Systems}
 
@@ -83,22 +80,21 @@ They simulate it, but in the end, everything inside is 0's and 1's.
 \begin{itemize}
     \item Why is it hard for people to understand other people's code?
     \item Why do people write comments in natural language next to the source code?
-    \item Why do developers need a debugging tools at all?
+    \item Why do developers need debugging tools at all?
     \item Why cannot most of the people read code as they read a newspaper?
 \end{itemize}
 The answer to the above questions is simple: source code is not easy to read\cite{Casalnuovo2019}.
 Source code needs to be learned, needs to be practiced, and even with many years, pieces of code can be deceiving.
 \footnote{\url{https://www.quora.com/What-are-the-biggest-problems-with-modern-programming-languages}}
 
-It seems that most of the code is written to simplify its parsing by computers, and not for other humans.
+It seems that some programming languages are designed to simplify its parsing by computers, and not for other humans.
 
 This can be since the beginning of computing.
-Languages like Fortran, Cobol, and Lisp sought a simplified communication in some sense.
-Fortran is to write mathematical formulas, Cobol looks like writing English sentences, Lisp is algebraic.
+Languages like Fortran, APL, Cobol, and Lisp sought a simplified communication in some sense.
+Fortran is to write mathematical formulas, APL is highly symbolic and minimalistic, Cobol looks like writing English sentences, Lisp is algebraic.
 A long list of programming languages, can prove how hard it is to express things clearly.
 
 Python is probably one of the most popular languages in the direction of achieving being both descriptive and useful.
-This point is discussed in the corresponding section.
 
 \comment{
     This is a difficult topic.
@@ -154,50 +150,43 @@ This point is discussed in the corresponding section.
         It is language with long trajectory, and widely accepted in the scientific community.
         \item Scala: because it is concise, flexible, and seamlessly integrates object orientation with functional programming.
         \item Python: because it is becoming the de-facto standard language in teaching.
-        Many students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. In practice many people will understand Python before any other computer language.
+        Many young students start with Scratch\footnote{\url{https://scratch.mit.edu/}}, but there is a natural transition to Python. In practice many people will understand Python before any other computer language.
     \end{itemize}
 
     An important observation that needs to be answered is why relying on humans to understand a program.
-    Python is highly readable, and very likely to be a global standard in the following 10 years, but the interpreter does very little verification on the code.
-    Coq, on the other side, is a little more difficult to read, but the compiler creates a proof on its code, and it even can be exported to functional languages.
+    Python is highly readable, and might be a global standard in 10 years, but there is very little verification on the code before it is already running.
+    Coq, on the other side, is a little more difficult to read, but the compiler can check a proof for the code, and it even can be exported to functional languages.
     The new language has to have a readability comparable to Python, but the compiler has to help proving its correctness as much as possible.
-    This idea is how a spreadsheet works.
-    It is not about challenging the operations done by the computer.
-    It is about checking that the calculations are done using the right cells with the right operations.
+
+    For comparison, a human would not normally check whether a spreadsheet software performs the mathematical operations correctly.
+    The human would check that the calculations are done using the right cells with the right operations.
 }
 
 \subsection{A New Language}
 
 A new language is needed, something descriptive and efficient enough.
 In this context, `efficient' does not necessary mean that is faster than C, for example.
-We mean that its execution or evaluation time in a human scale.
+We mean that its execution or evaluation time is in a human scale.
 In other words, a human needs to be able to follow what it is written, and determine whether it is right or wrong.
 This does not mean that a computer cannot help, but it means that a computer is not needed to understand its operation.
 This language needs a way of using it.
 This is discussed in the corresponding section.
 
-\comment{
-    The approach to prove that a new better language is possible is similar to Cantor's diagonal argument.
-    Given a set of constraints that are convenient, i.e. make a language better for ethical purposes, I show that the language here proposed has all those properties.
-    Every language in the \textit{bad categories} fails at least one of the constraint.
-    Finally, I analyze the \textit{distinguished competitors} one by one, giving sufficient reasons why I prefer not to use them.
-}
-
 
 \section{Why a Language}
 
-To check that an AI system is following ethical principles, it is required to have a system that checks it.
+A system can check that an AI system is following ethical principles.
 
 The encoding of ethical values and principles should be reachable to those affected.
-If ethical values are encoded in very complex formalisms, they are not reachable to the affected humans, and could be highly error prone.
+If ethical values are encoded in a very complex formalisms, they are not reachable to the affected humans, and could be highly error prone.
 
 The purpose of the language is to have formal specifications that can be \textbf{easily understood by a human reader}, and can be immediately prototyped.
 This is used to verify if ethical values are properly encoded in a verification system.
 
 Human-centered specifications are intended to be clearly understood by humans.
-Please note that this is not necessarily the most abstract form of specification, since a very abstract specification could be hard to understand for the intended reader.
+Please note that this is not necessarily the most abstract form of specification, since a very abstract specification could be hard to understand even for the intended reader.
 
-As a rule of thumb, the \textbf{intended reader} is a human that can read a formal specification, probably a second-year undergraduate student of a scientific or engineering course of studies.
+As a rule of thumb, the \textbf{intended reader} for this language is a human that can read a formal specification, probably a second-year undergraduate student of a scientific or engineering course of studies.
 
 There is a marked distinction between the reader and the writer.
 In standard formalisms, it is common to find that the gap from reading to writing in that formalism can be small or even trivial.
@@ -214,15 +203,10 @@ This section discusses what kind of language is needed.
 
 The following is a list of properties required for a useful specification language for ethical problems.
 
-At most:
 \begin{itemize}
     \item Formal semantics
     \item Consistency
     \item Decidability
-\end{itemize}
-
-At least:
-\begin{itemize}
     \item Unary predicates, properties or types
     \item Relations or binary predicates
     \item Logical connectors
@@ -252,7 +236,7 @@ The language has to produce consistent specifications.
 Consistency is a key property to ensure that a system really follows what is has been specified.
 In other words, if a specification is not consistent, it is not usable.
 
-Please note that this requires that descriptions are well-defined.
+Please note that this requires that descriptions are \textbf{well-defined}.
 Some programming languages handle undefined values poorly, letting a program throw an exception when this occurs, instead of preventing it from happening in the first place.
 
 (This property is maybe obvious, but discards unusable formal languages.)
@@ -262,8 +246,8 @@ Some programming languages handle undefined values poorly, letting a program thr
 (filter $\leq $)
 
 Decidability is intended to ensure that an answer exists and it is computable.
-This comes, of course, to a gray area, since decidability has a high price tag by reducing expressivenes.
-Thus, the requirement is to have a language with a well defined useful decidable fragment.
+This comes, of course, to a gray area, since decidability has a high price tag by reducing expressiveness.
+Thus, the requirement is to have a language with a well-defined useful decidable fragment.
 
 
 \section{At-least requirements}
@@ -275,7 +259,7 @@ Thus, the requirement is to have a language with a well defined useful decidable
 Predicates and properties are a very natural way of expressing ideas.
 If a formal language does not have them, it becomes more intricate to read.
 
-(This discards low-expressive formalisms, like proposition logic.)
+(This discards low-expressive formalisms, like propositional logic.)
 
 \subsection{Logical connectors}
 
@@ -381,7 +365,7 @@ For example, the fallacy ``$p \to q$ then $\lnot p \to \lnot q$'' is unfortunate
 
 In a specification, we want to \textbf{describe qualities and quantities in a natural way}.
 We want to describe relations between them.
-Non-classical logics are very good to describe qualities, but they have some limitations to describe quantities.
+Non-classical logics are very good to describe qualities, but they can have some limitations to describe quantities.
 This does not mean that it is impossible, but rather unusual, needing to tailor a logic for each particular problem.
 Decidable fragments of non-classical logics can, however, \textbf{verify consistency} in a specification.
 This property is also desirable in the specification language.
@@ -389,6 +373,7 @@ This property is also desirable in the specification language.
 Another property is the possibility of \textbf{prototyping the specification}.
 We want that the specification can be \textit{run} in some sense.
 This is very useful to test what the specification says, for example.
+It also lets the user create tests that work as examples of what the specification should model.
 
 First-order logic is with no doubt a powerful tool and it is \textbf{universally understood}.
 However, it is not simple to produce a program that satisfies a specification.
@@ -399,17 +384,16 @@ The Z Specification Language combines the good properties of first-order logic a
 While this language is more suited for certain types of projects, prototyping is still not straight forward.
 
 Theorem proving assistants, like Coq and Isabelle, are excellent tools to model and prove small theorems.
-However, they are not that simple to use to prototype.
 
 Some very descriptive languages like SmallTalk and Python are dynamically typed.
-That means that type of inconsistencies could be found when the program is already running.
+That means that type inconsistencies could be found when the program is already running.
 Python has an imperative approach which can carry in the source code some common errors made in imperative languages, like undetectable side effects or unsafe thread execution.
 
 Prolog is maybe one of the most innovative programming languages.
-It is with no doubt descriptive, but it is dynamically typed, and it has a single data type, the term, and subtypes atoms, numbers, variables, and compound terms.\footnote{\url{https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics}}
-Another disadvantage of Prolog is the need of the cut (!) symbol to operate, and its execution can become difficult to understand.
+It is descriptive, but it is dynamically typed. In addition, it has a single data type, the term, and subtypes atoms, numbers, variables, and compound terms.\footnote{\url{https://en.wikipedia.org/wiki/Prolog_syntax_and_semantics}}
+Prolog uses the cut (!) symbol to operate, and its execution can sometimes become difficult to follow.
 
-Functional languages are then the best candidates for \Soda.
+Functional languages are then the best candidates to consider.
 Lisp and its dialects, like Clojure and Racket, have still some limitations regarding modelling.
 One of the disadvantages in Lisp is the absence of types.
 This issue is addressed in Racket\footnote{https://racket-lang.org}.
@@ -435,7 +419,7 @@ This is, of course, an arguable position, since for some people having all funct
 The fact of how the most used programming languages have been adopted somehow justifies which preferences were usually considered the most natural.
 The structured programming in Pascal was more adopted than the GOTO-based Basic.
 The object-oriented C++ and Java became more adopted than plain C.
-The thriving of functional languages and functional constructs in imperative languages shows an interest in society to adopt that property as the standard.
+Many imperative languages, like Java, Python, and C, have functional constructs.
 
 Here are two more things we want in \Soda.
 One is to \textbf{limit its expressiveness to help the user}.
@@ -451,6 +435,5 @@ Scala is a statically-typed general-purpose programming language, is multi-parad
 In this fusion, Scala includes tail recursion, something typical of functional languages, and \scalawhile statement, something typical of imperative languages.
 This symbiosis can, unfortunately, lead to mixed programs, which, even for skilled Scala programmers, are difficult to follow.
 
-\Soda is designed to take a minimal subset of the functional part of Scala, influenced by Haskell in its design, and in some other aspects, by highly popular languages like Java and Python.
-
+\Soda is based on a small subset of the purely functional part of Scala, influenced mainly by Haskell and Coq in its design, and in some other aspects, by highly popular languages like Java and Python.
 
