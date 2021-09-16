@@ -17,5 +17,12 @@ package soda.example
 
     assert(obtained == expected)
   }
+
+  test("should evaluate an expression like Coq 'let in'") {
+    obtained = LetBindingExample_().three_parts_like_coq_let_in
+    expected = Seq("first part", "second part", "third part")
+
+    assert(obtained == expected)
+  }
 }
 

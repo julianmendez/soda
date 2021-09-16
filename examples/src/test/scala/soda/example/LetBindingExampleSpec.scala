@@ -16,4 +16,11 @@ case class LetBindingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
     assert (obtained == expected )
   }
+
+  test ("should evaluate an expression like Coq 'let in'") {
+    lazy val obtained = LetBindingExample_ () .three_parts_like_coq_let_in
+    lazy val expected = Seq ("first part", "second part", "third part")
+
+    assert (obtained == expected )
+  }
 }

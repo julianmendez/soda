@@ -20,6 +20,17 @@ package soda.example
       third_part = "third" + part
       part = " part"
     in Seq(first_part, second_part, third_part)
+
+  three_parts_like_coq_let_in =
+    let
+      part = " part"
+    in let
+      first_part = "first" + part
+    in let
+      second_part = "second" + part
+    in let
+      third_part = "third" + part
+    in Seq[String]().+:(third_part).+:(second_part).+:(first_part)
 }
 
 * LetBindingExample_() extends LetBindingExample
