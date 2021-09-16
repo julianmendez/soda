@@ -24,11 +24,11 @@ package soda.example
   three_parts_like_coq_let_in =
     let
       part = " part"
-    in let
+      /* in let */
       first_part = "first" + part
-    in let
+      /* in let */
       second_part = "second" + part
-    in let
+      /* in let */
       third_part = "third" + part
     in Seq[String]().+:(third_part).+:(second_part).+:(first_part)
 }
