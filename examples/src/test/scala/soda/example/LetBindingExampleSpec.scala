@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 case class LetBindingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
