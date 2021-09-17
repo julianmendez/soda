@@ -1,3 +1,6 @@
+(* package soda.example *)
+
+
 Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 
