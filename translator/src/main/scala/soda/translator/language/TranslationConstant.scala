@@ -22,6 +22,12 @@ trait TranslationConstant {
 
   lazy val scala_in_translation: String = " }"
 
+  lazy val soda_match_reserved_word: String = "match"
+
+  lazy val soda_match_pattern: String = soda_match_reserved_word + " "
+
+  lazy val scala_match_translation: String = " match "
+
   lazy val soda_class_reserved_word: String = "class"
 
   lazy val scala_definition: String = "def"

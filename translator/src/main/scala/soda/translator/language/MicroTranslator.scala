@@ -43,6 +43,7 @@ trait MicroTranslator {
       .map (split_lines )
       .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
+      .map (preprocess_match_case_commands )
       .map (join_lines_with_backward_join )
       .map (translate_lines )
       .map (join_translated_lines )
@@ -115,6 +116,10 @@ trait MicroTranslator {
     lines.map (line =>
       append_if_condition (line, starts_with_in, tc.scala_in_translation ) )
 
+  def preprocess_match_case_commands (lines: Seq [String]  ): Seq [String] =
+    lines.map (line =>
+       insert_match_before_brace_if_found (line ) )
+
   def starts_with_in (line: String ): Boolean =
     line.trim () .startsWith (tc.soda_in_pattern )
 
@@ -122,6 +127,25 @@ trait MicroTranslator {
     if (condition (line )
     ) line + to_append
     else line
+
+  def insert_match_before_brace_if_found (line: String ): String =
+    if (line.trim () .startsWith (tc.soda_match_pattern )
+    )
+      {
+        lazy val index_of_match = line.indexOf (tc.soda_match_pattern )
+        lazy val left_part = line.substring (0, index_of_match )
+        lazy val right_part = line.substring (index_of_match + tc.soda_match_pattern.length, line.length )
+        left_part + insert_match_before_brace (right_part ) }
+    else line
+
+  def insert_match_before_brace (line: String ): String =
+    {
+      lazy val index_of_brace = line.indexOf (tc.soda_opening_brace )
+      lazy val result =
+        if (index_of_brace >= 0
+        ) line.substring (0, index_of_brace ) + tc.scala_match_translation + line.substring (index_of_brace, line.length )
+        else line + tc.scala_match_translation
+      result }
 }
 
 case class MicroTranslator_ () extends MicroTranslator

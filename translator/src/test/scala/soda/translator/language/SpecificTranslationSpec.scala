@@ -115,6 +115,46 @@ case class SpecificTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuit
 
   test ("should translate a pattern matching") {
     lazy val original = "fibo(n: Int): Int = " +
+      "\n  match n {" +
+      "\n  | 0 -> 1 " +
+      "\n  | 1 -> 1 " +
+      "\n  | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+      "\n  }" +
+      "\n"
+    lazy val expected = "def fibo (n: Int ): Int =" +
+      "\n  n  match {" +
+      "\n  case 0 => 1 " +
+      "\n  case 1 => 1 " +
+      "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
+      "\n  }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+
+  test ("should translate another pattern matching") {
+    lazy val original = "fibo(n: Int): Int = " +
+      "\n  match n" +
+      "\n    | 0 -> 1 " +
+      "\n    | 1 -> 1 " +
+      "\n    | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+      "\n" +
+      "\n"
+    lazy val expected = "def fibo (n: Int ): Int =" +
+      "\n  n match " +
+      "\n    case 0 => 1 " +
+      "\n    case 1 => 1 " +
+      "\n    case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+  test ("should ignore a pattern matching written in the Scala style") {
+    lazy val original = "fibo(n: Int): Int = " +
       "\n  n match {" +
       "\n  | 0 -> 1 " +
       "\n  | 1 -> 1 " +

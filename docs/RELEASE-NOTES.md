@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - makes a stronger distinction between interfaces and other abstract classes
+    - requires that reserved word `match` needs to be at the beginning of the line 
   - build: sbt '++ 3.0.2' clean compile test package assembly
   - release: target/scala-3.0.2/soda-0.12.0.jar
 - version: v0.11.0

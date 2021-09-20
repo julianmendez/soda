@@ -22,6 +22,12 @@ package soda.translator.language
 
   scala_in_translation: String = " }"
 
+  soda_match_reserved_word: String = "match"
+
+  soda_match_pattern: String = soda_match_reserved_word + " "
+
+  scala_match_translation: String = " match "
+
   soda_class_reserved_word: String = "class"
 
   scala_definition: String = "def"
