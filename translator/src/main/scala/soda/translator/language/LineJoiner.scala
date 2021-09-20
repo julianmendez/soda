@@ -1,9 +1,8 @@
 package soda.translator.language
 
 
-trait LineJoiner {
 
-  def lines: Seq [String]
+trait LineJoiner  extends soda.translator.replacement.MultiLineProcessor {
 
   lazy val tc = TranslationConstant_ ()
 

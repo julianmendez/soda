@@ -8,15 +8,15 @@ package soda.translator.replacement
   has isComment: Boolean
 }
 
-* AnnotatedLine_(line: String, isComment: Boolean) extends AnnotatedLine
+* AnnotatedLine_(line: String, isComment: Boolean)
+  extends AnnotatedLine
 
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-* CommentPreprocessor = {
+* CommentPreprocessor
+  extends MultiLineProcessor = {
   + soda.lib.Recursion_
-
-  has lines: Seq[String]
 
   soda_begin_comment = "/*"
 
@@ -44,7 +44,8 @@ package soda.translator.replacement
       else CurrentAndNewCommentState_(false, false)
 }
 
-* CommentPreprocessor_(lines: Seq[String]) extends CommentPreprocessor
+* CommentPreprocessor_(lines: Seq[String])
+  extends CommentPreprocessor
 
 * PreprocessorFoldTuple = {
 
@@ -53,7 +54,8 @@ package soda.translator.replacement
   has annotated_lines_rev: Seq[AnnotatedLine]
 }
 
-* PreprocessorFoldTuple_(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine]) extends PreprocessorFoldTuple
+* PreprocessorFoldTuple_(comment_state: Boolean, annotated_lines_rev: Seq[AnnotatedLine])
+  extends PreprocessorFoldTuple
 
 * CurrentAndNewCommentState = {
 
@@ -62,5 +64,6 @@ package soda.translator.replacement
   has new_comment_state: Boolean
 }
 
-* CurrentAndNewCommentState_(current_state: Boolean, new_comment_state: Boolean) extends CurrentAndNewCommentState
+* CurrentAndNewCommentState_(current_state: Boolean, new_comment_state: Boolean)
+  extends CurrentAndNewCommentState
 

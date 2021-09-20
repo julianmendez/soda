@@ -126,9 +126,12 @@ trait MicroTranslator {
 
 case class MicroTranslator_ () extends MicroTranslator
 
-trait DefaultTranslator extends soda.translator.replacement.Translator {
+trait Table {
 
   def table: Seq [(String, String )]
+}
+
+trait DefaultTranslator  extends Table  with soda.translator.replacement.Translator {
 
   lazy val keys = table.map (pair => pair._1 )
 

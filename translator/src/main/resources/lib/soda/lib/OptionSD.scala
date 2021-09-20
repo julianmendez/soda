@@ -34,7 +34,7 @@ trait OptionSD [A] {
   def filter (predicate: A => Boolean ): OptionSD [A]
 }
 
-trait NoneSD [A] extends OptionSD [A] {
+trait NoneSD [A]  extends OptionSD [A] {
 
   def opt [B]  (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
@@ -61,11 +61,14 @@ trait NoneSD [A] extends OptionSD [A] {
   def filter (predicate: A => Boolean ): OptionSD [A] = this
 }
 
-case class NoneSD_ [A]  () extends NoneSD [A]
+case class NoneSD_ [A]  ()  extends NoneSD [A]
 
-trait SomeSD [A] extends OptionSD [A] {
+trait OptionSDWithElement [A]  extends OptionSD [A] {
 
   def element: A
+}
+
+trait SomeSD [A]  extends OptionSDWithElement [A] {
 
   lazy val value: A = element
 
@@ -94,7 +97,7 @@ trait SomeSD [A] extends OptionSD [A] {
   def filter (predicate: A => Boolean ): OptionSD [A] = if (predicate (element ) ) this else NoneSD_ [A]  ()
 }
 
-case class SomeSD_ [A]  (element: A ) extends SomeSD [A]
+case class SomeSD_ [A]  (element: A )  extends SomeSD [A]
 
 trait OptionSDBuilder [A] {
 
@@ -104,4 +107,4 @@ trait OptionSDBuilder [A] {
     else SomeSD_ [A]  (option.get )
 }
 
-case class OptionSDBuilder_ [A]  () extends OptionSDBuilder [A]
+case class OptionSDBuilder_ [A]  ()  extends OptionSDBuilder [A]

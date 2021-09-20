@@ -5,9 +5,7 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-trait Replacement {
-
-  def line: String
+trait Replacement  extends SingleLineProcessor {
 
   lazy val aux = ReplacementAux_ ()
 
@@ -41,7 +39,7 @@ trait Replacement {
     Replacement_ (aux.replace_regex (line, translator )  )
 }
 
-case class Replacement_ (line: String ) extends Replacement
+case class Replacement_ (line: String )  extends Replacement
 
 trait ReplacementAux {
   import soda.lib.Recursion_
@@ -128,16 +126,19 @@ trait ReplacementAux {
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 }
 
-case class ReplacementAux_ () extends ReplacementAux
+case class ReplacementAux_ ()  extends ReplacementAux
 
-trait Replacer {
-  import soda.lib.Recursion_
+trait LinePatternProcessor {
 
   def line: String
 
   def pattern: String
 
   def replacement: String
+}
+
+trait Replacer  extends LinePatternProcessor {
+  import soda.lib.Recursion_
 
   lazy val replaced_text =
     postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )

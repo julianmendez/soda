@@ -5,9 +5,8 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-* Replacement = {
-
-  has line: String
+* Replacement
+  extends SingleLineProcessor = {
 
   aux = ReplacementAux_()
 
@@ -41,7 +40,8 @@ package soda.translator.replacement
     Replacement_(aux.replace_regex(line, translator))
 }
 
-* Replacement_(line: String) extends Replacement
+* Replacement_(line: String)
+  extends Replacement
 
 * ReplacementAux = {
   + soda.lib.Recursion_
@@ -131,16 +131,21 @@ package soda.translator.replacement
     in Recursion_().fold(translator.keys, initial_value, next_value_function)
 }
 
-* ReplacementAux_() extends ReplacementAux
+* ReplacementAux_()
+  extends ReplacementAux
 
-* Replacer = {
-  + soda.lib.Recursion_
+* LinePatternProcessor = {
 
   has line: String
 
   has pattern: String
 
   has replacement: String
+}
+
+* Replacer
+  extends LinePatternProcessor = {
+  + soda.lib.Recursion_
 
   replaced_text =
     postprocess( Recursion_().fold( Recursion_().range(line.length), initial_value, next_value_function, should_continue ) )

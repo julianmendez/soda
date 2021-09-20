@@ -18,10 +18,8 @@ case class Token_ (text: String, parser_state: ParserState, index: Int ) extends
 /**
  * This class processes a line to divide it into tokens.
  */
-trait Tokenizer {
+trait Tokenizer  extends SingleLineProcessor {
   import soda.lib.Recursion_
-
-  def line: String
 
   lazy val tokens: Seq [Token] =
     _postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), _initial_value, _next_value_function )  )
@@ -55,7 +53,7 @@ trait Tokenizer {
       TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (text, tuple.parser_state, tuple.last_index )  )  ) }
 }
 
-case class Tokenizer_ (line: String ) extends Tokenizer
+case class Tokenizer_ (line: String )  extends Tokenizer
 
 trait TokenizerFoldTuple {
 
@@ -66,4 +64,4 @@ trait TokenizerFoldTuple {
   def rev_tokens: Seq [Token]
 }
 
-case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  ) extends TokenizerFoldTuple
+case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )  extends TokenizerFoldTuple

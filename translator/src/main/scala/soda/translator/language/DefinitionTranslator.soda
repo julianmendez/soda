@@ -1,6 +1,11 @@
 package soda.translator.language
 
 
+* LineTranslator = {
+
+  has line: String
+}
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -25,13 +30,12 @@ package soda.translator.language
  * This is no longer supported.
  *
  */
-* DefinitionTranslator = {
+* DefinitionTranslator
+  extends LineTranslator = {
   + soda.lib.OptionSD
   + soda.lib.SomeSD_
   + soda.translator.replacement.Replacement
   + soda.translator.replacement.Replacement_
-
-  has line: String
 
   tc = TranslationConstant_()
 
