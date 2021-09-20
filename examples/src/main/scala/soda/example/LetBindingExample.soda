@@ -33,5 +33,6 @@ package soda.example
     in Seq[String]().+:(third_part).+:(second_part).+:(first_part)
 }
 
-* LetBindingExample_() extends LetBindingExample
+* LetBindingExample_()
+  extends LetBindingExample
 

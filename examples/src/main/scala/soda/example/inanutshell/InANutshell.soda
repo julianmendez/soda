@@ -50,13 +50,18 @@ class MaxAndMin = {
     else b
 }
 
-class ConcreteMaxAndMin() extends MaxAndMin
+class ConcreteMaxAndMin()
+  extends MaxAndMin
 
 class MinMaxPair(min: Int, max: Int)
 
-class Example = {
+class Indexable = {
 
   has index: Int
+}
+
+class Example
+  extends Indexable = {
 
   min_max(a: Int, b: Int): MinMaxPair =
     MinMaxPair(
@@ -65,7 +70,8 @@ class Example = {
     )
 }
 
-class Example_(index: Int) extends Example
+class Example_(index: Int)
+  extends Example
 
 class Comparable = {
 
@@ -80,9 +86,13 @@ class ComparableMax[T subtype Comparable] = {
     else b
 }
 
-class MyClass = {
+class WithInstance = {
 
   has instance_parameter: Int
+}
+
+class MyClass
+   extends WithInstance = {
 
   class_constant: Int = 1
 

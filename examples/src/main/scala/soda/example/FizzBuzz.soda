@@ -23,5 +23,6 @@ package soda.example
     n % k == 0
 }
 
-* FizzBuzz_() extends FizzBuzz
+* FizzBuzz_()
+  extends FizzBuzz
 

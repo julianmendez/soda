@@ -27,7 +27,8 @@ package soda.example
       .forall(pair -> (pair._1 <= pair._2))
 }
 
-* SortExampleWithZip_() extends SortExampleWithZip
+* SortExampleWithZip_()
+  extends SortExampleWithZip
 
 * SortAlgorithmExample = {
 
@@ -56,7 +57,8 @@ package soda.example
     in first_part.++(middle.++(last_part))
 }
 
-* SortAlgorithmExampleWithFold_() extends SortAlgorithmExampleWithFold
+* SortAlgorithmExampleWithFold_()
+  extends SortAlgorithmExampleWithFold
 
 * ConstrainedSortAlgorithm = {
   + soda.lib.OptionSD
@@ -74,7 +76,8 @@ package soda.example
     in result
 }
 
-* ConstrainedSortAlgorithm_() extends ConstrainedSortAlgorithm
+* ConstrainedSortAlgorithm_()
+  extends ConstrainedSortAlgorithm
 
 * SortedSequence[A subtype Comparable[A]] = {
 
@@ -99,10 +102,14 @@ package soda.example
 * EmptySortedSequence_[A subtype Comparable[A]]()
   extends EmptySortedSequence[A]
 
-* NonEmptySortedSequence[A subtype Comparable[A]]
+* SortedSequenceWithElements[A subtype Comparable[A]]
   extends SortedSequence[A] = {
 
   has sequence: Seq[A]
+}
+
+* NonEmptySortedSequence[A subtype Comparable[A]]
+  extends SortedSequenceWithElements[A] = {
 
   aux = NonEmptySortedSequenceAux_[A]()
 
@@ -137,7 +144,8 @@ package soda.example
     in first_part.++(middle.++(last_part))
 }
 
-* NonEmptySortedSequenceAux_[A subtype Comparable[A]]() extends NonEmptySortedSequenceAux[A]
+* NonEmptySortedSequenceAux_[A subtype Comparable[A]]()
+  extends NonEmptySortedSequenceAux[A]
 
 * SortedSequenceBuilder[A subtype Comparable[A]] = {
   + soda.lib.Recursion_
@@ -151,5 +159,6 @@ package soda.example
     sorted_sequence.add(element)
 }
 
-* SortedSequenceBuilder_[A subtype Comparable[A]]() extends SortedSequenceBuilder[A]
+* SortedSequenceBuilder_[A subtype Comparable[A]]()
+  extends SortedSequenceBuilder[A]
 

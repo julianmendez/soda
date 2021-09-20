@@ -33,4 +33,4 @@ trait LetBindingExample {
       Seq [String]  () .+: (third_part ) .+: (second_part ) .+: (first_part ) }
 }
 
-case class LetBindingExample_ () extends LetBindingExample
+case class LetBindingExample_ ()  extends LetBindingExample

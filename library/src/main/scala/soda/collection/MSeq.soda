@@ -25,22 +25,30 @@ package soda.collection
     in rec(mseq, initial_value, next_value, condition)
 }
 
-* MSeqRec_[T]() extends MSeqRec[T]
+* MSeqRec_[T]()
+  extends MSeqRec[T]
 
-* ESeq[T] extends MSeq[T] = {
+* ESeq[T]
+  extends MSeq[T] = {
 
   isEmpty = true
 
   opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
 }
 
-* ESeq_[T]() extends ESeq[T]
+* ESeq_[T]()
+  extends ESeq[T]
 
-* NESeq[T] extends MSeq[T] = {
+* NEMSeq[T]
+  extends MSeq[T] = {
 
   has head0: T
 
   has tail0: MSeq[T]
+}
+
+* NESeq[T]
+  extends NEMSeq[T] = {
 
   isEmpty = false
 
@@ -51,5 +59,6 @@ package soda.collection
   tail(): MSeq[T] = tail0
 }
 
-* NESeq_[T](head0: T, tail0: MSeq[T]) extends NESeq[T]
+* NESeq_[T](head0: T, tail0: MSeq[T])
+  extends NESeq[T]
 
