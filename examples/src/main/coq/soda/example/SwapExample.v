@@ -3,7 +3,7 @@
 
 Module soda_example_SwapExample.
 
-Inductive PairExample :=
+Inductive PairExample : Type :=
   | PairExample_ (x: nat) (y: nat) .
 
 Definition left (pair: PairExample) :=
@@ -45,7 +45,4 @@ Proof.
   compute.
   apply eq_refl.
 Qed.
-
-
-
 
