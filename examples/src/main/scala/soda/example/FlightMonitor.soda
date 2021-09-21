@@ -1,0 +1,112 @@
+package soda.example
+
+
+
+class Airport = {
+  import soda.lib.OptionSD
+  import soda.lib.SomeSD_
+  import soda.lib.NoneSD_
+
+  has name: String
+
+  Airport_invariant =
+    name.length == 3 and
+    name.forall(ch -> 'A' <= ch and ch <= 'Z')
+
+  Airport_checked: OptionSD[Airport] =
+    if Airport_invariant then SomeSD_(this) else NoneSD_()
+}
+
+class _Airport_(name: String)
+  extends Airport
+
+class AirportBuilder() = {
+  import soda.lib.OptionSD
+
+  build (name: String): OptionSD[Airport] =
+    _Airport_(name).Airport_checked
+}
+
+class PricingAgent = {
+  import java.util.Date
+
+  has get_price (flight: Flight, date: Date): Int
+}
+
+class Trip = {
+
+  has airport_start: Airport
+
+  has airport_end: Airport
+}
+
+class Segment
+  extends Trip = {
+
+  invariant_Segment =
+    not (airport_start == airport_end)
+}
+
+class Flight
+  extends Trip = {
+
+  has segments: Seq[Segment]
+
+  invariant_Flight =
+    has_at_least_one_segment and
+    are_airport_start_and_airport_end_correct and
+    are_segments_consistent
+
+  has_at_least_one_segment = segments.length > 0
+
+  are_airport_start_and_airport_end_correct =
+    has_at_least_one_segment and
+    (airport_start == segments(0).airport_start) and
+    (airport_end == segments(segments.length).airport_end)
+
+  are_segments_consistent =
+    segments.indices.forall(index ->
+      (index > segments.length - 2) or ( segments(index).airport_end == segments(index + 1).airport_start) )
+}
+
+class MonitoringAgent = {
+  import java.util.Date
+
+  has pricing_agent: PricingAgent
+
+  has get_a_year_before (date: Date): Date
+
+  has as_flight (segment: Segment): Flight
+
+  complies_with_ethical_rule_1 (flight: Flight, date: Date): Boolean =
+    get_price (flight, date) <= flight.segments.map (segment -> get_price (as_flight(segment), date) ).sum
+
+  complies_with_ethical_rule_2 (flight: Flight, date: Date): Boolean =
+    is_price_increase_acceptable (
+      old_price := get_price (flight, date),
+      new_price := get_price (flight, get_a_year_before(date) ) )
+
+  is_price_increase_acceptable (old_price: Int, new_price: Int): Boolean =
+    new_price <= (old_price * 125) / 100
+
+  get_price (flight: Flight, date: Date): Int = pricing_agent.get_price (flight, date)
+}
+
+class SingleSegmentFlight
+  extends Flight = {
+
+  has segment: Segment
+
+  airport_start = segment.airport_start
+
+  airport_end = segment.airport_end
+
+  segments = Seq(segment)
+
+  invariant_SingleSegmentFlight = invariant_Flight
+}
+
+class SingleSegmentFlight_(segment: Segment)
+  extends SingleSegmentFlight
+
+
