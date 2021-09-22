@@ -62,11 +62,6 @@ Definition flg_end_airport (flight: Flight): Airport :=
     | Flight_ start_airport intermediate_stops end_airport => end_airport
   end.
 
-
-(** MonitoringAgent *)
-
-(** Rule 1 *)
-
 Fixpoint flg_segments_multi (start_airport: Airport) (intermediate_stops: list Airport) (end_airport: Airport): list Segment :=
   match intermediate_stops with
     | nil => (Segment_ start_airport end_airport) :: nil
@@ -78,6 +73,11 @@ Definition flg_segments (flight: Flight): list Segment :=
     | SingleSegmentFlight_ start_airport end_airport => (Segment_ start_airport end_airport) :: nil
     | Flight_ start_airport intermediate_stops end_airport => (flg_segments_multi start_airport intermediate_stops end_airport)
   end.
+
+
+(** MonitoringAgent *)
+
+(** Rule 1 *)
 
 Definition prices_of_segments (get_price : Flight -> Date -> Money) (segments: list Segment) (date: Date): list Money :=
   map (fun segment => (get_price (SingleSegmentFlight_ (seg_start_airport segment) (seg_end_airport segment) ) date) ) segments.
@@ -94,9 +94,9 @@ Definition complies_with_ethical_rule_1 (get_price : Flight -> Date -> Money) (f
 (** Rule 2 *)
 
 Definition is_price_increase_acceptable (old_price: nat) (new_price: nat): bool :=
-    (new_price <=? ((old_price * 125) / 100) ).
+    new_price <=? ((old_price * 125) / 100).
 
 Definition complies_with_ethical_rule_2 (get_price: Flight -> Date -> Money) (flight: Flight) (date: Date): bool :=
-  (is_price_increase_acceptable (get_price flight date) (get_price flight (get_a_year_before date) ) ).
+  is_price_increase_acceptable (get_price flight date) (get_price flight (get_a_year_before date) ).
 
 

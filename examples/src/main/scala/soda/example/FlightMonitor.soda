@@ -47,26 +47,26 @@ class Segment
     not (airport_start == airport_end)
 }
 
+class Segment_ (airport_start: Airport, airport_end: Airport)
+  extends Segment
+
 class Flight
   extends Trip = {
 
-  has segments: Seq[Segment]
+  has intermediate_stops: Seq[Airport]
+
+  segments =
+    _segments_multi (airport_start, intermediate_stops, airport_end)
+
+  _segments_multi (airport_start: Airport, intermediate_stops: Seq[Airport], airport_end: Airport): Seq[Segment] =
+    match intermediate_stops {
+      case Nil -> Nil.+:(Segment_ (airport_start, airport_end))
+      case x :: xs -> _segments_multi(x, xs, airport_end).+:(Segment_ (airport_start, x))
+    }
 
   invariant_Flight =
-    has_at_least_one_segment and
-    are_airport_start_and_airport_end_correct and
-    are_segments_consistent
-
-  has_at_least_one_segment = segments.length > 0
-
-  are_airport_start_and_airport_end_correct =
-    has_at_least_one_segment and
-    (airport_start == segments(0).airport_start) and
-    (airport_end == segments(segments.length).airport_end)
-
-  are_segments_consistent =
-    segments.indices.forall(index ->
-      (index > segments.length - 2) or ( segments(index).airport_end == segments(index + 1).airport_start) )
+    not (intermediate_stops.contains(airport_start)) and
+      not (intermediate_stops.contains(airport_end))
 }
 
 class MonitoringAgent = {
@@ -78,8 +78,17 @@ class MonitoringAgent = {
 
   has as_flight (segment: Segment): Flight
 
+  prices_of_segments (segments: Seq[Segment], date: Date): Seq[Int] =
+    segments.map (segment -> get_price (SingleSegmentFlight_ (segment.airport_start, segment.airport_end), date) )
+
+  sum_of_prices (prices: Seq[Int]): Int =
+    prices.sum
+
+  price_of_flight_by_segments (flight: Flight, date: Date): Int =
+    sum_of_prices (prices_of_segments (flight.segments, date))
+
   complies_with_ethical_rule_1 (flight: Flight, date: Date): Boolean =
-    get_price (flight, date) <= flight.segments.map (segment -> get_price (as_flight(segment), date) ).sum
+    get_price (flight, date) <= price_of_flight_by_segments (flight, date)
 
   complies_with_ethical_rule_2 (flight: Flight, date: Date): Boolean =
     is_price_increase_acceptable (
@@ -95,18 +104,10 @@ class MonitoringAgent = {
 class SingleSegmentFlight
   extends Flight = {
 
-  has segment: Segment
-
-  airport_start = segment.airport_start
-
-  airport_end = segment.airport_end
-
-  segments = Seq(segment)
-
-  invariant_SingleSegmentFlight = invariant_Flight
+  intermediate_stops = Seq()
 }
 
-class SingleSegmentFlight_(segment: Segment)
+class SingleSegmentFlight_(airport_start: Airport, airport_end: Airport)
   extends SingleSegmentFlight
 
 

@@ -45,25 +45,24 @@ trait Segment  extends Trip {
     ! (airport_start == airport_end )
 }
 
+case class Segment_ (airport_start: Airport, airport_end: Airport )  extends Segment
+
 trait Flight  extends Trip {
 
-  def segments: Seq [Segment]
+  def intermediate_stops: Seq [Airport]
+
+  lazy val segments =
+    _segments_multi (airport_start, intermediate_stops, airport_end )
+
+  def _segments_multi (airport_start: Airport, intermediate_stops: Seq [Airport], airport_end: Airport ): Seq [Segment] =
+    intermediate_stops  match {
+      case Nil => Nil.+: (Segment_ (airport_start, airport_end )  )
+      case x:: xs => _segments_multi (x, xs, airport_end ) .+: (Segment_ (airport_start, x )  )
+    }
 
   lazy val invariant_Flight =
-    has_at_least_one_segment &&
-    are_airport_start_and_airport_end_correct &&
-    are_segments_consistent
-
-  lazy val has_at_least_one_segment = segments.length > 0
-
-  lazy val are_airport_start_and_airport_end_correct =
-    has_at_least_one_segment &&
-    (airport_start == segments (0 ) .airport_start ) &&
-    (airport_end == segments (segments.length ) .airport_end )
-
-  lazy val are_segments_consistent =
-    segments.indices.forall (index =>
-      (index > segments.length - 2 ) || (segments (index ) .airport_end == segments (index + 1 ) .airport_start ) )
+    ! (intermediate_stops.contains (airport_start )  ) &&
+      ! (intermediate_stops.contains (airport_end )  )
 }
 
 trait MonitoringAgent {
@@ -75,8 +74,17 @@ trait MonitoringAgent {
 
   def as_flight (segment: Segment ): Flight
 
+  def prices_of_segments (segments: Seq [Segment], date: Date ): Seq [Int] =
+    segments.map (segment => get_price (SingleSegmentFlight_ (segment.airport_start, segment.airport_end ), date ) )
+
+  def sum_of_prices (prices: Seq [Int]  ): Int =
+    prices.sum
+
+  def price_of_flight_by_segments (flight: Flight, date: Date ): Int =
+    sum_of_prices (prices_of_segments (flight.segments, date )  )
+
   def complies_with_ethical_rule_1 (flight: Flight, date: Date ): Boolean =
-    get_price (flight, date ) <= flight.segments.map (segment => get_price (as_flight (segment ), date ) ) .sum
+    get_price (flight, date ) <= price_of_flight_by_segments (flight, date )
 
   def complies_with_ethical_rule_2 (flight: Flight, date: Date ): Boolean =
     is_price_increase_acceptable (old_price = get_price (flight, date ), new_price = get_price (flight, get_a_year_before (date ) ) )
@@ -89,15 +97,7 @@ trait MonitoringAgent {
 
 trait SingleSegmentFlight  extends Flight {
 
-  def segment: Segment
-
-  lazy val airport_start = segment.airport_start
-
-  lazy val airport_end = segment.airport_end
-
-  lazy val segments = Seq (segment )
-
-  lazy val invariant_SingleSegmentFlight = invariant_Flight
+  lazy val intermediate_stops = Seq ()
 }
 
-case class SingleSegmentFlight_ (segment: Segment )  extends SingleSegmentFlight
+case class SingleSegmentFlight_ (airport_start: Airport, airport_end: Airport )  extends SingleSegmentFlight
