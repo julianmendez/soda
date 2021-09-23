@@ -1,4 +1,4 @@
-package localhost.sandbox.scala
+package soda.example
 
 
 trait Parameter {

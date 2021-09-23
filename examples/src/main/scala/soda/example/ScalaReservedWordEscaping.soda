@@ -7,7 +7,7 @@ package soda.example
 
   val = 1
 
-  def[A, B](key: A, value: B): Pair[A, B] = Pair_(key, value)
+  def[A, B](key: A, value: B): MyPair[A, B] = MyPair_(key, value)
 
   while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B): Seq[B] =
     seq.takeWhile(cond).map(do)
@@ -21,12 +21,12 @@ package soda.example
   cons: (Int, Int) -> Int = (x, y) -> f(x, y)
 }
 
-* Pair[A, B] = {
+* MyPair[A, B] = {
 
   has key: A
 
   has value: B
 }
 
-* Pair_[A, B](key: A, value: B) extends Pair[A, B]
+* MyPair_[A, B](key: A, value: B) extends MyPair[A, B]
 
