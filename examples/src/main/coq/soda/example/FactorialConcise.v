@@ -1,12 +1,6 @@
 (* package soda.example *)
 
 
-Require Import Coq.Init.Nat.
-(* https://coq.inria.fr/library/Coq.Init.Nat.html *)
-
-Require Import Coq.Init.Datatypes.
-(* https://coq.inria.fr/library/Coq.Init.Datatypes.html *)
-
 Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 

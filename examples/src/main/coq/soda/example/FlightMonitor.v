@@ -4,9 +4,6 @@
 Require Import Coq.Init.Nat.
 (* https://coq.inria.fr/library/Coq.Init.Nat.html *)
 
-Require Import Coq.Strings.String.
-(* https://coq.inria.fr/library/Coq.Strings.String.html *)
-
 Require Import Ascii.
 (* https://coq.inria.fr/library/Coq.Strings.Ascii.html *)
 
