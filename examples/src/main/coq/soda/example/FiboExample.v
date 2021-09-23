@@ -7,7 +7,6 @@ Require Import Coq.Lists.List.
 
 Module soda_example_FiboExample.
 
-
 Fixpoint rec_fib (m: nat) (a: nat) (b: nat): nat :=
   match m with
     | 0 => a

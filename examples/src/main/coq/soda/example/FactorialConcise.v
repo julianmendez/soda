@@ -4,6 +4,7 @@
 Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 
+
 Module soda_example_FactorialConcise.
 
 Fixpoint rec_get_factorial (n: nat) (product: nat): nat :=
@@ -12,10 +13,13 @@ Fixpoint rec_get_factorial (n: nat) (product: nat): nat :=
     | S m => rec_get_factorial m (n * product)
   end.
 
-Definition  get_factorial (n: nat): nat :=
+Definition get_factorial (n: nat): nat :=
   rec_get_factorial n 1.
 
 End soda_example_FactorialConcise.
+
+
+Module soda_example_FactorialConciseSpec.
 
 Import soda_example_FactorialConcise.
 
@@ -28,4 +32,7 @@ Proof.
   compute.
   apply eq_refl.
 Qed.
+
+End soda_example_FactorialConciseSpec.
+
 

@@ -4,12 +4,16 @@
 Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 
+
 Module soda_example_FactorialWithFold.
 
 Definition get_factorial (n: nat): nat :=
   fold_left (fun (product: nat) (k: nat) => (product * (k + 1)) ) (seq 0 n) 1 .
 
 End soda_example_FactorialWithFold.
+
+
+Module soda_example_FactorialWithFoldSpec.
 
 Import soda_example_FactorialWithFold.
 
@@ -22,5 +26,7 @@ Proof.
   compute.
   apply eq_refl.
 Qed.
+
+End soda_example_FactorialWithFoldSpec.
 
 
