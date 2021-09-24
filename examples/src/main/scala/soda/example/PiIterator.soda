@@ -5,15 +5,15 @@ package soda.example
 
   has r: BigInt
 
-  has n: BigInt
+  has n: Int
 
   has q: BigInt
 
   has t: BigInt
 
-  has l: BigInt
+  has l: Int
 
-  has k: BigInt
+  has k: Int
 
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
@@ -21,11 +21,11 @@ package soda.example
 
 * Status_(
     r: BigInt,
-    n: BigInt,
+    n: Int,
     q: BigInt,
     t: BigInt,
-    l: BigInt,
-    k: BigInt
+    l: Int,
+    k: Int
   ) extends Status
 
 * PiIterator = {
@@ -44,7 +44,7 @@ package soda.example
         else
           let
             r = (2 * s.q + s.r) * s.l
-            n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
+            n = ((s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)).toInt
             q = s.q * s.k
             t = s.t * s.l
             l = s.l + 2
@@ -54,12 +54,12 @@ package soda.example
 
     in result
 
-  take(n: Int): Seq[BigInt] =
+  take(n: Int): Seq[Int] =
     let
       result = rec(n, Seq(), initial_status)
 
       @tailrec
-      rec(n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
+      rec(n: Int, rev_seq: Seq[Int], s: Status): Seq[Int] =
         if n == 0
         then rev_seq.reverse
         else
@@ -69,13 +69,13 @@ package soda.example
 
     in result
 
-  _get_next(s: Status): BigIntAndStatus =
+  _get_next(s: Status): IntAndStatus =
     let
-      result = BigIntAndStatus_(ret, new_status)
+      result = IntAndStatus_(ret, new_status)
       ns = compute_new_status(s)
       ret = ns.n
       r = 10 * (ns.r - ns.n * ns.t)
-      n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
+      n = (((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)).toInt
       q = ns.q * 10
       t = ns.t
       l = ns.l
@@ -86,12 +86,12 @@ package soda.example
 
 * PiIterator_() extends PiIterator
 
-* BigIntAndStatus = {
+* IntAndStatus = {
 
-  has digit: BigInt
+  has digit: Int
 
   has new_status: Status
 }
 
-* BigIntAndStatus_(digit: BigInt, new_status: Status) extends BigIntAndStatus
+* IntAndStatus_(digit: Int, new_status: Status) extends IntAndStatus
 
