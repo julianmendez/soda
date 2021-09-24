@@ -113,18 +113,28 @@ trait MicroTranslator {
       .mkString ("")
 
   def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
-    lines.map (line =>
-      append_if_condition (line, starts_with_in, tc.scala_in_translation ) )
+    lines
+      .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
+      .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
+      .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) )
 
   def preprocess_match_case_commands (lines: Seq [String]  ): Seq [String] =
     lines.map (line =>
        insert_match_before_brace_if_found (line ) )
 
-  def starts_with_in (line: String ): Boolean =
-    line.trim () .startsWith (tc.soda_in_pattern )
+  def starts_with (line: String, pattern: String ): Boolean =
+    line.trim.startsWith (pattern )
 
-  def append_if_condition (line: String, condition: String => Boolean, to_append: String ): String =
-    if (condition (line )
+  def are_trim_equal (line: String, pattern: String ): Boolean =
+    (line.trim == pattern.trim )
+
+  def replace_all_when (line: String, condition: (String, String ) => Boolean, pattern: String, new_text: String ): String =
+    if (condition (line, pattern )
+    ) line.replaceAll (pattern, new_text )
+    else line
+
+  def append_if_condition (line: String, condition: (String, String ) => Boolean, pattern: String, to_append: String ): String =
+    if (condition (line, pattern )
     ) line + to_append
     else line
 

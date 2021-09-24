@@ -183,4 +183,78 @@ case class SpecificTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuit
     assert (obtained == expected )
   }
 
+  test ("should translate let in 1") {
+    lazy val original = "let x = 0" +
+      "\n in x + x"
+    lazy val expected = "{ lazy val x = 0" +
+      "\n   x + x }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+  test ("should translate let in 2") {
+    lazy val original = "f(x: Int): Int =" +
+      "\n  let y = x + x" +
+      "\n  in y"
+    lazy val expected = "def f (x: Int ): Int =" +
+      "\n  { lazy val y = x + x" +
+      "\n    y }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+  test ("should translate let in 3") {
+    lazy val original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in y"
+    lazy val expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n    y }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+  test ("should translate let in 4") {
+    lazy val original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in let z = y + y" +
+      "\n  in z"
+    lazy val expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n   lazy val z = y + y" +
+      "\n    z }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
+
+  test ("should translate let in 5") {
+    lazy val original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in let" +
+      "\n    z = y + y" +
+      "\n  in z"
+    lazy val expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n   " +
+      "\n    lazy val z = y + y" +
+      "\n    z }" +
+      "\n"
+    lazy val obtained = MicroTranslator_ () .translate_program (original )
+
+    assert (obtained == expected )
+  }
 }

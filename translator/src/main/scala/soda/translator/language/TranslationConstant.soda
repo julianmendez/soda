@@ -20,7 +20,15 @@ package soda.translator.language
 
   soda_in_pattern: String = soda_in_reserved_word + " "
 
+  soda_let_reserved_word: String = "let"
+
+  soda_let_pattern: String = soda_let_reserved_word + " "
+
   scala_in_translation: String = " }"
+
+  soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+
+  scala_in_let_translation: String = " "
 
   soda_match_reserved_word: String = "match"
 

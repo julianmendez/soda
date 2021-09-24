@@ -75,10 +75,10 @@ trait DefinitionTranslator  extends LineTranslator {
     contains_equals && ! (ends_with_equals || ends_with_opening_brace )
 
   lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces (tc.scala_value + scala_space )
+    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space )
 
   lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces (tc.scala_definition + scala_space )
+    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translation_of_class_definition

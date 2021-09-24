@@ -33,8 +33,8 @@ package soda.translator.replacement
   remove_space_from_scala_line(): Replacement =
     Replacement_(aux.remove_space_from_scala_line(line))
 
-  add_after_spaces(text_to_prepend: String): Replacement =
-    Replacement_(aux.add_after_spaces(line, text_to_prepend))
+  add_after_spaces_or_pattern(pattern: String, text_to_prepend: String): Replacement =
+    Replacement_(aux.add_after_spaces_or_pattern(line, pattern, text_to_prepend))
 
   replace_regex(translator: Translator): Replacement =
     Replacement_(aux.replace_regex(line, translator))
@@ -118,9 +118,12 @@ package soda.translator.replacement
         else line_without_starting_space
     in line_without_ending_space
 
-  add_after_spaces(line: String, text_to_prepend: String): String =
+  add_after_spaces_or_pattern(line: String, pattern: String, text_to_prepend: String): String =
     let
-      prefix_length = line.takeWhile(ch -> ch.isSpaceChar).length
+      prefix_length =
+        if line.trim.startsWith(pattern)
+        then line.indexOf(pattern) + pattern.length
+        else line.takeWhile(ch -> ch.isSpaceChar).length
     in line.substring(0, prefix_length) + text_to_prepend + line.substring(prefix_length)
 
   replace_regex(line: String, translator: Translator): String =

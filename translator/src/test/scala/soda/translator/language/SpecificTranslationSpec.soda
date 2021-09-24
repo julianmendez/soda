@@ -184,5 +184,79 @@ package soda.translator.language
     assert(obtained == expected)
   }
 
+  test ("should translate let in 1") {
+    original = "let x = 0" +
+      "\n in x + x"
+    expected = "{ lazy val x = 0" +
+      "\n   x + x }" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert (obtained == expected)
+  }
+
+  test ("should translate let in 2") {
+    original = "f(x: Int): Int =" +
+      "\n  let y = x + x" +
+      "\n  in y"
+    expected = "def f (x: Int ): Int =" +
+      "\n  { lazy val y = x + x" +
+      "\n    y }" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert (obtained == expected)
+  }
+
+  test ("should translate let in 3") {
+    original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in y"
+    expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n    y }" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert (obtained == expected)
+  }
+
+  test ("should translate let in 4") {
+    original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in let z = y + y" +
+      "\n  in z"
+    expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n   lazy val z = y + y" +
+      "\n    z }" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert (obtained == expected)
+  }
+
+  test ("should translate let in 5") {
+    original = "f(x: Int): Int =" +
+      "\n  let" +
+      "\n    y = x + x" +
+      "\n  in let" +
+      "\n    z = y + y" +
+      "\n  in z"
+    expected = "def f (x: Int ): Int =" +
+      "\n  {" +
+      "\n    lazy val y = x + x" +
+      "\n   " +
+      "\n    lazy val z = y + y" +
+      "\n    z }" +
+      "\n"
+    obtained = MicroTranslator_().translate_program(original)
+
+    assert (obtained == expected)
+  }
 }
 

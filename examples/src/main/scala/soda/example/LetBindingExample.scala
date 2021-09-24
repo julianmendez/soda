@@ -22,14 +22,11 @@ trait LetBindingExample {
       Seq (first_part, second_part, third_part ) }
 
   lazy val three_parts_like_coq_let_in =
-    {
-      lazy val part = " part"
-      /* in let */
-      lazy val first_part = "first" + part
-      /* in let */
+    { lazy val part = " part"
+     lazy val first_part = "first" + part
+     
       lazy val second_part = "second" + part
-      /* in let */
-      lazy val third_part = "third" + part
+     lazy val third_part = "third" + part
       Seq [String]  () .+: (third_part ) .+: (second_part ) .+: (first_part ) }
 }
 
