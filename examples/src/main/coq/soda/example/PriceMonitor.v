@@ -85,7 +85,7 @@ Definition sum_of_prices (prices: list Money): Money :=
 Definition price_of_flight_by_segments (get_price : Flight -> Date -> Money) (flight: Flight) (date: Date): Money :=
   sum_of_prices (prices_of_segments get_price (flg_segments flight) date).
 
-Definition complies_with_ethical_rule_1 (get_price : Flight -> Date -> Money) (flight: Flight) (date: Date): bool :=
+Definition complies_with_societal_principle_1 (get_price : Flight -> Date -> Money) (flight: Flight) (date: Date): bool :=
   (get_price flight date) <=? (price_of_flight_by_segments get_price flight date).
 
 (** Rule 2 *)
@@ -93,7 +93,7 @@ Definition complies_with_ethical_rule_1 (get_price : Flight -> Date -> Money) (f
 Definition is_price_increase_acceptable (old_price: nat) (new_price: nat): bool :=
     new_price <=? ((old_price * 125) / 100).
 
-Definition complies_with_ethical_rule_2 (get_price: Flight -> Date -> Money) (flight: Flight) (date: Date): bool :=
+Definition complies_with_societal_principle_2 (get_price: Flight -> Date -> Money) (flight: Flight) (date: Date): bool :=
   is_price_increase_acceptable (get_price flight date) (get_price flight (get_a_year_before date) ).
 
 

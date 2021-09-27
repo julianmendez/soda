@@ -69,7 +69,7 @@ class Flight
       not (intermediate_stops.contains(airport_end))
 }
 
-class MonitoringAgent = {
+class PriceMonitorAgent = {
   import java.util.Date
 
   has pricing_agent: PricingAgent
