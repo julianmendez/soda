@@ -1,19 +1,34 @@
 package soda.example.pricemonitor
 
 
+class Report3 = {
+
+  has compliant: Boolean
+
+  has price_of_flight: Int
+
+  has price_of_flight_by_segments: Int
+}
+
+class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
+  extends Report3
+
 class Principle3
   extends Principle = {
 
-  complies (customer: Customer, flight: Flight, date_in_days: Int): Boolean =
-    get_price (customer, flight, date_in_days) <= price_of_flight_by_segments (customer, flight, date_in_days)
+  complies (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
+    let
+      price_of_flight = get_price (customer, flight, date_in_days)
+      price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days)
+    in Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
 
-  price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
-    sum_of_prices (prices_of_segments (customer, SegmentsForFlight_ (flight).segments, date_in_days))
+  get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
+    sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight).segments, date_in_days))
 
-  prices_of_segments (customer: Customer, segments: Seq[Segment], date_in_days: Int): Seq[Int] =
+  get_prices_of_segments (customer: Customer, segments: Seq[Segment], date_in_days: Int): Seq[Int] =
     segments.map (segment -> get_price (customer, segment, date_in_days) )
 
-  sum_of_prices (prices: Seq[Int]): Int =
+  sum_prices (prices: Seq[Int]): Int =
     prices.sum
 }
 
@@ -34,16 +49,15 @@ class SegmentsForFlight = {
   has flight: Flight
 
   segments: Seq[Segment] =
-    _segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport)
+    rec_segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport)
 
-  _segments_multi (first_airport: String, intermediate_stops: Seq[String], last_airport: String): Seq[Segment] =
+  rec_segments_multi (first_airport: String, intermediate_stops: Seq[String], last_airport: String): Seq[Segment] =
     match intermediate_stops {
       case Nil -> Nil.+:(Segment_ (first_airport, last_airport))
-      case x :: xs -> _segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
+      case x :: xs -> rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
     }
 }
 
 class SegmentsForFlight_ (flight: Flight)
   extends SegmentsForFlight
-
 

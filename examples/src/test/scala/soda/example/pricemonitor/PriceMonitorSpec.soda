@@ -5,7 +5,7 @@ package soda.example.pricemonitor
   extends PricingAgent = {
 
   get_price (customer: Customer, flight: Flight, date: Int): Int =
-    customer.name.length * date
+    customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1)
 }
 
 * UnfairPricingAgent_()
@@ -31,15 +31,13 @@ package soda.example.pricemonitor
   customer_1 = Customer_ (name := "Jon", ip_address := "127.0.0.1")
   customer_2 = Customer_ (name := "Maria", ip_address := "192.168.1.1")
 
-  flight_1 = Flight_ ("UMU", Seq(), "ARN")
-  flight_2 = Flight_ ("BER", Seq("FRA", "ARN"), "UMU")
+  flight_1 = Flight_ ("BER", Seq("FRA", "ARN"), "UMU")
   date_1 = 18898
-  date_2 = 10000
 
   test("Test unfair pricing agent - principle 1") {
     principle = Principle1_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
-    expected = false
+    expected = Report1_(false, 897, 1495, 0.6)
 
     assert (obtained == expected)
   }
@@ -47,7 +45,7 @@ package soda.example.pricemonitor
   test("Test unfair pricing agent - principle 2") {
     principle = Principle2_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = false
+    expected = Report2_(false, 702, 897)
 
     assert (obtained == expected)
   }
@@ -55,31 +53,31 @@ package soda.example.pricemonitor
   test("Test unfair pricing agent - principle 3") {
     principle = Principle3_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = false
+    expected = Report3_(false, 897, 891)
 
     assert (obtained == expected)
   }
 
   test("Test fair pricing agent - principle 1") {
-    principle = Principle1_(fair_pricing_agent)
+    principle = Principle1_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
-    expected = true
+    expected = Report1_ (true, 300, 300, 1.0)
 
     assert (obtained == expected)
   }
 
   test("Test fair pricing agent - principle 2") {
-    principle = Principle2_(fair_pricing_agent)
+    principle = Principle2_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = true
+    expected = Report2_ (true, 300, 300)
 
     assert (obtained == expected)
   }
 
   test("Test fair pricing agent - principle 3") {
-    principle = Principle3_(fair_pricing_agent)
+    principle = Principle3_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = true
+    expected = Report3_ (true, 300, 300)
 
     assert (obtained == expected)
   }

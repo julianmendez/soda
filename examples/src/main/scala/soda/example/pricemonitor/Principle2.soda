@@ -1,6 +1,18 @@
 package soda.example.pricemonitor
 
 
+class Report2 = {
+
+  has compliant: Boolean
+
+  has old_price: Int
+
+  has new_price: Int
+}
+
+class Report2_ (compliant: Boolean, old_price: Int, new_price: Int)
+  extends Report2
+
 class Principle2
   extends Principle = {
 
@@ -9,13 +21,13 @@ class Principle2
   get_a_year_before (date_in_days: Int): Int =
     date_in_days - 365
 
-  complies (customer: Customer, flight: Flight, date_in_days: Int): Boolean =
+  complies (customer: Customer, flight: Flight, date_in_days: Int): Report2 =
     let
       old_price = get_price (customer, flight, get_a_year_before (date_in_days) )
       new_price = get_price (customer, flight, date_in_days)
-    in new_price <= old_price * acceptable_yearly_increase
+    in Report2_ (new_price <= old_price * acceptable_yearly_increase, old_price, new_price)
 }
 
-class Principle2_(pricing_agent: PricingAgent)
+class Principle2_ (pricing_agent: PricingAgent)
   extends Principle2
 
