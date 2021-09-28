@@ -1,6 +1,12 @@
 package soda.example
 
 
+trait Customer {
+
+  def name: String
+
+  def ip_address: String
+}
 
 trait Airport {
   import soda.lib.OptionSD
@@ -29,7 +35,7 @@ case class AirportBuilder () {
 trait PricingAgent {
   import java.util.Date
 
-  def get_price (flight: Flight, date: Date ): Int
+  def get_price (customer: Customer, flight: Flight, date: Date ): Int
 }
 
 trait Trip {
@@ -65,7 +71,8 @@ trait Flight  extends Trip {
       ! (intermediate_stops.contains (airport_end )  )
 }
 
-trait MonitoringAgent {
+
+trait PriceMonitorAgent {
   import java.util.Date
 
   def pricing_agent: PricingAgent
@@ -74,25 +81,41 @@ trait MonitoringAgent {
 
   def as_flight (segment: Segment ): Flight
 
-  def prices_of_segments (segments: Seq [Segment], date: Date ): Seq [Int] =
-    segments.map (segment => get_price (SingleSegmentFlight_ (segment.airport_start, segment.airport_end ), date ) )
+  def get_price (customer: Customer, flight: Flight, date: Date ): Int =
+    pricing_agent.get_price (customer, flight, date )
+
+  def min (x: Int, y: Int ): Int = if (x < y ) x else y
+
+  def max (x: Int, y: Int ): Int = if (x > y ) x else y
+
+  lazy val minimum_acceptable_similarity = 0.95
+
+  def complies_with_societal_principle_1 (customer1: Customer, customer2: Customer, flight: Flight, date: Date ): Boolean =
+    {
+      lazy val price_for_customer1 = get_price (customer1, flight, date )
+      lazy val price_for_customer2 = get_price (customer2, flight, date )
+      lazy val similarity = min (price_for_customer1, price_for_customer2 ) / max (price_for_customer1, price_for_customer2 )
+      similarity  >= minimum_acceptable_similarity }
+
+  lazy val acceptable_yearly_increase = 1.25
+
+  def complies_with_societal_principle_2 (customer: Customer, flight: Flight, date: Date ): Boolean =
+    {
+      lazy val old_price = get_price (customer, flight, get_a_year_before (date ) )
+      lazy val new_price = get_price (customer, flight, date )
+      new_price <= old_price * acceptable_yearly_increase }
+
+  def complies_with_societal_principle_3 (customer: Customer, flight: Flight, date: Date ): Boolean =
+    get_price (customer, flight, date ) <= price_of_flight_by_segments (customer, flight, date )
+
+  def price_of_flight_by_segments (customer: Customer, flight: Flight, date: Date ): Int =
+    sum_of_prices (prices_of_segments (customer, flight.segments, date )  )
+
+  def prices_of_segments (customer: Customer, segments: Seq [Segment], date: Date ): Seq [Int] =
+    segments.map (segment => get_price (customer, SingleSegmentFlight_ (segment.airport_start, segment.airport_end ), date ) )
 
   def sum_of_prices (prices: Seq [Int]  ): Int =
     prices.sum
-
-  def price_of_flight_by_segments (flight: Flight, date: Date ): Int =
-    sum_of_prices (prices_of_segments (flight.segments, date )  )
-
-  def complies_with_ethical_rule_1 (flight: Flight, date: Date ): Boolean =
-    get_price (flight, date ) <= price_of_flight_by_segments (flight, date )
-
-  def complies_with_ethical_rule_2 (flight: Flight, date: Date ): Boolean =
-    is_price_increase_acceptable (old_price = get_price (flight, date ), new_price = get_price (flight, get_a_year_before (date ) ) )
-
-  def is_price_increase_acceptable (old_price: Int, new_price: Int ): Boolean =
-    new_price <= (old_price * 125 ) / 100
-
-  def get_price (flight: Flight, date: Date ): Int = pricing_agent.get_price (flight, date )
 }
 
 trait SingleSegmentFlight  extends Flight {

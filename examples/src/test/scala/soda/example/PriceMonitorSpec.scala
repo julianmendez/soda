@@ -1,7 +1,7 @@
 package soda.example
 
 
-case class FlighMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
 
