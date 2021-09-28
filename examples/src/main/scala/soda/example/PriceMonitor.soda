@@ -8,6 +8,17 @@ class Customer = {
   has ip_address: String
 }
 
+class Customer_(name: String, ip_address: String)
+  extends Customer
+
+class PricingAgent = {
+
+  has get_price: (Customer, Flight, Int) -> Int
+}
+
+class PricingAgent_(get_price: (Customer, Flight, Int) -> Int)
+  extends PricingAgent
+
 class Airport = {
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
@@ -31,12 +42,6 @@ class AirportBuilder() = {
 
   build (name: String): OptionSD[Airport] =
     _Airport_(name).Airport_checked
-}
-
-class PricingAgent = {
-  import java.util.Date
-
-  has get_price (customer: Customer, flight: Flight, date: Date): Int
 }
 
 class Trip = {
@@ -75,51 +80,76 @@ class Flight
       not (intermediate_stops.contains(airport_end))
 }
 
+class FlightSocietalPrinciple = {
+
+  has pricing_agent: PricingAgent
+
+  get_price (customer: Customer, flight: Flight, date_in_days: Int): Int =
+    pricing_agent.get_price (customer, flight, date_in_days)
+}
+
+class FlightSocietalPrinciple1
+ extends FlightSocietalPrinciple = {
+
+  minimum_acceptable_similarity = 0.95
+
+  min (x: Int, y: Int): Int = if x < y then x else y
+
+  max (x: Int, y: Int): Int = if x > y then x else y
+
+  complies (c1: Customer, c2: Customer, flight: Flight, date_in_days: Int): Boolean =
+    let
+      price_for_c1 = get_price(c1, flight, date_in_days)
+      price_for_c2 = get_price(c2, flight, date_in_days)
+      similarity = min (price_for_c1, price_for_c2) / max (price_for_c1, price_for_c2)
+    in similarity >= minimum_acceptable_similarity
+}
+
+class FlightSocietalPrinciple1_(get_price: (Customer, Flight, Int) -> Int)
+
+class FlightSocietalPrinciple2
+  extends FlightSocietalPrinciple = {
+
+  acceptable_yearly_increase = 1.25
+
+  get_a_year_before (date_in_days: Int): Int =
+    date_in_days - 365
+
+  complies (customer: Customer, flight: Flight, date_in_days: Int): Boolean =
+    let
+      old_price = get_price (customer, flight, get_a_year_before (date_in_days) )
+      new_price = get_price (customer, flight, date_in_days)
+    in new_price <= old_price * acceptable_yearly_increase
+}
+
+class FlightSocietalPrinciple2_(get_price: (Customer, Flight, Int) -> Int)
+
+class FlightSocietalPrinciple3
+  extends FlightSocietalPrinciple = {
+
+  complies (customer: Customer, flight: Flight, date_in_days: Int): Boolean =
+    get_price (customer, flight, date_in_days) <= price_of_flight_by_segments (customer, flight, date_in_days)
+
+  price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
+    sum_of_prices (prices_of_segments (customer, flight.segments, date_in_days))
+
+  prices_of_segments (customer: Customer, segments: Seq[Segment], date_in_days: Int): Seq[Int] =
+    segments.map (segment -> get_price (customer, SingleSegmentFlight_ (segment.airport_start, segment.airport_end), date_in_days) )
+
+  sum_of_prices (prices: Seq[Int]): Int =
+    prices.sum
+}
+
+class FlightSocietalPrinciple3_(get_price: (Customer, Flight, Int) -> Int)
 
 class PriceMonitorAgent = {
   import java.util.Date
 
   has pricing_agent: PricingAgent
 
-  has get_a_year_before (date: Date): Date
+  has get_a_year_before (date_in_days: Date): Date
 
   has as_flight (segment: Segment): Flight
-
-  get_price (customer: Customer, flight: Flight, date: Date): Int =
-    pricing_agent.get_price (customer, flight, date)
-
-  min (x: Int, y: Int): Int = if x < y then x else y
-
-  max (x: Int, y: Int): Int = if x > y then x else y
-
-  minimum_acceptable_similarity = 0.95
-
-  complies_with_societal_principle_1 (customer1: Customer, customer2: Customer, flight: Flight, date: Date): Boolean =
-    let
-      price_for_customer1 = get_price(customer1, flight, date)
-      price_for_customer2 = get_price(customer2, flight, date)
-      similarity = min(price_for_customer1, price_for_customer2) / max(price_for_customer1, price_for_customer2)
-    in similarity  >= minimum_acceptable_similarity
-
-  acceptable_yearly_increase = 1.25
-
-  complies_with_societal_principle_2 (customer: Customer, flight: Flight, date: Date): Boolean =
-    let
-      old_price = get_price (customer, flight, get_a_year_before(date) )
-      new_price = get_price (customer, flight, date)
-    in new_price <= old_price * acceptable_yearly_increase
-
-  complies_with_societal_principle_3 (customer: Customer, flight: Flight, date: Date): Boolean =
-    get_price (customer, flight, date) <= price_of_flight_by_segments (customer, flight, date)
-
-  price_of_flight_by_segments (customer: Customer, flight: Flight, date: Date): Int =
-    sum_of_prices (prices_of_segments (customer, flight.segments, date))
-
-  prices_of_segments (customer: Customer, segments: Seq[Segment], date: Date): Seq[Int] =
-    segments.map (segment -> get_price (customer, SingleSegmentFlight_ (segment.airport_start, segment.airport_end), date) )
-
-  sum_of_prices (prices: Seq[Int]): Int =
-    prices.sum
 }
 
 class SingleSegmentFlight
@@ -130,5 +160,4 @@ class SingleSegmentFlight
 
 class SingleSegmentFlight_(airport_start: Airport, airport_end: Airport)
   extends SingleSegmentFlight
-
 
