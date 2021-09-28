@@ -1,0 +1,23 @@
+package soda.example.pricemonitor
+
+
+class Principle1
+ extends Principle = {
+
+  minimum_acceptable_similarity = 0.95
+
+  min (x: Int, y: Int): Int = if x < y then x else y
+
+  max (x: Int, y: Int): Int = if x > y then x else y
+
+  complies (c1: Customer, c2: Customer, flight: Flight, date_in_days: Int): Boolean =
+    let
+      price_for_c1 = get_price(c1, flight, date_in_days)
+      price_for_c2 = get_price(c2, flight, date_in_days)
+      similarity = min (price_for_c1, price_for_c2) / max (price_for_c1, price_for_c2)
+    in similarity >= minimum_acceptable_similarity
+}
+
+class Principle1_(pricing_agent: PricingAgent)
+  extends Principle1
+
