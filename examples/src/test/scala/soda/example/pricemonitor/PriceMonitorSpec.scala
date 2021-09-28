@@ -18,6 +18,9 @@ trait FairPricingAgent  extends PricingAgent {
 case class FairPricingAgent_ ()  extends FairPricingAgent
 
 case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+  import java.util.Date
+  import java.util.Calendar
+  import java.util.TimeZone
 
   lazy val fair_pricing_agent = FairPricingAgent_ ()
 
@@ -29,50 +32,74 @@ case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   lazy val flight_1 = Flight_ ("BER", Seq ("FRA", "ARN"), "UMU")
   lazy val date_1 = 18898
 
-  test ("Test unfair pricing agent - principle 1") {
+  test ("unfair pricing agent - principle 1") {
     lazy val principle = Principle1_ (unfair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, customer_2, flight_1, date_1 )
-    lazy val expected = Report1_ (false, 897, 1495, 0.6 )
+    lazy val expected = Report1 (false, 897, 1495, 0.6 )
 
     assert (obtained == expected )
   }
 
-  test ("Test unfair pricing agent - principle 2") {
+  test ("unfair pricing agent - principle 2") {
     lazy val principle = Principle2_ (unfair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, flight_1, date_1 )
-    lazy val expected = Report2_ (false, 702, 897 )
+    lazy val expected = Report2 (false, 702, 897 )
 
     assert (obtained == expected )
   }
 
-  test ("Test unfair pricing agent - principle 3") {
+  test ("unfair pricing agent - principle 3") {
     lazy val principle = Principle3_ (unfair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, flight_1, date_1 )
-    lazy val expected = Report3_ (false, 897, 891 )
+    lazy val expected = Report3 (false, 897, 891 )
 
     assert (obtained == expected )
   }
 
-  test ("Test fair pricing agent - principle 1") {
+  test ("fair pricing agent - principle 1") {
     lazy val principle = Principle1_ (fair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, customer_2, flight_1, date_1 )
-    lazy val expected = Report1_ (true, 300, 300, 1.0 )
+    lazy val expected = Report1 (true, 300, 300, 1.0 )
 
     assert (obtained == expected )
   }
 
-  test ("Test fair pricing agent - principle 2") {
+  test ("fair pricing agent - principle 2") {
     lazy val principle = Principle2_ (fair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, flight_1, date_1 )
-    lazy val expected = Report2_ (true, 300, 300 )
+    lazy val expected = Report2 (true, 300, 300 )
 
     assert (obtained == expected )
   }
 
-  test ("Test fair pricing agent - principle 3") {
+  test ("fair pricing agent - principle 3") {
     lazy val principle = Principle3_ (fair_pricing_agent )
     lazy val obtained = principle.complies (customer_1, flight_1, date_1 )
-    lazy val expected = Report3_ (true, 300, 300 )
+    lazy val expected = Report3 (true, 300, 300 )
+
+    assert (obtained == expected )
+  }
+
+  test ("get number of days for 1970-01-01") {
+    lazy val calendar = new Calendar.Builder ()
+      .setTimeZone (TimeZone.getTimeZone ("UTC")  )
+      .setDate (1970, 0, 1 )
+      .build
+    lazy val date = calendar.getTime
+    lazy val obtained = fair_pricing_agent.get_days_for (date )
+    lazy val expected = 0
+
+    assert (obtained == expected )
+  }
+
+  test ("get number of days for 2021-09-28") {
+    lazy val calendar = new Calendar.Builder ()
+      .setTimeZone (TimeZone.getTimeZone ("UTC")  )
+      .setDate (2021, 8, 28 )
+      .build
+    lazy val date = calendar.getTime
+    lazy val obtained = fair_pricing_agent.get_days_for (date )
+    lazy val expected = 18898
 
     assert (obtained == expected )
   }

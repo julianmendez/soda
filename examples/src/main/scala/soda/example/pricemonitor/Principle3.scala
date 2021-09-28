@@ -1,16 +1,7 @@
 package soda.example.pricemonitor
 
 
-trait Report3 {
-
-  def compliant: Boolean
-
-  def price_of_flight: Int
-
-  def price_of_flight_by_segments: Int
-}
-
-case class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )  extends Report3
+case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
 
 trait Principle3  extends Principle {
 
@@ -18,7 +9,7 @@ trait Principle3  extends Principle {
     {
       lazy val price_of_flight = get_price (customer, flight, date_in_days )
       lazy val price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days )
-      Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments ) }
+      Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments ) }
 
   def get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int ): Int =
     sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight ) .segments, date_in_days )  )

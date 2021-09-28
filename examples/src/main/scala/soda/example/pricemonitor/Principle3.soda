@@ -1,17 +1,7 @@
 package soda.example.pricemonitor
 
 
-class Report3 = {
-
-  has compliant: Boolean
-
-  has price_of_flight: Int
-
-  has price_of_flight_by_segments: Int
-}
-
-class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
-  extends Report3
+class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
 
 class Principle3
   extends Principle = {
@@ -20,7 +10,7 @@ class Principle3
     let
       price_of_flight = get_price (customer, flight, date_in_days)
       price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days)
-    in Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
+    in Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
 
   get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
     sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight).segments, date_in_days))

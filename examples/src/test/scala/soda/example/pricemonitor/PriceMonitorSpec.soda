@@ -23,6 +23,9 @@ package soda.example.pricemonitor
 
 * PriceMonitorSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+  + java.util.Date
+  + java.util.Calendar
+  + java.util.TimeZone
 
   fair_pricing_agent = FairPricingAgent_()
 
@@ -34,50 +37,74 @@ package soda.example.pricemonitor
   flight_1 = Flight_ ("BER", Seq("FRA", "ARN"), "UMU")
   date_1 = 18898
 
-  test("Test unfair pricing agent - principle 1") {
+  test("unfair pricing agent - principle 1") {
     principle = Principle1_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
-    expected = Report1_(false, 897, 1495, 0.6)
+    expected = Report1 (false, 897, 1495, 0.6)
 
     assert (obtained == expected)
   }
 
-  test("Test unfair pricing agent - principle 2") {
+  test("unfair pricing agent - principle 2") {
     principle = Principle2_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = Report2_(false, 702, 897)
+    expected = Report2 (false, 702, 897)
 
     assert (obtained == expected)
   }
 
-  test("Test unfair pricing agent - principle 3") {
+  test("unfair pricing agent - principle 3") {
     principle = Principle3_(unfair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = Report3_(false, 897, 891)
+    expected = Report3 (false, 897, 891)
 
     assert (obtained == expected)
   }
 
-  test("Test fair pricing agent - principle 1") {
+  test("fair pricing agent - principle 1") {
     principle = Principle1_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
-    expected = Report1_ (true, 300, 300, 1.0)
+    expected = Report1 (true, 300, 300, 1.0)
 
     assert (obtained == expected)
   }
 
-  test("Test fair pricing agent - principle 2") {
+  test("fair pricing agent - principle 2") {
     principle = Principle2_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = Report2_ (true, 300, 300)
+    expected = Report2 (true, 300, 300)
 
     assert (obtained == expected)
   }
 
-  test("Test fair pricing agent - principle 3") {
+  test("fair pricing agent - principle 3") {
     principle = Principle3_ (fair_pricing_agent)
     obtained = principle.complies (customer_1, flight_1, date_1)
-    expected = Report3_ (true, 300, 300)
+    expected = Report3 (true, 300, 300)
+
+    assert (obtained == expected)
+  }
+
+  test("get number of days for 1970-01-01") {
+    calendar = @new Calendar.Builder ()
+      .setTimeZone (TimeZone.getTimeZone ("UTC"))
+      .setDate (1970, 0, 1)
+      .build
+    date = calendar.getTime
+    obtained = fair_pricing_agent.get_days_for (date)
+    expected = 0
+
+    assert (obtained == expected)
+  }
+
+  test("get number of days for 2021-09-28") {
+    calendar = @new Calendar.Builder ()
+      .setTimeZone (TimeZone.getTimeZone ("UTC"))
+      .setDate (2021, 8, 28)
+      .build
+    date = calendar.getTime
+    obtained = fair_pricing_agent.get_days_for (date)
+    expected = 18898
 
     assert (obtained == expected)
   }

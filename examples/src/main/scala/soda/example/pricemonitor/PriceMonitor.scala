@@ -15,8 +15,10 @@ trait PricingAgent {
 
   def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int
 
+  lazy val milliseconds_per_day: Long = 24 * 60 * 60 * 1000
+
   def get_days_for (date: Date ): Int =
-    (date.getTime / (1000 * 60 * 60 * 24 )  ) .toInt
+    (date.getTime / milliseconds_per_day ) .toInt
 }
 
 trait Flight {
