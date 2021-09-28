@@ -1,4 +1,4 @@
-package soda.example
+package soda.example.pricemonitor
 
 
 case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {

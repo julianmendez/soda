@@ -1,4 +1,4 @@
-(* package soda.example *)
+(* package soda.example.pricemonitor *)
 
 
 Require Import Coq.Init.Nat.
