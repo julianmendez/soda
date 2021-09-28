@@ -11,70 +11,26 @@ trait Customer {
 case class Customer_ (name: String, ip_address: String )  extends Customer
 
 trait PricingAgent {
+  import java.util.Date
 
-  def get_price: (Customer, Flight, Int ) => Int
+  def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int
+
+  def get_days_for (date: Date ): Int =
+    (date.getTime / (1000 * 60 * 60 * 24 )  ) .toInt
 }
 
-case class PricingAgent_ (get_price: (Customer, Flight, Int ) => Int )  extends PricingAgent
+trait Flight {
 
-trait Airport {
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.lib.NoneSD_
+  def start_airport: String
 
-  def name: String
+  def intermediate_airports: Seq [String]
 
-  lazy val Airport_invariant =
-    name.length == 3 &&
-    name.forall (ch => 'A' <= ch && ch <= 'Z')
-
-  lazy val Airport_checked: OptionSD [Airport] =
-    if (Airport_invariant ) SomeSD_ (this ) else NoneSD_ ()
+  def end_airport: String
 }
 
-case class _Airport_ (name: String )  extends Airport
+case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )  extends Flight
 
-case class AirportBuilder () {
-  import soda.lib.OptionSD
-
-  def build (name: String ): OptionSD [Airport] =
-    _Airport_ (name ) .Airport_checked
-}
-
-trait Trip {
-
-  def airport_start: Airport
-
-  def airport_end: Airport
-}
-
-trait Segment  extends Trip {
-
-  lazy val invariant_Segment =
-    ! (airport_start == airport_end )
-}
-
-case class Segment_ (airport_start: Airport, airport_end: Airport )  extends Segment
-
-trait Flight  extends Trip {
-
-  def intermediate_stops: Seq [Airport]
-
-  lazy val segments =
-    _segments_multi (airport_start, intermediate_stops, airport_end )
-
-  def _segments_multi (airport_start: Airport, intermediate_stops: Seq [Airport], airport_end: Airport ): Seq [Segment] =
-    intermediate_stops  match {
-      case Nil => Nil.+: (Segment_ (airport_start, airport_end )  )
-      case x:: xs => _segments_multi (x, xs, airport_end ) .+: (Segment_ (airport_start, x )  )
-    }
-
-  lazy val invariant_Flight =
-    ! (intermediate_stops.contains (airport_start )  ) &&
-      ! (intermediate_stops.contains (airport_end )  )
-}
-
-trait FlightSocietalPrinciple {
+trait Principle {
 
   def pricing_agent: PricingAgent
 
@@ -82,7 +38,7 @@ trait FlightSocietalPrinciple {
     pricing_agent.get_price (customer, flight, date_in_days )
 }
 
-trait FlightSocietalPrinciple1 extends FlightSocietalPrinciple {
+trait Principle1 extends Principle {
 
   lazy val minimum_acceptable_similarity = 0.95
 
@@ -98,9 +54,10 @@ trait FlightSocietalPrinciple1 extends FlightSocietalPrinciple {
       similarity >= minimum_acceptable_similarity }
 }
 
-case class FlightSocietalPrinciple1_ (get_price: (Customer, Flight, Int ) => Int )
+case class Principle1_ (pricing_agent: PricingAgent )  extends Principle1
 
-trait FlightSocietalPrinciple2  extends FlightSocietalPrinciple {
+
+trait Principle2  extends Principle {
 
   lazy val acceptable_yearly_increase = 1.25
 
@@ -114,38 +71,44 @@ trait FlightSocietalPrinciple2  extends FlightSocietalPrinciple {
       new_price <= old_price * acceptable_yearly_increase }
 }
 
-case class FlightSocietalPrinciple2_ (get_price: (Customer, Flight, Int ) => Int )
+case class Principle2_ (pricing_agent: PricingAgent )  extends Principle2
 
-trait FlightSocietalPrinciple3  extends FlightSocietalPrinciple {
+trait Principle3  extends Principle {
 
   def complies (customer: Customer, flight: Flight, date_in_days: Int ): Boolean =
     get_price (customer, flight, date_in_days ) <= price_of_flight_by_segments (customer, flight, date_in_days )
 
   def price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int ): Int =
-    sum_of_prices (prices_of_segments (customer, flight.segments, date_in_days )  )
+    sum_of_prices (prices_of_segments (customer, SegmentsForFlight_ (flight ) .segments, date_in_days )  )
 
   def prices_of_segments (customer: Customer, segments: Seq [Segment], date_in_days: Int ): Seq [Int] =
-    segments.map (segment => get_price (customer, SingleSegmentFlight_ (segment.airport_start, segment.airport_end ), date_in_days ) )
+    segments.map (segment => get_price (customer, segment, date_in_days ) )
 
   def sum_of_prices (prices: Seq [Int]  ): Int =
     prices.sum
 }
 
-case class FlightSocietalPrinciple3_ (get_price: (Customer, Flight, Int ) => Int )
+case class Principle3_ (pricing_agent: PricingAgent )  extends Principle3
 
-trait PriceMonitorAgent {
-  import java.util.Date
+trait Segment  extends Flight {
 
-  def pricing_agent: PricingAgent
-
-  def get_a_year_before (date_in_days: Date ): Date
-
-  def as_flight (segment: Segment ): Flight
+  lazy val intermediate_airports = Seq [String]  ()
 }
 
-trait SingleSegmentFlight  extends Flight {
+case class Segment_ (start_airport: String, end_airport: String )  extends Segment
 
-  lazy val intermediate_stops = Seq ()
+trait SegmentsForFlight {
+
+  def flight: Flight
+
+  lazy val segments: Seq [Segment] =
+    _segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport )
+
+  def _segments_multi (first_airport: String, intermediate_stops: Seq [String], last_airport: String ): Seq [Segment] =
+    intermediate_stops  match {
+      case Nil => Nil.+: (Segment_ (first_airport, last_airport )  )
+      case x:: xs => _segments_multi (x, xs, last_airport ) .+: (Segment_ (first_airport, x )  )
+    }
 }
 
-case class SingleSegmentFlight_ (airport_start: Airport, airport_end: Airport )  extends SingleSegmentFlight
+case class SegmentsForFlight_ (flight: Flight )  extends SegmentsForFlight

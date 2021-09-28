@@ -12,75 +12,27 @@ class Customer_(name: String, ip_address: String)
   extends Customer
 
 class PricingAgent = {
+  import java.util.Date
 
-  has get_price: (Customer, Flight, Int) -> Int
+  has get_price (customer: Customer, flight: Flight, date_in_days: Int): Int
+
+  get_days_for (date: Date): Int =
+    (date.getTime / (1000 * 60 * 60 * 24)).toInt
 }
 
-class PricingAgent_(get_price: (Customer, Flight, Int) -> Int)
-  extends PricingAgent
+class Flight = {
 
-class Airport = {
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.lib.NoneSD_
+  has start_airport: String
 
-  has name: String
+  has intermediate_airports: Seq[String]
 
-  Airport_invariant =
-    name.length == 3 and
-    name.forall(ch -> 'A' <= ch and ch <= 'Z')
-
-  Airport_checked: OptionSD[Airport] =
-    if Airport_invariant then SomeSD_(this) else NoneSD_()
+  has end_airport: String
 }
 
-class _Airport_(name: String)
-  extends Airport
+class Flight_ (start_airport: String, intermediate_airports: Seq[String], end_airport: String)
+  extends Flight
 
-class AirportBuilder() = {
-  import soda.lib.OptionSD
-
-  build (name: String): OptionSD[Airport] =
-    _Airport_(name).Airport_checked
-}
-
-class Trip = {
-
-  has airport_start: Airport
-
-  has airport_end: Airport
-}
-
-class Segment
-  extends Trip = {
-
-  invariant_Segment =
-    not (airport_start == airport_end)
-}
-
-class Segment_ (airport_start: Airport, airport_end: Airport)
-  extends Segment
-
-class Flight
-  extends Trip = {
-
-  has intermediate_stops: Seq[Airport]
-
-  segments =
-    _segments_multi (airport_start, intermediate_stops, airport_end)
-
-  _segments_multi (airport_start: Airport, intermediate_stops: Seq[Airport], airport_end: Airport): Seq[Segment] =
-    match intermediate_stops {
-      case Nil -> Nil.+:(Segment_ (airport_start, airport_end))
-      case x :: xs -> _segments_multi(x, xs, airport_end).+:(Segment_ (airport_start, x))
-    }
-
-  invariant_Flight =
-    not (intermediate_stops.contains(airport_start)) and
-      not (intermediate_stops.contains(airport_end))
-}
-
-class FlightSocietalPrinciple = {
+class Principle = {
 
   has pricing_agent: PricingAgent
 
@@ -88,8 +40,8 @@ class FlightSocietalPrinciple = {
     pricing_agent.get_price (customer, flight, date_in_days)
 }
 
-class FlightSocietalPrinciple1
- extends FlightSocietalPrinciple = {
+class Principle1
+ extends Principle = {
 
   minimum_acceptable_similarity = 0.95
 
@@ -105,10 +57,12 @@ class FlightSocietalPrinciple1
     in similarity >= minimum_acceptable_similarity
 }
 
-class FlightSocietalPrinciple1_(get_price: (Customer, Flight, Int) -> Int)
+class Principle1_(pricing_agent: PricingAgent)
+  extends Principle1
 
-class FlightSocietalPrinciple2
-  extends FlightSocietalPrinciple = {
+
+class Principle2
+  extends Principle = {
 
   acceptable_yearly_increase = 1.25
 
@@ -122,42 +76,52 @@ class FlightSocietalPrinciple2
     in new_price <= old_price * acceptable_yearly_increase
 }
 
-class FlightSocietalPrinciple2_(get_price: (Customer, Flight, Int) -> Int)
+class Principle2_(pricing_agent: PricingAgent)
+  extends Principle2
 
-class FlightSocietalPrinciple3
-  extends FlightSocietalPrinciple = {
+class Principle3
+  extends Principle = {
 
   complies (customer: Customer, flight: Flight, date_in_days: Int): Boolean =
     get_price (customer, flight, date_in_days) <= price_of_flight_by_segments (customer, flight, date_in_days)
 
   price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
-    sum_of_prices (prices_of_segments (customer, flight.segments, date_in_days))
+    sum_of_prices (prices_of_segments (customer, SegmentsForFlight_ (flight).segments, date_in_days))
 
   prices_of_segments (customer: Customer, segments: Seq[Segment], date_in_days: Int): Seq[Int] =
-    segments.map (segment -> get_price (customer, SingleSegmentFlight_ (segment.airport_start, segment.airport_end), date_in_days) )
+    segments.map (segment -> get_price (customer, segment, date_in_days) )
 
   sum_of_prices (prices: Seq[Int]): Int =
     prices.sum
 }
 
-class FlightSocietalPrinciple3_(get_price: (Customer, Flight, Int) -> Int)
+class Principle3_(pricing_agent: PricingAgent)
+  extends Principle3
 
-class PriceMonitorAgent = {
-  import java.util.Date
-
-  has pricing_agent: PricingAgent
-
-  has get_a_year_before (date_in_days: Date): Date
-
-  has as_flight (segment: Segment): Flight
-}
-
-class SingleSegmentFlight
+class Segment
   extends Flight = {
 
-  intermediate_stops = Seq()
+  intermediate_airports = Seq[String]()
 }
 
-class SingleSegmentFlight_(airport_start: Airport, airport_end: Airport)
-  extends SingleSegmentFlight
+class Segment_ (start_airport: String, end_airport: String)
+  extends Segment
+
+class SegmentsForFlight = {
+
+  has flight: Flight
+
+  segments: Seq[Segment] =
+    _segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport)
+
+  _segments_multi (first_airport: String, intermediate_stops: Seq[String], last_airport: String): Seq[Segment] =
+    match intermediate_stops {
+      case Nil -> Nil.+:(Segment_ (first_airport, last_airport))
+      case x :: xs -> _segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
+    }
+}
+
+class SegmentsForFlight_ (flight: Flight)
+  extends SegmentsForFlight
+
 

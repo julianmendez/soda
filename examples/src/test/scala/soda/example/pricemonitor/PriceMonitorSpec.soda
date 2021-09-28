@@ -1,31 +1,87 @@
 package soda.example.pricemonitor
 
 
+* UnfairPricingAgent
+  extends PricingAgent = {
+
+  get_price (customer: Customer, flight: Flight, date: Int): Int =
+    customer.name.length * date
+}
+
+* UnfairPricingAgent_()
+  extends UnfairPricingAgent
+
+* FairPricingAgent
+  extends PricingAgent = {
+
+  get_price (customer: Customer, flight: Flight, date: Int): Int =
+    100 * (flight.intermediate_airports.length + 1)
+}
+
+* FairPricingAgent_()
+  extends FairPricingAgent
+
 * PriceMonitorSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
 
-  as_string(maybe_airport: OptionSD[Airport]): String =
-    match maybe_airport {
-      | SomeSD_(airport) -> airport.name
-      | otherwise -> ""
-    }
+  fair_pricing_agent = FairPricingAgent_()
 
-  test("Building valid airport identifiers") {
-    builder = AirportBuilder()
-    obtained = Seq(
-      builder.build("UME"),
-      builder.build("ARN"),
-      builder.build("ESSA"),
-      builder.build("ESNU"),
-      builder.build("ume"),
-      builder.build("arn"),
-      builder.build("FRA")
-    ).map(x -> as_string (x) )
-    expected = Seq( "UME", "ARN", "", "", "", "", "FRA")
+  unfair_pricing_agent = UnfairPricingAgent_()
 
-    assert(obtained == expected)
+  customer_1 = Customer_ (name := "Jon", ip_address := "127.0.0.1")
+  customer_2 = Customer_ (name := "Maria", ip_address := "192.168.1.1")
+
+  flight_1 = Flight_ ("UMU", Seq(), "ARN")
+  flight_2 = Flight_ ("BER", Seq("FRA", "ARN"), "UMU")
+  date_1 = 18898
+  date_2 = 10000
+
+  test("Test unfair pricing agent - principle 1") {
+    principle = Principle1_(unfair_pricing_agent)
+    obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
+    expected = false
+
+    assert (obtained == expected)
+  }
+
+  test("Test unfair pricing agent - principle 2") {
+    principle = Principle2_(unfair_pricing_agent)
+    obtained = principle.complies (customer_1, flight_1, date_1)
+    expected = false
+
+    assert (obtained == expected)
+  }
+
+  test("Test unfair pricing agent - principle 3") {
+    principle = Principle3_(unfair_pricing_agent)
+    obtained = principle.complies (customer_1, flight_1, date_1)
+    expected = false
+
+    assert (obtained == expected)
+  }
+
+  test("Test fair pricing agent - principle 1") {
+    principle = Principle1_(fair_pricing_agent)
+    obtained = principle.complies (customer_1, customer_2, flight_1, date_1)
+    expected = true
+
+    assert (obtained == expected)
+  }
+
+  test("Test fair pricing agent - principle 2") {
+    principle = Principle2_(fair_pricing_agent)
+    obtained = principle.complies (customer_1, flight_1, date_1)
+    expected = true
+
+    assert (obtained == expected)
+  }
+
+  test("Test fair pricing agent - principle 3") {
+    principle = Principle3_(fair_pricing_agent)
+    obtained = principle.complies (customer_1, flight_1, date_1)
+    expected = true
+
+    assert (obtained == expected)
   }
 }
 
