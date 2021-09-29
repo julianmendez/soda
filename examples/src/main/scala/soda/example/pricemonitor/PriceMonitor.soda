@@ -34,7 +34,7 @@ class Flight = {
 class Flight_ (start_airport: String, intermediate_airports: Seq[String], end_airport: String)
   extends Flight
 
-class Principle = {
+class RequirementMonitor = {
 
   has pricing_agent: PricingAgent
 

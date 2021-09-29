@@ -3,9 +3,9 @@ package soda.example.pricemonitor
 
 case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
 
-trait Principle3  extends Principle {
+trait Requirement3Monitor  extends RequirementMonitor {
 
-  def complies (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
+  def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
     {
       lazy val price_of_flight = get_price (customer, flight, date_in_days )
       lazy val price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days )
@@ -21,7 +21,7 @@ trait Principle3  extends Principle {
     prices.sum
 }
 
-case class Principle3_ (pricing_agent: PricingAgent )  extends Principle3
+case class Requirement3Monitor_ (pricing_agent: PricingAgent )  extends Requirement3Monitor
 
 trait Segment  extends Flight {
 

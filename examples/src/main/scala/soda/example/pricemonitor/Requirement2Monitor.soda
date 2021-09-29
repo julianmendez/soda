@@ -3,21 +3,21 @@ package soda.example.pricemonitor
 
 class Report2 (compliant: Boolean, old_price: Int, new_price: Int)
 
-class Principle2
-  extends Principle = {
+class Requirement2Monitor
+  extends RequirementMonitor = {
 
   acceptable_yearly_increase = 1.25
 
-  get_a_year_before (date_in_days: Int): Int =
-    date_in_days - 365
-
-  complies (customer: Customer, flight: Flight, date_in_days: Int): Report2 =
+  get_report (customer: Customer, flight: Flight, date_in_days: Int): Report2 =
     let
       old_price = get_price (customer, flight, get_a_year_before (date_in_days) )
       new_price = get_price (customer, flight, date_in_days)
     in Report2 (new_price <= old_price * acceptable_yearly_increase, old_price, new_price)
+
+  get_a_year_before (date_in_days: Int): Int =
+    date_in_days - 365
 }
 
-class Principle2_ (pricing_agent: PricingAgent)
-  extends Principle2
+class Requirement2Monitor_ (pricing_agent: PricingAgent)
+  extends Requirement2Monitor
 

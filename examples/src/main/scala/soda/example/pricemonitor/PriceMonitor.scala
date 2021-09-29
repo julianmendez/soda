@@ -32,7 +32,7 @@ trait Flight {
 
 case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )  extends Flight
 
-trait Principle {
+trait RequirementMonitor {
 
   def pricing_agent: PricingAgent
 

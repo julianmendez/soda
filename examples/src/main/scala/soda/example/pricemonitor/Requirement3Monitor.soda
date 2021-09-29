@@ -3,10 +3,10 @@ package soda.example.pricemonitor
 
 class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
 
-class Principle3
-  extends Principle = {
+class Requirement3Monitor
+  extends RequirementMonitor = {
 
-  complies (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
+  get_report (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
     let
       price_of_flight = get_price (customer, flight, date_in_days)
       price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days)
@@ -22,8 +22,8 @@ class Principle3
     prices.sum
 }
 
-class Principle3_(pricing_agent: PricingAgent)
-  extends Principle3
+class Requirement3Monitor_(pricing_agent: PricingAgent)
+  extends Requirement3Monitor
 
 class Segment
   extends Flight = {
