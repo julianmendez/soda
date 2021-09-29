@@ -97,8 +97,7 @@ Definition min (x: nat) (y: nat): nat :=
 Definition max (x: nat) (y: nat): nat :=
   if x <? y then y else x.
 
-Definition minimum_acceptable_similarity: float :=
-  0.95 .
+Definition minimum_acceptable_similarity: float := 0.95 .
 
 
 Definition get_report (c1: Customer) (c2: Customer) (flight: Flight) (date_in_days: Date): Report1 :=
@@ -123,11 +122,10 @@ Inductive Report2: Type :=
   | Report2_ (compliant: bool) (old_price: Money) (new_price: Money).
 
 
-Definition get_a_year_before (date: Date): Date :=
-  date - 365.
+Definition get_a_year_before (date_in_days: Date): Date :=
+  date_in_days - 365.
 
-Definition acceptable_yearly_increase_percent: nat :=
-  125.
+Definition acceptable_yearly_increase_percent: nat := 125 .
 
 Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date): Report2 :=
   let
