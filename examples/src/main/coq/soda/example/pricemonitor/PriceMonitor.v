@@ -16,68 +16,108 @@ Require Import Coq.Lists.List.
 Require Import Coq.Floats.Floats.
 (* https://coq.inria.fr/library/Coq.Floats.Floats.html *)
 
+Require Import Coq.Numbers.NatInt.NZDiv.
+(* https://coq.inria.fr/library/Coq.Numbers.NatInt.NZDiv.html *)
+
+Require Import Coq.NArith.BinNat.
+(* https://coq.inria.fr/library/Coq.NArith.BinNat.html *)
+
+Require Import Coq.PArith.BinPosDef.
+(* https://coq.inria.fr/library/Coq.PArith.BinPosDef.htm *)
 
 
-Module soda_example_pricemonitor_CommonTypes.
+(** package soda.example.pricemonitor *)
+
+Module soda_example_pricemonitor.
+
 
 (** Date *)
-Notation Date := nat.
+Notation Date := N.
 
 
 (** Money *)
-Notation Money := nat.
-
-
-(** Airport *)
-Inductive Airport: Type :=
-  | Airport_ (a: ascii) (b: ascii) (c: ascii).
+Notation Money := N.
 
 
 (** Customer *)
-Inductive Customer: Type :=
+
+Module Customer.
+
+Inductive type: Type :=
   | Customer_ (name: string) (ip_address: string).
 
+Definition name (customer: Customer.type): string :=
+  match customer with
+    | Customer_ name ip_address => name
+  end.
+
+Definition ip_adress (customer: Customer.type): string :=
+  match customer with
+    | Customer_ name ip_address => ip_address
+  end.
+
+End Customer.
+
+
+(** Airport *)
+Module Airport.
+
+Inductive type: Type :=
+  | Airport_ (a: ascii) (b: ascii) (c: ascii).
+
+End Airport.
 
 
 (** Flight *)
-Inductive Flight : Type :=
-  | SingleSegmentFlight_ (start_airport: Airport) (end_airport: Airport)
-  | Flight_ (start_airport: Airport) (intermediate_airports: list Airport) (end_airport: Airport).
 
-Definition flg_start_airport (flight: Flight): Airport :=
+Module Flight.
+
+Inductive type : Type :=
+  | SingleSegmentFlight_ (start_airport: Airport.type) (end_airport: Airport.type)
+  | Flight_ (start_airport: Airport.type) (intermediate_airports: list Airport.type) (end_airport: Airport.type).
+
+Definition start_airport (flight: Flight.type): Airport.type :=
   match flight with
     | SingleSegmentFlight_ start_airport end_airport => start_airport
     | Flight_ start_airport intermediate_airports end_airport => start_airport
   end.
 
-Definition flg_intermediate_airports (flight: Flight): list Airport :=
+Definition intermediate_airports (flight: Flight.type): list Airport.type :=
   match flight with
     | SingleSegmentFlight_ start_airport end_airport => nil
     | Flight_ start_airport intermediate_airports end_airport => nil
   end.
 
-Definition flg_end_airport (flight: Flight): Airport :=
+Definition end_airport (flight: Flight.type): Airport.type :=
   match flight with
     | SingleSegmentFlight_ start_airport end_airport => end_airport
     | Flight_ start_airport intermediate_airports end_airport => end_airport
   end.
 
-End soda_example_pricemonitor_CommonTypes.
+End Flight.
+
+
+(** Report 1 *)
+
+Module Report1. 
+
+Inductive type: Type :=
+  | Report1_ (compliant: bool) (price_for_c1: Money) (price_for_c2: Money) (similarity: float).
+
+End Report1.
+
+
+(** Requirement1Monitor *)
+
+Module Requirement1Monitor.
 
 
 
-Module soda_example_pricemonitor_PriceMonitor.
+Definition min (x: Money) (y: Money): Money :=
+  if (N.ltb x y) then x else y.
 
-Import soda_example_pricemonitor_CommonTypes.
-
-(** PricingAgent *)
-(* Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
-  100 * (length (flg_intermediate_airports flight)).
-*)
-
-
-Definition milliseconds_per_day: nat :=
-  24 * 60 * 60 * 1000.
+Definition max (x: Money) (y: Money): Money :=
+  if (N.ltb x y) then y else x.
 
 Fixpoint float_of_nat (n: nat): float :=
   match n with
@@ -85,173 +125,170 @@ Fixpoint float_of_nat (n: nat): float :=
     | S m => 1 + (float_of_nat m)
   end.
 
-End soda_example_pricemonitor_PriceMonitor.
-
-
-
-Module soda_example_pricemonitor_Requirement1Monitor.
-
-Import soda_example_pricemonitor_CommonTypes.
-Import soda_example_pricemonitor_PriceMonitor.
-
-Inductive Report1: Type :=
-  | Report1_ (compliant: bool) (price_for_c1: Money) (price_for_c2: Money) (similarity: float).
-
-Definition min (x: nat) (y: nat): nat :=
-  if x <? y then x else y.
-
-Definition max (x: nat) (y: nat): nat :=
-  if x <? y then y else x.
+Definition float_of_N (n: N): float :=
+  float_of_nat (N.to_nat n).
 
 Definition minimum_acceptable_similarity: float := 0.95 .
 
 Section has_PricingAgent.
 
-Variable get_price: Customer -> Flight -> Date -> Money.
+Variable get_price: Customer.type -> Flight.type -> Date -> Money.
 
-(*
-Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
-  100 * (length (flg_intermediate_airports flight)).
-*)
-
-Definition get_report (c1: Customer) (c2: Customer) (flight: Flight) (date_in_days: Date): Report1 :=
+Definition get_report (c1: Customer.type) (c2: Customer.type) (flight: Flight.type) (date_in_days: Date): Report1.type :=
   let
       price_for_c1 := (get_price c1 flight date_in_days)
   in let
       price_for_c2 := (get_price c2 flight date_in_days)
   in let
-      similarity :=  (div (float_of_nat (min price_for_c1 price_for_c2) ) (float_of_nat (max price_for_c1 price_for_c2) ) )
-  in Report1_ (leb minimum_acceptable_similarity similarity) price_for_c1 price_for_c2 similarity.
+      similarity :=  (div (float_of_N (min price_for_c1 price_for_c2) ) (float_of_N (max price_for_c1 price_for_c2) ) )
+  in Report1.Report1_ (leb minimum_acceptable_similarity similarity) price_for_c1 price_for_c2 similarity.
 
 
 End has_PricingAgent.
 
-End soda_example_pricemonitor_Requirement1Monitor.
+End Requirement1Monitor.
 
 
-Module soda_example_pricemonitor_Requirement2Monitor.
+(** Report2 *)
 
-Import soda_example_pricemonitor_CommonTypes.
-Import soda_example_pricemonitor_PriceMonitor.
+Module Report2.
 
-
-Inductive Report2: Type :=
+Inductive type: Type :=
   | Report2_ (compliant: bool) (old_price: Money) (new_price: Money).
 
+End Report2.
+
+
+(** Requirement2Monitor *)
+
+Module Requirement2Monitor.
 
 Definition get_a_year_before (date_in_days: Date): Date :=
   date_in_days - 365.
 
-Definition acceptable_yearly_increase_percent: nat := 125 .
+Definition acceptable_yearly_increase_percent: N := 125 .
 
 Section has_PricingAgent.
 
-Variable get_price: Customer -> Flight -> Date -> Money.
+Variable get_price: Customer.type -> Flight.type -> Date -> Money.
 
-Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date): Report2 :=
+Definition get_report (customer: Customer.type) (flight: Flight.type) (date_in_days: Date): Report2.type :=
   let
     old_price := (get_price customer flight (get_a_year_before date_in_days) )
   in let
     new_price := (get_price customer flight date_in_days)
-  in Report2_ (new_price <=? ((old_price * acceptable_yearly_increase_percent) / 100)) old_price new_price.
+  in Report2.Report2_ (N.leb new_price ((old_price * acceptable_yearly_increase_percent) / 100)) old_price new_price.
 
 End has_PricingAgent.
 
-End soda_example_pricemonitor_Requirement2Monitor.
-
-
-Module soda_example_pricemonitor_Requirement3Monitor.
-
-Import soda_example_pricemonitor_CommonTypes.
-Import soda_example_pricemonitor_PriceMonitor.
+End Requirement2Monitor.
 
 
 (** Segment *)
-Inductive Segment: Type :=
-  | Segment_ (start_airport: Airport) (end_airport: Airport).
 
-Definition seg_start_airport (segment: Segment): Airport :=
+Module Segment.
+
+(** Segment *)
+Inductive type: Type :=
+  | Segment_ (start_airport: Airport.type) (end_airport: Airport.type).
+
+Definition start_airport (segment: Segment.type): Airport.type :=
   match segment with
     | Segment_ start_airport end_airport => start_airport
   end.
 
-Definition seg_end_airport (segment: Segment): Airport :=
+Definition end_airport (segment: Segment.type): Airport.type :=
   match segment with
     | Segment_ start_airport end_airport => end_airport
   end.
 
-Fixpoint flg_segments_multi (start_airport: Airport) (intermediate_stops: list Airport) (end_airport: Airport): list Segment :=
-  match intermediate_stops with
-    | nil => (Segment_ start_airport end_airport) :: nil
-    | x :: xs => (Segment_ start_airport x) :: (flg_segments_multi x xs end_airport)
-  end.
+End Segment.
 
-Definition flg_segments (flight: Flight): list Segment :=
-  match flight with
-    | SingleSegmentFlight_ start_airport end_airport => (Segment_ start_airport end_airport) :: nil
-    | Flight_ start_airport intermediate_stops end_airport => (flg_segments_multi start_airport intermediate_stops end_airport)
-  end.
+Module Report3.
 
-
-Inductive Report3: Type :=
+Inductive type: Type :=
   | Report3_ (compliant: bool) (price_of_flight: Money) (price_of_flight_by_segments: Money).
 
+End Report3.
+
+
+(** Requirement3Monitor *)
+
+Module Requirement3Monitor.
+
+
+Module SegmentsForFlight.
+
+Fixpoint rec_segments_multi (start_airport: Airport.type) (intermediate_stops: list Airport.type) (end_airport: Airport.type): list Segment.type :=
+  match intermediate_stops with
+    | nil => (Segment.Segment_ start_airport end_airport) :: nil
+    | x :: xs => (Segment.Segment_ start_airport x) :: (rec_segments_multi x xs end_airport)
+  end.
+
+Definition segments (flight: Flight.type): list Segment.type :=
+  match flight with
+    | Flight.SingleSegmentFlight_ start_airport end_airport => (Segment.Segment_ start_airport end_airport) :: nil
+    | Flight.Flight_ start_airport intermediate_stops end_airport => (rec_segments_multi start_airport intermediate_stops end_airport)
+  end.
+
+End SegmentsForFlight.
 
 Definition sum_prices (prices: list Money): Money :=
-  fold_left (fun x => (fun y => x + y)) prices 0.
+  fold_left (fun x: Money => (fun y: Money => (N.add x y))) prices 0%N.
 
 Section has_PricingAgent.
 
-Variable get_price: Customer -> Flight -> Date -> Money.
+Variable get_price: Customer.type -> Flight.type -> Date -> Money.
 
-Definition get_prices_of_segments (customer: Customer) (segments: list Segment) (date_in_days: Date): list Money :=
-  map (fun segment => (get_price customer (SingleSegmentFlight_ (seg_start_airport segment) (seg_end_airport segment) ) date_in_days) ) segments.
+Definition get_prices_of_segments (customer: Customer.type) (segments: list Segment.type) (date_in_days: Date): list Money :=
+  map (fun segment => (get_price customer (Flight.SingleSegmentFlight_ (Segment.start_airport segment) (Segment.end_airport segment) ) date_in_days) ) segments.
 
-Definition get_price_of_flight_by_segments (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
-  sum_prices (get_prices_of_segments customer (flg_segments flight) date_in_days).
+Definition get_price_of_flight_by_segments (customer: Customer.type) (flight: Flight.type) (date_in_days: Date): Money :=
+  sum_prices (get_prices_of_segments customer (SegmentsForFlight.segments flight) date_in_days).
 
-Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date): Report3 :=
+Definition get_report (customer: Customer.type) (flight: Flight.type) (date_in_days: Date): Report3.type :=
   let
     price_of_flight := (get_price customer flight date_in_days)
   in let
     price_of_flight_by_segments := (get_price_of_flight_by_segments customer flight date_in_days)
-  in Report3_ (price_of_flight <=? price_of_flight_by_segments) price_of_flight price_of_flight_by_segments.
+  in Report3.Report3_ (N.leb price_of_flight price_of_flight_by_segments) price_of_flight price_of_flight_by_segments.
 
 End has_PricingAgent.
 
-End soda_example_pricemonitor_Requirement3Monitor.
+End Requirement3Monitor.
+
+End soda_example_pricemonitor.
 
 
+(** tests for package soda.example.pricemonitor *)
 
-Module soda_example_pricemonitor_PriceMonitorSpec.
+Module soda_example_pricemonitor_test.
 
-Import soda_example_pricemonitor_CommonTypes.
-Import soda_example_pricemonitor_PriceMonitor.
+Import soda_example_pricemonitor.
 
-Definition customer_1: Customer := Customer_ "Jon" "127.0.0.1".
+Module PriceMonitorSpec.
 
-Definition customer_2: Customer := Customer_ "Maria" "192.168.1.1".
+Definition customer_1: Customer.type := Customer.Customer_ "Jon" "127.0.0.1".
 
-Definition flight_1: Flight := Flight_ (Airport_  "B" "E" "R") ((Airport_  "F" "R" "A") :: (Airport_  "A" "R" "N") :: nil) (Airport_  "U" "M" "U").
+Definition customer_2: Customer.type := Customer.Customer_ "Maria" "192.168.1.1".
+
+Definition flight_1: Flight.type := Flight.Flight_ (Airport.Airport_  "B" "E" "R") ((Airport.Airport_  "F" "R" "A") :: (Airport.Airport_  "A" "R" "N") :: nil) (Airport.Airport_  "U" "M" "U").
 
 Definition date_1: Date := 18898.
 
-End soda_example_pricemonitor_PriceMonitorSpec.
+Definition unfair_get_price (customer: Customer.type) (flight: Flight.type) (date_as_days: Date): Money :=
+    ( (N.modulo date_as_days 100) + 100 * (N.of_nat (length (Flight.intermediate_airports flight))) + 1).
+
+Definition fair_get_price (customer: Customer.type) (flight: Flight.type) (date_as_days: Date): Money :=
+    100 * ( (N.of_nat (length (Flight.intermediate_airports flight))) + 1).
+
+End PriceMonitorSpec.
 
 
-Module soda_example_pricemonitor_Requirement1MonitorSpec.
+Module Requirement1MonitorSpec.
 
-Import soda_example_pricemonitor_CommonTypes.
+End Requirement1MonitorSpec.
 
-Import soda_example_pricemonitor_PriceMonitorSpec.
-
-Import soda_example_pricemonitor_Requirement1Monitor.
-
-Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
-  100 * (length (flg_intermediate_airports flight)).
-
-
-End soda_example_pricemonitor_Requirement1MonitorSpec.
-
+End soda_example_pricemonitor_test.
 
 
