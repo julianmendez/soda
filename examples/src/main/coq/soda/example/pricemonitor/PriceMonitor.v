@@ -1,29 +1,17 @@
 (* package soda.example.pricemonitor *)
 
 
-Require Import Coq.Init.Nat.
-(* https://coq.inria.fr/library/Coq.Init.Nat.html *)
-
 Require Import Ascii.
 (* https://coq.inria.fr/library/Coq.Strings.Ascii.html *)
 
 Require Import Coq.Strings.String.
 (* https://coq.inria.fr/library/Coq.Strings.String.html *)
 
-Require Import Coq.Lists.List.
-(* https://coq.inria.fr/library/Coq.Lists.List.html *)
-
 Require Import Coq.Floats.Floats.
 (* https://coq.inria.fr/library/Coq.Floats.Floats.html *)
 
-Require Import Coq.Numbers.NatInt.NZDiv.
-(* https://coq.inria.fr/library/Coq.Numbers.NatInt.NZDiv.html *)
-
 Require Import Coq.NArith.BinNat.
 (* https://coq.inria.fr/library/Coq.NArith.BinNat.html *)
-
-Require Import Coq.PArith.BinPosDef.
-(* https://coq.inria.fr/library/Coq.PArith.BinPosDef.htm *)
 
 
 (** package soda.example.pricemonitor *)
