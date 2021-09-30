@@ -8,138 +8,154 @@ Require Import Coq.ZArith.BinInt.
 (* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)
 
 
-Module soda_example_PiIterator.
+Module soda_example_piiterator.
 
 Notation BigInt := Z.
 
-Inductive Status :=
+
+Module Status.
+
+Inductive type :=
   | Status_ (r: BigInt) (n: nat) (q: BigInt) (t: BigInt) (l: nat) (k: nat).
 
-Definition sr (s: Status): BigInt :=
+Definition r (s: Status.type): BigInt :=
   match s with
-    | Status_ r n q t l k => r
+    | Status_ r0 n0 q0 t0 l0 k0 => r0
   end.
 
-Definition sn (s: Status): nat :=
+Definition n (s: Status.type): nat :=
   match s with
-    | Status_ r n q t l k => n
+    | Status_ r0 n0 q0 t0 l0 k0 => n0
   end.
 
-Definition sn_ (s: Status): BigInt :=
-  Z_of_nat (sn s).
+Definition n_ (s: Status.type): BigInt :=
+  Z_of_nat (n s).
 
-Definition sq (s: Status): BigInt :=
+Definition q (s: Status.type): BigInt :=
   match s with
-    | Status_ r n q t l k => q
+    | Status_ r0 n0 q0 t0 l0 k0 => q0
   end.
 
-Definition st (s: Status): BigInt :=
+Definition t (s: Status.type): BigInt :=
   match s with
-    | Status_ r n q t l k => t
+    | Status_ r0 n0 q0 t0 l0 k0 => t0
   end.
 
-Definition sl (s: Status): nat :=
+Definition l (s: Status.type): nat :=
   match s with
-    | Status_ r n q t l k => l
+    | Status_ r0 n0 q0 t0 l0 k0 => l0
   end.
 
-Definition sl_ (s: Status): BigInt :=
-  Z_of_nat (sl s).
+Definition l_ (s: Status.type): BigInt :=
+  Z_of_nat (l s).
 
-Definition sk (s: Status): nat :=
+Definition k (s: Status.type): nat :=
   match s with
-    | Status_ r n q t l k => k
+    | Status_ r0 n0 q0 t0 l0 k0 => k0
   end.
 
-Definition sk_ (s: Status): BigInt :=
-  Z_of_nat (sk s).
+Definition k_ (s: Status.type): BigInt :=
+  Z_of_nat (k s).
+
+End Status.
 
 
-Inductive BigIntAndStatus :=
-  | BigIntAndStatus_ (d: nat) (new_status: Status).
+Module BigIntAndStatus.
 
-Definition bs_digit (s: BigIntAndStatus): nat :=
+Inductive type :=
+  | BigIntAndStatus_ (d: nat) (new_status: Status.type).
+
+Definition digit (s: BigIntAndStatus.type): nat :=
   match s with
-    | BigIntAndStatus_ d new_status => d
+    | BigIntAndStatus_ digit0 new_status0 => digit0
   end.
 
-Definition bs_new_status (s: BigIntAndStatus): Status :=
+Definition new_status (s: BigIntAndStatus.type): Status.type :=
   match s with
-    | BigIntAndStatus_ d new_status => new_status
+    | BigIntAndStatus_ digit0 new_status0 => new_status0
   end.
 
+End BigIntAndStatus.
+
+Module PiIterator.
 
 Local Open Scope Z_scope.
 Import Z.
 
-Definition initial_status: Status :=
-  (Status_ 0 3 1 1 3 1).
+Definition initial_status: Status.type :=
+  (Status.Status_ 0 3 1 1 3 1).
 
-Lemma nice : (1 * 1) = 1.
-Proof.
-  compute.
-  reflexivity.
-Qed.
+Notation "s .r" := (Status.r s) (at level 9).
+Notation "s .n" := (Status.n s) (at level 9).
+Notation "s .n_" := (Status.n_ s) (at level 9).
+Notation "s .q" := (Status.q s) (at level 9).
+Notation "s .t" := (Status.t s) (at level 9).
+Notation "s .l" := (Status.l s) (at level 9).
+Notation "s .l_" := (Status.l_ s) (at level 9).
+Notation "s .k" := (Status.k s) (at level 9).
+Notation "s .k_" := (Status.k_ s) (at level 9).
 
-Definition bound_of_recursions (s: Status): nat :=
-  sl s.
+Definition bound_of_recursions (s: Status.type): nat :=
+  s.l .
 
-
-
-Fixpoint rec_compute_new_status (c: nat) (s: Status): Status :=
+Fixpoint rec_compute_new_status (c: nat) (s: Status.type): Status.type :=
   match c with
     | O => s
     | S new_counter =>
-        if (4 * (sq s) + (sr s) - (st s)) <? ((sn_ s) * (st s))
+        if (4 * s.q + s.r - s.t) <? (s.n_ * s.t)
         then s
         else
-          let r := (2 * (sq s) + (sr s)) * (sl_ s)
-          in let n := abs_nat ( ((sq s) * (7 * (sk_ s)) + 2 + ((sr s) * (sl_ s))) / ((st s) * (sl_ s)) )
-          in let q := (sq s) * (sk_ s)
-          in let t := (st s) * (sl_ s)
-          in let l := abs_nat ((sl_ s) + 2)
-          in let k := abs_nat ((sk_ s) + 1)
-          in let new_status := (Status_ r n q t l k)
+          let r := (2 * s.q + s.r) * s.l_
+          in let n := abs_nat ( (s.q * (7 * s.k_) + 2 + (s.r * s.l_)) / (s.t * s.l_) )
+          in let q := s.q * s.k_
+          in let t := s.t * s.l_ 
+          in let l := abs_nat (s.l_ + 2)
+          in let k := abs_nat (s.k_ + 1)
+          in let new_status := (Status.Status_ r n q t l k)
           in (rec_compute_new_status new_counter new_status)
   end.
 
-Definition compute_new_status (s: Status): Status :=
+Definition compute_new_status (s: Status.type): Status.type :=
   rec_compute_new_status (bound_of_recursions s) s.
 
-Definition _get_next (s: Status): BigIntAndStatus :=
+Definition _get_next (s: Status.type): BigIntAndStatus.type :=
     let ns := (compute_new_status s)
-    in let ret := abs_nat (sn_ ns)
-    in let r := 10 * ((sr ns) - (sn_ ns) * (st ns))
-    in let n := abs_nat ( ((10 * (3 * (sq ns) + (sr ns))) / (st ns)) - (10 * (sn_ ns)) )
-    in let q := (sq ns) * 10
-    in let t := (st ns)
-    in let l := (sl ns)
-    in let k := (sk ns)
-    in let new_status := (Status_ r n q t l k)
-    in (BigIntAndStatus_ ret new_status).
+    in let ret := abs_nat ns.n_
+    in let r := 10 * (ns.r - ns.n_ * ns.t )
+    in let n := abs_nat ( ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n_) )
+    in let q := ns.q  * 10
+    in let t := ns.t
+    in let l := ns.l
+    in let k := ns.k
+    in let new_status := (Status.Status_ r n q t l k)
+    in (BigIntAndStatus.BigIntAndStatus_ ret new_status).
 
-Fixpoint rec_take (n: nat) (rev_seq: list nat) (s: Status): (prod (list nat) Status) :=
+Fixpoint rec_take (n: nat) (rev_seq: list nat) (s: Status.type): (prod (list nat) Status.type) :=
   match n with
     | O => (pair (rev rev_seq) s)
     | S m =>
         let bs := (_get_next s)
-        in (rec_take m ((bs_digit bs) :: rev_seq) (bs_new_status bs))
+        in (rec_take m ((BigIntAndStatus.digit bs) :: rev_seq) (BigIntAndStatus.new_status bs))
   end.
 
 Definition take (n: nat): (list nat) :=
   fst (rec_take n nil initial_status).
 
 
-End soda_example_PiIterator.
+End PiIterator.
+
+End soda_example_piiterator.
 
 
-Module soda_example_PiIteratorSpec.
+Module soda_example_piiterator_test.
 
-Import soda_example_PiIterator.
+Import soda_example_piiterator.
+
+Module PiIteratorSpec.
 
 Definition piStart: list nat := 3 :: 1 :: 4 :: 1 :: 5 :: 9 :: 2 :: 6 :: 5 :: 3 :: 5 :: 8 :: nil.
 
-Definition piSequence: list nat := take 12.
+Definition piSequence: list nat := PiIterator.take 12.
 
 Example test1 : piSequence = piStart.
 Proof.
@@ -147,6 +163,8 @@ Proof.
   reflexivity.
 Qed.
 
-End soda_example_PiIteratorSpec.
+End PiIteratorSpec.
+
+End soda_example_piiterator_test.
 
 

@@ -14,7 +14,11 @@ Require Import Coq.Init.Nat.
 (* https://coq.inria.fr/library/Coq.Init.Nat.html *)
 
 
-(** Definition of [string_of_nat] to convert natural numbers to strings. *)
+
+Module soda_example_fizzbuzz.
+
+
+(** StringOfNat is a definition of [string_of_nat] to convert natural numbers to strings. *)
 
 Module StringOfNat.
 
@@ -44,8 +48,6 @@ End StringOfNat.
 
 Module FizzBuzz.
 
-Import StringOfNat.
-
 Definition fizz: string :=
   "Fizz" .
 
@@ -62,7 +64,7 @@ Definition get_fizz_buzz_term (n: nat): string :=
   if (is_divisible_by n 15) then fizz ++ buzz
   else if (is_divisible_by n 3) then fizz
   else if (is_divisible_by n 5) then buzz
-  else (string_of_nat n).
+  else (StringOfNat.string_of_nat n).
 
 Definition get_first_positive_numbers (n: nat): list nat :=
   seq 1 n.
@@ -81,4 +83,6 @@ Import FizzBuzz.
 (** This shows the string. *)
 Eval compute in fizz_buzz.
 
+
+End soda_example_fizzbuzz.
 
