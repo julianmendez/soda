@@ -85,7 +85,7 @@ Definition start_airport (flight: Flight.type): Airport.type :=
 Definition intermediate_airports (flight: Flight.type): list Airport.type :=
   match flight with
     | SingleSegmentFlight_ start_airport end_airport => nil
-    | Flight_ start_airport intermediate_airports end_airport => nil
+    | Flight_ start_airport intermediate_airports end_airport => intermediate_airports
   end.
 
 Definition end_airport (flight: Flight.type): Airport.type :=
@@ -110,8 +110,6 @@ End Report1.
 (** Requirement1Monitor *)
 
 Module Requirement1Monitor.
-
-
 
 Definition min (x: Money) (y: Money): Money :=
   if (N.ltb x y) then x else y.
@@ -142,7 +140,6 @@ Definition get_report (c1: Customer.type) (c2: Customer.type) (flight: Flight.ty
   in let
       similarity :=  (div (float_of_N (min price_for_c1 price_for_c2) ) (float_of_N (max price_for_c1 price_for_c2) ) )
   in Report1.Report1_ (leb minimum_acceptable_similarity similarity) price_for_c1 price_for_c2 similarity.
-
 
 End has_PricingAgent.
 
@@ -216,13 +213,12 @@ End Report3.
 
 Module Requirement3Monitor.
 
-
 Module SegmentsForFlight.
 
 Fixpoint rec_segments_multi (start_airport: Airport.type) (intermediate_stops: list Airport.type) (end_airport: Airport.type): list Segment.type :=
   match intermediate_stops with
     | nil => (Segment.Segment_ start_airport end_airport) :: nil
-    | x :: xs => (Segment.Segment_ start_airport x) :: (rec_segments_multi x xs end_airport)
+    | cons x xs => (Segment.Segment_ start_airport x) :: (rec_segments_multi x xs end_airport)
   end.
 
 Definition segments (flight: Flight.type): list Segment.type :=
@@ -234,14 +230,14 @@ Definition segments (flight: Flight.type): list Segment.type :=
 End SegmentsForFlight.
 
 Definition sum_prices (prices: list Money): Money :=
-  fold_left (fun x: Money => (fun y: Money => (N.add x y))) prices 0%N.
+  List.fold_left (fun x: Money => (fun y: Money => (N.add x y))) prices 0%N.
 
 Section has_PricingAgent.
 
 Variable get_price: Customer.type -> Flight.type -> Date -> Money.
 
 Definition get_prices_of_segments (customer: Customer.type) (segments: list Segment.type) (date_in_days: Date): list Money :=
-  map (fun segment => (get_price customer (Flight.SingleSegmentFlight_ (Segment.start_airport segment) (Segment.end_airport segment) ) date_in_days) ) segments.
+  List.map (fun segment => (get_price customer (Flight.SingleSegmentFlight_ (Segment.start_airport segment) (Segment.end_airport segment) ) date_in_days) ) segments.
 
 Definition get_price_of_flight_by_segments (customer: Customer.type) (flight: Flight.type) (date_in_days: Date): Money :=
   sum_prices (get_prices_of_segments customer (SegmentsForFlight.segments flight) date_in_days).
@@ -266,6 +262,7 @@ Module soda_example_pricemonitor_test.
 
 Import soda_example_pricemonitor.
 
+
 Module PriceMonitorSpec.
 
 Definition customer_1: Customer.type := Customer.Customer_ "Jon" "127.0.0.1".
@@ -277,17 +274,86 @@ Definition flight_1: Flight.type := Flight.Flight_ (Airport.Airport_  "B" "E" "R
 Definition date_1: Date := 18898.
 
 Definition unfair_get_price (customer: Customer.type) (flight: Flight.type) (date_as_days: Date): Money :=
-    ( (N.modulo date_as_days 100) + 100 * (N.of_nat (length (Flight.intermediate_airports flight))) + 1).
+    N.of_nat(String.length (Customer.name customer)) * ( (N.modulo date_as_days 100) + 100 * (N.of_nat (List.length (Flight.intermediate_airports flight))) + 1).
 
 Definition fair_get_price (customer: Customer.type) (flight: Flight.type) (date_as_days: Date): Money :=
-    100 * ( (N.of_nat (length (Flight.intermediate_airports flight))) + 1).
+    100 * ( (N.of_nat (List.length (Flight.intermediate_airports flight))) + 1).
 
 End PriceMonitorSpec.
 
 
-Module Requirement1MonitorSpec.
+Module UnfairPricingAgentSpec.
 
-End Requirement1MonitorSpec.
+Import PriceMonitorSpec.
+
+(** unfair pricing agent - requirement_monitor 1 *)
+Definition test1_obtained := (Requirement1Monitor.get_report unfair_get_price customer_1 customer_2 flight_1 date_1).
+Definition test1_expected := (Report1.Report1_ false 897 1495 0.6).
+
+Example test1 : test1_obtained = test1_expected.
+ Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+(** unfair pricing agent - requirement_monitor 2 *)
+Definition test2_obtained := (Requirement2Monitor.get_report unfair_get_price customer_1 flight_1 date_1).
+Definition test2_expected := (Report2.Report2_ false 702 897).
+
+Example test2 : test2_obtained = test2_expected.
+Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+(** unfair pricing agent - requirement_monitor 3 *)
+Definition test3_obtained := (Requirement3Monitor.get_report unfair_get_price customer_1 flight_1 date_1).
+Definition test3_expected := (Report3.Report3_ false 897 891).
+
+Example test3 : test3_obtained = test3_expected.
+Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+End UnfairPricingAgentSpec.
+
+
+Module FairPricingAgentSpec.
+
+Import PriceMonitorSpec.
+
+(** fair pricing agent - requirement_monitor 1 *)
+Definition test1_obtained := (Requirement1Monitor.get_report fair_get_price customer_1 customer_2 flight_1 date_1).
+Definition test1_expected := (Report1.Report1_ true 300 300 1.0).
+
+Example test1 : test1_obtained = test1_expected.
+Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+(** fair pricing agent - requirement_monitor 2 *)
+Definition test2_obtained := (Requirement2Monitor.get_report fair_get_price customer_1 flight_1 date_1).
+Definition test2_expected := (Report2.Report2_ true 300 300).
+
+Example test2 : test2_obtained = test2_expected.
+Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+(** fair pricing agent - requirement_monitor 3 *)
+Definition test3_obtained := (Requirement3Monitor.get_report fair_get_price customer_1 flight_1 date_1).
+Definition test3_expected := (Report3.Report3_ true 300 300).
+
+Example test3 : test3_obtained = test3_expected.
+Proof.
+  compute.
+  apply eq_refl.
+Qed.
+
+End FairPricingAgentSpec.
 
 End soda_example_pricemonitor_test.
 
