@@ -18,8 +18,7 @@ Require Import Coq.Floats.Floats.
 
 
 
-Module soda_example_pricemonitor_PriceMonitor.
-
+Module soda_example_pricemonitor_CommonTypes.
 
 (** Date *)
 Notation Date := nat.
@@ -63,11 +62,18 @@ Definition flg_end_airport (flight: Flight): Airport :=
     | Flight_ start_airport intermediate_airports end_airport => end_airport
   end.
 
+End soda_example_pricemonitor_CommonTypes.
+
+
+
+Module soda_example_pricemonitor_PriceMonitor.
+
+Import soda_example_pricemonitor_CommonTypes.
 
 (** PricingAgent *)
-Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
+(* Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
   100 * (length (flg_intermediate_airports flight)).
-
+*)
 
 
 Definition milliseconds_per_day: nat :=
@@ -85,8 +91,8 @@ End soda_example_pricemonitor_PriceMonitor.
 
 Module soda_example_pricemonitor_Requirement1Monitor.
 
+Import soda_example_pricemonitor_CommonTypes.
 Import soda_example_pricemonitor_PriceMonitor.
-
 
 Inductive Report1: Type :=
   | Report1_ (compliant: bool) (price_for_c1: Money) (price_for_c2: Money) (similarity: float).
@@ -99,6 +105,14 @@ Definition max (x: nat) (y: nat): nat :=
 
 Definition minimum_acceptable_similarity: float := 0.95 .
 
+Section has_PricingAgent.
+
+Variable get_price: Customer -> Flight -> Date -> Money.
+
+(*
+Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
+  100 * (length (flg_intermediate_airports flight)).
+*)
 
 Definition get_report (c1: Customer) (c2: Customer) (flight: Flight) (date_in_days: Date): Report1 :=
   let
@@ -110,11 +124,14 @@ Definition get_report (c1: Customer) (c2: Customer) (flight: Flight) (date_in_da
   in Report1_ (leb minimum_acceptable_similarity similarity) price_for_c1 price_for_c2 similarity.
 
 
+End has_PricingAgent.
+
 End soda_example_pricemonitor_Requirement1Monitor.
 
 
 Module soda_example_pricemonitor_Requirement2Monitor.
 
+Import soda_example_pricemonitor_CommonTypes.
 Import soda_example_pricemonitor_PriceMonitor.
 
 
@@ -127,6 +144,10 @@ Definition get_a_year_before (date_in_days: Date): Date :=
 
 Definition acceptable_yearly_increase_percent: nat := 125 .
 
+Section has_PricingAgent.
+
+Variable get_price: Customer -> Flight -> Date -> Money.
+
 Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date): Report2 :=
   let
     old_price := (get_price customer flight (get_a_year_before date_in_days) )
@@ -134,11 +155,14 @@ Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date)
     new_price := (get_price customer flight date_in_days)
   in Report2_ (new_price <=? ((old_price * acceptable_yearly_increase_percent) / 100)) old_price new_price.
 
+End has_PricingAgent.
+
 End soda_example_pricemonitor_Requirement2Monitor.
 
 
 Module soda_example_pricemonitor_Requirement3Monitor.
 
+Import soda_example_pricemonitor_CommonTypes.
 Import soda_example_pricemonitor_PriceMonitor.
 
 
@@ -176,6 +200,10 @@ Inductive Report3: Type :=
 Definition sum_prices (prices: list Money): Money :=
   fold_left (fun x => (fun y => x + y)) prices 0.
 
+Section has_PricingAgent.
+
+Variable get_price: Customer -> Flight -> Date -> Money.
+
 Definition get_prices_of_segments (customer: Customer) (segments: list Segment) (date_in_days: Date): list Money :=
   map (fun segment => (get_price customer (SingleSegmentFlight_ (seg_start_airport segment) (seg_end_airport segment) ) date_in_days) ) segments.
 
@@ -189,6 +217,41 @@ Definition get_report (customer: Customer) (flight: Flight) (date_in_days: Date)
     price_of_flight_by_segments := (get_price_of_flight_by_segments customer flight date_in_days)
   in Report3_ (price_of_flight <=? price_of_flight_by_segments) price_of_flight price_of_flight_by_segments.
 
+End has_PricingAgent.
 
 End soda_example_pricemonitor_Requirement3Monitor.
+
+
+
+Module soda_example_pricemonitor_PriceMonitorSpec.
+
+Import soda_example_pricemonitor_CommonTypes.
+Import soda_example_pricemonitor_PriceMonitor.
+
+Definition customer_1: Customer := Customer_ "Jon" "127.0.0.1".
+
+Definition customer_2: Customer := Customer_ "Maria" "192.168.1.1".
+
+Definition flight_1: Flight := Flight_ (Airport_  "B" "E" "R") ((Airport_  "F" "R" "A") :: (Airport_  "A" "R" "N") :: nil) (Airport_  "U" "M" "U").
+
+Definition date_1: Date := 18898.
+
+End soda_example_pricemonitor_PriceMonitorSpec.
+
+
+Module soda_example_pricemonitor_Requirement1MonitorSpec.
+
+Import soda_example_pricemonitor_CommonTypes.
+
+Import soda_example_pricemonitor_PriceMonitorSpec.
+
+Import soda_example_pricemonitor_Requirement1Monitor.
+
+Definition get_price (customer: Customer) (flight: Flight) (date_in_days: Date): Money :=
+  100 * (length (flg_intermediate_airports flight)).
+
+
+End soda_example_pricemonitor_Requirement1MonitorSpec.
+
+
 
