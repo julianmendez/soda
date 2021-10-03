@@ -2,7 +2,7 @@
 # Configuration file for Bitbucket Pipelines
 
 # https://hub.docker.com/r/hseeberger/scala-sbt/
-image: hseeberger/scala-sbt:11.0.11_1.5.5_3.0.1
+image: hseeberger/scala-sbt:17.0.0_1.5.5_3.0.2
 
 pipelines:
   default:
