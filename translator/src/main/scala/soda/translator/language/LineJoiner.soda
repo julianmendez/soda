@@ -1,9 +1,9 @@
 package soda.translator.language
 
 
-* LineJoiner = {
 
-  has lines: Seq[String]
+* LineJoiner
+  extends soda.translator.replacement.MultiLineProcessor = {
 
   tc = TranslationConstant_()
 

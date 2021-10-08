@@ -1,4 +1,4 @@
-package soda.translator.example.inanutshell
+package soda.example.inanutshell
 
 
 trait InANutshell {
@@ -50,19 +50,22 @@ trait MaxAndMin {
     else b
 }
 
-case class ConcreteMaxAndMin () extends MaxAndMin
+case class ConcreteMaxAndMin ()  extends MaxAndMin
 
 case class MinMaxPair (min: Int, max: Int )
 
-trait Example {
+trait Indexable {
 
   def index: Int
+}
+
+trait Example  extends Indexable {
 
   def min_max (a: Int, b: Int ): MinMaxPair =
     MinMaxPair (min = ConcreteMaxAndMin () .min (a, b ), max = ConcreteMaxAndMin () .max (a, b )    )
 }
 
-case class Example_ (index: Int ) extends Example
+case class Example_ (index: Int )  extends Example
 
 trait Comparable {
 
@@ -77,9 +80,12 @@ trait ComparableMax [T <: Comparable] {
     else b
 }
 
-trait MyClass {
+trait WithInstance {
 
   def instance_parameter: Int
+}
+
+trait MyClass   extends WithInstance {
 
   lazy val class_constant: Int = 1
 

@@ -27,7 +27,7 @@ trait MSeqTranslator [T] {
       Min_ () .foldLeft (mseq, initial_value, next_value ) .reverse }
 }
 
-case class MSeqTranslator_ [T]  () extends MSeqTranslator [T]
+case class MSeqTranslator_ [T]  ()  extends MSeqTranslator [T]
 
 trait MSeqPair [T] {
 
@@ -36,7 +36,7 @@ trait MSeqPair [T] {
   def right: MSeq [T]
 }
 
-case class MSeqPair_ [T]  (left: MSeq [T], right: MSeq [T]  ) extends MSeqPair [T]
+case class MSeqPair_ [T]  (left: MSeq [T], right: MSeq [T]  )  extends MSeqPair [T]
 
 trait Min [T] {
   import soda.lib.OptionSD

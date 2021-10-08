@@ -1,25 +1,25 @@
-package soda.translator.example
+package soda.example
 
 
 trait Status {
 
   def r: BigInt
 
-  def n: BigInt
+  def n: Int
 
   def q: BigInt
 
   def t: BigInt
 
-  def l: BigInt
+  def l: Int
 
-  def k: BigInt
+  def k: Int
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 }
 
-case class Status_ (r: BigInt, n: BigInt, q: BigInt, t: BigInt, l: BigInt, k: BigInt  ) extends Status
+case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int  ) extends Status
 
 trait PiIterator {
 
@@ -38,7 +38,7 @@ trait PiIterator {
         else
           {
             lazy val r = (2 * s.q + s.r ) * s.l
-            lazy val n = (s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )
+            lazy val n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt
             lazy val q = s.q * s.k
             lazy val t = s.t * s.l
             lazy val l = s.l + 2
@@ -48,13 +48,13 @@ trait PiIterator {
 
       result }
 
-  def take (n: Int ): Seq [BigInt] =
+  def take (n: Int ): Seq [Int] =
     {
       lazy val result = rec (n, Seq (), initial_status )
 
       import scala.annotation.tailrec
         @tailrec
-      def rec (n: Int, rev_seq: Seq [BigInt], s: Status ): Seq [BigInt] =
+      def rec (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
         if (n == 0
         ) rev_seq.reverse
         else
@@ -64,13 +64,13 @@ trait PiIterator {
 
       result }
 
-  def _get_next (s: Status ): BigIntAndStatus =
+  def _get_next (s: Status ): IntAndStatus =
     {
-      lazy val result = BigIntAndStatus_ (ret, new_status )
+      lazy val result = IntAndStatus_ (ret, new_status )
       lazy val ns = compute_new_status (s )
       lazy val ret = ns.n
       lazy val r = 10 * (ns.r - ns.n * ns.t )
-      lazy val n = ((10 * (3 * ns.q + ns.r )  ) / ns.t ) - (10 * ns.n )
+      lazy val n = (((10 * (3 * ns.q + ns.r )  ) / ns.t ) - (10 * ns.n )  ) .toInt
       lazy val q = ns.q * 10
       lazy val t = ns.t
       lazy val l = ns.l
@@ -81,11 +81,11 @@ trait PiIterator {
 
 case class PiIterator_ () extends PiIterator
 
-trait BigIntAndStatus {
+trait IntAndStatus {
 
-  def digit: BigInt
+  def digit: Int
 
   def new_status: Status
 }
 
-case class BigIntAndStatus_ (digit: BigInt, new_status: Status ) extends BigIntAndStatus
+case class IntAndStatus_ (digit: Int, new_status: Status ) extends IntAndStatus

@@ -1,6 +1,11 @@
 package soda.translator.language
 
 
+trait LineTranslator {
+
+  def line: String
+}
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -25,13 +30,11 @@ package soda.translator.language
  * This is no longer supported.
  *
  */
-trait DefinitionTranslator {
+trait DefinitionTranslator  extends LineTranslator {
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.translator.replacement.Replacement
   import soda.translator.replacement.Replacement_
-
-  def line: String
 
   lazy val tc = TranslationConstant_ ()
 
@@ -72,10 +75,10 @@ trait DefinitionTranslator {
     contains_equals && ! (ends_with_equals || ends_with_opening_brace )
 
   lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces (tc.scala_value + scala_space )
+    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space )
 
   lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces (tc.scala_definition + scala_space )
+    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
     if (is_class_definition ) translation_of_class_definition

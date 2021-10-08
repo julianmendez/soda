@@ -18,10 +18,9 @@ package soda.translator.replacement
 /**
  * This class processes a line to divide it into tokens.
  */
-* Tokenizer = {
+* Tokenizer
+  extends SingleLineProcessor = {
   + soda.lib.Recursion_
-
-  has line: String
 
   tokens: Seq[Token] =
     _postprocess(Recursion_().fold( Recursion_().range(line.length), _initial_value, _next_value_function ))
@@ -57,7 +56,8 @@ package soda.translator.replacement
         tuple.rev_tokens.+:(Token_(text, tuple.parser_state, tuple.last_index)))
 }
 
-* Tokenizer_(line: String) extends Tokenizer
+* Tokenizer_(line: String)
+  extends Tokenizer
 
 * TokenizerFoldTuple = {
 
@@ -68,5 +68,6 @@ package soda.translator.replacement
   has rev_tokens: Seq[Token]
 }
 
-* TokenizerFoldTuple_(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token]) extends TokenizerFoldTuple
+* TokenizerFoldTuple_(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])
+  extends TokenizerFoldTuple
 

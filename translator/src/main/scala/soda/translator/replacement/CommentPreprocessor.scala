@@ -8,15 +8,13 @@ trait AnnotatedLine {
   def isComment: Boolean
 }
 
-case class AnnotatedLine_ (line: String, isComment: Boolean ) extends AnnotatedLine
+case class AnnotatedLine_ (line: String, isComment: Boolean )  extends AnnotatedLine
 
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-trait CommentPreprocessor {
+trait CommentPreprocessor  extends MultiLineProcessor {
   import soda.lib.Recursion_
-
-  def lines: Seq [String]
 
   lazy val soda_begin_comment = "/*"
 
@@ -43,7 +41,7 @@ trait CommentPreprocessor {
       else CurrentAndNewCommentState_ (false, false )
 }
 
-case class CommentPreprocessor_ (lines: Seq [String]  ) extends CommentPreprocessor
+case class CommentPreprocessor_ (lines: Seq [String]  )  extends CommentPreprocessor
 
 trait PreprocessorFoldTuple {
 
@@ -52,7 +50,7 @@ trait PreprocessorFoldTuple {
   def annotated_lines_rev: Seq [AnnotatedLine]
 }
 
-case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  ) extends PreprocessorFoldTuple
+case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )  extends PreprocessorFoldTuple
 
 trait CurrentAndNewCommentState {
 
@@ -61,4 +59,4 @@ trait CurrentAndNewCommentState {
   def new_comment_state: Boolean
 }
 
-case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean ) extends CurrentAndNewCommentState
+case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean )  extends CurrentAndNewCommentState

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>FizzBuzz</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library FizzBuzz</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#"><span class="id" title="library">Coq.Strings.String</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.Ascii.html#"><span class="id" title="library">Coq.Strings.Ascii</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#"><span class="id" title="library">Coq.Init.Nat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="soda_example_fizzbuzz"><span class="id" title="module">soda_example_fizzbuzz</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+StringOfNat is a definition of <span class="inlinecode"><span class="id" title="var">string_of_nat</span></span> to convert natural numbers to strings. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="soda_example_fizzbuzz.StringOfNat"><span class="id" title="module">StringOfNat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.StringOfNat.ascii_of_digit"><span class="id" title="definition">ascii_of_digit</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.Ascii.html#ascii"><span class="id" title="inductive">ascii</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.Ascii.html#ascii_of_nat"><span class="id" title="definition">ascii_of_nat</span></a> (<a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Peano.html#0dacc1786c5ba797d47dd85006231633"><span class="id" title="notation">+</span></a> 48).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.StringOfNat.is_digit"><span class="id" title="definition">is_digit</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#andb"><span class="id" title="definition">andb</span></a> (0 <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#0f31f5c1c6b6a21a3a187247222bc9e4"><span class="id" title="notation">&lt;=?</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>) (<a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#0f31f5c1c6b6a21a3a187247222bc9e4"><span class="id" title="notation">&lt;=?</span></a> 9).<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <a name="soda_example_fizzbuzz.StringOfNat.rec_string_of_nat"><span class="id" title="definition">rec_string_of_nat</span></a> (<span class="id" title="var">counter</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">acc</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="FizzBuzz.html#counter"><span class="id" title="variable">counter</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| 0 =&gt; <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#EmptyString"><span class="id" title="constructor">EmptyString</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <span class="id" title="var">c</span> =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat.is_digit"><span class="id" title="definition">is_digit</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">then</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#String"><span class="id" title="constructor">String</span></a> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat.ascii_of_digit"><span class="id" title="definition">ascii_of_digit</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>) <a class="idref" href="FizzBuzz.html#acc"><span class="id" title="variable">acc</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> <a class="idref" href="FizzBuzz.html#rec_string_of_nat"><span class="id" title="definition">rec_string_of_nat</span></a> <span class="id" title="var">c</span> (<a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">/</span></a> 10) (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#String"><span class="id" title="constructor">String</span></a> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat.ascii_of_digit"><span class="id" title="definition">ascii_of_digit</span></a> (<a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#85a832f976269ade81715ff3b306c568"><span class="id" title="notation">mod</span></a> 10)) <a class="idref" href="FizzBuzz.html#acc"><span class="id" title="variable">acc</span></a>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+</div>
+
+<div class="doc">
+The counter is only used to ensure termination. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.StringOfNat.string_of_nat"><span class="id" title="definition">string_of_nat</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat.rec_string_of_nat"><span class="id" title="definition">rec_string_of_nat</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#EmptyString"><span class="id" title="constructor">EmptyString</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat"><span class="id" title="module">StringOfNat</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The FizzBuzz problem. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="soda_example_fizzbuzz.FizzBuzz"><span class="id" title="module">FizzBuzz</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.fizz"><span class="id" title="definition">fizz</span></a>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;"Fizz" .<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.buzz"><span class="id" title="definition">buzz</span></a>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;"Buzz" .<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.new_line"><span class="id" title="definition">new_line</span></a>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#String"><span class="id" title="constructor">String</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.Ascii.html#ascii_of_nat"><span class="id" title="definition">ascii_of_nat</span></a> 10) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#EmptyString"><span class="id" title="constructor">EmptyString</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.is_divisible_by"><span class="id" title="definition">is_divisible_by</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">k</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> := <br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#ad2ec4e405f68c46c0a176e3e94ae2e3"><span class="id" title="notation">(</span></a><a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#85a832f976269ade81715ff3b306c568"><span class="id" title="notation">mod</span></a> <a class="idref" href="FizzBuzz.html#k"><span class="id" title="variable">k</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#ad2ec4e405f68c46c0a176e3e94ae2e3"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#ad2ec4e405f68c46c0a176e3e94ae2e3"><span class="id" title="notation">=?</span></a> 0.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.get_fizz_buzz_term"><span class="id" title="definition">get_fizz_buzz_term</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">if</span> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.is_divisible_by"><span class="id" title="definition">is_divisible_by</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> 15) <span class="id" title="keyword">then</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.fizz"><span class="id" title="definition">fizz</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">++</span></a> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.buzz"><span class="id" title="definition">buzz</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">else</span> <span class="id" title="keyword">if</span> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.is_divisible_by"><span class="id" title="definition">is_divisible_by</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> 3) <span class="id" title="keyword">then</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.fizz"><span class="id" title="definition">fizz</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">else</span> <span class="id" title="keyword">if</span> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.is_divisible_by"><span class="id" title="definition">is_divisible_by</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a> 5) <span class="id" title="keyword">then</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.buzz"><span class="id" title="definition">buzz</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">else</span> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.StringOfNat.string_of_nat"><span class="id" title="definition">StringOfNat.string_of_nat</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.get_first_positive_numbers"><span class="id" title="definition">get_first_positive_numbers</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#seq"><span class="id" title="definition">seq</span></a> 1 <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.fizz_buzz_terms"><span class="id" title="definition">fizz_buzz_terms</span></a> (<span class="id" title="var">n</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">map</span></a> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.get_fizz_buzz_term"><span class="id" title="definition">get_fizz_buzz_term</span></a> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.get_first_positive_numbers"><span class="id" title="definition">get_first_positive_numbers</span></a> <a class="idref" href="FizzBuzz.html#n"><span class="id" title="variable">n</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_fizzbuzz.FizzBuzz.fizz_buzz"><span class="id" title="definition">fizz_buzz</span></a>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#concat"><span class="id" title="definition">concat</span></a> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.new_line"><span class="id" title="definition">new_line</span></a> (<a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz.fizz_buzz_terms"><span class="id" title="definition">fizz_buzz_terms</span></a> 100).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.FizzBuzz"><span class="id" title="module">FizzBuzz</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">FizzBuzz</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This shows the string. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz.fizz_buzz"><span class="id" title="definition">fizz_buzz</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="FizzBuzz.html#soda_example_fizzbuzz"><span class="id" title="module">soda_example_fizzbuzz</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

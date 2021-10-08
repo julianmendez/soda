@@ -1,4 +1,4 @@
-package soda.translator.example.miniexample
+package soda.example.miniexample
 
 
 * MiniExample extends soda.lib.Recursion = {

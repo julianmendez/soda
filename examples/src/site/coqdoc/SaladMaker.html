@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>SaladMaker</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library SaladMaker</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Init.Nat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Strings.String</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Lists.List</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <span class="id" title="var">soda_example_SaladMaker</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <span class="id" title="var">prepare_salad</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Ingredient</span>: <span class="id" title="keyword">Type</span>) (<span class="id" title="var">Salad</span>: <span class="id" title="keyword">Type</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">next_ingredient_function</span>: <span class="id" title="var">Salad</span> -&gt; <span class="id" title="var">Ingredient</span> -&gt; <span class="id" title="var">Salad</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">condition_to_continue</span>: <span class="id" title="var">Salad</span> -&gt; <span class="id" title="var">Ingredient</span> -&gt; <span class="id" title="var">bool</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ingredients_so_far</span>: <span class="id" title="var">list</span> <span class="id" title="var">Ingredient</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">salad_so_far</span>: <span class="id" title="var">Salad</span>): <span class="id" title="var">Salad</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">ingredients_so_far</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">nil</span> =&gt; <span class="id" title="var">salad_so_far</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">head</span> :: <span class="id" title="var">tail</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> ( <span class="id" title="var">negb</span> (<span class="id" title="var">condition_to_continue</span> <span class="id" title="var">salad_so_far</span> <span class="id" title="var">head</span>) )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">then</span> <span class="id" title="var">salad_so_far</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> ( <span class="id" title="var">prepare_salad</span> <span class="id" title="var">Ingredient</span> <span class="id" title="var">Salad</span> <span class="id" title="var">next_ingredient_function</span> <span class="id" title="var">condition_to_continue</span> <span class="id" title="var">tail</span> (<span class="id" title="var">next_ingredient_function</span> <span class="id" title="var">salad_so_far</span> <span class="id" title="var">head</span>) )<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <span class="id" title="var">soda_example_SaladMaker</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <span class="id" title="var">soda_example_SaladMakerSpec</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">soda_example_SaladMaker</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <span class="id" title="var">SaladIngredient</span>: <span class="id" title="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <span class="id" title="var">SaladIngredient_</span> (<span class="id" title="var">ordinal</span>: <span class="id" title="var">nat</span>) (<span class="id" title="var">name</span>: <span class="id" title="var">string</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">tomato</span> := (<span class="id" title="var">SaladIngredient_</span> 1 "tomato").<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">lettuce</span> := (<span class="id" title="var">SaladIngredient_</span> 2 "lettuce").<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">sunflower_seeds</span> := (<span class="id" title="var">SaladIngredient_</span> 3 "sunflower seeds").<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">olive_oil</span> := (<span class="id" title="var">SaladIngredient_</span> 4 "olive_oil").<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">SaladIngredient_values</span> := <span class="id" title="var">tomato</span> :: <span class="id" title="var">lettuce</span> :: <span class="id" title="var">sunflower_seeds</span> :: <span class="id" title="var">olive_oil</span> :: <span class="id" title="var">nil</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">add_next_ingredient</span> (<span class="id" title="var">salad_so_far</span>: <span class="id" title="var">list</span> <span class="id" title="var">SaladIngredient</span>) (<span class="id" title="var">ingredient</span>: <span class="id" title="var">SaladIngredient</span>): <span class="id" title="var">list</span> <span class="id" title="var">SaladIngredient</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="var">ingredient</span> :: <span class="id" title="var">salad_so_far</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">has_salad_at_most_2_ingredients</span> (<span class="id" title="var">salad_so_far</span>: <span class="id" title="var">list</span> <span class="id" title="var">SaladIngredient</span>) (<span class="id" title="var">next_ingredient</span>: <span class="id" title="var">SaladIngredient</span>): <span class="id" title="var">bool</span> :=<br/>
+&nbsp;&nbsp;(<span class="id" title="var">length</span> <span class="id" title="var">salad_so_far</span>) &lt;? 3.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">ingredients</span> := <span class="id" title="var">SaladIngredient_values</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">expected</span> := <span class="id" title="var">sunflower_seeds</span> :: <span class="id" title="var">lettuce</span> :: <span class="id" title="var">tomato</span> :: <span class="id" title="var">nil</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">obtained</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">prepare_salad</span> <span class="id" title="var">SaladIngredient</span> (<span class="id" title="var">list</span> <span class="id" title="var">SaladIngredient</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">add_next_ingredient</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">has_salad_at_most_2_ingredients</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">ingredients</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">nil</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <span class="id" title="var">test1</span> : <span class="id" title="var">obtained</span> = <span class="id" title="var">expected</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <span class="id" title="var">soda_example_SaladMakerSpec</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

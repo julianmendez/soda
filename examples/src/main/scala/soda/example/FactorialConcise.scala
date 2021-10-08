@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait AbstractFactorialConcise {
@@ -22,4 +22,4 @@ trait FactorialConcise  extends AbstractFactorialConcise {
       result }
 }
 
-case class FactorialConcise_ () extends FactorialConcise
+case class FactorialConcise_ ()  extends FactorialConcise

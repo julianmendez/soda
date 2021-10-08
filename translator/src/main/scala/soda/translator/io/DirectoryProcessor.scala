@@ -1,12 +1,17 @@
 package soda.translator.io
 
 
-trait DirectoryProcessor {
-  import java.io.File
+trait AbstractDirectoryProcessor {
 
   def start: String
 
   def process_soda_file: java.io.File => Boolean
+
+  def process (): Boolean
+}
+
+trait DirectoryProcessor  extends AbstractDirectoryProcessor {
+  import java.io.File
 
   lazy val soda_suffix = ".soda"
 

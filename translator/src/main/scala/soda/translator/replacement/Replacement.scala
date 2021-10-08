@@ -5,9 +5,7 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-trait Replacement {
-
-  def line: String
+trait Replacement  extends SingleLineProcessor {
 
   lazy val aux = ReplacementAux_ ()
 
@@ -34,14 +32,14 @@ trait Replacement {
   def remove_space_from_scala_line (): Replacement =
     Replacement_ (aux.remove_space_from_scala_line (line )  )
 
-  def add_after_spaces (text_to_prepend: String ): Replacement =
-    Replacement_ (aux.add_after_spaces (line, text_to_prepend )  )
+  def add_after_spaces_or_pattern (pattern: String, text_to_prepend: String ): Replacement =
+    Replacement_ (aux.add_after_spaces_or_pattern (line, pattern, text_to_prepend )  )
 
   def replace_regex (translator: Translator ): Replacement =
     Replacement_ (aux.replace_regex (line, translator )  )
 }
 
-case class Replacement_ (line: String ) extends Replacement
+case class Replacement_ (line: String )  extends Replacement
 
 trait ReplacementAux {
   import soda.lib.Recursion_
@@ -115,9 +113,12 @@ trait ReplacementAux {
         else line_without_starting_space
       line_without_ending_space }
 
-  def add_after_spaces (line: String, text_to_prepend: String ): String =
+  def add_after_spaces_or_pattern (line: String, pattern: String, text_to_prepend: String ): String =
     {
-      lazy val prefix_length = line.takeWhile (ch => ch.isSpaceChar ) .length
+      lazy val prefix_length =
+        if (line.trim.startsWith (pattern )
+        ) line.indexOf (pattern ) + pattern.length
+        else line.takeWhile (ch => ch.isSpaceChar ) .length
       line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length ) }
 
   def replace_regex (line: String, translator: Translator ): String =
@@ -128,16 +129,19 @@ trait ReplacementAux {
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 }
 
-case class ReplacementAux_ () extends ReplacementAux
+case class ReplacementAux_ ()  extends ReplacementAux
 
-trait Replacer {
-  import soda.lib.Recursion_
+trait LinePatternProcessor {
 
   def line: String
 
   def pattern: String
 
   def replacement: String
+}
+
+trait Replacer  extends LinePatternProcessor {
+  import soda.lib.Recursion_
 
   lazy val replaced_text =
     postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )

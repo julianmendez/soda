@@ -1,12 +1,18 @@
 package soda.translator.io
 
 
-* DirectoryProcessor = {
-  + java.io.File
+* AbstractDirectoryProcessor = {
 
   has start: String
 
   has process_soda_file: java.io.File -> Boolean
+
+  has process(): Boolean
+}
+
+* DirectoryProcessor
+  extends AbstractDirectoryProcessor = {
+  + java.io.File
 
   soda_suffix = ".soda"
 

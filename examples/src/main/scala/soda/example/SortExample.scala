@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait SortExample {
@@ -25,7 +25,7 @@ trait SortExampleWithZip  extends SortExample {
       .forall (pair => (pair._1 <= pair._2 )  )
 }
 
-case class SortExampleWithZip_ () extends SortExampleWithZip
+case class SortExampleWithZip_ ()  extends SortExampleWithZip
 
 trait SortAlgorithmExample {
 
@@ -53,7 +53,7 @@ trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
       first_part.++ (middle.++ (last_part )  ) }
 }
 
-case class SortAlgorithmExampleWithFold_ () extends SortAlgorithmExampleWithFold
+case class SortAlgorithmExampleWithFold_ ()  extends SortAlgorithmExampleWithFold
 
 trait ConstrainedSortAlgorithm {
   import soda.lib.OptionSD
@@ -71,7 +71,7 @@ trait ConstrainedSortAlgorithm {
       result }
 }
 
-case class ConstrainedSortAlgorithm_ () extends ConstrainedSortAlgorithm
+case class ConstrainedSortAlgorithm_ ()  extends ConstrainedSortAlgorithm
 
 trait SortedSequence [A <: Comparable [A]] {
 
@@ -94,9 +94,12 @@ trait EmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
 
 case class EmptySortedSequence_ [A <: Comparable [A]]  ()  extends EmptySortedSequence [A]
 
-trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
+trait SortedSequenceWithElements [A <: Comparable [A]]  extends SortedSequence [A] {
 
   def sequence: Seq [A]
+}
+
+trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequenceWithElements [A] {
 
   lazy val aux = NonEmptySortedSequenceAux_ [A]  ()
 
@@ -130,7 +133,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
       first_part.++ (middle.++ (last_part )  ) }
 }
 
-case class NonEmptySortedSequenceAux_ [A <: Comparable [A]]  () extends NonEmptySortedSequenceAux [A]
+case class NonEmptySortedSequenceAux_ [A <: Comparable [A]]  ()  extends NonEmptySortedSequenceAux [A]
 
 trait SortedSequenceBuilder [A <: Comparable [A]] {
   import soda.lib.Recursion_
@@ -144,4 +147,4 @@ trait SortedSequenceBuilder [A <: Comparable [A]] {
     sorted_sequence.add (element )
 }
 
-case class SortedSequenceBuilder_ [A <: Comparable [A]]  () extends SortedSequenceBuilder [A]
+case class SortedSequenceBuilder_ [A <: Comparable [A]]  ()  extends SortedSequenceBuilder [A]

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>PatternMatching</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library PatternMatching</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#"><span class="id" title="library">Coq.Init.Nat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#"><span class="id" title="library">Coq.Strings.String</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="soda_example_PatternMatching"><span class="id" title="module">soda_example_PatternMatching</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="soda_example_PatternMatching.Param"><span class="id" title="inductive">Param</span></a>: <span class="id" title="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="soda_example_PatternMatching.Singleton_"><span class="id" title="constructor">Singleton_</span></a> (<span class="id" title="var">x</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;| <a name="soda_example_PatternMatching.Pair_"><span class="id" title="constructor">Pair_</span></a> (<span class="id" title="var">x</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">y</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;| <a name="soda_example_PatternMatching.Triplet_"><span class="id" title="constructor">Triplet_</span></a> (<span class="id" title="var">x</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">y</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">z</span>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_PatternMatching.name"><span class="id" title="definition">name</span></a> (<span class="id" title="var">elem</span>: <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Param"><span class="id" title="inductive">Param</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="PatternMatching.html#elem"><span class="id" title="variable">elem</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Singleton_"><span class="id" title="constructor">Singleton_</span></a> <span class="id" title="var">x</span> =&gt; "singleton"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Pair_"><span class="id" title="constructor">Pair_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> =&gt; "pair"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Triplet_"><span class="id" title="constructor">Triplet_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> =&gt; "triplet"<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_PatternMatching.get_value"><span class="id" title="definition">get_value</span></a> (<span class="id" title="var">p</span>: <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Param"><span class="id" title="inductive">Param</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="PatternMatching.html#p"><span class="id" title="variable">p</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Singleton_"><span class="id" title="constructor">Singleton_</span></a> <span class="id" title="var">x</span> =&gt; <span class="id" title="var">x</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Pair_"><span class="id" title="constructor">Pair_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> =&gt; <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">(</span></a><span class="id" title="var">x</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Peano.html#0dacc1786c5ba797d47dd85006231633"><span class="id" title="notation">+</span></a> <span class="id" title="var">y</span><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">/</span></a> 2<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Triplet_"><span class="id" title="constructor">Triplet_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> =&gt; <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">(</span></a><span class="id" title="var">x</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Peano.html#0dacc1786c5ba797d47dd85006231633"><span class="id" title="notation">+</span></a> <span class="id" title="var">y</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Peano.html#0dacc1786c5ba797d47dd85006231633"><span class="id" title="notation">+</span></a> <span class="id" title="var">z</span><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">/</span></a> 3<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_PatternMatching.get_type_name"><span class="id" title="definition">get_type_name</span></a> (<span class="id" title="var">p</span>: <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Param"><span class="id" title="inductive">Param</span></a>): <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#string"><span class="id" title="inductive">string</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="PatternMatching.html#p"><span class="id" title="variable">p</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Singleton_"><span class="id" title="constructor">Singleton_</span></a> <span class="id" title="var">x</span> =&gt; (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">(</span></a><a class="idref" href="PatternMatching.html#soda_example_PatternMatching.name"><span class="id" title="definition">name</span></a> <a class="idref" href="PatternMatching.html#p"><span class="id" title="variable">p</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">++</span></a> "(x)"%<span class="id" title="var">string</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Pair_"><span class="id" title="constructor">Pair_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> =&gt; (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">(</span></a><a class="idref" href="PatternMatching.html#soda_example_PatternMatching.name"><span class="id" title="definition">name</span></a> <a class="idref" href="PatternMatching.html#p"><span class="id" title="variable">p</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">++</span></a> "(x, y)"%<span class="id" title="var">string</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Triplet_"><span class="id" title="constructor">Triplet_</span></a> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> =&gt; (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">(</span></a><a class="idref" href="PatternMatching.html#soda_example_PatternMatching.name"><span class="id" title="definition">name</span></a> <a class="idref" href="PatternMatching.html#p"><span class="id" title="variable">p</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Strings.String.html#169ad156fbc6036a53a0338819a2b301"><span class="id" title="notation">++</span></a> "(x, y, z)"%<span class="id" title="var">string</span>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="PatternMatching.html#soda_example_PatternMatching"><span class="id" title="module">soda_example_PatternMatching</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="soda_example_PatternMatchingSpec"><span class="id" title="module">soda_example_PatternMatchingSpec</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">soda_example_PatternMatching</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="soda_example_PatternMatchingSpec.values"><span class="id" title="definition">values</span></a>: <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#prod"><span class="id" title="inductive">prod</span></a> <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Param"><span class="id" title="inductive">Param</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">(</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#pair"><span class="id" title="constructor">pair</span></a> (<a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Singleton_"><span class="id" title="constructor">Singleton_</span></a> 5) 5<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">::</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">(</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#pair"><span class="id" title="constructor">pair</span></a> (<a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Pair_"><span class="id" title="constructor">Pair_</span></a> 10 100) 55<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">::</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">(</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#pair"><span class="id" title="constructor">pair</span></a> (<a class="idref" href="PatternMatching.html#soda_example_PatternMatching.Triplet_"><span class="id" title="constructor">Triplet_</span></a> 9 100 890) 333<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#cbcf67aac0c2a85b8d93d37de9969adf"><span class="id" title="notation">::</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="soda_example_PatternMatchingSpec.test_1"><span class="id" title="definition">test_1</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">map</span></a> <a class="idref" href="PatternMatching.html#soda_example_PatternMatching.get_value"><span class="id" title="definition">get_value</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="PatternMatching.html#soda_example_PatternMatchingSpec.values"><span class="id" title="definition">values</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="PatternMatching.html#soda_example_PatternMatchingSpec.values"><span class="id" title="definition">values</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">compute</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#eq_refl"><span class="id" title="constructor">eq_refl</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="PatternMatching.html#soda_example_PatternMatchingSpec"><span class="id" title="module">soda_example_PatternMatchingSpec</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

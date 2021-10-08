@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait FactorialWithFold {
@@ -8,4 +8,4 @@ trait FactorialWithFold {
     Recursion_ () .fold (Recursion_ () .range (n ), 1, (product: Int, k: Int ) => product * (k + 1 ) )
 }
 
-case class FactorialWithFold_ () extends FactorialWithFold
+case class FactorialWithFold_ ()  extends FactorialWithFold

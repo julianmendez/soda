@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 class AbstractFactorialVerbose = {
@@ -21,5 +21,6 @@ class FactorialVerbose
     in result
 }
 
-class FactorialVerbose_() extends FactorialVerbose
+class FactorialVerbose_()
+  extends FactorialVerbose
 

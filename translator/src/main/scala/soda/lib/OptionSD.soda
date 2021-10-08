@@ -34,7 +34,8 @@ package soda.lib
   has filter(predicate: A -> Boolean): OptionSD[A]
 }
 
-* NoneSD[A] extends OptionSD[A] = {
+* NoneSD[A]
+  extends OptionSD[A] = {
 
   opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
@@ -61,11 +62,17 @@ package soda.lib
   filter(predicate: A -> Boolean): OptionSD[A] = this
 }
 
-* NoneSD_[A]() extends NoneSD[A]
+* NoneSD_[A]()
+  extends NoneSD[A]
 
-* SomeSD[A] extends OptionSD[A] = {
+* OptionSDWithElement[A]
+  extends OptionSD[A] = {
 
   has element: A
+}
+
+* SomeSD[A]
+  extends OptionSDWithElement[A] = {
 
   value: A = element
 
@@ -94,7 +101,8 @@ package soda.lib
   filter(predicate: A -> Boolean): OptionSD[A] = if predicate(element) then this else NoneSD_[A]()
 }
 
-* SomeSD_[A](element: A) extends SomeSD[A]
+* SomeSD_[A](element: A)
+  extends SomeSD[A]
 
 * OptionSDBuilder[A] = {
 
@@ -104,4 +112,5 @@ package soda.lib
     else SomeSD_[A](option.get)
 }
 
-* OptionSDBuilder_[A]() extends OptionSDBuilder[A]
+* OptionSDBuilder_[A]()
+  extends OptionSDBuilder[A]

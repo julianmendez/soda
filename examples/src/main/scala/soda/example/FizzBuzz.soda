@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 * FizzBuzz = {
@@ -23,5 +23,6 @@ package soda.translator.example
     n % k == 0
 }
 
-* FizzBuzz_() extends FizzBuzz
+* FizzBuzz_()
+  extends FizzBuzz
 

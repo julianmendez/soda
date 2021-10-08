@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {

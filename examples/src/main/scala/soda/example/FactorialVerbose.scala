@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait AbstractFactorialVerbose {
@@ -21,4 +21,4 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
       result }
 }
 
-case class FactorialVerbose_ () extends FactorialVerbose
+case class FactorialVerbose_ ()  extends FactorialVerbose

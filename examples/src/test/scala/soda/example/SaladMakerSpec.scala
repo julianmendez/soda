@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait SaladIngredient extends soda.lib.EnumConstant

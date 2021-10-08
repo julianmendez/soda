@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 * MainClass = {
@@ -7,7 +7,8 @@ package soda.translator.example
     println("Hello world!")
 }
 
-* Main() extends MainClass
+* Main()
+  extends MainClass
 
 @main
 

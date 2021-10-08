@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 * LetBindingSpec()
@@ -13,6 +13,13 @@ package soda.translator.example
 
   test("should evaluate an expression like 'let in'") {
     obtained = LetBindingExample_().three_parts_like_let_in
+    expected = Seq("first part", "second part", "third part")
+
+    assert(obtained == expected)
+  }
+
+  test("should evaluate an expression like Coq 'let in'") {
+    obtained = LetBindingExample_().three_parts_like_coq_let_in
     expected = Seq("first part", "second part", "third part")
 
     assert(obtained == expected)

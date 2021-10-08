@@ -1,4 +1,4 @@
-package localhost.sandbox.scala
+package soda.example
 
 * PatternMatchingSpec()
   extends org.scalatest.funsuite.AnyFunSuite {

@@ -28,7 +28,8 @@ package soda.collection
     in Min_().foldLeft(mseq, initial_value, next_value).reverse
 }
 
-* MSeqTranslator_[T]() extends MSeqTranslator[T]
+* MSeqTranslator_[T]()
+  extends MSeqTranslator[T]
 
 * MSeqPair[T] = {
 
@@ -37,7 +38,8 @@ package soda.collection
   has right: MSeq[T]
 }
 
-* MSeqPair_[T](left: MSeq[T], right: MSeq[T]) extends MSeqPair[T]
+* MSeqPair_[T](left: MSeq[T], right: MSeq[T])
+  extends MSeqPair[T]
 
 * Min[T] = {
   + soda.lib.OptionSD

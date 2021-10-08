@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 * SaladMaker = {
@@ -23,5 +23,6 @@ package soda.translator.example
 
 }
 
-* SaladMaker_() extends SaladMaker
+* SaladMaker_()
+  extends SaladMaker
 

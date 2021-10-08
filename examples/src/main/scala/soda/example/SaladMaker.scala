@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait SaladMaker {
@@ -19,4 +19,4 @@ trait SaladMaker {
 
 }
 
-case class SaladMaker_ () extends SaladMaker
+case class SaladMaker_ ()  extends SaladMaker
