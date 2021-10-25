@@ -1,4 +1,10 @@
 ---
+- version: v0.13.0
+  - date: unreleased
+  - build: sbt '++ 3.1.0' clean compile test package assembly
+  - new_features:
+    - compiles with Scala 3.1.0
+  - release: target/scala-3.1.0/soda-0.13.0.jar
 - version: v0.12.0
   - date: '2021-10-08'
   - new_features:
