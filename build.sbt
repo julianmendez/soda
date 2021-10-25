@@ -8,7 +8,7 @@ lazy val scala3 = "3.0.2"
 
 lazy val commonSettings = Seq(
   organization := "se.umu.cs.rai.soda",
-  version := "0.12.0",
+  version := "0.13.0-SNAPSHOT",
 
   description := "Functional language to describe ethical problems",
   homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
