@@ -1,0 +1,12 @@
+package soda.coqport.phrase
+
+
+* DefinitionPhraseTest
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  test("Definition test") {
+
+  }
+}
+
+

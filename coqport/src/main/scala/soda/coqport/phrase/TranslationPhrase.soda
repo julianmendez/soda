@@ -1,0 +1,9 @@
+package soda.coqport.phrase
+
+* TranslationPhrase = {
+
+  has can_apply(line: String): Boolean
+
+  has translate(line: String): String
+}
+
