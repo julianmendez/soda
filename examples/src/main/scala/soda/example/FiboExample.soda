@@ -21,3 +21,7 @@ class FiboExampleInSoda
     in result
 }
 
+class FiboExampleInSoda_()
+  extends FiboExampleInSoda
+
+
