@@ -6,7 +6,7 @@ package soda.example.forcoq.lib
 
   test("IntNat from non negative") {
     instance = IntNat_()
-    expected = nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_O()))))))))
+    expected = S(S(S(S(S(S(S(S(O()))))))))
     obtained =
       instance.from_non_negative (8)
 
@@ -18,17 +18,17 @@ package soda.example.forcoq.lib
     expected = 5
     obtained =
       instance.to_Int (
-        nat_S(nat_S(nat_S(nat_S(nat_S(nat_O())))))
+        S(S(S(S(S(O())))))
       )
 
     assert(obtained == expected)
   }
 
-    test("Nat plus") {
-      a = nat_S(nat_S(nat_S(nat_O())))
-      b = nat_S(nat_S(nat_S(nat_S(nat_S(nat_O())))))
-      expected = nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_O()))))))))
-      obtained = a.plus(b)
+    test("Nat add") {
+      a = S(S(S(O())))
+      b = S(S(S(S(S(O())))))
+      expected = S(S(S(S(S(S(S(S(O()))))))))
+      obtained = a.add(b)
 
       assert(obtained == expected)
     }

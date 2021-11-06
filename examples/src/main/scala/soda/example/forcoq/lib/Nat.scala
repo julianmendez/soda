@@ -3,17 +3,17 @@ package soda.example.forcoq.lib
 
 trait nat {
 
-  def plus (a: nat ): nat
+  def add (a: nat ): nat
 }
 
-case class nat_O ()  extends nat {
+case class O ()  extends nat {
 
-  def plus (a: nat ): nat = a
+  def add (a: nat ): nat = a
 }
 
-case class nat_S (k: nat )  extends nat {
+case class S (k: nat )  extends nat {
 
-  def plus (a: nat ): nat =
+  def add (a: nat ): nat =
     {
       lazy val m = IntNat_ ()
       m.from_non_negative ((m.to_Int (k ) + 1 ) + m.to_Int (a ) ) }
@@ -37,14 +37,14 @@ trait IntNat {
       def _from_non_negative (a: Int, b: nat ): nat =
         if (a <= 0
         ) b
-        else _from_non_negative (a - 1, nat_S (b )  )
+        else _from_non_negative (a - 1, S (b )  )
 
-       _from_non_negative (a, nat_O ()  ) }
+       _from_non_negative (a, O ()  ) }
 
   def to_Int (a: nat ): Int =
     a  match {
-      case nat_O () => 0
-      case nat_S (k ) => 1 + to_Int (k )
+      case O () => 0
+      case S (k ) => 1 + to_Int (k )
     }
 }
 
