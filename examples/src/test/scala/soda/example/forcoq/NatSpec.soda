@@ -1,0 +1,36 @@
+package soda.example.forcoq
+
+
+* NatSpec()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  test("IntNat from non negative") {
+    instance = IntNat_()
+    expected = nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_O()))))))))
+    obtained =
+      instance.from_non_negative (8)
+
+    assert(obtained == expected)
+  }
+
+  test("IntNat to Int") {
+    instance = IntNat_()
+    expected = 5
+    obtained =
+      instance.to_Int (
+        nat_S(nat_S(nat_S(nat_S(nat_S(nat_O())))))
+      )
+
+    assert(obtained == expected)
+  }
+
+    test("Nat plus") {
+      a = nat_S(nat_S(nat_S(nat_O())))
+      b = nat_S(nat_S(nat_S(nat_S(nat_S(nat_O())))))
+      expected = nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_S(nat_O()))))))))
+      obtained = a.plus(b)
+
+      assert(obtained == expected)
+    }
+}
+

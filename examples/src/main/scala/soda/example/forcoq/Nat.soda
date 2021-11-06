@@ -1,0 +1,54 @@
+package soda.example.forcoq
+
+
+class nat = {
+
+  has plus (a: nat): nat
+}
+
+class nat_O ()
+  extends nat = {
+
+  plus (a: nat): nat = a
+}
+
+class nat_S (k: nat)
+  extends nat = {
+
+  plus (a: nat): nat =
+    let
+      m = IntNat_()
+    in m.from_non_negative( (m.to_Int(k) + 1) + m.to_Int(a) )
+}
+
+class IntNat = {
+  + soda.lib.OptionSD
+  + soda.lib.NoneSD_
+  + soda.lib.SomeSD_
+  + soda.lib.Recursion_
+
+  from_Int (a: Int): OptionSD[nat] =
+    if a < 0
+    then NoneSD_[nat] ()
+    else SomeSD_[nat] (from_non_negative (a))
+
+  from_non_negative (a: Int): nat =
+    let
+      @tailrec
+      _from_non_negative (a: Int, b: nat): nat =
+        if a <= 0
+        then b
+        else _from_non_negative(a - 1, nat_S (b))
+
+    in  _from_non_negative (a, nat_O ())
+
+  to_Int(a: nat): Int =
+    match a {
+      | nat_O () -> 0
+      | nat_S (k) -> 1 + to_Int (k)
+    }
+}
+
+class IntNat_()
+  extends IntNat
+
