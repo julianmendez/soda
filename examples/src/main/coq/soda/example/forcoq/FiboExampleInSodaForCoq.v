@@ -19,7 +19,6 @@ Fixpoint rec_fib (m: nat) (a: nat) (b: nat): nat :=
     | (nat_S (k)) => rec_fib (k) (b) (a .plus (b))
   end.
 
-
 Definition fib (n: nat) :=
-  rec_fib (n) (nat_O()) ( (nat_S (O)) ).
+  rec_fib (n) (nat_O()) ( (nat_S (nat_O() )) ).
 

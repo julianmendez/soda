@@ -6,12 +6,12 @@ class FiboExampleInSodaForCoq = {
   rec_fib (m: nat) (a: nat) (b: nat): nat =
     match m {
       | nat_O() -> a
-      | nat_S (nat_O()) -> b
-      | nat_S (k) -> rec_fib (k) (b) (a.plus(b))
+      | (nat_S (nat_O())) -> b
+      | (nat_S (k)) -> rec_fib (k) (b) (a .plus (b))
     }
 
   fib (n: nat) =
-    rec_fib (n) (nat_O()) (nat_S(nat_O()))
+    rec_fib (n) (nat_O()) ( (nat_S (nat_O() )) )
 }
 
 class FiboExampleInSodaForCoq_()
