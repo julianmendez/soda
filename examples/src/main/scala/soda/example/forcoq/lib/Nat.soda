@@ -1,4 +1,4 @@
-package soda.example.forcoq
+package soda.example.forcoq.lib
 
 
 class nat = {

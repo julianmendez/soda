@@ -2,6 +2,7 @@ package soda.example.forcoq
 
 
 case class FiboExampleInSodaForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+  import soda.example.forcoq.lib.{ nat, IntNat_ }
 
   lazy val fibonacci_values: Seq [(Int, Int )] = Seq ((0, 0 ), (1, 1 ), (2, 1 ), (3, 2 ), (4, 3 ), (5, 5 ), (6, 8 ), (7, 13 ), (8, 21 ), (9, 34 ), (10, 55 )  )
 

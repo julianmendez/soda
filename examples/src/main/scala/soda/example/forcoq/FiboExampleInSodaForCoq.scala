@@ -2,6 +2,7 @@ package soda.example.forcoq
 
 
 trait FiboExampleInSodaForCoq {
+  import soda.example.forcoq.lib.{ nat, nat_O, nat_S }
 
   def rec_fib (m: nat ) (a: nat ) (b: nat ): nat =
     m  match {
