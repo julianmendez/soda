@@ -10,6 +10,10 @@ Notation "O()" := O.
 Notation "a .add b" := (add a b) (at level 85).
 
 
+Module soda_example_forcoq.
+
+Module FiboExampleInSodaForCoq.
+
 Fixpoint rec_fib (m: nat) (a: nat) (b: nat): nat :=
     match m with
       | O() => a
@@ -19,4 +23,9 @@ Fixpoint rec_fib (m: nat) (a: nat) (b: nat): nat :=
 
 Definition fib (n: nat) :=
     rec_fib (n) (O()) ( S (O() ) ) .
+
+End FiboExampleInSodaForCoq.
+
+End soda_example_forcoq.
+
 
