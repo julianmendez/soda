@@ -9,10 +9,10 @@ class FiboExampleInSodaForCoq = {
       | O() -> a
       | S (O()) -> b
       | S (k) -> rec_fib (k) (b) (a .add (b))
-    }
+    } ;
 
   fib (n: nat) =
-    rec_fib (n) (O()) ( S (O() ) )
+    rec_fib (n) (O()) ( S (O() ) ) ;
 }
 
 class FiboExampleInSodaForCoq_()
