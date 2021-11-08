@@ -4,19 +4,26 @@ package soda.example.forcoq.lib
 trait nat {
 
   def add (a: nat ): nat
+
+  def mul (a: nat ): nat
 }
 
 case class O ()  extends nat {
 
   def add (a: nat ): nat = a
+
+  def mul (a: nat ): nat = this
 }
 
 case class S (k: nat )  extends nat {
 
+  lazy val t = IntNat_ ()
+
   def add (a: nat ): nat =
-    {
-      lazy val m = IntNat_ ()
-      m.from_non_negative ((m.to_Int (k ) + 1 ) + m.to_Int (a ) ) }
+    t.from_non_negative ((t.to_Int (k ) + 1 ) + t.to_Int (a ) )
+
+  def mul (a: nat ): nat =
+    t.from_non_negative ((t.to_Int (k ) + 1 ) * t.to_Int (a ) )
 }
 
 trait IntNat {

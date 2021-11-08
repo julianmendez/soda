@@ -4,21 +4,28 @@ package soda.example.forcoq.lib
 class nat = {
 
   has add (a: nat): nat
+
+  has mul (a: nat): nat
 }
 
 class O ()
   extends nat = {
 
   add (a: nat): nat = a
+
+  mul (a: nat): nat = this
 }
 
 class S (k: nat)
   extends nat = {
 
+  t = IntNat_()
+
   add (a: nat): nat =
-    let
-      m = IntNat_()
-    in m.from_non_negative( (m.to_Int(k) + 1) + m.to_Int(a) )
+    t.from_non_negative( (t.to_Int(k) + 1) + t.to_Int(a) )
+
+  mul (a: nat): nat =
+    t.from_non_negative( (t.to_Int(k) + 1) * t.to_Int(a) )
 }
 
 class IntNat = {

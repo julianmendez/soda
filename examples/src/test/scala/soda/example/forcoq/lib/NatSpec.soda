@@ -32,5 +32,14 @@ package soda.example.forcoq.lib
 
       assert(obtained == expected)
     }
+
+    test("Nat mul") {
+      a = S(S(S(O())))
+      b = S(S(S(S(O()))))
+      expected = S(S(S(S(S(S(S(S(S(S(S(S(O()))))))))))))
+      obtained = a.mul(b)
+
+      assert(obtained == expected)
+    }
 }
 

@@ -29,4 +29,13 @@ case class NatSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
       assert (obtained == expected )
     }
+
+    test ("Nat mul") {
+      lazy val a = S (S (S (O ()  )  )  )
+      lazy val b = S (S (S (S (O ()  )  )  )  )
+      lazy val expected = S (S (S (S (S (S (S (S (S (S (S (S (O ()  )  )  )  )  )  )  )  )  )  )  )  )
+      lazy val obtained = a.mul (b )
+
+      assert (obtained == expected )
+    }
 }
