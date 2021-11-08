@@ -1,0 +1,19 @@
+package soda.example.forcoq
+
+
+* TriangularNumberForCoq = {
+  + soda.example.forcoq.lib.{nat, O, S}
+
+  rec (m: nat) (acc: nat): nat =
+    match m {
+      | O() -> acc
+      | S (k) -> rec (k) (acc .add ( S (k) ))
+    } ;
+
+  get_number (n: nat): nat =
+    rec (n) ( O() ) ;
+}
+
+* TriangularNumberForCoq_()
+  extends TriangularNumberForCoq
+
