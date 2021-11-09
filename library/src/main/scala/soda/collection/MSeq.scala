@@ -10,18 +10,18 @@ trait MSeq [T] {
 
 trait MSeqRec [T] {
 
-  def fold [B, C <: B]  (mseq: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (seq: MSeq [T], acc: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-        if (seq.isEmpty
-        ) acc
-        else
-          {
-            lazy val neseq = seq.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
-            if (! condition (acc, neseq.head ()  ) ) acc else rec (neseq.tail (), next_value (acc, neseq.head ()  ), next_value, condition ) }
-      rec (mseq, initial_value, next_value, condition ) }
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_fold [B, C <: B]  (sequence: MSeq [T], current_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else
+      {
+        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
+        if (! condition (current_value, neseq.head ()  ) ) current_value else _rec_fold (neseq.tail (), next_value (current_value, neseq.head ()  ), next_value, condition ) }
+
+  def fold [B, C <: B]  (sequence: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+    _rec_fold (sequence, initial_value, next_value, condition )
 }
 
 case class MSeqRec_ [T]  ()  extends MSeqRec [T]

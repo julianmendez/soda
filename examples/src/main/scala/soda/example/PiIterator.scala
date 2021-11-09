@@ -26,43 +26,37 @@ trait PiIterator {
   lazy val initial_status =
     Status_ (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1 )
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_compute_new_status (s: Status ): Status =
+    if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
+    ) s
+    else
+      {
+        lazy val r = (2 * s.q + s.r ) * s.l
+        lazy val n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt
+        lazy val q = s.q * s.k
+        lazy val t = s.t * s.l
+        lazy val l = s.l + 2
+        lazy val k = s.k + 1
+        lazy val new_status = Status_ (r, n, q, t, l, k )
+        _rec_compute_new_status (new_status ) }
+
   def compute_new_status (s: Status ): Status =
-    {
-      lazy val result = rec (s )
+    _rec_compute_new_status (s )
 
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (s: Status ): Status =
-        if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
-        ) s
-        else
-          {
-            lazy val r = (2 * s.q + s.r ) * s.l
-            lazy val n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt
-            lazy val q = s.q * s.k
-            lazy val t = s.t * s.l
-            lazy val l = s.l + 2
-            lazy val k = s.k + 1
-            lazy val new_status = Status_ (r, n, q, t, l, k )
-            rec (new_status ) }
-
-      result }
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_take (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
+    if (n == 0
+    ) rev_seq.reverse
+    else
+      {
+        lazy val t = _get_next (s )
+        _rec_take (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
 
   def take (n: Int ): Seq [Int] =
-    {
-      lazy val result = rec (n, Seq (), initial_status )
-
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
-        if (n == 0
-        ) rev_seq.reverse
-        else
-          {
-            lazy val t = _get_next (s )
-            rec (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
-
-      result }
+    _rec_take (n, Seq (), initial_status )
 
   def _get_next (s: Status ): IntAndStatus =
     {

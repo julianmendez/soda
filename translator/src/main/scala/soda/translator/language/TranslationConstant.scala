@@ -69,7 +69,7 @@ trait TranslationConstant {
 
   lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
     /** Annotations */
-    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"), ("@main", scala_entry_point )  )
+    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"), ("@main", scala_entry_point )  )
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("lambda", ""), ("<:", "subtype"), (">:", "supertype")  )
 

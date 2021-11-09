@@ -176,7 +176,7 @@ trait Manual {
       /* A tail recursive function should be declared inside another function.
        * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, accum: Int ): Int =
         if (n < 0
         ) accum
@@ -214,7 +214,7 @@ trait FactorialConcise  extends AbstractFactorialConcise {
       lazy val result = rec (n, 1 )
 
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, product: Int ): Int =
         /* The function to compare equality is a long equals (`==`). */
         if (n == 0
@@ -237,7 +237,7 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
       lazy val result = rec (n, 1 )
 
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, product: Int ): Int =
         if (n == 0
         ) product
@@ -251,7 +251,7 @@ trait Recursion {
   def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
     {
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (seq: Seq [A], acc: C ): C =
         if (seq.isEmpty
         ) acc
@@ -265,7 +265,7 @@ trait Recursion {
   def range (length: Int ): Seq [Int] =
     {
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
         if (n <= 0
         ) seq

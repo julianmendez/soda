@@ -9,17 +9,14 @@ package soda.example
 * FactorialConcise
   extends AbstractFactorialConcise = {
 
+  @tailrec
+  _rec_get_factorial (n: Int, product: Int): Int =
+    if n == 0
+    then product
+    else _rec_get_factorial (n - 1, n * product)
+
   get_factorial (n: Int): Int =
-    let
-      result = rec (n, 1)
-
-      @tailrec
-      rec (n: Int, product: Int): Int =
-        if n == 0
-        then product
-        else rec (n - 1, n * product)
-
-    in result
+    _rec_get_factorial (n, 1)
 }
 
 * FactorialConcise_()

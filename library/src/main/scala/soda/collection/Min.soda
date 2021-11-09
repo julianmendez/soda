@@ -3,16 +3,16 @@ package soda.collection
 
 * MSeqTranslator[T] = {
 
-  foldLeftSeq[B, C subtype B](seq: Seq[T], initial_value: C,
+  @tailrec
+  _rec_foldLeftSeq[B, C subtype B](sequence: Seq[T], current_value: C,
       next_value: (B, T) -> C): C =
-    let
-      @tailrec
-      rec(seq: Seq[T], acc: C, next_value: (B, T) -> C): C =
-        if seq.isEmpty
-        then acc
-        else rec(seq.tail, next_value(acc, seq.head), next_value)
+    if sequence.isEmpty
+    then current_value
+    else _rec_foldLeftSeq(sequence.tail, next_value(current_value, sequence.head), next_value)
 
-    in rec(seq, initial_value, next_value)
+  foldLeftSeq[B, C subtype B](sequence: Seq[T], initial_value: C,
+      next_value: (B, T) -> C): C =
+    _rec_foldLeftSeq(sequence, initial_value, next_value)
 
   asMSeq(seq: Seq[T]): MSeq[T] =
     let

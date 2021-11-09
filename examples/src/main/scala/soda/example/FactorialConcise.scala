@@ -8,18 +8,15 @@ trait AbstractFactorialConcise {
 
 trait FactorialConcise  extends AbstractFactorialConcise {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_get_factorial (n: Int, product: Int ): Int =
+    if (n == 0
+    ) product
+    else _rec_get_factorial (n - 1, n * product )
+
   def get_factorial (n: Int ): Int =
-    {
-      lazy val result = rec (n, 1 )
-
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, product: Int ): Int =
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-
-      result }
+    _rec_get_factorial (n, 1 )
 }
 
 case class FactorialConcise_ ()  extends FactorialConcise

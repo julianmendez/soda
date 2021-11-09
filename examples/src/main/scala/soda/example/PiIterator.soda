@@ -33,41 +33,35 @@ package soda.example
   initial_status =
     Status_(r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
 
+  @tailrec
+  _rec_compute_new_status(s: Status): Status =
+    if (4 * s.q + s.r - s.t) < (s.n * s.t)
+    then s
+    else
+      let
+        r = (2 * s.q + s.r) * s.l
+        n = ((s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)).toInt
+        q = s.q * s.k
+        t = s.t * s.l
+        l = s.l + 2
+        k = s.k + 1
+        new_status = Status_(r, n, q, t, l, k)
+      in _rec_compute_new_status(new_status)
+
   compute_new_status(s: Status): Status =
-    let
-      result = rec(s)
+    _rec_compute_new_status(s)
 
-      @tailrec
-      rec(s: Status): Status =
-        if (4 * s.q + s.r - s.t) < (s.n * s.t)
-        then s
-        else
-          let
-            r = (2 * s.q + s.r) * s.l
-            n = ((s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)).toInt
-            q = s.q * s.k
-            t = s.t * s.l
-            l = s.l + 2
-            k = s.k + 1
-            new_status = Status_(r, n, q, t, l, k)
-          in rec(new_status)
-
-    in result
+  @tailrec
+  _rec_take(n: Int, rev_seq: Seq[Int], s: Status): Seq[Int] =
+    if n == 0
+    then rev_seq.reverse
+    else
+      let
+        t = _get_next(s)
+      in _rec_take(n - 1, rev_seq.+:(t.digit), t.new_status)
 
   take(n: Int): Seq[Int] =
-    let
-      result = rec(n, Seq(), initial_status)
-
-      @tailrec
-      rec(n: Int, rev_seq: Seq[Int], s: Status): Seq[Int] =
-        if n == 0
-        then rev_seq.reverse
-        else
-          let
-            t = _get_next(s)
-          in rec(n - 1, rev_seq.+:(t.digit), t.new_status)
-
-    in result
+    _rec_take(n, Seq(), initial_status)
 
   _get_next(s: Status): IntAndStatus =
     let

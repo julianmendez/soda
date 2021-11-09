@@ -39,15 +39,14 @@ class IntNat = {
     then NoneSD_[nat] ()
     else SomeSD_[nat] (from_non_negative (a))
 
-  from_non_negative (a: Int): nat =
-    let
-      @tailrec
-      _from_non_negative (a: Int, b: nat): nat =
-        if a <= 0
-        then b
-        else _from_non_negative(a - 1, S (b))
+  @tailrec
+  _rec_from_non_negative (a: Int, b: nat): nat =
+    if a <= 0
+    then b
+    else _rec_from_non_negative (a - 1, S (b))
 
-    in  _from_non_negative (a, O())
+  from_non_negative (a: Int): nat =
+    _rec_from_non_negative (a, O())
 
   to_Int (a: nat): Int =
     match a {

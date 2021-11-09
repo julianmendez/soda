@@ -13,7 +13,7 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
       lazy val result = rec (n, 1 )
 
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, product: Int ): Int =
         if (n == 0
         ) product

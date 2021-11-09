@@ -3,16 +3,15 @@ package soda.collection
 
 trait MSeqTranslator [T] {
 
-  def foldLeftSeq [B, C <: B]  (seq: Seq [T], initial_value: C, next_value: (B, T ) => C ): C =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (seq: Seq [T], acc: C, next_value: (B, T ) => C ): C =
-        if (seq.isEmpty
-        ) acc
-        else rec (seq.tail, next_value (acc, seq.head ), next_value )
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_foldLeftSeq [B, C <: B]  (sequence: Seq [T], current_value: C, next_value: (B, T ) => C ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else _rec_foldLeftSeq (sequence.tail, next_value (current_value, sequence.head ), next_value )
 
-      rec (seq, initial_value, next_value ) }
+  def foldLeftSeq [B, C <: B]  (sequence: Seq [T], initial_value: C, next_value: (B, T ) => C ): C =
+    _rec_foldLeftSeq (sequence, initial_value, next_value )
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] =
     {

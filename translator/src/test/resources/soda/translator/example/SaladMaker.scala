@@ -6,7 +6,7 @@ trait SaladMaker {
   def prepare_vegan_salad [Ingredient, Salad, VeganSalad <: Salad]  (list_of_ingredients: Seq [Ingredient], initial_bowl: VeganSalad, next_ingredient_function: (Salad, Ingredient ) => VeganSalad, condition_to_continue: (Salad, Ingredient ) => Boolean  ): Salad =
     {
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (ingredients_so_far: Seq [Ingredient], salad_so_far: Salad ): Salad =
         if (ingredients_so_far.isEmpty
         ) salad_so_far

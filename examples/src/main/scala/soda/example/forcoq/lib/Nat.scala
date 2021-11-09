@@ -37,16 +37,15 @@ trait IntNat {
     ) NoneSD_ [nat] ()
     else SomeSD_ [nat] (from_non_negative (a )  )
 
-  def from_non_negative (a: Int ): nat =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def _from_non_negative (a: Int, b: nat ): nat =
-        if (a <= 0
-        ) b
-        else _from_non_negative (a - 1, S (b )  )
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_from_non_negative (a: Int, b: nat ): nat =
+    if (a <= 0
+    ) b
+    else _rec_from_non_negative (a - 1, S (b )  )
 
-       _from_non_negative (a, O ()  ) }
+  def from_non_negative (a: Int ): nat =
+    _rec_from_non_negative (a, O ()  )
 
   def to_Int (a: nat ): Int =
     a  match {

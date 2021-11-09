@@ -9,41 +9,38 @@ package soda.lib
  */
 trait Recursion {
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (seq: Seq [A], acc: C ): C =
-        if (seq.isEmpty
-        ) acc
-        else
-          if (! condition (acc, seq.head )
-          ) acc
-          else rec (seq.tail, next_value_function (acc, seq.head )  )
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_fold4 [A, B, C <: B]  (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else
+      if (! condition (current_value, sequence.head )
+      ) current_value
+      else _rec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-      rec (sequence, initial_value ) }
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
+    _rec_fold4 (sequence, initial_value, next_value_function, condition )
+
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_fold3 [A, B, C <: B]  (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C         ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else _rec_fold3 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function )
 
   def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C  ): C =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (seq: Seq [A], acc: C ): C =
-        if (seq.isEmpty
-        ) acc
-        else rec (seq.tail, next_value_function (acc, seq.head )  )
+    _rec_fold3 (sequence, initial_value, next_value_function )
 
-      rec (sequence, initial_value ) }
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
+    if (n <= 0
+    ) sequence
+    else _rec_range (n - 1, sequence.+: (n - 1 )  )
 
   def range (length: Int ): Seq [Int] =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
-        if (n <= 0
-        ) seq
-        else rec (n - 1, seq.+: (n - 1 )  )
-
-      rec (length, Seq [Int]  ()  ) }
+    _rec_range (length, Seq [Int]  ()  )
 }
 
 case class Recursion_ () extends Recursion

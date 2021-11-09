@@ -31,7 +31,7 @@ trait PiIterator {
       lazy val result = rec (s )
 
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (s: Status ): Status =
         if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
         ) s
@@ -53,7 +53,7 @@ trait PiIterator {
       lazy val result = rec (n, Seq (), initial_status )
 
       import scala.annotation.tailrec
-        @tailrec
+        @tailrec  final
       def rec (n: Int, rev_seq: Seq [BigInt], s: Status ): Seq [BigInt] =
         if (n == 0
         ) rev_seq.reverse
