@@ -19,16 +19,14 @@ Module soda_example_forcoq.
 
 Module TriangularNumberForCoq.
 
+  Fixpoint _rec_get_number (m: nat) (acc: nat): nat :=
+    match m with
+      | O() => acc
+      | S (k) => _rec_get_number (k) (acc .add ( S (k) ))
+    end.
 
-Fixpoint rec (m: nat) (acc: nat): nat :=
-  match m with
-    | O() => acc
-    | S (k) => rec (k) (acc .add ( S (k) ))
-  end.
-
-Definition get_number (n: nat): nat :=
-  rec (n) ( O() ) .
-
+  Definition get_number (n: nat): nat :=
+    _rec_get_number (n) ( O() ) .
 
 End TriangularNumberForCoq.
 

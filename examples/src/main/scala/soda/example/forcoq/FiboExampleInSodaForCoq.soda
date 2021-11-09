@@ -4,15 +4,15 @@ package soda.example.forcoq
 * FiboExampleInSodaForCoq = {
   + soda.example.forcoq.lib.{nat, O, S}
 
-  rec_fib (m: nat) (a: nat) (b: nat): nat =
+  _rec_fib (m: nat) (a: nat) (b: nat): nat =
     match m {
       | O() -> a
       | S (O()) -> b
-      | S (k) -> rec_fib (k) (b) (a .add (b))
+      | S (k) -> _rec_fib (k) (b) (a .add (b))
     } ;
 
   fib (n: nat) =
-    rec_fib (n) (O()) ( S (O() ) ) ;
+    _rec_fib (n) (O()) ( S (O() ) ) ;
 }
 
 * FiboExampleInSodaForCoq_()

@@ -4,14 +4,14 @@ package soda.example.forcoq
 trait TriangularNumberForCoq {
   import soda.example.forcoq.lib.{ nat, O, S }
 
-  def rec (m: nat ) (acc: nat ): nat =
+  def _rec_get_number (m: nat ) (acc: nat ): nat =
     m  match {
       case O () => acc
-      case S (k ) => rec (k ) (acc .add (S (k ) )  )
+      case S (k ) => _rec_get_number (k ) (acc .add (S (k ) )  )
     } ;
 
   def get_number (n: nat ): nat =
-    rec (n ) (O () ) ;
+    _rec_get_number (n ) (O () ) ;
 }
 
 case class TriangularNumberForCoq_ ()  extends TriangularNumberForCoq
