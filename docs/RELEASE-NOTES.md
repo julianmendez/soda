@@ -5,7 +5,7 @@
   - new_features:
     - compiles with Scala 3.1.0
     - is compatible with Scala 2.13.7
-    - makes annotation `@tailrec` only available as a class method
+    - makes annotation `@tailrec` only available to class methods
   - release: target/scala-3.1.0/soda-0.13.0.jar
 - version: v0.12.0
   - date: '2021-10-08'
