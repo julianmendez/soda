@@ -7,19 +7,19 @@ case class RecursionForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("fold left while with Seq") {
     lazy val initial_value = Seq ()
-    lazy val next_value_function: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
-    lazy val condition: (Seq [String], Int ) => Boolean = (s: Seq [String], e: Int ) => e < 5
+    lazy val next_value_function: Seq [String] => Int => Seq [String] = (s: Seq [String]  ) => (e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val condition: Seq [String] => Int => Boolean = (s: Seq [String]  ) => (e: Int ) => e < 5
     lazy val expected = Seq ("103", "102", "101", "101", "100")
-    lazy val obtained = RecursionForCoq_ () .fold (exampleSeq, initial_value, next_value_function, condition )
+    lazy val obtained = RecursionForCoq_ () .fold4 (exampleSeq ) (initial_value ) (next_value_function ) (condition )
 
     assert (obtained == expected )
   }
 
   test ("fold left with Seq") {
     lazy val initial_value = Seq ()
-    lazy val next_value_function: (Seq [String], Int ) => Seq [String] = (s: Seq [String], e: Int ) => s.+: ("" + (e + 100 )  )
+    lazy val next_value_function: Seq [String] => Int => Seq [String] = (s: Seq [String]  ) => (e: Int ) => s .+: ("" + (e + 100 )  )
     lazy val expected = Seq ("108", "105", "103", "102", "101", "101", "100")
-    lazy val obtained = RecursionForCoq_ () .fold (exampleSeq, initial_value, next_value_function )
+    lazy val obtained = RecursionForCoq_ () .fold3 (exampleSeq ) (initial_value ) (next_value_function )
 
     assert (obtained == expected )
   }

@@ -8,40 +8,42 @@ Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 
 
-Definition Boolean := bool.
+Definition Boolean := bool .
+
+Definition Seq (A: Type) := list A .
 
 Module soda_example_forcoq.
 
 Module RecursionForCoq.
 
-  Fixpoint _rec_fold4 {A: Type} {B: Type} (sequence: list (A)) (current_value: B) (next_value_function: (B) -> (A) -> B) (condition: (B) -> (A) -> Boolean): B :=
+  Fixpoint _rec_fold4 {A B: Type} (sequence: Seq (A)) (current_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B :=
     match sequence with
       | nil => current_value
       | (head) :: (tail) =>
         if (negb (condition (current_value) (head) ) )
         then current_value
-        else _rec_fold4 (tail) (next_value_function(current_value) (head)) (next_value_function) (condition) 
+        else _rec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
     end .
 
-  Definition fold4 {A: Type} {B: Type} (sequence: list (A)) (initial_value: B) (next_value_function: (B) -> (A) -> B) (condition: (B) -> (A) -> Boolean): B :=
+  Definition fold4 {A B: Type} (sequence: Seq (A)) (initial_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B :=
     _rec_fold4 (sequence) (initial_value) (next_value_function) (condition) .
 
-  Fixpoint _rec_fold3 {A: Type} {B: Type} (sequence: list (A)) (current_value: B) (next_value_function: (B) -> (A) -> B): B :=
+  Fixpoint _rec_fold3 {A B: Type} (sequence: Seq (A)) (current_value: B) (next_value_function: B -> A -> B): B :=
     match sequence with
       | nil => current_value
       | (head) :: (tail) => _rec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
     end .
 
-  Definition fold3 {A: Type} {B: Type} (sequence: list (A)) (initial_value: B) (next_value_function: (B) -> (A) -> B): B :=
+  Definition fold3 {A B: Type} (sequence: Seq (A)) (initial_value: B) (next_value_function: B -> A -> B): B :=
     _rec_fold3 (sequence) (initial_value) (next_value_function) .
 
-  Fixpoint _rec_range (n: nat) (sequence: list (nat) ): list (nat) :=
+  Fixpoint _rec_range (n: nat) (sequence: Seq (nat) ): Seq (nat) :=
     match n with
       | O => sequence
       | S (k) => _rec_range (k) ( (k) :: sequence )
     end .
 
-  Definition range (length: nat): list (nat) :=
+  Definition range (length: nat): Seq (nat) :=
     _rec_range (length) ( nil ) .
 
 End RecursionForCoq.
