@@ -175,7 +175,7 @@ package soda.coqport.language
 
     /** Annotations */
     ("@override", "override"),
-    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec"),
+    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
     ("@main", scala_entry_point)
   )
 
