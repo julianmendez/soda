@@ -8,9 +8,11 @@ Require Import Coq.Strings.String.
 (* https://coq.inria.fr/library/Coq.Strings.String.html *)
 
 
-Module soda_example_LetBindingExample.
+Module soda_example.
 
-Definition three_parts_like_let_in :=
+Module LetBindingExample.
+
+  Definition three_parts_like_let_in :=
     let 
       part: string := " part"%string
     in let 
@@ -21,7 +23,7 @@ Definition three_parts_like_let_in :=
       third_part: string := (append "third"%string part)
     in (first_part :: (second_part :: (third_part :: nil))).
 
+End LetBindingExample.
 
-End soda_example_LetBindingExample.
-
+End soda_example.
 
