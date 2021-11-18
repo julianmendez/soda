@@ -20,13 +20,27 @@ trait TranslationConstant {
 
   lazy val soda_in_pattern: String = soda_in_reserved_word + " "
 
+  lazy val soda_let_reserved_word: String = "let"
+
+  lazy val soda_let_pattern: String = soda_let_reserved_word + " "
+
   lazy val scala_in_translation: String = " }"
+
+  lazy val soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+
+  lazy val scala_in_let_translation: String = " "
+
+  lazy val soda_match_reserved_word: String = "match"
+
+  lazy val soda_match_pattern: String = soda_match_reserved_word + " "
+
+  lazy val scala_match_translation: String = " match "
 
   lazy val soda_class_reserved_word: String = "class"
 
-  lazy val coq_definition: String = "Definition"
+  lazy val scala_definition: String = "Definition"
 
-  lazy val scala_value: String = "lazy val"
+  lazy val scala_value: String = "Definition"
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
@@ -57,11 +71,9 @@ trait TranslationConstant {
     /** Annotations */
     ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"), ("@main", scala_entry_point )  )
 
-  lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("<:", "subtype"), (">:", "supertype")  )
+  lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "/\\"), ("or", "\\/"),
-    /** Annotations */
-    ("@new", "new")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "=>"), ("=", ":="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "/\\"), ("or", "\\/")  )
 
   lazy val prefix_scala_non_soda = "__soda__"
 
@@ -72,7 +84,7 @@ trait TranslationConstant {
 
   lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
+  lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", " :"), (":\\s+", ": ")  )
 
   lazy val reserved_word_joiner: Seq [String] = Seq ("extends", "with"  )
 

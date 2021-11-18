@@ -20,13 +20,27 @@ package soda.coqport.language
 
   soda_in_pattern: String = soda_in_reserved_word + " "
 
+  soda_let_reserved_word: String = "let"
+
+  soda_let_pattern: String = soda_let_reserved_word + " "
+
   scala_in_translation: String = " }"
+
+  soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+
+  scala_in_let_translation: String = " "
+
+  soda_match_reserved_word: String = "match"
+
+  soda_match_pattern: String = soda_match_reserved_word + " "
+
+  scala_match_translation: String = " match "
 
   soda_class_reserved_word: String = "class"
 
-  coq_definition: String = "Definition"
+  scala_definition: String = "Definition"
 
-  scala_value: String = "lazy val"
+  scala_value: String = "Definition"
 
   scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
@@ -180,33 +194,24 @@ package soda.coqport.language
   )
 
   synonym: Seq[(String, String)] = Seq(
-    ("is", "="),
-    ("<:", "subtype"),
-    (">:", "supertype")
+    ("is", ":=")
   )
 
   main_translation: Seq[(String, String)] = Seq(
+    (";", "."),
     (":", ":"),
     ("->", "=>"),
-    (":=", "="),
+    ("=", ":="),
     ("if", "if"),
     ("then", "then"),
     ("else", "else"),
     ("let", "let"),
     ("in", "in"),
-    ("extends", "extends"),
-    ("with", "with"),
-    ("this", "this"),
-    ("subtype", "<:"),
-    ("supertype", ">:"),
     ("false", "false"),
     ("true", "true"),
     ("not", "!"),
     ("and", "/\\"),
-    ("or", "\\/"),
-
-    /** Annotations */
-    ("@new", "new")
+    ("or", "\\/")
   )
 
   prefix_scala_non_soda = "__soda__"
@@ -227,7 +232,7 @@ package soda.coqport.language
     ("\\s+\\]", "]"),
     ("\\s+,", ","),
     (",\\s+", ", "),
-    ("\\s+:", ":"),
+    ("\\s+:", " :"),
     (":\\s+", ": ")
   )
 
