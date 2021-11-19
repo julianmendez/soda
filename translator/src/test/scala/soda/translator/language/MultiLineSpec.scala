@@ -26,7 +26,7 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "  f( x: Int,\t" +
     "     y: Int," +
     "     z: Int) =\n" +
-    "       x * x + y * y + z * z\n"
+    "       x * x + y * y + z * z"
 
 
   test ("should split a program in multiple lines")

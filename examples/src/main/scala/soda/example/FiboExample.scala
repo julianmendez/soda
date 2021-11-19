@@ -19,3 +19,5 @@ trait FiboExampleInSoda  extends FiboExample {
 }
 
 case class FiboExampleInSoda_ ()  extends FiboExampleInSoda
+
+

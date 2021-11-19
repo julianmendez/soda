@@ -39,7 +39,7 @@ package soda.translator.language
     "  f( x: Int,\t" +
     "     y: Int," +
     "     z: Int) =\n" +
-    "       x * x + y * y + z * z\n"
+    "       x * x + y * y + z * z"
 
 
   test("should split a program in multiple lines")

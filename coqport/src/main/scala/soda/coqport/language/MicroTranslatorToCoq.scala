@@ -7,6 +7,8 @@ package soda.coqport.language
 trait MicroTranslatorToCoq {
 
   import soda.lib.SomeSD_
+  import soda.translator.language.Block
+  import soda.translator.language.Block_
   import soda.translator.language.DefaultTranslator_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
@@ -43,11 +45,23 @@ trait MicroTranslatorToCoq {
 
   def translate_program (program: String ): String =
     SomeSD_ (program )
+      .map (mtr.split_blocks )
+      .map (translate_blocks )
+      .map (mtr.join_translated_blocks )
+      .value
+
+  def translate_blocks (blocks: Seq [Block]  ): Seq [Block] =
+    blocks.map (block => translate_block (block ) )
+
+  def translate_block (block: Block ): Block =
+    SomeSD_ (block )
+      .map (x => x.contents )
       .map (mtr.split_lines )
       .map (mtr.join_lines_with_forward_join )
       .map (mtr.join_lines_with_backward_join )
       .map (translate_lines )
       .map (mtr.join_translated_lines )
+      .map (x => Block_ (x )  )
       .value
 
   def translate_lines (lines: Seq [String]  ): Seq [String] =

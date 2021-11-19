@@ -18,6 +18,8 @@ package soda.translator.language
 
   new_line = "\n"
 
+  double_new_line = new_line + new_line
+
   soda_opening_parenthesis: String = "("
 
   synonym_at_beginning = DefaultTranslator_(tc.synonym_at_beginning)
@@ -40,6 +42,28 @@ package soda.translator.language
 
   translate_program(program: String): String =
     SomeSD_(program)
+      .map(split_blocks)
+      .map(translate_blocks)
+      .map(join_translated_blocks)
+      .value
+
+  split_blocks (program: String): Seq[Block] =
+    program
+      .split(double_new_line)
+      .toIndexedSeq
+      .map(x -> Block_(x))
+
+  join_translated_blocks (blocks: Seq[Block]): String =
+    blocks
+      .map(x -> x.contents)
+      .mkString(double_new_line) + new_line
+
+  translate_blocks (blocks: Seq[Block]): Seq[Block] =
+    blocks.map(block -> translate_block (block) )
+
+  translate_block (block: Block): Block =
+    SomeSD_(block)
+      .map(x -> x.contents)
       .map(split_lines)
       .map(join_lines_with_forward_join)
       .map(preprocess_let_in_commands)
@@ -47,10 +71,11 @@ package soda.translator.language
       .map(join_lines_with_backward_join)
       .map(translate_lines)
       .map(join_translated_lines)
+      .map(x -> Block_(x))
       .value
 
-  split_lines (program: String): Seq[String] =
-    program.split(new_line).toIndexedSeq
+  split_lines (block: String): Seq[String] =
+    block.split(new_line).toIndexedSeq
 
   join_lines_with_forward_join(lines: Seq[String]): Seq[String] =
     LineJoinerToScala_(lines).joined_lines_with_forward_join
@@ -59,7 +84,7 @@ package soda.translator.language
     LineJoinerToScala_(lines).joined_lines_with_backward_join
 
   join_translated_lines (lines: Seq[String]): String =
-    lines.mkString(new_line) + new_line
+    lines.mkString(new_line)
 
   translate_lines(lines: Seq[String]): Seq[String] =
     CommentPreprocessor_(lines)
@@ -184,4 +209,13 @@ package soda.translator.language
 
 * DefaultTranslator_(table: Seq[(String, String)])
   extends DefaultTranslator
+
+* Block = {
+
+  has contents: String
+
+}
+
+* Block_(contents: String)
+  extends Block
 

@@ -18,6 +18,8 @@ trait MicroTranslatorToScala {
 
   lazy val new_line = "\n"
 
+  lazy val double_new_line = new_line + new_line
+
   lazy val soda_opening_parenthesis: String = "("
 
   lazy val synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning )
@@ -40,6 +42,28 @@ trait MicroTranslatorToScala {
 
   def translate_program (program: String ): String =
     SomeSD_ (program )
+      .map (split_blocks )
+      .map (translate_blocks )
+      .map (join_translated_blocks )
+      .value
+
+  def split_blocks (program: String ): Seq [Block] =
+    program
+      .split (double_new_line )
+      .toIndexedSeq
+      .map (x => Block_ (x )  )
+
+  def join_translated_blocks (blocks: Seq [Block]  ): String =
+    blocks
+      .map (x => x.contents )
+      .mkString (double_new_line ) + new_line
+
+  def translate_blocks (blocks: Seq [Block]  ): Seq [Block] =
+    blocks.map (block => translate_block (block ) )
+
+  def translate_block (block: Block ): Block =
+    SomeSD_ (block )
+      .map (x => x.contents )
       .map (split_lines )
       .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
@@ -47,10 +71,11 @@ trait MicroTranslatorToScala {
       .map (join_lines_with_backward_join )
       .map (translate_lines )
       .map (join_translated_lines )
+      .map (x => Block_ (x )  )
       .value
 
-  def split_lines (program: String ): Seq [String] =
-    program.split (new_line ) .toIndexedSeq
+  def split_lines (block: String ): Seq [String] =
+    block.split (new_line ) .toIndexedSeq
 
   def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
     LineJoinerToScala_ (lines ) .joined_lines_with_forward_join
@@ -59,7 +84,7 @@ trait MicroTranslatorToScala {
     LineJoinerToScala_ (lines ) .joined_lines_with_backward_join
 
   def join_translated_lines (lines: Seq [String]  ): String =
-    lines.mkString (new_line ) + new_line
+    lines.mkString (new_line )
 
   def translate_lines (lines: Seq [String]  ): Seq [String] =
     CommentPreprocessor_ (lines )
@@ -177,3 +202,11 @@ trait DefaultTranslator  extends Table  with soda.translator.replacement.Transla
 }
 
 case class DefaultTranslator_ (table: Seq [(String, String )]  )  extends DefaultTranslator
+
+trait Block {
+
+  def contents: String
+
+}
+
+case class Block_ (contents: String )  extends Block
