@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
 
 trait Requirement3Monitor  extends RequirementMonitor {

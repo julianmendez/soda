@@ -1,6 +1,5 @@
 package soda.example.miniexample
 
-
 * MiniExample extends soda.lib.Recursion = {
 
   run() =
@@ -12,6 +11,7 @@ package soda.example.miniexample
 * MiniExample_() extends MiniExample
 
 @main
+
 * MainClass = {
 
   main(arguments: Array[String]): Unit =

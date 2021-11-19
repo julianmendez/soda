@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 case class Report2 (compliant: Boolean, old_price: Int, new_price: Int )
 
 trait Requirement2Monitor  extends RequirementMonitor {

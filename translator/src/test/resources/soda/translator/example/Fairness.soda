@@ -1,6 +1,5 @@
 package soda.example
 
-
 class Applicant is {
 
   has background_score: Double

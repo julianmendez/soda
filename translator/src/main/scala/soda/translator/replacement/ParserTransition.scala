@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * This models all the possible states that the parser can be.
  */

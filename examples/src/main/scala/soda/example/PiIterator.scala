@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait Status {
 
   def r: BigInt

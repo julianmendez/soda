@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait ScalaReservedWordEscaping {
 
   lazy val __soda__var = "var"

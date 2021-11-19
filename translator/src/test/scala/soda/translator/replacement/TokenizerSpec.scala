@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a small example")

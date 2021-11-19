@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 trait AnnotatedLine {
 
   def line: String
@@ -15,6 +14,7 @@ case class AnnotatedLine_ (line: String, isComment: Boolean )  extends Annotated
  * This preprocessor annotates lines to determine whether they are comments.
  */
 trait CommentPreprocessor  extends MultiLineProcessor {
+
   import soda.lib.Recursion_
 
   lazy val soda_begin_comment = "/*"

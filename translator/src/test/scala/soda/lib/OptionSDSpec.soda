@@ -1,8 +1,8 @@
 package soda.lib
 
-
 * OptionSDSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+
   + scala.util.Try
   + scala.util.Success
   + scala.util.Failure

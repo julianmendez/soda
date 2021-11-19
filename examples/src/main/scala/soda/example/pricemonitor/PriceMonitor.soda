@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 class Customer = {
 
   has name: String
@@ -13,6 +12,7 @@ class Customer_(name: String, ip_address: String)
   extends Customer
 
 class PricingAgent = {
+
   import java.util.Date
 
   has get_price (customer: Customer, flight: Flight, date_in_days: Int): Int

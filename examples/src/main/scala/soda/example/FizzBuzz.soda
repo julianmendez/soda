@@ -1,10 +1,11 @@
 package soda.example
 
-
 * FizzBuzz = {
+
   + soda.lib.Recursion_
 
   fizz = "Fizz"
+
   buzz = "Buzz"
 
   fizz_buzz =

@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait SortExample {
 
   def is_sorted (sequence: Seq [Int]  ): Boolean
@@ -37,6 +36,7 @@ trait SortAlgorithmExample {
 }
 
 trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
+
   import soda.lib.Recursion_
 
   def sort (sequence: Seq [Int]  ): Seq [Int] =
@@ -61,6 +61,7 @@ trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
 case class SortAlgorithmExampleWithFold_ ()  extends SortAlgorithmExampleWithFold
 
 trait ConstrainedSortAlgorithm {
+
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.lib.NoneSD_
@@ -147,6 +148,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
 case class NonEmptySortedSequenceAux_ [A <: Comparable [A]]  ()  extends NonEmptySortedSequenceAux [A]
 
 trait SortedSequenceBuilder [A <: Comparable [A]] {
+
   import soda.lib.Recursion_
 
   def build (sequence: Seq [A]  ): SortedSequence [A] =

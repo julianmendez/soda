@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait AbstractFactorialVerbose {
 
   def get_factorial (n: Int ): Int

@@ -1,6 +1,5 @@
 package soda.translator.io
 
-
 * AbstractDirectoryProcessor = {
 
   has start: String
@@ -13,6 +12,7 @@ package soda.translator.io
 
 * DirectoryProcessor
   extends AbstractDirectoryProcessor = {
+
   + java.io.File
 
   soda_suffix = ".soda"

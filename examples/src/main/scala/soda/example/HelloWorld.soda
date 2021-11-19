@@ -1,6 +1,5 @@
 package soda.example
 
-
 * MainClass = {
 
   main(arguments: Array[String]): Unit =

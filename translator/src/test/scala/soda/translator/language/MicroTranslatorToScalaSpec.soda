@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 * MicroTranslatorToScalaSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

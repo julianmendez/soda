@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */

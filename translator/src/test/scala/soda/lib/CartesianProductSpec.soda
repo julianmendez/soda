@@ -1,6 +1,5 @@
 package soda.lib
 
-
 * CartesianProductSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

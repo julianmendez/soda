@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait Applicant {
 
   def background_score: Double

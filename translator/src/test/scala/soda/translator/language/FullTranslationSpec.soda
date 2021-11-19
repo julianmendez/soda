@@ -1,26 +1,36 @@
 package soda.translator.language
 
-
 * FullTranslationSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+
   + org.scalatest.Assertion
-  + java.nio.file.{Files, Paths}
+  + java.nio.file.Files
+  + java.nio.file.Paths
 
   Base = "/soda/translator/example/"
 
   SodaSuffix = ".soda"
+
   ScalaSuffix = ".scala"
 
   SwapExample = "SwapExample"
+
   FiboExample = "FiboExample"
+
   FactorialConcise = "FactorialConcise"
+
   FactorialVerbose = "FactorialVerbose"
+
   Fairness = "Fairness"
+
   PiIterator = "PiIterator"
+
   ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+
   InANutshell = "inanutshell/InANutshell"
 
   ManualInput = "/soda/translator/documentation/Manual.soda"
+
   ManualExpected = "/soda/translator/documentation/Manual.scala"
 
   test_translation(file_name: String): Assertion =

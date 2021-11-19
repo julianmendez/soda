@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */
@@ -20,6 +19,7 @@ case class Token_ (text: String, parser_state: ParserState, index: Int ) extends
  * This class processes a line to divide it into tokens.
  */
 trait Tokenizer  extends SingleLineProcessor {
+
   import soda.lib.Recursion_
 
   lazy val tokens: Seq [Token] =

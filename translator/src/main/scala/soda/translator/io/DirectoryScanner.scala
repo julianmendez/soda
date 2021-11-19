@@ -1,10 +1,10 @@
 package soda.translator.io
 
-
 /**
  * This class is used to scan files in a given directory.
  */
 trait DirectoryScanner {
+
   import java.io.File
 
   def get_all_files (start: File ): Seq [File] =

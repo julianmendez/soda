@@ -1,6 +1,5 @@
 package soda.example.miniexample
 
-
 trait MiniExample extends soda.lib.Recursion {
 
   def run () =
@@ -14,6 +13,7 @@ case class MiniExample_ () extends MiniExample
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
 }
+
 
 trait MainClass {
 

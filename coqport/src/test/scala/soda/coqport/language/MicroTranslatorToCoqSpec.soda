@@ -1,6 +1,5 @@
 package soda.coqport.language
 
-
 * MicroTranslatorToCoqSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

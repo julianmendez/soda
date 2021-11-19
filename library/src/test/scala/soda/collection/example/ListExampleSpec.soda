@@ -1,6 +1,5 @@
 package soda.collection.example
 
-
 * ListExampleSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

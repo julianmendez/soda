@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 * CharTypeSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

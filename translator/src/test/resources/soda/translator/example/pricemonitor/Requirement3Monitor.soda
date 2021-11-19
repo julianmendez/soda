@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
 
 class Requirement3Monitor

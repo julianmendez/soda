@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * This is to classify characters.
  */

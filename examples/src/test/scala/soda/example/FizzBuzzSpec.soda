@@ -1,6 +1,5 @@
 package soda.example
 
-
 * FizzBuzzSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

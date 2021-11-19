@@ -1,6 +1,5 @@
 package soda.example.inanutshell
 
-
 trait InANutshell {
 
   def f (x: Int ): Int = x + 16

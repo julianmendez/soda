@@ -2,6 +2,7 @@ package soda.example
 
 
 case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+
   import soda.lib.SomeSD_
 
   test ("test sorted sequence with at")

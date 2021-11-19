@@ -1,27 +1,25 @@
 package soda.example.forcoq.lib
 
+* list [A]
 
-class list [A]
-
-class nil [A] ()
+* nil [A] ()
   extends list [A]
 
-class cons [A] (e: A, s: list [A])
+* cons [A] (e: A, s: list [A])
   extends list [A]
 
-class SeqList = {
+* SeqList = {
+
   + soda.lib.OptionSD
   + soda.lib.NoneSD_
   + soda.lib.SomeSD_
   + soda.lib.Recursion_
 
-
   _rec_reverse [A] (a: list [A]) (b: list [A]): list [A] =
     match a {
       | nil () -> b
       | cons (e, s) -> _rec_reverse (s) ( cons (e, b) )
-
-}
+    }
 
   reverse [A] (s: list [A]): list [A] =
     _rec_reverse [A] (s) (nil[A]())
@@ -30,8 +28,7 @@ class SeqList = {
     match a {
       | Nil -> b
       | (e) :: (s) -> _rec_from_Seq (s) (cons (e, b))
-
-}
+    }
 
   from_Seq [A] (a: Seq [A]): list [A] =
     reverse (_rec_from_Seq (a) ( nil[A]() ) )
@@ -40,14 +37,13 @@ class SeqList = {
     match a {
       | nil () -> b
       | cons (e, s) -> _rec_to_Seq (s) ( b .+: (e) )
-
-}
+    }
 
   to_Seq [A] (a: list [A]): Seq [A] =
     (_rec_to_Seq (a) ( Seq[A]() )) .reverse
 
 }
 
-class SeqList_()
+* SeqList_()
   extends SeqList
 

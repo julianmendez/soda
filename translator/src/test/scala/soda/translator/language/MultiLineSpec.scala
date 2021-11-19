@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val mt = MicroTranslatorToScala_ ()

@@ -1,11 +1,12 @@
 package soda.translator.io
 
-
 @main
+
 /**
  * This is the main entry point.
  */
 * MainClass = {
+
   + soda.translator.language.MicroTranslatorToScala_
   + java.io.File
 

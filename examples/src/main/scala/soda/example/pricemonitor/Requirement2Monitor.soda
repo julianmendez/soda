@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 class Report2 (compliant: Boolean, old_price: Int, new_price: Int)
 
 class Requirement2Monitor

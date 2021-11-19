@@ -1,6 +1,5 @@
 package soda.example.forcoq.lib
 
-
 trait nat {
 
   def add (a: nat ): nat
@@ -30,6 +29,7 @@ case class S (k: nat )  extends nat {
 }
 
 trait IntNat {
+
   import soda.lib.OptionSD
   import soda.lib.NoneSD_
   import soda.lib.SomeSD_
@@ -54,8 +54,7 @@ trait IntNat {
     a  match {
       case O () => 0
       case S (k ) => 1 + to_Int (k )
-
-}
+    }
 
 }
 

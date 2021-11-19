@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 case class BeautifierSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("the translated source code should not have too many unnecessary spaces")

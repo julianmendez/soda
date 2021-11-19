@@ -1,6 +1,5 @@
 package soda.translator.io
 
-
 trait AbstractDirectoryProcessor {
 
   def start: String
@@ -12,6 +11,7 @@ trait AbstractDirectoryProcessor {
 }
 
 trait DirectoryProcessor  extends AbstractDirectoryProcessor {
+
   import java.io.File
 
   lazy val soda_suffix = ".soda"

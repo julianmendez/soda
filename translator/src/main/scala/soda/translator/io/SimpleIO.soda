@@ -1,10 +1,10 @@
 package soda.translator.io
 
-
 /**
  * This is an auxiliary class to read and write small files.
  */
 * SimpleFileReader = {
+
   + java.io.BufferedReader
   + java.io.InputStreamReader
   + java.nio.file.Files
@@ -27,6 +27,7 @@ package soda.translator.io
 * SimpleFileReader_() extends SimpleFileReader
 
 * SimpleFileWriter = {
+
   + soda.lib.SomeSD_
   + java.io.File
   + java.io.FileWriter

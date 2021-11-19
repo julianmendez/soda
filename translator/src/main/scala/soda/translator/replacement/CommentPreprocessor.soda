@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 * AnnotatedLine = {
 
   has line: String
@@ -17,6 +16,7 @@ package soda.translator.replacement
  */
 * CommentPreprocessor
   extends MultiLineProcessor = {
+
   + soda.lib.Recursion_
 
   soda_begin_comment = "/*"

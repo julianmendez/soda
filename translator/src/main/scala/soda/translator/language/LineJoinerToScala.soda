@@ -1,7 +1,5 @@
 package soda.translator.language
 
-
-
 * LineJoinerToScala
   extends soda.translator.replacement.MultiLineProcessor = {
 
@@ -57,6 +55,7 @@ package soda.translator.language
   extends LineJoinerToScala
 
 * Joiner = {
+
   + soda.lib.Recursion_
 
   has lines_to_join: Seq[String]

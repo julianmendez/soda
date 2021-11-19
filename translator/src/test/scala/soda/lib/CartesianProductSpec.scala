@@ -1,6 +1,5 @@
 package soda.lib
 
-
 case class CartesianProductSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Cartesian product of two sequences")

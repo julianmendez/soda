@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 trait Customer {
 
   def name: String
@@ -12,6 +11,7 @@ trait Customer {
 case class Customer_ (name: String, ip_address: String )  extends Customer
 
 trait PricingAgent {
+
   import java.util.Date
 
   def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int

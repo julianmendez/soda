@@ -1,6 +1,5 @@
 package soda.coqport.language
 
-
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -26,6 +25,7 @@ package soda.coqport.language
  *
  */
 trait DefinitionTranslatorToCoq  extends soda.translator.language.LineTranslator {
+
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.translator.replacement.Replacement

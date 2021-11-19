@@ -1,14 +1,15 @@
 package soda.translator.io
 
-
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
 }
+
 
 /**
  * This is the main entry point.
  */
 trait MainClass {
+
   import soda.translator.language.MicroTranslatorToScala_
   import java.io.File
 

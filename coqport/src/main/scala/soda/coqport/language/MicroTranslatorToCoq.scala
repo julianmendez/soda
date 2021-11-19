@@ -5,6 +5,7 @@ package soda.coqport.language
  * This class translates Soda snippets into Coq snippets.
  */
 trait MicroTranslatorToCoq {
+
   import soda.lib.SomeSD_
   import soda.translator.language.DefaultTranslator_
   import soda.translator.replacement.CommentPreprocessor_

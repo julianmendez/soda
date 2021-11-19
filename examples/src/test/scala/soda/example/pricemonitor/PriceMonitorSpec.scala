@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 trait UnfairPricingAgent  extends PricingAgent {
 
   def get_price (customer: Customer, flight: Flight, date: Int ): Int =
@@ -20,6 +19,7 @@ trait FairPricingAgent  extends PricingAgent {
 case class FairPricingAgent_ ()  extends FairPricingAgent
 
 case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+
   import java.util.Date
   import java.util.Calendar
   import java.util.TimeZone
@@ -29,9 +29,11 @@ case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   lazy val unfair_pricing_agent = UnfairPricingAgent_ ()
 
   lazy val customer_1 = Customer_ (name = "Jon", ip_address = "127.0.0.1")
+
   lazy val customer_2 = Customer_ (name = "Maria", ip_address = "192.168.1.1")
 
   lazy val flight_1 = Flight_ ("BER", Seq ("FRA", "ARN"), "UMU")
+
   lazy val date_1 = 18898
 
   test ("unfair pricing agent - requirement_monitor 1")

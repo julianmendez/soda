@@ -1,6 +1,5 @@
 package soda.example
 
-
 case class LetBindingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should evaluate an expression like 'where'")

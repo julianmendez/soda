@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait Parameter {
 
   def name: String
@@ -15,8 +14,7 @@ trait PatternMatching {
       case Pair (x, y ) => (x + y ) / 2
       case Triplet (x, y, z ) => (x + y + z ) / 3
       case otherwise => 0
-
-}
+    }
 
   def get_type_name (p: Parameter ): String =
     p  match {
@@ -24,8 +22,7 @@ trait PatternMatching {
       case x: Pair => x.name + "(x, y)"
       case x: Triplet => x.name + "(x, y, z)"
       case otherwise => ""
-
-}
+    }
 
 }
 

@@ -1,7 +1,6 @@
 package soda.example.inanutshell
 
-
-* InANutshell = {
+class InANutshell = {
 
   f(x: Int): Int = x + 16
 

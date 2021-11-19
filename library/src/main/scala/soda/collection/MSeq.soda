@@ -1,6 +1,5 @@
 package soda.collection
 
-
 * MSeq[T] = {
 
   has isEmpty: Boolean

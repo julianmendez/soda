@@ -1,7 +1,6 @@
 package soda.example.forcoq.lib
 
-
-class nat = {
+* nat = {
 
   has add (a: nat): nat
 
@@ -9,7 +8,7 @@ class nat = {
 
 }
 
-class O ()
+* O ()
   extends nat = {
 
   add (a: nat): nat = a
@@ -18,7 +17,7 @@ class O ()
 
 }
 
-class S (k: nat)
+* S (k: nat)
   extends nat = {
 
   t = IntNat_()
@@ -31,7 +30,8 @@ class S (k: nat)
 
 }
 
-class IntNat = {
+* IntNat = {
+
   + soda.lib.OptionSD
   + soda.lib.NoneSD_
   + soda.lib.SomeSD_
@@ -55,11 +55,10 @@ class IntNat = {
     match a {
       | O() -> 0
       | S (k) -> 1 + to_Int (k)
+    }
 
 }
 
-}
-
-class IntNat_()
+* IntNat_()
   extends IntNat
 

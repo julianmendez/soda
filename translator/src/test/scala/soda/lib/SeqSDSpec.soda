@@ -1,6 +1,5 @@
 package soda.lib
 
-
 * SeqSDSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

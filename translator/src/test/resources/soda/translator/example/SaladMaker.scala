@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait SaladMaker {
 
   import scala.annotation.tailrec

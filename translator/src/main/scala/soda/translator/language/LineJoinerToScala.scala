@@ -1,7 +1,5 @@
 package soda.translator.language
 
-
-
 trait LineJoinerToScala  extends soda.translator.replacement.MultiLineProcessor {
 
   lazy val tc = TranslationConstantToScala_ ()
@@ -55,6 +53,7 @@ trait LineJoinerToScala  extends soda.translator.replacement.MultiLineProcessor 
 case class LineJoinerToScala_ (lines: Seq [String]  )  extends LineJoinerToScala
 
 trait Joiner {
+
   import soda.lib.Recursion_
 
   def lines_to_join: Seq [String]

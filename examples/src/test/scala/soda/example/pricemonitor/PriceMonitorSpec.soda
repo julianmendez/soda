@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 * UnfairPricingAgent
   extends PricingAgent = {
 
@@ -25,6 +24,7 @@ package soda.example.pricemonitor
 
 * PriceMonitorSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+
   + java.util.Date
   + java.util.Calendar
   + java.util.TimeZone
@@ -34,9 +34,11 @@ package soda.example.pricemonitor
   unfair_pricing_agent = UnfairPricingAgent_()
 
   customer_1 = Customer_ (name := "Jon", ip_address := "127.0.0.1")
+
   customer_2 = Customer_ (name := "Maria", ip_address := "192.168.1.1")
 
   flight_1 = Flight_ ("BER", Seq("FRA", "ARN"), "UMU")
+
   date_1 = 18898
 
   test("unfair pricing agent - requirement_monitor 1")

@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 trait SingleLineProcessor {
 
   def line: String

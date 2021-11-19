@@ -1,6 +1,5 @@
 package soda.example.pricemonitor
 
-
 class Report1 (compliant: Boolean, price_for_c1: Int, price_for_c2: Int, similarity: Double)
 
 class Requirement1Monitor

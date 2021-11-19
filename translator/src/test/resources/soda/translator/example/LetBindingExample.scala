@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait LetBindingExample {
 
   lazy val three_parts_like_where =

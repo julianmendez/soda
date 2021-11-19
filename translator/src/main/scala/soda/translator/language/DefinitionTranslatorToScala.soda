@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 * LineTranslator = {
 
   has line: String
@@ -33,6 +32,7 @@ package soda.translator.language
  */
 * DefinitionTranslatorToScala
   extends LineTranslator = {
+
   + soda.lib.OptionSD
   + soda.lib.SomeSD_
   + soda.translator.replacement.Replacement

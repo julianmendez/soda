@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 * ExampleWithWrongOrder = {
 
   this_is_null_but = constant_defined_later

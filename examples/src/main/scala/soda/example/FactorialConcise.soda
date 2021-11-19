@@ -1,6 +1,5 @@
 package soda.example
 
-
 * AbstractFactorialConcise = {
 
   has get_factorial (n: Int): Int

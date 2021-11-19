@@ -1,6 +1,5 @@
 package soda.collection
 
-
 * MSeqTranslator[T] = {
 
   @tailrec
@@ -44,6 +43,7 @@ package soda.collection
   extends MSeqPair[T]
 
 * Min[T] = {
+
   + soda.lib.OptionSD
   + soda.lib.SomeSD_
   + soda.lib.NoneSD_
@@ -215,11 +215,9 @@ package soda.collection
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op(result, it.next())
-   * .
-}
+   * . }
    * . result
-   *
-}
+   * }
    * </pre>
    */
   foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] =
@@ -231,9 +229,7 @@ package soda.collection
     let
       result = MSeqPair_(pair.right, pair.left)
       pair = foldLeftWhile(s0, initial_value, next_value, condition)
-
       initial_value = SpanRevFoldTuple_[T](s0, empty, true)
-
       next_value(tuple: SpanRevFoldTuple[T], elem: T): SpanRevFoldTuple[T] =
         let
           left = tuple.left
@@ -244,7 +240,6 @@ package soda.collection
               let
                 e = neleft.head()
                 new_taking = p(e)
-
                 new_tuple =
                   if new_taking
                   then SpanRevFoldTuple_[T](neleft.tail(), prepended(right, e), new_taking)
@@ -253,9 +248,7 @@ package soda.collection
             )
           )
         in result
-
       condition(tuple: SpanRevFoldTuple[T], elem: T): Boolean = tuple.taking
-
     in result
 
 }

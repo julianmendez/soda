@@ -1,6 +1,5 @@
 package soda.example
 
-
 * LetBindingSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

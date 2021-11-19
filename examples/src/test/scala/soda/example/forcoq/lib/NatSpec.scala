@@ -1,6 +1,5 @@
 package soda.example.forcoq.lib
 
-
 case class NatSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("IntNat from non negative")

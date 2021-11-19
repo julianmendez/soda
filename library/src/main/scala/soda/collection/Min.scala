@@ -1,6 +1,5 @@
 package soda.collection
 
-
 trait MSeqTranslator [T] {
 
   import scala.annotation.tailrec
@@ -40,6 +39,7 @@ trait MSeqPair [T] {
 case class MSeqPair_ [T]  (left: MSeq [T], right: MSeq [T]  )  extends MSeqPair [T]
 
 trait Min [T] {
+
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.lib.NoneSD_
@@ -201,11 +201,9 @@ trait Min [T] {
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op(result, it.next())
-   * .
-}
+   * . }
    * . result
-   *
-}
+   * }
    * </pre>
    */
   def foldLeft0 (mseq: MSeq [T]  ): (MSeq [T], ((MSeq [T], T ) => MSeq [T]  )  ) => MSeq [T] =
@@ -217,9 +215,7 @@ trait Min [T] {
     {
       lazy val result = MSeqPair_ (pair.right, pair.left )
       lazy val pair = foldLeftWhile (s0, initial_value, next_value, condition )
-
       lazy val initial_value = SpanRevFoldTuple_ [T]  (s0, empty, true )
-
       def next_value (tuple: SpanRevFoldTuple [T], elem: T ): SpanRevFoldTuple [T] =
         {
           lazy val left = tuple.left
@@ -228,16 +224,13 @@ trait Min [T] {
               {
                 lazy val e = neleft.head ()
                 lazy val new_taking = p (e )
-
                 lazy val new_tuple =
                   if (new_taking
                   ) SpanRevFoldTuple_ [T]  (neleft.tail (), prepended (right, e ), new_taking )
                   else SpanRevFoldTuple_ [T]  (neleft, right, new_taking )
                 new_tuple }            )          )
           result }
-
       def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking
-
       result }
 
 }

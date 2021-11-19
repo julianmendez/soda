@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =

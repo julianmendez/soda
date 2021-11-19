@@ -1,6 +1,5 @@
 package soda.example
 
-
 * HardProblemSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

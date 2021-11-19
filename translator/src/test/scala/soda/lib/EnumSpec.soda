@@ -1,6 +1,5 @@
 package soda.lib
 
-
 * DayOfTheWeek extends EnumConstant
 
 * DayOfTheWeek_(ordinal: Int, name: String) extends DayOfTheWeek
@@ -8,11 +7,17 @@ package soda.lib
 * DayOfTheWeekConstant = {
 
   sunday = DayOfTheWeek_(0, "Sunday")
+
   monday = DayOfTheWeek_(1, "Monday")
+
   tuesday = DayOfTheWeek_(2, "Tuesday")
+
   wednesday = DayOfTheWeek_(3, "Wednesday")
+
   thursday = DayOfTheWeek_(4, "Thursday")
+
   friday = DayOfTheWeek_(5, "Friday")
+
   saturday = DayOfTheWeek_(6, "Saturday")
 
   DayOfTheWeek_values = Seq(sunday, monday, tuesday, wednesday, thursday, friday, saturday)

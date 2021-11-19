@@ -1,6 +1,5 @@
 package soda.collection
 
-
 trait MSeq [T] {
 
   def isEmpty: Boolean

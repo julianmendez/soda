@@ -3,7 +3,7 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-08-12
+ * Version: 2021-11-19
  */
 
 /* To declare a class, just add `class` before a class name.
@@ -24,8 +24,7 @@ trait ShapePainter [A <: Shape]
  * Connect them using `with`. */
 trait ShapeMover [A <: Shape with Movable]
 
-/* The body of a class is declared between braces (`{` and `
-}`) after the equals sign (`=`).
+/* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
  * It is recommended to indent the constants and functions declared inside. */
 trait EqualsExample {
 
@@ -68,8 +67,7 @@ trait RegisteredPerson {
 
 }
 
-/* A concrete class can be declared with parameters.
- * It is not recommended to use this pattern when using this class as receiving parameters in functions. */
+/* A concrete class can be declared with parameters. */
 case class Person (name: String )
 
 trait Agent {
@@ -78,7 +76,7 @@ trait Agent {
 
 }
 
-/* A concrete class needs as parameters all the constants and functions that have not be defined in its super class.
+/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
 case class Agent_ (identifier: String ) extends Agent
 
@@ -113,7 +111,7 @@ trait PersonName {
 
   def name: String
 
-  /* It is possible to override a function by using annotation `@override`.
+  /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function. */
   override
   lazy val toString = name
@@ -124,19 +122,20 @@ trait PersonName {
   * This contains the examples shown in the manual.
   */
 trait Manual {
+
   import java.util.Date
 
   lazy val a = 1
 
   lazy val b: Int = 2
 
-  /* An instance of a JVM class can be created with annotation `@new`.
+  /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
   lazy val now = new Date ()
 
   def plus_one (x: Int ): Int = x + 1
 
-  /* A function can be defined using a `if`-`then`-`else` structure.
+  /* A piecewise function can be defined using an `if`-`then`-`else` structure.
    * The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. */
   def max (x: Int, y: Int ): Int =
     if (x > y
@@ -175,7 +174,7 @@ trait Manual {
     (x || y ) && ! (x && y )
 
   /* To evaluate a constant or a function, it is possible to declare intermediate functions.
-   * This is done in a block `let`-`in`.
+   * This is done in a `let`-`in` block.
    * The block starts with a `let` containing the intermediate functions in no particular order.
    * This block is evaluated in an expression after the `in`. */
   def sum (n: Int ) =
@@ -292,13 +291,13 @@ case class Main () extends MainClass
 trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
-    /* An output to the standard output can be send with a `println` command.
+    /* An output to the standard output can be sent with a `println` command.
      * This is a shorter form of JVM's `System.out.println`. */
     println ("Hello world!")
 
 }
 
-/* The main class needs to be indicated with annotation `@main`.
+/* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)

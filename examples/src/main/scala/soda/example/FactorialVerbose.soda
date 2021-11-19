@@ -1,6 +1,5 @@
 package soda.example
 
-
 class AbstractFactorialVerbose = {
 
   has get_factorial (n: Int): Int

@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
@@ -43,6 +42,7 @@ trait Replacement  extends SingleLineProcessor {
 case class Replacement_ (line: String )  extends Replacement
 
 trait ReplacementAux {
+
   import soda.lib.Recursion_
 
   lazy val soda_space = " "
@@ -139,6 +139,7 @@ trait LinePatternProcessor {
 }
 
 trait Replacer  extends LinePatternProcessor {
+
   import soda.lib.Recursion_
 
   lazy val replaced_text =

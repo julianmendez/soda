@@ -1,18 +1,21 @@
 package soda.collection
 
-
 * MinSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+
   + soda.lib.OptionSD
   + soda.lib.NoneSD_
   + soda.lib.SomeSD_
   + soda.lib.Recursion_
 
   empty: ESeq[Int] = ESeq_[Int]()
+
   exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
+
   revExampleSeq: Seq[Int] = exampleSeq.reverse
 
   prepend_elem(list: MSeq[Int], elem: Int) = Min_().prepended(list, elem)
+
   example: NESeq[Int] =
     Recursion_().fold(revExampleSeq.tail,
       NESeq_[Int](revExampleSeq.head, ESeq_[Int]()), prepend_elem )

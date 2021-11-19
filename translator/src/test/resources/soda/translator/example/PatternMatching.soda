@@ -1,6 +1,5 @@
 package soda.example
 
-
 * Parameter {
 
   has name: String
@@ -15,8 +14,7 @@ package soda.example
       | Pair(x, y) -> (x + y) / 2
       | Triplet(x, y, z) -> (x + y + z) / 3
       | otherwise -> 0
-
-}
+    }
 
   get_type_name(p: Parameter): String =
     match p {
@@ -24,8 +22,7 @@ package soda.example
       | x: Pair -> x.name + "(x, y)"
       | x: Triplet -> x.name + "(x, y, z)"
       | otherwise -> ""
-
-}
+    }
 
 }
 

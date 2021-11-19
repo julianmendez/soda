@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 trait LineTranslator {
 
   def line: String
@@ -32,6 +31,7 @@ trait LineTranslator {
  *
  */
 trait DefinitionTranslatorToScala  extends LineTranslator {
+
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.translator.replacement.Replacement

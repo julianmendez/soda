@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 case class UpperAndLowerBoundDeclarationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val instance = MicroTranslatorToScala_ ()

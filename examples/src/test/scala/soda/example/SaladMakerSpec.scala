@@ -1,6 +1,5 @@
 package soda.example
 
-
 trait SaladIngredient extends soda.lib.EnumConstant
 
 case class SaladIngredient_ (ordinal: Int, name: String ) extends SaladIngredient
@@ -8,8 +7,11 @@ case class SaladIngredient_ (ordinal: Int, name: String ) extends SaladIngredien
 trait SaladIngredientConstant {
 
   lazy val tomato = SaladIngredient_ (1, "tomato")
+
   lazy val lettuce = SaladIngredient_ (2, "lettuce")
+
   lazy val sunflower_seeds = SaladIngredient_ (3, "sunflower seeds")
+
   lazy val olive_oil = SaladIngredient_ (4, "olive_oil")
 
   lazy val SaladIngredient_values = Seq (tomato, lettuce, sunflower_seeds, olive_oil )

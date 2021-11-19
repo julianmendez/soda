@@ -1,6 +1,5 @@
 package soda.example
 
-
 class FiboExample is {
 
   has fib (n: Int): Int

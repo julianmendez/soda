@@ -1,6 +1,5 @@
 package soda.example.forcoq.lib
 
-
 case class ListSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("list from Seq")

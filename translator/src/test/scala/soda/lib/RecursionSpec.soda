@@ -1,6 +1,5 @@
 package soda.lib
 
-
 * RecursionSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

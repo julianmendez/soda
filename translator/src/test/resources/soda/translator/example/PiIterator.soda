@@ -1,6 +1,5 @@
 package soda.example
 
-
 * Status = {
 
   has r: BigInt

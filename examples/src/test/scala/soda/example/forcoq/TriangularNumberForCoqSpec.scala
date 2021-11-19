@@ -1,8 +1,9 @@
 package soda.example.forcoq
 
-
 case class TriangularNumberForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
-  import soda.example.forcoq.lib.{ nat, IntNat_ }
+
+  import soda.example.forcoq.lib.nat
+  import soda.example.forcoq.lib.IntNat_
 
   lazy val triangular_number_values: Seq [(Int, Int )] = Seq ((0, 0 ), (1, 1 ), (2, 3 ), (3, 6 ), (4, 10 ), (5, 15 ), (6, 21 )  )
 

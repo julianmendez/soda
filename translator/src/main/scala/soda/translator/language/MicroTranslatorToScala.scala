@@ -1,10 +1,10 @@
 package soda.translator.language
 
-
 /**
  * This class translates Soda source code into Scala source code.
  */
 trait MicroTranslatorToScala {
+
   import soda.lib.SomeSD_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_

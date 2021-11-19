@@ -1,6 +1,5 @@
 package soda.example
 
-
 * ScalaReservedWordEscaping = {
 
   var = "var"

@@ -1,6 +1,5 @@
 package soda.example.forcoq
 
-
 * RecursionForCoqSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 

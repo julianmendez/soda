@@ -1,6 +1,5 @@
 package soda.coqport.language
 
-
 case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Coq translation of a constant")

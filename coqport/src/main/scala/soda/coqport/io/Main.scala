@@ -1,19 +1,20 @@
 package soda.coqport.io
 
-
 object EntryPoint {
   def main(args: Array[String]): Unit = Main().main(args)
 }
+
 
 /**
  * This is the main entry point.
  */
 trait MainClass {
-  import java.io.File
+
   import soda.translator.io.DirectoryProcessor_
   import soda.translator.io.SimpleFileReader_
   import soda.translator.io.SimpleFileWriter_
   import soda.coqport.language.MicroTranslatorToCoq_
+  import java.io.File
 
   lazy val soda_extension: String = ".soda"
 

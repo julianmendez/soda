@@ -1,16 +1,17 @@
 package soda.coqport.io
 
-
 @main
+
 /**
  * This is the main entry point.
  */
 * MainClass = {
-  + java.io.File
+
   + soda.translator.io.DirectoryProcessor_
   + soda.translator.io.SimpleFileReader_
   + soda.translator.io.SimpleFileWriter_
   + soda.coqport.language.MicroTranslatorToCoq_
+  + java.io.File
 
   soda_extension: String = ".soda"
 

@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 trait ExampleWithWrongOrder {
 
   lazy val this_is_null_but = constant_defined_later

@@ -1,6 +1,5 @@
 package soda.translator.language
 
-
 * UpperAndLowerBoundDeclarationSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
