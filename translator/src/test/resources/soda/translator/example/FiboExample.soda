@@ -15,9 +15,7 @@ class FiboExampleInSoda
     else _rec (m - 1, b, a + b)
 
   fib (n: Int) is
-    let
-      result is _rec (n, 0, 1)
-    in result
+    _rec (n, 0, 1)
 }
 
 class FiboExampleInSoda_()

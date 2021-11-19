@@ -14,9 +14,7 @@ trait FiboExampleInSoda  extends FiboExample {
     else _rec (m - 1, b, a + b )
 
   def fib (n: Int ) =
-    {
-      lazy val result = _rec (n, 0, 1 )
-      result }
+    _rec (n, 0, 1 )
 }
 
 case class FiboExampleInSoda_ ()  extends FiboExampleInSoda
