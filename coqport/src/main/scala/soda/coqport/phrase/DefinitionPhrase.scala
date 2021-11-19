@@ -10,4 +10,5 @@ trait DefinitionPhrase  extends TranslationPhrase {
 
   def translate (line: String ): String =
     definition_beginning + space + line + space + line_end
+
 }

@@ -15,7 +15,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("hard problem 12") {
     instance = HardProblem_()
@@ -25,7 +26,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("hard problem 13") {
     instance = HardProblem_()
@@ -35,7 +37,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("hard problem 14") {
     instance = HardProblem_()
@@ -45,7 +48,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("hard problem 16") {
     instance = HardProblem_()
@@ -54,7 +58,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("hard problem 20") {
     instance = HardProblem_()
@@ -63,7 +68,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("memoized fibonacci 20") {
     instance = MemoizedFibonacci_()
@@ -74,6 +80,8 @@ package soda.example
     obtained = instance.compute(value, empty_map)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

@@ -5,6 +5,7 @@ trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
+
 }
 
 case class Main ()  extends MainClass

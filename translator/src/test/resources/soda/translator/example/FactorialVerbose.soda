@@ -4,6 +4,7 @@ package soda.example
 class AbstractFactorialVerbose = {
 
   has get_factorial (n: Int): Int
+
 }
 
 class FactorialVerbose
@@ -17,6 +18,7 @@ class FactorialVerbose
 
   get_factorial (n: Int) is
     _rec_get_factorial (n, 1)
+
 }
 
 class FactorialVerbose_()

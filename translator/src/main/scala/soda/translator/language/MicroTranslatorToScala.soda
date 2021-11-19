@@ -159,6 +159,7 @@ package soda.translator.language
         then line.substring(0, index_of_brace) + tc.scala_match_translation + line.substring(index_of_brace, line.length)
         else line + tc.scala_match_translation
     in result
+
 }
 
 * MicroTranslatorToScala_()
@@ -167,6 +168,7 @@ package soda.translator.language
 * Table = {
 
   has table: Seq[(String, String)]
+
 }
 
 * DefaultTranslator
@@ -177,6 +179,7 @@ package soda.translator.language
 
   translate(word: String): String =
     table.toMap.get(word).getOrElse(word)
+
 }
 
 * DefaultTranslator_(table: Seq[(String, String)])

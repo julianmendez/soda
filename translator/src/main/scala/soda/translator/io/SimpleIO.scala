@@ -21,6 +21,7 @@ trait SimpleFileReader {
       lazy val input_stream = getClass.getResourceAsStream (file_name )
       lazy val reader = new BufferedReader (new InputStreamReader (input_stream )  )
       reader.lines () .collect (Collectors.joining (new_line )  ) }
+
 }
 
 case class SimpleFileReader_ () extends SimpleFileReader
@@ -47,6 +48,7 @@ trait SimpleFileWriter {
 
   def create_file (parent_directory: String, file_name: String ): File =
     new File (parent_directory, file_name )
+
 }
 
 case class SimpleFileWriter_ () extends SimpleFileWriter

@@ -24,6 +24,7 @@ package soda.example
       condition_to_continue: (Salad, Ingredient) -> Boolean
   ): Salad =
     _rec_prepare_vegan_salad(list_of_ingredients, initial_bowl, next_ingredient_function, condition_to_continue)
+
 }
 
 * SaladMaker_()

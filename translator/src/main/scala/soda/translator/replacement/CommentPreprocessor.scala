@@ -6,6 +6,7 @@ trait AnnotatedLine {
   def line: String
 
   def isComment: Boolean
+
 }
 
 case class AnnotatedLine_ (line: String, isComment: Boolean )  extends AnnotatedLine
@@ -39,6 +40,7 @@ trait CommentPreprocessor  extends MultiLineProcessor {
       if (line.trim.startsWith (soda_begin_comment )
       ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment )  )
       else CurrentAndNewCommentState_ (false, false )
+
 }
 
 case class CommentPreprocessor_ (lines: Seq [String]  )  extends CommentPreprocessor
@@ -48,6 +50,7 @@ trait PreprocessorFoldTuple {
   def comment_state: Boolean
 
   def annotated_lines_rev: Seq [AnnotatedLine]
+
 }
 
 case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [AnnotatedLine]  )  extends PreprocessorFoldTuple
@@ -57,6 +60,7 @@ trait CurrentAndNewCommentState {
   def current_state: Boolean
 
   def new_comment_state: Boolean
+
 }
 
 case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean )  extends CurrentAndNewCommentState

@@ -6,6 +6,7 @@ class nat = {
   has add (a: nat): nat
 
   has mul (a: nat): nat
+
 }
 
 class O ()
@@ -14,6 +15,7 @@ class O ()
   add (a: nat): nat = a
 
   mul (a: nat): nat = this
+
 }
 
 class S (k: nat)
@@ -26,6 +28,7 @@ class S (k: nat)
 
   mul (a: nat): nat =
     t.from_non_negative( (t.to_Int(k) + 1) * t.to_Int(a) )
+
 }
 
 class IntNat = {
@@ -52,7 +55,9 @@ class IntNat = {
     match a {
       | O() -> 0
       | S (k) -> 1 + to_Int (k)
-    }
+
+}
+
 }
 
 class IntNat_()

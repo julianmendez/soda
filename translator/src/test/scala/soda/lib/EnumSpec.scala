@@ -16,11 +16,13 @@ trait DayOfTheWeekConstant {
   lazy val saturday = DayOfTheWeek_ (6, "Saturday")
 
   lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday )
+
 }
 
 trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
 
   lazy val values = DayOfTheWeek_values
+
 }
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
@@ -32,5 +34,7 @@ case class EnumSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = DayOfTheWeekEnum_ () .values.map (x => x.toString )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

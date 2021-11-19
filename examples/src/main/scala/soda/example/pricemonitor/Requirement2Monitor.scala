@@ -15,6 +15,7 @@ trait Requirement2Monitor  extends RequirementMonitor {
 
   def get_a_year_before (date_in_days: Int ): Int =
     date_in_days - 365
+
 }
 
 case class Requirement2Monitor_ (pricing_agent: PricingAgent )  extends Requirement2Monitor

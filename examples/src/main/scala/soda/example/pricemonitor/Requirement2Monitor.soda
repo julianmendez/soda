@@ -16,6 +16,7 @@ class Requirement2Monitor
 
   get_a_year_before (date_in_days: Int): Int =
     date_in_days - 365
+
 }
 
 class Requirement2Monitor_ (pricing_agent: PricingAgent)

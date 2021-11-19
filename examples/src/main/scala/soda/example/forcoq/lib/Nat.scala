@@ -6,6 +6,7 @@ trait nat {
   def add (a: nat ): nat
 
   def mul (a: nat ): nat
+
 }
 
 case class O ()  extends nat {
@@ -13,6 +14,7 @@ case class O ()  extends nat {
   def add (a: nat ): nat = a
 
   def mul (a: nat ): nat = this
+
 }
 
 case class S (k: nat )  extends nat {
@@ -24,6 +26,7 @@ case class S (k: nat )  extends nat {
 
   def mul (a: nat ): nat =
     t.from_non_negative ((t.to_Int (k ) + 1 ) * t.to_Int (a ) )
+
 }
 
 trait IntNat {
@@ -51,7 +54,9 @@ trait IntNat {
     a  match {
       case O () => 0
       case S (k ) => 1 + to_Int (k )
-    }
+
+}
+
 }
 
 case class IntNat_ ()  extends IntNat

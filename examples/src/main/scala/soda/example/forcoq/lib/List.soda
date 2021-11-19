@@ -20,7 +20,8 @@ class SeqList = {
     match a {
       | nil () -> b
       | cons (e, s) -> _rec_reverse (s) ( cons (e, b) )
-    }
+
+}
 
   reverse [A] (s: list [A]): list [A] =
     _rec_reverse [A] (s) (nil[A]())
@@ -29,7 +30,8 @@ class SeqList = {
     match a {
       | Nil -> b
       | (e) :: (s) -> _rec_from_Seq (s) (cons (e, b))
-    }
+
+}
 
   from_Seq [A] (a: Seq [A]): list [A] =
     reverse (_rec_from_Seq (a) ( nil[A]() ) )
@@ -38,10 +40,12 @@ class SeqList = {
     match a {
       | nil () -> b
       | cons (e, s) -> _rec_to_Seq (s) ( b .+: (e) )
-    }
+
+}
 
   to_Seq [A] (a: list [A]): Seq [A] =
     (_rec_to_Seq (a) ( Seq[A]() )) .reverse
+
 }
 
 class SeqList_()

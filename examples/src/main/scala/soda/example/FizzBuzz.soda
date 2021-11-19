@@ -21,6 +21,7 @@ package soda.example
 
   is_divisible_by(n: Int, k: Int): Boolean =
     n % k == 0
+
 }
 
 * FizzBuzz_()

@@ -6,6 +6,7 @@ package soda.collection
   has isEmpty: Boolean
 
   has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
+
 }
 
 * MSeqRec[T] = {
@@ -24,6 +25,7 @@ package soda.collection
   fold[B, C subtype B](sequence: MSeq[T],
       initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
     _rec_fold(sequence, initial_value, next_value, condition)
+
 }
 
 * MSeqRec_[T]()
@@ -35,6 +37,7 @@ package soda.collection
   isEmpty = true
 
   opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
+
 }
 
 * ESeq_[T]()
@@ -46,6 +49,7 @@ package soda.collection
   has head0: T
 
   has tail0: MSeq[T]
+
 }
 
 * NESeq[T]
@@ -58,6 +62,7 @@ package soda.collection
   head(): T = head0
 
   tail(): MSeq[T] = tail0
+
 }
 
 * NESeq_[T](head0: T, tail0: MSeq[T])

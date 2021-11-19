@@ -4,6 +4,7 @@ package soda.example
 class Applicant is {
 
   has background_score: Double
+
 }
 
 class AbstractFairness is {
@@ -17,6 +18,7 @@ class AbstractFairness is {
   has measure_time: Any -> Double
 
   has maximum_execution_time: Double
+
 }
 
 class Fairness
@@ -40,5 +42,6 @@ class Fairness
     if measure_time (rank (applicant)) < maximum_execution_time
     then true
     else false
+
 }
 

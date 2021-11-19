@@ -26,7 +26,8 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = mt.join_lines_with_forward_join (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should join lines ending in opening parenthesis and brackets") {
     lazy val input = Original_parenthesis_example
@@ -34,7 +35,8 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = mt.join_lines_with_forward_join (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should join lines starting in closing parenthesis and brackets") {
     lazy val input = Original_parenthesis_example
@@ -42,7 +44,8 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = mt.join_lines_with_backward_join (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should join lines ending with opening parenthesis and brackets or starting in closing parenthesis and brackets") {
     lazy val input = Original_parenthesis_example
@@ -54,7 +57,8 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         .get
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should join lines starting or ending with keyword 'extends' and 'with' with forward join") {
     lazy val input = Example_using_extends_and_with
@@ -63,7 +67,8 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = mt.join_lines_with_forward_join (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should join lines starting or ending with keyword 'extends' and 'with' with backward join") {
     lazy val input = Example_using_extends_and_with
@@ -72,5 +77,7 @@ case class LineJoinerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = mt.join_lines_with_backward_join (input )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

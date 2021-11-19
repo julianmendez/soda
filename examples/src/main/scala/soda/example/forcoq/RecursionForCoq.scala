@@ -14,7 +14,8 @@ trait RecursionForCoq {
          if ((! (condition (current_value ) (head ) ) )
          ) current_value
          else _rec_fold4 (tail ) (next_value_function (current_value ) (head )  ) (next_value_function ) (condition ) ;
-    } ;
+
+} ;
 
   def fold4 [A, B] (sequence: Seq [A]  ) (initial_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
     _rec_fold4 (sequence ) (initial_value ) (next_value_function ) (condition ) ;
@@ -25,7 +26,8 @@ trait RecursionForCoq {
     sequence  match {
       case Nil => current_value
       case (head ):: (tail ) => _rec_fold3 (tail ) (next_value_function (current_value ) (head )  ) (next_value_function )
-    } ;
+
+} ;
 
   def fold3 [A, B] (sequence: Seq [A]  ) (initial_value: B ) (next_value_function: B => A => B ): B =
     _rec_fold3 (sequence ) (initial_value ) (next_value_function ) ;
@@ -39,6 +41,7 @@ trait RecursionForCoq {
 
   def range (length: Int ): Seq [Int] =
     _rec_range (length ) (Nil ) ;
+
 }
 
 case class RecursionForCoq_ ()    extends RecursionForCoq

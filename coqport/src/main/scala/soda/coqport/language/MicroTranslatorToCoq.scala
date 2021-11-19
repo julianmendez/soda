@@ -91,6 +91,7 @@ trait MicroTranslatorToCoq {
       .replace (main_translation )
       .replace_regex (beautifier )
       .line
+
 }
 
 case class MicroTranslatorToCoq_ ()  extends MicroTranslatorToCoq

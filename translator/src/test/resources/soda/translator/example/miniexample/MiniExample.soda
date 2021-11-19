@@ -6,6 +6,7 @@ package soda.example.miniexample
   run() =
     range(50)
       .map(x -> print(" " + (2 * x + 1)) )
+
 }
 
 * MiniExample_() extends MiniExample
@@ -15,6 +16,7 @@ package soda.example.miniexample
 
   main(arguments: Array[String]): Unit =
     MiniExample_().run()
+
 }
 
 * Main() extends MainClass

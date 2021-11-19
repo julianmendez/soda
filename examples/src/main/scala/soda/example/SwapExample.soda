@@ -5,6 +5,7 @@ package soda.example
   has left: Int
 
   has right: Int
+
 }
 
 * PairExample_(left: Int, right: Int)
@@ -14,5 +15,6 @@ package soda.example
 
   swap(pair: PairExample): PairExample =
     PairExample_(pair.right, pair.left)
+
 }
 

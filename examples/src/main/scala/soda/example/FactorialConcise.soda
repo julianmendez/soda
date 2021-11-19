@@ -4,6 +4,7 @@ package soda.example
 * AbstractFactorialConcise = {
 
   has get_factorial (n: Int): Int
+
 }
 
 * FactorialConcise
@@ -17,6 +18,7 @@ package soda.example
 
   get_factorial (n: Int): Int =
     _rec_get_factorial (n, 1)
+
 }
 
 * FactorialConcise_()

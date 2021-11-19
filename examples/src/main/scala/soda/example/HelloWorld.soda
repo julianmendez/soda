@@ -5,6 +5,7 @@ package soda.example
 
   main(arguments: Array[String]): Unit =
     println("Hello world!")
+
 }
 
 * Main()

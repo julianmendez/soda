@@ -17,7 +17,8 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("some synonyms are Scala reserved words") {
     lazy val program = "" +
@@ -34,5 +35,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

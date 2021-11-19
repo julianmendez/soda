@@ -3,7 +3,8 @@ package soda.example.forcoq
 
 * TriangularNumberForCoqSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
-  + soda.example.forcoq.lib.{nat, IntNat_}
+  + soda.example.forcoq.lib.{nat, IntNat_
+}
 
   triangular_number_values: Seq[(Int, Int)] = Seq(
     (0, 0), (1, 1), (2, 3), (3, 6), (4, 10), (5, 15), (6, 21)
@@ -22,6 +23,8 @@ package soda.example.forcoq
       .map(n -> (n, TriangularNumberForCoq_().get_number (n)))
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

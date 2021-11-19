@@ -14,6 +14,7 @@ trait MainClass {
         .map (pair => pair.name + " = " + pair.result.toString )
         .mkString ("\n")
       println (all_examples ) }
+
 }
 
 case class Main () extends MainClass

@@ -11,6 +11,8 @@ package soda.example
     obtained = "" + piSequence.head + "." + piSequence.tail.mkString("")
 
     assert(obtained == piStart)
-  }
+
+}
+
 }
 

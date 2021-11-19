@@ -25,6 +25,7 @@ trait LibraryDeployer {
       .map (lib_file_name =>
         SimpleFileWriter_ () .write_file (file = SimpleFileWriter_ () .create_file (parent_directory, lib_file_name ), content = SimpleFileReader_ () .read_resource (library_directory_in_jar + lib_file_name )        ) )
       .forall (x => x )
+
 }
 
 case class LibraryDeployer_ () extends LibraryDeployer

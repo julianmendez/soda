@@ -19,5 +19,7 @@ case class CommentPreprocessorSpec ()  extends org.scalatest.funsuite.AnyFunSuit
     lazy val obtained = CommentPreprocessor_ (input ) .annotated_lines
 
     assert (obtained == expected )
-  }
+
+}
+
 }

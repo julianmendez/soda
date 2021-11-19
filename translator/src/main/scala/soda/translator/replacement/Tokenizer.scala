@@ -11,6 +11,7 @@ trait Token {
   def parser_state: ParserState
 
   def index: Int
+
 }
 
 case class Token_ (text: String, parser_state: ParserState, index: Int ) extends Token
@@ -50,6 +51,7 @@ trait Tokenizer  extends SingleLineProcessor {
         else current_index
       lazy val text = line.substring (tuple.last_index, index )
       TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (text, tuple.parser_state, tuple.last_index )  )  ) }
+
 }
 
 case class Tokenizer_ (line: String )  extends Tokenizer
@@ -61,6 +63,7 @@ trait TokenizerFoldTuple {
   def parser_state: ParserState
 
   def rev_tokens: Seq [Token]
+
 }
 
 case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )  extends TokenizerFoldTuple

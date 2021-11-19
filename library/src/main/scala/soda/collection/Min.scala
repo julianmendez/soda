@@ -24,6 +24,7 @@ trait MSeqTranslator [T] {
       lazy val initial_value: Seq [T] = Seq ()
       def next_value (acc: Seq [T], elem: T ): Seq [T] = acc.+: (elem )
       Min_ () .foldLeft (mseq, initial_value, next_value ) .reverse }
+
 }
 
 case class MSeqTranslator_ [T]  ()  extends MSeqTranslator [T]
@@ -33,6 +34,7 @@ trait MSeqPair [T] {
   def left: MSeq [T]
 
   def right: MSeq [T]
+
 }
 
 case class MSeqPair_ [T]  (left: MSeq [T], right: MSeq [T]  )  extends MSeqPair [T]
@@ -199,9 +201,11 @@ trait Min [T] {
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op(result, it.next())
-   * . }
+   * .
+}
    * . result
-   * }
+   *
+}
    * </pre>
    */
   def foldLeft0 (mseq: MSeq [T]  ): (MSeq [T], ((MSeq [T], T ) => MSeq [T]  )  ) => MSeq [T] =
@@ -235,6 +239,7 @@ trait Min [T] {
       def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking
 
       result }
+
 }
 
 case class Min_ [T]  () extends Min [T]
@@ -244,6 +249,7 @@ trait IndexFoldTuple [T] {
   def index: Int
 
   def position: Int
+
 }
 
 case class IndexFoldTuple_ [T]  (index: Int, position: Int ) extends IndexFoldTuple [T]
@@ -253,6 +259,7 @@ trait AtFoldTuple [T] {
   def elem: T
 
   def index: Int
+
 }
 
 case class AtFoldTuple_ [T]  (elem: T, index: Int ) extends AtFoldTuple [T]
@@ -262,6 +269,7 @@ trait TakeDropFoldTuple [T] {
   def seq: MSeq [T]
 
   def index: Int
+
 }
 
 case class TakeDropFoldTuple_ [T]  (seq: MSeq [T], index: Int ) extends TakeDropFoldTuple [T]
@@ -273,6 +281,7 @@ trait SpanRevFoldTuple [T] {
   def right: MSeq [T]
 
   def taking: Boolean
+
 }
 
 case class SpanRevFoldTuple_ [T]  (left: MSeq [T], right: MSeq [T], taking: Boolean ) extends SpanRevFoldTuple [T]

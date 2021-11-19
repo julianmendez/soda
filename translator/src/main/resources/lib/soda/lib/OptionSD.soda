@@ -32,6 +32,7 @@ package soda.lib
   has bind[B](mapping: A -> OptionSD[B]): OptionSD[B]
 
   has filter(predicate: A -> Boolean): OptionSD[A]
+
 }
 
 * NoneSD[A]
@@ -60,6 +61,7 @@ package soda.lib
   bind[B](mapping: A -> OptionSD[B]): OptionSD[B] = flatMap[B](mapping)
 
   filter(predicate: A -> Boolean): OptionSD[A] = this
+
 }
 
 * NoneSD_[A]()
@@ -69,6 +71,7 @@ package soda.lib
   extends OptionSD[A] = {
 
   has element: A
+
 }
 
 * SomeSD[A]
@@ -99,6 +102,7 @@ package soda.lib
   bind[B](mapping: A -> OptionSD[B]): OptionSD[B] = flatMap[B](mapping)
 
   filter(predicate: A -> Boolean): OptionSD[A] = if predicate(element) then this else NoneSD_[A]()
+
 }
 
 * SomeSD_[A](element: A)
@@ -110,6 +114,7 @@ package soda.lib
     if option.isEmpty
     then NoneSD_[A]()
     else SomeSD_[A](option.get)
+
 }
 
 * OptionSDBuilder_[A]()

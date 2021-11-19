@@ -6,6 +6,7 @@ package soda.collection.example
   has name: String
 
   has result: T
+
 }
 
 * Pair_[T](name: String, result: T) extends Pair[T]
@@ -86,6 +87,7 @@ package soda.collection.example
 
   foldRight_example: Pair[Seq[Char]] =
     Pair_("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
+
 }
 
 * ListExample_() extends ListExample

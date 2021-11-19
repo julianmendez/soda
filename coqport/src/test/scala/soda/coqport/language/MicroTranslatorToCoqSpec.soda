@@ -11,7 +11,8 @@ package soda.coqport.language
     obtained = MicroTranslatorToCoq_().translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("Coq translation of a function") {
     original = "f (a: nat) = 0 ;"
@@ -20,7 +21,9 @@ package soda.coqport.language
     obtained = MicroTranslatorToCoq_().translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 
 

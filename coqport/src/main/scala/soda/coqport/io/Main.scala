@@ -48,6 +48,7 @@ trait MainClass {
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
       lazy val output = MicroTranslatorToCoq_ () .translate_program (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
+
 }
 
 case class Main () extends MainClass
@@ -57,6 +58,7 @@ trait FileNamePair {
   def input_file_name: String
 
   def output_file_name: String
+
 }
 
 case class FileNamePair_ (input_file_name: String, output_file_name: String )  extends FileNamePair

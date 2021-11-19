@@ -49,6 +49,7 @@ trait LineJoinerToScala  extends soda.translator.replacement.MultiLineProcessor 
     tc.reserved_word_joiner
       .map (x => x + space )
       .exists (current_line.startsWith )
+
 }
 
 case class LineJoinerToScala_ (lines: Seq [String]  )  extends LineJoinerToScala
@@ -87,6 +88,7 @@ trait Joiner {
 
   def _rev_list_as_element (in_process_rev: Seq [String], line: String ): String =
     in_process_rev.reverse.mkString ("") + line
+
 }
 
 case class Joiner_ (lines_to_join: Seq [String], is_a_join: (String, String ) => Boolean )  extends Joiner
@@ -98,6 +100,7 @@ trait JoinerFoldTuple {
   def processed_rev: Seq [String]
 
   def previous_line: String
+
 }
 
 case class JoinerFoldTuple_ (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String )  extends JoinerFoldTuple

@@ -12,6 +12,8 @@ package soda.translator.language
     obtained = MicroTranslatorToScala_().translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

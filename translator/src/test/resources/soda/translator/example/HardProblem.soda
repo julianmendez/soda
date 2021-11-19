@@ -3,11 +3,13 @@ package soda.example
 * MemoizableFunction[A, B] = {
 
   has compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
+
 }
 
 * MainFunction[A, B] = {
 
   has main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]]
+
 }
 
 * Memoizer[A, B]
@@ -27,6 +29,7 @@ package soda.example
       (res, map) = main_function(x, memoized_values)
       new_pair = (x, res)
     in (res, map + new_pair)
+
 }
 
 * Memoizer_[A, B](main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]])
@@ -55,6 +58,7 @@ package soda.example
 
   compute(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
     memoizer.compute(n, memoized_values)
+
 }
 
 * HardProblem_()
@@ -78,6 +82,7 @@ package soda.example
 
   compute(n: Int, memoized_values: Map[Int, Int]): Tuple2[Int, Map[Int, Int]] =
     memoizer.compute(n, memoized_values)
+
 }
 
 * MemoizedFibonacci_()

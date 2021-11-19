@@ -16,11 +16,13 @@ package soda.lib
   saturday = DayOfTheWeek_(6, "Saturday")
 
   DayOfTheWeek_values = Seq(sunday, monday, tuesday, wednesday, thursday, friday, saturday)
+
 }
 
 * DayOfTheWeekEnum extends DayOfTheWeekConstant = {
 
   values = DayOfTheWeek_values
+
 }
 
 * DayOfTheWeekEnum_() extends DayOfTheWeekEnum
@@ -33,6 +35,8 @@ package soda.lib
     obtained = DayOfTheWeekEnum_().values.map(x -> x.toString)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

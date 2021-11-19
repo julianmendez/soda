@@ -19,6 +19,7 @@ trait ScalaReservedWordEscaping {
   def f (x: Int, y: Int ): Int = x + y
 
   lazy val cons: (Int, Int ) => Int = (x, y ) => f (x, y )
+
 }
 
 trait MyPair [A, B] {
@@ -26,6 +27,7 @@ trait MyPair [A, B] {
   def key: A
 
   def value: B
+
 }
 
 case class MyPair_ [A, B]  (key: A, value: B ) extends MyPair [A, B]

@@ -10,7 +10,8 @@ case class ListSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       instance.from_Seq (Seq [Int]  (0, 1, 1, 2, 3, 5 ) )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("list to Seq") {
     lazy val instance = SeqList_ ()
@@ -19,5 +20,7 @@ case class ListSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       instance.to_Seq ((cons (1, cons (2, cons (4, cons (8, cons (16, nil [Int]  () ) ) ) ) ) )      )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

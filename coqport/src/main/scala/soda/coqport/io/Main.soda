@@ -46,6 +46,7 @@ package soda.coqport.io
       input = SimpleFileReader_().read_file(input_file_name)
       output = MicroTranslatorToCoq_().translate_program(input)
     in SimpleFileWriter_().write_file(output_file_name, content := output)
+
 }
 
 * Main() extends MainClass
@@ -55,6 +56,7 @@ package soda.coqport.io
   has input_file_name: String
 
   has output_file_name: String
+
 }
 
 * FileNamePair_(input_file_name: String, output_file_name: String)

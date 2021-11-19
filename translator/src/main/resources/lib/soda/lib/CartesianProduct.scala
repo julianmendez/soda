@@ -26,6 +26,7 @@ trait CartesianProduct {
             lazy val rev_sequences = sequences.reverse
             Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  ) }
       result }
+
 }
 
 case class CartesianProduct_ () extends CartesianProduct

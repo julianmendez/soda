@@ -17,6 +17,7 @@ trait Status {
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
+
 }
 
 case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int  ) extends Status
@@ -71,6 +72,7 @@ trait PiIterator {
       lazy val k = ns.k
       lazy val new_status = Status_ (r, n, q, t, l, k )
       result }
+
 }
 
 case class PiIterator_ () extends PiIterator
@@ -80,6 +82,7 @@ trait IntAndStatus {
   def digit: Int
 
   def new_status: Status
+
 }
 
 case class IntAndStatus_ (digit: Int, new_status: Status ) extends IntAndStatus

@@ -12,7 +12,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("hard problem 12") {
     lazy val instance = HardProblem_ ()
@@ -21,7 +22,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("hard problem 13") {
     lazy val instance = HardProblem_ ()
@@ -30,7 +32,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("hard problem 14") {
     lazy val instance = HardProblem_ ()
@@ -39,7 +42,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("hard problem 16") {
     lazy val instance = HardProblem_ ()
@@ -48,7 +52,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("hard problem 20") {
     lazy val instance = HardProblem_ ()
@@ -57,7 +62,8 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("memoized fibonacci 20") {
     lazy val instance = MemoizedFibonacci_ ()
@@ -66,5 +72,7 @@ case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.compute (value, empty_map )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

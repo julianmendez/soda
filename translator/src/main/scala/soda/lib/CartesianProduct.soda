@@ -26,6 +26,7 @@ package soda.lib
             rev_sequences = sequences.reverse
           in Recursion_().fold(rev_sequences.tail, _initial_value(rev_sequences.head), _next_value[T])
     in result
+
 }
 
 * CartesianProduct_() extends CartesianProduct

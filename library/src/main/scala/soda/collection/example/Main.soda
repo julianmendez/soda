@@ -34,6 +34,7 @@ package soda.collection.example
         .map(pair -> pair.name + " = " + pair.result.toString)
         .mkString("\n")
     in println(all_examples)
+
 }
 
 * Main() extends MainClass

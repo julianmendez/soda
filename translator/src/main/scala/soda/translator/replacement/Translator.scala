@@ -8,4 +8,5 @@ trait Translator {
   def translate (word: String ): String
 
   def keys: Seq [String]
+
 }

@@ -14,6 +14,7 @@ trait SeqSD [A] {
   def toSeq: Seq [A]
 
   def reverse: SeqSD [A]
+
 }
 
 trait EmptySeqSD [A] extends SeqSD [A] {
@@ -23,6 +24,7 @@ trait EmptySeqSD [A] extends SeqSD [A] {
   lazy val toSeq: Seq [A] = Seq [A]  ()
 
   lazy val reverse: EmptySeqSD [A] = this
+
 }
 
 case class EmptySeqSD_ [A]  () extends EmptySeqSD [A]
@@ -36,6 +38,7 @@ trait NonEmptySeqSD [A] extends SeqSD [A] {
   lazy val tail: SeqSD [A] = SeqSDBuilder_ [A]  () .build (toSeq.tail )
 
   lazy val reverse: NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse )
+
 }
 
 case class NonEmptySeqSD_ [A]  (toSeq: Seq [A]  ) extends NonEmptySeqSD [A]
@@ -46,6 +49,7 @@ trait SeqSDBuilder [A] {
     if (seq.isEmpty
     ) EmptySeqSD_ [A]  ()
     else NonEmptySeqSD_ [A]  (seq )
+
 }
 
 case class SeqSDBuilder_ [A]  () extends SeqSDBuilder [A]

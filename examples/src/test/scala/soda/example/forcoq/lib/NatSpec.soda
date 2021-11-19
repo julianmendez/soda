@@ -11,7 +11,8 @@ package soda.example.forcoq.lib
       instance.from_non_negative (8)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("IntNat to Int") {
     instance = IntNat_()
@@ -22,7 +23,8 @@ package soda.example.forcoq.lib
       )
 
     assert(obtained == expected)
-  }
+
+}
 
     test("Nat add") {
       a = S(S(S(O())))
@@ -31,7 +33,8 @@ package soda.example.forcoq.lib
       obtained = a.add(b)
 
       assert(obtained == expected)
-    }
+
+}
 
     test("Nat mul") {
       a = S(S(S(O())))
@@ -40,6 +43,8 @@ package soda.example.forcoq.lib
       obtained = a.mul(b)
 
       assert(obtained == expected)
-    }
+
+}
+
 }
 

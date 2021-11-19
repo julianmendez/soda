@@ -19,6 +19,7 @@ trait Requirement3Monitor  extends RequirementMonitor {
 
   def sum_prices (prices: Seq [Int]  ): Int =
     prices.sum
+
 }
 
 case class Requirement3Monitor_ (pricing_agent: PricingAgent )  extends Requirement3Monitor
@@ -26,6 +27,7 @@ case class Requirement3Monitor_ (pricing_agent: PricingAgent )  extends Requirem
 trait Segment  extends Flight {
 
   lazy val intermediate_airports = Seq [String]  ()
+
 }
 
 case class Segment_ (start_airport: String, end_airport: String )  extends Segment
@@ -41,7 +43,9 @@ trait SegmentsForFlight {
     intermediate_stops  match {
       case Nil => Nil.+: (Segment_ (first_airport, last_airport )  )
       case x:: xs => rec_segments_multi (x, xs, last_airport ) .+: (Segment_ (first_airport, x )  )
-    }
+
+}
+
 }
 
 case class SegmentsForFlight_ (flight: Flight )  extends SegmentsForFlight

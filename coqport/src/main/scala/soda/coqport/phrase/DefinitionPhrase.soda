@@ -11,5 +11,6 @@ package soda.coqport.phrase
 
   translate(line: String): String =
     definition_beginning + space + line + space + line_end
+
 }
 

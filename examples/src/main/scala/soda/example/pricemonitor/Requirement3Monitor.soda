@@ -20,6 +20,7 @@ class Requirement3Monitor
 
   sum_prices (prices: Seq[Int]): Int =
     prices.sum
+
 }
 
 class Requirement3Monitor_(pricing_agent: PricingAgent)
@@ -29,6 +30,7 @@ class Segment
   extends Flight = {
 
   intermediate_airports = Seq[String]()
+
 }
 
 class Segment_ (start_airport: String, end_airport: String)
@@ -45,7 +47,9 @@ class SegmentsForFlight = {
     match intermediate_stops {
       case Nil -> Nil.+:(Segment_ (first_airport, last_airport))
       case x :: xs -> rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
-    }
+
+}
+
 }
 
 class SegmentsForFlight_ (flight: Flight)

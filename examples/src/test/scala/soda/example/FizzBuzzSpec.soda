@@ -21,6 +21,8 @@ package soda.example
     obtained = FizzBuzz_().fizz_buzz
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

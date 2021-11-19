@@ -8,6 +8,7 @@ package soda.translator.io
   has process_soda_file: java.io.File -> Boolean
 
   has process(): Boolean
+
 }
 
 * DirectoryProcessor
@@ -34,6 +35,7 @@ package soda.translator.io
       soda_files
         .map(process_soda_file)
         .forall(x -> x)
+
 }
 
 * DirectoryProcessor_(start: String, process_soda_file: java.io.File -> Boolean)

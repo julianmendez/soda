@@ -11,6 +11,7 @@ package soda.translator.replacement
   has parser_state: ParserState
 
   has index: Int
+
 }
 
 * Token_(text: String, parser_state: ParserState, index: Int) extends Token
@@ -53,6 +54,7 @@ package soda.translator.replacement
       text = line.substring(tuple.last_index, index)
     in TokenizerFoldTuple_(index, new_parser_state,
         tuple.rev_tokens.+:(Token_(text, tuple.parser_state, tuple.last_index)))
+
 }
 
 * Tokenizer_(line: String)
@@ -65,6 +67,7 @@ package soda.translator.replacement
   has parser_state: ParserState
 
   has rev_tokens: Seq[Token]
+
 }
 
 * TokenizerFoldTuple_(last_index: Int, parser_state: ParserState, rev_tokens: Seq[Token])

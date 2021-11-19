@@ -12,7 +12,8 @@ case class FactorialSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       .map (n => (n, FactorialConcise_ () .get_factorial (n )  )  )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should test the factorial - verbose version") {
     lazy val expected = factorial_values
@@ -20,7 +21,8 @@ case class FactorialSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       .map (pair => pair._1 )
       .map (n => (n, FactorialVerbose_ () .get_factorial (n )  )  )
     assert (obtained == expected )
-  }
+
+}
 
   test ("should test the factorial - with fold") {
     lazy val expected = factorial_values
@@ -28,5 +30,7 @@ case class FactorialSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       .map (pair => pair._1 )
       .map (n => (n, FactorialWithFold_ () .get_factorial (n )  )  )
     assert (obtained == expected )
-  }
+
+}
+
 }

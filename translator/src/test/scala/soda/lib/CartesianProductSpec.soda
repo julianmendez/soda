@@ -14,28 +14,32 @@ package soda.lib
     obtained = CartesianProduct_().get_cartesian_product(Seq(seq_a, seq_b))
 
     assert(obtained == expected)
-  }
+
+}
 
   test("Cartesian product of an empty sequence") {
     expected = Seq()
     obtained = CartesianProduct_().get_cartesian_product(Seq())
 
     assert(obtained == expected)
-  }
+
+}
 
   test("Cartesian product of only empty sequences") {
     expected = Seq()
     obtained = CartesianProduct_().get_cartesian_product(Seq(Seq(), Seq(), Seq()))
 
     assert(obtained == expected)
-  }
+
+}
 
   test("Cartesian product with at least one empty sequence") {
     expected = Seq()
     obtained = CartesianProduct_().get_cartesian_product(Seq(Seq("A"), Seq()))
 
     assert(obtained == expected)
-  }
+
+}
 
   test("Cartesian product of three sequences") {
     expected = Seq(
@@ -52,6 +56,8 @@ package soda.lib
     obtained = CartesianProduct_().get_cartesian_product(Seq(seq_a, seq_b, seq_c))
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

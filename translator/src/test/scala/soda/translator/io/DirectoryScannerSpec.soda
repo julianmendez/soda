@@ -14,7 +14,8 @@ package soda.translator.io
     obtained = scanner.get_all_files(start_file).toSet
 
     assert(obtained == expected)
-  }
+
+}
 
   test("simple scan of all files") {
     scanner = DirectoryScanner_()
@@ -31,6 +32,8 @@ package soda.translator.io
     obtained = scanner.get_all_files(start_file).toSet
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

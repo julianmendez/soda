@@ -13,7 +13,8 @@ case class DirectoryScannerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = scanner.get_all_files (start_file ) .toSet
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("simple scan of all files") {
     lazy val scanner = DirectoryScanner_ ()
@@ -22,5 +23,7 @@ case class DirectoryScannerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = scanner.get_all_files (start_file ) .toSet
 
     assert (obtained == expected )
-  }
+
+}
+
 }

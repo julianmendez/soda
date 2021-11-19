@@ -16,7 +16,8 @@ package soda.example
     obtained_name = instance.get_type_name(input)
 
     assert(obtained_name == expected_name)
-  }
+
+}
 
   test("get value and name of pair") {
     input = Pair(10, 100)
@@ -29,7 +30,8 @@ package soda.example
     obtained_name = instance.get_type_name(input)
 
     assert(obtained_name == expected_name)
-  }
+
+}
 
   test("get value and name of triplet") {
     input = Triplet(9, 100, 890)
@@ -42,6 +44,8 @@ package soda.example
     obtained_name = instance.get_type_name(input)
 
     assert(obtained_name == expected_name)
-  }
+
+}
+
 }
 

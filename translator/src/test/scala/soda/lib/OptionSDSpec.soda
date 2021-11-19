@@ -13,7 +13,8 @@ package soda.lib
     assert(empty.isEmpty and
       not empty.isDefined and
       not empty.isNonEmpty)
-  }
+
+}
 
   test("should test a non empty option") {
     element = SomeSD_(1)
@@ -21,7 +22,8 @@ package soda.lib
     assert(not element.isEmpty and
       element.isDefined and
       element.isNonEmpty)
-  }
+
+}
 
   test("should get a default value, when empty") {
     empty = NoneSD_[Int]()
@@ -29,7 +31,8 @@ package soda.lib
     obtained = empty.getOrElse(1)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should get a value") {
     empty = SomeSD_[Int](2)
@@ -37,7 +40,8 @@ package soda.lib
     obtained = empty.getOrElse(1)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should open an empty option") {
     result_if_empty: String = "It is empty."
@@ -49,7 +53,8 @@ package soda.lib
       ifNonEmpty := result_if_non_empty)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should open an non empty option") {
     result_if_empty: String = "It is empty."
@@ -61,7 +66,8 @@ package soda.lib
       ifNonEmpty := result_if_non_empty)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should try fold an empty option") {
     result_if_empty: String = "It is empty."
@@ -73,7 +79,8 @@ package soda.lib
       f := result_if_non_empty)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should try fold an non empty option") {
     result_if_empty: String = "It is empty."
@@ -85,7 +92,8 @@ package soda.lib
       f := result_if_non_empty)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should map empty to empty") {
     to_string(n: Int): String = "" + n
@@ -94,7 +102,8 @@ package soda.lib
     obtained = empty.map(to_string)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should map a non-empty to another non-empty") {
     to_string(n: Int): String = "" + n
@@ -103,7 +112,8 @@ package soda.lib
     obtained = some_element.map(to_string)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should flat map empty to empty") {
     to_string(n: Int): SomeSD_[String] = SomeSD_[String]("" + n)
@@ -112,7 +122,8 @@ package soda.lib
     obtained = empty.flatMap(to_string)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should flat map a non-empty to another non-empty") {
     to_string(n: Int): SomeSD_[String] = SomeSD_[String]("" + n)
@@ -121,7 +132,8 @@ package soda.lib
     obtained = some_element.flatMap(to_string)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should try how successive applications of open works") {
     toInt(s: String): OptionSD[Int] =
@@ -149,7 +161,8 @@ package soda.lib
                   SomeSD_(a + b + c) ) ) )
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toOption with non empty option") {
     input: OptionSD[Int] = SomeSD_(1)
@@ -157,7 +170,8 @@ package soda.lib
     obtained = input.toOption
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toOption with another non empty option") {
     input: SomeSD_[Int] = SomeSD_(2)
@@ -165,7 +179,8 @@ package soda.lib
     obtained = input.toOption
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toOption with empty option") {
     input: OptionSD[Int] = NoneSD_()
@@ -173,7 +188,8 @@ package soda.lib
     obtained = input.toOption
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toSeq with non empty option") {
     input: OptionSD[Int] = SomeSD_(1)
@@ -181,7 +197,8 @@ package soda.lib
     obtained = input.toSeq
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toSeq with another non empty option") {
     input: SomeSD_[Int] = SomeSD_(2)
@@ -189,7 +206,8 @@ package soda.lib
     obtained = input.toSeq
 
     assert(obtained == expected)
-  }
+
+}
 
   test("toSeq with empty option") {
     input: OptionSD[Int] = NoneSD_()
@@ -197,7 +215,8 @@ package soda.lib
     obtained = input.toSeq
 
     assert(obtained == expected)
-  }
+
+}
 
   test("filter should work for None") {
     input = NoneSD_[Int]()
@@ -205,7 +224,8 @@ package soda.lib
     obtained = input.filter(x -> true)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("filter should work for Some, if predicate does not hold") {
     input = SomeSD_[Int](0)
@@ -213,7 +233,8 @@ package soda.lib
     obtained = input.filter(x -> x > 0)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("filter should work for Some, if predicate holds") {
     input = SomeSD_[Int](1)
@@ -221,6 +242,8 @@ package soda.lib
     obtained = input.filter(x -> x > 0)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

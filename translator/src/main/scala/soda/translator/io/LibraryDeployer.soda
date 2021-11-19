@@ -28,6 +28,7 @@ package soda.translator.io
           content := SimpleFileReader_().read_resource(library_directory_in_jar + lib_file_name)
         ) )
       .forall(x -> x)
+
 }
 
 * LibraryDeployer_() extends LibraryDeployer

@@ -20,6 +20,7 @@ class Requirement1Monitor
 
   max (x: Int, y: Int): Int =
     if x < y then y else x
+
 }
 
 class Requirement1Monitor_(pricing_agent: PricingAgent)

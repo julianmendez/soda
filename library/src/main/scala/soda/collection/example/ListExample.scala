@@ -6,6 +6,7 @@ trait Pair [T] {
   def name: String
 
   def result: T
+
 }
 
 case class Pair_ [T]  (name: String, result: T ) extends Pair [T]
@@ -86,6 +87,7 @@ trait ListExample {
 
   lazy val foldRight_example: Pair [Seq [Char]] =
     Pair_ ("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
+
 }
 
 case class ListExample_ () extends ListExample

@@ -21,6 +21,7 @@ package soda.translator.io
       input_stream = getClass.getResourceAsStream(file_name)
       reader = @new BufferedReader(@new InputStreamReader(input_stream))
     in reader.lines().collect(Collectors.joining(new_line))
+
 }
 
 * SimpleFileReader_() extends SimpleFileReader
@@ -47,6 +48,7 @@ package soda.translator.io
 
   create_file(parent_directory: String, file_name: String): File =
     @new File(parent_directory, file_name)
+
 }
 
 * SimpleFileWriter_() extends SimpleFileWriter

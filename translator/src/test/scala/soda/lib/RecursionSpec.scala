@@ -13,7 +13,8 @@ case class RecursionSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Recursion_ () .fold (exampleSeq, initial_value, next_value_function, condition )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("fold left with Seq") {
     lazy val initial_value = Seq ()
@@ -22,26 +23,31 @@ case class RecursionSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Recursion_ () .fold (exampleSeq, initial_value, next_value_function )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with positive number") {
     lazy val expected = Seq (0, 1, 2, 3, 4, 5, 6, 7 )
     lazy val obtained = Recursion_ () .range (8 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with zero size") {
     lazy val expected = Seq ()
     lazy val obtained = Recursion_ () .range (-1 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with negative number") {
     lazy val expected = Seq ()
     lazy val obtained = Recursion_ () .range (-1 )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

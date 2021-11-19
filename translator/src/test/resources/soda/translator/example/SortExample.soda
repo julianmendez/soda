@@ -4,6 +4,7 @@ package soda.example
 * SortExample = {
 
   has is_sorted(sequence: Seq[Int]): Boolean
+
 }
 
 * SortExampleWithAt
@@ -14,6 +15,7 @@ package soda.example
       .indices
       .filter(index -> index > 0)
       .forall(index -> sequence(index - 1) <= sequence(index))
+
 }
 
 * SortExampleWithAt_() extends SortExampleWithAt
@@ -25,6 +27,7 @@ package soda.example
     sequence
       .zip(sequence.tail)
       .forall(pair -> (pair._1 <= pair._2))
+
 }
 
 * SortExampleWithZip_()
@@ -33,6 +36,7 @@ package soda.example
 * SortAlgorithmExample = {
 
   has sort(sequence: Seq[Int]): Seq[Int]
+
 }
 
 * SortAlgorithmExampleWithFold
@@ -55,6 +59,7 @@ package soda.example
       middle = Seq(element)
       last_part = sequence.dropWhile(x -> x < element)
     in first_part.++(middle.++(last_part))
+
 }
 
 * SortAlgorithmExampleWithFold_()
@@ -74,6 +79,7 @@ package soda.example
         then SomeSD_(sorted_sequence)
         else NoneSD_[Seq[Int]]()
     in result
+
 }
 
 * ConstrainedSortAlgorithm_()
@@ -86,6 +92,7 @@ package soda.example
   has add(element: A): SortedSequence[A]
 
   has invariant: Boolean
+
 }
 
 * EmptySortedSequence[A subtype Comparable[A]]
@@ -97,6 +104,7 @@ package soda.example
      _NonEmptySortedSequence_(Seq(element))
 
   invariant: Boolean = true
+
 }
 
 * EmptySortedSequence_[A subtype Comparable[A]]()
@@ -106,6 +114,7 @@ package soda.example
   extends SortedSequence[A] = {
 
   has sequence: Seq[A]
+
 }
 
 * NonEmptySortedSequence[A subtype Comparable[A]]
@@ -117,6 +126,7 @@ package soda.example
     _NonEmptySortedSequence_(aux.insert_sorted(sequence, element))
 
   invariant: Boolean = aux.is_sorted(sequence)
+
 }
 
 * _NonEmptySortedSequence_[A subtype Comparable[A]](sequence: Seq[A])
@@ -142,6 +152,7 @@ package soda.example
       last_part =
         original_sequence.dropWhile(x -> is_less_than(x, element))
     in first_part.++(middle.++(last_part))
+
 }
 
 * NonEmptySortedSequenceAux_[A subtype Comparable[A]]()
@@ -157,6 +168,7 @@ package soda.example
 
   _next_value_function(sorted_sequence: SortedSequence[A], element: A): SortedSequence[A] =
     sorted_sequence.add(element)
+
 }
 
 * SortedSequenceBuilder_[A subtype Comparable[A]]()

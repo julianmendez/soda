@@ -19,6 +19,7 @@ package soda.example
   f(x: Int, y: Int): Int = x + y
 
   cons: (Int, Int) -> Int = (x, y) -> f(x, y)
+
 }
 
 * MyPair[A, B] = {
@@ -26,6 +27,7 @@ package soda.example
   has key: A
 
   has value: B
+
 }
 
 * MyPair_[A, B](key: A, value: B) extends MyPair[A, B]

@@ -38,6 +38,7 @@ package soda.translator.replacement
 
   replace_regex(translator: Translator): Replacement =
     Replacement_(aux.replace_regex(line, translator))
+
 }
 
 * Replacement_(line: String)
@@ -127,6 +128,7 @@ package soda.translator.replacement
       next_value_function(line: String, regex: String): String =
         line.replaceAll(regex, translator.translate(regex))
     in Recursion_().fold(translator.keys, initial_value, next_value_function)
+
 }
 
 * ReplacementAux_()
@@ -139,6 +141,7 @@ package soda.translator.replacement
   has pattern: String
 
   has replacement: String
+
 }
 
 * Replacer
@@ -171,6 +174,7 @@ package soda.translator.replacement
 
   postprocess(tuple: ReplacerFoldTuple): String =
     tuple.replaced_text_rev.reverse.mkString("")
+
 }
 
 * Replacer_(line: String, pattern: String, replacement: String) extends Replacer
@@ -180,6 +184,7 @@ package soda.translator.replacement
   has replaced_text_rev: Seq[String]
 
   has start_index: Int
+
 }
 
 * ReplacerFoldTuple_(replaced_text_rev: Seq[String], start_index: Int) extends ReplacerFoldTuple

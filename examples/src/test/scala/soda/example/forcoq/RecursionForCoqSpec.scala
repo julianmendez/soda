@@ -13,7 +13,8 @@ case class RecursionForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = RecursionForCoq_ () .fold4 (exampleSeq ) (initial_value ) (next_value_function ) (condition )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("fold left with Seq") {
     lazy val initial_value = Seq [String]  ()
@@ -22,26 +23,31 @@ case class RecursionForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = RecursionForCoq_ () .fold3 (exampleSeq ) (initial_value ) (next_value_function )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with positive number") {
     lazy val expected = Seq [Int]  (0, 1, 2, 3, 4, 5, 6, 7 )
     lazy val obtained = RecursionForCoq_ () .range (8 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with zero size") {
     lazy val expected = Seq [Int]  ()
     lazy val obtained = RecursionForCoq_ () .range (-1 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("range with negative number") {
     lazy val expected = Seq [Int]  ()
     lazy val obtained = RecursionForCoq_ () .range (-1 )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

@@ -13,6 +13,7 @@ package soda.example
   olive_oil = SaladIngredient_(4, "olive_oil")
 
   SaladIngredient_values = Seq(tomato, lettuce, sunflower_seeds, olive_oil)
+
 }
 
 * SaladMakerSpec()
@@ -37,6 +38,8 @@ package soda.example
     )
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

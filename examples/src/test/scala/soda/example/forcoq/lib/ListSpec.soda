@@ -11,7 +11,8 @@ package soda.example.forcoq.lib
       instance.from_Seq ( Seq[Int](0, 1, 1, 2, 3, 5) )
 
     assert(obtained == expected)
-  }
+
+}
 
   test("list to Seq") {
     instance = SeqList_()
@@ -22,6 +23,8 @@ package soda.example.forcoq.lib
       )
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

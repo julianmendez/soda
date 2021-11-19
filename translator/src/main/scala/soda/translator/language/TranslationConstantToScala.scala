@@ -99,6 +99,7 @@ trait TranslationConstantToScala {
 
   def is_soda_word (word: String ): Boolean =
     soda_reserved_words.contains (word )
+
 }
 
 case class TranslationConstantToScala_ ()  extends TranslationConstantToScala

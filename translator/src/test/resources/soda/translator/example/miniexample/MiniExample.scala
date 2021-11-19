@@ -6,6 +6,7 @@ trait MiniExample extends soda.lib.Recursion {
   def run () =
     range (50 )
       .map (x => print (" " + (2 * x + 1 )  ) )
+
 }
 
 case class MiniExample_ () extends MiniExample
@@ -18,6 +19,7 @@ trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
     MiniExample_ () .run ()
+
 }
 
 case class Main () extends MainClass

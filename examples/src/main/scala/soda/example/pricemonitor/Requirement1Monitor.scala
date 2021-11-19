@@ -19,6 +19,7 @@ trait Requirement1Monitor extends RequirementMonitor {
 
   def max (x: Int, y: Int ): Int =
     if (x < y ) y else x
+
 }
 
 case class Requirement1Monitor_ (pricing_agent: PricingAgent )  extends Requirement1Monitor

@@ -12,9 +12,11 @@ package soda.lib
   has ordinal: Int
 
   has name: String
+
 }
 
 * Enum[A subtype EnumConstant] = {
 
   has values: Seq[A]
+
 }

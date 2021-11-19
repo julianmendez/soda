@@ -4,6 +4,7 @@ package soda.example
 class FiboExample is {
 
   has fib (n: Int): Int
+
 }
 
 class FiboExampleInSoda
@@ -16,6 +17,7 @@ class FiboExampleInSoda
 
   fib (n: Int) is
     _rec (n, 0, 1)
+
 }
 
 class FiboExampleInSoda_()

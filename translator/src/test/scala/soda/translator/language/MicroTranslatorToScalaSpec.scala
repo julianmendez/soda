@@ -19,7 +19,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should leave content of apostrophes unchanged") {
     lazy val input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
@@ -27,7 +28,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should leave content of quotation marks unchanged") {
     lazy val input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
@@ -35,7 +37,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (input )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate classes") {
     lazy val original =
@@ -79,7 +82,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate type aliases") {
     lazy val original =
@@ -99,7 +103,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate a tuple assignment") {
     lazy val original = "  (x, y) = (f(a), g(a))" +
@@ -113,7 +118,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate a pattern matching") {
     lazy val original = "fibo(n: Int): Int = " +
@@ -121,19 +127,20 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
       "\n  | 0 -> 1 " +
       "\n  | 1 -> 1 " +
       "\n  | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     lazy val expected = "def fibo (n: Int ): Int =" +
       "\n  n  match {" +
       "\n  case 0 => 1 " +
       "\n  case 1 => 1 " +
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
 
   test ("should translate another pattern matching") {
@@ -153,7 +160,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should ignore a pattern matching written in the Scala style") {
     lazy val original = "fibo(n: Int): Int = " +
@@ -161,19 +169,20 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
       "\n  | 0 -> 1 " +
       "\n  | 1 -> 1 " +
       "\n  | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     lazy val expected = "def fibo (n: Int ): Int =" +
       "\n  n match {" +
       "\n  case 0 => 1 " +
       "\n  case 1 => 1 " +
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate an explicit lambda expression") {
     lazy val original = "plus_1: Int = (lambda x: Int) -> x + 1" +
@@ -183,7 +192,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate let in 1") {
     lazy val original = "let x = 0" +
@@ -194,7 +204,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate let in 2") {
     lazy val original = "f(x: Int): Int =" +
@@ -207,7 +218,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate let in 3") {
     lazy val original = "f(x: Int): Int =" +
@@ -222,7 +234,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate let in 4") {
     lazy val original = "f(x: Int): Int =" +
@@ -239,7 +252,8 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should translate let in 5") {
     lazy val original = "f(x: Int): Int =" +
@@ -258,5 +272,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
     lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

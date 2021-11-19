@@ -97,6 +97,7 @@ trait TranslationConstantToCoq {
 
   def is_soda_word (word: String ): Boolean =
     soda_reserved_words.contains (word )
+
 }
 
 case class TranslationConstantToCoq_ ()  extends TranslationConstantToCoq

@@ -10,5 +10,7 @@ case class PiIteratorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = "" + piSequence.head + "." + piSequence.tail.mkString ("")
 
     assert (obtained == piStart )
-  }
+
+}
+
 }

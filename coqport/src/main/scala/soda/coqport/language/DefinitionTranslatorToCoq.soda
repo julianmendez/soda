@@ -127,6 +127,7 @@ package soda.coqport.language
   get_index(line: String, pattern: String, start: Int): OptionSD[Int] =
     SomeSD_(line.indexOf(pattern, start))
       .filter(position -> not (position == -1))
+
 }
 
 * DefinitionTranslatorToCoq_(line: String)

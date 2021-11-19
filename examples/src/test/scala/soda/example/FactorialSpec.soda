@@ -15,7 +15,8 @@ package soda.example
       .map(n -> (n, FactorialConcise_().get_factorial(n)))
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should test the factorial - verbose version") {
     expected = factorial_values
@@ -23,7 +24,8 @@ package soda.example
       .map(pair -> pair._1)
       .map(n -> (n, FactorialVerbose_().get_factorial(n)))
     assert(obtained == expected)
-  }
+
+}
 
   test("should test the factorial - with fold") {
     expected = factorial_values
@@ -31,6 +33,8 @@ package soda.example
       .map(pair -> pair._1)
       .map(n -> (n, FactorialWithFold_().get_factorial(n)))
     assert(obtained == expected)
-  }
+
+}
+
 }
 

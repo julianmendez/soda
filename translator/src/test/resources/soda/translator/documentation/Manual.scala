@@ -24,7 +24,8 @@ trait ShapePainter [A <: Shape]
  * Connect them using `with`. */
 trait ShapeMover [A <: Shape with Movable]
 
-/* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
+/* The body of a class is declared between braces (`{` and `
+}`) after the equals sign (`=`).
  * It is recommended to indent the constants and functions declared inside. */
 trait EqualsExample {
 
@@ -40,6 +41,7 @@ trait EqualsExample {
    * If the parameters are empty, it is implied that the function produces some side effect.
    * Functions, even with empty parameters, are evaluated every time they are invoked. */
   def f (x: Int, y: Int ): Int = 2 * x + y
+
 }
 
 /* A class can extend another one by using `extends`.
@@ -63,6 +65,7 @@ trait RegisteredPerson {
 
   /* Strings can be concatenated by using the plus sign (`+`). */
   lazy val full_name = first_name + _separator + last_name
+
 }
 
 /* A concrete class can be declared with parameters.
@@ -72,6 +75,7 @@ case class Person (name: String )
 trait Agent {
 
   def identifier: String
+
 }
 
 /* A concrete class needs as parameters all the constants and functions that have not be defined in its super class.
@@ -81,6 +85,7 @@ case class Agent_ (identifier: String ) extends Agent
 trait RankedIndividual {
 
   def rank: Int
+
 }
 
 case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent with RankedIndividual
@@ -88,17 +93,20 @@ case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent wit
 trait Element {
 
   def accept (v: Visitor ): Boolean
+
 }
 
 trait Visitor {
 
   def visit (x: Element ): Boolean
+
 }
 
 case class Item (identifier: Int ) extends Element {
 
   /* It is possible to refer to an object instance by using `this`. */
   def accept (v: Visitor ) = v.visit (this )
+
 }
 
 trait PersonName {
@@ -109,6 +117,7 @@ trait PersonName {
    * This is intended only for exceptional cases, like the `toString` function. */
   override
   lazy val toString = name
+
 }
 
 /**
@@ -197,11 +206,13 @@ trait Manual {
       result }
 
   def g (x: Int ): Int = x + 1
+
 }
 
 trait AbstractFactorialConcise {
 
   def factorial (n: Int ): Int
+
 }
 
 trait FactorialConcise  extends AbstractFactorialConcise {
@@ -218,12 +229,14 @@ trait FactorialConcise  extends AbstractFactorialConcise {
     {
       lazy val result = _rec (n, 1 )
       result }
+
 }
 
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 trait AbstractFactorialVerbose {
 
   def factorial (n: Int ): Int
+
 }
 
 trait FactorialVerbose  extends AbstractFactorialVerbose {
@@ -239,6 +252,7 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
     {
       lazy val result = _rec (n, 1 )
       result }
+
 }
 
 trait Recursion {
@@ -265,6 +279,7 @@ trait Recursion {
 
   def range (length: Int ): Seq [Int] =
     _rec_range (length, Seq [Int]  ()  )
+
 }
 
 case class Recursion_ () extends Recursion
@@ -280,6 +295,7 @@ trait MainClass {
     /* An output to the standard output can be send with a `println` command.
      * This is a shorter form of JVM's `System.out.println`. */
     println ("Hello world!")
+
 }
 
 /* The main class needs to be indicated with annotation `@main`.

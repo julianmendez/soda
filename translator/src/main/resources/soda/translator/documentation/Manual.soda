@@ -24,7 +24,8 @@ class ShapePainter[A subtype Shape]
  * Connect them using `with`. */
 class ShapeMover[A subtype Shape with Movable]
 
-/* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
+/* The body of a class is declared between braces (`{` and `
+}`) after the equals sign (`=`).
  * It is recommended to indent the constants and functions declared inside. */
 class EqualsExample = {
 
@@ -40,6 +41,7 @@ class EqualsExample = {
    * If the parameters are empty, it is implied that the function produces some side effect.
    * Functions, even with empty parameters, are evaluated every time they are invoked. */
   f (x: Int, y: Int): Int = 2 * x + y
+
 }
 
 /* A class can extend another one by using `extends`.
@@ -63,6 +65,7 @@ class RegisteredPerson = {
 
   /* Strings can be concatenated by using the plus sign (`+`). */
   full_name = first_name + _separator + last_name
+
 }
 
 /* A concrete class can be declared with parameters.
@@ -72,6 +75,7 @@ class Person(name: String)
 class Agent = {
 
   has identifier: String
+
 }
 
 /* A concrete class needs as parameters all the constants and functions that have not be defined in its super class.
@@ -81,6 +85,7 @@ class Agent_(identifier: String) extends Agent
 class RankedIndividual = {
 
   has rank: Int
+
 }
 
 class RankedAgentPerson(identifier: String, rank: Int)
@@ -89,17 +94,20 @@ class RankedAgentPerson(identifier: String, rank: Int)
 class Element = {
 
   has accept(v: Visitor): Boolean
+
 }
 
 class Visitor = {
 
   has visit(x: Element): Boolean
+
 }
 
 class Item (identifier: Int) extends Element = {
 
   /* It is possible to refer to an object instance by using `this`. */
   accept (v: Visitor) = v.visit (this)
+
 }
 
 class PersonName = {
@@ -110,6 +118,7 @@ class PersonName = {
    * This is intended only for exceptional cases, like the `toString` function. */
   @override
   toString = name
+
 }
 
 /**
@@ -197,11 +206,13 @@ class Manual = {
     in result
 
   g (x: Int): Int = x + 1
+
 }
 
 * AbstractFactorialConcise = {
 
   has factorial (n: Int): Int
+
 }
 
 * FactorialConcise
@@ -218,12 +229,14 @@ class Manual = {
     let
       result = _rec (n, 1)
     in result
+
 }
 
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 class AbstractFactorialVerbose is {
 
   has factorial (n: Int): Int
+
 }
 
 class FactorialVerbose
@@ -239,6 +252,7 @@ class FactorialVerbose
     let
       result is _rec (n, 1)
     in result
+
 }
 
 class Recursion = {
@@ -273,6 +287,7 @@ class Recursion = {
 
   range(length: Int): Seq[Int] =
     _rec_range(length, Seq[Int]())
+
 }
 
 class Recursion_() extends Recursion
@@ -288,6 +303,7 @@ class MainClass = {
     /* An output to the standard output can be send with a `println` command.
      * This is a shorter form of JVM's `System.out.println`. */
     println("Hello world!")
+
 }
 
 /* The main class needs to be indicated with annotation `@main`.

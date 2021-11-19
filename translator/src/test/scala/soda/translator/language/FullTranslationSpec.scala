@@ -3,7 +3,8 @@ package soda.translator.language
 
 case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import org.scalatest.Assertion
-  import java.nio.file.{ Files, Paths }
+  import java.nio.file.{ Files, Paths
+}
 
   lazy val Base = "/soda/translator/example/"
 
@@ -44,37 +45,47 @@ case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should translate the swap example") {
     test_translation (SwapExample )
-  }
+
+}
 
   test ("should translate the Fibonacci example") {
     test_translation (FiboExample )
-  }
+
+}
 
   test ("should translate the Factorial Concise example") {
     test_translation (FactorialConcise )
-  }
+
+}
 
   test ("should translate the Factorial Verbose example") {
     test_translation (FactorialVerbose )
-  }
+
+}
 
   test ("should translate the Fairness example") {
     test_translation (Fairness )
-  }
+
+}
 
   test ("should translate the example that calculates pi") {
     test_translation (PiIterator )
-  }
+
+}
 
   test ("should translated Soda code that uses Scala reserved words as variables and functions") {
     test_translation (ScalaReservedWordEscaping )
-  }
+
+}
 
   test ("should translate the manual In A Nutshell") {
     test_translation (InANutshell )
-  }
+
+}
 
   test ("should translate the manual") {
     test_translation (ManualInput, ManualExpected )
-  }
+
+}
+
 }

@@ -37,6 +37,7 @@ trait Replacement  extends SingleLineProcessor {
 
   def replace_regex (translator: Translator ): Replacement =
     Replacement_ (aux.replace_regex (line, translator )  )
+
 }
 
 case class Replacement_ (line: String )  extends Replacement
@@ -122,6 +123,7 @@ trait ReplacementAux {
       def next_value_function (line: String, regex: String ): String =
         line.replaceAll (regex, translator.translate (regex )  )
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
+
 }
 
 case class ReplacementAux_ ()  extends ReplacementAux
@@ -133,6 +135,7 @@ trait LinePatternProcessor {
   def pattern: String
 
   def replacement: String
+
 }
 
 trait Replacer  extends LinePatternProcessor {
@@ -160,6 +163,7 @@ trait Replacer  extends LinePatternProcessor {
 
   def postprocess (tuple: ReplacerFoldTuple ): String =
     tuple.replaced_text_rev.reverse.mkString ("")
+
 }
 
 case class Replacer_ (line: String, pattern: String, replacement: String ) extends Replacer
@@ -169,6 +173,7 @@ trait ReplacerFoldTuple {
   def replaced_text_rev: Seq [String]
 
   def start_index: Int
+
 }
 
 case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int ) extends ReplacerFoldTuple

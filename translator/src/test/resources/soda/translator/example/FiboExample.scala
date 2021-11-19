@@ -4,6 +4,7 @@ package soda.example
 trait FiboExample {
 
   def fib (n: Int ): Int
+
 }
 
 trait FiboExampleInSoda  extends FiboExample {
@@ -15,6 +16,7 @@ trait FiboExampleInSoda  extends FiboExample {
 
   def fib (n: Int ) =
     _rec (n, 0, 1 )
+
 }
 
 case class FiboExampleInSoda_ ()  extends FiboExampleInSoda

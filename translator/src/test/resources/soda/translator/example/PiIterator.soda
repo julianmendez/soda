@@ -17,6 +17,7 @@ package soda.example
 
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
+
 }
 
 * Status_(
@@ -76,6 +77,7 @@ package soda.example
       k = ns.k
       new_status = Status_(r, n, q, t, l, k)
     in result
+
 }
 
 * PiIterator_() extends PiIterator
@@ -85,6 +87,7 @@ package soda.example
   has digit: Int
 
   has new_status: Status
+
 }
 
 * IntAndStatus_(digit: Int, new_status: Status) extends IntAndStatus

@@ -94,6 +94,7 @@ package soda.coqport.language
       .replace(main_translation)
       .replace_regex(beautifier)
       .line
+
 }
 
 * MicroTranslatorToCoq_()

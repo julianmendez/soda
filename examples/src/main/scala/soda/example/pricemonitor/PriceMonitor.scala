@@ -6,6 +6,7 @@ trait Customer {
   def name: String
 
   def ip_address: String
+
 }
 
 case class Customer_ (name: String, ip_address: String )  extends Customer
@@ -19,6 +20,7 @@ trait PricingAgent {
 
   def get_days_for (date: Date ): Int =
     (date.getTime / milliseconds_per_day ) .toInt
+
 }
 
 trait Flight {
@@ -28,6 +30,7 @@ trait Flight {
   def intermediate_airports: Seq [String]
 
   def end_airport: String
+
 }
 
 case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )  extends Flight
@@ -38,4 +41,5 @@ trait RequirementMonitor {
 
   def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int =
     pricing_agent.get_price (customer, flight, date_in_days )
+
 }

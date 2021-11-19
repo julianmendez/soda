@@ -9,7 +9,8 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should tokenize a common tab in a string") {
     lazy val input = "  x = \"abc\tde\""
@@ -17,7 +18,8 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should tokenize an escaped tab in a string") {
     lazy val input = "  x = \"abc\\tde\""
@@ -25,7 +27,8 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should tokenize a single function definition") {
     lazy val input = "def f(x: Int): Int = x"
@@ -33,7 +36,8 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should tokenize a function call") {
     lazy val input = "\tas_digits (5 * number)"
@@ -41,5 +45,7 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = Tokenizer_ (input ) .tokens
 
     assert (obtained == expected )
-  }
+
+}
+
 }

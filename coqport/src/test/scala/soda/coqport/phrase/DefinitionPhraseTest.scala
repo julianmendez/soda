@@ -5,5 +5,7 @@ trait DefinitionPhraseTest  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Definition test") {
 
-  }
+
+}
+
 }

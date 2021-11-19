@@ -10,7 +10,8 @@ case class MainSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.get_input_output_file_names ("my_file.soda")
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should get the input and output file names with path") {
     lazy val instance = Main ()
@@ -18,5 +19,7 @@ case class MainSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.get_input_output_file_names ("/path/to/file.soda")
 
     assert (obtained == expected )
-  }
+
+}
+
 }

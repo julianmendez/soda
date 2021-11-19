@@ -15,6 +15,7 @@ trait SaladMaker {
 
   def prepare_vegan_salad [Ingredient, Salad, VeganSalad <: Salad]  (list_of_ingredients: Seq [Ingredient], initial_bowl: VeganSalad, next_ingredient_function: (Salad, Ingredient ) => VeganSalad, condition_to_continue: (Salad, Ingredient ) => Boolean  ): Salad =
     _rec_prepare_vegan_salad (list_of_ingredients, initial_bowl, next_ingredient_function, condition_to_continue )
+
 }
 
 case class SaladMaker_ ()  extends SaladMaker

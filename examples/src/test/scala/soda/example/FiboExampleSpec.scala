@@ -11,5 +11,7 @@ case class FiboExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       .map (n => (n, FiboExampleInSoda_ () .fib (n )  )  )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

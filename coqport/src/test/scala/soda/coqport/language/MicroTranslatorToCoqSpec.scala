@@ -10,7 +10,8 @@ case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSui
     lazy val obtained = MicroTranslatorToCoq_ () .translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("Coq translation of a function") {
     lazy val original = "f (a: nat) = 0 ;"
@@ -19,5 +20,7 @@ case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSui
     lazy val obtained = MicroTranslatorToCoq_ () .translate_program (original )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

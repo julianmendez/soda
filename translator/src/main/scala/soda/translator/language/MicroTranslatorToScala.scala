@@ -156,6 +156,7 @@ trait MicroTranslatorToScala {
         ) line.substring (0, index_of_brace ) + tc.scala_match_translation + line.substring (index_of_brace, line.length )
         else line + tc.scala_match_translation
       result }
+
 }
 
 case class MicroTranslatorToScala_ ()  extends MicroTranslatorToScala
@@ -163,6 +164,7 @@ case class MicroTranslatorToScala_ ()  extends MicroTranslatorToScala
 trait Table {
 
   def table: Seq [(String, String )]
+
 }
 
 trait DefaultTranslator  extends Table  with soda.translator.replacement.Translator {
@@ -171,6 +173,7 @@ trait DefaultTranslator  extends Table  with soda.translator.replacement.Transla
 
   def translate (word: String ): String =
     table.toMap.get (word ) .getOrElse (word )
+
 }
 
 case class DefaultTranslator_ (table: Seq [(String, String )]  )  extends DefaultTranslator

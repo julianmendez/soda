@@ -13,7 +13,8 @@ package soda.lib
     )
 
     assert(obtained)
-  }
+
+}
 
   test("should detect an non empty sequence") {
     input = Seq(1)
@@ -24,7 +25,8 @@ package soda.lib
     )
 
     assert(obtained)
-  }
+
+}
 
   test("should get the maximum") {
     max_of_2(a: Int, b: Int): Int = if a > b then a else b
@@ -39,7 +41,8 @@ package soda.lib
       )
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should reverse a sequence") {
     input = SeqSDBuilder_().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
@@ -47,7 +50,8 @@ package soda.lib
     obtained = input.reverse
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should reverse another sequence") {
     input = SeqSDBuilder_().build( Seq(2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
@@ -58,6 +62,8 @@ package soda.lib
     )
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

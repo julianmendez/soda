@@ -120,6 +120,7 @@ trait DefinitionTranslatorToCoq  extends soda.translator.language.LineTranslator
   def get_index (line: String, pattern: String, start: Int ): OptionSD [Int] =
     SomeSD_ (line.indexOf (pattern, start )  )
       .filter (position => ! (position == -1 )  )
+
 }
 
 case class DefinitionTranslatorToCoq_ (line: String )  extends DefinitionTranslatorToCoq

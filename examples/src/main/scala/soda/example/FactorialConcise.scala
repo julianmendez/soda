@@ -4,6 +4,7 @@ package soda.example
 trait AbstractFactorialConcise {
 
   def get_factorial (n: Int ): Int
+
 }
 
 trait FactorialConcise  extends AbstractFactorialConcise {
@@ -17,6 +18,7 @@ trait FactorialConcise  extends AbstractFactorialConcise {
 
   def get_factorial (n: Int ): Int =
     _rec_get_factorial (n, 1 )
+
 }
 
 case class FactorialConcise_ ()  extends FactorialConcise

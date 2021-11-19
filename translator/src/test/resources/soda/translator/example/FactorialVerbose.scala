@@ -4,6 +4,7 @@ package soda.example
 trait AbstractFactorialVerbose {
 
   def get_factorial (n: Int ): Int
+
 }
 
 trait FactorialVerbose  extends AbstractFactorialVerbose {
@@ -17,6 +18,7 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
 
   def get_factorial (n: Int ) =
     _rec_get_factorial (n, 1 )
+
 }
 
 case class FactorialVerbose_ ()  extends FactorialVerbose

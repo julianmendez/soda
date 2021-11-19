@@ -59,6 +59,7 @@ trait CharTypeEnum extends soda.lib.Enum [CharType] {
 
   def is_backslash (ch: Char ): Boolean =
     ch == backslash_char
+
 }
 
 case class CharTypeEnum_ () extends CharTypeEnum

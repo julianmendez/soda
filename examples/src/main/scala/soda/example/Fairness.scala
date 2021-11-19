@@ -4,6 +4,7 @@ package soda.example
 trait Applicant {
 
   def background_score: Double
+
 }
 
 trait AbstractFairness {
@@ -17,6 +18,7 @@ trait AbstractFairness {
   def measure_time: Any => Double
 
   def maximum_execution_time: Double
+
 }
 
 trait Fairness  extends AbstractFairness {
@@ -39,4 +41,5 @@ trait Fairness  extends AbstractFairness {
     if (measure_time (rank (applicant )  ) < maximum_execution_time
     ) true
     else false
+
 }

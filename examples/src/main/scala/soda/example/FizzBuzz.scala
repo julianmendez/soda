@@ -21,6 +21,7 @@ trait FizzBuzz {
 
   def is_divisible_by (n: Int, k: Int ): Boolean =
     n % k == 0
+
 }
 
 case class FizzBuzz_ ()  extends FizzBuzz

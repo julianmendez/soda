@@ -4,10 +4,12 @@ package soda.translator.replacement
 * SingleLineProcessor = {
 
   has line: String
+
 }
 
 * MultiLineProcessor = {
 
   has lines: Seq[String]
+
 }
 

@@ -253,6 +253,7 @@ package soda.coqport.language
 
   is_soda_word(word: String): Boolean =
     soda_reserved_words.contains(word)
+
 }
 
 * TranslationConstantToCoq_()

@@ -20,7 +20,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should leave content of apostrophes unchanged") {
     input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
@@ -28,7 +29,8 @@ package soda.translator.language
     obtained = instance.translate_program(input)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should leave content of quotation marks unchanged") {
     input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
@@ -36,7 +38,8 @@ package soda.translator.language
     obtained = instance.translate_program(input)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should translate classes") {
     original =
@@ -80,7 +83,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should translate type aliases") {
     original =
@@ -100,7 +104,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should translate a tuple assignment") {
     original = "  (x, y) = (f(a), g(a))" +
@@ -114,7 +119,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should translate a pattern matching") {
     original = "fibo(n: Int): Int = " +
@@ -122,19 +128,20 @@ package soda.translator.language
       "\n  | 0 -> 1 " +
       "\n  | 1 -> 1 " +
       "\n  | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     expected = "def fibo (n: Int ): Int =" +
       "\n  n  match {" +
       "\n  case 0 => 1 " +
       "\n  case 1 => 1 " +
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
 
   test("should translate another pattern matching") {
@@ -154,7 +161,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should ignore a pattern matching written in the Scala style") {
     original = "fibo(n: Int): Int = " +
@@ -162,19 +170,20 @@ package soda.translator.language
       "\n  | 0 -> 1 " +
       "\n  | 1 -> 1 " +
       "\n  | m -> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     expected = "def fibo (n: Int ): Int =" +
       "\n  n match {" +
       "\n  case 0 => 1 " +
       "\n  case 1 => 1 " +
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
-      "\n  }" +
+      "\n}" +
       "\n"
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("should translate an explicit lambda expression") {
     original = "plus_1: Int = (lambda x: Int) -> x + 1" +
@@ -184,7 +193,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert(obtained == expected)
-  }
+
+}
 
   test ("should translate let in 1") {
     original = "let x = 0" +
@@ -195,7 +205,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert (obtained == expected)
-  }
+
+}
 
   test ("should translate let in 2") {
     original = "f(x: Int): Int =" +
@@ -208,7 +219,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert (obtained == expected)
-  }
+
+}
 
   test ("should translate let in 3") {
     original = "f(x: Int): Int =" +
@@ -223,7 +235,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert (obtained == expected)
-  }
+
+}
 
   test ("should translate let in 4") {
     original = "f(x: Int): Int =" +
@@ -240,7 +253,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert (obtained == expected)
-  }
+
+}
 
   test ("should translate let in 5") {
     original = "f(x: Int): Int =" +
@@ -259,6 +273,8 @@ package soda.translator.language
     obtained = instance.translate_program(original)
 
     assert (obtained == expected)
-  }
+
+}
+
 }
 

@@ -9,7 +9,8 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
      lazy val expected = CharTypeEnum_ () .quotes_type
 
      assert (obtained == expected )
-   }
+
+}
 
    test ("should recognize apostrophes") {
      lazy val input = '\''
@@ -17,7 +18,8 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
      lazy val expected = CharTypeEnum_ () .apostrophe_type
 
      assert (obtained == expected )
-   }
+
+}
 
    test ("should recognize backslash") {
      lazy val input = '\\'
@@ -25,7 +27,8 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
      lazy val expected = CharTypeEnum_ () .backslash_type
 
      assert (obtained == expected )
-   }
+
+}
 
    test ("should recognize a simple char") {
      lazy val input = 'a'
@@ -33,7 +36,8 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
      lazy val expected = CharTypeEnum_ () .plain_type
 
      assert (obtained == expected )
-   }
+
+}
 
    test ("should recognize plain text") {
      lazy val inputStr = "This is plain text with symbols. 0123456789 _ . !?"
@@ -45,5 +49,7 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
          .toSeq
 
      assert (obtained == expected )
-   }
+
+}
+
 }

@@ -12,7 +12,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     assert (empty.isEmpty &&
       ! empty.isDefined &&
       ! empty.isNonEmpty )
-  }
+
+}
 
   test ("should test a non empty option") {
     lazy val element = SomeSD_ (1 )
@@ -20,7 +21,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     assert (! element.isEmpty &&
       element.isDefined &&
       element.isNonEmpty )
-  }
+
+}
 
   test ("should get a default value, when empty") {
     lazy val empty = NoneSD_ [Int]  ()
@@ -28,7 +30,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.getOrElse (1 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should get a value") {
     lazy val empty = SomeSD_ [Int]  (2 )
@@ -36,7 +39,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.getOrElse (1 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should open an empty option") {
     lazy val result_if_empty: String = "It is empty."
@@ -46,7 +50,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should open an non empty option") {
     lazy val result_if_empty: String = "It is empty."
@@ -56,7 +61,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = some_element.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should try fold an empty option") {
     lazy val result_if_empty: String = "It is empty."
@@ -66,7 +72,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should try fold an non empty option") {
     lazy val result_if_empty: String = "It is empty."
@@ -76,7 +83,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = some_element.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should map empty to empty") {
     def to_string (n: Int ): String = "" + n
@@ -85,7 +93,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.map (to_string )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should map a non-empty to another non-empty") {
     def to_string (n: Int ): String = "" + n
@@ -94,7 +103,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = some_element.map (to_string )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should flat map empty to empty") {
     def to_string (n: Int ): SomeSD_ [String] = SomeSD_ [String]  ("" + n )
@@ -103,7 +113,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = empty.flatMap (to_string )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should flat map a non-empty to another non-empty") {
     def to_string (n: Int ): SomeSD_ [String] = SomeSD_ [String]  ("" + n )
@@ -112,7 +123,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = some_element.flatMap (to_string )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("should try how successive applications of open works") {
     def toInt (s: String ): OptionSD [Int] =
@@ -135,7 +147,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
                   SomeSD_ (a + b + c ) ) ) )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toOption with non empty option") {
     lazy val input: OptionSD [Int] = SomeSD_ (1 )
@@ -143,7 +156,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toOption
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toOption with another non empty option") {
     lazy val input: SomeSD_ [Int] = SomeSD_ (2 )
@@ -151,7 +165,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toOption
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toOption with empty option") {
     lazy val input: OptionSD [Int] = NoneSD_ ()
@@ -159,7 +174,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toOption
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toSeq with non empty option") {
     lazy val input: OptionSD [Int] = SomeSD_ (1 )
@@ -167,7 +183,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toSeq
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toSeq with another non empty option") {
     lazy val input: SomeSD_ [Int] = SomeSD_ (2 )
@@ -175,7 +192,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toSeq
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("toSeq with empty option") {
     lazy val input: OptionSD [Int] = NoneSD_ ()
@@ -183,7 +201,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.toSeq
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("filter should work for None") {
     lazy val input = NoneSD_ [Int]  ()
@@ -191,7 +210,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.filter (x => true )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("filter should work for Some, if predicate does not hold") {
     lazy val input = SomeSD_ [Int]  (0 )
@@ -199,7 +219,8 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.filter (x => x > 0 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("filter should work for Some, if predicate holds") {
     lazy val input = SomeSD_ [Int]  (1 )
@@ -207,5 +228,7 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = input.filter (x => x > 0 )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

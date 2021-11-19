@@ -13,7 +13,8 @@ package soda.example.forcoq
          if (not (condition (current_value) (head) ) )
          then current_value
          else _rec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition) ;
-    } ;
+
+} ;
 
   fold4 [A, B] (sequence: Seq [A]) (initial_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B =
     _rec_fold4 (sequence) (initial_value) (next_value_function) (condition) ;
@@ -23,7 +24,8 @@ package soda.example.forcoq
     match sequence {
       | Nil -> current_value
       | (head) :: (tail) -> _rec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
-    } ;
+
+} ;
 
   fold3 [A, B] (sequence: Seq [A]) (initial_value: B) (next_value_function: B -> A -> B): B =
     _rec_fold3 (sequence) (initial_value) (next_value_function) ;
@@ -36,6 +38,7 @@ package soda.example.forcoq
 
   range (length: Int): Seq [Int] =
     _rec_range (length) ( Nil ) ;
+
 }
 
 * RecursionForCoq_()

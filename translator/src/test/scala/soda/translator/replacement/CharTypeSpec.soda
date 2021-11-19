@@ -10,7 +10,8 @@ package soda.translator.replacement
      expected = CharTypeEnum_().quotes_type
 
      assert(obtained == expected)
-   }
+
+}
 
    test("should recognize apostrophes") {
      input = '\''
@@ -18,7 +19,8 @@ package soda.translator.replacement
      expected = CharTypeEnum_().apostrophe_type
 
      assert(obtained == expected)
-   }
+
+}
 
    test("should recognize backslash") {
      input = '\\'
@@ -26,7 +28,8 @@ package soda.translator.replacement
      expected = CharTypeEnum_().backslash_type
 
      assert(obtained == expected)
-   }
+
+}
 
    test("should recognize a simple char") {
      input = 'a'
@@ -34,7 +37,8 @@ package soda.translator.replacement
      expected = CharTypeEnum_().plain_type
 
      assert(obtained == expected)
-   }
+
+}
 
    test("should recognize plain text") {
      inputStr = "This is plain text with symbols. 0123456789 _ . !?"
@@ -46,6 +50,8 @@ package soda.translator.replacement
          .toSeq
 
      assert(obtained == expected)
-   }
+
+}
+
 }
 

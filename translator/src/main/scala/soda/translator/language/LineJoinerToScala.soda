@@ -50,6 +50,7 @@ package soda.translator.language
     tc.reserved_word_joiner
       .map(x -> x + space)
       .exists(current_line.startsWith)
+
 }
 
 * LineJoinerToScala_(lines: Seq[String])
@@ -89,6 +90,7 @@ package soda.translator.language
 
   _rev_list_as_element(in_process_rev: Seq[String], line: String): String =
     in_process_rev.reverse.mkString("") + line
+
 }
 
 * Joiner_(lines_to_join: Seq[String], is_a_join: (String, String) -> Boolean)
@@ -101,6 +103,7 @@ package soda.translator.language
   has processed_rev: Seq[String]
 
   has previous_line: String
+
 }
 
 * JoinerFoldTuple_(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)

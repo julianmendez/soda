@@ -33,6 +33,7 @@ trait ParserStateEnum  extends soda.lib.Enum [ParserState] {
   def is_like (x: ParserState, y: ParserState ): Boolean =
     (x == quotes_state && y == quotes_backslash_state ) ||
       (x == apostrophe_state && y == apostrophe_backslash_state )
+
 }
 
 case class ParserStateEnum_ ()  extends ParserStateEnum
@@ -53,6 +54,7 @@ trait ParserTransition {
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
     transitions_that_change_states.getOrElse ((parser_state, char_type ), parser_state )
+
 }
 
 case class ParserTransition_ ()  extends ParserTransition

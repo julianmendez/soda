@@ -18,7 +18,8 @@ package soda.translator.language
     obtained = MicroTranslatorToScala_().translate_program(program)
 
     assert(obtained == expected)
-  }
+
+}
 
   test("some synonyms are Scala reserved words") {
     program = "" +
@@ -35,6 +36,8 @@ package soda.translator.language
     obtained = MicroTranslatorToScala_().translate_program(program)
 
     assert(obtained == expected)
-  }
+
+}
+
 }
 

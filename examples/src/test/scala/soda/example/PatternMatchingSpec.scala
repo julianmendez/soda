@@ -15,7 +15,8 @@ case class PatternMatchingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained_name = instance.get_type_name (input )
 
     assert (obtained_name == expected_name )
-  }
+
+}
 
   test ("get value and name of pair") {
     lazy val input = Pair (10, 100 )
@@ -28,7 +29,8 @@ case class PatternMatchingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained_name = instance.get_type_name (input )
 
     assert (obtained_name == expected_name )
-  }
+
+}
 
   test ("get value and name of triplet") {
     lazy val input = Triplet (9, 100, 890 )
@@ -41,5 +43,7 @@ case class PatternMatchingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained_name = instance.get_type_name (input )
 
     assert (obtained_name == expected_name )
-  }
+
+}
+
 }

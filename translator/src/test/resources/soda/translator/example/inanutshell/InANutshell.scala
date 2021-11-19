@@ -35,6 +35,7 @@ trait InANutshell {
     if (a > b
     ) a
     else b
+
 }
 
 trait MaxAndMin {
@@ -48,6 +49,7 @@ trait MaxAndMin {
     if (a < b
     ) a
     else b
+
 }
 
 case class ConcreteMaxAndMin ()  extends MaxAndMin
@@ -57,12 +59,14 @@ case class MinMaxPair (min: Int, max: Int )
 trait Indexable {
 
   def index: Int
+
 }
 
 trait Example  extends Indexable {
 
   def min_max (a: Int, b: Int ): MinMaxPair =
     MinMaxPair (min = ConcreteMaxAndMin () .min (a, b ), max = ConcreteMaxAndMin () .max (a, b )    )
+
 }
 
 case class Example_ (index: Int )  extends Example
@@ -70,6 +74,7 @@ case class Example_ (index: Int )  extends Example
 trait Comparable {
 
   def is_greater_than (x: Comparable ): Boolean
+
 }
 
 trait ComparableMax [T <: Comparable] {
@@ -78,11 +83,13 @@ trait ComparableMax [T <: Comparable] {
     if (a.is_greater_than (b )
     ) a
     else b
+
 }
 
 trait WithInstance {
 
   def instance_parameter: Int
+
 }
 
 trait MyClass   extends WithInstance {
@@ -90,17 +97,20 @@ trait MyClass   extends WithInstance {
   lazy val class_constant: Int = 1
 
   def another_function (x: Int ): Int = 2 * x
+
 }
 
 trait TimeOfToday {
   import java.util.Date
 
   lazy val get_time: Date = new Date ()
+
 }
 
 trait MainClass {
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
+
 }
 
 case class Main () extends MainClass
@@ -111,4 +121,5 @@ trait PersonName {
 
   override
   lazy val toString = name
+
 }

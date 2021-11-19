@@ -10,7 +10,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = SortExampleWithAt_ () .is_sorted (sorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("test unsorted sequence with at") {
     lazy val unsorted_sequence = Seq (1, 3, 5, 4, 8, 9 )
@@ -18,7 +19,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = SortExampleWithAt_ () .is_sorted (unsorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("test sorted sequence with zip") {
     lazy val sorted_sequence = Seq (1, 3, 5, 5, 8, 9 )
@@ -26,7 +28,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = SortExampleWithZip_ () .is_sorted (sorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("test unsorted sequence with zip") {
     lazy val unsorted_sequence = Seq (1, 3, 5, 4, 8, 9 )
@@ -34,7 +37,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = SortExampleWithZip_ () .is_sorted (unsorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("insert sorted simple") {
     lazy val instance = SortAlgorithmExampleWithFold_ ()
@@ -43,7 +47,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("insert sorted with repetition") {
     lazy val instance = SortAlgorithmExampleWithFold_ ()
@@ -52,7 +57,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("sort unsorted sequence") {
     lazy val instance = SortAlgorithmExampleWithFold_ ()
@@ -61,7 +67,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.sort (unsorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("sort unsorted sequence applying constraints to verify correctness") {
     lazy val instance = ConstrainedSortAlgorithm_ ()
@@ -70,7 +77,8 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val obtained = instance.sort (unsorted_sequence )
 
     assert (obtained == expected )
-  }
+
+}
 
   test ("sort unsorted sequence with SortedSequenceBuilder") {
     lazy val instance = SortedSequenceBuilder_ [Integer]  ()
@@ -83,5 +91,7 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         .map (x => x.intValue )
 
     assert (obtained == expected )
-  }
+
+}
+
 }

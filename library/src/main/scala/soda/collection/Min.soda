@@ -26,6 +26,7 @@ package soda.collection
       initial_value: Seq[T] = Seq()
       next_value(acc: Seq[T], elem: T): Seq[T] = acc.+:(elem)
     in Min_().foldLeft(mseq, initial_value, next_value).reverse
+
 }
 
 * MSeqTranslator_[T]()
@@ -36,6 +37,7 @@ package soda.collection
   has left: MSeq[T]
 
   has right: MSeq[T]
+
 }
 
 * MSeqPair_[T](left: MSeq[T], right: MSeq[T])
@@ -213,9 +215,11 @@ package soda.collection
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op(result, it.next())
-   * . }
+   * .
+}
    * . result
-   * }
+   *
+}
    * </pre>
    */
   foldLeft0(mseq: MSeq[T]): (MSeq[T], ((MSeq[T], T) -> MSeq[T])) -> MSeq[T] =
@@ -253,6 +257,7 @@ package soda.collection
       condition(tuple: SpanRevFoldTuple[T], elem: T): Boolean = tuple.taking
 
     in result
+
 }
 
 * Min_[T]() extends Min[T]
@@ -262,6 +267,7 @@ package soda.collection
   has index: Int
 
   has position: Int
+
 }
 
 * IndexFoldTuple_[T](index: Int, position: Int) extends IndexFoldTuple[T]
@@ -271,6 +277,7 @@ package soda.collection
   has elem: T
 
   has index: Int
+
 }
 
 * AtFoldTuple_[T](elem: T, index: Int) extends AtFoldTuple[T]
@@ -280,6 +287,7 @@ package soda.collection
   has seq: MSeq[T]
 
   has index: Int
+
 }
 
 * TakeDropFoldTuple_[T](seq: MSeq[T], index: Int) extends TakeDropFoldTuple[T]
@@ -291,6 +299,7 @@ package soda.collection
   has right: MSeq[T]
 
   has taking: Boolean
+
 }
 
 * SpanRevFoldTuple_[T](left: MSeq[T], right: MSeq[T], taking: Boolean) extends SpanRevFoldTuple[T]

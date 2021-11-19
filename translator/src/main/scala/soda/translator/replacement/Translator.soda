@@ -8,5 +8,6 @@ package soda.translator.replacement
   has translate(word: String): String
 
   has keys: Seq[String]
+
 }
 
