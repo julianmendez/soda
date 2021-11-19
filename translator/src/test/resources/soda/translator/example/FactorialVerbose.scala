@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait AbstractFactorialVerbose {
@@ -8,17 +8,15 @@ trait AbstractFactorialVerbose {
 
 trait FactorialVerbose  extends AbstractFactorialVerbose {
 
-  def get_factorial (n: Int ) =
-    {
-      lazy val result = rec (n, 1 )
-
-      import scala.annotation.tailrec
+  import scala.annotation.tailrec
         @tailrec  final
-      def rec (n: Int, product: Int ): Int =
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-      result }
+  def _rec_get_factorial (n: Int, product: Int ): Int =
+    if (n == 0
+    ) product
+    else _rec_get_factorial (n - 1, n * product )
+
+  def get_factorial (n: Int ) =
+    _rec_get_factorial (n, 1 )
 }
 
-case class FactorialVerbose_ () extends FactorialVerbose
+case class FactorialVerbose_ ()  extends FactorialVerbose

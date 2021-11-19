@@ -58,11 +58,9 @@ package soda.translator.replacement
   replace_only_beginning(line: String, translator: Translator): String =
     let
       initial_value: String = line
-
       next_value_function(line: String, reserved_word: String): String =
         replace_if_found_at_beginning(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
-
     in Recursion_().fold(translator.keys, initial_value, next_value_function)
 
   replace_if_found_at_beginning(line: String, pattern: String, new_text: String): String =
@@ -73,11 +71,9 @@ package soda.translator.replacement
   replace(line: String, translator: Translator): String =
     let
       initial_value: String = line
-
       next_value_function(line: String, reserved_word: String): String =
         replace_if_found(line,
           soda_space + reserved_word + soda_space, scala_space + translator.translate(reserved_word) + scala_space)
-
     in Recursion_().fold(translator.keys, initial_value, next_value_function)
 
   replace_if_found(line: String, pattern: String, new_text: String): String =
@@ -102,7 +98,6 @@ package soda.translator.replacement
             not line(index + 1).isWhitespace
           then scala_space
           else ""
-
       in left_part + ch + right_part
     ).mkString("")
 

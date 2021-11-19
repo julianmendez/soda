@@ -170,19 +170,16 @@ trait Manual {
    * The block starts with a `let` containing the intermediate functions in no particular order.
    * This block is evaluated in an expression after the `in`. */
   def sum (n: Int ) =
-    {
-      lazy val result = rec (n, 0 )
+    _rec (n, 0 )
 
-      /* A tail recursive function should be declared inside another function.
-       * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
-      import scala.annotation.tailrec
+  /* A tail recursive function cannot be declared insider another function, and its name could start with underscore '_'.
+   * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
+  import scala.annotation.tailrec
         @tailrec  final
-      def rec (n: Int, accum: Int ): Int =
-        if (n < 0
-        ) accum
-        else rec (n - 1, n + accum )
-
-      result }
+  def _rec (n: Int, accum: Int ): Int =
+    if (n < 0
+    ) accum
+    else _rec (n - 1, n + accum )
 
   def f0 (x: Int ): Int =
     {
@@ -209,18 +206,17 @@ trait AbstractFactorialConcise {
 
 trait FactorialConcise  extends AbstractFactorialConcise {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec (n: Int, product: Int ): Int =
+    /* The function to compare equality is a long equals (`==`). */
+    if (n == 0
+    ) product
+    else _rec (n - 1, n * product )
+
   def factorial (n: Int ) =
     {
-      lazy val result = rec (n, 1 )
-
-      import scala.annotation.tailrec
-        @tailrec  final
-      def rec (n: Int, product: Int ): Int =
-        /* The function to compare equality is a long equals (`==`). */
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-
+      lazy val result = _rec (n, 1 )
       result }
 }
 
@@ -232,46 +228,43 @@ trait AbstractFactorialVerbose {
 
 trait FactorialVerbose  extends AbstractFactorialVerbose {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec (n: Int, product: Int ): Int =
+    if (n == 0
+    ) product
+    else _rec (n - 1, n * product )
+
   def factorial (n: Int ) =
     {
-      lazy val result = rec (n, 1 )
-
-      import scala.annotation.tailrec
-        @tailrec  final
-      def rec (n: Int, product: Int ): Int =
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-
+      lazy val result = _rec (n, 1 )
       result }
 }
 
 trait Recursion {
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
-    {
-      import scala.annotation.tailrec
+  import scala.annotation.tailrec
         @tailrec  final
-      def rec (seq: Seq [A], acc: C ): C =
-        if (seq.isEmpty
-        ) acc
-        else
-          if (! condition (acc, seq.head )
-          ) acc
-          else rec (seq.tail, next_value_function (acc, seq.head )  )
+  def _rec_fold4 [A, B, C <: B]  (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else
+      if (! condition (current_value, sequence.head )
+      ) current_value
+      else _rec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-      rec (sequence, initial_value ) }
+  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
+    _rec_fold4 (sequence, initial_value, next_value_function, condition )
+
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _rec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
+    if (n <= 0
+    ) sequence
+    else _rec_range (n - 1, sequence.+: (n - 1 )  )
 
   def range (length: Int ): Seq [Int] =
-    {
-      import scala.annotation.tailrec
-        @tailrec  final
-      def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
-        if (n <= 0
-        ) seq
-        else rec (n - 1, seq.+: (n - 1 )  )
-
-      rec (length, Seq [Int]  ()  ) }
+    _rec_range (length, Seq [Int]  ()  )
 }
 
 case class Recursion_ () extends Recursion

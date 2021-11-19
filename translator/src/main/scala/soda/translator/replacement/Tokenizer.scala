@@ -49,7 +49,6 @@ trait Tokenizer  extends SingleLineProcessor {
         ) current_index + 1
         else current_index
       lazy val text = line.substring (tuple.last_index, index )
-
       TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (text, tuple.parser_state, tuple.last_index )  )  ) }
 }
 

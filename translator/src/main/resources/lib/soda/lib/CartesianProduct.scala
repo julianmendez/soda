@@ -9,7 +9,14 @@ package soda.lib
  */
 trait CartesianProduct {
 
-  def get_cartesian_product [T]  (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
+  def _initial_value [T] (seq: Seq [T]  ): Seq [Seq [T]] =
+    seq.map (elem => Seq (elem )  )
+
+  def _next_value [T] (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
+    seq_a.flatMap (elem_a =>
+      accum.map (seq_b => seq_b.+: (elem_a ) ) )
+
+  def get_cartesian_product [T] (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
     {
       lazy val result =
         if (sequences.isEmpty
@@ -17,14 +24,7 @@ trait CartesianProduct {
         else
           {
             lazy val rev_sequences = sequences.reverse
-            Recursion_ () .fold (rev_sequences.tail, initial_value (rev_sequences.head ), next_value ) }
-
-      def initial_value (seq: Seq [T]  ): Seq [Seq [T]] = seq.map (elem => Seq (elem )  )
-
-      def next_value (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
-        seq_a.flatMap (elem_a =>
-          accum.map (seq_b => seq_b.+: (elem_a ) ) )
-
+            Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value ) }
       result }
 }
 

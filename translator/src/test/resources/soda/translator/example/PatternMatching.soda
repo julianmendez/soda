@@ -1,0 +1,48 @@
+package soda.example
+
+
+* Parameter {
+
+  has name: String
+}
+
+* PatternMatching = {
+
+  get_value(p: Parameter): Int =
+    match p {
+      | Singleton(x) -> x
+      | Pair(x, y) -> (x + y) / 2
+      | Triplet(x, y, z) -> (x + y + z) / 3
+      | otherwise -> 0
+    }
+
+  get_type_name(p: Parameter): String =
+    match p {
+      | x: Singleton -> x.name + "(x)"
+      | x: Pair -> x.name + "(x, y)"
+      | x: Triplet -> x.name + "(x, y, z)"
+      | otherwise -> ""
+    }
+}
+
+* PatternMatching_()
+  extends PatternMatching
+
+* Singleton(x: Int)
+  extends Parameter = {
+
+  name = "singleton"
+}
+
+* Pair(x: Int, y: Int)
+  extends Parameter = {
+
+  name = "pair"
+}
+
+* Triplet(x: Int, y: Int, z: Int)
+  extends Parameter = {
+
+  name = "triplet"
+}
+

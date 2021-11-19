@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 * FizzBuzz = {
@@ -10,7 +10,7 @@ package soda.translator.example
   fizz_buzz =
     Recursion_()
       .range(100)
-      .map(x -> x + 1)
+      .map((lambda x: Int) -> x + 1)
       .map(get_fizz_buzz_term)
 
   get_fizz_buzz_term(n: Int) =
@@ -23,5 +23,6 @@ package soda.translator.example
     n % k == 0
 }
 
-* FizzBuzz_() extends FizzBuzz
+* FizzBuzz_()
+  extends FizzBuzz
 

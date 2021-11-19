@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 trait AbstractFactorialConcise {
@@ -8,18 +8,15 @@ trait AbstractFactorialConcise {
 
 trait FactorialConcise  extends AbstractFactorialConcise {
 
-  def get_factorial (n: Int ) =
-    {
-      lazy val result = rec (n, 1 )
-
-      import scala.annotation.tailrec
+  import scala.annotation.tailrec
         @tailrec  final
-      def rec (n: Int, product: Int ): Int =
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
+  def _rec_get_factorial (n: Int, product: Int ): Int =
+    if (n == 0
+    ) product
+    else _rec_get_factorial (n - 1, n * product )
 
-      result }
+  def get_factorial (n: Int ): Int =
+    _rec_get_factorial (n, 1 )
 }
 
-case class FactorialConcise_ () extends FactorialConcise
+case class FactorialConcise_ ()  extends FactorialConcise

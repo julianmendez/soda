@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 trait PairExample {
 
@@ -7,7 +7,7 @@ trait PairExample {
   def right: Int
 }
 
-case class PairExample_ (left: Int, right: Int ) extends PairExample
+case class PairExample_ (left: Int, right: Int )  extends PairExample
 
 trait SwapExample {
 

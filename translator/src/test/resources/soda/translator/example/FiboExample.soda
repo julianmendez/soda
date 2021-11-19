@@ -1,4 +1,4 @@
-package soda.translator.example
+package soda.example
 
 
 class FiboExample is {
@@ -9,15 +9,18 @@ class FiboExample is {
 class FiboExampleInSoda
   extends FiboExample is {
 
+  _rec (m: Int, a: Int, b: Int): Int is
+    if m == 0 then a
+    else if m == 1 then b
+    else _rec (m - 1, b, a + b)
+
   fib (n: Int) is
     let
-      result is rec (n, 0, 1)
-
-      rec (m: Int, a: Int, b: Int): Int is
-        if m == 0 then a
-        else if m == 1 then b
-        else rec (m - 1, b, a + b)
-
+      result is _rec (n, 0, 1)
     in result
 }
+
+class FiboExampleInSoda_()
+  extends FiboExampleInSoda
+
 

@@ -51,7 +51,6 @@ package soda.translator.replacement
         then current_index + 1
         else current_index
       text = line.substring(tuple.last_index, index)
-
     in TokenizerFoldTuple_(index, new_parser_state,
         tuple.rev_tokens.+:(Token_(text, tuple.parser_state, tuple.last_index)))
 }

@@ -56,10 +56,8 @@ trait ReplacementAux {
   def replace_only_beginning (line: String, translator: Translator ): String =
     {
       lazy val initial_value: String = line
-
       def next_value_function (line: String, reserved_word: String ): String =
         replace_if_found_at_beginning (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
-
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
   def replace_if_found_at_beginning (line: String, pattern: String, new_text: String ): String =
@@ -70,10 +68,8 @@ trait ReplacementAux {
   def replace (line: String, translator: Translator ): String =
     {
       lazy val initial_value: String = line
-
       def next_value_function (line: String, reserved_word: String ): String =
         replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
-
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
   def replace_if_found (line: String, pattern: String, new_text: String ): String =
@@ -98,7 +94,6 @@ trait ReplacementAux {
             ! line (index + 1 ) .isWhitespace
           ) scala_space
           else ""
-
         left_part + ch + right_part }    ) .mkString ("")
 
   def remove_space_from_scala_line (line: String ): String =

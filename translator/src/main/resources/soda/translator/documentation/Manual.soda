@@ -171,18 +171,15 @@ class Manual = {
    * The block starts with a `let` containing the intermediate functions in no particular order.
    * This block is evaluated in an expression after the `in`. */
   sum (n: Int) =
-    let
-      result = rec (n, 0)
+    _rec (n, 0)
 
-      /* A tail recursive function should be declared inside another function.
-       * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
-      @tailrec
-      rec (n: Int, accum: Int): Int =
-        if n < 0
-        then accum
-        else rec (n - 1, n + accum)
-
-    in result
+  /* A tail recursive function cannot be declared insider another function, and its name could start with underscore '_'.
+   * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
+  @tailrec
+  _rec (n: Int, accum: Int): Int =
+    if n < 0
+    then accum
+    else _rec (n - 1, n + accum)
 
   f0 (x: Int): Int =
     let
@@ -210,17 +207,16 @@ class Manual = {
 * FactorialConcise
   extends AbstractFactorialConcise = {
 
+  @tailrec
+  _rec (n: Int, product: Int): Int =
+    /* The function to compare equality is a long equals (`==`). */
+    if n == 0
+    then product
+    else _rec (n - 1, n * product)
+
   factorial (n: Int) =
     let
-      result = rec (n, 1)
-
-      @tailrec
-      rec (n: Int, product: Int): Int =
-        /* The function to compare equality is a long equals (`==`). */
-        if n == 0
-        then product
-        else rec (n - 1, n * product)
-
+      result = _rec (n, 1)
     in result
 }
 
@@ -233,20 +229,33 @@ class AbstractFactorialVerbose is {
 class FactorialVerbose
   extends AbstractFactorialVerbose is {
 
+  @tailrec
+  _rec (n: Int, product: Int): Int is
+    if n == 0
+    then product
+    else _rec (n - 1, n * product)
+
   factorial (n: Int) is
     let
-      result is rec (n, 1)
-
-      @tailrec
-      rec (n: Int, product: Int): Int is
-        if n == 0
-        then product
-        else rec (n - 1, n * product)
-
+      result is _rec (n, 1)
     in result
 }
 
 class Recursion = {
+
+  @tailrec
+  _rec_fold4[A, B, C subtype B](
+             sequence: Seq[A],
+             current_value: C,
+             next_value_function: (B, A) -> C,
+             condition: (B, A) -> Boolean
+         ): C =
+    if sequence.isEmpty
+    then current_value
+    else
+      if not condition(current_value, sequence.head)
+      then current_value
+      else _rec_fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
 
   fold[A, B, C subtype B](
       sequence: Seq[A],
@@ -254,27 +263,16 @@ class Recursion = {
       next_value_function: (B, A) -> C,
       condition: (B, A) -> Boolean
   ): C =
-    let
-      @tailrec
-      rec(seq: Seq[A], acc: C): C =
-        if seq.isEmpty
-        then acc
-        else
-          if not condition(acc, seq.head)
-          then acc
-          else rec(seq.tail, next_value_function(acc, seq.head))
+    _rec_fold4(sequence, initial_value, next_value_function, condition)
 
-    in rec(sequence, initial_value)
+  @tailrec
+  _rec_range(n: Int, sequence: Seq[Int]): Seq[Int] =
+    if n <= 0
+    then sequence
+    else _rec_range(n - 1, sequence.+:(n - 1))
 
   range(length: Int): Seq[Int] =
-    let
-      @tailrec
-      rec(n: Int, seq: Seq[Int]): Seq[Int] =
-        if n <= 0
-        then seq
-        else rec(n - 1, seq.+:(n - 1))
-
-    in rec(length, Seq[Int]())
+    _rec_range(length, Seq[Int]())
 }
 
 class Recursion_() extends Recursion
