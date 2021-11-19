@@ -1,0 +1,28 @@
+package soda.example.pricemonitor
+
+
+class Report1 (compliant: Boolean, price_for_c1: Int, price_for_c2: Int, similarity: Double)
+
+class Requirement1Monitor
+ extends RequirementMonitor = {
+
+  minimum_acceptable_similarity = 0.95
+
+  get_report (c1: Customer, c2: Customer, flight: Flight, date_in_days: Int): Report1 =
+    let
+      price_for_c1 = get_price (c1, flight, date_in_days)
+      price_for_c2 = get_price (c2, flight, date_in_days)
+      similarity = 1.0 * min (price_for_c1, price_for_c2) / max (price_for_c1, price_for_c2)
+    in Report1 (minimum_acceptable_similarity <= similarity, price_for_c1, price_for_c2, similarity)
+
+  min (x: Int, y: Int): Int =
+    if x < y then x else y
+
+  max (x: Int, y: Int): Int =
+    if x < y then y else x
+
+}
+
+class Requirement1Monitor_(pricing_agent: PricingAgent)
+  extends Requirement1Monitor
+

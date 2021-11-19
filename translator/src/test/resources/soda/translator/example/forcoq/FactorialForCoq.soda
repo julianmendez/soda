@@ -1,0 +1,22 @@
+package soda.example.forcoq
+
+
+* FactorialForCoq = {
+  + soda.example.forcoq.lib.{nat, O, S
+}
+
+  _rec_get_factorial (m: nat) (product: nat): nat =
+    match m {
+      | O() -> product
+      | S (k) -> _rec_get_factorial (k) (product .mul ( S (k) ))
+
+} ;
+
+  get_factorial (n: nat): nat =
+    _rec_get_factorial (n) (S ( O() ) ) ;
+
+}
+
+* FactorialForCoq_()
+  extends FactorialForCoq
+
