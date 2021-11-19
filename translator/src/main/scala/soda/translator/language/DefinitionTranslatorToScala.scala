@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.language
 
 
 trait LineTranslator {
@@ -30,13 +30,13 @@ trait LineTranslator {
  * This is no longer supported.
  *
  */
-trait DefinitionTranslator  extends LineTranslator {
+trait DefinitionTranslatorToScala  extends LineTranslator {
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.translator.replacement.Replacement
   import soda.translator.replacement.Replacement_
 
-  lazy val tc = TranslationConstant_ ()
+  lazy val tc = TranslationConstantToScala_ ()
 
   lazy val trimmed_line = line.trim
 
@@ -127,4 +127,4 @@ trait DefinitionTranslator  extends LineTranslator {
       .filter (position => ! (position == -1 )  )
 }
 
-case class DefinitionTranslator_ (line: String ) extends DefinitionTranslator
+case class DefinitionTranslatorToScala_ (line: String )  extends DefinitionTranslatorToScala

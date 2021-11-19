@@ -1,7 +1,9 @@
 package soda.translator.language
 
 
-case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+
+  lazy val instance = MicroTranslatorToScala_ ()
 
   test ("should translate a small snippet") {
     lazy val original = "  input_lines = Seq(" +
@@ -14,7 +16,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -22,7 +24,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("should leave content of apostrophes unchanged") {
     lazy val input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     lazy val expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (input )
+    lazy val obtained = instance.translate_program (input )
 
     assert (obtained == expected )
   }
@@ -30,7 +32,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("should leave content of quotation marks unchanged") {
     lazy val input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (input )
+    lazy val obtained = instance.translate_program (input )
 
     assert (obtained == expected )
   }
@@ -74,7 +76,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n  def i (x: T ): T = x" +
       "\n}" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -94,7 +96,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n" +
       "\ntype M = Map [Int, Seq [Int]]" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -108,7 +110,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n  lazy val (p, q ) =" +
       "\n    h (1, 2 )" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -128,7 +130,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n  }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -148,7 +150,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n    case 1 => 1 " +
       "\n    case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -168,7 +170,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n  }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -178,7 +180,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n"
     lazy val expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -189,7 +191,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val expected = "{ lazy val x = 0" +
       "\n   x + x }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -202,7 +204,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n  { lazy val y = x + x" +
       "\n    y }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -217,7 +219,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n    lazy val y = x + x" +
       "\n    y }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -234,7 +236,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n   lazy val z = y + y" +
       "\n    z }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }
@@ -253,7 +255,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\n    lazy val z = y + y" +
       "\n    z }" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = instance.translate_program (original )
 
     assert (obtained == expected )
   }

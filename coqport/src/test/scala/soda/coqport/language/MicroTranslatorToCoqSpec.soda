@@ -1,14 +1,14 @@
 package soda.coqport.language
 
 
-* MicroTranslatorSpec()
+* MicroTranslatorToCoqSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   test("Coq translation of a constant") {
     original = "x = 0 ;"
     expected = "Definition x := 0 .\n"
 
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = MicroTranslatorToCoq_().translate_program(original)
 
     assert(obtained == expected)
   }
@@ -17,7 +17,7 @@ package soda.coqport.language
     original = "f (a: nat) = 0 ;"
     expected = "Definition f (a: nat ) := 0 .\n"
 
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = MicroTranslatorToCoq_().translate_program(original)
 
     assert(obtained == expected)
   }

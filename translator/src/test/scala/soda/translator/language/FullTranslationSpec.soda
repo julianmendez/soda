@@ -33,7 +33,7 @@ package soda.translator.language
     let
       input_file = read_file(input_file_name)
       expected = read_file(expected_file_name)
-      obtained = MicroTranslator_().translate_program(input_file)
+      obtained = MicroTranslatorToScala_().translate_program(input_file)
     in assert(obtained == expected)
 
   read_file(file_name: String): String =

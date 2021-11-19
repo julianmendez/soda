@@ -9,7 +9,7 @@ object EntryPoint {
  * This is the main entry point.
  */
 trait MainClass {
-  import soda.translator.language.MicroTranslator_
+  import soda.translator.language.MicroTranslatorToScala_
   import java.io.File
 
   lazy val soda_extension: String = ".soda"
@@ -48,11 +48,11 @@ trait MainClass {
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = MicroTranslator_ () .translate_program (input )
+      lazy val output = MicroTranslatorToScala_ () .translate_program (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 }
 
-case class Main () extends MainClass
+case class Main ()  extends MainClass
 
 trait FileNamePair {
 
@@ -61,4 +61,4 @@ trait FileNamePair {
   def output_file_name: String
 }
 
-case class FileNamePair_ (input_file_name: String, output_file_name: String ) extends FileNamePair
+case class FileNamePair_ (input_file_name: String, output_file_name: String )  extends FileNamePair

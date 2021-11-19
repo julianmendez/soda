@@ -4,7 +4,7 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-trait MicroTranslator {
+trait MicroTranslatorToScala {
   import soda.lib.SomeSD_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
@@ -14,7 +14,7 @@ trait MicroTranslator {
   import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Translator
 
-  lazy val tc = TranslationConstant_ ()
+  lazy val tc = TranslationConstantToScala_ ()
 
   lazy val new_line = "\n"
 
@@ -53,10 +53,10 @@ trait MicroTranslator {
     program.split (new_line ) .toIndexedSeq
 
   def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoiner_ (lines ) .joined_lines_with_forward_join
+    LineJoinerToScala_ (lines ) .joined_lines_with_forward_join
 
   def join_lines_with_backward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoiner_ (lines ) .joined_lines_with_backward_join
+    LineJoinerToScala_ (lines ) .joined_lines_with_backward_join
 
   def join_translated_lines (lines: Seq [String]  ): String =
     lines.mkString (new_line ) + new_line
@@ -100,12 +100,12 @@ trait MicroTranslator {
     if (line.contains (soda_opening_parenthesis )
     ) translation_at_beginning_with_paren
     else
-      if (DefinitionTranslator_ (line ) .condition_for_type_alias
+      if (DefinitionTranslatorToScala_ (line ) .condition_for_type_alias
       ) translation_at_beginning_without_paren_for_type_alias
       else translation_at_beginning_without_paren
 
   def try_definition (line: String ): String =
-    DefinitionTranslator_ (line ) .translation
+    DefinitionTranslatorToScala_ (line ) .translation
 
   def _join_tokens (tokens: Seq [Token]  ): String =
     tokens
@@ -158,7 +158,7 @@ trait MicroTranslator {
       result }
 }
 
-case class MicroTranslator_ () extends MicroTranslator
+case class MicroTranslatorToScala_ ()  extends MicroTranslatorToScala
 
 trait Table {
 
@@ -173,4 +173,4 @@ trait DefaultTranslator  extends Table  with soda.translator.replacement.Transla
     table.toMap.get (word ) .getOrElse (word )
 }
 
-case class DefaultTranslator_ (table: Seq [(String, String )]  ) extends DefaultTranslator
+case class DefaultTranslator_ (table: Seq [(String, String )]  )  extends DefaultTranslator

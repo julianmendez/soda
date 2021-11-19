@@ -2,9 +2,9 @@ package soda.translator.language
 
 
 
-trait LineJoiner  extends soda.translator.replacement.MultiLineProcessor {
+trait LineJoinerToScala  extends soda.translator.replacement.MultiLineProcessor {
 
-  lazy val tc = TranslationConstant_ ()
+  lazy val tc = TranslationConstantToScala_ ()
 
   lazy val comma = ","
 
@@ -51,7 +51,7 @@ trait LineJoiner  extends soda.translator.replacement.MultiLineProcessor {
       .exists (current_line.startsWith )
 }
 
-case class LineJoiner_ (lines: Seq [String]  ) extends LineJoiner
+case class LineJoinerToScala_ (lines: Seq [String]  )  extends LineJoinerToScala
 
 trait Joiner {
   import soda.lib.Recursion_
@@ -100,4 +100,4 @@ trait JoinerFoldTuple {
   def previous_line: String
 }
 
-case class JoinerFoldTuple_ (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String ) extends JoinerFoldTuple
+case class JoinerFoldTuple_ (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String )  extends JoinerFoldTuple

@@ -8,7 +8,7 @@ case class BeautifierSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "    original .  replaceAll(\"  \" ,  \" \")   \n"
     lazy val expected = "  def beautify_this  (original: String   ): String =\n" +
       "    original .replaceAll (\"  \", \" \")   \n"
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = MicroTranslatorToScala_ () .translate_program (original )
 
     assert (obtained == expected )
   }

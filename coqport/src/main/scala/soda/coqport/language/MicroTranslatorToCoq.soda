@@ -4,7 +4,7 @@ package soda.coqport.language
 /**
  * This class translates Soda snippets into Coq snippets.
  */
-* MicroTranslator = {
+* MicroTranslatorToCoq = {
   + soda.lib.SomeSD_
   + soda.translator.language.DefaultTranslator_
   + soda.translator.replacement.CommentPreprocessor_
@@ -14,11 +14,11 @@ package soda.coqport.language
   + soda.translator.replacement.Token
   + soda.translator.replacement.Token_
 
-  tc = TranslationConstant_()
+  tc = TranslationConstantToCoq_()
 
   new_line = "\n"
 
-  mtr = soda.translator.language.MicroTranslator_()
+  mtr = soda.translator.language.MicroTranslatorToScala_()
 
   soda_opening_parenthesis: String = "("
 
@@ -76,7 +76,7 @@ package soda.coqport.language
     )
 
   try_definition(line: String): String =
-    DefinitionTranslator_(line).translation
+    DefinitionTranslatorToCoq_(line).translation
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens
@@ -96,5 +96,6 @@ package soda.coqport.language
       .line
 }
 
-* MicroTranslator_() extends MicroTranslator
+* MicroTranslatorToCoq_()
+  extends MicroTranslatorToCoq
 

@@ -1,10 +1,5 @@
-package soda.translator.language
+package soda.coqport.language
 
-
-trait LineTranslator {
-
-  def line: String
-}
 
 /**
  * A line containing the definition sign will be classified as a definition.
@@ -30,13 +25,13 @@ trait LineTranslator {
  * This is no longer supported.
  *
  */
-trait DefinitionTranslator  extends LineTranslator {
+trait DefinitionTranslatorToCoq  extends soda.translator.language.LineTranslator {
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
   import soda.translator.replacement.Replacement
   import soda.translator.replacement.Replacement_
 
-  lazy val tc = TranslationConstant_ ()
+  lazy val tc = TranslationConstantToCoq_ ()
 
   lazy val trimmed_line = line.trim
 
@@ -127,4 +122,4 @@ trait DefinitionTranslator  extends LineTranslator {
       .filter (position => ! (position == -1 )  )
 }
 
-case class DefinitionTranslator_ (line: String ) extends DefinitionTranslator
+case class DefinitionTranslatorToCoq_ (line: String )  extends DefinitionTranslatorToCoq

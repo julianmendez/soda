@@ -4,7 +4,7 @@ package soda.translator.language
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-* TranslationConstant = {
+* TranslationConstantToScala = {
 
   soda_definition: String = "="
 
@@ -272,5 +272,6 @@ package soda.translator.language
     soda_reserved_words.contains(word)
 }
 
-* TranslationConstant_() extends TranslationConstant
+* TranslationConstantToScala_()
+  extends TranslationConstantToScala
 

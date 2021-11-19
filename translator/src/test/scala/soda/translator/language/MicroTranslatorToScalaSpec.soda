@@ -1,8 +1,10 @@
 package soda.translator.language
 
 
-* MicroTranslatorSpec()
+* MicroTranslatorToScalaSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
+
+  instance = MicroTranslatorToScala_()
 
   test("should translate a small snippet") {
     original = "  input_lines = Seq(" +
@@ -15,7 +17,7 @@ package soda.translator.language
       "\"     y: Int) =\"," +
       " \"       x + y\")" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -23,7 +25,7 @@ package soda.translator.language
   test("should leave content of apostrophes unchanged") {
     input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
     expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-    obtained = MicroTranslator_().translate_program(input)
+    obtained = instance.translate_program(input)
 
     assert(obtained == expected)
   }
@@ -31,7 +33,7 @@ package soda.translator.language
   test("should leave content of quotation marks unchanged") {
     input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-    obtained = MicroTranslator_().translate_program(input)
+    obtained = instance.translate_program(input)
 
     assert(obtained == expected)
   }
@@ -75,7 +77,7 @@ package soda.translator.language
       "\n  def i (x: T ): T = x" +
       "\n}" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -95,7 +97,7 @@ package soda.translator.language
       "\n" +
       "\ntype M = Map [Int, Seq [Int]]" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -109,7 +111,7 @@ package soda.translator.language
       "\n  lazy val (p, q ) =" +
       "\n    h (1, 2 )" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -129,7 +131,7 @@ package soda.translator.language
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n  }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -149,7 +151,7 @@ package soda.translator.language
       "\n    case 1 => 1 " +
       "\n    case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -169,7 +171,7 @@ package soda.translator.language
       "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
       "\n  }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -179,7 +181,7 @@ package soda.translator.language
       "\n"
     expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -190,7 +192,7 @@ package soda.translator.language
     expected = "{ lazy val x = 0" +
       "\n   x + x }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert (obtained == expected)
   }
@@ -203,7 +205,7 @@ package soda.translator.language
       "\n  { lazy val y = x + x" +
       "\n    y }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert (obtained == expected)
   }
@@ -218,7 +220,7 @@ package soda.translator.language
       "\n    lazy val y = x + x" +
       "\n    y }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert (obtained == expected)
   }
@@ -235,7 +237,7 @@ package soda.translator.language
       "\n   lazy val z = y + y" +
       "\n    z }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert (obtained == expected)
   }
@@ -254,7 +256,7 @@ package soda.translator.language
       "\n    lazy val z = y + y" +
       "\n    z }" +
       "\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert (obtained == expected)
   }

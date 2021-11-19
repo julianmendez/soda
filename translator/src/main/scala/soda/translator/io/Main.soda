@@ -6,7 +6,7 @@ package soda.translator.io
  * This is the main entry point.
  */
 * MainClass = {
-  + soda.translator.language.MicroTranslator_
+  + soda.translator.language.MicroTranslatorToScala_
   + java.io.File
 
   soda_extension: String = ".soda"
@@ -46,11 +46,12 @@ package soda.translator.io
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
       input = SimpleFileReader_().read_file(input_file_name)
-      output = MicroTranslator_().translate_program(input)
+      output = MicroTranslatorToScala_().translate_program(input)
     in SimpleFileWriter_().write_file(output_file_name, content := output)
 }
 
-* Main() extends MainClass
+* Main()
+  extends MainClass
 
 * FileNamePair = {
 
@@ -59,5 +60,6 @@ package soda.translator.io
   has output_file_name: String
 }
 
-* FileNamePair_(input_file_name: String, output_file_name: String) extends FileNamePair
+* FileNamePair_(input_file_name: String, output_file_name: String)
+  extends FileNamePair
 

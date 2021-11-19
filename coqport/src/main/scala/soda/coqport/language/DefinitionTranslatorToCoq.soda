@@ -1,10 +1,5 @@
-package soda.translator.language
+package soda.coqport.language
 
-
-* LineTranslator = {
-
-  has line: String
-}
 
 /**
  * A line containing the definition sign will be classified as a definition.
@@ -30,14 +25,14 @@ package soda.translator.language
  * This is no longer supported.
  *
  */
-* DefinitionTranslator
-  extends LineTranslator = {
+* DefinitionTranslatorToCoq
+  extends soda.translator.language.LineTranslator = {
   + soda.lib.OptionSD
   + soda.lib.SomeSD_
   + soda.translator.replacement.Replacement
   + soda.translator.replacement.Replacement_
 
-  tc = TranslationConstant_()
+  tc = TranslationConstantToCoq_()
 
   trimmed_line = line.trim
 
@@ -134,5 +129,6 @@ package soda.translator.language
       .filter(position -> not (position == -1))
 }
 
-* DefinitionTranslator_(line: String) extends DefinitionTranslator
+* DefinitionTranslatorToCoq_(line: String)
+  extends DefinitionTranslatorToCoq
 

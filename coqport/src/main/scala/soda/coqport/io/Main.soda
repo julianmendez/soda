@@ -10,7 +10,7 @@ package soda.coqport.io
   + soda.translator.io.DirectoryProcessor_
   + soda.translator.io.SimpleFileReader_
   + soda.translator.io.SimpleFileWriter_
-  + soda.coqport.language.MicroTranslator_
+  + soda.coqport.language.MicroTranslatorToCoq_
 
   soda_extension: String = ".soda"
 
@@ -44,7 +44,7 @@ package soda.coqport.io
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
       input = SimpleFileReader_().read_file(input_file_name)
-      output = MicroTranslator_().translate_program(input)
+      output = MicroTranslatorToCoq_().translate_program(input)
     in SimpleFileWriter_().write_file(output_file_name, content := output)
 }
 
@@ -57,6 +57,7 @@ package soda.coqport.io
   has output_file_name: String
 }
 
-* FileNamePair_(input_file_name: String, output_file_name: String) extends FileNamePair
+* FileNamePair_(input_file_name: String, output_file_name: String)
+  extends FileNamePair
 
 

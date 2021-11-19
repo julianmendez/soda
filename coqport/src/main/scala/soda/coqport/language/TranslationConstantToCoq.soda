@@ -4,7 +4,7 @@ package soda.coqport.language
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-* TranslationConstant = {
+* TranslationConstantToCoq = {
 
   soda_definition: String = "="
 
@@ -255,5 +255,6 @@ package soda.coqport.language
     soda_reserved_words.contains(word)
 }
 
-* TranslationConstant_() extends TranslationConstant
+* TranslationConstantToCoq_()
+  extends TranslationConstantToCoq
 

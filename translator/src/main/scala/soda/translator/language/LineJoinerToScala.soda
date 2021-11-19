@@ -2,10 +2,10 @@ package soda.translator.language
 
 
 
-* LineJoiner
+* LineJoinerToScala
   extends soda.translator.replacement.MultiLineProcessor = {
 
-  tc = TranslationConstant_()
+  tc = TranslationConstantToScala_()
 
   comma = ","
 
@@ -52,7 +52,8 @@ package soda.translator.language
       .exists(current_line.startsWith)
 }
 
-* LineJoiner_(lines: Seq[String]) extends LineJoiner
+* LineJoinerToScala_(lines: Seq[String])
+  extends LineJoinerToScala
 
 * Joiner = {
   + soda.lib.Recursion_
@@ -102,5 +103,6 @@ package soda.translator.language
   has previous_line: String
 }
 
-* JoinerFoldTuple_(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String) extends JoinerFoldTuple
+* JoinerFoldTuple_(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)
+  extends JoinerFoldTuple
 

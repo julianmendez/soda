@@ -4,10 +4,12 @@ package soda.translator.language
 * UpperAndLowerBoundDeclarationSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
+  instance = MicroTranslatorToScala_()
+
   test("should translate a single upper bound") {
     original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput]\n"
     expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -15,7 +17,7 @@ package soda.translator.language
   test("should translate multiple upper bounds") {
     original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
     expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -23,7 +25,7 @@ package soda.translator.language
   test("should translate a single lower bound") {
     original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)]\n"
     expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )]\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }
@@ -32,7 +34,7 @@ package soda.translator.language
   test("should translate multiple lower bounds") {
     original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)] with AbstractDevice[B supertype (AbstractDeviceInput)]\n"
     expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )] with AbstractDevice [B >: (AbstractDeviceInput )]\n"
-    obtained = MicroTranslator_().translate_program(original)
+    obtained = instance.translate_program(original)
 
     assert(obtained == expected)
   }

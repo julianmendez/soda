@@ -1,13 +1,13 @@
 package soda.coqport.language
 
 
-case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("Coq translation of a constant") {
     lazy val original = "x = 0 ;"
     lazy val expected = "Definition x := 0 .\n"
 
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = MicroTranslatorToCoq_ () .translate_program (original )
 
     assert (obtained == expected )
   }
@@ -16,7 +16,7 @@ case class MicroTranslatorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     lazy val original = "f (a: nat) = 0 ;"
     lazy val expected = "Definition f (a: nat ) := 0 .\n"
 
-    lazy val obtained = MicroTranslator_ () .translate_program (original )
+    lazy val obtained = MicroTranslatorToCoq_ () .translate_program (original )
 
     assert (obtained == expected )
   }

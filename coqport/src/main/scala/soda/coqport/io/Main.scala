@@ -13,7 +13,7 @@ trait MainClass {
   import soda.translator.io.DirectoryProcessor_
   import soda.translator.io.SimpleFileReader_
   import soda.translator.io.SimpleFileWriter_
-  import soda.coqport.language.MicroTranslator_
+  import soda.coqport.language.MicroTranslatorToCoq_
 
   lazy val soda_extension: String = ".soda"
 
@@ -46,7 +46,7 @@ trait MainClass {
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = MicroTranslator_ () .translate_program (input )
+      lazy val output = MicroTranslatorToCoq_ () .translate_program (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 }
 
@@ -59,4 +59,4 @@ trait FileNamePair {
   def output_file_name: String
 }
 
-case class FileNamePair_ (input_file_name: String, output_file_name: String ) extends FileNamePair
+case class FileNamePair_ (input_file_name: String, output_file_name: String )  extends FileNamePair

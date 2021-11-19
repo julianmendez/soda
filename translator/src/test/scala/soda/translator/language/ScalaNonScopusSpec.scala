@@ -14,7 +14,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\nlazy val __soda__val x = 0" +
       "\n__soda__while (x != 0 )" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (program )
+    lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
 
     assert (obtained == expected )
   }
@@ -31,7 +31,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       "\ntrait A1 [B1 <: C1]" +
       "\ntrait C1 [D1 >: E1]" +
       "\n"
-    lazy val obtained = MicroTranslator_ () .translate_program (program )
+    lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
 
     assert (obtained == expected )
   }

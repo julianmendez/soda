@@ -4,7 +4,7 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-* MicroTranslator = {
+* MicroTranslatorToScala = {
   + soda.lib.SomeSD_
   + soda.translator.replacement.CommentPreprocessor_
   + soda.translator.replacement.ParserStateEnum_
@@ -14,7 +14,7 @@ package soda.translator.language
   + soda.translator.replacement.Tokenizer_
   + soda.translator.replacement.Translator
 
-  tc = TranslationConstant_()
+  tc = TranslationConstantToScala_()
 
   new_line = "\n"
 
@@ -53,10 +53,10 @@ package soda.translator.language
     program.split(new_line).toIndexedSeq
 
   join_lines_with_forward_join(lines: Seq[String]): Seq[String] =
-    LineJoiner_(lines).joined_lines_with_forward_join
+    LineJoinerToScala_(lines).joined_lines_with_forward_join
 
   join_lines_with_backward_join(lines: Seq[String]): Seq[String] =
-    LineJoiner_(lines).joined_lines_with_backward_join
+    LineJoinerToScala_(lines).joined_lines_with_backward_join
 
   join_translated_lines (lines: Seq[String]): String =
     lines.mkString(new_line) + new_line
@@ -103,12 +103,12 @@ package soda.translator.language
     if line.contains(soda_opening_parenthesis)
     then translation_at_beginning_with_paren
     else
-      if DefinitionTranslator_(line).condition_for_type_alias
+      if DefinitionTranslatorToScala_(line).condition_for_type_alias
       then translation_at_beginning_without_paren_for_type_alias
       else translation_at_beginning_without_paren
 
   try_definition(line: String): String =
-    DefinitionTranslator_(line).translation
+    DefinitionTranslatorToScala_(line).translation
 
   _join_tokens(tokens: Seq[Token]): String =
     tokens
@@ -161,7 +161,8 @@ package soda.translator.language
     in result
 }
 
-* MicroTranslator_() extends MicroTranslator
+* MicroTranslatorToScala_()
+  extends MicroTranslatorToScala
 
 * Table = {
 
@@ -178,5 +179,6 @@ package soda.translator.language
     table.toMap.get(word).getOrElse(word)
 }
 
-* DefaultTranslator_(table: Seq[(String, String)]) extends DefaultTranslator
+* DefaultTranslator_(table: Seq[(String, String)])
+  extends DefaultTranslator
 
