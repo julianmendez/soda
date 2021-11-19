@@ -4,47 +4,39 @@ package soda.example.forcoq.lib
 * NatSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  test("IntNat from non negative") {
-    instance = IntNat_()
-    expected = S(S(S(S(S(S(S(S(O()))))))))
-    obtained =
-      instance.from_non_negative (8)
+  test("IntNat from non negative")
+    let
+      instance = IntNat_()
+      expected = S(S(S(S(S(S(S(S(O()))))))))
+      obtained =
+        instance.from_non_negative (8)
+    in assert(obtained == expected)
 
-    assert(obtained == expected)
+  test("IntNat to Int")
+    let
+      instance = IntNat_()
+      expected = 5
+      obtained =
+        instance.to_Int (
+          S(S(S(S(S(O())))))
+        )
+    in assert(obtained == expected)
 
-}
-
-  test("IntNat to Int") {
-    instance = IntNat_()
-    expected = 5
-    obtained =
-      instance.to_Int (
-        S(S(S(S(S(O())))))
-      )
-
-    assert(obtained == expected)
-
-}
-
-    test("Nat add") {
+  test("Nat add")
+    let
       a = S(S(S(O())))
       b = S(S(S(S(S(O())))))
       expected = S(S(S(S(S(S(S(S(O()))))))))
       obtained = a.add(b)
+    in assert(obtained == expected)
 
-      assert(obtained == expected)
-
-}
-
-    test("Nat mul") {
+  test("Nat mul")
+    let
       a = S(S(S(O())))
       b = S(S(S(S(O()))))
       expected = S(S(S(S(S(S(S(S(S(S(S(S(O()))))))))))))
       obtained = a.mul(b)
-
-      assert(obtained == expected)
-
-}
+    in assert(obtained == expected)
 
 }
 

@@ -34,84 +34,68 @@ case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   lazy val flight_1 = Flight_ ("BER", Seq ("FRA", "ARN"), "UMU")
   lazy val date_1 = 18898
 
-  test ("unfair pricing agent - requirement_monitor 1") {
-    lazy val requirement_monitor = Requirement1Monitor_ (unfair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
-    lazy val expected = Report1 (false, 897, 1495, 0.6 )
+  test ("unfair pricing agent - requirement_monitor 1")
+    {
+      lazy val requirement_monitor = Requirement1Monitor_ (unfair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
+      lazy val expected = Report1 (false, 897, 1495, 0.6 )
+      assert (obtained == expected ) }
 
-    assert (obtained == expected )
+  test ("unfair pricing agent - requirement_monitor 2")
+    {
+      lazy val requirement_monitor = Requirement2Monitor_ (unfair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val expected = Report2 (false, 702, 897 )
+      assert (obtained == expected ) }
 
-}
+  test ("unfair pricing agent - requirement_monitor 3")
+    {
+      lazy val requirement_monitor = Requirement3Monitor_ (unfair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val expected = Report3 (false, 897, 891 )
+      assert (obtained == expected ) }
 
-  test ("unfair pricing agent - requirement_monitor 2") {
-    lazy val requirement_monitor = Requirement2Monitor_ (unfair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
-    lazy val expected = Report2 (false, 702, 897 )
+  test ("fair pricing agent - requirement_monitor 1")
+    {
+      lazy val requirement_monitor = Requirement1Monitor_ (fair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
+      lazy val expected = Report1 (true, 300, 300, 1.0 )
+      assert (obtained == expected ) }
 
-    assert (obtained == expected )
+  test ("fair pricing agent - requirement_monitor 2")
+    {
+      lazy val requirement_monitor = Requirement2Monitor_ (fair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val expected = Report2 (true, 300, 300 )
+      assert (obtained == expected ) }
 
-}
+  test ("fair pricing agent - requirement_monitor 3")
+    {
+      lazy val requirement_monitor = Requirement3Monitor_ (fair_pricing_agent )
+      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val expected = Report3 (true, 300, 300 )
+      assert (obtained == expected ) }
 
-  test ("unfair pricing agent - requirement_monitor 3") {
-    lazy val requirement_monitor = Requirement3Monitor_ (unfair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
-    lazy val expected = Report3 (false, 897, 891 )
+  test ("get number of days for 1970-01-01")
+    {
+      lazy val calendar = new Calendar.Builder ()
+        .setTimeZone (TimeZone.getTimeZone ("UTC")  )
+        .setDate (1970, 0, 1 )
+        .build
+      lazy val date = calendar.getTime
+      lazy val obtained = fair_pricing_agent.get_days_for (date )
+      lazy val expected = 0
+      assert (obtained == expected ) }
 
-    assert (obtained == expected )
-
-}
-
-  test ("fair pricing agent - requirement_monitor 1") {
-    lazy val requirement_monitor = Requirement1Monitor_ (fair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
-    lazy val expected = Report1 (true, 300, 300, 1.0 )
-
-    assert (obtained == expected )
-
-}
-
-  test ("fair pricing agent - requirement_monitor 2") {
-    lazy val requirement_monitor = Requirement2Monitor_ (fair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
-    lazy val expected = Report2 (true, 300, 300 )
-
-    assert (obtained == expected )
-
-}
-
-  test ("fair pricing agent - requirement_monitor 3") {
-    lazy val requirement_monitor = Requirement3Monitor_ (fair_pricing_agent )
-    lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
-    lazy val expected = Report3 (true, 300, 300 )
-
-    assert (obtained == expected )
-
-}
-
-  test ("get number of days for 1970-01-01") {
-    lazy val calendar = new Calendar.Builder ()
-      .setTimeZone (TimeZone.getTimeZone ("UTC")  )
-      .setDate (1970, 0, 1 )
-      .build
-    lazy val date = calendar.getTime
-    lazy val obtained = fair_pricing_agent.get_days_for (date )
-    lazy val expected = 0
-
-    assert (obtained == expected )
-
-}
-
-  test ("get number of days for 2021-09-28") {
-    lazy val calendar = new Calendar.Builder ()
-      .setTimeZone (TimeZone.getTimeZone ("UTC")  )
-      .setDate (2021, 8, 28 )
-      .build
-    lazy val date = calendar.getTime
-    lazy val obtained = fair_pricing_agent.get_days_for (date )
-    lazy val expected = 18898
-
-    assert (obtained == expected )
-
-}
+  test ("get number of days for 2021-09-28")
+    {
+      lazy val calendar = new Calendar.Builder ()
+        .setTimeZone (TimeZone.getTimeZone ("UTC")  )
+        .setDate (2021, 8, 28 )
+        .build
+      lazy val date = calendar.getTime
+      lazy val obtained = fair_pricing_agent.get_days_for (date )
+      lazy val expected = 18898
+      assert (obtained == expected ) }
 
 }

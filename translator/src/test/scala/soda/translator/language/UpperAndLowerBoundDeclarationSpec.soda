@@ -6,42 +6,33 @@ package soda.translator.language
 
   instance = MicroTranslatorToScala_()
 
-  test("should translate a single upper bound") {
-    original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput]\n"
-    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
-    obtained = instance.translate_program(original)
+  test("should translate a single upper bound")
+    let
+      original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput]\n"
+      expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
+      obtained = instance.translate_program(original)
+    in assert(obtained == expected)
 
-    assert(obtained == expected)
+  test("should translate multiple upper bounds")
+    let
+      original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
+      expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
+      obtained = instance.translate_program(original)
+    in assert(obtained == expected)
 
-}
+  test("should translate a single lower bound")
+    let
+      original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)]\n"
+      expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )]\n"
+      obtained = instance.translate_program(original)
+    in assert(obtained == expected)
 
-  test("should translate multiple upper bounds") {
-    original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
-    expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
-    obtained = instance.translate_program(original)
-
-    assert(obtained == expected)
-
-}
-
-  test("should translate a single lower bound") {
-    original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)]\n"
-    expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )]\n"
-    obtained = instance.translate_program(original)
-
-    assert(obtained == expected)
-
-}
-
-
-  test("should translate multiple lower bounds") {
-    original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)] with AbstractDevice[B supertype (AbstractDeviceInput)]\n"
-    expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )] with AbstractDevice [B >: (AbstractDeviceInput )]\n"
-    obtained = instance.translate_program(original)
-
-    assert(obtained == expected)
-
-}
+  test("should translate multiple lower bounds")
+    let
+      original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)] with AbstractDevice[B supertype (AbstractDeviceInput)]\n"
+      expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )] with AbstractDevice [B >: (AbstractDeviceInput )]\n"
+      obtained = instance.translate_program(original)
+    in assert(obtained == expected)
 
 }
 

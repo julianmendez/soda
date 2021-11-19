@@ -3,8 +3,7 @@ package soda.translator.language
 
 case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import org.scalatest.Assertion
-  import java.nio.file.{ Files, Paths
-}
+  import java.nio.file.{ Files, Paths }
 
   lazy val Base = "/soda/translator/example/"
 
@@ -43,49 +42,49 @@ case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val document_path = Paths.get (document_URI )
       new String (Files.readAllBytes (document_path )  ) }
 
-  test ("should translate the swap example") {
-    test_translation (SwapExample )
+  test ("should translate the swap example")
+    {
+      lazy val result = test_translation (SwapExample )
+      result }
 
-}
+  test ("should translate the Fibonacci example")
+    {
+      lazy val result = test_translation (FiboExample )
+      result }
 
-  test ("should translate the Fibonacci example") {
-    test_translation (FiboExample )
+  test ("should translate the Factorial Concise example")
+    {
+      lazy val result = test_translation (FactorialConcise )
+      result }
 
-}
+  test ("should translate the Factorial Verbose example")
+    {
+      lazy val result = test_translation (FactorialVerbose )
+      result }
 
-  test ("should translate the Factorial Concise example") {
-    test_translation (FactorialConcise )
+  test ("should translate the Fairness example")
+    {
+      lazy val result = test_translation (Fairness )
+      result }
 
-}
+  test ("should translate the example that calculates pi")
+    {
+      lazy val result = test_translation (PiIterator )
+      result }
 
-  test ("should translate the Factorial Verbose example") {
-    test_translation (FactorialVerbose )
+  test ("should translated Soda code that uses Scala reserved words as variables and functions")
+    {
+      lazy val result = test_translation (ScalaReservedWordEscaping )
+      result }
 
-}
+  test ("should translate the manual In A Nutshell")
+    {
+      lazy val result = test_translation (InANutshell )
+      result }
 
-  test ("should translate the Fairness example") {
-    test_translation (Fairness )
-
-}
-
-  test ("should translate the example that calculates pi") {
-    test_translation (PiIterator )
-
-}
-
-  test ("should translated Soda code that uses Scala reserved words as variables and functions") {
-    test_translation (ScalaReservedWordEscaping )
-
-}
-
-  test ("should translate the manual In A Nutshell") {
-    test_translation (InANutshell )
-
-}
-
-  test ("should translate the manual") {
-    test_translation (ManualInput, ManualExpected )
-
-}
+  test ("should translate the manual")
+    {
+      lazy val result = test_translation (ManualInput, ManualExpected )
+      result }
 
 }

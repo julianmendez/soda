@@ -43,29 +43,23 @@ package soda.translator.language
     "       x * x + y * y + z * z\n"
 
 
-  test("should split a program in multiple lines") {
-    obtained = mt.split_lines(Original_input)
-    expected = Original_input_lines
+  test("should split a program in multiple lines")
+    let
+      obtained = mt.split_lines(Original_input)
+      expected = Original_input_lines
+    in assert(obtained == expected)
 
-    assert(obtained == expected)
+  test("should preprocess the comma in multiple lines")
+    let
+      obtained = mt.join_lines_with_forward_join(Original_input_lines)
+      expected = Joined_comma_lines
+    in assert(obtained == expected)
 
-}
-
-  test("should preprocess the comma in multiple lines") {
-    obtained = mt.join_lines_with_forward_join(Original_input_lines)
-    expected = Joined_comma_lines
-
-    assert(obtained == expected)
-
-}
-
-  test("should join the translated lines of a program") {
-    obtained = mt.join_translated_lines(Joined_comma_lines)
-    expected = Joined_output
-
-    assert(obtained == expected)
-
-}
+  test("should join the translated lines of a program")
+    let
+      obtained = mt.join_translated_lines(Joined_comma_lines)
+      expected = Joined_output
+    in assert(obtained == expected)
 
 }
 

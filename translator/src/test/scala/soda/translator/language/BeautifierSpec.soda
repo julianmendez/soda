@@ -4,16 +4,14 @@ package soda.translator.language
 * BeautifierSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  test("the translated source code should not have too many unnecessary spaces") {
-    original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
-      "    original .  replaceAll(\"  \" ,  \" \")   \n"
-    expected = "  def beautify_this  (original: String   ): String =\n" +
-      "    original .replaceAll (\"  \", \" \")   \n"
-    obtained = MicroTranslatorToScala_().translate_program(original)
-
-    assert(obtained == expected)
-
-}
+  test("the translated source code should not have too many unnecessary spaces")
+    let
+      original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
+        "    original .  replaceAll(\"  \" ,  \" \")   \n"
+      expected = "  def beautify_this  (original: String   ): String =\n" +
+        "    original .replaceAll (\"  \", \" \")   \n"
+      obtained = MicroTranslatorToScala_().translate_program(original)
+    in assert(obtained == expected)
 
 }
 

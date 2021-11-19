@@ -17,12 +17,10 @@ package soda.example
     "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"
   )
 
-  test("first elements of FizzBuzz") {
-    obtained = FizzBuzz_().fizz_buzz
-
-    assert(obtained == expected)
-
-}
+  test("first elements of FizzBuzz")
+    let
+      obtained = FizzBuzz_().fizz_buzz
+    in assert(obtained == expected)
 
 }
 

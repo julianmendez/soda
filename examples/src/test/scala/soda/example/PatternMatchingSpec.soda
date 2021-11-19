@@ -5,47 +5,47 @@ package soda.example
 
   instance = PatternMatching_()
 
-  test("get value and name of singleton") {
-    input = Singleton(5)
-    expected = 5
-    obtained = instance.get_value(input)
+  test("get value and name of singleton - 1")
+    let
+      input = Singleton(5)
+      expected = 5
+      obtained = instance.get_value(input)
+    in assert(obtained == expected)
 
-    assert(obtained == expected)
+  test("get value and name of singleton - 2")
+    let
+      input = Singleton(5)
+      expected_name = "singleton(x)"
+      obtained_name = instance.get_type_name(input)
+    in assert(obtained_name == expected_name)
 
-    expected_name = "singleton(x)"
-    obtained_name = instance.get_type_name(input)
+  test("get value and name of pair - 1")
+    let
+      input = Pair(10, 100)
+      expected = 55
+      obtained = instance.get_value(input)
+    in assert(obtained == expected)
 
-    assert(obtained_name == expected_name)
+  test("get value and name of pair - 2")
+    let
+      input = Pair(10, 100)
+      expected_name = "pair(x, y)"
+      obtained_name = instance.get_type_name(input)
+    in assert(obtained_name == expected_name)
 
-}
+  test("get value and name of triplet - 1")
+    let
+      input = Triplet(9, 100, 890)
+      expected = 333
+      obtained = instance.get_value(input)
+    in assert(obtained == expected)
 
-  test("get value and name of pair") {
-    input = Pair(10, 100)
-    expected = 55
-    obtained = instance.get_value(input)
-
-    assert(obtained == expected)
-
-    expected_name = "pair(x, y)"
-    obtained_name = instance.get_type_name(input)
-
-    assert(obtained_name == expected_name)
-
-}
-
-  test("get value and name of triplet") {
-    input = Triplet(9, 100, 890)
-    expected = 333
-    obtained = instance.get_value(input)
-
-    assert(obtained == expected)
-
-    expected_name = "triplet(x, y, z)"
-    obtained_name = instance.get_type_name(input)
-
-    assert(obtained_name == expected_name)
-
-}
+  test("get value and name of triplet - 2")
+    let
+      input = Triplet(9, 100, 890)
+      expected_name = "triplet(x, y, z)"
+      obtained_name = instance.get_type_name(input)
+    in assert(obtained_name == expected_name)
 
 }
 

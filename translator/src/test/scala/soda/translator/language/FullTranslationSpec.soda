@@ -4,8 +4,7 @@ package soda.translator.language
 * FullTranslationSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
   + org.scalatest.Assertion
-  + java.nio.file.{Files, Paths
-}
+  + java.nio.file.{Files, Paths}
 
   Base = "/soda/translator/example/"
 
@@ -44,50 +43,50 @@ package soda.translator.language
       document_path = Paths.get(document_URI)
     in @new String(Files.readAllBytes(document_path))
 
-  test("should translate the swap example") {
-    test_translation(SwapExample)
+  test("should translate the swap example")
+    let
+      result = test_translation(SwapExample)
+    in result
 
-}
+  test("should translate the Fibonacci example")
+    let
+      result = test_translation(FiboExample)
+    in result
 
-  test("should translate the Fibonacci example") {
-    test_translation(FiboExample)
+  test("should translate the Factorial Concise example")
+    let
+      result = test_translation(FactorialConcise)
+    in result
 
-}
+  test("should translate the Factorial Verbose example")
+    let
+      result = test_translation(FactorialVerbose)
+    in result
 
-  test("should translate the Factorial Concise example") {
-    test_translation(FactorialConcise)
+  test("should translate the Fairness example")
+    let
+      result = test_translation(Fairness)
+    in result
 
-}
+  test("should translate the example that calculates pi")
+    let
+      result = test_translation(PiIterator)
+    in result
 
-  test("should translate the Factorial Verbose example") {
-    test_translation(FactorialVerbose)
+  test("should translated Soda code that uses Scala reserved words as variables and functions")
+    let
+      result = test_translation(ScalaReservedWordEscaping)
+    in result
 
-}
+  test("should translate the manual In A Nutshell")
+    let
+      result = test_translation(InANutshell)
+    in result
 
-  test("should translate the Fairness example") {
-    test_translation(Fairness)
-
-}
-
-  test("should translate the example that calculates pi") {
-    test_translation(PiIterator)
-
-}
-
-  test("should translated Soda code that uses Scala reserved words as variables and functions") {
-    test_translation(ScalaReservedWordEscaping)
-
-}
-
-  test("should translate the manual In A Nutshell") {
-    test_translation(InANutshell)
-
-}
-
-  test("should translate the manual") {
-    test_translation(ManualInput, ManualExpected)
-
-}
+  test("should translate the manual")
+    let
+      result = test_translation(ManualInput, ManualExpected)
+    in result
 
 }
 

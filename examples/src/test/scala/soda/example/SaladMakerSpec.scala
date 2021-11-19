@@ -24,14 +24,12 @@ case class SaladMakerSpec ()  extends org.scalatest.funsuite.AnyFunSuite  with S
   def has_salad_at_most_2_ingredients (salad_so_far: Seq [SaladIngredient], next_ingredient: SaladIngredient ): Boolean =
     salad_so_far.length < 3
 
-  test ("salad maker") {
-    lazy val instance = SaladMaker_ ()
-    lazy val ingredients = SaladIngredient_values
-    lazy val expected = Seq (sunflower_seeds, lettuce, tomato )
-    lazy val obtained = instance.prepare_vegan_salad (list_of_ingredients = ingredients, initial_bowl = Seq [SaladIngredient]  (), next_ingredient_function = add_next_ingredient, condition_to_continue = has_salad_at_most_2_ingredients    )
-
-    assert (obtained == expected )
-
-}
+  test ("salad maker")
+    {
+      lazy val instance = SaladMaker_ ()
+      lazy val ingredients = SaladIngredient_values
+      lazy val expected = Seq (sunflower_seeds, lettuce, tomato )
+      lazy val obtained = instance.prepare_vegan_salad (list_of_ingredients = ingredients, initial_bowl = Seq [SaladIngredient]  (), next_ingredient_function = add_next_ingredient, condition_to_continue = has_salad_at_most_2_ingredients      )
+      assert (obtained == expected ) }
 
 }
