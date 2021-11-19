@@ -10,7 +10,7 @@ package soda.lib
 trait CartesianProduct {
 
   def _initial_value [T] (seq: Seq [T]  ): Seq [Seq [T]] =
-    seq.map (elem => Seq (elem )  )
+    seq.map (elem => Seq [T]  (elem )  )
 
   def _next_value [T] (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
     seq_a.flatMap (elem_a =>
@@ -24,7 +24,7 @@ trait CartesianProduct {
         else
           {
             lazy val rev_sequences = sequences.reverse
-            Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value ) }
+            Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  ) }
       result }
 }
 
