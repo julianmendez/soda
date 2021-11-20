@@ -1,0 +1,38 @@
+package soda.translator.block
+
+* BlockProcessor = {
+
+  + soda.lib.SomeSD_
+
+  has translator: BlockTranslator
+
+  new_line = "\n"
+
+  double_new_line = new_line + new_line
+
+  translate (program: String): String =
+    SomeSD_ (program)
+      .map (split_blocks)
+      .map (translate_blocks)
+      .map (join_translated_blocks)
+      .value
+
+  split_blocks (program: String): Seq[Block] =
+    program
+      .split (double_new_line)
+      .toIndexedSeq
+      .map (x -> Block_(x))
+
+  translate_blocks (blocks: Seq[Block]): Seq[Block] =
+    blocks.map (block -> translator.translate (block) )
+
+  join_translated_blocks (blocks: Seq[Block]): String =
+    blocks
+      .map (x -> x.contents)
+      .mkString (double_new_line) + new_line
+
+}
+
+* BlockProcessor_ (translator: BlockTranslator)
+  extends BlockProcessor
+

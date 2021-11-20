@@ -3,9 +3,12 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-* MicroTranslatorToScala = {
+* MicroTranslatorToScala
+  extends soda.translator.block.BlockTranslator = {
 
   + soda.lib.SomeSD_
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
   + soda.translator.replacement.CommentPreprocessor_
   + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
@@ -14,11 +17,13 @@ package soda.translator.language
   + soda.translator.replacement.Tokenizer_
   + soda.translator.replacement.Translator
 
+  source = "soda"
+
+  target = "scala"
+
   tc = TranslationConstantToScala_()
 
   new_line = "\n"
-
-  double_new_line = new_line + new_line
 
   soda_opening_parenthesis: String = "("
 
@@ -40,28 +45,7 @@ package soda.translator.language
 
   beautifier = DefaultTranslator_(tc.beautifier)
 
-  translate_program(program: String): String =
-    SomeSD_(program)
-      .map(split_blocks)
-      .map(translate_blocks)
-      .map(join_translated_blocks)
-      .value
-
-  split_blocks (program: String): Seq[Block] =
-    program
-      .split(double_new_line)
-      .toIndexedSeq
-      .map(x -> Block_(x))
-
-  join_translated_blocks (blocks: Seq[Block]): String =
-    blocks
-      .map(x -> x.contents)
-      .mkString(double_new_line) + new_line
-
-  translate_blocks (blocks: Seq[Block]): Seq[Block] =
-    blocks.map(block -> translate_block (block) )
-
-  translate_block (block: Block): Block =
+  translate (block: Block): Block =
     SomeSD_(block)
       .map(x -> x.contents)
       .map(split_lines)
@@ -210,12 +194,4 @@ package soda.translator.language
 * DefaultTranslator_(table: Seq[(String, String)])
   extends DefaultTranslator
 
-* Block = {
-
-  has contents: String
-
-}
-
-* Block_(contents: String)
-  extends Block
 

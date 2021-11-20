@@ -3,9 +3,11 @@ package soda.translator.language
 /**
  * This class translates Soda source code into Scala source code.
  */
-trait MicroTranslatorToScala {
+trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
 
   import soda.lib.SomeSD_
+  import soda.translator.block.Block
+  import soda.translator.block.Block_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
@@ -14,11 +16,13 @@ trait MicroTranslatorToScala {
   import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Translator
 
+  lazy val source = "soda"
+
+  lazy val target = "scala"
+
   lazy val tc = TranslationConstantToScala_ ()
 
   lazy val new_line = "\n"
-
-  lazy val double_new_line = new_line + new_line
 
   lazy val soda_opening_parenthesis: String = "("
 
@@ -40,28 +44,7 @@ trait MicroTranslatorToScala {
 
   lazy val beautifier = DefaultTranslator_ (tc.beautifier )
 
-  def translate_program (program: String ): String =
-    SomeSD_ (program )
-      .map (split_blocks )
-      .map (translate_blocks )
-      .map (join_translated_blocks )
-      .value
-
-  def split_blocks (program: String ): Seq [Block] =
-    program
-      .split (double_new_line )
-      .toIndexedSeq
-      .map (x => Block_ (x )  )
-
-  def join_translated_blocks (blocks: Seq [Block]  ): String =
-    blocks
-      .map (x => x.contents )
-      .mkString (double_new_line ) + new_line
-
-  def translate_blocks (blocks: Seq [Block]  ): Seq [Block] =
-    blocks.map (block => translate_block (block ) )
-
-  def translate_block (block: Block ): Block =
+  def translate (block: Block ): Block =
     SomeSD_ (block )
       .map (x => x.contents )
       .map (split_lines )
@@ -203,10 +186,4 @@ trait DefaultTranslator  extends Table  with soda.translator.replacement.Transla
 
 case class DefaultTranslator_ (table: Seq [(String, String )]  )  extends DefaultTranslator
 
-trait Block {
 
-  def contents: String
-
-}
-
-case class Block_ (contents: String )  extends Block

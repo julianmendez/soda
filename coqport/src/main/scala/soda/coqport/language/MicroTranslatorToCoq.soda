@@ -4,11 +4,12 @@ package soda.coqport.language
 /**
  * This class translates Soda snippets into Coq snippets.
  */
-* MicroTranslatorToCoq = {
+* MicroTranslatorToCoq
+  extends soda.translator.block.BlockTranslator = {
 
   + soda.lib.SomeSD_
-  + soda.translator.language.Block
-  + soda.translator.language.Block_
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
   + soda.translator.language.DefaultTranslator_
   + soda.translator.replacement.CommentPreprocessor_
   + soda.translator.replacement.ParserStateEnum_
@@ -16,6 +17,10 @@ package soda.coqport.language
   + soda.translator.replacement.Tokenizer_
   + soda.translator.replacement.Token
   + soda.translator.replacement.Token_
+
+  source = "soda"
+
+  target = "coq"
 
   tc = TranslationConstantToCoq_()
 
@@ -43,17 +48,7 @@ package soda.coqport.language
 
   beautifier = DefaultTranslator_(tc.beautifier)
 
-  translate_program(program: String): String =
-    SomeSD_(program)
-      .map(mtr.split_blocks)
-      .map(translate_blocks)
-      .map(mtr.join_translated_blocks)
-      .value
-
-  translate_blocks (blocks: Seq[Block]): Seq[Block] =
-    blocks.map(block -> translate_block (block) )
-
-  translate_block (block: Block): Block =
+  translate (block: Block): Block =
     SomeSD_(block)
       .map(x -> x.contents)
       .map(mtr.split_lines)

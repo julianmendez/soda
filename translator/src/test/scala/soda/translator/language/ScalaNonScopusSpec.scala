@@ -5,6 +5,8 @@ package soda.translator.language
  */
 case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
+  import soda.translator.block.BlockProcessor_
+
   test ("Scala reserved words are replaced")
     {
       lazy val program = "" +
@@ -14,7 +16,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         "\nlazy val __soda__val x = 0" +
         "\n__soda__while (x != 0 )" +
         "\n"
-      lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
+      lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate (program )
       assert (obtained == expected ) }
 
   test ("some synonyms are Scala reserved words")
@@ -30,7 +32,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         "\ntrait A1 [B1 <: C1]" +
         "\ntrait C1 [D1 >: E1]" +
         "\n"
-      lazy val obtained = MicroTranslatorToScala_ () .translate_program (program )
+      lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate (program )
       assert (obtained == expected ) }
 
 }

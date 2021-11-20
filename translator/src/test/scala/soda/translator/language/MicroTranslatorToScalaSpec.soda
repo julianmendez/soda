@@ -3,7 +3,9 @@ package soda.translator.language
 * MicroTranslatorToScalaSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  instance = MicroTranslatorToScala_()
+  + soda.translator.block.BlockProcessor_
+
+  instance = BlockProcessor_(MicroTranslatorToScala_())
 
   test("should translate a small snippet")
     let
@@ -17,21 +19,21 @@ package soda.translator.language
         "\"     y: Int) =\"," +
         " \"       x + y\")" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should leave content of apostrophes unchanged")
     let
       input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
       expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-      obtained = instance.translate_program(input)
+      obtained = instance.translate (input)
     in assert(obtained == expected)
 
   test("should leave content of quotation marks unchanged")
     let
       input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-      obtained = instance.translate_program(input)
+      obtained = instance.translate (input)
     in assert(obtained == expected)
 
   test("should translate classes")
@@ -74,7 +76,7 @@ package soda.translator.language
         "\n  def i (x: T ): T = x" +
         "\n}" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should translate type aliases")
@@ -93,7 +95,7 @@ package soda.translator.language
         "\n" +
         "\ntype M = Map [Int, Seq [Int]]" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should translate a tuple assignment")
@@ -106,7 +108,7 @@ package soda.translator.language
         "\n  lazy val (p, q ) =" +
         "\n    h (1, 2 )" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should translate a pattern matching")
@@ -125,7 +127,7 @@ package soda.translator.language
         "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
         "\n}" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should translate another pattern matching")
@@ -143,7 +145,7 @@ package soda.translator.language
         "\n    case 1 => 1 " +
         "\n    case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should ignore a pattern matching written in the Scala style")
@@ -162,7 +164,7 @@ package soda.translator.language
         "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
         "\n}" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("should translate an explicit lambda expression")
@@ -171,7 +173,7 @@ package soda.translator.language
         "\n"
       expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test ("should translate let in 1")
@@ -181,7 +183,7 @@ package soda.translator.language
       expected = "{ lazy val x = 0" +
         "\n   x + x }" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("should translate let in 2")
@@ -193,7 +195,7 @@ package soda.translator.language
         "\n  { lazy val y = x + x" +
         "\n    y }" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("should translate let in 3")
@@ -207,7 +209,7 @@ package soda.translator.language
         "\n    lazy val y = x + x" +
         "\n    y }" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("should translate let in 4")
@@ -223,7 +225,7 @@ package soda.translator.language
         "\n   lazy val z = y + y" +
         "\n    z }" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("should translate let in 5")
@@ -241,7 +243,7 @@ package soda.translator.language
         "\n    lazy val z = y + y" +
         "\n    z }" +
         "\n"
-      obtained = instance.translate_program(original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
 }

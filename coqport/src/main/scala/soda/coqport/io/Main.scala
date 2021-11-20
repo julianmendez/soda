@@ -10,10 +10,11 @@ object EntryPoint {
  */
 trait MainClass {
 
+  import soda.coqport.language.MicroTranslatorToCoq_
+  import soda.translator.block.BlockProcessor_
   import soda.translator.io.DirectoryProcessor_
   import soda.translator.io.SimpleFileReader_
   import soda.translator.io.SimpleFileWriter_
-  import soda.coqport.language.MicroTranslatorToCoq_
   import java.io.File
 
   lazy val soda_extension: String = ".soda"
@@ -47,7 +48,7 @@ trait MainClass {
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = MicroTranslatorToCoq_ () .translate_program (input )
+      lazy val output = BlockProcessor_ (MicroTranslatorToCoq_ ()  ) .translate (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 
 }

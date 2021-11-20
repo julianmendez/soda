@@ -3,18 +3,22 @@ package soda.coqport.language
 * MicroTranslatorToCoqSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
+  + soda.translator.block.BlockProcessor_
+
+  instance = BlockProcessor_(MicroTranslatorToCoq_())
+
   test("Coq translation of a constant")
     let
       original = "x = 0 ;"
       expected = "Definition x := 0 .\n"
-      obtained = MicroTranslatorToCoq_().translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("Coq translation of a function")
     let
       original = "f (a: nat) = 0 ;"
       expected = "Definition f (a: nat ) := 0 .\n"
-      obtained = MicroTranslatorToCoq_().translate_program(original)
+      obtained = instance.translate (original)
     in assert(obtained == expected)
 
 }

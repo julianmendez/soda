@@ -10,6 +10,7 @@ object EntryPoint {
  */
 trait MainClass {
 
+  import soda.translator.block.BlockProcessor_
   import soda.translator.language.MicroTranslatorToScala_
   import java.io.File
 
@@ -48,8 +49,9 @@ trait MainClass {
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
+      lazy val block_translator = MicroTranslatorToScala_ ()
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = MicroTranslatorToScala_ () .translate_program (input )
+      lazy val output = BlockProcessor_ (block_translator ) .translate (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 
 }

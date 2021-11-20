@@ -3,13 +3,15 @@ package soda.translator.language
 * BeautifierSpec()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
+  + soda.translator.block.BlockProcessor_
+
   test("the translated source code should not have too many unnecessary spaces")
     let
       original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
       expected = "  def beautify_this  (original: String   ): String =\n" +
         "    original .replaceAll (\"  \", \" \")   \n"
-      obtained = MicroTranslatorToScala_().translate_program(original)
+      obtained = BlockProcessor_(MicroTranslatorToScala_()).translate (original)
     in assert(obtained == expected)
 
 }

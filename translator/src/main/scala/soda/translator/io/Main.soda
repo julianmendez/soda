@@ -7,6 +7,7 @@ package soda.translator.io
  */
 * MainClass = {
 
+  + soda.translator.block.BlockProcessor_
   + soda.translator.language.MicroTranslatorToScala_
   + java.io.File
 
@@ -46,9 +47,10 @@ package soda.translator.io
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
-      input = SimpleFileReader_().read_file(input_file_name)
-      output = MicroTranslatorToScala_().translate_program(input)
-    in SimpleFileWriter_().write_file(output_file_name, content := output)
+      block_translator = MicroTranslatorToScala_()
+      input = SimpleFileReader_().read_file (input_file_name)
+      output = BlockProcessor_(block_translator).translate (input)
+    in SimpleFileWriter_().write_file (output_file_name, content := output)
 
 }
 

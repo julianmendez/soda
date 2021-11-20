@@ -1,0 +1,21 @@
+package soda.translator.block
+
+* Block = {
+
+  has contents: String
+
+}
+
+* Block_(contents: String)
+  extends Block
+
+* BlockTranslator = {
+
+  has source: String
+
+  has target: String
+
+  has translate (block: Block): Block
+
+}
+
