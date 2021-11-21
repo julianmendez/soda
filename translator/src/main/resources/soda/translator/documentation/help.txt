@@ -1,10 +1,32 @@
----
-Translator to Scala
+Soda - Symbolic Objective Descriptive Analysis
+
+Soda is an object-oriented purely-functional language for descriptions.
 
 Usage:
-  soda --scala SODA_SCALA_INPUT
+
+  soda EXTENSION [PARAMETERS...]
+
+where EXTENSION can be:
+
+    scala       calls the Soda-to-Scala translator
+
+    coq         calls the Soda-to-Coq translator  (only for snippets)
+
+    manual      outputs the manual, which is written in Soda
+
+    license     outputs the license
+
+    help        shows this help
+
+    .           calls the Soda-to-Scala translator
+
+---
+Soda-to-Scala translator
+
+Usage:
+  soda scala SODA_SCALA_INPUT
 or
-  soda --scala SODA_INPUT SCALA_OUTPUT
+  soda scala SODA_INPUT SCALA_OUTPUT
 
 where
 
@@ -20,12 +42,12 @@ Otherwise, the extension .soda and .scala are appended to create the input and o
 
 
 ---
-Translator to Coq
+Soda-to-Coq translator
 
 Usage:
-  soda --coq SODA_COQ_INPUT
+  soda coq SODA_COQ_INPUT
 or
-  soda --coq SODA_INPUT COQ_OUTPUT
+  soda coq SODA_INPUT COQ_OUTPUT
 
 where
 

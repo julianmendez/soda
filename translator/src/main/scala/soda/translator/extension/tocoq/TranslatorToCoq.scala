@@ -15,8 +15,11 @@ trait TranslatorToCoq  extends soda.translator.extension.common.Extension {
 
   lazy val coq_extension: String = ".v"
 
+  lazy val default_argument = "."
+
   def execute (arguments: Seq [String]  ): Boolean =
-    if (arguments.length == 1 ) process_directory (arguments (0 )  )
+    if (arguments.length == 0 ) process_directory (default_argument )
+    else if (arguments.length == 1 ) process_directory (arguments (0 )  )
     else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
     else false
 

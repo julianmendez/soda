@@ -17,18 +17,19 @@ trait MainClass  extends soda.translator.extension.common.Extension {
   lazy val help = soda.translator.extension.help.Help_ ()
 
   lazy val extensions: Map [String, Extension] =
-    Seq ((".", soda.translator.extension.toscala.TranslatorToScala_ () ), ("--scala", soda.translator.extension.toscala.TranslatorToScala_ () ), ("--coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ), ("--help", help ), ("--manual", soda.translator.extension.manual.Manual_ () ), ("--main", this )    ) .toMap
+    Seq ((".", soda.translator.extension.toscala.TranslatorToScala_ () ), ("scala", soda.translator.extension.toscala.TranslatorToScala_ () ), ("coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ), ("manual", soda.translator.extension.help.Manual_ () ), ("license", soda.translator.extension.help.License_ () ), ("help", help ), ("-h", help ), ("--help", help ), ("main", this )    ) .toMap
 
   def main (arguments: Array [String]  ): Unit =
-    if (arguments.length == 0
-    ) help.execute (arguments.toSeq )
-    else execute (arguments.toSeq )
+    execute (arguments.toSeq )
 
   def execute (arguments: Seq [String]  ): Boolean =
-    {
-      lazy val extension_name = arguments.head
-      lazy val new_arguments = arguments.tail
-      lazy val extension_instance = extensions.getOrElse (extension_name, help )
-      extension_instance.execute (new_arguments ) }
+    if (arguments.length == 0
+    ) help.execute (arguments.toSeq )
+    else
+      {
+        lazy val extension_name = arguments.head
+        lazy val new_arguments = arguments.tail
+        lazy val extension_instance = extensions.getOrElse (extension_name, help )
+        extension_instance.execute (new_arguments ) }
 
 }
