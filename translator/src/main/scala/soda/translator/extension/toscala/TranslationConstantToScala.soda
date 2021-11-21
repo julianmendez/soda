@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.

@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 /**
  * This class translates Soda source code into Scala source code.

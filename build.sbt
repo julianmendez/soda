@@ -64,18 +64,6 @@ lazy val translator = project
   )
 
 
-lazy val coqport = project
-  .withId(id = "coqport")
-  .in(file("coqport"))
-  .aggregate(translator)
-  .dependsOn(translator)
-  .settings(
-    commonSettings,
-    assembly / mainClass := Some("soda.coqport.io.EntryPoint"),
-    assembly / assemblyJarName := "coqport-" + version.value + ".jar"
-  )
-
-
 lazy val library = project
   .withId(id = "library")
   .in(file("library"))
@@ -101,8 +89,8 @@ lazy val examples = project
 lazy val root = project
   .withId(id = "soda")
   .in(file("."))
-  .aggregate(documentation, translator, coqport, library, examples)
-  .dependsOn(documentation, translator, coqport, library, examples)
+  .aggregate(documentation, translator, library, examples)
+  .dependsOn(documentation, translator, library, examples)
   .settings(
     commonSettings,
     assembly / mainClass := Some("soda.translator.io.EntryPoint"),

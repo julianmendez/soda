@@ -7,7 +7,7 @@ package soda.coqport.io
  */
 * MainClass = {
 
-  + soda.coqport.language.MicroTranslatorToCoq_
+  + soda.translator.extension.tocoq.MicroTranslatorToCoq_
   + soda.translator.block.BlockProcessor_
   + soda.translator.io.DirectoryProcessor_
   + soda.translator.io.SimpleFileReader_

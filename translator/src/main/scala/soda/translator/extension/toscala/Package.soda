@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.extension.toscala
 
 /**
  * This package defines the most representative properties of Soda,

@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.extension.tocoq
 
 
 /**
@@ -10,7 +10,7 @@ package soda.coqport.language
   + soda.lib.SomeSD_
   + soda.translator.block.Block
   + soda.translator.block.Block_
-  + soda.translator.language.DefaultTranslator_
+  + soda.translator.extension.toscala.DefaultTranslator_
   + soda.translator.replacement.CommentPreprocessor_
   + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
@@ -26,7 +26,7 @@ package soda.coqport.language
 
   new_line = "\n"
 
-  mtr = soda.translator.language.MicroTranslatorToScala_()
+  mtr = soda.translator.extension.toscala.MicroTranslatorToScala_()
 
   soda_opening_parenthesis: String = "("
 
