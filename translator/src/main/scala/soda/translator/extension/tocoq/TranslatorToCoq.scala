@@ -1,37 +1,24 @@
-package soda.translator.io
-
-object EntryPoint {
-  def main(args: Array[String]): Unit = Main().main(args)
-}
-
+package soda.translator.extension.tocoq
 
 /**
- * This is the main entry point.
+ * This translates Soda source code to Coq source code.
  */
-trait MainClass {
+trait TranslatorToCoq  extends soda.translator.extension.common.Extension {
 
   import soda.translator.block.BlockProcessor_
-  import soda.translator.language.MicroTranslatorToScala_
+  import soda.translator.io.DirectoryProcessor_
+  import soda.translator.io.SimpleFileReader_
+  import soda.translator.io.SimpleFileWriter_
   import java.io.File
 
   lazy val soda_extension: String = ".soda"
 
-  lazy val scala_extension: String = ".scala"
+  lazy val coq_extension: String = ".v"
 
-  lazy val help: String =
-    SimpleFileReader_ () .read_resource ("/soda/translator/documentation/help.txt")
-
-  lazy val title_and_version: String =
-    {
-      lazy val packg = this.getClass.getPackage
-      lazy val name = Option (packg.getImplementationTitle ) .getOrElse ("")
-      lazy val version = Option (packg.getImplementationVersion ) .getOrElse ("")
-      (name + " " + version ) .trim }
-
-  def main (arguments: Array [String]  ): Unit =
+  def execute (arguments: Seq [String]  ): Boolean =
     if (arguments.length == 1 ) process_directory (arguments (0 )  )
     else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
-    else println (title_and_version + "\n\n" + help )
+    else false
 
   def process_directory (start: String ): Boolean =
     DirectoryProcessor_ (start, process_soda_file ) .process ()
@@ -44,19 +31,18 @@ trait MainClass {
 
   def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (soda_extension )
-    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + scala_extension )
-    else FileNamePair_ (input_name + soda_extension, input_name + scala_extension )
+    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + coq_extension )
+    else FileNamePair_ (input_name + soda_extension, input_name + coq_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
     {
-      lazy val block_translator = MicroTranslatorToScala_ ()
       lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = BlockProcessor_ (block_translator ) .translate (input )
+      lazy val output = BlockProcessor_ (MicroTranslatorToCoq_ ()  ) .translate (input )
       SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
 
 }
 
-case class Main ()  extends MainClass
+case class TranslatorToCoq_ ()  extends TranslatorToCoq
 
 trait FileNamePair {
 

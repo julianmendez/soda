@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.extension.tocoq
 
 /**
  * A line containing the definition sign will be classified as a definition.
@@ -24,7 +24,7 @@ package soda.coqport.language
  * This is no longer supported.
  *
  */
-trait DefinitionTranslatorToCoq  extends soda.translator.language.LineTranslator {
+trait DefinitionTranslatorToCoq  extends soda.translator.extension.toscala.LineTranslator {
 
   import soda.lib.OptionSD
   import soda.lib.SomeSD_

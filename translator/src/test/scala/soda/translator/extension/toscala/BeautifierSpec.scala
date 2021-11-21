@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 case class BeautifierSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 

@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.extension.tocoq
 
 
 /**
@@ -9,7 +9,7 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
   import soda.lib.SomeSD_
   import soda.translator.block.Block
   import soda.translator.block.Block_
-  import soda.translator.language.DefaultTranslator_
+  import soda.translator.extension.toscala.DefaultTranslator_
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
@@ -25,7 +25,7 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
 
   lazy val new_line = "\n"
 
-  lazy val mtr = soda.translator.language.MicroTranslatorToScala_ ()
+  lazy val mtr = soda.translator.extension.toscala.MicroTranslatorToScala_ ()
 
   lazy val soda_opening_parenthesis: String = "("
 

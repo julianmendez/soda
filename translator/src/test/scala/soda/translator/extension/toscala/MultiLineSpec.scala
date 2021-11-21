@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 

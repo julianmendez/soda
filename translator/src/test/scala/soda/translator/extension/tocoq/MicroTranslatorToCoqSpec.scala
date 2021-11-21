@@ -1,4 +1,4 @@
-package soda.coqport.language
+package soda.translator.extension.tocoq
 
 case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 

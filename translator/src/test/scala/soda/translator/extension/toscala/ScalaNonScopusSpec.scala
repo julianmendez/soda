@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.

@@ -1,7 +1,10 @@
+---
+Translator to Scala
+
 Usage:
-  soda SODA_SCALA_INPUT
+  soda --scala SODA_SCALA_INPUT
 or
-  soda SODA_INPUT SCALA_OUTPUT
+  soda --scala SODA_INPUT SCALA_OUTPUT
 
 where
 
@@ -14,5 +17,25 @@ Otherwise, the extension .soda and .scala are appended to create the input and o
   SODA_INPUT is the Soda input file, regardless of the extension
 
   SCALA_OUTPUT is the Scala output file, regardless of the extension
+
+
+---
+Translator to Coq
+
+Usage:
+  soda --coq SODA_COQ_INPUT
+or
+  soda --coq SODA_INPUT COQ_OUTPUT
+
+where
+
+  SODA_COQ_INPUT is used for the Soda input file and Coq output file.
+If it is a directory, it scans recursively the directory to translate Soda files.
+If the extension is .soda, the output file has extension .v .
+
+
+  SODA_INPUT is the input file containing Soda snippets
+
+  COQ_OUTPUT is the output file for Coq snippets
 
 

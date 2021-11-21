@@ -1,13 +1,11 @@
-package soda.coqport.io
-
-@main
+package soda.translator.extension.toscala
 
 /**
- * This is the main entry point.
+ * This translates Soda source code to Scala source code.
  */
-* MainClass = {
+* TranslatorToScala
+  extends soda.translator.extension.common.Extension = {
 
-  + soda.translator.extension.tocoq.MicroTranslatorToCoq_
   + soda.translator.block.BlockProcessor_
   + soda.translator.io.DirectoryProcessor_
   + soda.translator.io.SimpleFileReader_
@@ -16,17 +14,15 @@ package soda.coqport.io
 
   soda_extension: String = ".soda"
 
-  coq_extension: String = ".v"
+  scala_extension: String = ".scala"
 
-  tr = soda.translator.io.Main()
+  default_argument = "."
 
-  help: String =
-    SimpleFileReader_().read_resource("/soda/coqport/documentation/help.txt")
-
-  main(arguments: Array[String]): Unit =
-    if arguments.length == 1 then process_directory(arguments(0))
-    else if arguments.length == 2 then translate(arguments(0), arguments(1))
-    else println(tr.title_and_version + "\n\n" + help)
+  execute (arguments: Seq[String]): Boolean =
+    if arguments.length == 0 then process_directory (default_argument)
+    else if arguments.length == 1 then process_directory (arguments(0))
+    else if arguments.length == 2 then translate (arguments(0), arguments(1))
+    else false
 
   process_directory(start: String): Boolean =
     DirectoryProcessor_(start, process_soda_file).process()
@@ -40,18 +36,20 @@ package soda.coqport.io
   get_input_output_file_names(input_name: String): FileNamePair =
     if input_name.endsWith(soda_extension)
     then FileNamePair_(input_name,
-      input_name.substring(0, input_name.length - soda_extension.length) + coq_extension)
-    else FileNamePair_(input_name + soda_extension, input_name + coq_extension)
+      input_name.substring(0, input_name.length - soda_extension.length) + scala_extension)
+    else FileNamePair_(input_name + soda_extension, input_name + scala_extension)
 
   translate(input_file_name: String, output_file_name: String): Boolean =
     let
+      block_translator = MicroTranslatorToScala_()
       input = SimpleFileReader_().read_file (input_file_name)
-      output = BlockProcessor_(MicroTranslatorToCoq_()).translate (input)
+      output = BlockProcessor_(block_translator).translate (input)
     in SimpleFileWriter_().write_file (output_file_name, content := output)
 
 }
 
-* Main() extends MainClass
+* TranslatorToScala_()
+  extends TranslatorToScala
 
 * FileNamePair = {
 
@@ -63,5 +61,4 @@ package soda.coqport.io
 
 * FileNamePair_(input_file_name: String, output_file_name: String)
   extends FileNamePair
-
 

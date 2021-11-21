@@ -1,4 +1,4 @@
-package soda.translator.language
+package soda.translator.extension.toscala
 
 case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
