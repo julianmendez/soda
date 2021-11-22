@@ -1,0 +1,24 @@
+package soda.example.mathematics
+
+class FiboExample is {
+
+  has fib (n: Int): Int
+
+}
+
+class FiboExampleInSoda
+  extends FiboExample is {
+
+  _rec (m: Int, a: Int, b: Int): Int is
+    if m == 0 then a
+    else if m == 1 then b
+    else _rec (m - 1, b, a + b)
+
+  fib (n: Int) is
+    _rec (n, 0, 1)
+
+}
+
+class FiboExampleInSoda_()
+  extends FiboExampleInSoda
+
