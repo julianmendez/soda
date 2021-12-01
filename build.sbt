@@ -29,7 +29,7 @@ lazy val commonSettings = Seq(
    * [[https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/]]
    */
   crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_0, scala3_1),
-  scalaVersion := scala3_0,
+  scalaVersion := scala3_1,
 
   /**
    * ScalaTest
