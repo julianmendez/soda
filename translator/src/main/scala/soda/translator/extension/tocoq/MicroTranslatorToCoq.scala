@@ -49,22 +49,18 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
 
   def translate (block: Block ): Block =
     SomeSD_ (block )
-      .map (x => x.contents )
-      .map (mtr.split_lines )
       .map (mtr.join_lines_with_forward_join )
       .map (mtr.join_lines_with_backward_join )
       .map (translate_lines )
-      .map (mtr.join_translated_lines )
-      .map (x => Block_ (x )  )
       .value
 
-  def translate_lines (lines: Seq [String]  ): Seq [String] =
-    CommentPreprocessor_ (lines )
-      .annotated_lines
-      .map (annotated_line =>
-        if (annotated_line.isComment
-        ) annotated_line.line
-        else _translate_non_comment (annotated_line.line )      )
+  def translate_lines (block: Block ): Block =
+    Block_ (CommentPreprocessor_ (block.lines )
+        .annotated_lines
+        .map (annotated_line =>
+          if (annotated_line.isComment
+          ) annotated_line.line
+          else _translate_non_comment (annotated_line.line )        )    )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

@@ -46,36 +46,26 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
 
   def translate (block: Block ): Block =
     SomeSD_ (block )
-      .map (x => x.contents )
-      .map (split_lines )
       .map (join_lines_with_forward_join )
       .map (preprocess_let_in_commands )
       .map (preprocess_match_case_commands )
       .map (join_lines_with_backward_join )
       .map (translate_lines )
-      .map (join_translated_lines )
-      .map (x => Block_ (x )  )
       .value
 
-  def split_lines (block: String ): Seq [String] =
-    block.split (new_line ) .toIndexedSeq
+  def join_lines_with_forward_join (block: Block ): Block =
+    Block_ (LineJoinerToScala_ (block.lines ) .joined_lines_with_forward_join    )
 
-  def join_lines_with_forward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerToScala_ (lines ) .joined_lines_with_forward_join
+  def join_lines_with_backward_join (block: Block ): Block =
+    Block_ (LineJoinerToScala_ (block.lines ) .joined_lines_with_backward_join    )
 
-  def join_lines_with_backward_join (lines: Seq [String]  ): Seq [String] =
-    LineJoinerToScala_ (lines ) .joined_lines_with_backward_join
-
-  def join_translated_lines (lines: Seq [String]  ): String =
-    lines.mkString (new_line )
-
-  def translate_lines (lines: Seq [String]  ): Seq [String] =
-    CommentPreprocessor_ (lines )
-      .annotated_lines
-      .map (annotated_line =>
-        if (annotated_line.isComment
-        ) annotated_line.line
-        else _translate_non_comment (annotated_line.line )      )
+  def translate_lines (block: Block ): Block =
+    Block_ (CommentPreprocessor_ (block.lines )
+        .annotated_lines
+        .map (annotated_line =>
+          if (annotated_line.isComment
+          ) annotated_line.line
+          else _translate_non_comment (annotated_line.line )        )    )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )
@@ -120,15 +110,15 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
       .map (token => token.text )
       .mkString ("")
 
-  def preprocess_let_in_commands (lines: Seq [String]  ): Seq [String] =
-    lines
-      .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
-      .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
-      .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) )
+  def preprocess_let_in_commands (block: Block ): Block =
+    Block_ (block.lines
+        .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
+        .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
+        .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) )    )
 
-  def preprocess_match_case_commands (lines: Seq [String]  ): Seq [String] =
-    lines.map (line =>
-       insert_match_before_brace_if_found (line ) )
+  def preprocess_match_case_commands (block: Block ): Block =
+    Block_ (block.lines
+        .map (line => insert_match_before_brace_if_found (line ) )    )
 
   def starts_with (line: String, pattern: String ): Boolean =
     line.trim.startsWith (pattern )

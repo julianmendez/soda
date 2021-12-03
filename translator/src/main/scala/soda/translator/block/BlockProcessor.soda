@@ -21,7 +21,12 @@ package soda.translator.block
     program
       .split (double_new_line)
       .toIndexedSeq
-      .map (x -> Block_(x))
+      .map (paragraph -> make_block (paragraph) )
+
+  make_block (paragraph: String): Block =
+    Block_(
+      paragraph.split (new_line)
+    )
 
   translate_blocks (blocks: Seq[Block]): Seq[Block] =
     blocks.map (block -> translator.translate (block) )
