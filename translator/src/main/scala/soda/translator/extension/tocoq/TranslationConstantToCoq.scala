@@ -41,7 +41,14 @@ trait TranslationConstantToCoq {
 
   lazy val coq_value: String = "Definition"
 
+  lazy val coq_recursive_definition: String = "Fixpoint"
+
   lazy val coq_definition_end: String = "."
+
+  lazy val coq_recursive_definition_end: String = "."
+
+  lazy val coq_recursive_function_prefixes: Seq [String] =
+    Seq ("rec_", "_rec_"    )
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 

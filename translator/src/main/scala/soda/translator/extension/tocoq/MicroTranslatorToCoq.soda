@@ -68,8 +68,8 @@ package soda.translator.extension.tocoq
     )
 
   process_definition (block: Block): Block =
-    if is_a_definition (block)
-    then append (tc.coq_definition_end, prepend (tc.coq_definition, block) )
+    if is_a_recursive_definition (block) then append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition, block) )
+    else if is_a_definition (block) then append (tc.coq_definition_end, prepend (tc.coq_definition, block) )
     else block
 
   prepend (prefix: String, block: Block): Block =
@@ -82,8 +82,14 @@ package soda.translator.extension.tocoq
       block.lines.:+(suffix)
     )
 
+  is_a_recursive_definition (block: Block): Boolean =
+    let
+      first = block.lines(0)
+      result = tc.coq_recursive_function_prefixes.exists (prefix -> first.startsWith (prefix))
+    in result
+
   is_a_definition (block: Block): Boolean =
-    true
+    not is_a_recursive_definition (block)
     /* FIXME: This should check whether the block is a definition. */
 
   _translate_non_comment (line: String): String =

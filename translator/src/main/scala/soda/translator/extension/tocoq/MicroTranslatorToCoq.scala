@@ -64,8 +64,8 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
           else _translate_non_comment (annotated_line.line )        )    )
 
   def process_definition (block: Block ): Block =
-    if (is_a_definition (block )
-    ) append (tc.coq_definition_end, prepend (tc.coq_definition, block ) )
+    if (is_a_recursive_definition (block ) ) append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition, block ) )
+    else if (is_a_definition (block ) ) append (tc.coq_definition_end, prepend (tc.coq_definition, block ) )
     else block
 
   def prepend (prefix: String, block: Block ): Block =
@@ -74,8 +74,14 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
   def append (suffix: String, block: Block ): Block =
     Block_ (block.lines.:+ (suffix )    )
 
+  def is_a_recursive_definition (block: Block ): Boolean =
+    {
+      lazy val first = block.lines (0 )
+      lazy val result = tc.coq_recursive_function_prefixes.exists (prefix => first.startsWith (prefix )  )
+      result }
+
   def is_a_definition (block: Block ): Boolean =
-    true
+    ! is_a_recursive_definition (block )
     /* FIXME: This should check whether the block is a definition. */
 
   def _translate_non_comment (line: String ): String =
