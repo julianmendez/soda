@@ -22,31 +22,31 @@ package soda.translator.extension.tocoq
 
   target = "coq"
 
-  tc = TranslationConstantToCoq_()
+  tc = TranslationConstantToCoq_ ()
 
   new_line = "\n"
 
-  mtr = soda.translator.extension.toscala.MicroTranslatorToScala_()
+  mtr = soda.translator.extension.toscala.MicroTranslatorToScala_ ()
 
   soda_opening_parenthesis: String = "("
 
-  synonym_at_beginning = DefaultTranslator_(tc.synonym_at_beginning)
+  synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning)
 
-  translation_at_beginning_with_paren = DefaultTranslator_(tc.translation_at_beginning_with_paren)
+  translation_at_beginning_with_paren = DefaultTranslator_ (tc.translation_at_beginning_with_paren)
 
   translation_at_beginning_without_paren_for_type_alias =
-      DefaultTranslator_(tc.translation_at_beginning_without_paren_for_type_alias)
+      DefaultTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias)
 
   translation_at_beginning_without_paren =
-      DefaultTranslator_(tc.translation_at_beginning_without_paren)
+      DefaultTranslator_ (tc.translation_at_beginning_without_paren)
 
-  synonym = DefaultTranslator_(tc.synonym)
+  synonym = DefaultTranslator_ (tc.synonym)
 
-  main_translation = DefaultTranslator_(tc.main_translation)
+  main_translation = DefaultTranslator_ (tc.main_translation)
 
-  scala_non_soda = DefaultTranslator_(tc.scala_non_soda)
+  scala_non_soda = DefaultTranslator_ (tc.scala_non_soda)
 
-  beautifier = DefaultTranslator_(tc.beautifier)
+  beautifier = DefaultTranslator_ (tc.beautifier)
 
   translate (block: Block): Block =
     SomeSD_ (block)
@@ -55,56 +55,56 @@ package soda.translator.extension.tocoq
       .map (translate_lines)
       .value
 
-  translate_lines(block: Block): Block =
-    Block_(
-      CommentPreprocessor_(block.lines)
+  translate_lines (block: Block): Block =
+    Block_ (
+      CommentPreprocessor_ (block.lines)
         .annotated_lines
-        .map(annotated_line ->
+        .map (annotated_line ->
           if annotated_line.isComment
           then annotated_line.line
-          else _translate_non_comment(annotated_line.line)
+          else _translate_non_comment (annotated_line.line)
         )
     )
 
-  _translate_non_comment(line: String): String =
-      SomeSD_(line)
-        .map(x -> Replacement_(x).add_space_to_soda_line().line)
-        .map(x -> Tokenizer_(x).tokens)
-        .map(x -> _translate_line(x))
-        .map(x -> _join_tokens(x))
-        .map(x -> Replacement_(x).remove_space_from_scala_line().line)
+  _translate_non_comment (line: String): String =
+      SomeSD_ (line)
+        .map (x -> Replacement_ (x).add_space_to_soda_line ().line)
+        .map (x -> Tokenizer_ (x).tokens)
+        .map (x -> _translate_line (x))
+        .map (x -> _join_tokens (x))
+        .map (x -> Replacement_ (x).remove_space_from_scala_line ().line)
         .value
 
-  _translate_line(tokens: Seq[Token]): Seq[Token] =
-    tokens.map(
+  _translate_line (tokens: Seq[Token]): Seq[Token] =
+    tokens.map (
       token ->
-        if token.parser_state == ParserStateEnum_().plain
-        then Token_(_get_all_replacements(token), token.parser_state, token.index)
+        if token.parser_state == ParserStateEnum_ ().plain
+        then Token_ (_get_all_replacements (token), token.parser_state, token.index)
         else token
     )
 
-  try_definition(line: String): String =
-    DefinitionTranslatorToCoq_(line).translation
+  try_definition (line: String): String =
+    DefinitionTranslatorToCoq_ (line).translation
 
-  _join_tokens(tokens: Seq[Token]): String =
+  _join_tokens (tokens: Seq[Token]): String =
     tokens
-      .map(token -> token.text)
-      .mkString("")
+      .map (token -> token.text)
+      .mkString ("")
 
 
-  _get_all_replacements(token: Token): String =
-    Replacement_(token.text)
-      .add_spaces_to_symbols(symbols := tc.soda_brackets_and_comma.toSet)
-      .replace(scala_non_soda)
-      .replace_at_beginning(token.index, synonym_at_beginning)
-      .replace(synonym)
-      .replace_with(try_definition)
-      .replace(main_translation)
-      .replace_regex(beautifier)
+  _get_all_replacements (token: Token): String =
+    Replacement_ (token.text)
+      .add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet)
+      .replace (scala_non_soda)
+      .replace_at_beginning (token.index, synonym_at_beginning)
+      .replace (synonym)
+      .replace_with (try_definition)
+      .replace (main_translation)
+      .replace_regex (beautifier)
       .line
 
 }
 
-* MicroTranslatorToCoq_()
+* MicroTranslatorToCoq_ ()
   extends MicroTranslatorToCoq
 
