@@ -10,10 +10,10 @@ trait FactorialForCoq {
     m  match {
       case O () => product
       case S (k ) => _rec_get_factorial (k ) (product .mul (S (k ) )  )
-    } ;
+    }
 
   def get_factorial (n: nat ): nat =
-    _rec_get_factorial (n ) (S (O () ) ) ;
+    _rec_get_factorial (n ) (S (O () ) )
 
 }
 

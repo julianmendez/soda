@@ -11,10 +11,10 @@ package soda.example.forcoq.mathematics
       | O() -> a
       | S (O()) -> b
       | S (k) -> _rec_fib (k) (b) (a .add (b))
-    } ;
+    }
 
   fib (n: nat) =
-    _rec_fib (n) (O()) ( S (O() ) ) ;
+    _rec_fib (n) (O()) ( S (O() ) )
 
 }
 

@@ -11,10 +11,10 @@ trait FiboExampleInSodaForCoq {
       case O () => a
       case S (O ()  ) => b
       case S (k ) => _rec_fib (k ) (b ) (a .add (b )  )
-    } ;
+    }
 
   def fib (n: nat ) =
-    _rec_fib (n ) (O ()  ) (S (O () ) ) ;
+    _rec_fib (n ) (O ()  ) (S (O () ) )
 
 }
 
