@@ -25,7 +25,9 @@ package soda.translator.block
 
   make_block (paragraph: String): Block =
     Block_(
-      paragraph.split (new_line)
+      paragraph
+        .split (new_line)
+        .toIndexedSeq
     )
 
   translate_blocks (blocks: Seq[Block]): Seq[Block] =

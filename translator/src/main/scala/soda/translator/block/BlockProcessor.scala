@@ -24,7 +24,9 @@ trait BlockProcessor {
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): Block =
-    Block_ (paragraph.split (new_line )    )
+    Block_ (paragraph
+        .split (new_line )
+        .toIndexedSeq    )
 
   def translate_blocks (blocks: Seq [Block]  ): Seq [Block] =
     blocks.map (block => translator.translate (block ) )
