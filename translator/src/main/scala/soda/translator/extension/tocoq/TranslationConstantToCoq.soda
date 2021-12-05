@@ -37,9 +37,11 @@ package soda.translator.extension.tocoq
 
   soda_class_reserved_word: String = "class"
 
-  scala_definition: String = "Definition"
+  coq_definition: String = "Definition"
 
-  scala_value: String = "Definition"
+  coq_value: String = "Definition"
+
+  coq_definition_end: String = "."
 
   scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 

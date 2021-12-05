@@ -53,6 +53,7 @@ package soda.translator.extension.tocoq
       .map (mtr.join_lines_with_forward_join)
       .map (mtr.join_lines_with_backward_join)
       .map (translate_lines)
+      .map (process_definition)
       .value
 
   translate_lines (block: Block): Block =
@@ -65,6 +66,25 @@ package soda.translator.extension.tocoq
           else _translate_non_comment (annotated_line.line)
         )
     )
+
+  process_definition (block: Block): Block =
+    if is_a_definition (block)
+    then append (tc.coq_definition_end, prepend (tc.coq_definition, block) )
+    else block
+
+  prepend (prefix: String, block: Block): Block =
+    Block_ (
+      Seq (prefix).++(block.lines)
+    )
+
+  append (suffix: String, block: Block): Block =
+    Block_ (
+      block.lines.:+(suffix)
+    )
+
+  is_a_definition (block: Block): Boolean =
+    true
+    /* FIXME: This should check whether the block is a definition. */
 
   _translate_non_comment (line: String): String =
       SomeSD_ (line)

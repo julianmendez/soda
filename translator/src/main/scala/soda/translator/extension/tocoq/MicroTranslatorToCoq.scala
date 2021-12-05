@@ -52,6 +52,7 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
       .map (mtr.join_lines_with_forward_join )
       .map (mtr.join_lines_with_backward_join )
       .map (translate_lines )
+      .map (process_definition )
       .value
 
   def translate_lines (block: Block ): Block =
@@ -61,6 +62,21 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
           if (annotated_line.isComment
           ) annotated_line.line
           else _translate_non_comment (annotated_line.line )        )    )
+
+  def process_definition (block: Block ): Block =
+    if (is_a_definition (block )
+    ) append (tc.coq_definition_end, prepend (tc.coq_definition, block ) )
+    else block
+
+  def prepend (prefix: String, block: Block ): Block =
+    Block_ (Seq (prefix ) .++ (block.lines )    )
+
+  def append (suffix: String, block: Block ): Block =
+    Block_ (block.lines.:+ (suffix )    )
+
+  def is_a_definition (block: Block ): Boolean =
+    true
+    /* FIXME: This should check whether the block is a definition. */
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

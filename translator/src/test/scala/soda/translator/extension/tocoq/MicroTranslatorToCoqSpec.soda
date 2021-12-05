@@ -9,15 +9,15 @@ package soda.translator.extension.tocoq
 
   test("Coq translation of a constant")
     let
-      original = "x = 0 ;"
-      expected = "Definition x := 0 .\n"
+      original = "x = 0"
+      expected = "Definition\n x := 0\n.\n"
       obtained = instance.translate (original)
     in assert(obtained == expected)
 
   test("Coq translation of a function")
     let
-      original = "f (a: nat) = 0 ;"
-      expected = "Definition f (a: nat ) := 0 .\n"
+      original = "f (a: nat) = 0"
+      expected = "Definition\n f (a: nat ) := 0\n.\n"
       obtained = instance.translate (original)
     in assert(obtained == expected)
 

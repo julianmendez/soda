@@ -13,11 +13,11 @@ trait RecursionForCoq {
       case (head ):: (tail ) =>
          if ((! (condition (current_value ) (head ) ) )
          ) current_value
-         else _rec_fold4 (tail ) (next_value_function (current_value ) (head )  ) (next_value_function ) (condition ) ;
+         else _rec_fold4 (tail ) (next_value_function (current_value ) (head )  ) (next_value_function ) (condition )
     } ;
 
   def fold4 [A, B] (sequence: Seq [A]  ) (initial_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
-    _rec_fold4 (sequence ) (initial_value ) (next_value_function ) (condition ) ;
+    _rec_fold4 (sequence ) (initial_value ) (next_value_function ) (condition )
 
   import scala.annotation.tailrec
         @tailrec  final

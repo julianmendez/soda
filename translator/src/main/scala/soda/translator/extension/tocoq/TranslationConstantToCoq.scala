@@ -37,9 +37,11 @@ trait TranslationConstantToCoq {
 
   lazy val soda_class_reserved_word: String = "class"
 
-  lazy val scala_definition: String = "Definition"
+  lazy val coq_definition: String = "Definition"
 
-  lazy val scala_value: String = "Definition"
+  lazy val coq_value: String = "Definition"
+
+  lazy val coq_definition_end: String = "."
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 

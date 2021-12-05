@@ -74,10 +74,10 @@ package soda.translator.extension.tocoq
     contains_equals and not (ends_with_equals or ends_with_opening_brace)
 
   translation_of_val_definition =
-    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, tc.scala_value + scala_space )
+    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, scala_space )
 
   translation_of_def_definition =
-    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, tc.scala_definition + scala_space )
+    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, scala_space )
 
   try_found_definition(position: Int): Replacement =
     if is_class_definition then translation_of_class_definition
