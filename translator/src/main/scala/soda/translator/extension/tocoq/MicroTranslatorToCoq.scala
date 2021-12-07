@@ -25,6 +25,8 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
 
   lazy val new_line = "\n"
 
+  lazy val space = " "
+
   lazy val mtr = soda.translator.extension.toscala.MicroTranslatorToScala_ ()
 
   lazy val soda_opening_parenthesis: String = "("
@@ -64,25 +66,29 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
           else _translate_non_comment (annotated_line.line )        )    )
 
   def process_definition (block: Block ): Block =
-    if (is_a_recursive_definition (block ) ) append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition, block ) )
-    else if (is_a_definition (block ) ) append (tc.coq_definition_end, prepend (tc.coq_definition, block ) )
+    if (is_a_recursive_definition (block ) ) append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block ) )
+    else if (is_a_definition (block ) ) append (tc.coq_definition_end, prepend (tc.coq_definition + space, block ) )
     else block
 
   def prepend (prefix: String, block: Block ): Block =
-    Block_ (Seq (prefix ) .++ (block.lines )    )
+    Block_ (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail    )
 
   def append (suffix: String, block: Block ): Block =
     Block_ (block.lines.:+ (suffix )    )
 
   def is_a_recursive_definition (block: Block ): Boolean =
     {
-      lazy val first = block.lines (0 )
+      lazy val first = block.lines (0 ) .trim
       lazy val result = tc.coq_recursive_function_prefixes.exists (prefix => first.startsWith (prefix )  )
       result }
 
   def is_a_definition (block: Block ): Boolean =
-    ! is_a_recursive_definition (block )
-    /* FIXME: This should check whether the block is a definition. */
+    {
+      lazy val contents = block.contents.trim
+      lazy val result =
+        ! is_a_recursive_definition (block ) &&
+        ! tc.non_definition_block_prefixes.exists (prefix => contents.startsWith (prefix )  )
+      result }
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

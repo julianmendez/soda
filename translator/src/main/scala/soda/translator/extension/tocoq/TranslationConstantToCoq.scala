@@ -11,7 +11,15 @@ trait TranslationConstantToCoq {
 
   lazy val soda_opening_parenthesis: String = "("
 
+  lazy val soda_closing_parenthesis: String = ")"
+
   lazy val soda_opening_brace: String = "{"
+
+  lazy val soda_closing_brace: String = "}"
+
+  lazy val soda_opening_comment: String = "/*"
+
+  lazy val soda_closing_comment: String = "*/"
 
   lazy val scala_3_class_definition: String = ":"
 
@@ -37,6 +45,8 @@ trait TranslationConstantToCoq {
 
   lazy val soda_class_reserved_word: String = "class"
 
+  lazy val soda_package_reserved_word: String = "package"
+
   lazy val coq_definition: String = "Definition"
 
   lazy val coq_value: String = "Definition"
@@ -48,7 +58,10 @@ trait TranslationConstantToCoq {
   lazy val coq_recursive_definition_end: String = "."
 
   lazy val coq_recursive_function_prefixes: Seq [String] =
-    Seq ("rec_", "_rec_"    )
+    Seq ("rec_", "_rec_", "tailrec_", "_tailrec_", "@tailrec"    )
+
+  lazy val non_definition_block_prefixes: Seq [String] =
+    Seq (soda_package_reserved_word, soda_closing_brace, soda_class_reserved_word, soda_opening_comment    )
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
