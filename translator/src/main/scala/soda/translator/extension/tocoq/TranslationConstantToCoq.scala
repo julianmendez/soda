@@ -3,7 +3,7 @@ package soda.translator.extension.tocoq
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-trait TranslationConstantToCoq {
+trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaConstant {
 
   lazy val soda_definition: String = "="
 
@@ -47,6 +47,10 @@ trait TranslationConstantToCoq {
 
   lazy val soda_package_reserved_word: String = "package"
 
+  lazy val soda_import_reserved_word: String = "import"
+
+  lazy val soda_has_reserved_word: String = "has"
+
   lazy val coq_definition: String = "Definition"
 
   lazy val coq_value: String = "Definition"
@@ -61,11 +65,10 @@ trait TranslationConstantToCoq {
     Seq ("rec_", "_rec_", "tailrec_", "_tailrec_", "@tailrec"    )
 
   lazy val non_definition_block_prefixes: Seq [String] =
-    Seq (soda_package_reserved_word, soda_closing_brace, soda_class_reserved_word, soda_opening_comment    )
+    Seq (soda_package_reserved_word, soda_import_reserved_word, soda_closing_brace, soda_class_reserved_word, soda_opening_comment    )
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "<:", ">:", "+", "-", "*", "/"  )
 
   /**
    * Scala 3 keywords:
@@ -95,7 +98,7 @@ trait TranslationConstantToCoq {
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "=>"), ("=", ":="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "/\\"), ("or", "\\/")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb")  )
 
   lazy val prefix_scala_non_soda = "__soda__"
 

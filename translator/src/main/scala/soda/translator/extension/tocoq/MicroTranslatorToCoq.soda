@@ -86,7 +86,7 @@ package soda.translator.extension.tocoq
 
   is_a_recursive_definition (block: Block): Boolean =
     let
-      first = block.lines(0).trim
+      first = block.lines.head.trim
       result = tc.coq_recursive_function_prefixes.exists (prefix -> first.startsWith (prefix))
     in result
 

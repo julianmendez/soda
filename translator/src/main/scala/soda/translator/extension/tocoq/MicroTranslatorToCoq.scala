@@ -78,7 +78,7 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
 
   def is_a_recursive_definition (block: Block ): Boolean =
     {
-      lazy val first = block.lines (0 ) .trim
+      lazy val first = block.lines.head.trim
       lazy val result = tc.coq_recursive_function_prefixes.exists (prefix => first.startsWith (prefix )  )
       result }
 

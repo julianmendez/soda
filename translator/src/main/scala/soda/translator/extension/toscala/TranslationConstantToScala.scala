@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-trait TranslationConstantToScala {
+trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.SodaConstant {
 
   lazy val soda_definition: String = "="
 
@@ -43,7 +43,6 @@ trait TranslationConstantToScala {
 
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  lazy val soda_reserved_words = Seq ("=", ":", "->", ":=", "if", "then", "else", "let", "in", "match", "case", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
 
   /**
    * Scala 3 keywords:

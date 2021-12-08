@@ -3,7 +3,8 @@ package soda.translator.extension.tocoq
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-* TranslationConstantToCoq = {
+* TranslationConstantToCoq
+  extends soda.translator.extension.fromsoda.SodaConstant = {
 
   soda_definition: String = "="
 
@@ -47,6 +48,10 @@ package soda.translator.extension.tocoq
 
   soda_package_reserved_word: String = "package"
 
+  soda_import_reserved_word: String = "import"
+
+  soda_has_reserved_word: String = "has"
+
   coq_definition: String = "Definition"
 
   coq_value: String = "Definition"
@@ -69,6 +74,7 @@ package soda.translator.extension.tocoq
   non_definition_block_prefixes: Seq[String] =
     Seq (
       soda_package_reserved_word,
+      soda_import_reserved_word,
       soda_closing_brace,
       soda_class_reserved_word,
       soda_opening_comment
@@ -76,38 +82,6 @@ package soda.translator.extension.tocoq
 
   scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
 
-  soda_reserved_words = Seq(
-    "=",
-    ":",
-    "->",
-    ":=",
-    "if",
-    "then",
-    "else",
-    "let",
-    "in",
-    "class",
-    "has",
-    "extends",
-    "with",
-    "this",
-    "subtype",
-    "supertype",
-    "false",
-    "true",
-    "not",
-    "and",
-    "or",
-    "package",
-    "import",
-    "is",
-    "<:",
-    ">:",
-    "+",
-    "-",
-    "*",
-    "/"
-  )
 
   /**
    * Scala 3 keywords:
@@ -232,18 +206,21 @@ package soda.translator.extension.tocoq
   main_translation: Seq[(String, String)] = Seq(
     (";", "."),
     (":", ":"),
-    ("->", "=>"),
+    ("->", "->"),
     ("=", ":="),
     ("if", "if"),
     ("then", "then"),
     ("else", "else"),
     ("let", "let"),
     ("in", "in"),
+    ("match", "match"),
+    ("case", "|"),
+    ("|", "|"),
     ("false", "false"),
     ("true", "true"),
-    ("not", "!"),
-    ("and", "/\\"),
-    ("or", "\\/")
+    ("not", "negb"),
+    ("and", "andb"),
+    ("or", "orb")
   )
 
   prefix_scala_non_soda = "__soda__"
