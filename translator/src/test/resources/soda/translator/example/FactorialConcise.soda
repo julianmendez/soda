@@ -10,13 +10,13 @@ package soda.example
   extends AbstractFactorialConcise = {
 
   @tailrec
-  _rec_get_factorial (n: Int, product: Int): Int =
+  _tailrec_get_factorial (n: Int, product: Int): Int =
     if n == 0
     then product
-    else _rec_get_factorial (n - 1, n * product)
+    else _tailrec_get_factorial (n - 1, n * product)
 
   get_factorial (n: Int): Int =
-    _rec_get_factorial (n, 1)
+    _tailrec_get_factorial (n, 1)
 
 }
 

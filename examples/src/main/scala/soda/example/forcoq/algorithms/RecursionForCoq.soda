@@ -6,36 +6,36 @@ package soda.example.forcoq.algorithms
 * RecursionForCoq = {
 
   @tailrec
-  _rec_fold4 [A, B] (sequence: Seq [A]) (current_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B =
+  _tailrec_fold4 [A, B] (sequence: Seq [A]) (current_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B =
     match sequence {
       | Nil -> current_value
       | (head) :: (tail) ->
          if (not (condition (current_value) (head) ) )
          then current_value
-         else _rec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
+         else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
     }
 
   fold4 [A, B] (sequence: Seq [A]) (initial_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B =
-    _rec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
 
   @tailrec
-  _rec_fold3 [A, B] (sequence: Seq [A]) (current_value: B) (next_value_function: B -> A -> B): B =
+  _tailrec_fold3 [A, B] (sequence: Seq [A]) (current_value: B) (next_value_function: B -> A -> B): B =
     match sequence {
       | Nil -> current_value
-      | (head) :: (tail) -> _rec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
+      | (head) :: (tail) -> _tailrec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
     }
 
   fold3 [A, B] (sequence: Seq [A]) (initial_value: B) (next_value_function: B -> A -> B): B =
-    _rec_fold3 (sequence) (initial_value) (next_value_function)
+    _tailrec_fold3 (sequence) (initial_value) (next_value_function)
 
   @tailrec
-  _rec_range (n: Int) (sequence: Seq [Int]): Seq [Int] =
+  _tailrec_range (n: Int) (sequence: Seq [Int]): Seq [Int] =
     if n <= 0
     then sequence
-    else _rec_range (n - 1) (sequence .+: (n - 1))
+    else _tailrec_range (n - 1) (sequence .+: (n - 1))
 
   range (length: Int): Seq [Int] =
-    _rec_range (length) ( Nil )
+    _tailrec_range (length) ( Nil )
 
 }
 

@@ -5,6 +5,8 @@
   - new_features:
     - compiles with Scala 3.1.0
     - is compatible with Scala 2.13.7
+    - includes special prefix `_tailrec_` for tail recursive functions
+    - includes special prefix `_rec_` for recursive functions
     - makes annotation `@tailrec` only available to class methods
     - uses a let-in structure in functions of unit tests
   - release: target/scala-3.1.0/soda-0.13.0.jar

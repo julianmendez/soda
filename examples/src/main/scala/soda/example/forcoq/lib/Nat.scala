@@ -42,13 +42,13 @@ trait IntNat {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_from_non_negative (a: Int, b: nat ): nat =
+  def _tailrec_from_non_negative (a: Int, b: nat ): nat =
     if (a <= 0
     ) b
-    else _rec_from_non_negative (a - 1, S (b )  )
+    else _tailrec_from_non_negative (a - 1, S (b )  )
 
   def from_non_negative (a: Int ): nat =
-    _rec_from_non_negative (a, O ()  )
+    _tailrec_from_non_negative (a, O ()  )
 
   def to_Int (a: nat ): Int =
     a  match {

@@ -10,13 +10,13 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_get_factorial (n: Int, product: Int ): Int =
+  def _tailrec_get_factorial (n: Int, product: Int ): Int =
     if (n == 0
     ) product
-    else _rec_get_factorial (n - 1, n * product )
+    else _tailrec_get_factorial (n - 1, n * product )
 
   def get_factorial (n: Int ) =
-    _rec_get_factorial (n, 1 )
+    _tailrec_get_factorial (n, 1 )
 
 }
 

@@ -14,13 +14,13 @@ trait DirectoryScanner {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
+  def _tailrec_scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
     if (to_scan.isEmpty
     ) found
-    else _rec_scan (found.+: (to_scan.head ), get_files_to_scan (to_scan )  )
+    else _tailrec_scan (found.+: (to_scan.head ), get_files_to_scan (to_scan )  )
 
   def scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
-    _rec_scan (found, to_scan )
+    _tailrec_scan (found, to_scan )
 
   def get_files_to_scan (to_scan: Seq [File]  ): Seq [File] =
     if (to_scan.head.isDirectory

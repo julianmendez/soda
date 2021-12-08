@@ -28,7 +28,7 @@ trait PiIterator {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_compute_new_status (s: Status ): Status =
+  def _tailrec_compute_new_status (s: Status ): Status =
     if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
     ) s
     else
@@ -40,23 +40,23 @@ trait PiIterator {
         lazy val l = s.l + 2
         lazy val k = s.k + 1
         lazy val new_status = Status_ (r, n, q, t, l, k )
-        _rec_compute_new_status (new_status ) }
+        _tailrec_compute_new_status (new_status ) }
 
   def compute_new_status (s: Status ): Status =
-    _rec_compute_new_status (s )
+    _tailrec_compute_new_status (s )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_take (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
+  def _tailrec_take (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
     if (n == 0
     ) rev_seq.reverse
     else
       {
         lazy val t = _get_next (s )
-        _rec_take (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
+        _tailrec_take (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
 
   def take (n: Int ): Seq [Int] =
-    _rec_take (n, Seq (), initial_status )
+    _tailrec_take (n, Seq (), initial_status )
 
   def _get_next (s: Status ): IntAndStatus =
     {

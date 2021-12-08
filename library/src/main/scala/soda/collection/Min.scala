@@ -4,13 +4,13 @@ trait MSeqTranslator [T] {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_foldLeftSeq [B, C <: B]  (sequence: Seq [T], current_value: C, next_value: (B, T ) => C ): C =
+  def _tailrec_foldLeftSeq [B, C <: B]  (sequence: Seq [T], current_value: C, next_value: (B, T ) => C ): C =
     if (sequence.isEmpty
     ) current_value
-    else _rec_foldLeftSeq (sequence.tail, next_value (current_value, sequence.head ), next_value )
+    else _tailrec_foldLeftSeq (sequence.tail, next_value (current_value, sequence.head ), next_value )
 
   def foldLeftSeq [B, C <: B]  (sequence: Seq [T], initial_value: C, next_value: (B, T ) => C ): C =
-    _rec_foldLeftSeq (sequence, initial_value, next_value )
+    _tailrec_foldLeftSeq (sequence, initial_value, next_value )
 
   def asMSeq (seq: Seq [T]  ): MSeq [T] =
     {

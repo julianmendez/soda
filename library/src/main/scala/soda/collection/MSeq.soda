@@ -11,19 +11,19 @@ package soda.collection
 * MSeqRec[T] = {
 
   @tailrec
-  _rec_fold[B, C subtype B](sequence: MSeq[T],
+  _tailrec_fold[B, C subtype B](sequence: MSeq[T],
       current_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
     if sequence.isEmpty
     then current_value
     else
       let
         neseq = sequence.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
-      in if not condition(current_value, neseq.head()) then current_value else _rec_fold(
+      in if not condition(current_value, neseq.head()) then current_value else _tailrec_fold(
            neseq.tail(), next_value(current_value, neseq.head()), next_value, condition)
 
   fold[B, C subtype B](sequence: MSeq[T],
       initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
-    _rec_fold(sequence, initial_value, next_value, condition)
+    _tailrec_fold(sequence, initial_value, next_value, condition)
 
 }
 

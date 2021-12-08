@@ -12,16 +12,16 @@ trait MSeqRec [T] {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _rec_fold [B, C <: B]  (sequence: MSeq [T], current_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
+  def _tailrec_fold [B, C <: B]  (sequence: MSeq [T], current_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
     if (sequence.isEmpty
     ) current_value
     else
       {
         lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
-        if (! condition (current_value, neseq.head ()  ) ) current_value else _rec_fold (neseq.tail (), next_value (current_value, neseq.head ()  ), next_value, condition ) }
+        if (! condition (current_value, neseq.head ()  ) ) current_value else _tailrec_fold (neseq.tail (), next_value (current_value, neseq.head ()  ), next_value, condition ) }
 
   def fold [B, C <: B]  (sequence: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-    _rec_fold (sequence, initial_value, next_value, condition )
+    _tailrec_fold (sequence, initial_value, next_value, condition )
 
 }
 

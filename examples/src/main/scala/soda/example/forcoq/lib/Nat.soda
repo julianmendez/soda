@@ -43,13 +43,13 @@ package soda.example.forcoq.lib
     else SomeSD_[nat] (from_non_negative (a))
 
   @tailrec
-  _rec_from_non_negative (a: Int, b: nat): nat =
+  _tailrec_from_non_negative (a: Int, b: nat): nat =
     if a <= 0
     then b
-    else _rec_from_non_negative (a - 1, S (b))
+    else _tailrec_from_non_negative (a - 1, S (b))
 
   from_non_negative (a: Int): nat =
-    _rec_from_non_negative (a, O())
+    _tailrec_from_non_negative (a, O())
 
   to_Int (a: nat): Int =
     match a {

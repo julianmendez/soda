@@ -179,15 +179,15 @@ class Manual = {
    * The block starts with a `let` containing the intermediate functions in no particular order.
    * This block is evaluated in an expression after the `in`. */
   sum (n: Int) =
-    _rec (n, 0)
+    _tailrec_ (n, 0)
 
   /* A tail recursive function cannot be declared insider another function, and its name could start with underscore '_'.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
   @tailrec
-  _rec (n: Int, accum: Int): Int =
+  _tailrec_ (n: Int, accum: Int): Int =
     if n < 0
     then accum
-    else _rec (n - 1, n + accum)
+    else _tailrec_ (n - 1, n + accum)
 
   f0 (x: Int): Int =
     let
@@ -218,15 +218,15 @@ class Manual = {
   extends AbstractFactorialConcise = {
 
   @tailrec
-  _rec (n: Int, product: Int): Int =
+  _tailrec_ (n: Int, product: Int): Int =
     /* The function to compare equality is a long equals (`==`). */
     if n == 0
     then product
-    else _rec (n - 1, n * product)
+    else _tailrec_ (n - 1, n * product)
 
   factorial (n: Int) =
     let
-      result = _rec (n, 1)
+      result = _tailrec_ (n, 1)
     in result
 
 }
@@ -242,14 +242,14 @@ class FactorialVerbose
   extends AbstractFactorialVerbose is {
 
   @tailrec
-  _rec (n: Int, product: Int): Int is
+  _tailrec_ (n: Int, product: Int): Int is
     if n == 0
     then product
-    else _rec (n - 1, n * product)
+    else _tailrec_ (n - 1, n * product)
 
   factorial (n: Int) is
     let
-      result is _rec (n, 1)
+      result is _tailrec_ (n, 1)
     in result
 
 }
@@ -257,7 +257,7 @@ class FactorialVerbose
 class Recursion = {
 
   @tailrec
-  _rec_fold4[A, B, C subtype B](
+  _tailrec__fold4[A, B, C subtype B](
              sequence: Seq[A],
              current_value: C,
              next_value_function: (B, A) -> C,
@@ -268,7 +268,7 @@ class Recursion = {
     else
       if not condition(current_value, sequence.head)
       then current_value
-      else _rec_fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
+      else _tailrec__fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
 
   fold[A, B, C subtype B](
       sequence: Seq[A],
@@ -276,16 +276,16 @@ class Recursion = {
       next_value_function: (B, A) -> C,
       condition: (B, A) -> Boolean
   ): C =
-    _rec_fold4(sequence, initial_value, next_value_function, condition)
+    _tailrec__fold4(sequence, initial_value, next_value_function, condition)
 
   @tailrec
-  _rec_range(n: Int, sequence: Seq[Int]): Seq[Int] =
+  _tailrec__range(n: Int, sequence: Seq[Int]): Seq[Int] =
     if n <= 0
     then sequence
-    else _rec_range(n - 1, sequence.+:(n - 1))
+    else _tailrec__range(n - 1, sequence.+:(n - 1))
 
   range(length: Int): Seq[Int] =
-    _rec_range(length, Seq[Int]())
+    _tailrec__range(length, Seq[Int]())
 
 }
 

@@ -10,13 +10,13 @@ class FactorialVerbose
   extends AbstractFactorialVerbose = {
 
   @tailrec
-  _rec_get_factorial (n: Int, product: Int): Int is
+  _tailrec_get_factorial (n: Int, product: Int): Int is
     if n == 0
     then product
-    else _rec_get_factorial (n - 1, n * product)
+    else _tailrec_get_factorial (n - 1, n * product)
 
   get_factorial (n: Int) is
-    _rec_get_factorial (n, 1)
+    _tailrec_get_factorial (n, 1)
 
 }
 
