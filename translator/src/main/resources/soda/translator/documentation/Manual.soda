@@ -257,7 +257,7 @@ class FactorialVerbose
 class Recursion = {
 
   @tailrec
-  _tailrec__fold4[A, B, C subtype B](
+  _tailrec_fold4[A, B, C subtype B](
              sequence: Seq[A],
              current_value: C,
              next_value_function: (B, A) -> C,
@@ -268,7 +268,7 @@ class Recursion = {
     else
       if not condition(current_value, sequence.head)
       then current_value
-      else _tailrec__fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
+      else _tailrec_fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
 
   fold[A, B, C subtype B](
       sequence: Seq[A],
@@ -276,16 +276,16 @@ class Recursion = {
       next_value_function: (B, A) -> C,
       condition: (B, A) -> Boolean
   ): C =
-    _tailrec__fold4(sequence, initial_value, next_value_function, condition)
+    _tailrec_fold4(sequence, initial_value, next_value_function, condition)
 
   @tailrec
-  _tailrec__range(n: Int, sequence: Seq[Int]): Seq[Int] =
+  _tailrec_range(n: Int, sequence: Seq[Int]): Seq[Int] =
     if n <= 0
     then sequence
-    else _tailrec__range(n - 1, sequence.+:(n - 1))
+    else _tailrec_range(n - 1, sequence.+:(n - 1))
 
   range(length: Int): Seq[Int] =
-    _tailrec__range(length, Seq[Int]())
+    _tailrec_range(length, Seq[Int]())
 
 }
 
