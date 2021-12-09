@@ -6,14 +6,15 @@ package soda.example.forcoq.mathematics
   + soda.example.forcoq.lib.O
   + soda.example.forcoq.lib.S
 
-  _rec_get_number (m: nat) (acc: nat): nat =
+  @tailrec
+  _tailrec_get_number (m: nat) (acc: nat): nat =
     match m {
       | O() -> acc
-      | S (k) -> _rec_get_number (k) (acc .add ( S (k) ))
+      | S (k) -> _tailrec_get_number (k) (acc .add ( S (k) ))
     }
 
   get_number (n: nat): nat =
-    _rec_get_number (n) ( O() )
+    _tailrec_get_number (n) ( O() )
 
 }
 

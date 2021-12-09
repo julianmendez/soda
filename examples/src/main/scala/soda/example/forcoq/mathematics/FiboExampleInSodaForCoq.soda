@@ -6,15 +6,16 @@ package soda.example.forcoq.mathematics
   + soda.example.forcoq.lib.O
   + soda.example.forcoq.lib.S
 
-  _rec_fib (m: nat) (a: nat) (b: nat): nat =
+  @tailrec
+  _tailrec_fib (m: nat) (a: nat) (b: nat): nat =
     match m {
       | O() -> a
       | S (O()) -> b
-      | S (k) -> _rec_fib (k) (b) (a .add (b))
+      | S (k) -> _tailrec_fib (k) (b) (a .add (b))
     }
 
   fib (n: nat) =
-    _rec_fib (n) (O()) ( S (O() ) )
+    _tailrec_fib (n) (O()) ( S (O() ) )
 
 }
 

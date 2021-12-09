@@ -6,14 +6,15 @@ package soda.example.forcoq.mathematics
   + soda.example.forcoq.lib.O
   + soda.example.forcoq.lib.S
 
-  _rec_get_factorial (m: nat) (product: nat): nat =
+  @tailrec
+  _tailrec_get_factorial (m: nat) (product: nat): nat =
     match m {
       | O() -> product
-      | S (k) -> _rec_get_factorial (k) (product .mul ( S (k) ))
+      | S (k) -> _tailrec_get_factorial (k) (product .mul ( S (k) ))
     }
 
   get_factorial (n: nat): nat =
-    _rec_get_factorial (n) (S ( O() ) )
+    _tailrec_get_factorial (n) (S ( O() ) )
 
 }
 

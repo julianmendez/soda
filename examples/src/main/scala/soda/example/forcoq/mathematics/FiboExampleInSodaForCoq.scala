@@ -6,15 +6,17 @@ trait FiboExampleInSodaForCoq {
   import soda.example.forcoq.lib.O
   import soda.example.forcoq.lib.S
 
-  def _rec_fib (m: nat ) (a: nat ) (b: nat ): nat =
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_fib (m: nat ) (a: nat ) (b: nat ): nat =
     m  match {
       case O () => a
       case S (O ()  ) => b
-      case S (k ) => _rec_fib (k ) (b ) (a .add (b )  )
+      case S (k ) => _tailrec_fib (k ) (b ) (a .add (b )  )
     }
 
   def fib (n: nat ) =
-    _rec_fib (n ) (O ()  ) (S (O () ) )
+    _tailrec_fib (n ) (O ()  ) (S (O () ) )
 
 }
 
