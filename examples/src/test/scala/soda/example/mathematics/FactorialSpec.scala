@@ -20,6 +20,14 @@ case class FactorialSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         .map (n => (n, FactorialVerbose_ () .get_factorial (n )  )  )
       assert (obtained == expected ) }
 
+  test ("should test the factorial - with pattern matching")
+    {
+      lazy val expected = factorial_values
+      lazy val obtained = factorial_values
+        .map (pair => pair._1 )
+        .map (n => (n, FactorialPatternMatching_ () .get_factorial (n )  )  )
+      assert (obtained == expected ) }
+
   test ("should test the factorial - with fold")
     {
       lazy val expected = factorial_values

@@ -1,0 +1,20 @@
+package soda.example.mathematics
+
+* FactorialPatternMatching
+  extends AbstractFactorialConcise = {
+
+  @tailrec
+  _tailrec_get_factorial (n: Int, product: Int): Int =
+    match n {
+      | 0 -> product
+      | k -> _tailrec_get_factorial (k - 1, k * product)
+    }
+
+  get_factorial (n: Int): Int =
+    _tailrec_get_factorial (n, 1)
+
+}
+
+* FactorialPatternMatching_()
+  extends FactorialPatternMatching
+

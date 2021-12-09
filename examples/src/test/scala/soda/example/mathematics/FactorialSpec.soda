@@ -23,6 +23,14 @@ package soda.example.mathematics
         .map(n -> (n, FactorialVerbose_().get_factorial(n)))
     in assert(obtained == expected)
 
+  test("should test the factorial - with pattern matching")
+    let
+      expected = factorial_values
+      obtained = factorial_values
+        .map(pair -> pair._1)
+        .map(n -> (n, FactorialPatternMatching_().get_factorial(n)))
+    in assert(obtained == expected)
+
   test("should test the factorial - with fold")
     let
       expected = factorial_values
