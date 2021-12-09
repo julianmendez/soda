@@ -19,7 +19,12 @@ package soda.example.algorithms
   test("first elements of FizzBuzz")
     let
       obtained = FizzBuzz_().fizz_buzz
-    in assert(obtained == expected)
+    in assert (obtained == expected)
+
+  test("first elements of FizzBuzz with pattern matching")
+    let
+      obtained = FizzBuzzPatternMatching_().fizz_buzz
+    in assert (obtained == expected)
 
 }
 
