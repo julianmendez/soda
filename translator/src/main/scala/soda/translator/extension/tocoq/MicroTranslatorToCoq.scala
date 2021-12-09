@@ -53,9 +53,19 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
     SomeSD_ (block )
       .map (mtr.join_lines_with_forward_join )
       .map (mtr.join_lines_with_backward_join )
+      .map (preprocess_match_case_commands )
       .map (translate_lines )
       .map (process_definition )
       .value
+
+  def preprocess_match_case_commands (block: Block ): Block =
+    Block_ (block.lines
+        .map (line => append_with_after_match (line ) )    )
+
+  def append_with_after_match (line: String ): String =
+    if (line.trim () .startsWith (tc.soda_match_pattern )
+    ) line + tc.space + tc.coq_with_reserved_word
+    else line
 
   def translate_lines (block: Block ): Block =
     Block_ (CommentPreprocessor_ (block.lines )

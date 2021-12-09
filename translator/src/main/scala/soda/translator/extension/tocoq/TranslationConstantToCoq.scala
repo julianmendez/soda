@@ -61,6 +61,8 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
 
   lazy val coq_recursive_definition_end: String = "."
 
+  lazy val coq_with_reserved_word: String = "with"
+
   lazy val coq_recursive_function_prefixes: Seq [String] =
     Seq ("rec_", "_rec_", "tailrec_", "_tailrec_", "@tailrec"    )
 

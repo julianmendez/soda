@@ -62,6 +62,8 @@ package soda.translator.extension.tocoq
 
   coq_recursive_definition_end: String = "."
 
+  coq_with_reserved_word: String = "with"
+
   coq_recursive_function_prefixes: Seq[String] =
     Seq (
       "rec_",
