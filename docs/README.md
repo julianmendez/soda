@@ -13,6 +13,7 @@ The reserved words are:
 - `=` (definition symbol)
 - `:` (type symbol)
 - `->` (lambda symbol)
+- `=>` (implication symbol)
 - `:=` (parameter definition symbol)
 - `if`
 - `then`
@@ -21,6 +22,7 @@ The reserved words are:
 - `in`
 - `match`
 - `case`
+- `end`
 - `class`
 - `has`
 - `extends`

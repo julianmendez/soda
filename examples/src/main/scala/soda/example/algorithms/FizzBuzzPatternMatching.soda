@@ -15,12 +15,12 @@ package soda.example.algorithms
       .map (get_fizz_buzz_term)
 
   get_fizz_buzz_term(n: Int) =
-    match (n % 3, n % 5) {
-      | (0, 0) -> fizz + buzz
-      | (0, x) -> fizz
-      | (x, 0) -> buzz
-      | otherwise -> n.toString
-    }
+    match (n % 3, n % 5)
+      | (0, 0) => fizz + buzz
+      | (0, x) => fizz
+      | (x, 0) => buzz
+      | otherwise => n.toString
+    end
 
 }
 

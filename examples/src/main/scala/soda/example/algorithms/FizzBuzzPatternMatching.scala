@@ -15,7 +15,7 @@ trait FizzBuzzPatternMatching {
       .map (get_fizz_buzz_term )
 
   def get_fizz_buzz_term (n: Int ) =
-    (n % 3, n % 5 )  match {
+    (n % 3, n % 5 ) match  {
       case (0, 0 ) => fizz + buzz
       case (0, x ) => fizz
       case (x, 0 ) => buzz

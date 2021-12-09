@@ -27,9 +27,11 @@ Keywords
 :
 :=
 =
+=>
 case
 class
 else
+end
 extends
 has
 if

@@ -2,10 +2,15 @@ package soda.translator.extension.fromsoda
 
 * SodaConstant = {
 
+  space = " "
+
+  new_line = "\n"
+
   soda_reserved_words = Seq(
     "=",
     ":",
     "->",
+    "=>",
     ":=",
     "if",
     "then",
@@ -14,6 +19,7 @@ package soda.translator.extension.fromsoda
     "in",
     "match",
     "case",
+    "end",
     "class",
     "has",
     "extends",

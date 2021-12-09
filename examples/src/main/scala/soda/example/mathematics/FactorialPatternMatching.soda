@@ -5,10 +5,10 @@ package soda.example.mathematics
 
   @tailrec
   _tailrec_get_factorial (n: Int, product: Int): Int =
-    match n {
-      | 0 -> product
-      | k -> _tailrec_get_factorial (k - 1, k * product)
-    }
+    match n
+      | 0 => product
+      | k => _tailrec_get_factorial (k - 1, k * product)
+    end
 
   get_factorial (n: Int): Int =
     _tailrec_get_factorial (n, 1)

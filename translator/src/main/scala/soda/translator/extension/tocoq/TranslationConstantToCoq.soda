@@ -215,6 +215,7 @@ package soda.translator.extension.tocoq
     ("in", "in"),
     ("match", "match"),
     ("case", "|"),
+    ("end", "end"),
     ("|", "|"),
     ("false", "false"),
     ("true", "true"),

@@ -5,7 +5,7 @@ trait FactorialPatternMatching  extends AbstractFactorialConcise {
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_get_factorial (n: Int, product: Int ): Int =
-    n  match {
+    n match  {
       case 0 => product
       case k => _tailrec_get_factorial (k - 1, k * product )
     }

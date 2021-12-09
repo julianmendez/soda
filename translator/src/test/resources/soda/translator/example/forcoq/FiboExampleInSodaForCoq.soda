@@ -7,14 +7,14 @@ package soda.example.forcoq
   + soda.example.forcoq.lib.S
 
   _rec_fib (m: nat) (a: nat) (b: nat): nat =
-    match m {
-      | O() -> a
-      | S (O()) -> b
-      | S (k) -> _rec_fib (k) (b) (a .add (b))
-    } ;
+    match m
+      | O() => a
+      | S (O()) => b
+      | S (k) => _rec_fib (k) (b) (a .add (b))
+    end
 
   fib (n: nat) =
-    _rec_fib (n) (O()) ( S (O() ) ) ;
+    _rec_fib (n) (O()) ( S (O() ) )
 
 }
 

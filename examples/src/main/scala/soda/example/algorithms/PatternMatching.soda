@@ -8,42 +8,42 @@ package soda.example.algorithms
 
 * PatternMatching = {
 
-  get_value(p: Parameter): Int =
-    match p {
-      | Singleton(x) -> x
-      | Pair(x, y) -> (x + y) / 2
-      | Triplet(x, y, z) -> (x + y + z) / 3
-      | otherwise -> 0
-    }
+  get_value (p: Parameter): Int =
+    match p
+      | Singleton (x) => x
+      | Pair (x, y) => (x + y) / 2
+      | Triplet (x, y, z) => (x + y + z) / 3
+      | otherwise => 0
+    end
 
   get_type_name(p: Parameter): String =
-    match p {
-      | x: Singleton -> x.name + "(x)"
-      | x: Pair -> x.name + "(x, y)"
-      | x: Triplet -> x.name + "(x, y, z)"
-      | otherwise -> ""
-    }
+    match p
+      | x: Singleton => x.name + "(x)"
+      | x: Pair => x.name + "(x, y)"
+      | x: Triplet => x.name + "(x, y, z)"
+      | otherwise => ""
+    end
 
 }
 
 * PatternMatching_()
   extends PatternMatching
 
-* Singleton(x: Int)
+* Singleton (x: Int)
   extends Parameter = {
 
   name = "singleton"
 
 }
 
-* Pair(x: Int, y: Int)
+* Pair (x: Int, y: Int)
   extends Parameter = {
 
   name = "pair"
 
 }
 
-* Triplet(x: Int, y: Int, z: Int)
+* Triplet (x: Int, y: Int, z: Int)
   extends Parameter = {
 
   name = "triplet"

@@ -35,6 +35,10 @@ trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.Sod
 
   lazy val scala_match_translation: String = " match "
 
+  lazy val scala_opening_brace: String = "{"
+
+  lazy val scala_closing_brace: String = "}"
+
   lazy val soda_class_reserved_word: String = "class"
 
   lazy val scala_definition: String = "def"
@@ -72,7 +76,7 @@ trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.Sod
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("lambda", ""), ("<:", "subtype"), (">:", "supertype")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("match", "match"), ("case", "case"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
+  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), ("=>", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("match", "match"), ("case", "case"), ("end", "}"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"),
 
     /** Annotations */
     ("@new", "new")  )

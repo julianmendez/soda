@@ -8,10 +8,10 @@ package soda.example.forcoq.mathematics
 
   @tailrec
   _tailrec_get_factorial (m: nat) (product: nat): nat =
-    match m {
-      | O() -> product
-      | S (k) -> _tailrec_get_factorial (k) (product .mul ( S (k) ))
-    }
+    match m
+      | O() => product
+      | S (k) => _tailrec_get_factorial (k) (product .mul ( S (k) ))
+    end
 
   get_factorial (n: nat): nat =
     _tailrec_get_factorial (n) (S ( O() ) )

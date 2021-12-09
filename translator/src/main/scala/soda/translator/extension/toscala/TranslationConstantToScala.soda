@@ -36,6 +36,10 @@ package soda.translator.extension.toscala
 
   scala_match_translation: String = " match "
 
+  scala_opening_brace: String = "{"
+
+  scala_closing_brace: String = "}"
+
   soda_class_reserved_word: String = "class"
 
   scala_definition: String = "def"
@@ -172,6 +176,7 @@ package soda.translator.extension.toscala
   main_translation: Seq[(String, String)] = Seq(
     (":", ":"),
     ("->", "=>"),
+    ("=>", "=>"),
     (":=", "="),
     ("if", "if ("),
     ("then", ")"),
@@ -180,6 +185,7 @@ package soda.translator.extension.toscala
     ("in", " "),
     ("match", "match"),
     ("case", "case"),
+    ("end", "}"),
     ("extends", "extends"),
     ("with", "with"),
     ("this", "this"),

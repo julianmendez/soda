@@ -51,7 +51,7 @@ trait IntNat {
     _tailrec_from_non_negative (a, O ()  )
 
   def to_Int (a: nat ): Int =
-    a  match {
+    a match  {
       case O () => 0
       case S (k ) => 1 + to_Int (k )
     }

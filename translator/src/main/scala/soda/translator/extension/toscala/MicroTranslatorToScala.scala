@@ -143,17 +143,8 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
         lazy val index_of_match = line.indexOf (tc.soda_match_pattern )
         lazy val left_part = line.substring (0, index_of_match )
         lazy val right_part = line.substring (index_of_match + tc.soda_match_pattern.length, line.length )
-        left_part + insert_match_before_brace (right_part ) }
+        left_part + right_part + tc.scala_match_translation + tc.space + tc.scala_opening_brace }
     else line
-
-  def insert_match_before_brace (line: String ): String =
-    {
-      lazy val index_of_brace = line.indexOf (tc.soda_opening_brace )
-      lazy val result =
-        if (index_of_brace >= 0
-        ) line.substring (0, index_of_brace ) + tc.scala_match_translation + line.substring (index_of_brace, line.length )
-        else line + tc.scala_match_translation
-      result }
 
 }
 

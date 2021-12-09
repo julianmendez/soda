@@ -52,10 +52,10 @@ package soda.example.forcoq.lib
     _tailrec_from_non_negative (a, O())
 
   to_Int (a: nat): Int =
-    match a {
-      | O() -> 0
-      | S (k) -> 1 + to_Int (k)
-    }
+    match a
+      | O() => 0
+      | S (k) => 1 + to_Int (k)
+    end
 
 }
 

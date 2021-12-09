@@ -157,17 +157,8 @@ package soda.translator.extension.toscala
         index_of_match = line.indexOf(tc.soda_match_pattern)
         left_part = line.substring(0, index_of_match)
         right_part = line.substring(index_of_match + tc.soda_match_pattern.length, line.length)
-      in left_part + insert_match_before_brace(right_part)
+      in left_part + right_part + tc.scala_match_translation + tc.space + tc.scala_opening_brace
     else line
-
-  insert_match_before_brace(line: String): String =
-    let
-      index_of_brace = line.indexOf(tc.soda_opening_brace)
-      result =
-        if index_of_brace >= 0
-        then line.substring(0, index_of_brace) + tc.scala_match_translation + line.substring(index_of_brace, line.length)
-        else line + tc.scala_match_translation
-    in result
 
 }
 

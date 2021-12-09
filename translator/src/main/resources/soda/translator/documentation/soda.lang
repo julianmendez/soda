@@ -132,6 +132,7 @@
             <keyword>in</keyword>
             <keyword>match</keyword>
             <keyword>case</keyword>
+            <keyword>end</keyword>
             <keyword>class</keyword>
             <keyword>has</keyword>
             <keyword>extends</keyword>

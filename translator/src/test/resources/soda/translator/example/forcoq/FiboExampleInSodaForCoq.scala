@@ -7,14 +7,14 @@ trait FiboExampleInSodaForCoq {
   import soda.example.forcoq.lib.S
 
   def _rec_fib (m: nat ) (a: nat ) (b: nat ): nat =
-    m  match {
+    m match  {
       case O () => a
       case S (O ()  ) => b
       case S (k ) => _rec_fib (k ) (b ) (a .add (b )  )
-    } ;
+    }
 
   def fib (n: nat ) =
-    _rec_fib (n ) (O ()  ) (S (O () ) ) ;
+    _rec_fib (n ) (O ()  ) (S (O () ) )
 
 }
 

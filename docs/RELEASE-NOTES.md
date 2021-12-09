@@ -5,9 +5,9 @@
   - new_features:
     - compiles with Scala 3.1.0
     - is compatible with Scala 2.13.7
+    - changes syntax of pattern matching to use `match`, `case`, `=>`, `end`
     - makes annotation `@tailrec` only available to class methods
-    - includes special prefix `_tailrec_` for tail recursive functions
-    - includes special prefix `_rec_` for recursive functions
+    - adopts special prefixes `_tailrec_` for tail recursive functions and `_rec_` for recursive functions
     - uses a let-in structure in functions of unit tests
   - release: target/scala-3.1.0/soda-0.13.0.jar
 - version: v0.12.0

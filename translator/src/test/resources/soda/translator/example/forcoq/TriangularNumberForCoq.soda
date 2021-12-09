@@ -7,13 +7,13 @@ package soda.example.forcoq
   + soda.example.forcoq.lib.S
 
   _rec_get_number (m: nat) (acc: nat): nat =
-    match m {
-      | O() -> acc
-      | S (k) -> _rec_get_number (k) (acc .add ( S (k) ))
-    } ;
+    match m
+      | O() => acc
+      | S (k) => _rec_get_number (k) (acc .add ( S (k) ))
+    end
 
   get_number (n: nat): nat =
-    _rec_get_number (n) ( O() ) ;
+    _rec_get_number (n) ( O() )
 
 }
 

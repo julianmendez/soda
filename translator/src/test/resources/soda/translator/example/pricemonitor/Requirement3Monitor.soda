@@ -43,11 +43,10 @@ class SegmentsForFlight = {
     rec_segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport)
 
   rec_segments_multi (first_airport: String, intermediate_stops: Seq[String], last_airport: String): Seq[Segment] =
-    match intermediate_stops {
-      case Nil -> Nil.+:(Segment_ (first_airport, last_airport))
-      case x :: xs -> rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
-
-}
+    match intermediate_stops
+      case Nil => Nil.+:(Segment_ (first_airport, last_airport))
+      case x :: xs => rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
+    end
 
 }
 

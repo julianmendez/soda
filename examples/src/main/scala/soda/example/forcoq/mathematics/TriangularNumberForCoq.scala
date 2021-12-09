@@ -9,7 +9,7 @@ trait TriangularNumberForCoq {
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_get_number (m: nat ) (acc: nat ): nat =
-    m  match {
+    m match  {
       case O () => acc
       case S (k ) => _tailrec_get_number (k ) (acc .add (S (k ) )  )
     }
