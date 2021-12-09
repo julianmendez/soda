@@ -85,17 +85,19 @@ trait ReplacementAux {
     line.indices.map (index =>
       {
         lazy val ch = line (index )
-        lazy val left_part =
-          if ((index > 0 ) && symbols.contains (ch ) &&
-            ! line (index - 1 ) .isWhitespace
-          ) scala_space
-          else ""
-        lazy val right_part =
-          if ((index < line.length - 1 ) && symbols.contains (ch ) &&
-            ! line (index + 1 ) .isWhitespace
-          ) scala_space
-          else ""
-        left_part + ch + right_part }    ) .mkString ("")
+        _left_part_of_symbols (line, symbols, index, ch ) + ch + _right_part_of_symbols (line, symbols, index, ch ) }    ) .mkString ("")
+
+  def _left_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index > 0 ) && symbols.contains (ch ) &&
+      ! line (index - 1 ) .isWhitespace
+    ) scala_space
+    else ""
+
+  def _right_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index < line.length - 1 ) && symbols.contains (ch ) &&
+      ! line (index + 1 ) .isWhitespace
+    ) scala_space
+    else ""
 
   def remove_space_from_scala_line (line: String ): String =
     {
