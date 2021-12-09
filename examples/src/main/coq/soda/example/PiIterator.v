@@ -97,7 +97,7 @@ Module PiIterator.
   Definition bound_of_recursions (s: Status.type): nat :=
     s.l .
 
-  Fixpoint rec_compute_new_status (c: nat) (s: Status.type): Status.type :=
+  Fixpoint _tailrec_compute_new_status (c: nat) (s: Status.type): Status.type :=
     match c with
       | O => s
       | S new_counter =>
@@ -111,11 +111,11 @@ Module PiIterator.
             in let l := abs_nat (s.l_ + 2)
             in let k := abs_nat (s.k_ + 1)
             in let new_status := (Status.Status_ r n q t l k)
-            in (rec_compute_new_status new_counter new_status)
+            in (_tailrec_compute_new_status new_counter new_status)
     end.
 
   Definition compute_new_status (s: Status.type): Status.type :=
-    rec_compute_new_status (bound_of_recursions s) s.
+    _tailrec_compute_new_status (bound_of_recursions s) s.
 
   Definition _get_next (s: Status.type): BigIntAndStatus.type :=
     let ns := (compute_new_status s)
@@ -129,16 +129,16 @@ Module PiIterator.
     in let new_status := (Status.Status_ r n q t l k)
     in (BigIntAndStatus.BigIntAndStatus_ ret new_status).
 
-  Fixpoint rec_take (n: nat) (rev_seq: list nat) (s: Status.type): (prod (list nat) Status.type) :=
+  Fixpoint _tailrec_take (n: nat) (rev_seq: list nat) (s: Status.type): (prod (list nat) Status.type) :=
     match n with
       | O => (pair (rev rev_seq) s)
       | S m =>
           let bs := (_get_next s)
-          in (rec_take m ((BigIntAndStatus.digit bs) :: rev_seq) (BigIntAndStatus.new_status bs))
+          in (_tailrec_take m ((BigIntAndStatus.digit bs) :: rev_seq) (BigIntAndStatus.new_status bs))
     end.
 
   Definition take (n: nat): (list nat) :=
-    fst (rec_take n nil initial_status).
+    fst (_tailrec_take n nil initial_status).
 
 End PiIterator.
 

@@ -14,15 +14,15 @@ Module soda_example_forcoq.
 
 Module FiboExampleInSodaForCoq.
 
-  Fixpoint _rec_fib (m: nat) (a: nat) (b: nat): nat :=
+  Fixpoint _tailrec_fib (m: nat) (a: nat) (b: nat): nat :=
     match m with
       | O() => a
       | S (O()) => b
-      | S (k) => _rec_fib (k) (b) (a .add (b))
+      | S (k) => _tailrec_fib (k) (b) (a .add (b))
     end.
 
   Definition fib (n: nat) :=
-    _rec_fib (n) (O()) ( S (O() ) ) .
+    _tailrec_fib (n) (O()) ( S (O() ) ) .
 
 End FiboExampleInSodaForCoq.
 

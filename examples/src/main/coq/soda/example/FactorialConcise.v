@@ -9,14 +9,14 @@ Module soda_example.
 
   Module FactorialConcise.
 
-  Fixpoint rec_get_factorial (n: nat) (product: nat): nat :=
+  Fixpoint _tailrec_get_factorial (n: nat) (product: nat): nat :=
     match n with
       | 0 => product
-      | S m => rec_get_factorial m (n * product)
+      | S m => _tailrec_get_factorial m (n * product)
     end.
 
   Definition get_factorial (n: nat): nat :=
-    rec_get_factorial n 1.
+    _tailrec_get_factorial n 1.
 
 End FactorialConcise.
 

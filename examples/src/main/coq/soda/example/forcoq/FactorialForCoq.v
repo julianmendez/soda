@@ -16,14 +16,14 @@ Module soda_example_forcoq.
 
 Module FactorialForCoq.
 
-  Fixpoint _rec_get_factorial (m: nat) (product: nat): nat :=
+  Fixpoint _tailrec_get_factorial (m: nat) (product: nat): nat :=
     match m with
       | O() => product
-      | S (k) => _rec_get_factorial (k) (product .mul ( S (k) ))
+      | S (k) => _tailrec_get_factorial (k) (product .mul ( S (k) ))
     end.
 
   Definition get_factorial (n: nat): nat :=
-    _rec_get_factorial (n) (S ( O() ) ) .
+    _tailrec_get_factorial (n) (S ( O() ) ) .
 
 End FactorialForCoq.
 
