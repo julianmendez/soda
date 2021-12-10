@@ -78,7 +78,7 @@ returns $(x + y)(x - y)$, which is $x^{2} - y^{2}$.
 Although the order of the bindings does not matter, the result of the function has to be always at the end.
 This is completely conventional.
 
-It is also possible to explicitly write the expression as a \slet-\sdin expression.
+It is also possible to explicitly write the expression as a \sodalet-\sodain expression.
 \begin{lstlisting}[label={lst:exampleFunctionDefinitionWithLetIn}]
   h1(x: Int, y: Int): Int =
     let
@@ -87,8 +87,8 @@ It is also possible to explicitly write the expression as a \slet-\sdin expressi
     in a * b
 \end{lstlisting}
 
-For technical reasons, each definition should be in its own line, and not in the line of the \slet reserved word.
-In addition, the expression evaluated with the bindings has to be in the same line as the \sdin reserved word.
+For technical reasons, each definition should be in its own line, and not in the line of the \sodalet reserved word.
+In addition, the expression evaluated with the bindings has to be in the same line as the \sodain reserved word.
 
 For some people, the result at the beginning could be readable.
 This can be somehow mimic by using a temporary constant stating that it contains the result.
@@ -109,8 +109,8 @@ For example,
     a > b
 \end{lstlisting}
 
-This uses type \srccode{Boolean}, which can have values \sfalse and \strue.
-The functions \sand, \sor, and \snot have the standard definitions.
+This uses type \srccode{Boolean}, which can have values \sodafalse and \sodatrue.
+The functions \sodaand, \sodaor, and \sodanot have the standard definitions.
 
 Conditions can be also evaluated.
 \begin{lstlisting}[label={lst:exampleMax}]
@@ -157,10 +157,10 @@ To create an instance we can just give the parameters, if needed.
   }
 \end{lstlisting}
 
-Classes can be marked with \spackage reserved word and be put in \emph{packages}, which are collections of classes.
+Classes can be marked with \sodapackage reserved word and be put in \emph{packages}, which are collections of classes.
 Classes can contain functions and other classes.
 
-If a constant or function is to be implemented in another class, this can be denoted with \shas.
+If a constant or function is to be implemented in another class, this can be denoted with \sodahas.
 
 \begin{lstlisting}[label={lst:exampleAbstractFunction}]
   class Comparable = {
@@ -189,7 +189,7 @@ Class definition can be also parameterized:
   }
 \end{lstlisting}
 
-Note that, considering packages, every constant, function, or class is defined in only one place, using the \sdef symbol.
+Note that, considering packages, every constant, function, or class is defined in only one place, using the \sodadef symbol.
 It is not possible to add more information about the defined constant, function, or class in any other piece of code.
 We can say that every constant, function, or class, is \emph{completely defined} in exactly one place.
 
@@ -217,9 +217,9 @@ The function \srccode{main\_function} is defined in exactly one place, inside \s
     \item \srccode{function\_parameter}, a parameter given when the function is invoked
 \end{itemize}
 
-The reserved words \ssubtype and \ssupertype put constraints in the parameterized datatype.
+The reserved words \sodasubtype and \sodasupertype put constraints in the parameterized datatype.
 
-JDK classes can be imported, using the \simport command, and can be instantiated with \snew.
+JDK classes can be imported, using the \sodaimport command, and can be instantiated with \sodanew.
 
 \begin{lstlisting}[label={lst:exampleJDKImport}]
   class TimeOfToday() {
@@ -241,7 +241,7 @@ For example, a ``Hello world!'' would be:
   @main
 \end{lstlisting}
 
-The \smain annotation indicates the entry point of execution.
+The \sodamain annotation indicates the entry point of execution.
 
 Another antipattern is overriding functionality.
 It is strongly discouraged, but it is the only way of overriding \srccode{toString}, which is available to all objects.
@@ -254,11 +254,11 @@ This is:
   }
 \end{lstlisting}
 
-A tail recursion can be explicitly stated with a \stailrec annotation.
+A tail recursion can be explicitly stated with a \sodatailrec annotation.
 
 This language is meant to be concise, but using a reduced number of symbols.
 However, there are a couple of useful synonyms to write a little less.
 
-The symbol \sasterisk can be used instead of \sclass, regardless if it is abstract or concrete.
-The symbol \splus can be used instead of \simport.
+The symbol \sodaasterisk can be used instead of \sodaclass, regardless if it is abstract or concrete.
+The symbol \sodaplus can be used instead of \sodaimport.
 

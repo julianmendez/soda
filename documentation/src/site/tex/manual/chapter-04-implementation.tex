@@ -47,9 +47,9 @@ Another example is the following:
   plus_one (x: Int): Int = x + 1
 \end{lstlisting}
 
-\subsubsection{\sif, \sthen, \selse}
+\subsubsection{\sodaif, \sodathen, \sodaelse}
 
-The \sif-\sthen-\selse construct is used to define a conditional result in a function.
+The \sodaif-\sodathen-\sodaelse construct is used to define a conditional result in a function.
 
 For example,
 \begin{lstlisting}[label={lst:exampleIfThenElse}]
@@ -59,7 +59,7 @@ For example,
     else y
 \end{lstlisting}
 
-\subsubsection{\sarrow (lambda symbol)}
+\subsubsection{\sodaarrow (lambda symbol)}
 
 The lambda symbol, written as a right arrow, is used to bind a variable in a lambda expression.
 
@@ -73,13 +73,13 @@ returns a sequence of integers where each element is computed as the next intege
 
 \section{Object Oriented}
 
-\subsubsection{\sclass, \shas}
+\subsubsection{\sodaclass, \sodahas}
 
 As mentioned, there are two types of classes: the abstract and the concrete.
 
 Abstract classes compare to interfaces in Java, or traits in Scala, and cannot be directly instantiated.
 
-Both types are declared using the \sclass reserved words.
+Both types are declared using the \sodaclass reserved words.
 
 For example,
 \begin{lstlisting}[label={lst:exampleAbstractClass}]
@@ -99,9 +99,9 @@ The following example shows a concrete class consisting only of a parameterized 
 
 The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
 
-\subsubsection{\sextends, \swith}
+\subsubsection{\sodaextends, \sodawith}
 
-It is possible to declare that a concrete class extends an abstract class using the \sextends reserved word.
+It is possible to declare that a concrete class extends an abstract class using the \sodaextends reserved word.
 Concrete classes are final and cannot be extended.
 
 \begin{lstlisting}[label={lst:exampleExtends}]
@@ -124,10 +124,10 @@ For example,
   }
 \end{lstlisting}
 
-\subsubsection{\sthis}
+\subsubsection{\sodathis}
 
 In some cases, it could be necessary that an object can refer to itself.
-For that, the \sthis reserved word is used.
+For that, the \sodathis reserved word is used.
 
 For example,
 \begin{lstlisting}[label={lst:exampleExtendsElement}]
@@ -144,16 +144,16 @@ For example,
   }
 \end{lstlisting}
 
-\subsubsection{\ssubtype, \ssupertype}
+\subsubsection{\sodasubtype, \sodasupertype}
 
-The bounds of a parametric type can be determined with \ssubtype, for the upper bound, and \ssupertype, for the lower bound.
+The bounds of a parametric type can be determined with \sodasubtype, for the upper bound, and \sodasupertype, for the lower bound.
 
 
 \section{Boolean}
 
-\subsubsection{\sfalse, \strue}
+\subsubsection{\sodafalse, \sodatrue}
 
-As in other programming languages, the \sfalse and \strue reserved words are used for the Boolean values.
+As in other programming languages, the \sodafalse and \sodatrue reserved words are used for the Boolean values.
 
 \begin{lstlisting}[label={lst:exampleFalseTrue}]
 
@@ -179,9 +179,9 @@ As in other programming languages, the \sfalse and \strue reserved words are use
       else false
 \end{lstlisting}
 
-\subsubsection{\snot, \sand, \sor}
+\subsubsection{\sodanot, \sodaand, \sodaor}
 
-The reserved words \snot, \sand, \sor are introduced for the sake of readability.
+The reserved words \sodanot, \sodaand, \sodaor are introduced for the sake of readability.
 
 \begin{lstlisting}[label={lst:exampleNotAndOr}]
 
@@ -192,19 +192,19 @@ The reserved words \snot, \sand, \sor are introduced for the sake of readability
 
 \section{Library}
 
-\subsubsection{\spackage}
+\subsubsection{\sodapackage}
 
-The reserved word \spackage declares the package where the content should be included.
+The reserved word \sodapackage declares the package where the content should be included.
 All classes then belong to that package.
 
 \begin{lstlisting}[label={lst:examplePackage}]
   package org.example.soda
 \end{lstlisting}
 
-\subsubsection{\simport}
+\subsubsection{\sodaimport}
 
-The reserved word \simport helps importing classes from other libraries and frameworks.
-It is recommended to put the \simport inside the class that is using it.
+The reserved word \sodaimport helps importing classes from other libraries and frameworks.
+It is recommended to put the \sodaimport inside the class that is using it.
 This differs from common practice in Java, where all the import statements are at the beginning of the file, outside the class.
 It is important to notice that the imports can always be moved outwards, i.e. from inside the class to outside.
 Including the imports in the class and not in more general place helps removing a class with its own imports.
@@ -221,11 +221,11 @@ To have a view of the imports needed by a package, it would be necessary to use 
 
 Annotations are not part of the language itself, but they are necessary to translate it into Scala.
 
-\subsubsection{\snew}
+\subsubsection{\sodanew}
 
-Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \snew reserved word.
+Although every concrete class can be instantiated directly using the parameters, some JVM libraries and frameworks may need a \sodanew reserved word.
 This is only necessary when the code is translated into Scala 2.
-For translations to Scala 3, the \snew annotation can be omitted.
+For translations to Scala 3, the \sodanew annotation can be omitted.
 For example,
 
 \begin{lstlisting}[label={lst:exampleImportDate}]
@@ -234,12 +234,12 @@ For example,
   now = @new Date()
 \end{lstlisting}
 
-\subsubsection{\soverride}
+\subsubsection{\sodaoverride}
 
-The \soverride annotation may be necessary to override some JVM functions, like \srccode{toString()}.
+The \sodaoverride annotation may be necessary to override some JVM functions, like \srccode{toString()}.
 However, this could be misused to override functions and values of abstract classes.
 This could make that a concrete class does not behave as the abstract class that implements.
-For this reason, although \soverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Soda functions.
+For this reason, although \sodaoverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Soda functions.
 
 \begin{lstlisting}[label={lst:exampleOverride}]
   class PersonName (name: String) = {
@@ -248,9 +248,9 @@ For this reason, although \soverride annotation could be used to ensure that a f
   }
 \end{lstlisting}
 
-\subsubsection{\stailrec}
+\subsubsection{\sodatailrec}
 
-The \stailrec annotation is used to ensure that a recursive function uses tail recursion.
+The \sodatailrec annotation is used to ensure that a recursive function uses tail recursion.
 If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
 
 For technical reasons, a function with tail recursion needs to be used inside another function.
@@ -269,9 +269,9 @@ For technical reasons, a function with tail recursion needs to be used inside an
     in result
 \end{lstlisting}
 
-\subsubsection{\smain}
+\subsubsection{\sodamain}
 
-The \smain annotation is used to indicate that an entry point is needed.
+The \sodamain annotation is used to indicate that an entry point is needed.
 This is kept to have functions that can be executed from the console.
 
 \begin{lstlisting}[label={lst:exampleMain}]
@@ -298,9 +298,9 @@ The synonyms found only at the beginning of a line are:
         \hline
         \textbf{synonym} & \textbf{reserved word} \\
         \hline
-        \sasterisk       & \sclass                \\
+        \sodaasterisk       & \sodaclass                \\
         \hline
-        \splus           & \simport               \\
+        \sodaplus           & \sodaimport               \\
         \hline
     \end{tabular}
 \end{center}
@@ -312,7 +312,7 @@ The synonyms that can be at any part of a line are:
         \hline
         \textbf{synonym} & \textbf{reserved word} \\
         \hline
-        \sis             & \sdef                  \\
+        \sodais             & \sodadef                  \\
         \hline
     \end{tabular}
 \end{center}

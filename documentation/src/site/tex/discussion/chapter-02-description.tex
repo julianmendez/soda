@@ -131,9 +131,9 @@ We do not need to define how things are done, as long as they are done correctly
 Because of that, \Soda is a JVM language and can be compiled into Java byte code.
 
 For now, the translator converts \Soda code into Scala code, which in turn can be compiled to byte code.
-For the sake of compatibility with the JVM, \Soda has an \soverride and a \snew annotations.
-The \soverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
-The \snew annotation is to be able to create JVM objects, but it is a technical compromise to be able to translate to Scala 2.
+For the sake of compatibility with the JVM, \Soda has an \sodaoverride and a \sodanew annotations.
+The \sodaoverride annotations is to be able to override JVM definitions, like method \srccode{toString()} in class \srccode{Object}.
+The \sodanew annotation is to be able to create JVM objects, but it is a technical compromise to be able to translate to Scala 2.
 In the translation to Scala 3 this annotation can be omitted.
 
 \Soda uses the main types provided by Scala.
@@ -194,7 +194,7 @@ can be rewritten as
 \end{center}
 
 In \Soda, the order is slightly changed.
-A \slet-\sdin structure is used for the same purpose, with the result put at the end.
+A \sodalet-\sodain structure is used for the same purpose, with the result put at the end.
 
 It is possible to use a
 \begin{lstlisting}[label={lst:exampleFunctionWithLetIn}]
@@ -272,9 +272,9 @@ The definition of the sequence of constants, functions, and subclasses starts wi
 
 All constants and functions in a class are meant to be \textit{final}, i.e. if another classes extends the former, it cannot change any defined constant or function from a super class.
 This is to prevent that the modelled behavior in a class is changed after extending a it.
-For technical reasons, the annotation \soverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
+For technical reasons, the annotation \sodaoverride can be used to override JVM methods that are implemented already, like \srccode{Any.toString}.
 
-In \Soda, there is a \sthis reserved word where an object can refer to its own instance, but there is no \scalasuper reserved word.
+In \Soda, there is a \sodathis reserved word where an object can refer to its own instance, but there is no \scalasuper reserved word.
 The reason is that there is no difference between a constant or function defined in a class or in a super class.
 
 In \Soda, it is possible to define a \textit{type alias}.
@@ -331,8 +331,8 @@ Consecutive lines ending with a comma character (\srccode{,}) are considered to 
 
 Braces in the definition of a function should be avoided whenever that is possible.
 
-Defining a constant or a function requires a space around the `equals' character (\sdef).
-With \sdefparam is also possible to define values for parameters when using named parameters.
+Defining a constant or a function requires a space around the `equals' character (\sodadef).
+With \sodadefparam is also possible to define values for parameters when using named parameters.
 
 \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
   class EqualsExample () = {
@@ -630,31 +630,31 @@ For example, these could be possible values for $g_{A}$:
 \end{itemize}
 
 A \textbf{class definition} is a formula of the form
-\[\sclass\ A (V_{A}) \ \sextends\ P = S_{A}\]
+\[\sodaclass\ A (V_{A}) \ \sodaextends\ P = S_{A}\]
 where $A$ is a fresh class name, $V_{A}$ is a sequence of typed function names, $P$ is a possibly empty sequence of class names, and $S_{A}$ is a set of function definitions.
 
 $P$ is said to be a conjunction of super classes, and this conjunction is notated:
-\[P_{1} \ \swith\ P_{2} \ \swith\ \ldots \ \swith\ P_{n}\]
+\[P_{1} \ \sodawith\ P_{2} \ \sodawith\ \ldots \ \sodawith\ P_{n}\]
 
 In the following, $S_{P}, S_{P_{1}}, \ldots , S_{P_{n}}$ denotes the set of definitions of $P, P_{1}, \ldots, P_{n}$ respectively.
 
 Please observe that this definition does not consider defining classes inside other classes.
 
 For those acquainted with class-inside-class definition, this expression:
-\[\sclass\ A (V_{A}) \ \sextends\ P_{1} = \{
-\sclass\ B (V_{B}) \ \sextends\ P_{2} = S_{B} \} \cup S_{A}
+\[\sodaclass\ A (V_{A}) \ \sodaextends\ P_{1} = \{
+\sodaclass\ B (V_{B}) \ \sodaextends\ P_{2} = S_{B} \} \cup S_{A}
 \]
 can be rewritten as:
-\[\sclass\ A (V_{A}) \ \sextends\ P_{1} = S_{A}
+\[\sodaclass\ A (V_{A}) \ \sodaextends\ P_{1} = S_{A}
 \]
-\[\sclass\ AB (V_{A}, V_{B}) \ \sextends\ P_{2} = S_{A} \cup S_{B}
+\[\sodaclass\ AB (V_{A}, V_{B}) \ \sodaextends\ P_{2} = S_{A} \cup S_{B}
 \]
 
 where ``$V_{A}$, $V_{B}$'' contains the variables from $A$ and $B$.
 
 In addition, the variables can be included in the function definitions.
 This means that
-\[\sclass\ A (V_{A}) \ \sextends\ P = \{
+\[\sodaclass\ A (V_{A}) \ \sodaextends\ P = \{
 f_{1} = g_{1},
 \ldots ,
 f_{n} = g_{n}
@@ -662,7 +662,7 @@ f_{n} = g_{n}
 \]
 
 can be rewritten as
-\[\sclass\ A() \ \sextends\ P = \{
+\[\sodaclass\ A() \ \sodaextends\ P = \{
 f_{1}(V_{A}) = g_{1},
 \ldots ,
 f_{n}(V_{A}) = g_{n}
@@ -673,14 +673,14 @@ In practice, all function calls should also include the parameters in $V_{A}$.
 
 Finally, the empty parameters can be also rewritten.
 This means that
-\[\sclass\ A() \ \sextends\ P = \{
+\[\sodaclass\ A() \ \sodaextends\ P = \{
 f_{1} = g_{1},
 \ldots ,
 f_{n} = g_{n}
 \}
 \]
 can be rewritten as:
-\[\sclass\ A \ \sextends\ P = \{
+\[\sodaclass\ A \ \sodaextends\ P = \{
 f_{1}(self) = g_{1},
 \ldots ,
 f_{n}(self) = g_{n}
@@ -689,7 +689,7 @@ f_{n}(self) = g_{n}
 where $self$ is an extra variable needed to invoke the functions, and it is given when a class instance is created.
 
 It is assumed that there exists a class \srccode{Top} such that all classes extend from it.
-Hence, if $A$ extends \srccode{Top}, ``$\sextends\ P$'' can be omitted.
+Hence, if $A$ extends \srccode{Top}, ``$\sodaextends\ P$'' can be omitted.
 
 ``$(V)$'' can be excluded to define a class that cannot be instantiated, which is call an \textbf{abstract class}.
 By contrast, a \textbf{concrete class} is a class that can be instantiated.
@@ -700,9 +700,9 @@ If $S_{A}$ is empty, the equals sign can be omitted.
 We say that $A$ is a \textbf{trivial extension} of an abstract class $B$ when $A$ extends only $B$ and $A$ has no parameters.
 A \textbf{concrete trivial extension} is a trivial extension by using a concrete class.
 
-The \shas reserved word allows declaring functions in abstract classes.
-As a simple approach, each function or constant declared with \shas can be thought as a parameter needed to instantiate a class.
-An abstract class without uses of \shas can be instantiated by a concrete trivial extension.
+The \sodahas reserved word allows declaring functions in abstract classes.
+As a simple approach, each function or constant declared with \sodahas can be thought as a parameter needed to instantiate a class.
+An abstract class without uses of \sodahas can be instantiated by a concrete trivial extension.
 
 There is a small divergence between \Soda as defined here and its implementation, because the implementation allows defining classes inside classes, and even inside functions.
 
@@ -725,7 +725,7 @@ The interpretation function is defined as follows:
 
     \item $\I{(f : T)} = \I{f} \in \I{T}$
 
-    \item $\I{(\sif\ f_{B} \ \sthen\ e_{1} \ \selse\ e_{2})} =
+    \item $\I{(\sodaif\ f_{B} \ \sodathen\ e_{1} \ \sodaelse\ e_{2})} =
     \begin{cases}
         \I{e_{1}}, & \text{if } \I{f_{B}} \text{ is true }\\
         \I{e_{2}}, & \text{otherwise}
@@ -733,20 +733,20 @@ The interpretation function is defined as follows:
     $\\
     provided that $f_{B}$ returns a Boolean value.
 
-    \item $\I{(\slet\ f = g \ \sdin\ e)}$ =
+    \item $\I{(\sodalet\ f = g \ \sodain\ e)}$ =
     \I{(e[f := g])}, provided that $f$ does not occur free in $g$.
 
-    \item $\I{(\slet\ f_{1} = g_{1}, \ldots , f_{n} = g_{n} \ \sdin\ e)}$ = \\
-    $\I{(\slet\ f_{1} = g_{1}[f_{n} \coloneqq g_{n}], \ldots , f_{n - 1} = g_{n - 1}[f_{n} \coloneqq g_{n}] \ \sdin\ e[f_{n} \coloneqq g_{n}])}$, provided that $f_{n}$ does not occur free in $g_{n}$.
+    \item $\I{(\sodalet\ f_{1} = g_{1}, \ldots , f_{n} = g_{n} \ \sodain\ e)}$ = \\
+    $\I{(\sodalet\ f_{1} = g_{1}[f_{n} \coloneqq g_{n}], \ldots , f_{n - 1} = g_{n - 1}[f_{n} \coloneqq g_{n}] \ \sodain\ e[f_{n} \coloneqq g_{n}])}$, provided that $f_{n}$ does not occur free in $g_{n}$.
 
-    \item $\I{(\sclass\ A = S_{A})}$ = \\
+    \item $\I{(\sodaclass\ A = S_{A})}$ = \\
     $\{ (f_{d}, d) \mid d \in S_{A} \land f_{d} \text{ is the definiendum in } d \land A \in \ThetaI \}$, provided that the definienda are unique.
 
-    \item $\I{(\sclass\ A \ \sextends\ P = S_{A})}$ = \\
-    $\I{(\sclass\ A = S_{P} \cup S_{A})}$, provided that $S_{P}$ and $S_{A}$ do not share any definition of the same function name or class name.
+    \item $\I{(\sodaclass\ A \ \sodaextends\ P = S_{A})}$ = \\
+    $\I{(\sodaclass\ A = S_{P} \cup S_{A})}$, provided that $S_{P}$ and $S_{A}$ do not share any definition of the same function name or class name.
 
-    \item $\I{(\sclass\ A \ \sextends\ P_{1} \ \swith\ P_{2} = S_{A})}$ = \\
-    $\I{(\sclass\ A \ \sextends\ P_{1} = S_{P_{2}} \cup S_{A})}$, provided that $S_{P_{2}}$ and $S_{A}$ do not share any definition of the same function name or class name.
+    \item $\I{(\sodaclass\ A \ \sodaextends\ P_{1} \ \sodawith\ P_{2} = S_{A})}$ = \\
+    $\I{(\sodaclass\ A \ \sodaextends\ P_{1} = S_{P_{2}} \cup S_{A})}$, provided that $S_{P_{2}}$ and $S_{A}$ do not share any definition of the same function name or class name.
 
 \end{itemize}
 
@@ -829,10 +829,10 @@ The return of this check could be an \srccode{OptionSD}, so that this needs to b
 
 There is some relation between Proof Theory in Philosophy, Category Theory in Mathematics, and Type Theory in Computer Science.
 
-It is possible to define type subsumption in \Soda, by using \sextends.
+It is possible to define type subsumption in \Soda, by using \sodaextends.
 
-Then, we can say that $A \ \sextends\ B$, is like saying $A \subseteq B$, or $A \to B$, or $A \sqsubseteq B$.
-Analogously, $A \ \sextends\ B \ \swith\ C$, is like saying $A \subseteq B \cap C $, or $A \to B \land C$, or $A \sqsubseteq B \sqcap C$.
+Then, we can say that $A \ \sodaextends\ B$, is like saying $A \subseteq B$, or $A \to B$, or $A \sqsubseteq B$.
+Analogously, $A \ \sodaextends\ B \ \sodawith\ C$, is like saying $A \subseteq B \cap C $, or $A \to B \land C$, or $A \sqsubseteq B \sqcap C$.
 
 We have that $\srccode{Any}$, is like saying $U$, or $True$, or $\top$.
 Likewise with $\srccode{Nothing}$, is like saying $\emptyset$, or $False$, or $\bot$.
