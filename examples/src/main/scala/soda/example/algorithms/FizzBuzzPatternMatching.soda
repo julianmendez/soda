@@ -11,10 +11,10 @@ package soda.example.algorithms
   fizz_buzz =
     Recursion_ ()
       .range (100)
-      .map ((lambda x: Int) -> x + 1)
+      .map ( (lambda x: Int) -> x + 1)
       .map (get_fizz_buzz_term)
 
-  get_fizz_buzz_term(n: Int) =
+  get_fizz_buzz_term (n: Int) =
     match (n % 3, n % 5)
       | (0, 0) => fizz + buzz
       | (0, x) => fizz
@@ -24,6 +24,6 @@ package soda.example.algorithms
 
 }
 
-* FizzBuzzPatternMatching_()
+* FizzBuzzPatternMatching_ ()
   extends FizzBuzzPatternMatching
 

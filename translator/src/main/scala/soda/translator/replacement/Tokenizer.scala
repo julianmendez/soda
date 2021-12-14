@@ -13,7 +13,7 @@ trait Token {
 
 }
 
-case class Token_ (text: String, parser_state: ParserState, index: Int ) extends Token
+case class Token_ (text: String, parser_state: ParserState, index: Int )  extends Token
 
 /**
  * This class processes a line to divide it into tokens.

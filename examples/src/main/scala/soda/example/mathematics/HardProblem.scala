@@ -31,11 +31,11 @@ trait Memoizer [A, B]  extends MemoizableFunction [A, B] with MainFunction [A, B
 
 }
 
-case class Memoizer_ [A, B]  (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  )  extends Memoizer [A, B]
+case class Memoizer_ [A, B] (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  )  extends Memoizer [A, B]
 
 trait HardProblem  extends MemoizableFunction [Int, Int] {
 
-  lazy val memoizer = Memoizer_ [Int, Int]  (main_function )
+  lazy val memoizer = Memoizer_ [Int, Int] (main_function )
 
   def is_even (n: Int ): Boolean =
     n % 2 == 0
@@ -62,7 +62,7 @@ case class HardProblem_ ()  extends HardProblem
 
 trait MemoizedFibonacci  extends MemoizableFunction [Int, Int] {
 
-  lazy val memoizer = Memoizer_ [Int, Int]  (main_function )
+  lazy val memoizer = Memoizer_ [Int, Int] (main_function )
 
   def main_function (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
     if (n == 0 ) (0, memoized_values )

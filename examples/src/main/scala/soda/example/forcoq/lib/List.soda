@@ -43,10 +43,10 @@ package soda.example.forcoq.lib
     end
 
   to_Seq [A] (a: list [A]): Seq [A] =
-    (_tailrec_to_Seq (a) ( Seq[A]() )) .reverse
+    (_tailrec_to_Seq (a) ( Seq [A]() )) .reverse
 
 }
 
-* SeqList_()
+* SeqList_ ()
   extends SeqList
 

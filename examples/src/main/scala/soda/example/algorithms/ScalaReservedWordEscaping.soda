@@ -6,22 +6,22 @@ package soda.example.algorithms
 
   val = 1
 
-  def[A, B](key: A, value: B): MyPair[A, B] = MyPair_(key, value)
+  def [A, B] (key: A, value: B): MyPair [A, B] = MyPair_ (key, value)
 
-  while[A, B](seq: Seq[A], cond: A -> Boolean, do : A -> B): Seq[B] =
-    seq.takeWhile(cond).map(do)
+  while [A, B] (seq: Seq [A], cond: A -> Boolean, do : A -> B): Seq [B] =
+    seq.takeWhile (cond).map (do)
 
   protected = "protected"
 
   private = "private"
 
-  f(x: Int, y: Int): Int = x + y
+  f (x: Int, y: Int): Int = x + y
 
-  cons: (Int, Int) -> Int = (x, y) -> f(x, y)
+  cons: (Int, Int) -> Int = (x, y) -> f (x, y)
 
 }
 
-* MyPair[A, B] = {
+* MyPair [A, B] = {
 
   has key: A
 
@@ -29,5 +29,6 @@ package soda.example.algorithms
 
 }
 
-* MyPair_[A, B](key: A, value: B) extends MyPair[A, B]
+* MyPair_ [A, B] (key: A, value: B)
+  extends MyPair [A, B]
 

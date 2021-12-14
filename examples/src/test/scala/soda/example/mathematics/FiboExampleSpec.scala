@@ -9,7 +9,7 @@ case class FiboExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val expected = fibonacci_values
       lazy val obtained = fibonacci_values
         .map (pair => pair._1 )
-        .map (n => (n, FiboExampleInSoda_ () .fib (n )  )  )
+        .map (n =>  (n, FiboExampleInSoda_ () .fib (n )  )  )
       assert (obtained == expected ) }
 
 }

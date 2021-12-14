@@ -10,7 +10,7 @@ package soda.lib
 trait CartesianProduct {
 
   def _initial_value [T] (seq: Seq [T]  ): Seq [Seq [T]] =
-    seq.map (elem => Seq [T]  (elem )  )
+    seq.map (elem => Seq [T] (elem )  )
 
   def _next_value [T] (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
     seq_a.flatMap (elem_a =>
@@ -29,4 +29,4 @@ trait CartesianProduct {
 
 }
 
-case class CartesianProduct_ () extends CartesianProduct
+case class CartesianProduct_ ()  extends CartesianProduct

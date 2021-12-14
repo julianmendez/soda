@@ -45,7 +45,7 @@ trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.Sod
 
   lazy val scala_value: String = "lazy val"
 
-  lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  lazy val scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
 
   /**
@@ -86,7 +86,7 @@ trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.Sod
   lazy val scala_non_soda: Seq [(String, String )] =
     scala_reserved_words
       .filter (x => ! soda_reserved_words.contains (x )  )
-      .map (x => (x, prefix_scala_non_soda + x ) )
+      .map (x =>  (x, prefix_scala_non_soda + x ) )
 
   lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 

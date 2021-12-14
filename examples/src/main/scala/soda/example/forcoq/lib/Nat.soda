@@ -20,13 +20,13 @@ package soda.example.forcoq.lib
 * S (k: nat)
   extends nat = {
 
-  t = IntNat_()
+  t = IntNat_ ()
 
   add (a: nat): nat =
-    t.from_non_negative( (t.to_Int(k) + 1) + t.to_Int(a) )
+    t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
 
   mul (a: nat): nat =
-    t.from_non_negative( (t.to_Int(k) + 1) * t.to_Int(a) )
+    t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
 
 }
 
@@ -37,10 +37,10 @@ package soda.example.forcoq.lib
   + soda.lib.SomeSD_
   + soda.lib.Recursion_
 
-  from_Int (a: Int): OptionSD[nat] =
+  from_Int (a: Int): OptionSD [nat] =
     if a < 0
-    then NoneSD_[nat] ()
-    else SomeSD_[nat] (from_non_negative (a))
+    then NoneSD_ [nat] ()
+    else SomeSD_ [nat] (from_non_negative (a))
 
   @tailrec
   _tailrec_from_non_negative (a: Int, b: nat): nat =
@@ -59,6 +59,6 @@ package soda.example.forcoq.lib
 
 }
 
-* IntNat_()
+* IntNat_ ()
   extends IntNat
 

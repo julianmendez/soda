@@ -7,7 +7,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import soda.lib.SomeSD_
   import soda.lib.Recursion_
 
-  lazy val empty: ESeq [Int] = ESeq_ [Int]  ()
+  lazy val empty: ESeq [Int] = ESeq_ [Int] ()
 
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
 
@@ -16,7 +16,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   def prepend_elem (list: MSeq [Int], elem: Int ) = Min_ () .prepended (list, elem )
 
   lazy val example: NESeq [Int] =
-    Recursion_ () .fold (revExampleSeq.tail, NESeq_ [Int]  (revExampleSeq.head, ESeq_ [Int]  ()  ), prepend_elem )
+    Recursion_ () .fold (revExampleSeq.tail, NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] ()  ), prepend_elem )
 
   test ("prepended")
     {
@@ -157,28 +157,28 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("takeWhile with Seq")
     {
       lazy val expected = Seq (0, 1, 1, 2 )
-      lazy val f: Int => Boolean = e => ! (e == 3 )
+      lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = exampleSeq.takeWhile (f )
       assert (obtained == expected ) }
 
   test ("takeWhile")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2 )  )
-      lazy val f: Int => Boolean = e => ! (e == 3 )
+      lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = Min_ () .takeWhile (example, f )
       assert (obtained == expected ) }
 
   test ("dropWhile with Seq")
     {
       lazy val expected = Seq (3, 5, 8 )
-      lazy val f: Int => Boolean = e => ! (e == 3 )
+      lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = exampleSeq.dropWhile (f )
       assert (obtained == expected ) }
 
   test ("dropWhile")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (3, 5, 8 )  )
-      lazy val f: Int => Boolean = e => ! (e == 3 )
+      lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = Min_ () .dropWhile (example, f )
       assert (obtained == expected ) }
 
@@ -197,13 +197,13 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("span with Seq")
     {
       lazy val expected = Tuple2 (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 )  )
-      lazy val obtained = exampleSeq.span (x => ! (x == 5 )  )
+      lazy val obtained = exampleSeq.span (x => !  (x == 5 )  )
       assert (obtained == expected ) }
 
   test ("span")
     {
       lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator_ () .asMSeq (Seq (5, 8 )  )  )
-      lazy val obtained = Min_ () .span (example, (x: Int ) => ! (x == 5 )  )
+      lazy val obtained = Min_ () .span (example, (x: Int ) => !  (x == 5 )  )
       assert (obtained == expected ) }
 
   //
@@ -304,7 +304,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("forall with Seq 0")
     {
       lazy val expected = true
-      lazy val predicate: Int => Boolean = x => ! (x == 7 )
+      lazy val predicate: Int => Boolean = x => !  (x == 7 )
       lazy val obtained = exampleSeq.forall (predicate )
       assert (obtained == expected ) }
 
@@ -325,7 +325,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("forall 0")
     {
       lazy val expected = true
-      lazy val predicate: Int => Boolean = x => ! (x == 7 )
+      lazy val predicate: Int => Boolean = x => !  (x == 7 )
       lazy val obtained = Min_ () .forall (example, predicate )
       assert (obtained == expected ) }
 
@@ -388,7 +388,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("find with Seq 0")
     {
       lazy val expected = Some (0 )
-      lazy val predicate: Int => Boolean = x => ! (x == 7 )
+      lazy val predicate: Int => Boolean = x => !  (x == 7 )
       lazy val obtained = exampleSeq.find (predicate )
       assert (obtained == expected ) }
 
@@ -409,7 +409,7 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("find 0")
     {
       lazy val expected = SomeSD_ (0 )
-      lazy val predicate: Int => Boolean = x => ! (x == 7 )
+      lazy val predicate: Int => Boolean = x => !  (x == 7 )
       lazy val obtained = Min_ () .find (example, predicate )
       assert (obtained == expected ) }
 
@@ -458,13 +458,13 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("foldLeft with Seq")
     {
       lazy val expected = Seq (108, 105, 103, 102, 101, 101, 100 )
-      lazy val obtained = exampleSeq.foldLeft (Seq [Int]  ()  )  ((s: Seq [Int], e: Int ) => s.+: ((e + 100 )  )  )
+      lazy val obtained = exampleSeq.foldLeft (Seq [Int] ()  ) ((s: Seq [Int], e: Int ) => s.+: ((e + 100 )  )  )
       assert (obtained == expected ) }
 
   test ("foldLeft in the same type")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 )  )
-      lazy val obtained = Min_ () .foldLeft0 (example )  (Min_ () .empty, (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )      )
+      lazy val obtained = Min_ () .foldLeft0 (example ) (Min_ () .empty, (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )      )
       assert (obtained == expected ) }
 
 }

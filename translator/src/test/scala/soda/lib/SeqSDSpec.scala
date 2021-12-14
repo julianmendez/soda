@@ -22,7 +22,7 @@ case class SeqSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       def max (s: NonEmptySeqSD [Int]  ): Int =
         Recursion_ () .fold (s.tail.toSeq, s.head, max_of_2 )
       lazy val input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 )
-      lazy val expected = SomeSD_ [Int]  (9 )
+      lazy val expected = SomeSD_ [Int] (9 )
       lazy val obtained =
         SeqSDBuilder_ () .build (input ) .opt (ifEmpty = NoneSD_ (), ifNonEmpty = sequence => SomeSD_ (max (sequence )  )        )
       assert (obtained == expected ) }

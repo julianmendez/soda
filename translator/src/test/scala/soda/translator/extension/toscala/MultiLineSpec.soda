@@ -1,15 +1,15 @@
 package soda.translator.extension.toscala
 
-* MultiLineSpec()
+* MultiLineSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.translator.block.Block_
   + soda.translator.block.BlockProcessor_
   + soda.translator.block.DefaultBlockTranslator_
 
-  bp = BlockProcessor_ (DefaultBlockTranslator_())
+  bp = BlockProcessor_ (DefaultBlockTranslator_ ())
 
-  mt = MicroTranslatorToScala_()
+  mt = MicroTranslatorToScala_ ()
 
   Original_input = "" +
     "  value = 1\n" +
@@ -47,20 +47,19 @@ package soda.translator.extension.toscala
     "     z: Int) =\n" +
     "       x * x + y * y + z * z"
 
-
-  test("should split a program in multiple lines")
+  test ("should split a program in multiple lines")
     let
       obtained = bp.make_block (Original_input)
       expected = Block_ ( Original_input_lines )
     in assert(obtained == expected)
 
-  test("should preprocess the comma in multiple lines")
+  test ("should preprocess the comma in multiple lines")
     let
       obtained = mt.join_lines_with_forward_join (Block_ (Original_input_lines) )
       expected = Block_ (Joined_comma_lines)
     in assert(obtained == expected)
 
-  test("should join the translated lines of a program")
+  test ("should join the translated lines of a program")
     let
       obtained = Block_ (Joined_comma_lines)
       expected = bp.make_block (Joined_output)

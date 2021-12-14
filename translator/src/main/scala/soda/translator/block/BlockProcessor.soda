@@ -17,7 +17,7 @@ package soda.translator.block
       .map (join_translated_blocks)
       .value
 
-  split_blocks (program: String): Seq[Block] =
+  split_blocks (program: String): Seq [Block] =
     program
       .split (double_new_line)
       .toIndexedSeq
@@ -30,10 +30,10 @@ package soda.translator.block
         .toIndexedSeq
     )
 
-  translate_blocks (blocks: Seq[Block]): Seq[Block] =
+  translate_blocks (blocks: Seq [Block]): Seq [Block] =
     blocks.map (block -> translator.translate (block) )
 
-  join_translated_blocks (blocks: Seq[Block]): String =
+  join_translated_blocks (blocks: Seq [Block]): String =
     blocks
       .map (x -> x.contents)
       .mkString (double_new_line) + new_line

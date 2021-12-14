@@ -25,8 +25,8 @@ case class TokenizerSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("should tokenize a single function definition")
     {
-      lazy val input = "def f(x: Int): Int = x"
-      lazy val expected = Seq (Token_ ("def f(x: Int): Int = x", ParserStateEnum_ () .plain, 0 )      )
+      lazy val input = "def f (x: Int): Int = x"
+      lazy val expected = Seq (Token_ ("def f (x: Int): Int = x", ParserStateEnum_ () .plain, 0 )      )
       lazy val obtained = Tokenizer_ (input ) .tokens
       assert (obtained == expected ) }
 

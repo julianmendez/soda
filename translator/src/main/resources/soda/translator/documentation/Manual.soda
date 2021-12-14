@@ -18,11 +18,11 @@ class Shape
 /* A class can be parameterized.
  * The parameter type can be constrained using `subtype` and `supertype`.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
-class ShapePainter[A subtype Shape]
+class ShapePainter [A subtype Shape]
 
 /* It is possible to constrain a class parameter with more than one type.
  * Connect them using `with`. */
-class ShapeMover[A subtype Shape with Movable]
+class ShapeMover [A subtype Shape with Movable]
 
 /* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
  * It is recommended to indent the constants and functions declared inside. */
@@ -49,7 +49,8 @@ class EqualsExample = {
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
-class EqualsExample_() extends EqualsExample
+class EqualsExample_ ()
+  extends EqualsExample
 
 /* A class does not need to define all its constants and functions. */
 class RegisteredPerson = {
@@ -68,7 +69,7 @@ class RegisteredPerson = {
 }
 
 /* A concrete class can be declared with parameters. */
-class Person(name: String)
+class Person (name: String)
 
 class Agent = {
 
@@ -78,7 +79,8 @@ class Agent = {
 
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-class Agent_(identifier: String) extends Agent
+class Agent_ (identifier: String)
+  extends Agent
 
 class RankedIndividual = {
 
@@ -86,22 +88,23 @@ class RankedIndividual = {
 
 }
 
-class RankedAgentPerson(identifier: String, rank: Int)
+class RankedAgentPerson (identifier: String, rank: Int)
   extends Agent with RankedIndividual
 
 class Element = {
 
-  has accept(v: Visitor): Boolean
+  has accept (v: Visitor): Boolean
 
 }
 
 class Visitor = {
 
-  has visit(x: Element): Boolean
+  has visit (x: Element): Boolean
 
 }
 
-class Item (identifier: Int) extends Element = {
+class Item (identifier: Int)
+  extends Element = {
 
   /* It is possible to refer to an object instance by using `this`. */
   accept (v: Visitor) = v.visit (this)
@@ -132,7 +135,7 @@ class Manual = {
 
   /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
-  now = @new Date()
+  now = @new Date ()
 
   plus_one (x: Int): Int = x + 1
 
@@ -145,8 +148,8 @@ class Manual = {
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
    * Lambda functions are declared using a right arrow (`->`). */
-  plus_one (sequence: Seq[Int]): Seq[Int] =
-    sequence.map(element -> element + 1)
+  plus_one (sequence: Seq [Int]): Seq [Int] =
+    sequence.map (element -> element + 1)
 
   /* Boolean values `false` and `true` are available. */
   my_not (x: Boolean): Boolean =
@@ -191,8 +194,8 @@ class Manual = {
 
   f0 (x: Int): Int =
     let
-      a = g(x)
-      b = g(a)
+      a = g (x)
+      b = g (a)
     in a + b
 
   /* Since the order in a `let`-`in` block is not important, a constant `result` at the beginning could easily indicate
@@ -200,8 +203,8 @@ class Manual = {
   f1 (x: Int): Int =
     let
       result = a + b
-      a = g(x)
-      b = g(a)
+      a = g (x)
+      b = g (a)
     in result
 
   g (x: Int): Int = x + 1
@@ -257,8 +260,8 @@ class FactorialVerbose
 class Recursion = {
 
   @tailrec
-  _tailrec_fold4[A, B, C subtype B](
-             sequence: Seq[A],
+  _tailrec_fold4 [A, B, C subtype B] (
+             sequence: Seq [A],
              current_value: C,
              next_value_function: (B, A) -> C,
              condition: (B, A) -> Boolean
@@ -266,42 +269,44 @@ class Recursion = {
     if sequence.isEmpty
     then current_value
     else
-      if not condition(current_value, sequence.head)
+      if not condition (current_value, sequence.head)
       then current_value
-      else _tailrec_fold4(sequence.tail, next_value_function(current_value, sequence.head), next_value_function, condition)
+      else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head), next_value_function, condition)
 
-  fold[A, B, C subtype B](
-      sequence: Seq[A],
+  fold [A, B, C subtype B] (
+      sequence: Seq [A],
       initial_value: C,
       next_value_function: (B, A) -> C,
       condition: (B, A) -> Boolean
   ): C =
-    _tailrec_fold4(sequence, initial_value, next_value_function, condition)
+    _tailrec_fold4 (sequence, initial_value, next_value_function, condition)
 
   @tailrec
-  _tailrec_range(n: Int, sequence: Seq[Int]): Seq[Int] =
+  _tailrec_range (n: Int, sequence: Seq [Int]): Seq [Int] =
     if n <= 0
     then sequence
-    else _tailrec_range(n - 1, sequence.+:(n - 1))
+    else _tailrec_range (n - 1, sequence.+: (n - 1))
 
-  range(length: Int): Seq[Int] =
-    _tailrec_range(length, Seq[Int]())
+  range (length: Int): Seq [Int] =
+    _tailrec_range (length, Seq [Int] ())
 
 }
 
-class Recursion_() extends Recursion
+class Recursion_ ()
+  extends Recursion
 
 
-/* The main class is concrete and it is called `Main()`. */
-class Main() extends MainClass
+/* The main class is concrete and it is called `Main ()`. */
+class Main ()
+  extends MainClass
 
-/* The main class requires a `main` function that receives an `Array[String]` and returns a `Unit`. */
+/* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 class MainClass = {
 
-  main(arguments: Array[String]): Unit =
+  main (arguments: Array [String]): Unit =
     /* An output to the standard output can be sent with a `println` command.
      * This is a shorter form of JVM's `System.out.println`. */
-    println("Hello world!")
+    println ("Hello world!")
 
 }
 

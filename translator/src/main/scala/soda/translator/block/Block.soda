@@ -2,15 +2,15 @@ package soda.translator.block
 
 * Block = {
 
-  has lines: Seq[String]
+  has lines: Seq [String]
 
   new_line = "\n"
 
   contents: String =
-    lines.mkString(new_line)
+    lines.mkString (new_line)
 
 }
 
-* Block_(lines: Seq[String])
+* Block_ (lines: Seq [String])
   extends Block
 

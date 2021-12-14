@@ -4,12 +4,12 @@ package soda.example.mathematics
 
   + soda.lib.Recursion_
 
-  get_factorial(n: Int): Int =
-    Recursion_().fold(
-      Recursion_().range(n), 1, (product: Int, k: Int) -> product * (k + 1) )
+  get_factorial (n: Int): Int =
+    Recursion_ ().fold (
+      Recursion_ ().range (n), 1,  (product: Int, k: Int) -> product *  (k + 1) )
 
 }
 
-* FactorialWithFold_()
+* FactorialWithFold_ ()
   extends FactorialWithFold
 

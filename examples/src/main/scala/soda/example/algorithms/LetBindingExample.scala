@@ -26,7 +26,7 @@ trait LetBindingExample {
      
       lazy val second_part = "second" + part
      lazy val third_part = "third" + part
-      Seq [String]  () .+: (third_part ) .+: (second_part ) .+: (first_part ) }
+      Seq [String] () .+: (third_part ) .+: (second_part ) .+: (first_part ) }
 
 }
 

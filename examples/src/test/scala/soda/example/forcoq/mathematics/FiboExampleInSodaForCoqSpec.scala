@@ -10,14 +10,14 @@ case class FiboExampleInSodaForCoqSpec ()  extends org.scalatest.funsuite.AnyFun
   lazy val fibonacci_values_with_nat: Seq [(nat, nat )] =
     fibonacci_values
       .map (pair =>
-        (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )      )
+        (IntNat_ () .from_non_negative  (pair._1 ), IntNat_ () .from_non_negative  (pair._2 ) )      )
 
   test ("should test the fibonacci function for Coq")
     {
       lazy val expected = fibonacci_values_with_nat
       lazy val obtained = fibonacci_values_with_nat
         .map (pair => pair._1 )
-        .map (n => (n, FiboExampleInSodaForCoq_ () .fib (n )  )  )
+        .map (n =>  (n, FiboExampleInSodaForCoq_ () .fib (n )  )  )
       assert (obtained == expected ) }
 
 }

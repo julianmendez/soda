@@ -2,7 +2,7 @@ package soda.example.mathematics
 
 case class HardProblemSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  lazy val empty_map = Map [Int, Int]  ()
+  lazy val empty_map = Map [Int, Int] ()
 
   test ("hard problem 9")
     {

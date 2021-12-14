@@ -1,39 +1,39 @@
 package soda.translator.extension.toscala
 
-* UpperAndLowerBoundDeclarationSpec()
+* UpperAndLowerBoundDeclarationSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.translator.block.BlockProcessor_
 
-  instance = BlockProcessor_(MicroTranslatorToScala_())
+  instance = BlockProcessor_ (MicroTranslatorToScala_ ())
 
-  test("should translate a single upper bound")
+  test ("should translate a single upper bound")
     let
       original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput]\n"
       expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput]\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate multiple upper bounds")
+  test ("should translate multiple upper bounds")
     let
       original = "  * BlackBox() extends AbstractBlackBox[A subtype AbstractInput] with AbstractDevice[B subtype AbstractDeviceInput]\n"
       expected = "  case class BlackBox () extends AbstractBlackBox [A <: AbstractInput] with AbstractDevice [B <: AbstractDeviceInput]\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate a single lower bound")
+  test ("should translate a single lower bound")
     let
       original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)]\n"
       expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )]\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate multiple lower bounds")
+  test ("should translate multiple lower bounds")
     let
       original = "  * BlackBox() extends AbstractBlackBox[A supertype (AbstractInput)] with AbstractDevice[B supertype (AbstractDeviceInput)]\n"
       expected = "  case class BlackBox () extends AbstractBlackBox [A >: (AbstractInput )] with AbstractDevice [B >: (AbstractDeviceInput )]\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
 }
 

@@ -10,14 +10,14 @@ case class FactorialForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   lazy val factorial_values_with_nat: Seq [(nat, nat )] =
     factorial_values
       .map (pair =>
-        (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )      )
+        (IntNat_ () .from_non_negative  (pair._1 ), IntNat_ () .from_non_negative  (pair._2 ) )      )
 
   test ("should test the factorial function for Coq")
     {
       lazy val expected = factorial_values_with_nat
       lazy val obtained = factorial_values_with_nat
         .map (pair => pair._1 )
-        .map (n => (n, FactorialForCoq_ () .get_factorial (n )  )  )
+        .map (n =>  (n, FactorialForCoq_ () .get_factorial  (n )  )  )
       assert (obtained == expected ) }
 
 }

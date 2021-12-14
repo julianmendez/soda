@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 * LineJoinerToScala
   extends soda.translator.replacement.MultiLineProcessor = {
 
-  tc = TranslationConstantToScala_()
+  tc = TranslationConstantToScala_ ()
 
   comma = ","
 
@@ -17,94 +17,94 @@ package soda.translator.extension.toscala
 
   space = " "
 
-  joined_lines_with_forward_join: Seq[String] =
-    Joiner_(lines, is_a_forward_join).join
+  joined_lines_with_forward_join: Seq [String] =
+    Joiner_ (lines, is_a_forward_join).join
 
-  joined_lines_with_backward_join: Seq[String] =
-    Joiner_(lines, is_a_backward_join).join
+  joined_lines_with_backward_join: Seq [String] =
+    Joiner_ (lines, is_a_backward_join).join
 
-  is_a_forward_join(previous_line: String, current_line: String): Boolean =
-    is_a_symbol_forward_join(previous_line) or
-    is_a_reserved_word_forward_join(previous_line)
+  is_a_forward_join (previous_line: String, current_line: String): Boolean =
+    is_a_symbol_forward_join (previous_line) or
+    is_a_reserved_word_forward_join (previous_line)
 
-  is_a_symbol_forward_join(previous_line: String): Boolean =
+  is_a_symbol_forward_join (previous_line: String): Boolean =
     tc.symbol_forward_joiner
-      .exists(previous_line.endsWith)
+      .exists (previous_line.endsWith)
 
-  is_a_reserved_word_forward_join(previous_line: String): Boolean =
+  is_a_reserved_word_forward_join (previous_line: String): Boolean =
     tc.reserved_word_joiner
-      .map(x -> space + x)
-      .exists(previous_line.endsWith)
+      .map (x -> space + x)
+      .exists (previous_line.endsWith)
 
-  is_a_backward_join(previous_line: String, current_line: String): Boolean =
-    is_a_symbol_backward_join(current_line) or
-    is_a_reserved_word_backward_join(current_line)
+  is_a_backward_join (previous_line: String, current_line: String): Boolean =
+    is_a_symbol_backward_join (current_line) or
+    is_a_reserved_word_backward_join (current_line)
 
-  is_a_symbol_backward_join(current_line: String): Boolean =
+  is_a_symbol_backward_join (current_line: String): Boolean =
     tc.symbol_backward_joiner
-      .exists(current_line.startsWith)
+      .exists (current_line.startsWith)
 
-  is_a_reserved_word_backward_join(current_line: String): Boolean =
+  is_a_reserved_word_backward_join (current_line: String): Boolean =
     tc.reserved_word_joiner
-      .map(x -> x + space)
-      .exists(current_line.startsWith)
+      .map (x -> x + space)
+      .exists (current_line.startsWith)
 
 }
 
-* LineJoinerToScala_(lines: Seq[String])
+* LineJoinerToScala_ (lines: Seq [String])
   extends LineJoinerToScala
 
 * Joiner = {
 
   + soda.lib.Recursion_
 
-  has lines_to_join: Seq[String]
+  has lines_to_join: Seq [String]
 
-  has is_a_join: (String, String) -> Boolean
+  has is_a_join:  (String, String) -> Boolean
 
-  join: Seq[String] = reverse_join.reverse
+  join: Seq [String] = reverse_join.reverse
 
-  reverse_join: Seq[String] =
+  reverse_join: Seq [String] =
     if lines_to_join.isEmpty
     then lines_to_join
     else
       let
-        tuple = Recursion_().fold(lines_to_join.tail, _initial_value_function(lines_to_join.head), _next_value_function)
+        tuple = Recursion_ ().fold (lines_to_join.tail, _initial_value_function (lines_to_join.head), _next_value_function)
         result =
           if tuple.in_process_rev.isEmpty
-          then tuple.processed_rev.+:(tuple.previous_line)
-          else tuple.processed_rev.+:(_rev_list_as_element(tuple.in_process_rev, tuple.previous_line))
+          then tuple.processed_rev.+: (tuple.previous_line)
+          else tuple.processed_rev.+: (_rev_list_as_element (tuple.in_process_rev, tuple.previous_line))
       in result
 
-  _initial_value_function(first_line: String): JoinerFoldTuple =
-    JoinerFoldTuple_(Seq(), Seq(), first_line)
+  _initial_value_function (first_line: String): JoinerFoldTuple =
+    JoinerFoldTuple_ (Seq (), Seq (), first_line)
 
-  _next_value_function(tuple: JoinerFoldTuple, head: String): JoinerFoldTuple =
-    if is_a_join(tuple.previous_line.trim, head.trim)
-    then JoinerFoldTuple_(tuple.in_process_rev.+:(tuple.previous_line), tuple.processed_rev, head)
+  _next_value_function (tuple: JoinerFoldTuple, head: String): JoinerFoldTuple =
+    if is_a_join (tuple.previous_line.trim, head.trim)
+    then JoinerFoldTuple_ (tuple.in_process_rev.+: (tuple.previous_line), tuple.processed_rev, head)
     else
       let
-        processed_line = _rev_list_as_element(tuple.in_process_rev, tuple.previous_line)
-      in JoinerFoldTuple_(Seq(), tuple.processed_rev.+:(processed_line), head)
+        processed_line = _rev_list_as_element (tuple.in_process_rev, tuple.previous_line)
+      in JoinerFoldTuple_ (Seq (), tuple.processed_rev.+: (processed_line), head)
 
-  _rev_list_as_element(in_process_rev: Seq[String], line: String): String =
-    in_process_rev.reverse.mkString("") + line
+  _rev_list_as_element (in_process_rev: Seq [String], line: String): String =
+    in_process_rev.reverse.mkString ("") + line
 
 }
 
-* Joiner_(lines_to_join: Seq[String], is_a_join: (String, String) -> Boolean)
+* Joiner_ (lines_to_join: Seq [String], is_a_join:  (String, String) -> Boolean)
   extends Joiner
 
 * JoinerFoldTuple = {
 
-  has in_process_rev: Seq[String]
+  has in_process_rev: Seq [String]
 
-  has processed_rev: Seq[String]
+  has processed_rev: Seq [String]
 
   has previous_line: String
 
 }
 
-* JoinerFoldTuple_(in_process_rev: Seq[String], processed_rev: Seq[String], previous_line: String)
+* JoinerFoldTuple_ (in_process_rev: Seq [String], processed_rev: Seq [String], previous_line: String)
   extends JoinerFoldTuple
 

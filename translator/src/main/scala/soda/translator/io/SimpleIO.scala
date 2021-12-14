@@ -24,7 +24,7 @@ trait SimpleFileReader {
 
 }
 
-case class SimpleFileReader_ () extends SimpleFileReader
+case class SimpleFileReader_ ()  extends SimpleFileReader
 
 trait SimpleFileWriter {
 
@@ -52,4 +52,4 @@ trait SimpleFileWriter {
 
 }
 
-case class SimpleFileWriter_ () extends SimpleFileWriter
+case class SimpleFileWriter_ ()  extends SimpleFileWriter

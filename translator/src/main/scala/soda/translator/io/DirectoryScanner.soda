@@ -7,26 +7,26 @@ package soda.translator.io
 
   + java.io.File
 
-  get_all_files(start: File): Seq[File] =
+  get_all_files (start: File): Seq [File] =
     if start.isFile
-    then Seq(start)
-    else scan(Seq(), start.listFiles().toSeq)
+    then Seq (start)
+    else scan (Seq (), start.listFiles ().toSeq)
 
   @tailrec
-  _tailrec_scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
+  _tailrec_scan (found: Seq [File], to_scan: Seq [File]): Seq [File] =
     if to_scan.isEmpty
     then found
-    else _tailrec_scan(found.+:(to_scan.head), get_files_to_scan(to_scan))
+    else _tailrec_scan (found.+: (to_scan.head), get_files_to_scan (to_scan))
 
-  scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
-    _tailrec_scan(found, to_scan)
+  scan (found: Seq [File], to_scan: Seq [File]): Seq [File] =
+    _tailrec_scan (found, to_scan)
 
-  get_files_to_scan(to_scan: Seq[File]): Seq[File] =
+  get_files_to_scan (to_scan: Seq [File]): Seq [File] =
     if to_scan.head.isDirectory
-    then to_scan.tail.++(to_scan.head.listFiles())
+    then to_scan.tail.++ (to_scan.head.listFiles ())
     else to_scan.tail
 
 }
 
-* DirectoryScanner_() extends DirectoryScanner
+* DirectoryScanner_ () extends DirectoryScanner
 

@@ -9,14 +9,14 @@ package soda.lib
  */
 * CartesianProduct = {
 
-  _initial_value [T] (seq: Seq[T]): Seq[Seq[T]] =
-    seq.map(elem -> Seq[T](elem))
+  _initial_value [T] (seq: Seq [T]): Seq [Seq [T]] =
+    seq.map (elem -> Seq [T] (elem))
 
-  _next_value [T] (accum: Seq[Seq[T]], seq_a: Seq[T]): Seq[Seq[T]] =
-    seq_a.flatMap(elem_a ->
-      accum.map(seq_b -> seq_b.+:(elem_a) ) )
+  _next_value [T] (accum: Seq [Seq [T]], seq_a: Seq [T]): Seq [Seq [T]] =
+    seq_a.flatMap (elem_a ->
+      accum.map (seq_b -> seq_b.+: (elem_a) ) )
 
-  get_cartesian_product [T] (sequences: Seq[Seq[T]]): Seq[Seq[T]] =
+  get_cartesian_product [T] (sequences: Seq [Seq [T]]): Seq [Seq [T]] =
     let
       result =
         if sequences.isEmpty
@@ -24,9 +24,10 @@ package soda.lib
         else
           let
             rev_sequences = sequences.reverse
-          in Recursion_().fold(rev_sequences.tail, _initial_value(rev_sequences.head), _next_value[T])
+          in Recursion_ ().fold (rev_sequences.tail, _initial_value (rev_sequences.head), _next_value [T])
     in result
 
 }
 
-* CartesianProduct_() extends CartesianProduct
+* CartesianProduct_ ()
+  extends CartesianProduct

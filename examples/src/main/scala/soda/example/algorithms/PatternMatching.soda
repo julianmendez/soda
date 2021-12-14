@@ -16,7 +16,7 @@ package soda.example.algorithms
       | otherwise => 0
     end
 
-  get_type_name(p: Parameter): String =
+  get_type_name (p: Parameter): String =
     match p
       | x: Singleton => x.name + "(x)"
       | x: Pair => x.name + "(x, y)"
@@ -26,7 +26,7 @@ package soda.example.algorithms
 
 }
 
-* PatternMatching_()
+* PatternMatching_ ()
   extends PatternMatching
 
 * Singleton (x: Int)

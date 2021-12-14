@@ -20,6 +20,6 @@ class FactorialVerbose
 
 }
 
-class FactorialVerbose_()
+class FactorialVerbose_ ()
   extends FactorialVerbose
 

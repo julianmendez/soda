@@ -1,24 +1,24 @@
 package soda.translator.io
 
-* DirectoryScannerSpec()
+* DirectoryScannerSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + java.io.File
 
   start = "translator/src/test/resources/soda/example"
 
-  test("scan a file that is not a directory")
+  test ("scan a file that is not a directory")
     let
-      scanner = DirectoryScanner_()
-      start_file = @new File(start, "Example.soda")
-      expected = Seq(start_file).toSet
-      obtained = scanner.get_all_files(start_file).toSet
-    in assert(obtained == expected)
+      scanner = DirectoryScanner_ ()
+      start_file = @new File (start, "Example.soda")
+      expected = Seq (start_file).toSet
+      obtained = scanner.get_all_files (start_file).toSet
+    in assert (obtained == expected)
 
-  test("simple scan of all files")
+  test ("simple scan of all files")
     let
-      scanner = DirectoryScanner_()
-      expected = Seq(
+      scanner = DirectoryScanner_ ()
+      expected = Seq (
         "otherexample",
         "Example.md",
         "Example.scala",
@@ -26,10 +26,10 @@ package soda.translator.io
         "otherexample/OtherExample.scala",
         "otherexample/OtherExample.soda",
         "otherexample/OtherExample.txt"
-      ).map(x -> @new File(start, x)).toSet
-      start_file = @new File(start)
-      obtained = scanner.get_all_files(start_file).toSet
-    in assert(obtained == expected)
+      ).map (x -> @new File (start, x)).toSet
+      start_file = @new File (start)
+      obtained = scanner.get_all_files (start_file).toSet
+    in assert (obtained == expected)
 
 }
 

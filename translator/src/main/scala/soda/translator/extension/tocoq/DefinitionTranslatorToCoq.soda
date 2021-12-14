@@ -10,9 +10,9 @@ package soda.translator.extension.tocoq
  * 'val' is for value definition.
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
- * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f (x,y)`
+ * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -20,7 +20,7 @@ package soda.translator.extension.tocoq
  * Formerly there was another case for 'val'.
  * Deprecated Case:
  * This was implemented simply as:
- * `line.trim.startsWith(soda_opening_parenthesis)`
+ * `line.trim.startsWith (soda_opening_parenthesis)`
  * This is no longer supported.
  *
  */
@@ -32,7 +32,7 @@ package soda.translator.extension.tocoq
   + soda.translator.replacement.Replacement
   + soda.translator.replacement.Replacement_
 
-  tc = TranslationConstantToCoq_()
+  tc = TranslationConstantToCoq_ ()
 
   trimmed_line = line.trim
 
@@ -41,13 +41,13 @@ package soda.translator.extension.tocoq
   scala_space: String = " "
 
   translation =
-    find_definition(line).opt(
+    find_definition (line).opt (
       ifEmpty := line,
-      ifNonEmpty := position -> try_found_definition(position).line
+      ifNonEmpty := position -> try_found_definition (position).line
     )
 
   is_class_definition =
-    get_index(line, soda_space + tc.soda_class_reserved_word + soda_space).isDefined
+    get_index (line, soda_space + tc.soda_class_reserved_word + soda_space).isDefined
 
   translation_of_class_definition =
     let
@@ -57,79 +57,79 @@ package soda.translator.extension.tocoq
         else ""
       result =
         if condition_for_type_alias
-        then Replacement_(line)
-        else Replacement_(line).replace_all(soda_space + tc.soda_definition, new_text)
+        then Replacement_ (line)
+        else Replacement_ (line).replace_all (soda_space + tc.soda_definition, new_text)
     in result
 
   ends_with_equals =
-    trimmed_line.endsWith(tc.soda_definition)
+    trimmed_line.endsWith (tc.soda_definition)
 
   ends_with_opening_brace =
-    trimmed_line.endsWith(tc.soda_opening_brace)
+    trimmed_line.endsWith (tc.soda_opening_brace)
 
   contains_equals =
-    trimmed_line.contains(tc.soda_definition)
+    trimmed_line.contains (tc.soda_definition)
 
   condition_for_type_alias =
-    contains_equals and not (ends_with_equals or ends_with_opening_brace)
+    contains_equals and not  (ends_with_equals or ends_with_opening_brace)
 
   translation_of_val_definition =
-    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, scala_space )
+    Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, scala_space )
 
   translation_of_def_definition =
-    Replacement_(line).add_after_spaces_or_pattern( tc.soda_let_pattern, scala_space )
+    Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, scala_space )
 
-  try_found_definition(position: Int): Replacement =
+  try_found_definition (position: Int): Replacement =
     if is_class_definition then translation_of_class_definition
-    else if is_val_definition(position) then translation_of_val_definition
+    else if is_val_definition (position) then translation_of_val_definition
     else translation_of_def_definition
 
-  is_val_definition(initial_position: Int) =
+  is_val_definition (initial_position: Int) =
     is_val_definition_case_1 or
-    is_val_definition_case_2(initial_position) or
+    is_val_definition_case_2 (initial_position) or
     is_val_definition_case_3 or
     is_val_definition_case_4
 
   position_of_first_opening_parenthesis =
-    get_index(line, tc.soda_opening_parenthesis)
+    get_index (line, tc.soda_opening_parenthesis)
 
   is_val_definition_case_1 =
     position_of_first_opening_parenthesis.isEmpty
 
-  is_val_definition_case_2(initial_position: Int) =
-    position_of_first_opening_parenthesis.opt(false, position -> position > initial_position)
+  is_val_definition_case_2 (initial_position: Int) =
+    position_of_first_opening_parenthesis.opt (false, position -> position > initial_position)
 
   is_val_definition_case_3 =
-    get_index(line, tc.soda_colon).opt(
+    get_index (line, tc.soda_colon).opt (
       ifEmpty := false,
       ifNonEmpty := other_position ->
-        position_of_first_opening_parenthesis.opt(false, position -> position > other_position)
+        position_of_first_opening_parenthesis.opt (false, position -> position > other_position)
     )
 
   is_val_definition_case_4 =
-    trimmed_line.startsWith(tc.soda_opening_parenthesis)
+    trimmed_line.startsWith (tc.soda_opening_parenthesis)
 
   /**
-   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
    * @return maybe the position of the definition sign
    */
-  find_definition(line: String): OptionSD[Int] =
-    if line.endsWith(soda_space + tc.soda_definition)
-    then SomeSD_(line.length - tc.soda_definition.length)
-    else get_index(line, soda_space + tc.soda_definition + soda_space)
+  find_definition (line: String): OptionSD [Int] =
+    if line.endsWith (soda_space + tc.soda_definition)
+    then SomeSD_ (line.length - tc.soda_definition.length)
+    else get_index (line, soda_space + tc.soda_definition + soda_space)
 
-  get_index(line: String, pattern: String): OptionSD[Int] =
-    get_index(line, pattern, 0)
+  get_index (line: String, pattern: String): OptionSD [Int] =
+    get_index (line, pattern, 0)
 
-  get_index(line: String, pattern: String, start: Int): OptionSD[Int] =
-    SomeSD_(line.indexOf(pattern, start))
-      .filter(position -> not (position == -1))
+  get_index (line: String, pattern: String, start: Int): OptionSD [Int] =
+    SomeSD_ (line.indexOf (pattern, start))
+      .filter (position -> not  (position == -1))
 
 }
 
-* DefinitionTranslatorToCoq_(line: String)
+* DefinitionTranslatorToCoq_ (line: String)
   extends DefinitionTranslatorToCoq
 

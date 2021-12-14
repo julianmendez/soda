@@ -10,7 +10,7 @@ package soda.translator.block
 
 }
 
-* DefaultBlockTranslator_()
+* DefaultBlockTranslator_ ()
   extends BlockTranslator = {
 
   source = "default"

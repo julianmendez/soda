@@ -7,13 +7,13 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-* OptionSD[A] = {
+* OptionSD [A] = {
 
-  has opt[B](ifEmpty: B, ifNonEmpty: A -> B): B
+  has opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
 
-  has map[B](mapping: A -> B): OptionSD[B]
+  has map [B] (mapping: A -> B): OptionSD [B]
 
-  has toOption: Option[A]
+  has toOption: Option [A]
 
   has isEmpty: Boolean
 
@@ -21,26 +21,26 @@ package soda.lib
 
   has isNonEmpty: Boolean
 
-  has toSeq: Seq[A]
+  has toSeq: Seq [A]
 
-  has getOrElse(default: A): A
+  has getOrElse (default: A): A
 
-  has fold[B](ifEmpty: B, f: A -> B): B
+  has fold [B] (ifEmpty: B, f: A -> B): B
 
-  has flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B]
+  has flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B]
 
-  has bind[B](mapping: A -> OptionSD[B]): OptionSD[B]
+  has bind [B] (mapping: A -> OptionSD [B]): OptionSD [B]
 
-  has filter(predicate: A -> Boolean): OptionSD[A]
+  has filter (predicate: A -> Boolean): OptionSD [A]
 
 }
 
-* NoneSD[A]
-  extends OptionSD[A] = {
+* NoneSD [A]
+  extends OptionSD [A] = {
 
-  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
-  map[B](mapping: A -> B): NoneSD[B] = NoneSD_[B]()
+  map [B] (mapping: A -> B): NoneSD [B] = NoneSD_ [B] ()
 
   toOption: None.type = None
 
@@ -50,40 +50,40 @@ package soda.lib
 
   isNonEmpty: Boolean = not isEmpty
 
-  toSeq: Seq[A] = Seq()
+  toSeq: Seq [A] = Seq ()
 
-  getOrElse(default: A): A = default
+  getOrElse (default: A): A = default
 
-  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
 
-  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = NoneSD_[B]()
+  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = NoneSD_ [B] ()
 
-  bind[B](mapping: A -> OptionSD[B]): OptionSD[B] = flatMap[B](mapping)
+  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
 
-  filter(predicate: A -> Boolean): OptionSD[A] = this
+  filter (predicate: A -> Boolean): OptionSD [A] = this
 
 }
 
-* NoneSD_[A]()
-  extends NoneSD[A]
+* NoneSD_ [A] ()
+  extends NoneSD [A]
 
-* OptionSDWithElement[A]
-  extends OptionSD[A] = {
+* OptionSDWithElement [A]
+  extends OptionSD [A] = {
 
   has element: A
 
 }
 
-* SomeSD[A]
-  extends OptionSDWithElement[A] = {
+* SomeSD [A]
+  extends OptionSDWithElement [A] = {
 
   value: A = element
 
-  opt[B](ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty(element)
+  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty (element)
 
-  map[B](mapping: A -> B): SomeSD[B] = SomeSD_[B](mapping(element))
+  map [B] (mapping: A -> B): SomeSD [B] = SomeSD_ [B] (mapping (element))
 
-  toOption: Some[A] = Some[A](element)
+  toOption: Some [A] = Some [A] (element)
 
   isEmpty: Boolean = false
 
@@ -91,32 +91,32 @@ package soda.lib
 
   isNonEmpty: Boolean = not isEmpty
 
-  toSeq: Seq[A] = Seq(element)
+  toSeq: Seq [A] = Seq (element)
 
-  getOrElse(default: A): A = element
+  getOrElse (default: A): A = element
 
-  fold[B](ifEmpty: B, f: A -> B): B = opt(ifEmpty, f)
+  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
 
-  flatMap[B](mapping: A -> OptionSD[B]): OptionSD[B] = mapping(element)
+  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = mapping (element)
 
-  bind[B](mapping: A -> OptionSD[B]): OptionSD[B] = flatMap[B](mapping)
+  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
 
-  filter(predicate: A -> Boolean): OptionSD[A] = if predicate(element) then this else NoneSD_[A]()
+  filter (predicate: A -> Boolean): OptionSD [A] = if predicate (element) then this else NoneSD_ [A] ()
 
 }
 
-* SomeSD_[A](element: A)
-  extends SomeSD[A]
+* SomeSD_ [A] (element: A)
+  extends SomeSD [A]
 
-* OptionSDBuilder[A] = {
+* OptionSDBuilder [A] = {
 
-  build(option: Option[A]): OptionSD[A] =
+  build (option: Option [A]): OptionSD [A] =
     if option.isEmpty
-    then NoneSD_[A]()
-    else SomeSD_[A](option.get)
+    then NoneSD_ [A] ()
+    else SomeSD_ [A] (option.get)
 
 }
 
-* OptionSDBuilder_[A]()
-  extends OptionSDBuilder[A]
+* OptionSDBuilder_ [A] ()
+  extends OptionSDBuilder [A]
 

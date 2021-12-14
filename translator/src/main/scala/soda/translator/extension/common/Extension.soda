@@ -2,7 +2,7 @@ package soda.translator.extension.common
 
 * Extension = {
 
-  has execute (arguments: Seq[String]): Boolean
+  has execute (arguments: Seq [String]): Boolean
 
 }
 

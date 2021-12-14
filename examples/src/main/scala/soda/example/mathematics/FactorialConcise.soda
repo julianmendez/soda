@@ -20,6 +20,6 @@ package soda.example.mathematics
 
 }
 
-* FactorialConcise_()
+* FactorialConcise_ ()
   extends FactorialConcise
 

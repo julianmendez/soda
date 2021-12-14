@@ -1,28 +1,28 @@
 package soda.example.forcoq.mathematics
 
-* FactorialForCoqSpec()
+* FactorialForCoqSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.example.forcoq.lib.nat
   + soda.example.forcoq.lib.IntNat_
 
-  factorial_values: Seq[(Int, Int)] = Seq(
-    (0, 1), (1, 1), (2, 2), (3, 6), (4, 24), (5, 120), (6, 720)
+  factorial_values: Seq [ (Int, Int)] = Seq (
+    (0, 1),  (1, 1),  (2, 2),  (3, 6),  (4, 24),  (5, 120),  (6, 720)
   )
 
-  factorial_values_with_nat: Seq[(nat, nat)] =
+  factorial_values_with_nat: Seq [ (nat, nat)] =
     factorial_values
-      .map(pair ->
-        ( IntNat_().from_non_negative (pair._1),  IntNat_().from_non_negative (pair._2) )
+      .map (pair ->
+        ( IntNat_ ().from_non_negative  (pair._1),  IntNat_ ().from_non_negative  (pair._2) )
       )
 
-  test("should test the factorial function for Coq")
+  test ("should test the factorial function for Coq")
     let
       expected = factorial_values_with_nat
       obtained = factorial_values_with_nat
-        .map(pair -> pair._1)
-        .map(n -> (n, FactorialForCoq_().get_factorial (n)))
-    in assert(obtained == expected)
+        .map (pair -> pair._1)
+        .map (n ->  (n, FactorialForCoq_ ().get_factorial  (n)))
+    in assert (obtained == expected)
 
 }
 

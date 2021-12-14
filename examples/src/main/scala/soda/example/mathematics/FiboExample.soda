@@ -19,6 +19,6 @@ class FiboExampleInSoda
 
 }
 
-class FiboExampleInSoda_()
+class FiboExampleInSoda_ ()
   extends FiboExampleInSoda
 

@@ -9,7 +9,7 @@ trait Pair [T] {
 
 }
 
-case class Pair_ [T]  (name: String, result: T ) extends Pair [T]
+case class Pair_ [T]  (name: String, result: T )  extends Pair [T]
 
 trait ListExample {
 
@@ -90,4 +90,4 @@ trait ListExample {
 
 }
 
-case class ListExample_ () extends ListExample
+case class ListExample_ ()  extends ListExample

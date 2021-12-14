@@ -8,7 +8,7 @@ class Customer = {
 
 }
 
-class Customer_(name: String, ip_address: String)
+class Customer_ (name: String, ip_address: String)
   extends Customer
 
 class PricingAgent = {
@@ -28,13 +28,13 @@ class Flight = {
 
   has start_airport: String
 
-  has intermediate_airports: Seq[String]
+  has intermediate_airports: Seq [String]
 
   has end_airport: String
 
 }
 
-class Flight_ (start_airport: String, intermediate_airports: Seq[String], end_airport: String)
+class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String)
   extends Flight
 
 class RequirementMonitor = {

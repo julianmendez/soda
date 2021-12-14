@@ -1,23 +1,23 @@
 package soda.translator.extension.toscala
 
-* MainSpec()
+* MainSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + java.io.File
 
-  instance = TranslatorToScala_()
+  instance = TranslatorToScala_ ()
 
-  test("should get the input and output file names without path")
+  test ("should get the input and output file names without path")
     let
       expected = FileNamePair_("my_file.soda", "my_file.scala")
       obtained = instance.get_input_output_file_names("my_file.soda")
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should get the input and output file names with path")
+  test ("should get the input and output file names with path")
     let
       expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
       obtained = instance.get_input_output_file_names("/path/to/file.soda")
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
 }
 

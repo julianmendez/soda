@@ -1,13 +1,13 @@
 package soda.translator.extension.toscala
 
-* MicroTranslatorToScalaSpec()
+* MicroTranslatorToScalaSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.translator.block.BlockProcessor_
 
-  instance = BlockProcessor_(MicroTranslatorToScala_())
+  instance = BlockProcessor_ (MicroTranslatorToScala_ ())
 
-  test("should translate a small snippet")
+  test ("should translate a small snippet")
     let
       original = "  input_lines = Seq(" +
         "\n    \"  f( x: Int,\\t\", " +
@@ -20,23 +20,23 @@ package soda.translator.extension.toscala
         " \"       x + y\")" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should leave content of apostrophes unchanged")
+  test ("should leave content of apostrophes unchanged")
     let
       input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
       expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
       obtained = instance.translate (input)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should leave content of quotation marks unchanged")
+  test ("should leave content of quotation marks unchanged")
     let
       input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       obtained = instance.translate (input)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate classes")
+  test ("should translate classes")
     let
       original =
         "* A =" +
@@ -77,9 +77,9 @@ package soda.translator.extension.toscala
         "\n}" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate type aliases")
+  test ("should translate type aliases")
     let
       original =
         "* A[T] = B[T]" +
@@ -96,9 +96,9 @@ package soda.translator.extension.toscala
         "\ntype M = Map [Int, Seq [Int]]" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate a tuple assignment")
+  test ("should translate a tuple assignment")
     let
       original = "  (x, y) = (f(a), g(a))" +
         "\n  (p, q) =" +
@@ -109,9 +109,9 @@ package soda.translator.extension.toscala
         "\n    h (1, 2 )" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate a pattern matching")
+  test ("should translate a pattern matching")
     let
       original = "fibo(n: Int): Int = " +
         "\n  match n" +
@@ -128,9 +128,9 @@ package soda.translator.extension.toscala
         "\n }" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate another pattern matching")
+  test ("should translate another pattern matching")
     let
       original = "fibo(n: Int): Int = " +
         "\n  match n" +
@@ -147,9 +147,9 @@ package soda.translator.extension.toscala
         "\n  }" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should ignore a pattern matching written in the Scala style")
+  test ("should ignore a pattern matching written in the Scala style")
     let
       original = "fibo(n: Int): Int = " +
         "\n  n match" +
@@ -164,16 +164,16 @@ package soda.translator.extension.toscala
         "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should translate an explicit lambda expression")
+  test ("should translate an explicit lambda expression")
     let
       original = "plus_1: Int = (lambda x: Int) -> x + 1" +
         "\n"
       expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
         "\n"
       obtained = instance.translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
   test ("should translate let in 1")
     let

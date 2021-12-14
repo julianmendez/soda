@@ -6,7 +6,7 @@ package soda.translator.extension.fromsoda
 
   new_line = "\n"
 
-  soda_reserved_words = Seq(
+  soda_reserved_words = Seq (
     "=",
     ":",
     "->",

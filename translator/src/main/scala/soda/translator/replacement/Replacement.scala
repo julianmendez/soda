@@ -73,33 +73,33 @@ trait ReplacementAux {
         replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
       Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
-  def replace_if_found (line: String, pattern: String, new_text: String ): String =
-    if (line.contains (pattern )
-    ) replace_all (line, pattern, new_text )
+  def replace_if_found  (line: String, pattern: String, new_text: String ): String =
+    if (line.contains  (pattern )
+    ) replace_all  (line, pattern, new_text )
     else line
 
-  def replace_all (line: String, pattern: String, replacement: String ): String =
+  def replace_all  (line: String, pattern: String, replacement: String ): String =
     Replacer_ (line, pattern, replacement ) .replaced_text
 
-  def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
+  def add_spaces_to_symbols  (line: String, symbols: Set [Char]  ): String =
     line.indices.map (index =>
       {
-        lazy val ch = line (index )
-        _left_part_of_symbols (line, symbols, index, ch ) + ch + _right_part_of_symbols (line, symbols, index, ch ) }    ) .mkString ("")
+        lazy val ch = line  (index )
+        _left_part_of_symbols  (line, symbols, index, ch ) + ch + _right_part_of_symbols  (line, symbols, index, ch ) }    ) .mkString ("")
 
-  def _left_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
-    if ((index > 0 ) && symbols.contains (ch ) &&
-      ! line (index - 1 ) .isWhitespace
+  def _left_part_of_symbols  (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index > 0 ) && symbols.contains  (ch ) &&
+      ! line  (index - 1 ) .isWhitespace
     ) scala_space
     else ""
 
-  def _right_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
-    if ((index < line.length - 1 ) && symbols.contains (ch ) &&
-      ! line (index + 1 ) .isWhitespace
+  def _right_part_of_symbols  (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index < line.length - 1 ) && symbols.contains  (ch ) &&
+      ! line  (index + 1 ) .isWhitespace
     ) scala_space
     else ""
 
-  def remove_space_from_scala_line (line: String ): String =
+  def remove_space_from_scala_line  (line: String ): String =
     {
       lazy val line_without_starting_space =
         if (line.startsWith (scala_space )
@@ -162,7 +162,7 @@ trait Replacer  extends LinePatternProcessor {
         ReplacerFoldTuple_ (new_replaced_text_rev, new_index ) }
 
   def should_continue (tuple: ReplacerFoldTuple, x: Int ): Boolean =
-    ! (tuple.start_index == -1 )
+    !  (tuple.start_index == -1 )
 
   def postprocess (tuple: ReplacerFoldTuple ): String =
     tuple.replaced_text_rev.reverse.mkString ("")

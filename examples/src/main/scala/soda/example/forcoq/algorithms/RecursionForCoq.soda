@@ -39,6 +39,6 @@ package soda.example.forcoq.algorithms
 
 }
 
-* RecursionForCoq_()
+* RecursionForCoq_ ()
   extends RecursionForCoq
 

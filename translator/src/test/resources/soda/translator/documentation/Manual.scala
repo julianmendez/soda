@@ -49,7 +49,7 @@ trait EqualsExample {
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
-case class EqualsExample_ () extends EqualsExample
+case class EqualsExample_ ()  extends EqualsExample
 
 /* A class does not need to define all its constants and functions. */
 trait RegisteredPerson {
@@ -78,7 +78,7 @@ trait Agent {
 
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-case class Agent_ (identifier: String ) extends Agent
+case class Agent_ (identifier: String )  extends Agent
 
 trait RankedIndividual {
 
@@ -100,7 +100,7 @@ trait Visitor {
 
 }
 
-case class Item (identifier: Int ) extends Element {
+case class Item (identifier: Int )  extends Element {
 
   /* It is possible to refer to an object instance by using `this`. */
   def accept (v: Visitor ) = v.visit (this )
@@ -258,7 +258,7 @@ trait Recursion {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold4 [A, B, C <: B]  (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
     if (sequence.isEmpty
     ) current_value
     else
@@ -266,7 +266,7 @@ trait Recursion {
       ) current_value
       else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
+  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
     _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
 
   import scala.annotation.tailrec
@@ -277,17 +277,17 @@ trait Recursion {
     else _tailrec_range (n - 1, sequence.+: (n - 1 )  )
 
   def range (length: Int ): Seq [Int] =
-    _tailrec_range (length, Seq [Int]  ()  )
+    _tailrec_range (length, Seq [Int] ()  )
 
 }
 
-case class Recursion_ () extends Recursion
+case class Recursion_ ()  extends Recursion
 
 
-/* The main class is concrete and it is called `Main()`. */
-case class Main () extends MainClass
+/* The main class is concrete and it is called `Main ()`. */
+case class Main ()  extends MainClass
 
-/* The main class requires a `main` function that receives an `Array[String]` and returns a `Unit`. */
+/* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
@@ -300,6 +300,6 @@ trait MainClass {
 /* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
 object EntryPoint {
-  def main(args: Array[String]): Unit = Main().main(args)
+  def main (args: Array [String]): Unit = Main ().main (args)
 }
 

@@ -69,7 +69,7 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
   lazy val non_definition_block_prefixes: Seq [String] =
     Seq (soda_package_reserved_word, soda_import_reserved_word, soda_closing_brace, soda_class_reserved_word, soda_opening_comment    )
 
-  lazy val scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  lazy val scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
 
   /**
@@ -93,21 +93,21 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
 
   lazy val translation_at_beginning_without_paren_for_type_alias: Seq [(String, String )] = Seq (("class", "type")  )
 
-  lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "trait"), ("has", "def"), ("package", "package"), ("import", "import"),
+  lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "Module"), ("has", "def"), ("package", "package"), ("import", "Require Import"),
 
     /** Annotations */
     ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"), ("@main", scala_entry_point )  )
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb")  )
 
   lazy val prefix_scala_non_soda = "__soda__"
 
   lazy val scala_non_soda: Seq [(String, String )] =
     scala_reserved_words
       .filter (x => ! soda_reserved_words.contains (x )  )
-      .map (x => (x, prefix_scala_non_soda + x ) )
+      .map (x =>  (x, prefix_scala_non_soda + x ) )
 
   lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 

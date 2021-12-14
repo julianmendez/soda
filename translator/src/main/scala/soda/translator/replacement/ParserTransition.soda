@@ -6,82 +6,82 @@ package soda.translator.replacement
 * ParserState
   extends soda.lib.EnumConstant
 
-* ParserState_(ordinal: Int, name: String)
+* ParserState_ (ordinal: Int, name: String)
   extends ParserState
 
 /**
  * This is an enumeration of all the parser states.
  */
 * ParserStateEnum
-  extends soda.lib.Enum[ParserState] = {
+  extends soda.lib.Enum [ParserState] = {
 
-  undefined_state = ParserState_(0, "undefined_state")
+  undefined_state = ParserState_ (0, "undefined_state")
 
-  quotes_state = ParserState_(1, "quotes_state")
+  quotes_state = ParserState_ (1, "quotes_state")
 
-  apostrophe_state = ParserState_(2, "apostrophe_state")
+  apostrophe_state = ParserState_ (2, "apostrophe_state")
 
-  quotes_backslash_state = ParserState_(3, "quotes_backslash_state")
+  quotes_backslash_state = ParserState_ (3, "quotes_backslash_state")
 
-  apostrophe_backslash_state = ParserState_(4, "apostrophe_backslash_state")
+  apostrophe_backslash_state = ParserState_ (4, "apostrophe_backslash_state")
 
-  plain = ParserState_(5, "plain")
+  plain = ParserState_ (5, "plain")
 
-  values = Seq(undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
+  values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 
-  is_same_class(x: ParserState, y: ParserState): Boolean =
-    (x == y) or is_like(x, y) or is_like(y, x)
+  is_same_class (x: ParserState, y: ParserState): Boolean =
+     (x == y) or is_like (x, y) or is_like (y, x)
 
-  is_like(x: ParserState, y: ParserState): Boolean =
-    (x == quotes_state and y == quotes_backslash_state) or
-      (x == apostrophe_state and y == apostrophe_backslash_state)
+  is_like (x: ParserState, y: ParserState): Boolean =
+     (x == quotes_state and y == quotes_backslash_state) or
+       (x == apostrophe_state and y == apostrophe_backslash_state)
 
 }
 
-* ParserStateEnum_()
+* ParserStateEnum_ ()
   extends ParserStateEnum
 
 * ParserTransition = {
 
-  ps = ParserStateEnum_()
+  ps = ParserStateEnum_ ()
 
-  ct = CharTypeEnum_()
+  ct = CharTypeEnum_ ()
 
-  transitions_that_change_states: Map[(ParserState, CharType), ParserState] =
-    Map(
+  transitions_that_change_states: Map [ (ParserState, CharType), ParserState] =
+    Map (
       /* */
-      ((ps.quotes_state, ct.undefined_type), ps.undefined_state),
-      ((ps.quotes_state, ct.quotes_type), ps.plain),
-      ((ps.quotes_state, ct.backslash_type), ps.quotes_backslash_state),
+      ( (ps.quotes_state, ct.undefined_type), ps.undefined_state),
+      ( (ps.quotes_state, ct.quotes_type), ps.plain),
+      ( (ps.quotes_state, ct.backslash_type), ps.quotes_backslash_state),
       /* */
-      ((ps.apostrophe_state, ct.undefined_type), ps.undefined_state),
-      ((ps.apostrophe_state, ct.apostrophe_type), ps.plain),
-      ((ps.apostrophe_state, ct.backslash_type), ps.apostrophe_backslash_state),
+      ( (ps.apostrophe_state, ct.undefined_type), ps.undefined_state),
+      ( (ps.apostrophe_state, ct.apostrophe_type), ps.plain),
+      ( (ps.apostrophe_state, ct.backslash_type), ps.apostrophe_backslash_state),
       /* */
-      ((ps.quotes_backslash_state, ct.undefined_type), ps.undefined_state),
-      ((ps.quotes_backslash_state, ct.quotes_type), ps.quotes_state),
-      ((ps.quotes_backslash_state, ct.apostrophe_type), ps.quotes_state),
-      ((ps.quotes_backslash_state, ct.backslash_type), ps.quotes_state),
-      ((ps.quotes_backslash_state, ct.plain_type), ps.quotes_state),
+      ( (ps.quotes_backslash_state, ct.undefined_type), ps.undefined_state),
+      ( (ps.quotes_backslash_state, ct.quotes_type), ps.quotes_state),
+      ( (ps.quotes_backslash_state, ct.apostrophe_type), ps.quotes_state),
+      ( (ps.quotes_backslash_state, ct.backslash_type), ps.quotes_state),
+      ( (ps.quotes_backslash_state, ct.plain_type), ps.quotes_state),
       /* */
-      ((ps.apostrophe_backslash_state, ct.undefined_type), ps.undefined_state),
-      ((ps.apostrophe_backslash_state, ct.quotes_type), ps.apostrophe_state),
-      ((ps.apostrophe_backslash_state, ct.apostrophe_type), ps.apostrophe_state),
-      ((ps.apostrophe_backslash_state, ct.backslash_type), ps.apostrophe_state),
-      ((ps.apostrophe_backslash_state, ct.plain_type), ps.apostrophe_state),
+      ( (ps.apostrophe_backslash_state, ct.undefined_type), ps.undefined_state),
+      ( (ps.apostrophe_backslash_state, ct.quotes_type), ps.apostrophe_state),
+      ( (ps.apostrophe_backslash_state, ct.apostrophe_type), ps.apostrophe_state),
+      ( (ps.apostrophe_backslash_state, ct.backslash_type), ps.apostrophe_state),
+      ( (ps.apostrophe_backslash_state, ct.plain_type), ps.apostrophe_state),
       /* */
-      ((ps.plain, ct.undefined_type), ps.undefined_state),
-      ((ps.plain, ct.quotes_type), ps.quotes_state),
-      ((ps.plain, ct.apostrophe_type), ps.apostrophe_state),
-      ((ps.plain, ct.backslash_type), ps.plain),
-      ((ps.plain, ct.plain_type), ps.plain)
+      ( (ps.plain, ct.undefined_type), ps.undefined_state),
+      ( (ps.plain, ct.quotes_type), ps.quotes_state),
+      ( (ps.plain, ct.apostrophe_type), ps.apostrophe_state),
+      ( (ps.plain, ct.backslash_type), ps.plain),
+      ( (ps.plain, ct.plain_type), ps.plain)
     )
 
-  next_parser_state(parser_state: ParserState, char_type: CharType): ParserState =
-    transitions_that_change_states.getOrElse((parser_state, char_type), parser_state)
+  next_parser_state (parser_state: ParserState, char_type: CharType): ParserState =
+    transitions_that_change_states.getOrElse ( (parser_state, char_type), parser_state)
 
 }
 
-* ParserTransition_()
+* ParserTransition_ ()
   extends ParserTransition
 

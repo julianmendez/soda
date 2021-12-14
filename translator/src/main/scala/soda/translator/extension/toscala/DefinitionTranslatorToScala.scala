@@ -16,9 +16,9 @@ trait LineTranslator {
  * 'val' is for value definition.
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f(y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f(x,y)`
- * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) = (0, 1)`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x:  (A, B) -> C =  (x, y) -> f (x,y)`
+ * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -26,7 +26,7 @@ trait LineTranslator {
  * Formerly there was another case for 'val'.
  * Deprecated Case:
  * This was implemented simply as:
- * `line.trim.startsWith(soda_opening_parenthesis)`
+ * `line.trim.startsWith (soda_opening_parenthesis)`
  * This is no longer supported.
  *
  */
@@ -73,7 +73,7 @@ trait DefinitionTranslatorToScala  extends LineTranslator {
     trimmed_line.contains (tc.soda_definition )
 
   lazy val condition_for_type_alias =
-    contains_equals && ! (ends_with_equals || ends_with_opening_brace )
+    contains_equals && !  (ends_with_equals || ends_with_opening_brace )
 
   lazy val translation_of_val_definition =
     Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space )
@@ -109,7 +109,7 @@ trait DefinitionTranslatorToScala  extends LineTranslator {
     trimmed_line.startsWith (tc.soda_opening_parenthesis )
 
   /**
-   * A line is a definition when its main operator is "=" (the equals sign), which in this context is also called the definition sign.
+   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
@@ -125,7 +125,7 @@ trait DefinitionTranslatorToScala  extends LineTranslator {
 
   def get_index (line: String, pattern: String, start: Int ): OptionSD [Int] =
     SomeSD_ (line.indexOf (pattern, start )  )
-      .filter (position => ! (position == -1 )  )
+      .filter (position => !  (position == -1 )  )
 
 }
 

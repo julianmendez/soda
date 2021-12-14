@@ -1,44 +1,44 @@
 package soda.example.forcoq.algorithms
 
-* RecursionForCoqSpec()
+* RecursionForCoqSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  exampleSeq: Seq[Int] = Seq(0, 1, 1, 2, 3, 5, 8)
+  exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 
-  test("fold left while with Seq")
+  test ("fold left while with Seq")
     let
-      initial_value = Seq[String]()
-      next_value_function: Seq[String] -> Int -> Seq[String] = (s: Seq[String]) -> (e: Int) -> s .+: ("" + (e + 100))
-      condition: Seq[String] -> Int -> Boolean = (s: Seq[String]) -> (e: Int) -> e < 5
-      expected = Seq("103", "102", "101", "101", "100")
-      obtained = RecursionForCoq_().fold4 (exampleSeq) (initial_value) (next_value_function) (condition)
-    in assert(obtained == expected)
+      initial_value = Seq [String] ()
+      next_value_function: Seq [String] -> Int -> Seq [String] =  (s: Seq [String]) ->  (e: Int) -> s .+:  ("" +  (e + 100))
+      condition: Seq [String] -> Int -> Boolean =  (s: Seq [String]) ->  (e: Int) -> e < 5
+      expected = Seq ("103", "102", "101", "101", "100")
+      obtained = RecursionForCoq_ ().fold4  (exampleSeq)  (initial_value)  (next_value_function)  (condition)
+    in assert (obtained == expected)
 
-  test("fold left with Seq")
+  test ("fold left with Seq")
     let
-      initial_value = Seq[String]()
-      next_value_function: Seq[String] -> Int -> Seq[String] = (s: Seq[String]) -> (e: Int) -> s .+: ("" + (e + 100))
-      expected = Seq("108", "105", "103", "102", "101", "101", "100")
-      obtained = RecursionForCoq_().fold3 (exampleSeq) (initial_value) (next_value_function)
-    in assert(obtained == expected)
+      initial_value = Seq [String] ()
+      next_value_function: Seq [String] -> Int -> Seq [String] =  (s: Seq [String]) ->  (e: Int) -> s .+:  ("" +  (e + 100))
+      expected = Seq ("108", "105", "103", "102", "101", "101", "100")
+      obtained = RecursionForCoq_ ().fold3  (exampleSeq)  (initial_value)  (next_value_function)
+    in assert (obtained == expected)
 
-  test("range with positive number")
+  test ("range with positive number")
     let
-      expected = Seq[Int](0, 1, 2, 3, 4, 5, 6, 7)
-      obtained = RecursionForCoq_().range (8)
-    in assert(obtained == expected)
+      expected = Seq [Int] (0, 1, 2, 3, 4, 5, 6, 7)
+      obtained = RecursionForCoq_ ().range  (8)
+    in assert (obtained == expected)
 
-  test("range with zero size")
+  test ("range with zero size")
     let
-      expected = Seq[Int]()
-      obtained = RecursionForCoq_().range (-1)
-    in assert(obtained == expected)
+      expected = Seq [Int] ()
+      obtained = RecursionForCoq_ ().range  (-1)
+    in assert (obtained == expected)
 
-  test("range with negative number")
+  test ("range with negative number")
     let
-      expected = Seq[Int]()
-      obtained = RecursionForCoq_().range (-1)
-    in assert(obtained == expected)
+      expected = Seq [Int] ()
+      obtained = RecursionForCoq_ ().range  (-1)
+    in assert (obtained == expected)
 
 }
 

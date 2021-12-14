@@ -1,52 +1,52 @@
 package soda.translator.extension.toscala
 
-* LineJoinerSpec()
+* LineJoinerSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.translator.block.Block_
   + soda.translator.block.BlockProcessor_
   + soda.translator.block.DefaultBlockTranslator_
 
-  bp = BlockProcessor_ (DefaultBlockTranslator_())
+  bp = BlockProcessor_  (DefaultBlockTranslator_ ())
 
-  mt = MicroTranslatorToScala_()
+  mt = MicroTranslatorToScala_ ()
 
   Original_parenthesis_example =
-    Seq(
-      "a[ ",
+    Seq (
+      "a [ ",
       "T",
-      " ]( ",
+      " ] ( ",
       "x: Int,",
       " y: Int",
-      " ) = f[T](",
+      " ) = f [T] (",
       "x + y",
       ")"
     )
 
   Result_with_only_opening_brackets_example =
-    Seq(
-      "a[ T",
-      " ]( x: Int, y: Int",
-      " ) = f[T](x + y",
+    Seq (
+      "a [ T",
+      " ] ( x: Int, y: Int",
+      " ) = f [T] (x + y",
       ")"
     )
 
   Result_with_only_closing_brackets_example =
-    Seq(
-      "a[ ",
-      "T ]( ",
+    Seq (
+      "a [ ",
+      "T ] ( ",
       "x: Int,",
-      " y: Int ) = f[T](",
+      " y: Int ) = f [T] (",
       "x + y)"
     )
 
   Result_with_opening_closing_brackets_example =
-    Seq(
-      "a[ T ]( x: Int, y: Int ) = f[T](x + y)"
+    Seq (
+      "a [ T ] ( x: Int, y: Int ) = f [T] (x + y)"
     )
 
   Example_using_extends_and_with =
-    Seq(
+    Seq (
       "it should join lines ending with the extends",
       "keyword",
       "it should join lines ending with the with",
@@ -67,43 +67,43 @@ package soda.translator.extension.toscala
       "  with should be respected"
     )
 
-  test("should join lines ending in comma")
+  test ("should join lines ending in comma")
     let
-      input = Block_ ( Seq("this ", "should join,", "all the lines , ", "  that end with a", "comma.") )
-      expected = Block_ ( Seq("this ", "should join,all the lines ,   that end with a", "comma.") )
-      obtained = mt.join_lines_with_forward_join (input)
-    in assert(obtained == expected)
+      input = Block_  ( Seq ("this ", "should join,", "all the lines , ", "  that end with a", "comma.") )
+      expected = Block_  ( Seq ("this ", "should join,all the lines ,   that end with a", "comma.") )
+      obtained = mt.join_lines_with_forward_join  (input)
+    in assert (obtained == expected)
 
-  test("should join lines ending in opening parenthesis and brackets")
+  test ("should join lines ending in opening parenthesis and brackets")
     let
-      input = Block_ ( Original_parenthesis_example )
-      expected = Block_ ( Result_with_only_opening_brackets_example )
-      obtained = mt.join_lines_with_forward_join (input)
-    in  assert(obtained == expected)
+      input = Block_  ( Original_parenthesis_example )
+      expected = Block_  ( Result_with_only_opening_brackets_example )
+      obtained = mt.join_lines_with_forward_join  (input)
+    in  assert (obtained == expected)
 
-  test("should join lines starting in closing parenthesis and brackets")
+  test ("should join lines starting in closing parenthesis and brackets")
     let
-      input = Block_ ( Original_parenthesis_example )
-      expected = Block_ ( Result_with_only_closing_brackets_example )
-      obtained = mt.join_lines_with_backward_join (input)
-    in assert(obtained == expected)
+      input = Block_  ( Original_parenthesis_example )
+      expected = Block_  ( Result_with_only_closing_brackets_example )
+      obtained = mt.join_lines_with_backward_join  (input)
+    in assert (obtained == expected)
 
-  test("should join lines ending with opening parenthesis and brackets or starting in closing parenthesis and brackets")
+  test ("should join lines ending with opening parenthesis and brackets or starting in closing parenthesis and brackets")
     let
-      input = Block_ ( Original_parenthesis_example )
-      expected = Block_ ( Result_with_opening_closing_brackets_example )
+      input = Block_  ( Original_parenthesis_example )
+      expected = Block_  ( Result_with_opening_closing_brackets_example )
       obtained =
-        Some (input)
-          .map(x -> mt.join_lines_with_forward_join(x))
-          .map(x -> mt.join_lines_with_backward_join(x))
+        Some  (input)
+          .map (x -> mt.join_lines_with_forward_join (x))
+          .map (x -> mt.join_lines_with_backward_join (x))
           .get
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
-  test("should join lines starting or ending with keyword 'extends' and 'with' with forward join")
+  test ("should join lines starting or ending with keyword 'extends' and 'with' with forward join")
     let
-      input = Block_ ( Example_using_extends_and_with )
-      expected = Block_ (
-        Seq(
+      input = Block_  ( Example_using_extends_and_with )
+      expected = Block_  (
+        Seq (
           "it should join lines ending with the extendskeyword",
           "it should join lines ending with the withkeyword",
           "it should join lines starting with the",
@@ -120,14 +120,14 @@ package soda.translator.extension.toscala
           "  with should be respected"
         )
       )
-      obtained = mt.join_lines_with_forward_join (input)
-    in assert(obtained == expected)
+      obtained = mt.join_lines_with_forward_join  (input)
+    in assert (obtained == expected)
 
-  test("should join lines starting or ending with keyword 'extends' and 'with' with backward join")
+  test ("should join lines starting or ending with keyword 'extends' and 'with' with backward join")
     let
-      input = Block_ ( Example_using_extends_and_with )
-      expected = Block_ (
-        Seq(
+      input = Block_  ( Example_using_extends_and_with )
+      expected = Block_  (
+        Seq (
           "it should join lines ending with the extends",
           "keyword",
           "it should join lines ending with the with",
@@ -144,8 +144,8 @@ package soda.translator.extension.toscala
           "leading spaces using extends and using   with should be respected"
         )
       )
-      obtained = mt.join_lines_with_backward_join (input)
-    in assert(obtained == expected)
+      obtained = mt.join_lines_with_backward_join  (input)
+    in assert (obtained == expected)
 
 }
 

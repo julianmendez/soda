@@ -5,54 +5,54 @@ package soda.translator.extension.help
 
   + soda.translator.io.SimpleFileReader_
 
-  has execute (arguments: Seq[String]): Boolean
+  has execute (arguments: Seq [String]): Boolean
 
   path: String = "/soda/translator/documentation/"
 
   read (file_name: String): String =
-    SimpleFileReader_().read_resource (path + file_name)
+    SimpleFileReader_ ().read_resource (path + file_name)
 
   title_and_version: String =
     let
       packg = this.getClass.getPackage
-      name = Option(packg.getImplementationTitle).getOrElse ("")
-      version = Option(packg.getImplementationVersion).getOrElse ("")
+      name = Option (packg.getImplementationTitle).getOrElse ("")
+      version = Option (packg.getImplementationVersion).getOrElse ("")
     in (name + " " + version).trim
 
 }
 
-* Help_()
+* Help_ ()
   extends Help = {
 
   file_name = "help.txt"
 
-  execute (arguments: Seq[String]): Boolean =
+  execute (arguments: Seq [String]): Boolean =
     let
       println (title_and_version + "\n\n" + read (file_name) )
     in true
 
 }
 
-* Manual_()
+* Manual_ ()
   extends Help = {
 
   file_name = "Manual.soda"
 
-  execute (arguments: Seq[String]): Boolean =
+  execute (arguments: Seq [String]): Boolean =
     let
-      println("/* " + title_and_version + " */\n\n" + read (file_name) )
+      println ("/* " + title_and_version + " */\n\n" + read (file_name) )
     in true
 
 }
 
-* License_()
+* License_ ()
   extends Help = {
 
   file_name = "LICENSE.txt"
 
-  execute (arguments: Seq[String]): Boolean =
+  execute (arguments: Seq [String]): Boolean =
     let
-      println(read (file_name))
+      println (read (file_name))
     in true
 
 }

@@ -18,6 +18,6 @@ package soda.example.forcoq.mathematics
 
 }
 
-* FactorialForCoq_()
+* FactorialForCoq_ ()
   extends FactorialForCoq
 

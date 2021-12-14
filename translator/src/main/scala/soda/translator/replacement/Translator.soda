@@ -5,9 +5,9 @@ package soda.translator.replacement
  */
 * Translator = {
 
-  has translate(word: String): String
+  has translate (word: String): String
 
-  has keys: Seq[String]
+  has keys: Seq [String]
 
 }
 

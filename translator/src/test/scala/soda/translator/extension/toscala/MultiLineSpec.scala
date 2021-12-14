@@ -34,7 +34,6 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "     z: Int) =\n" +
     "       x * x + y * y + z * z"
 
-
   test ("should split a program in multiple lines")
     {
       lazy val obtained = bp.make_block (Original_input )

@@ -19,6 +19,6 @@ package soda.example.forcoq.mathematics
 
 }
 
-* FiboExampleInSodaForCoq_()
+* FiboExampleInSodaForCoq_ ()
   extends FiboExampleInSodaForCoq
 

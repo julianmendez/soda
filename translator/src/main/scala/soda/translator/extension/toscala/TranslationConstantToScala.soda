@@ -46,7 +46,7 @@ package soda.translator.extension.toscala
 
   scala_value: String = "lazy val"
 
-  scala_entry_point: String = "object EntryPoint {\n  def main(args: Array[String]): Unit = Main().main(args)\n}\n"
+  scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
 
   /**
@@ -58,7 +58,7 @@ package soda.translator.extension.toscala
   scala_reserved_words =
     scala_3_regular_keywords ++ scala_3_soft_keywords ++ scala_2_extra_keywords
 
-  scala_3_regular_keywords = Seq(
+  scala_3_regular_keywords = Seq (
     "abstract",
     "case",
     "catch",
@@ -112,7 +112,7 @@ package soda.translator.extension.toscala
     "?=>"
   )
 
-  scala_3_soft_keywords = Seq(
+  scala_3_soft_keywords = Seq (
     "as",
     "derives",
     "end",
@@ -129,7 +129,7 @@ package soda.translator.extension.toscala
     "-"
   )
 
-  scala_2_extra_keywords = Seq(
+  scala_2_extra_keywords = Seq (
     "forSome",
     "macro",
     "this",
@@ -139,22 +139,22 @@ package soda.translator.extension.toscala
     "\u2190"
   )
 
-  synonym_at_beginning: Seq[(String, String)] = Seq(
+  synonym_at_beginning: Seq [ (String, String)] = Seq (
     ("*", "class"),
     ("+", "import"),
     ("|", "case")
   )
 
-  translation_at_beginning_with_paren: Seq[(String, String)] = Seq(
+  translation_at_beginning_with_paren: Seq [ (String, String)] = Seq (
     ("class", "case class"),
     ("has", "def")
   )
 
-  translation_at_beginning_without_paren_for_type_alias: Seq[(String, String)] = Seq(
+  translation_at_beginning_without_paren_for_type_alias: Seq [ (String, String)] = Seq (
     ("class", "type")
   )
 
-  translation_at_beginning_without_paren: Seq[(String, String)] = Seq(
+  translation_at_beginning_without_paren: Seq [ (String, String)] = Seq (
     ("class", "trait"),
     ("has", "def"),
     ("package", "package"),
@@ -166,14 +166,14 @@ package soda.translator.extension.toscala
     ("@main", scala_entry_point)
   )
 
-  synonym: Seq[(String, String)] = Seq(
+  synonym: Seq [ (String, String)] = Seq (
     ("is", "="),
     ("lambda", ""),
     ("<:", "subtype"),
     (">:", "supertype")
   )
 
-  main_translation: Seq[(String, String)] = Seq(
+  main_translation: Seq [ (String, String)] = Seq (
     (":", ":"),
     ("->", "=>"),
     ("=>", "=>"),
@@ -203,14 +203,14 @@ package soda.translator.extension.toscala
 
   prefix_scala_non_soda = "__soda__"
 
-  scala_non_soda: Seq[(String, String)] =
+  scala_non_soda: Seq [ (String, String)] =
     scala_reserved_words
-      .filter(x -> not soda_reserved_words.contains(x))
-      .map(x -> (x, prefix_scala_non_soda + x) )
+      .filter (x -> not soda_reserved_words.contains (x))
+      .map (x ->  (x, prefix_scala_non_soda + x) )
 
-  soda_brackets_and_comma = Seq( '(', ')', '[', ']', '{', '}', ',' )
+  soda_brackets_and_comma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq[(String, String)] = Seq(
+  beautifier: Seq [ (String, String)] = Seq (
     ("\\.\\s+", "."),
     ("=\\s+", "= "),
     ("\\s+=", " ="),
@@ -223,26 +223,26 @@ package soda.translator.extension.toscala
     (":\\s+", ": ")
   )
 
-  reserved_word_joiner: Seq[String] = Seq(
+  reserved_word_joiner: Seq [String] = Seq (
     "extends", "with"
   )
 
-  symbol_forward_joiner: Seq[String] = Seq(
+  symbol_forward_joiner: Seq [String] = Seq (
     ",", "(", "["
   )
 
-  symbol_backward_joiner: Seq[String] = Seq(
+  symbol_backward_joiner: Seq [String] = Seq (
     ")", "]"
   )
 
-  is_scala_word(word: String): Boolean =
-    scala_reserved_words.contains(word)
+  is_scala_word (word: String): Boolean =
+    scala_reserved_words.contains (word)
 
-  is_soda_word(word: String): Boolean =
-    soda_reserved_words.contains(word)
+  is_soda_word (word: String): Boolean =
+    soda_reserved_words.contains (word)
 
 }
 
-* TranslationConstantToScala_()
+* TranslationConstantToScala_ ()
   extends TranslationConstantToScala
 

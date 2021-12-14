@@ -10,14 +10,14 @@ case class TriangularNumberForCoqSpec ()  extends org.scalatest.funsuite.AnyFunS
   lazy val triangular_number_with_nat: Seq [(nat, nat )] =
     triangular_number_values
       .map (pair =>
-        (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )      )
+        (IntNat_ () .from_non_negative  (pair._1 ), IntNat_ () .from_non_negative  (pair._2 ) )      )
 
   test ("should test the triangular for Coq")
     {
       lazy val expected = triangular_number_with_nat
       lazy val obtained = triangular_number_with_nat
         .map (pair => pair._1 )
-        .map (n => (n, TriangularNumberForCoq_ () .get_number (n )  )  )
+        .map (n =>  (n, TriangularNumberForCoq_ () .get_number  (n )  )  )
       assert (obtained == expected ) }
 
 }

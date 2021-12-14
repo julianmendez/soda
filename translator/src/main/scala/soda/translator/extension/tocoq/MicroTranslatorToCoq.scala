@@ -123,7 +123,6 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
       .map (token => token.text )
       .mkString ("")
 
-
   def _get_all_replacements (token: Token ): String =
     Replacement_ (token.text )
       .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet )
