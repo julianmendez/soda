@@ -190,10 +190,10 @@ package soda.translator.extension.tocoq
   )
 
   translation_at_beginning_without_paren: Seq[(String, String)] = Seq(
-    ("class", "trait"),
+    ("class", "Module"),
     ("has", "def"),
     ("package", "package"),
-    ("import", "import"),
+    ("import", "Require Import"),
 
     /** Annotations */
     ("@override", "override"),
@@ -210,6 +210,7 @@ package soda.translator.extension.tocoq
     (":", ":"),
     ("->", "->"),
     ("=", ":="),
+    ("lambda", "fun"),
     ("if", "if"),
     ("then", "then"),
     ("else", "else"),

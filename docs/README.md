@@ -15,6 +15,7 @@ The reserved words are:
 - `->` (lambda symbol)
 - `=>` (implication symbol)
 - `:=` (parameter definition symbol)
+- `lambda`
 - `if`
 - `then`
 - `else`
@@ -48,7 +49,6 @@ The synonyms at the beginning of a line are:
 
 The synonyms in any part of a line are:
 - `is` for `=`
-- `lambda` is optional to explicitly denote lambda expressions
 
 Technical synonyms:
 - `<:` for `subtype`
