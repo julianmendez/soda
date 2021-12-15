@@ -17,15 +17,12 @@ trait CartesianProduct {
       accum.map (seq_b => seq_b.+: (elem_a ) ) )
 
   def get_cartesian_product [T] (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
-    {
-      lazy val result =
-        if (sequences.isEmpty
-        ) sequences
-        else
-          {
-            lazy val rev_sequences = sequences.reverse
-            Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  ) }
-      result }
+    if (sequences.isEmpty
+    ) sequences
+    else
+      {
+        lazy val rev_sequences = sequences.reverse
+        Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  ) }
 
 }
 

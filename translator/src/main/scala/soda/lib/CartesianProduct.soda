@@ -17,15 +17,12 @@ package soda.lib
       accum.map (seq_b -> seq_b.+: (elem_a) ) )
 
   get_cartesian_product [T] (sequences: Seq [Seq [T]]): Seq [Seq [T]] =
-    let
-      result =
-        if sequences.isEmpty
-        then sequences
-        else
-          let
-            rev_sequences = sequences.reverse
-          in Recursion_ ().fold (rev_sequences.tail, _initial_value (rev_sequences.head), _next_value [T])
-    in result
+    if sequences.isEmpty
+    then sequences
+    else
+      let
+        rev_sequences = sequences.reverse
+      in Recursion_ ().fold (rev_sequences.tail, _initial_value (rev_sequences.head), _next_value [T])
 
 }
 
