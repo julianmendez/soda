@@ -136,9 +136,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
     {
       lazy val first_part =
         original_sequence.takeWhile (x => is_less_than (x, element )  )
-
       lazy val middle = Seq (element )
-
       lazy val last_part =
         original_sequence.dropWhile (x => is_less_than (x, element )  )
       first_part.++ (middle.++ (last_part )  ) }

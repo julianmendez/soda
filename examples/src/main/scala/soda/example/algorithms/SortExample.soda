@@ -148,9 +148,7 @@ package soda.example.algorithms
     let
       first_part =
         original_sequence.takeWhile (x -> is_less_than (x, element))
-
       middle = Seq (element)
-
       last_part =
         original_sequence.dropWhile (x -> is_less_than (x, element))
     in first_part.++ (middle.++ (last_part))

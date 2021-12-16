@@ -1,8 +1,8 @@
 package soda.example.algorithms
 
-trait SaladIngredient extends soda.lib.EnumConstant
+trait SaladIngredient  extends soda.lib.EnumConstant
 
-case class SaladIngredient_ (ordinal: Int, name: String ) extends SaladIngredient
+case class SaladIngredient_ (ordinal: Int, name: String )  extends SaladIngredient
 
 trait SaladIngredientConstant {
 
@@ -31,7 +31,7 @@ case class SaladMakerSpec ()  extends org.scalatest.funsuite.AnyFunSuite  with S
       lazy val instance = SaladMaker_ ()
       lazy val ingredients = SaladIngredient_values
       lazy val expected = Seq (sunflower_seeds, lettuce, tomato )
-      lazy val obtained = instance.prepare_vegan_salad (list_of_ingredients = ingredients, initial_bowl = Seq [SaladIngredient]  (), next_ingredient_function = add_next_ingredient, condition_to_continue = has_salad_at_most_2_ingredients      )
+      lazy val obtained = instance.prepare_vegan_salad (list_of_ingredients = ingredients, initial_bowl = Seq [SaladIngredient] (), next_ingredient_function = add_next_ingredient, condition_to_continue = has_salad_at_most_2_ingredients      )
       assert (obtained == expected ) }
 
 }

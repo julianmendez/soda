@@ -1,81 +1,81 @@
 package soda.example.algorithms
 
-* SortExampleSpec()
+* SortExampleSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + soda.lib.SomeSD_
 
-  test("test sorted sequence with at")
+  test ("test sorted sequence with at")
     let
-      sorted_sequence = Seq(1, 3, 5, 5, 8, 9)
+      sorted_sequence = Seq (1, 3, 5, 5, 8, 9)
       expected = true
-      obtained = SortExampleWithAt_().is_sorted(sorted_sequence)
-    in assert(obtained == expected)
+      obtained = SortExampleWithAt_ ().is_sorted (sorted_sequence)
+    in assert (obtained == expected)
 
-  test("test unsorted sequence with at")
+  test ("test unsorted sequence with at")
     let
-      unsorted_sequence = Seq(1, 3, 5, 4, 8, 9)
+      unsorted_sequence = Seq (1, 3, 5, 4, 8, 9)
       expected = false
-      obtained = SortExampleWithAt_().is_sorted(unsorted_sequence)
-    in assert(obtained == expected)
+      obtained = SortExampleWithAt_ ().is_sorted (unsorted_sequence)
+    in assert (obtained == expected)
 
-  test("test sorted sequence with zip")
+  test ("test sorted sequence with zip")
     let
-      sorted_sequence = Seq(1, 3, 5, 5, 8, 9)
+      sorted_sequence = Seq (1, 3, 5, 5, 8, 9)
       expected = true
-      obtained = SortExampleWithZip_().is_sorted(sorted_sequence)
-    in assert(obtained == expected)
+      obtained = SortExampleWithZip_ ().is_sorted (sorted_sequence)
+    in assert (obtained == expected)
 
-  test("test unsorted sequence with zip")
+  test ("test unsorted sequence with zip")
     let
-      unsorted_sequence = Seq(1, 3, 5, 4, 8, 9)
+      unsorted_sequence = Seq (1, 3, 5, 4, 8, 9)
       expected = false
-      obtained = SortExampleWithZip_().is_sorted(unsorted_sequence)
-    in assert(obtained == expected)
+      obtained = SortExampleWithZip_ ().is_sorted (unsorted_sequence)
+    in assert (obtained == expected)
 
-  test("insert sorted simple")
+  test ("insert sorted simple")
     let
-      instance = SortAlgorithmExampleWithFold_()
-      sorted_sequence = Seq(1, 2, 3, 6, 8, 9)
-      expected = Seq(1, 2, 3, 5, 6, 8, 9)
-      obtained = instance.insert_sorted(sorted_sequence, 5)
-    in assert(obtained == expected)
+      instance = SortAlgorithmExampleWithFold_ ()
+      sorted_sequence = Seq (1, 2, 3, 6, 8, 9)
+      expected = Seq (1, 2, 3, 5, 6, 8, 9)
+      obtained = instance.insert_sorted (sorted_sequence, 5)
+    in assert (obtained == expected)
 
-  test("insert sorted with repetition")
+  test ("insert sorted with repetition")
     let
-      instance = SortAlgorithmExampleWithFold_()
-      sorted_sequence = Seq(1, 2, 3, 5, 6, 8, 9)
-      expected = Seq(1, 2, 3, 5, 5, 6, 8, 9)
-      obtained = instance.insert_sorted(sorted_sequence, 5)
-    in assert(obtained == expected)
+      instance = SortAlgorithmExampleWithFold_ ()
+      sorted_sequence = Seq (1, 2, 3, 5, 6, 8, 9)
+      expected = Seq (1, 2, 3, 5, 5, 6, 8, 9)
+      obtained = instance.insert_sorted (sorted_sequence, 5)
+    in assert (obtained == expected)
 
-  test("sort unsorted sequence")
+  test ("sort unsorted sequence")
     let
-      instance = SortAlgorithmExampleWithFold_()
-      unsorted_sequence = Seq(3, 5, 1, 9, 8, 4)
-      expected = Seq(1, 3, 4, 5, 8 ,9)
-      obtained = instance.sort(unsorted_sequence)
-    in assert(obtained == expected)
+      instance = SortAlgorithmExampleWithFold_ ()
+      unsorted_sequence = Seq (3, 5, 1, 9, 8, 4)
+      expected = Seq (1, 3, 4, 5, 8 ,9)
+      obtained = instance.sort (unsorted_sequence)
+    in assert (obtained == expected)
 
-  test("sort unsorted sequence applying constraints to verify correctness")
+  test ("sort unsorted sequence applying constraints to verify correctness")
     let
-      instance = ConstrainedSortAlgorithm_()
-      unsorted_sequence = Seq(3, 5, 1, 9, 8, 4)
-      expected = SomeSD_(Seq(1, 3, 4, 5, 8 ,9))
-      obtained = instance.sort(unsorted_sequence)
-    in assert(obtained == expected)
+      instance = ConstrainedSortAlgorithm_ ()
+      unsorted_sequence = Seq (3, 5, 1, 9, 8, 4)
+      expected = SomeSD_ (Seq (1, 3, 4, 5, 8 ,9))
+      obtained = instance.sort (unsorted_sequence)
+    in assert (obtained == expected)
 
-  test("sort unsorted sequence with SortedSequenceBuilder")
+  test ("sort unsorted sequence with SortedSequenceBuilder")
     let
-      instance = SortedSequenceBuilder_[Integer]()
-      unsorted_sequence = Seq(3, 5, 1, 9, 8, 4).map(x -> Integer.valueOf(x))
-      expected = Seq(1, 3, 4, 5, 8 ,9)
+      instance = SortedSequenceBuilder_ [Integer] ()
+      unsorted_sequence = Seq (3, 5, 1, 9, 8, 4).map (x -> Integer.valueOf (x))
+      expected = Seq (1, 3, 4, 5, 8 ,9)
       obtained =
         instance
-          .build(unsorted_sequence)
+          .build (unsorted_sequence)
           .sequence
-          .map(x -> x.intValue)
-    in assert(obtained == expected)
+          .map (x -> x.intValue)
+    in assert (obtained == expected)
 
 }
 

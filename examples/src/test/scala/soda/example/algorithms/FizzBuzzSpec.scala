@@ -7,11 +7,11 @@ case class FizzBuzzSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("first elements of FizzBuzz")
     {
       lazy val obtained = FizzBuzz_ () .fizz_buzz
-      assert (obtained == expected ) }
+      assert  (obtained == expected ) }
 
   test ("first elements of FizzBuzz with pattern matching")
     {
       lazy val obtained = FizzBuzzPatternMatching_ () .fizz_buzz
-      assert (obtained == expected ) }
+      assert  (obtained == expected ) }
 
 }
