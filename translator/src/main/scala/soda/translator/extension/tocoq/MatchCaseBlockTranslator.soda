@@ -1,0 +1,30 @@
+package soda.translator.extension.tocoq
+
+* MatchCaseBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+
+  tc = TranslationConstantToCoq_ ()
+
+  source = "soda"
+
+  target = "soda (after match-case)"
+
+  translate (block: Block): Block =
+    Block_(
+      block.lines
+        .map (line -> append_with_after_match (line) )
+    )
+
+  append_with_after_match (line: String): String =
+    if line.trim ().startsWith (tc.soda_match_pattern)
+    then line + tc.space + tc.coq_with_reserved_word
+    else line
+
+}
+
+* MatchCaseBlockTranslator_ ()
+  extends MatchCaseBlockTranslator
+

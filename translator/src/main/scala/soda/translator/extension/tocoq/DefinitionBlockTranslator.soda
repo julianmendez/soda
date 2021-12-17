@@ -1,0 +1,50 @@
+package soda.translator.extension.tocoq
+
+* DefinitionBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+
+  source = "soda definitions"
+
+  target = "coq definitions"
+
+  space = " "
+
+  tc = TranslationConstantToCoq_ ()
+
+  translate (block: Block): Block =
+    if is_a_recursive_definition (block) then append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block) )
+    else if is_a_definition (block) then append (tc.coq_definition_end, prepend (tc.coq_definition + space, block) )
+    else block
+
+  prepend (prefix: String, block: Block): Block =
+    Block_ (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+    )
+
+  append (suffix: String, block: Block): Block =
+    Block_ (
+      block.lines.:+(suffix)
+    )
+
+  is_a_recursive_definition (block: Block): Boolean =
+    let
+      first = block.lines.head.trim
+      result = tc.coq_recursive_function_prefixes.exists (prefix -> first.startsWith (prefix))
+    in result
+
+  is_a_definition (block: Block): Boolean =
+    let
+      contents = block.contents.trim
+      result =
+        not is_a_recursive_definition (block) and
+        not tc.non_definition_block_prefixes.exists (prefix -> contents.startsWith (prefix))
+    in result
+
+}
+
+* DefinitionBlockTranslator_ ()
+  extends DefinitionBlockTranslator
+

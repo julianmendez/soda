@@ -1,0 +1,21 @@
+package soda.translator.extension.tocoq
+
+* LineForwardJoinerBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+
+  source = "soda"
+
+  target = "soda"
+
+  mtr = soda.translator.extension.toscala.MicroTranslatorToScala_ ()
+
+  translate (block: Block): Block =
+    mtr.join_lines_with_forward_join (block)
+
+}
+
+* LineForwardJoinerBlockTranslator_ ()
+  extends LineForwardJoinerBlockTranslator
+
