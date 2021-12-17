@@ -96,11 +96,13 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
   lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "Module"), ("has", "def"), ("package", "package"), ("import", "Require Import"),
 
     /** Annotations */
-    ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"), ("@main", scala_entry_point )  )
+    ("@override", ""), ("@tailrec", ""), ("@main", "")  )
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
   lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb")  )
+
+  lazy val type_translation: Seq [(String, String )] = Seq (("Boolean", "bool"), ("Nat", "nat"), ("Option", "option"), ("List", "list"), ("String", "string"), ("BigInt", "Z")  )
 
   lazy val prefix_scala_non_soda = "__soda__"
 

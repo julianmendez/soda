@@ -196,9 +196,9 @@ package soda.translator.extension.tocoq
     ("import", "Require Import"),
 
     /** Annotations */
-    ("@override", "override"),
-    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
-    ("@main", scala_entry_point)
+    ("@override", ""),
+    ("@tailrec", ""),
+    ("@main", "")
   )
 
   synonym: Seq [ (String, String)] = Seq (
@@ -225,6 +225,15 @@ package soda.translator.extension.tocoq
     ("not", "negb"),
     ("and", "andb"),
     ("or", "orb")
+  )
+
+  type_translation: Seq [ (String, String) ] = Seq (
+      ("Boolean", "bool"),
+      ("Nat", "nat"),
+      ("Option", "option"),
+      ("List", "list"),
+      ("String", "string"),
+      ("BigInt", "Z")
   )
 
   prefix_scala_non_soda = "__soda__"
