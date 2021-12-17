@@ -12,7 +12,7 @@ package soda.translator.extension.toscala
       expected = "  def beautify_this  (original: String   ): String =\n" +
         "    original .replaceAll (\"  \", \" \")   \n"
       obtained = BlockProcessor_(MicroTranslatorToScala_()).translate (original)
-    in assert(obtained == expected)
+    in assert (obtained == expected)
 
 }
 

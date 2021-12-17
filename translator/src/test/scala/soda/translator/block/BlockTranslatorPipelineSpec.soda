@@ -1,0 +1,83 @@
+package soda.translator.block
+
+* BlockTranslator00 ()
+  extends BlockTranslator = {
+
+  source: String = "00"
+
+  target: String = "01"
+
+  translate (block: Block): Block =
+    Block_ (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.appended ("tr00")
+    )
+
+}
+
+* BlockTranslator01 ()
+  extends BlockTranslator = {
+
+  source: String = "01"
+
+  target: String = "02"
+
+  translate (block: Block): Block =
+    Block_ (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.appended ("tr01")
+    )
+
+}
+
+* BlockTranslator02 ()
+  extends BlockTranslator = {
+
+  source: String = "02"
+
+  target: String = "03"
+
+  translate (block: Block): Block =
+    Block_ (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.appended ("tr02")
+    )
+
+}
+
+* BlockTranslatorPipelineSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  + soda.translator.block.BlockProcessor_
+
+  instance =
+    BlockTranslatorPipeline_ (
+      Seq (
+        BlockTranslator00 (),
+        BlockTranslator01 (),
+        BlockTranslator02 ()
+      )
+    )
+
+  test("block translator pipeline")
+    let
+      original = Block_ (
+        Seq ( "first line" )
+      )
+      expected =
+        Block_ (
+          Seq (
+            "first line",
+            "tr00",
+            "tr01",
+            "tr02"
+          )
+        )
+      obtained = instance.translate (original)
+    in assert (obtained == expected)
+
+}
+
