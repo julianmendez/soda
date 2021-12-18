@@ -11,7 +11,7 @@ package soda.translator.block
     Block_ (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.appended ("tr00")
+      else block.lines.++ ( Seq ("tr00") )
     )
 
 }
@@ -27,7 +27,7 @@ package soda.translator.block
     Block_ (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.appended ("tr01")
+      else block.lines.++ ( Seq ("tr01") )
     )
 
 }
@@ -43,7 +43,7 @@ package soda.translator.block
     Block_ (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.appended ("tr02")
+      else block.lines.++ ( Seq ("tr02") )
     )
 
 }

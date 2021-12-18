@@ -9,7 +9,7 @@ case class BlockTranslator00 ()  extends BlockTranslator {
   def translate (block: Block ): Block =
     Block_ (if (block.lines.isEmpty
       ) Seq ("")
-      else block.lines.appended ("tr00")    )
+      else block.lines.++ (Seq ("tr00") )    )
 
 }
 
@@ -22,7 +22,7 @@ case class BlockTranslator01 ()  extends BlockTranslator {
   def translate (block: Block ): Block =
     Block_ (if (block.lines.isEmpty
       ) Seq ("")
-      else block.lines.appended ("tr01")    )
+      else block.lines.++ (Seq ("tr01") )    )
 
 }
 
@@ -35,7 +35,7 @@ case class BlockTranslator02 ()  extends BlockTranslator {
   def translate (block: Block ): Block =
     Block_ (if (block.lines.isEmpty
       ) Seq ("")
-      else block.lines.appended ("tr02")    )
+      else block.lines.++ (Seq ("tr02") )    )
 
 }
 
