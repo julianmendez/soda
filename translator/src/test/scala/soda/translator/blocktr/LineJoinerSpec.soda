@@ -1,4 +1,4 @@
-package soda.translator.extension.toscala
+package soda.translator.blocktr
 
 * LineJoinerSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
@@ -8,8 +8,6 @@ package soda.translator.extension.toscala
   + soda.translator.block.DefaultBlockTranslator_
 
   bp = BlockProcessor_  (DefaultBlockTranslator_ ())
-
-  mt = MicroTranslatorToScala_ ()
 
   Original_parenthesis_example =
     Seq (
@@ -71,21 +69,21 @@ package soda.translator.extension.toscala
     let
       input = Block_  ( Seq ("this ", "should join,", "all the lines , ", "  that end with a", "comma.") )
       expected = Block_  ( Seq ("this ", "should join,all the lines ,   that end with a", "comma.") )
-      obtained = mt.join_lines_with_forward_join  (input)
+      obtained = LineForwardJoinerBlockTranslator_ ().translate (input)
     in assert (obtained == expected)
 
   test ("should join lines ending in opening parenthesis and brackets")
     let
       input = Block_  ( Original_parenthesis_example )
       expected = Block_  ( Result_with_only_opening_brackets_example )
-      obtained = mt.join_lines_with_forward_join  (input)
+      obtained = LineForwardJoinerBlockTranslator_ ().translate  (input)
     in  assert (obtained == expected)
 
   test ("should join lines starting in closing parenthesis and brackets")
     let
       input = Block_  ( Original_parenthesis_example )
       expected = Block_  ( Result_with_only_closing_brackets_example )
-      obtained = mt.join_lines_with_backward_join  (input)
+      obtained = LineBackwardJoinerBlockTranslator_ ().translate  (input)
     in assert (obtained == expected)
 
   test ("should join lines ending with opening parenthesis and brackets or starting in closing parenthesis and brackets")
@@ -94,8 +92,8 @@ package soda.translator.extension.toscala
       expected = Block_  ( Result_with_opening_closing_brackets_example )
       obtained =
         Some  (input)
-          .map (x -> mt.join_lines_with_forward_join (x))
-          .map (x -> mt.join_lines_with_backward_join (x))
+          .map (x -> LineForwardJoinerBlockTranslator_ ().translate (x))
+          .map (x -> LineBackwardJoinerBlockTranslator_ ().translate (x))
           .get
     in assert (obtained == expected)
 
@@ -120,7 +118,7 @@ package soda.translator.extension.toscala
           "  with should be respected"
         )
       )
-      obtained = mt.join_lines_with_forward_join  (input)
+      obtained = LineForwardJoinerBlockTranslator_ ().translate  (input)
     in assert (obtained == expected)
 
   test ("should join lines starting or ending with keyword 'extends' and 'with' with backward join")
@@ -144,7 +142,7 @@ package soda.translator.extension.toscala
           "leading spaces using extends and using   with should be respected"
         )
       )
-      obtained = mt.join_lines_with_backward_join  (input)
+      obtained = LineBackwardJoinerBlockTranslator_ ().translate  (input)
     in assert (obtained == expected)
 
 }

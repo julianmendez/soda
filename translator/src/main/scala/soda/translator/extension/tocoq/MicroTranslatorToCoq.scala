@@ -7,6 +7,8 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
   import soda.translator.block.BlockTranslatorPipeline_
+  import soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
+  import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
 
   lazy val source = "soda"
 

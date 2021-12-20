@@ -8,6 +8,8 @@ package soda.translator.extension.tocoq
 
   + soda.translator.block.Block
   + soda.translator.block.BlockTranslatorPipeline_
+  + soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
+  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
 
   source = "soda"
 

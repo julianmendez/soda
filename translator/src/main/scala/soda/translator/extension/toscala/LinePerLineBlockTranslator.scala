@@ -1,29 +1,25 @@
-package soda.translator.extension.tocoq
+package soda.translator.extension.toscala
 
 trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.lib.SomeSD_
   import soda.translator.block.Block
   import soda.translator.block.Block_
-  import soda.translator.extension.toscala.DefaultTranslator_
+  import soda.translator.block.Translator
   import soda.translator.replacement.CommentPreprocessor_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
-  import soda.translator.replacement.Tokenizer_
   import soda.translator.replacement.Token
   import soda.translator.replacement.Token_
+  import soda.translator.replacement.Tokenizer_
 
   lazy val source = "soda"
 
-  lazy val target = "coq"
-
-  lazy val tc = TranslationConstantToCoq_ ()
-
-  lazy val new_line = "\n"
-
-  lazy val space = " "
+  lazy val target = "soda"
 
   lazy val soda_opening_parenthesis: String = "("
+
+  lazy val tc = TranslationConstantToScala_ ()
 
   lazy val synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning )
 
@@ -66,11 +62,6 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
         ) Token_ (_get_all_replacements (token ), token.parser_state, token.index )
         else token    )
 
-  def _join_tokens (tokens: Seq [Token]  ): String =
-    tokens
-      .map (token => token.text )
-      .mkString ("")
-
   def _get_all_replacements (token: Token ): String =
     Replacement_ (token.text )
       .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet )
@@ -78,12 +69,26 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
       .replace_at_beginning (token.index, synonym_at_beginning )
       .replace (synonym )
       .replace_with (try_definition )
+      .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
       .replace (main_translation )
       .replace_regex (beautifier )
       .line
 
+  def get_translation_table_at_beginning (line: String ): Translator =
+    if (line.contains (soda_opening_parenthesis )
+    ) translation_at_beginning_with_paren
+    else
+      if (DefinitionTranslatorToScala_ (line ) .condition_for_type_alias
+      ) translation_at_beginning_without_paren_for_type_alias
+      else translation_at_beginning_without_paren
+
   def try_definition (line: String ): String =
-    DefinitionTranslatorToCoq_ (line ) .translation
+    DefinitionTranslatorToScala_ (line ) .translation
+
+  def _join_tokens (tokens: Seq [Token]  ): String =
+    tokens
+      .map (token => token.text )
+      .mkString ("")
 
 }
 

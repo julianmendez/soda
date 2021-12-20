@@ -1,4 +1,4 @@
-package soda.translator.replacement
+package soda.translator.block
 
 /**
  * This models an abstract translator.

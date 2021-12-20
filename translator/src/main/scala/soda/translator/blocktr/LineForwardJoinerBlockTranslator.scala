@@ -1,17 +1,16 @@
-package soda.translator.extension.tocoq
+package soda.translator.blocktr
 
 trait LineForwardJoinerBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
+  import soda.translator.block.Block_
 
   lazy val source = "soda"
 
   lazy val target = "soda"
 
-  lazy val mtr = soda.translator.extension.toscala.MicroTranslatorToScala_ ()
-
   def translate (block: Block ): Block =
-    mtr.join_lines_with_forward_join (block )
+    Block_ (LineJoinerToScala_ (block.lines ) .joined_lines_with_forward_join    )
 
 }
 

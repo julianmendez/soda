@@ -20,7 +20,7 @@ package soda.translator.replacement
  * This class processes a line to divide it into tokens.
  */
 * Tokenizer
-  extends SingleLineProcessor = {
+  extends soda.translator.block.SingleLineProcessor = {
 
   + soda.lib.Recursion_
 

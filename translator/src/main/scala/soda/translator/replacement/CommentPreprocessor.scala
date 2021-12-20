@@ -13,7 +13,7 @@ case class AnnotatedLine_ (line: String, isComment: Boolean )  extends Annotated
 /**
  * This preprocessor annotates lines to determine whether they are comments.
  */
-trait CommentPreprocessor  extends MultiLineProcessor {
+trait CommentPreprocessor  extends soda.translator.block.MultiLineProcessor {
 
   import soda.lib.Recursion_
 

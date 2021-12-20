@@ -1,11 +1,5 @@
 package soda.translator.extension.toscala
 
-trait LineTranslator {
-
-  def line: String
-
-}
-
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -30,7 +24,7 @@ trait LineTranslator {
  * This is no longer supported.
  *
  */
-trait DefinitionTranslatorToScala  extends LineTranslator {
+trait DefinitionTranslatorToScala  extends soda.translator.block.LineTranslator {
 
   import soda.lib.OptionSD
   import soda.lib.SomeSD_

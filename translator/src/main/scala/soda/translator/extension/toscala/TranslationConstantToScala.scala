@@ -92,12 +92,6 @@ trait TranslationConstantToScala  extends soda.translator.extension.fromsoda.Sod
 
   lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
 
-  lazy val reserved_word_joiner: Seq [String] = Seq ("extends", "with"  )
-
-  lazy val symbol_forward_joiner: Seq [String] = Seq (",", "(", "["  )
-
-  lazy val symbol_backward_joiner: Seq [String] = Seq (")", "]"  )
-
   def is_scala_word (word: String ): Boolean =
     scala_reserved_words.contains (word )
 

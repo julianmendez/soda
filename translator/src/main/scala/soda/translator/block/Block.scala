@@ -1,8 +1,6 @@
 package soda.translator.block
 
-trait Block {
-
-  def lines: Seq [String]
+trait Block  extends MultiLineProcessor {
 
   lazy val new_line = "\n"
 

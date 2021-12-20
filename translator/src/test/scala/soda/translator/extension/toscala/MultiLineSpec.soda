@@ -6,6 +6,7 @@ package soda.translator.extension.toscala
   + soda.translator.block.Block_
   + soda.translator.block.BlockProcessor_
   + soda.translator.block.DefaultBlockTranslator_
+  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
 
   bp = BlockProcessor_ (DefaultBlockTranslator_ ())
 
@@ -55,7 +56,7 @@ package soda.translator.extension.toscala
 
   test ("should preprocess the comma in multiple lines")
     let
-      obtained = mt.join_lines_with_forward_join (Block_ (Original_input_lines) )
+      obtained = LineForwardJoinerBlockTranslator_ ().translate (Block_ (Original_input_lines) )
       expected = Block_ (Joined_comma_lines)
     in assert(obtained == expected)
 

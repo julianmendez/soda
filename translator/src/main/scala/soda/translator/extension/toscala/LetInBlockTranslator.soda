@@ -1,0 +1,43 @@
+package soda.translator.extension.toscala
+
+* LetInBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+
+  source = "soda"
+
+  target = "soda"
+
+  tc = TranslationConstantToScala_ ()
+
+  translate (block: Block): Block =
+    Block_ (
+      block.lines
+        .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
+        .map (line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )
+        .map (line -> append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation) )
+    )
+
+  replace_all_when (line: String, condition: (String, String) -> Boolean, pattern: String, new_text: String): String =
+    if condition (line, pattern)
+    then line.replaceAll (pattern, new_text)
+    else line
+
+  append_if_condition (line: String, condition: (String, String) -> Boolean, pattern: String, to_append: String): String =
+    if condition (line, pattern)
+    then line + to_append
+    else line
+
+  starts_with (line: String, pattern: String): Boolean =
+    line.trim.startsWith (pattern)
+
+  are_trim_equal (line: String, pattern: String): Boolean =
+    (line.trim == pattern.trim)
+
+}
+
+* LetInBlockTranslator_ ()
+  extends LetInBlockTranslator
+

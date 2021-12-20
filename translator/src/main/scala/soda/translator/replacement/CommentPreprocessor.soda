@@ -15,7 +15,7 @@ package soda.translator.replacement
  * This preprocessor annotates lines to determine whether they are comments.
  */
 * CommentPreprocessor
-  extends MultiLineProcessor = {
+  extends soda.translator.block.MultiLineProcessor = {
 
   + soda.lib.Recursion_
 

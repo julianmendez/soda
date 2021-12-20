@@ -18,7 +18,7 @@ case class Token_ (text: String, parser_state: ParserState, index: Int )  extend
 /**
  * This class processes a line to divide it into tokens.
  */
-trait Tokenizer  extends SingleLineProcessor {
+trait Tokenizer  extends soda.translator.block.SingleLineProcessor {
 
   import soda.lib.Recursion_
 

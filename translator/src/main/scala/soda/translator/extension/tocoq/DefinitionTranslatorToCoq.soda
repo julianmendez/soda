@@ -25,7 +25,7 @@ package soda.translator.extension.tocoq
  *
  */
 * DefinitionTranslatorToCoq
-  extends soda.translator.extension.toscala.LineTranslator = {
+  extends soda.translator.block.LineTranslator = {
 
   + soda.lib.OptionSD
   + soda.lib.SomeSD_

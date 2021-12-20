@@ -223,18 +223,6 @@ package soda.translator.extension.toscala
     (":\\s+", ": ")
   )
 
-  reserved_word_joiner: Seq [String] = Seq (
-    "extends", "with"
-  )
-
-  symbol_forward_joiner: Seq [String] = Seq (
-    ",", "(", "["
-  )
-
-  symbol_backward_joiner: Seq [String] = Seq (
-    ")", "]"
-  )
-
   is_scala_word (word: String): Boolean =
     scala_reserved_words.contains (word)
 

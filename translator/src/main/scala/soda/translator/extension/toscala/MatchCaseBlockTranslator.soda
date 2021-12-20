@@ -1,0 +1,35 @@
+package soda.translator.extension.toscala
+
+* MatchCaseBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+
+  source = "soda"
+
+  target = "soda"
+
+  tc = TranslationConstantToScala_ ()
+
+  translate (block: Block): Block =
+    Block_ (
+      block.lines
+        .map (line -> insert_match_before_brace_if_found (line) )
+    )
+
+  insert_match_before_brace_if_found (line: String): String =
+    if line.trim ().startsWith (tc.soda_match_pattern)
+    then
+      let
+        index_of_match = line.indexOf (tc.soda_match_pattern)
+        left_part = line.substring (0, index_of_match)
+        right_part = line.substring (index_of_match + tc.soda_match_pattern.length, line.length)
+      in left_part + right_part + tc.scala_match_translation + tc.space + tc.scala_opening_brace
+    else line
+
+}
+
+* MatchCaseBlockTranslator_ ()
+  extends MatchCaseBlockTranslator
+
