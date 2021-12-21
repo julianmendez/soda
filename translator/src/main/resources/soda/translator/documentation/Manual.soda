@@ -6,6 +6,22 @@ package soda.translator.documentation
  * Version: 2021-11-19
  */
 
+/*
+ * Source code written in Soda is intended to be descriptive.
+ * It is usually written in different files, and each file has `blocks`.
+ * These blocks are pieces of code that have some meaning.
+ * A block should be short, maybe less than 10 lines.
+ * However, it is more important to make things clear than concise.
+ * These are examples of blocks:
+ * 1. a constant or function definition
+ * 2. an abstract constant or function declaration
+ * 3. the beginning of a class definition
+ * 4. the end of a class definition
+ * 5. a package declaration
+ * 6. a comment
+ */
+
+
 /* To declare a class, just add `class` before a class name.
  * It is recommended to use camel case style starting with a capital letter.
  * The name could be a noun or an adjective, but it should not be a verb. */
@@ -28,7 +44,7 @@ class ShapeMover [A subtype Shape with Movable]
  * It is recommended to indent the constants and functions declared inside. */
 class EqualsExample = {
 
-  /* A constant does not have parameters, and it is declared with the equals sign (`=`).
+  /* A constant does not have parameters and it is declared with the equals sign (`=`).
    * It is recommended to use snake case and start in lowercase.
    * The constant name should be a noun.
    * In a function call the parameters can be specified with the colon-equals sign (`:=`).
@@ -176,6 +192,21 @@ class Manual = {
   /* Boolean values have the standard `not`-`and`-`or` functions. */
   my_xor (x: Boolean, y: Boolean) =
     (x or y) and not (x and y)
+
+  /* It is possible to use pattern matching with `match` and `case`.
+   * Please observe the double arrow `=>`. */
+  if_then_else [A] (condition: Boolean, if_true: A, if_false: A) =
+    match condition
+      case true => if_true
+      case false => if_false
+    end
+
+  /* A vertical bar `|` can be used as an abbreviation for `case`. */
+  another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A) =
+    match condition
+      | true => if_true
+      | false => if_false
+    end
 
   /* To evaluate a constant or a function, it is possible to declare intermediate functions.
    * This is done in a `let`-`in` block.
