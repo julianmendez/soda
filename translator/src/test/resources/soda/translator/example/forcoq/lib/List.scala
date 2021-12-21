@@ -8,11 +8,6 @@ case class cons [A] (e: A, s: list [A]  )  extends list [A]
 
 trait SeqList {
 
-  import soda.lib.OptionSD
-  import soda.lib.NoneSD_
-  import soda.lib.SomeSD_
-  import soda.lib.Recursion_
-
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_reverse [A] (a: list [A]  ) (b: list [A]  ): list [A] =

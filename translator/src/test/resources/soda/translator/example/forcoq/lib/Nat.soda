@@ -35,7 +35,6 @@ package soda.example.forcoq.lib
   + soda.lib.OptionSD
   + soda.lib.NoneSD_
   + soda.lib.SomeSD_
-  + soda.lib.Recursion_
 
   from_Int (a: Int): OptionSD [nat] =
     if a < 0

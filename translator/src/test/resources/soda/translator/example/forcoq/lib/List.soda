@@ -10,11 +10,6 @@ package soda.example.forcoq.lib
 
 * SeqList = {
 
-  + soda.lib.OptionSD
-  + soda.lib.NoneSD_
-  + soda.lib.SomeSD_
-  + soda.lib.Recursion_
-
   @tailrec
   _tailrec_reverse [A] (a: list [A]) (b: list [A]): list [A] =
     match a

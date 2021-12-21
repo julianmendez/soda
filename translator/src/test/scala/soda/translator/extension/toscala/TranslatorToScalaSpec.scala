@@ -2,8 +2,6 @@ package soda.translator.extension.toscala
 
 case class MainSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import java.io.File
-
   lazy val instance = TranslatorToScala_ ()
 
   test ("should get the input and output file names without path")

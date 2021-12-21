@@ -3,8 +3,6 @@ package soda.translator.extension.toscala
 * MainSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + java.io.File
-
   instance = TranslatorToScala_ ()
 
   test ("should get the input and output file names without path")

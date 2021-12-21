@@ -33,7 +33,6 @@ trait IntNat {
   import soda.lib.OptionSD
   import soda.lib.NoneSD_
   import soda.lib.SomeSD_
-  import soda.lib.Recursion_
 
   def from_Int (a: Int ): OptionSD [nat] =
     if (a < 0

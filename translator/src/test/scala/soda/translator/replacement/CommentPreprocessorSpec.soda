@@ -3,8 +3,6 @@ package soda.translator.replacement
 * CommentPreprocessorSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + java.io.File
-
   /* This is to test how to find commented text. */
   test ("should find commented text")
     let

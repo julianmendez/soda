@@ -3,8 +3,6 @@ package soda.lib
 case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   import scala.util.Try
-  import scala.util.Success
-  import scala.util.Failure
 
   test ("should test an empty option")
     {
