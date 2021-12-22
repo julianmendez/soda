@@ -3,64 +3,30 @@ package soda.translator.extension.toscala
 * BeautifierBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.lib.SomeSD_
   + soda.translator.block.Block
-  + soda.translator.block.Block_
-  + soda.translator.block.Translator
   + soda.translator.blocktr.TableBlockTranslator_
-  + soda.translator.replacement.ParserStateEnum_
+  + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
-  + soda.translator.replacement.Token_
-  + soda.translator.replacement.Tokenizer_
 
   source = "scala"
 
   target = "scala"
 
-  soda_opening_parenthesis: String = "("
-
   tc = TranslationConstantToScala_ ()
 
-  translator = TableBlockTranslator_ (tc.beautifier)
+  inner_translator = TableBlockTranslator_ (tc.beautifier)
+
+  replace_token: Token -> String =
+    lambda token ->
+      Replacement_ (token.text)
+        .replace_regex (inner_translator)
+        .line
+
+  translator = TokenizedBlockTranslator_ (replace_token)
 
   translate (block: Block): Block =
-    Block_ (
-      block
-        .annotated_lines
-        .map (annotated_line ->
-          if annotated_line.isComment
-          then annotated_line.line
-          else _translate_non_comment (annotated_line.line)
-        )
-    )
-
-  _translate_non_comment (line: String): String =
-      SomeSD_ (line)
-        .map (x -> Replacement_ (x).add_space_to_soda_line ().line)
-        .map (x -> Tokenizer_ (x).tokens)
-        .map (x -> _translate_line (x))
-        .map (x -> _join_tokens (x))
-        .map (x -> Replacement_ (x).remove_space_from_scala_line ().line)
-        .value
-
-  _translate_line (tokens: Seq [Token]): Seq [Token] =
-    tokens.map (
-      token ->
-        if token.parser_state == ParserStateEnum_ ().plain
-        then Token_ (_get_all_replacements (token), token.parser_state, token.index)
-        else token
-    )
-
-  _get_all_replacements (token: Token): String =
-    Replacement_ (token.text)
-      .replace_regex (translator)
-      .line
-
-  _join_tokens (tokens: Seq [Token]): String =
-    tokens
-      .map (token -> token.text)
-      .mkString ("")
+    translator.translate (block)
 
 }
 
