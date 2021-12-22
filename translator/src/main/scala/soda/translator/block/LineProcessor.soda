@@ -6,9 +6,4 @@ package soda.translator.block
 
 }
 
-* MultiLineProcessor = {
-
-  has lines: Seq [String]
-
-}
 

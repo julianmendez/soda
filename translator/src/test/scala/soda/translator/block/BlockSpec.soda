@@ -1,6 +1,6 @@
-package soda.translator.blocktr
+package soda.translator.block
 
-* CommentPreprocessorSpec ()
+* BlockSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   /* This is to test how to find commented text. */
@@ -24,7 +24,7 @@ package soda.translator.blocktr
         AnnotatedLine_ ("  a = \"/** this is not a comment */\"", isComment := false),
         AnnotatedLine_ ("}", isComment := false)
       )
-      obtained = CommentPreprocessor_ (input).annotated_lines
+      obtained = Block_ (input).annotated_lines
     in assert (obtained == expected)
 
 }

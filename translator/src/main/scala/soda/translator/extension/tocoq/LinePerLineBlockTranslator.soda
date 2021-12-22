@@ -6,7 +6,6 @@ package soda.translator.extension.tocoq
   + soda.lib.SomeSD_
   + soda.translator.block.Block
   + soda.translator.block.Block_
-  + soda.translator.blocktr.CommentPreprocessor_
   + soda.translator.blocktr.TableBlockTranslator_
   + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
@@ -46,7 +45,7 @@ package soda.translator.extension.tocoq
 
   translate (block: Block): Block =
     Block_ (
-      CommentPreprocessor_ (block.lines)
+      block
         .annotated_lines
         .map (annotated_line ->
           if annotated_line.isComment

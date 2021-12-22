@@ -6,7 +6,6 @@ trait BeautifierBlockTranslator  extends soda.translator.block.BlockTranslator {
   import soda.translator.block.Block
   import soda.translator.block.Block_
   import soda.translator.block.Translator
-  import soda.translator.blocktr.CommentPreprocessor_
   import soda.translator.blocktr.TableBlockTranslator_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
@@ -25,7 +24,7 @@ trait BeautifierBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val translator = TableBlockTranslator_ (tc.beautifier )
 
   def translate (block: Block ): Block =
-    Block_ (CommentPreprocessor_ (block.lines )
+    Block_ (block
         .annotated_lines
         .map (annotated_line =>
           if (annotated_line.isComment

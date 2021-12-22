@@ -6,8 +6,4 @@ trait SingleLineProcessor {
 
 }
 
-trait MultiLineProcessor {
 
-  def lines: Seq [String]
-
-}
