@@ -72,7 +72,6 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
       .replace_with (try_definition )
       .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
       .replace (main_translation )
-      .replace_regex (beautifier )
       .line
 
   def get_translation_table_at_beginning (line: String ): Translator =

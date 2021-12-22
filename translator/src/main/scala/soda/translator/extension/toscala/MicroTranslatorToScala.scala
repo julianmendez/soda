@@ -18,7 +18,7 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
   lazy val new_line = "\n"
 
   lazy val translation_pipeline =
-    BlockTranslatorPipeline_ (Seq (LineForwardJoinerBlockTranslator_ (), LetInBlockTranslator_ (), MatchCaseBlockTranslator_ (), LineBackwardJoinerBlockTranslator_ (), LinePerLineBlockTranslator_ ()      )    )
+    BlockTranslatorPipeline_ (Seq (LineForwardJoinerBlockTranslator_ (), LetInBlockTranslator_ (), MatchCaseBlockTranslator_ (), LineBackwardJoinerBlockTranslator_ (), LinePerLineBlockTranslator_ (), BeautifierBlockTranslator_ ()      )    )
 
   def translate (block: Block ): Block =
     translation_pipeline.translate (block )

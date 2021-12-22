@@ -25,7 +25,8 @@ package soda.translator.extension.toscala
         LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         LineBackwardJoinerBlockTranslator_ (),
-        LinePerLineBlockTranslator_ ()
+        LinePerLineBlockTranslator_ (),
+        BeautifierBlockTranslator_ ()
       )
     )
 
