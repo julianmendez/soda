@@ -8,29 +8,29 @@ class InANutshell = {
 
   a = 1 + 2 + 4 + 8
 
-  h0 (x: Int, y: Int): Int =
+  h0 (x: Int) (y: Int): Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h1 (x: Int, y: Int): Int =
+  h1 (x: Int) (y: Int): Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h2 (x: Int, y: Int): Int =
+  h2 (x: Int) (y: Int): Int =
     let
       result = a * b
       a = x + y
       b = x - y
     in result
 
-  is_greater_than (a: Int, b: Int): Boolean =
+  is_greater_than (a: Int) (b: Int): Boolean =
     a > b
 
-  max (a: Int, b: Int): Int =
+  max (a: Int) (b: Int): Int =
     if a > b
     then a
     else b
@@ -39,12 +39,12 @@ class InANutshell = {
 
 class MaxAndMin = {
 
-  max (a: Int, b: Int): Int =
+  max (a: Int) (b: Int): Int =
     if a > b
     then a
     else b
 
-  min (a: Int, b: Int): Int =
+  min (a: Int) (b: Int): Int =
     if a < b
     then a
     else b
@@ -65,10 +65,10 @@ class Indexable = {
 class Example
   extends Indexable = {
 
-  min_max (a: Int, b: Int): MinMaxPair =
+  min_max (a: Int) (b: Int): MinMaxPair =
     MinMaxPair (
-      min := ConcreteMaxAndMin ().min (a, b),
-      max := ConcreteMaxAndMin ().max (a, b)
+      min := ConcreteMaxAndMin ().min (a) (b),
+      max := ConcreteMaxAndMin ().max (a) (b)
     )
 
 }
@@ -84,7 +84,7 @@ class Comparable = {
 
 class ComparableMax [T subtype Comparable] = {
 
-  max (a: T, b: T): T =
+  max (a: T) (b: T): T =
     if a.is_greater_than (b)
     then a
     else b
