@@ -5,8 +5,8 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
   import soda.lib.SomeSD_
   import soda.translator.block.Block
   import soda.translator.block.Block_
-  import soda.translator.extension.toscala.DefaultTranslator_
-  import soda.translator.replacement.CommentPreprocessor_
+  import soda.translator.blocktr.CommentPreprocessor_
+  import soda.translator.blocktr.TableBlockTranslator_
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Tokenizer_
@@ -25,23 +25,23 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning )
+  lazy val synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning )
 
-  lazy val translation_at_beginning_with_paren = DefaultTranslator_ (tc.translation_at_beginning_with_paren )
+  lazy val translation_at_beginning_with_paren = TableBlockTranslator_ (tc.translation_at_beginning_with_paren )
 
   lazy val translation_at_beginning_without_paren_for_type_alias =
-      DefaultTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias )
+      TableBlockTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias )
 
   lazy val translation_at_beginning_without_paren =
-      DefaultTranslator_ (tc.translation_at_beginning_without_paren )
+      TableBlockTranslator_ (tc.translation_at_beginning_without_paren )
 
-  lazy val synonym = DefaultTranslator_ (tc.synonym )
+  lazy val synonym = TableBlockTranslator_ (tc.synonym )
 
-  lazy val main_translation = DefaultTranslator_ (tc.main_translation )
+  lazy val main_translation = TableBlockTranslator_ (tc.main_translation )
 
-  lazy val coq_non_soda = DefaultTranslator_ (tc.coq_non_soda )
+  lazy val coq_non_soda = TableBlockTranslator_ (tc.coq_non_soda )
 
-  lazy val beautifier = DefaultTranslator_ (tc.beautifier )
+  lazy val beautifier = TableBlockTranslator_ (tc.beautifier )
 
   def translate (block: Block ): Block =
     Block_ (CommentPreprocessor_ (block.lines )

@@ -7,7 +7,8 @@ package soda.translator.extension.toscala
   + soda.translator.block.Block
   + soda.translator.block.Block_
   + soda.translator.block.Translator
-  + soda.translator.replacement.CommentPreprocessor_
+  + soda.translator.blocktr.CommentPreprocessor_
+  + soda.translator.blocktr.TableBlockTranslator_
   + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
@@ -22,23 +23,23 @@ package soda.translator.extension.toscala
 
   tc = TranslationConstantToScala_ ()
 
-  synonym_at_beginning = DefaultTranslator_ (tc.synonym_at_beginning)
+  synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning)
 
-  translation_at_beginning_with_paren = DefaultTranslator_ (tc.translation_at_beginning_with_paren)
+  translation_at_beginning_with_paren = TableBlockTranslator_ (tc.translation_at_beginning_with_paren)
 
   translation_at_beginning_without_paren_for_type_alias =
-      DefaultTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias)
+      TableBlockTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias)
 
   translation_at_beginning_without_paren =
-      DefaultTranslator_ (tc.translation_at_beginning_without_paren)
+      TableBlockTranslator_ (tc.translation_at_beginning_without_paren)
 
-  synonym = DefaultTranslator_ (tc.synonym)
+  synonym = TableBlockTranslator_ (tc.synonym)
 
-  main_translation = DefaultTranslator_ (tc.main_translation)
+  main_translation = TableBlockTranslator_ (tc.main_translation)
 
-  scala_non_soda = DefaultTranslator_ (tc.scala_non_soda)
+  scala_non_soda = TableBlockTranslator_ (tc.scala_non_soda)
 
-  beautifier = DefaultTranslator_ (tc.beautifier)
+  beautifier = TableBlockTranslator_ (tc.beautifier)
 
   translate (block: Block): Block =
     Block_ (
