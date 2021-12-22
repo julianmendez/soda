@@ -69,23 +69,20 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
   lazy val non_definition_block_prefixes: Seq [String] =
     Seq (soda_package_reserved_word, soda_import_reserved_word, soda_closing_brace, soda_class_reserved_word, soda_opening_comment    )
 
-  lazy val scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
+  lazy val coq_reserved_words =
+    coq_1 ++ coq_2 ++ coq_3 ++ coq_4
 
+  lazy val coq_1: Seq [String] =
+    Seq ("as", "else", "end", "forall", "fun", "if", "in", "let", "match", "then", "with"    )
 
-  /**
-   * Scala 3 keywords:
-   *   https://dotty.epfl.ch/docs/internals/syntax.html
-   * Scala 2 keywords:
-   *   https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
-   */
-  lazy val scala_reserved_words =
-    scala_3_regular_keywords ++ scala_3_soft_keywords ++ scala_2_extra_keywords
+  lazy val coq_2: Seq [String] =
+    Seq ("Admitted", "Arguments", "Check", "Constructors", "End", "Eval", "Export", "Hint", "Implicit", "Import", "Module", "Notation", "Print", "Proof", "Qed", "Require", "Resolve", "Section", "Set", "Unset"    )
 
-  lazy val scala_3_regular_keywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ">:", "#", "@", "=>>", "?=>"  )
+  lazy val coq_3: Seq [String] =
+    Seq ("admit", "apply", "assert", "auto", "case", "compute", "destruct", "discriminate", "elim", "exact", "induction", "intros", "pose", "refine", "rewrite", "simpl", "specialize", "unfold"    )
 
-  lazy val scala_3_soft_keywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"  )
-
-  lazy val scala_2_extra_keywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
+  lazy val coq_4: Seq [String] =
+    Seq ("CoFixpoint", "CoInductive", "Definition", "Example", "Fixpoint", "Global", "Hypothesis", "Inductive", "Instance", "Lemma", "Ltac", "Theorem", "Variable"    )
 
   lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
@@ -104,19 +101,19 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
 
   lazy val type_translation: Seq [(String, String )] = Seq (("Boolean", "bool"), ("Nat", "nat"), ("Option", "option"), ("List", "list"), ("String", "string"), ("BigInt", "Z")  )
 
-  lazy val prefix_scala_non_soda = "__soda__"
+  lazy val prefix_coq_non_soda = "__soda__"
 
-  lazy val scala_non_soda: Seq [(String, String )] =
-    scala_reserved_words
+  lazy val coq_non_soda: Seq [(String, String )] =
+    coq_reserved_words
       .filter (x => ! soda_reserved_words.contains (x )  )
-      .map (x =>  (x, prefix_scala_non_soda + x ) )
+      .map (x =>  (x, prefix_coq_non_soda + x ) )
 
   lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
   lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", " :"), (":\\s+", ": ")  )
 
-  def is_scala_word (word: String ): Boolean =
-    scala_reserved_words.contains (word )
+  def is_coq_word (word: String ): Boolean =
+    coq_reserved_words.contains (word )
 
   def is_soda_word (word: String ): Boolean =
     soda_reserved_words.contains (word )

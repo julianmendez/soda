@@ -39,7 +39,7 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
 
   lazy val main_translation = DefaultTranslator_ (tc.main_translation )
 
-  lazy val scala_non_soda = DefaultTranslator_ (tc.scala_non_soda )
+  lazy val coq_non_soda = DefaultTranslator_ (tc.coq_non_soda )
 
   lazy val beautifier = DefaultTranslator_ (tc.beautifier )
 
@@ -74,7 +74,7 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
   def _get_all_replacements (token: Token ): String =
     Replacement_ (token.text )
       .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet )
-      .replace (scala_non_soda )
+      .replace (coq_non_soda )
       .replace_at_beginning (token.index, synonym_at_beginning )
       .replace (synonym )
       .replace_with (try_definition )
