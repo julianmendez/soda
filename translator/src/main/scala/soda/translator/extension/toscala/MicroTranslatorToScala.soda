@@ -7,16 +7,29 @@ package soda.translator.extension.toscala
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
-  + soda.translator.block.Block_
   + soda.translator.block.BlockTranslatorPipeline_
   + soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
   + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
+  + soda.translator.blocktr.TableTranslator_
+  + soda.translator.blocktr.TokenizedBlockTranslator_
+  + soda.translator.replacement.ReplacementAux_
+  + soda.translator.replacement.Token
 
   source = "soda"
 
   target = "scala"
 
   new_line = "\n"
+
+  tc = TranslationConstantToScala_ ()
+
+  replace (table: Seq [ (String, String) ] ): Token -> String =
+    lambda token ->
+        ReplacementAux_ ().replace (token.text, TableTranslator_ (table))
+
+  replace_regex (table: Seq [ (String, String) ] ): Token -> String =
+    lambda token ->
+        ReplacementAux_ ().replace_regex (token.text, TableTranslator_ (table))
 
   translation_pipeline =
     BlockTranslatorPipeline_ (
@@ -26,7 +39,8 @@ package soda.translator.extension.toscala
         MatchCaseBlockTranslator_ (),
         LineBackwardJoinerBlockTranslator_ (),
         LinePerLineBlockTranslator_ (),
-        BeautifierBlockTranslator_ ()
+        TokenizedBlockTranslator_ (replace (tc.main_translation) ),
+        TokenizedBlockTranslator_ (replace_regex (tc.beautifier) )
       )
     )
 

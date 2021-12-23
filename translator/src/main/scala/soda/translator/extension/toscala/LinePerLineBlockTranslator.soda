@@ -6,7 +6,7 @@ package soda.translator.extension.toscala
   + soda.translator.block.Block
   + soda.translator.block.Translator
   + soda.translator.blocktr.TokenizedBlockTranslator_
-  + soda.translator.blocktr.TableBlockTranslator_
+  + soda.translator.blocktr.TableTranslator_
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
 
@@ -18,21 +18,19 @@ package soda.translator.extension.toscala
 
   tc = TranslationConstantToScala_ ()
 
-  synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning)
+  synonym_at_beginning = TableTranslator_ (tc.synonym_at_beginning)
 
-  translation_at_beginning_with_paren = TableBlockTranslator_ (tc.translation_at_beginning_with_paren)
+  translation_at_beginning_with_paren = TableTranslator_ (tc.translation_at_beginning_with_paren)
 
   translation_at_beginning_without_paren_for_type_alias =
-    TableBlockTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias)
+    TableTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias)
 
   translation_at_beginning_without_paren =
-    TableBlockTranslator_ (tc.translation_at_beginning_without_paren)
+    TableTranslator_ (tc.translation_at_beginning_without_paren)
 
-  synonym = TableBlockTranslator_ (tc.synonym)
+  synonym = TableTranslator_ (tc.synonym)
 
-  main_translation = TableBlockTranslator_ (tc.main_translation)
-
-  scala_non_soda = TableBlockTranslator_ (tc.scala_non_soda)
+  scala_non_soda = TableTranslator_ (tc.scala_non_soda)
 
   replace_token: Token -> String =
     lambda token ->
@@ -43,7 +41,6 @@ package soda.translator.extension.toscala
         .replace (synonym)
         .replace_with (try_definition)
         .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text))
-        .replace (main_translation)
         .line
 
   translator = TokenizedBlockTranslator_ (replace_token)

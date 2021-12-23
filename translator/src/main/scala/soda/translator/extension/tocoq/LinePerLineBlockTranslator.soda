@@ -4,7 +4,7 @@ package soda.translator.extension.tocoq
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
-  + soda.translator.blocktr.TableBlockTranslator_
+  + soda.translator.blocktr.TableTranslator_
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
@@ -21,15 +21,13 @@ package soda.translator.extension.tocoq
 
   soda_opening_parenthesis: String = "("
 
-  synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning)
+  synonym_at_beginning = TableTranslator_ (tc.synonym_at_beginning)
 
-  synonym = TableBlockTranslator_ (tc.synonym)
+  synonym = TableTranslator_ (tc.synonym)
 
-  main_translation = TableBlockTranslator_ (tc.main_translation)
+  main_translation = TableTranslator_ (tc.main_translation)
 
-  coq_non_soda = TableBlockTranslator_ (tc.coq_non_soda)
-
-  beautifier = TableBlockTranslator_ (tc.beautifier)
+  coq_non_soda = TableTranslator_ (tc.coq_non_soda)
 
   translator = TokenizedBlockTranslator_ (replace_token)
 
@@ -44,8 +42,6 @@ package soda.translator.extension.tocoq
         .replace_at_beginning (token.index, synonym_at_beginning)
         .replace (synonym)
         .replace_with (try_definition)
-        .replace (main_translation)
-        .replace_regex (beautifier)
         .line
 
   try_definition (line: String): String =

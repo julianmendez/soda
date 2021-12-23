@@ -5,7 +5,7 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
   import soda.translator.block.Block
   import soda.translator.block.Translator
   import soda.translator.blocktr.TokenizedBlockTranslator_
-  import soda.translator.blocktr.TableBlockTranslator_
+  import soda.translator.blocktr.TableTranslator_
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
 
@@ -17,21 +17,19 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
 
   lazy val tc = TranslationConstantToScala_ ()
 
-  lazy val synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning )
+  lazy val synonym_at_beginning = TableTranslator_ (tc.synonym_at_beginning )
 
-  lazy val translation_at_beginning_with_paren = TableBlockTranslator_ (tc.translation_at_beginning_with_paren )
+  lazy val translation_at_beginning_with_paren = TableTranslator_ (tc.translation_at_beginning_with_paren )
 
   lazy val translation_at_beginning_without_paren_for_type_alias =
-    TableBlockTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias )
+    TableTranslator_ (tc.translation_at_beginning_without_paren_for_type_alias )
 
   lazy val translation_at_beginning_without_paren =
-    TableBlockTranslator_ (tc.translation_at_beginning_without_paren )
+    TableTranslator_ (tc.translation_at_beginning_without_paren )
 
-  lazy val synonym = TableBlockTranslator_ (tc.synonym )
+  lazy val synonym = TableTranslator_ (tc.synonym )
 
-  lazy val main_translation = TableBlockTranslator_ (tc.main_translation )
-
-  lazy val scala_non_soda = TableBlockTranslator_ (tc.scala_non_soda )
+  lazy val scala_non_soda = TableTranslator_ (tc.scala_non_soda )
 
   lazy val replace_token: Token => String =
      token =>
@@ -42,7 +40,6 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
         .replace (synonym )
         .replace_with (try_definition )
         .replace_at_beginning (token.index, get_translation_table_at_beginning (token.text )  )
-        .replace (main_translation )
         .line
 
   lazy val translator = TokenizedBlockTranslator_ (replace_token )

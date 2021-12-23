@@ -3,7 +3,7 @@ package soda.translator.extension.tocoq
 trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.blocktr.TableBlockTranslator_
+  import soda.translator.blocktr.TableTranslator_
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
@@ -20,15 +20,13 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
 
   lazy val soda_opening_parenthesis: String = "("
 
-  lazy val synonym_at_beginning = TableBlockTranslator_ (tc.synonym_at_beginning )
+  lazy val synonym_at_beginning = TableTranslator_ (tc.synonym_at_beginning )
 
-  lazy val synonym = TableBlockTranslator_ (tc.synonym )
+  lazy val synonym = TableTranslator_ (tc.synonym )
 
-  lazy val main_translation = TableBlockTranslator_ (tc.main_translation )
+  lazy val main_translation = TableTranslator_ (tc.main_translation )
 
-  lazy val coq_non_soda = TableBlockTranslator_ (tc.coq_non_soda )
-
-  lazy val beautifier = TableBlockTranslator_ (tc.beautifier )
+  lazy val coq_non_soda = TableTranslator_ (tc.coq_non_soda )
 
   lazy val translator = TokenizedBlockTranslator_ (replace_token )
 
@@ -43,8 +41,6 @@ trait LinePerLineBlockTranslator  extends soda.translator.block.BlockTranslator 
         .replace_at_beginning (token.index, synonym_at_beginning )
         .replace (synonym )
         .replace_with (try_definition )
-        .replace (main_translation )
-        .replace_regex (beautifier )
         .line
 
   def try_definition (line: String ): String =
