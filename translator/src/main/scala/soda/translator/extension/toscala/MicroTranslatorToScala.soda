@@ -23,6 +23,10 @@ package soda.translator.extension.toscala
 
   tc = TranslationConstantToScala_ ()
 
+  add_spaces_to_symbols (symbols: Set [Char] ): Token -> String =
+    lambda token ->
+        ReplacementAux_ ().add_spaces_to_symbols (token.text, symbols)
+
   replace (table: Seq [ (String, String) ] ): Token -> String =
     lambda token ->
         ReplacementAux_ ().replace (token.text, TableTranslator_ (table))
@@ -31,6 +35,14 @@ package soda.translator.extension.toscala
     lambda token ->
         ReplacementAux_ ().replace_regex (token.text, TableTranslator_ (table))
 
+  replace_at_beginning (table: Seq [ (String, String) ] ): Token -> String =
+    lambda token ->
+        ReplacementAux_ ().replace_at_beginning (token.text, token.index, TableTranslator_ (table))
+
+  try_definition: Token -> String =
+    lambda token ->
+      DefinitionLineTranslator_ (token.text).translation
+
   translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
@@ -38,7 +50,12 @@ package soda.translator.extension.toscala
         LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         LineBackwardJoinerBlockTranslator_ (),
-        LinePerLineBlockTranslator_ (),
+        TokenizedBlockTranslator_ (add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet) ),
+        TokenizedBlockTranslator_ (replace (tc.scala_non_soda) ),
+        TokenizedBlockTranslator_ (replace_at_beginning (tc.synonym_at_beginning) ),
+        TokenizedBlockTranslator_ (replace (tc.synonym)),
+        TokenizedBlockTranslator_ (try_definition),
+        ClassDeclarationBlockTranslator_ (),
         TokenizedBlockTranslator_ (replace (tc.main_translation) ),
         TokenizedBlockTranslator_ (replace_regex (tc.beautifier) )
       )

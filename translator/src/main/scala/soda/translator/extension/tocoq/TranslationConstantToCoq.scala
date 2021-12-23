@@ -86,18 +86,9 @@ trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaC
 
   lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
-  lazy val translation_at_beginning_with_paren: Seq [(String, String )] = Seq (("class", "case class"), ("has", "def")  )
-
-  lazy val translation_at_beginning_without_paren_for_type_alias: Seq [(String, String )] = Seq (("class", "type")  )
-
-  lazy val translation_at_beginning_without_paren: Seq [(String, String )] = Seq (("class", "Module"), ("has", "def"), ("package", "package"), ("import", "Require Import"),
-
-    /** Annotations */
-    ("@override", ""), ("@tailrec", ""), ("@main", "")  )
-
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb"), ("class", "Module"), ("has", "Definition"), ("package", ""), ("import", "Require Import"), ("@override", ""), ("@tailrec", ""), ("@main", "")  )
 
   lazy val type_translation: Seq [(String, String )] = Seq (("Boolean", "bool"), ("Nat", "nat"), ("Option", "option"), ("List", "list"), ("String", "string"), ("BigInt", "Z")  )
 

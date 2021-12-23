@@ -1,0 +1,50 @@
+package soda.translator.extension.toscala
+
+* ClassDeclarationBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Translator
+  + soda.translator.blocktr.TokenizedBlockTranslator_
+  + soda.translator.blocktr.TableTranslator_
+  + soda.translator.replacement.Replacement_
+  + soda.translator.replacement.Token
+
+  source = "soda"
+
+  target = "soda"
+
+  soda_opening_parenthesis: String = "("
+
+  tc = TranslationConstantToScala_ ()
+
+  replace_token: Token -> String =
+    lambda token ->
+      Replacement_ (token.text)
+        .replace_at_beginning (token.index, get_table_translator (token.text) )
+        .line
+
+  get_table_translator (line: String): Translator =
+    let
+      translation = get_class_declaration_translation (line)
+      table = Seq ( (tc.soda_class_reserved_word, translation) )
+    in TableTranslator_ (table)
+
+  get_class_declaration_translation (line: String): String =
+    if line.contains (soda_opening_parenthesis)
+    then tc.class_declaration_translation_at_beginning_with_paren
+    else
+      if DefinitionLineTranslator_ (line).condition_for_type_alias
+      then tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
+      else tc.class_declaration_translation_at_beginning_without_paren
+
+  translator = TokenizedBlockTranslator_ (replace_token)
+
+  translate (block: Block): Block =
+    translator.translate (block)
+
+}
+
+* ClassDeclarationBlockTranslator_ ()
+  extends ClassDeclarationBlockTranslator
+

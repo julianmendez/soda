@@ -24,7 +24,7 @@ package soda.translator.extension.tocoq
  * This is no longer supported.
  *
  */
-trait DefinitionTranslatorToCoq  extends soda.translator.block.LineTranslator {
+trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
 
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
@@ -123,4 +123,4 @@ trait DefinitionTranslatorToCoq  extends soda.translator.block.LineTranslator {
 
 }
 
-case class DefinitionTranslatorToCoq_ (line: String )  extends DefinitionTranslatorToCoq
+case class DefinitionLineTranslator_ (line: String )  extends DefinitionLineTranslator

@@ -1,6 +1,6 @@
 package soda.translator.extension.tocoq
 
-* DefinitionBlockTranslator
+* CoqDefinitionBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
@@ -45,6 +45,6 @@ package soda.translator.extension.tocoq
 
 }
 
-* DefinitionBlockTranslator_ ()
-  extends DefinitionBlockTranslator
+* CoqDefinitionBlockTranslator_ ()
+  extends CoqDefinitionBlockTranslator
 

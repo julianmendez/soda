@@ -24,7 +24,7 @@ package soda.translator.extension.toscala
  * This is no longer supported.
  *
  */
-* DefinitionTranslatorToScala
+* DefinitionLineTranslator
   extends soda.translator.block.LineTranslator = {
 
   + soda.lib.OptionSD
@@ -130,6 +130,6 @@ package soda.translator.extension.toscala
 
 }
 
-* DefinitionTranslatorToScala_ (line: String)
-  extends DefinitionTranslatorToScala
+* DefinitionLineTranslator_ (line: String)
+  extends DefinitionLineTranslator
 
