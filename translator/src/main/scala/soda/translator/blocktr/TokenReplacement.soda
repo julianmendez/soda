@@ -1,0 +1,35 @@
+package soda.translator.blocktr
+
+* TokenReplacement = {
+
+  + soda.translator.replacement.ReplacementAux_
+
+  add_spaces_to_symbols (symbols: Set [Char] ): TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+      lambda token ->
+        ReplacementAux_ ().add_spaces_to_symbols (token.text, symbols)
+    )
+
+  replace (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+      lambda token ->
+        ReplacementAux_ ().replace (token.text, TableTranslator_ (table))
+    )
+
+  replace_regex (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+      lambda token ->
+        ReplacementAux_ ().replace_regex (token.text, TableTranslator_ (table))
+    )
+
+  replace_at_beginning (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+      lambda token ->
+        ReplacementAux_ ().replace_at_beginning (token.text, token.index, TableTranslator_ (table))
+    )
+
+}
+
+* TokenReplacement_ ()
+  extends TokenReplacement
+
