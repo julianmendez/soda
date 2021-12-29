@@ -6,10 +6,6 @@ package soda.translator.blocktr
   + soda.translator.block.Block
   + soda.translator.parser.BlockBuilder_
 
-  source = "soda"
-
-  target = "soda"
-
   space = " "
 
   reserved_word_joiner: Seq [String] = Seq (

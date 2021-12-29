@@ -5,10 +5,6 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
   import soda.translator.block.Block
   import soda.translator.parser.BlockBuilder_
 
-  lazy val source = "soda definitions"
-
-  lazy val target = "coq definitions"
-
   lazy val space = " "
 
   lazy val tc = TranslationConstantToCoq_ ()

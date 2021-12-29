@@ -6,10 +6,6 @@ package soda.translator.extension.tocoq
   + soda.translator.block.Block
   + soda.translator.parser.BlockBuilder_
 
-  source = "soda definitions"
-
-  target = "coq definitions"
-
   space = " "
 
   tc = TranslationConstantToCoq_ ()

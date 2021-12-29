@@ -31,11 +31,11 @@ package soda.translator.parser
 
   _annotate_this_line (line: String, comment_state: Boolean): CurrentAndNewCommentState =
     if comment_state
-    then CurrentAndNewCommentState (true, not line.trim.endsWith (soda_end_comment))
+    then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
     else
       if line.trim.startsWith (soda_begin_comment)
-      then CurrentAndNewCommentState (true, not line.trim.endsWith (soda_end_comment))
-      else CurrentAndNewCommentState (false, false)
+      then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
+      else CurrentAndNewCommentState_ (false, false)
 
 }
 
@@ -55,5 +55,15 @@ package soda.translator.parser
 * PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
   extends PreprocessorFoldTuple
 
-* CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean)
+* CurrentAndNewCommentState = {
+
+  has current_state: Boolean
+
+  has new_comment_state: Boolean
+
+}
+
+* CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
+  extends CurrentAndNewCommentState
+
 

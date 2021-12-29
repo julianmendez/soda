@@ -14,10 +14,6 @@ package soda.translator.extension.toscala
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.replacement.Token
 
-  source = "soda"
-
-  target = "scala"
-
   new_line = "\n"
 
   tc = TranslationConstantToScala_ ()

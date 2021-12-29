@@ -5,10 +5,6 @@ trait LineBackwardJoinerBlockTranslator  extends soda.translator.block.BlockTran
   import soda.translator.block.Block
   import soda.translator.parser.BlockBuilder_
 
-  lazy val source = "soda"
-
-  lazy val target = "soda"
-
   lazy val space = " "
 
   lazy val reserved_word_joiner: Seq [String] = Seq ("extends", "with"  )

@@ -30,11 +30,11 @@ trait BlockBuilder {
 
   def _annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state
-    ) CurrentAndNewCommentState (true, ! line.trim.endsWith (soda_end_comment )  )
+    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment )  )
     else
       if (line.trim.startsWith (soda_begin_comment )
-      ) CurrentAndNewCommentState (true, ! line.trim.endsWith (soda_end_comment )  )
-      else CurrentAndNewCommentState (false, false )
+      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment )  )
+      else CurrentAndNewCommentState_ (false, false )
 
 }
 
@@ -52,4 +52,14 @@ trait PreprocessorFoldTuple {
 
 case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]  )  extends PreprocessorFoldTuple
 
-case class CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean )
+trait CurrentAndNewCommentState {
+
+  def current_state: Boolean
+
+  def new_comment_state: Boolean
+
+}
+
+case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean )  extends CurrentAndNewCommentState
+
+

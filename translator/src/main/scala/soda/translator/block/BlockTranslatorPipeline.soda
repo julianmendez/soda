@@ -7,16 +7,6 @@ package soda.translator.block
 
   has pipeline: Seq [BlockTranslator]
 
-  source: String =
-    if pipeline.isEmpty
-    then ""
-    else pipeline.head.source
-
-  target: String =
-    if pipeline.isEmpty
-    then ""
-    else pipeline.last.target
-
   translate (block: Block): Block =
     Recursion_ ()
       .fold (pipeline, block, _next_value_function)

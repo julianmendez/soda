@@ -6,10 +6,6 @@ package soda.translator.extension.toscala
   + soda.translator.block.Block
   + soda.translator.parser.BlockBuilder_
 
-  source = "soda"
-
-  target = "soda"
-
   tc = TranslationConstantToScala_ ()
 
   translate (block: Block): Block =

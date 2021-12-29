@@ -14,10 +14,6 @@ package soda.translator.extension.tocoq
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.replacement.Token
 
-  source = "soda"
-
-  target = "coq"
-
   tc = TranslationConstantToCoq_ ()
 
   try_definition: Token -> String =

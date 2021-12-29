@@ -6,16 +6,6 @@ trait BlockTranslatorPipeline  extends BlockTranslator {
 
   def pipeline: Seq [BlockTranslator]
 
-  lazy val source: String =
-    if (pipeline.isEmpty
-    ) ""
-    else pipeline.head.source
-
-  lazy val target: String =
-    if (pipeline.isEmpty
-    ) ""
-    else pipeline.last.target
-
   def translate (block: Block ): Block =
     Recursion_ ()
       .fold (pipeline, block, _next_value_function )

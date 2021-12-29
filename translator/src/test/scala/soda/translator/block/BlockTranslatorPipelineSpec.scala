@@ -4,10 +4,6 @@ case class BlockTranslator00 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
 
-  lazy val source: String = "00"
-
-  lazy val target: String = "01"
-
   def translate (block: Block ): Block =
     BlockBuilder_ () .build (if (block.lines.isEmpty
       ) Seq ("")
@@ -19,10 +15,6 @@ case class BlockTranslator01 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
 
-  lazy val source: String = "01"
-
-  lazy val target: String = "02"
-
   def translate (block: Block ): Block =
     BlockBuilder_ () .build (if (block.lines.isEmpty
       ) Seq ("")
@@ -33,10 +25,6 @@ case class BlockTranslator01 ()  extends BlockTranslator {
 case class BlockTranslator02 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
-
-  lazy val source: String = "02"
-
-  lazy val target: String = "03"
 
   def translate (block: Block ): Block =
     BlockBuilder_ () .build (if (block.lines.isEmpty

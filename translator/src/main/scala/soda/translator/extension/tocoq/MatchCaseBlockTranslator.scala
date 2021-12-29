@@ -7,10 +7,6 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  lazy val source = "soda"
-
-  lazy val target = "soda (after match-case)"
-
   def translate (block: Block ): Block =
     BlockBuilder_ () .build (block.lines
         .map (line => append_with_after_match (line ) )    )

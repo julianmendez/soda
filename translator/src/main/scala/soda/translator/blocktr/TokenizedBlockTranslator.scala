@@ -14,10 +14,6 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   def replace_token: Token => String
 
-  lazy val source = "undefined"
-
-  lazy val target = "undefined"
-
   def translate (block: Block ): Block =
     BlockBuilder_ () .build (block
         .annotated_lines

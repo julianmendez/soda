@@ -9,10 +9,6 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
 
-  lazy val source = "soda"
-
-  lazy val target = "soda"
-
   lazy val soda_opening_parenthesis: String = "("
 
   lazy val tc = TranslationConstantToScala_ ()

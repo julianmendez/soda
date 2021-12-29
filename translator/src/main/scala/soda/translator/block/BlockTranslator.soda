@@ -2,20 +2,12 @@ package soda.translator.block
 
 * BlockTranslator = {
 
-  has source: String
-
-  has target: String
-
   has translate (block: Block): Block
 
 }
 
 * DefaultBlockTranslator_ ()
   extends BlockTranslator = {
-
-  source = "default"
-
-  target = "default"
 
   translate (block: Block): Block =
     block

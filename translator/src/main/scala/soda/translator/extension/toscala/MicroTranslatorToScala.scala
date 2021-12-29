@@ -13,10 +13,6 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.replacement.Token
 
-  lazy val source = "soda"
-
-  lazy val target = "scala"
-
   lazy val new_line = "\n"
 
   lazy val tc = TranslationConstantToScala_ ()

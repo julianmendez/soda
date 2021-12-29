@@ -8,10 +8,6 @@ package soda.translator.extension.tocoq
 
   tc = TranslationConstantToCoq_ ()
 
-  source = "soda"
-
-  target = "soda (after match-case)"
-
   translate (block: Block): Block =
     BlockBuilder_ ().build(
       block.lines

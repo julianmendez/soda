@@ -13,10 +13,6 @@ trait MicroTranslatorToCoq  extends soda.translator.block.BlockTranslator {
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.replacement.Token
 
-  lazy val source = "soda"
-
-  lazy val target = "coq"
-
   lazy val tc = TranslationConstantToCoq_ ()
 
   lazy val try_definition: Token => String =

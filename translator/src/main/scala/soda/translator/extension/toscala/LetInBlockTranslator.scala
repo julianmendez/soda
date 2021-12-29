@@ -5,10 +5,6 @@ trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
   import soda.translator.block.Block
   import soda.translator.parser.BlockBuilder_
 
-  lazy val source = "soda"
-
-  lazy val target = "soda"
-
   lazy val tc = TranslationConstantToScala_ ()
 
   def translate (block: Block ): Block =

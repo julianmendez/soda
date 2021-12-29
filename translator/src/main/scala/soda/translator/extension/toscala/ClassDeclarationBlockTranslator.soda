@@ -10,10 +10,6 @@ package soda.translator.extension.toscala
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
 
-  source = "soda"
-
-  target = "soda"
-
   soda_opening_parenthesis: String = "("
 
   tc = TranslationConstantToScala_ ()
