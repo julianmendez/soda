@@ -5,7 +5,7 @@ package soda.translator.blocktr
 
   + soda.lib.SomeSD_
   + soda.translator.block.Block
-  + soda.translator.block.Block_
+  + soda.translator.parser.BlockBuilder_
   + soda.translator.block.Translator
   + soda.translator.replacement.ParserStateEnum_
   + soda.translator.replacement.Replacement_
@@ -20,7 +20,7 @@ package soda.translator.blocktr
   target = "undefined"
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       block
         .annotated_lines
         .map (annotated_line ->

@@ -4,7 +4,7 @@ package soda.translator.extension.toscala
   extends org.scalatest.funsuite.AnyFunSuite = {
 
   + org.scalatest.Assertion
-  + soda.translator.block.BlockProcessor_
+  + soda.translator.parser.BlockProcessor_
   + java.nio.file.Files
   + java.nio.file.Paths
 

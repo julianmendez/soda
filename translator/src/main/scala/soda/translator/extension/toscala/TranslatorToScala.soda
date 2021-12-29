@@ -6,7 +6,7 @@ package soda.translator.extension.toscala
 * TranslatorToScala
   extends soda.translator.extension.common.Extension = {
 
-  + soda.translator.block.BlockProcessor_
+  + soda.translator.parser.BlockProcessor_
   + soda.translator.io.DirectoryProcessor_
   + soda.translator.io.SimpleFileReader_
   + soda.translator.io.SimpleFileWriter_

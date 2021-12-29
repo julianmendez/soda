@@ -1,0 +1,59 @@
+package soda.translator.parser
+
+* BlockBuilder = {
+
+  + soda.lib.Recursion_
+  + soda.translator.block.AnnotatedLine
+  + soda.translator.block.AnnotatedLine_
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+  + soda.translator.parser.BlockBuilder_
+
+  soda_begin_comment = "/*"
+
+  soda_end_comment = "*/"
+
+  build (lines: Seq [String]) =
+    Block_ (lines, get_annotated_lines (lines))
+
+  get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =
+    Recursion_ ().fold (lines, initial_value, next_value_function)
+      .annotated_lines_rev
+      .reverse
+
+  initial_value = PreprocessorFoldTuple_ (false, Seq ())
+
+  next_value_function (pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+    let
+      t = _annotate_this_line (line, pair.comment_state)
+    in PreprocessorFoldTuple_ (t.new_comment_state,
+        pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state)))
+
+  _annotate_this_line (line: String, comment_state: Boolean): CurrentAndNewCommentState =
+    if comment_state
+    then CurrentAndNewCommentState (true, not line.trim.endsWith (soda_end_comment))
+    else
+      if line.trim.startsWith (soda_begin_comment)
+      then CurrentAndNewCommentState (true, not line.trim.endsWith (soda_end_comment))
+      else CurrentAndNewCommentState (false, false)
+
+}
+
+* BlockBuilder_ ()
+  extends BlockBuilder
+
+* PreprocessorFoldTuple = {
+
+  + soda.translator.block.AnnotatedLine
+
+  has comment_state: Boolean
+
+  has annotated_lines_rev: Seq [AnnotatedLine]
+
+}
+
+* PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
+  extends PreprocessorFoldTuple
+
+* CurrentAndNewCommentState (current_state: Boolean, new_comment_state: Boolean)
+

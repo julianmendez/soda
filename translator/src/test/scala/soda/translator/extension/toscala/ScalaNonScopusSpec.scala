@@ -5,7 +5,7 @@ package soda.translator.extension.toscala
  */
 case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.BlockProcessor_
+  import soda.translator.parser.BlockProcessor_
 
   test ("Scala reserved words are replaced")
     {

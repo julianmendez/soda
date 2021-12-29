@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 * MicroTranslatorToScalaSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.block.BlockProcessor_
+  + soda.translator.parser.BlockProcessor_
 
   instance = BlockProcessor_ (MicroTranslatorToScala_ ())
 

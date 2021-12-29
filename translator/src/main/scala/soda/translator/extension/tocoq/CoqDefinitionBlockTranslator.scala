@@ -3,7 +3,7 @@ package soda.translator.extension.tocoq
 trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
 
   lazy val source = "soda definitions"
 
@@ -19,10 +19,10 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
     else block
 
   def prepend (prefix: String, block: Block ): Block =
-    Block_ (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail    )
+    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail    )
 
   def append (suffix: String, block: Block ): Block =
-    Block_ (block.lines.:+ (suffix )    )
+    BlockBuilder_ () .build (block.lines.:+ (suffix )    )
 
   def is_a_recursive_definition (block: Block ): Boolean =
     {

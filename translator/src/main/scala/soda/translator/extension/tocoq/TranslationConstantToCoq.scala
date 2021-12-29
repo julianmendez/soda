@@ -3,7 +3,7 @@ package soda.translator.extension.tocoq
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-trait TranslationConstantToCoq  extends soda.translator.extension.fromsoda.SodaConstant {
+trait TranslationConstantToCoq  extends soda.translator.parser.SodaConstant {
 
   lazy val soda_definition: String = "="
 

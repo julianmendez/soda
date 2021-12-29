@@ -1,4 +1,4 @@
-package soda.translator.extension.fromsoda
+package soda.translator.parser
 
 trait SodaConstant {
 

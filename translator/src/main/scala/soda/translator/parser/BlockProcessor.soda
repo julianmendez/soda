@@ -1,8 +1,11 @@
-package soda.translator.block
+package soda.translator.parser
 
 * BlockProcessor = {
 
   + soda.lib.SomeSD_
+  + soda.translator.block.BlockTranslator
+  + soda.translator.block.Block
+  + soda.translator.parser.BlockBuilder_
 
   has translator: BlockTranslator
 
@@ -24,7 +27,7 @@ package soda.translator.block
       .map (paragraph -> make_block (paragraph) )
 
   make_block (paragraph: String): Block =
-    Block_(
+    BlockBuilder_ ().build(
       paragraph
         .split (new_line)
         .toIndexedSeq
@@ -40,6 +43,6 @@ package soda.translator.block
 
 }
 
-* BlockProcessor_ (translator: BlockTranslator)
+* BlockProcessor_ (translator: soda.translator.block.BlockTranslator)
   extends BlockProcessor
 

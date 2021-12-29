@@ -3,7 +3,7 @@ package soda.translator.extension.tocoq
 trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
 
   lazy val tc = TranslationConstantToCoq_ ()
 
@@ -12,7 +12,7 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val target = "soda (after match-case)"
 
   def translate (block: Block ): Block =
-    Block_ (block.lines
+    BlockBuilder_ () .build (block.lines
         .map (line => append_with_after_match (line ) )    )
 
   def append_with_after_match (line: String ): String =

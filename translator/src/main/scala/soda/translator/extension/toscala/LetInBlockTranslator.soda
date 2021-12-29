@@ -4,7 +4,7 @@ package soda.translator.extension.toscala
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
-  + soda.translator.block.Block_
+  + soda.translator.parser.BlockBuilder_
 
   source = "soda"
 
@@ -13,7 +13,7 @@ package soda.translator.extension.toscala
   tc = TranslationConstantToScala_ ()
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       block.lines
         .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
         .map (line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )

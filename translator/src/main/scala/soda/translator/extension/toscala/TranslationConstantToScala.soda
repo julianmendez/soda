@@ -4,7 +4,7 @@ package soda.translator.extension.toscala
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
 * TranslationConstantToScala
-  extends soda.translator.extension.fromsoda.SodaConstant = {
+  extends soda.translator.parser.SodaConstant = {
 
   soda_definition: String = "="
 

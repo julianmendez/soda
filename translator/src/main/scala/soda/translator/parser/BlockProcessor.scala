@@ -1,8 +1,11 @@
-package soda.translator.block
+package soda.translator.parser
 
 trait BlockProcessor {
 
   import soda.lib.SomeSD_
+  import soda.translator.block.BlockTranslator
+  import soda.translator.block.Block
+  import soda.translator.parser.BlockBuilder_
 
   def translator: BlockTranslator
 
@@ -24,7 +27,7 @@ trait BlockProcessor {
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): Block =
-    Block_ (paragraph
+    BlockBuilder_ () .build (paragraph
         .split (new_line )
         .toIndexedSeq    )
 
@@ -38,4 +41,4 @@ trait BlockProcessor {
 
 }
 
-case class BlockProcessor_ (translator: BlockTranslator )  extends BlockProcessor
+case class BlockProcessor_ (translator: soda.translator.block.BlockTranslator )  extends BlockProcessor

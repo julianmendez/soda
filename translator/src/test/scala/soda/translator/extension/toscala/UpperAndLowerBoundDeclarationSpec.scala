@@ -2,7 +2,7 @@ package soda.translator.extension.toscala
 
 case class UpperAndLowerBoundDeclarationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.BlockProcessor_
+  import soda.translator.parser.BlockProcessor_
 
   lazy val instance = BlockProcessor_ (MicroTranslatorToScala_ ()  )
 

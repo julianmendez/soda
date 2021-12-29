@@ -2,7 +2,7 @@ package soda.translator.extension.toscala
 
 case class BeautifierSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.BlockProcessor_
+  import soda.translator.parser.BlockProcessor_
 
   test ("the translated source code should not have too many unnecessary spaces")
     {

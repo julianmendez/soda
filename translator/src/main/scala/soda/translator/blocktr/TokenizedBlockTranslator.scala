@@ -4,7 +4,7 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.lib.SomeSD_
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
   import soda.translator.block.Translator
   import soda.translator.replacement.ParserStateEnum_
   import soda.translator.replacement.Replacement_
@@ -19,7 +19,7 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val target = "undefined"
 
   def translate (block: Block ): Block =
-    Block_ (block
+    BlockBuilder_ () .build (block
         .annotated_lines
         .map (annotated_line =>
           if (annotated_line.isComment

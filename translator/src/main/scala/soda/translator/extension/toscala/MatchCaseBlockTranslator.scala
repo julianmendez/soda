@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
 
   lazy val source = "soda"
 
@@ -12,7 +12,7 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val tc = TranslationConstantToScala_ ()
 
   def translate (block: Block ): Block =
-    Block_ (block.lines
+    BlockBuilder_ () .build (block.lines
         .map (line => insert_match_before_brace_if_found (line ) )    )
 
   def insert_match_before_brace_if_found (line: String ): String =

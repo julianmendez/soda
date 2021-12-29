@@ -3,7 +3,7 @@ package soda.translator.blocktr
 trait LineForwardJoinerBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
 
   lazy val source = "soda"
 
@@ -16,7 +16,7 @@ trait LineForwardJoinerBlockTranslator  extends soda.translator.block.BlockTrans
   lazy val symbol_forward_joiner: Seq [String] = Seq (",", "(", "["  )
 
   def translate (block: Block ): Block =
-    Block_ (Joiner_ (block.lines, is_a_forward_join ) .join    )
+    BlockBuilder_ () .build (Joiner_ (block.lines, is_a_forward_join ) .join    )
 
   def is_a_forward_join (previous_line: String, current_line: String ): Boolean =
     is_a_symbol_forward_join (previous_line ) ||

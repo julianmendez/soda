@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.Block
-  import soda.translator.block.Block_
+  import soda.translator.parser.BlockBuilder_
 
   lazy val source = "soda"
 
@@ -12,7 +12,7 @@ trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val tc = TranslationConstantToScala_ ()
 
   def translate (block: Block ): Block =
-    Block_ (block.lines
+    BlockBuilder_ () .build (block.lines
         .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
         .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
         .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) )    )

@@ -2,7 +2,7 @@ package soda.translator.extension.tocoq
 
 case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.BlockProcessor_
+  import soda.translator.parser.BlockProcessor_
 
   lazy val instance = BlockProcessor_ (MicroTranslatorToCoq_ ()  )
 

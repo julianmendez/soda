@@ -2,10 +2,10 @@ package soda.translator.extension.toscala
 
 case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.Block_
-  import soda.translator.block.BlockProcessor_
+  import soda.translator.parser.BlockBuilder_
   import soda.translator.block.DefaultBlockTranslator_
   import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
+  import soda.translator.parser.BlockProcessor_
 
   lazy val bp = BlockProcessor_ (DefaultBlockTranslator_ ()  )
 
@@ -38,18 +38,18 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("should split a program in multiple lines")
     {
       lazy val obtained = bp.make_block (Original_input )
-      lazy val expected = Block_ (Original_input_lines )
+      lazy val expected = BlockBuilder_ () .build (Original_input_lines )
       assert (obtained == expected ) }
 
   test ("should preprocess the comma in multiple lines")
     {
-      lazy val obtained = LineForwardJoinerBlockTranslator_ () .translate (Block_ (Original_input_lines ) )
-      lazy val expected = Block_ (Joined_comma_lines )
+      lazy val obtained = LineForwardJoinerBlockTranslator_ () .translate (BlockBuilder_ () .build (Original_input_lines ) )
+      lazy val expected = BlockBuilder_ () .build (Joined_comma_lines )
       assert (obtained == expected ) }
 
   test ("should join the translated lines of a program")
     {
-      lazy val obtained = Block_ (Joined_comma_lines )
+      lazy val obtained = BlockBuilder_ () .build (Joined_comma_lines )
       lazy val expected = bp.make_block (Joined_output )
       assert (obtained == expected ) }
 

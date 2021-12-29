@@ -3,12 +3,14 @@ package soda.translator.block
 * BlockTranslator00 ()
   extends BlockTranslator = {
 
+  + soda.translator.parser.BlockBuilder_
+
   source: String = "00"
 
   target: String = "01"
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
       else block.lines.++ ( Seq ("tr00") )
@@ -19,12 +21,14 @@ package soda.translator.block
 * BlockTranslator01 ()
   extends BlockTranslator = {
 
+  + soda.translator.parser.BlockBuilder_
+
   source: String = "01"
 
   target: String = "02"
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
       else block.lines.++ ( Seq ("tr01") )
@@ -35,12 +39,14 @@ package soda.translator.block
 * BlockTranslator02 ()
   extends BlockTranslator = {
 
+  + soda.translator.parser.BlockBuilder_
+
   source: String = "02"
 
   target: String = "03"
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
       else block.lines.++ ( Seq ("tr02") )
@@ -51,7 +57,7 @@ package soda.translator.block
 * BlockTranslatorPipelineSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.block.BlockProcessor_
+  + soda.translator.parser.BlockBuilder_
 
   instance =
     BlockTranslatorPipeline_ (
@@ -64,11 +70,11 @@ package soda.translator.block
 
   test("block translator pipeline")
     let
-      original = Block_ (
+      original = BlockBuilder_ ().build (
         Seq ( "first line" )
       )
       expected =
-        Block_ (
+        BlockBuilder_ ().build (
           Seq (
             "first line",
             "tr00",

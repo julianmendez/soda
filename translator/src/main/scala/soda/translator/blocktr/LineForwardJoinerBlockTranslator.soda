@@ -4,7 +4,7 @@ package soda.translator.blocktr
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
-  + soda.translator.block.Block_
+  + soda.translator.parser.BlockBuilder_
 
   source = "soda"
 
@@ -21,7 +21,7 @@ package soda.translator.blocktr
   )
 
   translate (block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
         Joiner_ (block.lines, is_a_forward_join).join
     )
 

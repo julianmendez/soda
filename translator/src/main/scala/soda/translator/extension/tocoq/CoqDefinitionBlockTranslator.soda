@@ -4,7 +4,7 @@ package soda.translator.extension.tocoq
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.Block
-  + soda.translator.block.Block_
+  + soda.translator.parser.BlockBuilder_
 
   source = "soda definitions"
 
@@ -20,12 +20,12 @@ package soda.translator.extension.tocoq
     else block
 
   prepend (prefix: String, block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
   append (suffix: String, block: Block): Block =
-    Block_ (
+    BlockBuilder_ ().build (
       block.lines.:+(suffix)
     )
 
