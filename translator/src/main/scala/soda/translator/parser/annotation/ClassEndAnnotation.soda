@@ -1,0 +1,16 @@
+package soda.translator.parser.annotation
+
+* ClassEndAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    block.readable_lines.nonEmpty and
+    (block.readable_lines.head.line.trim == SodaConstant_ ().class_close_symbol )
+
+}
+
+* ClassEndAnnotation_ (block: soda.translator.block.Block)
+  extends ClassEndAnnotation
+

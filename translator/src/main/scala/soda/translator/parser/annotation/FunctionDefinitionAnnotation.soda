@@ -1,0 +1,36 @@
+package soda.translator.parser.annotation
+
+* FunctionDefinitionAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+  + soda.translator.parser.SodaConstant_
+
+  symbol_at_the_end: String =
+    SodaConstant_ ().space +
+    SodaConstant_ ().function_definition_symbol
+
+  symbol_in_the_middle: String =
+    SodaConstant_ ().space +
+    SodaConstant_ ().function_definition_symbol +
+    SodaConstant_ ().space
+
+  applies: Boolean =
+    contains_the_equals_symbol and not is_a_class_declaration
+
+  contains_the_equals_symbol: Boolean =
+    block.readable_lines.nonEmpty and
+    ( (contains_one_line and block.readable_lines.head.line.trim.contains (symbol_in_the_middle) ) or
+      (block.readable_lines.head.line.trim.endsWith (symbol_at_the_end) ) )
+
+  is_a_class_declaration: Boolean =
+    (starts_with (SodaConstant_ ().class_reserved_word) or
+      starts_with (SodaConstant_ ().class_abbreviation) ) and
+    ends_with (SodaConstant_ ().class_open_symbol)
+
+}
+
+* FunctionDefinitionAnnotation_ (block: soda.translator.block.Block)
+  extends FunctionDefinitionAnnotation
+

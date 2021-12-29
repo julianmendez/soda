@@ -6,6 +6,26 @@ package soda.translator.parser
 
   new_line = "\n"
 
+  has_reserved_word = "has"
+
+  class_reserved_word = "class"
+
+  class_abbreviation = "*"
+
+  class_open_symbol = "{"
+
+  class_close_symbol = "}"
+
+  function_definition_symbol = "="
+
+  package_reserved_word = "package"
+
+  import_reserved_word = "import"
+
+  import_abbreviation = "+"
+
+  test_special_function = "test"
+
   soda_reserved_words = Seq (
     "=",
     ":",
@@ -46,4 +66,7 @@ package soda.translator.parser
   )
 
 }
+
+* SodaConstant_ ()
+  extends SodaConstant
 

@@ -1,0 +1,17 @@
+package soda.translator.parser.annotation
+
+* ClassBeginningAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    (starts_with (SodaConstant_ ().class_reserved_word) or
+      starts_with (SodaConstant_ ().class_abbreviation) ) and
+    ends_with (SodaConstant_ ().class_open_symbol)
+
+}
+
+* ClassBeginningAnnotation_ (block: soda.translator.block.Block)
+  extends ClassBeginningAnnotation
+

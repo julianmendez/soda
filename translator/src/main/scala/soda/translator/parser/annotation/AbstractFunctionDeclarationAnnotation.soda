@@ -1,0 +1,16 @@
+package soda.translator.parser.annotation
+
+* AbstractFunctionDeclarationAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    contains_one_line and
+    starts_with (SodaConstant_ ().has_reserved_word)
+
+}
+
+* AbstractFunctionDeclarationAnnotation_ (block: soda.translator.block.Block)
+  extends AbstractFunctionDeclarationAnnotation
+

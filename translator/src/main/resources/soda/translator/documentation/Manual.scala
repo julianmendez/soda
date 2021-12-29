@@ -18,7 +18,8 @@ package soda.translator.documentation
  * 3. the beginning of a class definition
  * 4. the end of a class definition
  * 5. a package declaration
- * 6. a comment
+ * 6. a list of imports
+ * 7. a comment
  */
 
 

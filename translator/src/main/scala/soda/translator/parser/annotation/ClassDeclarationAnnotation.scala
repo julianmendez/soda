@@ -1,0 +1,14 @@
+package soda.translator.parser.annotation
+
+trait ClassDeclarationAnnotation  extends BlockAnnotation {
+
+  import soda.translator.parser.SodaConstant_
+
+  lazy val applies: Boolean =
+    (starts_with (SodaConstant_ () .class_reserved_word ) ||
+      starts_with (SodaConstant_ () .class_abbreviation ) ) &&
+    ! ends_with (SodaConstant_ () .class_open_symbol )
+
+}
+
+case class ClassDeclarationAnnotation_ (block: soda.translator.block.Block )  extends ClassDeclarationAnnotation

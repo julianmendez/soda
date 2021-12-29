@@ -1,0 +1,23 @@
+package soda.translator.parser.annotation
+
+* BlockAnnotation = {
+
+  + soda.translator.block.Block
+
+  has block: Block
+
+  has applies: Boolean
+
+  contains_one_line: Boolean =
+    block.readable_lines.length == 1
+
+  starts_with (prefix: String): Boolean =
+    block.readable_lines.nonEmpty and
+    block.readable_lines.head.line.trim.startsWith (prefix)
+
+  ends_with (suffix: String): Boolean =
+    block.readable_lines.nonEmpty and
+    block.readable_lines.last.line.trim.endsWith (suffix)
+
+}
+

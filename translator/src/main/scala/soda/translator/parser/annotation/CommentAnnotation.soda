@@ -1,0 +1,17 @@
+package soda.translator.parser.annotation
+
+* CommentAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    block
+      .annotated_lines
+      .forall (annotated_line -> annotated_line.isComment)
+
+}
+
+* CommentAnnotation_ (block: soda.translator.block.Block)
+  extends CommentAnnotation
+

@@ -1,0 +1,15 @@
+package soda.translator.parser.annotation
+
+* TestDeclarationAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    starts_with (SodaConstant_ ().test_special_function + SodaConstant_ ().space)
+
+}
+
+* TestDeclarationAnnotation_ (block: soda.translator.block.Block)
+  extends TestDeclarationAnnotation
+

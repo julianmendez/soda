@@ -1,0 +1,16 @@
+package soda.translator.parser.annotation
+
+* PackageDeclarationAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.parser.SodaConstant_
+
+  applies: Boolean =
+    contains_one_line and
+    starts_with (SodaConstant_ ().package_reserved_word + SodaConstant_ ().space)
+
+}
+
+* PackageDeclarationAnnotation_ (block: soda.translator.block.Block)
+  extends PackageDeclarationAnnotation
+

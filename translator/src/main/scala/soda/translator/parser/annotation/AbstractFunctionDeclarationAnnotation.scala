@@ -1,0 +1,13 @@
+package soda.translator.parser.annotation
+
+trait AbstractFunctionDeclarationAnnotation  extends BlockAnnotation {
+
+  import soda.translator.parser.SodaConstant_
+
+  lazy val applies: Boolean =
+    contains_one_line &&
+    starts_with (SodaConstant_ () .has_reserved_word )
+
+}
+
+case class AbstractFunctionDeclarationAnnotation_ (block: soda.translator.block.Block )  extends AbstractFunctionDeclarationAnnotation
