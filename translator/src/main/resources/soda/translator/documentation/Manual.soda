@@ -14,12 +14,13 @@ package soda.translator.documentation
  * However, it is more important to make things clear than concise.
  * These are examples of blocks:
  * 1. a constant or function definition
- * 2. an abstract constant or function declaration
- * 3. the beginning of a class definition
- * 4. the end of a class definition
- * 5. a package declaration
+ * 2. the beginning of a class definition
+ * 3. the end of a class definition
+ * 4. a class declaration
+ * 5. an abstract constant or function declaration
  * 6. a list of imports
- * 7. a comment
+ * 7. a package declaration
+ * 8. a comment
  */
 
 
