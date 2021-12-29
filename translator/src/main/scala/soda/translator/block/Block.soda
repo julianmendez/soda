@@ -11,9 +11,6 @@ package soda.translator.block
 * AnnotatedLine_ (line: String, isComment: Boolean)
   extends AnnotatedLine
 
-/**
- * This preprocessor annotates lines to determine whether they are comments.
- */
 * Block
   extends PlainBlock = {
 

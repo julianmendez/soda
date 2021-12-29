@@ -1,0 +1,48 @@
+package soda.translator.parser
+
+* BlockAnnotation (ordinal: Int, name: String)
+  extends soda.lib.EnumConstant
+
+* BlockAnnotationEnum
+  extends soda.lib.Enum [BlockAnnotation] {
+
+  undefined = BlockAnnotation (0, "undefined")
+
+  function_definition = BlockAnnotation (1, "function_definition")
+
+  abstract_function_declaration = BlockAnnotation (2, "abstract_function_declaration")
+
+  class_beginning = BlockAnnotation (3, "class_beginning")
+
+  class_end = BlockAnnotation (4, "class_end")
+
+  package_declaration = BlockAnnotation (5, "package_declaration")
+
+  only_comment = BlockAnnotation (6, "only_comment")
+
+  values =
+    Seq (
+      undefined,
+      function_definition,
+      abstract_function_declaration,
+      class_beginning,
+      class_end,
+      package_declaration,
+      only_comment
+    )
+
+}
+
+* BlockAnnotationEnum_()
+  extends BlockAnnotationEnum
+
+* AnnotatedBlock
+  extends soda.translator.block.Block = {
+
+  has annotation: BlockAnnotation
+
+}
+
+* AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [soda.translator.block.AnnotatedLine], annotation: BlockAnnotation)
+  extends AnnotatedBlock
+

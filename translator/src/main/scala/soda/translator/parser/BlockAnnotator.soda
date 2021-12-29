@@ -1,0 +1,9 @@
+package soda.translator.parser
+
+* BlockAnnotator = {
+
+}
+
+* BlockAnnotator_ ()
+  extends BlockAnnotator
+

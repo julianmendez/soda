@@ -10,9 +10,6 @@ trait AnnotatedLine {
 
 case class AnnotatedLine_ (line: String, isComment: Boolean )  extends AnnotatedLine
 
-/**
- * This preprocessor annotates lines to determine whether they are comments.
- */
 trait Block  extends PlainBlock {
 
   def annotated_lines: Seq [AnnotatedLine]
