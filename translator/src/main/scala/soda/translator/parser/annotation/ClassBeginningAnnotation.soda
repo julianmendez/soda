@@ -5,6 +5,8 @@ package soda.translator.parser.annotation
 
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().class_beginning
+
   applies: Boolean =
     (starts_with (SodaConstant_ ().class_reserved_word) or
       starts_with (SodaConstant_ ().class_abbreviation) ) and

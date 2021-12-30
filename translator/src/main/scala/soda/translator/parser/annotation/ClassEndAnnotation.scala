@@ -4,6 +4,8 @@ trait ClassEndAnnotation  extends BlockAnnotation {
 
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .class_end
+
   lazy val applies: Boolean =
     block.readable_lines.nonEmpty &&
     (block.readable_lines.head.line.trim == SodaConstant_ () .class_close_symbol )

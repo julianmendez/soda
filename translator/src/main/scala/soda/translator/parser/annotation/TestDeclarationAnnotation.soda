@@ -5,6 +5,8 @@ package soda.translator.parser.annotation
 
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().test_declaration
+
   applies: Boolean =
     starts_with (SodaConstant_ ().test_special_function + SodaConstant_ ().space)
 

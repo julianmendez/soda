@@ -4,6 +4,8 @@ trait TestDeclarationAnnotation  extends BlockAnnotation {
 
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .test_declaration
+
   lazy val applies: Boolean =
     starts_with (SodaConstant_ () .test_special_function + SodaConstant_ () .space )
 

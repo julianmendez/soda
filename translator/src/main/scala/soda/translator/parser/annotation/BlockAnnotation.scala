@@ -8,6 +8,8 @@ trait BlockAnnotation {
 
   def applies: Boolean
 
+  def identifier: BlockAnnotationId
+
   lazy val contains_one_line: Boolean =
     block.readable_lines.length == 1
 

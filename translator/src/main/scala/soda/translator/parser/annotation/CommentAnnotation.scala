@@ -4,6 +4,8 @@ trait CommentAnnotation  extends BlockAnnotation {
 
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .comment
+
   lazy val applies: Boolean =
     block
       .annotated_lines

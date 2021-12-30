@@ -112,4 +112,10 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val obtained = example_blocks.length
       assert (obtained == expected ) }
 
+  test ("should be ordered by the identifier ordinal")
+    {
+      lazy val expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9 )
+      lazy val obtained = detectors (example_blocks (0 )  ) .map (detector => detector.identifier.ordinal )
+      assert (obtained == expected ) }
+
 }

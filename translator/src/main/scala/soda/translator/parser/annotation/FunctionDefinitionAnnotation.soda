@@ -7,6 +7,8 @@ package soda.translator.parser.annotation
   + soda.translator.block.Block_
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().function_definition
+
   symbol_at_the_end: String =
     SodaConstant_ ().space +
     SodaConstant_ ().function_definition_symbol

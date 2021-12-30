@@ -8,6 +8,8 @@ package soda.translator.parser.annotation
 
   has applies: Boolean
 
+  has identifier: BlockAnnotationId
+
   contains_one_line: Boolean =
     block.readable_lines.length == 1
 

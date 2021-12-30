@@ -4,6 +4,8 @@ trait ImportDeclarationAnnotation  extends BlockAnnotation {
 
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .import_declaration
+
   lazy val applies: Boolean =
     block.readable_lines.nonEmpty &&
     block

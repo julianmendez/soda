@@ -5,6 +5,8 @@ package soda.translator.parser.annotation
 
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().package_declaration
+
   applies: Boolean =
     contains_one_line and
     starts_with (SodaConstant_ ().package_reserved_word + SodaConstant_ ().space)

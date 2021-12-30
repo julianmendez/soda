@@ -5,6 +5,8 @@ package soda.translator.parser.annotation
 
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().import_declaration
+
   applies: Boolean =
     block.readable_lines.nonEmpty and
     block

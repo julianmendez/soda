@@ -6,6 +6,8 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
   import soda.translator.block.Block_
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .function_definition
+
   lazy val symbol_at_the_end: String =
     SodaConstant_ () .space +
     SodaConstant_ () .function_definition_symbol

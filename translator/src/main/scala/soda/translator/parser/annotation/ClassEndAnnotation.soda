@@ -5,6 +5,8 @@ package soda.translator.parser.annotation
 
   + soda.translator.parser.SodaConstant_
 
+  identifier = BlockAnnotationEnum_ ().class_end
+
   applies: Boolean =
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().class_close_symbol )

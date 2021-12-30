@@ -4,6 +4,8 @@ trait ClassDeclarationAnnotation  extends BlockAnnotation {
 
   import soda.translator.parser.SodaConstant_
 
+  lazy val identifier = BlockAnnotationEnum_ () .class_declaration
+
   lazy val applies: Boolean =
     (starts_with (SodaConstant_ () .class_reserved_word ) ||
       starts_with (SodaConstant_ () .class_abbreviation ) ) &&
