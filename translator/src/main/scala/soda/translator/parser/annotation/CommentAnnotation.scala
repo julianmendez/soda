@@ -9,7 +9,7 @@ trait CommentAnnotation  extends BlockAnnotation {
   lazy val applies: Boolean =
     block
       .annotated_lines
-      .forall (annotated_line => annotated_line.isComment )
+      .forall (annotated_line => annotated_line.is_comment )
 
 }
 

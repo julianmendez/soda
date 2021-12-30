@@ -18,7 +18,7 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
     BlockBuilder_ () .build (block
         .annotated_lines
         .map (annotated_line =>
-          if (annotated_line.isComment
+          if (annotated_line.is_comment
           ) annotated_line.line
           else _translate_non_comment (annotated_line.line )        )    )
 

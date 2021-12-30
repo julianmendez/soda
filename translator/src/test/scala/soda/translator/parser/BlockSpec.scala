@@ -16,7 +16,7 @@ case class BlockSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         "\n")
         .split ("\n")
         .toSeq
-      lazy val expected = Seq (AnnotatedLine_ ("", isComment = false ), AnnotatedLine_ ("", isComment = false ), AnnotatedLine_ ("/** This is an example */", isComment = true ), AnnotatedLine_ ("* Example () {", isComment = false ), AnnotatedLine_ ("  /* This is a comment */", isComment = true ), AnnotatedLine_ ("  a = \"/** this is not a comment */\"", isComment = false ), AnnotatedLine_ ("}", isComment = false )      )
+      lazy val expected = Seq (AnnotatedLine_ ("", is_comment = false ), AnnotatedLine_ ("", is_comment = false ), AnnotatedLine_ ("/** This is an example */", is_comment = true ), AnnotatedLine_ ("* Example () {", is_comment = false ), AnnotatedLine_ ("  /* This is a comment */", is_comment = true ), AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment = false ), AnnotatedLine_ ("}", is_comment = false )      )
       lazy val obtained = BlockBuilder_ () .build (input ) .annotated_lines
       assert (obtained == expected ) }
 

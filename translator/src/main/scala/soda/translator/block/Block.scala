@@ -4,11 +4,11 @@ trait AnnotatedLine {
 
   def line: String
 
-  def isComment: Boolean
+  def is_comment: Boolean
 
 }
 
-case class AnnotatedLine_ (line: String, isComment: Boolean )  extends AnnotatedLine
+case class AnnotatedLine_ (line: String, is_comment: Boolean )  extends AnnotatedLine
 
 trait Block  extends PlainBlock {
 
@@ -16,7 +16,7 @@ trait Block  extends PlainBlock {
 
   lazy val readable_lines: Seq [AnnotatedLine] =
     annotated_lines
-      .filter (line => ! line.isComment )
+      .filter (line => ! line.is_comment )
 
 }
 

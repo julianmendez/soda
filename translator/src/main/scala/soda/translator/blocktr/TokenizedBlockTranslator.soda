@@ -20,7 +20,7 @@ package soda.translator.blocktr
       block
         .annotated_lines
         .map (annotated_line ->
-          if annotated_line.isComment
+          if annotated_line.is_comment
           then annotated_line.line
           else _translate_non_comment (annotated_line.line)
         )

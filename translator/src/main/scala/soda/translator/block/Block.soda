@@ -4,11 +4,11 @@ package soda.translator.block
 
   has line: String
 
-  has isComment: Boolean
+  has is_comment: Boolean
 
 }
 
-* AnnotatedLine_ (line: String, isComment: Boolean)
+* AnnotatedLine_ (line: String, is_comment: Boolean)
   extends AnnotatedLine
 
 * Block
@@ -18,7 +18,7 @@ package soda.translator.block
 
   readable_lines: Seq [AnnotatedLine] =
     annotated_lines
-      .filter (line -> not line.isComment)
+      .filter (line -> not line.is_comment)
 
 }
 
