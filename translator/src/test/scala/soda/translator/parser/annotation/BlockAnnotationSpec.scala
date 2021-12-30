@@ -32,8 +32,7 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "\n" +
     "\n}" +
     "\n" +
-    "\n* Example_ ()" +
-    "\n  extends Example" +
+    "\n* Example_ () extends Example" +
     "\n" +
     "\n")
 

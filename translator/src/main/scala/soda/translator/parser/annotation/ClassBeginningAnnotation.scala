@@ -7,6 +7,7 @@ trait ClassBeginningAnnotation  extends BlockAnnotation {
   lazy val identifier = BlockAnnotationEnum_ () .class_beginning
 
   lazy val applies: Boolean =
+    contains_one_line &&
     (starts_with (SodaConstant_ () .class_reserved_word ) ||
       starts_with (SodaConstant_ () .class_abbreviation ) ) &&
     ends_with (SodaConstant_ () .class_open_symbol )

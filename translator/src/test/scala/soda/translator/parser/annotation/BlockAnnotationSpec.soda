@@ -33,8 +33,7 @@ package soda.translator.parser.annotation
     "\n" +
     "\n}" +
     "\n" +
-    "\n* Example_ ()" +
-    "\n  extends Example" +
+    "\n* Example_ () extends Example" +
     "\n" +
     "\n")
 

@@ -8,6 +8,7 @@ package soda.translator.parser.annotation
   identifier = BlockAnnotationEnum_ ().class_declaration
 
   applies: Boolean =
+    contains_one_line and
     (starts_with (SodaConstant_ ().class_reserved_word) or
       starts_with (SodaConstant_ ().class_abbreviation) ) and
     not ends_with (SodaConstant_ ().class_open_symbol)
