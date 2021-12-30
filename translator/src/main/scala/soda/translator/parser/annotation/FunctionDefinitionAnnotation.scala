@@ -4,6 +4,7 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
 
   import soda.translator.block.Block
   import soda.translator.block.Block_
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .function_definition

@@ -1,4 +1,4 @@
-package soda.translator.parser.annotation
+package soda.translator.block
 
 case class BlockAnnotationId (ordinal: Int, name: String )  extends soda.lib.EnumConstant
 

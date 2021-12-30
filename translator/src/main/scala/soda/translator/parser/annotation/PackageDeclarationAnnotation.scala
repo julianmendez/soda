@@ -2,6 +2,7 @@ package soda.translator.parser.annotation
 
 trait PackageDeclarationAnnotation  extends BlockAnnotation {
 
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .package_declaration

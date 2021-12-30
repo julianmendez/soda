@@ -3,13 +3,13 @@ package soda.translator.parser
 * AnnotatedBlock
   extends soda.translator.block.Block = {
 
-  + soda.translator.parser.annotation.BlockAnnotationId
+  + soda.translator.block.BlockAnnotationId
 
   has annotation: BlockAnnotationId
 
 }
 
 * AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [soda.translator.block.AnnotatedLine],
-  annotation: soda.translator.parser.annotation.BlockAnnotationId)
+  annotation: soda.translator.block.BlockAnnotationId)
   extends AnnotatedBlock
 

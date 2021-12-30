@@ -3,6 +3,7 @@ package soda.translator.parser.annotation
 * PackageDeclarationAnnotation
   extends BlockAnnotation = {
 
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.SodaConstant_
 
   identifier = BlockAnnotationEnum_ ().package_declaration

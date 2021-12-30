@@ -3,6 +3,7 @@ package soda.translator.parser.annotation
 trait BlockAnnotation {
 
   import soda.translator.block.Block
+  import soda.translator.block.BlockAnnotationId
 
   def block: Block
 
