@@ -21,11 +21,3 @@ trait Block  extends PlainBlock {
 }
 
 case class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine]  )  extends Block
-
-trait AnnotatedBlock  extends Block {
-
-  def block_annotation: BlockAnnotationId
-
-}
-
-case class AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId )  extends AnnotatedBlock

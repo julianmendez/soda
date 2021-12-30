@@ -3,8 +3,11 @@ package soda.translator.parser
 * BlockProcessor = {
 
   + soda.lib.SomeSD_
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.AnnotatedBlock_
   + soda.translator.block.BlockTranslator
   + soda.translator.block.Block
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.BlockBuilder_
 
   has translator: BlockTranslator
@@ -16,6 +19,7 @@ package soda.translator.parser
   translate (program: String): String =
     SomeSD_ (program)
       .map (split_blocks)
+      .map (annotate_blocks)
       .map (translate_blocks)
       .map (join_translated_blocks)
       .value
@@ -25,6 +29,12 @@ package soda.translator.parser
       .split (double_new_line)
       .toIndexedSeq
       .map (paragraph -> make_block (paragraph) )
+
+  annotate_blocks (blocks: Seq [Block]): Seq [AnnotatedBlock] =
+    blocks.map (block -> annotate_block (block))
+
+  annotate_block (block: Block): AnnotatedBlock =
+    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotationEnum_ ().undefined)
 
   make_block (paragraph: String): Block =
     BlockBuilder_ ().build(
