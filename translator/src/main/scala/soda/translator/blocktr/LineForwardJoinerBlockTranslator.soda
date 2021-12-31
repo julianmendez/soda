@@ -3,7 +3,7 @@ package soda.translator.blocktr
 * LineForwardJoinerBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.Block
+  + soda.translator.block.AnnotatedBlock
   + soda.translator.parser.BlockBuilder_
 
   space = " "
@@ -16,7 +16,7 @@ package soda.translator.blocktr
     ",", "(", "["
   )
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
         Joiner_ (block.lines, is_a_forward_join).join
     )

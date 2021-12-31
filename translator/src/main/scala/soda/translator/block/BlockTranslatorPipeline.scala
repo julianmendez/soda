@@ -6,11 +6,11 @@ trait BlockTranslatorPipeline  extends BlockTranslator {
 
   def pipeline: Seq [BlockTranslator]
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     Recursion_ ()
       .fold (pipeline, block, _next_value_function )
 
-  def _next_value_function (block: Block, translator: BlockTranslator ): Block =
+  def _next_value_function (block: AnnotatedBlock, translator: BlockTranslator ): AnnotatedBlock =
     translator.translate (block )
 
 }

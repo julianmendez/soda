@@ -5,7 +5,7 @@ package soda.translator.extension.toscala
  */
 trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockTranslatorPipeline_
   import soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
   import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
@@ -24,7 +24,7 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
   lazy val translation_pipeline =
     BlockTranslatorPipeline_ (Seq (LineForwardJoinerBlockTranslator_ (), LetInBlockTranslator_ (), MatchCaseBlockTranslator_ (), LineBackwardJoinerBlockTranslator_ (), TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ), TokenReplacement_ () .replace (tc.scala_non_soda ), TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ), TokenReplacement_ () .replace (tc.synonym ), TokenizedBlockTranslator_ (try_definition ), ClassDeclarationBlockTranslator_ (), TokenReplacement_ () .replace (tc.main_translation ), TokenReplacement_ () .replace_regex (tc.beautifier )      )    )
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     translation_pipeline.translate (block )
 
 }

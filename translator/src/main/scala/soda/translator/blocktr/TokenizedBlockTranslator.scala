@@ -3,7 +3,7 @@ package soda.translator.blocktr
 trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.lib.SomeSD_
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.parser.BlockBuilder_
   import soda.translator.block.Translator
   import soda.translator.replacement.ParserStateEnum_
@@ -14,7 +14,7 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   def replace_token: Token => String
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (block
         .annotated_lines
         .map (annotated_line =>

@@ -19,32 +19,25 @@ trait BlockProcessor {
   def translate (program: String ): String =
     SomeSD_ (program )
       .map (split_blocks )
-      .map (annotate_blocks )
       .map (translate_blocks )
       .map (join_translated_blocks )
       .value
 
-  def split_blocks (program: String ): Seq [Block] =
+  def split_blocks (program: String ): Seq [AnnotatedBlock] =
     program
       .split (double_new_line )
       .toIndexedSeq
       .map (paragraph => make_block (paragraph ) )
 
-  def annotate_blocks (blocks: Seq [Block]  ): Seq [AnnotatedBlock] =
-    blocks.map (block => annotate_block (block )  )
-
-  def annotate_block (block: Block ): AnnotatedBlock =
-    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotator_ () .get_annotation (block )  )
-
-  def make_block (paragraph: String ): Block =
+  def make_block (paragraph: String ): AnnotatedBlock =
     BlockBuilder_ () .build (paragraph
         .split (new_line )
         .toIndexedSeq    )
 
-  def translate_blocks (blocks: Seq [Block]  ): Seq [Block] =
+  def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
     blocks.map (block => translator.translate (block ) )
 
-  def join_translated_blocks (blocks: Seq [Block]  ): String =
+  def join_translated_blocks (blocks: Seq [AnnotatedBlock]  ): String =
     blocks
       .map (x => x.contents )
       .mkString (double_new_line ) + new_line

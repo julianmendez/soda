@@ -7,11 +7,11 @@ package soda.translator.block
 
   has pipeline: Seq [BlockTranslator]
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     Recursion_ ()
       .fold (pipeline, block, _next_value_function)
 
-  _next_value_function (block: Block, translator: BlockTranslator): Block =
+  _next_value_function (block: AnnotatedBlock, translator: BlockTranslator): AnnotatedBlock =
     translator.translate (block)
 
 }

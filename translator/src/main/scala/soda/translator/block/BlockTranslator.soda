@@ -2,14 +2,14 @@ package soda.translator.block
 
 * BlockTranslator = {
 
-  has translate (block: Block): Block
+  has translate (block: AnnotatedBlock): AnnotatedBlock
 
 }
 
 * DefaultBlockTranslator_ ()
   extends BlockTranslator = {
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     block
 
 }

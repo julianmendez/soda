@@ -4,7 +4,7 @@ case class BlockTranslator00 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (if (block.lines.isEmpty
       ) Seq ("")
       else block.lines.++ (Seq ("tr00") )    )
@@ -15,7 +15,7 @@ case class BlockTranslator01 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (if (block.lines.isEmpty
       ) Seq ("")
       else block.lines.++ (Seq ("tr01") )    )
@@ -26,7 +26,7 @@ case class BlockTranslator02 ()  extends BlockTranslator {
 
   import soda.translator.parser.BlockBuilder_
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (if (block.lines.isEmpty
       ) Seq ("")
       else block.lines.++ (Seq ("tr02") )    )

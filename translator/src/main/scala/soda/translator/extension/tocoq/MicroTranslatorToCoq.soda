@@ -6,7 +6,7 @@ package soda.translator.extension.tocoq
 * MicroTranslatorToCoq
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.Block
+  + soda.translator.block.AnnotatedBlock
   + soda.translator.block.BlockTranslatorPipeline_
   + soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
   + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
@@ -37,7 +37,7 @@ package soda.translator.extension.tocoq
       )
     )
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     translation_pipeline.translate (block)
 
 }

@@ -2,12 +2,12 @@ package soda.translator.extension.toscala
 
 trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.parser.BlockBuilder_
 
   lazy val tc = TranslationConstantToScala_ ()
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (block.lines
         .map (line => insert_match_before_brace_if_found (line ) )    )
 

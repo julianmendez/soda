@@ -3,12 +3,12 @@ package soda.translator.extension.toscala
 * LetInBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.Block
+  + soda.translator.block.AnnotatedBlock
   + soda.translator.parser.BlockBuilder_
 
   tc = TranslationConstantToScala_ ()
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
       block.lines
         .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )

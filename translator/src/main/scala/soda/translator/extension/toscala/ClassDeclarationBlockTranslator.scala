@@ -2,7 +2,7 @@ package soda.translator.extension.toscala
 
 trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.block.Translator
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.blocktr.TableTranslator_
@@ -35,7 +35,7 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
 
   lazy val translator = TokenizedBlockTranslator_ (replace_token )
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     translator.translate (block )
 
 }

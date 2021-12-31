@@ -2,7 +2,7 @@ package soda.translator.blocktr
 
 trait LineBackwardJoinerBlockTranslator  extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.parser.BlockBuilder_
 
   lazy val space = " "
@@ -11,9 +11,7 @@ trait LineBackwardJoinerBlockTranslator  extends soda.translator.block.BlockTran
 
   lazy val symbol_backward_joiner: Seq [String] = Seq (")", "]"  )
 
-
-
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (Joiner_ (block.lines, is_a_backward_join ) .join    )
 
   def is_a_backward_join (previous_line: String, current_line: String ): Boolean =

@@ -10,7 +10,7 @@ package soda.translator.blocktr
   extends Table
   with soda.translator.block.Translator = {
 
-  + soda.translator.block.Block
+  + soda.translator.block.AnnotatedBlock
   + soda.translator.replacement.Replacement_
   + soda.translator.replacement.Token
 

@@ -5,6 +5,8 @@ package soda.translator.parser
   + soda.lib.Recursion_
   + soda.translator.block.AnnotatedLine
   + soda.translator.block.AnnotatedLine_
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.AnnotatedBlock_
   + soda.translator.block.Block
   + soda.translator.block.Block_
   + soda.translator.parser.BlockBuilder_
@@ -13,8 +15,11 @@ package soda.translator.parser
 
   soda_end_comment = "*/"
 
-  build (lines: Seq [String]) =
-    Block_ (lines, get_annotated_lines (lines))
+  build (lines: Seq [String]): AnnotatedBlock =
+    annotate_block (Block_ (lines, get_annotated_lines (lines)) )
+
+  annotate_block (block: Block): AnnotatedBlock =
+    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotator_ ().get_annotation (block))
 
   get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =
     Recursion_ ().fold (lines, initial_value, next_value_function)

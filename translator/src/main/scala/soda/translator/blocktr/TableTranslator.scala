@@ -8,7 +8,7 @@ trait Table {
 
 trait TableTranslator  extends Table  with soda.translator.block.Translator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.replacement.Replacement_
   import soda.translator.replacement.Token
 

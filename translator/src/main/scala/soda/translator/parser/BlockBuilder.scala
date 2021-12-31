@@ -5,6 +5,8 @@ trait BlockBuilder {
   import soda.lib.Recursion_
   import soda.translator.block.AnnotatedLine
   import soda.translator.block.AnnotatedLine_
+  import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.AnnotatedBlock_
   import soda.translator.block.Block
   import soda.translator.block.Block_
   import soda.translator.parser.BlockBuilder_
@@ -13,8 +15,11 @@ trait BlockBuilder {
 
   lazy val soda_end_comment = "*/"
 
-  def build (lines: Seq [String]  ) =
-    Block_ (lines, get_annotated_lines (lines )  )
+  def build (lines: Seq [String]  ): AnnotatedBlock =
+    annotate_block (Block_ (lines, get_annotated_lines (lines )  ) )
+
+  def annotate_block (block: Block ): AnnotatedBlock =
+    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotator_ () .get_annotation (block )  )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =
     Recursion_ () .fold (lines, initial_value, next_value_function )

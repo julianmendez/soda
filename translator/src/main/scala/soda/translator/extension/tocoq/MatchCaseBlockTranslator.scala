@@ -2,12 +2,12 @@ package soda.translator.extension.tocoq
 
 trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.Block
+  import soda.translator.block.AnnotatedBlock
   import soda.translator.parser.BlockBuilder_
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  def translate (block: Block ): Block =
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (block.lines
         .map (line => append_with_after_match (line ) )    )
 

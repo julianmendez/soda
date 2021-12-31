@@ -5,7 +5,7 @@ package soda.translator.block
 
   + soda.translator.parser.BlockBuilder_
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
@@ -19,7 +19,7 @@ package soda.translator.block
 
   + soda.translator.parser.BlockBuilder_
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
@@ -33,7 +33,7 @@ package soda.translator.block
 
   + soda.translator.parser.BlockBuilder_
 
-  translate (block: Block): Block =
+  translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
