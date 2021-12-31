@@ -34,7 +34,7 @@ trait BlockProcessor {
     blocks.map (block => annotate_block (block )  )
 
   def annotate_block (block: Block ): AnnotatedBlock =
-    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotationEnum_ () .undefined )
+    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotator_ () .get_annotation (block )  )
 
   def make_block (paragraph: String ): Block =
     BlockBuilder_ () .build (paragraph
