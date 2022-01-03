@@ -12,6 +12,7 @@ package soda.translator.extension.toscala
   + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
   + soda.translator.blocktr.TokenReplacement_
   + soda.translator.blocktr.TokenizedBlockTranslator_
+  + soda.translator.parser.BlockAnnotator_
   + soda.translator.replacement.Token
 
   new_line = "\n"
@@ -29,6 +30,7 @@ package soda.translator.extension.toscala
         LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         LineBackwardJoinerBlockTranslator_ (),
+        BlockAnnotator_ (),
         TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
         TokenReplacement_ (). replace (tc.scala_non_soda),
         TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),

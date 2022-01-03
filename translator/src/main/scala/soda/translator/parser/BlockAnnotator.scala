@@ -1,7 +1,9 @@
 package soda.translator.parser
 
-trait BlockAnnotator {
+trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
 
+  import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.AnnotatedBlock_
   import soda.translator.block.Block
   import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.block.BlockAnnotationId
@@ -15,6 +17,11 @@ trait BlockAnnotator {
   import soda.translator.parser.annotation.PackageDeclarationAnnotation_
   import soda.translator.parser.annotation.CommentAnnotation_
   import soda.translator.parser.annotation.TestDeclarationAnnotation_
+
+  def translate (block: AnnotatedBlock ): AnnotatedBlock =
+    if (block.block_annotation == BlockAnnotationEnum_ () .undefined
+    ) AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block ) )
+    else block
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
     Seq (FunctionDefinitionAnnotation_ (block ), ClassBeginningAnnotation_ (block ), ClassEndAnnotation_ (block ), ClassDeclarationAnnotation_ (block ), AbstractFunctionDeclarationAnnotation_ (block ), ImportDeclarationAnnotation_ (block ), PackageDeclarationAnnotation_ (block ), CommentAnnotation_ (block ), TestDeclarationAnnotation_ (block )    )

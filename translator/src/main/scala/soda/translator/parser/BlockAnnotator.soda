@@ -1,7 +1,10 @@
 package soda.translator.parser
 
-* BlockAnnotator = {
+* BlockAnnotator
+  extends soda.translator.block.BlockTranslator  = {
 
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.AnnotatedBlock_
   + soda.translator.block.Block
   + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.block.BlockAnnotationId
@@ -15,6 +18,11 @@ package soda.translator.parser
   + soda.translator.parser.annotation.PackageDeclarationAnnotation_
   + soda.translator.parser.annotation.CommentAnnotation_
   + soda.translator.parser.annotation.TestDeclarationAnnotation_
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == BlockAnnotationEnum_ ().undefined
+    then AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block) )
+    else block
 
   detectors (block: Block): Seq [BlockAnnotation] =
     Seq (
