@@ -6,6 +6,7 @@ package soda.translator.io
 trait SimpleFileReader {
 
   import java.io.BufferedReader
+  import java.io.InputStream
   import java.io.InputStreamReader
   import java.nio.file.Files
   import java.nio.file.Paths
@@ -17,10 +18,13 @@ trait SimpleFileReader {
     new String (Files.readAllBytes (Paths.get (file_name )  )  )
 
   def read_resource (file_name: String ): String =
-    {
-      lazy val input_stream = getClass.getResourceAsStream (file_name )
-      lazy val reader = new BufferedReader (new InputStreamReader (input_stream )  )
-      reader.lines () .collect (Collectors.joining (new_line )  ) }
+    read_input_stream (getClass.getResourceAsStream (file_name )  )
+
+  def read_input_stream (input_stream: InputStream ): String =
+    read_reader_content (new BufferedReader (new InputStreamReader (input_stream ) ) )
+
+  def read_reader_content (reader: BufferedReader ): String =
+    reader.lines () .collect (Collectors.joining (new_line )  )
 
 }
 

@@ -35,11 +35,9 @@ package soda.translator.extension.main
     if arguments.length == 0
     then help.execute (arguments.toSeq)
     else
-      let
-        extension_name = arguments.head
-        new_arguments = arguments.tail
-        extension_instance = extensions.getOrElse (extension_name, help)
-      in extension_instance.execute (new_arguments)
+      extensions
+        .getOrElse (arguments.head, help)
+        .execute (arguments.tail)
 
 }
 

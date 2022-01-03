@@ -50,11 +50,10 @@ trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
     insert_sorted (current_sequence, elem )
 
   def insert_sorted (sequence: Seq [Int], element: Int ): Seq [Int] =
-    {
-      lazy val first_part = sequence.takeWhile (x => x < element )
-      lazy val middle = Seq (element )
-      lazy val last_part = sequence.dropWhile (x => x < element )
-      first_part.++ (middle.++ (last_part )  ) }
+    concatenate (first_part = sequence.takeWhile (x => x < element ), middle = Seq (element ), last_part = sequence.dropWhile (x => x < element )    )
+
+  def concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int]  ): Seq [Int] =
+    first_part.++ (middle.++ (last_part )  )
 
 }
 
@@ -67,14 +66,12 @@ trait ConstrainedSortAlgorithm {
   import soda.lib.NoneSD_
 
   def sort (sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
-    {
-      lazy val sorted_sequence =
-        SortAlgorithmExampleWithFold_ () .sort (sequence )
-      lazy val result =
-        if (SortExampleWithZip_ () .is_sorted (sorted_sequence )
-        ) SomeSD_ (sorted_sequence )
-        else NoneSD_ [Seq [Int]] ()
-      result }
+    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence ) )
+
+  def sort_with (sorted_sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
+    if (SortExampleWithZip_ () .is_sorted (sorted_sequence )
+    ) SomeSD_ (sorted_sequence )
+    else NoneSD_ [Seq [Int]] ()
 
 }
 
@@ -133,13 +130,10 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
       .forall (pair => is_less_than (pair._1, pair._2 )  )
 
   def insert_sorted (original_sequence: Seq [A], element: A ): Seq [A] =
-    {
-      lazy val first_part =
-        original_sequence.takeWhile (x => is_less_than (x, element )  )
-      lazy val middle = Seq (element )
-      lazy val last_part =
-        original_sequence.dropWhile (x => is_less_than (x, element )  )
-      first_part.++ (middle.++ (last_part )  ) }
+    concatenate (first_part = original_sequence.takeWhile (x => is_less_than (x, element )  ), middle = Seq (element ), last_part = original_sequence.dropWhile (x => is_less_than (x, element )  )    )
+
+  def concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A]  ): Seq [A] =
+    first_part.++ (middle.++ (last_part )  )
 
 }
 

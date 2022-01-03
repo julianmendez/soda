@@ -32,45 +32,26 @@ trait PiIterator {
     if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
     ) s
     else
-      {
-        lazy val r = (2 * s.q + s.r ) * s.l
-        lazy val n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt
-        lazy val q = s.q * s.k
-        lazy val t = s.t * s.l
-        lazy val l = s.l + 2
-        lazy val k = s.k + 1
-        lazy val new_status = Status_ (r, n, q, t, l, k )
-        _tailrec_compute_new_status (new_status ) }
+      _tailrec_compute_new_status (Status_ (r = (2 * s.q + s.r ) * s.l, n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt, q = s.q * s.k, t = s.t * s.l, l = s.l + 2, k = s.k + 1        )      )
 
   def compute_new_status (s: Status ): Status =
     _tailrec_compute_new_status (s )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_take (n: Int, rev_seq: Seq [Int], s: Status ): Seq [Int] =
+  def _tailrec_take (n: Int, rev_seq: Seq [Int], s: Status, t: IntAndStatus ): Seq [Int] =
     if (n == 0
     ) rev_seq.reverse
-    else
-      {
-        lazy val t = _get_next (s )
-        _tailrec_take (n - 1, rev_seq.+: (t.digit ), t.new_status ) }
+    else _tailrec_take (n - 1, rev_seq.+: (t.digit ), t.new_status, _get_next (t.new_status ) )
 
   def take (n: Int ): Seq [Int] =
-    _tailrec_take (n, Seq (), initial_status )
+    _tailrec_take (n, Seq (), initial_status, _get_next (initial_status ) )
 
   def _get_next (s: Status ): IntAndStatus =
-    {
-      lazy val ns = compute_new_status (s )
-      lazy val r = 10 * (ns.r - ns.n * ns.t )
-      lazy val n = (((10 * (3 * ns.q + ns.r )  ) / ns.t ) - (10 * ns.n )  ) .toInt
-      lazy val q = ns.q * 10
-      lazy val t = ns.t
-      lazy val l = ns.l
-      lazy val k = ns.k
-      lazy val ret = ns.n
-      lazy val new_status = Status_ (r, n, q, t, l, k )
-      lazy val result = IntAndStatus_ (ret, new_status )
-      result }
+    _get_next_with_new_status (compute_new_status (s )  )
+
+  def _get_next_with_new_status (s: Status ): IntAndStatus =
+    IntAndStatus_ (s.n, Status_ (r = 10 * (s.r - s.n * s.t ), n = (((10 * (3 * s.q + s.r )  ) / s.t ) - (10 * s.n )  ) .toInt, q = s.q * 10, t = s.t, l = s.l, k = s.k      )    )
 
 }
 

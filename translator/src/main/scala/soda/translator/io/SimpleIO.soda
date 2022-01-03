@@ -6,6 +6,7 @@ package soda.translator.io
 * SimpleFileReader = {
 
   + java.io.BufferedReader
+  + java.io.InputStream
   + java.io.InputStreamReader
   + java.nio.file.Files
   + java.nio.file.Paths
@@ -17,10 +18,13 @@ package soda.translator.io
     @new String (Files.readAllBytes (Paths.get (file_name)))
 
   read_resource (file_name: String): String =
-    let
-      input_stream = getClass.getResourceAsStream (file_name)
-      reader = @new BufferedReader (@new InputStreamReader (input_stream))
-    in reader.lines ().collect (Collectors.joining (new_line))
+    read_input_stream (getClass.getResourceAsStream (file_name))
+
+  read_input_stream (input_stream: InputStream): String =
+    read_reader_content (@new BufferedReader (@new InputStreamReader (input_stream) ) )
+
+  read_reader_content (reader: BufferedReader): String =
+    reader.lines ().collect (Collectors.joining (new_line))
 
 }
 

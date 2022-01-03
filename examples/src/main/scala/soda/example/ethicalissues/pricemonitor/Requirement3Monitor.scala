@@ -5,10 +5,10 @@ case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by
 trait Requirement3Monitor  extends RequirementMonitor {
 
   def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
-    {
-      lazy val price_of_flight = get_price (customer, flight, date_in_days )
-      lazy val price_of_flight_by_segments = get_price_of_flight_by_segments (customer, flight, date_in_days )
-      Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments ) }
+    get_report_with (get_price (customer, flight, date_in_days ), get_price_of_flight_by_segments (customer, flight, date_in_days )    )
+
+  def get_report_with (price_of_flight: Int, price_of_flight_by_segments: Int ): Report3 =
+    Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments )
 
   def get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int ): Int =
     sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight ) .segments, date_in_days )  )

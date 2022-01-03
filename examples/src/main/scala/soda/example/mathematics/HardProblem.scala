@@ -15,19 +15,21 @@ trait MainFunction [A, B] {
 trait Memoizer [A, B]  extends MemoizableFunction [A, B] with MainFunction [A, B] {
 
   def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
-    {
-      lazy val maybe_res = memoized_values.get (x )
-      lazy val result =
-        if (maybe_res.isEmpty
-        ) compute_and_update (x, memoized_values )
-        else (maybe_res.get, memoized_values )
-      result }
+    _compute_with (memoized_values.get (x ), x, memoized_values )
+
+  def _compute_with (maybe_res: Option [B], x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
+    if (maybe_res.isEmpty
+    ) compute_and_update (x, memoized_values )
+    else Tuple2 (maybe_res.get, memoized_values )
 
   def compute_and_update (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
-    {
-      lazy val (res, map ) = main_function (x, memoized_values )
-      lazy val new_pair = (x, res )
-      (res, map + new_pair ) }
+    _compute_and_update_with (main_function (x, memoized_values ), x, memoized_values )
+
+  def _compute_and_update_with (tuple: Tuple2 [B, Map [A, B]], x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
+    _add_element (Tuple2 (x, tuple._1 ), tuple, x, memoized_values )
+
+  def _add_element (new_pair: Tuple2 [A, B], tuple: Tuple2 [B, Map [A, B]], x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
+    Tuple2 (tuple._1, tuple._2 + new_pair )
 
 }
 
@@ -47,11 +49,11 @@ trait HardProblem  extends MemoizableFunction [Int, Int] {
 
   def main_function (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
     if (n == 1
-    ) (0, memoized_values )
-    else
-      {
-        lazy val (res, new_map ) = compute (one_step (n ), memoized_values )
-        (1 + res, new_map ) }
+    ) Tuple2 (0, memoized_values )
+    else _plus_one (compute (one_step (n ), memoized_values ) )
+
+  def _plus_one (pair: Tuple2 [Int, Map [Int, Int]]  ): Tuple2 [Int, Map [Int, Int]] =
+    Tuple2 (1 + pair._1, pair._2 )
 
   def compute (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
     memoizer.compute (n, memoized_values )
@@ -65,15 +67,21 @@ trait MemoizedFibonacci  extends MemoizableFunction [Int, Int] {
   lazy val memoizer = Memoizer_ [Int, Int] (main_function )
 
   def main_function (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
-    if (n == 0 ) (0, memoized_values )
-    else if (n == 1 ) (1, memoized_values )
-    else
-      {
-        lazy val (res1, map1 ) = compute (n - 2, memoized_values )
-        lazy val (res2, map2 ) = compute (n - 1, map1 )
-        lazy val res = res1 + res2
-        lazy val new_pair = (n, res )
-        (res, map2 + new_pair ) }
+    if (n == 0 ) Tuple2 (0, memoized_values )
+    else if (n == 1 ) Tuple2 (1, memoized_values )
+    else _compute_and_update_1 (compute (n - 2, memoized_values ), n )
+
+  def _compute_and_update_1 (first_tuple: Tuple2 [Int, Map [Int, Int]], n: Int ): Tuple2 [Int, Map [Int, Int]] =
+    _compute_and_update_2 (first_tuple._1, compute (n - 1, first_tuple._2 ), n )
+
+  def _compute_and_update_2 (first_value: Int, second_tuple: Tuple2 [Int, Map [Int, Int]], n: Int ): Tuple2 [Int, Map [Int, Int]] =
+    _compute_and_update_3 (_get_next_fibo (first_value, second_tuple._1 ), second_tuple._2, n )
+
+  def _compute_and_update_3 (res: Int, second_map: Map [Int, Int], n: Int ): Tuple2 [Int, Map [Int, Int]] =
+    Tuple2 (res, second_map + Tuple2 (n, res ) )
+
+  def _get_next_fibo (a: Int, b: Int ): Int =
+    a + b
 
   def compute (n: Int, memoized_values: Map [Int, Int]  ): Tuple2 [Int, Map [Int, Int]] =
     memoizer.compute (n, memoized_values )

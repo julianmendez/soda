@@ -12,12 +12,16 @@ package soda.translator.extension.help
   read (file_name: String): String =
     SimpleFileReader_ ().read_resource (path + file_name)
 
-  title_and_version: String =
-    let
-      packg = this.getClass.getPackage
-      name = Option (packg.getImplementationTitle).getOrElse ("")
-      version = Option (packg.getImplementationVersion).getOrElse ("")
-    in (name + " " + version).trim
+  this_package = this.getClass.getPackage
+
+  name: String = Option (this_package.getImplementationTitle).getOrElse ("")
+
+  version: String = Option (this_package.getImplementationVersion).getOrElse ("")
+
+  title_and_version: String = (name + " " + version).trim
+
+  output_content (content: String): Boolean =
+    println (content) .asInstanceOf [Boolean]
 
 }
 
@@ -27,9 +31,7 @@ package soda.translator.extension.help
   file_name = "help.txt"
 
   execute (arguments: Seq [String]): Boolean =
-    let
-      println (title_and_version + "\n\n" + read (file_name) )
-    in true
+    output_content (title_and_version + "\n\n" + read (file_name) )
 
 }
 
@@ -39,9 +41,7 @@ package soda.translator.extension.help
   file_name = "Manual.soda"
 
   execute (arguments: Seq [String]): Boolean =
-    let
-      println ("/* " + title_and_version + " */\n\n" + read (file_name) )
-    in true
+    output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
 
 }
 
@@ -51,9 +51,7 @@ package soda.translator.extension.help
   file_name = "LICENSE.txt"
 
   execute (arguments: Seq [String]): Boolean =
-    let
-      println (read (file_name))
-    in true
+    output_content (read (file_name))
 
 }
 

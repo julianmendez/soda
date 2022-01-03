@@ -16,13 +16,13 @@ package soda.lib
     seq_a.flatMap (elem_a ->
       accum.map (seq_b -> seq_b.+: (elem_a) ) )
 
+  _apply_recursion [T] (rev_sequences: Seq [Seq [T]]): Seq [Seq [T]] =
+    Recursion_ ().fold (rev_sequences.tail, _initial_value (rev_sequences.head), _next_value [T])
+
   get_cartesian_product [T] (sequences: Seq [Seq [T]]): Seq [Seq [T]] =
     if sequences.isEmpty
     then sequences
-    else
-      let
-        rev_sequences = sequences.reverse
-      in Recursion_ ().fold (rev_sequences.tail, _initial_value (rev_sequences.head), _next_value [T])
+    else _apply_recursion (sequences.reverse)
 
 }
 

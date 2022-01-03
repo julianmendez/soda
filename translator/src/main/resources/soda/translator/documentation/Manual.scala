@@ -257,9 +257,7 @@ trait FactorialConcise  extends AbstractFactorialConcise {
     else _tailrec_ (n - 1, n * product )
 
   def factorial (n: Int ) =
-    {
-      lazy val result = _tailrec_ (n, 1 )
-      result }
+    _tailrec_ (n, 1 )
 
 }
 
@@ -280,9 +278,7 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
     else _tailrec_ (n - 1, n * product )
 
   def factorial (n: Int ) =
-    {
-      lazy val result = _tailrec_ (n, 1 )
-      result }
+    _tailrec_ (n, 1 )
 
 }
 

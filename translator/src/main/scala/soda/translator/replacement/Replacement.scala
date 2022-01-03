@@ -103,16 +103,17 @@ trait ReplacementAux {
     else ""
 
   def remove_space_from_scala_line  (line: String ): String =
-    {
-      lazy val line_without_starting_space =
-        if (line.startsWith (scala_space )
-        ) line.substring (1 )
-        else line
-      lazy val line_without_ending_space =
-        if (line_without_starting_space.endsWith (scala_space )
-        ) line_without_starting_space.substring (0, line_without_starting_space.length - 1 )
-        else line_without_starting_space
-      line_without_ending_space }
+    _get_line_without_ending_space (_get_line_without_starting_space (line ) )
+
+  def _get_line_without_starting_space (line: String ): String =
+    if (line.startsWith (scala_space )
+    ) line.substring (1 )
+    else line
+
+  def _get_line_without_ending_space (line: String ): String =
+    if (line.endsWith (scala_space )
+    ) line.substring (0, line.length - 1 )
+    else line
 
   def add_after_spaces_or_pattern (line: String, pattern: String, text_to_prepend: String ): String =
     {

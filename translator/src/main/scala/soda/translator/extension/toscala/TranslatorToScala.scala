@@ -27,10 +27,10 @@ trait TranslatorToScala  extends soda.translator.extension.common.Extension {
     DirectoryProcessor_ (start, process_soda_file ) .process ()
 
   def process_soda_file (file: File ): Boolean =
-    {
-      lazy val file_name = file.getAbsolutePath
-      lazy val t = get_input_output_file_names (file_name )
-      translate (t.input_file_name, t.output_file_name ) }
+    process_soda_file_with (get_input_output_file_names (file.getAbsolutePath ) )
+
+  def process_soda_file_with (pair: FileNamePair ): Boolean =
+    translate (pair.input_file_name, pair.output_file_name )
 
   def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (soda_extension )
@@ -38,11 +38,10 @@ trait TranslatorToScala  extends soda.translator.extension.common.Extension {
     else FileNamePair_ (input_name + soda_extension, input_name + scala_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
-    {
-      lazy val block_translator = MicroTranslatorToScala_ ()
-      lazy val input = SimpleFileReader_ () .read_file (input_file_name )
-      lazy val output = BlockProcessor_ (block_translator ) .translate (input )
-      SimpleFileWriter_ () .write_file (output_file_name, content = output ) }
+    translate_with_input (SimpleFileReader_ () .read_file (input_file_name ), output_file_name    )
+
+  def translate_with_input (input: String, output_file_name: String ): Boolean =
+    SimpleFileWriter_ () .write_file (output_file_name, content = BlockProcessor_ (MicroTranslatorToScala_ () ) .translate (input )    )
 
 }
 

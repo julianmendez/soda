@@ -26,10 +26,8 @@ trait MainClass  extends soda.translator.extension.common.Extension {
     if (arguments.length == 0
     ) help.execute (arguments.toSeq )
     else
-      {
-        lazy val extension_name = arguments.head
-        lazy val new_arguments = arguments.tail
-        lazy val extension_instance = extensions.getOrElse (extension_name, help )
-        extension_instance.execute (new_arguments ) }
+      extensions
+        .getOrElse (arguments.head, help )
+        .execute (arguments.tail )
 
 }

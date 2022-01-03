@@ -16,13 +16,13 @@ trait CartesianProduct {
     seq_a.flatMap (elem_a =>
       accum.map (seq_b => seq_b.+: (elem_a ) ) )
 
+  def _apply_recursion [T] (rev_sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
+    Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  )
+
   def get_cartesian_product [T] (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
     if (sequences.isEmpty
     ) sequences
-    else
-      {
-        lazy val rev_sequences = sequences.reverse
-        Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  ) }
+    else _apply_recursion (sequences.reverse )
 
 }
 

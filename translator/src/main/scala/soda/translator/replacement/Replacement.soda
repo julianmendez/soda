@@ -108,16 +108,17 @@ package soda.translator.replacement
     else ""
 
   remove_space_from_scala_line  (line: String): String =
-    let
-      line_without_starting_space =
-        if line.startsWith (scala_space)
-        then line.substring (1)
-        else line
-      line_without_ending_space =
-        if line_without_starting_space.endsWith (scala_space)
-        then line_without_starting_space.substring (0, line_without_starting_space.length - 1)
-        else line_without_starting_space
-    in line_without_ending_space
+    _get_line_without_ending_space ( _get_line_without_starting_space (line) )
+
+  _get_line_without_starting_space (line: String): String =
+    if line.startsWith (scala_space)
+    then line.substring (1)
+    else line
+
+  _get_line_without_ending_space (line: String): String =
+    if line.endsWith (scala_space)
+    then line.substring (0, line.length - 1)
+    else line
 
   add_after_spaces_or_pattern (line: String, pattern: String, text_to_prepend: String): String =
     let

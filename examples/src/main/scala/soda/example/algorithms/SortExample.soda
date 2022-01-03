@@ -55,11 +55,14 @@ package soda.example.algorithms
     insert_sorted (current_sequence, elem)
 
   insert_sorted (sequence: Seq [Int], element: Int): Seq [Int] =
-    let
-      first_part = sequence.takeWhile (x -> x < element)
-      middle = Seq (element)
-      last_part = sequence.dropWhile (x -> x < element)
-    in first_part.++ (middle.++ (last_part))
+    concatenate (
+      first_part := sequence.takeWhile (x -> x < element),
+      middle := Seq (element),
+      last_part := sequence.dropWhile (x -> x < element)
+    )
+
+  concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int]): Seq [Int] =
+    first_part.++ (middle.++ (last_part))
 
 }
 
@@ -73,14 +76,12 @@ package soda.example.algorithms
   + soda.lib.NoneSD_
 
   sort (sequence: Seq [Int]): OptionSD [Seq [Int]] =
-    let
-      sorted_sequence =
-        SortAlgorithmExampleWithFold_ ().sort (sequence)
-      result =
-        if SortExampleWithZip_ ().is_sorted (sorted_sequence)
-        then SomeSD_ (sorted_sequence)
-        else NoneSD_ [Seq [Int]] ()
-    in result
+    sort_with ( SortAlgorithmExampleWithFold_ ().sort (sequence) )
+
+  sort_with (sorted_sequence: Seq [Int]): OptionSD [Seq [Int]] =
+    if SortExampleWithZip_ ().is_sorted (sorted_sequence)
+    then SomeSD_ (sorted_sequence)
+    else NoneSD_ [Seq [Int]] ()
 
 }
 
@@ -145,13 +146,14 @@ package soda.example.algorithms
       .forall (pair -> is_less_than (pair._1, pair._2))
 
   insert_sorted (original_sequence: Seq [A], element: A): Seq [A] =
-    let
-      first_part =
-        original_sequence.takeWhile (x -> is_less_than (x, element))
-      middle = Seq (element)
-      last_part =
-        original_sequence.dropWhile (x -> is_less_than (x, element))
-    in first_part.++ (middle.++ (last_part))
+    concatenate (
+      first_part := original_sequence.takeWhile (x -> is_less_than (x, element)),
+      middle := Seq (element),
+      last_part := original_sequence.dropWhile (x -> is_less_than (x, element))
+    )
+
+  concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A]): Seq [A] =
+    first_part.++ (middle.++ (last_part))
 
 }
 
