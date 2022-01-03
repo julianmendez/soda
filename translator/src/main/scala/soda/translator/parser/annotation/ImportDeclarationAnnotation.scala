@@ -14,8 +14,8 @@ trait ImportDeclarationAnnotation  extends BlockAnnotation {
       .forall (annotated_line => is_line_an_import (annotated_line.line ) )
 
   def is_line_an_import (line: String ): Boolean =
-    line.trim.startsWith (SodaConstant_ () .import_reserved_word ) ||
-    line.trim.startsWith (SodaConstant_ () .import_abbreviation )
+    line.trim.startsWith (SodaConstant_ () .import_reserved_word + space ) ||
+    line.trim.startsWith (SodaConstant_ () .import_abbreviation + space )
 
 }
 

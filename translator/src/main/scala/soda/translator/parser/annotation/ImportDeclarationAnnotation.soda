@@ -15,8 +15,8 @@ package soda.translator.parser.annotation
       .forall (annotated_line -> is_line_an_import (annotated_line.line) )
 
   is_line_an_import (line: String): Boolean =
-    line.trim.startsWith (SodaConstant_ ().import_reserved_word) or
-    line.trim.startsWith (SodaConstant_ ().import_abbreviation)
+    line.trim.startsWith (SodaConstant_ ().import_reserved_word + space) or
+    line.trim.startsWith (SodaConstant_ ().import_abbreviation + space)
 
 }
 

@@ -18,6 +18,8 @@ trait SodaConstant {
 
   lazy val function_definition_symbol = "="
 
+  lazy val function_definition_synonym = "is"
+
   lazy val package_reserved_word = "package"
 
   lazy val import_reserved_word = "import"

@@ -8,7 +8,7 @@ trait TestDeclarationAnnotation  extends BlockAnnotation {
   lazy val identifier = BlockAnnotationEnum_ () .test_declaration
 
   lazy val applies: Boolean =
-    starts_with (SodaConstant_ () .test_special_function + SodaConstant_ () .space )
+    starts_with_prefix_and_space (SodaConstant_ () .test_special_function )
 
 }
 

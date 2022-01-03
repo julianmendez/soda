@@ -9,7 +9,7 @@ trait PackageDeclarationAnnotation  extends BlockAnnotation {
 
   lazy val applies: Boolean =
     contains_one_line &&
-    starts_with (SodaConstant_ () .package_reserved_word + SodaConstant_ () .space )
+    starts_with_prefix_and_space (SodaConstant_ () .package_reserved_word )
 
 }
 

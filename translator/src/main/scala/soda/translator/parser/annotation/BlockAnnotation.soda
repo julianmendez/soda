@@ -4,6 +4,7 @@ package soda.translator.parser.annotation
 
   + soda.translator.block.Block
   + soda.translator.block.BlockAnnotationId
+  + soda.translator.parser.SodaConstant_
 
   has block: Block
 
@@ -11,16 +12,18 @@ package soda.translator.parser.annotation
 
   has identifier: BlockAnnotationId
 
+  space = SodaConstant_ ().space
+
   contains_one_line: Boolean =
     block.readable_lines.length == 1
 
-  starts_with (prefix: String): Boolean =
+  starts_with_prefix_and_space (prefix: String): Boolean =
     block.readable_lines.nonEmpty and
-    block.readable_lines.head.line.trim.startsWith (prefix)
+    block.readable_lines.head.line.trim.startsWith (prefix + space)
 
-  ends_with (suffix: String): Boolean =
+  ends_with_space_and_suffix (suffix: String): Boolean =
     block.readable_lines.nonEmpty and
-    block.readable_lines.last.line.trim.endsWith (suffix)
+    block.readable_lines.last.line.trim.endsWith (space + suffix)
 
 }
 

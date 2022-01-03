@@ -18,6 +18,8 @@ package soda.translator.parser
 
   function_definition_symbol = "="
 
+  function_definition_synonym = "is"
+
   package_reserved_word = "package"
 
   import_reserved_word = "import"

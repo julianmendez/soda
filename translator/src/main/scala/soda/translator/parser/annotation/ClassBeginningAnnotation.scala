@@ -9,9 +9,9 @@ trait ClassBeginningAnnotation  extends BlockAnnotation {
 
   lazy val applies: Boolean =
     contains_one_line &&
-    (starts_with (SodaConstant_ () .class_reserved_word ) ||
-      starts_with (SodaConstant_ () .class_abbreviation ) ) &&
-    ends_with (SodaConstant_ () .class_open_symbol )
+    (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
+      starts_with_prefix_and_space (SodaConstant_ () .class_abbreviation ) ) &&
+    ends_with_space_and_suffix (SodaConstant_ () .class_open_symbol )
 
 }
 

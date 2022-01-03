@@ -9,7 +9,7 @@ trait AbstractFunctionDeclarationAnnotation  extends BlockAnnotation {
 
   lazy val applies: Boolean =
     contains_one_line &&
-    starts_with (SodaConstant_ () .has_reserved_word )
+    starts_with_prefix_and_space (SodaConstant_ () .has_reserved_word )
 
 }
 

@@ -27,7 +27,7 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "\n" +
     "\n  test (\"should test the example\")" +
     "\n    let" +
-    "\n      resul = true" +
+    "\n      result = true" +
     "\n    in assert (result)" +
     "\n" +
     "\n}" +
