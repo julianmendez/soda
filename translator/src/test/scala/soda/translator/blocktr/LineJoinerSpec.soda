@@ -3,8 +3,10 @@ package soda.translator.blocktr
 * LineJoinerSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.parser.BlockBuilder_
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.block.DefaultBlockTranslator_
+  + soda.translator.parser.BlockBuilder_
   + soda.translator.parser.BlockProcessor_
 
   bp = BlockProcessor_  (DefaultBlockTranslator_ ())
@@ -65,31 +67,34 @@ package soda.translator.blocktr
       "  with should be respected"
     )
 
+  build_block (lines: Seq [String]): AnnotatedBlock =
+    BlockBuilder_ ().build (lines, BlockAnnotationEnum_ ().undefined)
+
   test ("should join lines ending in comma")
     let
-      input = BlockBuilder_ ().build  ( Seq ("this ", "should join,", "all the lines , ", "  that end with a", "comma.") )
-      expected = BlockBuilder_ ().build  ( Seq ("this ", "should join,all the lines ,   that end with a", "comma.") )
+      input = build_block (Seq ("this ", "should join,", "all the lines , ", "  that end with a", "comma.") )
+      expected = build_block (Seq ("this ", "should join,all the lines ,   that end with a", "comma.") )
       obtained = LineForwardJoinerBlockTranslator_ ().translate (input)
     in assert (obtained == expected)
 
   test ("should join lines ending in opening parenthesis and brackets")
     let
-      input = BlockBuilder_ ().build  ( Original_parenthesis_example )
-      expected = BlockBuilder_ ().build  ( Result_with_only_opening_brackets_example )
+      input = build_block (Original_parenthesis_example )
+      expected = build_block (Result_with_only_opening_brackets_example )
       obtained = LineForwardJoinerBlockTranslator_ ().translate  (input)
     in  assert (obtained == expected)
 
   test ("should join lines starting in closing parenthesis and brackets")
     let
-      input = BlockBuilder_ ().build  ( Original_parenthesis_example )
-      expected = BlockBuilder_ ().build  ( Result_with_only_closing_brackets_example )
+      input = build_block (Original_parenthesis_example )
+      expected = build_block (Result_with_only_closing_brackets_example )
       obtained = LineBackwardJoinerBlockTranslator_ ().translate  (input)
     in assert (obtained == expected)
 
   test ("should join lines ending with opening parenthesis and brackets or starting in closing parenthesis and brackets")
     let
-      input = BlockBuilder_ ().build  ( Original_parenthesis_example )
-      expected = BlockBuilder_ ().build  ( Result_with_opening_closing_brackets_example )
+      input = build_block (Original_parenthesis_example )
+      expected = build_block (Result_with_opening_closing_brackets_example )
       obtained =
         Some  (input)
           .map (x -> LineForwardJoinerBlockTranslator_ ().translate (x))
@@ -99,9 +104,8 @@ package soda.translator.blocktr
 
   test ("should join lines starting or ending with keyword 'extends' and 'with' with forward join")
     let
-      input = BlockBuilder_ ().build  ( Example_using_extends_and_with )
-      expected = BlockBuilder_ ().build  (
-        Seq (
+      input = build_block (Example_using_extends_and_with )
+      expected = build_block (        Seq (
           "it should join lines ending with the extendskeyword",
           "it should join lines ending with the withkeyword",
           "it should join lines starting with the",
@@ -123,9 +127,8 @@ package soda.translator.blocktr
 
   test ("should join lines starting or ending with keyword 'extends' and 'with' with backward join")
     let
-      input = BlockBuilder_ ().build  ( Example_using_extends_and_with )
-      expected = BlockBuilder_ ().build  (
-        Seq (
+      input = build_block (Example_using_extends_and_with )
+      expected = build_block (        Seq (
           "it should join lines ending with the extends",
           "keyword",
           "it should join lines ending with the with",

@@ -30,9 +30,7 @@ trait BlockProcessor {
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): AnnotatedBlock =
-    BlockBuilder_ () .build (paragraph
-        .split (new_line )
-        .toIndexedSeq    )
+    BlockBuilder_ () .build (paragraph.split (new_line ) .toIndexedSeq, BlockAnnotationEnum_ () .undefined    )
 
   def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
     blocks.map (block => translator.translate (block ) )

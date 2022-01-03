@@ -15,10 +15,10 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
     else block
 
   def prepend (prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail    )
+    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation    )
 
   def append (suffix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines.:+ (suffix )    )
+    BlockBuilder_ () .build (block.lines.:+ (suffix ), block.block_annotation    )
 
   def is_a_recursive_definition (block: AnnotatedBlock ): Boolean =
     {

@@ -11,7 +11,7 @@ trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
     BlockBuilder_ () .build (block.lines
         .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
         .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
-        .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) )    )
+        .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) ), block.block_annotation    )
 
   def replace_all_when (line: String, condition: (String, String ) => Boolean, pattern: String, new_text: String ): String =
     if (condition (line, pattern )

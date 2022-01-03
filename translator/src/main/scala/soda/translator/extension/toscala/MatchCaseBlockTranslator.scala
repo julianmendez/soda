@@ -9,7 +9,7 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (block.lines
-        .map (line => insert_match_before_brace_if_found (line ) )    )
+        .map (line => insert_match_before_brace_if_found (line ) ), block.block_annotation    )
 
   def insert_match_before_brace_if_found (line: String ): String =
     if (line.trim () .startsWith (tc.soda_match_pattern )

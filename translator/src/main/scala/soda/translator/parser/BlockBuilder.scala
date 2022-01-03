@@ -9,17 +9,15 @@ trait BlockBuilder {
   import soda.translator.block.AnnotatedBlock_
   import soda.translator.block.Block
   import soda.translator.block.Block_
+  import soda.translator.block.BlockAnnotationId
   import soda.translator.parser.BlockBuilder_
 
   lazy val soda_begin_comment = "/*"
 
   lazy val soda_end_comment = "*/"
 
-  def build (lines: Seq [String]  ): AnnotatedBlock =
-    annotate_block (Block_ (lines, get_annotated_lines (lines )  ) )
-
-  def annotate_block (block: Block ): AnnotatedBlock =
-    AnnotatedBlock_ (block.lines, block.annotated_lines, BlockAnnotator_ () .get_annotation (block )  )
+  def build (lines: Seq [String], annotation: BlockAnnotationId ): AnnotatedBlock =
+    AnnotatedBlock_ (lines, get_annotated_lines (lines ), annotation )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =
     Recursion_ () .fold (lines, initial_value, next_value_function )

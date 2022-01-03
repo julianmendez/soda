@@ -17,12 +17,12 @@ package soda.translator.extension.tocoq
 
   prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
     )
 
   append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
-      block.lines.:+(suffix)
+      block.lines.:+(suffix), block.block_annotation
     )
 
   is_a_recursive_definition (block: AnnotatedBlock): Boolean =

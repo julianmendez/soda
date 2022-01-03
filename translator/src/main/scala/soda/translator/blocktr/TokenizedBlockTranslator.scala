@@ -20,7 +20,7 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
         .map (annotated_line =>
           if (annotated_line.is_comment
           ) annotated_line.line
-          else _translate_non_comment (annotated_line.line )        )    )
+          else _translate_non_comment (annotated_line.line )        ), block.block_annotation    )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

@@ -31,9 +31,7 @@ package soda.translator.parser
 
   make_block (paragraph: String): AnnotatedBlock =
     BlockBuilder_ ().build (
-      paragraph
-        .split (new_line)
-        .toIndexedSeq
+      paragraph.split (new_line).toIndexedSeq, BlockAnnotationEnum_ ().undefined
     )
 
   translate_blocks (blocks: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =

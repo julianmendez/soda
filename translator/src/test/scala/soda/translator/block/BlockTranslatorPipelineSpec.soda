@@ -3,13 +3,15 @@ package soda.translator.block
 * BlockTranslator00 ()
   extends BlockTranslator = {
 
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.BlockBuilder_
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.++ ( Seq ("tr00") )
+      else block.lines.++ ( Seq ("tr00") ),
+      BlockAnnotationEnum_ ().undefined
     )
 
 }
@@ -23,7 +25,8 @@ package soda.translator.block
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.++ ( Seq ("tr01") )
+      else block.lines.++ ( Seq ("tr01") ),
+      BlockAnnotationEnum_ ().undefined
     )
 
 }
@@ -37,7 +40,8 @@ package soda.translator.block
     BlockBuilder_ ().build (
       if block.lines.isEmpty
       then Seq ("")
-      else block.lines.++ ( Seq ("tr02") )
+      else block.lines.++ ( Seq ("tr02") ),
+      BlockAnnotationEnum_ ().undefined
     )
 
 }
@@ -59,7 +63,8 @@ package soda.translator.block
   test("block translator pipeline")
     let
       original = BlockBuilder_ ().build (
-        Seq ( "first line" )
+        Seq ( "first line" ),
+        BlockAnnotationEnum_ ().undefined
       )
       expected =
         BlockBuilder_ ().build (
@@ -68,7 +73,8 @@ package soda.translator.block
             "tr00",
             "tr01",
             "tr02"
-          )
+          ),
+          BlockAnnotationEnum_ ().undefined
         )
       obtained = instance.translate (original)
     in assert (obtained == expected)

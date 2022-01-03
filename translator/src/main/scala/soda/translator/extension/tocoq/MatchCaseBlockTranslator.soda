@@ -11,7 +11,7 @@ package soda.translator.extension.tocoq
   translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build(
       block.lines
-        .map (line -> append_with_after_match (line) )
+        .map (line -> append_with_after_match (line) ), block.block_annotation
     )
 
   append_with_after_match (line: String): String =

@@ -23,7 +23,8 @@ package soda.translator.blocktr
           if annotated_line.is_comment
           then annotated_line.line
           else _translate_non_comment (annotated_line.line)
-        )
+        ),
+      block.block_annotation
     )
 
   _translate_non_comment (line: String): String =
