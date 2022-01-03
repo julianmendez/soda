@@ -23,7 +23,6 @@ package soda.translator.documentation
  * 8. a comment
  */
 
-
 /* To declare a class, just add `class` before a class name.
  * It is recommended to use camel case style starting with a capital letter.
  * The name could be a noun or an adjective, but it should not be a verb. */
@@ -213,7 +212,7 @@ trait Manual {
   def sum (n: Int ) =
     _tailrec_ (n, 0 )
 
-  /* A tail recursive function cannot be declared insider another function, and its name could start with underscore '_'.
+  /* A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
   import scala.annotation.tailrec
         @tailrec  final
@@ -315,7 +314,6 @@ trait Recursion {
 }
 
 case class Recursion_ ()  extends Recursion
-
 
 /* The main class is concrete and it is called `Main ()`. */
 case class Main ()  extends MainClass

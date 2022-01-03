@@ -1,6 +1,5 @@
 package soda.collection.example
 
-
 * Pair [T] = {
 
   has name: String
@@ -15,6 +14,7 @@ package soda.collection.example
 * ListExample = {
 
   a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
+
   b: Seq [Int] = Seq (10, 20, 30, 40, 50, 60)
 
   a_example: Pair [Seq [Char]] =

@@ -38,8 +38,6 @@ package soda.collection
       obtained = Min_ ().tail (example)
     in assert (obtained == expected)
 
-  //
-
   test ("reverse")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (8, 5, 3, 2, 1, 1, 0))
@@ -81,8 +79,6 @@ package soda.collection
       expected = SomeSD_ (3)
       obtained = Min_ ().at (example, 4)
     in assert (obtained == expected)
-
-  //
 
   test ("take with Seq 0")
     let
@@ -208,8 +204,6 @@ package soda.collection
       obtained = Min_ ().span (example,  (x: Int) -> not  (x == 5))
     in assert (obtained == expected)
 
-  //
-
   test ("append")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13))
@@ -300,8 +294,6 @@ package soda.collection
       expected = example
       obtained = Min_ ().slice (example, -100, 200)
     in assert (obtained == expected)
-
-  //
 
   test ("forall with Seq 0")
     let

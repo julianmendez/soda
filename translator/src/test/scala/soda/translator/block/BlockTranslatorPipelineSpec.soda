@@ -60,7 +60,7 @@ package soda.translator.block
       )
     )
 
-  test("block translator pipeline")
+  test ("block translator pipeline")
     let
       original = BlockBuilder_ ().build (
         Seq ( "first line" ),

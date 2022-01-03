@@ -100,6 +100,7 @@ trait MyClass   extends WithInstance {
 }
 
 trait TimeOfToday {
+
   import java.util.Date
 
   lazy val get_time: Date = new Date ()
@@ -107,6 +108,7 @@ trait TimeOfToday {
 }
 
 trait MainClass {
+
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
 

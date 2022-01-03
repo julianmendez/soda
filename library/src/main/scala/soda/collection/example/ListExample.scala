@@ -1,6 +1,5 @@
 package soda.collection.example
 
-
 trait Pair [T] {
 
   def name: String
@@ -14,6 +13,7 @@ case class Pair_ [T]  (name: String, result: T )  extends Pair [T]
 trait ListExample {
 
   lazy val a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
+
   lazy val b: Seq [Int] = Seq (10, 20, 30, 40, 50, 60 )
 
   lazy val a_example: Pair [Seq [Char]] =

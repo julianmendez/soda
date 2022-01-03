@@ -48,7 +48,6 @@ package soda.translator.extension.toscala
 
   scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
-
   /**
    * Scala 3 keywords:
    *   https://dotty.epfl.ch/docs/internals/syntax.html
@@ -182,8 +181,6 @@ package soda.translator.extension.toscala
     ("not", "!"),
     ("and", "&&"),
     ("or", "||"),
-
-    /** Annotations */
     ("@new", "new"),
     ("@override", "override"),
     ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),

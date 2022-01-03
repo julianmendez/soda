@@ -107,6 +107,7 @@ class MyClass
 }
 
 class TimeOfToday = {
+
   import java.util.Date
 
   get_time: Date = @new Date ()
@@ -114,6 +115,7 @@ class TimeOfToday = {
 }
 
 class MainClass = {
+
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
 

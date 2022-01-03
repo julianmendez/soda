@@ -5,7 +5,7 @@ package soda.translator.extension.toscala
 
   + soda.translator.parser.BlockProcessor_
 
-  test("the translated source code should not have too many unnecessary spaces")
+  test ("the translated source code should not have too many unnecessary spaces")
     let
       original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"

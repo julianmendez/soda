@@ -36,8 +36,6 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val obtained = Min_ () .tail (example )
       assert (obtained == expected ) }
 
-  //
-
   test ("reverse")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (8, 5, 3, 2, 1, 1, 0 )  )
@@ -79,8 +77,6 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val expected = SomeSD_ (3 )
       lazy val obtained = Min_ () .at (example, 4 )
       assert (obtained == expected ) }
-
-  //
 
   test ("take with Seq 0")
     {
@@ -206,8 +202,6 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val obtained = Min_ () .span (example, (x: Int ) => !  (x == 5 )  )
       assert (obtained == expected ) }
 
-  //
-
   test ("append")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13 )  )
@@ -298,8 +292,6 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val expected = example
       lazy val obtained = Min_ () .slice (example, -100, 200 )
       assert (obtained == expected ) }
-
-  //
 
   test ("forall with Seq 0")
     {
