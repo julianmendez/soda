@@ -3,6 +3,7 @@ package soda.translator.blocktr
 * TokenReplacement = {
 
   + soda.translator.replacement.ReplacementAux_
+  + soda.translator.replacement.ReplacementWithTranslator_
 
   add_spaces_to_symbols (symbols: Set [Char] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
@@ -13,19 +14,19 @@ package soda.translator.blocktr
   replace (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementAux_ ().replace (token.text, TableTranslator_ (table))
+        ReplacementWithTranslator_ (TableTranslator_ (table)).replace (token.text)
     )
 
   replace_regex (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementAux_ ().replace_regex (token.text, TableTranslator_ (table))
+        ReplacementWithTranslator_ (TableTranslator_ (table)).replace_regex (token.text)
     )
 
   replace_at_beginning (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementAux_ ().replace_at_beginning (token.text, token.index, TableTranslator_ (table))
+        ReplacementWithTranslator_ (TableTranslator_ (table)).replace_at_beginning (token.text, token.index)
     )
 
 }

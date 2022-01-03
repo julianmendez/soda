@@ -3,6 +3,7 @@ package soda.translator.blocktr
 trait TokenReplacement {
 
   import soda.translator.replacement.ReplacementAux_
+  import soda.translator.replacement.ReplacementWithTranslator_
 
   def add_spaces_to_symbols (symbols: Set [Char] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (token =>
@@ -10,15 +11,15 @@ trait TokenReplacement {
 
   def replace (table: Seq [(String, String )] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (token =>
-        ReplacementAux_ () .replace (token.text, TableTranslator_ (table )  )    )
+        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace (token.text )    )
 
   def replace_regex (table: Seq [(String, String )] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (token =>
-        ReplacementAux_ () .replace_regex (token.text, TableTranslator_ (table )  )    )
+        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace_regex (token.text )    )
 
   def replace_at_beginning (table: Seq [(String, String )] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (token =>
-        ReplacementAux_ () .replace_at_beginning (token.text, token.index, TableTranslator_ (table )  )    )
+        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace_at_beginning (token.text, token.index )    )
 
 }
 
