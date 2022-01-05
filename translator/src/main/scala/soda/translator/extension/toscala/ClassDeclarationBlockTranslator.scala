@@ -20,10 +20,7 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
         .line
 
   def get_table_translator (line: String ): Translator =
-    {
-      lazy val translation = get_class_declaration_translation (line )
-      lazy val table = Seq ((tc.soda_class_reserved_word, translation ) )
-      TableTranslator_ (table ) }
+    TableTranslator_ (Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )    )
 
   def get_class_declaration_translation (line: String ): String =
     if (line.contains (soda_opening_parenthesis )

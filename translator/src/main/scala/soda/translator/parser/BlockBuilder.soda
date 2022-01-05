@@ -27,10 +27,10 @@ package soda.translator.parser
   initial_value = PreprocessorFoldTuple_ (false, Seq ())
 
   next_value_function (pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
-    let
-      t = _annotate_this_line (line, pair.comment_state)
-    in PreprocessorFoldTuple_ (t.new_comment_state,
-        pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state)))
+    _next_value_function_with ( _annotate_this_line (line, pair.comment_state), pair, line )
+
+  _next_value_function_with (t: CurrentAndNewCommentState, pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state)))
 
   _annotate_this_line (line: String, comment_state: Boolean): CurrentAndNewCommentState =
     if comment_state

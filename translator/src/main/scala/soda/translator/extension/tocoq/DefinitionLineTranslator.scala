@@ -46,16 +46,14 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
     get_index (line, soda_space + tc.soda_class_reserved_word + soda_space ) .isDefined
 
   lazy val translation_of_class_definition =
-    {
-      lazy val new_text =
-        if (ends_with_equals
-        ) tc.scala_3_class_definition
-        else ""
-      lazy val result =
-        if (condition_for_type_alias
-        ) Replacement_ (line )
-        else Replacement_ (line ) .replace_all (soda_space + tc.soda_definition, new_text )
-      result }
+    if (condition_for_type_alias
+    ) Replacement_ (line )
+    else Replacement_ (line ) .replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition )
+
+  lazy val _new_text_for_class_definition =
+    if (ends_with_equals
+    ) tc.scala_3_class_definition
+    else ""
 
   lazy val ends_with_equals =
     trimmed_line.endsWith (tc.soda_definition )

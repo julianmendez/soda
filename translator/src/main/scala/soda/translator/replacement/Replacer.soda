@@ -31,10 +31,10 @@ package soda.translator.replacement
     if pos == -1
     then ReplacerFoldTuple_ ( replaced_text_rev.+: (line.substring (start_index)), pos )
     else
-      let
-        new_replaced_text_rev =  (replaced_text_rev.+: (line.substring (start_index, pos))).+: (replacement)
-        new_index = pos + pattern.length
-      in ReplacerFoldTuple_ ( new_replaced_text_rev, new_index )
+      ReplacerFoldTuple_ (
+        (replaced_text_rev.+: (line.substring (start_index, pos))).+: (replacement),
+        pos + pattern.length
+      )
 
   should_continue (tuple: ReplacerFoldTuple, x: Int): Boolean =
     not  (tuple.start_index == -1)

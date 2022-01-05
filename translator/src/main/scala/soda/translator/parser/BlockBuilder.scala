@@ -27,9 +27,10 @@ trait BlockBuilder {
   lazy val initial_value = PreprocessorFoldTuple_ (false, Seq ()  )
 
   def next_value_function (pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
-    {
-      lazy val t = _annotate_this_line (line, pair.comment_state )
-      PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state )  )  ) }
+    _next_value_function_with (_annotate_this_line (line, pair.comment_state ), pair, line )
+
+  def _next_value_function_with (t: CurrentAndNewCommentState, pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state )  )  )
 
   def _annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state

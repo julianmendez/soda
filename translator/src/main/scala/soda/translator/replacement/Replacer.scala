@@ -26,10 +26,7 @@ trait Replacer  extends LinePatternProcessor {
     if (pos == -1
     ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index )  ), pos )
     else
-      {
-        lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
-        lazy val new_index = pos + pattern.length
-        ReplacerFoldTuple_ (new_replaced_text_rev, new_index ) }
+      ReplacerFoldTuple_ ((replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement ), pos + pattern.length      )
 
   def should_continue (tuple: ReplacerFoldTuple, x: Int ): Boolean =
     !  (tuple.start_index == -1 )

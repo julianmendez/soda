@@ -50,16 +50,14 @@ package soda.translator.extension.toscala
     get_index (line, soda_space + tc.soda_class_reserved_word + soda_space).isDefined
 
   translation_of_class_definition =
-    let
-      new_text =
-        if ends_with_equals
-        then tc.scala_3_class_definition
-        else ""
-      result =
-        if condition_for_type_alias
-        then Replacement_ (line)
-        else Replacement_ (line).replace_all (soda_space + tc.soda_definition, new_text)
-    in result
+    if condition_for_type_alias
+    then Replacement_ (line)
+    else Replacement_ (line).replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition)
+
+  _new_text_for_class_definition =
+    if ends_with_equals
+    then tc.scala_3_class_definition
+    else ""
 
   ends_with_equals =
     trimmed_line.endsWith (tc.soda_definition)
