@@ -82,6 +82,7 @@ Special names:
 - `_rec_` as prefix indicates that the function is recursive
 - `Main ()` is the entry point class
 
+
 ## Side Effects
 
 In this language, variables cannot change their value.
