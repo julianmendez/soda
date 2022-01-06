@@ -6,14 +6,14 @@ trait Requirement2Monitor  extends RequirementMonitor {
 
   lazy val acceptable_increase = 1.25
 
-  def get_report (customer: Customer, flight: Flight, date: Int ): Report2 =
-    get_report_with (old_price = get_price (customer, flight, get_a_year_before (date ) ), new_price = get_price (customer, flight, date )    )
+  def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report2 =
+    get_report_with (old_price = get_price (customer, flight, get_a_year_before (date_in_days ) ), new_price = get_price (customer, flight, date_in_days )    )
 
   def get_report_with (old_price: Int, new_price: Int ): Report2 =
     Report2 (new_price <= old_price * acceptable_increase, old_price, new_price )
 
-  def get_a_year_before (date: Int ): Int =
-    date - 365
+  def get_a_year_before (date_in_days: Int ): Int =
+    date_in_days - 365
 
 }
 
