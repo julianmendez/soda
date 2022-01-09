@@ -1,7 +1,7 @@
 package soda.translator.io
 
 /**
- * This is an auxiliary class to read and write small files.
+ * This is an auxiliary class to read small files.
  */
 trait SimpleFileReader {
 
@@ -28,6 +28,9 @@ trait SimpleFileReader {
 
 }
 
+/**
+ * This is an auxiliary class to write small files.
+ */
 case class SimpleFileReader_ ()  extends SimpleFileReader
 
 trait SimpleFileWriter {
