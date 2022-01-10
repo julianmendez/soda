@@ -28,7 +28,11 @@ trait SodaConstant {
 
   lazy val test_special_function = "test"
 
-  lazy val soda_reserved_words = Seq ("=", ":", "->", "=>", ":=", "if", "then", "else", "let", "in", "match", "case", "end", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
+  lazy val theorem_reserved_word = "theorem"
+
+  lazy val proof_reserved_word = "proof"
+
+  lazy val soda_reserved_words = Seq ("=", ":", "->", "=>", ":=", "if", "then", "else", "let", "in", "match", "case", "end", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "theorem", "proof", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
 
 }
 

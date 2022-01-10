@@ -28,6 +28,10 @@ package soda.translator.parser
 
   test_special_function = "test"
 
+  theorem_reserved_word = "theorem"
+
+  proof_reserved_word = "proof"
+
   soda_reserved_words = Seq (
     "=",
     ":",
@@ -56,6 +60,8 @@ package soda.translator.parser
     "or",
     "package",
     "import",
+    "theorem",
+    "proof",
     "is",
     "lambda",
     "<:",

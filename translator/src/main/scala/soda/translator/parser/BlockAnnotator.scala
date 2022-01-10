@@ -15,8 +15,10 @@ trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
   import soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
   import soda.translator.parser.annotation.ImportDeclarationAnnotation_
   import soda.translator.parser.annotation.PackageDeclarationAnnotation_
+  import soda.translator.parser.annotation.ProofBlockAnnotation_
   import soda.translator.parser.annotation.CommentAnnotation_
   import soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     if (block.block_annotation == BlockAnnotationEnum_ () .undefined
@@ -24,7 +26,7 @@ trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
     else block
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
-    Seq (FunctionDefinitionAnnotation_ (block ), ClassBeginningAnnotation_ (block ), ClassEndAnnotation_ (block ), ClassDeclarationAnnotation_ (block ), AbstractFunctionDeclarationAnnotation_ (block ), ImportDeclarationAnnotation_ (block ), PackageDeclarationAnnotation_ (block ), CommentAnnotation_ (block ), TestDeclarationAnnotation_ (block )    )
+    Seq (FunctionDefinitionAnnotation_ (block ), ClassBeginningAnnotation_ (block ), ClassEndAnnotation_ (block ), ClassDeclarationAnnotation_ (block ), AbstractFunctionDeclarationAnnotation_ (block ), ImportDeclarationAnnotation_ (block ), PackageDeclarationAnnotation_ (block ), TheoremBlockAnnotation_ (block ), ProofBlockAnnotation_ (block ), CommentAnnotation_ (block ), TestDeclarationAnnotation_ (block )    )
 
   def find_candidates (block: Block ): Seq [BlockAnnotationId] =
     detectors (block )

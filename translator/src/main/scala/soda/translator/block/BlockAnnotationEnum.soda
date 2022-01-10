@@ -22,9 +22,13 @@ package soda.translator.block
 
   package_declaration = BlockAnnotationId (7, "package_declaration")
 
-  comment = BlockAnnotationId (8, "comment")
+  theorem_block = BlockAnnotationId (8, "theorem_block")
 
-  test_declaration = BlockAnnotationId (9, "comment")
+  proof_block = BlockAnnotationId (9, "proof_block")
+
+  comment = BlockAnnotationId (10, "comment")
+
+  test_declaration = BlockAnnotationId (11, "comment")
 
   values =
     Seq (
@@ -36,6 +40,8 @@ package soda.translator.block
       class_declaration,
       package_declaration,
       import_declaration,
+      theorem_block,
+      proof_block,
       comment,
       test_declaration
     )

@@ -20,12 +20,16 @@ trait BlockAnnotationEnum  extends soda.lib.Enum [BlockAnnotationId] {
 
   lazy val package_declaration = BlockAnnotationId (7, "package_declaration")
 
-  lazy val comment = BlockAnnotationId (8, "comment")
+  lazy val theorem_block = BlockAnnotationId (8, "theorem_block")
 
-  lazy val test_declaration = BlockAnnotationId (9, "comment")
+  lazy val proof_block = BlockAnnotationId (9, "proof_block")
+
+  lazy val comment = BlockAnnotationId (10, "comment")
+
+  lazy val test_declaration = BlockAnnotationId (11, "comment")
 
   lazy val values =
-    Seq (undefined, function_definition, abstract_function_declaration, class_beginning, class_end, class_declaration, package_declaration, import_declaration, comment, test_declaration    )
+    Seq (undefined, function_definition, abstract_function_declaration, class_beginning, class_end, class_declaration, package_declaration, import_declaration, theorem_block, proof_block, comment, test_declaration    )
 
 }
 

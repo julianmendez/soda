@@ -49,6 +49,8 @@ package soda.translator.parser.annotation
       AbstractFunctionDeclarationAnnotation_ (block),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
+      TheoremBlockAnnotation_ (block),
+      ProofBlockAnnotation_ (block),
       CommentAnnotation_ (block),
       TestDeclarationAnnotation_ (block)
     )
@@ -58,61 +60,61 @@ package soda.translator.parser.annotation
 
   test ("should detect a package declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false)
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false, false, false)
       obtained = apply_detectors (example_blocks (0))
     in assert (obtained == expected)
 
   test ("should detect a comment")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false)
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, true, false)
       obtained = apply_detectors (example_blocks (1))
     in assert (obtained == expected)
 
   test ("should detect a class beginning")
     let
-      expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false)
+      expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (2))
     in assert (obtained == expected)
 
   test ("should detect an import declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false)
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (3))
     in assert (obtained == expected)
 
   test ("should detect an abstract function declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false)
+      expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (4))
     in assert (obtained == expected)
 
   test ("should detect a constant declaration")
     let
-      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false)
+      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (5))
     in assert (obtained == expected)
 
   test ("should detect a function declaration")
     let
-      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false)
+      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (6))
     in assert (obtained == expected)
 
   test ("should detect a test declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true)
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, true)
       obtained = apply_detectors (example_blocks (7))
     in assert (obtained == expected)
 
   test ("should detect a class end")
     let
-      expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false)
+      expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (8))
     in assert (obtained == expected)
 
   test ("should detect a class declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false)
+      expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false)
       obtained = apply_detectors (example_blocks (9))
     in assert (obtained == expected)
 
@@ -124,7 +126,7 @@ package soda.translator.parser.annotation
 
   test ("should be ordered by the identifier ordinal")
     let
-      expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9)
+      expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
       obtained = detectors (example_blocks (0)).map (detector -> detector.identifier.ordinal)
     in assert (obtained == expected)
 

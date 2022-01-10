@@ -16,8 +16,10 @@ package soda.translator.parser
   + soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
   + soda.translator.parser.annotation.ImportDeclarationAnnotation_
   + soda.translator.parser.annotation.PackageDeclarationAnnotation_
+  + soda.translator.parser.annotation.ProofBlockAnnotation_
   + soda.translator.parser.annotation.CommentAnnotation_
   + soda.translator.parser.annotation.TestDeclarationAnnotation_
+  + soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     if block.block_annotation == BlockAnnotationEnum_ ().undefined
@@ -33,6 +35,8 @@ package soda.translator.parser
       AbstractFunctionDeclarationAnnotation_ (block),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
+      TheoremBlockAnnotation_ (block),
+      ProofBlockAnnotation_ (block),
       CommentAnnotation_ (block),
       TestDeclarationAnnotation_ (block)
     )

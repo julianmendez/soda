@@ -6,6 +6,7 @@
     - compiles with Scala 3.1.0
     - is compatible with Scala 2.13.7
     - changes syntax of pattern matching to use `match`, `case`, `=>`, `end`
+    - includes reserved words `theorem` and `proof` to write properties in Gallina (Coq)
     - makes annotation `@tailrec` only available to class methods
     - adopts special prefixes `_tailrec_` for tail recursive functions and `_rec_` for recursive functions
     - uses a `let`-`in` structure in functions of unit tests
