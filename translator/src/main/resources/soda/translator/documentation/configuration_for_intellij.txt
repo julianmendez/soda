@@ -42,9 +42,11 @@ lambda
 let
 match
 package
+proof
 subtype
 supertype
 then
+theorem
 this
 with
 |

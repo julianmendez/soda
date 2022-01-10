@@ -64,6 +64,14 @@ package soda.translator.extension.tocoq
 
   coq_with_reserved_word: String = "with"
 
+  coq_theorem_begin_reserved_word = "Theorem"
+
+  coq_theorem_end = "."
+
+  coq_proof_begin_reserved_word = "Proof."
+
+  coq_proof_end_reserved_word = "Qed."
+
   coq_recursive_function_prefixes: Seq [String] =
     Seq (
       "rec_",

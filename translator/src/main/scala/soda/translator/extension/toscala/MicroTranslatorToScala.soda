@@ -38,6 +38,7 @@ package soda.translator.extension.toscala
         TokenizedBlockTranslator_ (try_definition),
         ClassDeclarationBlockTranslator_ (),
         TokenReplacement_ (). replace (tc.main_translation),
+        TheoremAndProofBlockTranslator_ (),
         TokenReplacement_ (). replace_regex (tc.beautifier)
       )
     )

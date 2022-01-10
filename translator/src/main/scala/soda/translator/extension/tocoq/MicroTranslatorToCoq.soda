@@ -35,7 +35,9 @@ package soda.translator.extension.tocoq
         TokenizedBlockTranslator_ (try_definition),
         TokenReplacement_ (). replace (tc.main_translation),
         TokenReplacement_ (). replace_regex (tc.beautifier),
-        CoqDefinitionBlockTranslator_ ()
+        CoqDefinitionBlockTranslator_ (),
+        CoqTheoremBlockTranslator_ (),
+        CoqProofBlockTranslator_ ()
       )
     )
 

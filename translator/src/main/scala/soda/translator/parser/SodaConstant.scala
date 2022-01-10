@@ -32,6 +32,10 @@ trait SodaConstant {
 
   lazy val proof_reserved_word = "proof"
 
+  lazy val comment_open = "/*"
+
+  lazy val comment_close = "*/"
+
   lazy val soda_reserved_words = Seq ("=", ":", "->", "=>", ":=", "if", "then", "else", "let", "in", "match", "case", "end", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "theorem", "proof", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
 
 }

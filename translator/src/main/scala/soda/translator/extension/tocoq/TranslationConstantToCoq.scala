@@ -63,6 +63,14 @@ trait TranslationConstantToCoq  extends soda.translator.parser.SodaConstant {
 
   lazy val coq_with_reserved_word: String = "with"
 
+  lazy val coq_theorem_begin_reserved_word = "Theorem"
+
+  lazy val coq_theorem_end = "."
+
+  lazy val coq_proof_begin_reserved_word = "Proof."
+
+  lazy val coq_proof_end_reserved_word = "Qed."
+
   lazy val coq_recursive_function_prefixes: Seq [String] =
     Seq ("rec_", "_rec_", "tailrec_", "_tailrec_", "@tailrec"    )
 

@@ -32,6 +32,10 @@ package soda.translator.parser
 
   proof_reserved_word = "proof"
 
+  comment_open = "/*"
+
+  comment_close = "*/"
+
   soda_reserved_words = Seq (
     "=",
     ":",

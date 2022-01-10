@@ -1,0 +1,45 @@
+package soda.translator.extension.tocoq
+
+* CoqTheoremBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.parser.BlockBuilder_
+
+  space = " "
+
+  tc = TranslationConstantToCoq_ ()
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if is_a_proof (block)
+    then append (
+      tc.coq_theorem_end, prepend (
+        tc.coq_theorem_begin_reserved_word, remove_first_line (block) ) )
+    else block
+
+  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+    )
+
+  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix), block.block_annotation
+    )
+
+  first_line (block: AnnotatedBlock): String =
+    block.lines.headOption.getOrElse ("").trim
+
+  remove_first_line (block: AnnotatedBlock): AnnotatedBlock =
+    if block.lines.isEmpty
+    then block
+    else BlockBuilder_ ().build ( block.lines.tail, block.block_annotation )
+
+  is_a_proof (block: AnnotatedBlock): Boolean =
+    first_line (block) == tc.proof_reserved_word
+
+}
+
+* CoqTheoremBlockTranslator_ ()
+  extends CoqTheoremBlockTranslator
+
