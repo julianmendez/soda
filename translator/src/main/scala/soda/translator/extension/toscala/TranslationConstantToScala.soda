@@ -181,6 +181,8 @@ package soda.translator.extension.toscala
     ("not", "!"),
     ("and", "&&"),
     ("or", "||"),
+    ("theorem", "theorem"),
+    ("proof", "proof"),
     ("@new", "new"),
     ("@override", "override"),
     ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
