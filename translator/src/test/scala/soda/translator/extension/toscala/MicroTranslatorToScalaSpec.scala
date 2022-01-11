@@ -45,6 +45,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\nclass B = {" +
         "\n" +
         "\n  g(x: Int): Int = 2 * x" +
+        "\n" +
         "\n}" +
         "\n" +
         "\nclass C() extends A =" +
@@ -54,6 +55,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\n* B[T] = {" +
         "\n" +
         "\n  i(x: T): T = x" +
+        "\n" +
         "\n}" +
         "\n"
       lazy val expected =
@@ -64,6 +66,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\ntrait B {" +
         "\n" +
         "\n  def g (x: Int ): Int = 2 * x" +
+        "\n" +
         "\n}" +
         "\n" +
         "\ncase class C () extends A:" +
@@ -73,6 +76,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\ntrait B [T] {" +
         "\n" +
         "\n  def i (x: T ): T = x" +
+        "\n" +
         "\n}" +
         "\n"
       lazy val obtained = instance.translate (original )
