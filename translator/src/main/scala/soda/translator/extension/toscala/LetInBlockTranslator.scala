@@ -3,11 +3,20 @@ package soda.translator.extension.toscala
 trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.BlockBuilder_
 
   lazy val tc = TranslationConstantToScala_ ()
 
+  lazy val _labels = BlockAnnotationEnum_ ()
+
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
+    if (block.block_annotation == _labels.function_definition ||
+      block.block_annotation == _labels.test_declaration
+    ) _translate_block (block )
+    else block
+
+  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (block.lines
         .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
         .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )

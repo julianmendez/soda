@@ -180,16 +180,6 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
 
   test ("should translate let in 1")
     {
-      lazy val original = "let x = 0" +
-        "\n in x + x"
-      lazy val expected = "{ lazy val x = 0" +
-        "\n   x + x }" +
-        "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
-
-  test ("should translate let in 2")
-    {
       lazy val original = "f(x: Int): Int =" +
         "\n  let y = x + x" +
         "\n  in y"
@@ -200,7 +190,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
-  test ("should translate let in 3")
+  test ("should translate let in 2")
     {
       lazy val original = "f(x: Int): Int =" +
         "\n  let" +
@@ -214,7 +204,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
-  test ("should translate let in 4")
+  test ("should translate let in 3")
     {
       lazy val original = "f(x: Int): Int =" +
         "\n  let" +
@@ -230,7 +220,7 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
-  test ("should translate let in 5")
+  test ("should translate let in 4")
     {
       lazy val original = "f(x: Int): Int =" +
         "\n  let" +

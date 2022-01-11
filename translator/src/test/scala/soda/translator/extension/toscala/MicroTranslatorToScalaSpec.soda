@@ -181,16 +181,6 @@ package soda.translator.extension.toscala
 
   test ("should translate let in 1")
     let
-      original = "let x = 0" +
-        "\n in x + x"
-      expected = "{ lazy val x = 0" +
-        "\n   x + x }" +
-        "\n"
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
-
-  test ("should translate let in 2")
-    let
       original = "f(x: Int): Int =" +
         "\n  let y = x + x" +
         "\n  in y"
@@ -201,7 +191,7 @@ package soda.translator.extension.toscala
       obtained = instance.translate (original)
     in assert (obtained == expected)
 
-  test ("should translate let in 3")
+  test ("should translate let in 2")
     let
       original = "f(x: Int): Int =" +
         "\n  let" +
@@ -215,7 +205,7 @@ package soda.translator.extension.toscala
       obtained = instance.translate (original)
     in assert (obtained == expected)
 
-  test ("should translate let in 4")
+  test ("should translate let in 3")
     let
       original = "f(x: Int): Int =" +
         "\n  let" +
@@ -231,7 +221,7 @@ package soda.translator.extension.toscala
       obtained = instance.translate (original)
     in assert (obtained == expected)
 
-  test ("should translate let in 5")
+  test ("should translate let in 4")
     let
       original = "f(x: Int): Int =" +
         "\n  let" +

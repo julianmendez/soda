@@ -36,6 +36,8 @@ trait SodaConstant {
 
   lazy val comment_close = "*/"
 
+  lazy val tail_recursion_annotation = "@tailrec"
+
   lazy val soda_reserved_words = Seq ("=", ":", "->", "=>", ":=", "if", "then", "else", "let", "in", "match", "case", "end", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "theorem", "proof", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
 
 }

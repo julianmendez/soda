@@ -27,6 +27,9 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
     SodaConstant_ () .function_definition_synonym +
     SodaConstant_ () .space
 
+  lazy val tail_recursion_annotation: String =
+    SodaConstant_ () .tail_recursion_annotation
+
   lazy val applies: Boolean =
     contains_the_equals_symbol && ! is_a_class_declaration
 
@@ -35,7 +38,8 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
     ((contains_one_line && block.readable_lines.head.line.trim.contains (symbol_in_the_middle ) ) ||
       (contains_one_line && block.readable_lines.head.line.trim.contains (synonym_in_the_middle ) ) ||
       (block.readable_lines.head.line.trim.endsWith (symbol_at_the_end ) ) ||
-      (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end ) )    ) &&
+      (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end ) ) ||
+      (block.readable_lines.head.line.trim == tail_recursion_annotation )    ) &&
     ! (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
           starts_with_prefix_and_space (SodaConstant_ () .class_abbreviation )    )
 

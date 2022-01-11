@@ -27,10 +27,10 @@ package soda.translator.extension.toscala
     BlockTranslatorPipeline_ (
       Seq (
         LineForwardJoinerBlockTranslator_ (),
-        LetInBlockTranslator_ (),
-        MatchCaseBlockTranslator_ (),
         LineBackwardJoinerBlockTranslator_ (),
         BlockAnnotator_ (),
+        LetInBlockTranslator_ (),
+        MatchCaseBlockTranslator_ (),
         TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
         TokenReplacement_ (). replace (tc.scala_non_soda),
         TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),

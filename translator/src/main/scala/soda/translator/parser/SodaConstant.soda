@@ -36,6 +36,8 @@ package soda.translator.parser
 
   comment_close = "*/"
 
+  tail_recursion_annotation = "@tailrec"
+
   soda_reserved_words = Seq (
     "=",
     ":",
