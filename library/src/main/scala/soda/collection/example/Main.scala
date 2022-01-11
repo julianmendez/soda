@@ -1,9 +1,9 @@
 package soda.collection.example
 
-
 object EntryPoint {
   def main (args: Array [String]): Unit = Main ().main (args)
 }
+
 
 trait MainClass {
 
