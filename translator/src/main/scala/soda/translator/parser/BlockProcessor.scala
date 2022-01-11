@@ -1,5 +1,8 @@
 package soda.translator.parser
 
+/**
+ * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
+ */
 trait BlockProcessor {
 
   import soda.lib.SomeSD_
@@ -30,7 +33,7 @@ trait BlockProcessor {
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): AnnotatedBlock =
-    BlockBuilder_ () .build (paragraph.split (new_line ) .toIndexedSeq, BlockAnnotationEnum_ () .undefined    )
+    BlockBuilder_ () .build (remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq ), BlockAnnotationEnum_ () .undefined    )
 
   def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
     blocks.map (block => translator.translate (block ) )
@@ -39,6 +42,10 @@ trait BlockProcessor {
     blocks
       .map (x => x.contents )
       .mkString (double_new_line ) + new_line
+
+  def remove_empty_lines (lines: Seq [String]  ): Seq [String] =
+    lines
+      .filter (line => line.trim.nonEmpty )
 
 }
 

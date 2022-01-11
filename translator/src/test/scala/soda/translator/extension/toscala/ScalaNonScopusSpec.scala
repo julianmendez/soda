@@ -13,7 +13,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         "\nval x = 0" +
         "\nwhile (x != 0)"
       lazy val expected = "" +
-        "\nlazy val __soda__val x = 0" +
+        "lazy val __soda__val x = 0" +
         "\n__soda__while (x != 0 )" +
         "\n"
       lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate (program )
@@ -30,7 +30,7 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
         "\n" +
         "\n* C1[D1 supertype E1]"
       lazy val expected = "" +
-        "\ntrait A0 [B0 <: C0]" +
+        "trait A0 [B0 <: C0]" +
         "\n" +
         "\ntrait C0 [D0 >: E0]" +
         "\n" +
