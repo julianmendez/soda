@@ -31,6 +31,12 @@ package soda.translator.parser.annotation
     "\n      result = true" +
     "\n    in assert (result)" +
     "\n" +
+    "\n  theorem" +
+    "\n    True" +
+    "\n" +
+    "\n  proof" +
+    "\n    auto." +
+    "\n" +
     "\n}" +
     "\n" +
     "\n* Example_ () extends Example" +
@@ -106,28 +112,40 @@ package soda.translator.parser.annotation
       obtained = apply_detectors (example_blocks (7))
     in assert (obtained == expected)
 
+  test ("should detect a theorem block")
+    let
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false)
+      obtained = apply_detectors (example_blocks (8))
+    in assert (obtained == expected)
+
+  test ("should detect a proof block")
+    let
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false)
+      obtained = apply_detectors (example_blocks (9))
+    in assert (obtained == expected)
+
   test ("should detect a class end")
     let
       expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (8))
+      obtained = apply_detectors (example_blocks (10))
     in assert (obtained == expected)
 
   test ("should detect a class declaration")
     let
       expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (9))
+      obtained = apply_detectors (example_blocks (11))
     in assert (obtained == expected)
 
-  test ("should find only 10 blocks")
+  test ("should find only 12 blocks")
     let
-      expected = 10
+      expected = 12
       obtained = example_blocks.length
     in assert (obtained == expected)
 
   test ("should be ordered by the identifier ordinal")
     let
       expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
-      obtained = detectors (example_blocks (0)).map (detector -> detector.identifier.ordinal)
+      obtained = detectors (example_blocks (0) ).map (detector -> detector.identifier.ordinal)
     in assert (obtained == expected)
 
 }

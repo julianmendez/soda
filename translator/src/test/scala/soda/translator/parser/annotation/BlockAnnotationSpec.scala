@@ -30,6 +30,12 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "\n      result = true" +
     "\n    in assert (result)" +
     "\n" +
+    "\n  theorem" +
+    "\n    True" +
+    "\n" +
+    "\n  proof" +
+    "\n    auto." +
+    "\n" +
     "\n}" +
     "\n" +
     "\n* Example_ () extends Example" +
@@ -93,28 +99,40 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val obtained = apply_detectors (example_blocks (7 )  )
       assert (obtained == expected ) }
 
+  test ("should detect a theorem block")
+    {
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (8 )  )
+      assert (obtained == expected ) }
+
+  test ("should detect a proof block")
+    {
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false )
+      lazy val obtained = apply_detectors (example_blocks (9 )  )
+      assert (obtained == expected ) }
+
   test ("should detect a class end")
     {
       lazy val expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (8 )  )
+      lazy val obtained = apply_detectors (example_blocks (10 )  )
       assert (obtained == expected ) }
 
   test ("should detect a class declaration")
     {
       lazy val expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (9 )  )
+      lazy val obtained = apply_detectors (example_blocks (11 )  )
       assert (obtained == expected ) }
 
-  test ("should find only 10 blocks")
+  test ("should find only 12 blocks")
     {
-      lazy val expected = 10
+      lazy val expected = 12
       lazy val obtained = example_blocks.length
       assert (obtained == expected ) }
 
   test ("should be ordered by the identifier ordinal")
     {
       lazy val expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
-      lazy val obtained = detectors (example_blocks (0 )  ) .map (detector => detector.identifier.ordinal )
+      lazy val obtained = detectors (example_blocks (0 ) ) .map (detector => detector.identifier.ordinal )
       assert (obtained == expected ) }
 
 }

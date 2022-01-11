@@ -8,7 +8,8 @@ trait ProofBlockAnnotation  extends BlockAnnotation {
   lazy val identifier = BlockAnnotationEnum_ () .proof_block
 
   lazy val applies: Boolean =
-    starts_with_prefix_and_space (SodaConstant_ () .proof_reserved_word )
+    block.readable_lines.nonEmpty &&
+    (block.readable_lines.head.line.trim == SodaConstant_ () .proof_reserved_word )
 
 }
 

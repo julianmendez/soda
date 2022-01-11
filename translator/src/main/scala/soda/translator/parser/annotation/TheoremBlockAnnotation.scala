@@ -8,7 +8,8 @@ trait TheoremBlockAnnotation  extends BlockAnnotation {
   lazy val identifier = BlockAnnotationEnum_ () .theorem_block
 
   lazy val applies: Boolean =
-    starts_with_prefix_and_space (SodaConstant_ () .theorem_reserved_word )
+    block.readable_lines.nonEmpty &&
+    (block.readable_lines.head.line.trim == SodaConstant_ () .theorem_reserved_word )
 
 }
 
