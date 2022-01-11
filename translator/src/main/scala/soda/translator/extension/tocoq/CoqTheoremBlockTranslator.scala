@@ -10,7 +10,7 @@ trait CoqTheoremBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val tc = TranslationConstantToCoq_ ()
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (is_a_proof (block )
+    if (is_a_theorem (block )
     ) append (tc.coq_theorem_end, prepend (tc.coq_theorem_begin_reserved_word, remove_first_line (block ) ) )
     else block
 
@@ -28,8 +28,8 @@ trait CoqTheoremBlockTranslator  extends soda.translator.block.BlockTranslator {
     ) block
     else BlockBuilder_ () .build (block.lines.tail, block.block_annotation )
 
-  def is_a_proof (block: AnnotatedBlock ): Boolean =
-    first_line (block ) == tc.proof_reserved_word
+  def is_a_theorem (block: AnnotatedBlock ): Boolean =
+    first_line (block ) == tc.theorem_reserved_word
 
 }
 
