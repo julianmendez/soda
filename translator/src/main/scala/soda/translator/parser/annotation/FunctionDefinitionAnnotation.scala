@@ -9,44 +9,50 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
 
   lazy val identifier = BlockAnnotationEnum_ () .function_definition
 
+  lazy val sc = SodaConstant_ ()
+
   lazy val symbol_at_the_end: String =
-    SodaConstant_ () .space +
-    SodaConstant_ () .function_definition_symbol
+    sc.space +
+    sc.function_definition_symbol
 
   lazy val synonym_at_the_end: String =
-    SodaConstant_ () .space +
-    SodaConstant_ () .function_definition_synonym
+    sc.space +
+    sc.function_definition_synonym
 
   lazy val symbol_in_the_middle: String =
-    SodaConstant_ () .space +
-    SodaConstant_ () .function_definition_symbol +
-    SodaConstant_ () .space
+    sc.space +
+    sc.function_definition_symbol +
+    sc.space
 
   lazy val synonym_in_the_middle: String =
-    SodaConstant_ () .space +
-    SodaConstant_ () .function_definition_synonym +
-    SodaConstant_ () .space
-
-  lazy val tail_recursion_annotation: String =
-    SodaConstant_ () .tail_recursion_annotation
+    sc.space +
+    sc.function_definition_synonym +
+    sc.space
 
   lazy val applies: Boolean =
-    contains_the_equals_symbol && ! is_a_class_declaration
+    (contains_the_equals_symbol || starts_with_valid_annotation ) && ! is_a_class_declaration
 
   lazy val contains_the_equals_symbol: Boolean =
     block.readable_lines.nonEmpty &&
-    ((contains_one_line && block.readable_lines.head.line.trim.contains (symbol_in_the_middle ) ) ||
-      (contains_one_line && block.readable_lines.head.line.trim.contains (synonym_in_the_middle ) ) ||
-      (block.readable_lines.head.line.trim.endsWith (symbol_at_the_end ) ) ||
-      (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end ) ) ||
-      (block.readable_lines.head.line.trim == tail_recursion_annotation )    ) &&
-    ! (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
-          starts_with_prefix_and_space (SodaConstant_ () .class_abbreviation )    )
+    _contains_the_equals_symbol_with (block.readable_lines.head.line.trim )
+
+  def _contains_the_equals_symbol_with (first_line_trimmed: String ): Boolean =
+    ((contains_one_line && first_line_trimmed.contains (symbol_in_the_middle ) ) ||
+      (contains_one_line && first_line_trimmed.contains (synonym_in_the_middle ) ) ||
+      (first_line_trimmed.endsWith (symbol_at_the_end ) ) ||
+      (first_line_trimmed.endsWith (synonym_at_the_end ) )    )
+
+  lazy val starts_with_valid_annotation: Boolean =
+    block.readable_lines.nonEmpty &&
+    _starts_with_valid_annotation_with (block.readable_lines.head.line.trim )
+
+  def _starts_with_valid_annotation_with (first_line_trimmed: String ): Boolean =
+    (first_line_trimmed == sc.tail_recursion_annotation ||
+      first_line_trimmed == sc.override_annotation )
 
   lazy val is_a_class_declaration: Boolean =
-    (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
-      starts_with_prefix_and_space (SodaConstant_ () .class_abbreviation ) ) &&
-    ends_with_space_and_suffix (SodaConstant_ () .class_open_symbol )
+    (starts_with_prefix_and_space (sc.class_reserved_word ) ||
+      starts_with_prefix_and_space (sc.class_abbreviation ) )
 
 }
 

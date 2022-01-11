@@ -38,6 +38,8 @@ package soda.translator.parser
 
   tail_recursion_annotation = "@tailrec"
 
+  override_annotation = "@override"
+
   soda_reserved_words = Seq (
     "=",
     ":",
