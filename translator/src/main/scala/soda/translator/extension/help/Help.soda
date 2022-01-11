@@ -3,6 +3,7 @@ package soda.translator.extension.help
 * Help
   extends soda.translator.extension.common.Extension = {
 
+  + soda.lib.SomeSD_
   + soda.translator.io.SimpleFileReader_
 
   has execute (arguments: Seq [String]): Boolean
@@ -21,7 +22,10 @@ package soda.translator.extension.help
   title_and_version: String = (name + " " + version).trim
 
   output_content (content: String): Boolean =
-    println (content) .asInstanceOf [Boolean]
+    SomeSD_ (content)
+      .map (x -> println (x) )
+      .map (x -> true)
+      .value
 
 }
 

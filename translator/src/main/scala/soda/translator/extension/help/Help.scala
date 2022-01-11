@@ -2,6 +2,7 @@ package soda.translator.extension.help
 
 trait Help  extends soda.translator.extension.common.Extension {
 
+  import soda.lib.SomeSD_
   import soda.translator.io.SimpleFileReader_
 
   def execute (arguments: Seq [String]  ): Boolean
@@ -20,7 +21,10 @@ trait Help  extends soda.translator.extension.common.Extension {
   lazy val title_and_version: String = (name + " " + version ) .trim
 
   def output_content (content: String ): Boolean =
-    println (content ) .asInstanceOf [Boolean]
+    SomeSD_ (content )
+      .map (x => println (x ) )
+      .map (x => true )
+      .value
 
 }
 
