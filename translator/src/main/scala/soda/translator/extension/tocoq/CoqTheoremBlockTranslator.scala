@@ -3,6 +3,7 @@ package soda.translator.extension.tocoq
 trait CoqTheoremBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.BlockBuilder_
 
   lazy val space = " "
@@ -10,6 +11,11 @@ trait CoqTheoremBlockTranslator  extends soda.translator.block.BlockTranslator {
   lazy val tc = TranslationConstantToCoq_ ()
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
+    if (block.block_annotation == BlockAnnotationEnum_ () .theorem_block
+    ) _translate_block (block )
+    else block
+
+  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_a_theorem (block )
     ) append (tc.coq_theorem_end, prepend (tc.coq_theorem_begin_reserved_word, remove_first_line (block ) ) )
     else block

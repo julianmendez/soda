@@ -29,7 +29,7 @@ package soda.translator.extension.tocoq
         BlockAnnotator_ (),
         MatchCaseBlockTranslator_ (),
         TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
-        TokenReplacement_ (). replace (tc.coq_non_soda),
+        /* TokenReplacement_ (). replace (tc.coq_non_soda), FIXME */
         TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),
         TokenReplacement_ (). replace (tc.synonym),
         TokenizedBlockTranslator_ (try_definition),

@@ -4,6 +4,7 @@ package soda.translator.extension.tocoq
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.BlockBuilder_
 
   space = " "
@@ -11,6 +12,11 @@ package soda.translator.extension.tocoq
   tc = TranslationConstantToCoq_ ()
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == BlockAnnotationEnum_ ().function_definition
+    then _translate_block (block)
+    else block
+
+  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     if is_a_recursive_definition (block)
     then append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block) )
     else

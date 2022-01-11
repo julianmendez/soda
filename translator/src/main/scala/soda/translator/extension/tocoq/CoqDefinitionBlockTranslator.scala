@@ -3,6 +3,7 @@ package soda.translator.extension.tocoq
 trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.BlockBuilder_
 
   lazy val space = " "
@@ -10,6 +11,11 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
   lazy val tc = TranslationConstantToCoq_ ()
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
+    if (block.block_annotation == BlockAnnotationEnum_ () .function_definition
+    ) _translate_block (block )
+    else block
+
+  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_a_recursive_definition (block )
     ) append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block ) )
     else
