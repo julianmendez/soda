@@ -220,18 +220,22 @@ trait Min [T] {
         {
           lazy val left = tuple.left
           lazy val right = tuple.right
-          lazy val result = left.opt (ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ), ifNonEmpty = (neleft =>
-              {
-                lazy val e = neleft.head ()
-                lazy val new_taking = p (e )
-                lazy val new_tuple =
-                  if (new_taking
-                  ) SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e ), new_taking )
-                  else SpanRevFoldTuple_ [T] (neleft, right, new_taking )
-                new_tuple }            )          )
+          lazy val result = left.opt (ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ), ifNonEmpty = (neleft => _aux_next_value (tuple, p, neleft ) )          )
           result }
       def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking
       result }
+
+  def _aux_next_value (tuple: SpanRevFoldTuple [T], p: T => Boolean, neleft: NESeq [T] ): SpanRevFoldTuple [T] =
+    {
+      lazy val left = tuple.left
+      lazy val right = tuple.right
+      lazy val e = neleft.head ()
+      lazy val new_taking = p (e )
+      lazy val new_tuple =
+        if (new_taking
+        ) SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e ), new_taking )
+        else SpanRevFoldTuple_ [T] (neleft, right, new_taking )
+      new_tuple }
 
 }
 

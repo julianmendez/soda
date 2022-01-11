@@ -236,20 +236,23 @@ package soda.collection
           right = tuple.right
           result = left.opt (
             ifEmpty := SpanRevFoldTuple_ [T] (left, right, false),
-            ifNonEmpty := (neleft ->
-              let
-                e = neleft.head ()
-                new_taking = p (e)
-                new_tuple =
-                  if new_taking
-                  then SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e), new_taking)
-                  else SpanRevFoldTuple_ [T] (neleft, right, new_taking)
-              in new_tuple
-            )
+            ifNonEmpty := (neleft -> _aux_next_value (tuple, p, neleft) )
           )
         in result
       condition (tuple: SpanRevFoldTuple [T], elem: T): Boolean = tuple.taking
     in result
+
+  _aux_next_value (tuple: SpanRevFoldTuple [T], p: T -> Boolean, neleft: NESeq [T] ): SpanRevFoldTuple [T] =
+    let
+      left = tuple.left
+      right = tuple.right
+      e = neleft.head ()
+      new_taking = p (e)
+      new_tuple =
+        if new_taking
+        then SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e), new_taking)
+        else SpanRevFoldTuple_ [T] (neleft, right, new_taking)
+    in new_tuple
 
 }
 
