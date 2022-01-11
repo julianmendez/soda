@@ -4,6 +4,7 @@ package soda.translator.extension.toscala
   extends soda.translator.block.BlockTranslator = {
 
   + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.block.Translator
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.blocktr.TableTranslator_
@@ -13,6 +14,8 @@ package soda.translator.extension.toscala
   soda_opening_parenthesis: String = "("
 
   tc = TranslationConstantToScala_ ()
+
+  _labels = BlockAnnotationEnum_ ()
 
   replace_token: Token -> String =
     lambda token ->
@@ -36,7 +39,10 @@ package soda.translator.extension.toscala
   translator = TokenizedBlockTranslator_ (replace_token)
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
-    translator.translate (block)
+    if block.block_annotation == _labels.class_beginning
+      or block.block_annotation == _labels.class_declaration
+    then translator.translate (block)
+    else block
 
 }
 

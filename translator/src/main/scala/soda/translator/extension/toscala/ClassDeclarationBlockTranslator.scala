@@ -3,6 +3,7 @@ package soda.translator.extension.toscala
 trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
+  import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.block.Translator
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.blocktr.TableTranslator_
@@ -12,6 +13,8 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
   lazy val soda_opening_parenthesis: String = "("
 
   lazy val tc = TranslationConstantToScala_ ()
+
+  lazy val _labels = BlockAnnotationEnum_ ()
 
   lazy val replace_token: Token => String =
      token =>
@@ -33,7 +36,10 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
   lazy val translator = TokenizedBlockTranslator_ (replace_token )
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    translator.translate (block )
+    if (block.block_annotation == _labels.class_beginning
+      || block.block_annotation == _labels.class_declaration
+    ) translator.translate (block )
+    else block
 
 }
 
