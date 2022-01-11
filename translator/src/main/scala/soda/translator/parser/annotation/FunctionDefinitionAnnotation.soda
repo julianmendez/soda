@@ -38,6 +38,9 @@ package soda.translator.parser.annotation
       (contains_one_line and block.readable_lines.head.line.trim.contains (synonym_in_the_middle) ) or
       (block.readable_lines.head.line.trim.endsWith (symbol_at_the_end) ) or
       (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end) )
+    ) and
+    not ( starts_with_prefix_and_space (SodaConstant_ ().class_reserved_word) or
+          starts_with_prefix_and_space (SodaConstant_ ().class_abbreviation)
     )
 
   is_a_class_declaration: Boolean =

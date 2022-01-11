@@ -35,7 +35,9 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
     ((contains_one_line && block.readable_lines.head.line.trim.contains (symbol_in_the_middle ) ) ||
       (contains_one_line && block.readable_lines.head.line.trim.contains (synonym_in_the_middle ) ) ||
       (block.readable_lines.head.line.trim.endsWith (symbol_at_the_end ) ) ||
-      (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end ) )    )
+      (block.readable_lines.head.line.trim.endsWith (synonym_at_the_end ) )    ) &&
+    ! (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
+          starts_with_prefix_and_space (SodaConstant_ () .class_abbreviation )    )
 
   lazy val is_a_class_declaration: Boolean =
     (starts_with_prefix_and_space (SodaConstant_ () .class_reserved_word ) ||
