@@ -11,11 +11,11 @@ package soda.translator.extension.toscala
   test ("Scala reserved words are replaced")
     let
       program = "" +
-        "\nval x = 0" +
-        "\nwhile (x != 0)"
+        "\nval x =" +
+        "\n  while (x != 0)"
       expected = "" +
-        "lazy val __soda__val x = 0" +
-        "\n__soda__while (x != 0 )" +
+        "lazy val __soda__val x =" +
+        "\n  __soda__while (x != 0 )" +
         "\n"
       obtained = BlockProcessor_(MicroTranslatorToScala_()).translate (program)
     in assert(obtained == expected)

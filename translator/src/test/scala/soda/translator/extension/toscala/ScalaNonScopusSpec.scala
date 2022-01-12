@@ -10,11 +10,11 @@ case class ScalaNonSodaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("Scala reserved words are replaced")
     {
       lazy val program = "" +
-        "\nval x = 0" +
-        "\nwhile (x != 0)"
+        "\nval x =" +
+        "\n  while (x != 0)"
       lazy val expected = "" +
-        "lazy val __soda__val x = 0" +
-        "\n__soda__while (x != 0 )" +
+        "lazy val __soda__val x =" +
+        "\n  __soda__while (x != 0 )" +
         "\n"
       lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate (program )
       assert (obtained == expected ) }
