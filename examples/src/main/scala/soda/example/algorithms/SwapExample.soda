@@ -13,6 +13,17 @@ package soda.example.algorithms
 
 * SwapExample = {
 
+
+  left (pair: PairExample): Int =
+    match pair
+      | (PairExample_ (x, y) ) => x
+    end
+
+  right (pair: PairExample): Int =
+    match pair
+      | (PairExample_ (x, y) ) => y
+    end
+
   swap (pair: PairExample): PairExample =
     PairExample_ (pair.right, pair.left)
 
