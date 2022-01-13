@@ -1,6 +1,6 @@
 (* soda.example.algorithms *)
 
-Module SwapExample.
+Module Type SwapExample.
 
 Inductive PairExample : Type :=
     | PairExample_ (x: nat) (y: nat)
