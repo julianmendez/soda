@@ -1,10 +1,23 @@
 (* soda.example.algorithms *)
 
-Module Type SwapExample.
-
 Inductive PairExample : Type :=
     | PairExample_ (x: nat) (y: nat)
 .
+
+Module Type PairExample_Module.
+
+
+  Parameter left : PairExample -> nat
+.
+
+  Parameter right : PairExample -> nat
+.
+
+End PairExample_Module.
+
+
+Module Type SwapExample_Module <: PairExample_Module.
+
 
 Definition    left (pair: PairExample ) : nat :=
     match pair with
@@ -32,7 +45,7 @@ Proof.
     apply eq_refl.
 Qed.
 
-End SwapExample.
+End SwapExample_Module.
 
 
 
