@@ -96,7 +96,7 @@ trait TranslationConstantToCoq  extends soda.translator.parser.SodaConstant {
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb"), ("class", "Module Type"), ("has", "Parameter"), ("package", ""), ("import", "Require Import"), ("@override", ""), ("@tailrec", ""), ("@main", "")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb"), ("class", "Module Type"), ("has", "Parameter"), ("extends", "<:"), ("package", ""), ("import", "Require Import"), ("@override", ""), ("@tailrec", ""), ("@main", "")  )
 
   lazy val type_translation: Seq [(String, String )] = Seq (("Boolean", "bool"), ("Nat", "nat"), ("Option", "option"), ("List", "list"), ("String", "string"), ("BigInt", "Z")  )
 

@@ -204,6 +204,7 @@ package soda.translator.extension.tocoq
     ("or", "orb"),
     ("class", "Module Type"),
     ("has", "Parameter"),
+    ("extends", "<:"),
     ("package", ""),
     ("import", "Require Import"),
     ("@override", ""),
