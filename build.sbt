@@ -4,7 +4,7 @@ lazy val scala2_11 = "2.11.12"
 
 lazy val scala2_12 = "2.12.14"
 
-lazy val scala2_13 = "2.13.7"
+lazy val scala2_13 = "2.13.8"
 
 lazy val scala3_0 = "3.0.2"
 

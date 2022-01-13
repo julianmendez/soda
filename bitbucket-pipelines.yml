@@ -18,7 +18,7 @@ pipelines:
       - pdflatex main.tex
       - cd ../../../..
       - sbt '++ 3.0.2' scalaVersion sbtVersion version clean compile test package assembly
-      - sbt '++ 2.13.7' scalaVersion sbtVersion version clean compile test package assembly
+      - sbt '++ 2.13.8' scalaVersion sbtVersion version clean compile test package assembly
       - sbt '++ 2.12.14' scalaVersion sbtVersion version clean compile test package assembly
       - sbt '++ 2.11.12' scalaVersion sbtVersion version clean compile test package assembly
 

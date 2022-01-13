@@ -4,7 +4,7 @@
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - new_features:
     - compiles with Scala 3.1.0
-    - is compatible with Scala 2.13.7
+    - is compatible with Scala 2.13.8
     - changes syntax of pattern matching to use `match`, `case`, `=>`, `end`
     - includes reserved words `theorem` and `proof` to write properties in Gallina (Coq)
     - makes annotation `@tailrec` only available to class methods

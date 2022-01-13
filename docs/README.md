@@ -125,8 +125,7 @@ The project can be build with [sbt](https://www.scala-sbt.org/).
 The command is:
 `sbt "++ 3.1.0" clean compile test package assembly`
 
-It is also possible to compile it for different Scala versions:
-`sbt "++ 2.13.7" clean compile test package assembly`
+It is also possible to compile it for different Scala versions.
 
 If (scala_version) and (soda_version) is the Scala and Soda version respectively, the created jar file are:
 - **translator**: library with classes that implement the Soda-Scala translator
