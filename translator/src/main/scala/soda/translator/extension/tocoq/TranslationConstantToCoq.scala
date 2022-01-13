@@ -84,19 +84,19 @@ trait TranslationConstantToCoq  extends soda.translator.parser.SodaConstant {
     Seq ("as", "else", "end", "forall", "fun", "if", "in", "let", "match", "then", "with"    )
 
   lazy val coq_2: Seq [String] =
-    Seq ("Admitted", "Arguments", "Check", "Constructors", "End", "Eval", "Export", "Hint", "Implicit", "Import", "Module", "Notation", "Print", "Proof", "Qed", "Require", "Resolve", "Section", "Set", "Unset"    )
+    Seq ("Admitted", "Arguments", "Check", "Constructors", "End", "Eval", "Export", "Hint", "Implicit", "Import", "Module", "Notation", "Print", "Proof", "Qed", "Require", "Resolve", "Section", "Set", "Type", "Unset"    )
 
   lazy val coq_3: Seq [String] =
     Seq ("admit", "apply", "assert", "auto", "case", "compute", "destruct", "discriminate", "elim", "exact", "induction", "intros", "pose", "refine", "rewrite", "simpl", "specialize", "unfold"    )
 
   lazy val coq_4: Seq [String] =
-    Seq ("CoFixpoint", "CoInductive", "Definition", "Example", "Fixpoint", "Global", "Hypothesis", "Inductive", "Instance", "Lemma", "Ltac", "Theorem", "Variable"    )
+    Seq ("CoFixpoint", "CoInductive", "Definition", "Example", "Fixpoint", "Global", "Hypothesis", "Inductive", "Instance", "Lemma", "Ltac", "Parameter", "Theorem", "Variable"    )
 
   lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import")  )
 
   lazy val synonym: Seq [(String, String )] = Seq (("is", ":=")  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb"), ("class", "Module"), ("has", "Definition"), ("package", ""), ("import", "Require Import"), ("@override", ""), ("@tailrec", ""), ("@main", "")  )
+  lazy val main_translation: Seq [(String, String )] = Seq ((";", "."), (":", ":"), ("->", "->"), ("=", ":="), ("lambda", "fun"), ("if", "if"), ("then", "then"), ("else", "else"), ("let", "let"), ("in", "in"), ("match", "match"), ("case", "|"), ("end", "end"), ("|", "|"), ("false", "false"), ("true", "true"), ("not", "negb"), ("and", "andb"), ("or", "orb"), ("class", "Module Type"), ("has", "Parameter"), ("package", ""), ("import", "Require Import"), ("@override", ""), ("@tailrec", ""), ("@main", "")  )
 
   lazy val type_translation: Seq [(String, String )] = Seq (("Boolean", "bool"), ("Nat", "nat"), ("Option", "option"), ("List", "list"), ("String", "string"), ("BigInt", "Z")  )
 
