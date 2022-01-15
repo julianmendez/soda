@@ -260,9 +260,7 @@ class Manual = {
     else _tailrec_ (n - 1, n * product)
 
   factorial (n: Int) =
-    let
-      result = _tailrec_ (n, 1)
-    in result
+    _tailrec_ (n, 1)
 
 }
 
@@ -283,9 +281,7 @@ class FactorialVerbose
     else _tailrec_ (n - 1, n * product)
 
   factorial (n: Int) is
-    let
-      result is _tailrec_ (n, 1)
-    in result
+    _tailrec_ (n, 1)
 
 }
 
