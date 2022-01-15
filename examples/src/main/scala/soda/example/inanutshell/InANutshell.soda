@@ -1,94 +1,100 @@
 package soda.example.inanutshell
 
+class InANutshell = {
 
-* InANutshell = {
+  f (x: Int): Int = x + 16
 
-  f(x: Int): Int = x + 16
-
-  b = f(a)
+  b = f (a)
 
   a = 1 + 2 + 4 + 8
 
-  h0(x: Int, y: Int): Int =
+  h0 (x: Int) (y: Int): Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h1(x: Int, y: Int): Int =
+  h1 (x: Int) (y: Int): Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h2(x: Int, y: Int): Int =
+  h2 (x: Int) (y: Int): Int =
     let
       result = a * b
       a = x + y
       b = x - y
     in result
 
-  is_greater_than(a: Int, b: Int): Boolean =
+  is_greater_than (a: Int) (b: Int): Boolean =
     a > b
 
-  max(a: Int, b: Int): Int =
+  max (a: Int) (b: Int): Int =
     if a > b
     then a
     else b
+
 }
 
 class MaxAndMin = {
 
-  max(a: Int, b: Int): Int =
+  max (a: Int) (b: Int): Int =
     if a > b
     then a
     else b
 
-  min(a: Int, b: Int): Int =
+  min (a: Int) (b: Int): Int =
     if a < b
     then a
     else b
+
 }
 
-class ConcreteMaxAndMin()
+class ConcreteMaxAndMin ()
   extends MaxAndMin
 
-class MinMaxPair(min: Int, max: Int)
+class MinMaxPair (min: Int, max: Int)
 
 class Indexable = {
 
   has index: Int
+
 }
 
 class Example
   extends Indexable = {
 
-  min_max(a: Int, b: Int): MinMaxPair =
-    MinMaxPair(
-      min := ConcreteMaxAndMin().min(a, b),
-      max := ConcreteMaxAndMin().max(a, b)
+  min_max (a: Int) (b: Int): MinMaxPair =
+    MinMaxPair (
+      min := ConcreteMaxAndMin ().min (a) (b),
+      max := ConcreteMaxAndMin ().max (a) (b)
     )
+
 }
 
-class Example_(index: Int)
+class Example_ (index: Int)
   extends Example
 
 class Comparable = {
 
-  has is_greater_than(x: Comparable): Boolean
+  has is_greater_than (x: Comparable): Boolean
+
 }
 
-class ComparableMax[T subtype Comparable] = {
+class ComparableMax [T subtype Comparable] = {
 
-  max(a: T, b: T): T =
-    if a.is_greater_than(b)
+  max (a: T) (b: T): T =
+    if a.is_greater_than (b)
     then a
     else b
+
 }
 
 class WithInstance = {
 
   has instance_parameter: Int
+
 }
 
 class MyClass
@@ -97,20 +103,25 @@ class MyClass
   class_constant: Int = 1
 
   another_function (x: Int): Int = 2 * x
+
 }
 
 class TimeOfToday = {
+
   import java.util.Date
 
-  get_time: Date = @new Date()
+  get_time: Date = @new Date ()
+
 }
 
 class MainClass = {
-  main (arguments: Array[String]): Unit =
-    println("Hello world!")
+
+  main (arguments: Array [String]): Unit =
+    println ("Hello world!")
+
 }
 
-class Main() extends MainClass
+class Main () extends MainClass
 
 class PersonName = {
 
@@ -118,5 +129,6 @@ class PersonName = {
 
   @override
   toString = name
+
 }
 

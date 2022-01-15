@@ -1,16 +1,17 @@
-package soda.translator.example
-
+package soda.example
 
 * FizzBuzz = {
+
   + soda.lib.Recursion_
 
   fizz = "Fizz"
+
   buzz = "Buzz"
 
   fizz_buzz =
     Recursion_()
       .range(100)
-      .map(x -> x + 1)
+      .map((lambda x: Int) -> x + 1)
       .map(get_fizz_buzz_term)
 
   get_fizz_buzz_term(n: Int) =
@@ -21,7 +22,9 @@ package soda.translator.example
 
   is_divisible_by(n: Int, k: Int): Boolean =
     n % k == 0
+
 }
 
-* FizzBuzz_() extends FizzBuzz
+* FizzBuzz_()
+  extends FizzBuzz
 

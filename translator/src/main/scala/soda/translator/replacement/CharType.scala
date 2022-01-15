@@ -1,17 +1,16 @@
 package soda.translator.replacement
 
-
 /**
  * This is to classify characters.
  */
-trait CharType extends soda.lib.EnumConstant
+trait CharType  extends soda.lib.EnumConstant
 
-case class CharType_ (ordinal: Int, name: String ) extends CharType
+case class CharType_ (ordinal: Int, name: String )  extends CharType
 
 /**
  * This is an enumeration for all types of characters.
  */
-trait CharTypeEnum extends soda.lib.Enum [CharType] {
+trait CharTypeEnum  extends soda.lib.Enum [CharType] {
 
   lazy val undefined_type = CharType_ (0, "undefined_type")
 
@@ -59,6 +58,7 @@ trait CharTypeEnum extends soda.lib.Enum [CharType] {
 
   def is_backslash (ch: Char ): Boolean =
     ch == backslash_char
+
 }
 
-case class CharTypeEnum_ () extends CharTypeEnum
+case class CharTypeEnum_ ()  extends CharTypeEnum

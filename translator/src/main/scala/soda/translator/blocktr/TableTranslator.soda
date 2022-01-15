@@ -1,0 +1,26 @@
+package soda.translator.blocktr
+
+* Table = {
+
+  has table: Seq[ (String, String)]
+
+}
+
+* TableTranslator
+  extends Table
+  with soda.translator.block.Translator = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.replacement.Replacement_
+  + soda.translator.replacement.Token
+
+  keys = table.map (pair -> pair._1)
+
+  translate (word: String): String =
+    table.toMap.get (word).getOrElse (word)
+
+}
+
+* TableTranslator_ (table: Seq[ (String, String)])
+  extends TableTranslator
+

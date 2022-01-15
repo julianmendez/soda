@@ -1,31 +1,32 @@
 package soda.translator.io
 
-
 /**
  * This class is used to scan files in a given directory.
  */
 * DirectoryScanner = {
+
   + java.io.File
 
-  get_all_files(start: File): Seq[File] =
+  get_all_files (start: File): Seq [File] =
     if start.isFile
-    then Seq(start)
-    else scan(Seq(), start.listFiles().toSeq)
+    then Seq (start)
+    else scan (Seq (), start.listFiles ().toSeq)
 
-  scan(found: Seq[File], to_scan: Seq[File]): Seq[File] =
-    let
-      @tailrec
-      rec(found: Seq[File], to_scan: Seq[File]): Seq[File] =
-        if to_scan.isEmpty
-        then found
-        else rec(found.+:(to_scan.head), get_files_to_scan(to_scan))
-    in rec(found, to_scan)
+  @tailrec
+  _tailrec_scan (found: Seq [File], to_scan: Seq [File]): Seq [File] =
+    if to_scan.isEmpty
+    then found
+    else _tailrec_scan (found.+: (to_scan.head), get_files_to_scan (to_scan))
 
-  get_files_to_scan(to_scan: Seq[File]): Seq[File] =
+  scan (found: Seq [File], to_scan: Seq [File]): Seq [File] =
+    _tailrec_scan (found, to_scan)
+
+  get_files_to_scan (to_scan: Seq [File]): Seq [File] =
     if to_scan.head.isDirectory
-    then to_scan.tail.++(to_scan.head.listFiles())
+    then to_scan.tail.++ (to_scan.head.listFiles ())
     else to_scan.tail
+
 }
 
-* DirectoryScanner_() extends DirectoryScanner
+* DirectoryScanner_ () extends DirectoryScanner
 

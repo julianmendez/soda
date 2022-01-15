@@ -1,7 +1,20 @@
-package soda.translator.example
-
+package soda.example
 
 * SaladMaker = {
+
+  @tailrec
+  _tailrec_prepare_vegan_salad[Ingredient, Salad, VeganSalad subtype Salad](
+             ingredients_so_far: Seq[Ingredient],
+             salad_so_far: VeganSalad,
+             next_ingredient_function: (Salad, Ingredient) -> VeganSalad,
+             condition_to_continue: (Salad, Ingredient) -> Boolean
+         ): Salad =
+    if ingredients_so_far.isEmpty
+    then salad_so_far
+    else
+      if not condition_to_continue(salad_so_far, ingredients_so_far.head)
+      then salad_so_far
+      else _tailrec_prepare_vegan_salad(ingredients_so_far.tail, next_ingredient_function(salad_so_far, ingredients_so_far.head), next_ingredient_function, condition_to_continue)
 
   prepare_vegan_salad[Ingredient, Salad, VeganSalad subtype Salad](
       list_of_ingredients: Seq[Ingredient],
@@ -9,19 +22,10 @@ package soda.translator.example
       next_ingredient_function: (Salad, Ingredient) -> VeganSalad,
       condition_to_continue: (Salad, Ingredient) -> Boolean
   ): Salad =
-    let
-      @tailrec
-      rec(ingredients_so_far: Seq[Ingredient], salad_so_far: Salad): Salad =
-        if ingredients_so_far.isEmpty
-        then salad_so_far
-        else
-          if not condition_to_continue(salad_so_far, ingredients_so_far.head)
-          then salad_so_far
-          else rec(ingredients_so_far.tail, next_ingredient_function(salad_so_far, ingredients_so_far.head))
-
-    in rec(list_of_ingredients, initial_bowl)
+    _tailrec_prepare_vegan_salad(list_of_ingredients, initial_bowl, next_ingredient_function, condition_to_continue)
 
 }
 
-* SaladMaker_() extends SaladMaker
+* SaladMaker_()
+  extends SaladMaker
 

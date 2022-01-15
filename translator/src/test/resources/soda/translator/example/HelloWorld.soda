@@ -1,13 +1,14 @@
-package soda.translator.example
-
+package soda.example
 
 * MainClass = {
 
   main(arguments: Array[String]): Unit =
     println("Hello world!")
+
 }
 
-* Main() extends MainClass
+* Main()
+  extends MainClass
 
 @main
 

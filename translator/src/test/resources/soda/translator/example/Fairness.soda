@@ -1,12 +1,12 @@
-package soda.translator.example
-
+package soda.example
 
 class Applicant is {
 
   has background_score: Double
+
 }
 
-class Fairness is {
+class AbstractFairness is {
 
   has rank: Applicant -> Double
 
@@ -17,6 +17,11 @@ class Fairness is {
   has measure_time: Any -> Double
 
   has maximum_execution_time: Double
+
+}
+
+class Fairness
+  extends AbstractFairness is {
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)
@@ -36,5 +41,6 @@ class Fairness is {
     if measure_time (rank (applicant)) < maximum_execution_time
     then true
     else false
+
 }
 

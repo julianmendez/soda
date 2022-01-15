@@ -1,0 +1,75 @@
+package soda.translator.extension.toscala
+
+* MultiLineSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.block.DefaultBlockTranslator_
+  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
+  + soda.translator.parser.BlockBuilder_
+  + soda.translator.parser.BlockProcessor_
+
+  bp = BlockProcessor_ (DefaultBlockTranslator_ ())
+
+  mt = MicroTranslatorToScala_ ()
+
+  original_input =
+    "  value = 1\n" +
+    "  sequence = Seq(1 ,\n" +
+    "    2,  \n" +
+    "    3)\n" +
+    "  f( x: Int,\t\n" +
+    "     y: Int,\n" +
+    "     z: Int) =\n" +
+    "       x * x + y * y + z * z\n"
+
+  original_input_lines = Seq(
+    "  value = 1",
+    "  sequence = Seq(1 ,",
+    "    2,  ",
+    "    3)",
+    "  f( x: Int,\t",
+    "     y: Int,",
+    "     z: Int) =",
+    "       x * x + y * y + z * z")
+
+  joined_comma_lines = Seq(
+    "  value = 1",
+    "  sequence = Seq(1 ,    2,      3)",
+    "  f( x: Int,\t     y: Int,     z: Int) =",
+    "       x * x + y * y + z * z")
+
+  joined_output =
+    "  value = 1\n" +
+    "  sequence = Seq(1 ," +
+    "    2,  " +
+    "    3)\n" +
+    "  f( x: Int,\t" +
+    "     y: Int," +
+    "     z: Int) =\n" +
+    "       x * x + y * y + z * z"
+
+  build_block (lines: Seq [String]): AnnotatedBlock =
+    BlockBuilder_ ().build (lines, BlockAnnotationEnum_ ().undefined)
+
+  test ("should split a program in multiple lines")
+    let
+      obtained = bp.make_block (original_input)
+      expected = build_block (original_input_lines )
+    in assert(obtained == expected)
+
+  test ("should preprocess the comma in multiple lines")
+    let
+      obtained = LineForwardJoinerBlockTranslator_ ().translate (build_block (original_input_lines) )
+      expected = build_block (joined_comma_lines)
+    in assert(obtained == expected)
+
+  test ("should join the translated lines of a program")
+    let
+      obtained = build_block (joined_comma_lines)
+      expected = bp.make_block (joined_output)
+    in assert(obtained == expected)
+
+}
+

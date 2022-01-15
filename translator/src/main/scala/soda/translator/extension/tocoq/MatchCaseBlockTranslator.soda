@@ -1,0 +1,35 @@
+package soda.translator.extension.tocoq
+
+* MatchCaseBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.parser.BlockBuilder_
+
+  tc = TranslationConstantToCoq_ ()
+
+  _labels = BlockAnnotationEnum_ ()
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == _labels.function_definition or
+      block.block_annotation == _labels.test_declaration
+    then _translate_block (block)
+    else block
+
+  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build(
+      block.lines
+        .map (line -> append_with_after_match (line) ), block.block_annotation
+    )
+
+  append_with_after_match (line: String): String =
+    if line.trim ().startsWith (tc.soda_match_pattern)
+    then line + tc.space + tc.coq_with_reserved_word
+    else line
+
+}
+
+* MatchCaseBlockTranslator_ ()
+  extends MatchCaseBlockTranslator
+

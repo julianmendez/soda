@@ -9,23 +9,21 @@ package soda.lib
  */
 trait CartesianProduct {
 
-  def get_cartesian_product [T]  (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
-    {
-      lazy val result =
-        if (sequences.isEmpty
-        ) sequences
-        else
-          {
-            lazy val rev_sequences = sequences.reverse
-            Recursion_ () .fold (rev_sequences.tail, initial_value (rev_sequences.head ), next_value ) }
+  def _initial_value [T] (seq: Seq [T]  ): Seq [Seq [T]] =
+    seq.map (elem => Seq [T] (elem )  )
 
-      def initial_value (seq: Seq [T]  ): Seq [Seq [T]] = seq.map (elem => Seq (elem )  )
+  def _next_value [T] (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
+    seq_a.flatMap (elem_a =>
+      accum.map (seq_b => seq_b.+: (elem_a ) ) )
 
-      def next_value (accum: Seq [Seq [T]], seq_a: Seq [T]  ): Seq [Seq [T]] =
-        seq_a.flatMap (elem_a =>
-          accum.map (seq_b => seq_b.+: (elem_a ) ) )
+  def _apply_recursion [T] (rev_sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
+    Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [T]  )
 
-      result }
+  def get_cartesian_product [T] (sequences: Seq [Seq [T]]  ): Seq [Seq [T]] =
+    if (sequences.isEmpty
+    ) sequences
+    else _apply_recursion (sequences.reverse )
+
 }
 
-case class CartesianProduct_ () extends CartesianProduct
+case class CartesianProduct_ ()  extends CartesianProduct

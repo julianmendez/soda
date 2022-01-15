@@ -1,0 +1,25 @@
+package soda.example.mathematics
+
+class AbstractFactorialVerbose = {
+
+  has get_factorial (n: Int): Int
+
+}
+
+class FactorialVerbose
+  extends AbstractFactorialVerbose = {
+
+  @tailrec
+  _tailrec_get_factorial (n: Int, product: Int): Int is
+    if n == 0
+    then product
+    else _tailrec_get_factorial (n - 1, n * product)
+
+  get_factorial (n: Int) is
+    _tailrec_get_factorial (n, 1)
+
+}
+
+class FactorialVerbose_ ()
+  extends FactorialVerbose
+

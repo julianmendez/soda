@@ -1,0 +1,16 @@
+package soda.translator.block
+
+* PlainBlock = {
+
+  has lines: Seq [String]
+
+  new_line = "\n"
+
+  contents: String =
+    lines.mkString (new_line)
+
+}
+
+* PlainBlock_ (lines: Seq [String])
+  extends PlainBlock
+

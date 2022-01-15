@@ -1,0 +1,27 @@
+package soda.translator.block
+
+* AnnotatedLine = {
+
+  has line: String
+
+  has is_comment: Boolean
+
+}
+
+* AnnotatedLine_ (line: String, is_comment: Boolean)
+  extends AnnotatedLine
+
+* Block
+  extends PlainBlock = {
+
+  has annotated_lines: Seq [AnnotatedLine]
+
+  readable_lines: Seq [AnnotatedLine] =
+    annotated_lines
+      .filter (line -> not line.is_comment)
+
+}
+
+* Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine])
+  extends Block
+

@@ -1,15 +1,15 @@
-package soda.translator.example
-
+package soda.example
 
 trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
+
 }
 
-case class Main () extends MainClass
+case class Main ()  extends MainClass
 
 object EntryPoint {
-  def main(args: Array[String]): Unit = Main().main(args)
+  def main (args: Array [String]): Unit = Main ().main (args)
 }
 

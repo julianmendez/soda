@@ -27,9 +27,11 @@ Keywords
 :
 :=
 =
+=>
 case
 class
 else
+end
 extends
 has
 if
@@ -40,9 +42,11 @@ lambda
 let
 match
 package
+proof
 subtype
 supertype
 then
+theorem
 this
 with
 |

@@ -1,0 +1,44 @@
+package soda.translator.extension.toscala
+
+* MatchCaseBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.parser.BlockBuilder_
+
+  tc = TranslationConstantToScala_ ()
+
+  _labels = BlockAnnotationEnum_ ()
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == _labels.function_definition or
+      block.block_annotation == _labels.test_declaration
+    then _translate_block (block)
+    else block
+
+  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      block.lines
+        .map (line -> insert_match_before_brace_if_found (line) ), block.block_annotation
+    )
+
+  insert_match_before_brace_if_found (line: String): String =
+    if line.trim ().startsWith (tc.soda_match_pattern)
+    then _assemble_parts (index := line.indexOf (tc.soda_match_pattern), line)
+    else line
+
+  _assemble_parts (index: Int, line: String): String =
+    _left_part (index, line) + _right_part (index, line) + tc.scala_match_translation + tc.space + tc.scala_opening_brace
+
+  _left_part (index: Int, line: String): String =
+    line.substring (0, index)
+
+  _right_part (index: Int, line: String): String =
+    line.substring (index + tc.soda_match_pattern.length, line.length)
+
+}
+
+* MatchCaseBlockTranslator_ ()
+  extends MatchCaseBlockTranslator
+

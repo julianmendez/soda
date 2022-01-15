@@ -1,0 +1,179 @@
+package soda.example.algorithms
+
+* SortExample = {
+
+  has is_sorted (sequence: Seq [Int]): Boolean
+
+}
+
+* SortExampleWithAt
+  extends SortExample = {
+
+  is_sorted (sequence: Seq [Int]): Boolean =
+    sequence
+      .indices
+      .filter (index -> index > 0)
+      .forall (index -> sequence (index - 1) <= sequence (index))
+
+}
+
+* SortExampleWithAt_ ()
+  extends SortExampleWithAt
+
+* SortExampleWithZip
+  extends SortExample = {
+
+  is_sorted (sequence: Seq [Int]): Boolean =
+    sequence
+      .zip (sequence.tail)
+      .forall (pair ->  (pair._1 <= pair._2))
+
+}
+
+* SortExampleWithZip_ ()
+  extends SortExampleWithZip
+
+* SortAlgorithmExample = {
+
+  has sort (sequence: Seq [Int]): Seq [Int]
+
+}
+
+* SortAlgorithmExampleWithFold
+  extends SortAlgorithmExample = {
+
+  + soda.lib.Recursion_
+
+  sort (sequence: Seq [Int]): Seq [Int] =
+    if sequence.length < 2
+    then sequence
+    else Recursion_ ().fold (sequence, _initial_value, _next_value_function)
+
+  _initial_value = Seq [Int] ()
+
+  _next_value_function (current_sequence: Seq [Int], elem: Int): Seq [Int] =
+    insert_sorted (current_sequence, elem)
+
+  insert_sorted (sequence: Seq [Int], element: Int): Seq [Int] =
+    concatenate (
+      first_part := sequence.takeWhile (x -> x < element),
+      middle := Seq (element),
+      last_part := sequence.dropWhile (x -> x < element)
+    )
+
+  concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int]): Seq [Int] =
+    first_part.++ (middle.++ (last_part))
+
+}
+
+* SortAlgorithmExampleWithFold_ ()
+  extends SortAlgorithmExampleWithFold
+
+* ConstrainedSortAlgorithm = {
+
+  + soda.lib.OptionSD
+  + soda.lib.SomeSD_
+  + soda.lib.NoneSD_
+
+  sort (sequence: Seq [Int]): OptionSD [Seq [Int]] =
+    sort_with ( SortAlgorithmExampleWithFold_ ().sort (sequence) )
+
+  sort_with (sorted_sequence: Seq [Int]): OptionSD [Seq [Int]] =
+    if SortExampleWithZip_ ().is_sorted (sorted_sequence)
+    then SomeSD_ (sorted_sequence)
+    else NoneSD_ [Seq [Int]] ()
+
+}
+
+* ConstrainedSortAlgorithm_ ()
+  extends ConstrainedSortAlgorithm
+
+* SortedSequence [A subtype Comparable [A]] = {
+
+  has sequence: Seq [A]
+
+  has add (element: A): SortedSequence [A]
+
+  has invariant: Boolean
+
+}
+
+* EmptySortedSequence [A subtype Comparable [A]]
+  extends SortedSequence [A] = {
+
+  sequence = Seq ()
+
+  add (element: A): SortedSequence [A] =
+     _NonEmptySortedSequence_ (Seq (element))
+
+  invariant: Boolean = true
+
+}
+
+* EmptySortedSequence_ [A subtype Comparable [A]] ()
+  extends EmptySortedSequence [A]
+
+* SortedSequenceWithElements [A subtype Comparable [A]]
+  extends SortedSequence [A] = {
+
+  has sequence: Seq [A]
+
+}
+
+* NonEmptySortedSequence [A subtype Comparable [A]]
+  extends SortedSequenceWithElements [A] = {
+
+  aux = NonEmptySortedSequenceAux_ [A] ()
+
+  add (element: A): SortedSequence [A] =
+    _NonEmptySortedSequence_ (aux.insert_sorted (sequence, element))
+
+  invariant: Boolean = aux.is_sorted (sequence)
+
+}
+
+* _NonEmptySortedSequence_ [A subtype Comparable [A]] (sequence: Seq [A])
+  extends NonEmptySortedSequence [A]
+
+* NonEmptySortedSequenceAux [A subtype Comparable [A]] = {
+
+  is_less_than (x: A, y: A): Boolean =
+    x.compareTo (y) < 0
+
+  is_sorted (other_sequence: Seq [A]): Boolean =
+    other_sequence
+      .zip (other_sequence.tail)
+      .forall (pair -> is_less_than (pair._1, pair._2))
+
+  insert_sorted (original_sequence: Seq [A], element: A): Seq [A] =
+    concatenate (
+      first_part := original_sequence.takeWhile (x -> is_less_than (x, element)),
+      middle := Seq (element),
+      last_part := original_sequence.dropWhile (x -> is_less_than (x, element))
+    )
+
+  concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A]): Seq [A] =
+    first_part.++ (middle.++ (last_part))
+
+}
+
+* NonEmptySortedSequenceAux_ [A subtype Comparable [A]] ()
+  extends NonEmptySortedSequenceAux [A]
+
+* SortedSequenceBuilder [A subtype Comparable [A]] = {
+
+  + soda.lib.Recursion_
+
+  build (sequence: Seq [A]): SortedSequence [A] =
+    Recursion_ ().fold (sequence, _initial_value, _next_value_function)
+
+  _initial_value = EmptySortedSequence_ [A] ()
+
+  _next_value_function (sorted_sequence: SortedSequence [A], element: A): SortedSequence [A] =
+    sorted_sequence.add (element)
+
+}
+
+* SortedSequenceBuilder_ [A subtype Comparable [A]] ()
+  extends SortedSequenceBuilder [A]
+

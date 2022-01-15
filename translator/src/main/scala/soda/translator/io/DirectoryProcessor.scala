@@ -1,6 +1,5 @@
 package soda.translator.io
 
-
 trait AbstractDirectoryProcessor {
 
   def start: String
@@ -8,9 +7,11 @@ trait AbstractDirectoryProcessor {
   def process_soda_file: java.io.File => Boolean
 
   def process (): Boolean
+
 }
 
 trait DirectoryProcessor  extends AbstractDirectoryProcessor {
+
   import java.io.File
 
   lazy val soda_suffix = ".soda"
@@ -33,6 +34,7 @@ trait DirectoryProcessor  extends AbstractDirectoryProcessor {
       soda_files
         .map (process_soda_file )
         .forall (x => x )
+
 }
 
 case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean )  extends DirectoryProcessor

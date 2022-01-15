@@ -1,0 +1,83 @@
+package soda.translator.block
+
+* BlockTranslator00 ()
+  extends BlockTranslator = {
+
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.parser.BlockBuilder_
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.++ ( Seq ("tr00") ),
+      BlockAnnotationEnum_ ().undefined
+    )
+
+}
+
+* BlockTranslator01 ()
+  extends BlockTranslator = {
+
+  + soda.translator.parser.BlockBuilder_
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.++ ( Seq ("tr01") ),
+      BlockAnnotationEnum_ ().undefined
+    )
+
+}
+
+* BlockTranslator02 ()
+  extends BlockTranslator = {
+
+  + soda.translator.parser.BlockBuilder_
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      if block.lines.isEmpty
+      then Seq ("")
+      else block.lines.++ ( Seq ("tr02") ),
+      BlockAnnotationEnum_ ().undefined
+    )
+
+}
+
+* BlockTranslatorPipelineSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  + soda.translator.parser.BlockBuilder_
+
+  instance =
+    BlockTranslatorPipeline_ (
+      Seq (
+        BlockTranslator00 (),
+        BlockTranslator01 (),
+        BlockTranslator02 ()
+      )
+    )
+
+  test ("block translator pipeline")
+    let
+      original = BlockBuilder_ ().build (
+        Seq ( "first line" ),
+        BlockAnnotationEnum_ ().undefined
+      )
+      expected =
+        BlockBuilder_ ().build (
+          Seq (
+            "first line",
+            "tr00",
+            "tr01",
+            "tr02"
+          ),
+          BlockAnnotationEnum_ ().undefined
+        )
+      obtained = instance.translate (original)
+    in assert (obtained == expected)
+
+}
+

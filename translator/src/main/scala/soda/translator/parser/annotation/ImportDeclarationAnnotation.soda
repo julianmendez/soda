@@ -1,0 +1,25 @@
+package soda.translator.parser.annotation
+
+* ImportDeclarationAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.parser.SodaConstant_
+
+  identifier = BlockAnnotationEnum_ ().import_declaration
+
+  applies: Boolean =
+    block.readable_lines.nonEmpty and
+    block
+      .readable_lines
+      .forall (annotated_line -> is_line_an_import (annotated_line.line) )
+
+  is_line_an_import (line: String): Boolean =
+    line.trim.startsWith (SodaConstant_ ().import_reserved_word + space) or
+    line.trim.startsWith (SodaConstant_ ().import_abbreviation + space)
+
+}
+
+* ImportDeclarationAnnotation_ (block: soda.translator.block.Block)
+  extends ImportDeclarationAnnotation
+

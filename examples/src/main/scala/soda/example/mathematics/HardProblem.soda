@@ -1,0 +1,98 @@
+package soda.example.mathematics
+
+* MemoizableFunction [A, B] = {
+
+  has compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]]
+
+}
+
+* MainFunction [A, B] = {
+
+  has main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]]
+
+}
+
+* Memoizer [A, B]
+  extends MemoizableFunction [A, B] with MainFunction [A, B] = {
+
+  compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
+    _compute_with (memoized_values.get (x), x, memoized_values)
+
+  _compute_with (maybe_res: Option [B], x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
+    if maybe_res.isEmpty
+    then compute_and_update (x, memoized_values)
+    else Tuple2 (maybe_res.get, memoized_values)
+
+  compute_and_update (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
+    _compute_and_update_with (main_function (x, memoized_values), x, memoized_values)
+
+  _compute_and_update_with (tuple: Tuple2 [B, Map [A, B]], x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
+    _add_element ( Tuple2 (x, tuple._1), tuple, x, memoized_values)
+
+  _add_element (new_pair: Tuple2 [A, B], tuple: Tuple2 [B, Map [A, B]], x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
+    Tuple2 (tuple._1, tuple._2 + new_pair)
+
+}
+
+* Memoizer_ [A, B] (main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]])
+  extends Memoizer [A, B]
+
+* HardProblem
+  extends MemoizableFunction [Int, Int] = {
+
+  memoizer = Memoizer_ [Int, Int] (main_function)
+
+  is_even (n: Int): Boolean =
+    n % 2 == 0
+
+  one_step (n: Int): Int =
+    if is_even (n)
+    then n / 2
+    else 3 * n + 1
+
+  main_function (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
+    if n == 1
+    then Tuple2 (0, memoized_values)
+    else _plus_one ( compute (one_step (n), memoized_values) )
+
+  _plus_one (pair: Tuple2 [Int, Map [Int, Int]]): Tuple2 [Int, Map [Int, Int]] =
+    Tuple2 (1 + pair._1, pair._2)
+
+  compute (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
+    memoizer.compute (n, memoized_values)
+
+}
+
+* HardProblem_ ()
+  extends HardProblem
+
+* MemoizedFibonacci
+  extends MemoizableFunction [Int, Int] = {
+
+  memoizer = Memoizer_ [Int, Int] (main_function)
+
+  main_function (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
+    if n == 0 then Tuple2 (0, memoized_values)
+    else if n == 1 then Tuple2 (1, memoized_values)
+    else _compute_and_update_1 (compute (n - 2, memoized_values), n)
+
+  _compute_and_update_1 (first_tuple: Tuple2 [Int, Map [Int, Int]], n: Int): Tuple2 [Int, Map [Int, Int]] =
+    _compute_and_update_2 (first_tuple._1, compute (n - 1, first_tuple._2), n)
+
+  _compute_and_update_2 (first_value: Int, second_tuple: Tuple2 [Int, Map [Int, Int]], n: Int): Tuple2 [Int, Map [Int, Int]] =
+    _compute_and_update_3 ( _get_next_fibo (first_value, second_tuple._1), second_tuple._2, n)
+
+  _compute_and_update_3 (res: Int, second_map: Map [Int, Int], n: Int): Tuple2 [Int, Map [Int, Int]] =
+    Tuple2 (res, second_map + Tuple2 (n, res) )
+
+  _get_next_fibo (a: Int, b: Int): Int =
+    a + b
+
+  compute (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
+    memoizer.compute (n, memoized_values)
+
+}
+
+* MemoizedFibonacci_ ()
+  extends MemoizedFibonacci
+

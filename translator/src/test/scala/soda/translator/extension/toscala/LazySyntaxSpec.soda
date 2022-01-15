@@ -1,0 +1,75 @@
+package soda.translator.extension.toscala
+
+* ExampleWithWrongOrder = {
+
+  this_is_null_but = constant_defined_later
+
+  constant_defined_later = "Success!"
+
+}
+
+* ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
+
+* ExampleWithRightOrder = {
+
+  constant_defined_before = "Success!"
+
+  this_is_not_null = constant_defined_before
+
+}
+
+* ExampleWithRightOrder_ () extends ExampleWithRightOrder
+
+* ExampleWithEmptyParentheses = {
+
+  this_is_not_null  () = constant_defined_later
+
+  constant_defined_later = "Success!"
+
+}
+
+* ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
+
+* AnotherExampleWithEmptyParentheses = {
+
+  this_is_not_null = constant_function_defined_later  ()
+
+  constant_function_defined_later  () = "Success!"
+
+}
+
+* AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
+
+/**
+ * In Soda constants cannot be defined as 'lazy val'.
+ * These tests detect and test this problem, and test work-arounds.
+ */
+* LazySyntaxSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  test ("should show what happens when constants are defined in the wrong order")
+    let
+      obtained = ExampleWithWrongOrder_ ().this_is_null_but
+      expected = "Success!"
+    in assert (obtained == expected)
+
+  test ("should show what happens when constants are defined in the right order")
+    let
+      obtained = ExampleWithRightOrder_ ().this_is_not_null
+      expected = "Success!"
+    in assert (obtained == expected)
+
+  test ("should show what happens when one work-around is used")
+    let
+      obtained = ExampleWithEmptyParentheses_ ().this_is_not_null  ()
+      expected = "Success!"
+    in assert (obtained == expected)
+
+  test ("should show what happens when another work-around is used")
+    let
+      obtained = AnotherExampleWithEmptyParentheses_ ().this_is_not_null
+      expected = "Success!"
+    in assert (obtained == expected)
+
+}
+

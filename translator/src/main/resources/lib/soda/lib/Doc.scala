@@ -10,4 +10,5 @@ package soda.lib
 trait Doc {
 
   def doc: String
+
 }

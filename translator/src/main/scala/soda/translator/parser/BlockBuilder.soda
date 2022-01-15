@@ -1,0 +1,72 @@
+package soda.translator.parser
+
+* BlockBuilder = {
+
+  + soda.lib.Recursion_
+  + soda.translator.block.AnnotatedLine
+  + soda.translator.block.AnnotatedLine_
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.AnnotatedBlock_
+  + soda.translator.block.Block
+  + soda.translator.block.Block_
+  + soda.translator.block.BlockAnnotationId
+  + soda.translator.parser.BlockBuilder_
+
+  soda_begin_comment = "/*"
+
+  soda_end_comment = "*/"
+
+  build (lines: Seq [String], annotation: BlockAnnotationId): AnnotatedBlock =
+    AnnotatedBlock_ (lines, get_annotated_lines (lines), annotation)
+
+  get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =
+    Recursion_ ().fold (lines, initial_value, next_value_function)
+      .annotated_lines_rev
+      .reverse
+
+  initial_value = PreprocessorFoldTuple_ (false, Seq ())
+
+  next_value_function (pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+    _next_value_function_with ( _annotate_this_line (line, pair.comment_state), pair, line )
+
+  _next_value_function_with (t: CurrentAndNewCommentState, pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state)))
+
+  _annotate_this_line (line: String, comment_state: Boolean): CurrentAndNewCommentState =
+    if comment_state
+    then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
+    else
+      if line.trim.startsWith (soda_begin_comment)
+      then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
+      else CurrentAndNewCommentState_ (false, false)
+
+}
+
+* BlockBuilder_ ()
+  extends BlockBuilder
+
+* PreprocessorFoldTuple = {
+
+  + soda.translator.block.AnnotatedLine
+
+  has comment_state: Boolean
+
+  has annotated_lines_rev: Seq [AnnotatedLine]
+
+}
+
+* PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
+  extends PreprocessorFoldTuple
+
+* CurrentAndNewCommentState = {
+
+  has current_state: Boolean
+
+  has new_comment_state: Boolean
+
+}
+
+* CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
+  extends CurrentAndNewCommentState
+
+

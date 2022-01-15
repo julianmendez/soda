@@ -3,7 +3,24 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-08-12
+ * Version: 2021-11-19
+ */
+
+/*
+ * Source code written in Soda is intended to be descriptive.
+ * It is usually written in different files, and each file has `blocks`.
+ * These blocks are pieces of code that have some meaning.
+ * A block should be short, maybe less than 10 lines.
+ * However, it is more important to make things clear than concise.
+ * These are examples of blocks:
+ * 1. a constant or function definition
+ * 2. the beginning of a class definition
+ * 3. the end of a class definition
+ * 4. a class declaration
+ * 5. an abstract constant or function declaration
+ * 6. a list of imports
+ * 7. a package declaration
+ * 8. a comment
  */
 
 /* To declare a class, just add `class` before a class name.
@@ -28,7 +45,7 @@ trait ShapeMover [A <: Shape with Movable]
  * It is recommended to indent the constants and functions declared inside. */
 trait EqualsExample {
 
-  /* A constant does not have parameters, and it is declared with the equals sign (`=`).
+  /* A constant does not have parameters and it is declared with the equals sign (`=`).
    * It is recommended to use snake case and start in lowercase.
    * The constant name should be a noun.
    * In a function call the parameters can be specified with the colon-equals sign (`:=`).
@@ -40,6 +57,7 @@ trait EqualsExample {
    * If the parameters are empty, it is implied that the function produces some side effect.
    * Functions, even with empty parameters, are evaluated every time they are invoked. */
   def f (x: Int, y: Int ): Int = 2 * x + y
+
 }
 
 /* A class can extend another one by using `extends`.
@@ -48,7 +66,7 @@ trait EqualsExample {
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
-case class EqualsExample_ () extends EqualsExample
+case class EqualsExample_ ()  extends EqualsExample
 
 /* A class does not need to define all its constants and functions. */
 trait RegisteredPerson {
@@ -63,24 +81,26 @@ trait RegisteredPerson {
 
   /* Strings can be concatenated by using the plus sign (`+`). */
   lazy val full_name = first_name + _separator + last_name
+
 }
 
-/* A concrete class can be declared with parameters.
- * It is not recommended to use this pattern when using this class as receiving parameters in functions. */
+/* A concrete class can be declared with parameters. */
 case class Person (name: String )
 
 trait Agent {
 
   def identifier: String
+
 }
 
-/* A concrete class needs as parameters all the constants and functions that have not be defined in its super class.
+/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-case class Agent_ (identifier: String ) extends Agent
+case class Agent_ (identifier: String )  extends Agent
 
 trait RankedIndividual {
 
   def rank: Int
+
 }
 
 case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent with RankedIndividual
@@ -88,46 +108,51 @@ case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent wit
 trait Element {
 
   def accept (v: Visitor ): Boolean
+
 }
 
 trait Visitor {
 
   def visit (x: Element ): Boolean
+
 }
 
-case class Item (identifier: Int ) extends Element {
+case class Item (identifier: Int )  extends Element {
 
   /* It is possible to refer to an object instance by using `this`. */
   def accept (v: Visitor ) = v.visit (this )
+
 }
 
 trait PersonName {
 
   def name: String
 
-  /* It is possible to override a function by using annotation `@override`.
+  /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function. */
   override
   lazy val toString = name
+
 }
 
 /**
   * This contains the examples shown in the manual.
   */
 trait Manual {
+
   import java.util.Date
 
   lazy val a = 1
 
   lazy val b: Int = 2
 
-  /* An instance of a JVM class can be created with annotation `@new`.
+  /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
   lazy val now = new Date ()
 
   def plus_one (x: Int ): Int = x + 1
 
-  /* A function can be defined using a `if`-`then`-`else` structure.
+  /* A piecewise function can be defined using an `if`-`then`-`else` structure.
    * The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. */
   def max (x: Int, y: Int ): Int =
     if (x > y
@@ -165,24 +190,36 @@ trait Manual {
   def my_xor (x: Boolean, y: Boolean ) =
     (x || y ) && ! (x && y )
 
+  /* It is possible to use pattern matching with `match` and `case`.
+   * Please observe the double arrow `=>`. */
+  def if_then_else [A] (condition: Boolean, if_true: A, if_false: A ) =
+    condition match  {
+      case true => if_true
+      case false => if_false
+    }
+
+  /* A vertical bar `|` can be used as an abbreviation for `case`. */
+  def another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A ) =
+    condition match  {
+      case true => if_true
+      case false => if_false
+    }
+
   /* To evaluate a constant or a function, it is possible to declare intermediate functions.
-   * This is done in a block `let`-`in`.
+   * This is done in a `let`-`in` block.
    * The block starts with a `let` containing the intermediate functions in no particular order.
    * This block is evaluated in an expression after the `in`. */
   def sum (n: Int ) =
-    {
-      lazy val result = rec (n, 0 )
+    _tailrec_ (n, 0 )
 
-      /* A tail recursive function should be declared inside another function.
-       * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, accum: Int ): Int =
-        if (n < 0
-        ) accum
-        else rec (n - 1, n + accum )
-
-      result }
+  /* A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.
+   * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_ (n: Int, accum: Int ): Int =
+    if (n < 0
+    ) accum
+    else _tailrec_ (n - 1, n + accum )
 
   def f0 (x: Int ): Int =
     {
@@ -200,98 +237,96 @@ trait Manual {
       result }
 
   def g (x: Int ): Int = x + 1
+
 }
 
 trait AbstractFactorialConcise {
 
   def factorial (n: Int ): Int
+
 }
 
 trait FactorialConcise  extends AbstractFactorialConcise {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_ (n: Int, product: Int ): Int =
+    /* The function to compare equality is a long equals (`==`). */
+    if (n == 0
+    ) product
+    else _tailrec_ (n - 1, n * product )
+
   def factorial (n: Int ) =
-    {
-      lazy val result = rec (n, 1 )
+    _tailrec_ (n, 1 )
 
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, product: Int ): Int =
-        /* The function to compare equality is a long equals (`==`). */
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-
-      result }
 }
 
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 trait AbstractFactorialVerbose {
 
   def factorial (n: Int ): Int
+
 }
 
 trait FactorialVerbose  extends AbstractFactorialVerbose {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_ (n: Int, product: Int ): Int =
+    if (n == 0
+    ) product
+    else _tailrec_ (n - 1, n * product )
+
   def factorial (n: Int ) =
-    {
-      lazy val result = rec (n, 1 )
+    _tailrec_ (n, 1 )
 
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, product: Int ): Int =
-        if (n == 0
-        ) product
-        else rec (n - 1, n * product )
-
-      result }
 }
 
 trait Recursion {
 
-  def fold [A, B, C <: B]  (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (seq: Seq [A], acc: C ): C =
-        if (seq.isEmpty
-        ) acc
-        else
-          if (! condition (acc, seq.head )
-          ) acc
-          else rec (seq.tail, next_value_function (acc, seq.head )  )
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+    if (sequence.isEmpty
+    ) current_value
+    else
+      if (! condition (current_value, sequence.head )
+      ) current_value
+      else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-      rec (sequence, initial_value ) }
+  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
+    _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
+
+  import scala.annotation.tailrec
+        @tailrec  final
+  def _tailrec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
+    if (n <= 0
+    ) sequence
+    else _tailrec_range (n - 1, sequence.+: (n - 1 )  )
 
   def range (length: Int ): Seq [Int] =
-    {
-      import scala.annotation.tailrec
-        @tailrec
-      def rec (n: Int, seq: Seq [Int]  ): Seq [Int] =
-        if (n <= 0
-        ) seq
-        else rec (n - 1, seq.+: (n - 1 )  )
+    _tailrec_range (length, Seq [Int] ()  )
 
-      rec (length, Seq [Int]  ()  ) }
 }
 
-case class Recursion_ () extends Recursion
+case class Recursion_ ()  extends Recursion
 
+/* The main class is concrete and it is called `Main ()`. */
+case class Main ()  extends MainClass
 
-/* The main class is concrete and it is called `Main()`. */
-case class Main () extends MainClass
-
-/* The main class requires a `main` function that receives an `Array[String]` and returns a `Unit`. */
+/* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 trait MainClass {
 
   def main (arguments: Array [String]  ): Unit =
-    /* An output to the standard output can be send with a `println` command.
+    /* An output to the standard output can be sent with a `println` command.
      * This is a shorter form of JVM's `System.out.println`. */
     println ("Hello world!")
+
 }
 
-/* The main class needs to be indicated with annotation `@main`.
+/* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
 object EntryPoint {
-  def main(args: Array[String]): Unit = Main().main(args)
+  def main (args: Array [String]): Unit = Main ().main (args)
 }
 

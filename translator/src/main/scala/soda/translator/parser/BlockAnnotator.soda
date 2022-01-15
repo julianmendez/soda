@@ -1,0 +1,61 @@
+package soda.translator.parser
+
+* BlockAnnotator
+  extends soda.translator.block.BlockTranslator  = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.block.AnnotatedBlock_
+  + soda.translator.block.Block
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.block.BlockAnnotationId
+  + soda.translator.parser.annotation.BlockAnnotation
+  + soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  + soda.translator.parser.annotation.ClassBeginningAnnotation_
+  + soda.translator.parser.annotation.ClassEndAnnotation_
+  + soda.translator.parser.annotation.ClassDeclarationAnnotation_
+  + soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
+  + soda.translator.parser.annotation.ImportDeclarationAnnotation_
+  + soda.translator.parser.annotation.PackageDeclarationAnnotation_
+  + soda.translator.parser.annotation.ProofBlockAnnotation_
+  + soda.translator.parser.annotation.CommentAnnotation_
+  + soda.translator.parser.annotation.TestDeclarationAnnotation_
+  + soda.translator.parser.annotation.TheoremBlockAnnotation_
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == BlockAnnotationEnum_ ().undefined
+    then AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block) )
+    else block
+
+  detectors (block: Block): Seq [BlockAnnotation] =
+    Seq (
+      FunctionDefinitionAnnotation_ (block),
+      ClassBeginningAnnotation_ (block),
+      ClassEndAnnotation_ (block),
+      ClassDeclarationAnnotation_ (block),
+      AbstractFunctionDeclarationAnnotation_ (block),
+      ImportDeclarationAnnotation_ (block),
+      PackageDeclarationAnnotation_ (block),
+      TheoremBlockAnnotation_ (block),
+      ProofBlockAnnotation_ (block),
+      CommentAnnotation_ (block),
+      TestDeclarationAnnotation_ (block)
+    )
+
+  find_candidates (block: Block): Seq [BlockAnnotationId] =
+    detectors (block)
+      .filter (detector -> detector.applies)
+      .map (detector -> detector.identifier)
+
+  get_annotation (block: Block): BlockAnnotationId =
+    _get_first_or_undefined (find_candidates (block))
+
+  _get_first_or_undefined (candidates: Seq [BlockAnnotationId]): BlockAnnotationId =
+    if candidates.length == 1
+    then candidates.head
+    else BlockAnnotationEnum_ ().undefined
+
+}
+
+* BlockAnnotator_ ()
+  extends BlockAnnotator
+

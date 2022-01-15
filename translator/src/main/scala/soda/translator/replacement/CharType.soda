@@ -1,29 +1,31 @@
 package soda.translator.replacement
 
-
 /**
  * This is to classify characters.
  */
-* CharType extends soda.lib.EnumConstant
+* CharType
+  extends soda.lib.EnumConstant
 
-* CharType_(ordinal: Int, name: String) extends CharType
+* CharType_ (ordinal: Int, name: String)
+  extends CharType
 
 /**
  * This is an enumeration for all types of characters.
  */
-* CharTypeEnum extends soda.lib.Enum[CharType] = {
+* CharTypeEnum
+  extends soda.lib.Enum [CharType] = {
 
-  undefined_type = CharType_(0, "undefined_type")
+  undefined_type = CharType_ (0, "undefined_type")
 
-  quotes_type = CharType_(1, "quotes_type")
+  quotes_type = CharType_ (1, "quotes_type")
 
-  apostrophe_type = CharType_(2, "apostrophe_type")
+  apostrophe_type = CharType_ (2, "apostrophe_type")
 
-  backslash_type = CharType_(3, "backslash_type")
+  backslash_type = CharType_ (3, "backslash_type")
 
-  plain_type = CharType_(4, "plain_type")
+  plain_type = CharType_ (4, "plain_type")
 
-  values = Seq(undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
+  values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
 
   backslash_char = '\\'
 
@@ -33,33 +35,35 @@ package soda.translator.replacement
 
   underscore_char = '_'
 
-  symbol_chars = Seq('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+  symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
-  get_char_type(ch: Char): CharType =
-    if is_quotes(ch) then quotes_type
-    else if is_apostrophe(ch) then apostrophe_type
-    else if is_backslash(ch) then backslash_type
-    else if is_whitespace(ch) or is_letter_or_digit_or_underscore(ch) or is_symbol(ch) then plain_type
+  get_char_type (ch: Char): CharType =
+    if is_quotes (ch) then quotes_type
+    else if is_apostrophe (ch) then apostrophe_type
+    else if is_backslash (ch) then backslash_type
+    else if is_whitespace (ch) or is_letter_or_digit_or_underscore (ch) or is_symbol (ch) then plain_type
     else undefined_type
 
-  is_whitespace(ch: Char): Boolean =
+  is_whitespace (ch: Char): Boolean =
     ch.isWhitespace
 
-  is_letter_or_digit_or_underscore(ch: Char): Boolean =
+  is_letter_or_digit_or_underscore (ch: Char): Boolean =
     ch.isLetterOrDigit or ch == underscore_char
 
-  is_symbol(ch: Char): Boolean =
-    symbol_chars.contains(ch)
+  is_symbol (ch: Char): Boolean =
+    symbol_chars.contains (ch)
 
-  is_quotes(ch: Char): Boolean =
+  is_quotes (ch: Char): Boolean =
     ch == quotes_char
 
-  is_apostrophe(ch: Char): Boolean =
+  is_apostrophe (ch: Char): Boolean =
     ch == apostrophe_char
 
-  is_backslash(ch: Char): Boolean =
+  is_backslash (ch: Char): Boolean =
     ch == backslash_char
+
 }
 
-* CharTypeEnum_() extends CharTypeEnum
+* CharTypeEnum_ ()
+  extends CharTypeEnum
 

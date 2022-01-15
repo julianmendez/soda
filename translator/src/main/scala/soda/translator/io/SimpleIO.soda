@@ -1,11 +1,12 @@
 package soda.translator.io
 
-
 /**
- * This is an auxiliary class to read and write small files.
+ * This is an auxiliary class to read small files.
  */
 * SimpleFileReader = {
+
   + java.io.BufferedReader
+  + java.io.InputStream
   + java.io.InputStreamReader
   + java.nio.file.Files
   + java.nio.file.Paths
@@ -13,41 +14,52 @@ package soda.translator.io
 
   new_line = "\n"
 
-  read_file(file_name: String): String =
-    @new String(Files.readAllBytes(Paths.get(file_name)))
+  read_file (file_name: String): String =
+    @new String (Files.readAllBytes (Paths.get (file_name)))
 
-  read_resource(file_name: String): String =
-    let
-      input_stream = getClass.getResourceAsStream(file_name)
-      reader = @new BufferedReader(@new InputStreamReader(input_stream))
-    in reader.lines().collect(Collectors.joining(new_line))
+  read_resource (file_name: String): String =
+    read_input_stream (getClass.getResourceAsStream (file_name))
+
+  read_input_stream (input_stream: InputStream): String =
+    read_reader_content (@new BufferedReader (@new InputStreamReader (input_stream) ) )
+
+  read_reader_content (reader: BufferedReader): String =
+    reader.lines ().collect (Collectors.joining (new_line))
+
 }
 
-* SimpleFileReader_() extends SimpleFileReader
+/**
+ * This is an auxiliary class to write small files.
+ */
+* SimpleFileReader_ ()
+  extends SimpleFileReader
 
 * SimpleFileWriter = {
+
   + soda.lib.SomeSD_
   + java.io.File
   + java.io.FileWriter
   + java.io.Writer
 
-  write_file(file_name: String, content: String): Boolean =
-    write_file(@new File(file_name), content)
+  write_file (file_name: String, content: String): Boolean =
+    write_file (@new File (file_name), content)
 
-  write_file(file: File, content: String): Boolean =
-    _write_content(@new FileWriter(file), content)
+  write_file (file: File, content: String): Boolean =
+    _write_content (@new FileWriter (file), content)
 
-  _write_content(writer: Writer, content: String): Boolean =
-    SomeSD_(true)
-      .map( x -> writer.write(content) )
-      .map( x -> writer.flush() )
-      .map( x -> writer.close() )
-      .map( x -> true )
+  _write_content (writer: Writer, content: String): Boolean =
+    SomeSD_ (true)
+      .map ( x -> writer.write (content) )
+      .map ( x -> writer.flush () )
+      .map ( x -> writer.close () )
+      .map ( x -> true )
       .value
 
-  create_file(parent_directory: String, file_name: String): File =
-    @new File(parent_directory, file_name)
+  create_file (parent_directory: String, file_name: String): File =
+    @new File (parent_directory, file_name)
+
 }
 
-* SimpleFileWriter_() extends SimpleFileWriter
+* SimpleFileWriter_ ()
+  extends SimpleFileWriter
 

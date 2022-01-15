@@ -1,0 +1,103 @@
+package soda.translator.extension.toscala
+
+* FullTranslationSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite = {
+
+  + org.scalatest.Assertion
+  + soda.translator.parser.BlockProcessor_
+  + java.nio.file.Files
+  + java.nio.file.Paths
+
+  Base = "/soda/translator/example/"
+
+  SodaSuffix = ".soda"
+
+  ScalaSuffix = ".scala"
+
+  SwapExample = "SwapExample"
+
+  FiboExample = "FiboExample"
+
+  FactorialConcise = "FactorialConcise"
+
+  FactorialVerbose = "FactorialVerbose"
+
+  Fairness = "Fairness"
+
+  PiIterator = "PiIterator"
+
+  ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+
+  InANutshell = "inanutshell/InANutshell"
+
+  ManualInput = "/soda/translator/documentation/Manual.soda"
+
+  ManualExpected = "/soda/translator/documentation/Manual.scala"
+
+  test_translation (file_name: String): Assertion =
+    let
+      input_file_name = Base + file_name + SodaSuffix
+      expected_file_name = Base + file_name + ScalaSuffix
+    in test_translation (input_file_name, expected_file_name)
+
+  test_translation (input_file_name: String, expected_file_name: String): Assertion =
+    let
+      input_file = read_file (input_file_name)
+      expected = read_file (expected_file_name)
+      obtained = BlockProcessor_ (MicroTranslatorToScala_ ()).translate  (input_file)
+    in assert (obtained == expected)
+
+  read_file (file_name: String): String =
+    let
+      document_resource = getClass.getResource (file_name)
+      document_URI = document_resource.toURI
+      document_path = Paths.get (document_URI)
+    in @new String (Files.readAllBytes (document_path))
+
+  test ("should translate the swap example")
+    let
+      result = test_translation (SwapExample)
+    in result
+
+  test ("should translate the Fibonacci example")
+    let
+      result = test_translation (FiboExample)
+    in result
+
+  test ("should translate the Factorial Concise example")
+    let
+      result = test_translation (FactorialConcise)
+    in result
+
+  test ("should translate the Factorial Verbose example")
+    let
+      result = test_translation (FactorialVerbose)
+    in result
+
+  test ("should translate the Fairness example")
+    let
+      result = test_translation (Fairness)
+    in result
+
+  test ("should translate the example that calculates pi")
+    let
+      result = test_translation (PiIterator)
+    in result
+
+  test ("should translated Soda code that uses Scala reserved words as variables and functions")
+    let
+      result = test_translation (ScalaReservedWordEscaping)
+    in result
+
+  test ("should translate the manual In A Nutshell")
+    let
+      result = test_translation (InANutshell)
+    in result
+
+  test ("should translate the manual")
+    let
+      result = test_translation (ManualInput, ManualExpected)
+    in result
+
+}
+

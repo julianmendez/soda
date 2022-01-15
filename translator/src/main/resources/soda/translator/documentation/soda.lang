@@ -132,6 +132,7 @@
             <keyword>in</keyword>
             <keyword>match</keyword>
             <keyword>case</keyword>
+            <keyword>end</keyword>
             <keyword>class</keyword>
             <keyword>has</keyword>
             <keyword>extends</keyword>
@@ -139,6 +140,8 @@
             <keyword>this</keyword>
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>
+            <keyword>theorem</keyword>
+            <keyword>proof</keyword>
         </context>
 
         <context id="condition" style-ref="keyword">

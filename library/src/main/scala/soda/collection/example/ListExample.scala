@@ -1,18 +1,19 @@
 package soda.collection.example
 
-
 trait Pair [T] {
 
   def name: String
 
   def result: T
+
 }
 
-case class Pair_ [T]  (name: String, result: T ) extends Pair [T]
+case class Pair_ [T]  (name: String, result: T )  extends Pair [T]
 
 trait ListExample {
 
   lazy val a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
+
   lazy val b: Seq [Int] = Seq (10, 20, 30, 40, 50, 60 )
 
   lazy val a_example: Pair [Seq [Char]] =
@@ -86,6 +87,7 @@ trait ListExample {
 
   lazy val foldRight_example: Pair [Seq [Char]] =
     Pair_ ("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
+
 }
 
-case class ListExample_ () extends ListExample
+case class ListExample_ ()  extends ListExample

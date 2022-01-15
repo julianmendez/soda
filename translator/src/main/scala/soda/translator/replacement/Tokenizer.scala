@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */
@@ -11,14 +10,16 @@ trait Token {
   def parser_state: ParserState
 
   def index: Int
+
 }
 
-case class Token_ (text: String, parser_state: ParserState, index: Int ) extends Token
+case class Token_ (text: String, parser_state: ParserState, index: Int )  extends Token
 
 /**
  * This class processes a line to divide it into tokens.
  */
-trait Tokenizer  extends SingleLineProcessor {
+trait Tokenizer  extends soda.translator.block.SingleLineProcessor {
+
   import soda.lib.Recursion_
 
   lazy val tokens: Seq [Token] =
@@ -31,26 +32,26 @@ trait Tokenizer  extends SingleLineProcessor {
       .reverse
 
   def _next_value_function (tuple: TokenizerFoldTuple, current_index: Int ): TokenizerFoldTuple =
-    {
-      lazy val ch = line.charAt (current_index )
-      lazy val char_type = CharTypeEnum_ () .get_char_type (ch )
-      lazy val new_parser_state = ParserTransition_ () .next_parser_state (tuple.parser_state, char_type )
-      lazy val result =
-        if (ParserStateEnum_ () .is_same_class (new_parser_state, tuple.parser_state )
-        ) TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens )
-        else _next_value_function_of_different_class (tuple, current_index, new_parser_state )
-      result }
+    _new_value_function_with (tuple, current_index, _new_parser_state (tuple, current_index ) )
+
+  def _new_value_function_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
+    if (ParserStateEnum_ () .is_same_class (new_parser_state, tuple.parser_state )
+    ) TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens )
+    else _next_value_function_of_different_class (tuple, current_index, new_parser_state )
+
+  def _new_parser_state (tuple: TokenizerFoldTuple, current_index: Int ): ParserState =
+    ParserTransition_ ()
+      .next_parser_state (tuple.parser_state, CharTypeEnum_ () .get_char_type (line.charAt (current_index )  )      )
 
   def _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
-    {
-      lazy val index =
-        if (tuple.parser_state == ParserStateEnum_ () .quotes_state ||
-           tuple.parser_state == ParserStateEnum_ () .apostrophe_state
-        ) current_index + 1
-        else current_index
-      lazy val text = line.substring (tuple.last_index, index )
+    _next_value_function_of_different_class_with (tuple, current_index, new_parser_state, if (tuple.parser_state == ParserStateEnum_ () .quotes_state ||
+        tuple.parser_state == ParserStateEnum_ () .apostrophe_state
+      ) current_index + 1
+      else current_index    )
 
-      TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (text, tuple.parser_state, tuple.last_index )  )  ) }
+  def _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState, index: Int ): TokenizerFoldTuple =
+    TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index, index ), tuple.parser_state, tuple.last_index        )      )    )
+
 }
 
 case class Tokenizer_ (line: String )  extends Tokenizer
@@ -62,6 +63,7 @@ trait TokenizerFoldTuple {
   def parser_state: ParserState
 
   def rev_tokens: Seq [Token]
+
 }
 
 case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )  extends TokenizerFoldTuple

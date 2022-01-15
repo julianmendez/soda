@@ -1,0 +1,41 @@
+package soda.translator.blocktr
+
+* LineBackwardJoinerBlockTranslator
+  extends soda.translator.block.BlockTranslator = {
+
+  + soda.translator.block.AnnotatedBlock
+  + soda.translator.parser.BlockBuilder_
+
+  space = " "
+
+  reserved_word_joiner: Seq [String] = Seq (
+    "extends", "with"
+  )
+
+  symbol_backward_joiner: Seq [String] = Seq (
+    ")", "]"
+  )
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      Joiner_ (block.lines, is_a_backward_join).join, block.block_annotation
+    )
+
+  is_a_backward_join (previous_line: String, current_line: String): Boolean =
+    is_a_symbol_backward_join (current_line) or
+    is_a_reserved_word_backward_join (current_line)
+
+  is_a_symbol_backward_join (current_line: String): Boolean =
+    symbol_backward_joiner
+      .exists (current_line.startsWith)
+
+  is_a_reserved_word_backward_join (current_line: String): Boolean =
+    reserved_word_joiner
+      .map (x -> x + space)
+      .exists (current_line.startsWith)
+
+}
+
+* LineBackwardJoinerBlockTranslator_ ()
+  extends LineBackwardJoinerBlockTranslator
+

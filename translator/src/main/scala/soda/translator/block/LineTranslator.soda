@@ -1,0 +1,8 @@
+package soda.translator.block
+
+* LineTranslator = {
+
+  has line: String
+
+}
+

@@ -1,31 +1,31 @@
-package soda.translator.example
-
+package soda.example
 
 * Status = {
 
   has r: BigInt
 
-  has n: BigInt
+  has n: Int
 
   has q: BigInt
 
   has t: BigInt
 
-  has l: BigInt
+  has l: Int
 
-  has k: BigInt
+  has k: Int
 
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
+
 }
 
 * Status_(
     r: BigInt,
-    n: BigInt,
+    n: Int,
     q: BigInt,
     t: BigInt,
-    l: BigInt,
-    k: BigInt
+    l: Int,
+    k: Int
   ) extends Status
 
 * PiIterator = {
@@ -33,65 +33,61 @@ package soda.translator.example
   initial_status =
     Status_(r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
 
+  @tailrec
+  _tailrec_compute_new_status(s: Status): Status =
+    if (4 * s.q + s.r - s.t) < (s.n * s.t)
+    then s
+    else
+      let
+        r = (2 * s.q + s.r) * s.l
+        n = ((s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)).toInt
+        q = s.q * s.k
+        t = s.t * s.l
+        l = s.l + 2
+        k = s.k + 1
+        new_status = Status_(r, n, q, t, l, k)
+      in _tailrec_compute_new_status(new_status)
+
   compute_new_status(s: Status): Status =
+    _tailrec_compute_new_status(s)
+
+  @tailrec
+  _tailrec_take(n: Int, rev_seq: Seq[Int], s: Status): Seq[Int] =
+    if n == 0
+    then rev_seq.reverse
+    else
+      let
+        t = _get_next(s)
+      in _tailrec_take(n - 1, rev_seq.+:(t.digit), t.new_status)
+
+  take(n: Int): Seq[Int] =
+    _tailrec_take(n, Seq(), initial_status)
+
+  _get_next(s: Status): IntAndStatus =
     let
-      result = rec(s)
-
-      @tailrec
-      rec(s: Status): Status =
-        if (4 * s.q + s.r - s.t) < (s.n * s.t)
-        then s
-        else
-          let
-            r = (2 * s.q + s.r) * s.l
-            n = (s.q * (7 * s.k) + 2 + (s.r * s.l)) / (s.t * s.l)
-            q = s.q * s.k
-            t = s.t * s.l
-            l = s.l + 2
-            k = s.k + 1
-            new_status = Status_(r, n, q, t, l, k)
-          in rec(new_status)
-
-    in result
-
-  take(n: Int): Seq[BigInt] =
-    let
-      result = rec(n, Seq(), initial_status)
-
-      @tailrec
-      rec(n: Int, rev_seq: Seq[BigInt], s: Status): Seq[BigInt] =
-        if n == 0
-        then rev_seq.reverse
-        else
-          let
-            t = _get_next(s)
-          in rec(n - 1, rev_seq.+:(t.digit), t.new_status)
-
-    in result
-
-  _get_next(s: Status): BigIntAndStatus =
-    let
-      result = BigIntAndStatus_(ret, new_status)
+      result = IntAndStatus_(ret, new_status)
       ns = compute_new_status(s)
       ret = ns.n
       r = 10 * (ns.r - ns.n * ns.t)
-      n = ((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)
+      n = (((10 * (3 * ns.q + ns.r)) / ns.t) - (10 * ns.n)).toInt
       q = ns.q * 10
       t = ns.t
       l = ns.l
       k = ns.k
       new_status = Status_(r, n, q, t, l, k)
     in result
+
 }
 
 * PiIterator_() extends PiIterator
 
-* BigIntAndStatus = {
+* IntAndStatus = {
 
-  has digit: BigInt
+  has digit: Int
 
   has new_status: Status
+
 }
 
-* BigIntAndStatus_(digit: BigInt, new_status: Status) extends BigIntAndStatus
+* IntAndStatus_(digit: Int, new_status: Status) extends IntAndStatus
 

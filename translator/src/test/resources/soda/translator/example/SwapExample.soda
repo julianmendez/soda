@@ -1,17 +1,20 @@
-package soda.translator.example
+package soda.example
 
 * PairExample = {
 
   has left: Int
 
   has right: Int
+
 }
 
-* PairExample_(left: Int, right: Int) extends PairExample
+* PairExample_(left: Int, right: Int)
+  extends PairExample
 
 * SwapExample = {
 
   swap(pair: PairExample): PairExample =
     PairExample_(pair.right, pair.left)
+
 }
 

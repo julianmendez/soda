@@ -12,9 +12,11 @@ trait EnumConstant {
   def ordinal: Int
 
   def name: String
+
 }
 
 trait Enum [A <: EnumConstant] {
 
   def values: Seq [A]
+
 }

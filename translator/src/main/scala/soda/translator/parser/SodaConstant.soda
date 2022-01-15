@@ -1,0 +1,88 @@
+package soda.translator.parser
+
+* SodaConstant = {
+
+  space = " "
+
+  new_line = "\n"
+
+  has_reserved_word = "has"
+
+  class_reserved_word = "class"
+
+  class_abbreviation = "*"
+
+  class_open_symbol = "{"
+
+  class_close_symbol = "}"
+
+  function_definition_symbol = "="
+
+  function_definition_synonym = "is"
+
+  package_reserved_word = "package"
+
+  import_reserved_word = "import"
+
+  import_abbreviation = "+"
+
+  test_special_function = "test"
+
+  theorem_reserved_word = "theorem"
+
+  proof_reserved_word = "proof"
+
+  comment_open = "/*"
+
+  comment_close = "*/"
+
+  tail_recursion_annotation = "@tailrec"
+
+  override_annotation = "@override"
+
+  soda_reserved_words = Seq (
+    "=",
+    ":",
+    "->",
+    "=>",
+    ":=",
+    "if",
+    "then",
+    "else",
+    "let",
+    "in",
+    "match",
+    "case",
+    "end",
+    "class",
+    "has",
+    "extends",
+    "with",
+    "this",
+    "subtype",
+    "supertype",
+    "false",
+    "true",
+    "not",
+    "and",
+    "or",
+    "package",
+    "import",
+    "theorem",
+    "proof",
+    "is",
+    "lambda",
+    "<:",
+    ">:",
+    "+",
+    "-",
+    "*",
+    "/",
+    "|"
+  )
+
+}
+
+* SodaConstant_ ()
+  extends SodaConstant
+

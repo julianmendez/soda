@@ -1,12 +1,12 @@
-package soda.translator.example
-
+package soda.example
 
 trait Applicant {
 
   def background_score: Double
+
 }
 
-trait Fairness {
+trait AbstractFairness {
 
   def rank: Applicant => Double
 
@@ -17,6 +17,10 @@ trait Fairness {
   def measure_time: Any => Double
 
   def maximum_execution_time: Double
+
+}
+
+trait Fairness  extends AbstractFairness {
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )
@@ -36,4 +40,5 @@ trait Fairness {
     if (measure_time (rank (applicant )  ) < maximum_execution_time
     ) true
     else false
+
 }

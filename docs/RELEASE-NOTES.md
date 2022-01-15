@@ -1,4 +1,19 @@
 ---
+- version: v0.13.0
+  - date: '2021-01-14'
+  - build: sbt '++ 3.1.0' clean compile test package assembly
+  - new_features:
+    - compiles with Scala 3.1.0
+    - is compatible with Scala 2.13.8
+    - changes syntax of pattern matching to use `match`, `case`, `=>`, `end`
+    - includes reserved words `theorem` and `proof` to write properties in Gallina (Coq)
+    - makes annotation `@tailrec` only available to class methods
+    - adopts special prefixes `_tailrec_` for tail recursive functions and `_rec_` for recursive functions
+    - uses a `let`-`in` structure in functions of unit tests
+    - discourages use of `let`-`in` structures and does not support nested use, to avoid long functions
+  - deprecated_features:
+    - use of a `let`-`in` structure is only supported as main structure inside a test or function definition
+  - release: target/scala-3.1.0/soda-0.13.0.jar
 - version: v0.12.0
   - date: '2021-10-08'
   - new_features:

@@ -1,0 +1,21 @@
+package soda.translator.parser.annotation
+
+* ClassBeginningAnnotation
+  extends BlockAnnotation = {
+
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.parser.SodaConstant_
+
+  identifier = BlockAnnotationEnum_ ().class_beginning
+
+  applies: Boolean =
+    contains_one_line and
+    (starts_with_prefix_and_space (SodaConstant_ ().class_reserved_word) or
+      starts_with_prefix_and_space (SodaConstant_ ().class_abbreviation) ) and
+    ends_with_space_and_suffix (SodaConstant_ ().class_open_symbol)
+
+}
+
+* ClassBeginningAnnotation_ (block: soda.translator.block.Block)
+  extends ClassBeginningAnnotation
+

@@ -13,7 +13,9 @@ The reserved words are:
 - `=` (definition symbol)
 - `:` (type symbol)
 - `->` (lambda symbol)
+- `=>` (implication symbol)
 - `:=` (parameter definition symbol)
+- `lambda`
 - `if`
 - `then`
 - `else`
@@ -21,6 +23,7 @@ The reserved words are:
 - `in`
 - `match`
 - `case`
+- `end`
 - `class`
 - `has`
 - `extends`
@@ -35,6 +38,8 @@ The reserved words are:
 - `or`
 - `package`
 - `import`
+- `theorem`
+- `proof`
 
 
 ## Synonyms
@@ -46,7 +51,6 @@ The synonyms at the beginning of a line are:
 
 The synonyms in any part of a line are:
 - `is` for `=`
-- `lambda` is optional to explicitly denote lambda expressions
 
 Technical synonyms:
 - `<:` for `subtype`
@@ -74,6 +78,11 @@ Annotations:
 - `@tailrec` to ensure a tail recursion
 - `@override` to override a JVM function
 - `@main` to indicate the entry point
+
+Special names:
+- `_tailrec_` as prefix indicates that the function must be tail recursive
+- `_rec_` as prefix indicates that the function is recursive
+- `Main ()` is the entry point class
 
 
 ## Side Effects
@@ -114,10 +123,9 @@ The following tools can be configured to have syntax highlighting:
 The project can be build with [sbt](https://www.scala-sbt.org/).
 
 The command is:
-`sbt "++ 3.0.2" clean compile test package assembly`
+`sbt "++ 3.1.0" clean compile test package assembly`
 
-It is also possible to compile it for different Scala versions:
-`sbt "++ 2.13.6" clean compile test package assembly`
+It is also possible to compile it for different Scala versions.
 
 If (scala_version) and (soda_version) is the Scala and Soda version respectively, the created jar file are:
 - **translator**: library with classes that implement the Soda-Scala translator

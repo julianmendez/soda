@@ -1,7 +1,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={if, then, else, let, in, match, case, class, has, extends, with, this, subtype, supertype, false, true, not, and, or, package, import, is, lambda, @new, @tailrec, @override, @main},
+    morekeywords={if, then, else, let, in, match, case, end, class, has, extends, with, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, is, lambda, @new, @tailrec, @override, @main},
     sensitive=true, % keywords are not case-sensitive
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
@@ -24,69 +24,115 @@
     tabsize=3
 }
 
+
 \newcommand{\srccode}[1]{\texttt{{#1}}}
-\newcommand{\reservedWord}[1]{{\color{blue}\srccode{#1}}\xspace}
+\newcommand{\basicType}[1]{{\color{black}\srccode{#1}}\xspace}
 \newcommand{\annotation}[1]{{\color{brown}\srccode{#1}}\xspace}
-
-\newcommand{\sdef}{\srccode{=}\xspace}
-\newcommand{\scolon}{\srccode{:}\xspace}
-\newcommand{\sarrow}{{\tiny--\textgreater}\xspace}
-\newcommand{\sdefparam}{\srccode{:=}\xspace}
-
-\newcommand{\sif}{\reservedWord{if}}
-\newcommand{\sthen}{\reservedWord{then}}
-\newcommand{\selse}{\reservedWord{else}}
-
-\newcommand{\slet}{\reservedWord{let}}
-\newcommand{\sdin}{\reservedWord{in}}
-
-\newcommand{\smatch}{\reservedWord{match}}
-\newcommand{\scase}{\reservedWord{case}}
-
-\newcommand{\sclass}{\reservedWord{class}}
-\newcommand{\shas}{\reservedWord{has}}
-\newcommand{\sextends}{\reservedWord{extends}}
-\newcommand{\swith}{\reservedWord{with}}
-\newcommand{\sthis}{\reservedWord{this}}
-\newcommand{\ssubtype}{\reservedWord{subtype}}
-\newcommand{\ssupertype}{\reservedWord{supertype}}
-
-\newcommand{\sfalse}{\reservedWord{false}}
-\newcommand{\strue}{\reservedWord{true}}
-\newcommand{\snot}{\reservedWord{not}}
-\newcommand{\sand}{\reservedWord{and}}
-\newcommand{\sor}{\reservedWord{or}}
-
-\newcommand{\spackage}{\reservedWord{package}}
-\newcommand{\simport}{\reservedWord{import}}
-
-\newcommand{\snew}{\annotation{@new}}
-\newcommand{\stailrec}{\annotation{@tailrec}}
-\newcommand{\soverride}{\annotation{@override}}
-\newcommand{\smain}{\annotation{@main}}
-
-\newcommand{\sequalsSign}{\reservedWord{==}}
-
-\newcommand{\sasterisk}{\reservedWord{*}}
-\newcommand{\splus}{\reservedWord{+}}
-\newcommand{\sbar}{\reservedWord{|}}
-
-\newcommand{\sis}{\reservedWord{is}}
-\newcommand{\slambda}{\reservedWord{lambda}}
-
-\newcommand{\slessthancolon}{\reservedWord{<:}}
-\newcommand{\sgreaterthancolon}{\reservedWord{>:}}
-
-\newcommand{\scalacase}{\reservedWord{case}}
-\newcommand{\scalaclass}{\reservedWord{class}}
-\newcommand{\scalasuper}{\reservedWord{super}}
-\newcommand{\scalaval}{\reservedWord{val}}
-\newcommand{\scalavar}{\reservedWord{var}}
-\newcommand{\scalawhile}{\reservedWord{while}}
-
 
 \newcommand{\Soda}{\textsc{Soda}\xspace}
 
-\newcommand{\Sodalogo}{$\lambda $
 
-    \vspace{-5.5pt} $ \bigcup \hspace{-13pt} = $}
+%
+% Soda reserved words
+%
+
+\definecolor{sodablue}{rgb}{0.05, 0.05, 0.75}
+\newcommand{\reservedWordSoda}[1]{{\color{sodablue}\srccode{#1}}\xspace}
+\newcommand{\sodaType}[1]{\basicType{{#1}}}
+
+\newcommand{\sodadef}{\srccode{=}\xspace}
+\newcommand{\sodacolon}{\srccode{:}\xspace}
+\newcommand{\sodaarrow}{{-\textgreater}\xspace}
+\newcommand{\sodaimplies}{{=\textgreater}\xspace}
+\newcommand{\sodadefparam}{\srccode{:=}\xspace}
+
+\newcommand{\sodaif}{\reservedWordSoda{if}}
+\newcommand{\sodathen}{\reservedWordSoda{then}}
+\newcommand{\sodaelse}{\reservedWordSoda{else}}
+
+\newcommand{\sodalet}{\reservedWordSoda{let}}
+\newcommand{\sodain}{\reservedWordSoda{in}}
+
+\newcommand{\sodamatch}{\reservedWordSoda{match}}
+\newcommand{\sodacase}{\reservedWordSoda{case}}
+\newcommand{\sodaend}{\reservedWordSoda{end}}
+
+\newcommand{\sodaclass}{\reservedWordSoda{class}}
+\newcommand{\sodahas}{\reservedWordSoda{has}}
+\newcommand{\sodaextends}{\reservedWordSoda{extends}}
+\newcommand{\sodawith}{\reservedWordSoda{with}}
+\newcommand{\sodathis}{\reservedWordSoda{this}}
+\newcommand{\sodasubtype}{\reservedWordSoda{subtype}}
+\newcommand{\sodasupertype}{\reservedWordSoda{supertype}}
+
+\newcommand{\sodafalse}{\reservedWordSoda{false}}
+\newcommand{\sodatrue}{\reservedWordSoda{true}}
+\newcommand{\sodanot}{\reservedWordSoda{not}}
+\newcommand{\sodaand}{\reservedWordSoda{and}}
+\newcommand{\sodaor}{\reservedWordSoda{or}}
+
+\newcommand{\sodapackage}{\reservedWordSoda{package}}
+\newcommand{\sodaimport}{\reservedWordSoda{import}}
+
+\newcommand{\sodanew}{\annotation{@new}}
+\newcommand{\sodatailrec}{\annotation{@tailrec}}
+\newcommand{\sodaoverride}{\annotation{@override}}
+\newcommand{\sodamain}{\annotation{@main}}
+
+\newcommand{\sodaequalsSign}{\reservedWordSoda{==}}
+
+\newcommand{\sodaasterisk}{\reservedWordSoda{*}}
+\newcommand{\sodaplus}{\reservedWordSoda{+}}
+\newcommand{\sodabar}{\reservedWordSoda{|}}
+
+\newcommand{\sodais}{\reservedWordSoda{is}}
+\newcommand{\sodalambda}{\reservedWordSoda{lambda}}
+
+\newcommand{\sodalessthancolon}{\reservedWordSoda{<:}}
+\newcommand{\sodagreaterthancolon}{\reservedWordSoda{>:}}
+
+%
+% Scala reserved words
+%
+
+\definecolor{scalablue}{rgb}{0.20, 0.00, 0.65}
+\newcommand{\reservedWordScala}[1]{{\color{scalablue}\srccode{#1}}\xspace}
+\newcommand{\scalaType}[1]{\basicType{{#1}}}
+
+\newcommand{\scalacase}{\reservedWordScala{case}}
+\newcommand{\scalaclass}{\reservedWordScala{class}}
+\newcommand{\scaladef}{\reservedWordScala{def}}
+\newcommand{\scalalazy}{\reservedWordScala{lazy}}
+\newcommand{\scalasealed}{\reservedWordScala{sealed}}
+\newcommand{\scalasuper}{\reservedWordScala{super}}
+\newcommand{\scalatrait}{\reservedWordScala{trait}}
+\newcommand{\scalaval}{\reservedWordScala{val}}
+\newcommand{\scalavar}{\reservedWordScala{var}}
+\newcommand{\scalawhile}{\reservedWordScala{while}}
+
+
+%
+% Coq reserved words
+%
+
+\definecolor{coqblue}{rgb}{0.05, 0.15, 0.65}
+\newcommand{\reservedWordCoq}[1]{{\color{coqblue}\srccode{#1}}\xspace}
+\newcommand{\coqType}[1]{\basicType{{#1}}}
+
+\newcommand{\coqif}{\reservedWordCoq{if}}
+\newcommand{\coqthen}{\reservedWordCoq{then}}
+\newcommand{\coqelse}{\reservedWordCoq{else}}
+
+\newcommand{\coqlet}{\reservedWordCoq{let}}
+\newcommand{\coqin}{\reservedWordCoq{in}}
+
+\newcommand{\coqmatch}{\reservedWordCoq{match}}
+\newcommand{\coqwith}{\reservedWordCoq{with}}
+\newcommand{\coqbar}{\reservedWordCoq{|}}
+\newcommand{\coqend}{\reservedWordCoq{end}}
+
+\newcommand{\coqDefinition}{\reservedWordCoq{Definition}}
+\newcommand{\coqFixpoint}{\reservedWordCoq{Fixpoint}}
+\newcommand{\coqModule}{\reservedWordCoq{Module}}
+\newcommand{\coqEnd}{\reservedWordCoq{End}}
+

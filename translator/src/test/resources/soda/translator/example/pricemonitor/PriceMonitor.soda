@@ -1,0 +1,48 @@
+package soda.example.pricemonitor
+
+class Customer = {
+
+  has name: String
+
+  has ip_address: String
+
+}
+
+class Customer_(name: String, ip_address: String)
+  extends Customer
+
+class PricingAgent = {
+
+  import java.util.Date
+
+  has get_price (customer: Customer, flight: Flight, date_in_days: Int): Int
+
+  milliseconds_per_day: Long = 24 * 60 * 60 * 1000
+
+  get_days_for (date: Date): Int =
+    (date.getTime / milliseconds_per_day).toInt
+
+}
+
+class Flight = {
+
+  has start_airport: String
+
+  has intermediate_airports: Seq[String]
+
+  has end_airport: String
+
+}
+
+class Flight_ (start_airport: String, intermediate_airports: Seq[String], end_airport: String)
+  extends Flight
+
+class RequirementMonitor = {
+
+  has pricing_agent: PricingAgent
+
+  get_price (customer: Customer, flight: Flight, date_in_days: Int): Int =
+    pricing_agent.get_price (customer, flight, date_in_days)
+
+}
+

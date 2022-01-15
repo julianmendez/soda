@@ -1,64 +1,69 @@
 package soda.collection
 
-
-* MSeq[T] = {
+* MSeq [T] = {
 
   has isEmpty: Boolean
 
-  has opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B
+  has opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B
+
 }
 
-* MSeqRec[T] = {
+* MSeqRec [T] = {
 
-  fold[B, C subtype B](mseq: MSeq[T],
-      initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
-    let
-      @tailrec
-      rec(seq: MSeq[T], acc: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
-        if seq.isEmpty
-        then acc
-        else
-          let
-            neseq = seq.opt(ifEmpty := None, ifNonEmpty := (x -> Some(x))).get
-          in if not condition(acc, neseq.head()) then acc else rec(
-               neseq.tail(), next_value(acc, neseq.head()), next_value, condition)
-    in rec(mseq, initial_value, next_value, condition)
+  @tailrec
+  _tailrec_fold [B, C subtype B] (sequence: MSeq [T],
+      current_value: C, next_value:  (B, T) -> C, condition:  (B, T) -> Boolean): C =
+    if sequence.isEmpty
+    then current_value
+    else
+      let
+        neseq = sequence.opt (ifEmpty := None, ifNonEmpty :=  (x -> Some (x))).get
+      in if not condition (current_value, neseq.head ()) then current_value else _tailrec_fold (
+           neseq.tail (), next_value (current_value, neseq.head ()), next_value, condition)
+
+  fold [B, C subtype B] (sequence: MSeq [T],
+      initial_value: C, next_value:  (B, T) -> C, condition:  (B, T) -> Boolean): C =
+    _tailrec_fold (sequence, initial_value, next_value, condition)
+
 }
 
-* MSeqRec_[T]()
-  extends MSeqRec[T]
+* MSeqRec_ [T] ()
+  extends MSeqRec [T]
 
-* ESeq[T]
-  extends MSeq[T] = {
+* ESeq [T]
+  extends MSeq [T] = {
 
   isEmpty = true
 
-  opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifEmpty
+  opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B = ifEmpty
+
 }
 
-* ESeq_[T]()
-  extends ESeq[T]
+* ESeq_ [T] ()
+  extends ESeq [T]
 
-* NEMSeq[T]
-  extends MSeq[T] = {
+* NEMSeq [T]
+  extends MSeq [T] = {
 
   has head0: T
 
-  has tail0: MSeq[T]
+  has tail0: MSeq [T]
+
 }
 
-* NESeq[T]
-  extends NEMSeq[T] = {
+* NESeq [T]
+  extends NEMSeq [T] = {
 
   isEmpty = false
 
-  opt[B](ifEmpty: B, ifNonEmpty: NESeq[T] -> B): B = ifNonEmpty(this)
+  opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B = ifNonEmpty (this)
 
-  head(): T = head0
+  head (): T = head0
 
-  tail(): MSeq[T] = tail0
+  tail (): MSeq [T] = tail0
+
 }
 
-* NESeq_[T](head0: T, tail0: MSeq[T])
-  extends NESeq[T]
+* NESeq_ [T] (head0: T, tail0: MSeq [T])
+  extends NESeq [T]
 

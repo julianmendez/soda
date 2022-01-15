@@ -5,34 +5,38 @@ Require Import Coq.Lists.List.
 (* https://coq.inria.fr/library/Coq.Lists.List.html *)
 
 
-Module soda_example_FactorialConcise.
+Module soda_example.
 
-Fixpoint rec_get_factorial (n: nat) (product: nat): nat :=
-  match n with
-    | 0 => product
-    | S m => rec_get_factorial m (n * product)
-  end.
+  Module FactorialConcise.
 
-Definition get_factorial (n: nat): nat :=
-  rec_get_factorial n 1.
+  Fixpoint _tailrec_get_factorial (n: nat) (product: nat): nat :=
+    match n with
+      | 0 => product
+      | S m => _tailrec_get_factorial m (n * product)
+    end.
 
-End soda_example_FactorialConcise.
+  Definition get_factorial (n: nat): nat :=
+    _tailrec_get_factorial n 1.
+
+End FactorialConcise.
 
 
-Module soda_example_FactorialConciseSpec.
+Module FactorialConciseSpec.
 
-Import soda_example_FactorialConcise.
+  Import FactorialConcise.
 
-Definition factorial_values: list (prod nat nat) :=
+  Definition factorial_values: list (prod nat nat) :=
     (pair 0 1) :: (pair 1 1) :: (pair 2 2) :: (pair 3 6) :: (pair 4 24) :: (pair 5 120) :: (pair 6 720) :: nil.
 
-Example test_1 :
-  map get_factorial (map fst factorial_values) = map snd factorial_values.
-Proof.
-  compute.
-  apply eq_refl.
-Qed.
+  Example test_1 :
+    map get_factorial (map fst factorial_values) = map snd factorial_values.
+  Proof.
+    compute.
+    apply eq_refl.
+  Qed.
 
-End soda_example_FactorialConciseSpec.
+End FactorialConciseSpec.
+
+End soda_example.
 
 

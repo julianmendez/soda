@@ -1,0 +1,256 @@
+package soda.translator.extension.tocoq
+
+/**
+ * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
+ */
+* TranslationConstantToCoq
+  extends soda.translator.parser.SodaConstant = {
+
+  soda_definition: String = "="
+
+  soda_colon: String = ":"
+
+  soda_opening_parenthesis: String = "("
+
+  soda_closing_parenthesis: String = ")"
+
+  soda_opening_brace: String = "{"
+
+  soda_closing_brace: String = "}"
+
+  soda_opening_comment: String = "/*"
+
+  soda_closing_comment: String = "*/"
+
+  scala_3_class_definition: String = ":"
+
+  soda_in_reserved_word: String = "in"
+
+  soda_in_pattern: String = soda_in_reserved_word + " "
+
+  soda_let_reserved_word: String = "let"
+
+  soda_let_pattern: String = soda_let_reserved_word + " "
+
+  scala_in_translation: String = " }"
+
+  soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+
+  scala_in_let_translation: String = " "
+
+  soda_match_reserved_word: String = "match"
+
+  soda_match_pattern: String = soda_match_reserved_word + " "
+
+  scala_match_translation: String = " match "
+
+  soda_class_reserved_word: String = "class"
+
+  soda_package_reserved_word: String = "package"
+
+  soda_import_reserved_word: String = "import"
+
+  soda_has_reserved_word: String = "has"
+
+  coq_definition: String = "Definition"
+
+  coq_value: String = "Definition"
+
+  coq_recursive_definition: String = "Fixpoint"
+
+  coq_definition_end: String = "."
+
+  coq_recursive_definition_end: String = "."
+
+  coq_with_reserved_word: String = "with"
+
+  coq_theorem_begin_reserved_word = "Theorem"
+
+  coq_theorem_end = "."
+
+  coq_proof_begin_reserved_word = "Proof."
+
+  coq_proof_end_reserved_word = "Qed."
+
+  coq_recursive_function_prefixes: Seq [String] =
+    Seq (
+      "rec_",
+      "_rec_",
+      "tailrec_",
+      "_tailrec_",
+      "@tailrec"
+    )
+
+  non_definition_block_prefixes: Seq [String] =
+    Seq (
+      soda_package_reserved_word,
+      soda_import_reserved_word,
+      soda_closing_brace,
+      soda_class_reserved_word,
+      soda_opening_comment
+    )
+
+  coq_reserved_words =
+    coq_1 ++ coq_2 ++ coq_3 ++ coq_4
+
+  coq_1: Seq [String] =
+    Seq (
+      "as",
+      "else",
+      "end",
+      "forall",
+      "fun",
+      "if",
+      "in",
+      "let",
+      "match",
+      "then",
+      "with"
+    )
+
+  coq_2: Seq [String] =
+    Seq (
+      "Admitted",
+      "Arguments",
+      "Check",
+      "Constructors",
+      "End",
+      "Eval",
+      "Export",
+      "Hint",
+      "Implicit",
+      "Import",
+      "Module",
+      "Notation",
+      "Print",
+      "Proof",
+      "Qed",
+      "Require",
+      "Resolve",
+      "Section",
+      "Set",
+      "Type",
+      "Unset"
+    )
+
+  coq_3: Seq [String] =
+    Seq (
+      "admit",
+      "apply",
+      "assert",
+      "auto",
+      "case",
+      "compute",
+      "destruct",
+      "discriminate",
+      "elim",
+      "exact",
+      "induction",
+      "intros",
+      "pose",
+      "refine",
+      "rewrite",
+      "simpl",
+      "specialize",
+      "unfold"
+    )
+
+  coq_4: Seq [String] =
+    Seq (
+      "CoFixpoint",
+      "CoInductive",
+      "Definition",
+      "Example",
+      "Fixpoint",
+      "Global",
+      "Hypothesis",
+      "Inductive",
+      "Instance",
+      "Lemma",
+      "Ltac",
+      "Parameter",
+      "Theorem",
+      "Variable"
+    )
+
+  synonym_at_beginning: Seq [ (String, String)] = Seq (
+    ("*", "class"),
+    ("+", "import")
+  )
+
+  synonym: Seq [ (String, String)] = Seq (
+    ("is", ":=")
+  )
+
+  main_translation: Seq [ (String, String)] = Seq (
+    (";", "."),
+    (":", ":"),
+    ("->", "->"),
+    ("=", ":="),
+    ("lambda", "fun"),
+    ("if", "if"),
+    ("then", "then"),
+    ("else", "else"),
+    ("let", "let"),
+    ("in", "in"),
+    ("match", "match"),
+    ("case", "|"),
+    ("end", "end"),
+    ("|", "|"),
+    ("false", "false"),
+    ("true", "true"),
+    ("not", "negb"),
+    ("and", "andb"),
+    ("or", "orb"),
+    ("class", "Module Type"),
+    ("has", "Parameter"),
+    ("extends", "<:"),
+    ("package", ""),
+    ("import", "Require Import"),
+    ("@override", ""),
+    ("@tailrec", ""),
+    ("@main", "")
+  )
+
+  type_translation: Seq [ (String, String) ] = Seq (
+      ("Boolean", "bool"),
+      ("Nat", "nat"),
+      ("Option", "option"),
+      ("List", "list"),
+      ("String", "string"),
+      ("BigInt", "Z")
+  )
+
+  prefix_coq_non_soda = "__soda__"
+
+  coq_non_soda: Seq [ (String, String)] =
+    coq_reserved_words
+      .filter (x -> not soda_reserved_words.contains (x))
+      .map (x ->  (x, prefix_coq_non_soda + x) )
+
+  soda_brackets_and_comma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
+
+  beautifier: Seq [ (String, String)] = Seq (
+    ("\\.\\s+", "."),
+    ("=\\s+", "= "),
+    ("\\s+=", " ="),
+    ("\\(\\s+", "("),
+    ("\\[\\s+", "["),
+    ("\\s+\\]", "]"),
+    ("\\s+,", ","),
+    (",\\s+", ", "),
+    ("\\s+:", " :"),
+    (":\\s+", ": ")
+  )
+
+  is_coq_word (word: String): Boolean =
+    coq_reserved_words.contains (word)
+
+  is_soda_word (word: String): Boolean =
+    soda_reserved_words.contains (word)
+
+}
+
+* TranslationConstantToCoq_ ()
+  extends TranslationConstantToCoq
+

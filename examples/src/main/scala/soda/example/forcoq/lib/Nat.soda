@@ -1,0 +1,63 @@
+package soda.example.forcoq.lib
+
+* nat = {
+
+  has add (a: nat): nat
+
+  has mul (a: nat): nat
+
+}
+
+* O ()
+  extends nat = {
+
+  add (a: nat): nat = a
+
+  mul (a: nat): nat = this
+
+}
+
+* S (k: nat)
+  extends nat = {
+
+  t = IntNat_ ()
+
+  add (a: nat): nat =
+    t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
+
+  mul (a: nat): nat =
+    t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
+
+}
+
+* IntNat = {
+
+  + soda.lib.OptionSD
+  + soda.lib.NoneSD_
+  + soda.lib.SomeSD_
+
+  from_Int (a: Int): OptionSD [nat] =
+    if a < 0
+    then NoneSD_ [nat] ()
+    else SomeSD_ [nat] (from_non_negative (a))
+
+  @tailrec
+  _tailrec_from_non_negative (a: Int, b: nat): nat =
+    if a <= 0
+    then b
+    else _tailrec_from_non_negative (a - 1, S (b))
+
+  from_non_negative (a: Int): nat =
+    _tailrec_from_non_negative (a, O())
+
+  to_Int (a: nat): Int =
+    match a
+      | O() => 0
+      | S (k) => 1 + to_Int (k)
+    end
+
+}
+
+* IntNat_ ()
+  extends IntNat
+

@@ -1,0 +1,43 @@
+package soda.translator.extension.main
+
+@main
+
+/**
+ * This is the main entry point.
+ */
+* Main ()
+  extends MainClass
+
+* MainClass
+  extends soda.translator.extension.common.Extension = {
+
+  + soda.translator.extension.common.Extension
+
+  help = soda.translator.extension.help.Help_ ()
+
+  extensions: Map [String, Extension] =
+    Seq (
+      ( ".", soda.translator.extension.toscala.TranslatorToScala_ () ),
+      ( "scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
+      ( "coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ),
+      ( "manual", soda.translator.extension.help.Manual_ () ),
+      ( "license", soda.translator.extension.help.License_ () ),
+      ( "help", help ),
+      ( "-h", help ),
+      ( "--help", help ),
+      ( "main", this )
+    ).toMap
+
+  main (arguments: Array [String]): Unit =
+    execute (arguments.toSeq)
+
+  execute (arguments: Seq [String]): Boolean =
+    if arguments.length == 0
+    then help.execute (arguments.toSeq)
+    else
+      extensions
+        .getOrElse (arguments.head, help)
+        .execute (arguments.tail)
+
+}
+

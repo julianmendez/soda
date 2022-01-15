@@ -1,11 +1,12 @@
 package soda.translator.replacement
 
-
 /**
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-trait Replacement  extends SingleLineProcessor {
+trait Replacement  extends soda.translator.block.SingleLineProcessor {
+
+  import soda.translator.block.Translator
 
   lazy val aux = ReplacementAux_ ()
 
@@ -15,13 +16,13 @@ trait Replacement  extends SingleLineProcessor {
     Replacement_ (function (line )  )
 
   def replace_at_beginning (index: Int, translator: Translator ): Replacement =
-    Replacement_ (aux.replace_at_beginning (line, index, translator )  )
+    Replacement_ (ReplacementWithTranslator_ (translator ) .replace_at_beginning (line, index )  )
 
   def replace_all (pattern: String, replacement: String ): Replacement =
     Replacement_ (aux.replace_all (line, pattern, replacement )  )
 
   def replace (translator: Translator ): Replacement =
-    Replacement_ (aux.replace (line, translator )  )
+    Replacement_ (ReplacementWithTranslator_ (translator ) .replace (line )  )
 
   def add_space_to_soda_line (): Replacement =
     Replacement_ (soda_space + line + soda_space )
@@ -36,45 +37,25 @@ trait Replacement  extends SingleLineProcessor {
     Replacement_ (aux.add_after_spaces_or_pattern (line, pattern, text_to_prepend )  )
 
   def replace_regex (translator: Translator ): Replacement =
-    Replacement_ (aux.replace_regex (line, translator )  )
+    Replacement_ (ReplacementWithTranslator_ (translator ) .replace_regex (line )  )
+
 }
 
 case class Replacement_ (line: String )  extends Replacement
 
 trait ReplacementAux {
-  import soda.lib.Recursion_
+
+ import soda.translator.block.Translator
+ import soda.lib.Recursion_
 
   lazy val soda_space = " "
 
   lazy val scala_space = " "
 
-  def replace_at_beginning (line: String, index: Int, translator: Translator ): String =
-    if (index == 0
-    ) replace_only_beginning (line, translator )
-    else line
-
-  def replace_only_beginning (line: String, translator: Translator ): String =
-    {
-      lazy val initial_value: String = line
-
-      def next_value_function (line: String, reserved_word: String ): String =
-        replace_if_found_at_beginning (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
-
-      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
-
   def replace_if_found_at_beginning (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
     ) replace_all (line, pattern, new_text )
     else line
-
-  def replace (line: String, translator: Translator ): String =
-    {
-      lazy val initial_value: String = line
-
-      def next_value_function (line: String, reserved_word: String ): String =
-        replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
-
-      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
 
   def replace_if_found (line: String, pattern: String, new_text: String ): String =
     if (line.contains (pattern )
@@ -85,95 +66,90 @@ trait ReplacementAux {
     Replacer_ (line, pattern, replacement ) .replaced_text
 
   def add_spaces_to_symbols (line: String, symbols: Set [Char]  ): String =
-    line.indices.map (index =>
-      {
-        lazy val ch = line (index )
-        lazy val left_part =
-          if ((index > 0 ) && symbols.contains (ch ) &&
-            ! line (index - 1 ) .isWhitespace
-          ) scala_space
-          else ""
-        lazy val right_part =
-          if ((index < line.length - 1 ) && symbols.contains (ch ) &&
-            ! line (index + 1 ) .isWhitespace
-          ) scala_space
-          else ""
+    line
+      .indices
+      .map (index => _add_spaces_to_symbols_with (line (index ), index, line, symbols ) )
+      .mkString ("")
 
-        left_part + ch + right_part }    ) .mkString ("")
+  def _add_spaces_to_symbols_with (ch: Char, index: Int, line: String, symbols: Set [Char]  ): String =
+    _left_part_of_symbols (line, symbols, index, ch ) + ch + _right_part_of_symbols (line, symbols, index, ch )
+
+  def _left_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index > 0 ) && symbols.contains (ch ) &&
+      ! line (index - 1 ) .isWhitespace
+    ) scala_space
+    else ""
+
+  def _right_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char ): String =
+    if ((index < line.length - 1 ) && symbols.contains (ch ) &&
+      ! line (index + 1 ) .isWhitespace
+    ) scala_space
+    else ""
 
   def remove_space_from_scala_line (line: String ): String =
-    {
-      lazy val line_without_starting_space =
-        if (line.startsWith (scala_space )
-        ) line.substring (1 )
-        else line
-      lazy val line_without_ending_space =
-        if (line_without_starting_space.endsWith (scala_space )
-        ) line_without_starting_space.substring (0, line_without_starting_space.length - 1 )
-        else line_without_starting_space
-      line_without_ending_space }
+    _get_line_without_ending_space (_get_line_without_starting_space (line ) )
+
+  def _get_line_without_starting_space (line: String ): String =
+    if (line.startsWith (scala_space )
+    ) line.substring (1 )
+    else line
+
+  def _get_line_without_ending_space (line: String ): String =
+    if (line.endsWith (scala_space )
+    ) line.substring (0, line.length - 1 )
+    else line
 
   def add_after_spaces_or_pattern (line: String, pattern: String, text_to_prepend: String ): String =
-    {
-      lazy val prefix_length =
-        if (line.trim.startsWith (pattern )
-        ) line.indexOf (pattern ) + pattern.length
-        else line.takeWhile (ch => ch.isSpaceChar ) .length
-      line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length ) }
+    _add_after_spaces_or_pattern_with (_get_prefix_length (line, pattern ), line, pattern, text_to_prepend )
 
-  def replace_regex (line: String, translator: Translator ): String =
-    {
-      lazy val initial_value: String = line
-      def next_value_function (line: String, regex: String ): String =
-        line.replaceAll (regex, translator.translate (regex )  )
-      Recursion_ () .fold (translator.keys, initial_value, next_value_function ) }
+  def _add_after_spaces_or_pattern_with (prefix_length: Int, line: String, pattern: String, text_to_prepend: String ): String =
+    line.substring (0, prefix_length ) + text_to_prepend + line.substring (prefix_length )
+
+  def _get_prefix_length (line: String, pattern: String ): Int =
+    if (line.trim.startsWith (pattern )
+    ) line.indexOf (pattern ) + pattern.length
+    else line.takeWhile (ch => ch.isSpaceChar ) .length
+
 }
 
 case class ReplacementAux_ ()  extends ReplacementAux
 
-trait LinePatternProcessor {
+trait ReplacementWithTranslator {
 
-  def line: String
-
-  def pattern: String
-
-  def replacement: String
-}
-
-trait Replacer  extends LinePatternProcessor {
+  import soda.translator.block.Translator
   import soda.lib.Recursion_
 
-  lazy val replaced_text =
-    postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )
+  def translator: Translator
 
-  lazy val initial_value = ReplacerFoldTuple_ (Seq (), 0 )
+  lazy val aux = ReplacementAux_ ()
 
-  def next_value_function (tuple: ReplacerFoldTuple, x: Int ): ReplacerFoldTuple =
-    _get_next_tuple (replaced_text_rev = tuple.replaced_text_rev, start_index = tuple.start_index, pos = line.indexOf (pattern, tuple.start_index )    )
+  lazy val soda_space = aux.soda_space
 
-  def _get_next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): ReplacerFoldTuple =
-    if (pos == -1
-    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index )  ), pos )
-    else
-      {
-        lazy val new_replaced_text_rev = (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement )
-        lazy val new_index = pos + pattern.length
-        ReplacerFoldTuple_ (new_replaced_text_rev, new_index ) }
+  lazy val scala_space = aux.scala_space
 
-  def should_continue (tuple: ReplacerFoldTuple, x: Int ): Boolean =
-    ! (tuple.start_index == -1 )
+  def replace_at_beginning (line: String, index: Int ): String =
+    if (index == 0
+    ) replace_only_beginning (line )
+    else line
 
-  def postprocess (tuple: ReplacerFoldTuple ): String =
-    tuple.replaced_text_rev.reverse.mkString ("")
+  def replace_only_beginning (line: String ): String =
+    Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace_only_beginning )
+
+  def _next_replace_only_beginning (line: String, reserved_word: String ): String =
+    aux.replace_if_found_at_beginning (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
+
+  def replace (line: String ): String =
+    Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace )
+
+  def _next_replace (line: String, reserved_word: String ): String =
+    aux.replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
+
+  def replace_regex (line: String ): String =
+    Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace_regex )
+
+  def _next_replace_regex (line: String, regex: String ): String =
+    line.replaceAll (regex, translator.translate (regex )  )
+
 }
 
-case class Replacer_ (line: String, pattern: String, replacement: String ) extends Replacer
-
-trait ReplacerFoldTuple {
-
-  def replaced_text_rev: Seq [String]
-
-  def start_index: Int
-}
-
-case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int ) extends ReplacerFoldTuple
+case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator )  extends ReplacementWithTranslator

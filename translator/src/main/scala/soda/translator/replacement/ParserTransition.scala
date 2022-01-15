@@ -1,6 +1,5 @@
 package soda.translator.replacement
 
-
 /**
  * This models all the possible states that the parser can be.
  */
@@ -28,11 +27,12 @@ trait ParserStateEnum  extends soda.lib.Enum [ParserState] {
   lazy val values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain )
 
   def is_same_class (x: ParserState, y: ParserState ): Boolean =
-    (x == y ) || is_like (x, y ) || is_like (y, x )
+     (x == y ) || is_like (x, y ) || is_like (y, x )
 
   def is_like (x: ParserState, y: ParserState ): Boolean =
-    (x == quotes_state && y == quotes_backslash_state ) ||
-      (x == apostrophe_state && y == apostrophe_backslash_state )
+     (x == quotes_state && y == quotes_backslash_state ) ||
+       (x == apostrophe_state && y == apostrophe_backslash_state )
+
 }
 
 case class ParserStateEnum_ ()  extends ParserStateEnum
@@ -53,6 +53,7 @@ trait ParserTransition {
 
   def next_parser_state (parser_state: ParserState, char_type: CharType ): ParserState =
     transitions_that_change_states.getOrElse ((parser_state, char_type ), parser_state )
+
 }
 
 case class ParserTransition_ ()  extends ParserTransition
