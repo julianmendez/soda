@@ -1,6 +1,6 @@
 ---
 - version: v0.13.0
-  - date: unreleased
+  - date: '2021-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - new_features:
     - compiles with Scala 3.1.0
