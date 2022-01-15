@@ -2,10 +2,7 @@ package soda.translator.extension.toscala
 
 /**
  * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
+ * The definitions need to be identified as 'val' or 'def'.
  *
  * 'val' is for value definition.
  * It is detected in three cases.
@@ -24,7 +21,7 @@ package soda.translator.extension.toscala
  * This is no longer supported.
  *
  */
-* DefinitionLineTranslator
+* FunctionDefinitionLineTranslator
   extends soda.translator.block.LineTranslator = {
 
   + soda.lib.OptionSD
@@ -46,31 +43,6 @@ package soda.translator.extension.toscala
       ifNonEmpty := position -> try_found_definition (position).line
     )
 
-  is_class_definition =
-    get_index (line, soda_space + tc.soda_class_reserved_word + soda_space).isDefined
-
-  translation_of_class_definition =
-    if condition_for_type_alias
-    then Replacement_ (line)
-    else Replacement_ (line).replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition)
-
-  _new_text_for_class_definition =
-    if ends_with_equals
-    then tc.scala_3_class_definition
-    else ""
-
-  ends_with_equals =
-    trimmed_line.endsWith (tc.soda_definition)
-
-  ends_with_opening_brace =
-    trimmed_line.endsWith (tc.soda_opening_brace)
-
-  contains_equals =
-    trimmed_line.contains (tc.soda_definition)
-
-  condition_for_type_alias =
-    contains_equals and not  (ends_with_equals or ends_with_opening_brace)
-
   translation_of_val_definition =
     Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, tc.scala_value + scala_space )
 
@@ -78,8 +50,8 @@ package soda.translator.extension.toscala
     Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, tc.scala_definition + scala_space )
 
   try_found_definition (position: Int): Replacement =
-    if is_class_definition then translation_of_class_definition
-    else if is_val_definition (position) then translation_of_val_definition
+    if is_val_definition (position)
+    then translation_of_val_definition
     else translation_of_def_definition
 
   is_val_definition (initial_position: Int) =
@@ -128,6 +100,6 @@ package soda.translator.extension.toscala
 
 }
 
-* DefinitionLineTranslator_ (line: String)
-  extends DefinitionLineTranslator
+* FunctionDefinitionLineTranslator_ (line: String)
+  extends FunctionDefinitionLineTranslator
 

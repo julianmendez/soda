@@ -5,7 +5,6 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.block.DefaultBlockTranslator_
-  import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
   import soda.translator.parser.BlockBuilder_
   import soda.translator.parser.BlockProcessor_
 
@@ -44,12 +43,6 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     {
       lazy val obtained = bp.make_block (original_input )
       lazy val expected = build_block (original_input_lines )
-      assert (obtained == expected ) }
-
-  test ("should preprocess the comma in multiple lines")
-    {
-      lazy val obtained = LineForwardJoinerBlockTranslator_ () .translate (build_block (original_input_lines ) )
-      lazy val expected = build_block (joined_comma_lines )
       assert (obtained == expected ) }
 
   test ("should join the translated lines of a program")

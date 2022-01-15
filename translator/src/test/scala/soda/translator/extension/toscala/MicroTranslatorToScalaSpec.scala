@@ -14,9 +14,9 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\n    \"       x + y\")" +
         "\n"
       lazy val expected = "  lazy val input_lines = Seq (" +
-        "\"  f( x: Int,\\t\", " +
-        "\"     y: Int) =\"," +
-        " \"       x + y\")" +
+        "\n    \"  f( x: Int,\\t\"," +
+        "\n    \"     y: Int) =\"," +
+        "\n    \"       x + y\")" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }

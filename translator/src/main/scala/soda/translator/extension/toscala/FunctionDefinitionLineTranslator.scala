@@ -2,10 +2,7 @@ package soda.translator.extension.toscala
 
 /**
  * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
+ * The definitions need to be identified as 'val' or 'def'.
  *
  * 'val' is for value definition.
  * It is detected in three cases.
@@ -24,7 +21,7 @@ package soda.translator.extension.toscala
  * This is no longer supported.
  *
  */
-trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
+trait FunctionDefinitionLineTranslator  extends soda.translator.block.LineTranslator {
 
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
@@ -42,31 +39,6 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
   lazy val translation =
     find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line    )
 
-  lazy val is_class_definition =
-    get_index (line, soda_space + tc.soda_class_reserved_word + soda_space ) .isDefined
-
-  lazy val translation_of_class_definition =
-    if (condition_for_type_alias
-    ) Replacement_ (line )
-    else Replacement_ (line ) .replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition )
-
-  lazy val _new_text_for_class_definition =
-    if (ends_with_equals
-    ) tc.scala_3_class_definition
-    else ""
-
-  lazy val ends_with_equals =
-    trimmed_line.endsWith (tc.soda_definition )
-
-  lazy val ends_with_opening_brace =
-    trimmed_line.endsWith (tc.soda_opening_brace )
-
-  lazy val contains_equals =
-    trimmed_line.contains (tc.soda_definition )
-
-  lazy val condition_for_type_alias =
-    contains_equals && !  (ends_with_equals || ends_with_opening_brace )
-
   lazy val translation_of_val_definition =
     Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space )
 
@@ -74,8 +46,8 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
     Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_definition + scala_space )
 
   def try_found_definition (position: Int ): Replacement =
-    if (is_class_definition ) translation_of_class_definition
-    else if (is_val_definition (position ) ) translation_of_val_definition
+    if (is_val_definition (position )
+    ) translation_of_val_definition
     else translation_of_def_definition
 
   def is_val_definition (initial_position: Int ) =
@@ -121,4 +93,4 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
 
 }
 
-case class DefinitionLineTranslator_ (line: String )  extends DefinitionLineTranslator
+case class FunctionDefinitionLineTranslator_ (line: String )  extends FunctionDefinitionLineTranslator

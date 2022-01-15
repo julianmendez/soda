@@ -8,7 +8,6 @@ trait AbstractFunctionDeclarationAnnotation  extends BlockAnnotation {
   lazy val identifier = BlockAnnotationEnum_ () .abstract_function_declaration
 
   lazy val applies: Boolean =
-    contains_one_line &&
     starts_with_prefix_and_space (SodaConstant_ () .has_reserved_word )
 
 }

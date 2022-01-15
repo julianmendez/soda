@@ -1,0 +1,19 @@
+package soda.translator.block
+
+* ConditionalBlockTranslator
+  extends BlockTranslator = {
+
+  has accepted_annotation: BlockAnnotationId
+
+  has translator: BlockTranslator
+
+  translate (block: AnnotatedBlock): AnnotatedBlock =
+    if block.block_annotation == accepted_annotation
+    then  translator.translate (block)
+    else block
+
+}
+
+* ConditionalBlockTranslator_ (accepted_annotation: BlockAnnotationId, translator: BlockTranslator)
+  extends ConditionalBlockTranslator
+

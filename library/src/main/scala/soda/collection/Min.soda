@@ -3,22 +3,19 @@ package soda.collection
 * MSeqTranslator [T] = {
 
   @tailrec
-  _tailrec_foldLeftSeq [B, C subtype B] (sequence: Seq [T], current_value: C,
-      next_value: (B, T) -> C): C =
+  _tailrec_foldLeftSeq [B, C subtype B] (sequence: Seq [T], current_value: C,next_value: (B, T) -> C): C =
     if sequence.isEmpty
     then current_value
     else _tailrec_foldLeftSeq (sequence.tail, next_value (current_value, sequence.head), next_value)
 
-  foldLeftSeq [B, C subtype B] (sequence: Seq [T], initial_value: C,
-      next_value: (B, T) -> C): C =
+  foldLeftSeq [B, C subtype B] (sequence: Seq [T], initial_value: C, next_value: (B, T) -> C): C =
     _tailrec_foldLeftSeq (sequence, initial_value, next_value)
 
   asMSeq (seq: Seq [T]): MSeq [T] =
     let
       initial_value: MSeq [T] = Min_ ().empty
       next_value (acc: MSeq [T], elem: T): MSeq [T] = Min_ ().prepended (acc, elem)
-    in Min_ ().reverse (
-        foldLeftSeq [MSeq [T], MSeq [T]] (seq, initial_value, next_value) )
+    in Min_ ().reverse (foldLeftSeq [MSeq [T], MSeq [T]] (seq, initial_value, next_value) )
 
   asSeq (mseq: MSeq [T]): Seq [T] =
     let
@@ -62,8 +59,7 @@ package soda.collection
 
   /* */
 
-  foldLeftWhile [B, C subtype B] (s: MSeq [T], initial_value: C, next_value: (B, T) -> C,
-      condition: (B, T) -> Boolean): C =
+  foldLeftWhile [B, C subtype B] (s: MSeq [T], initial_value: C, next_value: (B, T) -> C, condition: (B, T) -> Boolean): C =
     MSeqRec_ [T] ().fold [B, C] (s, initial_value, next_value, condition)
 
   foldLeft [B, C subtype B] (s: MSeq [T], initial_value: C, next_value: (B, T) -> C): C =
@@ -127,8 +123,7 @@ package soda.collection
       next_value (tuple: TakeDropFoldTuple [T], elem: T): TakeDropFoldTuple [T] =
         TakeDropFoldTuple_ [T] (prepended (tuple.seq, elem), tuple.index + 1)
       condition (tuple: TakeDropFoldTuple [T], elem: T): Boolean = tuple.index < n
-    in reverse (
-        foldLeftWhile (s, initial_value, next_value, condition).seq )
+    in reverse (foldLeftWhile (s, initial_value, next_value, condition).seq )
 
   drop (s: MSeq [T], n: Int): MSeq [T] =
     let

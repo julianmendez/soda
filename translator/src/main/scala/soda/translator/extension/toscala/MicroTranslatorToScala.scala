@@ -7,8 +7,8 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockTranslatorPipeline_
-  import soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
-  import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
+  import soda.translator.block.BlockAnnotationEnum_
+  import soda.translator.block.ConditionalBlockTranslator_
   import soda.translator.blocktr.TokenReplacement_
   import soda.translator.blocktr.TokenizedBlockTranslator_
   import soda.translator.parser.BlockAnnotator_
@@ -18,12 +18,16 @@ trait MicroTranslatorToScala  extends soda.translator.block.BlockTranslator {
 
   lazy val tc = TranslationConstantToScala_ ()
 
+  lazy val function_definition = BlockAnnotationEnum_ () .function_definition
+
+  lazy val test_declaration = BlockAnnotationEnum_ () .test_declaration
+
   lazy val try_definition: Token => String =
      token =>
-      DefinitionLineTranslator_ (token.text ) .translation
+      FunctionDefinitionLineTranslator_ (token.text ) .translation
 
   lazy val translation_pipeline =
-    BlockTranslatorPipeline_ (Seq (LineForwardJoinerBlockTranslator_ (), LineBackwardJoinerBlockTranslator_ (), BlockAnnotator_ (), LetInBlockTranslator_ (), MatchCaseBlockTranslator_ (), TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ), TokenReplacement_ () .replace (tc.scala_non_soda ), TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ), TokenReplacement_ () .replace (tc.synonym ), TokenizedBlockTranslator_ (try_definition ), ClassDeclarationBlockTranslator_ (), TokenReplacement_ () .replace (tc.main_translation ), TheoremAndProofBlockTranslator_ (), TokenReplacement_ () .replace_regex (tc.beautifier )      )    )
+    BlockTranslatorPipeline_ (Seq (BlockAnnotator_ (), LetInBlockTranslator_ (), MatchCaseBlockTranslator_ (), TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ), TokenReplacement_ () .replace (tc.scala_non_soda ), TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ), TokenReplacement_ () .replace (tc.synonym ), ConditionalBlockTranslator_ (function_definition, TokenizedBlockTranslator_ (try_definition ) ), ConditionalBlockTranslator_ (test_declaration, TokenizedBlockTranslator_ (try_definition ) ), ClassDeclarationBlockTranslator_ (), TokenReplacement_ () .replace (tc.main_translation ), TheoremAndProofBlockTranslator_ (), TokenReplacement_ () .replace_regex (tc.beautifier )      )    )
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     translation_pipeline.translate (block )

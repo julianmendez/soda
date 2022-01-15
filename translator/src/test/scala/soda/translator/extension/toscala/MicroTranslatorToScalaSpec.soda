@@ -15,9 +15,9 @@ package soda.translator.extension.toscala
         "\n    \"       x + y\")" +
         "\n"
       expected = "  lazy val input_lines = Seq (" +
-        "\"  f( x: Int,\\t\", " +
-        "\"     y: Int) =\"," +
-        " \"       x + y\")" +
+        "\n    \"  f( x: Int,\\t\"," +
+        "\n    \"     y: Int) =\"," +
+        "\n    \"       x + y\")" +
         "\n"
       obtained = instance.translate (original)
     in assert (obtained == expected)

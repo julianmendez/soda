@@ -48,8 +48,7 @@ package soda.translator.replacement
         CharTypeEnum_ ().get_char_type (line.charAt (current_index))
       )
 
-  _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int,
-      new_parser_state: ParserState): TokenizerFoldTuple =
+  _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState): TokenizerFoldTuple =
     _next_value_function_of_different_class_with (
       tuple,
       current_index,
@@ -60,8 +59,7 @@ package soda.translator.replacement
       else current_index
     )
 
-  _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int,
-     new_parser_state: ParserState, index: Int): TokenizerFoldTuple =
+  _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState, index: Int): TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,
       tuple.rev_tokens.+: (
         Token_ (

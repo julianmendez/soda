@@ -3,10 +3,10 @@ package soda.translator.parser.annotation
 * FunctionDefinitionAnnotation
   extends BlockAnnotation = {
 
-  + soda.translator.block.Block
-  + soda.translator.block.Block_
   + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.SodaConstant_
+  + soda.translator.replacement.ParserStateEnum_
+  + soda.translator.replacement.Tokenizer_
 
   identifier = BlockAnnotationEnum_ ().function_definition
 
@@ -30,19 +30,29 @@ package soda.translator.parser.annotation
     sc.function_definition_synonym +
     sc.space
 
+  plain_state = ParserStateEnum_ ().plain
+
   applies: Boolean =
     (contains_the_equals_symbol or starts_with_valid_annotation) and not is_a_class_declaration
 
   contains_the_equals_symbol: Boolean =
     block.readable_lines.nonEmpty and
-    _contains_the_equals_symbol_with (block.readable_lines.head.line.trim)
+    _contains_the_equals_symbol_with (block.readable_lines.head.line)
 
-  _contains_the_equals_symbol_with (first_line_trimmed: String): Boolean =
+  _contains_the_equals_symbol_with (first_line: String): Boolean =
+    Tokenizer_ (first_line)
+      .tokens
+      .exists (token ->
+        token.parser_state == plain_state and
+        _contains_the_equals_symbol_in_token (token.text)
+      )
+
+  _contains_the_equals_symbol_in_token (token_text: String): Boolean =
     (
-      (contains_one_line and first_line_trimmed.contains (symbol_in_the_middle) ) or
-      (contains_one_line and first_line_trimmed.contains (synonym_in_the_middle) ) or
-      (first_line_trimmed.endsWith (symbol_at_the_end) ) or
-      (first_line_trimmed.endsWith (synonym_at_the_end) )
+      (token_text.contains (symbol_in_the_middle) ) or
+      (token_text.contains (synonym_in_the_middle) ) or
+      (token_text.endsWith (symbol_at_the_end) ) or
+      (token_text.endsWith (synonym_at_the_end) )
     )
 
   starts_with_valid_annotation: Boolean =

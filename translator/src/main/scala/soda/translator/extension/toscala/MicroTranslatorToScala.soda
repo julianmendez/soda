@@ -8,8 +8,8 @@ package soda.translator.extension.toscala
 
   + soda.translator.block.AnnotatedBlock
   + soda.translator.block.BlockTranslatorPipeline_
-  + soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
-  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
+  + soda.translator.block.BlockAnnotationEnum_
+  + soda.translator.block.ConditionalBlockTranslator_
   + soda.translator.blocktr.TokenReplacement_
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.parser.BlockAnnotator_
@@ -19,27 +19,30 @@ package soda.translator.extension.toscala
 
   tc = TranslationConstantToScala_ ()
 
+  function_definition = BlockAnnotationEnum_ ().function_definition
+
+  test_declaration = BlockAnnotationEnum_ ().test_declaration
+
   try_definition: Token -> String =
     lambda token ->
-      DefinitionLineTranslator_ (token.text).translation
+      FunctionDefinitionLineTranslator_ (token.text).translation
 
   translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        LineForwardJoinerBlockTranslator_ (),
-        LineBackwardJoinerBlockTranslator_ (),
         BlockAnnotator_ (),
         LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
-        TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
-        TokenReplacement_ (). replace (tc.scala_non_soda),
-        TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),
-        TokenReplacement_ (). replace (tc.synonym),
-        TokenizedBlockTranslator_ (try_definition),
+        TokenReplacement_ ().add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
+        TokenReplacement_ ().replace (tc.scala_non_soda),
+        TokenReplacement_ ().replace_at_beginning (tc.synonym_at_beginning),
+        TokenReplacement_ ().replace (tc.synonym),
+        ConditionalBlockTranslator_ (function_definition, TokenizedBlockTranslator_ (try_definition) ),
+        ConditionalBlockTranslator_ (test_declaration, TokenizedBlockTranslator_ (try_definition) ),
         ClassDeclarationBlockTranslator_ (),
-        TokenReplacement_ (). replace (tc.main_translation),
+        TokenReplacement_ ().replace (tc.main_translation),
         TheoremAndProofBlockTranslator_ (),
-        TokenReplacement_ (). replace_regex (tc.beautifier)
+        TokenReplacement_ ().replace_regex (tc.beautifier)
       )
     )
 

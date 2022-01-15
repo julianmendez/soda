@@ -9,7 +9,6 @@ package soda.translator.parser.annotation
   identifier = BlockAnnotationEnum_ ().class_end
 
   applies: Boolean =
-    contains_one_line and
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().class_close_symbol )
 

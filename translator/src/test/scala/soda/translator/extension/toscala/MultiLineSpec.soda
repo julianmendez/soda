@@ -6,7 +6,6 @@ package soda.translator.extension.toscala
   + soda.translator.block.AnnotatedBlock
   + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.block.DefaultBlockTranslator_
-  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
   + soda.translator.parser.BlockBuilder_
   + soda.translator.parser.BlockProcessor_
 
@@ -57,12 +56,6 @@ package soda.translator.extension.toscala
     let
       obtained = bp.make_block (original_input)
       expected = build_block (original_input_lines )
-    in assert(obtained == expected)
-
-  test ("should preprocess the comma in multiple lines")
-    let
-      obtained = LineForwardJoinerBlockTranslator_ ().translate (build_block (original_input_lines) )
-      expected = build_block (joined_comma_lines)
     in assert(obtained == expected)
 
   test ("should join the translated lines of a program")

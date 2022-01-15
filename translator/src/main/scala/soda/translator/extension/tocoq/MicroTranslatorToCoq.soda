@@ -8,8 +8,6 @@ package soda.translator.extension.tocoq
 
   + soda.translator.block.AnnotatedBlock
   + soda.translator.block.BlockTranslatorPipeline_
-  + soda.translator.blocktr.LineBackwardJoinerBlockTranslator_
-  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
   + soda.translator.blocktr.TokenReplacement_
   + soda.translator.blocktr.TokenizedBlockTranslator_
   + soda.translator.parser.BlockAnnotator_
@@ -24,8 +22,6 @@ package soda.translator.extension.tocoq
   translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        LineForwardJoinerBlockTranslator_ (),
-        LineBackwardJoinerBlockTranslator_ (),
         BlockAnnotator_ (),
         MatchCaseBlockTranslator_ (),
         TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
