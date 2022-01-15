@@ -1,5 +1,9 @@
 ---
-- version: v0.13.0
+- - version: v0.14.0
+  - date: unreleased
+  - build: sbt '++ 3.1.0' clean compile test package assembly
+  - release: target/scala-3.1.0/soda-0.14.0.jar
+- - version: v0.13.0
   - date: '2021-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - new_features:
@@ -14,7 +18,7 @@
   - deprecated_features:
     - use of a `let`-`in` structure is only supported as main structure inside a test or function definition
   - release: target/scala-3.1.0/soda-0.13.0.jar
-- version: v0.12.0
+- - version: v0.12.0
   - date: '2021-10-08'
   - new_features:
     - makes a stronger distinction between interfaces and other abstract classes
@@ -22,7 +26,7 @@
     - includes examples written in Coq
   - build: sbt '++ 3.0.2' clean compile test package assembly
   - release: target/scala-3.0.2/soda-0.12.0.jar
-- version: v0.11.0
+- - version: v0.11.0
   - date: '2021-09-12'
   - new_features:
     - compiles with Scala 3.0.2
