@@ -1,24 +1,29 @@
 package soda.example.ethicalissues.pricemonitor
 
-trait UnfairPricingAgent  extends PricingAgent {
+trait UnfairPricingAgent
+  extends PricingAgent {
 
   def get_price (customer: Customer, flight: Flight, date: Int ): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1 )
 
 }
 
-case class UnfairPricingAgent_ ()  extends UnfairPricingAgent
+case class UnfairPricingAgent_ ()
+  extends UnfairPricingAgent
 
-trait FairPricingAgent  extends PricingAgent {
+trait FairPricingAgent
+  extends PricingAgent {
 
   def get_price (customer: Customer, flight: Flight, date: Int ): Int =
     100 * (flight.intermediate_airports.length + 1 )
 
 }
 
-case class FairPricingAgent_ ()  extends FairPricingAgent
+case class FairPricingAgent_ ()
+  extends FairPricingAgent
 
-case class PriceMonitorSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class PriceMonitorSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import java.util.Date
   import java.util.Calendar

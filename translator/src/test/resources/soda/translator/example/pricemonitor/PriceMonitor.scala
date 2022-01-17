@@ -8,7 +8,8 @@ trait Customer {
 
 }
 
-case class Customer_ (name: String, ip_address: String )  extends Customer
+case class Customer_ (name: String, ip_address: String )
+  extends Customer
 
 trait PricingAgent {
 
@@ -33,7 +34,8 @@ trait Flight {
 
 }
 
-case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )  extends Flight
+case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )
+  extends Flight
 
 trait RequirementMonitor {
 

@@ -42,4 +42,5 @@ trait RecursionForCoq {
 
 }
 
-case class RecursionForCoq_ ()  extends RecursionForCoq
+case class RecursionForCoq_ ()
+  extends RecursionForCoq

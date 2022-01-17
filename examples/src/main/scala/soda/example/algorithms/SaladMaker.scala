@@ -17,4 +17,5 @@ trait SaladMaker {
 
 }
 
-case class SaladMaker_ ()  extends SaladMaker
+case class SaladMaker_ ()
+  extends SaladMaker

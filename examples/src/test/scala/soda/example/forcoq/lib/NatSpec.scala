@@ -1,6 +1,7 @@
 package soda.example.forcoq.lib
 
-case class NatSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class NatSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("IntNat from non negative")
     {
@@ -15,7 +16,9 @@ case class NatSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val instance = IntNat_ ()
       lazy val expected = 5
       lazy val obtained =
-        instance.to_Int (S (S (S (S (S (O ()  )  )  )  )  )        )
+        instance.to_Int (
+          S (S (S (S (S (O ()  )  )  )  )  )
+        )
       assert (obtained == expected ) }
 
   test ("Nat add")

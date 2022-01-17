@@ -1,6 +1,7 @@
 package soda.translator.parser.annotation
 
-case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class BlockAnnotationSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import soda.translator.block.Block
   import soda.translator.block.DefaultBlockTranslator_
@@ -46,7 +47,19 @@ case class BlockAnnotationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     BlockProcessor_ (DefaultBlockTranslator_ ()  ) .split_blocks (example_program )
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
-    Seq (FunctionDefinitionAnnotation_ (block ), ClassBeginningAnnotation_ (block ), ClassEndAnnotation_ (block ), ClassDeclarationAnnotation_ (block ), AbstractFunctionDeclarationAnnotation_ (block ), ImportDeclarationAnnotation_ (block ), PackageDeclarationAnnotation_ (block ), TheoremBlockAnnotation_ (block ), ProofBlockAnnotation_ (block ), CommentAnnotation_ (block ), TestDeclarationAnnotation_ (block )    )
+    Seq (
+      FunctionDefinitionAnnotation_ (block ),
+      ClassBeginningAnnotation_ (block ),
+      ClassEndAnnotation_ (block ),
+      ClassDeclarationAnnotation_ (block ),
+      AbstractFunctionDeclarationAnnotation_ (block ),
+      ImportDeclarationAnnotation_ (block ),
+      PackageDeclarationAnnotation_ (block ),
+      TheoremBlockAnnotation_ (block ),
+      ProofBlockAnnotation_ (block ),
+      CommentAnnotation_ (block ),
+      TestDeclarationAnnotation_ (block )
+    )
 
   def apply_detectors (block: Block ): Seq [Boolean] =
     detectors (block ) .map (detector => detector.applies )

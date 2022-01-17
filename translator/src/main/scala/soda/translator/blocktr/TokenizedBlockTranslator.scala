@@ -1,6 +1,7 @@
 package soda.translator.blocktr
 
-trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait TokenizedBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.lib.SomeSD_
   import soda.translator.block.AnnotatedBlock
@@ -15,12 +16,16 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
   def replace_token: Token => String
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block
+    BlockBuilder_ () .build (
+      block
         .annotated_lines
         .map (annotated_line =>
           if (annotated_line.is_comment
           ) annotated_line.line
-          else _translate_non_comment (annotated_line.line )        ), block.block_annotation    )
+          else _translate_non_comment (annotated_line.line )
+        ),
+      block.block_annotation
+    )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )
@@ -32,10 +37,12 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
         .value
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
-    tokens.map (token =>
+    tokens.map (
+      token =>
         if (token.parser_state == ParserStateEnum_ () .plain
         ) Token_ (replace_token (token ), token.parser_state, token.index )
-        else token    )
+        else token
+    )
 
   def _join_tokens (tokens: Seq [Token]  ): String =
     tokens
@@ -44,4 +51,5 @@ trait TokenizedBlockTranslator  extends soda.translator.block.BlockTranslator {
 
 }
 
-case class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token => String )  extends TokenizedBlockTranslator
+case class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token => String )
+  extends TokenizedBlockTranslator

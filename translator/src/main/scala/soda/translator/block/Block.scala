@@ -8,9 +8,11 @@ trait AnnotatedLine {
 
 }
 
-case class AnnotatedLine_ (line: String, is_comment: Boolean )  extends AnnotatedLine
+case class AnnotatedLine_ (line: String, is_comment: Boolean )
+  extends AnnotatedLine
 
-trait Block  extends PlainBlock {
+trait Block
+  extends PlainBlock {
 
   def annotated_lines: Seq [AnnotatedLine]
 
@@ -20,4 +22,5 @@ trait Block  extends PlainBlock {
 
 }
 
-case class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine]  )  extends Block
+case class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine]  )
+  extends Block

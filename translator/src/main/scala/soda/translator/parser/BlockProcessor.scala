@@ -33,7 +33,9 @@ trait BlockProcessor {
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): AnnotatedBlock =
-    BlockBuilder_ () .build (remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq ), BlockAnnotationEnum_ () .undefined    )
+    BlockBuilder_ () .build (
+      remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq ), BlockAnnotationEnum_ () .undefined
+    )
 
   def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
     blocks.map (block => translator.translate (block ) )
@@ -49,4 +51,5 @@ trait BlockProcessor {
 
 }
 
-case class BlockProcessor_ (translator: soda.translator.block.BlockTranslator )  extends BlockProcessor
+case class BlockProcessor_ (translator: soda.translator.block.BlockTranslator )
+  extends BlockProcessor

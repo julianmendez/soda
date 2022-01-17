@@ -1,6 +1,7 @@
 package soda.translator.extension.toscala
 
-trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait LetInBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -17,10 +18,13 @@ trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
     else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines
+    BlockBuilder_ () .build (
+      block.lines
         .map (line => replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation ) )
         .map (line => replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation ) )
-        .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) ), block.block_annotation    )
+        .map (line => append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation ) ),
+      block.block_annotation
+    )
 
   def replace_all_when (line: String, condition: (String, String ) => Boolean, pattern: String, new_text: String ): String =
     if (condition (line, pattern )
@@ -40,4 +44,5 @@ trait LetInBlockTranslator  extends soda.translator.block.BlockTranslator {
 
 }
 
-case class LetInBlockTranslator_ ()  extends LetInBlockTranslator
+case class LetInBlockTranslator_ ()
+  extends LetInBlockTranslator

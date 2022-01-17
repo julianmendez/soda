@@ -1,6 +1,7 @@
 package soda.translator.extension.help
 
-trait Help  extends soda.translator.extension.common.Extension {
+trait Help
+  extends soda.translator.extension.common.Extension {
 
   import soda.lib.SomeSD_
   import soda.translator.io.SimpleFileReader_
@@ -28,7 +29,8 @@ trait Help  extends soda.translator.extension.common.Extension {
 
 }
 
-case class Help_ ()  extends Help {
+case class Help_ ()
+  extends Help {
 
   lazy val file_name = "help.txt"
 
@@ -37,7 +39,8 @@ case class Help_ ()  extends Help {
 
 }
 
-case class Manual_ ()  extends Help {
+case class Manual_ ()
+  extends Help {
 
   lazy val file_name = "Manual.soda"
 
@@ -46,7 +49,8 @@ case class Manual_ ()  extends Help {
 
 }
 
-case class License_ ()  extends Help {
+case class License_ ()
+  extends Help {
 
   lazy val file_name = "LICENSE.txt"
 

@@ -24,4 +24,5 @@ trait FizzBuzzPatternMatching {
 
 }
 
-case class FizzBuzzPatternMatching_ ()  extends FizzBuzzPatternMatching
+case class FizzBuzzPatternMatching_ ()
+  extends FizzBuzzPatternMatching

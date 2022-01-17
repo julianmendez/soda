@@ -6,7 +6,8 @@ trait BlockTranslator {
 
 }
 
-case class DefaultBlockTranslator_ ()  extends BlockTranslator {
+case class DefaultBlockTranslator_ ()
+  extends BlockTranslator {
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     block

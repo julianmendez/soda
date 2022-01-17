@@ -1,6 +1,7 @@
 package soda.translator.parser.annotation
 
-trait FunctionDefinitionAnnotation  extends BlockAnnotation {
+trait FunctionDefinitionAnnotation
+  extends BlockAnnotation {
 
   import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.SodaConstant_
@@ -43,13 +44,16 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
       .tokens
       .exists (token =>
         token.parser_state == plain_state &&
-        _contains_the_equals_symbol_in_token (token.text )      )
+        _contains_the_equals_symbol_in_token (token.text )
+      )
 
   def _contains_the_equals_symbol_in_token (token_text: String ): Boolean =
-    ((token_text.contains (symbol_in_the_middle ) ) ||
+    (
+      (token_text.contains (symbol_in_the_middle ) ) ||
       (token_text.contains (synonym_in_the_middle ) ) ||
       (token_text.endsWith (symbol_at_the_end ) ) ||
-      (token_text.endsWith (synonym_at_the_end ) )    )
+      (token_text.endsWith (synonym_at_the_end ) )
+    )
 
   lazy val starts_with_valid_annotation: Boolean =
     block.readable_lines.nonEmpty &&
@@ -65,4 +69,5 @@ trait FunctionDefinitionAnnotation  extends BlockAnnotation {
 
 }
 
-case class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block )  extends FunctionDefinitionAnnotation
+case class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block )
+  extends FunctionDefinitionAnnotation

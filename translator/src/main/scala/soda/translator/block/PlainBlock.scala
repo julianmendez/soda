@@ -11,4 +11,5 @@ trait PlainBlock {
 
 }
 
-case class PlainBlock_ (lines: Seq [String]  )  extends PlainBlock
+case class PlainBlock_ (lines: Seq [String]  )
+  extends PlainBlock

@@ -6,7 +6,9 @@ trait Table {
 
 }
 
-trait TableTranslator  extends Table  with soda.translator.block.Translator {
+trait TableTranslator
+  extends Table
+  with soda.translator.block.Translator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.replacement.Replacement_
@@ -19,4 +21,5 @@ trait TableTranslator  extends Table  with soda.translator.block.Translator {
 
 }
 
-case class TableTranslator_ (table: Seq [(String, String )]  )  extends TableTranslator
+case class TableTranslator_ (table: Seq [(String, String )]  )
+  extends TableTranslator

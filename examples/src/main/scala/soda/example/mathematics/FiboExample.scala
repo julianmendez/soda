@@ -6,7 +6,8 @@ trait FiboExample {
 
 }
 
-trait FiboExampleInSoda  extends FiboExample {
+trait FiboExampleInSoda
+  extends FiboExample {
 
   def _rec (m: Int, a: Int, b: Int ): Int =
     if (m == 0 ) a
@@ -18,4 +19,5 @@ trait FiboExampleInSoda  extends FiboExample {
 
 }
 
-case class FiboExampleInSoda_ ()  extends FiboExampleInSoda
+case class FiboExampleInSoda_ ()
+  extends FiboExampleInSoda

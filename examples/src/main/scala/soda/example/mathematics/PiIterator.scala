@@ -19,7 +19,14 @@ trait Status {
 
 }
 
-case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int  ) extends Status
+case class Status_ (
+    r: BigInt,
+    n: Int,
+    q: BigInt,
+    t: BigInt,
+    l: Int,
+    k: Int
+  ) extends Status
 
 trait PiIterator {
 
@@ -32,7 +39,16 @@ trait PiIterator {
     if ((4 * s.q + s.r - s.t ) < (s.n * s.t )
     ) s
     else
-      _tailrec_compute_new_status (Status_ (r = (2 * s.q + s.r ) * s.l, n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt, q = s.q * s.k, t = s.t * s.l, l = s.l + 2, k = s.k + 1        )      )
+      _tailrec_compute_new_status (
+        Status_ (
+          r = (2 * s.q + s.r ) * s.l,
+          n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt,
+          q = s.q * s.k,
+          t = s.t * s.l,
+          l = s.l + 2,
+          k = s.k + 1
+        )
+      )
 
   def compute_new_status (s: Status ): Status =
     _tailrec_compute_new_status (s )
@@ -51,7 +67,17 @@ trait PiIterator {
     _get_next_with_new_status (compute_new_status (s )  )
 
   def _get_next_with_new_status (s: Status ): IntAndStatus =
-    IntAndStatus_ (s.n, Status_ (r = 10 * (s.r - s.n * s.t ), n = (((10 * (3 * s.q + s.r )  ) / s.t ) - (10 * s.n )  ) .toInt, q = s.q * 10, t = s.t, l = s.l, k = s.k      )    )
+    IntAndStatus_ (
+      s.n,
+      Status_ (
+        r = 10 * (s.r - s.n * s.t ),
+        n = (((10 * (3 * s.q + s.r )  ) / s.t ) - (10 * s.n )  ) .toInt,
+        q = s.q * 10,
+        t = s.t,
+        l = s.l,
+        k = s.k
+      )
+    )
 
 }
 

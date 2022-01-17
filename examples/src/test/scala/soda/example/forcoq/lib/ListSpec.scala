@@ -1,6 +1,7 @@
 package soda.example.forcoq.lib
 
-case class ListSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class ListSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("list from Seq")
     {
@@ -15,7 +16,9 @@ case class ListSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val instance = SeqList_ ()
       lazy val expected = Seq [Int] (1, 2, 4, 8, 16 )
       lazy val obtained =
-        instance.to_Seq ((cons (1, cons (2, cons (4, cons (8, cons (16, nil [Int] () ) ) ) ) ) )        )
+        instance.to_Seq (
+          (cons (1, cons (2, cons (4, cons (8, cons (16, nil [Int] () ) ) ) ) ) )
+        )
       assert (obtained == expected ) }
 
 }

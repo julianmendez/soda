@@ -3,7 +3,8 @@ package soda.translator.extension.tocoq
 /**
  * This translates Soda source code to Coq source code.
  */
-trait TranslatorToCoq  extends soda.translator.extension.common.Extension {
+trait TranslatorToCoq
+  extends soda.translator.extension.common.Extension {
 
   import soda.translator.parser.BlockProcessor_
   import soda.translator.io.DirectoryProcessor_
@@ -34,18 +35,26 @@ trait TranslatorToCoq  extends soda.translator.extension.common.Extension {
 
   def get_input_output_file_names (input_name: String ): FileNamePair =
     if (input_name.endsWith (soda_extension )
-    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - soda_extension.length ) + coq_extension )
+    ) FileNamePair_ (input_name,
+      input_name.substring (0, input_name.length - soda_extension.length ) + coq_extension )
     else FileNamePair_ (input_name + soda_extension, input_name + coq_extension )
 
   def translate (input_file_name: String, output_file_name: String ): Boolean =
-    translate_with_input (SimpleFileReader_ () .read_file (input_file_name ), output_file_name    )
+    translate_with_input (
+      SimpleFileReader_ () .read_file (input_file_name ),
+      output_file_name
+    )
 
   def translate_with_input (input: String, output_file_name: String ): Boolean =
-    SimpleFileWriter_ () .write_file (output_file_name, content = BlockProcessor_ (MicroTranslatorToCoq_ () ) .translate (input )    )
+    SimpleFileWriter_ () .write_file (
+      output_file_name,
+      content = BlockProcessor_ (MicroTranslatorToCoq_ () ) .translate (input )
+    )
 
 }
 
-case class TranslatorToCoq_ ()  extends TranslatorToCoq
+case class TranslatorToCoq_ ()
+  extends TranslatorToCoq
 
 trait FileNamePair {
 
@@ -55,4 +64,5 @@ trait FileNamePair {
 
 }
 
-case class FileNamePair_ (input_file_name: String, output_file_name: String )  extends FileNamePair
+case class FileNamePair_ (input_file_name: String, output_file_name: String )
+  extends FileNamePair

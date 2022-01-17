@@ -1,8 +1,10 @@
 package soda.translator.block
 
-case class BlockAnnotationId (ordinal: Int, name: String )  extends soda.lib.EnumConstant
+case class BlockAnnotationId (ordinal: Int, name: String )
+  extends soda.lib.EnumConstant
 
-trait BlockAnnotationEnum  extends soda.lib.Enum [BlockAnnotationId] {
+trait BlockAnnotationEnum
+  extends soda.lib.Enum [BlockAnnotationId] {
 
   lazy val undefined = BlockAnnotationId (0, "undefined")
 
@@ -29,8 +31,22 @@ trait BlockAnnotationEnum  extends soda.lib.Enum [BlockAnnotationId] {
   lazy val test_declaration = BlockAnnotationId (11, "comment")
 
   lazy val values =
-    Seq (undefined, function_definition, abstract_function_declaration, class_beginning, class_end, class_declaration, package_declaration, import_declaration, theorem_block, proof_block, comment, test_declaration    )
+    Seq (
+      undefined,
+      function_definition,
+      abstract_function_declaration,
+      class_beginning,
+      class_end,
+      class_declaration,
+      package_declaration,
+      import_declaration,
+      theorem_block,
+      proof_block,
+      comment,
+      test_declaration
+    )
 
 }
 
-case class BlockAnnotationEnum_ ()  extends BlockAnnotationEnum
+case class BlockAnnotationEnum_ ()
+  extends BlockAnnotationEnum

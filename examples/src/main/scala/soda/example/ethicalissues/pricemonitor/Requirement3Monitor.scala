@@ -2,10 +2,14 @@ package soda.example.ethicalissues.pricemonitor
 
 case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
 
-trait Requirement3Monitor  extends RequirementMonitor {
+trait Requirement3Monitor
+  extends RequirementMonitor {
 
   def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
-    get_report_with (get_price (customer, flight, date_in_days ), get_price_of_flight_by_segments (customer, flight, date_in_days )    )
+    get_report_with (
+      get_price (customer, flight, date_in_days ),
+      get_price_of_flight_by_segments (customer, flight, date_in_days )
+    )
 
   def get_report_with (price_of_flight: Int, price_of_flight_by_segments: Int ): Report3 =
     Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments )
@@ -21,15 +25,18 @@ trait Requirement3Monitor  extends RequirementMonitor {
 
 }
 
-case class Requirement3Monitor_ (pricing_agent: PricingAgent )  extends Requirement3Monitor
+case class Requirement3Monitor_ (pricing_agent: PricingAgent )
+  extends Requirement3Monitor
 
-trait Segment  extends Flight {
+trait Segment
+  extends Flight {
 
   lazy val intermediate_airports = Seq [String]  ()
 
 }
 
-case class Segment_ (start_airport: String, end_airport: String )  extends Segment
+case class Segment_ (start_airport: String, end_airport: String )
+  extends Segment
 
 trait SegmentsForFlight {
 
@@ -46,4 +53,5 @@ trait SegmentsForFlight {
 
 }
 
-case class SegmentsForFlight_ (flight: Flight )  extends SegmentsForFlight
+case class SegmentsForFlight_ (flight: Flight )
+  extends SegmentsForFlight

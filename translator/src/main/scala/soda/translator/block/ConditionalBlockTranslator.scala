@@ -1,6 +1,7 @@
 package soda.translator.block
 
-trait ConditionalBlockTranslator  extends BlockTranslator {
+trait ConditionalBlockTranslator
+  extends BlockTranslator {
 
   def accepted_annotation: BlockAnnotationId
 
@@ -13,4 +14,5 @@ trait ConditionalBlockTranslator  extends BlockTranslator {
 
 }
 
-case class ConditionalBlockTranslator_ (accepted_annotation: BlockAnnotationId, translator: BlockTranslator )  extends ConditionalBlockTranslator
+case class ConditionalBlockTranslator_ (accepted_annotation: BlockAnnotationId, translator: BlockTranslator )
+  extends ConditionalBlockTranslator

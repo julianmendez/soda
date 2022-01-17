@@ -1,6 +1,7 @@
 package soda.collection
 
-case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MinSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import soda.lib.OptionSD
   import soda.lib.NoneSD_
@@ -16,7 +17,8 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   def prepend_elem (list: MSeq [Int], elem: Int ) = Min_ () .prepended (list, elem )
 
   lazy val example: NESeq [Int] =
-    Recursion_ () .fold (revExampleSeq.tail, NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] ()  ), prepend_elem )
+    Recursion_ () .fold (revExampleSeq.tail,
+      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] ()  ), prepend_elem )
 
   test ("prepended")
     {
@@ -456,7 +458,9 @@ case class MinSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("foldLeft in the same type")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 )  )
-      lazy val obtained = Min_ () .foldLeft0 (example ) (Min_ () .empty, (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )      )
+      lazy val obtained = Min_ () .foldLeft0 (example ) (Min_ () .empty,
+         (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )
+      )
       assert (obtained == expected ) }
 
 }

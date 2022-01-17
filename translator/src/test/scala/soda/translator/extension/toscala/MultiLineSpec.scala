@@ -1,6 +1,7 @@
 package soda.translator.extension.toscala
 
-case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MultiLineSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -22,9 +23,21 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  lazy val original_input_lines = Seq ("  value = 1", "  sequence = Seq(1 ,", "    2,  ", "    3)", "  f( x: Int,\t", "     y: Int,", "     z: Int) =", "       x * x + y * y + z * z")
+  lazy val original_input_lines = Seq (
+    "  value = 1",
+    "  sequence = Seq(1 ,",
+    "    2,  ",
+    "    3)",
+    "  f( x: Int,\t",
+    "     y: Int,",
+    "     z: Int) =",
+    "       x * x + y * y + z * z")
 
-  lazy val joined_comma_lines = Seq ("  value = 1", "  sequence = Seq(1 ,    2,      3)", "  f( x: Int,\t     y: Int,     z: Int) =", "       x * x + y * y + z * z")
+  lazy val joined_comma_lines = Seq (
+    "  value = 1",
+    "  sequence = Seq(1 ,    2,      3)",
+    "  f( x: Int,\t     y: Int,     z: Int) =",
+    "       x * x + y * y + z * z")
 
   lazy val joined_output =
     "  value = 1\n" +

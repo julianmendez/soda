@@ -24,7 +24,8 @@ package soda.translator.extension.tocoq
  * This is no longer supported.
  *
  */
-trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
+trait DefinitionLineTranslator
+  extends soda.translator.block.LineTranslator {
 
   import soda.lib.OptionSD
   import soda.lib.SomeSD_
@@ -40,7 +41,10 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
   lazy val scala_space: String = " "
 
   lazy val translation =
-    find_definition (line ) .opt (ifEmpty = line, ifNonEmpty = position => try_found_definition (position ) .line    )
+    find_definition (line ) .opt (
+      ifEmpty = line,
+      ifNonEmpty = position => try_found_definition (position ) .line
+    )
 
   lazy val is_class_definition =
     get_index (line, soda_space + tc.soda_class_reserved_word + soda_space ) .isDefined
@@ -94,8 +98,11 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
     position_of_first_opening_parenthesis.opt (false, position => position > initial_position )
 
   lazy val is_val_definition_case_3 =
-    get_index (line, tc.soda_colon ) .opt (ifEmpty = false, ifNonEmpty = other_position =>
-        position_of_first_opening_parenthesis.opt (false, position => position > other_position )    )
+    get_index (line, tc.soda_colon ) .opt (
+      ifEmpty = false,
+      ifNonEmpty = other_position =>
+        position_of_first_opening_parenthesis.opt (false, position => position > other_position )
+    )
 
   lazy val is_val_definition_case_4 =
     trimmed_line.startsWith (tc.soda_opening_parenthesis )
@@ -121,4 +128,5 @@ trait DefinitionLineTranslator  extends soda.translator.block.LineTranslator {
 
 }
 
-case class DefinitionLineTranslator_ (line: String )  extends DefinitionLineTranslator
+case class DefinitionLineTranslator_ (line: String )
+  extends DefinitionLineTranslator

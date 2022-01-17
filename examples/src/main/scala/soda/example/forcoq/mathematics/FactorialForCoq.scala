@@ -19,4 +19,5 @@ trait FactorialForCoq {
 
 }
 
-case class FactorialForCoq_ ()  extends FactorialForCoq
+case class FactorialForCoq_ ()
+  extends FactorialForCoq

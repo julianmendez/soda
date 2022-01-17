@@ -40,8 +40,48 @@ trait SodaConstant {
 
   lazy val override_annotation = "@override"
 
-  lazy val soda_reserved_words = Seq ("=", ":", "->", "=>", ":=", "if", "then", "else", "let", "in", "match", "case", "end", "class", "has", "extends", "with", "this", "subtype", "supertype", "false", "true", "not", "and", "or", "package", "import", "theorem", "proof", "is", "lambda", "<:", ">:", "+", "-", "*", "/", "|"  )
+  lazy val soda_reserved_words = Seq (
+    "=",
+    ":",
+    "->",
+    "=>",
+    ":=",
+    "if",
+    "then",
+    "else",
+    "let",
+    "in",
+    "match",
+    "case",
+    "end",
+    "class",
+    "has",
+    "extends",
+    "with",
+    "this",
+    "subtype",
+    "supertype",
+    "false",
+    "true",
+    "not",
+    "and",
+    "or",
+    "package",
+    "import",
+    "theorem",
+    "proof",
+    "is",
+    "lambda",
+    "<:",
+    ">:",
+    "+",
+    "-",
+    "*",
+    "/",
+    "|"
+  )
 
 }
 
-case class SodaConstant_ ()  extends SodaConstant
+case class SodaConstant_ ()
+  extends SodaConstant

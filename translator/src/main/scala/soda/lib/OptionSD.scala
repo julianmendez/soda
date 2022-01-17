@@ -35,7 +35,8 @@ trait OptionSD [A] {
 
 }
 
-trait NoneSD [A]  extends OptionSD [A] {
+trait NoneSD [A]
+  extends OptionSD [A] {
 
   def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
@@ -63,15 +64,18 @@ trait NoneSD [A]  extends OptionSD [A] {
 
 }
 
-case class NoneSD_ [A] ()  extends NoneSD [A]
+case class NoneSD_ [A] ()
+  extends NoneSD [A]
 
-trait OptionSDWithElement [A]  extends OptionSD [A] {
+trait OptionSDWithElement [A]
+  extends OptionSD [A] {
 
   def element: A
 
 }
 
-trait SomeSD [A]  extends OptionSDWithElement [A] {
+trait SomeSD [A]
+  extends OptionSDWithElement [A] {
 
   lazy val value: A = element
 
@@ -101,7 +105,8 @@ trait SomeSD [A]  extends OptionSDWithElement [A] {
 
 }
 
-case class SomeSD_ [A] (element: A )  extends SomeSD [A]
+case class SomeSD_ [A] (element: A )
+  extends SomeSD [A]
 
 trait OptionSDBuilder [A] {
 
@@ -112,4 +117,5 @@ trait OptionSDBuilder [A] {
 
 }
 
-case class OptionSDBuilder_ [A] ()  extends OptionSDBuilder [A]
+case class OptionSDBuilder_ [A] ()
+  extends OptionSDBuilder [A]

@@ -1,6 +1,7 @@
 package soda.translator.parser
 
-trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
+trait BlockAnnotator
+  extends soda.translator.block.BlockTranslator  {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.AnnotatedBlock_
@@ -26,7 +27,19 @@ trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
     else block
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
-    Seq (FunctionDefinitionAnnotation_ (block ), ClassBeginningAnnotation_ (block ), ClassEndAnnotation_ (block ), ClassDeclarationAnnotation_ (block ), AbstractFunctionDeclarationAnnotation_ (block ), ImportDeclarationAnnotation_ (block ), PackageDeclarationAnnotation_ (block ), TheoremBlockAnnotation_ (block ), ProofBlockAnnotation_ (block ), CommentAnnotation_ (block ), TestDeclarationAnnotation_ (block )    )
+    Seq (
+      FunctionDefinitionAnnotation_ (block ),
+      ClassBeginningAnnotation_ (block ),
+      ClassEndAnnotation_ (block ),
+      ClassDeclarationAnnotation_ (block ),
+      AbstractFunctionDeclarationAnnotation_ (block ),
+      ImportDeclarationAnnotation_ (block ),
+      PackageDeclarationAnnotation_ (block ),
+      TheoremBlockAnnotation_ (block ),
+      ProofBlockAnnotation_ (block ),
+      CommentAnnotation_ (block ),
+      TestDeclarationAnnotation_ (block )
+    )
 
   def find_candidates (block: Block ): Seq [BlockAnnotationId] =
     detectors (block )
@@ -43,4 +56,5 @@ trait BlockAnnotator  extends soda.translator.block.BlockTranslator  {
 
 }
 
-case class BlockAnnotator_ ()  extends BlockAnnotator
+case class BlockAnnotator_ ()
+  extends BlockAnnotator

@@ -1,6 +1,7 @@
 package soda.translator.extension.toscala
 
-trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait ClassDeclarationBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -43,7 +44,9 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
       else line.replaceAll (space_and_definition, "")
 
   def get_table_translator (line: String ): Translator =
-    TableTranslator_ (Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )    )
+    TableTranslator_ (
+      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )
+    )
 
   def get_class_declaration_translation (line: String ): String =
     if (line.contains (soda_opening_parenthesis )
@@ -85,4 +88,5 @@ trait ClassDeclarationBlockTranslator  extends soda.translator.block.BlockTransl
 
 }
 
-case class ClassDeclarationBlockTranslator_ ()  extends ClassDeclarationBlockTranslator
+case class ClassDeclarationBlockTranslator_ ()
+  extends ClassDeclarationBlockTranslator

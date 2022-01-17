@@ -4,7 +4,8 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-trait Replacement  extends soda.translator.block.SingleLineProcessor {
+trait Replacement
+  extends soda.translator.block.SingleLineProcessor {
 
   import soda.translator.block.Translator
 
@@ -41,7 +42,8 @@ trait Replacement  extends soda.translator.block.SingleLineProcessor {
 
 }
 
-case class Replacement_ (line: String )  extends Replacement
+case class Replacement_ (line: String )
+  extends Replacement
 
 trait ReplacementAux {
 
@@ -112,7 +114,8 @@ trait ReplacementAux {
 
 }
 
-case class ReplacementAux_ ()  extends ReplacementAux
+case class ReplacementAux_ ()
+  extends ReplacementAux
 
 trait ReplacementWithTranslator {
 
@@ -136,13 +139,15 @@ trait ReplacementWithTranslator {
     Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace_only_beginning )
 
   def _next_replace_only_beginning (line: String, reserved_word: String ): String =
-    aux.replace_if_found_at_beginning (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
+    aux.replace_if_found_at_beginning (line,
+      soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
   def replace (line: String ): String =
     Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace )
 
   def _next_replace (line: String, reserved_word: String ): String =
-    aux.replace_if_found (line, soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
+    aux.replace_if_found (line,
+      soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word ) + scala_space )
 
   def replace_regex (line: String ): String =
     Recursion_ () .fold (translator.keys, initial_value = line, next_value_function = _next_replace_regex )
@@ -152,4 +157,5 @@ trait ReplacementWithTranslator {
 
 }
 
-case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator )  extends ReplacementWithTranslator
+case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator )
+  extends ReplacementWithTranslator

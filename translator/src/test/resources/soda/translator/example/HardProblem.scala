@@ -12,7 +12,8 @@ trait MainFunction [A, B] {
 
 }
 
-trait Memoizer [A, B]  extends MemoizableFunction [A, B] with MainFunction [A, B] {
+trait Memoizer [A, B]
+  extends MemoizableFunction [A, B] with MainFunction [A, B] {
 
   def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
     {
@@ -31,9 +32,11 @@ trait Memoizer [A, B]  extends MemoizableFunction [A, B] with MainFunction [A, B
 
 }
 
-case class Memoizer_ [A, B]  (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  )  extends Memoizer [A, B]
+case class Memoizer_ [A, B]  (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  )
+  extends Memoizer [A, B]
 
-trait HardProblem  extends MemoizableFunction [Int, Int] {
+trait HardProblem
+  extends MemoizableFunction [Int, Int] {
 
   lazy val memoizer = Memoizer_ [Int, Int]  (main_function )
 
@@ -58,9 +61,11 @@ trait HardProblem  extends MemoizableFunction [Int, Int] {
 
 }
 
-case class HardProblem_ ()  extends HardProblem
+case class HardProblem_ ()
+  extends HardProblem
 
-trait MemoizedFibonacci  extends MemoizableFunction [Int, Int] {
+trait MemoizedFibonacci
+  extends MemoizableFunction [Int, Int] {
 
   lazy val memoizer = Memoizer_ [Int, Int]  (main_function )
 
@@ -80,4 +85,5 @@ trait MemoizedFibonacci  extends MemoizableFunction [Int, Int] {
 
 }
 
-case class MemoizedFibonacci_ ()  extends MemoizedFibonacci
+case class MemoizedFibonacci_ ()
+  extends MemoizedFibonacci

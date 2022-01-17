@@ -1,6 +1,7 @@
 package soda.translator.extension.toscala
 
-trait TheoremAndProofBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait TheoremAndProofBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -20,14 +21,20 @@ trait TheoremAndProofBlockTranslator  extends soda.translator.block.BlockTransla
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_a_theorem_or_a_proof (block )
-    ) append (tc.comment_close, prepend (tc.comment_open, block ) )
+    ) append (
+      tc.comment_close, prepend (
+        tc.comment_open, block ) )
     else block
 
   def prepend (prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation    )
+    BlockBuilder_ () .build (
+      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation
+    )
 
   def append (suffix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines.:+ (suffix ), block.block_annotation    )
+    BlockBuilder_ () .build (
+      block.lines.:+ (suffix ), block.block_annotation
+    )
 
   def first_line (block: AnnotatedBlock ): String =
     block.lines.headOption.getOrElse ("") .trim
@@ -41,4 +48,5 @@ trait TheoremAndProofBlockTranslator  extends soda.translator.block.BlockTransla
 
 }
 
-case class TheoremAndProofBlockTranslator_ ()  extends TheoremAndProofBlockTranslator
+case class TheoremAndProofBlockTranslator_ ()
+  extends TheoremAndProofBlockTranslator

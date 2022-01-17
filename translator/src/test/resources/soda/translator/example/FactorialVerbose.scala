@@ -6,7 +6,8 @@ trait AbstractFactorialVerbose {
 
 }
 
-trait FactorialVerbose  extends AbstractFactorialVerbose {
+trait FactorialVerbose
+  extends AbstractFactorialVerbose {
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -20,4 +21,5 @@ trait FactorialVerbose  extends AbstractFactorialVerbose {
 
 }
 
-case class FactorialVerbose_ ()  extends FactorialVerbose
+case class FactorialVerbose_ ()
+  extends FactorialVerbose

@@ -20,7 +20,8 @@ trait AbstractFairness {
 
 }
 
-trait Fairness  extends AbstractFairness {
+trait Fairness
+  extends AbstractFairness {
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )

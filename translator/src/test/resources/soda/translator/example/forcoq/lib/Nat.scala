@@ -8,7 +8,8 @@ trait nat {
 
 }
 
-case class O ()  extends nat {
+case class O ()
+  extends nat {
 
   def add (a: nat ): nat = a
 
@@ -16,7 +17,8 @@ case class O ()  extends nat {
 
 }
 
-case class S (k: nat )  extends nat {
+case class S (k: nat )
+  extends nat {
 
   lazy val t = IntNat_ ()
 
@@ -57,4 +59,5 @@ trait IntNat {
 
 }
 
-case class IntNat_ ()  extends IntNat
+case class IntNat_ ()
+  extends IntNat

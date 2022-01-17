@@ -19,7 +19,14 @@ trait Status {
 
 }
 
-case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int  ) extends Status
+case class Status_ (
+    r: BigInt,
+    n: Int,
+    q: BigInt,
+    t: BigInt,
+    l: Int,
+    k: Int
+  ) extends Status
 
 trait PiIterator {
 

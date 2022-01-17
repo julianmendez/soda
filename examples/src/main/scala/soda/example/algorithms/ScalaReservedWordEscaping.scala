@@ -29,4 +29,5 @@ trait MyPair [A, B] {
 
 }
 
-case class MyPair_ [A, B] (key: A, value: B )  extends MyPair [A, B]
+case class MyPair_ [A, B] (key: A, value: B )
+  extends MyPair [A, B]

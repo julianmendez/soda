@@ -10,7 +10,7 @@ package soda.lib
 trait Recursion {
 
   import scala.annotation.tailrec
-  @tailrec  final
+        @tailrec  final
   def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     if (sequence.isEmpty
     ) current_value
@@ -23,7 +23,7 @@ trait Recursion {
     _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
 
   import scala.annotation.tailrec
-  @tailrec  final
+        @tailrec  final
   def _tailrec_fold3 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C ): C =
     if (sequence.isEmpty
     ) current_value
@@ -33,7 +33,7 @@ trait Recursion {
     _tailrec_fold3 (sequence, initial_value, next_value_function )
 
   import scala.annotation.tailrec
-  @tailrec  final
+        @tailrec  final
   def _tailrec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
     if (n <= 0
     ) sequence
@@ -44,4 +44,5 @@ trait Recursion {
 
 }
 
-case class Recursion_ ()  extends Recursion
+case class Recursion_ ()
+  extends Recursion

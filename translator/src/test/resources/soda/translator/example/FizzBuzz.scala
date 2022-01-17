@@ -25,4 +25,5 @@ trait FizzBuzz {
 
 }
 
-case class FizzBuzz_ ()  extends FizzBuzz
+case class FizzBuzz_ ()
+  extends FizzBuzz

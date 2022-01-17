@@ -44,4 +44,5 @@ trait Recursion {
 
 }
 
-case class Recursion_ ()  extends Recursion
+case class Recursion_ ()
+  extends Recursion

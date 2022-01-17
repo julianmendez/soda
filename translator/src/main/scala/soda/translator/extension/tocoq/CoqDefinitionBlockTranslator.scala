@@ -1,6 +1,7 @@
 package soda.translator.extension.tocoq
 
-trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait CoqDefinitionBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -24,10 +25,14 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
       else block
 
   def prepend (prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation    )
+    BlockBuilder_ () .build (
+      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation
+    )
 
   def append (suffix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines.:+ (suffix ), block.block_annotation    )
+    BlockBuilder_ () .build (
+      block.lines.:+ (suffix ), block.block_annotation
+    )
 
   def is_a_recursive_definition (block: AnnotatedBlock ): Boolean =
     tc.coq_recursive_function_prefixes.exists (prefix => first_line (block ) .startsWith (prefix )  )
@@ -41,4 +46,5 @@ trait CoqDefinitionBlockTranslator  extends soda.translator.block.BlockTranslato
 
 }
 
-case class CoqDefinitionBlockTranslator_ ()  extends CoqDefinitionBlockTranslator
+case class CoqDefinitionBlockTranslator_ ()
+  extends CoqDefinitionBlockTranslator

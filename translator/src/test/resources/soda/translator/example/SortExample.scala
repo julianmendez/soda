@@ -6,7 +6,8 @@ trait SortExample {
 
 }
 
-trait SortExampleWithAt  extends SortExample {
+trait SortExampleWithAt
+  extends SortExample {
 
   def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
@@ -18,7 +19,8 @@ trait SortExampleWithAt  extends SortExample {
 
 case class SortExampleWithAt_ () extends SortExampleWithAt
 
-trait SortExampleWithZip  extends SortExample {
+trait SortExampleWithZip
+  extends SortExample {
 
   def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
@@ -27,7 +29,8 @@ trait SortExampleWithZip  extends SortExample {
 
 }
 
-case class SortExampleWithZip_ ()  extends SortExampleWithZip
+case class SortExampleWithZip_ ()
+  extends SortExampleWithZip
 
 trait SortAlgorithmExample {
 
@@ -35,7 +38,8 @@ trait SortAlgorithmExample {
 
 }
 
-trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
+trait SortAlgorithmExampleWithFold
+  extends SortAlgorithmExample {
 
   import soda.lib.Recursion_
 
@@ -58,7 +62,8 @@ trait SortAlgorithmExampleWithFold  extends SortAlgorithmExample {
 
 }
 
-case class SortAlgorithmExampleWithFold_ ()  extends SortAlgorithmExampleWithFold
+case class SortAlgorithmExampleWithFold_ ()
+  extends SortAlgorithmExampleWithFold
 
 trait ConstrainedSortAlgorithm {
 
@@ -78,7 +83,8 @@ trait ConstrainedSortAlgorithm {
 
 }
 
-case class ConstrainedSortAlgorithm_ ()  extends ConstrainedSortAlgorithm
+case class ConstrainedSortAlgorithm_ ()
+  extends ConstrainedSortAlgorithm
 
 trait SortedSequence [A <: Comparable [A]] {
 
@@ -90,7 +96,8 @@ trait SortedSequence [A <: Comparable [A]] {
 
 }
 
-trait EmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
+trait EmptySortedSequence [A <: Comparable [A]]
+  extends SortedSequence [A] {
 
   lazy val sequence = Seq ()
 
@@ -101,15 +108,18 @@ trait EmptySortedSequence [A <: Comparable [A]]  extends SortedSequence [A] {
 
 }
 
-case class EmptySortedSequence_ [A <: Comparable [A]]  ()  extends EmptySortedSequence [A]
+case class EmptySortedSequence_ [A <: Comparable [A]]  ()
+  extends EmptySortedSequence [A]
 
-trait SortedSequenceWithElements [A <: Comparable [A]]  extends SortedSequence [A] {
+trait SortedSequenceWithElements [A <: Comparable [A]]
+  extends SortedSequence [A] {
 
   def sequence: Seq [A]
 
 }
 
-trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequenceWithElements [A] {
+trait NonEmptySortedSequence [A <: Comparable [A]]
+  extends SortedSequenceWithElements [A] {
 
   lazy val aux = NonEmptySortedSequenceAux_ [A]  ()
 
@@ -120,7 +130,8 @@ trait NonEmptySortedSequence [A <: Comparable [A]]  extends SortedSequenceWithEl
 
 }
 
-case class _NonEmptySortedSequence_ [A <: Comparable [A]]  (sequence: Seq [A]  )  extends NonEmptySortedSequence [A]
+case class _NonEmptySortedSequence_ [A <: Comparable [A]]  (sequence: Seq [A]  )
+  extends NonEmptySortedSequence [A]
 
 trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
 
@@ -145,7 +156,8 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
 
 }
 
-case class NonEmptySortedSequenceAux_ [A <: Comparable [A]]  ()  extends NonEmptySortedSequenceAux [A]
+case class NonEmptySortedSequenceAux_ [A <: Comparable [A]]  ()
+  extends NonEmptySortedSequenceAux [A]
 
 trait SortedSequenceBuilder [A <: Comparable [A]] {
 
@@ -161,4 +173,5 @@ trait SortedSequenceBuilder [A <: Comparable [A]] {
 
 }
 
-case class SortedSequenceBuilder_ [A <: Comparable [A]]  ()  extends SortedSequenceBuilder [A]
+case class SortedSequenceBuilder_ [A <: Comparable [A]]  ()
+  extends SortedSequenceBuilder [A]

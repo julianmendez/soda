@@ -51,7 +51,8 @@ trait MaxAndMin {
 
 }
 
-case class ConcreteMaxAndMin ()  extends MaxAndMin
+case class ConcreteMaxAndMin ()
+  extends MaxAndMin
 
 case class MinMaxPair (min: Int, max: Int )
 
@@ -61,14 +62,19 @@ trait Indexable {
 
 }
 
-trait Example  extends Indexable {
+trait Example
+  extends Indexable {
 
   def min_max (a: Int ) (b: Int ): MinMaxPair =
-    MinMaxPair (min = ConcreteMaxAndMin () .min (a ) (b ), max = ConcreteMaxAndMin () .max (a ) (b )    )
+    MinMaxPair (
+      min = ConcreteMaxAndMin () .min (a ) (b ),
+      max = ConcreteMaxAndMin () .max (a ) (b )
+    )
 
 }
 
-case class Example_ (index: Int )  extends Example
+case class Example_ (index: Int )
+  extends Example
 
 trait Comparable {
 
@@ -91,7 +97,8 @@ trait WithInstance {
 
 }
 
-trait MyClass   extends WithInstance {
+trait MyClass
+   extends WithInstance {
 
   lazy val class_constant: Int = 1
 

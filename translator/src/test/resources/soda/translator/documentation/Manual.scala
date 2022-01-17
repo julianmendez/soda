@@ -66,7 +66,8 @@ trait EqualsExample {
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
-case class EqualsExample_ ()  extends EqualsExample
+case class EqualsExample_ ()
+  extends EqualsExample
 
 /* A class does not need to define all its constants and functions. */
 trait RegisteredPerson {
@@ -95,7 +96,8 @@ trait Agent {
 
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-case class Agent_ (identifier: String )  extends Agent
+case class Agent_ (identifier: String )
+  extends Agent
 
 trait RankedIndividual {
 
@@ -103,7 +105,8 @@ trait RankedIndividual {
 
 }
 
-case class RankedAgentPerson (identifier: String, rank: Int )  extends Agent with RankedIndividual
+case class RankedAgentPerson (identifier: String, rank: Int )
+  extends Agent with RankedIndividual
 
 trait Element {
 
@@ -117,7 +120,8 @@ trait Visitor {
 
 }
 
-case class Item (identifier: Int )  extends Element {
+case class Item (identifier: Int )
+  extends Element {
 
   /* It is possible to refer to an object instance by using `this`. */
   def accept (v: Visitor ) = v.visit (this )
@@ -246,7 +250,8 @@ trait AbstractFactorialConcise {
 
 }
 
-trait FactorialConcise  extends AbstractFactorialConcise {
+trait FactorialConcise
+  extends AbstractFactorialConcise {
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -268,7 +273,8 @@ trait AbstractFactorialVerbose {
 
 }
 
-trait FactorialVerbose  extends AbstractFactorialVerbose {
+trait FactorialVerbose
+  extends AbstractFactorialVerbose {
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -286,7 +292,12 @@ trait Recursion {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+  _tailrec_fold4 [A, B, C <: B] (
+             sequence: Seq [A],
+             current_value: C,
+             next_value_function: (B, A ) => C,
+             condition: (B, A ) => Boolean
+         lazy val ): C =
     if (sequence.isEmpty
     ) current_value
     else
@@ -294,7 +305,12 @@ trait Recursion {
       ) current_value
       else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
+  fold [A, B, C <: B] (
+      sequence: Seq [A],
+      initial_value: C,
+      next_value_function: (B, A ) => C,
+      condition: (B, A ) => Boolean
+  ): C =
     _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
 
   import scala.annotation.tailrec
@@ -309,10 +325,12 @@ trait Recursion {
 
 }
 
-case class Recursion_ ()  extends Recursion
+case class Recursion_ ()
+  extends Recursion
 
 /* The main class is concrete and it is called `Main ()`. */
-case class Main ()  extends MainClass
+case class Main ()
+  extends MainClass
 
 /* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 trait MainClass {

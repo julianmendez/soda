@@ -3,7 +3,8 @@ package soda.translator.extension.toscala
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-trait TranslationConstantToScala  extends soda.translator.parser.SodaConstant {
+trait TranslationConstantToScala
+  extends soda.translator.parser.SodaConstant {
 
   lazy val soda_definition: String = "="
 
@@ -56,13 +57,92 @@ trait TranslationConstantToScala  extends soda.translator.parser.SodaConstant {
   lazy val scala_reserved_words =
     scala_3_regular_keywords ++ scala_3_soft_keywords ++ scala_2_extra_keywords
 
-  lazy val scala_3_regular_keywords = Seq ("abstract", "case", "catch", "class", "def", "do", "else", "enum", "export", "extends", "false", "final", "finally", "for", "given", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "then", "throw", "trait", "true", "try", "type", "val", "var", "while", "with", "yield", ":", "=", "<-", "=>", "<:", ">:", "#", "@", "=>>", "?=>"  )
+  lazy val scala_3_regular_keywords = Seq (
+    "abstract",
+    "case",
+    "catch",
+    "class",
+    "def",
+    "do",
+    "else",
+    "enum",
+    "export",
+    "extends",
+    "false",
+    "final",
+    "finally",
+    "for",
+    "given",
+    "if",
+    "implicit",
+    "import",
+    "lazy",
+    "match",
+    "new",
+    "null",
+    "object",
+    "override",
+    "package",
+    "private",
+    "protected",
+    "return",
+    "sealed",
+    "super",
+    "then",
+    "throw",
+    "trait",
+    "true",
+    "try",
+    "type",
+    "val",
+    "var",
+    "while",
+    "with",
+    "yield",
+    ":",
+    "=",
+    "<-",
+    "=>",
+    "<:",
+    ">:",
+    "#",
+    "@",
+    "=>>",
+    "?=>"
+  )
 
-  lazy val scala_3_soft_keywords = Seq ("as", "derives", "end", "extension", "infix", "inline", "opaque", "open", "transparent", "using", "|", "*", "+", "-"  )
+  lazy val scala_3_soft_keywords = Seq (
+    "as",
+    "derives",
+    "end",
+    "extension",
+    "infix",
+    "inline",
+    "opaque",
+    "open",
+    "transparent",
+    "using",
+    "|",
+    "*",
+    "+",
+    "-"
+  )
 
-  lazy val scala_2_extra_keywords = Seq ("forSome", "macro", "this", "_", "<%", "\u21D2", "\u2190"  )
+  lazy val scala_2_extra_keywords = Seq (
+    "forSome",
+    "macro",
+    "this",
+    "_",
+    "<%",
+    "\u21D2",
+    "\u2190"
+  )
 
-  lazy val synonym_at_beginning: Seq [(String, String )] = Seq (("*", "class"), ("+", "import"), ("|", "case")  )
+  lazy val synonym_at_beginning: Seq [(String, String )] = Seq (
+    ("*", "class"),
+    ("+", "import"),
+    ("|", "case")
+  )
 
   lazy val class_declaration_translation_at_beginning_with_paren = "case class"
 
@@ -70,9 +150,44 @@ trait TranslationConstantToScala  extends soda.translator.parser.SodaConstant {
 
   lazy val class_declaration_translation_at_beginning_without_paren = "trait"
 
-  lazy val synonym: Seq [(String, String )] = Seq (("is", "="), ("lambda", ""), ("<:", "subtype"), (">:", "supertype")  )
+  lazy val synonym: Seq [(String, String )] = Seq (
+    ("is", "="),
+    ("lambda", ""),
+    ("<:", "subtype"),
+    (">:", "supertype")
+  )
 
-  lazy val main_translation: Seq [(String, String )] = Seq ((":", ":"), ("->", "=>"), ("=>", "=>"), (":=", "="), ("if", "if ("), ("then", ")"), ("else", "else"), ("let", "{"), ("in", " "), ("match", "match"), ("case", "case"), ("end", "}"), ("has", "def"), ("extends", "extends"), ("with", "with"), ("this", "this"), ("subtype", "<:"), ("supertype", ">:"), ("false", "false"), ("true", "true"), ("not", "!"), ("and", "&&"), ("or", "||"), ("theorem", "theorem"), ("proof", "proof"), ("@new", "new"), ("@override", "override"), ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"), ("@main", scala_entry_point )  )
+  lazy val main_translation: Seq [(String, String )] = Seq (
+    (":", ":"),
+    ("->", "=>"),
+    ("=>", "=>"),
+    (":=", "="),
+    ("if", "if ("),
+    ("then", ")"),
+    ("else", "else"),
+    ("let", "{"),
+    ("in", " "),
+    ("match", "match"),
+    ("case", "case"),
+    ("end", "}"),
+    ("has", "def"),
+    ("extends", "extends"),
+    ("with", "with"),
+    ("this", "this"),
+    ("subtype", "<:"),
+    ("supertype", ">:"),
+    ("false", "false"),
+    ("true", "true"),
+    ("not", "!"),
+    ("and", "&&"),
+    ("or", "||"),
+    ("theorem", "theorem"),
+    ("proof", "proof"),
+    ("@new", "new"),
+    ("@override", "override"),
+    ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
+    ("@main", scala_entry_point )
+  )
 
   lazy val prefix_scala_non_soda = "__soda__"
 
@@ -83,7 +198,18 @@ trait TranslationConstantToScala  extends soda.translator.parser.SodaConstant {
 
   lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val beautifier: Seq [(String, String )] = Seq (("\\.\\s+", "."), ("=\\s+", "= "), ("\\s+=", " ="), ("\\(\\s+", "("), ("\\[\\s+", "["), ("\\s+\\]", "]"), ("\\s+,", ","), (",\\s+", ", "), ("\\s+:", ":"), (":\\s+", ": ")  )
+  lazy val beautifier: Seq [(String, String )] = Seq (
+    ("\\.\\s+", "."),
+    ("=\\s+", "= "),
+    ("\\s+=", " ="),
+    ("\\(\\s+", "("),
+    ("\\[\\s+", "["),
+    ("\\s+\\]", "]"),
+    ("\\s+,", ","),
+    (",\\s+", ", "),
+    ("\\s+:", ":"),
+    (":\\s+", ": ")
+  )
 
   def is_scala_word (word: String ): Boolean =
     scala_reserved_words.contains (word )
@@ -93,4 +219,5 @@ trait TranslationConstantToScala  extends soda.translator.parser.SodaConstant {
 
 }
 
-case class TranslationConstantToScala_ ()  extends TranslationConstantToScala
+case class TranslationConstantToScala_ ()
+  extends TranslationConstantToScala

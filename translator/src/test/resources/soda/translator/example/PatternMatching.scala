@@ -26,21 +26,25 @@ trait PatternMatching {
 
 }
 
-case class PatternMatching_ ()  extends PatternMatching
+case class PatternMatching_ ()
+  extends PatternMatching
 
-case class Singleton (x: Int )  extends Parameter {
+case class Singleton (x: Int )
+  extends Parameter {
 
   lazy val name = "singleton"
 
 }
 
-case class Pair (x: Int, y: Int )  extends Parameter {
+case class Pair (x: Int, y: Int )
+  extends Parameter {
 
   lazy val name = "pair"
 
 }
 
-case class Triplet (x: Int, y: Int, z: Int )  extends Parameter {
+case class Triplet (x: Int, y: Int, z: Int )
+  extends Parameter {
 
   lazy val name = "triplet"
 

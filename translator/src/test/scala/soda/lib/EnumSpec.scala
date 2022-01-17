@@ -32,7 +32,8 @@ trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
-case class EnumSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class EnumSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   test ("the names of the elements in enumerations")
     {

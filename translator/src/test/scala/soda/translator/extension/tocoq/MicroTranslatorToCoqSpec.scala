@@ -1,6 +1,7 @@
 package soda.translator.extension.tocoq
 
-case class MicroTranslatorToCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MicroTranslatorToCoqSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import soda.translator.parser.BlockProcessor_
 

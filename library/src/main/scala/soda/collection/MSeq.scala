@@ -25,9 +25,11 @@ trait MSeqRec [T] {
 
 }
 
-case class MSeqRec_ [T] ()  extends MSeqRec [T]
+case class MSeqRec_ [T] ()
+  extends MSeqRec [T]
 
-trait ESeq [T]  extends MSeq [T] {
+trait ESeq [T]
+  extends MSeq [T] {
 
   lazy val isEmpty = true
 
@@ -35,9 +37,11 @@ trait ESeq [T]  extends MSeq [T] {
 
 }
 
-case class ESeq_ [T] ()  extends ESeq [T]
+case class ESeq_ [T] ()
+  extends ESeq [T]
 
-trait NEMSeq [T]  extends MSeq [T] {
+trait NEMSeq [T]
+  extends MSeq [T] {
 
   def head0: T
 
@@ -45,7 +49,8 @@ trait NEMSeq [T]  extends MSeq [T] {
 
 }
 
-trait NESeq [T]  extends NEMSeq [T] {
+trait NESeq [T]
+  extends NEMSeq [T] {
 
   lazy val isEmpty = false
 
@@ -57,4 +62,5 @@ trait NESeq [T]  extends NEMSeq [T] {
 
 }
 
-case class NESeq_ [T] (head0: T, tail0: MSeq [T]  )  extends NESeq [T]
+case class NESeq_ [T] (head0: T, tail0: MSeq [T]  )
+  extends NESeq [T]

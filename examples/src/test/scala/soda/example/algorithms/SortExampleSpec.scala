@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class SortExampleSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   import soda.lib.SomeSD_
 

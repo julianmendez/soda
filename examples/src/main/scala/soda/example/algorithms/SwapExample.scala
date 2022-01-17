@@ -8,7 +8,8 @@ trait PairExample {
 
 }
 
-case class PairExample_ (left: Int, right: Int )  extends PairExample
+case class PairExample_ (left: Int, right: Int )
+  extends PairExample
 
 trait SwapExample {
 

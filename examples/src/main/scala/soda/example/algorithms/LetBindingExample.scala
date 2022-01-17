@@ -41,4 +41,5 @@ trait LetBindingExample {
 
 }
 
-case class LetBindingExample_ ()  extends LetBindingExample
+case class LetBindingExample_ ()
+  extends LetBindingExample

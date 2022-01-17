@@ -13,12 +13,14 @@ trait Token {
 
 }
 
-case class Token_ (text: String, parser_state: ParserState, index: Int )  extends Token
+case class Token_ (text: String, parser_state: ParserState, index: Int )
+  extends Token
 
 /**
  * This class processes a line to divide it into tokens.
  */
-trait Tokenizer  extends soda.translator.block.SingleLineProcessor {
+trait Tokenizer
+  extends soda.translator.block.SingleLineProcessor {
 
   import soda.lib.Recursion_
 
@@ -41,20 +43,37 @@ trait Tokenizer  extends soda.translator.block.SingleLineProcessor {
 
   def _new_parser_state (tuple: TokenizerFoldTuple, current_index: Int ): ParserState =
     ParserTransition_ ()
-      .next_parser_state (tuple.parser_state, CharTypeEnum_ () .get_char_type (line.charAt (current_index )  )      )
+      .next_parser_state (
+        tuple.parser_state,
+        CharTypeEnum_ () .get_char_type (line.charAt (current_index )  )
+      )
 
   def _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
-    _next_value_function_of_different_class_with (tuple, current_index, new_parser_state, if (tuple.parser_state == ParserStateEnum_ () .quotes_state ||
+    _next_value_function_of_different_class_with (
+      tuple,
+      current_index,
+      new_parser_state,
+      if (tuple.parser_state == ParserStateEnum_ () .quotes_state ||
         tuple.parser_state == ParserStateEnum_ () .apostrophe_state
       ) current_index + 1
-      else current_index    )
+      else current_index
+    )
 
   def _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState, index: Int ): TokenizerFoldTuple =
-    TokenizerFoldTuple_ (index, new_parser_state, tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index, index ), tuple.parser_state, tuple.last_index        )      )    )
+    TokenizerFoldTuple_ (index, new_parser_state,
+      tuple.rev_tokens.+: (
+        Token_ (
+          line.substring (tuple.last_index, index ),
+          tuple.parser_state,
+          tuple.last_index
+        )
+      )
+    )
 
 }
 
-case class Tokenizer_ (line: String )  extends Tokenizer
+case class Tokenizer_ (line: String )
+  extends Tokenizer
 
 trait TokenizerFoldTuple {
 
@@ -66,4 +85,5 @@ trait TokenizerFoldTuple {
 
 }
 
-case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )  extends TokenizerFoldTuple
+case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
+  extends TokenizerFoldTuple

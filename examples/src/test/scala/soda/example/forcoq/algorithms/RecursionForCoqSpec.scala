@@ -1,6 +1,7 @@
 package soda.example.forcoq.algorithms
 
-case class RecursionForCoqSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class RecursionForCoqSpec ()
+  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8 )
 

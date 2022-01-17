@@ -6,7 +6,8 @@ trait AbstractFactorialConcise {
 
 }
 
-trait FactorialConcise  extends AbstractFactorialConcise {
+trait FactorialConcise
+  extends AbstractFactorialConcise {
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -20,4 +21,5 @@ trait FactorialConcise  extends AbstractFactorialConcise {
 
 }
 
-case class FactorialConcise_ ()  extends FactorialConcise
+case class FactorialConcise_ ()
+  extends FactorialConcise

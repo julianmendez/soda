@@ -1,6 +1,7 @@
 package soda.translator.extension.tocoq
 
-trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait MatchCaseBlockTranslator
+  extends soda.translator.block.BlockTranslator {
 
   import soda.translator.block.AnnotatedBlock
   import soda.translator.block.BlockAnnotationEnum_
@@ -17,8 +18,10 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
     else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines
-        .map (line => append_with_after_match (line ) ), block.block_annotation    )
+    BlockBuilder_ () .build (
+      block.lines
+        .map (line => append_with_after_match (line ) ), block.block_annotation
+    )
 
   def append_with_after_match (line: String ): String =
     if (line.trim () .startsWith (tc.soda_match_pattern )
@@ -27,4 +30,5 @@ trait MatchCaseBlockTranslator  extends soda.translator.block.BlockTranslator {
 
 }
 
-case class MatchCaseBlockTranslator_ ()  extends MatchCaseBlockTranslator
+case class MatchCaseBlockTranslator_ ()
+  extends MatchCaseBlockTranslator

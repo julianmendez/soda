@@ -7,7 +7,8 @@ trait MainClass {
 
 }
 
-case class Main ()  extends MainClass
+case class Main ()
+  extends MainClass
 
 object EntryPoint {
   def main (args: Array [String]): Unit = Main ().main (args)

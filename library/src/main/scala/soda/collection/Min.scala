@@ -26,7 +26,8 @@ trait MSeqTranslator [T] {
 
 }
 
-case class MSeqTranslator_ [T] ()  extends MSeqTranslator [T]
+case class MSeqTranslator_ [T] ()
+  extends MSeqTranslator [T]
 
 trait MSeqPair [T] {
 
@@ -36,7 +37,8 @@ trait MSeqPair [T] {
 
 }
 
-case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]  )  extends MSeqPair [T]
+case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]  )
+  extends MSeqPair [T]
 
 trait Min [T] {
 
@@ -85,7 +87,8 @@ trait Min [T] {
     {
       lazy val initial_value = IndexFoldTuple_ [T] (0, -1 )
       def next_value (tuple: IndexFoldTuple [T], elem: T ): IndexFoldTuple [T] =
-        IndexFoldTuple_ [T] (tuple.index + 1, if (elem == e ) tuple.index else tuple.position )
+        IndexFoldTuple_ [T] (tuple.index + 1,
+          if (elem == e ) tuple.index else tuple.position )
       def condition (tuple: IndexFoldTuple [T], elem: T ): Boolean = tuple.position == -1
       foldLeftWhile (s, initial_value, next_value, condition ) .position }
 
@@ -97,10 +100,14 @@ trait Min [T] {
       foldLeftWhile (s, initial_value, next_value, condition ) }
 
   def at (s: MSeq [T], n: Int ): OptionSD [T] =
-    s.opt (ifEmpty = NoneSD_ [T] (), ifNonEmpty = (neseq =>
+    s.opt (
+      ifEmpty = NoneSD_ [T] (),
+      ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
         ) NoneSD_ [T] ()
-        else SomeSD_ [T] (_atNonEmpty (neseq, n )  )      )    )
+        else SomeSD_ [T] (_atNonEmpty (neseq, n )  )
+      )
+    )
 
   def _atNonEmpty (xs: NESeq [T], n: Int ): T =
     {
@@ -123,7 +130,10 @@ trait Min [T] {
     {
       lazy val initial_value = TakeDropFoldTuple_ [T] (s, 0 )
       def next_value (tuple: TakeDropFoldTuple [T], elem: T ): TakeDropFoldTuple [T] =
-        tuple.seq.opt (ifEmpty = TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1 ), ifNonEmpty = (neseq => TakeDropFoldTuple_ [T] (neseq.tail (), tuple.index + 1 ) )        )
+        tuple.seq.opt (
+          ifEmpty = TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1 ),
+          ifNonEmpty = (neseq => TakeDropFoldTuple_ [T] (neseq.tail (), tuple.index + 1 ) )
+        )
       def condition (tuple: TakeDropFoldTuple [T], elem: T ): Boolean =
         tuple.index < n
       foldLeftWhile (s, initial_value, next_value, condition ) .seq }
@@ -220,7 +230,10 @@ trait Min [T] {
         {
           lazy val left = tuple.left
           lazy val right = tuple.right
-          lazy val result = left.opt (ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ), ifNonEmpty = (neleft => _aux_next_value (tuple, p, neleft ) )          )
+          lazy val result = left.opt (
+            ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ),
+            ifNonEmpty = (neleft => _aux_next_value (tuple, p, neleft ) )
+          )
           result }
       def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking
       result }
