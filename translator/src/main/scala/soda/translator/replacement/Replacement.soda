@@ -56,7 +56,15 @@ package soda.translator.replacement
 
   replace_if_found_at_beginning (line: String, pattern: String, new_text: String): String =
     if line.trim.startsWith (pattern.trim)
-    then replace_all (line, pattern, new_text)
+    then replace_first (line, pattern, new_text)
+    else line
+
+  replace_first (line: String, pattern: String, replacement: String): String =
+    replace_at (line.indexOf (pattern), line, pattern, replacement)
+
+  replace_at (index: Int, line: String, pattern: String, replacement: String): String =
+    if (0 <= index) and (index + pattern.length <= line.length)
+    then line.substring (0, index) + replacement + line.substring (index + pattern.length, line.length)
     else line
 
   replace_if_found (line: String, pattern: String, new_text: String): String =

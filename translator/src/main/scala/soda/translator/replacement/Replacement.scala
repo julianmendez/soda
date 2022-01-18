@@ -56,7 +56,15 @@ trait ReplacementAux {
 
   def replace_if_found_at_beginning (line: String, pattern: String, new_text: String ): String =
     if (line.trim.startsWith (pattern.trim )
-    ) replace_all (line, pattern, new_text )
+    ) replace_first (line, pattern, new_text )
+    else line
+
+  def replace_first (line: String, pattern: String, replacement: String ): String =
+    replace_at (line.indexOf (pattern ), line, pattern, replacement )
+
+  def replace_at (index: Int, line: String, pattern: String, replacement: String ): String =
+    if ((0 <= index ) && (index + pattern.length <= line.length )
+    ) line.substring (0, index ) + replacement + line.substring (index + pattern.length, line.length )
     else line
 
   def replace_if_found (line: String, pattern: String, new_text: String ): String =
