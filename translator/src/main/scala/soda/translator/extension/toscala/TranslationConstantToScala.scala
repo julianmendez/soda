@@ -16,13 +16,13 @@ trait TranslationConstantToScala
 
   lazy val scala_3_class_definition: String = ":"
 
-  lazy val soda_in_reserved_word: String = "in"
-
-  lazy val soda_in_pattern: String = soda_in_reserved_word + " "
-
   lazy val soda_let_reserved_word: String = "let"
 
   lazy val soda_let_pattern: String = soda_let_reserved_word + " "
+
+  lazy val soda_in_reserved_word: String = "in"
+
+  lazy val soda_in_pattern: String = soda_in_reserved_word + " "
 
   lazy val scala_in_translation: String = " }"
 
@@ -35,6 +35,10 @@ trait TranslationConstantToScala
   lazy val soda_match_pattern: String = soda_match_reserved_word + " "
 
   lazy val scala_match_translation: String = " match "
+
+  lazy val soda_match_end_reserved_word: String = "end"
+
+  lazy val scala_match_end_translation: String = "}"
 
   lazy val scala_opening_brace: String = "{"
 

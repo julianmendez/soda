@@ -16,13 +16,13 @@ package soda.translator.extension.toscala
 
   scala_3_class_definition: String = ":"
 
-  soda_in_reserved_word: String = "in"
-
-  soda_in_pattern: String = soda_in_reserved_word + " "
-
   soda_let_reserved_word: String = "let"
 
   soda_let_pattern: String = soda_let_reserved_word + " "
+
+  soda_in_reserved_word: String = "in"
+
+  soda_in_pattern: String = soda_in_reserved_word + " "
 
   scala_in_translation: String = " }"
 
@@ -35,6 +35,10 @@ package soda.translator.extension.toscala
   soda_match_pattern: String = soda_match_reserved_word + " "
 
   scala_match_translation: String = " match "
+
+  soda_match_end_reserved_word: String = "end"
+
+  scala_match_end_translation: String = "}"
 
   scala_opening_brace: String = "{"
 

@@ -20,12 +20,19 @@ trait MatchCaseBlockTranslator
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
       block.lines
-        .map (line => insert_match_before_brace_if_found (line ) ), block.block_annotation
+        .map (line => insert_match_before_brace_if_found (line ) )
+        .map (line => replace_match_end_if_found (line ) ),
+      block.block_annotation
     )
 
   def insert_match_before_brace_if_found (line: String ): String =
-    if (line.trim () .startsWith (tc.soda_match_pattern )
+    if (line.trim.startsWith (tc.soda_match_pattern )
     ) _assemble_parts (index = line.indexOf (tc.soda_match_pattern ), line )
+    else line
+
+  def replace_match_end_if_found (line: String ): String =
+    if (line.trim == tc.soda_match_end_reserved_word
+    ) line.replaceAll (tc.soda_match_end_reserved_word, tc.scala_match_end_translation )
     else line
 
   def _assemble_parts (index: Int, line: String ): String =
