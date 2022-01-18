@@ -292,12 +292,7 @@ trait Recursion {
 
   import scala.annotation.tailrec
         @tailrec  final
-  _tailrec_fold4 [A, B, C <: B] (
-             sequence: Seq [A],
-             current_value: C,
-             next_value_function: (B, A ) => C,
-             condition: (B, A ) => Boolean
-         lazy val ): C =
+  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     if (sequence.isEmpty
     ) current_value
     else
@@ -305,12 +300,7 @@ trait Recursion {
       ) current_value
       else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
 
-  fold [A, B, C <: B] (
-      sequence: Seq [A],
-      initial_value: C,
-      next_value_function: (B, A ) => C,
-      condition: (B, A ) => Boolean
-  ): C =
+  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
     _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
 
   import scala.annotation.tailrec
