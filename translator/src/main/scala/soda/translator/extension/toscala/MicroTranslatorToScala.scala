@@ -23,6 +23,8 @@ trait MicroTranslatorToScala
 
   lazy val test_declaration = BlockAnnotationEnum_ () .test_declaration
 
+  lazy val functions_and_tests = Seq (function_definition, test_declaration )
+
   lazy val try_definition: Token => String =
      token =>
       FunctionDefinitionLineTranslator_ (token.text ) .translation
@@ -37,8 +39,7 @@ trait MicroTranslatorToScala
         TokenReplacement_ () .replace (tc.scala_non_soda ),
         TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ),
         TokenReplacement_ () .replace (tc.synonym ),
-        ConditionalBlockTranslator_ (function_definition, TokenizedBlockTranslator_ (try_definition ) ),
-        ConditionalBlockTranslator_ (test_declaration, TokenizedBlockTranslator_ (try_definition ) ),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition ) ),
         ClassDeclarationBlockTranslator_ (),
         TokenReplacement_ () .replace (tc.main_translation ),
         TheoremAndProofBlockTranslator_ (),
