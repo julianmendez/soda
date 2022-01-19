@@ -161,7 +161,6 @@
             <keyword>not</keyword>
             <keyword>and</keyword>
             <keyword>or</keyword>
-            <keyword>result</keyword>
         </context>
 
         <context id="primitive-type" style-ref="type">
