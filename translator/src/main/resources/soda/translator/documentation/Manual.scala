@@ -176,34 +176,28 @@ trait Manual {
 
   def my_and (x: Boolean, y: Boolean ): Boolean =
     if (x
-    )
-      if (y
-      ) true
-      else false
+    ) y
     else false
 
   def my_or (x: Boolean, y: Boolean ): Boolean =
     if (x
     ) true
-    else
-      if (y
-      ) true
-      else false
+    else y
 
   /* Boolean values have the standard `not`-`and`-`or` functions. */
-  def my_xor (x: Boolean, y: Boolean ) =
+  def my_xor (x: Boolean, y: Boolean ): Boolean =
     (x || y ) && ! (x && y )
 
   /* It is possible to use pattern matching with `match` and `case`.
    * Please observe the double arrow `=>`. */
-  def if_then_else [A] (condition: Boolean, if_true: A, if_false: A ) =
+  def if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
     condition match  {
       case true => if_true
       case false => if_false
     }
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
-  def another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A ) =
+  def another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
     condition match  {
       case true => if_true
       case false => if_false
@@ -261,7 +255,7 @@ trait FactorialConcise
     ) product
     else _tailrec_ (n - 1, n * product )
 
-  def factorial (n: Int ) =
+  def factorial (n: Int ): Int =
     _tailrec_ (n, 1 )
 
 }
@@ -283,7 +277,7 @@ trait FactorialVerbose
     ) product
     else _tailrec_ (n - 1, n * product )
 
-  def factorial (n: Int ) =
+  def factorial (n: Int ): Int =
     _tailrec_ (n, 1 )
 
 }

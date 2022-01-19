@@ -176,34 +176,28 @@ class Manual = {
 
   my_and (x: Boolean, y: Boolean): Boolean =
     if x
-    then
-      if y
-      then true
-      else false
+    then y
     else false
 
   my_or (x: Boolean, y: Boolean): Boolean =
     if x
     then true
-    else
-      if y
-      then true
-      else false
+    else y
 
   /* Boolean values have the standard `not`-`and`-`or` functions. */
-  my_xor (x: Boolean, y: Boolean) =
+  my_xor (x: Boolean, y: Boolean): Boolean =
     (x or y) and not (x and y)
 
   /* It is possible to use pattern matching with `match` and `case`.
    * Please observe the double arrow `=>`. */
-  if_then_else [A] (condition: Boolean, if_true: A, if_false: A) =
+  if_then_else [A] (condition: Boolean, if_true: A, if_false: A): A =
     match condition
       case true => if_true
       case false => if_false
     end
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
-  another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A) =
+  another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A): A =
     match condition
       | true => if_true
       | false => if_false
@@ -259,7 +253,7 @@ class Manual = {
     then product
     else _tailrec_ (n - 1, n * product)
 
-  factorial (n: Int) =
+  factorial (n: Int): Int =
     _tailrec_ (n, 1)
 
 }
@@ -280,7 +274,7 @@ class FactorialVerbose
     then product
     else _tailrec_ (n - 1, n * product)
 
-  factorial (n: Int) is
+  factorial (n: Int): Int is
     _tailrec_ (n, 1)
 
 }
