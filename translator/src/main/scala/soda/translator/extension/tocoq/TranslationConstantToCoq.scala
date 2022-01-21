@@ -179,7 +179,8 @@ trait TranslationConstantToCoq
   )
 
   lazy val synonym: Seq [(String, String )] = Seq (
-    ("is", ":=")
+    ("is", ":="),
+    ("def", "")
   )
 
   lazy val main_translation: Seq [(String, String )] = Seq (

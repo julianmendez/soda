@@ -4,6 +4,8 @@
   - new_features:
     - produces a more similar translation to Scala by removing the line joiners
     - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
+    - accepts reserved word `fun` as synonym for `lambda`, which is optional
+    - accepts reserved word `def` as optional to define constants and functions
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - release: target/scala-3.1.0/soda-0.14.0.jar
 - - version: v0.13.0

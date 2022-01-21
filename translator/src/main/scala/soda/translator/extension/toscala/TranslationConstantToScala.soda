@@ -156,7 +156,8 @@ package soda.translator.extension.toscala
 
   synonym: Seq [ (String, String)] = Seq (
     ("is", "="),
-    ("lambda", ""),
+    ("fun", "lambda"),
+    ("def", ""),
     ("<:", "subtype"),
     (">:", "supertype")
   )
@@ -174,6 +175,7 @@ package soda.translator.extension.toscala
     ("match", "match"),
     ("case", "case"),
     ("end", "}"),
+    ("lambda", ""),
     ("has", "def"),
     ("extends", "extends"),
     ("with", "with"),

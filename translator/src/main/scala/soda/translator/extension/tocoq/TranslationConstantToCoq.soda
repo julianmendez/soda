@@ -179,7 +179,8 @@ package soda.translator.extension.tocoq
   )
 
   synonym: Seq [ (String, String)] = Seq (
-    ("is", ":=")
+    ("is", ":="),
+    ("def", "")
   )
 
   main_translation: Seq [ (String, String)] = Seq (

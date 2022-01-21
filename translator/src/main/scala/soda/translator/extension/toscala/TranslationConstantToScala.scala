@@ -156,7 +156,8 @@ trait TranslationConstantToScala
 
   lazy val synonym: Seq [(String, String )] = Seq (
     ("is", "="),
-    ("lambda", ""),
+    ("fun", "lambda"),
+    ("def", ""),
     ("<:", "subtype"),
     (">:", "supertype")
   )
@@ -174,6 +175,7 @@ trait TranslationConstantToScala
     ("match", "match"),
     ("case", "case"),
     ("end", "}"),
+    ("lambda", ""),
     ("has", "def"),
     ("extends", "extends"),
     ("with", "with"),
