@@ -6,6 +6,9 @@ trait Applicant {
 
 }
 
+case class Applicant_ (background_score: Double )
+  extends Applicant
+
 trait AbstractFairness {
 
   def rank: Applicant => Double
@@ -13,10 +16,6 @@ trait AbstractFairness {
   def score_difference_tolerance: Double
 
   def ranking_difference_tolerance: Double
-
-  def measure_time: Any => Double
-
-  def maximum_execution_time: Double
 
 }
 
@@ -37,9 +36,10 @@ trait Fairness
   def difference_between (value: Double, another_value: Double ) =
     Math.abs (value - another_value )
 
-  def is_response_time_acceptable (applicant: Applicant ) =
-    if (measure_time (rank (applicant )  ) < maximum_execution_time
-    ) true
-    else false
-
 }
+
+case class Fairness_ (
+    score_difference_tolerance: Double,
+    ranking_difference_tolerance: Double,
+    rank: Applicant => Double
+  ) extends Fairness
