@@ -6,11 +6,11 @@ package soda.translator.extension.tocoq
 trait TranslatorToCoq
   extends soda.translator.extension.common.Extension {
 
-  import soda.translator.parser.BlockProcessor_
-  import soda.translator.io.DirectoryProcessor_
-  import soda.translator.io.SimpleFileReader_
-  import soda.translator.io.SimpleFileWriter_
-  import java.io.File
+  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.io.DirectoryProcessor_
+  import   soda.translator.io.SimpleFileReader_
+  import   soda.translator.io.SimpleFileWriter_
+  import   java.io.File
 
   lazy val soda_extension: String = ".soda"
 

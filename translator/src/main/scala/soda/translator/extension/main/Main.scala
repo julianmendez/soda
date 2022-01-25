@@ -14,7 +14,7 @@ case class Main ()
 trait MainClass
   extends soda.translator.extension.common.Extension {
 
-  import soda.translator.extension.common.Extension
+  import   soda.translator.extension.common.Extension
 
   lazy val help = soda.translator.extension.help.Help_ ()
 

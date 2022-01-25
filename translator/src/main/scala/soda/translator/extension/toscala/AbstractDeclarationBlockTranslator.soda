@@ -3,9 +3,10 @@ package soda.translator.extension.toscala
 * AbstractDeclarationBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.BlockBuilder_
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.BlockBuilder_
 
   space = " "
 

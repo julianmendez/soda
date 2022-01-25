@@ -2,9 +2,9 @@ package soda.example.forcoq
 
 trait FactorialForCoq {
 
-  import soda.example.forcoq.lib.nat
-  import soda.example.forcoq.lib.O
-  import soda.example.forcoq.lib.S
+  import   soda.example.forcoq.lib.nat
+  import   soda.example.forcoq.lib.O
+  import   soda.example.forcoq.lib.S
 
   def _rec_get_factorial (m: nat ) (product: nat ): nat =
     m match  {

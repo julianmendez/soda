@@ -2,15 +2,15 @@ package soda.translator.parser
 
 trait BlockBuilder {
 
-  import soda.lib.Recursion_
-  import soda.translator.block.AnnotatedLine
-  import soda.translator.block.AnnotatedLine_
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.AnnotatedBlock_
-  import soda.translator.block.Block
-  import soda.translator.block.Block_
-  import soda.translator.block.BlockAnnotationId
-  import soda.translator.parser.BlockBuilder_
+  import   soda.lib.Recursion_
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedBlock_
+  import   soda.translator.block.Block
+  import   soda.translator.block.Block_
+  import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.parser.BlockBuilder_
 
   lazy val soda_begin_comment = "/*"
 
@@ -47,7 +47,7 @@ case class BlockBuilder_ ()
 
 trait PreprocessorFoldTuple {
 
-  import soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine
 
   def   comment_state: Boolean
   def   annotated_lines_rev: Seq [AnnotatedLine]

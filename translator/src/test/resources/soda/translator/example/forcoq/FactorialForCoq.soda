@@ -2,9 +2,10 @@ package soda.example.forcoq
 
 * FactorialForCoq = {
 
-  + soda.example.forcoq.lib.nat
-  + soda.example.forcoq.lib.O
-  + soda.example.forcoq.lib.S
+  import
+    soda.example.forcoq.lib.nat
+    soda.example.forcoq.lib.O
+    soda.example.forcoq.lib.S
 
   _rec_get_factorial (m: nat) (product: nat): nat =
     match m

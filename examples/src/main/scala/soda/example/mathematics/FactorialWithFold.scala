@@ -2,7 +2,7 @@ package soda.example.mathematics
 
 trait FactorialWithFold {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   def get_factorial (n: Int ): Int =
     Recursion_ () .fold (

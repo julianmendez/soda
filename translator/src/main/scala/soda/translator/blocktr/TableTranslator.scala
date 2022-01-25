@@ -10,9 +10,9 @@ trait TableTranslator
   extends Table
   with soda.translator.block.Translator {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.replacement.Replacement_
-  import soda.translator.replacement.Token
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.replacement.Replacement_
+  import   soda.translator.replacement.Token
 
   lazy val keys = table.map (pair => pair._1 )
 

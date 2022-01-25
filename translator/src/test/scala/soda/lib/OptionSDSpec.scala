@@ -3,7 +3,7 @@ package soda.lib
 case class OptionSDSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import scala.util.Try
+  import   scala.util.Try
 
   test ("should test an empty option")
     {

@@ -25,9 +25,9 @@ case class FairPricingAgent_ ()
 case class PriceMonitorSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import java.util.Date
-  import java.util.Calendar
-  import java.util.TimeZone
+  import   java.util.Date
+  import   java.util.Calendar
+  import   java.util.TimeZone
 
   lazy val fair_pricing_agent = FairPricingAgent_ ()
 

@@ -3,14 +3,15 @@ package soda.translator.extension.toscala
 * ClassDeclarationBlockTranslator
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.block.Translator
-  + soda.translator.blocktr.TokenizedBlockTranslator_
-  + soda.translator.blocktr.TableTranslator_
-  + soda.translator.replacement.Replacement
-  + soda.translator.replacement.Replacement_
-  + soda.translator.replacement.Token
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Translator
+    soda.translator.blocktr.TokenizedBlockTranslator_
+    soda.translator.blocktr.TableTranslator_
+    soda.translator.replacement.Replacement
+    soda.translator.replacement.Replacement_
+    soda.translator.replacement.Token
 
   soda_opening_parenthesis: String = "("
 

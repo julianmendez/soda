@@ -3,15 +3,15 @@ package soda.translator.blocktr
 trait TokenizedBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
-  import soda.lib.SomeSD_
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.parser.BlockBuilder_
-  import soda.translator.block.Translator
-  import soda.translator.replacement.ParserStateEnum_
-  import soda.translator.replacement.Replacement_
-  import soda.translator.replacement.Token
-  import soda.translator.replacement.Token_
-  import soda.translator.replacement.Tokenizer_
+  import   soda.lib.SomeSD_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.Translator
+  import   soda.translator.replacement.ParserStateEnum_
+  import   soda.translator.replacement.Replacement_
+  import   soda.translator.replacement.Token
+  import   soda.translator.replacement.Token_
+  import   soda.translator.replacement.Tokenizer_
 
   def   replace_token: Token => String
 

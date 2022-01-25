@@ -24,10 +24,11 @@ package soda.translator.extension.toscala
 * FunctionDefinitionLineTranslator
   extends soda.translator.block.LineTranslator = {
 
-  + soda.lib.OptionSD
-  + soda.lib.SomeSD_
-  + soda.translator.replacement.Replacement
-  + soda.translator.replacement.Replacement_
+  import
+    soda.lib.OptionSD
+    soda.lib.SomeSD_
+    soda.translator.replacement.Replacement
+    soda.translator.replacement.Replacement_
 
   tc = TranslationConstantToScala_ ()
 

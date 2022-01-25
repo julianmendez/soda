@@ -3,24 +3,24 @@ package soda.translator.parser
 trait BlockAnnotator
   extends soda.translator.block.BlockTranslator  {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.AnnotatedBlock_
-  import soda.translator.block.Block
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.block.BlockAnnotationId
-  import soda.translator.parser.annotation.BlockAnnotation
-  import soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import soda.translator.parser.annotation.ClassEndAnnotation_
-  import soda.translator.parser.annotation.ClassDeclarationAnnotation_
-  import soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
-  import soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
-  import soda.translator.parser.annotation.ImportDeclarationAnnotation_
-  import soda.translator.parser.annotation.PackageDeclarationAnnotation_
-  import soda.translator.parser.annotation.ProofBlockAnnotation_
-  import soda.translator.parser.annotation.CommentAnnotation_
-  import soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import soda.translator.parser.annotation.TheoremBlockAnnotation_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedBlock_
+  import   soda.translator.block.Block
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.parser.annotation.BlockAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.parser.annotation.ClassEndAnnotation_
+  import   soda.translator.parser.annotation.ClassDeclarationAnnotation_
+  import   soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
+  import   soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
+  import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ProofBlockAnnotation_
+  import   soda.translator.parser.annotation.CommentAnnotation_
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     if (block.block_annotation == BlockAnnotationEnum_ () .undefined

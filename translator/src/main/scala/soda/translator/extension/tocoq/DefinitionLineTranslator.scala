@@ -27,10 +27,10 @@ package soda.translator.extension.tocoq
 trait DefinitionLineTranslator
   extends soda.translator.block.LineTranslator {
 
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.translator.replacement.Replacement
-  import soda.translator.replacement.Replacement_
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.translator.replacement.Replacement
+  import   soda.translator.replacement.Replacement_
 
   lazy val tc = TranslationConstantToCoq_ ()
 

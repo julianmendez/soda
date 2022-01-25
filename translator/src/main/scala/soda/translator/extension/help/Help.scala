@@ -3,8 +3,8 @@ package soda.translator.extension.help
 trait Help
   extends soda.translator.extension.common.Extension {
 
-  import soda.lib.SomeSD_
-  import soda.translator.io.SimpleFileReader_
+  import   soda.lib.SomeSD_
+  import   soda.translator.io.SimpleFileReader_
 
   def   execute (arguments: Seq [String]  ): Boolean
 

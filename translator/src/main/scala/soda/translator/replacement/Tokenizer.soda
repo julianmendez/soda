@@ -21,7 +21,8 @@ package soda.translator.replacement
 * Tokenizer
   extends soda.translator.block.SingleLineProcessor = {
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
   tokens: Seq [Token] =
     _postprocess (Recursion_ ().fold ( Recursion_ ().range (line.length), _initial_value, _next_value_function ))

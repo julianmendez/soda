@@ -3,7 +3,7 @@ package soda.translator.extension.toscala
 case class MicroTranslatorToScalaSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.parser.BlockProcessor_
+  import   soda.translator.parser.BlockProcessor_
 
   lazy val instance = BlockProcessor_ (MicroTranslatorToScala_ ()  )
 

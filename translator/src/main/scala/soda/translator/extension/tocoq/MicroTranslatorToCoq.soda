@@ -6,12 +6,13 @@ package soda.translator.extension.tocoq
 * MicroTranslatorToCoq
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockTranslatorPipeline_
-  + soda.translator.blocktr.TokenReplacement_
-  + soda.translator.blocktr.TokenizedBlockTranslator_
-  + soda.translator.parser.BlockAnnotator_
-  + soda.translator.replacement.Token
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockTranslatorPipeline_
+    soda.translator.blocktr.TokenReplacement_
+    soda.translator.blocktr.TokenizedBlockTranslator_
+    soda.translator.parser.BlockAnnotator_
+    soda.translator.replacement.Token
 
   tc = TranslationConstantToCoq_ ()
 

@@ -5,12 +5,12 @@ package soda.translator.io
  */
 trait SimpleFileReader {
 
-  import java.io.BufferedReader
-  import java.io.InputStream
-  import java.io.InputStreamReader
-  import java.nio.file.Files
-  import java.nio.file.Paths
-  import java.util.stream.Collectors
+  import   java.io.BufferedReader
+  import   java.io.InputStream
+  import   java.io.InputStreamReader
+  import   java.nio.file.Files
+  import   java.nio.file.Paths
+  import   java.util.stream.Collectors
 
   lazy val new_line = "\n"
 
@@ -36,10 +36,10 @@ case class SimpleFileReader_ ()
 
 trait SimpleFileWriter {
 
-  import soda.lib.SomeSD_
-  import java.io.File
-  import java.io.FileWriter
-  import java.io.Writer
+  import   soda.lib.SomeSD_
+  import   java.io.File
+  import   java.io.FileWriter
+  import   java.io.Writer
 
   def write_file (file_name: String, content: String ): Boolean =
     write_file (new File (file_name ), content )

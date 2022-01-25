@@ -2,9 +2,9 @@ package soda.example.forcoq
 
 trait FiboExampleInSodaForCoq {
 
-  import soda.example.forcoq.lib.nat
-  import soda.example.forcoq.lib.O
-  import soda.example.forcoq.lib.S
+  import   soda.example.forcoq.lib.nat
+  import   soda.example.forcoq.lib.O
+  import   soda.example.forcoq.lib.S
 
   def _rec_fib (m: nat ) (a: nat ) (b: nat ): nat =
     m match  {

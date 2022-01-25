@@ -3,11 +3,12 @@ package soda.translator.extension.toscala
 * MultiLineSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.block.DefaultBlockTranslator_
-  + soda.translator.parser.BlockBuilder_
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.DefaultBlockTranslator_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockProcessor_
 
   bp = BlockProcessor_ (DefaultBlockTranslator_ ())
 

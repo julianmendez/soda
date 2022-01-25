@@ -3,10 +3,11 @@ package soda.translator.parser.annotation
 * FunctionDefinitionAnnotation
   extends BlockAnnotation = {
 
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.SodaConstant_
-  + soda.translator.replacement.ParserStateEnum_
-  + soda.translator.replacement.Tokenizer_
+  import
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.ParserStateEnum_
+    soda.translator.replacement.Tokenizer_
 
   identifier = BlockAnnotationEnum_ ().function_definition
 

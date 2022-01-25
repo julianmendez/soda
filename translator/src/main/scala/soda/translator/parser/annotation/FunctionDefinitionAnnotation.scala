@@ -3,10 +3,10 @@ package soda.translator.parser.annotation
 trait FunctionDefinitionAnnotation
   extends BlockAnnotation {
 
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.SodaConstant_
-  import soda.translator.replacement.ParserStateEnum_
-  import soda.translator.replacement.Tokenizer_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.ParserStateEnum_
+  import   soda.translator.replacement.Tokenizer_
 
   lazy val identifier = BlockAnnotationEnum_ () .function_definition
 

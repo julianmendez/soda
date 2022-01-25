@@ -2,9 +2,10 @@ package soda.translator.parser.annotation
 
 * BlockAnnotation = {
 
-  + soda.translator.block.Block
-  + soda.translator.block.BlockAnnotationId
-  + soda.translator.parser.SodaConstant_
+  import
+    soda.translator.block.Block
+    soda.translator.block.BlockAnnotationId
+    soda.translator.parser.SodaConstant_
 
   abstract
     block: Block

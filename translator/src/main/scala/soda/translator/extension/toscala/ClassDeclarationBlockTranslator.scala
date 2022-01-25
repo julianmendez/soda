@@ -3,14 +3,14 @@ package soda.translator.extension.toscala
 trait ClassDeclarationBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.block.Translator
-  import soda.translator.blocktr.TokenizedBlockTranslator_
-  import soda.translator.blocktr.TableTranslator_
-  import soda.translator.replacement.Replacement
-  import soda.translator.replacement.Replacement_
-  import soda.translator.replacement.Token
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.Translator
+  import   soda.translator.blocktr.TokenizedBlockTranslator_
+  import   soda.translator.blocktr.TableTranslator_
+  import   soda.translator.replacement.Replacement
+  import   soda.translator.replacement.Replacement_
+  import   soda.translator.replacement.Token
 
   lazy val soda_opening_parenthesis: String = "("
 

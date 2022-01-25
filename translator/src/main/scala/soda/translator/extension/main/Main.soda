@@ -11,7 +11,8 @@ package soda.translator.extension.main
 * MainClass
   extends soda.translator.extension.common.Extension = {
 
-  + soda.translator.extension.common.Extension
+  import
+    soda.translator.extension.common.Extension
 
   help = soda.translator.extension.help.Help_ ()
 

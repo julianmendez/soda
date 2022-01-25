@@ -13,7 +13,8 @@ class Customer_(name: String, ip_address: String)
 
 class PricingAgent = {
 
-  import java.util.Date
+  import
+    java.util.Date
 
   abstract
     get_price (customer: Customer, flight: Flight, date_in_days: Int): Int

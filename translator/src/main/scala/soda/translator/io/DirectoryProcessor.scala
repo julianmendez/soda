@@ -11,7 +11,7 @@ trait AbstractDirectoryProcessor {
 trait DirectoryProcessor
   extends AbstractDirectoryProcessor {
 
-  import java.io.File
+  import   java.io.File
 
   lazy val soda_suffix = ".soda"
 

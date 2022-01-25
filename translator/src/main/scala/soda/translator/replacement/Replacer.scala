@@ -11,7 +11,7 @@ trait LinePatternProcessor {
 trait Replacer
   extends LinePatternProcessor {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   lazy val replaced_text =
     postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )

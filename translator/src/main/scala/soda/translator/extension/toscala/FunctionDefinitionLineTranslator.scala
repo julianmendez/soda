@@ -24,10 +24,10 @@ package soda.translator.extension.toscala
 trait FunctionDefinitionLineTranslator
   extends soda.translator.block.LineTranslator {
 
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.translator.replacement.Replacement
-  import soda.translator.replacement.Replacement_
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.translator.replacement.Replacement
+  import   soda.translator.replacement.Replacement_
 
   lazy val tc = TranslationConstantToScala_ ()
 

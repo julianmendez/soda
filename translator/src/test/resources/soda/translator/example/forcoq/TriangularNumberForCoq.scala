@@ -2,9 +2,9 @@ package soda.example.forcoq
 
 trait TriangularNumberForCoq {
 
-  import soda.example.forcoq.lib.nat
-  import soda.example.forcoq.lib.O
-  import soda.example.forcoq.lib.S
+  import   soda.example.forcoq.lib.nat
+  import   soda.example.forcoq.lib.O
+  import   soda.example.forcoq.lib.S
 
   def _rec_get_number (m: nat ) (acc: nat ): nat =
     m match  {

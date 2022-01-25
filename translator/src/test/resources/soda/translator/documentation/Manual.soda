@@ -150,7 +150,8 @@ class PersonName = {
   */
 class Manual = {
 
-  import java.util.Date
+  import
+    java.util.Date
 
   a = 1
 

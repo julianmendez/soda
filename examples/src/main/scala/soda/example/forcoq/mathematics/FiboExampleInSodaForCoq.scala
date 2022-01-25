@@ -2,9 +2,9 @@ package soda.example.forcoq.mathematics
 
 trait FiboExampleInSodaForCoq {
 
-  import soda.example.forcoq.lib.nat
-  import soda.example.forcoq.lib.O
-  import soda.example.forcoq.lib.S
+  import   soda.example.forcoq.lib.nat
+  import   soda.example.forcoq.lib.O
+  import   soda.example.forcoq.lib.S
 
   import scala.annotation.tailrec
         @tailrec  final

@@ -11,9 +11,10 @@ package soda.translator.blocktr
   extends Table
   with soda.translator.block.Translator = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.replacement.Replacement_
-  + soda.translator.replacement.Token
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.replacement.Replacement_
+    soda.translator.replacement.Token
 
   keys = table.map (pair -> pair._1)
 

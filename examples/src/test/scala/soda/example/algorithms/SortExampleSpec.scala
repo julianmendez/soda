@@ -3,7 +3,7 @@ package soda.example.algorithms
 case class SortExampleSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.lib.SomeSD_
+  import   soda.lib.SomeSD_
 
   test ("test sorted sequence with at")
     {

@@ -2,7 +2,8 @@ package soda.example.mathematics
 
 * FactorialWithFold = {
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
   get_factorial (n: Int): Int =
     Recursion_ ().fold (

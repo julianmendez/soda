@@ -2,15 +2,16 @@ package soda.translator.parser
 
 * BlockBuilder = {
 
-  + soda.lib.Recursion_
-  + soda.translator.block.AnnotatedLine
-  + soda.translator.block.AnnotatedLine_
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.AnnotatedBlock_
-  + soda.translator.block.Block
-  + soda.translator.block.Block_
-  + soda.translator.block.BlockAnnotationId
-  + soda.translator.parser.BlockBuilder_
+  import
+    soda.lib.Recursion_
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedBlock_
+    soda.translator.block.Block
+    soda.translator.block.Block_
+    soda.translator.block.BlockAnnotationId
+    soda.translator.parser.BlockBuilder_
 
   soda_begin_comment = "/*"
 
@@ -47,7 +48,8 @@ package soda.translator.parser
 
 * PreprocessorFoldTuple = {
 
-  + soda.translator.block.AnnotatedLine
+  import
+    soda.translator.block.AnnotatedLine
 
   abstract
     comment_state: Boolean

@@ -17,8 +17,8 @@ package soda.translator.documentation
  * 2. the beginning of a class definition
  * 3. the end of a class definition
  * 4. a class declaration
- * 5. an abstract constant or function declaration
- * 6. a list of imports
+ * 5. a block declaration of abstract constants and functions
+ * 6. a block of imports
  * 7. a package declaration
  * 8. a comment
  */
@@ -134,7 +134,7 @@ trait PersonName {
   def   name: String
 
   /* It is possible to override a function by using the `@override` annotation.
-   * This is intended only for exceptional cases, like the `toString` function. */
+   * This is intended only for exceptional cases, like the `toString` function, or a diamond-shaped class hierarchy. */
   override
   lazy val toString = name
 
@@ -145,7 +145,7 @@ trait PersonName {
   */
 trait Manual {
 
-  import java.util.Date
+  import   java.util.Date
 
   lazy val a = 1
 

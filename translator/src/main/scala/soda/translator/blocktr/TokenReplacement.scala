@@ -2,8 +2,8 @@ package soda.translator.blocktr
 
 trait TokenReplacement {
 
-  import soda.translator.replacement.ReplacementAux_
-  import soda.translator.replacement.ReplacementWithTranslator_
+  import   soda.translator.replacement.ReplacementAux_
+  import   soda.translator.replacement.ReplacementWithTranslator_
 
   def add_spaces_to_symbols (symbols: Set [Char] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (

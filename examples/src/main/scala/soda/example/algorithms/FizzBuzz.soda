@@ -2,7 +2,8 @@ package soda.example.algorithms
 
 * FizzBuzz = {
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
   fizz = "Fizz"
 

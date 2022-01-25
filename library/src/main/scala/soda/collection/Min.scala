@@ -41,9 +41,9 @@ case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]  )
 
 trait Min [T] {
 
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.lib.NoneSD_
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.lib.NoneSD_
 
   lazy val empty: ESeq [T] = ESeq_ ()
 

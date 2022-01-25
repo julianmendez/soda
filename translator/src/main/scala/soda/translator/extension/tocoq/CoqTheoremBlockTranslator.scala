@@ -3,9 +3,9 @@ package soda.translator.extension.tocoq
 trait CoqTheoremBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.BlockBuilder_
 
   lazy val space = " "
 

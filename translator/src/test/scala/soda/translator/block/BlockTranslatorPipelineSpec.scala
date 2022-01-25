@@ -3,8 +3,8 @@ package soda.translator.block
 case class BlockTranslator00 ()
   extends BlockTranslator {
 
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.BlockBuilder_
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
@@ -19,7 +19,7 @@ case class BlockTranslator00 ()
 case class BlockTranslator01 ()
   extends BlockTranslator {
 
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder_
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
@@ -34,7 +34,7 @@ case class BlockTranslator01 ()
 case class BlockTranslator02 ()
   extends BlockTranslator {
 
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder_
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
@@ -49,7 +49,7 @@ case class BlockTranslator02 ()
 case class BlockTranslatorPipelineSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder_
 
   lazy val instance =
     BlockTranslatorPipeline_ (

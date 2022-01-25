@@ -2,9 +2,10 @@ package soda.example.forcoq.mathematics
 
 * FiboExampleInSodaForCoq = {
 
-  + soda.example.forcoq.lib.nat
-  + soda.example.forcoq.lib.O
-  + soda.example.forcoq.lib.S
+  import
+    soda.example.forcoq.lib.nat
+    soda.example.forcoq.lib.O
+    soda.example.forcoq.lib.S
 
   @tailrec
   _tailrec_fib (m: nat) (a: nat) (b: nat): nat =

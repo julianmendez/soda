@@ -44,7 +44,8 @@ package soda.example.algorithms
 * SortAlgorithmExampleWithFold
   extends SortAlgorithmExample = {
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
   sort (sequence: Seq [Int]): Seq [Int] =
     if sequence.length < 2
@@ -73,9 +74,10 @@ package soda.example.algorithms
 
 * ConstrainedSortAlgorithm = {
 
-  + soda.lib.OptionSD
-  + soda.lib.SomeSD_
-  + soda.lib.NoneSD_
+  import
+    soda.lib.OptionSD
+    soda.lib.SomeSD_
+    soda.lib.NoneSD_
 
   sort (sequence: Seq [Int]): OptionSD [Seq [Int]] =
     sort_with ( SortAlgorithmExampleWithFold_ ().sort (sequence) )
@@ -164,7 +166,8 @@ package soda.example.algorithms
 
 * SortedSequenceBuilder [A subtype Comparable [A]] = {
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
   build (sequence: Seq [A]): SortedSequence [A] =
     Recursion_ ().fold (sequence, _initial_value, _next_value_function)

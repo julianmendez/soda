@@ -6,14 +6,14 @@ package soda.translator.extension.toscala
 trait MicroTranslatorToScala
   extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockTranslatorPipeline_
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.block.ConditionalBlockTranslator_
-  import soda.translator.blocktr.TokenReplacement_
-  import soda.translator.blocktr.TokenizedBlockTranslator_
-  import soda.translator.parser.BlockAnnotator_
-  import soda.translator.replacement.Token
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.ConditionalBlockTranslator_
+  import   soda.translator.blocktr.TokenReplacement_
+  import   soda.translator.blocktr.TokenizedBlockTranslator_
+  import   soda.translator.parser.BlockAnnotator_
+  import   soda.translator.replacement.Token
 
   lazy val new_line = "\n"
 

@@ -3,10 +3,11 @@ package soda.translator.extension.toscala
 * FullTranslationSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + org.scalatest.Assertion
-  + soda.translator.parser.BlockProcessor_
-  + java.nio.file.Files
-  + java.nio.file.Paths
+  import
+    org.scalatest.Assertion
+    soda.translator.parser.BlockProcessor_
+    java.nio.file.Files
+    java.nio.file.Paths
 
   Base = "/soda/translator/example/"
 

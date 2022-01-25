@@ -6,14 +6,15 @@ package soda.translator.extension.toscala
 * MicroTranslatorToScala
   extends soda.translator.block.BlockTranslator = {
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockTranslatorPipeline_
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.block.ConditionalBlockTranslator_
-  + soda.translator.blocktr.TokenReplacement_
-  + soda.translator.blocktr.TokenizedBlockTranslator_
-  + soda.translator.parser.BlockAnnotator_
-  + soda.translator.replacement.Token
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockTranslatorPipeline_
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.ConditionalBlockTranslator_
+    soda.translator.blocktr.TokenReplacement_
+    soda.translator.blocktr.TokenizedBlockTranslator_
+    soda.translator.parser.BlockAnnotator_
+    soda.translator.replacement.Token
 
   new_line = "\n"
 

@@ -5,12 +5,13 @@ package soda.translator.io
  */
 * SimpleFileReader = {
 
-  + java.io.BufferedReader
-  + java.io.InputStream
-  + java.io.InputStreamReader
-  + java.nio.file.Files
-  + java.nio.file.Paths
-  + java.util.stream.Collectors
+  import
+    java.io.BufferedReader
+    java.io.InputStream
+    java.io.InputStreamReader
+    java.nio.file.Files
+    java.nio.file.Paths
+    java.util.stream.Collectors
 
   new_line = "\n"
 
@@ -36,10 +37,11 @@ package soda.translator.io
 
 * SimpleFileWriter = {
 
-  + soda.lib.SomeSD_
-  + java.io.File
-  + java.io.FileWriter
-  + java.io.Writer
+  import
+    soda.lib.SomeSD_
+    java.io.File
+    java.io.FileWriter
+    java.io.Writer
 
   write_file (file_name: String, content: String): Boolean =
     write_file (@new File (file_name), content)

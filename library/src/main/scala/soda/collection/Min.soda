@@ -41,9 +41,10 @@ package soda.collection
 
 * Min [T] = {
 
-  + soda.lib.OptionSD
-  + soda.lib.SomeSD_
-  + soda.lib.NoneSD_
+  import
+    soda.lib.OptionSD
+    soda.lib.SomeSD_
+    soda.lib.NoneSD_
 
   empty: ESeq [T] = ESeq_ ()
 

@@ -5,7 +5,7 @@ package soda.translator.io
  */
 trait DirectoryScanner {
 
-  import java.io.File
+  import   java.io.File
 
   def get_all_files (start: File ): Seq [File] =
     if (start.isFile

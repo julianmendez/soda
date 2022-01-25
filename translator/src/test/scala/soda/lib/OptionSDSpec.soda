@@ -3,7 +3,8 @@ package soda.lib
 * OptionSDSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + scala.util.Try
+  import
+    scala.util.Try
 
   test ("should test an empty option")
     let

@@ -3,7 +3,7 @@ package soda.translator.block
 trait BlockTranslatorPipeline
   extends BlockTranslator {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   def   pipeline: Seq [BlockTranslator]
 

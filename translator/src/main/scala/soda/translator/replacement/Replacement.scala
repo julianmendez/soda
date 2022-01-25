@@ -7,7 +7,7 @@ package soda.translator.replacement
 trait Replacement
   extends soda.translator.block.SingleLineProcessor {
 
-  import soda.translator.block.Translator
+  import   soda.translator.block.Translator
 
   lazy val aux = ReplacementAux_ ()
 
@@ -127,8 +127,8 @@ case class ReplacementAux_ ()
 
 trait ReplacementWithTranslator {
 
-  import soda.translator.block.Translator
-  import soda.lib.Recursion_
+  import   soda.translator.block.Translator
+  import   soda.lib.Recursion_
 
   def   translator: Translator
 

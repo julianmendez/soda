@@ -2,9 +2,9 @@ package soda.translator.parser.annotation
 
 trait BlockAnnotation {
 
-  import soda.translator.block.Block
-  import soda.translator.block.BlockAnnotationId
-  import soda.translator.parser.SodaConstant_
+  import   soda.translator.block.Block
+  import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.parser.SodaConstant_
 
   def   block: Block
   def   applies: Boolean

@@ -3,8 +3,9 @@ package soda.translator.parser.annotation
 * AbstractBlockDeclarationAnnotation
   extends BlockAnnotation = {
 
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.SodaConstant_
+  import
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.SodaConstant_
 
   identifier = BlockAnnotationEnum_ ().abstract_block_declaration
 

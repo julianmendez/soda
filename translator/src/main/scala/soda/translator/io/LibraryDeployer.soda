@@ -2,7 +2,8 @@ package soda.translator.io
 
 * LibraryDeployer = {
 
-  + java.io.File
+  import
+    java.io.File
 
   library_marker_file = "lib.soda"
 

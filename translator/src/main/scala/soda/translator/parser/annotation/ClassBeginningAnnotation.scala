@@ -3,8 +3,8 @@ package soda.translator.parser.annotation
 trait ClassBeginningAnnotation
   extends BlockAnnotation {
 
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .class_beginning
 

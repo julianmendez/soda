@@ -3,10 +3,11 @@ package soda.collection
 * MinSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.lib.OptionSD
-  + soda.lib.NoneSD_
-  + soda.lib.SomeSD_
-  + soda.lib.Recursion_
+  import
+    soda.lib.OptionSD
+    soda.lib.NoneSD_
+    soda.lib.SomeSD_
+    soda.lib.Recursion_
 
   empty: ESeq [Int] = ESeq_ [Int] ()
 

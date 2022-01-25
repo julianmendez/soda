@@ -12,7 +12,7 @@ case class Customer_ (name: String, ip_address: String )
 
 trait PricingAgent {
 
-  import java.util.Date
+  import   java.util.Date
 
   def   get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int
 

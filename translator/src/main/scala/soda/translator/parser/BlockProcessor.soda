@@ -5,13 +5,14 @@ package soda.translator.parser
  */
 * BlockProcessor = {
 
-  + soda.lib.SomeSD_
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.AnnotatedBlock_
-  + soda.translator.block.BlockTranslator
-  + soda.translator.block.Block
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.BlockBuilder_
+  import
+    soda.lib.SomeSD_
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedBlock_
+    soda.translator.block.BlockTranslator
+    soda.translator.block.Block
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.BlockBuilder_
 
   abstract
     translator: BlockTranslator

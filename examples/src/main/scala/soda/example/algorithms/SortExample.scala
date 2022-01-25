@@ -42,7 +42,7 @@ trait SortAlgorithmExample {
 trait SortAlgorithmExampleWithFold
   extends SortAlgorithmExample {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   def sort (sequence: Seq [Int]  ): Seq [Int] =
     if (sequence.length < 2
@@ -71,9 +71,9 @@ case class SortAlgorithmExampleWithFold_ ()
 
 trait ConstrainedSortAlgorithm {
 
-  import soda.lib.OptionSD
-  import soda.lib.SomeSD_
-  import soda.lib.NoneSD_
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.lib.NoneSD_
 
   def sort (sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
     sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence ) )
@@ -160,7 +160,7 @@ case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] ()
 
 trait SortedSequenceBuilder [A <: Comparable [A]] {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   def build (sequence: Seq [A]  ): SortedSequence [A] =
     Recursion_ () .fold (sequence, _initial_value, _next_value_function )

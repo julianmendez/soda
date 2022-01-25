@@ -111,7 +111,8 @@ class MyClass
 
 class TimeOfToday = {
 
-  import java.util.Date
+  import
+    java.util.Date
 
   get_time: Date = @new Date ()
 

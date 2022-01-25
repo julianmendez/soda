@@ -3,9 +3,10 @@ package soda.translator.parser.annotation
 * BlockAnnotationSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.block.Block
-  + soda.translator.block.DefaultBlockTranslator_
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.block.Block
+    soda.translator.block.DefaultBlockTranslator_
+    soda.translator.parser.BlockProcessor_
 
   example_program =
     ("package soda.example.mytest" +

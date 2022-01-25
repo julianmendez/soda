@@ -25,9 +25,10 @@ package soda.example.ethicalissues.pricemonitor
 * PriceMonitorSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + java.util.Date
-  + java.util.Calendar
-  + java.util.TimeZone
+  import
+    java.util.Date
+    java.util.Calendar
+    java.util.TimeZone
 
   fair_pricing_agent = FairPricingAgent_ ()
 

@@ -108,7 +108,7 @@ trait MyClass
 
 trait TimeOfToday {
 
-  import java.util.Date
+  import   java.util.Date
 
   lazy val get_time: Date = new Date ()
 

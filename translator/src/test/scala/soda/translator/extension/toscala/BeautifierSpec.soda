@@ -3,7 +3,8 @@ package soda.translator.extension.toscala
 * BeautifierSpec ()
   extends org.scalatest.funsuite.AnyFunSuite = {
 
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.parser.BlockProcessor_
 
   test ("the translated source code should not have too many unnecessary spaces")
     let

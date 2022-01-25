@@ -2,7 +2,7 @@ package soda.example
 
 trait FizzBuzz {
 
-  import soda.lib.Recursion_
+  import   soda.lib.Recursion_
 
   lazy val fizz = "Fizz"
 

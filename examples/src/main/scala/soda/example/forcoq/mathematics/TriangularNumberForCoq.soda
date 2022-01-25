@@ -2,9 +2,10 @@ package soda.example.forcoq.mathematics
 
 * TriangularNumberForCoq = {
 
-  + soda.example.forcoq.lib.nat
-  + soda.example.forcoq.lib.O
-  + soda.example.forcoq.lib.S
+  import
+    soda.example.forcoq.lib.nat
+    soda.example.forcoq.lib.O
+    soda.example.forcoq.lib.S
 
   @tailrec
   _tailrec_get_number (m: nat) (acc: nat): nat =

@@ -145,7 +145,7 @@ trait PersonName {
   */
 trait Manual {
 
-  import java.util.Date
+  import   java.util.Date
 
   lazy val a = 1
 

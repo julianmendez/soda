@@ -2,7 +2,7 @@ package soda.translator.io
 
 trait LibraryDeployer {
 
-  import java.io.File
+  import   java.io.File
 
   lazy val library_marker_file = "lib.soda"
 

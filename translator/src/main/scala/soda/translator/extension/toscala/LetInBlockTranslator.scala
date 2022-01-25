@@ -3,9 +3,9 @@ package soda.translator.extension.toscala
 trait LetInBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.BlockBuilder_
 
   lazy val tc = TranslationConstantToScala_ ()
 

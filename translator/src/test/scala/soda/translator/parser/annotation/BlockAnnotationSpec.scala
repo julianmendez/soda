@@ -3,9 +3,9 @@ package soda.translator.parser.annotation
 case class BlockAnnotationSpec ()
   extends org.scalatest.funsuite.AnyFunSuite {
 
-  import soda.translator.block.Block
-  import soda.translator.block.DefaultBlockTranslator_
-  import soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.Block
+  import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.parser.BlockProcessor_
 
   lazy val example_program =
     ("package soda.example.mytest" +
