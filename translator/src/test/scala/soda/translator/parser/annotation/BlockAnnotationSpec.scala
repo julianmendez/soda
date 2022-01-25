@@ -16,8 +16,9 @@ case class BlockAnnotationSpec ()
     "\n" +
     "\nclass Example = {" +
     "\n" +
-    "\n  import soda.lib.Recursion_" +
-    "\n  + soda.lib.Enum" +
+    "\n  import" +
+    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
     "\n    value: Int" +

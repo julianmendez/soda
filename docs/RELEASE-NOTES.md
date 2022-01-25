@@ -3,12 +3,14 @@
   - date: unreleased
   - new_features:
     - includes reserved word `abstract` to define a block of abstract constants and functions
+    - makes reserved word `import` define a block of classes to import 
     - produces a more similar translation to Scala by removing the line joiners
     - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
     - accepts reserved word `fun` as synonym for `lambda`, which is optional
     - accepts reserved word `def` as optional to define constants and functions
   - deprecated_features:
     - reserved word `has` is replaced by block `abstract`
+    - abbreviation `+` is replaced by its long form `import` 
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - release: target/scala-3.1.0/soda-0.14.0.jar
 - - version: v0.13.0

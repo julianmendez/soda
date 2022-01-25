@@ -52,6 +52,8 @@ package soda.translator.extension.toscala
 
   scala_value: String = "lazy val"
 
+  scala_import_declaration: String = "import"
+
   scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
   /**
