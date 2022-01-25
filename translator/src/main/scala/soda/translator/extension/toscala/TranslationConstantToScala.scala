@@ -44,6 +44,8 @@ trait TranslationConstantToScala
 
   lazy val scala_closing_brace: String = "}"
 
+  lazy val scala_class_begin_symbol: String = "{"
+
   lazy val scala_class_end_symbol: String = "}"
 
   lazy val soda_class_reserved_word: String = "class"

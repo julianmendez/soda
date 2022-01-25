@@ -20,6 +20,10 @@ package soda.translator.parser
 
   class_end_reserved_word = "end"
 
+  class_definition_symbol = "="
+
+  class_definition_synonym = "is"
+
   function_definition_symbol = "="
 
   function_definition_synonym = "is"

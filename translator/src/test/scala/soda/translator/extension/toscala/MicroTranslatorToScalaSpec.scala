@@ -43,6 +43,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  f(x: Int): Int = x + 1" +
         "\n" +
+        "\nend" +
+        "\n" +
         "\nclass B = {" +
         "\n" +
         "\n  g(x: Int): Int = 2 * x" +
@@ -53,6 +55,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  h(x: Int): Int = 2 * x + 1" +
         "\n" +
+        "\nend" +
+        "\n" +
         "\n* B[T] = {" +
         "\n" +
         "\n  i(x: T): T = x" +
@@ -60,9 +64,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n"
       lazy val expected =
-        "trait A:" +
+        "trait A {" +
         "\n" +
         "\n  def f (x: Int ): Int = x + 1" +
+        "\n" +
+        "\n}" +
         "\n" +
         "\ntrait B {" +
         "\n" +
@@ -70,9 +76,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class C () extends A:" +
+        "\ncase class C () extends A {" +
         "\n" +
         "\n  def h (x: Int ): Int = 2 * x + 1" +
+        "\n" +
+        "\n}" +
         "\n" +
         "\ntrait B [T] {" +
         "\n" +

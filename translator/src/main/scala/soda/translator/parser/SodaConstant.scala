@@ -20,6 +20,10 @@ trait SodaConstant {
 
   lazy val class_end_reserved_word = "end"
 
+  lazy val class_definition_symbol = "="
+
+  lazy val class_definition_synonym = "is"
+
   lazy val function_definition_symbol = "="
 
   lazy val function_definition_synonym = "is"

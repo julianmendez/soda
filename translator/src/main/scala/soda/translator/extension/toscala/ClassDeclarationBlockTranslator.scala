@@ -20,11 +20,11 @@ trait ClassDeclarationBlockTranslator
 
   lazy val scala_space: String = " "
 
-  lazy val soda_definition = tc.soda_definition
+  lazy val class_definition_symbol = tc.class_definition_symbol
 
-  lazy val scala_3_class_definition = tc.scala_3_class_definition
+  lazy val scala_class_begin_pattern = scala_space + tc.scala_class_begin_symbol
 
-  lazy val space_and_definition = soda_space + soda_definition
+  lazy val space_and_definition = soda_space +  class_definition_symbol
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
@@ -39,8 +39,8 @@ trait ClassDeclarationBlockTranslator
     if ((has_condition_for_type_alias (line )  )
     ) line
     else
-      if ((line.trim.endsWith (space_and_definition ) )
-      ) line.replaceAll (space_and_definition, scala_3_class_definition )
+      if ((line.trim.endsWith (class_definition_symbol )  )
+      ) line.replaceAll (space_and_definition, scala_class_begin_pattern )
       else line.replaceAll (space_and_definition, "")
 
   def get_table_translator (line: String ): Translator =
@@ -63,16 +63,6 @@ trait ClassDeclarationBlockTranslator
       || block.block_annotation == _labels.class_declaration
     ) translator.translate (block )
     else block
-
-  def translation_of_class_definition (line: String ): Replacement =
-    if (has_condition_for_type_alias (line )
-    ) Replacement_ (line )
-    else Replacement_ (line ) .replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition (line ) )
-
-  def _new_text_for_class_definition (line: String ): String =
-    if (ends_with_equals (line )
-    ) tc.scala_3_class_definition
-    else ""
 
   def ends_with_equals (line: String ): Boolean =
     line.trim.endsWith (tc.soda_definition )

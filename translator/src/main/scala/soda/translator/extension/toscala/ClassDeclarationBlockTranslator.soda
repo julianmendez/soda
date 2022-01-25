@@ -21,11 +21,11 @@ package soda.translator.extension.toscala
 
   scala_space: String = " "
 
-  soda_definition = tc.soda_definition
+  class_definition_symbol = tc.class_definition_symbol
 
-  scala_3_class_definition = tc.scala_3_class_definition
+  scala_class_begin_pattern = scala_space + tc.scala_class_begin_symbol
 
-  space_and_definition = soda_space + soda_definition
+  space_and_definition = soda_space +  class_definition_symbol
 
   _labels = BlockAnnotationEnum_ ()
 
@@ -40,8 +40,8 @@ package soda.translator.extension.toscala
     if (has_condition_for_type_alias (line))
     then line
     else
-      if (line.trim.endsWith (space_and_definition) )
-      then line.replaceAll (space_and_definition, scala_3_class_definition)
+      if (line.trim.endsWith (class_definition_symbol))
+      then line.replaceAll (space_and_definition, scala_class_begin_pattern)
       else line.replaceAll (space_and_definition, "")
 
   get_table_translator (line: String): Translator =
@@ -64,16 +64,6 @@ package soda.translator.extension.toscala
       or block.block_annotation == _labels.class_declaration
     then translator.translate (block)
     else block
-
-  translation_of_class_definition (line: String): Replacement =
-    if has_condition_for_type_alias (line)
-    then Replacement_ (line)
-    else Replacement_ (line).replace_all (soda_space + tc.soda_definition, _new_text_for_class_definition (line) )
-
-  _new_text_for_class_definition (line: String): String =
-    if ends_with_equals (line)
-    then tc.scala_3_class_definition
-    else ""
 
   ends_with_equals (line: String): Boolean =
     line.trim.endsWith (tc.soda_definition)
