@@ -37,11 +37,7 @@ trait Movable
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
 trait ShapePainter [A <: Shape]
 
-/* It is possible to constrain a class parameter with more than one type.
- * Connect them using `with`. */
-trait ShapeMover [A <: Shape with Movable]
-
-/* The body of a class is declared between braces (`{` and `}`) after the equals sign (`=`).
+/* The body of a class is declared after the equals sign (`=`) and ends with `end`.
  * It is recommended to indent the constants and functions declared inside. */
 trait EqualsExample {
 
@@ -204,10 +200,6 @@ trait Manual {
       case false => if_false
     }
 
-  /* To evaluate a constant or a function, it is possible to declare intermediate functions.
-   * This is done in a `let`-`in` block.
-   * The block starts with a `let` containing the intermediate functions in no particular order.
-   * This block is evaluated in an expression after the `in`. */
   def sum (n: Int ) =
     _tailrec_ (n, 0 )
 
@@ -219,23 +211,6 @@ trait Manual {
     if (n < 0
     ) accum
     else _tailrec_ (n - 1, n + accum )
-
-  def f0 (x: Int ): Int =
-    {
-      lazy val a = g (x )
-      lazy val b = g (a )
-      a + b }
-
-  /* Since the order in a `let`-`in` block is not important, a constant `result` at the beginning could easily indicate
-   * what is the main result to be evaluated. */
-  def f1 (x: Int ): Int =
-    {
-      lazy val result = a + b
-      lazy val a = g (x )
-      lazy val b = g (a )
-      result }
-
-  def g (x: Int ): Int = x + 1
 
 }
 

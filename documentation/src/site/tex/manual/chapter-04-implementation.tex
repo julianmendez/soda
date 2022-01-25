@@ -73,7 +73,7 @@ returns a sequence of integers where each element is computed as the next intege
 
 \section{Object Oriented}
 
-\subsubsection{\sodaclass, \sodahas}
+\subsubsection{\sodaclass, \sodaabstract}
 
 As mentioned, there are two types of classes: the abstract and the concrete.
 
@@ -83,18 +83,21 @@ Both types are declared using the \sodaclass reserved words.
 
 For example,
 \begin{lstlisting}[label={lst:exampleAbstractClass}]
-  class Agent = {
-    has identifier: String
-  }
+class Agent =
+
+  abstract
+    identifier: String
+
+end
 \end{lstlisting}
 defines an abstract agent that has some identifier.
-Agent is, however, an abstract class and cannot be instantiated.
+Agent is an abstract class and cannot be instantiated.
 
 By contrast, concrete classes compare to final classes in Java and case classes in Scala.
 
 The following example shows a concrete class consisting only of a parameterized name.
 \begin{lstlisting}[label={lst:exampleConcreteClass}]
-  class Person (name: String)
+class Person (name: String)
 \end{lstlisting}
 
 The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
@@ -105,23 +108,32 @@ It is possible to declare that a concrete class extends an abstract class using 
 Concrete classes are final and cannot be extended.
 
 \begin{lstlisting}[label={lst:exampleExtends}]
-  class AgentPerson (name: String) extends Agent = {
-    identifier = name
-  }
+class AgentPerson (name: String)
+  extends Agent =
+
+  identifier = name
+
+end
 \end{lstlisting}
 
 Concrete classes can also extend multiple abstract classes.
 For example,
 \begin{lstlisting}[label={lst:exampleWith}]
-  class RankedIndividual = {
-    has rank: Int
-  }
+class RankedIndividual =
 
-  class RankedAgentPerson (name: String, person_rank: Int) extends Agent with RankedIndividual = {
+  abstract
+    rank: Int
+
+end
+
+class RankedAgentPerson (name: String, person_rank: Int)
+  extends Agent with RankedIndividual =
+
     identifier = name
 
     rank = person_rank
-  }
+
+end
 \end{lstlisting}
 
 \subsubsection{\sodathis}
@@ -131,17 +143,25 @@ For that, the \sodathis reserved word is used.
 
 For example,
 \begin{lstlisting}[label={lst:exampleExtendsElement}]
-  class Element = {
-    has accept (v: Visitor): Boolean
-  }
+class Element =
 
-  class Visitor = {
-    has visit (x: Element): Boolean
-  }
+  abstract
+    accept (v: Visitor): Boolean
 
-  class Item (identifier: Int) extends Element = {
-    accept (v: Visitor) = v.visit (this)
-  }
+end
+
+class Visitor =
+
+  abstract
+    visit (x: Element): Boolean
+
+end
+
+class Item (identifier: Int) extends Element =
+
+  accept (v: Visitor) = v.visit (this)
+
+end
 \end{lstlisting}
 
 \subsubsection{\sodasubtype, \sodasupertype}
@@ -185,7 +205,8 @@ The reserved words \sodanot, \sodaand, \sodaor are introduced for the sake of re
 
 \begin{lstlisting}[label={lst:exampleNotAndOr}]
 
-  my_xor (x: Boolean, y: Boolean) = (x or y) and not (x and y)
+  my_xor (x: Boolean, y: Boolean) =
+    (x or y) and not (x and y)
 
 \end{lstlisting}
 
@@ -198,7 +219,7 @@ The reserved word \sodapackage declares the package where the content should be 
 All classes then belong to that package.
 
 \begin{lstlisting}[label={lst:examplePackage}]
-  package org.example.soda
+package org.example.soda
 \end{lstlisting}
 
 \subsubsection{\sodaimport}
@@ -213,7 +234,8 @@ To have a view of the imports needed by a package, it would be necessary to use 
 
 
 \begin{lstlisting}[label={lst:exampleImport}]
-  import java.util.Date
+  import
+    java.util.Date
 \end{lstlisting}
 
 
@@ -229,9 +251,10 @@ For translations to Scala 3, the \sodanew annotation can be omitted.
 For example,
 
 \begin{lstlisting}[label={lst:exampleImportDate}]
-  import java.util.Date
+  import
+    java.util.Date
 
-  now = @new Date()
+  now = @new Date ()
 \end{lstlisting}
 
 \subsubsection{\sodaoverride}
@@ -242,10 +265,12 @@ This could make that a concrete class does not behave as the abstract class that
 For this reason, although \sodaoverride annotation could be used to ensure that a function is effectively overriding another function, it should only be used to override JVM functions, and not \Soda functions.
 
 \begin{lstlisting}[label={lst:exampleOverride}]
-  class PersonName (name: String) = {
+class PersonName (name: String) =
+
     @override
     toString = name
-  }
+
+end
 \end{lstlisting}
 
 \subsubsection{\sodatailrec}
@@ -253,20 +278,15 @@ For this reason, although \sodaoverride annotation could be used to ensure that 
 The \sodatailrec annotation is used to ensure that a recursive function uses tail recursion.
 If a tail recursive function is not properly converted to a loop, it could produce a stack overflow after few iterations.
 
-For technical reasons, a function with tail recursion needs to be used inside another function.
-
 \begin{lstlisting}[label={lst:exampleTailrecInside}]
+  @tailrec
+  _tailrec (n: Int, accum: Int): Int =
+    if n < 0
+    then accum
+    else _tailrec (n - 1, n + accum)
+
   sum (n: Int) =
-    let
-      result = rec (n, 0)
-
-      @tailrec
-      rec (n: Int, accum: Int): Int =
-        if n < 0
-        then accum
-        else rec (n - 1, n + accum)
-
-    in result
+    _tailrec (n, 0)
 \end{lstlisting}
 
 \subsubsection{\sodamain}
@@ -275,12 +295,14 @@ The \sodamain annotation is used to indicate that an entry point is needed.
 This is kept to have functions that can be executed from the console.
 
 \begin{lstlisting}[label={lst:exampleMain}]
-  class Main () = {
-    main (args: Array[String]): Unit =
-      println ("Hello world!")
-  }
+class Main () =
 
-  @main
+  main (args: Array[String]): Unit =
+    println ("Hello world!")
+
+end
+
+@main
 \end{lstlisting}
 
 This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srccode{EntryPoint} located in the same package.
@@ -320,46 +342,50 @@ The synonyms that can be at any part of a line are:
 As an example we can see the factorial written first in a concise and then in a verbose manner.
 
 \begin{lstlisting}[label={lst:exampleFactorialConcise}]
-  * AbstractFactorialConcise = {
-    has factorial (n: Int): Int
-  }
+* AbstractFactorialConcise =
 
-  * FactorialConcise () extends AbstractFactorialConcise = {
+  abstract
+    factorial (n: Int): Int
 
-    factorial (n: Int) = {
-      result = rec (n, 1)
+end
 
-      @tailrec
-      rec (n: Int, product: Int): Int =
-        if n == 0
-        then product
-        else rec (n - 1, n * product)
+* FactorialConcise ()
+  extends AbstractFactorialConcise =
 
-      result
-    }
-  }
+  @tailrec
+  _tailrec (n: Int, product: Int): Int =
+    if n == 0
+    then product
+    else _tailrec (n - 1, n * product)
+
+  factorial (n: Int): Int =
+    _tailrec (n, 1)
+
+end
 \end{lstlisting}
 
 
 \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
-  class AbstractFactorialVerbose is {
-    has factorial (n: Int): Int
-  }
+class AbstractFactorialVerbose is
 
-  class FactorialVerbose () extends AbstractFactorialVerbose is {
+  abstract
+    factorial (n: Int): Int
 
-    factorial (n: Int) is
-      let
-        result is rec (n, 1)
+end
 
-        @tailrec
-        rec (n: Int, product: Int): Int is
-          if n == 0
-          then product
-          else rec (n - 1, n * product)
+class FactorialVerbose ()
+  extends AbstractFactorialVerbose is
 
-      in result
-  }
+  @tailrec
+  _tailrec (n: Int, product: Int): Int is
+    if n == 0
+    then product
+    else _tailrec (n - 1, n * product)
+
+  factorial (n: Int) is
+    _tailrec (n, 1)
+
+end
 \end{lstlisting}
 
 

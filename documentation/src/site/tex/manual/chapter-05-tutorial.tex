@@ -161,12 +161,15 @@ To create an instance we can just give the parameters, if needed.
 Classes can be marked with \sodapackage reserved word and be put in \emph{packages}, which are collections of classes.
 Classes can contain functions and other classes.
 
-If a constant or function is to be implemented in another class, this can be denoted with \sodahas.
+If a constant or function is to be implemented in another class, this can be denoted with \sodaabstract.
 
 \begin{lstlisting}[label={lst:exampleAbstractFunction}]
-  class Comparable = {
-    has is_greater_than(x: Comparable): Boolean
-  }
+class Comparable =
+
+  abstract
+    is_greater_than(x: Comparable): Boolean
+
+end
 \end{lstlisting}
 
 While the content in classes is public, the content in functions is private.

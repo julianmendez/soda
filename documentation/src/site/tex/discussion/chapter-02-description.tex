@@ -311,8 +311,6 @@ It is possible to put upper bounds in the parameter, to define it as a subtype o
   class Painter[A]
 
   class ShapePainter[A subtype Shape]
-
-  class ShapeMover[A subtype Shape with Movable]
 \end{lstlisting}
 
 In the example, a ShapePainter is an abstract class that can be applied to any Shape or subtype A of a Shape.
@@ -335,11 +333,13 @@ Defining a constant or a function requires a space around the `equals' character
 With \sodadefparam is also possible to define values for parameters when using named parameters.
 
 \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
-  class EqualsExample () = {
-    answer = f (x := 20, y := 2)
+class EqualsExample () =
 
-    f (x: Int, y: Int) = 2 * x + y
-  }
+  answer = f (x := 20, y := 2)
+
+  f (x: Int, y: Int) = 2 * x + y
+
+end
 \end{lstlisting}
 
 
@@ -437,12 +437,14 @@ Example using snake case, recommended in \Soda
 
 Example using camel case, as in Java:
 \begin{lstlisting}[label={lst:exampleExtendsCamelCase}]
-  /** Class for a registered person, in camel case */
-  class RegisteredPerson (firstName: String, lastName: String) = {
-    _separator = " "
+/** Class for a registered person, in camel case */
+class RegisteredPerson (firstName: String, lastName: String) =
 
-    fullName = firstName + _separator + lastName
-  }
+  _separator = " "
+
+  fullName = firstName + _separator + lastName
+
+end
 \end{lstlisting}
 
 
@@ -462,9 +464,11 @@ This does not prevent the synchronization issue between written text and written
 For example,
 
 \begin{lstlisting}[label={lst:exampleClassWithComment}]
-  class InterestingClass() = {
-    doc = "This class is just an example of how to include comments as part of the code."
-  }
+class InterestingClass () =
+
+  doc = "This class is just an example of how to include comments as part of the code."
+
+end
 \end{lstlisting}
 
 A similar feature can be found in Python, for example, where Docstrings can be accessed by reading variable \srccode{\_\_doc\_\_}.
@@ -474,17 +478,23 @@ For abstract classes, the constant should contain a suffix with the class name.
 
 For example,
 \begin{lstlisting}[label={lst:exampleAbstractAndConcreteClassesWithComment}]
-  class AbstractClassA = {
+class AbstractClassA =
+
     doc_AbstractClassA = "Documentation of abstract class A. "
-  }
 
-  class AbstractClassB extends AbstractClassA = {
+end
+
+class AbstractClassB extends AbstractClassA =
+
     doc_AbstractClassB = "Documentation of abstract class B. " + doc_AbstractClassA
-  }
 
-  class ConcreteClassC() extends AbstractClassB = {
+end
+
+class ConcreteClassC() extends AbstractClassB =
+
     doc = "Documentation of concrete class C. " + doc_AbstractClassB
-  }
+
+end
 \end{lstlisting}
 
 Clearly, an extending class does not need to include the documentation of its superclasses.
@@ -700,9 +710,9 @@ If $S_{A}$ is empty, the equals sign can be omitted.
 We say that $A$ is a \textbf{trivial extension} of an abstract class $B$ when $A$ extends only $B$ and $A$ has no parameters.
 A \textbf{concrete trivial extension} is a trivial extension by using a concrete class.
 
-The \sodahas reserved word allows declaring functions in abstract classes.
-As a simple approach, each function or constant declared with \sodahas can be thought as a parameter needed to instantiate a class.
-An abstract class without uses of \sodahas can be instantiated by a concrete trivial extension.
+The \sodaabstract reserved word allows declaring a block of constants and functions in abstract classes.
+As a simple approach, each function or constant declared in this block can be thought as a parameter needed to instantiate a class.
+An abstract class without abstract constants or functions can be instantiated by a concrete trivial extension.
 
 There is a small divergence between \Soda as defined here and its implementation, because the implementation allows defining classes inside classes, and even inside functions.
 

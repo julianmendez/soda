@@ -13,8 +13,8 @@
             $t$ \sodadefparam $e$                                          & assignment of parameter $t$ to have value $e$                   \\
             \hline
             \sodaif $b$ \sodathen $e_{0}$ \sodaelse $e_{1}$                & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
-            \hline
-            \sodalet $e_{1} \ldots e_{n}$ \sodain $e$                      & expression with bindings $e_{1}, \ldots, e_{n}$ in $e$          \\
+            % \hline
+            % \sodalet $e_{1} \ldots e_{n}$ \sodain $e$                      & expression with bindings $e_{1}, \ldots, e_{n}$ in $e$          \\
             \hline
             \sodamatch $x$ \sodacase $p_{i}$ \sodaimplies $e_{i}$ \sodaend & pattern matching from $p_{i}$ to $e_{i}$ for $1 \leq i \leq n$  \\
             \hline
@@ -24,11 +24,11 @@
             \sodaclass $B$ \sodaextends $A_{0}$ \sodawith $A_{1}$          & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
             \sodaclass $B$[$A_{0}$ \sodasubtype ($A_{1}$)]                 & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
             \sodaclass $B$[$A_{0}$ \sodasupertype ($A_{1}$)]               & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
-            \sodahas $f$                                                   & function or constant $f$ is to be defined                       \\
+            \sodaabstract $f_{0} \ldots f_{n}$                             & block of functions or constants $f_{i}$ to be defined           \\
             \sodathis                                                      & reference to itself as an instance                              \\
             \hline
             \sodapackage $p$                                               & package declaration for this piece of code                      \\
-            \sodaimport $p$                                                & import declaration in this piece of code                        \\
+            \sodaimport $p$                                                & block of import declarations                                    \\
             \hline
         \end{tabular}
     \end{center}
