@@ -5,9 +5,9 @@ package soda.translator.block
  */
 * Translator = {
 
-  has translate (word: String): String
-
-  has keys: Seq [String]
+  abstract
+    translate (word: String): String
+    keys: Seq [String]
 
 }
 

@@ -5,11 +5,9 @@ package soda.translator.replacement
  */
 trait Token {
 
-  def text: String
-
-  def parser_state: ParserState
-
-  def index: Int
+  def   text: String
+  def   parser_state: ParserState
+  def   index: Int
 
 }
 
@@ -77,11 +75,9 @@ case class Tokenizer_ (line: String )
 
 trait TokenizerFoldTuple {
 
-  def last_index: Int
-
-  def parser_state: ParserState
-
-  def rev_tokens: Seq [Token]
+  def   last_index: Int
+  def   parser_state: ParserState
+  def   rev_tokens: Seq [Token]
 
 }
 

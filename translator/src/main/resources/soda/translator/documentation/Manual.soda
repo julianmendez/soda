@@ -72,10 +72,11 @@ class EqualsExample_ ()
 /* A class does not need to define all its constants and functions. */
 class RegisteredPerson = {
 
-  /* A line starting with `has` denotes a constant or function that needs to be defined in extending classes. */
-  has first_name: String
-
-  has last_name: String
+  /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
+   Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
+  abstract
+    first_name: String
+    last_name: String
 
   /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
   _separator = " "
@@ -90,7 +91,8 @@ class Person (name: String)
 
 class Agent = {
 
-  has identifier: String
+  abstract
+    identifier: String
 
 }
 
@@ -101,7 +103,8 @@ class Agent_ (identifier: String)
 
 class RankedIndividual = {
 
-  has rank: Int
+  abstract
+    rank: Int
 
 }
 
@@ -110,13 +113,15 @@ class RankedAgentPerson (identifier: String, rank: Int)
 
 class Element = {
 
-  has accept (v: Visitor): Boolean
+  abstract
+    accept (v: Visitor): Boolean
 
 }
 
 class Visitor = {
 
-  has visit (x: Element): Boolean
+  abstract
+    visit (x: Element): Boolean
 
 }
 
@@ -130,7 +135,8 @@ class Item (identifier: Int)
 
 class PersonName = {
 
-  has name: String
+  abstract
+    name: String
 
   /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function. */
@@ -239,7 +245,8 @@ class Manual = {
 
 * AbstractFactorialConcise = {
 
-  has factorial (n: Int): Int
+  abstract
+    factorial (n: Int): Int
 
 }
 
@@ -261,7 +268,8 @@ class Manual = {
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 class AbstractFactorialVerbose is {
 
-  has factorial (n: Int): Int
+  abstract
+    factorial (n: Int): Int
 
 }
 

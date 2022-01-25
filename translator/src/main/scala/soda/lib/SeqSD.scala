@@ -9,11 +9,9 @@ package soda.lib
  */
 trait SeqSD [A] {
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B
-
-  def toSeq: Seq [A]
-
-  def reverse: SeqSD [A]
+  def   opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B
+  def   toSeq: Seq [A]
+  def   reverse: SeqSD [A]
 
 }
 

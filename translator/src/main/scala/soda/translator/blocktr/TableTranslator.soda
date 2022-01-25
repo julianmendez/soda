@@ -2,7 +2,8 @@ package soda.translator.blocktr
 
 * Table = {
 
-  has table: Seq[ (String, String)]
+  abstract
+    table: Seq[ (String, String)]
 
 }
 

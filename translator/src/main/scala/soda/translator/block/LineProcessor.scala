@@ -2,8 +2,6 @@ package soda.translator.block
 
 trait SingleLineProcessor {
 
-  def line: String
+  def   line: String
 
 }
-
-

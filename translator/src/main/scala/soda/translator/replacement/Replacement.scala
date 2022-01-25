@@ -130,7 +130,7 @@ trait ReplacementWithTranslator {
   import soda.translator.block.Translator
   import soda.lib.Recursion_
 
-  def translator: Translator
+  def   translator: Translator
 
   lazy val aux = ReplacementAux_ ()
 

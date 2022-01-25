@@ -9,29 +9,18 @@ package soda.lib
  */
 trait OptionSD [A] {
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B
-
-  def map [B] (mapping: A => B ): OptionSD [B]
-
-  def toOption: Option [A]
-
-  def isEmpty: Boolean
-
-  def isDefined: Boolean
-
-  def isNonEmpty: Boolean
-
-  def toSeq: Seq [A]
-
-  def getOrElse (default: A ): A
-
-  def fold [B] (ifEmpty: B, f: A => B ): B
-
-  def flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
-
-  def bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
-
-  def filter (predicate: A => Boolean ): OptionSD [A]
+  def   opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B
+  def   map [B] (mapping: A => B ): OptionSD [B]
+  def   toOption: Option [A]
+  def   isEmpty: Boolean
+  def   isDefined: Boolean
+  def   isNonEmpty: Boolean
+  def   toSeq: Seq [A]
+  def   getOrElse (default: A ): A
+  def   fold [B] (ifEmpty: B, f: A => B ): B
+  def   flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
+  def   bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
+  def   filter (predicate: A => Boolean ): OptionSD [A]
 
 }
 
@@ -70,7 +59,7 @@ case class NoneSD_ [A] ()
 trait OptionSDWithElement [A]
   extends OptionSD [A] {
 
-  def element: A
+  def   element: A
 
 }
 

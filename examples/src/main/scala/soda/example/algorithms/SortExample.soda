@@ -2,7 +2,8 @@ package soda.example.algorithms
 
 * SortExample = {
 
-  has is_sorted (sequence: Seq [Int]): Boolean
+  abstract
+    is_sorted (sequence: Seq [Int]): Boolean
 
 }
 
@@ -35,7 +36,8 @@ package soda.example.algorithms
 
 * SortAlgorithmExample = {
 
-  has sort (sequence: Seq [Int]): Seq [Int]
+  abstract
+    sort (sequence: Seq [Int]): Seq [Int]
 
 }
 
@@ -90,11 +92,10 @@ package soda.example.algorithms
 
 * SortedSequence [A subtype Comparable [A]] = {
 
-  has sequence: Seq [A]
-
-  has add (element: A): SortedSequence [A]
-
-  has invariant: Boolean
+  abstract
+    sequence: Seq [A]
+    add (element: A): SortedSequence [A]
+    invariant: Boolean
 
 }
 
@@ -116,7 +117,8 @@ package soda.example.algorithms
 * SortedSequenceWithElements [A subtype Comparable [A]]
   extends SortedSequence [A] = {
 
-  has sequence: Seq [A]
+  abstract
+    sequence: Seq [A]
 
 }
 

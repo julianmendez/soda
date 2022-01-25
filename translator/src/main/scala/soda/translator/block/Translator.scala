@@ -5,8 +5,7 @@ package soda.translator.block
  */
 trait Translator {
 
-  def translate (word: String ): String
-
-  def keys: Seq [String]
+  def   translate (word: String ): String
+  def   keys: Seq [String]
 
 }

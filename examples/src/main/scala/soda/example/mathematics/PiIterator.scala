@@ -2,17 +2,12 @@ package soda.example.mathematics
 
 trait Status {
 
-  def r: BigInt
-
-  def n: Int
-
-  def q: BigInt
-
-  def t: BigInt
-
-  def l: Int
-
-  def k: Int
+  def   r: BigInt
+  def   n: Int
+  def   q: BigInt
+  def   t: BigInt
+  def   l: Int
+  def   k: Int
 
   override
   lazy val toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
@@ -81,14 +76,15 @@ trait PiIterator {
 
 }
 
-case class PiIterator_ () extends PiIterator
+case class PiIterator_ ()
+  extends PiIterator
 
 trait IntAndStatus {
 
-  def digit: Int
-
-  def new_status: Status
+  def   digit: Int
+  def   new_status: Status
 
 }
 
-case class IntAndStatus_ (digit: Int, new_status: Status ) extends IntAndStatus
+case class IntAndStatus_ (digit: Int, new_status: Status )
+  extends IntAndStatus

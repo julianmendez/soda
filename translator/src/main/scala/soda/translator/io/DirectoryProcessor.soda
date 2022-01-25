@@ -2,11 +2,10 @@ package soda.translator.io
 
 * AbstractDirectoryProcessor = {
 
-  has start: String
-
-  has process_soda_file: java.io.File -> Boolean
-
-  has process (): Boolean
+  abstract
+    start: String
+    process_soda_file: java.io.File -> Boolean
+    process (): Boolean
 
 }
 

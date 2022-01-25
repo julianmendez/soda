@@ -40,7 +40,8 @@ class Segment_ (start_airport: String, end_airport: String)
 
 class SegmentsForFlight = {
 
-  has flight: Flight
+  abstract
+    flight: Flight
 
   segments: Seq [Segment] =
     rec_segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport)

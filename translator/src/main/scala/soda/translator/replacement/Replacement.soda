@@ -130,7 +130,8 @@ package soda.translator.replacement
   + soda.translator.block.Translator
   + soda.lib.Recursion_
 
-  has translator: Translator
+  abstract
+    translator: Translator
 
   aux = ReplacementAux_ ()
 

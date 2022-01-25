@@ -9,14 +9,13 @@ package soda.lib
  */
 trait EnumConstant {
 
-  def ordinal: Int
-
-  def name: String
+  def   ordinal: Int
+  def   name: String
 
 }
 
 trait Enum [A <: EnumConstant] {
 
-  def values: Seq [A]
+  def   values: Seq [A]
 
 }

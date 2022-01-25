@@ -5,11 +5,10 @@ package soda.translator.replacement
  */
 * Token = {
 
-  has text: String
-
-  has parser_state: ParserState
-
-  has index: Int
+  abstract
+    text: String
+    parser_state: ParserState
+    index: Int
 
 }
 
@@ -77,11 +76,10 @@ package soda.translator.replacement
 
 * TokenizerFoldTuple = {
 
-  has last_index: Int
-
-  has parser_state: ParserState
-
-  has rev_tokens: Seq [Token]
+  abstract
+    last_index: Int
+    parser_state: ParserState
+    rev_tokens: Seq [Token]
 
 }
 

@@ -6,11 +6,9 @@ trait BlockAnnotation {
   import soda.translator.block.BlockAnnotationId
   import soda.translator.parser.SodaConstant_
 
-  def block: Block
-
-  def applies: Boolean
-
-  def identifier: BlockAnnotationId
+  def   block: Block
+  def   applies: Boolean
+  def   identifier: BlockAnnotationId
 
   lazy val space = SodaConstant_ () .space
 

@@ -2,9 +2,8 @@ package soda.example.algorithms
 
 trait PairExample {
 
-  def left: Int
-
-  def right: Int
+  def   left: Int
+  def   right: Int
 
 }
 

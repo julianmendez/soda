@@ -2,9 +2,9 @@ package soda.example
 
 * PairExample = {
 
-  has left: Int
-
-  has right: Int
+  abstract
+    left: Int
+    right: Int
 
 }
 

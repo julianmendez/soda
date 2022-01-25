@@ -2,9 +2,9 @@ package soda.collection.example
 
 * Pair [T] = {
 
-  has name: String
-
-  has result: T
+  abstract
+    name: String
+    result: T
 
 }
 

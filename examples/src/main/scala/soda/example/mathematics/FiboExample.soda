@@ -2,7 +2,8 @@ package soda.example.mathematics
 
 class FiboExample is {
 
-  has fib (n: Int): Int
+  abstract
+    fib (n: Int): Int
 
 }
 

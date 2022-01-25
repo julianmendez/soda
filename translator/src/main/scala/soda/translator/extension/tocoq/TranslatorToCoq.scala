@@ -58,9 +58,8 @@ case class TranslatorToCoq_ ()
 
 trait FileNamePair {
 
-  def input_file_name: String
-
-  def output_file_name: String
+  def   input_file_name: String
+  def   output_file_name: String
 
 }
 

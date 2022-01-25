@@ -2,7 +2,8 @@ package soda.translator.block
 
 * PlainBlock = {
 
-  has lines: Seq [String]
+  abstract
+    lines: Seq [String]
 
   new_line = "\n"
 

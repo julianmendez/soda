@@ -2,7 +2,7 @@ package soda.example.ethicalissues.fairness
 
 trait Applicant {
 
-  def background_score: Double
+  def   background_score: Double
 
 }
 
@@ -11,11 +11,9 @@ case class Applicant_ (background_score: Double )
 
 trait AbstractFairness {
 
-  def rank: Applicant => Double
-
-  def score_difference_tolerance: Double
-
-  def ranking_difference_tolerance: Double
+  def   rank: Applicant => Double
+  def   score_difference_tolerance: Double
+  def   ranking_difference_tolerance: Double
 
 }
 

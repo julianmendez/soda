@@ -2,9 +2,9 @@ package soda.translator.block
 
 * AnnotatedLine = {
 
-  has line: String
-
-  has is_comment: Boolean
+  abstract
+    line: String
+    is_comment: Boolean
 
 }
 
@@ -14,7 +14,8 @@ package soda.translator.block
 * Block
   extends PlainBlock = {
 
-  has annotated_lines: Seq [AnnotatedLine]
+  abstract
+    annotated_lines: Seq [AnnotatedLine]
 
   readable_lines: Seq [AnnotatedLine] =
     annotated_lines

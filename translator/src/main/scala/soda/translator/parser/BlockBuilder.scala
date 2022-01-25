@@ -49,9 +49,8 @@ trait PreprocessorFoldTuple {
 
   import soda.translator.block.AnnotatedLine
 
-  def comment_state: Boolean
-
-  def annotated_lines_rev: Seq [AnnotatedLine]
+  def   comment_state: Boolean
+  def   annotated_lines_rev: Seq [AnnotatedLine]
 
 }
 
@@ -60,9 +59,8 @@ case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: 
 
 trait CurrentAndNewCommentState {
 
-  def current_state: Boolean
-
-  def new_comment_state: Boolean
+  def   current_state: Boolean
+  def   new_comment_state: Boolean
 
 }
 

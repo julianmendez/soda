@@ -2,7 +2,7 @@ package soda.example
 
 trait Parameter {
 
-  def name: String
+  def   name: String
 
 }
 

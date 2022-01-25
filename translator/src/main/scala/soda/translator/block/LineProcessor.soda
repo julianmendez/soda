@@ -2,8 +2,8 @@ package soda.translator.block
 
 * SingleLineProcessor = {
 
-  has line: String
+  abstract
+    line: String
 
 }
-
 

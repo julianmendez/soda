@@ -2,9 +2,9 @@ package soda.example.algorithms
 
 * PairExample = {
 
-  has left: Int
-
-  has right: Int
+  abstract
+    left: Int
+    right: Int
 
 }
 
@@ -12,7 +12,6 @@ package soda.example.algorithms
   extends PairExample
 
 * SwapExample = {
-
 
   left (pair: PairExample): Int =
     match pair

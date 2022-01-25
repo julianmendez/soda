@@ -5,7 +5,8 @@ package soda.translator.block
 
   + soda.lib.Recursion_
 
-  has pipeline: Seq [BlockTranslator]
+  abstract
+    pipeline: Seq [BlockTranslator]
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     Recursion_ ()

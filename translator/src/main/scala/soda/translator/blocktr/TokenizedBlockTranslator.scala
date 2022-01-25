@@ -13,7 +13,7 @@ trait TokenizedBlockTranslator
   import soda.translator.replacement.Token_
   import soda.translator.replacement.Tokenizer_
 
-  def replace_token: Token => String
+  def   replace_token: Token => String
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (

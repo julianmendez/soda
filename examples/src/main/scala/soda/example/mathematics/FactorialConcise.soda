@@ -2,7 +2,8 @@ package soda.example.mathematics
 
 * AbstractFactorialConcise = {
 
-  has get_factorial (n: Int): Int
+  abstract
+    get_factorial (n: Int): Int
 
 }
 

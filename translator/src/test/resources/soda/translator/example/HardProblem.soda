@@ -2,13 +2,15 @@ package soda.example
 
 * MemoizableFunction[A, B] = {
 
-  has compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
+  abstract
+    compute(x: A, memoized_values: Map[A, B]): Tuple2[B, Map[A, B]]
 
 }
 
 * MainFunction[A, B] = {
 
-  has main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]]
+  abstract
+    main_function: (A, Map[A, B]) -> Tuple2[B, Map[A, B]]
 
 }
 

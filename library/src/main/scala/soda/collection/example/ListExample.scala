@@ -2,9 +2,8 @@ package soda.collection.example
 
 trait Pair [T] {
 
-  def name: String
-
-  def result: T
+  def   name: String
+  def   result: T
 
 }
 

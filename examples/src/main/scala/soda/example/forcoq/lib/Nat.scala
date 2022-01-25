@@ -2,9 +2,8 @@ package soda.example.forcoq.lib
 
 trait nat {
 
-  def add (a: nat ): nat
-
-  def mul (a: nat ): nat
+  def   add (a: nat ): nat
+  def   mul (a: nat ): nat
 
 }
 

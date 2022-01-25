@@ -2,7 +2,7 @@ package soda.translator.block
 
 trait BlockTranslator {
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock
+  def   translate (block: AnnotatedBlock ): AnnotatedBlock
 
 }
 

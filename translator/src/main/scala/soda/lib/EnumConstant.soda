@@ -9,14 +9,15 @@ package soda.lib
  */
 * EnumConstant = {
 
-  has ordinal: Int
-
-  has name: String
+  abstract
+    ordinal: Int
+    name: String
 
 }
 
 * Enum [A subtype EnumConstant] = {
 
-  has values: Seq [A]
+  abstract
+    values: Seq [A]
 
 }

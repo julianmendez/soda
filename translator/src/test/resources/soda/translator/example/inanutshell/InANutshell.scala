@@ -58,7 +58,7 @@ case class MinMaxPair (min: Int, max: Int )
 
 trait Indexable {
 
-  def index: Int
+  def   index: Int
 
 }
 
@@ -78,7 +78,7 @@ case class Example_ (index: Int )
 
 trait Comparable {
 
-  def is_greater_than (x: Comparable ): Boolean
+  def   is_greater_than (x: Comparable ): Boolean
 
 }
 
@@ -93,7 +93,7 @@ trait ComparableMax [T <: Comparable] {
 
 trait WithInstance {
 
-  def instance_parameter: Int
+  def   instance_parameter: Int
 
 }
 
@@ -125,7 +125,7 @@ case class Main () extends MainClass
 
 trait PersonName {
 
-  def name: String
+  def   name: String
 
   override
   lazy val toString = name

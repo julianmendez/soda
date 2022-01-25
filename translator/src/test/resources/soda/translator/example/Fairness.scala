@@ -2,21 +2,17 @@ package soda.example
 
 trait Applicant {
 
-  def background_score: Double
+  def   background_score: Double
 
 }
 
 trait AbstractFairness {
 
-  def rank: Applicant => Double
-
-  def score_difference_tolerance: Double
-
-  def ranking_difference_tolerance: Double
-
-  def measure_time: Any => Double
-
-  def maximum_execution_time: Double
+  def   rank: Applicant => Double
+  def   score_difference_tolerance: Double
+  def   ranking_difference_tolerance: Double
+  def   measure_time: Any => Double
+  def   maximum_execution_time: Double
 
 }
 

@@ -58,7 +58,8 @@ class MinMaxPair (min: Int, max: Int)
 
 class Indexable = {
 
-  has index: Int
+  abstract
+    index: Int
 
 }
 
@@ -78,7 +79,8 @@ class Example_ (index: Int)
 
 class Comparable = {
 
-  has is_greater_than (x: Comparable): Boolean
+  abstract
+    is_greater_than (x: Comparable): Boolean
 
 }
 
@@ -93,7 +95,8 @@ class ComparableMax [T subtype Comparable] = {
 
 class WithInstance = {
 
-  has instance_parameter: Int
+  abstract
+    instance_parameter: Int
 
 }
 
@@ -125,7 +128,8 @@ class Main () extends MainClass
 
 class PersonName = {
 
-  has name: String
+  abstract
+    name: String
 
   @override
   toString = name

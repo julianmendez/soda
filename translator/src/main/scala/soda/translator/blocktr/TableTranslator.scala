@@ -2,7 +2,7 @@ package soda.translator.blocktr
 
 trait Table {
 
-  def table: Seq [(String, String )]
+  def   table: Seq [(String, String )]
 
 }
 

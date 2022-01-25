@@ -2,9 +2,8 @@ package soda.collection
 
 trait MSeq [T] {
 
-  def isEmpty: Boolean
-
-  def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
+  def   isEmpty: Boolean
+  def   opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
 
 }
 
@@ -43,9 +42,8 @@ case class ESeq_ [T] ()
 trait NEMSeq [T]
   extends MSeq [T] {
 
-  def head0: T
-
-  def tail0: MSeq [T]
+  def   head0: T
+  def   tail0: MSeq [T]
 
 }
 

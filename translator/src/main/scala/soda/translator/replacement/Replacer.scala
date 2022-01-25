@@ -2,11 +2,9 @@ package soda.translator.replacement
 
 trait LinePatternProcessor {
 
-  def line: String
-
-  def pattern: String
-
-  def replacement: String
+  def   line: String
+  def   pattern: String
+  def   replacement: String
 
 }
 
@@ -48,9 +46,8 @@ case class Replacer_ (line: String, pattern: String, replacement: String ) exten
 
 trait ReplacerFoldTuple {
 
-  def replaced_text_rev: Seq [String]
-
-  def start_index: Int
+  def   replaced_text_rev: Seq [String]
+  def   start_index: Int
 
 }
 

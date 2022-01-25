@@ -2,7 +2,8 @@ package soda.translator.block
 
 * BlockTranslator = {
 
-  has translate (block: AnnotatedBlock): AnnotatedBlock
+  abstract
+    translate (block: AnnotatedBlock): AnnotatedBlock
 
 }
 

@@ -2,11 +2,9 @@ package soda.translator.io
 
 trait AbstractDirectoryProcessor {
 
-  def start: String
-
-  def process_soda_file: java.io.File => Boolean
-
-  def process (): Boolean
+  def   start: String
+  def   process_soda_file: java.io.File => Boolean
+  def   process (): Boolean
 
 }
 

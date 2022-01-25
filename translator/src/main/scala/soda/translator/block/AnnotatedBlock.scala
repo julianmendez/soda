@@ -3,7 +3,7 @@ package soda.translator.block
 trait AnnotatedBlock
   extends Block {
 
-  def block_annotation: BlockAnnotationId
+  def   block_annotation: BlockAnnotationId
 
 }
 

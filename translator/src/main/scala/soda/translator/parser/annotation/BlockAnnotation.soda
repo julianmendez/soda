@@ -6,11 +6,10 @@ package soda.translator.parser.annotation
   + soda.translator.block.BlockAnnotationId
   + soda.translator.parser.SodaConstant_
 
-  has block: Block
-
-  has applies: Boolean
-
-  has identifier: BlockAnnotationId
+  abstract
+    block: Block
+    applies: Boolean
+    identifier: BlockAnnotationId
 
   space = SodaConstant_ ().space
 

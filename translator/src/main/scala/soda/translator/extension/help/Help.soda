@@ -6,7 +6,8 @@ package soda.translator.extension.help
   + soda.lib.SomeSD_
   + soda.translator.io.SimpleFileReader_
 
-  has execute (arguments: Seq [String]): Boolean
+  abstract
+    execute (arguments: Seq [String]): Boolean
 
   path: String = "/soda/translator/documentation/"
 

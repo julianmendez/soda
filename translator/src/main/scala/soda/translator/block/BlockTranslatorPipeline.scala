@@ -5,7 +5,7 @@ trait BlockTranslatorPipeline
 
   import soda.lib.Recursion_
 
-  def pipeline: Seq [BlockTranslator]
+  def   pipeline: Seq [BlockTranslator]
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     Recursion_ ()

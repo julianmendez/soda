@@ -13,7 +13,7 @@ trait BlockProcessor {
   import soda.translator.block.BlockAnnotationEnum_
   import soda.translator.parser.BlockBuilder_
 
-  def translator: BlockTranslator
+  def   translator: BlockTranslator
 
   lazy val new_line = "\n"
 

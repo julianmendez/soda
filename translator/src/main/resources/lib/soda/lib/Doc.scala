@@ -9,6 +9,6 @@ package soda.lib
  */
 trait Doc {
 
-  def doc: String
+  def   doc: String
 
 }

@@ -3,9 +3,9 @@ package soda.translator.block
 * ConditionalBlockTranslator
   extends BlockTranslator = {
 
-  has accepted_annotations: Seq [BlockAnnotationId]
-
-  has translator: BlockTranslator
+  abstract
+    accepted_annotations: Seq [BlockAnnotationId]
+    translator: BlockTranslator
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     if accepted_annotations.contains (block.block_annotation)

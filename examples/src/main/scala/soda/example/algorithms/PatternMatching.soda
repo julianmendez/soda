@@ -2,7 +2,8 @@ package soda.example.algorithms
 
 * Parameter {
 
-  has name: String
+  abstract
+    name: String
 
 }
 

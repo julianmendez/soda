@@ -2,7 +2,7 @@ package soda.example
 
 trait AbstractFactorialConcise {
 
-  def get_factorial (n: Int ): Int
+  def   get_factorial (n: Int ): Int
 
 }
 

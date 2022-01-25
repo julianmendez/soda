@@ -31,9 +31,8 @@ case class MSeqTranslator_ [T] ()
 
 trait MSeqPair [T] {
 
-  def left: MSeq [T]
-
-  def right: MSeq [T]
+  def   left: MSeq [T]
+  def   right: MSeq [T]
 
 }
 
@@ -252,46 +251,46 @@ trait Min [T] {
 
 }
 
-case class Min_ [T] () extends Min [T]
+case class Min_ [T] ()
+  extends Min [T]
 
 trait IndexFoldTuple [T] {
 
-  def index: Int
-
-  def position: Int
+   def   index: Int
+   def   position: Int
 
 }
 
-case class IndexFoldTuple_ [T] (index: Int, position: Int ) extends IndexFoldTuple [T]
+case class IndexFoldTuple_ [T] (index: Int, position: Int )
+  extends IndexFoldTuple [T]
 
 trait AtFoldTuple [T] {
 
-  def elem: T
-
-  def index: Int
+  def   elem: T
+  def   index: Int
 
 }
 
-case class AtFoldTuple_ [T] (elem: T, index: Int ) extends AtFoldTuple [T]
+case class AtFoldTuple_ [T] (elem: T, index: Int )
+  extends AtFoldTuple [T]
 
 trait TakeDropFoldTuple [T] {
 
-  def seq: MSeq [T]
-
-  def index: Int
+   def   seq: MSeq [T]
+   def   index: Int
 
 }
 
-case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int ) extends TakeDropFoldTuple [T]
+case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int )
+  extends TakeDropFoldTuple [T]
 
 trait SpanRevFoldTuple [T] {
 
-  def left: MSeq [T]
-
-  def right: MSeq [T]
-
-  def taking: Boolean
+  def   left: MSeq [T]
+  def   right: MSeq [T]
+  def   taking: Boolean
 
 }
 
-case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean ) extends SpanRevFoldTuple [T]
+case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean )
+  extends SpanRevFoldTuple [T]

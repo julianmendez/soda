@@ -49,9 +49,9 @@ package soda.translator.parser
 
   + soda.translator.block.AnnotatedLine
 
-  has comment_state: Boolean
-
-  has annotated_lines_rev: Seq [AnnotatedLine]
+  abstract
+    comment_state: Boolean
+    annotated_lines_rev: Seq [AnnotatedLine]
 
 }
 
@@ -60,9 +60,9 @@ package soda.translator.parser
 
 * CurrentAndNewCommentState = {
 
-  has current_state: Boolean
-
-  has new_comment_state: Boolean
+  abstract
+    current_state: Boolean
+    new_comment_state: Boolean
 
 }
 

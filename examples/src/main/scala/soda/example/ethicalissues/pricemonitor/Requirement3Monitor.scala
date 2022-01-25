@@ -40,7 +40,7 @@ case class Segment_ (start_airport: String, end_airport: String )
 
 trait SegmentsForFlight {
 
-  def flight: Flight
+  def   flight: Flight
 
   lazy val segments: Seq [Segment] =
     rec_segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport )

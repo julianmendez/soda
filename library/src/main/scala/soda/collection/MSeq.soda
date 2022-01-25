@@ -2,9 +2,9 @@ package soda.collection
 
 * MSeq [T] = {
 
-  has isEmpty: Boolean
-
-  has opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B
+  abstract
+    isEmpty: Boolean
+    opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B
 
 }
 
@@ -42,9 +42,9 @@ package soda.collection
 * NEMSeq [T]
   extends MSeq [T] = {
 
-  has head0: T
-
-  has tail0: MSeq [T]
+  abstract
+    head0: T
+    tail0: MSeq [T]
 
 }
 

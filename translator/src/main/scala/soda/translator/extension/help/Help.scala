@@ -6,7 +6,7 @@ trait Help
   import soda.lib.SomeSD_
   import soda.translator.io.SimpleFileReader_
 
-  def execute (arguments: Seq [String]  ): Boolean
+  def   execute (arguments: Seq [String]  ): Boolean
 
   lazy val path: String = "/soda/translator/documentation/"
 

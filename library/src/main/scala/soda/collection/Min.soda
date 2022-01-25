@@ -30,9 +30,9 @@ package soda.collection
 
 * MSeqPair [T] = {
 
-  has left: MSeq [T]
-
-  has right: MSeq [T]
+  abstract
+    left: MSeq [T]
+    right: MSeq [T]
 
 }
 
@@ -251,47 +251,51 @@ package soda.collection
 
 }
 
-* Min_ [T] () extends Min [T]
+* Min_ [T] ()
+  extends Min [T]
 
 * IndexFoldTuple [T] = {
 
-  has index: Int
-
-  has position: Int
+   abstract
+     index: Int
+     position: Int
 
 }
 
-* IndexFoldTuple_ [T] (index: Int, position: Int) extends IndexFoldTuple [T]
+* IndexFoldTuple_ [T] (index: Int, position: Int)
+  extends IndexFoldTuple [T]
 
 * AtFoldTuple [T] = {
 
-  has elem: T
-
-  has index: Int
+  abstract
+    elem: T
+    index: Int
 
 }
 
-* AtFoldTuple_ [T] (elem: T, index: Int) extends AtFoldTuple [T]
+* AtFoldTuple_ [T] (elem: T, index: Int)
+  extends AtFoldTuple [T]
 
 * TakeDropFoldTuple [T] = {
 
-  has seq: MSeq [T]
-
-  has index: Int
+   abstract
+     seq: MSeq [T]
+     index: Int
 
 }
 
-* TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int) extends TakeDropFoldTuple [T]
+* TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int)
+  extends TakeDropFoldTuple [T]
 
 * SpanRevFoldTuple [T] = {
 
-  has left: MSeq [T]
-
-  has right: MSeq [T]
-
-  has taking: Boolean
+  abstract
+    left: MSeq [T]
+    right: MSeq [T]
+    taking: Boolean
 
 }
 
-* SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean) extends SpanRevFoldTuple [T]
+* SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean)
+  extends SpanRevFoldTuple [T]
 

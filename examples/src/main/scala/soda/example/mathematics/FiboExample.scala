@@ -2,7 +2,7 @@ package soda.example.mathematics
 
 trait FiboExample {
 
-  def fib (n: Int ): Int
+  def   fib (n: Int ): Int
 
 }
 

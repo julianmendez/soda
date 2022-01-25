@@ -72,10 +72,11 @@ case class EqualsExample_ ()
 /* A class does not need to define all its constants and functions. */
 trait RegisteredPerson {
 
-  /* A line starting with `has` denotes a constant or function that needs to be defined in extending classes. */
-  def first_name: String
-
-  def last_name: String
+  /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
+   Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
+  abstract
+    first_name: String
+    last_name: String
 
   /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
   lazy val _separator = " "
@@ -90,7 +91,7 @@ case class Person (name: String )
 
 trait Agent {
 
-  def identifier: String
+  def   identifier: String
 
 }
 
@@ -101,7 +102,7 @@ case class Agent_ (identifier: String )
 
 trait RankedIndividual {
 
-  def rank: Int
+  def   rank: Int
 
 }
 
@@ -110,13 +111,13 @@ case class RankedAgentPerson (identifier: String, rank: Int )
 
 trait Element {
 
-  def accept (v: Visitor ): Boolean
+  def   accept (v: Visitor ): Boolean
 
 }
 
 trait Visitor {
 
-  def visit (x: Element ): Boolean
+  def   visit (x: Element ): Boolean
 
 }
 
@@ -130,7 +131,7 @@ case class Item (identifier: Int )
 
 trait PersonName {
 
-  def name: String
+  def   name: String
 
   /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function. */
@@ -240,7 +241,7 @@ trait Manual {
 
 trait AbstractFactorialConcise {
 
-  def factorial (n: Int ): Int
+  def   factorial (n: Int ): Int
 
 }
 
@@ -263,7 +264,7 @@ trait FactorialConcise
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 trait AbstractFactorialVerbose {
 
-  def factorial (n: Int ): Int
+  def   factorial (n: Int ): Int
 
 }
 

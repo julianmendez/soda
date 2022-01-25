@@ -2,9 +2,8 @@ package soda.translator.block
 
 trait AnnotatedLine {
 
-  def line: String
-
-  def is_comment: Boolean
+  def   line: String
+  def   is_comment: Boolean
 
 }
 
@@ -14,7 +13,7 @@ case class AnnotatedLine_ (line: String, is_comment: Boolean )
 trait Block
   extends PlainBlock {
 
-  def annotated_lines: Seq [AnnotatedLine]
+  def   annotated_lines: Seq [AnnotatedLine]
 
   lazy val readable_lines: Seq [AnnotatedLine] =
     annotated_lines

@@ -13,7 +13,8 @@ package soda.translator.parser
   + soda.translator.block.BlockAnnotationEnum_
   + soda.translator.parser.BlockBuilder_
 
-  has translator: BlockTranslator
+  abstract
+    translator: BlockTranslator
 
   new_line = "\n"
 

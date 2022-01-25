@@ -2,7 +2,8 @@ package soda.example.ethicalissues.fairness
 
 class Applicant is {
 
-  has background_score: Double
+  abstract
+    background_score: Double
 
 }
 
@@ -11,11 +12,10 @@ class Applicant_ (background_score: Double)
 
 class AbstractFairness is {
 
-  has rank: Applicant -> Double
-
-  has score_difference_tolerance: Double
-
-  has ranking_difference_tolerance: Double
+  abstract
+    rank: Applicant -> Double
+    score_difference_tolerance: Double
+    ranking_difference_tolerance: Double
 
 }
 

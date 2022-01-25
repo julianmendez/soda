@@ -23,9 +23,9 @@ package soda.example
 
 * MyPair[A, B] = {
 
-  has key: A
-
-  has value: B
+  abstract
+    key: A
+    value: B
 
 }
 

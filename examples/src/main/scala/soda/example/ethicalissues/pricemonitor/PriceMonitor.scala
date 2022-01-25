@@ -2,9 +2,8 @@ package soda.example.ethicalissues.pricemonitor
 
 trait Customer {
 
-  def name: String
-
-  def ip_address: String
+  def   name: String
+  def   ip_address: String
 
 }
 
@@ -15,7 +14,7 @@ trait PricingAgent {
 
   import java.util.Date
 
-  def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int
+  def   get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int
 
   lazy val milliseconds_per_day: Long = 24 * 60 * 60 * 1000
 
@@ -26,11 +25,9 @@ trait PricingAgent {
 
 trait Flight {
 
-  def start_airport: String
-
-  def intermediate_airports: Seq [String]
-
-  def end_airport: String
+  def   start_airport: String
+  def   intermediate_airports: Seq [String]
+  def   end_airport: String
 
 }
 
@@ -39,7 +36,7 @@ case class Flight_ (start_airport: String, intermediate_airports: Seq [String], 
 
 trait RequirementMonitor {
 
-  def pricing_agent: PricingAgent
+  def   pricing_agent: PricingAgent
 
   def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int =
     pricing_agent.get_price (customer, flight, date_in_days )

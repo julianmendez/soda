@@ -2,13 +2,13 @@ package soda.example
 
 trait MemoizableFunction [A, B] {
 
-  def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]]
+  def   compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]]
 
 }
 
 trait MainFunction [A, B] {
 
-  def main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]
+  def   main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]
 
 }
 

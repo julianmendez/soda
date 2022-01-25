@@ -2,11 +2,10 @@ package soda.translator.replacement
 
 * LinePatternProcessor = {
 
-  has line: String
-
-  has pattern: String
-
-  has replacement: String
+  abstract
+    line: String
+    pattern: String
+    replacement: String
 
 }
 
@@ -48,9 +47,9 @@ package soda.translator.replacement
 
 * ReplacerFoldTuple = {
 
-  has replaced_text_rev: Seq [String]
-
-  has start_index: Int
+  abstract
+    replaced_text_rev: Seq [String]
+    start_index: Int
 
 }
 

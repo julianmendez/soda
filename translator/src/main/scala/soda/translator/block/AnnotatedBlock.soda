@@ -3,7 +3,8 @@ package soda.translator.block
 * AnnotatedBlock
   extends Block = {
 
-  has block_annotation: BlockAnnotationId
+  abstract
+    block_annotation: BlockAnnotationId
 
 }
 

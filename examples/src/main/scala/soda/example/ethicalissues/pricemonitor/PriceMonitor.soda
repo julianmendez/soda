@@ -2,9 +2,9 @@ package soda.example.ethicalissues.pricemonitor
 
 class Customer = {
 
-  has name: String
-
-  has ip_address: String
+  abstract
+    name: String
+    ip_address: String
 
 }
 
@@ -15,7 +15,8 @@ class PricingAgent = {
 
   import java.util.Date
 
-  has get_price (customer: Customer, flight: Flight, date_in_days: Int): Int
+  abstract
+    get_price (customer: Customer, flight: Flight, date_in_days: Int): Int
 
   milliseconds_per_day: Long = 24 * 60 * 60 * 1000
 
@@ -26,11 +27,10 @@ class PricingAgent = {
 
 class Flight = {
 
-  has start_airport: String
-
-  has intermediate_airports: Seq [String]
-
-  has end_airport: String
+  abstract
+    start_airport: String
+    intermediate_airports: Seq [String]
+    end_airport: String
 
 }
 
@@ -39,7 +39,8 @@ class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_a
 
 class RequirementMonitor = {
 
-  has pricing_agent: PricingAgent
+  abstract
+    pricing_agent: PricingAgent
 
   get_price (customer: Customer, flight: Flight, date_in_days: Int): Int =
     pricing_agent.get_price (customer, flight, date_in_days)

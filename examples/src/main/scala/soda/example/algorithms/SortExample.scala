@@ -2,7 +2,7 @@ package soda.example.algorithms
 
 trait SortExample {
 
-  def is_sorted (sequence: Seq [Int]  ): Boolean
+  def   is_sorted (sequence: Seq [Int]  ): Boolean
 
 }
 
@@ -35,7 +35,7 @@ case class SortExampleWithZip_ ()
 
 trait SortAlgorithmExample {
 
-  def sort (sequence: Seq [Int]  ): Seq [Int]
+  def   sort (sequence: Seq [Int]  ): Seq [Int]
 
 }
 
@@ -90,11 +90,9 @@ case class ConstrainedSortAlgorithm_ ()
 
 trait SortedSequence [A <: Comparable [A]] {
 
-  def sequence: Seq [A]
-
-  def add (element: A ): SortedSequence [A]
-
-  def invariant: Boolean
+  def   sequence: Seq [A]
+  def   add (element: A ): SortedSequence [A]
+  def   invariant: Boolean
 
 }
 
@@ -116,7 +114,7 @@ case class EmptySortedSequence_ [A <: Comparable [A]] ()
 trait SortedSequenceWithElements [A <: Comparable [A]]
   extends SortedSequence [A] {
 
-  def sequence: Seq [A]
+  def   sequence: Seq [A]
 
 }
 

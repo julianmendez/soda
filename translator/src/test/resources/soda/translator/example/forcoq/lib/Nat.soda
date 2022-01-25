@@ -2,9 +2,9 @@ package soda.example.forcoq.lib
 
 * nat = {
 
-  has add (a: nat): nat
-
-  has mul (a: nat): nat
+  abstract
+    add (a: nat): nat
+    mul (a: nat): nat
 
 }
 

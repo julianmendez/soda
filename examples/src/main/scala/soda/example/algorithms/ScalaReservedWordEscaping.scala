@@ -23,9 +23,8 @@ trait ScalaReservedWordEscaping {
 
 trait MyPair [A, B] {
 
-  def key: A
-
-  def value: B
+  def   key: A
+  def   value: B
 
 }
 

@@ -13,7 +13,8 @@ package soda.translator.blocktr
   + soda.translator.replacement.Token_
   + soda.translator.replacement.Tokenizer_
 
-  has replace_token: Token -> String
+  abstract
+    replace_token: Token -> String
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (

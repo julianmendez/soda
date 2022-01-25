@@ -9,11 +9,10 @@ package soda.lib
  */
 * SeqSD [A] = {
 
-  has opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B
-
-  has toSeq: Seq [A]
-
-  has reverse: SeqSD [A]
+  abstract
+    opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B
+    toSeq: Seq [A]
+    reverse: SeqSD [A]
 
 }
 
