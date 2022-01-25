@@ -1,6 +1,6 @@
 package soda.example
 
-* FizzBuzz = {
+* FizzBuzz =
 
   import
     soda.lib.Recursion_
@@ -24,7 +24,7 @@ package soda.example
   is_divisible_by(n: Int, k: Int): Boolean =
     n % k == 0
 
-}
+end
 
 * FizzBuzz_()
   extends FizzBuzz

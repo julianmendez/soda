@@ -1,6 +1,6 @@
 package soda.translator.parser
 
-* BlockBuilder = {
+* BlockBuilder =
 
   import
     soda.lib.Recursion_
@@ -41,12 +41,12 @@ package soda.translator.parser
       then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
       else CurrentAndNewCommentState_ (false, false)
 
-}
+end
 
 * BlockBuilder_ ()
   extends BlockBuilder
 
-* PreprocessorFoldTuple = {
+* PreprocessorFoldTuple =
 
   import
     soda.translator.block.AnnotatedLine
@@ -55,18 +55,18 @@ package soda.translator.parser
     comment_state: Boolean
     annotated_lines_rev: Seq [AnnotatedLine]
 
-}
+end
 
 * PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
   extends PreprocessorFoldTuple
 
-* CurrentAndNewCommentState = {
+* CurrentAndNewCommentState =
 
   abstract
     current_state: Boolean
     new_comment_state: Boolean
 
-}
+end
 
 * CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
   extends CurrentAndNewCommentState

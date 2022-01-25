@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* SaladMaker = {
+* SaladMaker =
 
   @tailrec
   _tailrec_prepare_vegan_salad [Ingredient, Salad, VeganSalad subtype Salad] (ingredients_so_far: Seq [Ingredient], salad_so_far: VeganSalad, next_ingredient_function: (Salad, Ingredient) -> VeganSalad, condition_to_continue: (Salad, Ingredient) -> Boolean): Salad =
@@ -14,7 +14,7 @@ package soda.example.algorithms
   prepare_vegan_salad [Ingredient, Salad, VeganSalad subtype Salad] (list_of_ingredients: Seq [Ingredient], initial_bowl: VeganSalad, next_ingredient_function: (Salad, Ingredient) -> VeganSalad, condition_to_continue: (Salad, Ingredient) -> Boolean): Salad =
     _tailrec_prepare_vegan_salad (list_of_ingredients, initial_bowl, next_ingredient_function, condition_to_continue)
 
-}
+end
 
 * SaladMaker_()
   extends SaladMaker

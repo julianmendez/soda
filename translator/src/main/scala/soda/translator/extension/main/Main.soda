@@ -9,7 +9,7 @@ package soda.translator.extension.main
   extends MainClass
 
 * MainClass
-  extends soda.translator.extension.common.Extension = {
+  extends soda.translator.extension.common.Extension =
 
   import
     soda.translator.extension.common.Extension
@@ -40,5 +40,5 @@ package soda.translator.extension.main
         .getOrElse (arguments.head, help)
         .execute (arguments.tail)
 
-}
+end
 

@@ -5,9 +5,9 @@ package soda.example.algorithms
   abstract
     name: String
 
-}
+end
 
-* PatternMatching = {
+* PatternMatching =
 
   get_value (p: Parameter): Int =
     match p
@@ -25,29 +25,29 @@ package soda.example.algorithms
       | otherwise => ""
     end
 
-}
+end
 
 * PatternMatching_ ()
   extends PatternMatching
 
 * Singleton (x: Int)
-  extends Parameter = {
+  extends Parameter =
 
   name = "singleton"
 
-}
+end
 
 * Pair (x: Int, y: Int)
-  extends Parameter = {
+  extends Parameter =
 
   name = "pair"
 
-}
+end
 
 * Triplet (x: Int, y: Int, z: Int)
-  extends Parameter = {
+  extends Parameter =
 
   name = "triplet"
 
-}
+end
 

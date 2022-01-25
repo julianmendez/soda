@@ -1,7 +1,7 @@
 package soda.example.mathematics
 
 * HardProblemSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   empty_map = Map [Int, Int] ()
 
@@ -68,5 +68,5 @@ package soda.example.mathematics
       obtained = instance.compute (value, empty_map)
     in assert (obtained == expected)
 
-}
+end
 

@@ -1,15 +1,15 @@
 package soda.translator.blocktr
 
-* Table = {
+* Table =
 
   abstract
     table: Seq[ (String, String)]
 
-}
+end
 
 * TableTranslator
   extends Table
-  with soda.translator.block.Translator = {
+  with soda.translator.block.Translator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -21,7 +21,7 @@ package soda.translator.blocktr
   translate (word: String): String =
     table.toMap.get (word).getOrElse (word)
 
-}
+end
 
 * TableTranslator_ (table: Seq[ (String, String)])
   extends TableTranslator

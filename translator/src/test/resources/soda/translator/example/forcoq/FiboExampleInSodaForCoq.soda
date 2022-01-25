@@ -1,6 +1,6 @@
 package soda.example.forcoq
 
-* FiboExampleInSodaForCoq = {
+* FiboExampleInSodaForCoq =
 
   import
     soda.example.forcoq.lib.nat
@@ -17,7 +17,7 @@ package soda.example.forcoq
   fib (n: nat) =
     _rec_fib (n) (O()) ( S (O() ) )
 
-}
+end
 
 * FiboExampleInSodaForCoq_()
   extends FiboExampleInSodaForCoq

@@ -1,17 +1,17 @@
 package soda.example.algorithms
 
-* PairExample = {
+* PairExample =
 
   abstract
     left: Int
     right: Int
 
-}
+end
 
 * PairExample_ (left: Int, right: Int)
   extends PairExample
 
-* SwapExample = {
+* SwapExample =
 
   left (pair: PairExample): Int =
     match pair
@@ -35,5 +35,5 @@ package soda.example.algorithms
     compute.
     apply eq_refl.
 
-}
+end
 

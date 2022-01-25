@@ -205,14 +205,14 @@ trait Min [T] {
 
   /**
    * <pre>
-   * def foldLeft [B] (z: B) (op: (B, A) -> B): B = {
+   * def foldLeft [B] (z: B) (op: (B, A) -> B): B =
    * . var result = z
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op (result, it.next ())
-   * . }
+   * . end
    * . result
-   * }
+   * end
    * </pre>
    */
   def foldLeft0 (mseq: MSeq [T]  ): (MSeq [T], ((MSeq [T], T ) => MSeq [T]  )  ) => MSeq [T] =

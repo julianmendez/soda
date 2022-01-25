@@ -1,6 +1,6 @@
 package soda.example.forcoq.mathematics
 
-* TriangularNumberForCoq = {
+* TriangularNumberForCoq =
 
   import
     soda.example.forcoq.lib.nat
@@ -17,7 +17,7 @@ package soda.example.forcoq.mathematics
   get_number (n: nat): nat =
     _tailrec_get_number (n) ( O() )
 
-}
+end
 
 * TriangularNumberForCoq_ ()
   extends TriangularNumberForCoq

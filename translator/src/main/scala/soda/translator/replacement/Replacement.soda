@@ -5,7 +5,7 @@ package soda.translator.replacement
  * This is intended to be used as a pipeline.
  */
 * Replacement
-  extends soda.translator.block.SingleLineProcessor = {
+  extends soda.translator.block.SingleLineProcessor =
 
   import
     soda.translator.block.Translator
@@ -41,12 +41,12 @@ package soda.translator.replacement
   replace_regex (translator: Translator): Replacement =
     Replacement_ (ReplacementWithTranslator_ (translator).replace_regex (line))
 
-}
+end
 
 * Replacement_ (line: String)
   extends Replacement
 
-* ReplacementAux = {
+* ReplacementAux =
 
  + soda.translator.block.Translator
  + soda.lib.Recursion_
@@ -121,12 +121,12 @@ package soda.translator.replacement
     then line.indexOf (pattern) + pattern.length
     else line.takeWhile (ch -> ch.isSpaceChar).length
 
-}
+end
 
 * ReplacementAux_ ()
   extends ReplacementAux
 
-* ReplacementWithTranslator = {
+* ReplacementWithTranslator =
 
   import
     soda.translator.block.Translator
@@ -166,7 +166,7 @@ package soda.translator.replacement
   _next_replace_regex (line: String, regex: String): String =
     line.replaceAll (regex, translator.translate (regex))
 
-}
+end
 
 * ReplacementWithTranslator_ (translator: soda.translator.block.Translator)
   extends ReplacementWithTranslator

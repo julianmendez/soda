@@ -4,7 +4,7 @@ package soda.translator.extension.toscala
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
 * ScalaNonSodaSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   import
     soda.translator.parser.BlockProcessor_
@@ -43,5 +43,5 @@ package soda.translator.extension.toscala
       obtained = BlockProcessor_ (MicroTranslatorToScala_ ()).translate (program)
     in assert (obtained == expected)
 
-}
+end
 

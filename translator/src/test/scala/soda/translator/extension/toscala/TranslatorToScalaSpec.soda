@@ -1,7 +1,7 @@
 package soda.translator.extension.toscala
 
 * MainSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   instance = TranslatorToScala_ ()
 
@@ -17,5 +17,5 @@ package soda.translator.extension.toscala
       obtained = instance.get_input_output_file_names("/path/to/file.soda")
     in assert (obtained == expected)
 
-}
+end
 

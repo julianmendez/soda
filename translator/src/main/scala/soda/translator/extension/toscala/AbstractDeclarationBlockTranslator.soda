@@ -1,7 +1,7 @@
 package soda.translator.extension.toscala
 
 * AbstractDeclarationBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -58,7 +58,7 @@ package soda.translator.extension.toscala
   is_abstract_block_declaration (block: AnnotatedBlock): Boolean =
     (get_first_line (block)).trim == tc.abstract_reserved_word
 
-}
+end
 
 * AbstractDeclarationBlockTranslator_ ()
   extends AbstractDeclarationBlockTranslator

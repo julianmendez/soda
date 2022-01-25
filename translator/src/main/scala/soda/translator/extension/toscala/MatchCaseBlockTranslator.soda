@@ -1,7 +1,7 @@
 package soda.translator.extension.toscala
 
 * MatchCaseBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -45,7 +45,7 @@ package soda.translator.extension.toscala
   _right_part (index: Int, line: String): String =
     line.substring (index + tc.soda_match_pattern.length, line.length)
 
-}
+end
 
 * MatchCaseBlockTranslator_ ()
   extends MatchCaseBlockTranslator

@@ -3,7 +3,7 @@ package soda.translator.io
 /**
  * This class is used to scan files in a given directory.
  */
-* DirectoryScanner = {
+* DirectoryScanner =
 
   import
     java.io.File
@@ -27,7 +27,7 @@ package soda.translator.io
     then to_scan.tail.++ (to_scan.head.listFiles ())
     else to_scan.tail
 
-}
+end
 
 * DirectoryScanner_ () extends DirectoryScanner
 

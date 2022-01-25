@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * ClassEndAnnotation
-  extends BlockAnnotation = {
+  extends BlockAnnotation =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -14,7 +14,7 @@ package soda.translator.parser.annotation
     ( (block.readable_lines.head.line.trim == SodaConstant_ ().class_end_symbol) or
       (block.readable_lines.head.line.trim == SodaConstant_ ().class_end_reserved_word) )
 
-}
+end
 
 * ClassEndAnnotation_ (block: soda.translator.block.Block)
   extends ClassEndAnnotation

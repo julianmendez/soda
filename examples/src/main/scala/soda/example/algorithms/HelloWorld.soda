@@ -1,11 +1,11 @@
 package soda.example.algorithms
 
-* MainClass = {
+* MainClass =
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
 
-}
+end
 
 * Main ()
   extends MainClass

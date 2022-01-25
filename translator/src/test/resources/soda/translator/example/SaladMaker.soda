@@ -1,6 +1,6 @@
 package soda.example
 
-* SaladMaker = {
+* SaladMaker =
 
   @tailrec
   _tailrec_prepare_vegan_salad[Ingredient, Salad, VeganSalad subtype Salad](
@@ -24,7 +24,7 @@ package soda.example
   ): Salad =
     _tailrec_prepare_vegan_salad(list_of_ingredients, initial_bowl, next_ingredient_function, condition_to_continue)
 
-}
+end
 
 * SaladMaker_()
   extends SaladMaker

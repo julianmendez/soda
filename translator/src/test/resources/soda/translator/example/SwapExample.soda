@@ -1,20 +1,20 @@
 package soda.example
 
-* PairExample = {
+* PairExample =
 
   abstract
     left: Int
     right: Int
 
-}
+end
 
 * PairExample_(left: Int, right: Int)
   extends PairExample
 
-* SwapExample = {
+* SwapExample =
 
   swap(pair: PairExample): PairExample =
     PairExample_(pair.right, pair.left)
 
-}
+end
 

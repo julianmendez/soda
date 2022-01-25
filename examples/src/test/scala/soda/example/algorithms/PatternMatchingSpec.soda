@@ -1,7 +1,7 @@
 package soda.example.algorithms
 
 * PatternMatchingSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   instance = PatternMatching_ ()
 
@@ -47,5 +47,5 @@ package soda.example.algorithms
       obtained_name = instance.get_type_name (input)
     in assert (obtained_name == expected_name)
 
-}
+end
 

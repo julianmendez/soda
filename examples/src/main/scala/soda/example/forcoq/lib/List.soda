@@ -8,7 +8,7 @@ package soda.example.forcoq.lib
 * cons [A] (e: A, s: list [A])
   extends list [A]
 
-* SeqList = {
+* SeqList =
 
   @tailrec
   _tailrec_reverse [A] (a: list [A]) (b: list [A]): list [A] =
@@ -40,7 +40,7 @@ package soda.example.forcoq.lib
   to_Seq [A] (a: list [A]): Seq [A] =
     (_tailrec_to_Seq (a) ( Seq [A]() )) .reverse
 
-}
+end
 
 * SeqList_ ()
   extends SeqList

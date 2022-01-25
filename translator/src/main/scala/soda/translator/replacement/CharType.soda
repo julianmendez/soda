@@ -13,7 +13,7 @@ package soda.translator.replacement
  * This is an enumeration for all types of characters.
  */
 * CharTypeEnum
-  extends soda.lib.Enum [CharType] = {
+  extends soda.lib.Enum [CharType] =
 
   undefined_type = CharType_ (0, "undefined_type")
 
@@ -62,7 +62,7 @@ package soda.translator.replacement
   is_backslash (ch: Char): Boolean =
     ch == backslash_char
 
-}
+end
 
 * CharTypeEnum_ ()
   extends CharTypeEnum

@@ -1,7 +1,7 @@
 package soda.translator.extension.tocoq
 
 * CoqTheoremBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -45,7 +45,7 @@ package soda.translator.extension.tocoq
   is_a_theorem (block: AnnotatedBlock): Boolean =
     first_line (block) == tc.theorem_reserved_word
 
-}
+end
 
 * CoqTheoremBlockTranslator_ ()
   extends CoqTheoremBlockTranslator

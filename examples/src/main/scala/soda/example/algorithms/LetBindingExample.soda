@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* LetBindingExample = {
+* LetBindingExample =
 
   three_parts_like_where =
     let
@@ -39,7 +39,7 @@ package soda.example.algorithms
 
   _third_part = "third" + _part
 
-}
+end
 
 * LetBindingExample_ ()
   extends LetBindingExample

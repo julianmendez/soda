@@ -3,7 +3,7 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read small files.
  */
-* SimpleFileReader = {
+* SimpleFileReader =
 
   import
     java.io.BufferedReader
@@ -27,7 +27,7 @@ package soda.translator.io
   read_reader_content (reader: BufferedReader): String =
     reader.lines ().collect (Collectors.joining (new_line))
 
-}
+end
 
 /**
  * This is an auxiliary class to write small files.
@@ -35,7 +35,7 @@ package soda.translator.io
 * SimpleFileReader_ ()
   extends SimpleFileReader
 
-* SimpleFileWriter = {
+* SimpleFileWriter =
 
   import
     soda.lib.SomeSD_
@@ -60,7 +60,7 @@ package soda.translator.io
   create_file (parent_directory: String, file_name: String): File =
     @new File (parent_directory, file_name)
 
-}
+end
 
 * SimpleFileWriter_ ()
   extends SimpleFileWriter

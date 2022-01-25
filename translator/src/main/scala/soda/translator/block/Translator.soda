@@ -3,11 +3,11 @@ package soda.translator.block
 /**
  * This models an abstract translator.
  */
-* Translator = {
+* Translator =
 
   abstract
     translate (word: String): String
     keys: Seq [String]
 
-}
+end
 

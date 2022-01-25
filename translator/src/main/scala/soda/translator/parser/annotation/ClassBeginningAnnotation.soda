@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * ClassBeginningAnnotation
-  extends BlockAnnotation = {
+  extends BlockAnnotation =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -16,7 +16,7 @@ package soda.translator.parser.annotation
       ends_with_space_and_suffix (SodaConstant_ ().class_definition_symbol) or
       ends_with_space_and_suffix (SodaConstant_ ().class_definition_synonym) )
 
-}
+end
 
 * ClassBeginningAnnotation_ (block: soda.translator.block.Block)
   extends ClassBeginningAnnotation

@@ -1,21 +1,21 @@
 package soda.example.mathematics
 
-* MemoizableFunction [A, B] = {
+* MemoizableFunction [A, B] =
 
   abstract
     compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]]
 
-}
+end
 
-* MainFunction [A, B] = {
+* MainFunction [A, B] =
 
   abstract
     main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]]
 
-}
+end
 
 * Memoizer [A, B]
-  extends MemoizableFunction [A, B] with MainFunction [A, B] = {
+  extends MemoizableFunction [A, B] with MainFunction [A, B] =
 
   compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
     _compute_with (memoized_values.get (x), x, memoized_values)
@@ -34,13 +34,13 @@ package soda.example.mathematics
   _add_element (new_pair: Tuple2 [A, B], tuple: Tuple2 [B, Map [A, B]], x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
     Tuple2 (tuple._1, tuple._2 + new_pair)
 
-}
+end
 
 * Memoizer_ [A, B] (main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]])
   extends Memoizer [A, B]
 
 * HardProblem
-  extends MemoizableFunction [Int, Int] = {
+  extends MemoizableFunction [Int, Int] =
 
   memoizer = Memoizer_ [Int, Int] (main_function)
 
@@ -63,13 +63,13 @@ package soda.example.mathematics
   compute (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
     memoizer.compute (n, memoized_values)
 
-}
+end
 
 * HardProblem_ ()
   extends HardProblem
 
 * MemoizedFibonacci
-  extends MemoizableFunction [Int, Int] = {
+  extends MemoizableFunction [Int, Int] =
 
   memoizer = Memoizer_ [Int, Int] (main_function)
 
@@ -93,7 +93,7 @@ package soda.example.mathematics
   compute (n: Int, memoized_values: Map [Int, Int]): Tuple2 [Int, Map [Int, Int]] =
     memoizer.compute (n, memoized_values)
 
-}
+end
 
 * MemoizedFibonacci_ ()
   extends MemoizedFibonacci

@@ -1,7 +1,7 @@
 package soda.translator.extension.toscala
 
 * LetInBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -43,7 +43,7 @@ package soda.translator.extension.toscala
   are_trim_equal (line: String, pattern: String): Boolean =
     (line.trim == pattern.trim)
 
-}
+end
 
 * LetInBlockTranslator_ ()
   extends LetInBlockTranslator

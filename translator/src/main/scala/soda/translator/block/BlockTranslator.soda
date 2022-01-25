@@ -1,17 +1,17 @@
 package soda.translator.block
 
-* BlockTranslator = {
+* BlockTranslator =
 
   abstract
     translate (block: AnnotatedBlock): AnnotatedBlock
 
-}
+end
 
 * DefaultBlockTranslator_ ()
-  extends BlockTranslator = {
+  extends BlockTranslator =
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     block
 
-}
+end
 

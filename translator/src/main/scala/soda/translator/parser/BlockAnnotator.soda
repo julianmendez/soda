@@ -1,7 +1,7 @@
 package soda.translator.parser
 
 * BlockAnnotator
-  extends soda.translator.block.BlockTranslator  = {
+  extends soda.translator.block.BlockTranslator  =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -57,7 +57,7 @@ package soda.translator.parser
     then candidates.head
     else BlockAnnotationEnum_ ().undefined
 
-}
+end
 
 * BlockAnnotator_ ()
   extends BlockAnnotator

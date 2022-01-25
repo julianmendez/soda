@@ -1,7 +1,7 @@
 package soda.translator.block
 
 * BlockTranslatorPipeline
-  extends BlockTranslator = {
+  extends BlockTranslator =
 
   import
     soda.lib.Recursion_
@@ -16,7 +16,7 @@ package soda.translator.block
   _next_value_function (block: AnnotatedBlock, translator: BlockTranslator): AnnotatedBlock =
     translator.translate (block)
 
-}
+end
 
 * BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator])
   extends BlockTranslatorPipeline

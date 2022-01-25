@@ -4,7 +4,7 @@ package soda.lib
 
 * DayOfTheWeek_ (ordinal: Int, name: String) extends DayOfTheWeek
 
-* DayOfTheWeekConstant = {
+* DayOfTheWeekConstant =
 
   sunday = DayOfTheWeek_ (0, "Sunday")
 
@@ -22,18 +22,18 @@ package soda.lib
 
   DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday)
 
-}
+end
 
-* DayOfTheWeekEnum extends DayOfTheWeekConstant = {
+* DayOfTheWeekEnum extends DayOfTheWeekConstant =
 
   values = DayOfTheWeek_values
 
-}
+end
 
 * DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
 * EnumSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   test ("the names of the elements in enumerations")
     let
@@ -41,5 +41,5 @@ package soda.lib
       obtained = DayOfTheWeekEnum_ ().values.map (x -> x.toString)
     in assert (obtained == expected)
 
-}
+end
 

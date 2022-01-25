@@ -1,7 +1,7 @@
 package soda.example.ethicalissues.fairness
 
 * FairnessSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   rank_1: Applicant -> Double =
     lambda applicant ->
@@ -27,5 +27,5 @@ package soda.example.ethicalissues.fairness
       expected = false
     in assert (obtained == expected)
 
-}
+end
 

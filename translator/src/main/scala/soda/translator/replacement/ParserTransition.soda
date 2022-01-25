@@ -13,7 +13,7 @@ package soda.translator.replacement
  * This is an enumeration of all the parser states.
  */
 * ParserStateEnum
-  extends soda.lib.Enum [ParserState] = {
+  extends soda.lib.Enum [ParserState] =
 
   undefined_state = ParserState_ (0, "undefined_state")
 
@@ -36,12 +36,12 @@ package soda.translator.replacement
      (x == quotes_state and y == quotes_backslash_state) or
        (x == apostrophe_state and y == apostrophe_backslash_state)
 
-}
+end
 
 * ParserStateEnum_ ()
   extends ParserStateEnum
 
-* ParserTransition = {
+* ParserTransition =
 
   ps = ParserStateEnum_ ()
 
@@ -80,7 +80,7 @@ package soda.translator.replacement
   next_parser_state (parser_state: ParserState, char_type: CharType): ParserState =
     transitions_that_change_states.getOrElse ( (parser_state, char_type), parser_state)
 
-}
+end
 
 * ParserTransition_ ()
   extends ParserTransition

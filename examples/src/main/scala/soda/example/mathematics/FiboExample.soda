@@ -5,7 +5,7 @@ class FiboExample is {
   abstract
     fib (n: Int): Int
 
-}
+end
 
 class FiboExampleInSoda
   extends FiboExample is {
@@ -18,7 +18,7 @@ class FiboExampleInSoda
   fib (n: Int) is
     _rec (n, 0, 1)
 
-}
+end
 
 class FiboExampleInSoda_ ()
   extends FiboExampleInSoda

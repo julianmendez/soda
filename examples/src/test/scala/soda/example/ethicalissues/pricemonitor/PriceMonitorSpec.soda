@@ -1,29 +1,29 @@
 package soda.example.ethicalissues.pricemonitor
 
 * UnfairPricingAgent
-  extends PricingAgent = {
+  extends PricingAgent =
 
   get_price (customer: Customer, flight: Flight, date: Int): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1)
 
-}
+end
 
 * UnfairPricingAgent_ ()
   extends UnfairPricingAgent
 
 * FairPricingAgent
-  extends PricingAgent = {
+  extends PricingAgent =
 
   get_price (customer: Customer, flight: Flight, date: Int): Int =
     100 * (flight.intermediate_airports.length + 1)
 
-}
+end
 
 * FairPricingAgent_ ()
   extends FairPricingAgent
 
 * PriceMonitorSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   import
     java.util.Date
@@ -106,5 +106,5 @@ package soda.example.ethicalissues.pricemonitor
       expected = 18898
     in assert (obtained == expected)
 
-}
+end
 

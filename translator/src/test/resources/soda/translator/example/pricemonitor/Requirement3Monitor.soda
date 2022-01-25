@@ -3,7 +3,7 @@ package soda.example.pricemonitor
 class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
 
 class Requirement3Monitor
-  extends RequirementMonitor = {
+  extends RequirementMonitor =
 
   get_report (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
     let
@@ -20,22 +20,22 @@ class Requirement3Monitor
   sum_prices (prices: Seq[Int]): Int =
     prices.sum
 
-}
+end
 
 class Requirement3Monitor_(pricing_agent: PricingAgent)
   extends Requirement3Monitor
 
 class Segment
-  extends Flight = {
+  extends Flight =
 
   intermediate_airports = Seq[String]()
 
-}
+end
 
 class Segment_ (start_airport: String, end_airport: String)
   extends Segment
 
-class SegmentsForFlight = {
+class SegmentsForFlight =
 
   abstract
     flight: Flight
@@ -49,7 +49,7 @@ class SegmentsForFlight = {
       case x :: xs => rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
     end
 
-}
+end
 
 class SegmentsForFlight_ (flight: Flight)
   extends SegmentsForFlight

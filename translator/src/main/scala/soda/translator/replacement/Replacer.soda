@@ -1,16 +1,16 @@
 package soda.translator.replacement
 
-* LinePatternProcessor = {
+* LinePatternProcessor =
 
   abstract
     line: String
     pattern: String
     replacement: String
 
-}
+end
 
 * Replacer
-  extends LinePatternProcessor = {
+  extends LinePatternProcessor =
 
   import
     soda.lib.Recursion_
@@ -42,17 +42,17 @@ package soda.translator.replacement
   postprocess (tuple: ReplacerFoldTuple): String =
     tuple.replaced_text_rev.reverse.mkString ("")
 
-}
+end
 
 * Replacer_ (line: String, pattern: String, replacement: String) extends Replacer
 
-* ReplacerFoldTuple = {
+* ReplacerFoldTuple =
 
   abstract
     replaced_text_rev: Seq [String]
     start_index: Int
 
-}
+end
 
 * ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int) extends ReplacerFoldTuple
 

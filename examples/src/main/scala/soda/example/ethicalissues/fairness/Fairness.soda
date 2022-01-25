@@ -5,7 +5,7 @@ class Applicant is {
   abstract
     background_score: Double
 
-}
+end
 
 class Applicant_ (background_score: Double)
   extends Applicant
@@ -17,7 +17,7 @@ class AbstractFairness is {
     score_difference_tolerance: Double
     ranking_difference_tolerance: Double
 
-}
+end
 
 class Fairness
   extends AbstractFairness is {
@@ -36,7 +36,7 @@ class Fairness
   difference_between (value: Double, another_value: Double) is
     Math.abs (value - another_value)
 
-}
+end
 
 class Fairness_ (
     score_difference_tolerance: Double,

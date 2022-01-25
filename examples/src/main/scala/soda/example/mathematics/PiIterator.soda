@@ -1,6 +1,6 @@
 package soda.example.mathematics
 
-* Status = {
+* Status =
 
   abstract
     r: BigInt
@@ -13,7 +13,7 @@ package soda.example.mathematics
   @override
   toString = " r=" + r + " n=" + n + " q=" + q + " t=" + t + " l=" + l + " k=" + k
 
-}
+end
 
 * Status_ (
     r: BigInt,
@@ -24,7 +24,7 @@ package soda.example.mathematics
     k: Int
   ) extends Status
 
-* PiIterator = {
+* PiIterator =
 
   initial_status =
     Status_ (r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
@@ -73,18 +73,18 @@ package soda.example.mathematics
       )
     )
 
-}
+end
 
 * PiIterator_ ()
   extends PiIterator
 
-* IntAndStatus = {
+* IntAndStatus =
 
   abstract
     digit: Int
     new_status: Status
 
-}
+end
 
 * IntAndStatus_ (digit: Int, new_status: Status)
   extends IntAndStatus

@@ -1,6 +1,6 @@
 package soda.translator.parser.annotation
 
-* BlockAnnotation = {
+* BlockAnnotation =
 
   import
     soda.translator.block.Block
@@ -22,5 +22,5 @@ package soda.translator.parser.annotation
     block.readable_lines.nonEmpty and
     block.readable_lines.last.line.trim.endsWith (space + suffix)
 
-}
+end
 

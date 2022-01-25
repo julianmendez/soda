@@ -1,7 +1,7 @@
 package soda.translator.block
 
 * BlockTranslator00 ()
-  extends BlockTranslator = {
+  extends BlockTranslator =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -15,10 +15,10 @@ package soda.translator.block
       BlockAnnotationEnum_ ().undefined
     )
 
-}
+end
 
 * BlockTranslator01 ()
-  extends BlockTranslator = {
+  extends BlockTranslator =
 
   import
     soda.translator.parser.BlockBuilder_
@@ -31,10 +31,10 @@ package soda.translator.block
       BlockAnnotationEnum_ ().undefined
     )
 
-}
+end
 
 * BlockTranslator02 ()
-  extends BlockTranslator = {
+  extends BlockTranslator =
 
   import
     soda.translator.parser.BlockBuilder_
@@ -47,10 +47,10 @@ package soda.translator.block
       BlockAnnotationEnum_ ().undefined
     )
 
-}
+end
 
 * BlockTranslatorPipelineSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   import
     soda.translator.parser.BlockBuilder_
@@ -83,5 +83,5 @@ package soda.translator.block
       obtained = instance.translate (original)
     in assert (obtained == expected)
 
-}
+end
 

@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-* OptionSD [A] = {
+* OptionSD [A] =
 
   abstract
     opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
@@ -23,10 +23,10 @@ package soda.lib
     bind [B] (mapping: A -> OptionSD [B]): OptionSD [B]
     filter (predicate: A -> Boolean): OptionSD [A]
 
-}
+end
 
 * NoneSD [A]
-  extends OptionSD [A] = {
+  extends OptionSD [A] =
 
   opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
@@ -52,21 +52,21 @@ package soda.lib
 
   filter (predicate: A -> Boolean): OptionSD [A] = this
 
-}
+end
 
 * NoneSD_ [A] ()
   extends NoneSD [A]
 
 * OptionSDWithElement [A]
-  extends OptionSD [A] = {
+  extends OptionSD [A] =
 
   abstract
     element: A
 
-}
+end
 
 * SomeSD [A]
-  extends OptionSDWithElement [A] = {
+  extends OptionSDWithElement [A] =
 
   value: A = element
 
@@ -94,19 +94,19 @@ package soda.lib
 
   filter (predicate: A -> Boolean): OptionSD [A] = if predicate (element) then this else NoneSD_ [A] ()
 
-}
+end
 
 * SomeSD_ [A] (element: A)
   extends SomeSD [A]
 
-* OptionSDBuilder [A] = {
+* OptionSDBuilder [A] =
 
   build (option: Option [A]): OptionSD [A] =
     if option.isEmpty
     then NoneSD_ [A] ()
     else SomeSD_ [A] (option.get)
 
-}
+end
 
 * OptionSDBuilder_ [A] ()
   extends OptionSDBuilder [A]

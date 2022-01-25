@@ -1,6 +1,6 @@
 package soda.translator.io
 
-* LibraryDeployer = {
+* LibraryDeployer =
 
   import
     java.io.File
@@ -30,7 +30,7 @@ package soda.translator.io
         ) )
       .forall (x -> x)
 
-}
+end
 
 * LibraryDeployer_ () extends LibraryDeployer
 

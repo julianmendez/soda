@@ -1,7 +1,7 @@
 package soda.example.forcoq.algorithms
 
 * RecursionForCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 
@@ -40,5 +40,5 @@ package soda.example.forcoq.algorithms
       obtained = RecursionForCoq_ ().range  (-1)
     in assert (obtained == expected)
 
-}
+end
 

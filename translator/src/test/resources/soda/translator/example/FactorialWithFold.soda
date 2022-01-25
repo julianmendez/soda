@@ -1,6 +1,6 @@
 package soda.example
 
-* FactorialWithFold = {
+* FactorialWithFold =
 
   import
     soda.lib.Recursion_
@@ -9,7 +9,7 @@ package soda.example
     Recursion_().fold(
       Recursion_().range(n), 1, (product: Int, k: Int) -> product * (k + 1) )
 
-}
+end
 
 * FactorialWithFold_()
   extends FactorialWithFold

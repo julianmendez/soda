@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains auxiliary functions for combinations.
  */
-* CartesianProduct = {
+* CartesianProduct =
 
   _initial_value [T] (seq: Seq [T]): Seq [Seq [T]] =
     seq.map (elem -> Seq [T] (elem))
@@ -24,7 +24,7 @@ package soda.lib
     then sequences
     else _apply_recursion (sequences.reverse)
 
-}
+end
 
 * CartesianProduct_ ()
   extends CartesianProduct

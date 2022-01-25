@@ -25,7 +25,7 @@ package soda.translator.extension.tocoq
  *
  */
 * DefinitionLineTranslator
-  extends soda.translator.block.LineTranslator = {
+  extends soda.translator.block.LineTranslator =
 
   import
     soda.lib.OptionSD
@@ -127,7 +127,7 @@ package soda.translator.extension.tocoq
     SomeSD_ (line.indexOf (pattern, start))
       .filter (position -> not  (position == -1))
 
-}
+end
 
 * DefinitionLineTranslator_ (line: String)
   extends DefinitionLineTranslator

@@ -1,6 +1,6 @@
 package soda.translator.blocktr
 
-* TokenReplacement = {
+* TokenReplacement =
 
   import
     soda.translator.replacement.ReplacementAux_
@@ -30,7 +30,7 @@ package soda.translator.blocktr
         ReplacementWithTranslator_ (TableTranslator_ (table)).replace_at_beginning (token.text, token.index)
     )
 
-}
+end
 
 * TokenReplacement_ ()
   extends TokenReplacement

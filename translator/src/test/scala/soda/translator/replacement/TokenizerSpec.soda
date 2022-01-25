@@ -1,7 +1,7 @@
 package soda.translator.replacement
 
 * TokenizerSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   test ("should tokenize a small example")
     let
@@ -54,5 +54,5 @@ package soda.translator.replacement
       obtained = Tokenizer_ (input).tokens
     in assert (obtained == expected)
 
-}
+end
 

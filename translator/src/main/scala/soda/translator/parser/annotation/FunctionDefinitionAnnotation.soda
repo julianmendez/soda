@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * FunctionDefinitionAnnotation
-  extends BlockAnnotation = {
+  extends BlockAnnotation =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -68,7 +68,7 @@ package soda.translator.parser.annotation
     (starts_with_prefix_and_space (sc.class_reserved_word) or
       starts_with_prefix_and_space (sc.class_abbreviation) )
 
-}
+end
 
 * FunctionDefinitionAnnotation_ (block: soda.translator.block.Block)
   extends FunctionDefinitionAnnotation

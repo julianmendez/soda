@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * CommentAnnotation
-  extends BlockAnnotation = {
+  extends BlockAnnotation =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -14,7 +14,7 @@ package soda.translator.parser.annotation
       .annotated_lines
       .forall (annotated_line -> annotated_line.is_comment)
 
-}
+end
 
 * CommentAnnotation_ (block: soda.translator.block.Block)
   extends CommentAnnotation

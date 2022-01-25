@@ -1,7 +1,7 @@
 package soda.translator.extension.toscala
 
 * ClassEndBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -32,7 +32,7 @@ package soda.translator.extension.toscala
     line == tc.class_end_reserved_word or
     line == tc.class_end_symbol
 
-}
+end
 
 * ClassEndBlockTranslator_ ()
   extends ClassEndBlockTranslator

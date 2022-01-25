@@ -1,6 +1,6 @@
 package soda.collection
 
-* MSeqTranslator [T] = {
+* MSeqTranslator [T] =
 
   @tailrec
   _tailrec_foldLeftSeq [B, C subtype B] (sequence: Seq [T], current_value: C,next_value: (B, T) -> C): C =
@@ -23,23 +23,23 @@ package soda.collection
       next_value (acc: Seq [T], elem: T): Seq [T] = acc.+: (elem)
     in Min_ ().foldLeft (mseq, initial_value, next_value).reverse
 
-}
+end
 
 * MSeqTranslator_ [T] ()
   extends MSeqTranslator [T]
 
-* MSeqPair [T] = {
+* MSeqPair [T] =
 
   abstract
     left: MSeq [T]
     right: MSeq [T]
 
-}
+end
 
 * MSeqPair_ [T] (left: MSeq [T], right: MSeq [T])
   extends MSeqPair [T]
 
-* Min [T] = {
+* Min [T] =
 
   import
     soda.lib.OptionSD
@@ -206,14 +206,14 @@ package soda.collection
 
   /**
    * <pre>
-   * def foldLeft [B] (z: B) (op: (B, A) -> B): B = {
+   * def foldLeft [B] (z: B) (op: (B, A) -> B): B =
    * . var result = z
    * . it = iterator
    * . while (it.hasNext) {
    * . . result = op (result, it.next ())
-   * . }
+   * . end
    * . result
-   * }
+   * end
    * </pre>
    */
   foldLeft0 (mseq: MSeq [T]): (MSeq [T], ( (MSeq [T], T) -> MSeq [T])) -> MSeq [T] =
@@ -250,52 +250,52 @@ package soda.collection
         else SpanRevFoldTuple_ [T] (neleft, right, new_taking)
     in new_tuple
 
-}
+end
 
 * Min_ [T] ()
   extends Min [T]
 
-* IndexFoldTuple [T] = {
+* IndexFoldTuple [T] =
 
    abstract
      index: Int
      position: Int
 
-}
+end
 
 * IndexFoldTuple_ [T] (index: Int, position: Int)
   extends IndexFoldTuple [T]
 
-* AtFoldTuple [T] = {
+* AtFoldTuple [T] =
 
   abstract
     elem: T
     index: Int
 
-}
+end
 
 * AtFoldTuple_ [T] (elem: T, index: Int)
   extends AtFoldTuple [T]
 
-* TakeDropFoldTuple [T] = {
+* TakeDropFoldTuple [T] =
 
    abstract
      seq: MSeq [T]
      index: Int
 
-}
+end
 
 * TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int)
   extends TakeDropFoldTuple [T]
 
-* SpanRevFoldTuple [T] = {
+* SpanRevFoldTuple [T] =
 
   abstract
     left: MSeq [T]
     right: MSeq [T]
     taking: Boolean
 
-}
+end
 
 * SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean)
   extends SpanRevFoldTuple [T]

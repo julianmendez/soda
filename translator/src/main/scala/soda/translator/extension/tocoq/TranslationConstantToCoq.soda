@@ -4,7 +4,7 @@ package soda.translator.extension.tocoq
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
 * TranslationConstantToCoq
-  extends soda.translator.parser.SodaConstant = {
+  extends soda.translator.parser.SodaConstant =
 
   soda_definition: String = "="
 
@@ -250,7 +250,7 @@ package soda.translator.extension.tocoq
   is_soda_word (word: String): Boolean =
     soda_reserved_words.contains (word)
 
-}
+end
 
 * TranslationConstantToCoq_ ()
   extends TranslationConstantToCoq

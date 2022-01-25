@@ -1,17 +1,17 @@
 package soda.collection.example
 
-* Pair [T] = {
+* Pair [T] =
 
   abstract
     name: String
     result: T
 
-}
+end
 
 * Pair_ [T](name: String, result: T)
   extends Pair [T]
 
-* ListExample = {
+* ListExample =
 
   a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
 
@@ -89,7 +89,7 @@ package soda.collection.example
   foldRight_example: Pair [Seq [Char]] =
     Pair_("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
 
-}
+end
 
 * ListExample_()
   extends ListExample

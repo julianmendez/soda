@@ -1,7 +1,7 @@
 package soda.translator.extension.tocoq
 
 * CoqDefinitionBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+  extends soda.translator.block.BlockTranslator =
 
   import
     soda.translator.block.AnnotatedBlock
@@ -45,7 +45,7 @@ package soda.translator.extension.tocoq
     not is_a_recursive_definition (block) and
     not tc.non_definition_block_prefixes.exists (prefix -> block.contents.trim.startsWith (prefix))
 
-}
+end
 
 * CoqDefinitionBlockTranslator_ ()
   extends CoqDefinitionBlockTranslator

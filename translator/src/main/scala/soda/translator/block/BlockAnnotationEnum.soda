@@ -4,7 +4,7 @@ package soda.translator.block
   extends soda.lib.EnumConstant
 
 * BlockAnnotationEnum
-  extends soda.lib.Enum [BlockAnnotationId] = {
+  extends soda.lib.Enum [BlockAnnotationId] =
 
   undefined = BlockAnnotationId (0, "undefined")
 
@@ -49,7 +49,7 @@ package soda.translator.block
       test_declaration
     )
 
-}
+end
 
 * BlockAnnotationEnum_ ()
   extends BlockAnnotationEnum

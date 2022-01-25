@@ -1,6 +1,6 @@
 package soda.example.forcoq.mathematics
 
-* FactorialForCoq = {
+* FactorialForCoq =
 
   import
     soda.example.forcoq.lib.nat
@@ -17,7 +17,7 @@ package soda.example.forcoq.mathematics
   get_factorial (n: nat): nat =
     _tailrec_get_factorial (n) (S ( O() ) )
 
-}
+end
 
 * FactorialForCoq_ ()
   extends FactorialForCoq

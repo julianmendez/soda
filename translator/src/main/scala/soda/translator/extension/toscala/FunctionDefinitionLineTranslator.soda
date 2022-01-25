@@ -22,7 +22,7 @@ package soda.translator.extension.toscala
  *
  */
 * FunctionDefinitionLineTranslator
-  extends soda.translator.block.LineTranslator = {
+  extends soda.translator.block.LineTranslator =
 
   import
     soda.lib.OptionSD
@@ -99,7 +99,7 @@ package soda.translator.extension.toscala
     SomeSD_ (line.indexOf (pattern, start))
       .filter (position -> not  (position == -1))
 
-}
+end
 
 * FunctionDefinitionLineTranslator_ (line: String)
   extends FunctionDefinitionLineTranslator

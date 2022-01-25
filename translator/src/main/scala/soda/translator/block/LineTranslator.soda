@@ -1,9 +1,9 @@
 package soda.translator.block
 
-* LineTranslator = {
+* LineTranslator =
 
   abstract
     line: String
 
-}
+end
 

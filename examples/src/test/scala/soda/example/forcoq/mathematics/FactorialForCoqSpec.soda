@@ -1,7 +1,7 @@
 package soda.example.forcoq.mathematics
 
 * FactorialForCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   import
     soda.example.forcoq.lib.nat
@@ -25,5 +25,5 @@ package soda.example.forcoq.mathematics
         .map (n ->  (n, FactorialForCoq_ ().get_factorial  (n)))
     in assert (obtained == expected)
 
-}
+end
 

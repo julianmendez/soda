@@ -6,7 +6,7 @@ package soda.example.algorithms
 * SaladIngredient_ (ordinal: Int, name: String)
   extends SaladIngredient
 
-* SaladIngredientConstant = {
+* SaladIngredientConstant =
 
   tomato = SaladIngredient_ (1, "tomato")
 
@@ -18,11 +18,11 @@ package soda.example.algorithms
 
   SaladIngredient_values = Seq (tomato, lettuce, sunflower_seeds, olive_oil)
 
-}
+end
 
 * SaladMakerSpec ()
   extends org.scalatest.funsuite.AnyFunSuite
-  with SaladIngredientConstant = {
+  with SaladIngredientConstant =
 
   add_next_ingredient (salad_so_far: Seq [SaladIngredient], ingredient: SaladIngredient): Seq [SaladIngredient] =
     salad_so_far.+: (ingredient)
@@ -43,5 +43,5 @@ package soda.example.algorithms
       )
     in assert (obtained == expected)
 
-}
+end
 

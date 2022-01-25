@@ -1,9 +1,9 @@
 package soda.translator.block
 
-* SingleLineProcessor = {
+* SingleLineProcessor =
 
   abstract
     line: String
 
-}
+end
 

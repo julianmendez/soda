@@ -1,6 +1,6 @@
 package soda.translator.parser
 
-* SodaConstant = {
+* SodaConstant =
 
   space = " "
 
@@ -90,7 +90,7 @@ package soda.translator.parser
     "|"
   )
 
-}
+end
 
 * SodaConstant_ ()
   extends SodaConstant

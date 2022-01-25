@@ -3,7 +3,7 @@ package soda.example.pricemonitor
 class Report2 (compliant: Boolean, old_price: Int, new_price: Int)
 
 class Requirement2Monitor
-  extends RequirementMonitor = {
+  extends RequirementMonitor =
 
   acceptable_yearly_increase = 1.25
 
@@ -16,7 +16,7 @@ class Requirement2Monitor
   get_a_year_before (date_in_days: Int): Int =
     date_in_days - 365
 
-}
+end
 
 class Requirement2Monitor_ (pricing_agent: PricingAgent)
   extends Requirement2Monitor

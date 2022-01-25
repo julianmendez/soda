@@ -1,16 +1,16 @@
 package soda.translator.io
 
-* AbstractDirectoryProcessor = {
+* AbstractDirectoryProcessor =
 
   abstract
     start: String
     process_soda_file: java.io.File -> Boolean
     process (): Boolean
 
-}
+end
 
 * DirectoryProcessor
-  extends AbstractDirectoryProcessor = {
+  extends AbstractDirectoryProcessor =
 
   import
     java.io.File
@@ -36,7 +36,7 @@ package soda.translator.io
         .map (process_soda_file)
         .forall (x -> x)
 
-}
+end
 
 * DirectoryProcessor_ (start: String, process_soda_file: java.io.File -> Boolean)
   extends DirectoryProcessor

@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * ImportDeclarationAnnotation
-  extends BlockAnnotation = {
+  extends BlockAnnotation =
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -13,7 +13,7 @@ package soda.translator.parser.annotation
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().import_reserved_word)
 
-}
+end
 
 * ImportDeclarationAnnotation_ (block: soda.translator.block.Block)
   extends ImportDeclarationAnnotation

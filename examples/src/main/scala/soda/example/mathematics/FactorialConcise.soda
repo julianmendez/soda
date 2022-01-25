@@ -1,14 +1,14 @@
 package soda.example.mathematics
 
-* AbstractFactorialConcise = {
+* AbstractFactorialConcise =
 
   abstract
     get_factorial (n: Int): Int
 
-}
+end
 
 * FactorialConcise
-  extends AbstractFactorialConcise = {
+  extends AbstractFactorialConcise =
 
   @tailrec
   _tailrec_get_factorial (n: Int, product: Int): Int =
@@ -19,7 +19,7 @@ package soda.example.mathematics
   get_factorial (n: Int): Int =
     _tailrec_get_factorial (n, 1)
 
-}
+end
 
 * FactorialConcise_ ()
   extends FactorialConcise

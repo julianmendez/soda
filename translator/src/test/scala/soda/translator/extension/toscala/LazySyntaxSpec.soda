@@ -1,42 +1,42 @@
 package soda.translator.extension.toscala
 
-* ExampleWithWrongOrder = {
+* ExampleWithWrongOrder =
 
   this_is_null_but = constant_defined_later
 
   constant_defined_later = "Success!"
 
-}
+end
 
 * ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
 
-* ExampleWithRightOrder = {
+* ExampleWithRightOrder =
 
   constant_defined_before = "Success!"
 
   this_is_not_null = constant_defined_before
 
-}
+end
 
 * ExampleWithRightOrder_ () extends ExampleWithRightOrder
 
-* ExampleWithEmptyParentheses = {
+* ExampleWithEmptyParentheses =
 
   this_is_not_null  () = constant_defined_later
 
   constant_defined_later = "Success!"
 
-}
+end
 
 * ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
 
-* AnotherExampleWithEmptyParentheses = {
+* AnotherExampleWithEmptyParentheses =
 
   this_is_not_null = constant_function_defined_later  ()
 
   constant_function_defined_later  () = "Success!"
 
-}
+end
 
 * AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
 
@@ -45,7 +45,7 @@ package soda.translator.extension.toscala
  * These tests detect and test this problem, and test work-arounds.
  */
 * LazySyntaxSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   test ("should show what happens when constants are defined in the wrong order")
     let
@@ -71,5 +71,5 @@ package soda.translator.extension.toscala
       expected = "Success!"
     in assert (obtained == expected)
 
-}
+end
 

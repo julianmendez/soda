@@ -7,7 +7,7 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* Recursion = {
+* Recursion =
 
   @tailrec
   _tailrec_fold4 [A, B, C subtype B] (sequence: Seq [A], current_value: C, next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
@@ -39,7 +39,7 @@ package soda.lib
   range (length: Int): Seq [Int] =
     _tailrec_range (length, Seq [Int] ())
 
-}
+end
 
 * Recursion_ ()
   extends Recursion

@@ -1,14 +1,14 @@
 package soda.example
 
-* SortExample = {
+* SortExample =
 
   abstract
     is_sorted (sequence: Seq [Int]): Boolean
 
-}
+end
 
 * SortExampleWithAt
-  extends SortExample = {
+  extends SortExample =
 
   is_sorted (sequence: Seq [Int]): Boolean =
     sequence
@@ -16,32 +16,32 @@ package soda.example
       .filter (index -> index > 0)
       .forall (index -> sequence (index - 1) <= sequence (index))
 
-}
+end
 
 * SortExampleWithAt_ () extends SortExampleWithAt
 
 * SortExampleWithZip
-  extends SortExample = {
+  extends SortExample =
 
   is_sorted (sequence: Seq [Int]): Boolean =
     sequence
       .zip (sequence.tail)
       .forall (pair ->  (pair._1 <= pair._2))
 
-}
+end
 
 * SortExampleWithZip_ ()
   extends SortExampleWithZip
 
-* SortAlgorithmExample = {
+* SortAlgorithmExample =
 
   abstract
     sort (sequence: Seq [Int]): Seq [Int]
 
-}
+end
 
 * SortAlgorithmExampleWithFold
-  extends SortAlgorithmExample = {
+  extends SortAlgorithmExample =
 
   import
     soda.lib.Recursion_
@@ -63,12 +63,12 @@ package soda.example
       last_part = sequence.dropWhile (x -> x < element)
     in first_part.++ (middle.++ (last_part))
 
-}
+end
 
 * SortAlgorithmExampleWithFold_ ()
   extends SortAlgorithmExampleWithFold
 
-* ConstrainedSortAlgorithm = {
+* ConstrainedSortAlgorithm =
 
   import
     soda.lib.OptionSD
@@ -85,22 +85,22 @@ package soda.example
         else NoneSD_ [Seq [Int]] ()
     in result
 
-}
+end
 
 * ConstrainedSortAlgorithm_ ()
   extends ConstrainedSortAlgorithm
 
-* SortedSequence  [A subtype Comparable [A]] = {
+* SortedSequence  [A subtype Comparable [A]] =
 
   abstract
     sequence: Seq  [A]
     add  (element: A): SortedSequence [A]
     invariant: Boolean
 
-}
+end
 
 * EmptySortedSequence [A subtype Comparable [A]]
-  extends SortedSequence [A] = {
+  extends SortedSequence [A] =
 
   sequence = Seq ()
 
@@ -109,21 +109,21 @@ package soda.example
 
   invariant: Boolean = true
 
-}
+end
 
 * EmptySortedSequence_ [A subtype Comparable [A]] ()
   extends EmptySortedSequence [A]
 
 * SortedSequenceWithElements [A subtype Comparable [A]]
-  extends SortedSequence [A] = {
+  extends SortedSequence [A] =
 
   abstract
     sequence: Seq [A]
 
-}
+end
 
 * NonEmptySortedSequence [A subtype Comparable [A]]
-  extends SortedSequenceWithElements [A] = {
+  extends SortedSequenceWithElements [A] =
 
   aux = NonEmptySortedSequenceAux_ [A] ()
 
@@ -132,12 +132,12 @@ package soda.example
 
   invariant: Boolean = aux.is_sorted (sequence)
 
-}
+end
 
 * _NonEmptySortedSequence_ [A subtype Comparable [A]] (sequence: Seq [A])
   extends NonEmptySortedSequence [A]
 
-* NonEmptySortedSequenceAux [A subtype Comparable [A]] = {
+* NonEmptySortedSequenceAux [A subtype Comparable [A]] =
 
   is_less_than (x: A, y: A): Boolean =
     x.compareTo (y) < 0
@@ -158,12 +158,12 @@ package soda.example
         original_sequence.dropWhile (x -> is_less_than (x, element))
     in first_part.++ (middle.++ (last_part))
 
-}
+end
 
 * NonEmptySortedSequenceAux_ [A subtype Comparable [A]] ()
   extends NonEmptySortedSequenceAux [A]
 
-* SortedSequenceBuilder [A subtype Comparable [A]] = {
+* SortedSequenceBuilder [A subtype Comparable [A]] =
 
   import
     soda.lib.Recursion_
@@ -176,7 +176,7 @@ package soda.example
   _next_value_function (sorted_sequence: SortedSequence [A], element: A): SortedSequence [A] =
     sorted_sequence.add (element)
 
-}
+end
 
 * SortedSequenceBuilder_ [A subtype Comparable [A]] ()
   extends SortedSequenceBuilder [A]

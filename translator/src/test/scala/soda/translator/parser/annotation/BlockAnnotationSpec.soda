@@ -1,7 +1,7 @@
 package soda.translator.parser.annotation
 
 * BlockAnnotationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+  extends org.scalatest.funsuite.AnyFunSuite =
 
   import
     soda.translator.block.Block
@@ -160,5 +160,5 @@ package soda.translator.parser.annotation
       obtained = detectors (example_blocks (0) ).map (detector -> detector.identifier.ordinal)
     in assert (obtained == expected)
 
-}
+end
 
