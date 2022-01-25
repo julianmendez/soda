@@ -19,6 +19,9 @@ case class BlockAnnotationSpec ()
     "\n  import soda.lib.Recursion_" +
     "\n  + soda.lib.Enum" +
     "\n" +
+    "\n  abstract" +
+    "\n    value: Int" +
+    "\n" +
     "\n  has text: String" +
     "\n" +
     "\n  my_constant: Int = 0" +
@@ -52,6 +55,7 @@ case class BlockAnnotationSpec ()
       ClassBeginningAnnotation_ (block ),
       ClassEndAnnotation_ (block ),
       ClassDeclarationAnnotation_ (block ),
+      AbstractBlockDeclarationAnnotation_ (block ),
       AbstractFunctionDeclarationAnnotation_ (block ),
       ImportDeclarationAnnotation_ (block ),
       PackageDeclarationAnnotation_ (block ),
@@ -66,85 +70,91 @@ case class BlockAnnotationSpec ()
 
   test ("should detect a package declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false, false, false )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false, false )
       lazy val obtained = apply_detectors (example_blocks (0 )  )
       assert (obtained == expected ) }
 
   test ("should detect a comment")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, true, false )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, true, false )
       lazy val obtained = apply_detectors (example_blocks (1 )  )
       assert (obtained == expected ) }
 
   test ("should detect a class beginning")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false, false, false )
+      lazy val expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false, false, false, false )
       lazy val obtained = apply_detectors (example_blocks (2 )  )
       assert (obtained == expected ) }
 
   test ("should detect an import declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false, false, false )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false, false, false, false )
       lazy val obtained = apply_detectors (example_blocks (3 )  )
+      assert (obtained == expected ) }
+
+  test ("should detect an abstract block declaration")
+    {
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (4 )  )
       assert (obtained == expected ) }
 
   test ("should detect an abstract function declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (4 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (5 )  )
       assert (obtained == expected ) }
 
   test ("should detect a constant declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (5 )  )
+      lazy val expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (6 )  )
       assert (obtained == expected ) }
 
   test ("should detect a function declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (6 )  )
+      lazy val expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (7 )  )
       assert (obtained == expected ) }
 
   test ("should detect a test declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, true )
-      lazy val obtained = apply_detectors (example_blocks (7 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, false, true )
+      lazy val obtained = apply_detectors (example_blocks (8 )  )
       assert (obtained == expected ) }
 
   test ("should detect a theorem block")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (8 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (9 )  )
       assert (obtained == expected ) }
 
   test ("should detect a proof block")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false )
-      lazy val obtained = apply_detectors (example_blocks (9 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, true, false, false )
+      lazy val obtained = apply_detectors (example_blocks (10 )  )
       assert (obtained == expected ) }
 
   test ("should detect a class end")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (10 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (11 )  )
       assert (obtained == expected ) }
 
   test ("should detect a class declaration")
     {
-      lazy val expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false )
-      lazy val obtained = apply_detectors (example_blocks (11 )  )
+      lazy val expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false, false )
+      lazy val obtained = apply_detectors (example_blocks (12 )  )
       assert (obtained == expected ) }
 
-  test ("should find only 12 blocks")
+  test ("should find only 13 blocks")
     {
-      lazy val expected = 12
+      lazy val expected = 13
       lazy val obtained = example_blocks.length
       assert (obtained == expected ) }
 
   test ("should be ordered by the identifier ordinal")
     {
-      lazy val expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
+      lazy val expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 )
       lazy val obtained = detectors (example_blocks (0 ) ) .map (detector => detector.identifier.ordinal )
       assert (obtained == expected ) }
 

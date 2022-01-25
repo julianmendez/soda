@@ -6,6 +6,8 @@ package soda.translator.parser
 
   new_line = "\n"
 
+  abstract_reserved_word = "abstract"
+
   has_reserved_word = "has"
 
   class_reserved_word = "class"
@@ -55,6 +57,7 @@ package soda.translator.parser
     "case",
     "end",
     "class",
+    "abstract",
     "has",
     "extends",
     "with",

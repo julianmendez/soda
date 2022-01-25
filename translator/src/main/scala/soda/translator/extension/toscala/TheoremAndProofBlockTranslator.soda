@@ -28,7 +28,7 @@ package soda.translator.extension.toscala
 
   prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+      Seq [String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
     )
 
   append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =

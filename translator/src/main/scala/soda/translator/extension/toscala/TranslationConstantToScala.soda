@@ -46,6 +46,8 @@ package soda.translator.extension.toscala
 
   soda_class_reserved_word: String = "class"
 
+  scala_abstract_function_declaration: String = "def"
+
   scala_definition: String = "def"
 
   scala_value: String = "lazy val"
@@ -176,6 +178,7 @@ package soda.translator.extension.toscala
     ("case", "case"),
     ("end", "}"),
     ("lambda", ""),
+    ("abstract", "abstract"),
     ("has", "def"),
     ("extends", "extends"),
     ("with", "with"),

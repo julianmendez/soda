@@ -25,6 +25,7 @@ The reserved words are:
 - `case`
 - `end`
 - `class`
+- `abstract`
 - `has`
 - `extends`
 - `with`

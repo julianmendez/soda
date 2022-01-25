@@ -14,26 +14,29 @@ package soda.translator.block
 
   class_end = BlockAnnotationId (3, "class_end")
 
-  class_declaration = BlockAnnotationId (4, "class_end")
+  class_declaration = BlockAnnotationId (4, "class_declaration")
 
-  abstract_function_declaration = BlockAnnotationId (5, "abstract_function_declaration")
+  abstract_block_declaration = BlockAnnotationId (5, "abstract_block_declaration")
 
-  import_declaration = BlockAnnotationId (6, "import_declaration")
+  abstract_function_declaration = BlockAnnotationId (6, "abstract_function_declaration")
 
-  package_declaration = BlockAnnotationId (7, "package_declaration")
+  import_declaration = BlockAnnotationId (7, "import_declaration")
 
-  theorem_block = BlockAnnotationId (8, "theorem_block")
+  package_declaration = BlockAnnotationId (8, "package_declaration")
 
-  proof_block = BlockAnnotationId (9, "proof_block")
+  theorem_block = BlockAnnotationId (9, "theorem_block")
 
-  comment = BlockAnnotationId (10, "comment")
+  proof_block = BlockAnnotationId (10, "proof_block")
 
-  test_declaration = BlockAnnotationId (11, "comment")
+  comment = BlockAnnotationId (11, "comment")
+
+  test_declaration = BlockAnnotationId (12, "test_declaration")
 
   values =
     Seq (
       undefined,
       function_definition,
+      abstract_block_declaration,
       abstract_function_declaration,
       class_beginning,
       class_end,

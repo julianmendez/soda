@@ -134,6 +134,7 @@
             <keyword>case</keyword>
             <keyword>end</keyword>
             <keyword>class</keyword>
+            <keyword>abstract</keyword>
             <keyword>has</keyword>
             <keyword>extends</keyword>
             <keyword>with</keyword>

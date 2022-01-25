@@ -14,6 +14,7 @@ package soda.translator.parser
   + soda.translator.parser.annotation.ClassEndAnnotation_
   + soda.translator.parser.annotation.ClassDeclarationAnnotation_
   + soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
+  + soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
   + soda.translator.parser.annotation.ImportDeclarationAnnotation_
   + soda.translator.parser.annotation.PackageDeclarationAnnotation_
   + soda.translator.parser.annotation.ProofBlockAnnotation_
@@ -32,6 +33,7 @@ package soda.translator.parser
       ClassBeginningAnnotation_ (block),
       ClassEndAnnotation_ (block),
       ClassDeclarationAnnotation_ (block),
+      AbstractBlockDeclarationAnnotation_ (block),
       AbstractFunctionDeclarationAnnotation_ (block),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),

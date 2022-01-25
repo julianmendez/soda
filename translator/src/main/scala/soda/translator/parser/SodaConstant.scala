@@ -6,6 +6,8 @@ trait SodaConstant {
 
   lazy val new_line = "\n"
 
+  lazy val abstract_reserved_word = "abstract"
+
   lazy val has_reserved_word = "has"
 
   lazy val class_reserved_word = "class"
@@ -55,6 +57,7 @@ trait SodaConstant {
     "case",
     "end",
     "class",
+    "abstract",
     "has",
     "extends",
     "with",

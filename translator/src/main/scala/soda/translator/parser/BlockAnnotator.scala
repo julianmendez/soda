@@ -14,6 +14,7 @@ trait BlockAnnotator
   import soda.translator.parser.annotation.ClassEndAnnotation_
   import soda.translator.parser.annotation.ClassDeclarationAnnotation_
   import soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
+  import soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
   import soda.translator.parser.annotation.ImportDeclarationAnnotation_
   import soda.translator.parser.annotation.PackageDeclarationAnnotation_
   import soda.translator.parser.annotation.ProofBlockAnnotation_
@@ -32,6 +33,7 @@ trait BlockAnnotator
       ClassBeginningAnnotation_ (block ),
       ClassEndAnnotation_ (block ),
       ClassDeclarationAnnotation_ (block ),
+      AbstractBlockDeclarationAnnotation_ (block ),
       AbstractFunctionDeclarationAnnotation_ (block ),
       ImportDeclarationAnnotation_ (block ),
       PackageDeclarationAnnotation_ (block ),

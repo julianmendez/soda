@@ -42,6 +42,7 @@ trait MicroTranslatorToScala
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition ) ),
         ClassDeclarationBlockTranslator_ (),
         TokenReplacement_ () .replace (tc.main_translation ),
+        AbstractDeclarationBlockTranslator_ (),
         TheoremAndProofBlockTranslator_ (),
         TokenReplacement_ () .replace_regex (tc.beautifier )
       )

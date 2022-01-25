@@ -46,6 +46,8 @@ trait TranslationConstantToScala
 
   lazy val soda_class_reserved_word: String = "class"
 
+  lazy val scala_abstract_function_declaration: String = "def"
+
   lazy val scala_definition: String = "def"
 
   lazy val scala_value: String = "lazy val"
@@ -176,6 +178,7 @@ trait TranslationConstantToScala
     ("case", "case"),
     ("end", "}"),
     ("lambda", ""),
+    ("abstract", "abstract"),
     ("has", "def"),
     ("extends", "extends"),
     ("with", "with"),
