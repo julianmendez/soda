@@ -14,9 +14,11 @@ package soda.translator.parser
 
   class_abbreviation = "*"
 
-  class_open_symbol = "{"
+  class_begin_symbol = "{"
 
-  class_close_symbol = "}"
+  class_end_symbol = "}"
+
+  class_end_reserved_word = "end"
 
   function_definition_symbol = "="
 

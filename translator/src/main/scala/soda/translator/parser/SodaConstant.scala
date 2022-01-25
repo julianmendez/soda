@@ -14,9 +14,11 @@ trait SodaConstant {
 
   lazy val class_abbreviation = "*"
 
-  lazy val class_open_symbol = "{"
+  lazy val class_begin_symbol = "{"
 
-  lazy val class_close_symbol = "}"
+  lazy val class_end_symbol = "}"
+
+  lazy val class_end_reserved_word = "end"
 
   lazy val function_definition_symbol = "="
 

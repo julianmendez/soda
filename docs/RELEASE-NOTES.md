@@ -6,6 +6,7 @@
     - makes reserved word `import` define a block of classes to import 
     - produces a more similar translation to Scala by removing the line joiners
     - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
+    - accepts reserved word `end` to end a class definition
     - accepts reserved word `fun` as synonym for `lambda`, which is optional
     - accepts reserved word `def` as optional to define constants and functions
   - deprecated_features:

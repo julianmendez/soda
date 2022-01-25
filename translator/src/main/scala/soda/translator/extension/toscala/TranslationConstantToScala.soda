@@ -44,6 +44,8 @@ package soda.translator.extension.toscala
 
   scala_closing_brace: String = "}"
 
+  scala_class_end_symbol: String = "}"
+
   soda_class_reserved_word: String = "class"
 
   scala_abstract_function_declaration: String = "def"
