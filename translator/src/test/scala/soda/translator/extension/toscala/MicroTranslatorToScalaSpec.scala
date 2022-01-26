@@ -51,7 +51,16 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\nclass C() extends A =" +
+        "\nclass C ()" +
+        "\n  extends A =" +
+        "\n" +
+        "\n  abstract" +
+        "\n    /** name for this object */" +
+        "\n    name: String" +
+        "\n    /**" +
+        "\n     * value for this object" +
+        "\n     */" +
+        "\n    value: Int" +
         "\n" +
         "\n  h(x: Int): Int = 2 * x + 1" +
         "\n" +
@@ -76,7 +85,15 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class C () extends A {" +
+        "\ncase class C ()" +
+        "\n  extends A {" +
+        "\n" +
+        "\n    /** name for this object */" +
+        "\n  def   name: String" +
+        "\n    /**" +
+        "\n     * value for this object" +
+        "\n     */" +
+        "\n  def   value: Int" +
         "\n" +
         "\n  def h (x: Int ): Int = 2 * x + 1" +
         "\n" +

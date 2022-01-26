@@ -4,6 +4,7 @@ trait AbstractDeclarationBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
 
@@ -31,12 +32,14 @@ trait AbstractDeclarationBlockTranslator
 
   def prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
-      block.lines.map (line => prepend_aligned_at (number_of_spaces, prefix, line ) ),
+      block.annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line ) ),
       block.block_annotation
     )
 
-  def prepend_aligned_at (index: Int, prefix: String, line: String ): String =
-    line.substring (0, index ) + prefix + line.substring (index )
+  def prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine ): String =
+    if (annotated_line.is_comment
+    ) annotated_line.line
+    else annotated_line.line.substring (0, index ) + prefix + annotated_line.line.substring (index )
 
   def get_number_of_spaces_at_beginning (line: String ): Int =
     line
