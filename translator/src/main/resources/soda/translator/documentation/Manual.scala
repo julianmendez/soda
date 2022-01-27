@@ -23,23 +23,36 @@ package soda.translator.documentation
  * 8. a comment
  */
 
-/* To declare a class, just add `class` before a class name.
+/* To declare a class, just add `class` before a class name, and end it with `end`.
  * It is recommended to use camel case style starting with a capital letter.
  * The name could be a noun or an adjective, but it should not be a verb. */
+
 trait Shape
+{
+
+}
 
 /* There is an abbreviation for class declaration.
  * For this, just start a line with an asterisk (`*`). */
+
 trait Movable
+{
+
+}
 
 /* A class can be parameterized.
  * The parameter type can be constrained using `subtype` and `supertype`.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
-trait ShapePainter [A <: Shape]
 
-/* The body of a class is declared after the equals sign (`=`) and ends with `end`.
- * It is recommended to indent the constants and functions declared inside. */
-trait EqualsExample {
+trait ShapePainter [A <: Shape]
+{
+
+}
+
+/* It is recommended to indent the constants and functions declared inside. */
+
+trait EqualsExample
+{
 
   /* A constant does not have parameters and it is declared with the equals sign (`=`).
    * It is recommended to use snake case and start in lowercase.
@@ -62,11 +75,18 @@ trait EqualsExample {
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
+
 case class EqualsExample_ ()
-  extends EqualsExample
+  extends
+    EqualsExample
+{
+
+}
 
 /* A class does not need to define all its constants and functions. */
-trait RegisteredPerson {
+
+trait RegisteredPerson
+{
 
   /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
    Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
@@ -83,9 +103,14 @@ trait RegisteredPerson {
 }
 
 /* A concrete class can be declared with parameters. */
-case class Person (name: String )
 
-trait Agent {
+case class Person (name: String )
+{
+
+}
+
+trait Agent
+{
 
   def   identifier: String
 
@@ -93,44 +118,61 @@ trait Agent {
 
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-case class Agent_ (identifier: String )
-  extends Agent
 
-trait RankedIndividual {
+case class Agent_ (identifier: String )
+  extends
+    Agent
+{
+
+}
+
+trait RankedIndividual
+{
 
   def   rank: Int
 
 }
 
 case class RankedAgentPerson (identifier: String, rank: Int )
-  extends Agent with RankedIndividual
+  extends
+    Agent
+    with RankedIndividual
+{
 
-trait Element {
+}
+
+trait Element
+{
 
   def   accept (v: Visitor ): Boolean
 
 }
 
-trait Visitor {
+trait Visitor
+{
 
   def   visit (x: Element ): Boolean
 
 }
 
 case class Item (identifier: Int )
-  extends Element {
+  extends Element
+{
 
   /* It is possible to refer to an object instance by using `this`. */
+
   def accept (v: Visitor ) = v.visit (this )
 
 }
 
-trait PersonName {
+trait PersonName
+{
 
   def   name: String
 
   /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function, or a diamond-shaped class hierarchy. */
+
   override
   lazy val toString = name
 
@@ -139,7 +181,9 @@ trait PersonName {
 /**
   * This contains the examples shown in the manual.
   */
-trait Manual {
+
+trait Manual
+{
 
   import   java.util.Date
 
@@ -214,14 +258,17 @@ trait Manual {
 
 }
 
-trait AbstractFactorialConcise {
+trait AbstractFactorialConcise
+{
 
   def   factorial (n: Int ): Int
 
 }
 
 trait FactorialConcise
-  extends AbstractFactorialConcise {
+  extends
+    AbstractFactorialConcise
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -236,15 +283,18 @@ trait FactorialConcise
 
 }
 
-/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
-trait AbstractFactorialVerbose {
+trait AbstractFactorialVerbose
+{
 
   def   factorial (n: Int ): Int
 
 }
 
+/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
+
 trait FactorialVerbose
-  extends AbstractFactorialVerbose {
+  extends AbstractFactorialVerbose
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -258,7 +308,8 @@ trait FactorialVerbose
 
 }
 
-trait Recursion {
+trait Recursion
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -287,13 +338,22 @@ trait Recursion {
 
 case class Recursion_ ()
   extends Recursion
+{
+
+}
 
 /* The main class is concrete and it is called `Main ()`. */
+
 case class Main ()
   extends MainClass
+{
+
+}
 
 /* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
-trait MainClass {
+
+trait MainClass
+{
 
   def main (arguments: Array [String]  ): Unit =
     /* An output to the standard output can be sent with a `println` command.
@@ -304,6 +364,7 @@ trait MainClass {
 
 /* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
+
 object EntryPoint {
   def main (args: Array [String]): Unit = Main ().main (args)
 }

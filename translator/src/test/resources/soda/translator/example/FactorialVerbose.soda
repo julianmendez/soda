@@ -1,6 +1,6 @@
 package soda.example
 
-class AbstractFactorialVerbose =
+class AbstractFactorialVerbose
 
   abstract
     get_factorial (n: Int): Int
@@ -8,7 +8,8 @@ class AbstractFactorialVerbose =
 end
 
 class FactorialVerbose
-  extends AbstractFactorialVerbose =
+  extends
+    AbstractFactorialVerbose
 
   @tailrec
   _tailrec_get_factorial (n: Int, product: Int): Int is
@@ -21,6 +22,9 @@ class FactorialVerbose
 
 end
 
-class FactorialVerbose_()
-  extends FactorialVerbose
+class FactorialVerbose_ ()
+  extends
+    FactorialVerbose
+
+end
 

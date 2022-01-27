@@ -1,6 +1,7 @@
-package soda.example
+package soda.example.algorithms
 
-trait MainClass {
+trait MainClass
+{
 
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
@@ -8,7 +9,11 @@ trait MainClass {
 }
 
 case class Main ()
-  extends MainClass
+  extends
+    MainClass
+{
+
+}
 
 object EntryPoint {
   def main (args: Array [String]): Unit = Main ().main (args)

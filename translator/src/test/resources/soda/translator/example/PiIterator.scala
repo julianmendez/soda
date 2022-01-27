@@ -1,6 +1,7 @@
 package soda.example
 
-trait Status {
+trait Status
+{
 
   def   r: BigInt
   def   n: Int
@@ -14,16 +15,15 @@ trait Status {
 
 }
 
-case class Status_ (
-    r: BigInt,
-    n: Int,
-    q: BigInt,
-    t: BigInt,
-    l: Int,
-    k: Int
-  ) extends Status
+case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int )
+  extends
+    Status
+{
 
-trait PiIterator {
+}
+
+trait PiIterator
+{
 
   lazy val initial_status =
     Status_ (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1 )
@@ -76,13 +76,24 @@ trait PiIterator {
 
 }
 
-case class PiIterator_ () extends PiIterator
+case class PiIterator_ ()
+  extends
+    PiIterator
+{
 
-trait IntAndStatus {
+}
+
+trait IntAndStatus
+{
 
   def   digit: Int
   def   new_status: Status
 
 }
 
-case class IntAndStatus_ (digit: Int, new_status: Status ) extends IntAndStatus
+case class IntAndStatus_ (digit: Int, new_status: Status )
+  extends
+    IntAndStatus
+{
+
+}

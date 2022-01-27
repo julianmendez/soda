@@ -23,23 +23,32 @@ package soda.translator.documentation
  * 8. a comment
  */
 
-/* To declare a class, just add `class` before a class name.
+/* To declare a class, just add `class` before a class name, and end it with `end`.
  * It is recommended to use camel case style starting with a capital letter.
  * The name could be a noun or an adjective, but it should not be a verb. */
+
 class Shape
+
+end
 
 /* There is an abbreviation for class declaration.
  * For this, just start a line with an asterisk (`*`). */
+
 * Movable
+
+end
 
 /* A class can be parameterized.
  * The parameter type can be constrained using `subtype` and `supertype`.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
+
 class ShapePainter [A subtype Shape]
 
-/* The body of a class is declared after the equals sign (`=`) and ends with `end`.
- * It is recommended to indent the constants and functions declared inside. */
-class EqualsExample =
+end
+
+/* It is recommended to indent the constants and functions declared inside. */
+
+class EqualsExample
 
   /* A constant does not have parameters and it is declared with the equals sign (`=`).
    * It is recommended to use snake case and start in lowercase.
@@ -62,11 +71,16 @@ end
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
+
 class EqualsExample_ ()
-  extends EqualsExample
+  extends
+    EqualsExample
+
+end
 
 /* A class does not need to define all its constants and functions. */
-class RegisteredPerson =
+
+class RegisteredPerson
 
   /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
    Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
@@ -83,9 +97,12 @@ class RegisteredPerson =
 end
 
 /* A concrete class can be declared with parameters. */
+
 class Person (name: String)
 
-class Agent =
+end
+
+class Agent
 
   abstract
     identifier: String
@@ -94,10 +111,14 @@ end
 
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-class Agent_ (identifier: String)
-  extends Agent
 
-class RankedIndividual =
+class Agent_ (identifier: String)
+  extends
+    Agent
+
+end
+
+class RankedIndividual
 
   abstract
     rank: Int
@@ -105,16 +126,20 @@ class RankedIndividual =
 end
 
 class RankedAgentPerson (identifier: String, rank: Int)
-  extends Agent with RankedIndividual
+  extends
+    Agent
+    RankedIndividual
 
-class Element =
+end
+
+class Element
 
   abstract
     accept (v: Visitor): Boolean
 
 end
 
-class Visitor =
+class Visitor
 
   abstract
     visit (x: Element): Boolean
@@ -122,20 +147,22 @@ class Visitor =
 end
 
 class Item (identifier: Int)
-  extends Element =
+  extends Element
 
   /* It is possible to refer to an object instance by using `this`. */
+
   accept (v: Visitor) = v.visit (this)
 
 end
 
-class PersonName =
+class PersonName
 
   abstract
     name: String
 
   /* It is possible to override a function by using the `@override` annotation.
    * This is intended only for exceptional cases, like the `toString` function, or a diamond-shaped class hierarchy. */
+
   @override
   toString = name
 
@@ -144,7 +171,8 @@ end
 /**
   * This contains the examples shown in the manual.
   */
-class Manual =
+
+class Manual
 
   import
     java.util.Date
@@ -219,7 +247,7 @@ class Manual =
 
 end
 
-* AbstractFactorialConcise =
+* AbstractFactorialConcise
 
   abstract
     factorial (n: Int): Int
@@ -227,7 +255,8 @@ end
 end
 
 * FactorialConcise
-  extends AbstractFactorialConcise =
+  extends
+    AbstractFactorialConcise
 
   @tailrec
   _tailrec_ (n: Int, product: Int): Int =
@@ -241,16 +270,17 @@ end
 
 end
 
-/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
-class AbstractFactorialVerbose is {
+class AbstractFactorialVerbose
 
   abstract
     factorial (n: Int): Int
 
 end
 
+/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
+
 class FactorialVerbose
-  extends AbstractFactorialVerbose is {
+  extends AbstractFactorialVerbose
 
   @tailrec
   _tailrec_ (n: Int, product: Int): Int is
@@ -263,7 +293,7 @@ class FactorialVerbose
 
 end
 
-class Recursion =
+class Recursion
 
   @tailrec
   _tailrec_fold4 [A, B, C subtype B] (sequence: Seq [A], current_value: C, next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
@@ -291,12 +321,18 @@ end
 class Recursion_ ()
   extends Recursion
 
+end
+
 /* The main class is concrete and it is called `Main ()`. */
+
 class Main ()
   extends MainClass
 
+end
+
 /* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
-class MainClass =
+
+class MainClass
 
   main (arguments: Array [String]): Unit =
     /* An output to the standard output can be sent with a `println` command.
@@ -307,5 +343,6 @@ end
 
 /* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
+
 @main
 

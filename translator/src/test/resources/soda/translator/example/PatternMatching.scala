@@ -1,12 +1,14 @@
-package soda.example
+package soda.example.algorithms
 
-trait Parameter {
+trait Parameter
+{
 
   def   name: String
 
 }
 
-trait PatternMatching {
+trait PatternMatching
+{
 
   def get_value (p: Parameter ): Int =
     p match  {
@@ -27,24 +29,34 @@ trait PatternMatching {
 }
 
 case class PatternMatching_ ()
-  extends PatternMatching
+  extends
+    PatternMatching
+{
+
+}
 
 case class Singleton (x: Int )
-  extends Parameter {
+  extends
+    Parameter
+{
 
   lazy val name = "singleton"
 
 }
 
 case class Pair (x: Int, y: Int )
-  extends Parameter {
+  extends
+    Parameter
+{
 
   lazy val name = "pair"
 
 }
 
 case class Triplet (x: Int, y: Int, z: Int )
-  extends Parameter {
+  extends
+    Parameter
+{
 
   lazy val name = "triplet"
 

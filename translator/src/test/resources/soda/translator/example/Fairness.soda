@@ -1,13 +1,13 @@
 package soda.example
 
-class Applicant is {
+class Applicant
 
   abstract
     background_score: Double
 
 end
 
-class AbstractFairness is {
+class AbstractFairness
 
   abstract
     rank: Applicant -> Double
@@ -19,7 +19,8 @@ class AbstractFairness is {
 end
 
 class Fairness
-  extends AbstractFairness is {
+  extends
+    AbstractFairness
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)

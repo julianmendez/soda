@@ -1,24 +1,24 @@
-package soda.example
+package soda.example.algorithms
 
-* LetBindingExample =
+* LetBindingExample
 
   three_parts_like_where =
     let
-      result = Seq(first_part, second_part, third_part)
+      result = Seq (first_part, second_part, third_part)
       /* where */
+      part = " part"
       first_part = "first" + part
       second_part = "second" + part
       third_part = "third" + part
-      part = " part"
     in result
 
   three_parts_like_let_in =
     let
+      part = " part"
       first_part = "first" + part
       second_part = "second" + part
       third_part = "third" + part
-      part = " part"
-    in Seq(first_part, second_part, third_part)
+    in Seq (first_part, second_part, third_part)
 
   three_parts_like_coq_let_in =
     let part = " part"
@@ -26,10 +26,25 @@ package soda.example
     in let
       second_part = "second" + part
     in let third_part = "third" + part
-    in Seq[String]().+:(third_part).+:(second_part).+:(first_part)
+    in Seq [String] ().+: (third_part).+: (second_part).+: (first_part)
+
+  three_parts_without_let_in =
+    Seq [String] ().+: (_third_part).+: (_second_part).+: (_first_part)
+
+  _part = " part"
+
+  _first_part = "first" + _part
+
+  _second_part = "second" + _part
+
+  _third_part = "third" + _part
 
 end
 
-* LetBindingExample_()
-  extends LetBindingExample
+* LetBindingExample_ ()
+  extends
+    LetBindingExample
+
+end
+
 

@@ -1,6 +1,6 @@
 package soda.example
 
-* FactorialWithFold =
+class FactorialWithFold
 
   import
     soda.lib.Recursion_
@@ -11,6 +11,9 @@ package soda.example
 
 end
 
-* FactorialWithFold_()
-  extends FactorialWithFold
+class FactorialWithFold_ ()
+  extends
+    FactorialWithFold
+
+end
 

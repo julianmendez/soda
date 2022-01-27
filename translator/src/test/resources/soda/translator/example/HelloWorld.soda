@@ -1,14 +1,17 @@
-package soda.example
+package soda.example.algorithms
 
-* MainClass =
+* MainClass
 
-  main(arguments: Array[String]): Unit =
-    println("Hello world!")
+  main (arguments: Array [String]): Unit =
+    println ("Hello world!")
 
 end
 
-* Main()
-  extends MainClass
+* Main ()
+  extends
+    MainClass
+
+end
 
 @main
 

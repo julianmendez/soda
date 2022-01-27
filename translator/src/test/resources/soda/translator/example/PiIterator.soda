@@ -1,6 +1,6 @@
 package soda.example
 
-* Status =
+class Status
 
   abstract
     r: BigInt
@@ -15,19 +15,16 @@ package soda.example
 
 end
 
-* Status_(
-    r: BigInt,
-    n: Int,
-    q: BigInt,
-    t: BigInt,
-    l: Int,
-    k: Int
-  ) extends Status
+class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int)
+  extends
+    Status
 
-* PiIterator =
+end
+
+class PiIterator
 
   initial_status =
-    Status_(r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
+    Status_ (r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
 
   @tailrec
   _tailrec_compute_new_status(s: Status): Status =
@@ -75,9 +72,13 @@ end
 
 end
 
-* PiIterator_() extends PiIterator
+class PiIterator_()
+  extends
+    PiIterator
 
-* IntAndStatus =
+end
+
+class IntAndStatus
 
   abstract
     digit: Int
@@ -85,5 +86,9 @@ end
 
 end
 
-* IntAndStatus_(digit: Int, new_status: Status) extends IntAndStatus
+class IntAndStatus_ (digit: Int, new_status: Status)
+  extends
+    IntAndStatus
+
+end
 

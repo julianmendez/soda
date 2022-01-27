@@ -1,6 +1,6 @@
 package soda.example
 
-class FiboExample is {
+class FiboExample
 
   abstract
     fib (n: Int): Int
@@ -8,7 +8,8 @@ class FiboExample is {
 end
 
 class FiboExampleInSoda
-  extends FiboExample is {
+  extends
+    FiboExample
 
   _rec (m: Int, a: Int, b: Int): Int is
     if m == 0 then a
@@ -20,6 +21,9 @@ class FiboExampleInSoda
 
 end
 
-class FiboExampleInSoda_()
-  extends FiboExampleInSoda
+class FiboExampleInSoda_ ()
+  extends
+    FiboExampleInSoda
+
+end
 

@@ -1,12 +1,14 @@
 package soda.example
 
-trait Applicant {
+trait Applicant
+{
 
   def   background_score: Double
 
 }
 
-trait AbstractFairness {
+trait AbstractFairness
+{
 
   def   rank: Applicant => Double
   def   score_difference_tolerance: Double
@@ -17,7 +19,9 @@ trait AbstractFairness {
 }
 
 trait Fairness
-  extends AbstractFairness {
+  extends
+    AbstractFairness
+{
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )
