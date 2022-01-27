@@ -24,6 +24,8 @@ trait SodaConstant {
 
   lazy val class_definition_synonym = "is"
 
+  lazy val extends_reserved_word = "extends"
+
   lazy val function_definition_symbol = "="
 
   lazy val function_definition_synonym = "is"

@@ -1,21 +1,23 @@
 ---
-- - version: v0.14.0
-  - date: unreleased
-  - new_features:
-    - includes reserved word `abstract` to define a block of abstract constants and functions
-    - makes reserved word `import` define a block of classes to import 
-    - produces a more similar translation to Scala by removing the line joiners
-    - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
-    - does not need opening brace (`{`) to start a class definition
-    - accepts reserved word `end` to end a class definition
-    - accepts reserved word `fun` as synonym for `lambda`, which is optional
-    - accepts reserved word `def` as optional to define constants and functions
-  - deprecated_features:
-    - reserved word `has` is replaced by `abstract` block
-    - abbreviation `+` is replaced by its long form `import`
-    - classes are not defined with braces (`{` and `}`) anymore
-  - build: sbt '++ 3.1.0' clean compile test package assembly
-  - release: target/scala-3.1.0/soda-0.14.0.jar
+- version: v0.14.0
+- date: unreleased
+- new_features:
+  - does not support the `with` reserved word 
+  - changes the syntax of class declarations such that each super class needs its own line and the definition sign (`=`) is not used 
+  - includes reserved word `abstract` to define a block of abstract constants and functions
+  - makes reserved word `import` define a block of classes to import 
+  - produces a more similar translation to Scala by removing the line joiners
+  - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
+  - does not need opening brace (`{`) to start a class definition
+  - accepts reserved word `end` to end a class definition
+  - accepts reserved word `fun` as synonym for `lambda`, which is optional
+  - accepts reserved word `def` as optional to define constants and functions
+- deprecated_features:
+  - reserved word `has` is replaced by `abstract` block
+  - abbreviation `+` is replaced by its long form `import`
+  - classes are not defined with braces (`{` and `}`) anymore
+- build: sbt '++ 3.1.0' clean compile test package assembly
+- release: target/scala-3.1.0/soda-0.14.0.jar
 - - version: v0.13.0
   - date: '2021-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly

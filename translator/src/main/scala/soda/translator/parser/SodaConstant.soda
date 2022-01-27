@@ -24,6 +24,8 @@ package soda.translator.parser
 
   class_definition_synonym = "is"
 
+  extends_reserved_word = "extends"
+
   function_definition_symbol = "="
 
   function_definition_synonym = "is"

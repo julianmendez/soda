@@ -5,10 +5,12 @@ package soda.translator.extension.toscala
 
   import
     soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.Translator
     soda.translator.blocktr.TokenizedBlockTranslator_
     soda.translator.blocktr.TableTranslator_
+    soda.translator.parser.BlockBuilder_
     soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
     soda.translator.replacement.Token
@@ -25,24 +27,17 @@ package soda.translator.extension.toscala
 
   scala_class_begin_pattern = scala_space + tc.scala_class_begin_symbol
 
-  space_and_definition = soda_space +  class_definition_symbol
+  space_and_definition = soda_space + class_definition_symbol
 
   _labels = BlockAnnotationEnum_ ()
 
-  replace_token: Token -> String =
-    lambda token ->
-      Replacement_ (token.text)
-        .replace_at_beginning (token.index, get_table_translator (token.text) )
-        .replace_with (_replace_definition_symbol)
-        .line
+  _process_extends (index: Int, line: String): String =
+    if (index >= 0)
+    then _process_extends_at (index + tc.extends_reserved_word.length, line)
+    else line
 
-  _replace_definition_symbol (line: String): String =
-    if (has_condition_for_type_alias (line))
-    then line
-    else
-      if (line.trim.endsWith (class_definition_symbol))
-      then line.replaceAll (space_and_definition, scala_class_begin_pattern)
-      else line.replaceAll (space_and_definition, "")
+  _process_extends_at (index: Int, line: String): String =
+    line.substring (0, index) + (line.substring (index).replace (soda_space, tc.scala_with_translation) )
 
   get_table_translator (line: String): Translator =
     TableTranslator_ (
@@ -57,13 +52,58 @@ package soda.translator.extension.toscala
       then tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
       else tc.class_declaration_translation_at_beginning_without_paren
 
-  translator = TokenizedBlockTranslator_ (replace_token)
-
   translate (block: AnnotatedBlock): AnnotatedBlock =
     if block.block_annotation == _labels.class_beginning
       or block.block_annotation == _labels.class_declaration
-    then translator.translate (block)
+    then _translate_block (block)
     else block
+
+  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      if (has_condition_for_type_alias (get_first_line (block) ) )
+      then _process_head (block) ++ _process_tail (block)
+      else _process_head (block) ++ _process_tail (block) ++  Seq [String] (tc.scala_class_begin_symbol)
+      ,
+      block.block_annotation
+    )
+
+  _process_head (block: AnnotatedBlock): Seq [String] =
+    _process_head_with (get_first_line (block), block)
+
+  _process_head_with (line: String, block: AnnotatedBlock): Seq [String] =
+    Seq [String] (Replacement_ (soda_space + line).replace_at_beginning (0, get_table_translator (line) ).line.substring (soda_space.length) )
+
+  _process_tail (block: AnnotatedBlock): Seq [String] =
+    _process_if_extends (remove_first_line (block) )
+
+  _process_if_extends (block: AnnotatedBlock): Seq [String] =
+    if (get_first_line (block).trim == tc.extends_reserved_word)
+    then Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
+    else block.lines
+
+  get_number_of_spaces_at_beginning (line: String): Int =
+    line
+      .takeWhile (ch => ch.isSpaceChar)
+      .length
+
+  get_spaces_at_beginning (line: String): String =
+    line.substring (0, get_number_of_spaces_at_beginning (line) )
+
+  _process_after_extends (block: AnnotatedBlock): Seq [String] =
+    if (get_first_line (block).trim.nonEmpty)
+    then Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (line -> get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
+    else Seq [String] ()
+
+  remove_first_line (block: AnnotatedBlock): AnnotatedBlock =
+    BlockBuilder_ ().build (
+      ( if block.lines.isEmpty
+        then block.lines
+        else block.lines.tail ),
+      block.block_annotation
+    )
+
+  get_first_line (block: AnnotatedBlock): String =
+    block.lines.headOption.getOrElse ("")
 
   ends_with_equals (line: String): Boolean =
     line.trim.endsWith (tc.soda_definition)

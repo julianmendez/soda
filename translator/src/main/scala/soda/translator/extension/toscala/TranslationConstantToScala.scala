@@ -58,6 +58,10 @@ trait TranslationConstantToScala
 
   lazy val scala_import_declaration: String = "import"
 
+  lazy val scala_with_translation: String = "with"
+
+  lazy val scala_extends_translation: String = "extends"
+
   lazy val scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
   /**
