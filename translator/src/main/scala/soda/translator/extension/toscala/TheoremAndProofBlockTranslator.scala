@@ -7,8 +7,6 @@ trait TheoremAndProofBlockTranslator
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
 
-  lazy val space = " "
-
   lazy val tc = TranslationConstantToScala_ ()
 
   lazy val _labels = BlockAnnotationEnum_ ()

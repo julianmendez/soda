@@ -4,15 +4,11 @@ trait ClassDeclarationBlockTranslator
   extends soda.translator.block.BlockTranslator {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.Translator
-  import   soda.translator.blocktr.TokenizedBlockTranslator_
   import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.replacement.Replacement
   import   soda.translator.replacement.Replacement_
-  import   soda.translator.replacement.Token
 
   lazy val soda_opening_parenthesis: String = "("
 
@@ -22,21 +18,7 @@ trait ClassDeclarationBlockTranslator
 
   lazy val scala_space: String = " "
 
-  lazy val class_definition_symbol = tc.class_definition_symbol
-
-  lazy val scala_class_begin_pattern = scala_space + tc.scala_class_begin_symbol
-
-  lazy val space_and_definition = soda_space + class_definition_symbol
-
   lazy val _labels = BlockAnnotationEnum_ ()
-
-  def _process_extends (index: Int, line: String ): String =
-    if ((index >= 0 )
-    ) _process_extends_at (index + tc.extends_reserved_word.length, line )
-    else line
-
-  def _process_extends_at (index: Int, line: String ): String =
-    line.substring (0, index ) + (line.substring (index ) .replace (soda_space, tc.scala_with_translation ) )
 
   def get_table_translator (line: String ): Translator =
     TableTranslator_ (

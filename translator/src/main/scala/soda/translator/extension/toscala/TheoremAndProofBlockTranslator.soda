@@ -8,8 +8,6 @@ package soda.translator.extension.toscala
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.BlockBuilder_
 
-  space = " "
-
   tc = TranslationConstantToScala_ ()
 
   _labels = BlockAnnotationEnum_ ()

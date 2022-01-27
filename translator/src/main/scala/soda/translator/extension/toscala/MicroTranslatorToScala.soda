@@ -16,8 +16,6 @@ package soda.translator.extension.toscala
     soda.translator.parser.BlockAnnotator_
     soda.translator.replacement.Token
 
-  new_line = "\n"
-
   tc = TranslationConstantToScala_ ()
 
   function_definition = BlockAnnotationEnum_ ().function_definition

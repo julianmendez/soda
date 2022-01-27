@@ -47,9 +47,6 @@ case class Replacement_ (line: String )
 
 trait ReplacementAux {
 
- import soda.translator.block.Translator
- import soda.lib.Recursion_
-
   lazy val soda_space = " "
 
   lazy val scala_space = " "

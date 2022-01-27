@@ -15,8 +15,6 @@ trait MicroTranslatorToScala
   import   soda.translator.parser.BlockAnnotator_
   import   soda.translator.replacement.Token
 
-  lazy val new_line = "\n"
-
   lazy val tc = TranslationConstantToScala_ ()
 
   lazy val function_definition = BlockAnnotationEnum_ () .function_definition

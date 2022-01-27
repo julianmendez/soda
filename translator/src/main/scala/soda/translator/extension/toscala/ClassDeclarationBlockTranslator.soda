@@ -5,15 +5,11 @@ package soda.translator.extension.toscala
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.Translator
-    soda.translator.blocktr.TokenizedBlockTranslator_
     soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder_
-    soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
-    soda.translator.replacement.Token
 
   soda_opening_parenthesis: String = "("
 
@@ -23,21 +19,7 @@ package soda.translator.extension.toscala
 
   scala_space: String = " "
 
-  class_definition_symbol = tc.class_definition_symbol
-
-  scala_class_begin_pattern = scala_space + tc.scala_class_begin_symbol
-
-  space_and_definition = soda_space + class_definition_symbol
-
   _labels = BlockAnnotationEnum_ ()
-
-  _process_extends (index: Int, line: String): String =
-    if (index >= 0)
-    then _process_extends_at (index + tc.extends_reserved_word.length, line)
-    else line
-
-  _process_extends_at (index: Int, line: String): String =
-    line.substring (0, index) + (line.substring (index).replace (soda_space, tc.scala_with_translation) )
 
   get_table_translator (line: String): Translator =
     TableTranslator_ (
