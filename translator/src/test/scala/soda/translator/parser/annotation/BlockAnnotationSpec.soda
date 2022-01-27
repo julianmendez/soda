@@ -7,6 +7,7 @@ class BlockAnnotationSpec ()
   import
     soda.translator.block.Block
     soda.translator.block.DefaultBlockTranslator_
+    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
   example_program =
@@ -50,7 +51,11 @@ class BlockAnnotationSpec ()
     "\n")
 
   example_blocks: Seq [Block] =
-    BlockProcessor_ ( DefaultBlockTranslator_ ()).split_blocks (example_program)
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        DefaultBlockTranslator_ ()
+      )
+    ).split_blocks (example_program)
 
   detectors (block: Block): Seq [BlockAnnotation] =
     Seq (

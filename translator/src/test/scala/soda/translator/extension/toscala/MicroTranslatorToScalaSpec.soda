@@ -5,9 +5,15 @@ class MicroTranslatorToScalaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
+    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
-  instance = BlockProcessor_ (MicroTranslatorToScala_ ())
+  instance =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   test ("should translate a small snippet")
     let

@@ -5,9 +5,15 @@ case class MicroTranslatorToCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  lazy val instance = BlockProcessor_ (MicroTranslatorToCoq_ ()  )
+  lazy val instance =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToCoq_ ()
+      )
+    )
 
   test ("Coq translation of a constant")
     {

@@ -9,7 +9,15 @@ class ScalaNonSodaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
+    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
+
+  bp =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   test ("Scala reserved words are replaced")
     let
@@ -20,7 +28,7 @@ class ScalaNonSodaSpec ()
         "lazy val __soda__val x =" +
         "\n  __soda__while (x != 0 )" +
         "\n"
-      obtained = BlockProcessor_(MicroTranslatorToScala_()).translate (program)
+      obtained = bp.translate (program)
     in assert(obtained == expected)
 
   test ("some synonyms are Scala reserved words")
@@ -63,7 +71,7 @@ class ScalaNonSodaSpec ()
         "\n" +
         "\n}" +
         "\n"
-      obtained = BlockProcessor_ (MicroTranslatorToScala_ ()).translate (program)
+      obtained = bp.translate (program)
     in assert (obtained == expected)
 
 end

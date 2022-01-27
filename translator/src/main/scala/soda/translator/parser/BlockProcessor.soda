@@ -7,27 +7,23 @@ package soda.translator.parser
 class BlockProcessor
 
   import
-    soda.lib.SomeSD_
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.AnnotatedBlock_
-    soda.translator.block.BlockTranslator
-    soda.translator.block.Block
     soda.translator.block.BlockAnnotationEnum_
-    soda.translator.parser.BlockBuilder_
+    soda.translator.block.BlockSequenceTranslator
 
   abstract
-    translator: BlockTranslator
+    translator: BlockSequenceTranslator
 
   new_line = "\n"
 
   double_new_line = new_line + new_line
 
   translate (program: String): String =
-    SomeSD_ (program)
-      .map (split_blocks)
-      .map (translate_blocks)
-      .map (join_translated_blocks)
-      .value
+    join_translated_blocks (
+      translator.translate (
+        split_blocks (program)
+      )
+    )
 
   split_blocks (program: String): Seq [AnnotatedBlock] =
     program
@@ -41,7 +37,7 @@ class BlockProcessor
     )
 
   translate_blocks (blocks: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
-    blocks.map (block -> translator.translate (block) )
+    translator.translate (blocks)
 
   join_translated_blocks (blocks: Seq [AnnotatedBlock]): String =
     blocks
@@ -54,7 +50,7 @@ class BlockProcessor
 
 end
 
-class BlockProcessor_ (translator: soda.translator.block.BlockTranslator)
+class BlockProcessor_ (translator: soda.translator.block.BlockSequenceTranslator)
   extends
     BlockProcessor
 

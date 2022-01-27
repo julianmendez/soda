@@ -7,6 +7,7 @@ case class BlockAnnotationSpec ()
 
   import   soda.translator.block.Block
   import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
   lazy val example_program =
@@ -50,7 +51,11 @@ case class BlockAnnotationSpec ()
     "\n")
 
   lazy val example_blocks: Seq [Block] =
-    BlockProcessor_ (DefaultBlockTranslator_ ()  ) .split_blocks (example_program )
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        DefaultBlockTranslator_ ()
+      )
+    ) .split_blocks (example_program )
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
     Seq (

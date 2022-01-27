@@ -6,6 +6,7 @@ case class FullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
   import   java.nio.file.Files
   import   java.nio.file.Paths
@@ -46,7 +47,12 @@ case class FullTranslationSpec ()
     {
       lazy val input_file = read_file (input_file_name )
       lazy val expected = read_file (expected_file_name )
-      lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate  (input_file )
+      lazy val obtained =
+        BlockProcessor_ (
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_ ()
+          )
+        ) .translate (input_file )
       assert (obtained == expected ) }
 
   def read_file (file_name: String ): String =

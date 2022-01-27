@@ -6,6 +6,7 @@ class FullTranslationSpec ()
 
   import
     org.scalatest.Assertion
+    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
     java.nio.file.Files
     java.nio.file.Paths
@@ -46,7 +47,12 @@ class FullTranslationSpec ()
     let
       input_file = read_file (input_file_name)
       expected = read_file (expected_file_name)
-      obtained = BlockProcessor_ (MicroTranslatorToScala_ ()).translate  (input_file)
+      obtained =
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_()
+          )
+        ).translate (input_file)
     in assert (obtained == expected)
 
   read_file (file_name: String): String =

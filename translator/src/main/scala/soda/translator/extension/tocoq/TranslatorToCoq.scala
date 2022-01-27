@@ -9,10 +9,11 @@ trait TranslatorToCoq
     soda.translator.extension.common.Extension
 {
 
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_
   import   soda.translator.io.SimpleFileReader_
   import   soda.translator.io.SimpleFileWriter_
+  import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
   lazy val soda_extension: String = ".soda"
@@ -20,6 +21,13 @@ trait TranslatorToCoq
   lazy val coq_extension: String = ".v"
 
   lazy val default_argument = "."
+
+  lazy val translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToCoq_ ()
+      )
+    )
 
   def execute (arguments: Seq [String]  ): Boolean =
     if (arguments.length == 0 ) process_directory (default_argument )
@@ -51,7 +59,7 @@ trait TranslatorToCoq
   def translate_with_input (input: String, output_file_name: String ): Boolean =
     SimpleFileWriter_ () .write_file (
       output_file_name,
-      content = BlockProcessor_ (MicroTranslatorToCoq_ () ) .translate (input )
+      content = translator.translate (input )
     )
 
 }

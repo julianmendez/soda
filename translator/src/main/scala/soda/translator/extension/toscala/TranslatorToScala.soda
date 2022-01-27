@@ -9,10 +9,11 @@ class TranslatorToScala
     soda.translator.extension.common.Extension
 
   import
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.io.DirectoryProcessor_
     soda.translator.io.SimpleFileReader_
     soda.translator.io.SimpleFileWriter_
+    soda.translator.parser.BlockProcessor_
     java.io.File
 
   soda_extension: String = ".soda"
@@ -20,6 +21,13 @@ class TranslatorToScala
   scala_extension: String = ".scala"
 
   default_argument = "."
+
+  translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   execute (arguments: Seq [String]): Boolean =
     if arguments.length == 0 then process_directory (default_argument)
@@ -51,7 +59,7 @@ class TranslatorToScala
   translate_with_input (input: String, output_file_name: String): Boolean =
     SimpleFileWriter_ ().write_file (
       output_file_name,
-      content := BlockProcessor_ (MicroTranslatorToScala_ () ).translate (input)
+      content := translator.translate (input)
     )
 
 end

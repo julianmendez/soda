@@ -7,26 +7,22 @@ package soda.translator.parser
 trait BlockProcessor
 {
 
-  import   soda.lib.SomeSD_
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedBlock_
-  import   soda.translator.block.BlockTranslator
-  import   soda.translator.block.Block
   import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.BlockSequenceTranslator
 
-  def   translator: BlockTranslator
+  def   translator: BlockSequenceTranslator
 
   lazy val new_line = "\n"
 
   lazy val double_new_line = new_line + new_line
 
   def translate (program: String ): String =
-    SomeSD_ (program )
-      .map (split_blocks )
-      .map (translate_blocks )
-      .map (join_translated_blocks )
-      .value
+    join_translated_blocks (
+      translator.translate (
+        split_blocks (program )
+      )
+    )
 
   def split_blocks (program: String ): Seq [AnnotatedBlock] =
     program
@@ -40,7 +36,7 @@ trait BlockProcessor
     )
 
   def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
-    blocks.map (block => translator.translate (block ) )
+    translator.translate (blocks )
 
   def join_translated_blocks (blocks: Seq [AnnotatedBlock]  ): String =
     blocks
@@ -53,7 +49,7 @@ trait BlockProcessor
 
 }
 
-case class BlockProcessor_ (translator: soda.translator.block.BlockTranslator )
+case class BlockProcessor_ (translator: soda.translator.block.BlockSequenceTranslator )
   extends
     BlockProcessor
 {

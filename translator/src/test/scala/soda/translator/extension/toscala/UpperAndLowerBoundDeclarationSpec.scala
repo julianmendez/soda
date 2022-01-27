@@ -5,9 +5,15 @@ case class UpperAndLowerBoundDeclarationSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  lazy val instance = BlockProcessor_ (MicroTranslatorToScala_ ()  )
+  lazy val instance =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   test ("should translate a single upper bound")
     {

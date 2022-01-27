@@ -1,0 +1,27 @@
+package soda.translator.block
+
+class BlockSequenceTranslator
+
+  abstract
+    translate (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock]
+
+end
+
+class DefaultBlockSequenceTranslator
+  extends
+    BlockSequenceTranslator
+
+  abstract
+    translator : BlockTranslator
+
+  translate (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+    block_sequence.map (block -> translator.translate (block) )
+
+end
+
+class DefaultBlockSequenceTranslator_ (translator : BlockTranslator)
+  extends
+    DefaultBlockSequenceTranslator
+
+end
+

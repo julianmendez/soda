@@ -8,10 +8,16 @@ case class MultiLineSpec ()
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.BlockProcessor_
 
-  lazy val bp = BlockProcessor_ (DefaultBlockTranslator_ ()  )
+  lazy val bp =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   lazy val mt = MicroTranslatorToScala_ ()
 
