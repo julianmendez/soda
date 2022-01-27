@@ -135,9 +135,7 @@
             <keyword>end</keyword>
             <keyword>class</keyword>
             <keyword>abstract</keyword>
-            <keyword>has</keyword>
             <keyword>extends</keyword>
-            <keyword>with</keyword>
             <keyword>this</keyword>
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>

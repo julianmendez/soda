@@ -34,7 +34,6 @@ class
 else
 end
 extends
-has
 if
 import
 in
@@ -49,7 +48,6 @@ supertype
 then
 theorem
 this
-with
 |
 
 2

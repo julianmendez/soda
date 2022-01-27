@@ -26,9 +26,7 @@ The reserved words are:
 - `end`
 - `class`
 - `abstract`
-- `has`
 - `extends`
-- `with`
 - `this`
 - `subtype`
 - `supertype`
