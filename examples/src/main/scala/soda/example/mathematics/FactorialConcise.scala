@@ -1,13 +1,16 @@
 package soda.example.mathematics
 
-trait AbstractFactorialConcise {
+trait AbstractFactorialConcise
+{
 
   def   get_factorial (n: Int ): Int
 
 }
 
 trait FactorialConcise
-  extends AbstractFactorialConcise {
+  extends
+    AbstractFactorialConcise
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -23,3 +26,6 @@ trait FactorialConcise
 
 case class FactorialConcise_ ()
   extends FactorialConcise
+{
+
+}

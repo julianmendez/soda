@@ -1,6 +1,7 @@
 package soda.translator.parser
 
-trait SodaConstant {
+trait SodaConstant
+{
 
   lazy val space = " "
 
@@ -95,4 +96,8 @@ trait SodaConstant {
 }
 
 case class SodaConstant_ ()
-  extends SodaConstant
+  extends
+    SodaConstant
+{
+
+}

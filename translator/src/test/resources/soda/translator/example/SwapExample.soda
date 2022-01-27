@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* PairExample
+class PairExample
 
   abstract
     left: Int
@@ -8,13 +8,13 @@ package soda.example.algorithms
 
 end
 
-* PairExample_ (left: Int, right: Int)
+class PairExample_ (left: Int, right: Int)
   extends
     PairExample
 
 end
 
-* SwapExample
+class SwapExample
 
   left (pair: PairExample): Int =
     match pair

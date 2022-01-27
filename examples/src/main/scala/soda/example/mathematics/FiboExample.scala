@@ -1,13 +1,16 @@
 package soda.example.mathematics
 
-trait FiboExample {
+trait FiboExample
+{
 
   def   fib (n: Int ): Int
 
 }
 
 trait FiboExampleInSoda
-  extends FiboExample {
+  extends
+    FiboExample
+{
 
   def _rec (m: Int, a: Int, b: Int ): Int =
     if (m == 0 ) a
@@ -20,4 +23,8 @@ trait FiboExampleInSoda
 }
 
 case class FiboExampleInSoda_ ()
-  extends FiboExampleInSoda
+  extends
+    FiboExampleInSoda
+{
+
+}

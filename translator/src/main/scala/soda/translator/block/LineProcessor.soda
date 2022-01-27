@@ -1,6 +1,6 @@
 package soda.translator.block
 
-* SingleLineProcessor =
+class SingleLineProcessor
 
   abstract
     line: String

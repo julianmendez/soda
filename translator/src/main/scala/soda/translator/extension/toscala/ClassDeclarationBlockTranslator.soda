@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* ClassDeclarationBlockTranslator
-  extends soda.translator.block.BlockTranslator =
+class ClassDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -101,6 +102,8 @@ package soda.translator.extension.toscala
 
 end
 
-* ClassDeclarationBlockTranslator_ ()
-  extends ClassDeclarationBlockTranslator
+class ClassDeclarationBlockTranslator_ ()
+  extends
+    ClassDeclarationBlockTranslator
 
+end

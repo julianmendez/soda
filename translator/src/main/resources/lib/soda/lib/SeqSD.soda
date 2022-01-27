@@ -7,7 +7,8 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-* SeqSD [A] =
+
+class SeqSD [A]
 
   abstract
     opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B
@@ -16,8 +17,9 @@ package soda.lib
 
 end
 
-* EmptySeqSD [A]
-  extends SeqSD [A] =
+class EmptySeqSD [A]
+  extends
+    SeqSD [A]
 
   opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifEmpty
 
@@ -27,11 +29,15 @@ end
 
 end
 
-* EmptySeqSD_ [A] ()
-  extends EmptySeqSD [A]
+class EmptySeqSD_ [A] ()
+  extends
+    EmptySeqSD [A]
 
-* NonEmptySeqSD [A]
-  extends SeqSD [A] =
+end
+
+class NonEmptySeqSD [A]
+  extends
+    SeqSD [A]
 
   opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifNonEmpty (this)
 
@@ -43,10 +49,13 @@ end
 
 end
 
-* NonEmptySeqSD_ [A] (toSeq: Seq [A])
-  extends NonEmptySeqSD [A]
+class NonEmptySeqSD_ [A] (toSeq: Seq [A])
+  extends
+    NonEmptySeqSD [A]
 
-* SeqSDBuilder [A] =
+end
+
+class SeqSDBuilder [A]
 
   build (seq: Seq [A]): SeqSD [A] =
     if seq.isEmpty
@@ -55,6 +64,9 @@ end
 
 end
 
-* SeqSDBuilder_ [A] ()
-  extends SeqSDBuilder [A]
+class SeqSDBuilder_ [A] ()
+  extends
+    SeqSDBuilder [A]
+
+end
 

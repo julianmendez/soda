@@ -7,7 +7,9 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-trait Recursion {
+
+trait Recursion
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -45,4 +47,10 @@ trait Recursion {
 }
 
 case class Recursion_ ()
-  extends Recursion
+  extends
+    Recursion
+{
+
+}
+
+

@@ -1,7 +1,9 @@
 package soda.translator.extension.toscala
 
 trait ImportDeclarationBlockTranslator
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -63,4 +65,8 @@ trait ImportDeclarationBlockTranslator
 }
 
 case class ImportDeclarationBlockTranslator_ ()
-  extends ImportDeclarationBlockTranslator
+  extends
+    ImportDeclarationBlockTranslator
+{
+
+}

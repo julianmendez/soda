@@ -1,13 +1,15 @@
 package soda.collection
 
-trait MSeq [T] {
+trait MSeq [T]
+{
 
   def   isEmpty: Boolean
   def   opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
 
 }
 
-trait MSeqRec [T] {
+trait MSeqRec [T]
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -25,10 +27,16 @@ trait MSeqRec [T] {
 }
 
 case class MSeqRec_ [T] ()
-  extends MSeqRec [T]
+  extends
+    MSeqRec [T]
+{
+
+}
 
 trait ESeq [T]
-  extends MSeq [T] {
+  extends
+    MSeq [T]
+{
 
   lazy val isEmpty = true
 
@@ -37,10 +45,16 @@ trait ESeq [T]
 }
 
 case class ESeq_ [T] ()
-  extends ESeq [T]
+  extends
+    ESeq [T]
+{
+
+}
 
 trait NEMSeq [T]
-  extends MSeq [T] {
+  extends
+    MSeq [T]
+{
 
   def   head0: T
   def   tail0: MSeq [T]
@@ -48,7 +62,9 @@ trait NEMSeq [T]
 }
 
 trait NESeq [T]
-  extends NEMSeq [T] {
+  extends
+    NEMSeq [T]
+{
 
   lazy val isEmpty = false
 
@@ -61,4 +77,8 @@ trait NESeq [T]
 }
 
 case class NESeq_ [T] (head0: T, tail0: MSeq [T]  )
-  extends NESeq [T]
+  extends
+    NESeq [T]
+{
+
+}

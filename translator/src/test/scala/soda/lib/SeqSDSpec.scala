@@ -1,7 +1,9 @@
 package soda.lib
 
 case class SeqSDSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("should detect an empty sequence")
     {

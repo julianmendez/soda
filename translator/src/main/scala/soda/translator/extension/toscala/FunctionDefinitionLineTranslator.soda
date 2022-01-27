@@ -21,8 +21,10 @@ package soda.translator.extension.toscala
  * This is no longer supported.
  *
  */
-* FunctionDefinitionLineTranslator
-  extends soda.translator.block.LineTranslator =
+
+class FunctionDefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
 
   import
     soda.lib.OptionSD
@@ -101,6 +103,8 @@ package soda.translator.extension.toscala
 
 end
 
-* FunctionDefinitionLineTranslator_ (line: String)
-  extends FunctionDefinitionLineTranslator
+class FunctionDefinitionLineTranslator_ (line: String)
+  extends
+    FunctionDefinitionLineTranslator
 
+end

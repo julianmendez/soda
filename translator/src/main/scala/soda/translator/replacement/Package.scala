@@ -6,3 +6,8 @@ package soda.translator.replacement
  */
 
 trait Package
+{
+
+}
+
+

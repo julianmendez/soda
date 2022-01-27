@@ -7,7 +7,9 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-trait OptionSD [A] {
+
+trait OptionSD [A]
+{
 
   def   opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B
   def   map [B] (mapping: A => B ): OptionSD [B]
@@ -25,7 +27,9 @@ trait OptionSD [A] {
 }
 
 trait NoneSD [A]
-  extends OptionSD [A] {
+  extends
+    OptionSD [A]
+{
 
   def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
 
@@ -54,17 +58,25 @@ trait NoneSD [A]
 }
 
 case class NoneSD_ [A] ()
-  extends NoneSD [A]
+  extends
+    NoneSD [A]
+{
+
+}
 
 trait OptionSDWithElement [A]
-  extends OptionSD [A] {
+  extends
+    OptionSD [A]
+{
 
   def   element: A
 
 }
 
 trait SomeSD [A]
-  extends OptionSDWithElement [A] {
+  extends
+    OptionSDWithElement [A]
+{
 
   lazy val value: A = element
 
@@ -96,8 +108,12 @@ trait SomeSD [A]
 
 case class SomeSD_ [A] (element: A )
   extends SomeSD [A]
+{
 
-trait OptionSDBuilder [A] {
+}
+
+trait OptionSDBuilder [A]
+{
 
   def build (option: Option [A]  ): OptionSD [A] =
     if (option.isEmpty
@@ -107,4 +123,8 @@ trait OptionSDBuilder [A] {
 }
 
 case class OptionSDBuilder_ [A] ()
-  extends OptionSDBuilder [A]
+  extends
+    OptionSDBuilder [A]
+{
+
+}

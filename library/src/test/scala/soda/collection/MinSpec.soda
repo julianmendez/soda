@@ -1,7 +1,8 @@
 package soda.collection
 
-* MinSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class MinSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.lib.OptionSD

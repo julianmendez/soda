@@ -1,14 +1,15 @@
 package soda.example.algorithms
 
-* SortExample =
+class SortExample
 
   abstract
     is_sorted (sequence: Seq [Int]): Boolean
 
 end
 
-* SortExampleWithAt
-  extends SortExample =
+class SortExampleWithAt
+  extends
+    SortExample
 
   is_sorted (sequence: Seq [Int]): Boolean =
     sequence
@@ -18,11 +19,15 @@ end
 
 end
 
-* SortExampleWithAt_ ()
-  extends SortExampleWithAt
+class SortExampleWithAt_ ()
+  extends
+    SortExampleWithAt
 
-* SortExampleWithZip
-  extends SortExample =
+end
+
+class SortExampleWithZip
+  extends
+    SortExample
 
   is_sorted (sequence: Seq [Int]): Boolean =
     sequence
@@ -31,18 +36,22 @@ end
 
 end
 
-* SortExampleWithZip_ ()
-  extends SortExampleWithZip
+class SortExampleWithZip_ ()
+  extends
+    SortExampleWithZip
 
-* SortAlgorithmExample =
+end
+
+class SortAlgorithmExample
 
   abstract
     sort (sequence: Seq [Int]): Seq [Int]
 
 end
 
-* SortAlgorithmExampleWithFold
-  extends SortAlgorithmExample =
+class SortAlgorithmExampleWithFold
+  extends
+    SortAlgorithmExample
 
   import
     soda.lib.Recursion_
@@ -69,10 +78,13 @@ end
 
 end
 
-* SortAlgorithmExampleWithFold_ ()
-  extends SortAlgorithmExampleWithFold
+class SortAlgorithmExampleWithFold_ ()
+  extends
+    SortAlgorithmExampleWithFold
 
-* ConstrainedSortAlgorithm =
+end
+
+class ConstrainedSortAlgorithm
 
   import
     soda.lib.OptionSD
@@ -89,10 +101,13 @@ end
 
 end
 
-* ConstrainedSortAlgorithm_ ()
-  extends ConstrainedSortAlgorithm
+class ConstrainedSortAlgorithm_ ()
+  extends
+    ConstrainedSortAlgorithm
 
-* SortedSequence [A subtype Comparable [A]] =
+end
+
+class SortedSequence [A subtype Comparable [A]]
 
   abstract
     sequence: Seq [A]
@@ -101,8 +116,9 @@ end
 
 end
 
-* EmptySortedSequence [A subtype Comparable [A]]
-  extends SortedSequence [A] =
+class EmptySortedSequence [A subtype Comparable [A]]
+  extends
+    SortedSequence [A]
 
   sequence = Seq ()
 
@@ -113,19 +129,24 @@ end
 
 end
 
-* EmptySortedSequence_ [A subtype Comparable [A]] ()
-  extends EmptySortedSequence [A]
+class EmptySortedSequence_ [A subtype Comparable [A]] ()
+  extends
+    EmptySortedSequence [A]
 
-* SortedSequenceWithElements [A subtype Comparable [A]]
-  extends SortedSequence [A] =
+end
+
+class SortedSequenceWithElements [A subtype Comparable [A]]
+  extends
+    SortedSequence [A]
 
   abstract
     sequence: Seq [A]
 
 end
 
-* NonEmptySortedSequence [A subtype Comparable [A]]
-  extends SortedSequenceWithElements [A] =
+class NonEmptySortedSequence [A subtype Comparable [A]]
+  extends
+    SortedSequenceWithElements [A]
 
   aux = NonEmptySortedSequenceAux_ [A] ()
 
@@ -136,10 +157,13 @@ end
 
 end
 
-* _NonEmptySortedSequence_ [A subtype Comparable [A]] (sequence: Seq [A])
-  extends NonEmptySortedSequence [A]
+class _NonEmptySortedSequence_ [A subtype Comparable [A]] (sequence: Seq [A])
+  extends
+    NonEmptySortedSequence [A]
 
-* NonEmptySortedSequenceAux [A subtype Comparable [A]] =
+end
+
+class NonEmptySortedSequenceAux [A subtype Comparable [A]]
 
   is_less_than (x: A, y: A): Boolean =
     x.compareTo (y) < 0
@@ -161,10 +185,13 @@ end
 
 end
 
-* NonEmptySortedSequenceAux_ [A subtype Comparable [A]] ()
-  extends NonEmptySortedSequenceAux [A]
+class NonEmptySortedSequenceAux_ [A subtype Comparable [A]] ()
+  extends
+    NonEmptySortedSequenceAux [A]
 
-* SortedSequenceBuilder [A subtype Comparable [A]] =
+end
+
+class SortedSequenceBuilder [A subtype Comparable [A]]
 
   import
     soda.lib.Recursion_
@@ -179,6 +206,9 @@ end
 
 end
 
-* SortedSequenceBuilder_ [A subtype Comparable [A]] ()
-  extends SortedSequenceBuilder [A]
+class SortedSequenceBuilder_ [A subtype Comparable [A]] ()
+  extends
+    SortedSequenceBuilder [A]
+
+end
 

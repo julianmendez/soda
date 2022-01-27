@@ -1,14 +1,17 @@
 package soda.translator.blocktr
 
-trait Table {
+trait Table
+{
 
   def   table: Seq [(String, String )]
 
 }
 
 trait TableTranslator
-  extends Table
-  with soda.translator.block.Translator {
+  extends
+    Table
+    with soda.translator.block.Translator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.replacement.Replacement_
@@ -22,4 +25,8 @@ trait TableTranslator
 }
 
 case class TableTranslator_ (table: Seq [(String, String )]  )
-  extends TableTranslator
+  extends
+    TableTranslator
+{
+
+}

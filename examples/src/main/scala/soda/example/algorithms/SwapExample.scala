@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-trait PairExample {
+trait PairExample
+{
 
   def   left: Int
   def   right: Int
@@ -8,9 +9,14 @@ trait PairExample {
 }
 
 case class PairExample_ (left: Int, right: Int )
-  extends PairExample
+  extends
+    PairExample
+{
 
-trait SwapExample {
+}
+
+trait SwapExample
+{
 
   def left (pair: PairExample ): Int =
     pair match  {

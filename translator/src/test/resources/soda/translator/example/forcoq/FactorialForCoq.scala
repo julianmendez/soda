@@ -1,6 +1,7 @@
 package soda.example.forcoq
 
-trait FactorialForCoq {
+trait FactorialForCoq =
+{
 
   import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.O
@@ -19,3 +20,4 @@ trait FactorialForCoq {
 
 case class FactorialForCoq_ ()
   extends FactorialForCoq
+{

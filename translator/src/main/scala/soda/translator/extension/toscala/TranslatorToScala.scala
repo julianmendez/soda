@@ -3,8 +3,11 @@ package soda.translator.extension.toscala
 /**
  * This translates Soda source code to Scala source code.
  */
+
 trait TranslatorToScala
-  extends soda.translator.extension.common.Extension {
+  extends
+    soda.translator.extension.common.Extension
+{
 
   import   soda.translator.parser.BlockProcessor_
   import   soda.translator.io.DirectoryProcessor_
@@ -54,9 +57,14 @@ trait TranslatorToScala
 }
 
 case class TranslatorToScala_ ()
-  extends TranslatorToScala
+  extends
+    TranslatorToScala
+{
 
-trait FileNamePair {
+}
+
+trait FileNamePair
+{
 
   def   input_file_name: String
   def   output_file_name: String
@@ -64,4 +72,8 @@ trait FileNamePair {
 }
 
 case class FileNamePair_ (input_file_name: String, output_file_name: String )
-  extends FileNamePair
+  extends
+    FileNamePair
+{
+
+}

@@ -1,6 +1,6 @@
 package soda.collection
 
-* MSeqTranslator [T] =
+class MSeqTranslator [T]
 
   @tailrec
   _tailrec_foldLeftSeq [B, C subtype B] (sequence: Seq [T], current_value: C,next_value: (B, T) -> C): C =
@@ -25,10 +25,13 @@ package soda.collection
 
 end
 
-* MSeqTranslator_ [T] ()
-  extends MSeqTranslator [T]
+class MSeqTranslator_ [T] ()
+  extends
+    MSeqTranslator [T]
 
-* MSeqPair [T] =
+end
+
+class MSeqPair [T]
 
   abstract
     left: MSeq [T]
@@ -36,10 +39,13 @@ end
 
 end
 
-* MSeqPair_ [T] (left: MSeq [T], right: MSeq [T])
-  extends MSeqPair [T]
+class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T])
+  extends
+    MSeqPair [T]
 
-* Min [T] =
+end
+
+class Min [T]
 
   import
     soda.lib.OptionSD
@@ -252,10 +258,13 @@ end
 
 end
 
-* Min_ [T] ()
-  extends Min [T]
+class Min_ [T] ()
+  extends
+    Min [T]
 
-* IndexFoldTuple [T] =
+end
+
+class IndexFoldTuple [T]
 
    abstract
      index: Int
@@ -263,10 +272,13 @@ end
 
 end
 
-* IndexFoldTuple_ [T] (index: Int, position: Int)
-  extends IndexFoldTuple [T]
+class IndexFoldTuple_ [T] (index: Int, position: Int)
+  extends
+    IndexFoldTuple [T]
 
-* AtFoldTuple [T] =
+end
+
+class AtFoldTuple [T]
 
   abstract
     elem: T
@@ -274,10 +286,13 @@ end
 
 end
 
-* AtFoldTuple_ [T] (elem: T, index: Int)
-  extends AtFoldTuple [T]
+class AtFoldTuple_ [T] (elem: T, index: Int)
+  extends
+    AtFoldTuple [T]
 
-* TakeDropFoldTuple [T] =
+end
+
+class TakeDropFoldTuple [T]
 
    abstract
      seq: MSeq [T]
@@ -285,10 +300,13 @@ end
 
 end
 
-* TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int)
-  extends TakeDropFoldTuple [T]
+class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int)
+  extends
+    TakeDropFoldTuple [T]
 
-* SpanRevFoldTuple [T] =
+end
+
+class SpanRevFoldTuple [T]
 
   abstract
     left: MSeq [T]
@@ -297,6 +315,8 @@ end
 
 end
 
-* SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean)
-  extends SpanRevFoldTuple [T]
+class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean)
+  extends
+    SpanRevFoldTuple [T]
 
+end

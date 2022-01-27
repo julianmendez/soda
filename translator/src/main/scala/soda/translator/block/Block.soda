@@ -1,6 +1,6 @@
 package soda.translator.block
 
-* AnnotatedLine =
+class AnnotatedLine
 
   abstract
     line: String
@@ -8,11 +8,14 @@ package soda.translator.block
 
 end
 
-* AnnotatedLine_ (line: String, is_comment: Boolean)
+class AnnotatedLine_ (line: String, is_comment: Boolean)
   extends AnnotatedLine
 
-* Block
-  extends PlainBlock =
+end
+
+class Block
+  extends
+    PlainBlock
 
   abstract
     annotated_lines: Seq [AnnotatedLine]
@@ -23,6 +26,8 @@ end
 
 end
 
-* Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine])
-  extends Block
+class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine])
+  extends
+    Block
 
+end

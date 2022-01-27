@@ -3,8 +3,10 @@ package soda.translator.extension.toscala
 /**
  * This translates Soda source code to Scala source code.
  */
-* TranslatorToScala
-  extends soda.translator.extension.common.Extension =
+
+class TranslatorToScala
+  extends
+    soda.translator.extension.common.Extension
 
   import
     soda.translator.parser.BlockProcessor_
@@ -54,10 +56,13 @@ package soda.translator.extension.toscala
 
 end
 
-* TranslatorToScala_ ()
-  extends TranslatorToScala
+class TranslatorToScala_ ()
+  extends
+    TranslatorToScala
 
-* FileNamePair =
+end
+
+class FileNamePair
 
   abstract
     input_file_name: String
@@ -65,6 +70,9 @@ end
 
 end
 
-* FileNamePair_ (input_file_name: String, output_file_name: String)
-  extends FileNamePair
+class FileNamePair_ (input_file_name: String, output_file_name: String)
+  extends
+    FileNamePair
+
+end
 

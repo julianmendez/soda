@@ -24,8 +24,11 @@ package soda.translator.extension.tocoq
  * This is no longer supported.
  *
  */
+
 trait DefinitionLineTranslator
-  extends soda.translator.block.LineTranslator {
+  extends
+    soda.translator.block.LineTranslator
+{
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -129,4 +132,8 @@ trait DefinitionLineTranslator
 }
 
 case class DefinitionLineTranslator_ (line: String )
-  extends DefinitionLineTranslator
+  extends
+    DefinitionLineTranslator
+{
+
+}

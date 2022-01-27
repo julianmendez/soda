@@ -1,7 +1,8 @@
 package soda.translator.parser.annotation
 
-* BlockAnnotationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class BlockAnnotationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.translator.block.Block

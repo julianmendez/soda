@@ -3,8 +3,10 @@ package soda.translator.extension.tocoq
 /**
  * This class translates Soda snippets into Coq snippets.
  */
-* MicroTranslatorToCoq
-  extends soda.translator.block.BlockTranslator =
+
+class MicroTranslatorToCoq
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -43,6 +45,9 @@ package soda.translator.extension.tocoq
 
 end
 
-* MicroTranslatorToCoq_ ()
-  extends MicroTranslatorToCoq
+class MicroTranslatorToCoq_ ()
+  extends
+    MicroTranslatorToCoq
+
+end
 

@@ -1,6 +1,6 @@
 package soda.translator.blocktr
 
-* TokenReplacement =
+class TokenReplacement
 
   import
     soda.translator.replacement.ReplacementAux_
@@ -32,6 +32,9 @@ package soda.translator.blocktr
 
 end
 
-* TokenReplacement_ ()
-  extends TokenReplacement
+class TokenReplacement_ ()
+  extends
+    TokenReplacement
+
+end
 

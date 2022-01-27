@@ -3,7 +3,8 @@ package soda.translator.parser
 /**
  * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
  */
-* BlockProcessor =
+
+class BlockProcessor
 
   import
     soda.lib.SomeSD_
@@ -53,6 +54,9 @@ package soda.translator.parser
 
 end
 
-* BlockProcessor_ (translator: soda.translator.block.BlockTranslator)
-  extends BlockProcessor
+class BlockProcessor_ (translator: soda.translator.block.BlockTranslator)
+  extends
+    BlockProcessor
+
+end
 

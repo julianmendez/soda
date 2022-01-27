@@ -1,7 +1,8 @@
 package soda.example.forcoq.lib
 
-* ListSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class ListSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("list from Seq")
     let

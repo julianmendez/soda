@@ -1,7 +1,9 @@
 package soda.translator.extension.toscala
 
 case class FullTranslationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   org.scalatest.Assertion
   import   soda.translator.parser.BlockProcessor_

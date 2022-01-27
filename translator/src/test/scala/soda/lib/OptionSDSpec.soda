@@ -1,7 +1,8 @@
 package soda.lib
 
-* OptionSDSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class OptionSDSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     scala.util.Try

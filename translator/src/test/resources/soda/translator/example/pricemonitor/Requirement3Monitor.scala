@@ -1,9 +1,11 @@
 package soda.example.pricemonitor
 
 case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
+{
 
 trait Requirement3Monitor
-  extends RequirementMonitor {
+  extends RequirementMonitor =
+{
 
   def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
     {
@@ -24,9 +26,11 @@ trait Requirement3Monitor
 
 case class Requirement3Monitor_ (pricing_agent: PricingAgent )
   extends Requirement3Monitor
+{
 
 trait Segment
-  extends Flight {
+  extends Flight =
+{
 
   lazy val intermediate_airports = Seq [String]  ()
 
@@ -34,8 +38,10 @@ trait Segment
 
 case class Segment_ (start_airport: String, end_airport: String )
   extends Segment
+{
 
-trait SegmentsForFlight {
+trait SegmentsForFlight =
+{
 
   def   flight: Flight
 
@@ -52,3 +58,4 @@ trait SegmentsForFlight {
 
 case class SegmentsForFlight_ (flight: Flight )
   extends SegmentsForFlight
+{

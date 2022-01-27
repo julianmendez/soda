@@ -1,6 +1,6 @@
 package soda.translator.block
 
-* PlainBlock =
+class PlainBlock
 
   abstract
     lines: Seq [String]
@@ -12,6 +12,8 @@ package soda.translator.block
 
 end
 
-* PlainBlock_ (lines: Seq [String])
-  extends PlainBlock
+class PlainBlock_ (lines: Seq [String])
+  extends
+    PlainBlock
 
+end

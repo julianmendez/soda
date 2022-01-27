@@ -1,7 +1,9 @@
 package soda.translator.extension.tocoq
 
 trait MatchCaseBlockTranslator
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -31,4 +33,8 @@ trait MatchCaseBlockTranslator
 }
 
 case class MatchCaseBlockTranslator_ ()
-  extends MatchCaseBlockTranslator
+  extends
+    MatchCaseBlockTranslator
+{
+
+}

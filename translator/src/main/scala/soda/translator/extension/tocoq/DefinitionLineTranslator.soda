@@ -24,8 +24,10 @@ package soda.translator.extension.tocoq
  * This is no longer supported.
  *
  */
-* DefinitionLineTranslator
-  extends soda.translator.block.LineTranslator =
+
+class DefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
 
   import
     soda.lib.OptionSD
@@ -129,6 +131,9 @@ package soda.translator.extension.tocoq
 
 end
 
-* DefinitionLineTranslator_ (line: String)
-  extends DefinitionLineTranslator
+class DefinitionLineTranslator_ (line: String)
+  extends
+    DefinitionLineTranslator
+
+end
 

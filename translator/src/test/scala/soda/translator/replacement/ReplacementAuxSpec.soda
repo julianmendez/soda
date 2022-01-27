@@ -1,7 +1,8 @@
 package soda.translator.replacement
 
-* ReplacementAuxSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class ReplacementAuxSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   instance = ReplacementAux_ ()
 

@@ -1,7 +1,8 @@
 package soda.translator.extension.tocoq
 
-* CoqTheoremBlockTranslator
-  extends soda.translator.block.BlockTranslator =
+class CoqTheoremBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -47,6 +48,9 @@ package soda.translator.extension.tocoq
 
 end
 
-* CoqTheoremBlockTranslator_ ()
-  extends CoqTheoremBlockTranslator
+class CoqTheoremBlockTranslator_ ()
+  extends
+    CoqTheoremBlockTranslator
+
+end
 

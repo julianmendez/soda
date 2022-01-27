@@ -1,6 +1,6 @@
 package soda.translator.replacement
 
-* LinePatternProcessor =
+class LinePatternProcessor
 
   abstract
     line: String
@@ -9,8 +9,9 @@ package soda.translator.replacement
 
 end
 
-* Replacer
-  extends LinePatternProcessor =
+class Replacer
+  extends
+    LinePatternProcessor
 
   import
     soda.lib.Recursion_
@@ -44,9 +45,13 @@ end
 
 end
 
-* Replacer_ (line: String, pattern: String, replacement: String) extends Replacer
+class Replacer_ (line: String, pattern: String, replacement: String)
+  extends
+    Replacer
 
-* ReplacerFoldTuple =
+end
+
+class ReplacerFoldTuple
 
   abstract
     replaced_text_rev: Seq [String]
@@ -54,5 +59,8 @@ end
 
 end
 
-* ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int) extends ReplacerFoldTuple
+class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int)
+  extends
+    ReplacerFoldTuple
 
+end

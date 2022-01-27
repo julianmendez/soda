@@ -7,3 +7,8 @@ package soda.translator.extension
  */
 
 trait Package
+{
+
+}
+
+

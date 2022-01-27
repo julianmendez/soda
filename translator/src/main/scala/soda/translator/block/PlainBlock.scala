@@ -1,6 +1,7 @@
 package soda.translator.block
 
-trait PlainBlock {
+trait PlainBlock
+{
 
   def   lines: Seq [String]
 
@@ -12,4 +13,8 @@ trait PlainBlock {
 }
 
 case class PlainBlock_ (lines: Seq [String]  )
-  extends PlainBlock
+  extends
+    PlainBlock
+{
+
+}

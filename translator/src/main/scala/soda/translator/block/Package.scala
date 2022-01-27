@@ -5,3 +5,6 @@ package soda.translator.block
  */
 
 trait Package
+{
+
+}

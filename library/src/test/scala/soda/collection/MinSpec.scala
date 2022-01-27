@@ -1,7 +1,9 @@
 package soda.collection
 
 case class MinSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   soda.lib.OptionSD
   import   soda.lib.NoneSD_

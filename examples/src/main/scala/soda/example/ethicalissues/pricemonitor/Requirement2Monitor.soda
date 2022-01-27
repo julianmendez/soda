@@ -2,8 +2,11 @@ package soda.example.ethicalissues.pricemonitor
 
 class Report2 (compliant: Boolean, old_price: Int, new_price: Int)
 
+end
+
 class Requirement2Monitor
-  extends RequirementMonitor =
+  extends
+    RequirementMonitor
 
   acceptable_increase = 1.25
 
@@ -22,5 +25,7 @@ class Requirement2Monitor
 end
 
 class Requirement2Monitor_ (pricing_agent: PricingAgent)
-  extends Requirement2Monitor
+  extends
+    Requirement2Monitor
 
+end

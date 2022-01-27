@@ -1,6 +1,6 @@
 package soda.collection.example
 
-* Pair [T] =
+class Pair [T]
 
   abstract
     name: String
@@ -8,10 +8,13 @@ package soda.collection.example
 
 end
 
-* Pair_ [T](name: String, result: T)
-  extends Pair [T]
+class Pair_ [T] (name: String, result: T)
+  extends
+    Pair [T]
 
-* ListExample =
+end
+
+class ListExample
 
   a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
 
@@ -91,6 +94,10 @@ end
 
 end
 
-* ListExample_()
-  extends ListExample
+class ListExample_ ()
+  extends
+    ListExample
+
+end
+
 

@@ -1,6 +1,7 @@
 package soda.collection
 
-trait MSeqTranslator [T] {
+trait MSeqTranslator [T]
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -27,9 +28,14 @@ trait MSeqTranslator [T] {
 }
 
 case class MSeqTranslator_ [T] ()
-  extends MSeqTranslator [T]
+  extends
+    MSeqTranslator [T]
+{
 
-trait MSeqPair [T] {
+}
+
+trait MSeqPair [T]
+{
 
   def   left: MSeq [T]
   def   right: MSeq [T]
@@ -37,9 +43,14 @@ trait MSeqPair [T] {
 }
 
 case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]  )
-  extends MSeqPair [T]
+  extends
+    MSeqPair [T]
+{
 
-trait Min [T] {
+}
+
+trait Min [T]
+{
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -252,9 +263,14 @@ trait Min [T] {
 }
 
 case class Min_ [T] ()
-  extends Min [T]
+  extends
+    Min [T]
+{
 
-trait IndexFoldTuple [T] {
+}
+
+trait IndexFoldTuple [T]
+{
 
    def   index: Int
    def   position: Int
@@ -262,9 +278,14 @@ trait IndexFoldTuple [T] {
 }
 
 case class IndexFoldTuple_ [T] (index: Int, position: Int )
-  extends IndexFoldTuple [T]
+  extends
+    IndexFoldTuple [T]
+{
 
-trait AtFoldTuple [T] {
+}
+
+trait AtFoldTuple [T]
+{
 
   def   elem: T
   def   index: Int
@@ -272,9 +293,14 @@ trait AtFoldTuple [T] {
 }
 
 case class AtFoldTuple_ [T] (elem: T, index: Int )
-  extends AtFoldTuple [T]
+  extends
+    AtFoldTuple [T]
+{
 
-trait TakeDropFoldTuple [T] {
+}
+
+trait TakeDropFoldTuple [T]
+{
 
    def   seq: MSeq [T]
    def   index: Int
@@ -282,9 +308,14 @@ trait TakeDropFoldTuple [T] {
 }
 
 case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int )
-  extends TakeDropFoldTuple [T]
+  extends
+    TakeDropFoldTuple [T]
+{
 
-trait SpanRevFoldTuple [T] {
+}
+
+trait SpanRevFoldTuple [T]
+{
 
   def   left: MSeq [T]
   def   right: MSeq [T]
@@ -293,4 +324,8 @@ trait SpanRevFoldTuple [T] {
 }
 
 case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean )
-  extends SpanRevFoldTuple [T]
+  extends
+    SpanRevFoldTuple [T]
+{
+
+}

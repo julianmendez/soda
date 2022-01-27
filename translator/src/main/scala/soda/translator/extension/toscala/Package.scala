@@ -5,3 +5,8 @@ package soda.translator.extension.toscala
  */
 
 trait Package
+{
+
+}
+
+

@@ -1,13 +1,16 @@
 package soda.example.mathematics
 
-trait AbstractFactorialVerbose {
+trait AbstractFactorialVerbose
+{
 
   def   get_factorial (n: Int ): Int
 
 }
 
 trait FactorialVerbose
-  extends AbstractFactorialVerbose {
+  extends
+    AbstractFactorialVerbose
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -22,4 +25,8 @@ trait FactorialVerbose
 }
 
 case class FactorialVerbose_ ()
-  extends FactorialVerbose
+  extends
+    FactorialVerbose
+{
+
+}

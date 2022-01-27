@@ -1,6 +1,7 @@
 package soda.translator.extension.toscala
 
-trait ExampleWithWrongOrder {
+trait ExampleWithWrongOrder
+{
 
   lazy val this_is_null_but = constant_defined_later
 
@@ -8,9 +9,15 @@ trait ExampleWithWrongOrder {
 
 }
 
-case class ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
+case class ExampleWithWrongOrder_ ()
+  extends
+    ExampleWithWrongOrder
+{
 
-trait ExampleWithRightOrder {
+}
+
+trait ExampleWithRightOrder
+{
 
   lazy val constant_defined_before = "Success!"
 
@@ -18,9 +25,15 @@ trait ExampleWithRightOrder {
 
 }
 
-case class ExampleWithRightOrder_ () extends ExampleWithRightOrder
+case class ExampleWithRightOrder_ ()
+  extends
+    ExampleWithRightOrder
+{
 
-trait ExampleWithEmptyParentheses {
+}
+
+trait ExampleWithEmptyParentheses
+{
 
   def this_is_not_null  () = constant_defined_later
 
@@ -28,9 +41,14 @@ trait ExampleWithEmptyParentheses {
 
 }
 
-case class ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
+case class ExampleWithEmptyParentheses_ ()
+  extends ExampleWithEmptyParentheses
+{
 
-trait AnotherExampleWithEmptyParentheses {
+}
+
+trait AnotherExampleWithEmptyParentheses
+{
 
   lazy val this_is_not_null = constant_function_defined_later  ()
 
@@ -38,14 +56,21 @@ trait AnotherExampleWithEmptyParentheses {
 
 }
 
-case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
+case class AnotherExampleWithEmptyParentheses_ ()
+  extends AnotherExampleWithEmptyParentheses
+{
+
+}
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
+
 case class LazySyntaxSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("should show what happens when constants are defined in the wrong order")
     {

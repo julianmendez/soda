@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* FullTranslationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class FullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     org.scalatest.Assertion

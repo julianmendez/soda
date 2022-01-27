@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* MainSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class MainSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   instance = TranslatorToScala_ ()
 

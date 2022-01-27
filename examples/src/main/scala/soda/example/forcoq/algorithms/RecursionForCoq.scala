@@ -3,7 +3,9 @@ package soda.example.forcoq.algorithms
 /**
  * This class contains tail recursive auxiliary functions.
  */
-trait RecursionForCoq {
+
+trait RecursionForCoq
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -43,4 +45,8 @@ trait RecursionForCoq {
 }
 
 case class RecursionForCoq_ ()
-  extends RecursionForCoq
+  extends
+    RecursionForCoq
+{
+
+}

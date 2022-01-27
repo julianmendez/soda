@@ -1,9 +1,14 @@
 package soda.example.ethicalissues.pricemonitor
 
 case class Report1 (compliant: Boolean, price1: Int, price2: Int, similarity: Double )
+{
+
+}
 
 trait Requirement1Monitor
-  extends RequirementMonitor {
+  extends
+    RequirementMonitor
+{
 
   lazy val minimum_similarity = 0.95
 
@@ -31,4 +36,8 @@ trait Requirement1Monitor
 }
 
 case class Requirement1Monitor_ (pricing_agent: PricingAgent )
-  extends Requirement1Monitor
+  extends
+    Requirement1Monitor
+{
+
+}

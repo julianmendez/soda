@@ -1,10 +1,14 @@
 package soda.translator.block
 
-* BlockAnnotationId (ordinal: Int, name: String)
-  extends soda.lib.EnumConstant
+class BlockAnnotationId (ordinal: Int, name: String)
+  extends
+    soda.lib.EnumConstant
 
-* BlockAnnotationEnum
-  extends soda.lib.Enum [BlockAnnotationId] =
+end
+
+class BlockAnnotationEnum
+  extends
+    soda.lib.Enum [BlockAnnotationId]
 
   undefined = BlockAnnotationId (0, "undefined")
 
@@ -51,6 +55,8 @@ package soda.translator.block
 
 end
 
-* BlockAnnotationEnum_ ()
-  extends BlockAnnotationEnum
+class BlockAnnotationEnum_ ()
+  extends
+    BlockAnnotationEnum
 
+end

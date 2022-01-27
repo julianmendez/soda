@@ -7,7 +7,9 @@ package soda.lib
 /**
  * This class contains auxiliary functions for combinations.
  */
-trait CartesianProduct {
+
+trait CartesianProduct
+{
 
   def _initial_value [T] (seq: Seq [T]  ): Seq [Seq [T]] =
     seq.map (elem => Seq [T] (elem )  )
@@ -27,4 +29,8 @@ trait CartesianProduct {
 }
 
 case class CartesianProduct_ ()
-  extends CartesianProduct
+  extends
+    CartesianProduct
+{
+
+}

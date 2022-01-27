@@ -1,7 +1,9 @@
 package soda.translator.parser.annotation
 
 trait ClassEndAnnotation
-  extends BlockAnnotation {
+  extends
+    BlockAnnotation
+{
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
@@ -16,4 +18,8 @@ trait ClassEndAnnotation
 }
 
 case class ClassEndAnnotation_ (block: soda.translator.block.Block )
-  extends ClassEndAnnotation
+  extends
+    ClassEndAnnotation
+{
+
+}

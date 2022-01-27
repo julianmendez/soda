@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* FizzBuzz
+class FizzBuzz
 
   import
     soda.lib.Recursion_
@@ -26,7 +26,7 @@ package soda.example.algorithms
 
 end
 
-* FizzBuzz_ ()
+class FizzBuzz_ ()
   extends
     FizzBuzz
 

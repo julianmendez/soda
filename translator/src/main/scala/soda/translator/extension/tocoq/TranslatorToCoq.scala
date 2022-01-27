@@ -3,8 +3,11 @@ package soda.translator.extension.tocoq
 /**
  * This translates Soda source code to Coq source code.
  */
+
 trait TranslatorToCoq
-  extends soda.translator.extension.common.Extension {
+  extends
+    soda.translator.extension.common.Extension
+{
 
   import   soda.translator.parser.BlockProcessor_
   import   soda.translator.io.DirectoryProcessor_
@@ -55,8 +58,12 @@ trait TranslatorToCoq
 
 case class TranslatorToCoq_ ()
   extends TranslatorToCoq
+{
 
-trait FileNamePair {
+}
+
+trait FileNamePair
+{
 
   def   input_file_name: String
   def   output_file_name: String
@@ -64,4 +71,8 @@ trait FileNamePair {
 }
 
 case class FileNamePair_ (input_file_name: String, output_file_name: String )
-  extends FileNamePair
+  extends
+    FileNamePair
+{
+
+}

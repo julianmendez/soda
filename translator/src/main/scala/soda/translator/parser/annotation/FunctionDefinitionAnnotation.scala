@@ -1,7 +1,9 @@
 package soda.translator.parser.annotation
 
 trait FunctionDefinitionAnnotation
-  extends BlockAnnotation {
+  extends
+    BlockAnnotation
+{
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
@@ -70,4 +72,8 @@ trait FunctionDefinitionAnnotation
 }
 
 case class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block )
-  extends FunctionDefinitionAnnotation
+  extends
+    FunctionDefinitionAnnotation
+{
+
+}

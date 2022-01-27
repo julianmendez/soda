@@ -1,6 +1,7 @@
 package soda.example.inanutshell
 
-trait InANutshell {
+trait InANutshell
+{
 
   def f (x: Int ): Int = x + 16
 
@@ -37,7 +38,8 @@ trait InANutshell {
 
 }
 
-trait MaxAndMin {
+trait MaxAndMin
+{
 
   def max (a: Int ) (b: Int ): Int =
     if (a > b
@@ -52,18 +54,27 @@ trait MaxAndMin {
 }
 
 case class ConcreteMaxAndMin ()
-  extends MaxAndMin
+  extends
+    MaxAndMin
+{
+
+}
 
 case class MinMaxPair (min: Int, max: Int )
+{
 
-trait Indexable {
+}
+
+trait Indexable
+{
 
   def   index: Int
 
 }
 
 trait Example
-  extends Indexable {
+  extends Indexable
+{
 
   def min_max (a: Int ) (b: Int ): MinMaxPair =
     MinMaxPair (
@@ -74,15 +85,21 @@ trait Example
 }
 
 case class Example_ (index: Int )
-  extends Example
+  extends
+    Example
+{
 
-trait Comparable {
+}
+
+trait Comparable
+{
 
   def   is_greater_than (x: Comparable ): Boolean
 
 }
 
-trait ComparableMax [T <: Comparable] {
+trait ComparableMax [T <: Comparable]
+{
 
   def max (a: T ) (b: T ): T =
     if (a.is_greater_than (b )
@@ -91,14 +108,17 @@ trait ComparableMax [T <: Comparable] {
 
 }
 
-trait WithInstance {
+trait WithInstance
+{
 
   def   instance_parameter: Int
 
 }
 
 trait MyClass
-   extends WithInstance {
+  extends
+    WithInstance
+{
 
   lazy val class_constant: Int = 1
 
@@ -106,7 +126,8 @@ trait MyClass
 
 }
 
-trait TimeOfToday {
+trait TimeOfToday
+{
 
   import   java.util.Date
 
@@ -114,16 +135,23 @@ trait TimeOfToday {
 
 }
 
-trait MainClass {
+trait MainClass
+{
 
   def main (arguments: Array [String]  ): Unit =
     println ("Hello world!")
 
 }
 
-case class Main () extends MainClass
+case class Main ()
+  extends
+    MainClass
+{
 
-trait PersonName {
+}
+
+trait PersonName
+{
 
   def   name: String
 

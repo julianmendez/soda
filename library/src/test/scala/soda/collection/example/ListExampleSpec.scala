@@ -1,7 +1,9 @@
 package soda.collection.example
 
 case class ListExampleSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("should test a")
     {

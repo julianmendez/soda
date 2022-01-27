@@ -1,7 +1,9 @@
 package soda.example.mathematics
 
 trait FactorialPatternMatching
-  extends AbstractFactorialConcise {
+  extends
+    AbstractFactorialConcise
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -17,4 +19,8 @@ trait FactorialPatternMatching
 }
 
 case class FactorialPatternMatching_ ()
-  extends FactorialPatternMatching
+  extends
+    FactorialPatternMatching
+{
+
+}

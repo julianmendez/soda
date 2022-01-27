@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* TheoremAndProofBlockTranslator
-  extends soda.translator.block.BlockTranslator =
+class TheoremAndProofBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -47,6 +48,9 @@ package soda.translator.extension.toscala
 
 end
 
-* TheoremAndProofBlockTranslator_ ()
-  extends TheoremAndProofBlockTranslator
+class TheoremAndProofBlockTranslator_ ()
+  extends
+    TheoremAndProofBlockTranslator
+
+end
 

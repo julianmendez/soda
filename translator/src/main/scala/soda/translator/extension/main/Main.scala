@@ -8,11 +8,18 @@ object EntryPoint {
 /**
  * This is the main entry point.
  */
+
 case class Main ()
-  extends MainClass
+  extends
+    MainClass
+{
+
+}
 
 trait MainClass
-  extends soda.translator.extension.common.Extension {
+  extends
+    soda.translator.extension.common.Extension
+{
 
   import   soda.translator.extension.common.Extension
 

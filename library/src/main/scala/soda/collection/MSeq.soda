@@ -1,6 +1,6 @@
 package soda.collection
 
-* MSeq [T] =
+class MSeq [T]
 
   abstract
     isEmpty: Boolean
@@ -8,7 +8,7 @@ package soda.collection
 
 end
 
-* MSeqRec [T] =
+class MSeqRec [T]
 
   @tailrec
   _tailrec_fold [B, C subtype B] (sequence: MSeq [T], current_value: C, next_value:  (B, T) -> C, condition:  (B, T) -> Boolean): C =
@@ -24,11 +24,15 @@ end
 
 end
 
-* MSeqRec_ [T] ()
-  extends MSeqRec [T]
+class MSeqRec_ [T] ()
+  extends
+    MSeqRec [T]
 
-* ESeq [T]
-  extends MSeq [T] =
+end
+
+class ESeq [T]
+  extends
+    MSeq [T]
 
   isEmpty = true
 
@@ -36,11 +40,15 @@ end
 
 end
 
-* ESeq_ [T] ()
-  extends ESeq [T]
+class ESeq_ [T] ()
+  extends
+    ESeq [T]
 
-* NEMSeq [T]
-  extends MSeq [T] =
+end
+
+class NEMSeq [T]
+  extends
+    MSeq [T]
 
   abstract
     head0: T
@@ -48,8 +56,9 @@ end
 
 end
 
-* NESeq [T]
-  extends NEMSeq [T] =
+class NESeq [T]
+  extends
+    NEMSeq [T]
 
   isEmpty = false
 
@@ -61,6 +70,9 @@ end
 
 end
 
-* NESeq_ [T] (head0: T, tail0: MSeq [T])
-  extends NESeq [T]
+class NESeq_ [T] (head0: T, tail0: MSeq [T])
+  extends
+    NESeq [T]
+
+end
 

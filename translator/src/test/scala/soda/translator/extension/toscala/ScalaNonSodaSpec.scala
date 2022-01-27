@@ -3,8 +3,11 @@ package soda.translator.extension.toscala
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
+
 case class ScalaNonSodaSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   soda.translator.parser.BlockProcessor_
 

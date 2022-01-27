@@ -3,7 +3,9 @@ package soda.translator.replacement
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */
-trait Token {
+
+trait Token
+{
 
   def   text: String
   def   parser_state: ParserState
@@ -12,13 +14,20 @@ trait Token {
 }
 
 case class Token_ (text: String, parser_state: ParserState, index: Int )
-  extends Token
+  extends
+    Token
+{
+
+}
 
 /**
  * This class processes a line to divide it into tokens.
  */
+
 trait Tokenizer
-  extends soda.translator.block.SingleLineProcessor {
+  extends
+    soda.translator.block.SingleLineProcessor
+{
 
   import   soda.lib.Recursion_
 
@@ -71,9 +80,14 @@ trait Tokenizer
 }
 
 case class Tokenizer_ (line: String )
-  extends Tokenizer
+  extends
+    Tokenizer
+{
 
-trait TokenizerFoldTuple {
+}
+
+trait TokenizerFoldTuple
+{
 
   def   last_index: Int
   def   parser_state: ParserState
@@ -82,4 +96,8 @@ trait TokenizerFoldTuple {
 }
 
 case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
-  extends TokenizerFoldTuple
+  extends
+    TokenizerFoldTuple
+{
+
+}

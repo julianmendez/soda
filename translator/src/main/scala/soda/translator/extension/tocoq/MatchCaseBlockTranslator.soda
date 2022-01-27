@@ -1,7 +1,8 @@
 package soda.translator.extension.tocoq
 
-* MatchCaseBlockTranslator
-  extends soda.translator.block.BlockTranslator =
+class MatchCaseBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -31,6 +32,8 @@ package soda.translator.extension.tocoq
 
 end
 
-* MatchCaseBlockTranslator_ ()
-  extends MatchCaseBlockTranslator
+class MatchCaseBlockTranslator_ ()
+  extends
+    MatchCaseBlockTranslator
 
+end

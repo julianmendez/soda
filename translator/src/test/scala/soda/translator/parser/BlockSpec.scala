@@ -1,7 +1,9 @@
 package soda.translator.parser
 
 case class BlockSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.BlockAnnotationEnum_

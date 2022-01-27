@@ -7,7 +7,8 @@ package soda.lib
 /**
  * This is a constant to be used in enumerations.
  */
-* EnumConstant =
+
+class EnumConstant
 
   abstract
     ordinal: Int
@@ -15,7 +16,7 @@ package soda.lib
 
 end
 
-* Enum [A subtype EnumConstant] =
+class Enum [A subtype EnumConstant]
 
   abstract
     values: Seq [A]

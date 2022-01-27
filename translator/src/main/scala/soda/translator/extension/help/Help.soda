@@ -1,7 +1,8 @@
 package soda.translator.extension.help
 
-* Help
-  extends soda.translator.extension.common.Extension =
+class Help
+  extends
+    soda.translator.extension.common.Extension
 
   import
     soda.lib.SomeSD_
@@ -31,8 +32,9 @@ package soda.translator.extension.help
 
 end
 
-* Help_ ()
-  extends Help =
+class Help_ ()
+  extends
+    Help
 
   file_name = "help.txt"
 
@@ -41,8 +43,9 @@ end
 
 end
 
-* Manual_ ()
-  extends Help =
+class Manual_ ()
+  extends
+    Help
 
   file_name = "Manual.soda"
 
@@ -51,8 +54,9 @@ end
 
 end
 
-* License_ ()
-  extends Help =
+class License_ ()
+  extends
+    Help
 
   file_name = "LICENSE.txt"
 

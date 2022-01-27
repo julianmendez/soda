@@ -1,6 +1,7 @@
 package soda.example.forcoq.mathematics
 
-trait FiboExampleInSodaForCoq {
+trait FiboExampleInSodaForCoq
+{
 
   import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.O
@@ -21,4 +22,8 @@ trait FiboExampleInSodaForCoq {
 }
 
 case class FiboExampleInSodaForCoq_ ()
-  extends FiboExampleInSodaForCoq
+  extends
+    FiboExampleInSodaForCoq
+{
+
+}

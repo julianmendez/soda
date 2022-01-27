@@ -1,6 +1,7 @@
 package soda.example.pricemonitor
 
-trait Customer {
+trait Customer =
+{
 
   def   name: String
   def   ip_address: String
@@ -9,8 +10,10 @@ trait Customer {
 
 case class Customer_ (name: String, ip_address: String )
   extends Customer
+{
 
-trait PricingAgent {
+trait PricingAgent =
+{
 
   import   java.util.Date
 
@@ -23,7 +26,8 @@ trait PricingAgent {
 
 }
 
-trait Flight {
+trait Flight =
+{
 
   def   start_airport: String
   def   intermediate_airports: Seq [String]
@@ -33,8 +37,10 @@ trait Flight {
 
 case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )
   extends Flight
+{
 
-trait RequirementMonitor {
+trait RequirementMonitor =
+{
 
   def   pricing_agent: PricingAgent
 

@@ -1,9 +1,11 @@
 package soda.example.pricemonitor
 
 case class Report1 (compliant: Boolean, price_for_c1: Int, price_for_c2: Int, similarity: Double )
+{
 
 trait Requirement1Monitor
- extends RequirementMonitor {
+ extends RequirementMonitor =
+{
 
   lazy val minimum_acceptable_similarity = 0.95
 
@@ -24,3 +26,4 @@ trait Requirement1Monitor
 
 case class Requirement1Monitor_ (pricing_agent: PricingAgent )
   extends Requirement1Monitor
+{

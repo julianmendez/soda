@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-trait LetBindingExample {
+trait LetBindingExample
+{
 
   lazy val three_parts_like_where =
     {
@@ -42,4 +43,8 @@ trait LetBindingExample {
 }
 
 case class LetBindingExample_ ()
-  extends LetBindingExample
+  extends
+    LetBindingExample
+{
+
+}

@@ -1,7 +1,9 @@
 package soda.translator.extension.toscala
 
 trait LetInBlockTranslator
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -45,4 +47,8 @@ trait LetInBlockTranslator
 }
 
 case class LetInBlockTranslator_ ()
-  extends LetInBlockTranslator
+  extends
+    LetInBlockTranslator
+{
+
+}

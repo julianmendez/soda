@@ -21,8 +21,11 @@ package soda.translator.extension.toscala
  * This is no longer supported.
  *
  */
+
 trait FunctionDefinitionLineTranslator
-  extends soda.translator.block.LineTranslator {
+  extends
+    soda.translator.block.LineTranslator
+{
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -101,4 +104,8 @@ trait FunctionDefinitionLineTranslator
 }
 
 case class FunctionDefinitionLineTranslator_ (line: String )
-  extends FunctionDefinitionLineTranslator
+  extends
+    FunctionDefinitionLineTranslator
+{
+
+}

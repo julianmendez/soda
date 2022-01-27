@@ -1,7 +1,9 @@
 package soda.translator.blocktr
 
 trait TokenizedBlockTranslator
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.lib.SomeSD_
   import   soda.translator.block.AnnotatedBlock
@@ -52,4 +54,8 @@ trait TokenizedBlockTranslator
 }
 
 case class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token => String )
-  extends TokenizedBlockTranslator
+  extends
+    TokenizedBlockTranslator
+{
+
+}

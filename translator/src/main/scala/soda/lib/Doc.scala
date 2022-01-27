@@ -7,7 +7,9 @@ package soda.lib
 /**
  * All concrete classes extending this class need to have a 'doc' attribute.
  */
-trait Doc {
+
+trait Doc
+{
 
   def   doc: String
 

@@ -1,7 +1,8 @@
 package soda.example.algorithms
 
-* PatternMatchingSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class PatternMatchingSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   instance = PatternMatching_ ()
 

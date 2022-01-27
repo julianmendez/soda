@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* MicroTranslatorToScalaSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class MicroTranslatorToScalaSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.translator.parser.BlockProcessor_

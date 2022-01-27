@@ -5,3 +5,8 @@ package soda.translator.extension.help
  */
 
 trait Package
+{
+
+}
+
+

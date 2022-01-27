@@ -1,6 +1,7 @@
 package soda.example.forcoq.mathematics
 
-trait TriangularNumberForCoq {
+trait TriangularNumberForCoq
+{
 
   import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.O
@@ -20,4 +21,8 @@ trait TriangularNumberForCoq {
 }
 
 case class TriangularNumberForCoq_ ()
-  extends TriangularNumberForCoq
+  extends
+    TriangularNumberForCoq
+{
+
+}

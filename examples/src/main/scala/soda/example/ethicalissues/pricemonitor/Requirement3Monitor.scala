@@ -1,9 +1,14 @@
 package soda.example.ethicalissues.pricemonitor
 
 case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
+{
+
+}
 
 trait Requirement3Monitor
-  extends RequirementMonitor {
+  extends
+    RequirementMonitor
+{
 
   def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
     get_report_with (
@@ -26,19 +31,30 @@ trait Requirement3Monitor
 }
 
 case class Requirement3Monitor_ (pricing_agent: PricingAgent )
-  extends Requirement3Monitor
+  extends
+    Requirement3Monitor
+{
+
+}
 
 trait Segment
-  extends Flight {
+  extends
+    Flight
+{
 
   lazy val intermediate_airports = Seq [String]  ()
 
 }
 
 case class Segment_ (start_airport: String, end_airport: String )
-  extends Segment
+  extends
+    Segment
+{
 
-trait SegmentsForFlight {
+}
+
+trait SegmentsForFlight
+{
 
   def   flight: Flight
 
@@ -54,4 +70,8 @@ trait SegmentsForFlight {
 }
 
 case class SegmentsForFlight_ (flight: Flight )
-  extends SegmentsForFlight
+  extends
+    SegmentsForFlight
+{
+
+}

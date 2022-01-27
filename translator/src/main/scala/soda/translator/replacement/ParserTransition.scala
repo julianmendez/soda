@@ -3,17 +3,29 @@ package soda.translator.replacement
 /**
  * This models all the possible states that the parser can be.
  */
+
 trait ParserState
-  extends soda.lib.EnumConstant
+  extends
+    soda.lib.EnumConstant
+{
+
+}
 
 case class ParserState_ (ordinal: Int, name: String )
-  extends ParserState
+  extends
+    ParserState
+{
+
+}
 
 /**
  * This is an enumeration of all the parser states.
  */
+
 trait ParserStateEnum
-  extends soda.lib.Enum [ParserState] {
+  extends
+    soda.lib.Enum [ParserState]
+{
 
   lazy val undefined_state = ParserState_ (0, "undefined_state")
 
@@ -39,9 +51,14 @@ trait ParserStateEnum
 }
 
 case class ParserStateEnum_ ()
-  extends ParserStateEnum
+  extends
+    ParserStateEnum
+{
 
-trait ParserTransition {
+}
+
+trait ParserTransition
+{
 
   lazy val ps = ParserStateEnum_ ()
 
@@ -83,4 +100,8 @@ trait ParserTransition {
 }
 
 case class ParserTransition_ ()
-  extends ParserTransition
+  extends
+    ParserTransition
+{
+
+}

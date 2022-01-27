@@ -1,6 +1,6 @@
 package soda.example.forcoq.lib
 
-* nat =
+class nat
 
   abstract
     add (a: nat): nat
@@ -8,8 +8,9 @@ package soda.example.forcoq.lib
 
 end
 
-* O ()
-  extends nat =
+class O ()
+  extends
+    nat
 
   add (a: nat): nat = a
 
@@ -17,8 +18,9 @@ end
 
 end
 
-* S (k: nat)
-  extends nat =
+class S (k: nat)
+  extends
+    nat
 
   t = IntNat_ ()
 
@@ -30,7 +32,7 @@ end
 
 end
 
-* IntNat =
+class IntNat
 
   import
     soda.lib.OptionSD
@@ -59,6 +61,8 @@ end
 
 end
 
-* IntNat_ ()
-  extends IntNat
+class IntNat_ ()
+  extends
+    IntNat
 
+end

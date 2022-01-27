@@ -1,13 +1,16 @@
 package soda.example.algorithms
 
-trait SortExample {
+trait SortExample
+{
 
   def   is_sorted (sequence: Seq [Int]  ): Boolean
 
 }
 
 trait SortExampleWithAt
-  extends SortExample {
+  extends
+    SortExample
+{
 
   def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
@@ -18,10 +21,16 @@ trait SortExampleWithAt
 }
 
 case class SortExampleWithAt_ ()
-  extends SortExampleWithAt
+  extends
+    SortExampleWithAt
+{
+
+}
 
 trait SortExampleWithZip
-  extends SortExample {
+  extends
+    SortExample
+{
 
   def is_sorted (sequence: Seq [Int]  ): Boolean =
     sequence
@@ -31,16 +40,23 @@ trait SortExampleWithZip
 }
 
 case class SortExampleWithZip_ ()
-  extends SortExampleWithZip
+  extends
+    SortExampleWithZip
+{
 
-trait SortAlgorithmExample {
+}
+
+trait SortAlgorithmExample
+{
 
   def   sort (sequence: Seq [Int]  ): Seq [Int]
 
 }
 
 trait SortAlgorithmExampleWithFold
-  extends SortAlgorithmExample {
+  extends
+    SortAlgorithmExample
+{
 
   import   soda.lib.Recursion_
 
@@ -67,9 +83,14 @@ trait SortAlgorithmExampleWithFold
 }
 
 case class SortAlgorithmExampleWithFold_ ()
-  extends SortAlgorithmExampleWithFold
+  extends
+    SortAlgorithmExampleWithFold
+{
 
-trait ConstrainedSortAlgorithm {
+}
+
+trait ConstrainedSortAlgorithm
+{
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -86,9 +107,14 @@ trait ConstrainedSortAlgorithm {
 }
 
 case class ConstrainedSortAlgorithm_ ()
-  extends ConstrainedSortAlgorithm
+  extends
+    ConstrainedSortAlgorithm
+{
 
-trait SortedSequence [A <: Comparable [A]] {
+}
+
+trait SortedSequence [A <: Comparable [A]]
+{
 
   def   sequence: Seq [A]
   def   add (element: A ): SortedSequence [A]
@@ -97,7 +123,9 @@ trait SortedSequence [A <: Comparable [A]] {
 }
 
 trait EmptySortedSequence [A <: Comparable [A]]
-  extends SortedSequence [A] {
+  extends
+    SortedSequence [A]
+{
 
   lazy val sequence = Seq ()
 
@@ -109,17 +137,25 @@ trait EmptySortedSequence [A <: Comparable [A]]
 }
 
 case class EmptySortedSequence_ [A <: Comparable [A]] ()
-  extends EmptySortedSequence [A]
+  extends
+    EmptySortedSequence [A]
+{
+
+}
 
 trait SortedSequenceWithElements [A <: Comparable [A]]
-  extends SortedSequence [A] {
+  extends
+    SortedSequence [A]
+{
 
   def   sequence: Seq [A]
 
 }
 
 trait NonEmptySortedSequence [A <: Comparable [A]]
-  extends SortedSequenceWithElements [A] {
+  extends
+    SortedSequenceWithElements [A]
+{
 
   lazy val aux = NonEmptySortedSequenceAux_ [A] ()
 
@@ -131,9 +167,14 @@ trait NonEmptySortedSequence [A <: Comparable [A]]
 }
 
 case class _NonEmptySortedSequence_ [A <: Comparable [A]] (sequence: Seq [A]  )
-  extends NonEmptySortedSequence [A]
+  extends
+    NonEmptySortedSequence [A]
+{
 
-trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
+}
+
+trait NonEmptySortedSequenceAux [A <: Comparable [A]]
+{
 
   def is_less_than (x: A, y: A ): Boolean =
     x.compareTo (y ) < 0
@@ -156,9 +197,14 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]] {
 }
 
 case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] ()
-  extends NonEmptySortedSequenceAux [A]
+  extends
+    NonEmptySortedSequenceAux [A]
+{
 
-trait SortedSequenceBuilder [A <: Comparable [A]] {
+}
+
+trait SortedSequenceBuilder [A <: Comparable [A]]
+{
 
   import   soda.lib.Recursion_
 
@@ -173,4 +219,8 @@ trait SortedSequenceBuilder [A <: Comparable [A]] {
 }
 
 case class SortedSequenceBuilder_ [A <: Comparable [A]] ()
-  extends SortedSequenceBuilder [A]
+  extends
+    SortedSequenceBuilder [A]
+{
+
+}

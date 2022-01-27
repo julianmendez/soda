@@ -1,7 +1,9 @@
 package soda.translator.parser
 
 trait BlockAnnotator
-  extends soda.translator.block.BlockTranslator  {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
@@ -59,4 +61,8 @@ trait BlockAnnotator
 }
 
 case class BlockAnnotator_ ()
-  extends BlockAnnotator
+  extends
+    BlockAnnotator
+{
+
+}

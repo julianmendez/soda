@@ -3,7 +3,8 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read small files.
  */
-* SimpleFileReader =
+
+class SimpleFileReader
 
   import
     java.io.BufferedReader
@@ -32,10 +33,14 @@ end
 /**
  * This is an auxiliary class to write small files.
  */
-* SimpleFileReader_ ()
-  extends SimpleFileReader
 
-* SimpleFileWriter =
+class SimpleFileReader_ ()
+  extends
+    SimpleFileReader
+
+end
+
+class SimpleFileWriter
 
   import
     soda.lib.SomeSD_
@@ -62,6 +67,8 @@ end
 
 end
 
-* SimpleFileWriter_ ()
-  extends SimpleFileWriter
+class SimpleFileWriter_ ()
+  extends
+    SimpleFileWriter
 
+end

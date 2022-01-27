@@ -3,7 +3,8 @@ package soda.translator.replacement
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */
-* Token =
+
+class Token
 
   abstract
     text: String
@@ -12,14 +13,19 @@ package soda.translator.replacement
 
 end
 
-* Token_ (text: String, parser_state: ParserState, index: Int)
-  extends Token
+class Token_ (text: String, parser_state: ParserState, index: Int)
+  extends
+    Token
+
+end
 
 /**
  * This class processes a line to divide it into tokens.
  */
-* Tokenizer
-  extends soda.translator.block.SingleLineProcessor =
+
+class Tokenizer
+  extends
+    soda.translator.block.SingleLineProcessor
 
   import
     soda.lib.Recursion_
@@ -72,10 +78,13 @@ end
 
 end
 
-* Tokenizer_ (line: String)
-  extends Tokenizer
+class Tokenizer_ (line: String)
+  extends
+    Tokenizer
 
-* TokenizerFoldTuple =
+end
+
+class TokenizerFoldTuple
 
   abstract
     last_index: Int
@@ -84,6 +93,9 @@ end
 
 end
 
-* TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token])
-  extends TokenizerFoldTuple
+class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token])
+  extends
+    TokenizerFoldTuple
+
+end
 

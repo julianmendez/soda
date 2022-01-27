@@ -1,7 +1,8 @@
 package soda.translator.parser.annotation
 
-* FunctionDefinitionAnnotation
-  extends BlockAnnotation =
+class FunctionDefinitionAnnotation
+  extends
+    BlockAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -70,6 +71,9 @@ package soda.translator.parser.annotation
 
 end
 
-* FunctionDefinitionAnnotation_ (block: soda.translator.block.Block)
-  extends FunctionDefinitionAnnotation
+class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block)
+  extends
+    FunctionDefinitionAnnotation
+
+end
 

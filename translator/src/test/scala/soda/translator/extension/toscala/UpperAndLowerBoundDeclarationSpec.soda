@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* UpperAndLowerBoundDeclarationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class UpperAndLowerBoundDeclarationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.translator.parser.BlockProcessor_

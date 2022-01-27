@@ -5,7 +5,8 @@ object EntryPoint {
 }
 
 
-trait MainClass {
+trait MainClass
+{
 
   lazy val e = ListExample_ ()
 
@@ -43,4 +44,8 @@ trait MainClass {
 }
 
 case class Main ()
-  extends MainClass
+  extends
+    MainClass
+{
+
+}

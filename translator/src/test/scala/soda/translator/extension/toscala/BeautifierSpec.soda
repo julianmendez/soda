@@ -1,7 +1,8 @@
 package soda.translator.extension.toscala
 
-* BeautifierSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class BeautifierSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.translator.parser.BlockProcessor_

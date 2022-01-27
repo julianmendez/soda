@@ -7,14 +7,17 @@ package soda.lib
 /**
  * This is a constant to be used in enumerations.
  */
-trait EnumConstant {
+
+trait EnumConstant
+{
 
   def   ordinal: Int
   def   name: String
 
 }
 
-trait Enum [A <: EnumConstant] {
+trait Enum [A <: EnumConstant]
+{
 
   def   values: Seq [A]
 

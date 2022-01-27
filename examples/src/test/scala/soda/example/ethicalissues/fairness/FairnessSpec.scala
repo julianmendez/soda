@@ -1,7 +1,9 @@
 package soda.example.ethicalissues.fairness
 
 case class FairnessSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   lazy val rank_1: Applicant => Double =
      applicant =>

@@ -1,6 +1,6 @@
 package soda.example.inanutshell
 
-class InANutshell =
+class InANutshell
 
   f (x: Int): Int = x + 16
 
@@ -37,7 +37,7 @@ class InANutshell =
 
 end
 
-class MaxAndMin =
+class MaxAndMin
 
   max (a: Int) (b: Int): Int =
     if a > b
@@ -52,11 +52,16 @@ class MaxAndMin =
 end
 
 class ConcreteMaxAndMin ()
-  extends MaxAndMin
+  extends
+    MaxAndMin
+
+end
 
 class MinMaxPair (min: Int, max: Int)
 
-class Indexable =
+end
+
+class Indexable
 
   abstract
     index: Int
@@ -64,7 +69,7 @@ class Indexable =
 end
 
 class Example
-  extends Indexable =
+  extends Indexable
 
   min_max (a: Int) (b: Int): MinMaxPair =
     MinMaxPair (
@@ -75,16 +80,19 @@ class Example
 end
 
 class Example_ (index: Int)
-  extends Example
+  extends
+    Example
 
-class Comparable =
+end
+
+class Comparable
 
   abstract
     is_greater_than (x: Comparable): Boolean
 
 end
 
-class ComparableMax [T subtype Comparable] =
+class ComparableMax [T subtype Comparable]
 
   max (a: T) (b: T): T =
     if a.is_greater_than (b)
@@ -93,7 +101,7 @@ class ComparableMax [T subtype Comparable] =
 
 end
 
-class WithInstance =
+class WithInstance
 
   abstract
     instance_parameter: Int
@@ -101,7 +109,8 @@ class WithInstance =
 end
 
 class MyClass
-   extends WithInstance =
+  extends
+    WithInstance
 
   class_constant: Int = 1
 
@@ -109,7 +118,7 @@ class MyClass
 
 end
 
-class TimeOfToday =
+class TimeOfToday
 
   import
     java.util.Date
@@ -118,16 +127,20 @@ class TimeOfToday =
 
 end
 
-class MainClass =
+class MainClass
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
 
 end
 
-class Main () extends MainClass
+class Main ()
+  extends
+    MainClass
 
-class PersonName =
+end
+
+class PersonName
 
   abstract
     name: String

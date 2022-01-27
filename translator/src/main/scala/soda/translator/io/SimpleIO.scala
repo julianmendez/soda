@@ -3,7 +3,9 @@ package soda.translator.io
 /**
  * This is an auxiliary class to read small files.
  */
-trait SimpleFileReader {
+
+trait SimpleFileReader
+{
 
   import   java.io.BufferedReader
   import   java.io.InputStream
@@ -31,10 +33,16 @@ trait SimpleFileReader {
 /**
  * This is an auxiliary class to write small files.
  */
-case class SimpleFileReader_ ()
-  extends SimpleFileReader
 
-trait SimpleFileWriter {
+case class SimpleFileReader_ ()
+  extends
+    SimpleFileReader
+{
+
+}
+
+trait SimpleFileWriter
+{
 
   import   soda.lib.SomeSD_
   import   java.io.File
@@ -61,4 +69,8 @@ trait SimpleFileWriter {
 }
 
 case class SimpleFileWriter_ ()
-  extends SimpleFileWriter
+  extends
+    SimpleFileWriter
+{
+
+}

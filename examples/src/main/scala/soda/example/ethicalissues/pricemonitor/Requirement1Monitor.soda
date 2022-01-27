@@ -2,8 +2,11 @@ package soda.example.ethicalissues.pricemonitor
 
 class Report1 (compliant: Boolean, price1: Int, price2: Int, similarity: Double)
 
+end
+
 class Requirement1Monitor
-  extends RequirementMonitor =
+  extends
+    RequirementMonitor
 
   minimum_similarity = 0.95
 
@@ -31,5 +34,8 @@ class Requirement1Monitor
 end
 
 class Requirement1Monitor_(pricing_agent: PricingAgent)
-  extends Requirement1Monitor
+  extends
+    Requirement1Monitor
+
+end
 

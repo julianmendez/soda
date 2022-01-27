@@ -1,7 +1,8 @@
 package soda.example.forcoq.mathematics
 
-* TriangularNumberForCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class TriangularNumberForCoqSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.example.forcoq.lib.nat

@@ -1,6 +1,7 @@
 package soda.translator.parser
 
-trait BlockBuilder {
+trait BlockBuilder
+{
 
   import   soda.lib.Recursion_
   import   soda.translator.block.AnnotatedLine
@@ -43,9 +44,14 @@ trait BlockBuilder {
 }
 
 case class BlockBuilder_ ()
-  extends BlockBuilder
+  extends
+    BlockBuilder
+{
 
-trait PreprocessorFoldTuple {
+}
+
+trait PreprocessorFoldTuple
+{
 
   import   soda.translator.block.AnnotatedLine
 
@@ -55,9 +61,14 @@ trait PreprocessorFoldTuple {
 }
 
 case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]  )
-  extends PreprocessorFoldTuple
+  extends
+    PreprocessorFoldTuple
+{
 
-trait CurrentAndNewCommentState {
+}
+
+trait CurrentAndNewCommentState
+{
 
   def   current_state: Boolean
   def   new_comment_state: Boolean
@@ -65,6 +76,8 @@ trait CurrentAndNewCommentState {
 }
 
 case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean )
-  extends CurrentAndNewCommentState
+  extends
+    CurrentAndNewCommentState
+{
 
-
+}

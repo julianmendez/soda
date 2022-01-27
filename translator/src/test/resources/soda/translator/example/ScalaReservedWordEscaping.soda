@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* ScalaReservedWordEscaping
+class ScalaReservedWordEscaping
 
   var = "var"
 
@@ -21,7 +21,7 @@ package soda.example.algorithms
 
 end
 
-* MyPair [A, B]
+class MyPair [A, B]
 
   abstract
     key: A
@@ -29,7 +29,7 @@ end
 
 end
 
-* MyPair_ [A, B] (key: A, value: B)
+class MyPair_ [A, B] (key: A, value: B)
   extends
     MyPair [A, B]
 

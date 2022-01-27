@@ -1,7 +1,9 @@
 package soda.translator.block
 
 trait BlockTranslatorPipeline
-  extends BlockTranslator {
+  extends
+    BlockTranslator
+{
 
   import   soda.lib.Recursion_
 
@@ -17,4 +19,8 @@ trait BlockTranslatorPipeline
 }
 
 case class BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator]  )
-  extends BlockTranslatorPipeline
+  extends
+    BlockTranslatorPipeline
+{
+
+}

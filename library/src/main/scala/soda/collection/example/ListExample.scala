@@ -1,16 +1,22 @@
 package soda.collection.example
 
-trait Pair [T] {
+trait Pair [T]
+{
 
   def   name: String
   def   result: T
 
 }
 
-case class Pair_ [T]  (name: String, result: T )
-  extends Pair [T]
+case class Pair_ [T] (name: String, result: T )
+  extends
+    Pair [T]
+{
 
-trait ListExample {
+}
+
+trait ListExample
+{
 
   lazy val a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
 
@@ -91,4 +97,10 @@ trait ListExample {
 }
 
 case class ListExample_ ()
-  extends ListExample
+  extends
+    ListExample
+{
+
+}
+
+

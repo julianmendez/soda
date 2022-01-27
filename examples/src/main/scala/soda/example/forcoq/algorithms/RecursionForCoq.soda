@@ -3,7 +3,8 @@ package soda.example.forcoq.algorithms
 /**
  * This class contains tail recursive auxiliary functions.
  */
-* RecursionForCoq =
+
+class RecursionForCoq
 
   @tailrec
   _tailrec_fold4 [A, B] (sequence: Seq [A]) (current_value: B) (next_value_function: B -> A -> B) (condition: B -> A -> Boolean): B =
@@ -39,6 +40,8 @@ package soda.example.forcoq.algorithms
 
 end
 
-* RecursionForCoq_ ()
-  extends RecursionForCoq
+class RecursionForCoq_ ()
+  extends
+    RecursionForCoq
 
+end

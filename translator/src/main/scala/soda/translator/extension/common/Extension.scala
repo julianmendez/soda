@@ -1,6 +1,7 @@
 package soda.translator.extension.common
 
-trait Extension {
+trait Extension
+{
 
   def   execute (arguments: Seq [String]  ): Boolean
 

@@ -1,7 +1,8 @@
 package soda.translator.parser.annotation
 
-* CommentAnnotation
-  extends BlockAnnotation =
+class CommentAnnotation
+  extends
+    BlockAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -16,6 +17,9 @@ package soda.translator.parser.annotation
 
 end
 
-* CommentAnnotation_ (block: soda.translator.block.Block)
-  extends CommentAnnotation
+class CommentAnnotation_ (block: soda.translator.block.Block)
+  extends
+    CommentAnnotation
+
+end
 

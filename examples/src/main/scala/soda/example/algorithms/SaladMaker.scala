@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-trait SaladMaker {
+trait SaladMaker
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -18,4 +19,8 @@ trait SaladMaker {
 }
 
 case class SaladMaker_ ()
-  extends SaladMaker
+  extends
+    SaladMaker
+{
+
+}

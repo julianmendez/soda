@@ -1,6 +1,6 @@
 package soda.translator.parser
 
-* BlockBuilder =
+class BlockBuilder
 
   import
     soda.lib.Recursion_
@@ -43,10 +43,13 @@ package soda.translator.parser
 
 end
 
-* BlockBuilder_ ()
-  extends BlockBuilder
+class BlockBuilder_ ()
+  extends
+    BlockBuilder
 
-* PreprocessorFoldTuple =
+end
+
+class PreprocessorFoldTuple
 
   import
     soda.translator.block.AnnotatedLine
@@ -57,10 +60,13 @@ end
 
 end
 
-* PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
-  extends PreprocessorFoldTuple
+class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
+  extends
+    PreprocessorFoldTuple
 
-* CurrentAndNewCommentState =
+end
+
+class CurrentAndNewCommentState
 
   abstract
     current_state: Boolean
@@ -68,7 +74,9 @@ end
 
 end
 
-* CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
-  extends CurrentAndNewCommentState
+class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
+  extends
+    CurrentAndNewCommentState
 
+end
 

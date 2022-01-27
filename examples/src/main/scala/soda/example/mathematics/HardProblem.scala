@@ -1,19 +1,24 @@
 package soda.example.mathematics
 
-trait MemoizableFunction [A, B] {
+trait MemoizableFunction [A, B]
+{
 
   def   compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]]
 
 }
 
-trait MainFunction [A, B] {
+trait MainFunction [A, B]
+{
 
   def   main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]
 
 }
 
 trait Memoizer [A, B]
-  extends MemoizableFunction [A, B] with MainFunction [A, B] {
+  extends
+    MemoizableFunction [A, B]
+    with MainFunction [A, B]
+{
 
   def compute (x: A, memoized_values: Map [A, B]  ): Tuple2 [B, Map [A, B]] =
     _compute_with (memoized_values.get (x ), x, memoized_values )
@@ -35,10 +40,16 @@ trait Memoizer [A, B]
 }
 
 case class Memoizer_ [A, B] (main_function: (A, Map [A, B]  ) => Tuple2 [B, Map [A, B]]  )
-  extends Memoizer [A, B]
+  extends
+    Memoizer [A, B]
+{
+
+}
 
 trait HardProblem
-  extends MemoizableFunction [Int, Int] {
+  extends
+    MemoizableFunction [Int, Int]
+{
 
   lazy val memoizer = Memoizer_ [Int, Int] (main_function )
 
@@ -64,10 +75,16 @@ trait HardProblem
 }
 
 case class HardProblem_ ()
-  extends HardProblem
+  extends
+    HardProblem
+{
+
+}
 
 trait MemoizedFibonacci
-  extends MemoizableFunction [Int, Int] {
+  extends
+    MemoizableFunction [Int, Int]
+{
 
   lazy val memoizer = Memoizer_ [Int, Int] (main_function )
 
@@ -94,4 +111,8 @@ trait MemoizedFibonacci
 }
 
 case class MemoizedFibonacci_ ()
-  extends MemoizedFibonacci
+  extends
+    MemoizedFibonacci
+{
+
+}

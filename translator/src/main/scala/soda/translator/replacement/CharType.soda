@@ -3,17 +3,26 @@ package soda.translator.replacement
 /**
  * This is to classify characters.
  */
-* CharType
-  extends soda.lib.EnumConstant
 
-* CharType_ (ordinal: Int, name: String)
-  extends CharType
+class CharType
+  extends
+    soda.lib.EnumConstant
+
+end
+
+class CharType_ (ordinal: Int, name: String)
+  extends
+    CharType
+
+end
 
 /**
  * This is an enumeration for all types of characters.
  */
-* CharTypeEnum
-  extends soda.lib.Enum [CharType] =
+
+class CharTypeEnum
+  extends
+    soda.lib.Enum [CharType]
 
   undefined_type = CharType_ (0, "undefined_type")
 
@@ -64,6 +73,9 @@ package soda.translator.replacement
 
 end
 
-* CharTypeEnum_ ()
-  extends CharTypeEnum
+class CharTypeEnum_ ()
+  extends
+    CharTypeEnum
+
+end
 

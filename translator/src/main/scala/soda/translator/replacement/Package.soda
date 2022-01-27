@@ -5,5 +5,8 @@ package soda.translator.replacement
  * especially related to replacement.
  */
 
-* Package
+class Package
+
+end
+
 

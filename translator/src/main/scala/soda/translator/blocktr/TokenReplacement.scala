@@ -1,6 +1,7 @@
 package soda.translator.blocktr
 
-trait TokenReplacement {
+trait TokenReplacement
+{
 
   import   soda.translator.replacement.ReplacementAux_
   import   soda.translator.replacement.ReplacementWithTranslator_
@@ -32,4 +33,8 @@ trait TokenReplacement {
 }
 
 case class TokenReplacement_ ()
-  extends TokenReplacement
+  extends
+    TokenReplacement
+{
+
+}

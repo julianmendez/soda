@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-trait FizzBuzzPatternMatching {
+trait FizzBuzzPatternMatching
+{
 
   import   soda.lib.Recursion_
 
@@ -25,4 +26,8 @@ trait FizzBuzzPatternMatching {
 }
 
 case class FizzBuzzPatternMatching_ ()
-  extends FizzBuzzPatternMatching
+  extends
+    FizzBuzzPatternMatching
+{
+
+}

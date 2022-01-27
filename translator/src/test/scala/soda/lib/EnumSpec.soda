@@ -1,10 +1,18 @@
 package soda.lib
 
-* DayOfTheWeek extends EnumConstant
+class DayOfTheWeek
+  extends
+    EnumConstant
 
-* DayOfTheWeek_ (ordinal: Int, name: String) extends DayOfTheWeek
+end
 
-* DayOfTheWeekConstant =
+class DayOfTheWeek_ (ordinal: Int, name: String)
+  extends
+    DayOfTheWeek
+
+end
+
+class DayOfTheWeekConstant
 
   sunday = DayOfTheWeek_ (0, "Sunday")
 
@@ -24,16 +32,23 @@ package soda.lib
 
 end
 
-* DayOfTheWeekEnum extends DayOfTheWeekConstant =
+class DayOfTheWeekEnum
+  extends
+    DayOfTheWeekConstant
 
   values = DayOfTheWeek_values
 
 end
 
-* DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
+class DayOfTheWeekEnum_ ()
+  extends
+    DayOfTheWeekEnum
 
-* EnumSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+end
+
+class EnumSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("the names of the elements in enumerations")
     let

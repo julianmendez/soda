@@ -4,8 +4,11 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
+
 trait Replacement
-  extends soda.translator.block.SingleLineProcessor {
+  extends
+    soda.translator.block.SingleLineProcessor
+{
 
   import   soda.translator.block.Translator
 
@@ -43,9 +46,14 @@ trait Replacement
 }
 
 case class Replacement_ (line: String )
-  extends Replacement
+  extends
+    Replacement
+{
 
-trait ReplacementAux {
+}
+
+trait ReplacementAux
+{
 
   lazy val soda_space = " "
 
@@ -120,9 +128,14 @@ trait ReplacementAux {
 }
 
 case class ReplacementAux_ ()
-  extends ReplacementAux
+  extends
+    ReplacementAux
+{
 
-trait ReplacementWithTranslator {
+}
+
+trait ReplacementWithTranslator
+{
 
   import   soda.translator.block.Translator
   import   soda.lib.Recursion_
@@ -163,4 +176,8 @@ trait ReplacementWithTranslator {
 }
 
 case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator )
-  extends ReplacementWithTranslator
+  extends
+    ReplacementWithTranslator
+{
+
+}

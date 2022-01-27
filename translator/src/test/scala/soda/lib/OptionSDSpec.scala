@@ -1,7 +1,9 @@
 package soda.lib
 
 case class OptionSDSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   scala.util.Try
 

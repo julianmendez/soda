@@ -6,5 +6,7 @@ package soda.translator
  * Gallina is the specification language used by Coq.
  */
 
-* Package
+class Package
+
+end
 

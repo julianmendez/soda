@@ -1,7 +1,9 @@
 package soda.translator.io
 
 case class DirectoryScannerSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   java.io.File
 

@@ -1,12 +1,21 @@
 package soda.example.algorithms
 
 trait SaladIngredient
-  extends soda.lib.EnumConstant
+  extends
+    soda.lib.EnumConstant
+{
+
+}
 
 case class SaladIngredient_ (ordinal: Int, name: String )
-  extends SaladIngredient
+  extends
+    SaladIngredient
+{
 
-trait SaladIngredientConstant {
+}
+
+trait SaladIngredientConstant
+{
 
   lazy val tomato = SaladIngredient_ (1, "tomato")
 
@@ -21,8 +30,10 @@ trait SaladIngredientConstant {
 }
 
 case class SaladMakerSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite
-  with SaladIngredientConstant {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+    with SaladIngredientConstant
+{
 
   def add_next_ingredient (salad_so_far: Seq [SaladIngredient], ingredient: SaladIngredient ): Seq [SaladIngredient] =
     salad_so_far.+: (ingredient )

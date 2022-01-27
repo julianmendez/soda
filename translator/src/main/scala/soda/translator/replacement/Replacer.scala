@@ -1,6 +1,7 @@
 package soda.translator.replacement
 
-trait LinePatternProcessor {
+trait LinePatternProcessor
+{
 
   def   line: String
   def   pattern: String
@@ -9,7 +10,9 @@ trait LinePatternProcessor {
 }
 
 trait Replacer
-  extends LinePatternProcessor {
+  extends
+    LinePatternProcessor
+{
 
   import   soda.lib.Recursion_
 
@@ -42,13 +45,24 @@ trait Replacer
 
 }
 
-case class Replacer_ (line: String, pattern: String, replacement: String ) extends Replacer
+case class Replacer_ (line: String, pattern: String, replacement: String )
+  extends
+    Replacer
+{
 
-trait ReplacerFoldTuple {
+}
+
+trait ReplacerFoldTuple
+{
 
   def   replaced_text_rev: Seq [String]
   def   start_index: Int
 
 }
 
-case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int ) extends ReplacerFoldTuple
+case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int )
+  extends
+    ReplacerFoldTuple
+{
+
+}

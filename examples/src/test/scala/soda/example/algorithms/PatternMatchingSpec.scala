@@ -1,7 +1,9 @@
 package soda.example.algorithms
 
 case class PatternMatchingSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   lazy val instance = PatternMatching_ ()
 

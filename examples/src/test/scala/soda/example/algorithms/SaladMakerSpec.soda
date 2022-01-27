@@ -1,12 +1,18 @@
 package soda.example.algorithms
 
-* SaladIngredient
-  extends soda.lib.EnumConstant
+class SaladIngredient
+  extends
+    soda.lib.EnumConstant
 
-* SaladIngredient_ (ordinal: Int, name: String)
-  extends SaladIngredient
+end
 
-* SaladIngredientConstant =
+class SaladIngredient_ (ordinal: Int, name: String)
+  extends
+    SaladIngredient
+
+end
+
+class SaladIngredientConstant
 
   tomato = SaladIngredient_ (1, "tomato")
 
@@ -20,9 +26,10 @@ package soda.example.algorithms
 
 end
 
-* SaladMakerSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite
-  with SaladIngredientConstant =
+class SaladMakerSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+    SaladIngredientConstant
 
   add_next_ingredient (salad_so_far: Seq [SaladIngredient], ingredient: SaladIngredient): Seq [SaladIngredient] =
     salad_so_far.+: (ingredient)

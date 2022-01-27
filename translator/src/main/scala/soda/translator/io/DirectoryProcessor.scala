@@ -1,6 +1,7 @@
 package soda.translator.io
 
-trait AbstractDirectoryProcessor {
+trait AbstractDirectoryProcessor
+{
 
   def   start: String
   def   process_soda_file: java.io.File => Boolean
@@ -9,7 +10,9 @@ trait AbstractDirectoryProcessor {
 }
 
 trait DirectoryProcessor
-  extends AbstractDirectoryProcessor {
+  extends
+    AbstractDirectoryProcessor
+{
 
   import   java.io.File
 
@@ -37,4 +40,8 @@ trait DirectoryProcessor
 }
 
 case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean )
-  extends DirectoryProcessor
+  extends
+    DirectoryProcessor
+{
+
+}

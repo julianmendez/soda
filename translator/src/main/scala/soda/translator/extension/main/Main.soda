@@ -5,11 +5,16 @@ package soda.translator.extension.main
 /**
  * This is the main entry point.
  */
-* Main ()
-  extends MainClass
 
-* MainClass
-  extends soda.translator.extension.common.Extension =
+class Main ()
+  extends
+    MainClass
+
+end
+
+class MainClass
+  extends
+    soda.translator.extension.common.Extension
 
   import
     soda.translator.extension.common.Extension

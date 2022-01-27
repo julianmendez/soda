@@ -1,6 +1,7 @@
 package soda.example.mathematics
 
-trait FactorialWithFold {
+trait FactorialWithFold
+{
 
   import   soda.lib.Recursion_
 
@@ -11,4 +12,8 @@ trait FactorialWithFold {
 }
 
 case class FactorialWithFold_ ()
-  extends FactorialWithFold
+  extends
+    FactorialWithFold
+{
+
+}

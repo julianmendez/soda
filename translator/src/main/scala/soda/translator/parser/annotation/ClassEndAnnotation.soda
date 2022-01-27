@@ -1,7 +1,8 @@
 package soda.translator.parser.annotation
 
-* ClassEndAnnotation
-  extends BlockAnnotation =
+class ClassEndAnnotation
+  extends
+    BlockAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -16,6 +17,9 @@ package soda.translator.parser.annotation
 
 end
 
-* ClassEndAnnotation_ (block: soda.translator.block.Block)
-  extends ClassEndAnnotation
+class ClassEndAnnotation_ (block: soda.translator.block.Block)
+  extends
+    ClassEndAnnotation
+
+end
 

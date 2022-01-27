@@ -1,15 +1,16 @@
 package soda.translator.blocktr
 
-* Table =
+class Table
 
   abstract
     table: Seq[ (String, String)]
 
 end
 
-* TableTranslator
-  extends Table
-  with soda.translator.block.Translator =
+class TableTranslator
+  extends
+    Table
+    soda.translator.block.Translator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -23,6 +24,8 @@ end
 
 end
 
-* TableTranslator_ (table: Seq[ (String, String)])
-  extends TableTranslator
+class TableTranslator_ (table: Seq[ (String, String)])
+  extends
+    TableTranslator
 
+end

@@ -4,8 +4,10 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-* Replacement
-  extends soda.translator.block.SingleLineProcessor =
+
+class Replacement
+  extends
+    soda.translator.block.SingleLineProcessor
 
   import
     soda.translator.block.Translator
@@ -43,10 +45,13 @@ package soda.translator.replacement
 
 end
 
-* Replacement_ (line: String)
-  extends Replacement
+class Replacement_ (line: String)
+  extends
+    Replacement
 
-* ReplacementAux =
+end
+
+class ReplacementAux
 
   soda_space = " "
 
@@ -120,10 +125,13 @@ end
 
 end
 
-* ReplacementAux_ ()
-  extends ReplacementAux
+class ReplacementAux_ ()
+  extends
+    ReplacementAux
 
-* ReplacementWithTranslator =
+end
+
+class ReplacementWithTranslator
 
   import
     soda.translator.block.Translator
@@ -165,6 +173,9 @@ end
 
 end
 
-* ReplacementWithTranslator_ (translator: soda.translator.block.Translator)
-  extends ReplacementWithTranslator
+class ReplacementWithTranslator_ (translator: soda.translator.block.Translator)
+  extends
+    ReplacementWithTranslator
+
+end
 

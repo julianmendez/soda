@@ -1,13 +1,16 @@
 package soda.translator.block
 
-* AnnotatedBlock
-  extends Block =
+class AnnotatedBlock
+  extends
+    Block
 
   abstract
     block_annotation: BlockAnnotationId
 
 end
 
-* AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId)
-  extends AnnotatedBlock
+class AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId)
+  extends
+    AnnotatedBlock
 
+end

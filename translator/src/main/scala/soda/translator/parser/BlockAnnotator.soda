@@ -1,7 +1,8 @@
 package soda.translator.parser
 
-* BlockAnnotator
-  extends soda.translator.block.BlockTranslator  =
+class BlockAnnotator
+  extends
+    soda.translator.block.BlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -59,6 +60,9 @@ package soda.translator.parser
 
 end
 
-* BlockAnnotator_ ()
-  extends BlockAnnotator
+class BlockAnnotator_ ()
+  extends
+    BlockAnnotator
+
+end
 

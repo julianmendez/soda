@@ -6,3 +6,6 @@ package soda.translator.io
  */
 
 trait Package
+{
+
+}

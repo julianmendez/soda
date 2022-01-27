@@ -1,6 +1,6 @@
 package soda.example.ethicalissues.pricemonitor
 
-class Customer =
+class Customer
 
   abstract
     name: String
@@ -9,9 +9,12 @@ class Customer =
 end
 
 class Customer_ (name: String, ip_address: String)
-  extends Customer
+  extends
+    Customer
 
-class PricingAgent =
+end
+
+class PricingAgent
 
   import
     java.util.Date
@@ -26,7 +29,7 @@ class PricingAgent =
 
 end
 
-class Flight =
+class Flight
 
   abstract
     start_airport: String
@@ -36,9 +39,12 @@ class Flight =
 end
 
 class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String)
-  extends Flight
+  extends
+    Flight
 
-class RequirementMonitor =
+end
+
+class RequirementMonitor
 
   abstract
     pricing_agent: PricingAgent

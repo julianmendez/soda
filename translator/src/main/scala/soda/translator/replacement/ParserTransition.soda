@@ -3,17 +3,26 @@ package soda.translator.replacement
 /**
  * This models all the possible states that the parser can be.
  */
-* ParserState
-  extends soda.lib.EnumConstant
 
-* ParserState_ (ordinal: Int, name: String)
-  extends ParserState
+class ParserState
+  extends
+    soda.lib.EnumConstant
+
+end
+
+class ParserState_ (ordinal: Int, name: String)
+  extends
+    ParserState
+
+end
 
 /**
  * This is an enumeration of all the parser states.
  */
-* ParserStateEnum
-  extends soda.lib.Enum [ParserState] =
+
+class ParserStateEnum
+  extends
+    soda.lib.Enum [ParserState]
 
   undefined_state = ParserState_ (0, "undefined_state")
 
@@ -38,10 +47,13 @@ package soda.translator.replacement
 
 end
 
-* ParserStateEnum_ ()
-  extends ParserStateEnum
+class ParserStateEnum_ ()
+  extends
+    ParserStateEnum
 
-* ParserTransition =
+end
+
+class ParserTransition
 
   ps = ParserStateEnum_ ()
 
@@ -82,6 +94,9 @@ end
 
 end
 
-* ParserTransition_ ()
-  extends ParserTransition
+class ParserTransition_ ()
+  extends
+    ParserTransition
+
+end
 

@@ -1,14 +1,18 @@
 package soda.example.forcoq.lib
 
 trait list [A]
+{
 
 case class nil [A] ()
   extends list [A]
+{
 
 case class cons [A] (e: A, s: list [A]  )
   extends list [A]
+{
 
-trait SeqList {
+trait SeqList =
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -47,3 +51,4 @@ trait SeqList {
 
 case class SeqList_ ()
   extends SeqList
+{

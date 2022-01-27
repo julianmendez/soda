@@ -1,6 +1,7 @@
 package soda.translator.block
 
-trait SingleLineProcessor {
+trait SingleLineProcessor
+{
 
   def   line: String
 

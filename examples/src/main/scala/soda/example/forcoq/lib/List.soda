@@ -1,14 +1,22 @@
 package soda.example.forcoq.lib
 
-* list [A]
+class list [A]
 
-* nil [A] ()
-  extends list [A]
+end
 
-* cons [A] (e: A, s: list [A])
-  extends list [A]
+class nil [A] ()
+  extends
+    list [A]
 
-* SeqList =
+end
+
+class cons [A] (e: A, s: list [A])
+  extends
+    list [A]
+
+end
+
+class SeqList
 
   @tailrec
   _tailrec_reverse [A] (a: list [A]) (b: list [A]): list [A] =
@@ -42,6 +50,8 @@ package soda.example.forcoq.lib
 
 end
 
-* SeqList_ ()
-  extends SeqList
+class SeqList_ ()
+  extends
+    SeqList
 
+end

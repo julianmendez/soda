@@ -1,13 +1,16 @@
 package soda.translator.block
 
-trait BlockTranslator {
+trait BlockTranslator
+{
 
   def   translate (block: AnnotatedBlock ): AnnotatedBlock
 
 }
 
 case class DefaultBlockTranslator_ ()
-  extends BlockTranslator {
+  extends
+    BlockTranslator
+{
 
   def translate (block: AnnotatedBlock ): AnnotatedBlock =
     block

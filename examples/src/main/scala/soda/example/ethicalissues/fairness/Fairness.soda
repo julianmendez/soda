@@ -1,6 +1,6 @@
 package soda.example.ethicalissues.fairness
 
-class Applicant is {
+class Applicant
 
   abstract
     background_score: Double
@@ -8,9 +8,12 @@ class Applicant is {
 end
 
 class Applicant_ (background_score: Double)
-  extends Applicant
+  extends
+    Applicant
 
-class AbstractFairness is {
+end
+
+class AbstractFairness
 
   abstract
     rank: Applicant -> Double
@@ -20,7 +23,8 @@ class AbstractFairness is {
 end
 
 class Fairness
-  extends AbstractFairness is {
+  extends
+    AbstractFairness
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)
@@ -38,9 +42,8 @@ class Fairness
 
 end
 
-class Fairness_ (
-    score_difference_tolerance: Double,
-    ranking_difference_tolerance: Double,
-    rank: Applicant => Double
-  ) extends Fairness
+class Fairness_ (score_difference_tolerance: Double, ranking_difference_tolerance: Double, rank: Applicant -> Double)
+  extends
+    Fairness
 
+end

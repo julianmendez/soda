@@ -7,7 +7,9 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-trait SeqSD [A] {
+
+trait SeqSD [A]
+{
 
   def   opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B
   def   toSeq: Seq [A]
@@ -16,7 +18,9 @@ trait SeqSD [A] {
 }
 
 trait EmptySeqSD [A]
-  extends SeqSD [A] {
+  extends
+    SeqSD [A]
+{
 
   def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifEmpty
 
@@ -27,10 +31,16 @@ trait EmptySeqSD [A]
 }
 
 case class EmptySeqSD_ [A] ()
-  extends EmptySeqSD [A]
+  extends
+    EmptySeqSD [A]
+{
+
+}
 
 trait NonEmptySeqSD [A]
-  extends SeqSD [A] {
+  extends
+    SeqSD [A]
+{
 
   def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifNonEmpty (this )
 
@@ -43,9 +53,14 @@ trait NonEmptySeqSD [A]
 }
 
 case class NonEmptySeqSD_ [A] (toSeq: Seq [A]  )
-  extends NonEmptySeqSD [A]
+  extends
+    NonEmptySeqSD [A]
+{
 
-trait SeqSDBuilder [A] {
+}
+
+trait SeqSDBuilder [A]
+{
 
   def build (seq: Seq [A]  ): SeqSD [A] =
     if (seq.isEmpty
@@ -55,4 +70,8 @@ trait SeqSDBuilder [A] {
 }
 
 case class SeqSDBuilder_ [A] ()
-  extends SeqSDBuilder [A]
+  extends
+    SeqSDBuilder [A]
+{
+
+}

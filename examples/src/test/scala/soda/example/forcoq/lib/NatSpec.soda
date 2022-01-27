@@ -1,7 +1,8 @@
 package soda.example.forcoq.lib
 
-* NatSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class NatSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("IntNat from non negative")
     let

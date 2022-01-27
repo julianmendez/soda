@@ -5,3 +5,8 @@ package soda.translator.parser
  */
 
 trait Package
+{
+
+}
+
+

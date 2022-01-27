@@ -1,6 +1,6 @@
 package soda.example.forcoq.mathematics
 
-* FiboExampleInSodaForCoq =
+class FiboExampleInSodaForCoq
 
   import
     soda.example.forcoq.lib.nat
@@ -20,6 +20,9 @@ package soda.example.forcoq.mathematics
 
 end
 
-* FiboExampleInSodaForCoq_ ()
-  extends FiboExampleInSodaForCoq
+class FiboExampleInSodaForCoq_ ()
+  extends
+    FiboExampleInSodaForCoq
+
+end
 

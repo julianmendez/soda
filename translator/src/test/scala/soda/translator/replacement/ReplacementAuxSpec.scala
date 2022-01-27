@@ -1,7 +1,9 @@
 package soda.translator.replacement
 
 case class ReplacementAuxSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   lazy val instance = ReplacementAux_ ()
 

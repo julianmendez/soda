@@ -1,7 +1,9 @@
 package soda.translator.parser.annotation
 
 trait TestDeclarationAnnotation
-  extends BlockAnnotation {
+  extends
+    BlockAnnotation
+{
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
@@ -14,4 +16,8 @@ trait TestDeclarationAnnotation
 }
 
 case class TestDeclarationAnnotation_ (block: soda.translator.block.Block )
-  extends TestDeclarationAnnotation
+  extends
+    TestDeclarationAnnotation
+{
+
+}

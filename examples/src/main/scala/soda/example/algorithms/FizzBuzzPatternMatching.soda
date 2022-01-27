@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-* FizzBuzzPatternMatching =
+class FizzBuzzPatternMatching
 
   import
     soda.lib.Recursion_
@@ -25,6 +25,8 @@ package soda.example.algorithms
 
 end
 
-* FizzBuzzPatternMatching_ ()
-  extends FizzBuzzPatternMatching
+class FizzBuzzPatternMatching_ ()
+  extends
+    FizzBuzzPatternMatching
 
+end

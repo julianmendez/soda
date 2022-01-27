@@ -1,7 +1,8 @@
 package soda.translator.block
 
-* ConditionalBlockTranslator
-  extends BlockTranslator =
+class ConditionalBlockTranslator
+  extends
+    BlockTranslator
 
   abstract
     accepted_annotations: Seq [BlockAnnotationId]
@@ -14,6 +15,9 @@ package soda.translator.block
 
 end
 
-* ConditionalBlockTranslator_ (accepted_annotations: Seq [BlockAnnotationId], translator: BlockTranslator)
-  extends ConditionalBlockTranslator
+class ConditionalBlockTranslator_ (accepted_annotations: Seq [BlockAnnotationId], translator: BlockTranslator)
+  extends
+    ConditionalBlockTranslator
+
+end
 

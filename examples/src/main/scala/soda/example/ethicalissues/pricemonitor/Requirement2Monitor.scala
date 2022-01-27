@@ -1,9 +1,14 @@
 package soda.example.ethicalissues.pricemonitor
 
 case class Report2 (compliant: Boolean, old_price: Int, new_price: Int )
+{
+
+}
 
 trait Requirement2Monitor
-  extends RequirementMonitor {
+  extends
+    RequirementMonitor
+{
 
   lazy val acceptable_increase = 1.25
 
@@ -22,4 +27,8 @@ trait Requirement2Monitor
 }
 
 case class Requirement2Monitor_ (pricing_agent: PricingAgent )
-  extends Requirement2Monitor
+  extends
+    Requirement2Monitor
+{
+
+}

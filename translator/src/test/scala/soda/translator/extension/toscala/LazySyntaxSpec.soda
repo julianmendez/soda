@@ -1,6 +1,6 @@
 package soda.translator.extension.toscala
 
-* ExampleWithWrongOrder =
+class ExampleWithWrongOrder
 
   this_is_null_but = constant_defined_later
 
@@ -8,9 +8,13 @@ package soda.translator.extension.toscala
 
 end
 
-* ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
+class ExampleWithWrongOrder_ ()
+  extends
+    ExampleWithWrongOrder
 
-* ExampleWithRightOrder =
+end
+
+class ExampleWithRightOrder
 
   constant_defined_before = "Success!"
 
@@ -18,9 +22,13 @@ end
 
 end
 
-* ExampleWithRightOrder_ () extends ExampleWithRightOrder
+class ExampleWithRightOrder_ ()
+  extends
+    ExampleWithRightOrder
 
-* ExampleWithEmptyParentheses =
+end
+
+class ExampleWithEmptyParentheses
 
   this_is_not_null  () = constant_defined_later
 
@@ -28,9 +36,12 @@ end
 
 end
 
-* ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
+class ExampleWithEmptyParentheses_ ()
+  extends ExampleWithEmptyParentheses
 
-* AnotherExampleWithEmptyParentheses =
+end
+
+class AnotherExampleWithEmptyParentheses
 
   this_is_not_null = constant_function_defined_later  ()
 
@@ -38,14 +49,19 @@ end
 
 end
 
-* AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
+class AnotherExampleWithEmptyParentheses_ ()
+  extends AnotherExampleWithEmptyParentheses
+
+end
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
  * These tests detect and test this problem, and test work-arounds.
  */
-* LazySyntaxSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+
+class LazySyntaxSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("should show what happens when constants are defined in the wrong order")
     let

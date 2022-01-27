@@ -1,6 +1,7 @@
 package soda.translator.block
 
-trait LineTranslator {
+trait LineTranslator
+{
 
   def   line: String
 

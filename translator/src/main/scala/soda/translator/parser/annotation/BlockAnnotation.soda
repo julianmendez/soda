@@ -1,6 +1,6 @@
 package soda.translator.parser.annotation
 
-* BlockAnnotation =
+class BlockAnnotation
 
   import
     soda.translator.block.Block

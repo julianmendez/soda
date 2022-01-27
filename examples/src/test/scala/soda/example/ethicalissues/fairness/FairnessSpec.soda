@@ -1,7 +1,8 @@
 package soda.example.ethicalissues.fairness
 
-* FairnessSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class FairnessSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   rank_1: Applicant -> Double =
     lambda applicant ->

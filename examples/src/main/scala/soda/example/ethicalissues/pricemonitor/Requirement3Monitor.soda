@@ -2,8 +2,11 @@ package soda.example.ethicalissues.pricemonitor
 
 class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
 
+end
+
 class Requirement3Monitor
-  extends RequirementMonitor =
+  extends
+    RequirementMonitor
 
   get_report (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
     get_report_with (
@@ -26,19 +29,26 @@ class Requirement3Monitor
 end
 
 class Requirement3Monitor_(pricing_agent: PricingAgent)
-  extends Requirement3Monitor
+  extends
+    Requirement3Monitor
+
+end
 
 class Segment
-  extends Flight =
+  extends
+    Flight
 
   intermediate_airports = Seq [String]()
 
 end
 
 class Segment_ (start_airport: String, end_airport: String)
-  extends Segment
+  extends
+    Segment
 
-class SegmentsForFlight =
+end
+
+class SegmentsForFlight
 
   abstract
     flight: Flight
@@ -55,5 +65,8 @@ class SegmentsForFlight =
 end
 
 class SegmentsForFlight_ (flight: Flight)
-  extends SegmentsForFlight
+  extends
+    SegmentsForFlight
+
+end
 

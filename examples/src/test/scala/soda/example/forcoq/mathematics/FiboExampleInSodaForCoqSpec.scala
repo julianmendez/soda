@@ -1,7 +1,9 @@
 package soda.example.forcoq.mathematics
 
 case class FiboExampleInSodaForCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.IntNat_

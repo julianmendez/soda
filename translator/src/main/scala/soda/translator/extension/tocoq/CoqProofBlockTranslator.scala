@@ -1,7 +1,9 @@
 package soda.translator.extension.tocoq
 
 trait CoqProofBlockTranslator
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -53,4 +55,8 @@ trait CoqProofBlockTranslator
 }
 
 case class CoqProofBlockTranslator_ ()
-  extends CoqProofBlockTranslator
+  extends
+    CoqProofBlockTranslator
+{
+
+}

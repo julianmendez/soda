@@ -194,6 +194,8 @@ case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] ()
     NonEmptySortedSequenceAux [A]
 {
 
+}
+
 trait SortedSequenceBuilder [A <: Comparable [A]]
 {
 

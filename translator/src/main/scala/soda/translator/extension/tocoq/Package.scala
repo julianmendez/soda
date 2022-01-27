@@ -5,3 +5,8 @@ package soda.translator.extension.tocoq
  */
 
 trait Package
+{
+
+}
+
+

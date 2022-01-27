@@ -3,8 +3,10 @@ package soda.translator.extension.tocoq
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-* TranslationConstantToCoq
-  extends soda.translator.parser.SodaConstant =
+
+class TranslationConstantToCoq
+  extends
+    soda.translator.parser.SodaConstant
 
   soda_definition: String = "="
 
@@ -252,6 +254,8 @@ package soda.translator.extension.tocoq
 
 end
 
-* TranslationConstantToCoq_ ()
-  extends TranslationConstantToCoq
+class TranslationConstantToCoq_ ()
+  extends
+    TranslationConstantToCoq
 
+end

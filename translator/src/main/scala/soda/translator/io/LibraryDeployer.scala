@@ -1,6 +1,7 @@
 package soda.translator.io
 
-trait LibraryDeployer {
+trait LibraryDeployer
+{
 
   import   java.io.File
 
@@ -31,4 +32,9 @@ trait LibraryDeployer {
 
 }
 
-case class LibraryDeployer_ () extends LibraryDeployer
+case class LibraryDeployer_ ()
+  extends
+    LibraryDeployer
+{
+
+}

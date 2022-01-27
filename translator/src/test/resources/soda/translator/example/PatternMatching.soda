@@ -1,13 +1,13 @@
 package soda.example.algorithms
 
-* Parameter
+class Parameter
 
   abstract
     name: String
 
 end
 
-* PatternMatching
+class PatternMatching
 
   get_value (p: Parameter): Int =
     match p
@@ -27,13 +27,13 @@ end
 
 end
 
-* PatternMatching_ ()
+class PatternMatching_ ()
   extends
     PatternMatching
 
 end
 
-* Singleton (x: Int)
+class Singleton (x: Int)
   extends
     Parameter
 
@@ -41,7 +41,7 @@ end
 
 end
 
-* Pair (x: Int, y: Int)
+class Pair (x: Int, y: Int)
   extends
     Parameter
 
@@ -49,7 +49,7 @@ end
 
 end
 
-* Triplet (x: Int, y: Int, z: Int)
+class Triplet (x: Int, y: Int, z: Int)
   extends
     Parameter
 

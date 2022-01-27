@@ -3,7 +3,8 @@ package soda.translator.block
 /**
  * This models an abstract translator.
  */
-* Translator =
+
+class Translator
 
   abstract
     translate (word: String): String

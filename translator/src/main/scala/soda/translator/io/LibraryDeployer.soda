@@ -1,6 +1,6 @@
 package soda.translator.io
 
-* LibraryDeployer =
+class LibraryDeployer
 
   import
     java.io.File
@@ -32,5 +32,9 @@ package soda.translator.io
 
 end
 
-* LibraryDeployer_ () extends LibraryDeployer
+class LibraryDeployer_ ()
+  extends
+    LibraryDeployer
+
+end
 

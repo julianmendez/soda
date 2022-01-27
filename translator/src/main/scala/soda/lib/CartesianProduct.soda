@@ -7,7 +7,8 @@ package soda.lib
 /**
  * This class contains auxiliary functions for combinations.
  */
-* CartesianProduct =
+
+class CartesianProduct
 
   _initial_value [T] (seq: Seq [T]): Seq [Seq [T]] =
     seq.map (elem -> Seq [T] (elem))
@@ -26,5 +27,8 @@ package soda.lib
 
 end
 
-* CartesianProduct_ ()
-  extends CartesianProduct
+class CartesianProduct_ ()
+  extends
+    CartesianProduct
+
+end

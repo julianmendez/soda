@@ -1,7 +1,8 @@
 package soda.example.forcoq.algorithms
 
-* RecursionForCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class RecursionForCoqSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 

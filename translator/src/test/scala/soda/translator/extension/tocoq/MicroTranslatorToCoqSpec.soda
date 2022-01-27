@@ -1,7 +1,8 @@
 package soda.translator.extension.tocoq
 
-* MicroTranslatorToCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class MicroTranslatorToCoqSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   import
     soda.translator.parser.BlockProcessor_
@@ -23,5 +24,4 @@ package soda.translator.extension.tocoq
     in assert (obtained == expected)
 
 end
-
 

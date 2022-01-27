@@ -1,6 +1,6 @@
 package soda.translator.parser
 
-* SodaConstant =
+class SodaConstant
 
   space = " "
 
@@ -94,6 +94,9 @@ package soda.translator.parser
 
 end
 
-* SodaConstant_ ()
-  extends SodaConstant
+class SodaConstant_ ()
+  extends
+    SodaConstant
+
+end
 

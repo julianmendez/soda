@@ -6,5 +6,8 @@ package soda.translator.extension
  * @see soda.translator.extension.common.Extension
  */
 
-* Package
+class Package
+
+end
+
 

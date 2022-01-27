@@ -1,14 +1,15 @@
 package soda.translator.block
 
-* BlockTranslator =
+class BlockTranslator
 
   abstract
     translate (block: AnnotatedBlock): AnnotatedBlock
 
 end
 
-* DefaultBlockTranslator_ ()
-  extends BlockTranslator =
+class DefaultBlockTranslator_ ()
+  extends
+    BlockTranslator
 
   translate (block: AnnotatedBlock): AnnotatedBlock =
     block

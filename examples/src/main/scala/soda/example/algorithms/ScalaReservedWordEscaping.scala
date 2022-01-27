@@ -1,6 +1,7 @@
 package soda.example.algorithms
 
-trait ScalaReservedWordEscaping {
+trait ScalaReservedWordEscaping
+{
 
   lazy val __soda__var = "var"
 
@@ -21,7 +22,8 @@ trait ScalaReservedWordEscaping {
 
 }
 
-trait MyPair [A, B] {
+trait MyPair [A, B]
+{
 
   def   key: A
   def   value: B
@@ -29,4 +31,8 @@ trait MyPair [A, B] {
 }
 
 case class MyPair_ [A, B] (key: A, value: B )
-  extends MyPair [A, B]
+  extends
+    MyPair [A, B]
+{
+
+}

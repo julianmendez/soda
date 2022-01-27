@@ -1,6 +1,6 @@
 package soda.translator.block
 
-* LineTranslator =
+class LineTranslator
 
   abstract
     line: String

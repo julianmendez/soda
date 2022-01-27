@@ -1,21 +1,23 @@
 package soda.example.mathematics
 
-* MemoizableFunction [A, B] =
+class MemoizableFunction [A, B]
 
   abstract
     compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]]
 
 end
 
-* MainFunction [A, B] =
+class MainFunction [A, B]
 
   abstract
     main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]]
 
 end
 
-* Memoizer [A, B]
-  extends MemoizableFunction [A, B] with MainFunction [A, B] =
+class Memoizer [A, B]
+  extends
+    MemoizableFunction [A, B]
+    MainFunction [A, B]
 
   compute (x: A, memoized_values: Map [A, B]): Tuple2 [B, Map [A, B]] =
     _compute_with (memoized_values.get (x), x, memoized_values)
@@ -36,11 +38,15 @@ end
 
 end
 
-* Memoizer_ [A, B] (main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]])
-  extends Memoizer [A, B]
+class Memoizer_ [A, B] (main_function: (A, Map [A, B]) -> Tuple2 [B, Map [A, B]])
+  extends
+    Memoizer [A, B]
 
-* HardProblem
-  extends MemoizableFunction [Int, Int] =
+end
+
+class HardProblem
+  extends
+    MemoizableFunction [Int, Int]
 
   memoizer = Memoizer_ [Int, Int] (main_function)
 
@@ -65,11 +71,15 @@ end
 
 end
 
-* HardProblem_ ()
-  extends HardProblem
+class HardProblem_ ()
+  extends
+    HardProblem
 
-* MemoizedFibonacci
-  extends MemoizableFunction [Int, Int] =
+end
+
+class MemoizedFibonacci
+  extends
+    MemoizableFunction [Int, Int]
 
   memoizer = Memoizer_ [Int, Int] (main_function)
 
@@ -95,6 +105,8 @@ end
 
 end
 
-* MemoizedFibonacci_ ()
-  extends MemoizedFibonacci
+class MemoizedFibonacci_ ()
+  extends
+    MemoizedFibonacci
 
+end

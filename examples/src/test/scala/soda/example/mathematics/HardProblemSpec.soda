@@ -1,7 +1,8 @@
 package soda.example.mathematics
 
-* HardProblemSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite =
+class HardProblemSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   empty_map = Map [Int, Int] ()
 

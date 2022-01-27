@@ -1,7 +1,9 @@
 package soda.translator.block
 
 case class BlockTranslator00 ()
-  extends BlockTranslator {
+  extends
+    BlockTranslator
+{
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
@@ -17,7 +19,9 @@ case class BlockTranslator00 ()
 }
 
 case class BlockTranslator01 ()
-  extends BlockTranslator {
+  extends
+    BlockTranslator
+{
 
   import   soda.translator.parser.BlockBuilder_
 
@@ -32,7 +36,9 @@ case class BlockTranslator01 ()
 }
 
 case class BlockTranslator02 ()
-  extends BlockTranslator {
+  extends
+    BlockTranslator
+{
 
   import   soda.translator.parser.BlockBuilder_
 
@@ -47,7 +53,9 @@ case class BlockTranslator02 ()
 }
 
 case class BlockTranslatorPipelineSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite {
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   import   soda.translator.parser.BlockBuilder_
 

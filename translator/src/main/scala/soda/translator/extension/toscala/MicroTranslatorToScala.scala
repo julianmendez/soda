@@ -3,8 +3,11 @@ package soda.translator.extension.toscala
 /**
  * This class translates Soda source code into Scala source code.
  */
+
 trait MicroTranslatorToScala
-  extends soda.translator.block.BlockTranslator {
+  extends
+    soda.translator.block.BlockTranslator
+{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockTranslatorPipeline_
@@ -54,4 +57,8 @@ trait MicroTranslatorToScala
 }
 
 case class MicroTranslatorToScala_ ()
-  extends MicroTranslatorToScala
+  extends
+    MicroTranslatorToScala
+{
+
+}

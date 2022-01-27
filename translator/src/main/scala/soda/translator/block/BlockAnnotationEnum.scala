@@ -1,10 +1,16 @@
 package soda.translator.block
 
 case class BlockAnnotationId (ordinal: Int, name: String )
-  extends soda.lib.EnumConstant
+  extends
+    soda.lib.EnumConstant
+{
+
+}
 
 trait BlockAnnotationEnum
-  extends soda.lib.Enum [BlockAnnotationId] {
+  extends
+    soda.lib.Enum [BlockAnnotationId]
+{
 
   lazy val undefined = BlockAnnotationId (0, "undefined")
 
@@ -52,4 +58,8 @@ trait BlockAnnotationEnum
 }
 
 case class BlockAnnotationEnum_ ()
-  extends BlockAnnotationEnum
+  extends
+    BlockAnnotationEnum
+{
+
+}

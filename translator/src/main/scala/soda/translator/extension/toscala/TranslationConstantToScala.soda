@@ -3,8 +3,10 @@ package soda.translator.extension.toscala
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
-* TranslationConstantToScala
-  extends soda.translator.parser.SodaConstant =
+
+class TranslationConstantToScala
+  extends
+    soda.translator.parser.SodaConstant
 
   soda_definition: String = "="
 
@@ -238,6 +240,9 @@ package soda.translator.extension.toscala
 
 end
 
-* TranslationConstantToScala_ ()
-  extends TranslationConstantToScala
+class TranslationConstantToScala_ ()
+  extends
+    TranslationConstantToScala
+
+end
 
