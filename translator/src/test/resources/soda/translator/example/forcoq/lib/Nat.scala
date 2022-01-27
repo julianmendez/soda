@@ -1,38 +1,54 @@
 package soda.example.forcoq.lib
 
-trait nat =
+trait nat
 {
 
-  def   add (a: nat ): nat
-  def   mul (a: nat ): nat
+  def   add: nat => nat
+  def   mul: nat => nat
 
 }
 
 case class O ()
-  extends nat =
+  extends
+    nat
 {
 
-  def add (a: nat ): nat = a
+  lazy val add: nat => nat =
+     a => add_for (a )
 
-  def mul (a: nat ): nat = this
+  def add_for (a: nat ): nat =
+    a
+
+  lazy val mul: nat =>  nat =
+     a => mul_for (a )
+
+  def mul_for (a: nat ): nat =
+    this
 
 }
 
 case class S (k: nat )
-  extends nat =
+  extends
+    nat
 {
 
   lazy val t = IntNat_ ()
 
-  def add (a: nat ): nat =
+  lazy val add: nat => nat =
+     a => add_for (a )
+
+  def add_for (a: nat ): nat =
     t.from_non_negative ((t.to_Int (k ) + 1 ) + t.to_Int (a ) )
 
-  def mul (a: nat ): nat =
+  lazy val mul: nat =>  nat =
+     a => mul_for (a )
+
+  def mul_for (a: nat ): nat =
     t.from_non_negative ((t.to_Int (k ) + 1 ) * t.to_Int (a ) )
 
 }
 
-trait IntNat =
+trait IntNat
 {
 
   import   soda.lib.OptionSD
@@ -63,5 +79,8 @@ trait IntNat =
 }
 
 case class IntNat_ ()
-  extends IntNat
+  extends
+    IntNat
 {
+
+}

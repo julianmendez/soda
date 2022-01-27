@@ -73,8 +73,7 @@ trait Indexable
 }
 
 trait Example
-  extends
-    Indexable
+  extends Indexable
 {
 
   def min_max (a: Int ) (b: Int ): MinMaxPair =
@@ -86,13 +85,16 @@ trait Example
 }
 
 case class Example_ (index: Int )
-  extends Example
+  extends
+    Example
 {
+
+}
 
 trait Comparable
 {
 
-  def   is_greater_than (x: Comparable ): Boolean
+  def   is_greater_than: Comparable => Boolean
 
 }
 
@@ -114,8 +116,8 @@ trait WithInstance
 }
 
 trait MyClass
-   extends
-     WithInstance
+  extends
+    WithInstance
 {
 
   lazy val class_constant: Int = 1

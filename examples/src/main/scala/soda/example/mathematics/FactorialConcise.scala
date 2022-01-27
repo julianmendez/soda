@@ -3,7 +3,7 @@ package soda.example.mathematics
 trait AbstractFactorialConcise
 {
 
-  def   get_factorial (n: Int ): Int
+  def   get_factorial: Int => Int
 
 }
 
@@ -19,7 +19,10 @@ trait FactorialConcise
     ) product
     else _tailrec_get_factorial (n - 1, n * product )
 
-  def get_factorial (n: Int ): Int =
+  lazy val get_factorial: Int => Int =
+     n => get_factorial_for (n )
+
+  def get_factorial_for (n: Int ): Int =
     _tailrec_get_factorial (n, 1 )
 
 }

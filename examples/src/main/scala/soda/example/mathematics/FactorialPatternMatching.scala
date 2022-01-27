@@ -13,7 +13,10 @@ trait FactorialPatternMatching
       case k => _tailrec_get_factorial (k - 1, k * product )
     }
 
-  def get_factorial (n: Int ): Int =
+  lazy val get_factorial: Int => Int =
+     n => get_factorial_for (n )
+
+  def get_factorial_for (n: Int ): Int =
     _tailrec_get_factorial (n, 1 )
 
 }

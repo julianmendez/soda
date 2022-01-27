@@ -11,7 +11,10 @@ class FactorialPatternMatching
       | k => _tailrec_get_factorial (k - 1, k * product)
     end
 
-  get_factorial (n: Int): Int =
+  get_factorial: Int -> Int =
+    lambda n -> get_factorial_for (n)
+
+  get_factorial_for (n: Int): Int =
     _tailrec_get_factorial (n, 1)
 
 end

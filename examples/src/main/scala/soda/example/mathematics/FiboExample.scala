@@ -3,7 +3,7 @@ package soda.example.mathematics
 trait FiboExample
 {
 
-  def   fib (n: Int ): Int
+  def   fib: Int => Int
 
 }
 
@@ -17,7 +17,10 @@ trait FiboExampleInSoda
     else if (m == 1 ) b
     else _rec (m - 1, b, a + b )
 
-  def fib (n: Int ) =
+  lazy val fib: Int => Int =
+     n => fib_for (n )
+
+  def fib_for (n: Int ) =
     _rec (n, 0, 1 )
 
 }

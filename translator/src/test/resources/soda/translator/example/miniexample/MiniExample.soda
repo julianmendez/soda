@@ -1,7 +1,8 @@
 package soda.example.miniexample
 
-* MiniExample
-  extends soda.lib.Recursion =
+class MiniExample
+  extends
+    soda.lib.Recursion
 
   run () =
     range (50)
@@ -9,18 +10,24 @@ package soda.example.miniexample
 
 end
 
-* MiniExample_ ()
-  extends MiniExample
+class MiniExample_ ()
+  extends
+    MiniExample
+
+end
 
 @main
 
-* MainClass =
+class MainClass
 
   main (arguments: Array [String]): Unit =
     MiniExample_ ().run ()
 
 end
 
-* Main ()
-  extends MainClass
+class Main ()
+  extends
+    MainClass
+
+end
 

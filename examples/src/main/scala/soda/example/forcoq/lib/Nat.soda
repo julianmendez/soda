@@ -3,8 +3,8 @@ package soda.example.forcoq.lib
 class nat
 
   abstract
-    add (a: nat): nat
-    mul (a: nat): nat
+    add: nat -> nat
+    mul: nat -> nat
 
 end
 
@@ -12,9 +12,17 @@ class O ()
   extends
     nat
 
-  add (a: nat): nat = a
+  add: nat -> nat =
+    lambda a -> add_for (a)
 
-  mul (a: nat): nat = this
+  add_for (a: nat): nat =
+    a
+
+  mul: nat ->  nat =
+    lambda a -> mul_for (a)
+
+  mul_for (a: nat): nat =
+    this
 
 end
 
@@ -24,10 +32,16 @@ class S (k: nat)
 
   t = IntNat_ ()
 
-  add (a: nat): nat =
+  add: nat -> nat =
+    lambda a -> add_for (a)
+
+  add_for (a: nat): nat =
     t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
 
-  mul (a: nat): nat =
+  mul: nat ->  nat =
+    lambda a -> mul_for (a)
+
+  mul_for (a: nat): nat =
     t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
 
 end

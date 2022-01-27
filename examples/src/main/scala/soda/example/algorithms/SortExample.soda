@@ -3,7 +3,7 @@ package soda.example.algorithms
 class SortExample
 
   abstract
-    is_sorted (sequence: Seq [Int]): Boolean
+    is_sorted: Seq [Int] -> Boolean
 
 end
 
@@ -11,7 +11,10 @@ class SortExampleWithAt
   extends
     SortExample
 
-  is_sorted (sequence: Seq [Int]): Boolean =
+  is_sorted: Seq [Int] -> Boolean =
+    lambda sequence -> is_sorted_for (sequence)
+
+  is_sorted_for (sequence: Seq [Int]): Boolean =
     sequence
       .indices
       .filter (index -> index > 0)
@@ -29,7 +32,10 @@ class SortExampleWithZip
   extends
     SortExample
 
-  is_sorted (sequence: Seq [Int]): Boolean =
+  is_sorted: Seq [Int] -> Boolean =
+    lambda sequence -> is_sorted_for (sequence)
+
+  is_sorted_for (sequence: Seq [Int]): Boolean =
     sequence
       .zip (sequence.tail)
       .forall (pair ->  (pair._1 <= pair._2))
@@ -45,7 +51,7 @@ end
 class SortAlgorithmExample
 
   abstract
-    sort (sequence: Seq [Int]): Seq [Int]
+    sort: Seq [Int] -> Seq [Int]
 
 end
 
@@ -56,7 +62,10 @@ class SortAlgorithmExampleWithFold
   import
     soda.lib.Recursion_
 
-  sort (sequence: Seq [Int]): Seq [Int] =
+  sort: Seq [Int] -> Seq [Int] =
+    lambda sequence -> sort_for (sequence)
+
+  sort_for (sequence: Seq [Int]): Seq [Int] =
     if sequence.length < 2
     then sequence
     else Recursion_ ().fold (sequence, _initial_value, _next_value_function)
@@ -111,7 +120,7 @@ class SortedSequence [A subtype Comparable [A]]
 
   abstract
     sequence: Seq [A]
-    add (element: A): SortedSequence [A]
+    add: A -> SortedSequence [A]
     invariant: Boolean
 
 end
@@ -122,7 +131,10 @@ class EmptySortedSequence [A subtype Comparable [A]]
 
   sequence = Seq ()
 
-  add (element: A): SortedSequence [A] =
+  add : A -> SortedSequence [A] =
+    lambda element -> add_for (element)
+
+  add_for (element: A): SortedSequence [A] =
      _NonEmptySortedSequence_ (Seq (element))
 
   invariant: Boolean = true
@@ -150,7 +162,10 @@ class NonEmptySortedSequence [A subtype Comparable [A]]
 
   aux = NonEmptySortedSequenceAux_ [A] ()
 
-  add (element: A): SortedSequence [A] =
+  add : A -> SortedSequence [A] =
+    lambda element -> add_for (element)
+
+  add_for (element: A): SortedSequence [A] =
     _NonEmptySortedSequence_ (aux.insert_sorted (sequence, element))
 
   invariant: Boolean = aux.is_sorted (sequence)

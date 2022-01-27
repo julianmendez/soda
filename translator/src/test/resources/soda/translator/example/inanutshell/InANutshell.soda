@@ -69,8 +69,7 @@ class Indexable
 end
 
 class Example
-  extends
-    Indexable
+  extends Indexable
 
   min_max (a: Int) (b: Int): MinMaxPair =
     MinMaxPair (
@@ -81,12 +80,15 @@ class Example
 end
 
 class Example_ (index: Int)
-  extends Example
+  extends
+    Example
+
+end
 
 class Comparable
 
   abstract
-    is_greater_than (x: Comparable): Boolean
+    is_greater_than: Comparable -> Boolean
 
 end
 
@@ -107,8 +109,8 @@ class WithInstance
 end
 
 class MyClass
-   extends
-     WithInstance
+  extends
+    WithInstance
 
   class_constant: Int = 1
 

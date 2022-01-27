@@ -3,7 +3,7 @@ package soda.example.algorithms
 trait SortExample
 {
 
-  def   is_sorted (sequence: Seq [Int]  ): Boolean
+  def   is_sorted: Seq [Int] => Boolean
 
 }
 
@@ -12,7 +12,10 @@ trait SortExampleWithAt
     SortExample
 {
 
-  def is_sorted (sequence: Seq [Int]  ): Boolean =
+  lazy val is_sorted: Seq [Int] => Boolean =
+     sequence => is_sorted_for (sequence )
+
+  def is_sorted_for (sequence: Seq [Int]  ): Boolean =
     sequence
       .indices
       .filter (index => index > 0 )
@@ -32,7 +35,10 @@ trait SortExampleWithZip
     SortExample
 {
 
-  def is_sorted (sequence: Seq [Int]  ): Boolean =
+  lazy val is_sorted: Seq [Int] => Boolean =
+     sequence => is_sorted_for (sequence )
+
+  def is_sorted_for (sequence: Seq [Int]  ): Boolean =
     sequence
       .zip (sequence.tail )
       .forall (pair =>  (pair._1 <= pair._2 )  )
@@ -49,7 +55,7 @@ case class SortExampleWithZip_ ()
 trait SortAlgorithmExample
 {
 
-  def   sort (sequence: Seq [Int]  ): Seq [Int]
+  def   sort: Seq [Int] => Seq [Int]
 
 }
 
@@ -60,7 +66,10 @@ trait SortAlgorithmExampleWithFold
 
   import   soda.lib.Recursion_
 
-  def sort (sequence: Seq [Int]  ): Seq [Int] =
+  lazy val sort: Seq [Int] => Seq [Int] =
+     sequence => sort_for (sequence )
+
+  def sort_for (sequence: Seq [Int]  ): Seq [Int] =
     if (sequence.length < 2
     ) sequence
     else Recursion_ () .fold (sequence, _initial_value, _next_value_function )
@@ -117,7 +126,7 @@ trait SortedSequence [A <: Comparable [A]]
 {
 
   def   sequence: Seq [A]
-  def   add (element: A ): SortedSequence [A]
+  def   add: A => SortedSequence [A]
   def   invariant: Boolean
 
 }
@@ -129,7 +138,10 @@ trait EmptySortedSequence [A <: Comparable [A]]
 
   lazy val sequence = Seq ()
 
-  def add (element: A ): SortedSequence [A] =
+  lazy val add: A => SortedSequence [A] =
+     element => add_for (element )
+
+  def add_for (element: A ): SortedSequence [A] =
      _NonEmptySortedSequence_ (Seq (element )  )
 
   lazy val invariant: Boolean = true
@@ -159,7 +171,10 @@ trait NonEmptySortedSequence [A <: Comparable [A]]
 
   lazy val aux = NonEmptySortedSequenceAux_ [A] ()
 
-  def add (element: A ): SortedSequence [A] =
+  lazy val add: A => SortedSequence [A] =
+     element => add_for (element )
+
+  def add_for (element: A ): SortedSequence [A] =
     _NonEmptySortedSequence_ (aux.insert_sorted (sequence, element )  )
 
   lazy val invariant: Boolean = aux.is_sorted (sequence )

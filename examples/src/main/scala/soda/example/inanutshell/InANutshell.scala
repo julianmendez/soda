@@ -94,7 +94,7 @@ case class Example_ (index: Int )
 trait Comparable
 {
 
-  def   is_greater_than (x: Comparable ): Boolean
+  def   is_greater_than: Comparable => Boolean
 
 }
 

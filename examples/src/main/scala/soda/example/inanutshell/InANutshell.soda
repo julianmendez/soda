@@ -88,7 +88,7 @@ end
 class Comparable
 
   abstract
-    is_greater_than (x: Comparable): Boolean
+    is_greater_than: Comparable -> Boolean
 
 end
 
