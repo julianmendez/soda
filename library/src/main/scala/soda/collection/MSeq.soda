@@ -4,12 +4,12 @@ class MSeq [T]
 
   abstract
     isEmpty: Boolean
-    _as_NESeq: Option [NESeq [T] ]
 
   opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B =
-    if isEmpty
-    then ifEmpty
-    else ifNonEmpty (_as_NESeq.get)
+    match this
+      | ESeq_ () => ifEmpty
+      | NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
+    end
 
 end
 
@@ -41,8 +41,6 @@ class ESeq [T]
 
   isEmpty = true
 
-  _as_NESeq: Option [NESeq [T] ] = None
-
 end
 
 class ESeq_ [T] ()
@@ -66,8 +64,6 @@ class NESeq [T]
     NEMSeq [T]
 
   isEmpty = false
-
-  _as_NESeq: Option [NESeq [T] ] = Some (this)
 
   head: T = head0
 

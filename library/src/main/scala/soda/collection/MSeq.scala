@@ -4,12 +4,12 @@ trait MSeq [T]
 {
 
   def   isEmpty: Boolean
-  def   _as_NESeq: Option [NESeq [T]]
 
   def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B =
-    if (isEmpty
-    ) ifEmpty
-    else ifNonEmpty (_as_NESeq.get )
+    this match  {
+      case ESeq_ () => ifEmpty
+      case NESeq_ (head, tail ) => ifNonEmpty (NESeq_ (head, tail ) )
+    }
 
 }
 
@@ -45,8 +45,6 @@ trait ESeq [T]
 
   lazy val isEmpty = true
 
-  lazy val _as_NESeq: Option [NESeq [T]] = None
-
 }
 
 case class ESeq_ [T] ()
@@ -72,8 +70,6 @@ trait NESeq [T]
 {
 
   lazy val isEmpty = false
-
-  lazy val _as_NESeq: Option [NESeq [T]] = Some (this )
 
   lazy val head: T = head0
 
