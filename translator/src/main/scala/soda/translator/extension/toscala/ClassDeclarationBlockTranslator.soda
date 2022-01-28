@@ -22,24 +22,12 @@ class ClassDeclarationBlockTranslator
 
   _labels = BlockAnnotationEnum_ ()
 
-  get_table_translator (line: String): Translator =
-    TableTranslator_ (
-      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line) ) )
-    )
-
-  get_class_declaration_translation (line: String): String =
-    if line.contains (soda_opening_parenthesis)
-    then tc.class_declaration_translation_at_beginning_with_paren
-    else
-      if has_condition_for_type_alias (line)
-      then tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
-      else tc.class_declaration_translation_at_beginning_without_paren
-
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.class_beginning
-      or block.block_annotation == _labels.class_declaration
-    then _translate_block (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if block.block_annotation == _labels.class_beginning
+        or block.block_annotation == _labels.class_declaration
+      then _translate_block (block)
+      else block
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (
@@ -63,6 +51,19 @@ class ClassDeclarationBlockTranslator
     if (get_first_line (block).trim == tc.extends_reserved_word)
     then Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
     else block.lines
+
+  get_table_translator (line: String): Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line) ) )
+    )
+
+  get_class_declaration_translation (line: String): String =
+    if line.contains (soda_opening_parenthesis)
+    then tc.class_declaration_translation_at_beginning_with_paren
+    else
+      if has_condition_for_type_alias (line)
+      then tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
+      else tc.class_declaration_translation_at_beginning_without_paren
 
   get_number_of_spaces_at_beginning (line: String): Int =
     line

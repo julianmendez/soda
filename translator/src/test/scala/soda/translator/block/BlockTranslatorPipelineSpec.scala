@@ -8,13 +8,14 @@ case class BlockTranslator00 ()
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      if (block.lines.isEmpty
-      ) Seq ("")
-      else block.lines.++ (Seq ("tr00") ),
-      BlockAnnotationEnum_ () .undefined
-    )
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      BlockBuilder_ () .build (
+        if (block.lines.isEmpty
+        ) Seq ("")
+        else block.lines.++ (Seq ("tr00") ),
+        BlockAnnotationEnum_ () .undefined
+      )
 
 }
 
@@ -25,13 +26,14 @@ case class BlockTranslator01 ()
 
   import   soda.translator.parser.BlockBuilder_
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      if (block.lines.isEmpty
-      ) Seq ("")
-      else block.lines.++ (Seq ("tr01") ),
-      BlockAnnotationEnum_ () .undefined
-    )
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      BlockBuilder_ () .build (
+        if (block.lines.isEmpty
+        ) Seq ("")
+        else block.lines.++ (Seq ("tr01") ),
+        BlockAnnotationEnum_ () .undefined
+      )
 
 }
 
@@ -42,13 +44,14 @@ case class BlockTranslator02 ()
 
   import   soda.translator.parser.BlockBuilder_
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      if (block.lines.isEmpty
-      ) Seq ("")
-      else block.lines.++ (Seq ("tr02") ),
-      BlockAnnotationEnum_ () .undefined
-    )
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      BlockBuilder_ () .build (
+        if (block.lines.isEmpty
+        ) Seq ("")
+        else block.lines.++ (Seq ("tr02") ),
+        BlockAnnotationEnum_ () .undefined
+      )
 
 }
 

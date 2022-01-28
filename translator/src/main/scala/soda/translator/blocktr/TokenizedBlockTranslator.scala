@@ -17,17 +17,18 @@ trait TokenizedBlockTranslator
 
   def   replace_token: Token => String
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      block
-        .annotated_lines
-        .map (annotated_line =>
-          if (annotated_line.is_comment
-          ) annotated_line.line
-          else _translate_non_comment (annotated_line.line )
-        ),
-      block.block_annotation
-    )
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      BlockBuilder_ () .build (
+        block
+          .annotated_lines
+          .map (annotated_line =>
+            if (annotated_line.is_comment
+            ) annotated_line.line
+            else _translate_non_comment (annotated_line.line )
+          ),
+        block.block_annotation
+      )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

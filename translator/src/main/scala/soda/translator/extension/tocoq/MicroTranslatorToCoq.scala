@@ -18,6 +18,10 @@ trait MicroTranslatorToCoq
 
   lazy val tc = TranslationConstantToCoq_ ()
 
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translation_pipeline.translate (block )
+
   lazy val try_definition: Token => String =
      token =>
       DefinitionLineTranslator_ (token.text ) .translation
@@ -39,9 +43,6 @@ trait MicroTranslatorToCoq
         CoqProofBlockTranslator_ ()
       )
     )
-
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    translation_pipeline.translate (block )
 
 }
 

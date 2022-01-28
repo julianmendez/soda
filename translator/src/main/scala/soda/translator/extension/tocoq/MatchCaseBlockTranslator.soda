@@ -13,11 +13,12 @@ class MatchCaseBlockTranslator
 
   _labels = BlockAnnotationEnum_ ()
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.function_definition or
-      block.block_annotation == _labels.test_declaration
-    then _translate_block (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if block.block_annotation == _labels.function_definition or
+        block.block_annotation == _labels.test_declaration
+      then _translate_block (block)
+      else block
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build(

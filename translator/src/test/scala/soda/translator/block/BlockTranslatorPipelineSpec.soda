@@ -8,13 +8,14 @@ class BlockTranslator00 ()
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.BlockBuilder_
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      if block.lines.isEmpty
-      then Seq ("")
-      else block.lines.++ ( Seq ("tr00") ),
-      BlockAnnotationEnum_ ().undefined
-    )
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      BlockBuilder_ ().build (
+        if block.lines.isEmpty
+        then Seq ("")
+        else block.lines.++ ( Seq ("tr00") ),
+        BlockAnnotationEnum_ ().undefined
+      )
 
 end
 
@@ -25,13 +26,14 @@ class BlockTranslator01 ()
   import
     soda.translator.parser.BlockBuilder_
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      if block.lines.isEmpty
-      then Seq ("")
-      else block.lines.++ ( Seq ("tr01") ),
-      BlockAnnotationEnum_ ().undefined
-    )
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      BlockBuilder_ ().build (
+        if block.lines.isEmpty
+        then Seq ("")
+        else block.lines.++ ( Seq ("tr01") ),
+        BlockAnnotationEnum_ ().undefined
+      )
 
 end
 
@@ -42,13 +44,14 @@ class BlockTranslator02 ()
   import
     soda.translator.parser.BlockBuilder_
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      if block.lines.isEmpty
-      then Seq ("")
-      else block.lines.++ ( Seq ("tr02") ),
-      BlockAnnotationEnum_ ().undefined
-    )
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      BlockBuilder_ ().build (
+        if block.lines.isEmpty
+        then Seq ("")
+        else block.lines.++ ( Seq ("tr02") ),
+        BlockAnnotationEnum_ ().undefined
+      )
 
 end
 

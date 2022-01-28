@@ -5,7 +5,6 @@ class AbstractDirectoryProcessor
   abstract
     start: String
     process_soda_file: java.io.File -> Boolean
-    process (): Boolean
 
 end
 

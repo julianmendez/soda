@@ -3,7 +3,7 @@ package soda.translator.block
 trait BlockTranslator
 {
 
-  def   translate (block: AnnotatedBlock ): AnnotatedBlock
+  def   translate: AnnotatedBlock => AnnotatedBlock
 
 }
 
@@ -12,7 +12,8 @@ case class DefaultBlockTranslator_ ()
     BlockTranslator
 {
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      block
 
 }

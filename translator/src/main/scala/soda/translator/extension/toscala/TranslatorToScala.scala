@@ -29,11 +29,12 @@ trait TranslatorToScala
       )
     )
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    if (arguments.length == 0 ) process_directory (default_argument )
-    else if (arguments.length == 1 ) process_directory (arguments (0 )  )
-    else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
-    else false
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      if (arguments.length == 0 ) process_directory (default_argument )
+      else if (arguments.length == 1 ) process_directory (arguments (0 )  )
+      else if (arguments.length == 2 ) translate (arguments (0 ), arguments (1 )  )
+      else false
 
   def process_directory (start: String ): Boolean =
     DirectoryProcessor_ (start, process_soda_file ) .process ()

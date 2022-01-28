@@ -3,7 +3,7 @@ package soda.translator.blocktr
 class Table
 
   abstract
-    table: Seq[ (String, String)]
+    table: Seq [ (String, String)]
 
 end
 
@@ -19,8 +19,9 @@ class TableTranslator
 
   keys = table.map (pair -> pair._1)
 
-  translate (word: String): String =
-    table.toMap.get (word).getOrElse (word)
+  translate: String -> String =
+    lambda word ->
+      table.toMap.get (word).getOrElse (word)
 
 end
 

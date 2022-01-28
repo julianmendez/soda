@@ -19,10 +19,11 @@ trait AbstractDeclarationBlockTranslator
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == _labels.abstract_block_declaration
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == _labels.abstract_block_declaration
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_abstract_block_declaration (block )

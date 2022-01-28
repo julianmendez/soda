@@ -8,7 +8,7 @@ trait Help
   import   soda.lib.SomeSD_
   import   soda.translator.io.SimpleFileReader_
 
-  def   execute (arguments: Seq [String]  ): Boolean
+  def   execute: Seq [String] => Boolean
 
   lazy val path: String = "/soda/translator/documentation/"
 
@@ -38,8 +38,9 @@ case class Help_ ()
 
   lazy val file_name = "help.txt"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content (title_and_version + "\n\n" + read (file_name ) )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content (title_and_version + "\n\n" + read (file_name ) )
 
 }
 
@@ -50,8 +51,9 @@ case class Manual_ ()
 
   lazy val file_name = "Manual.soda"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content ("/* " + title_and_version + " */\n\n" + read (file_name ) )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content ("/* " + title_and_version + " */\n\n" + read (file_name ) )
 
 }
 
@@ -62,7 +64,8 @@ case class License_ ()
 
   lazy val file_name = "LICENSE.txt"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content (read (file_name )  )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content (read (file_name )  )
 
 }

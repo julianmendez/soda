@@ -3,7 +3,7 @@ package soda.translator.block
 class BlockTranslator
 
   abstract
-    translate (block: AnnotatedBlock): AnnotatedBlock
+    translate: AnnotatedBlock -> AnnotatedBlock
 
 end
 
@@ -11,8 +11,9 @@ class DefaultBlockTranslator_ ()
   extends
     BlockTranslator
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      block
 
 end
 

@@ -18,6 +18,10 @@ class MicroTranslatorToCoq
 
   tc = TranslationConstantToCoq_ ()
 
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translation_pipeline.translate (block)
+
   try_definition: Token -> String =
     lambda token ->
       DefinitionLineTranslator_ (token.text).translation
@@ -39,9 +43,6 @@ class MicroTranslatorToCoq
         CoqProofBlockTranslator_ ()
       )
     )
-
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    translation_pipeline.translate (block)
 
 end
 

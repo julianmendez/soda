@@ -13,10 +13,11 @@ trait CoqDefinitionBlockTranslator
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == BlockAnnotationEnum_ () .function_definition
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == BlockAnnotationEnum_ () .function_definition
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_a_recursive_definition (block )

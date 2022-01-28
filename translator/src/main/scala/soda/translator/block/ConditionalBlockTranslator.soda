@@ -8,10 +8,11 @@ class ConditionalBlockTranslator
     accepted_annotations: Seq [BlockAnnotationId]
     translator: BlockTranslator
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if accepted_annotations.contains (block.block_annotation)
-    then translator.translate (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if accepted_annotations.contains (block.block_annotation)
+      then translator.translate (block)
+      else block
 
 end
 

@@ -3,7 +3,7 @@ package soda.translator.extension.common
 class Extension
 
   abstract
-    execute (arguments: Seq [String]): Boolean
+    execute: Seq [String] -> Boolean
 
 end
 

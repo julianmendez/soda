@@ -41,12 +41,13 @@ trait MainClass
   def main (arguments: Array [String]  ): Unit =
     execute (arguments.toSeq )
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    if (arguments.length == 0
-    ) help.execute (arguments.toSeq )
-    else
-      extensions
-        .getOrElse (arguments.head, help )
-        .execute (arguments.tail )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      if (arguments.length == 0
+      ) help.execute (arguments.toSeq )
+      else
+        extensions
+          .getOrElse (arguments.head, help )
+          .execute (arguments.tail )
 
 }

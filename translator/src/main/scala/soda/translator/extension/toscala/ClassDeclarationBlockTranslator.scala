@@ -22,24 +22,12 @@ trait ClassDeclarationBlockTranslator
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
-  def get_table_translator (line: String ): Translator =
-    TableTranslator_ (
-      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )
-    )
-
-  def get_class_declaration_translation (line: String ): String =
-    if (line.contains (soda_opening_parenthesis )
-    ) tc.class_declaration_translation_at_beginning_with_paren
-    else
-      if (has_condition_for_type_alias (line )
-      ) tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
-      else tc.class_declaration_translation_at_beginning_without_paren
-
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == _labels.class_beginning
-      || block.block_annotation == _labels.class_declaration
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == _labels.class_beginning
+        || block.block_annotation == _labels.class_declaration
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (
@@ -63,6 +51,19 @@ trait ClassDeclarationBlockTranslator
     if ((get_first_line (block ) .trim == tc.extends_reserved_word )
     ) Seq [String] (get_spaces_at_beginning (get_first_line (block ) ) + tc.scala_extends_translation ) ++ _process_after_extends (remove_first_line (block ) )
     else block.lines
+
+  def get_table_translator (line: String ): Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )
+    )
+
+  def get_class_declaration_translation (line: String ): String =
+    if (line.contains (soda_opening_parenthesis )
+    ) tc.class_declaration_translation_at_beginning_with_paren
+    else
+      if (has_condition_for_type_alias (line )
+      ) tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
+      else tc.class_declaration_translation_at_beginning_without_paren
 
   def get_number_of_spaces_at_beginning (line: String ): Int =
     line

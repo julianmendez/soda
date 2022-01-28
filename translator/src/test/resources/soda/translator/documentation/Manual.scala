@@ -144,14 +144,14 @@ case class RankedAgentPerson (identifier: String, rank: Int )
 trait Element
 {
 
-  def   accept (v: Visitor ): Boolean
+  def   accept: Visitor => Boolean
 
 }
 
 trait Visitor
 {
 
-  def   visit (x: Element ): Boolean
+  def   visit: Element => Boolean
 
 }
 
@@ -161,7 +161,9 @@ case class Item (identifier: Int )
 
   /* It is possible to refer to an object instance by using `this`. */
 
-  def accept (v: Visitor ) = v.visit (this )
+  lazy val accept: Visitor => Boolean =
+     visitor =>
+      visitor.visit (this )
 
 }
 
@@ -261,7 +263,7 @@ trait Manual
 trait AbstractFactorialConcise
 {
 
-  def   factorial (n: Int ): Int
+  def   factorial: Int => Int
 
 }
 
@@ -286,7 +288,7 @@ trait FactorialConcise
 trait AbstractFactorialVerbose
 {
 
-  def   factorial (n: Int ): Int
+  def   factorial: Int => Int
 
 }
 
@@ -303,8 +305,9 @@ trait FactorialVerbose
     ) product
     else _tailrec_ (n - 1, n * product )
 
-  def factorial (n: Int ): Int =
-    _tailrec_ (n, 1 )
+  lazy val factorial: Int => Int =
+     n =>
+      _tailrec_ (n, 1 )
 
 }
 

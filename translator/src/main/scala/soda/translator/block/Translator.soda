@@ -7,7 +7,7 @@ package soda.translator.block
 class Translator
 
   abstract
-    translate (word: String): String
+    translate: String -> String
     keys: Seq [String]
 
 end

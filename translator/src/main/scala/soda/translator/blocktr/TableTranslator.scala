@@ -19,8 +19,9 @@ trait TableTranslator
 
   lazy val keys = table.map (pair => pair._1 )
 
-  def translate (word: String ): String =
-    table.toMap.get (word ) .getOrElse (word )
+  lazy val translate: String => String =
+     word =>
+      table.toMap.get (word ) .getOrElse (word )
 
 }
 

@@ -9,9 +9,10 @@ trait BlockTranslatorPipeline
 
   def   pipeline: Seq [BlockTranslator]
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    Recursion_ ()
-      .fold (pipeline, block, _next_value_function )
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      Recursion_ ()
+        .fold (pipeline, block, _next_value_function )
 
   def _next_value_function (block: AnnotatedBlock, translator: BlockTranslator ): AnnotatedBlock =
     translator.translate (block )

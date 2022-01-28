@@ -13,10 +13,11 @@ trait ClassEndBlockTranslator
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == _labels.class_end
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == _labels.class_end
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_class_end (block )

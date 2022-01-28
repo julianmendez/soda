@@ -13,10 +13,11 @@ class CoqTheoremBlockTranslator
 
   tc = TranslationConstantToCoq_ ()
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == BlockAnnotationEnum_ ().theorem_block
-    then _translate_block (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if block.block_annotation == BlockAnnotationEnum_ ().theorem_block
+      then _translate_block (block)
+      else block
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     if is_a_theorem (block)

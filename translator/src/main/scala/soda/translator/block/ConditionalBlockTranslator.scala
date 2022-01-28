@@ -8,10 +8,11 @@ trait ConditionalBlockTranslator
   def   accepted_annotations: Seq [BlockAnnotationId]
   def   translator: BlockTranslator
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (accepted_annotations.contains (block.block_annotation )
-    ) translator.translate (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (accepted_annotations.contains (block.block_annotation )
+      ) translator.translate (block )
+      else block
 
 }
 

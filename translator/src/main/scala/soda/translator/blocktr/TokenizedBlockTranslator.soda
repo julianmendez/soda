@@ -18,17 +18,18 @@ class TokenizedBlockTranslator
   abstract
     replace_token: Token -> String
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      block
-        .annotated_lines
-        .map (annotated_line ->
-          if annotated_line.is_comment
-          then annotated_line.line
-          else _translate_non_comment (annotated_line.line)
-        ),
-      block.block_annotation
-    )
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      BlockBuilder_ ().build (
+        block
+          .annotated_lines
+          .map (annotated_line ->
+            if annotated_line.is_comment
+            then annotated_line.line
+            else _translate_non_comment (annotated_line.line)
+          ),
+        block.block_annotation
+      )
 
   _translate_non_comment (line: String): String =
       SomeSD_ (line)

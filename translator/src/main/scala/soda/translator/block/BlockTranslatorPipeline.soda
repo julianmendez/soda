@@ -10,9 +10,10 @@ class BlockTranslatorPipeline
   abstract
     pipeline: Seq [BlockTranslator]
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    Recursion_ ()
-      .fold (pipeline, block, _next_value_function)
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      Recursion_ ()
+        .fold (pipeline, block, _next_value_function)
 
   _next_value_function (block: AnnotatedBlock, translator: BlockTranslator): AnnotatedBlock =
     translator.translate (block)

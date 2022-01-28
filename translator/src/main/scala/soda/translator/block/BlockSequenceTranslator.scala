@@ -3,7 +3,7 @@ package soda.translator.block
 trait BlockSequenceTranslator
 {
 
-  def   translate (block_sequence: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock]
+  def   translate: Seq [AnnotatedBlock] => Seq [AnnotatedBlock]
 
 }
 
@@ -14,8 +14,9 @@ trait DefaultBlockSequenceTranslator
 
   def   translator: BlockTranslator
 
-  def translate (block_sequence: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
-    block_sequence.map (block => translator.translate (block ) )
+  lazy val translate: Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
+     block_sequence =>
+      block_sequence.map (block => translator.translate (block ) )
 
 }
 

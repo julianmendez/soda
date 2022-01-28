@@ -13,11 +13,12 @@ trait MatchCaseBlockTranslator
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == _labels.function_definition ||
-      block.block_annotation == _labels.test_declaration
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == _labels.function_definition ||
+        block.block_annotation == _labels.test_declaration
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (

@@ -13,11 +13,12 @@ trait TheoremAndProofBlockTranslator
 
   lazy val _labels = BlockAnnotationEnum_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == _labels.theorem_block ||
-      block.block_annotation == _labels.proof_block
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == _labels.theorem_block ||
+        block.block_annotation == _labels.proof_block
+      ) _translate_block (block )
+      else block
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     if (is_a_theorem_or_a_proof (block )

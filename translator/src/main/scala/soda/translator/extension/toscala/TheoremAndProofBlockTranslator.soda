@@ -13,11 +13,12 @@ class TheoremAndProofBlockTranslator
 
   _labels = BlockAnnotationEnum_ ()
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.theorem_block or
-      block.block_annotation == _labels.proof_block
-    then _translate_block (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if block.block_annotation == _labels.theorem_block or
+        block.block_annotation == _labels.proof_block
+      then _translate_block (block)
+      else block
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     if is_a_theorem_or_a_proof (block)

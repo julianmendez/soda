@@ -13,10 +13,11 @@ class ClassEndBlockTranslator
 
   _labels = BlockAnnotationEnum_ ()
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.class_end
-    then _translate_block (block)
-    else block
+  translate: AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if block.block_annotation == _labels.class_end
+      then _translate_block (block)
+      else block
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     if is_class_end (block)

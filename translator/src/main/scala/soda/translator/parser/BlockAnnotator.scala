@@ -24,10 +24,11 @@ trait BlockAnnotator
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == BlockAnnotationEnum_ () .undefined
-    ) AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block ) )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      if (block.block_annotation == BlockAnnotationEnum_ () .undefined
+      ) AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block ) )
+      else block
 
   def detectors (block: Block ): Seq [BlockAnnotation] =
     Seq (

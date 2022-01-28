@@ -135,14 +135,14 @@ end
 class Element
 
   abstract
-    accept (v: Visitor): Boolean
+    accept: Visitor -> Boolean
 
 end
 
 class Visitor
 
   abstract
-    visit (x: Element): Boolean
+    visit: Element -> Boolean
 
 end
 
@@ -151,7 +151,9 @@ class Item (identifier: Int)
 
   /* It is possible to refer to an object instance by using `this`. */
 
-  accept (v: Visitor) = v.visit (this)
+  accept: Visitor -> Boolean =
+    lambda visitor ->
+      visitor.visit (this)
 
 end
 
@@ -250,7 +252,7 @@ end
 * AbstractFactorialConcise
 
   abstract
-    factorial (n: Int): Int
+    factorial: Int -> Int
 
 end
 
@@ -273,7 +275,7 @@ end
 class AbstractFactorialVerbose
 
   abstract
-    factorial (n: Int): Int
+    factorial: Int -> Int
 
 end
 
@@ -288,8 +290,9 @@ class FactorialVerbose
     then product
     else _tailrec_ (n - 1, n * product)
 
-  factorial (n: Int): Int is
-    _tailrec_ (n, 1)
+  factorial: Int -> Int is
+    lambda n ->
+      _tailrec_ (n, 1)
 
 end
 

@@ -9,7 +9,7 @@ class Help
     soda.translator.io.SimpleFileReader_
 
   abstract
-    execute (arguments: Seq [String]): Boolean
+    execute: Seq [String] -> Boolean
 
   path: String = "/soda/translator/documentation/"
 
@@ -38,8 +38,9 @@ class Help_ ()
 
   file_name = "help.txt"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content (title_and_version + "\n\n" + read (file_name) )
+  execute: Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content (title_and_version + "\n\n" + read (file_name) )
 
 end
 
@@ -49,8 +50,9 @@ class Manual_ ()
 
   file_name = "Manual.soda"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
+  execute: Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
 
 end
 
@@ -60,8 +62,9 @@ class License_ ()
 
   file_name = "LICENSE.txt"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content (read (file_name))
+  execute: Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content (read (file_name))
 
 end
 

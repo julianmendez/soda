@@ -26,6 +26,10 @@ trait MicroTranslatorToScala
 
   lazy val functions_and_tests = Seq (function_definition, test_declaration )
 
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translation_pipeline.translate (block )
+
   lazy val try_definition: Token => String =
      token =>
       FunctionDefinitionLineTranslator_ (token.text ) .translation
@@ -50,9 +54,6 @@ trait MicroTranslatorToScala
         TokenReplacement_ () .replace_regex (tc.beautifier )
       )
     )
-
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    translation_pipeline.translate (block )
 
 }
 

@@ -11,17 +11,20 @@ package soda.lib
 class SeqSD [A]
 
   abstract
-    opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B
     toSeq: Seq [A]
     reverse: SeqSD [A]
+
+  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B =
+    match this
+      | EmptySeqSD_ () => ifEmpty
+      | NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
+    end
 
 end
 
 class EmptySeqSD [A]
   extends
     SeqSD [A]
-
-  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifEmpty
 
   toSeq: Seq [A] = Seq [A] ()
 
@@ -38,8 +41,6 @@ end
 class NonEmptySeqSD [A]
   extends
     SeqSD [A]
-
-  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifNonEmpty (this)
 
   head: A = toSeq.head
 
