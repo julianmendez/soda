@@ -36,7 +36,7 @@ trait TokenizedBlockTranslator
         .map (x => _translate_line (x )  )
         .map (x => _join_tokens (x )  )
         .map (x => Replacement_ (x ) .remove_space_from_scala_line () .line )
-        .value
+        .getOrElse ("")
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (

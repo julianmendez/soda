@@ -11,28 +11,59 @@ package soda.lib
 class OptionSD [A]
 
   abstract
-    opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
-    map [B] (mapping: A -> B): OptionSD [B]
     toOption: Option [A]
     isEmpty: Boolean
     isDefined: Boolean
     isNonEmpty: Boolean
     toSeq: Seq [A]
-    getOrElse (default: A): A
-    fold [B] (ifEmpty: B, f: A -> B): B
-    flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B]
-    bind [B] (mapping: A -> OptionSD [B]): OptionSD [B]
-    filter (predicate: A -> Boolean): OptionSD [A]
+
+  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B =
+    match this
+      | NoneSD_ () => ifEmpty
+      | SomeSD_ (element) => ifNonEmpty (element)
+    end
+
+  map [B] (mapping: A -> B): OptionSD [B] =
+    match this
+      | NoneSD_ () => NoneSD_ [B] ()
+      | SomeSD_ (element) => SomeSD_ [B] (mapping (element))
+    end
+
+  getOrElse (default: A): A =
+    match this
+      | NoneSD_ () => default
+      | SomeSD_ (element) => element
+    end
+
+  fold [B] (ifEmpty: B, f: A -> B): B =
+    match this
+      | NoneSD_ () => ifEmpty
+      | SomeSD_ (element) => f (element )
+    end
+
+  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] =
+    match this
+      | NoneSD_ () => NoneSD_ ()
+      | SomeSD_ (element) => mapping (element)
+    end
+
+  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] =
+    flatMap [B] (mapping)
+
+  filter (predicate: A -> Boolean): OptionSD [A] =
+    match this
+      | NoneSD_ () => NoneSD_ ()
+      | SomeSD_ (element) =>
+        if predicate (element)
+        then this
+        else NoneSD_ [A] ()
+    end
 
 end
 
 class NoneSD [A]
   extends
     OptionSD [A]
-
-  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
-
-  map [B] (mapping: A -> B): NoneSD [B] = NoneSD_ [B] ()
 
   toOption: None.type = None
 
@@ -43,16 +74,6 @@ class NoneSD [A]
   isNonEmpty: Boolean = not isEmpty
 
   toSeq: Seq [A] = Seq ()
-
-  getOrElse (default: A): A = default
-
-  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
-
-  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = NoneSD_ [B] ()
-
-  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
-
-  filter (predicate: A -> Boolean): OptionSD [A] = this
 
 end
 
@@ -77,10 +98,6 @@ class SomeSD [A]
 
   value: A = element
 
-  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty (element)
-
-  map [B] (mapping: A -> B): SomeSD [B] = SomeSD_ [B] (mapping (element))
-
   toOption: Some [A] = Some [A] (element)
 
   isEmpty: Boolean = false
@@ -90,16 +107,6 @@ class SomeSD [A]
   isNonEmpty: Boolean = not isEmpty
 
   toSeq: Seq [A] = Seq (element)
-
-  getOrElse (default: A): A = element
-
-  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
-
-  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = mapping (element)
-
-  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
-
-  filter (predicate: A -> Boolean): OptionSD [A] = if predicate (element) then this else NoneSD_ [A] ()
 
 end
 

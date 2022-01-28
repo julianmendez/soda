@@ -61,7 +61,7 @@ trait SimpleFileWriter
       .map (x => writer.flush () )
       .map (x => writer.close () )
       .map (x => true )
-      .value
+      .getOrElse (false )
 
   def create_file (parent_directory: String, file_name: String ): File =
     new File (parent_directory, file_name )

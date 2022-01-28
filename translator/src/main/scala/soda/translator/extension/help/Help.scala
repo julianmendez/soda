@@ -27,7 +27,7 @@ trait Help
     SomeSD_ (content )
       .map (x => println (x ) )
       .map (x => true )
-      .value
+      .getOrElse (false )
 
 }
 
