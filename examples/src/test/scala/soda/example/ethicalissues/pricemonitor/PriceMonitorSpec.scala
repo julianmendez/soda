@@ -5,7 +5,13 @@ trait UnfairPricingAgent
     PricingAgent
 {
 
-  def get_price (customer: Customer, flight: Flight, date: Int ): Int =
+  lazy val abs_get_price: Customer => Flight => Int => Int =
+     customer =>
+       flight =>
+         date =>
+          get_price_for (customer, flight, date )
+
+  def get_price_for (customer: Customer, flight: Flight, date: Int ): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1 )
 
 }
@@ -22,7 +28,13 @@ trait FairPricingAgent
     PricingAgent
 {
 
-  def get_price (customer: Customer, flight: Flight, date: Int ): Int =
+  lazy val abs_get_price: Customer => Flight => Int => Int =
+     customer =>
+       flight =>
+         date =>
+          get_price_for (customer, flight, date )
+
+  def get_price_for (customer: Customer, flight: Flight, date: Int ): Int =
     100 * (flight.intermediate_airports.length + 1 )
 
 }

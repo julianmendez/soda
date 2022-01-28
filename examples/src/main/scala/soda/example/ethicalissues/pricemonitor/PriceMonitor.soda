@@ -20,7 +20,11 @@ class PricingAgent
     java.util.Date
 
   abstract
-    get_price (customer: Customer, flight: Flight, date_in_days: Int): Int
+    /** get_price (customer: Customer, flight: Flight, date_in_days: Int): Int */
+    abs_get_price: Customer -> Flight -> Int -> Int
+
+  get_price (customer: Customer, flight: Flight, date_in_days: Int): Int =
+    abs_get_price (customer) (flight) (date_in_days)
 
   milliseconds_per_day: Long = 24 * 60 * 60 * 1000
 

@@ -4,7 +4,13 @@ class UnfairPricingAgent
   extends
     PricingAgent
 
-  get_price (customer: Customer, flight: Flight, date: Int): Int =
+  abs_get_price: Customer -> Flight -> Int -> Int =
+    lambda customer ->
+      lambda flight ->
+        lambda date ->
+          get_price_for (customer, flight, date)
+
+  get_price_for (customer: Customer, flight: Flight, date: Int): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1)
 
 end
@@ -19,7 +25,13 @@ class FairPricingAgent
   extends
     PricingAgent
 
-  get_price (customer: Customer, flight: Flight, date: Int): Int =
+  abs_get_price: Customer -> Flight -> Int -> Int =
+    lambda customer ->
+      lambda flight ->
+        lambda date ->
+          get_price_for (customer, flight, date)
+
+  get_price_for (customer: Customer, flight: Flight, date: Int): Int =
     100 * (flight.intermediate_airports.length + 1)
 
 end
