@@ -17,19 +17,19 @@ class FullTranslationSpec ()
 
   ScalaSuffix = ".scala"
 
-  SwapExample = "SwapExample"
+  SwapExample = "algorithms/SwapExample"
 
-  FiboExample = "FiboExample"
+  FiboExample = "mathematics/FiboExample"
 
-  FactorialConcise = "FactorialConcise"
+  FactorialConcise = "mathematics/FactorialConcise"
 
-  FactorialVerbose = "FactorialVerbose"
+  FactorialVerbose = "mathematics/FactorialVerbose"
 
-  Fairness = "Fairness"
+  Fairness = "ethicalissues/fairness/Fairness"
 
-  PiIterator = "PiIterator"
+  PiIterator = "mathematics/PiIterator"
 
-  ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"
 

@@ -1,0 +1,41 @@
+package soda.example.ethicalissues.pricemonitor
+
+class Report1 (compliant: Boolean, price1: Int, price2: Int, similarity: Double)
+
+end
+
+class Requirement1Monitor
+  extends
+    RequirementMonitor
+
+  minimum_similarity = 0.95
+
+  get_report (c1: Customer, c2: Customer, flight: Flight, date: Int): Report1 =
+    get_report_with (
+      price1 := get_price (c1, flight, date),
+      price2 := get_price (c2, flight, date)
+    )
+
+  get_report_with (price1: Int, price2: Int): Report1 =
+    get_report_with (price1, price2, get_similarity (price1, price2))
+
+  get_report_with (price1: Int, price2: Int, similarity: Double): Report1 =
+    Report1 (minimum_similarity <= similarity, price1, price2, similarity)
+
+  get_similarity (x: Int, y: Int): Double =
+    1.0 * min (x, y) / max (x, y)
+
+  min (x: Int, y: Int): Int =
+    if x < y then x else y
+
+  max (x: Int, y: Int): Int =
+    if x < y then y else x
+
+end
+
+class Requirement1Monitor_(pricing_agent: PricingAgent)
+  extends
+    Requirement1Monitor
+
+end
+

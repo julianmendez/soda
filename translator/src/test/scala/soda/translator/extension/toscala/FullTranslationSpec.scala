@@ -17,19 +17,19 @@ case class FullTranslationSpec ()
 
   lazy val ScalaSuffix = ".scala"
 
-  lazy val SwapExample = "SwapExample"
+  lazy val SwapExample = "algorithms/SwapExample"
 
-  lazy val FiboExample = "FiboExample"
+  lazy val FiboExample = "mathematics/FiboExample"
 
-  lazy val FactorialConcise = "FactorialConcise"
+  lazy val FactorialConcise = "mathematics/FactorialConcise"
 
-  lazy val FactorialVerbose = "FactorialVerbose"
+  lazy val FactorialVerbose = "mathematics/FactorialVerbose"
 
-  lazy val Fairness = "Fairness"
+  lazy val Fairness = "ethicalissues/fairness/Fairness"
 
-  lazy val PiIterator = "PiIterator"
+  lazy val PiIterator = "mathematics/PiIterator"
 
-  lazy val ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"
 

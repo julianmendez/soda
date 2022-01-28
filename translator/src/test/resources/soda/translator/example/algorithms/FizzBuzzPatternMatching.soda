@@ -1,0 +1,32 @@
+package soda.example.algorithms
+
+class FizzBuzzPatternMatching
+
+  import
+    soda.lib.Recursion_
+
+  fizz = "Fizz"
+
+  buzz = "Buzz"
+
+  fizz_buzz =
+    Recursion_ ()
+      .range (100)
+      .map ( (lambda x: Int) -> x + 1)
+      .map (get_fizz_buzz_term)
+
+  get_fizz_buzz_term (n: Int) =
+    match (n % 3, n % 5)
+      | (0, 0) => fizz + buzz
+      | (0, x) => fizz
+      | (x, 0) => buzz
+      | otherwise => n.toString
+    end
+
+end
+
+class FizzBuzzPatternMatching_ ()
+  extends
+    FizzBuzzPatternMatching
+
+end

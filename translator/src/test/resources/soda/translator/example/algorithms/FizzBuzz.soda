@@ -1,0 +1,33 @@
+package soda.example.algorithms
+
+class FizzBuzz
+
+  import
+    soda.lib.Recursion_
+
+  fizz = "Fizz"
+
+  buzz = "Buzz"
+
+  fizz_buzz =
+    Recursion_ ()
+      .range (100)
+      .map ( (lambda x: Int) -> x + 1)
+      .map (get_fizz_buzz_term)
+
+  get_fizz_buzz_term (n: Int) =
+    if is_divisible_by (n, 15) then fizz + buzz
+    else if is_divisible_by (n, 3) then fizz
+    else if is_divisible_by (n, 5) then buzz
+    else n.toString
+
+  is_divisible_by (n: Int, k: Int): Boolean =
+    n % k == 0
+
+end
+
+class FizzBuzz_ ()
+  extends
+    FizzBuzz
+
+end
