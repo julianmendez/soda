@@ -4,7 +4,12 @@ trait MSeq [T]
 {
 
   def   isEmpty: Boolean
-  def   opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B
+  def   _as_NESeq: Option [NESeq [T]]
+
+  def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B =
+    if (isEmpty
+    ) ifEmpty
+    else ifNonEmpty (_as_NESeq.get )
 
 }
 
@@ -18,8 +23,8 @@ trait MSeqRec [T]
     ) current_value
     else
       {
-        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = (x => Some (x )  )  ) .get
-        if (! condition (current_value, neseq.head ()  ) ) current_value else _tailrec_fold (neseq.tail (), next_value (current_value, neseq.head ()  ), next_value, condition ) }
+        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = (x => Some (x ) ) ) .get
+        if (! condition (current_value, neseq.head ) ) current_value else _tailrec_fold (neseq.tail, next_value (current_value, neseq.head ), next_value, condition ) }
 
   def fold [B, C <: B] (sequence: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
     _tailrec_fold (sequence, initial_value, next_value, condition )
@@ -40,7 +45,7 @@ trait ESeq [T]
 
   lazy val isEmpty = true
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifEmpty
+  lazy val _as_NESeq: Option [NESeq [T]] = None
 
 }
 
@@ -68,11 +73,11 @@ trait NESeq [T]
 
   lazy val isEmpty = false
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B = ifNonEmpty (this )
+  lazy val _as_NESeq: Option [NESeq [T]] = Some (this )
 
-  def head (): T = head0
+  lazy val head: T = head0
 
-  def tail (): MSeq [T] = tail0
+  lazy val tail: MSeq [T] = tail0
 
 }
 

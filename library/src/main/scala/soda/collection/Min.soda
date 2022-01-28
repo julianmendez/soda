@@ -54,15 +54,20 @@ class Min [T]
 
   empty: ESeq [T] = ESeq_ ()
 
-  prepended (s: MSeq [T], e: T): NESeq [T] = NESeq_ (e, s)
+  prepended (s: MSeq [T], e: T): NESeq [T] =
+    NESeq_ (e, s)
 
-  head (s: NESeq [T]): T = s.head ()
+  head (s: NESeq [T]): T =
+    s.head
 
-  tail (s: NESeq [T]): MSeq [T] = s.tail ()
+  tail (s: NESeq [T]): MSeq [T] =
+    s.tail
 
-  nonEmpty (s: MSeq [T]): Boolean = not isEmpty (s)
+  nonEmpty (s: MSeq [T]): Boolean =
+    not isEmpty (s)
 
-  isEmpty (s: MSeq [T]): Boolean = s.isEmpty
+  isEmpty (s: MSeq [T]): Boolean =
+    s.isEmpty
 
   /* */
 
@@ -79,9 +84,9 @@ class Min [T]
 
   reverseNonEmpty (s: NESeq [T]): NESeq [T] =
     let
-      initial_value: NESeq [T] = prepended (empty, s.head ())
+      initial_value: NESeq [T] = prepended (empty, s.head)
       next_value (acc: MSeq [T], elem: T): NESeq [T] = prepended (acc, elem)
-    in foldLeft (s.tail (), initial_value, next_value)
+    in foldLeft (s.tail, initial_value, next_value)
 
   length (s: MSeq [T]): Int =
     let
@@ -117,7 +122,7 @@ class Min [T]
 
   _atNonEmpty (xs: NESeq [T], n: Int): T =
     let
-      initial_value = AtFoldTuple_ [T] (xs.head (), -1)
+      initial_value = AtFoldTuple_ [T] (xs.head, -1)
       next_value (tuple: AtFoldTuple [T], elem: T): AtFoldTuple [T] = AtFoldTuple_ [T] (elem, tuple.index + 1)
       condition (tuple: AtFoldTuple [T], elem: T): Boolean = tuple.index < n
     in foldLeftWhile (xs, initial_value, next_value, condition).elem
@@ -138,7 +143,7 @@ class Min [T]
       next_value (tuple: TakeDropFoldTuple [T], elem: T): TakeDropFoldTuple [T] =
         tuple.seq.opt (
           ifEmpty := TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1),
-          ifNonEmpty := (neseq -> TakeDropFoldTuple_ [T] (neseq.tail (), tuple.index + 1) )
+          ifNonEmpty := (neseq -> TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1) )
         )
       condition (tuple: TakeDropFoldTuple [T], elem: T): Boolean =
         tuple.index < n
@@ -159,7 +164,7 @@ class Min [T]
 
   appended (s: MSeq [T], e: T): MSeq [T] = reverse (prepended (reverse (s), e))
 
-  last (s: NESeq [T]): T = reverseNonEmpty (s).head ()
+  last (s: NESeq [T]): T = reverseNonEmpty (s).head
 
   concat (s0: MSeq [T], s1: MSeq [T]): MSeq [T] =
     let
@@ -248,11 +253,11 @@ class Min [T]
     let
       left = tuple.left
       right = tuple.right
-      e = neleft.head ()
+      e = neleft.head
       new_taking = p (e)
       new_tuple =
         if new_taking
-        then SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e), new_taking)
+        then SpanRevFoldTuple_ [T] (neleft.tail, prepended (right, e), new_taking)
         else SpanRevFoldTuple_ [T] (neleft, right, new_taking)
     in new_tuple
 
@@ -266,9 +271,9 @@ end
 
 class IndexFoldTuple [T]
 
-   abstract
-     index: Int
-     position: Int
+  abstract
+    index: Int
+    position: Int
 
 end
 
@@ -294,9 +299,9 @@ end
 
 class TakeDropFoldTuple [T]
 
-   abstract
-     seq: MSeq [T]
-     index: Int
+  abstract
+    seq: MSeq [T]
+    index: Int
 
 end
 

@@ -4,7 +4,12 @@ class MSeq [T]
 
   abstract
     isEmpty: Boolean
-    opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B
+    _as_NESeq: Option [NESeq [T] ]
+
+  opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B =
+    if isEmpty
+    then ifEmpty
+    else ifNonEmpty (_as_NESeq.get)
 
 end
 
@@ -16,8 +21,8 @@ class MSeqRec [T]
     then current_value
     else
       let
-        neseq = sequence.opt (ifEmpty := None, ifNonEmpty :=  (x -> Some (x))).get
-      in if not condition (current_value, neseq.head ()) then current_value else _tailrec_fold (neseq.tail (), next_value (current_value, neseq.head ()), next_value, condition)
+        neseq = sequence.opt (ifEmpty := None, ifNonEmpty := (x -> Some (x) ) ).get
+      in if not condition (current_value, neseq.head) then current_value else _tailrec_fold (neseq.tail, next_value (current_value, neseq.head), next_value, condition)
 
   fold [B, C subtype B] (sequence: MSeq [T], initial_value: C, next_value:  (B, T) -> C, condition:  (B, T) -> Boolean): C =
     _tailrec_fold (sequence, initial_value, next_value, condition)
@@ -36,7 +41,7 @@ class ESeq [T]
 
   isEmpty = true
 
-  opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B = ifEmpty
+  _as_NESeq: Option [NESeq [T] ] = None
 
 end
 
@@ -62,11 +67,11 @@ class NESeq [T]
 
   isEmpty = false
 
-  opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] -> B): B = ifNonEmpty (this)
+  _as_NESeq: Option [NESeq [T] ] = Some (this)
 
-  head (): T = head0
+  head: T = head0
 
-  tail (): MSeq [T] = tail0
+  tail: MSeq [T] = tail0
 
 end
 

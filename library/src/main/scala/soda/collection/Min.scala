@@ -58,15 +58,20 @@ trait Min [T]
 
   lazy val empty: ESeq [T] = ESeq_ ()
 
-  def prepended (s: MSeq [T], e: T ): NESeq [T] = NESeq_ (e, s )
+  def prepended (s: MSeq [T], e: T ): NESeq [T] =
+    NESeq_ (e, s )
 
-  def head (s: NESeq [T]  ): T = s.head ()
+  def head (s: NESeq [T]  ): T =
+    s.head
 
-  def tail (s: NESeq [T]  ): MSeq [T] = s.tail ()
+  def tail (s: NESeq [T]  ): MSeq [T] =
+    s.tail
 
-  def nonEmpty (s: MSeq [T]  ): Boolean = ! isEmpty (s )
+  def nonEmpty (s: MSeq [T]  ): Boolean =
+    ! isEmpty (s )
 
-  def isEmpty (s: MSeq [T]  ): Boolean = s.isEmpty
+  def isEmpty (s: MSeq [T]  ): Boolean =
+    s.isEmpty
 
   /* */
 
@@ -83,9 +88,9 @@ trait Min [T]
 
   def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] =
     {
-      lazy val initial_value: NESeq [T] = prepended (empty, s.head ()  )
+      lazy val initial_value: NESeq [T] = prepended (empty, s.head )
       def next_value (acc: MSeq [T], elem: T ): NESeq [T] = prepended (acc, elem )
-      foldLeft (s.tail (), initial_value, next_value ) }
+      foldLeft (s.tail, initial_value, next_value ) }
 
   def length (s: MSeq [T]  ): Int =
     {
@@ -121,7 +126,7 @@ trait Min [T]
 
   def _atNonEmpty (xs: NESeq [T], n: Int ): T =
     {
-      lazy val initial_value = AtFoldTuple_ [T] (xs.head (), -1 )
+      lazy val initial_value = AtFoldTuple_ [T] (xs.head, -1 )
       def next_value (tuple: AtFoldTuple [T], elem: T ): AtFoldTuple [T] = AtFoldTuple_ [T] (elem, tuple.index + 1 )
       def condition (tuple: AtFoldTuple [T], elem: T ): Boolean = tuple.index < n
       foldLeftWhile (xs, initial_value, next_value, condition ) .elem }
@@ -142,7 +147,7 @@ trait Min [T]
       def next_value (tuple: TakeDropFoldTuple [T], elem: T ): TakeDropFoldTuple [T] =
         tuple.seq.opt (
           ifEmpty = TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1 ),
-          ifNonEmpty = (neseq => TakeDropFoldTuple_ [T] (neseq.tail (), tuple.index + 1 ) )
+          ifNonEmpty = (neseq => TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1 ) )
         )
       def condition (tuple: TakeDropFoldTuple [T], elem: T ): Boolean =
         tuple.index < n
@@ -163,7 +168,7 @@ trait Min [T]
 
   def appended (s: MSeq [T], e: T ): MSeq [T] = reverse (prepended (reverse (s ), e )  )
 
-  def last (s: NESeq [T]  ): T = reverseNonEmpty (s ) .head ()
+  def last (s: NESeq [T]  ): T = reverseNonEmpty (s ) .head
 
   def concat (s0: MSeq [T], s1: MSeq [T]  ): MSeq [T] =
     {
@@ -252,11 +257,11 @@ trait Min [T]
     {
       lazy val left = tuple.left
       lazy val right = tuple.right
-      lazy val e = neleft.head ()
+      lazy val e = neleft.head
       lazy val new_taking = p (e )
       lazy val new_tuple =
         if (new_taking
-        ) SpanRevFoldTuple_ [T] (neleft.tail (), prepended (right, e ), new_taking )
+        ) SpanRevFoldTuple_ [T] (neleft.tail, prepended (right, e ), new_taking )
         else SpanRevFoldTuple_ [T] (neleft, right, new_taking )
       new_tuple }
 
@@ -272,8 +277,8 @@ case class Min_ [T] ()
 trait IndexFoldTuple [T]
 {
 
-   def   index: Int
-   def   position: Int
+  def   index: Int
+  def   position: Int
 
 }
 
@@ -302,8 +307,8 @@ case class AtFoldTuple_ [T] (elem: T, index: Int )
 trait TakeDropFoldTuple [T]
 {
 
-   def   seq: MSeq [T]
-   def   index: Int
+  def   seq: MSeq [T]
+  def   index: Int
 
 }
 
