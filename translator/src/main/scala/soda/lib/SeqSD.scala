@@ -45,6 +45,8 @@ trait NonEmptySeqSD [A]
     SeqSD [A]
 {
 
+  def   toSeq: Seq [A]
+
   lazy val head: A = toSeq.head
 
   lazy val tail: SeqSD [A] = SeqSDBuilder_ [A] () .build (toSeq.tail )

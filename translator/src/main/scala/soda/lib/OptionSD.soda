@@ -88,6 +88,11 @@ class OptionSDWithElement [A]
     OptionSD [A]
 
   abstract
+    toOption: Option [A]
+    isEmpty: Boolean
+    isDefined: Boolean
+    isNonEmpty: Boolean
+    toSeq: Seq [A]
     element: A
 
 end
@@ -95,6 +100,9 @@ end
 class SomeSD [A]
   extends
     OptionSDWithElement [A]
+
+  abstract
+    element: A
 
   value: A = element
 
