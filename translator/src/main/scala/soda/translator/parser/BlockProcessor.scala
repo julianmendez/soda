@@ -7,11 +7,11 @@ package soda.translator.parser
 trait BlockProcessor
 {
 
+  def   translator: soda.translator.block.BlockSequenceTranslator
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockSequenceTranslator
-
-  def   translator: BlockSequenceTranslator
 
   lazy val new_line = "\n"
 

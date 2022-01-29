@@ -4,6 +4,9 @@ class TokenizedBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+    replace_token: soda.translator.replacement.Token -> String
+
   import
     soda.lib.SomeSD_
     soda.translator.block.AnnotatedBlock
@@ -14,9 +17,6 @@ class TokenizedBlockTranslator
     soda.translator.replacement.Token
     soda.translator.replacement.Token_
     soda.translator.replacement.Tokenizer_
-
-  abstract
-    replace_token: Token -> String
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->

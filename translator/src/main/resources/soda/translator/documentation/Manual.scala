@@ -32,9 +32,6 @@ trait Shape
 
 }
 
-/* There is an abbreviation for class declaration.
- * For this, just start a line with an asterisk (`*`). */
-
 trait Movable
 {
 
@@ -60,11 +57,13 @@ trait EqualsExample
    * In a function call the parameters can be specified with the colon-equals sign (`:=`).
    * This is especially recommended when the parameters are of the same type.
    * Constants are only evaluated once, which is the first time they are needed. */
+
   lazy val answer: Int = f (x = 20, y = 2 )
 
   /* A function has parameters.
    * If the parameters are empty, it is implied that the function produces some side effect.
    * Functions, even with empty parameters, are evaluated every time they are invoked. */
+
   def f (x: Int, y: Int ): Int = 2 * x + y
 
 }
@@ -90,22 +89,17 @@ trait RegisteredPerson
 
   /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
    Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
-  abstract
-    first_name: String
-    last_name: String
+
+  def   first_name: String
+  def   last_name: String
 
   /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
+
   lazy val _separator = " "
 
   /* Strings can be concatenated by using the plus sign (`+`). */
+
   lazy val full_name = first_name + _separator + last_name
-
-}
-
-/* A concrete class can be declared with parameters. */
-
-case class Person (name: String )
-{
 
 }
 
@@ -126,17 +120,21 @@ case class Agent_ (identifier: String )
 
 }
 
-trait RankedIndividual
+trait RegisteredPersonAgent
+  extends
+    Agent
+    with RegisteredPerson
 {
 
-  def   rank: Int
+  def   identifier: String
+  def   first_name: String
+  def   last_name: String
 
 }
 
-case class RankedAgentPerson (identifier: String, rank: Int )
+case class RegisteredPersonAgent_ (identifier: String, first_name: String, last_name: String )
   extends
-    Agent
-    with RankedIndividual
+    RegisteredPersonAgent
 {
 
 }
@@ -155,15 +153,23 @@ trait Visitor
 
 }
 
-case class Item (identifier: Int )
+trait Item
   extends Element
 {
+
+  def   identifier: Int
 
   /* It is possible to refer to an object instance by using `this`. */
 
   lazy val accept: Visitor => Boolean =
      visitor =>
       visitor.visit (this )
+
+}
+
+case class Item_ (identifier: Int )
+  extends Item
+{
 
 }
 
@@ -195,12 +201,14 @@ trait Manual
 
   /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
+
   lazy val now = new Date ()
 
   def plus_one (x: Int ): Int = x + 1
 
   /* A piecewise function can be defined using an `if`-`then`-`else` structure.
    * The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. */
+
   def max (x: Int, y: Int ): Int =
     if (x > y
     ) x
@@ -208,10 +216,12 @@ trait Manual
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
    * Lambda functions are declared using a right arrow (`->`). */
+
   def plus_one (sequence: Seq [Int]  ): Seq [Int] =
     sequence.map (element => element + 1 )
 
   /* Boolean values `false` and `true` are available. */
+
   def my_not (x: Boolean ): Boolean =
     if (x
     ) false
@@ -228,11 +238,13 @@ trait Manual
     else y
 
   /* Boolean values have the standard `not`-`and`-`or` functions. */
+
   def my_xor (x: Boolean, y: Boolean ): Boolean =
     (x || y ) && ! (x && y )
 
   /* It is possible to use pattern matching with `match` and `case`.
    * Please observe the double arrow `=>`. */
+
   def if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
     condition match  {
       case true => if_true
@@ -240,6 +252,7 @@ trait Manual
     }
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
+
   def another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
     condition match  {
       case true => if_true
@@ -251,6 +264,7 @@ trait Manual
 
   /* A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
+
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_ (n: Int, accum: Int ): Int =
@@ -272,10 +286,11 @@ trait FactorialConcise
     AbstractFactorialConcise
 {
 
+  /* The function used to compare equality is a long equals (`==`). */
+
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_ (n: Int, product: Int ): Int =
-    /* The function to compare equality is a long equals (`==`). */
     if (n == 0
     ) product
     else _tailrec_ (n - 1, n * product )
@@ -358,9 +373,10 @@ case class Main ()
 trait MainClass
 {
 
+  /* An output to the standard output can be sent with a `println` command.
+   * This is a shorter form of JVM's `System.out.println`. */
+
   def main (arguments: Array [String]  ): Unit =
-    /* An output to the standard output can be sent with a `println` command.
-     * This is a shorter form of JVM's `System.out.println`. */
     println ("Hello world!")
 
 }

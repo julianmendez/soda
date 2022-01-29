@@ -17,9 +17,9 @@ case class Applicant_ (background_score: Double )
 trait AbstractFairness
 {
 
-  def   rank: Applicant => Double
   def   score_difference_tolerance: Double
   def   ranking_difference_tolerance: Double
+  def   rank: Applicant => Double
 
 }
 
@@ -27,6 +27,10 @@ trait Fairness
   extends
     AbstractFairness
 {
+
+  def   score_difference_tolerance: Double
+  def   ranking_difference_tolerance: Double
+  def   rank: Applicant => Double
 
   def is_fair (alice: Applicant, bob: Applicant ) =
     if (have_similar_score (alice.background_score, bob.background_score )

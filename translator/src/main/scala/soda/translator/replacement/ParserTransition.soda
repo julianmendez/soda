@@ -8,6 +8,10 @@ class ParserState
   extends
     soda.lib.EnumConstant
 
+  abstract
+    ordinal: Int
+    name: String
+
 end
 
 class ParserState_ (ordinal: Int, name: String)

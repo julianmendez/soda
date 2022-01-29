@@ -5,6 +5,9 @@ trait SaladIngredient
     soda.lib.EnumConstant
 {
 
+  def   ordinal: Int
+  def   name: String
+
 }
 
 case class SaladIngredient_ (ordinal: Int, name: String )

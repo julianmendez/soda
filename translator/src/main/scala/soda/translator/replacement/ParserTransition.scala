@@ -9,6 +9,9 @@ trait ParserState
     soda.lib.EnumConstant
 {
 
+  def   ordinal: Int
+  def   name: String
+
 }
 
 case class ParserState_ (ordinal: Int, name: String )

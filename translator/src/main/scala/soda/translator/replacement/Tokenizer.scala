@@ -29,6 +29,8 @@ trait Tokenizer
     soda.translator.block.SingleLineProcessor
 {
 
+  def   line: String
+
   import   soda.lib.Recursion_
 
   lazy val tokens: Seq [Token] =

@@ -5,7 +5,10 @@ class AnnotatedBlock
     Block
 
   abstract
+    lines: Seq [String]
+    annotated_lines: Seq [AnnotatedLine]
     block_annotation: BlockAnnotationId
+
 
 end
 

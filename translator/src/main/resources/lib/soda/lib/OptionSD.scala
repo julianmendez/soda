@@ -90,6 +90,11 @@ trait OptionSDWithElement [A]
     OptionSD [A]
 {
 
+  def   toOption: Option [A]
+  def   isEmpty: Boolean
+  def   isDefined: Boolean
+  def   isNonEmpty: Boolean
+  def   toSeq: Seq [A]
   def   element: A
 
 }
@@ -98,6 +103,8 @@ trait SomeSD [A]
   extends
     OptionSDWithElement [A]
 {
+
+  def   element: A
 
   lazy val value: A = element
 

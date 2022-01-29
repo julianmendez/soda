@@ -9,6 +9,9 @@ class Replacement
   extends
     soda.translator.block.SingleLineProcessor
 
+  abstract
+    line:String
+
   import
     soda.translator.block.Translator
 
@@ -133,12 +136,12 @@ end
 
 class ReplacementWithTranslator
 
+  abstract
+    translator: soda.translator.block.Translator
+
   import
     soda.translator.block.Translator
     soda.lib.Recursion_
-
-  abstract
-    translator: Translator
 
   aux = ReplacementAux_ ()
 

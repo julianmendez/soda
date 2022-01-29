@@ -12,9 +12,9 @@ trait PatternMatching
 
   def get_value (p: Parameter ): Int =
     p match  {
-      case Singleton (x ) => x
-      case Pair (x, y ) => (x + y ) / 2
-      case Triplet (x, y, z ) => (x + y + z ) / 3
+      case Singleton_ (x ) => x
+      case Pair_ (x, y ) => (x + y ) / 2
+      case Triplet_ (x, y, z ) => (x + y + z ) / 3
       case otherwise => 0
     }
 
@@ -35,29 +35,59 @@ case class PatternMatching_ ()
 
 }
 
-case class Singleton (x: Int )
+trait Singleton
   extends
     Parameter
 {
+
+  def   x: Int
 
   lazy val name = "singleton"
 
 }
 
-case class Pair (x: Int, y: Int )
+case class Singleton_ (x: Int )
+  extends
+    Singleton
+{
+
+}
+
+trait Pair
   extends
     Parameter
 {
+
+  def   x: Int
+  def   y: Int
 
   lazy val name = "pair"
 
 }
 
-case class Triplet (x: Int, y: Int, z: Int )
+case class Pair_ (x: Int, y: Int )
+  extends
+    Pair
+{
+
+}
+
+trait Triplet
   extends
     Parameter
 {
 
+  def   x: Int
+  def   y: Int
+  def   z: Int
+
   lazy val name = "triplet"
+
+}
+
+case class Triplet_ (x: Int, y: Int, z: Int )
+  extends
+    Triplet
+{
 
 }

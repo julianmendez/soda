@@ -26,6 +26,9 @@ class FunctionDefinitionLineTranslator
   extends
     soda.translator.block.LineTranslator
 
+  abstract
+    line: String
+
   import
     soda.lib.OptionSD
     soda.lib.SomeSD_

@@ -2,15 +2,15 @@ package soda.translator.parser.annotation
 
 class BlockAnnotation
 
+  abstract
+    block: soda.translator.block.Block
+    applies: Boolean
+    identifier: soda.translator.block.BlockAnnotationId
+
   import
     soda.translator.block.Block
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant_
-
-  abstract
-    block: Block
-    applies: Boolean
-    identifier: BlockAnnotationId
 
   space = SodaConstant_ ().space
 

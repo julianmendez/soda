@@ -3,13 +3,13 @@ package soda.translator.parser.annotation
 trait BlockAnnotation
 {
 
+  def   block: soda.translator.block.Block
+  def   applies: Boolean
+  def   identifier: soda.translator.block.BlockAnnotationId
+
   import   soda.translator.block.Block
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.SodaConstant_
-
-  def   block: Block
-  def   applies: Boolean
-  def   identifier: BlockAnnotationId
 
   lazy val space = SodaConstant_ () .space
 

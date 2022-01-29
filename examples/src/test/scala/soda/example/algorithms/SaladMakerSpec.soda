@@ -4,6 +4,10 @@ class SaladIngredient
   extends
     soda.lib.EnumConstant
 
+  abstract
+    ordinal: Int
+    name: String
+
 end
 
 class SaladIngredient_ (ordinal: Int, name: String)

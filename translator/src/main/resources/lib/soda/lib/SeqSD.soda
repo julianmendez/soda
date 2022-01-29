@@ -42,6 +42,9 @@ class NonEmptySeqSD [A]
   extends
     SeqSD [A]
 
+  abstract
+    toSeq: Seq [A]
+
   head: A = toSeq.head
 
   tail: SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)

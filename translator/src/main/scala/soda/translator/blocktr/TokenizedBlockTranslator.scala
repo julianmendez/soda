@@ -5,6 +5,8 @@ trait TokenizedBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+  def   replace_token: soda.translator.replacement.Token => String
+
   import   soda.lib.SomeSD_
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -14,8 +16,6 @@ trait TokenizedBlockTranslator
   import   soda.translator.replacement.Token
   import   soda.translator.replacement.Token_
   import   soda.translator.replacement.Tokenizer_
-
-  def   replace_token: Token => String
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>

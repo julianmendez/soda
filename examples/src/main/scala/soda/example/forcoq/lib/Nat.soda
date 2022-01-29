@@ -8,7 +8,7 @@ class nat
 
 end
 
-class O ()
+class O
   extends
     nat
 
@@ -26,9 +26,17 @@ class O ()
 
 end
 
-class S (k: nat)
+class O_ ()
+  extends O
+
+end
+
+class S
   extends
     nat
+
+  abstract
+    k: nat
 
   t = IntNat_ ()
 
@@ -43,6 +51,11 @@ class S (k: nat)
 
   mul_for (a: nat): nat =
     t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
+
+end
+
+class S_ (k: nat)
+  extends S
 
 end
 
@@ -62,15 +75,15 @@ class IntNat
   _tailrec_from_non_negative (a: Int, b: nat): nat =
     if a <= 0
     then b
-    else _tailrec_from_non_negative (a - 1, S (b))
+    else _tailrec_from_non_negative (a - 1, S_ (b))
 
   from_non_negative (a: Int): nat =
-    _tailrec_from_non_negative (a, O())
+    _tailrec_from_non_negative (a, O_ ())
 
   to_Int (a: nat): Int =
     match a
-      | O() => 0
-      | S (k) => 1 + to_Int (k)
+      | O_ () => 0
+      | S_ (k) => 1 + to_Int (k)
     end
 
 end

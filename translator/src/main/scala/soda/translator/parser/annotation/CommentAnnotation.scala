@@ -5,6 +5,8 @@ trait CommentAnnotation
     BlockAnnotation
 {
 
+  def   block: soda.translator.block.Block
+
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 

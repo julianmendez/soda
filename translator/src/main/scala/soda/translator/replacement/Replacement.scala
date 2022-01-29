@@ -10,6 +10,8 @@ trait Replacement
     soda.translator.block.SingleLineProcessor
 {
 
+  def   line:String
+
   import   soda.translator.block.Translator
 
   lazy val aux = ReplacementAux_ ()
@@ -137,10 +139,10 @@ case class ReplacementAux_ ()
 trait ReplacementWithTranslator
 {
 
+  def   translator: soda.translator.block.Translator
+
   import   soda.translator.block.Translator
   import   soda.lib.Recursion_
-
-  def   translator: Translator
 
   lazy val aux = ReplacementAux_ ()
 

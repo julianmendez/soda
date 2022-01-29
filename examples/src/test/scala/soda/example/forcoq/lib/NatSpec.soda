@@ -7,7 +7,7 @@ class NatSpec ()
   test ("IntNat from non negative")
     let
       instance = IntNat_ ()
-      expected = S (S (S (S (S (S (S (S (O ()))))))))
+      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) )
       obtained =
         instance.from_non_negative (8)
     in assert (obtained == expected)
@@ -18,23 +18,23 @@ class NatSpec ()
       expected = 5
       obtained =
         instance.to_Int (
-          S (S (S (S (S (O ())))))
+          S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) )
         )
     in assert (obtained == expected)
 
   test ("Nat add")
     let
-      a = S (S (S (O ())))
-      b = S (S (S (S (S (O ())))))
-      expected = S (S (S (S (S (S (S (S (O ()))))))))
+      a = S_ (S_ (S_ (O_ ( ) ) ) )
+      b = S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) )
+      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) )
       obtained = a.add (b)
     in assert (obtained == expected)
 
   test ("Nat mul")
     let
-      a = S (S (S (O ())))
-      b = S (S (S (S (O ()))))
-      expected = S (S (S (S (S (S (S (S (S (S (S (S (O ()))))))))))))
+      a = S_ (S_ (S_ (O_ ( ) ) ) )
+      b = S_ (S_ (S_ (S_ (O_ ( ) ) ) ) )
+      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) ) ) ) ) )
       obtained = a.mul (b)
     in assert (obtained == expected)
 

@@ -6,13 +6,13 @@ package soda.translator.parser
 
 class BlockProcessor
 
+  abstract
+    translator: soda.translator.block.BlockSequenceTranslator
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockSequenceTranslator
-
-  abstract
-    translator: BlockSequenceTranslator
 
   new_line = "\n"
 

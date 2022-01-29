@@ -14,6 +14,10 @@ trait Replacer
     LinePatternProcessor
 {
 
+  def   line: String
+  def   pattern: String
+  def   replacement: String
+
   import   soda.lib.Recursion_
 
   lazy val replaced_text =

@@ -1,6 +1,6 @@
 package soda.translator.block
 
-class BlockTranslator00 ()
+class BlockTranslator00
   extends
     BlockTranslator
 
@@ -19,7 +19,13 @@ class BlockTranslator00 ()
 
 end
 
-class BlockTranslator01 ()
+class BlockTranslator00_ ()
+  extends
+    BlockTranslator00
+
+end
+
+class BlockTranslator01
   extends
     BlockTranslator
 
@@ -37,7 +43,13 @@ class BlockTranslator01 ()
 
 end
 
-class BlockTranslator02 ()
+class BlockTranslator01_ ()
+  extends
+    BlockTranslator01
+
+end
+
+class BlockTranslator02
   extends
     BlockTranslator
 
@@ -55,6 +67,12 @@ class BlockTranslator02 ()
 
 end
 
+class BlockTranslator02_ ()
+  extends
+    BlockTranslator02
+
+end
+
 class BlockTranslatorPipelineSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -65,9 +83,9 @@ class BlockTranslatorPipelineSpec ()
   instance =
     BlockTranslatorPipeline_ (
       Seq (
-        BlockTranslator00 (),
-        BlockTranslator01 (),
-        BlockTranslator02 ()
+        BlockTranslator00_ (),
+        BlockTranslator01_ (),
+        BlockTranslator02_ ()
       )
     )
 

@@ -1,6 +1,6 @@
 package soda.translator.block
 
-case class BlockTranslator00 ()
+trait BlockTranslator00
   extends
     BlockTranslator
 {
@@ -19,7 +19,14 @@ case class BlockTranslator00 ()
 
 }
 
-case class BlockTranslator01 ()
+case class BlockTranslator00_ ()
+  extends
+    BlockTranslator00
+{
+
+}
+
+trait BlockTranslator01
   extends
     BlockTranslator
 {
@@ -37,7 +44,14 @@ case class BlockTranslator01 ()
 
 }
 
-case class BlockTranslator02 ()
+case class BlockTranslator01_ ()
+  extends
+    BlockTranslator01
+{
+
+}
+
+trait BlockTranslator02
   extends
     BlockTranslator
 {
@@ -55,6 +69,13 @@ case class BlockTranslator02 ()
 
 }
 
+case class BlockTranslator02_ ()
+  extends
+    BlockTranslator02
+{
+
+}
+
 case class BlockTranslatorPipelineSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -65,9 +86,9 @@ case class BlockTranslatorPipelineSpec ()
   lazy val instance =
     BlockTranslatorPipeline_ (
       Seq (
-        BlockTranslator00 (),
-        BlockTranslator01 (),
-        BlockTranslator02 ()
+        BlockTranslator00_ (),
+        BlockTranslator01_ (),
+        BlockTranslator02_ ()
       )
     )
 

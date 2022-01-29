@@ -4,6 +4,10 @@ class DayOfTheWeek
   extends
     EnumConstant
 
+  abstract
+    ordinal: Int
+    name: String
+
 end
 
 class DayOfTheWeek_ (ordinal: Int, name: String)

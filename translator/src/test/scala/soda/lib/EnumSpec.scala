@@ -5,6 +5,9 @@ trait DayOfTheWeek
     EnumConstant
 {
 
+  def   ordinal: Int
+  def   name: String
+
 }
 
 case class DayOfTheWeek_ (ordinal: Int, name: String )

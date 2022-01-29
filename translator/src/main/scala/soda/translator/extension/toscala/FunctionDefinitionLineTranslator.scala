@@ -27,6 +27,8 @@ trait FunctionDefinitionLineTranslator
     soda.translator.block.LineTranslator
 {
 
+  def   line: String
+
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
   import   soda.translator.replacement.Replacement

@@ -5,6 +5,8 @@ trait AnnotatedBlock
     Block
 {
 
+  def   lines: Seq [String]
+  def   annotated_lines: Seq [AnnotatedLine]
   def   block_annotation: BlockAnnotationId
 
 }

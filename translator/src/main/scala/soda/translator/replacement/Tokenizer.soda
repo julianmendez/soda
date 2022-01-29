@@ -27,6 +27,9 @@ class Tokenizer
   extends
     soda.translator.block.SingleLineProcessor
 
+  abstract
+    line: String
+
   import
     soda.lib.Recursion_
 

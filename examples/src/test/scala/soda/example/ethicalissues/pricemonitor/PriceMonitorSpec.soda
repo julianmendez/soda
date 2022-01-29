@@ -67,42 +67,42 @@ class PriceMonitorSpec ()
     let
       requirement_monitor = Requirement1Monitor_ (unfair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1)
-      expected = Report1 (false, 897, 1495, 0.6)
+      expected = Report1_ (false, 897, 1495, 0.6)
     in assert (obtained == expected)
 
   test ("unfair pricing agent - requirement_monitor 2")
     let
       requirement_monitor = Requirement2Monitor_ (unfair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report2 (false, 702, 897)
+      expected = Report2_ (false, 702, 897)
     in assert (obtained == expected)
 
   test ("unfair pricing agent - requirement_monitor 3")
     let
       requirement_monitor = Requirement3Monitor_ (unfair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report3 (false, 897, 891)
+      expected = Report3_ (false, 897, 891)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 1")
     let
       requirement_monitor = Requirement1Monitor_ (fair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1)
-      expected = Report1 (true, 300, 300, 1.0)
+      expected = Report1_ (true, 300, 300, 1.0)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 2")
     let
       requirement_monitor = Requirement2Monitor_ (fair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report2 (true, 300, 300)
+      expected = Report2_ (true, 300, 300)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 3")
     let
       requirement_monitor = Requirement3Monitor_ (fair_pricing_agent)
       obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report3 (true, 300, 300)
+      expected = Report3_ (true, 300, 300)
     in assert (obtained == expected)
 
   test ("get number of days for 1970-01-01")

@@ -4,6 +4,9 @@ class AbstractFunctionDeclarationAnnotation
   extends
     BlockAnnotation
 
+  abstract
+    block: soda.translator.block.Block
+
   import
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_

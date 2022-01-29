@@ -13,6 +13,11 @@ class Replacer
   extends
     LinePatternProcessor
 
+  abstract
+    line: String
+    pattern: String
+    replacement: String
+
   import
     soda.lib.Recursion_
 

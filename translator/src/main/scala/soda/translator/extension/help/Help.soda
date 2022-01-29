@@ -1,15 +1,15 @@
 package soda.translator.extension.help
 
-class Help
+class AbstractHelp
   extends
     soda.translator.extension.common.Extension
+
+  abstract
+    execute: Seq [String] -> Boolean
 
   import
     soda.lib.SomeSD_
     soda.translator.io.SimpleFileReader_
-
-  abstract
-    execute: Seq [String] -> Boolean
 
   path: String = "/soda/translator/documentation/"
 
@@ -32,9 +32,9 @@ class Help
 
 end
 
-class Help_ ()
+class Help
   extends
-    Help
+    AbstractHelp
 
   file_name = "help.txt"
 
@@ -44,9 +44,15 @@ class Help_ ()
 
 end
 
-class Manual_ ()
+class Help_ ()
   extends
     Help
+
+end
+
+class Manual
+  extends
+    AbstractHelp
 
   file_name = "Manual.soda"
 
@@ -56,15 +62,27 @@ class Manual_ ()
 
 end
 
-class License_ ()
+class Manual_ ()
   extends
-    Help
+    Manual
+
+end
+
+class License
+  extends
+    AbstractHelp
 
   file_name = "LICENSE.txt"
 
   execute: Seq [String] -> Boolean =
     lambda arguments ->
       output_content (read (file_name))
+
+end
+
+class License_ ()
+  extends
+    License
 
 end
 

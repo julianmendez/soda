@@ -1,12 +1,25 @@
 package soda.example.ethicalissues.pricemonitor
 
-class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
+class Report3
+
+  abstract
+    compliant: Boolean
+    price_of_flight: Int
+    price_of_flight_by_segments: Int
+
+end
+
+class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
+  extends Report3
 
 end
 
 class Requirement3Monitor
   extends
     RequirementMonitor
+
+  abstract
+    pricing_agent: PricingAgent
 
   get_report (customer: Customer, flight: Flight, date_in_days: Int): Report3 =
     get_report_with (
@@ -15,7 +28,7 @@ class Requirement3Monitor
     )
 
   get_report_with (price_of_flight: Int, price_of_flight_by_segments: Int): Report3 =
-    Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
+    Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
 
   get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int): Int =
     sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight).segments, date_in_days))
@@ -28,7 +41,7 @@ class Requirement3Monitor
 
 end
 
-class Requirement3Monitor_(pricing_agent: PricingAgent)
+class Requirement3Monitor_ (pricing_agent: PricingAgent)
   extends
     Requirement3Monitor
 
@@ -37,6 +50,10 @@ end
 class Segment
   extends
     Flight
+
+  abstract
+    start_airport: String
+    end_airport: String
 
   intermediate_airports = Seq [String]()
 
