@@ -2,11 +2,12 @@ package soda.translator.parser.annotation
 
 trait ProofBlockAnnotation
   extends
-    BlockAnnotation
+    soda.translator.block.BlockAnnotation
 {
 
   def   block: soda.translator.block.Block
 
+  import   soda.translator.block.BlockAnnotation
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 

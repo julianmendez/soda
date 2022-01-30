@@ -8,9 +8,9 @@ class BlockAnnotator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedBlock_
     soda.translator.block.Block
+    soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
-    soda.translator.parser.annotation.BlockAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation_

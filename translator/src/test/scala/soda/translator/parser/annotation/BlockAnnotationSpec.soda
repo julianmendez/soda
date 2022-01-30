@@ -6,6 +6,7 @@ class BlockAnnotationSpec ()
 
   import
     soda.translator.block.Block
+    soda.translator.block.BlockAnnotation
     soda.translator.block.DefaultBlockTranslator_
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_

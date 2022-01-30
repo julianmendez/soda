@@ -1,4 +1,4 @@
-package soda.translator.parser.annotation
+package soda.translator.block
 
 trait BlockAnnotation
 {

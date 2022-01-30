@@ -6,6 +6,7 @@ case class BlockAnnotationSpec ()
 {
 
   import   soda.translator.block.Block
+  import   soda.translator.block.BlockAnnotation
   import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_

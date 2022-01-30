@@ -8,9 +8,9 @@ trait BlockAnnotator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.Block
+  import   soda.translator.block.BlockAnnotation
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.parser.annotation.BlockAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation_
