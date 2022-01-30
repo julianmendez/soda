@@ -27,7 +27,7 @@ class BlockAnnotator
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       if block.block_annotation == BlockAnnotationEnum_ ().undefined
-      then AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block) )
+      then AnnotatedBlock_ (block.annotated_lines, get_annotation (block) )
       else block
 
   detectors (block: Block): Seq [BlockAnnotation] =

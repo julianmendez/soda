@@ -27,7 +27,7 @@ trait BlockAnnotator
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       if (block.block_annotation == BlockAnnotationEnum_ () .undefined
-      ) AnnotatedBlock_ (block.lines, block.annotated_lines, get_annotation (block ) )
+      ) AnnotatedBlock_ (block.annotated_lines, get_annotation (block ) )
       else block
 
   def detectors (block: Block ): Seq [BlockAnnotation] =

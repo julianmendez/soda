@@ -18,7 +18,7 @@ trait BlockBuilder
   lazy val soda_end_comment = "*/"
 
   def build (lines: Seq [String], annotation: BlockAnnotationId ): AnnotatedBlock =
-    AnnotatedBlock_ (lines, get_annotated_lines (lines ), annotation )
+    AnnotatedBlock_ (get_annotated_lines (lines ), annotation )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =
     Recursion_ () .fold (lines, initial_value, next_value_function )

@@ -5,14 +5,12 @@ class AnnotatedBlock
     Block
 
   abstract
-    lines: Seq [String]
     annotated_lines: Seq [AnnotatedLine]
     block_annotation: BlockAnnotationId
 
-
 end
 
-class AnnotatedBlock_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId)
+class AnnotatedBlock_ (annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId)
   extends
     AnnotatedBlock
 

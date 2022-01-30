@@ -20,13 +20,17 @@ class Block
   abstract
     annotated_lines: Seq [AnnotatedLine]
 
+  lines: Seq [String] =
+    annotated_lines
+      .map (x -> x.line)
+
   readable_lines: Seq [AnnotatedLine] =
     annotated_lines
       .filter (line -> not line.is_comment)
 
 end
 
-class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine])
+class Block_ (annotated_lines: Seq [AnnotatedLine])
   extends
     Block
 

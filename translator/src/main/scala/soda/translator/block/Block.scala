@@ -21,13 +21,17 @@ trait Block
 
   def   annotated_lines: Seq [AnnotatedLine]
 
+  lazy val lines: Seq [String] =
+    annotated_lines
+      .map (x => x.line )
+
   lazy val readable_lines: Seq [AnnotatedLine] =
     annotated_lines
       .filter (line => ! line.is_comment )
 
 }
 
-case class Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine]  )
+case class Block_ (annotated_lines: Seq [AnnotatedLine]  )
   extends
     Block
 {
