@@ -1,8 +1,18 @@
 package soda.translator.block
 
-class BlockAnnotationId (ordinal: Int, name: String)
+class BlockAnnotationId
   extends
     soda.lib.EnumConstant
+
+  abstract
+    ordinal: Int
+    name: String
+
+end
+
+class BlockAnnotationId_ (ordinal: Int, name: String)
+  extends
+    BlockAnnotationId
 
 end
 
@@ -10,31 +20,31 @@ class BlockAnnotationEnum
   extends
     soda.lib.Enum [BlockAnnotationId]
 
-  undefined = BlockAnnotationId (0, "undefined")
+  undefined = BlockAnnotationId_ (0, "undefined")
 
-  function_definition = BlockAnnotationId (1, "function_definition")
+  function_definition = BlockAnnotationId_ (1, "function_definition")
 
-  class_beginning = BlockAnnotationId (2, "class_beginning")
+  class_beginning = BlockAnnotationId_ (2, "class_beginning")
 
-  class_end = BlockAnnotationId (3, "class_end")
+  class_end = BlockAnnotationId_ (3, "class_end")
 
-  class_declaration = BlockAnnotationId (4, "class_declaration")
+  class_declaration = BlockAnnotationId_ (4, "class_declaration")
 
-  abstract_block_declaration = BlockAnnotationId (5, "abstract_block_declaration")
+  abstract_block_declaration = BlockAnnotationId_ (5, "abstract_block_declaration")
 
-  abstract_function_declaration = BlockAnnotationId (6, "abstract_function_declaration")
+  abstract_function_declaration = BlockAnnotationId_ (6, "abstract_function_declaration")
 
-  import_declaration = BlockAnnotationId (7, "import_declaration")
+  import_declaration = BlockAnnotationId_ (7, "import_declaration")
 
-  package_declaration = BlockAnnotationId (8, "package_declaration")
+  package_declaration = BlockAnnotationId_ (8, "package_declaration")
 
-  theorem_block = BlockAnnotationId (9, "theorem_block")
+  theorem_block = BlockAnnotationId_ (9, "theorem_block")
 
-  proof_block = BlockAnnotationId (10, "proof_block")
+  proof_block = BlockAnnotationId_ (10, "proof_block")
 
-  comment = BlockAnnotationId (11, "comment")
+  comment = BlockAnnotationId_ (11, "comment")
 
-  test_declaration = BlockAnnotationId (12, "test_declaration")
+  test_declaration = BlockAnnotationId_ (12, "test_declaration")
 
   values =
     Seq (
