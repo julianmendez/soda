@@ -2,12 +2,12 @@ package soda.translator.parser.annotation
 
 trait ImportDeclarationAnnotation
   extends
-    soda.translator.block.BlockAnnotation
+    BlockAnnotationParser
 {
 
   def   block: soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotation
+  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 
@@ -16,6 +16,9 @@ trait ImportDeclarationAnnotation
   lazy val applies: Boolean =
     block.readable_lines.nonEmpty &&
     (block.readable_lines.head.line.trim == SodaConstant_ () .import_reserved_word )
+
+  lazy val imported_items: Seq [AnnotatedLine] =
+    content_lines
 
 }
 

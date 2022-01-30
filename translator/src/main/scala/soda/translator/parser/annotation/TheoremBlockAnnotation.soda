@@ -2,7 +2,7 @@ package soda.translator.parser.annotation
 
 class TheoremBlockAnnotation
   extends
-    soda.translator.block.BlockAnnotation
+    BlockAnnotationParser
 
   abstract
     block: soda.translator.block.Block

@@ -2,7 +2,7 @@ package soda.translator.parser.annotation
 
 trait FunctionDefinitionAnnotation
   extends
-    soda.translator.block.BlockAnnotation
+    BlockAnnotationParser
 {
 
   def   block: soda.translator.block.Block

@@ -8,7 +8,9 @@ class ImportDeclarationBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
   space = " "
 
@@ -30,13 +32,14 @@ class ImportDeclarationBlockTranslator
     then prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block) ),
       scala_import_declaration_pattern,
-      remove_first_line (block) )
+      ImportDeclarationAnnotation_ (block).imported_items,
+      block.block_annotation )
     else block
 
-  prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, block: AnnotatedBlock): AnnotatedBlock =
+  prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId): AnnotatedBlock =
     BlockBuilder_ ().build (
-      block.annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) ),
-      block.block_annotation
+      annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) ),
+      block_annotation
     )
 
   prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine): String =
@@ -48,14 +51,6 @@ class ImportDeclarationBlockTranslator
     line
       .takeWhile (ch => ch.isSpaceChar)
       .length
-
-  remove_first_line (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      ( if block.lines.isEmpty
-        then block.lines
-        else block.lines.tail ),
-      block.block_annotation
-    )
 
   get_first_line (block: AnnotatedBlock): String =
     block.lines.headOption.getOrElse ("")

@@ -2,12 +2,13 @@ package soda.translator.parser.annotation
 
 class AbstractBlockDeclarationAnnotation
   extends
-    soda.translator.block.BlockAnnotation
+    BlockAnnotationParser
 
   abstract
     block: soda.translator.block.Block
 
   import
+    soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
@@ -17,6 +18,9 @@ class AbstractBlockDeclarationAnnotation
   applies: Boolean =
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().abstract_reserved_word)
+
+  abstract_items: Seq [AnnotatedLine] =
+    content_lines
 
 end
 
