@@ -8,9 +8,21 @@ class PreprocessorSequenceTranslator
     translator: soda.translator.block.BlockSequenceTranslator
 
   import
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
     soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedBlock_
+    soda.translator.block.BlockAnnotationEnum_
 
   block_annotator = BlockAnnotator_ ()
+
+  ba = soda.translator.block.BlockAnnotationEnum_ ()
+
+  sc = SodaConstant_ ()
+
+  recursion = soda.lib.Recursion_ ()
+
+  empty_line = AnnotatedLine_ ("", true)
 
   translate: Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
     lambda block_sequence ->
@@ -23,19 +35,86 @@ class PreprocessorSequenceTranslator
       )
     )
 
-  _get_first_pass (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+  _get_first_pass (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
     block_sequence.map (block -> block_annotator.translate (block) )
 
-  _get_second_pass (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
-    block_sequence
+  _get_second_pass (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
+    recursion
+      .fold (
+        block_sequence.indices,
+        _initial_value (block_sequence),
+        _next_value_function
+      )
+      .accumulated
+      .reverse
 
-  /* TODO */
+  _initial_value (block_sequence: Seq [AnnotatedBlock] ): AuxiliaryTuple =
+    AuxiliaryTuple_ (
+      block_sequence := block_sequence,
+      accumulated := Seq [AnnotatedBlock] ()
+    )
+
+  _next_value_function (current: AuxiliaryTuple, index: Int): AuxiliaryTuple =
+    _pass_next_step (current, index, _get_additional_information (current, index) )
+
+  _get_additional_information (current: AuxiliaryTuple, index: Int): Option [AnnotatedLine] =
+    if (current.block_sequence.apply (index).block_annotation == ba.class_end)
+    then _get_as_comment (_get_class_name (current, index) )
+    else None
+
+  _pass_next_step (current: AuxiliaryTuple, index: Int, maybe_annotated_line: Option [AnnotatedLine] ): AuxiliaryTuple =
+    AuxiliaryTuple_ (
+      block_sequence := current.block_sequence,
+      accumulated := current.accumulated.+: (_append_line (current.block_sequence.apply (index), maybe_annotated_line ) )
+    )
+
+  _append_line (block: AnnotatedBlock, maybe_annotated_line: Option [AnnotatedLine] ): AnnotatedBlock =
+    if maybe_annotated_line.isEmpty
+    then block
+    else AnnotatedBlock_ (block.annotated_lines.+: (maybe_annotated_line.get), block.block_annotation)
+
+  _get_class_name (current: AuxiliaryTuple, index: Int): Option [AnnotatedLine] =
+    current
+      .block_sequence
+      .indices
+      .takeWhile (k -> (k < current.block_sequence.length) and (k <= index) )
+      .filter (k -> current.block_sequence.apply (k).block_annotation == ba.class_beginning)
+      .map (k -> current.block_sequence.apply (k) )
+      .lastOption
+      .flatMap (annotated_block -> annotated_block.annotated_lines.headOption)
+
+  _get_as_comment (maybe_annotated_line: Option [AnnotatedLine]): Option [AnnotatedLine] =
+    if maybe_annotated_line.isEmpty
+    then maybe_annotated_line
+    else
+      Some (
+        AnnotatedLine_ (
+          sc.comment_open + sc.space + maybe_annotated_line.get.line + sc.space + sc.comment_close,
+          true
+        )
+      )
+
+  /* FIXME this does not consider classes inside classes */
 
 end
 
 class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator)
   extends
     PreprocessorSequenceTranslator
+
+end
+
+class AuxiliaryTuple
+
+  abstract
+    block_sequence: Seq [soda.translator.block.AnnotatedBlock]
+    accumulated: Seq [soda.translator.block.AnnotatedBlock]
+
+end
+
+class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock] )
+  extends
+    AuxiliaryTuple
 
 end
 
