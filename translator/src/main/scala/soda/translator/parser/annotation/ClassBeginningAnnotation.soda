@@ -8,7 +8,6 @@ class ClassBeginningAnnotation
     block: soda.translator.block.Block
 
   import
-    soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
 

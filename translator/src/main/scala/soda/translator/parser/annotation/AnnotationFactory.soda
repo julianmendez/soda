@@ -8,17 +8,19 @@ class AnnotationFactory
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedBlock_
     soda.translator.block.Block
-    soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       if block.block_annotation == BlockAnnotationEnum_ ().undefined
-      then AnnotatedBlock_ (block.annotated_lines, get_annotation (block) )
+      then annotate (block)
       else block
 
-  detectors (block: Block): Seq [BlockAnnotation] =
+  annotate (block: Block): AnnotatedBlock =
+    _get_first_or_undefined (_find_candidates (block), block )
+
+  _detectors (block: Block): Seq [BlockAnnotationParser] =
     Seq (
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
@@ -33,18 +35,14 @@ class AnnotationFactory
       TestDeclarationAnnotation_ (block)
     )
 
-  find_candidates (block: Block): Seq [BlockAnnotationId] =
-    detectors (block)
+  _find_candidates (block: Block): Seq [BlockAnnotationParser] =
+    _detectors (block)
       .filter (detector -> detector.applies)
-      .map (detector -> detector.identifier)
 
-  get_annotation (block: Block): BlockAnnotationId =
-    _get_first_or_undefined (find_candidates (block))
-
-  _get_first_or_undefined (candidates: Seq [BlockAnnotationId]): BlockAnnotationId =
+  _get_first_or_undefined (candidates: Seq [BlockAnnotationParser], block: Block): AnnotatedBlock =
     if candidates.length == 1
     then candidates.head
-    else BlockAnnotationEnum_ ().undefined
+    else AnnotatedBlock_ (block.annotated_lines, BlockAnnotationEnum_ ().undefined )
 
 end
 

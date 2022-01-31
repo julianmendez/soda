@@ -2,7 +2,7 @@ package soda.translator.parser.annotation
 
 trait BlockAnnotationParser
   extends
-    soda.translator.block.BlockAnnotation
+    soda.translator.block.AnnotatedBlock
 {
 
   def   block: soda.translator.block.Block
@@ -18,6 +18,10 @@ trait BlockAnnotationParser
   lazy val space = SodaConstant_ () .space
 
   lazy val default_annotated_line = AnnotatedLine_ ("", true )
+
+  lazy val annotated_lines: Seq [AnnotatedLine] = block.annotated_lines
+
+  lazy val block_annotation: BlockAnnotationId = identifier
 
   def starts_with_prefix_and_space (prefix: String ): Boolean =
     block.readable_lines.nonEmpty &&

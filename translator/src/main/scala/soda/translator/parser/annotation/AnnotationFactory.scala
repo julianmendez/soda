@@ -8,17 +8,19 @@ trait AnnotationFactory
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.Block
-  import   soda.translator.block.BlockAnnotation
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       if (block.block_annotation == BlockAnnotationEnum_ () .undefined
-      ) AnnotatedBlock_ (block.annotated_lines, get_annotation (block ) )
+      ) annotate (block )
       else block
 
-  def detectors (block: Block ): Seq [BlockAnnotation] =
+  def annotate (block: Block ): AnnotatedBlock =
+    _get_first_or_undefined (_find_candidates (block ), block )
+
+  def _detectors (block: Block ): Seq [BlockAnnotationParser] =
     Seq (
       FunctionDefinitionAnnotation_ (block ),
       ClassBeginningAnnotation_ (block ),
@@ -33,18 +35,14 @@ trait AnnotationFactory
       TestDeclarationAnnotation_ (block )
     )
 
-  def find_candidates (block: Block ): Seq [BlockAnnotationId] =
-    detectors (block )
+  def _find_candidates (block: Block ): Seq [BlockAnnotationParser] =
+    _detectors (block )
       .filter (detector => detector.applies )
-      .map (detector => detector.identifier )
 
-  def get_annotation (block: Block ): BlockAnnotationId =
-    _get_first_or_undefined (find_candidates (block )  )
-
-  def _get_first_or_undefined (candidates: Seq [BlockAnnotationId]  ): BlockAnnotationId =
+  def _get_first_or_undefined (candidates: Seq [BlockAnnotationParser], block: Block ): AnnotatedBlock =
     if (candidates.length == 1
     ) candidates.head
-    else BlockAnnotationEnum_ () .undefined
+    else AnnotatedBlock_ (block.annotated_lines, BlockAnnotationEnum_ () .undefined )
 
 }
 

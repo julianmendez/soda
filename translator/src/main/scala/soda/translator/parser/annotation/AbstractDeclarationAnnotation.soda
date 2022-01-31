@@ -9,7 +9,6 @@ class AbstractDeclarationAnnotation
 
   import
     soda.translator.block.AnnotatedLine
-    soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
 
