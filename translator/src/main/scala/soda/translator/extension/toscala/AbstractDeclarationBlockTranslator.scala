@@ -10,7 +10,7 @@ trait AbstractDeclarationBlockTranslator
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
   lazy val space = " "
 
@@ -23,7 +23,7 @@ trait AbstractDeclarationBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
-      if (block.block_annotation == _labels.abstract_block_declaration
+      if (block.block_annotation == _labels.abstract_declaration
       ) _translate_block (block )
       else block
 
@@ -32,7 +32,7 @@ trait AbstractDeclarationBlockTranslator
     ) prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block ) ),
       scala_abstract_function_declaration_pattern,
-      AbstractBlockDeclarationAnnotation_ (block ) .abstract_items,
+      AbstractDeclarationAnnotation_ (block ) .abstract_items,
       block.block_annotation )
     else block
 

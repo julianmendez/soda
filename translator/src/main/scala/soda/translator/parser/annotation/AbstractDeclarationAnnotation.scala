@@ -1,6 +1,6 @@
 package soda.translator.parser.annotation
 
-trait AbstractBlockDeclarationAnnotation
+trait AbstractDeclarationAnnotation
   extends
     BlockAnnotationParser
 {
@@ -12,7 +12,7 @@ trait AbstractBlockDeclarationAnnotation
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 
-  lazy val identifier = BlockAnnotationEnum_ () .abstract_block_declaration
+  lazy val identifier = BlockAnnotationEnum_ () .abstract_declaration
 
   lazy val applies: Boolean =
     block.readable_lines.nonEmpty &&
@@ -23,9 +23,9 @@ trait AbstractBlockDeclarationAnnotation
 
 }
 
-case class AbstractBlockDeclarationAnnotation_ (block: soda.translator.block.Block )
+case class AbstractDeclarationAnnotation_ (block: soda.translator.block.Block )
   extends
-    AbstractBlockDeclarationAnnotation
+    AbstractDeclarationAnnotation
 {
 
 }

@@ -12,11 +12,10 @@ trait BlockAnnotator
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation_
-  import   soda.translator.parser.annotation.ClassDeclarationAnnotation_
-  import   soda.translator.parser.annotation.AbstractFunctionDeclarationAnnotation_
-  import   soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
   import   soda.translator.parser.annotation.ProofBlockAnnotation_
@@ -35,11 +34,10 @@ trait BlockAnnotator
       FunctionDefinitionAnnotation_ (block ),
       ClassBeginningAnnotation_ (block ),
       ClassEndAnnotation_ (block ),
-      ClassDeclarationAnnotation_ (block ),
-      AbstractBlockDeclarationAnnotation_ (block ),
-      AbstractFunctionDeclarationAnnotation_ (block ),
+      AbstractDeclarationAnnotation_ (block ),
       ImportDeclarationAnnotation_ (block ),
       PackageDeclarationAnnotation_ (block ),
+      ClassAliasAnnotation_ (block ),
       TheoremBlockAnnotation_ (block ),
       ProofBlockAnnotation_ (block ),
       CommentAnnotation_ (block ),

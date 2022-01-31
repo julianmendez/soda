@@ -18,16 +18,16 @@ class BlockAnnotationSpec ()
     "\n * Example class for testing." +
     "\n */" +
     "\n" +
-    "\nclass Example = {" +
-    "\n" +
-    "\n  import" +
-    "\n    soda.lib.Recursion_" +
-    "\n    soda.lib.Enum" +
+    "\nclass Example" +
+    "\n  extends" +
+    "\n    SuperClassExample" +
     "\n" +
     "\n  abstract" +
     "\n    value: Int" +
     "\n" +
-    "\n  has text: String" +
+    "\n  import" +
+    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Enum" +
     "\n" +
     "\n  my_constant: Int = 0" +
     "\n" +
@@ -45,9 +45,9 @@ class BlockAnnotationSpec ()
     "\n  proof" +
     "\n    auto." +
     "\n" +
-    "\n}" +
+    "\nend" +
     "\n" +
-    "\n* Example_ () extends Example" +
+    "\nclass AnotherExample = Example" +
     "\n" +
     "\n")
 
@@ -63,11 +63,10 @@ class BlockAnnotationSpec ()
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
       ClassEndAnnotation_ (block),
-      ClassDeclarationAnnotation_ (block),
-      AbstractBlockDeclarationAnnotation_ (block),
-      AbstractFunctionDeclarationAnnotation_ (block),
+      AbstractDeclarationAnnotation_ (block),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
+      ClassAliasAnnotation_ (block),
       TheoremBlockAnnotation_ (block),
       ProofBlockAnnotation_ (block),
       CommentAnnotation_ (block),
@@ -79,91 +78,85 @@ class BlockAnnotationSpec ()
 
   test ("should detect a package declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false, false)
-      obtained = apply_detectors (example_blocks (0))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (0) )
     in assert (obtained == expected)
 
   test ("should detect a comment")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, true, false)
-      obtained = apply_detectors (example_blocks (1))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, true, false)
+      obtained = apply_detectors (example_blocks (1) )
     in assert (obtained == expected)
 
   test ("should detect a class beginning")
     let
-      expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (2))
-    in assert (obtained == expected)
-
-  test ("should detect an import declaration")
-    let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (3))
+      expected: Seq [Boolean] = Seq (false, true, false, false, false, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (2) )
     in assert (obtained == expected)
 
   test ("should detect an abstract block declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (4))
+      expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (3) )
     in assert (obtained == expected)
 
-  test ("should detect an abstract function declaration")
+  test ("should detect an import declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, true, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (5))
+      expected: Seq [Boolean] = Seq (false, false, false, false, true, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (4) )
     in assert (obtained == expected)
 
   test ("should detect a constant declaration")
     let
-      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (6))
+      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (5) )
     in assert (obtained == expected)
 
   test ("should detect a function declaration")
     let
-      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (7))
+      expected: Seq [Boolean] = Seq (true, false, false, false, false, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (6) )
     in assert (obtained == expected)
 
   test ("should detect a test declaration")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, false, true)
-      obtained = apply_detectors (example_blocks (8))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, false, true)
+      obtained = apply_detectors (example_blocks (7) )
     in assert (obtained == expected)
 
   test ("should detect a theorem block")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false, false)
-      obtained = apply_detectors (example_blocks (9))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, true, false, false, false)
+      obtained = apply_detectors (example_blocks (8) )
     in assert (obtained == expected)
 
   test ("should detect a proof block")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, false, true, false, false)
-      obtained = apply_detectors (example_blocks (10))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, false, false, true, false, false)
+      obtained = apply_detectors (example_blocks (9) )
     in assert (obtained == expected)
 
   test ("should detect a class end")
     let
-      expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (11))
+      expected: Seq [Boolean] = Seq (false, false, true, false, false, false, false, false, false, false, false)
+      obtained = apply_detectors (example_blocks (10) )
     in assert (obtained == expected)
 
-  test ("should detect a class declaration")
+  test ("should detect a class alias")
     let
-      expected: Seq [Boolean] = Seq (false, false, false, true, false, false, false, false, false, false, false, false)
-      obtained = apply_detectors (example_blocks (12))
+      expected: Seq [Boolean] = Seq (false, false, false, false, false, false, true, false, false, false, false)
+      obtained = apply_detectors (example_blocks (11) )
     in assert (obtained == expected)
 
-  test ("should find only 13 blocks")
+  test ("should find only 12 blocks")
     let
-      expected = 13
+      expected = 12
       obtained = example_blocks.length
     in assert (obtained == expected)
 
   test ("should be ordered by the identifier ordinal")
     let
-      expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+      expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
       obtained = detectors (example_blocks (0) ).map (detector -> detector.identifier.ordinal)
     in assert (obtained == expected)
 

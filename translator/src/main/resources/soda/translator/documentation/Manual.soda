@@ -16,10 +16,10 @@ package soda.translator.documentation
  * 1. a constant or function definition
  * 2. the beginning of a class definition
  * 3. the end of a class definition
- * 4. a class declaration
- * 5. a block declaration of abstract constants and functions
- * 6. a block of imports
- * 7. a package declaration
+ * 4. a block declaration of abstract constants and functions
+ * 5. a block of imports
+ * 6. a package declaration
+ * 7. a class alias
  * 8. a comment
  */
 

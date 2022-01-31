@@ -1,6 +1,6 @@
 package soda.translator.parser.annotation
 
-class AbstractBlockDeclarationAnnotation
+class AbstractDeclarationAnnotation
   extends
     BlockAnnotationParser
 
@@ -13,7 +13,7 @@ class AbstractBlockDeclarationAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
 
-  identifier = BlockAnnotationEnum_ ().abstract_block_declaration
+  identifier = BlockAnnotationEnum_ ().abstract_declaration
 
   applies: Boolean =
     block.readable_lines.nonEmpty and
@@ -24,9 +24,9 @@ class AbstractBlockDeclarationAnnotation
 
 end
 
-class AbstractBlockDeclarationAnnotation_ (block: soda.translator.block.Block)
+class AbstractDeclarationAnnotation_ (block: soda.translator.block.Block)
   extends
-    AbstractBlockDeclarationAnnotation
+    AbstractDeclarationAnnotation
 
 end
 

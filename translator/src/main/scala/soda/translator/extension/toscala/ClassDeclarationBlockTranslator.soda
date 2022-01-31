@@ -25,7 +25,7 @@ class ClassDeclarationBlockTranslator
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       if block.block_annotation == _labels.class_beginning
-        or block.block_annotation == _labels.class_declaration
+        or block.block_annotation == _labels.class_alias
       then _translate_block (block)
       else block
 

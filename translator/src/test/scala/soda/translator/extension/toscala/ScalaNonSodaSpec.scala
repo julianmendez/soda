@@ -34,7 +34,7 @@ case class ScalaNonSodaSpec ()
   test ("some synonyms are Scala reserved words")
     {
       lazy val program = "" +
-        "\n* A0[B0 <: C0]" +
+        "\nclass A0[B0 <: C0]" +
         "\n" +
         "\nend" +
         "\n" +
@@ -46,7 +46,7 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\nend" +
         "\n" +
-        "\n* C1[D1 supertype E1]" +
+        "\nclass C1[D1 supertype E1]" +
         "\n" +
         "\nend" +
         "\n"

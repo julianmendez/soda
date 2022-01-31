@@ -58,8 +58,14 @@ trait PreprocessorSequenceTranslator
 
   def _get_additional_information (current: AuxiliaryTuple, index: Int ): Option [AnnotatedLine] =
     if ((current.block_sequence.apply (index ) .block_annotation == ba.class_end )
-    ) _get_as_comment (_get_class_name (current, index ) )
+    ) _not_enabled_yet
     else None
+
+  /*
+  _get_as_comment (_get_class_name (current, index) )
+  */
+
+  lazy val _not_enabled_yet = None
 
   def _pass_next_step (current: AuxiliaryTuple, index: Int, maybe_annotated_line: Option [AnnotatedLine] ): AuxiliaryTuple =
     AuxiliaryTuple_ (

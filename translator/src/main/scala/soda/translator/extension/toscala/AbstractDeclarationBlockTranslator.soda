@@ -10,7 +10,7 @@ class AbstractDeclarationBlockTranslator
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.AbstractBlockDeclarationAnnotation_
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
   space = " "
 
@@ -23,7 +23,7 @@ class AbstractDeclarationBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      if block.block_annotation == _labels.abstract_block_declaration
+      if block.block_annotation == _labels.abstract_declaration
       then _translate_block (block)
       else block
 
@@ -32,7 +32,7 @@ class AbstractDeclarationBlockTranslator
     then prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block) ),
       scala_abstract_function_declaration_pattern,
-      AbstractBlockDeclarationAnnotation_ (block).abstract_items,
+      AbstractDeclarationAnnotation_ (block).abstract_items,
       block.block_annotation )
     else block
 

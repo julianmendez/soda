@@ -25,7 +25,7 @@ trait ClassDeclarationBlockTranslator
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       if (block.block_annotation == _labels.class_beginning
-        || block.block_annotation == _labels.class_declaration
+        || block.block_annotation == _labels.class_alias
       ) _translate_block (block )
       else block
 
