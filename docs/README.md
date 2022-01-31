@@ -44,8 +44,6 @@ The reserved words are:
 ## Synonyms
 
 The synonyms at the beginning of a line are:
-- `*` for `class`
-- `+` for `import`
 - `|` for `case`
 
 The synonyms in any part of a line are:
@@ -59,8 +57,7 @@ Technical synonyms:
 ## Other Symbols
 
 In addition, the language has:
-- `(` and `)` (parentheses) for parameters, operator precedence, and arrays
-- `{` and `}` (braces) for classes
+- `(` and `)` (parentheses) for parameters and operator precedence
 - `[` and `]` (square brackets) for types
 
 The main arithmetic operators are:
