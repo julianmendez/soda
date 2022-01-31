@@ -8,6 +8,7 @@ class CoqTheoremBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.TheoremBlockAnnotation
 
   space = " "
 
@@ -15,11 +16,15 @@ class CoqTheoremBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      if block.block_annotation == BlockAnnotationEnum_ ().theorem_block
-      then _translate_block (block)
-      else block
+      translate_for (block)
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+    match annotated_block
+      | block: TheoremBlockAnnotation => _translate_block (block)
+      | x => annotated_block
+    end
+
+  _translate_block (block: TheoremBlockAnnotation): AnnotatedBlock =
     if is_a_theorem (block)
     then append (
       tc.coq_theorem_end, prepend (

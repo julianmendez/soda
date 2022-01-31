@@ -7,9 +7,12 @@ class AbstractDeclarationBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
+    soda.translator.block.Block_
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
   space = " "
@@ -23,11 +26,15 @@ class AbstractDeclarationBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      if block.block_annotation == _labels.abstract_declaration
-      then _translate_block (block)
-      else block
+      translate_for (block)
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+    match annotated_block
+      | block: AbstractDeclarationAnnotation => _translate_block (block)
+      | x => annotated_block
+    end
+
+  _translate_block (block: AbstractDeclarationAnnotation): AnnotatedBlock =
     if is_abstract_block_declaration (block)
     then prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block) ),
@@ -37,15 +44,16 @@ class AbstractDeclarationBlockTranslator
     else block
 
   prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) ),
-      block_annotation
+    AbstractDeclarationAnnotation_ (
+      Block_ (
+        annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) )
+      )
     )
 
-  prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine): String =
+  prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine): AnnotatedLine =
     if annotated_line.is_comment
-    then annotated_line.line
-    else annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index)
+    then annotated_line
+    else AnnotatedLine_ (annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index), annotated_line.is_comment)
 
   get_number_of_spaces_at_beginning (line: String): Int =
     line

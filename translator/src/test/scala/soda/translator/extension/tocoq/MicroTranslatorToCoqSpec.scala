@@ -18,14 +18,14 @@ case class MicroTranslatorToCoqSpec ()
   test ("Coq translation of a constant")
     {
       lazy val original = "x = 0"
-      lazy val expected = "Definition  x := 0\n.\n"
+      lazy val expected = " Definition x := 0\n.\n"
       lazy val obtained = instance.translate  (original )
       assert (obtained == expected ) }
 
   test ("Coq translation of a function")
     {
       lazy val original = "f (a: nat) = 0"
-      lazy val expected = "Definition  f (a: nat ) := 0\n.\n"
+      lazy val expected = " Definition f (a: nat ) := 0\n.\n"
       lazy val obtained = instance.translate  (original )
       assert (obtained == expected ) }
 

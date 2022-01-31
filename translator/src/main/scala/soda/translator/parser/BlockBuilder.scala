@@ -12,13 +12,18 @@ trait BlockBuilder
   import   soda.translator.block.Block_
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.AnnotationFactory_
 
   lazy val soda_begin_comment = "/*"
 
   lazy val soda_end_comment = "*/"
 
   def build (lines: Seq [String], annotation: BlockAnnotationId ): AnnotatedBlock =
-    AnnotatedBlock_ (get_annotated_lines (lines ), annotation )
+    AnnotationFactory_ () .annotate (
+      Block_ (
+        get_annotated_lines (lines )
+      )
+    )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =
     Recursion_ () .fold (lines, initial_value, next_value_function )

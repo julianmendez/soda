@@ -12,13 +12,19 @@ class BlockBuilder
     soda.translator.block.Block_
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
+
 
   soda_begin_comment = "/*"
 
   soda_end_comment = "*/"
 
   build (lines: Seq [String], annotation: BlockAnnotationId): AnnotatedBlock =
-    AnnotatedBlock_ (get_annotated_lines (lines), annotation)
+    AnnotationFactory_ ().annotate (
+      Block_ (
+        get_annotated_lines (lines)
+      )
+    )
 
   get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =
     Recursion_ ().fold (lines, initial_value, next_value_function)

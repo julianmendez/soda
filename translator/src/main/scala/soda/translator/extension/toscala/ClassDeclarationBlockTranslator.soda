@@ -11,6 +11,8 @@ class ClassDeclarationBlockTranslator
     soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder_
     soda.translator.replacement.Replacement_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation
 
   soda_opening_parenthesis: String = "("
 
@@ -24,10 +26,14 @@ class ClassDeclarationBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      if block.block_annotation == _labels.class_beginning
-        or block.block_annotation == _labels.class_alias
-      then _translate_block (block)
-      else block
+      translate_for (block)
+
+  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+    match annotated_block
+      | block: ClassBeginningAnnotation => _translate_block (block)
+      | block: ClassAliasAnnotation => _translate_block (block)
+      | x => annotated_block
+    end
 
   _translate_block (block: AnnotatedBlock): AnnotatedBlock =
     BlockBuilder_ ().build (

@@ -10,6 +10,7 @@ class ImportDeclarationBlockTranslator
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
   space = " "
@@ -23,11 +24,15 @@ class ImportDeclarationBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      if block.block_annotation == _labels.import_declaration
-      then _translate_block (block)
-      else block
+      translate_for (block)
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+    match annotated_block
+      | block: ImportDeclarationAnnotation => _translate_block (block)
+      | x => annotated_block
+    end
+
+  _translate_block (block: ImportDeclarationAnnotation): AnnotatedBlock =
     if is_import_block_declaration (block)
     then prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block) ),

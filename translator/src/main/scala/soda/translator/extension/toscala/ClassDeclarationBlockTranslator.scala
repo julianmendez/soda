@@ -11,6 +11,8 @@ trait ClassDeclarationBlockTranslator
   import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.replacement.Replacement_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassAliasAnnotation
 
   lazy val soda_opening_parenthesis: String = "("
 
@@ -24,10 +26,14 @@ trait ClassDeclarationBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
-      if (block.block_annotation == _labels.class_beginning
-        || block.block_annotation == _labels.class_alias
-      ) _translate_block (block )
-      else block
+      translate_for (block )
+
+  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+    annotated_block match  {
+      case block: ClassBeginningAnnotation => _translate_block (block )
+      case block: ClassAliasAnnotation => _translate_block (block )
+      case x => annotated_block
+    }
 
   def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
     BlockBuilder_ () .build (

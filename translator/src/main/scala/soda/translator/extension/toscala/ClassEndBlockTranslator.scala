@@ -8,6 +8,7 @@ trait ClassEndBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.ClassEndAnnotation
 
   lazy val tc = TranslationConstantToScala_ ()
 
@@ -15,11 +16,15 @@ trait ClassEndBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
-      if (block.block_annotation == _labels.class_end
-      ) _translate_block (block )
-      else block
+      translate_for (block )
 
-  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+    annotated_block match  {
+      case block: ClassEndAnnotation => _translate_block (block )
+      case x => annotated_block
+    }
+
+  def _translate_block (block: ClassEndAnnotation ): AnnotatedBlock =
     if (is_class_end (block )
     ) BlockBuilder_ () .build (Seq [String] (tc.scala_class_end_symbol ), block.block_annotation )
     else block

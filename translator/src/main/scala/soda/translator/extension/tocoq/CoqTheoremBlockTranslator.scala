@@ -8,6 +8,7 @@ trait CoqTheoremBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation
 
   lazy val space = " "
 
@@ -15,11 +16,15 @@ trait CoqTheoremBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
-      if (block.block_annotation == BlockAnnotationEnum_ () .theorem_block
-      ) _translate_block (block )
-      else block
+      translate_for (block )
 
-  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+    annotated_block match  {
+      case block: TheoremBlockAnnotation => _translate_block (block )
+      case x => annotated_block
+    }
+
+  def _translate_block (block: TheoremBlockAnnotation ): AnnotatedBlock =
     if (is_a_theorem (block )
     ) append (
       tc.coq_theorem_end, prepend (

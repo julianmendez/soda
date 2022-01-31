@@ -10,6 +10,7 @@ trait ImportDeclarationBlockTranslator
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
   lazy val space = " "
@@ -23,11 +24,15 @@ trait ImportDeclarationBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
-      if (block.block_annotation == _labels.import_declaration
-      ) _translate_block (block )
-      else block
+      translate_for (block )
 
-  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+    annotated_block match  {
+      case block: ImportDeclarationAnnotation => _translate_block (block )
+      case x => annotated_block
+    }
+
+  def _translate_block (block: ImportDeclarationAnnotation ): AnnotatedBlock =
     if (is_import_block_declaration (block )
     ) prepend_to_lines_aligned_at (
       get_number_of_spaces_at_beginning (get_first_line (block ) ),
