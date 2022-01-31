@@ -1,0 +1,77 @@
+package soda.translator.parser
+
+class PreprocessorSequenceTranslatorSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.block.DefaultBlockTranslator_
+
+  example_program =
+    ("package soda.example.mytest" +
+    "\n" +
+    "\n/**" +
+    "\n * Example class for testing." +
+    "\n */" +
+    "\n" +
+    "\nclass Example" +
+    "\n" +
+    "\n  import" +
+    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Enum" +
+    "\n" +
+    "\n  abstract" +
+    "\n    number: Int" +
+    "\n    name: String" +
+    "\n" +
+    "\n  my_constant: Int = 0" +
+    "\n" +
+    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n    x + y" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\n")
+
+  expected_output =
+    ("package soda.example.mytest" +
+    "\n" +
+    "\n/**" +
+    "\n * Example class for testing." +
+    "\n */" +
+    "\n" +
+    "\nclass Example" +
+    "\n" +
+    "\n  import" +
+    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Enum" +
+    "\n" +
+    "\n  abstract" +
+    "\n    number: Int" +
+    "\n    name: String" +
+    "\n" +
+    "\n  my_constant: Int = 0" +
+    "\n" +
+    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n    x + y" +
+    "\n" +
+    "\nend" +
+    "\n")
+
+  block_processor =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        DefaultBlockTranslator_ ()
+      )
+    )
+
+  test ("should test the preprocessor")
+    let
+      input = example_program
+      expected = expected_output
+      obtained = block_processor.translate (input)
+    in assert (obtained == expected)
+
+end
+
