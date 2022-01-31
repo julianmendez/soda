@@ -29,7 +29,6 @@ class MicroTranslatorToCoq
   translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        BlockAnnotator_ (),
         MatchCaseBlockTranslator_ (),
         TokenReplacement_ (). add_spaces_to_symbols (symbols := tc.soda_brackets_and_comma.toSet),
         /* TokenReplacement_ (). replace (tc.coq_non_soda), FIXME */

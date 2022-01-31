@@ -18,9 +18,11 @@ class BlockProcessor
 
   double_new_line = new_line + new_line
 
+  translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
+
   translate (program: String): String =
     join_translated_blocks (
-      translator.translate (
+      translator_with_preprocessor.translate (
         split_blocks (program)
       )
     )
@@ -36,15 +38,15 @@ class BlockProcessor
       remove_empty_lines (paragraph.split (new_line).toIndexedSeq), BlockAnnotationEnum_ ().undefined
     )
 
-  translate_blocks (blocks: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+  translate_blocks (blocks: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
     translator.translate (blocks)
 
-  join_translated_blocks (blocks: Seq [AnnotatedBlock]): String =
+  join_translated_blocks (blocks: Seq [AnnotatedBlock] ): String =
     blocks
       .map (x -> x.contents)
       .mkString (double_new_line) + new_line
 
-  remove_empty_lines (lines: Seq [String]): Seq [String] =
+  remove_empty_lines (lines: Seq [String] ): Seq [String] =
     lines
       .filter (line -> line.trim.nonEmpty)
 

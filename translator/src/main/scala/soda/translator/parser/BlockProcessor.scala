@@ -17,9 +17,11 @@ trait BlockProcessor
 
   lazy val double_new_line = new_line + new_line
 
+  lazy val translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator )
+
   def translate (program: String ): String =
     join_translated_blocks (
-      translator.translate (
+      translator_with_preprocessor.translate (
         split_blocks (program )
       )
     )
@@ -35,15 +37,15 @@ trait BlockProcessor
       remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq ), BlockAnnotationEnum_ () .undefined
     )
 
-  def translate_blocks (blocks: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
+  def translate_blocks (blocks: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
     translator.translate (blocks )
 
-  def join_translated_blocks (blocks: Seq [AnnotatedBlock]  ): String =
+  def join_translated_blocks (blocks: Seq [AnnotatedBlock] ): String =
     blocks
       .map (x => x.contents )
       .mkString (double_new_line ) + new_line
 
-  def remove_empty_lines (lines: Seq [String]  ): Seq [String] =
+  def remove_empty_lines (lines: Seq [String] ): Seq [String] =
     lines
       .filter (line => line.trim.nonEmpty )
 

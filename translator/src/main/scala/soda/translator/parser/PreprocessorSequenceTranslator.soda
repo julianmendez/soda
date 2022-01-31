@@ -1,0 +1,41 @@
+package soda.translator.parser
+
+class PreprocessorSequenceTranslator
+  extends
+    soda.translator.block.BlockSequenceTranslator
+
+  abstract
+    translator: soda.translator.block.BlockSequenceTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+
+  block_annotator = BlockAnnotator_ ()
+
+  translate: Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
+    lambda block_sequence ->
+      translate_for (block_sequence)
+
+  translate_for (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+    translator.translate (
+      _get_second_pass (
+        _get_first_pass (block_sequence)
+      )
+    )
+
+  _get_first_pass (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+    block_sequence.map (block -> block_annotator.translate (block) )
+
+  _get_second_pass (block_sequence: Seq [AnnotatedBlock]): Seq [AnnotatedBlock] =
+    block_sequence
+
+  /* TODO */
+
+end
+
+class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator)
+  extends
+    PreprocessorSequenceTranslator
+
+end
+

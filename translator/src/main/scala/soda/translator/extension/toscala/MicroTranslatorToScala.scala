@@ -37,7 +37,6 @@ trait MicroTranslatorToScala
   lazy val translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        BlockAnnotator_ (),
         LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ),
