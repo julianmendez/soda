@@ -7,13 +7,19 @@ class BlockTranslator
 
 end
 
-class DefaultBlockTranslator_ ()
+class DefaultBlockTranslator
   extends
     BlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       block
+
+end
+
+class DefaultBlockTranslator_ ()
+  extends
+    DefaultBlockTranslator
 
 end
 

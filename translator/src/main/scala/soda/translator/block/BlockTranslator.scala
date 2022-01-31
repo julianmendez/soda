@@ -7,7 +7,7 @@ trait BlockTranslator
 
 }
 
-case class DefaultBlockTranslator_ ()
+trait DefaultBlockTranslator
   extends
     BlockTranslator
 {
@@ -15,5 +15,12 @@ case class DefaultBlockTranslator_ ()
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       block
+
+}
+
+case class DefaultBlockTranslator_ ()
+  extends
+    DefaultBlockTranslator
+{
 
 }
