@@ -11,9 +11,9 @@ trait PreprocessorSequenceTranslator
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.annotation.AnnotationFactory_
 
-  lazy val block_annotator = BlockAnnotator_ ()
+  lazy val block_annotator = AnnotationFactory_ ()
 
   lazy val ba = soda.translator.block.BlockAnnotationEnum_ ()
 

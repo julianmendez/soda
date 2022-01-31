@@ -12,9 +12,9 @@ class PreprocessorSequenceTranslator
     soda.translator.block.AnnotatedLine_
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedBlock_
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.annotation.AnnotationFactory_
 
-  block_annotator = BlockAnnotator_ ()
+  block_annotator = AnnotationFactory_ ()
 
   ba = soda.translator.block.BlockAnnotationEnum_ ()
 

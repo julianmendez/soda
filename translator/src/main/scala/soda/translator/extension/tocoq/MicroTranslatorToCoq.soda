@@ -13,7 +13,7 @@ class MicroTranslatorToCoq
     soda.translator.block.BlockTranslatorPipeline_
     soda.translator.blocktr.TokenReplacement_
     soda.translator.blocktr.TokenizedBlockTranslator_
-    soda.translator.parser.BlockAnnotator_
+    soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.replacement.Token
 
   tc = TranslationConstantToCoq_ ()

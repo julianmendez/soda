@@ -1,6 +1,6 @@
-package soda.translator.parser
+package soda.translator.parser.annotation
 
-trait BlockAnnotator
+trait AnnotationFactory
   extends
     soda.translator.block.BlockTranslator
 {
@@ -11,17 +11,6 @@ trait BlockAnnotator
   import   soda.translator.block.BlockAnnotation
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import   soda.translator.parser.annotation.ClassAliasAnnotation_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.ClassEndAnnotation_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
-  import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ProofBlockAnnotation_
-  import   soda.translator.parser.annotation.CommentAnnotation_
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -59,9 +48,9 @@ trait BlockAnnotator
 
 }
 
-case class BlockAnnotator_ ()
+case class AnnotationFactory_ ()
   extends
-    BlockAnnotator
+    AnnotationFactory
 {
 
 }

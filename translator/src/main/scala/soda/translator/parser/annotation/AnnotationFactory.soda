@@ -1,6 +1,6 @@
-package soda.translator.parser
+package soda.translator.parser.annotation
 
-class BlockAnnotator
+class AnnotationFactory
   extends
     soda.translator.block.BlockTranslator
 
@@ -11,17 +11,6 @@ class BlockAnnotator
     soda.translator.block.BlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
-    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-    soda.translator.parser.annotation.ClassAliasAnnotation_
-    soda.translator.parser.annotation.ClassBeginningAnnotation_
-    soda.translator.parser.annotation.ClassEndAnnotation_
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-    soda.translator.parser.annotation.ImportDeclarationAnnotation_
-    soda.translator.parser.annotation.PackageDeclarationAnnotation_
-    soda.translator.parser.annotation.ProofBlockAnnotation_
-    soda.translator.parser.annotation.CommentAnnotation_
-    soda.translator.parser.annotation.TestDeclarationAnnotation_
-    soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
@@ -59,9 +48,9 @@ class BlockAnnotator
 
 end
 
-class BlockAnnotator_ ()
+class AnnotationFactory_ ()
   extends
-    BlockAnnotator
+    AnnotationFactory
 
 end
 

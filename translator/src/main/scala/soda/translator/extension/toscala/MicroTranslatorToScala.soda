@@ -15,7 +15,7 @@ class MicroTranslatorToScala
     soda.translator.block.ConditionalBlockTranslator_
     soda.translator.blocktr.TokenReplacement_
     soda.translator.blocktr.TokenizedBlockTranslator_
-    soda.translator.parser.BlockAnnotator_
+    soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.replacement.Token
 
   tc = TranslationConstantToScala_ ()
