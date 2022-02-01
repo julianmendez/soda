@@ -12,11 +12,6 @@ class TableTranslator
     Table
     soda.translator.block.Translator
 
-  import
-    soda.translator.block.AnnotatedBlock
-    soda.translator.replacement.Replacement_
-    soda.translator.replacement.Token
-
   keys = table.map (pair -> pair._1)
 
   translate: String -> String =

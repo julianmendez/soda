@@ -8,7 +8,6 @@ class ImportDeclarationBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedLine
     soda.translator.block.Block
-    soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_

@@ -5,8 +5,8 @@ case class TriangularNumberForCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.IntNat_
+  import   soda.example.forcoq.lib.nat
 
   lazy val triangular_number_values: Seq [Tuple2 [Int, Int]] = Seq (
    (0, 0 ), (1, 1 ), (2, 3 ), (3, 6 ), (4, 10 ), (5, 15 ), (6, 21 )

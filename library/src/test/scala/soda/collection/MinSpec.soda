@@ -5,10 +5,9 @@ class MinSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.lib.OptionSD
     soda.lib.NoneSD_
-    soda.lib.SomeSD_
     soda.lib.Recursion_
+    soda.lib.SomeSD_
 
   empty: ESeq [Int] = ESeq_ [Int] ()
 

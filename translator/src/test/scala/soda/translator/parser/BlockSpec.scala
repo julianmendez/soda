@@ -6,7 +6,6 @@ case class BlockSpec ()
 {
 
   import   soda.translator.block.AnnotatedLine_
-  import   soda.translator.block.BlockAnnotationEnum_
 
   /* This is to test how to find commented text. */
   test ("should find commented text")

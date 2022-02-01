@@ -11,8 +11,6 @@ class BlockProcessor
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.block.BlockSequenceTranslator
     soda.translator.parser.annotation.AnnotationFactory_
 
   new_line = "\n"

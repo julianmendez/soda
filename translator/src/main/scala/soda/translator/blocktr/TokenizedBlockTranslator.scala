@@ -9,7 +9,6 @@ trait TokenizedBlockTranslator
 
   import   soda.lib.SomeSD_
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Translator
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.replacement.ParserStateEnum_

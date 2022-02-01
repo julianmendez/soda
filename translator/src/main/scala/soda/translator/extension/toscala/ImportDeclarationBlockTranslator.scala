@@ -8,7 +8,6 @@ trait ImportDeclarationBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.Block
-  import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_

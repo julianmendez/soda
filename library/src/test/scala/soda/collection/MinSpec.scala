@@ -5,10 +5,9 @@ case class MinSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.lib.OptionSD
   import   soda.lib.NoneSD_
-  import   soda.lib.SomeSD_
   import   soda.lib.Recursion_
+  import   soda.lib.SomeSD_
 
   lazy val empty: ESeq [Int] = ESeq_ [Int] ()
 

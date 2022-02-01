@@ -9,7 +9,6 @@ trait AnnotationFactory
   import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.Block
   import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.BlockAnnotationId
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>

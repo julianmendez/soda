@@ -10,8 +10,6 @@ trait BlockProcessor
   def   translator: soda.translator.block.BlockSequenceTranslator
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.BlockSequenceTranslator
   import   soda.translator.parser.annotation.AnnotationFactory_
 
   lazy val new_line = "\n"

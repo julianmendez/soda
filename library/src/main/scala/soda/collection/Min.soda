@@ -48,9 +48,9 @@ end
 class Min [T]
 
   import
+    soda.lib.NoneSD_
     soda.lib.OptionSD
     soda.lib.SomeSD_
-    soda.lib.NoneSD_
 
   empty: ESeq [T] = ESeq_ ()
 

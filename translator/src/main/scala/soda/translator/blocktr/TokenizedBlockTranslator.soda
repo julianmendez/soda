@@ -10,7 +10,6 @@ class TokenizedBlockTranslator
   import
     soda.lib.SomeSD_
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.Translator
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.replacement.ParserStateEnum_

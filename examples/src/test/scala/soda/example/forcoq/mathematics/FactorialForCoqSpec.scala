@@ -5,8 +5,8 @@ case class FactorialForCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.IntNat_
+  import   soda.example.forcoq.lib.nat
 
   lazy val factorial_values: Seq [(Int, Int )] = Seq (
     (0, 1 ), (1, 1 ), (2, 2 ), (3, 6 ), (4, 24 ), (5, 120 ), (6, 720 )

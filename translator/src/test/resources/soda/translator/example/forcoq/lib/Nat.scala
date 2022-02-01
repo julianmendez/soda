@@ -65,8 +65,8 @@ case class S_ (k: nat )
 trait IntNat
 {
 
-  import   soda.lib.OptionSD
   import   soda.lib.NoneSD_
+  import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
 
   def from_Int (a: Int ): OptionSD [nat] =

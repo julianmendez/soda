@@ -3,9 +3,9 @@ package soda.example.forcoq.mathematics
 trait TriangularNumberForCoq
 {
 
-  import   soda.example.forcoq.lib.nat
   import   soda.example.forcoq.lib.O_
   import   soda.example.forcoq.lib.S_
+  import   soda.example.forcoq.lib.nat
 
   import scala.annotation.tailrec
         @tailrec  final

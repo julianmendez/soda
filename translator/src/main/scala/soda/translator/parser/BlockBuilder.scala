@@ -10,9 +10,6 @@ trait BlockBuilder
   import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.Block
   import   soda.translator.block.Block_
-  import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.AnnotationFactory_
 
   lazy val soda_begin_comment = "/*"
 

@@ -47,7 +47,6 @@ class PriceMonitorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    java.util.Date
     java.util.Calendar
     java.util.TimeZone
 

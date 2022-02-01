@@ -9,7 +9,6 @@ class AnnotationFactory
     soda.translator.block.AnnotatedBlock_
     soda.translator.block.Block
     soda.translator.block.BlockAnnotationEnum_
-    soda.translator.block.BlockAnnotationId
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->

@@ -6,7 +6,6 @@ trait ClassEndBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
