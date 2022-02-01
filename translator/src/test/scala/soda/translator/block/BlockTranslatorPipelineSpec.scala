@@ -114,7 +114,7 @@ case class BlockTranslatorPipelineSpec ()
               "tr00",
               "tr01",
               "tr02"
-            ),
+            )
           )
         )
       lazy val obtained = instance.translate (original )

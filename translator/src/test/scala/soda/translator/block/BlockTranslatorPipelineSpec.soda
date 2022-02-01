@@ -111,7 +111,7 @@ class BlockTranslatorPipelineSpec ()
               "tr00",
               "tr01",
               "tr02"
-            ),
+            )
           )
         )
       obtained = instance.translate (original)
