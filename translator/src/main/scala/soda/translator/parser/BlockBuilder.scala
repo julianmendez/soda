@@ -18,11 +18,9 @@ trait BlockBuilder
 
   lazy val soda_end_comment = "*/"
 
-  def build (lines: Seq [String], annotation: BlockAnnotationId ): AnnotatedBlock =
-    AnnotationFactory_ () .annotate (
-      Block_ (
+  def build (lines: Seq [String] ): Block =
+    Block_ (
         get_annotated_lines (lines )
-      )
     )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =

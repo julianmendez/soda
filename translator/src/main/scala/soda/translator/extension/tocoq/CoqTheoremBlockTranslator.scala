@@ -6,9 +6,10 @@ trait CoqTheoremBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   lazy val space = " "
 
@@ -24,33 +25,32 @@ trait CoqTheoremBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block: TheoremBlockAnnotation ): AnnotatedBlock =
-    if (is_a_theorem (block )
-    ) append (
-      tc.coq_theorem_end, prepend (
-        tc.coq_theorem_begin_reserved_word, remove_first_line (block ) ) )
-    else block
-
-  def prepend (prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation
+  def _translate_block (block: TheoremBlockAnnotation ): TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (
+      append (
+        tc.coq_theorem_end, prepend (
+          tc.coq_theorem_begin_reserved_word, remove_first_line (block )
+        )
+      )
     )
 
-  def append (suffix: String, block: AnnotatedBlock ): AnnotatedBlock =
+  def prepend (prefix: String, block: Block ): Block =
     BlockBuilder_ () .build (
-      block.lines.:+ (suffix ), block.block_annotation
+      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
     )
 
-  def first_line (block: AnnotatedBlock ): String =
+  def append (suffix: String, block: Block ): Block =
+    BlockBuilder_ () .build (
+      block.lines.:+ (suffix )
+    )
+
+  def first_line (block: Block ): String =
     block.lines.headOption.getOrElse ("") .trim
 
-  def remove_first_line (block: AnnotatedBlock ): AnnotatedBlock =
+  def remove_first_line (block: Block ): Block =
     if (block.lines.isEmpty
     ) block
-    else BlockBuilder_ () .build (block.lines.tail, block.block_annotation )
-
-  def is_a_theorem (block: AnnotatedBlock ): Boolean =
-    first_line (block ) == tc.theorem_reserved_word
+    else BlockBuilder_ () .build (block.lines.tail )
 
 }
 

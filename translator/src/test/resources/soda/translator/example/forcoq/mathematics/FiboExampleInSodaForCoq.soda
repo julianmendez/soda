@@ -4,19 +4,19 @@ class FiboExampleInSodaForCoq
 
   import
     soda.example.forcoq.lib.nat
-    soda.example.forcoq.lib.O
-    soda.example.forcoq.lib.S
+    soda.example.forcoq.lib.O_
+    soda.example.forcoq.lib.S_
 
   @tailrec
   _tailrec_fib (m: nat) (a: nat) (b: nat): nat =
     match m
-      | O() => a
-      | S (O()) => b
-      | S (k) => _tailrec_fib (k) (b) (a .add (b))
+      | O_ () => a
+      | S_ (O_ () ) => b
+      | S_ (k) => _tailrec_fib (k) (b) (a .add (b))
     end
 
   fib (n: nat) =
-    _tailrec_fib (n) (O()) ( S (O() ) )
+    _tailrec_fib (n) (O_ ()) ( S_ (O_ () ) )
 
 end
 

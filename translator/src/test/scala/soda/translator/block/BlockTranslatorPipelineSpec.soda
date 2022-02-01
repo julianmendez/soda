@@ -5,16 +5,17 @@ class BlockTranslator00
     BlockTranslator
 
   import
-    soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      BlockBuilder_ ().build (
-        if block.lines.isEmpty
-        then Seq ("")
-        else block.lines.++ ( Seq ("tr00") ),
-        BlockAnnotationEnum_ ().undefined
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if block.lines.isEmpty
+          then Seq ("")
+          else block.lines.++ ( Seq ("tr00") )
+        )
       )
 
 end
@@ -31,14 +32,16 @@ class BlockTranslator01
 
   import
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      BlockBuilder_ ().build (
-        if block.lines.isEmpty
-        then Seq ("")
-        else block.lines.++ ( Seq ("tr01") ),
-        BlockAnnotationEnum_ ().undefined
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if block.lines.isEmpty
+          then Seq ("")
+          else block.lines.++ ( Seq ("tr01") )
+        )
       )
 
 end
@@ -55,14 +58,16 @@ class BlockTranslator02
 
   import
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
-      BlockBuilder_ ().build (
-        if block.lines.isEmpty
-        then Seq ("")
-        else block.lines.++ ( Seq ("tr02") ),
-        BlockAnnotationEnum_ ().undefined
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if block.lines.isEmpty
+          then Seq ("")
+          else block.lines.++ ( Seq ("tr02") )
+        )
       )
 
 end
@@ -79,6 +84,7 @@ class BlockTranslatorPipelineSpec ()
 
   import
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
 
   instance =
     BlockTranslatorPipeline_ (
@@ -91,19 +97,22 @@ class BlockTranslatorPipelineSpec ()
 
   test ("block translator pipeline")
     let
-      original = BlockBuilder_ ().build (
-        Seq ( "first line" ),
-        BlockAnnotationEnum_ ().undefined
-      )
+      original =
+        AnnotationFactory_ ().annotate (
+          BlockBuilder_ ().build (
+            Seq ( "first line" )
+          )
+        )
       expected =
-        BlockBuilder_ ().build (
-          Seq (
-            "first line",
-            "tr00",
-            "tr01",
-            "tr02"
-          ),
-          BlockAnnotationEnum_ ().undefined
+        AnnotationFactory_ ().annotate (
+          BlockBuilder_ ().build (
+            Seq (
+              "first line",
+              "tr00",
+              "tr01",
+              "tr02"
+            ),
+          )
         )
       obtained = instance.translate (original)
     in assert (obtained == expected)

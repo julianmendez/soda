@@ -19,14 +19,14 @@ class MicroTranslatorToCoqSpec ()
     let
       original = "x = 0"
       expected = " Definition x := 0\n.\n"
-      obtained = instance.translate  (original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("Coq translation of a function")
     let
       original = "f (a: nat) = 0"
       expected = " Definition f (a: nat ) := 0\n.\n"
-      obtained = instance.translate  (original)
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
 end

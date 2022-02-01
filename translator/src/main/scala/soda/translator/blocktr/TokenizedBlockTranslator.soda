@@ -10,8 +10,9 @@ class TokenizedBlockTranslator
   import
     soda.lib.SomeSD_
     soda.translator.block.AnnotatedBlock
-    soda.translator.parser.BlockBuilder_
     soda.translator.block.Translator
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.replacement.ParserStateEnum_
     soda.translator.replacement.Replacement_
     soda.translator.replacement.Token
@@ -20,6 +21,10 @@ class TokenizedBlockTranslator
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
+      translate_for (block)
+
+  translate_for (block: AnnotatedBlock): AnnotatedBlock =
+    AnnotationFactory_ ().annotate (
       BlockBuilder_ ().build (
         block
           .annotated_lines
@@ -27,9 +32,9 @@ class TokenizedBlockTranslator
             if annotated_line.is_comment
             then annotated_line.line
             else _translate_non_comment (annotated_line.line)
-          ),
-        block.block_annotation
+          )
       )
+    )
 
   _translate_non_comment (line: String): String =
       SomeSD_ (line)

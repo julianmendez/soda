@@ -6,9 +6,10 @@ class CoqTheoremBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.TheoremBlockAnnotation
+    soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   space = " "
 
@@ -24,33 +25,32 @@ class CoqTheoremBlockTranslator
       | x => annotated_block
     end
 
-  _translate_block (block: TheoremBlockAnnotation): AnnotatedBlock =
-    if is_a_theorem (block)
-    then append (
-      tc.coq_theorem_end, prepend (
-        tc.coq_theorem_begin_reserved_word, remove_first_line (block) ) )
-    else block
-
-  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+  _translate_block (block: TheoremBlockAnnotation): TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (
+      append (
+        tc.coq_theorem_end, prepend (
+          tc.coq_theorem_begin_reserved_word, remove_first_line (block)
+        )
+      )
     )
 
-  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+  prepend (prefix: String, block: Block): Block =
     BlockBuilder_ ().build (
-      block.lines.:+ (suffix), block.block_annotation
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  first_line (block: AnnotatedBlock): String =
+  append (suffix: String, block: Block): Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
+    )
+
+  first_line (block: Block): String =
     block.lines.headOption.getOrElse ("").trim
 
-  remove_first_line (block: AnnotatedBlock): AnnotatedBlock =
+  remove_first_line (block: Block): Block =
     if block.lines.isEmpty
     then block
-    else BlockBuilder_ ().build ( block.lines.tail, block.block_annotation )
-
-  is_a_theorem (block: AnnotatedBlock): Boolean =
-    first_line (block) == tc.theorem_reserved_word
+    else BlockBuilder_ ().build (block.lines.tail)
 
 end
 

@@ -6,13 +6,15 @@ class ClassDeclarationBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.block.Translator
     soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder_
-    soda.translator.replacement.Replacement_
     soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation_
+    soda.translator.replacement.Replacement_
 
   soda_opening_parenthesis: String = "("
 
@@ -22,38 +24,40 @@ class ClassDeclarationBlockTranslator
 
   scala_space: String = " "
 
-  _labels = BlockAnnotationEnum_ ()
-
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
   translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
     match annotated_block
-      | block: ClassBeginningAnnotation => _translate_block (block)
-      | block: ClassAliasAnnotation => _translate_block (block)
+      | block: ClassBeginningAnnotation => _translate_class_beginning_block (block)
+      | block: ClassAliasAnnotation => _translate_class_alias_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  _translate_class_beginning_block (block: ClassBeginningAnnotation): ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
+
+  _translate_class_alias_block (block: ClassAliasAnnotation): ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
+
+  _translate_block (block: AnnotatedBlock): Block =
     BlockBuilder_ ().build (
       if (has_condition_for_type_alias (get_first_line (block) ) )
       then _process_head (block) ++ _process_tail (block)
       else _process_head (block) ++ _process_tail (block) ++  Seq [String] (tc.scala_class_begin_symbol)
-      ,
-      block.block_annotation
     )
 
-  _process_head (block: AnnotatedBlock): Seq [String] =
+  _process_head (block: Block): Seq [String] =
     _process_head_with (get_first_line (block), block)
 
-  _process_head_with (line: String, block: AnnotatedBlock): Seq [String] =
+  _process_head_with (line: String, block: Block): Seq [String] =
     Seq [String] (Replacement_ (soda_space + line).replace_at_beginning (0, get_table_translator (line) ).line.substring (soda_space.length) )
 
-  _process_tail (block: AnnotatedBlock): Seq [String] =
+  _process_tail (block: Block): Seq [String] =
     _process_if_extends (remove_first_line (block) )
 
-  _process_if_extends (block: AnnotatedBlock): Seq [String] =
+  _process_if_extends (block: Block): Seq [String] =
     if (get_first_line (block).trim == tc.extends_reserved_word)
     then Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
     else block.lines
@@ -79,20 +83,19 @@ class ClassDeclarationBlockTranslator
   get_spaces_at_beginning (line: String): String =
     line.substring (0, get_number_of_spaces_at_beginning (line) )
 
-  _process_after_extends (block: AnnotatedBlock): Seq [String] =
+  _process_after_extends (block: Block): Seq [String] =
     if (get_first_line (block).trim.nonEmpty)
     then Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (line -> get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
     else Seq [String] ()
 
-  remove_first_line (block: AnnotatedBlock): AnnotatedBlock =
+  remove_first_line (block: Block): Block =
     BlockBuilder_ ().build (
-      ( if block.lines.isEmpty
-        then block.lines
-        else block.lines.tail ),
-      block.block_annotation
+      if block.lines.isEmpty
+      then block.lines
+      else block.lines.tail
     )
 
-  get_first_line (block: AnnotatedBlock): String =
+  get_first_line (block: Block): String =
     block.lines.headOption.getOrElse ("")
 
   ends_with_equals (line: String): Boolean =

@@ -29,7 +29,7 @@ case class BlockSpec ()
         AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment = false ),
         AnnotatedLine_ ("}", is_comment = false )
       )
-      lazy val obtained = BlockBuilder_ () .build (input, BlockAnnotationEnum_ () .undefined ) .annotated_lines
+      lazy val obtained = BlockBuilder_ () .build (input ) .annotated_lines
       assert (obtained == expected ) }
 
 }

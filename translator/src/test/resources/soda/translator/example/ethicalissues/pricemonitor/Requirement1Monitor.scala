@@ -1,6 +1,18 @@
 package soda.example.ethicalissues.pricemonitor
 
-case class Report1 (compliant: Boolean, price1: Int, price2: Int, similarity: Double )
+trait Report1
+{
+
+  def   compliant: Boolean
+  def   price1: Int
+  def   price2: Int
+  def   similarity: Double
+
+}
+
+case class Report1_ (compliant: Boolean, price1: Int, price2: Int, similarity: Double )
+  extends
+    Report1
 {
 
 }
@@ -9,6 +21,8 @@ trait Requirement1Monitor
   extends
     RequirementMonitor
 {
+
+  def   pricing_agent: PricingAgent
 
   lazy val minimum_similarity = 0.95
 
@@ -22,7 +36,7 @@ trait Requirement1Monitor
     get_report_with (price1, price2, get_similarity (price1, price2 )  )
 
   def get_report_with (price1: Int, price2: Int, similarity: Double ): Report1 =
-    Report1 (minimum_similarity <= similarity, price1, price2, similarity )
+    Report1_ (minimum_similarity <= similarity, price1, price2, similarity )
 
   def get_similarity (x: Int, y: Int ): Double =
     1.0 * min (x, y ) / max (x, y )

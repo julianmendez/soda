@@ -19,11 +19,9 @@ class BlockBuilder
 
   soda_end_comment = "*/"
 
-  build (lines: Seq [String], annotation: BlockAnnotationId): AnnotatedBlock =
-    AnnotationFactory_ ().annotate (
-      Block_ (
+  build (lines: Seq [String] ): Block =
+    Block_ (
         get_annotated_lines (lines)
-      )
     )
 
   get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =

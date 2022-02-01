@@ -9,6 +9,7 @@ case class MultiLineSpec ()
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.BlockProcessor_
 
@@ -58,7 +59,7 @@ case class MultiLineSpec ()
     "       x * x + y * y + z * z"
 
   def build_block (lines: Seq [String]  ): AnnotatedBlock =
-    BlockBuilder_ () .build (lines, BlockAnnotationEnum_ () .undefined )
+    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines ) )
 
   test ("should split a program in multiple lines")
     {

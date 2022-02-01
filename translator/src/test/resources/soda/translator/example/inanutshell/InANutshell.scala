@@ -53,14 +53,23 @@ trait MaxAndMin
 
 }
 
-case class ConcreteMaxAndMin ()
+case class MaxAndMin_ ()
   extends
     MaxAndMin
 {
 
 }
 
-case class MinMaxPair (min: Int, max: Int )
+trait MinMaxPair
+{
+
+  def   min: Int
+  def   max: Int
+
+}
+
+case class MinMaxPair_ (min: Int, max: Int )
+  extends MinMaxPair
 {
 
 }
@@ -76,10 +85,12 @@ trait Example
   extends Indexable
 {
 
+  def   index: Int
+
   def min_max (a: Int ) (b: Int ): MinMaxPair =
-    MinMaxPair (
-      min = ConcreteMaxAndMin () .min (a ) (b ),
-      max = ConcreteMaxAndMin () .max (a ) (b )
+    MinMaxPair_ (
+      min = MaxAndMin_ () .min (a ) (b ),
+      max = MaxAndMin_ () .max (a ) (b )
     )
 
 }

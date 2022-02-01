@@ -11,9 +11,9 @@ class PatternMatching
 
   get_value (p: Parameter): Int =
     match p
-      | Singleton (x) => x
-      | Pair (x, y) => (x + y) / 2
-      | Triplet (x, y, z) => (x + y + z) / 3
+      | Singleton_ (x) => x
+      | Pair_ (x, y) => (x + y) / 2
+      | Triplet_ (x, y, z) => (x + y + z) / 3
       | otherwise => 0
     end
 
@@ -33,27 +33,57 @@ class PatternMatching_ ()
 
 end
 
-class Singleton (x: Int)
+class Singleton
   extends
     Parameter
+
+  abstract
+    x: Int
 
   name = "singleton"
 
 end
 
-class Pair (x: Int, y: Int)
+class Singleton_ (x: Int)
+  extends
+    Singleton
+
+end
+
+class Pair
   extends
     Parameter
+
+  abstract
+    x: Int
+    y: Int
 
   name = "pair"
 
 end
 
-class Triplet (x: Int, y: Int, z: Int)
+class Pair_ (x: Int, y: Int)
+  extends
+    Pair
+
+end
+
+class Triplet
   extends
     Parameter
 
+  abstract
+    x: Int
+    y: Int
+    z: Int
+
   name = "triplet"
+
+end
+
+class Triplet_ (x: Int, y: Int, z: Int)
+  extends
+    Triplet
 
 end
 

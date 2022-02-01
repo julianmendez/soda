@@ -13,6 +13,7 @@ class BlockProcessor
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockSequenceTranslator
+    soda.translator.parser.annotation.AnnotationFactory_
 
   new_line = "\n"
 
@@ -34,8 +35,10 @@ class BlockProcessor
       .map (paragraph -> make_block (paragraph) )
 
   make_block (paragraph: String): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      remove_empty_lines (paragraph.split (new_line).toIndexedSeq), BlockAnnotationEnum_ ().undefined
+    AnnotationFactory_ ().annotate (
+      BlockBuilder_ ().build (
+        remove_empty_lines (paragraph.split (new_line).toIndexedSeq)
+      )
     )
 
   translate_blocks (blocks: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =

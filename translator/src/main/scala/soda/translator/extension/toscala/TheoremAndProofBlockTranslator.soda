@@ -6,14 +6,14 @@ class TheoremAndProofBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.ProofBlockAnnotation
+    soda.translator.parser.annotation.ProofBlockAnnotation_
     soda.translator.parser.annotation.TheoremBlockAnnotation
+    soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   tc = TranslationConstantToScala_ ()
-
-  _labels = BlockAnnotationEnum_ ()
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
@@ -21,37 +21,29 @@ class TheoremAndProofBlockTranslator
 
   translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
     match annotated_block
-      | block: TheoremBlockAnnotation => _translate_block (block)
-      | block: ProofBlockAnnotation => _translate_block (block)
+      | block: TheoremBlockAnnotation => _translate_theorem_block (block)
+      | block: ProofBlockAnnotation => _translate_proof_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
-    if is_a_theorem_or_a_proof (block)
-    then append (
-      tc.comment_close, prepend (
-        tc.comment_open, block ) )
-    else block
+  _translate_theorem_block (block: AnnotatedBlock): TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (_translate_block (block) )
 
-  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
+  _translate_proof_block (block: AnnotatedBlock): ProofBlockAnnotation =
+    ProofBlockAnnotation_ (_translate_block (block) )
+
+  _translate_block (block: AnnotatedBlock): Block =
+    append (tc.comment_close, prepend (tc.comment_open, block) )
+
+  prepend (prefix: String, block: Block): Block =
     BlockBuilder_ ().build (
-      Seq [String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+  append (suffix: String, block: Block): Block =
     BlockBuilder_ ().build (
-      block.lines.:+ (suffix), block.block_annotation
+      block.lines.:+ (suffix)
     )
-
-  first_line (block: AnnotatedBlock): String =
-    block.lines.headOption.getOrElse ("").trim
-
-  is_a_theorem_or_a_proof (block: AnnotatedBlock): Boolean =
-    _is_line_a_theorem_or_a_proof (first_line (block) )
-
-  _is_line_a_theorem_or_a_proof (line: String): Boolean =
-    line == tc.theorem_reserved_word or
-    line == tc.proof_reserved_word
 
 end
 

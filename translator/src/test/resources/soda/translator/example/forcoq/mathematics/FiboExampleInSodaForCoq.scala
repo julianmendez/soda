@@ -4,20 +4,20 @@ trait FiboExampleInSodaForCoq
 {
 
   import   soda.example.forcoq.lib.nat
-  import   soda.example.forcoq.lib.O
-  import   soda.example.forcoq.lib.S
+  import   soda.example.forcoq.lib.O_
+  import   soda.example.forcoq.lib.S_
 
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_fib (m: nat ) (a: nat ) (b: nat ): nat =
     m match  {
-      case O () => a
-      case S (O ()  ) => b
-      case S (k ) => _tailrec_fib (k ) (b ) (a .add (b )  )
+      case O_ () => a
+      case S_ (O_ () ) => b
+      case S_ (k ) => _tailrec_fib (k ) (b ) (a .add (b )  )
     }
 
   def fib (n: nat ) =
-    _tailrec_fib (n ) (O ()  ) (S (O () ) )
+    _tailrec_fib (n ) (O_ ()  ) (S_ (O_ () ) )
 
 }
 

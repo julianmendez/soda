@@ -1,6 +1,16 @@
 package soda.example.ethicalissues.pricemonitor
 
-case class Report3 (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
+trait Report3
+{
+
+  def   compliant: Boolean
+  def   price_of_flight: Int
+  def   price_of_flight_by_segments: Int
+
+}
+
+case class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
+  extends Report3
 {
 
 }
@@ -10,6 +20,8 @@ trait Requirement3Monitor
     RequirementMonitor
 {
 
+  def   pricing_agent: PricingAgent
+
   def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
     get_report_with (
       get_price (customer, flight, date_in_days ),
@@ -17,7 +29,7 @@ trait Requirement3Monitor
     )
 
   def get_report_with (price_of_flight: Int, price_of_flight_by_segments: Int ): Report3 =
-    Report3 (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments )
+    Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments )
 
   def get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int ): Int =
     sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight ) .segments, date_in_days )  )
@@ -41,6 +53,9 @@ trait Segment
   extends
     Flight
 {
+
+  def   start_airport: String
+  def   end_airport: String
 
   lazy val intermediate_airports = Seq [String]  ()
 

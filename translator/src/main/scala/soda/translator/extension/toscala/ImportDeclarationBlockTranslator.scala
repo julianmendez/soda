@@ -7,7 +7,7 @@ trait ImportDeclarationBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.Block
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
@@ -20,8 +20,6 @@ trait ImportDeclarationBlockTranslator
   lazy val scala_import_declaration_pattern =
     tc.scala_import_declaration + space
 
-  lazy val _labels = BlockAnnotationEnum_ ()
-
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       translate_for (block )
@@ -32,19 +30,18 @@ trait ImportDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block: ImportDeclarationAnnotation ): AnnotatedBlock =
-    if (is_import_block_declaration (block )
-    ) prepend_to_lines_aligned_at (
-      get_number_of_spaces_at_beginning (get_first_line (block ) ),
-      scala_import_declaration_pattern,
-      ImportDeclarationAnnotation_ (block ) .imported_items,
-      block.block_annotation )
-    else block
+  def _translate_block (block: ImportDeclarationAnnotation ): ImportDeclarationAnnotation =
+    ImportDeclarationAnnotation_ (
+      prepend_to_lines_aligned_at (
+        get_number_of_spaces_at_beginning (get_first_line (block ) ),
+        scala_import_declaration_pattern,
+        block.imported_items
+      )
+    )
 
-  def prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId ): AnnotatedBlock =
+  def prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine] ): Block =
     BlockBuilder_ () .build (
-      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line ) ),
-      block_annotation
+      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line ) )
     )
 
   def prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine ): String =
@@ -59,9 +56,6 @@ trait ImportDeclarationBlockTranslator
 
   def get_first_line (block: AnnotatedBlock ): String =
     block.lines.headOption.getOrElse ("")
-
-  def is_import_block_declaration (block: AnnotatedBlock ): Boolean =
-    (get_first_line (block ) ) .trim == tc.import_reserved_word
 
 }
 

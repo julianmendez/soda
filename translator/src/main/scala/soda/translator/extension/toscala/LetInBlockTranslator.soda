@@ -6,14 +6,14 @@ class LetInBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
+    soda.translator.parser.annotation.TestDeclarationAnnotation_
 
   tc = TranslationConstantToScala_ ()
-
-  _labels = BlockAnnotationEnum_ ()
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
@@ -21,19 +21,24 @@ class LetInBlockTranslator
 
   translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
     match annotated_block
-      | block: FunctionDefinitionAnnotation => _translate_block (block)
-      | block: TestDeclarationAnnotation => _translate_block (block)
+      | block: FunctionDefinitionAnnotation => _translate_function_block (block)
+      | block: TestDeclarationAnnotation => _translate_test_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      block.lines
-        .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
-        .map (line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )
-        .map (line -> append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation) ),
-      block.block_annotation
-    )
+  _translate_function_block (block: AnnotatedBlock): FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_test_block (block: AnnotatedBlock): TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  _translate_block (block: AnnotatedBlock): Block =
+      BlockBuilder_ ().build (
+        block.lines
+          .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
+          .map (line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )
+          .map (line -> append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation) )
+      )
 
   replace_all_when (line: String, condition: (String, String) -> Boolean, pattern: String, new_text: String): String =
     if condition (line, pattern)

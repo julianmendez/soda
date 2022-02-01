@@ -9,8 +9,9 @@ trait TokenizedBlockTranslator
 
   import   soda.lib.SomeSD_
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
   import   soda.translator.block.Translator
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.replacement.ParserStateEnum_
   import   soda.translator.replacement.Replacement_
   import   soda.translator.replacement.Token
@@ -19,6 +20,10 @@ trait TokenizedBlockTranslator
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
+      translate_for (block )
+
+  def translate_for (block: AnnotatedBlock ): AnnotatedBlock =
+    AnnotationFactory_ () .annotate (
       BlockBuilder_ () .build (
         block
           .annotated_lines
@@ -26,9 +31,9 @@ trait TokenizedBlockTranslator
             if (annotated_line.is_comment
             ) annotated_line.line
             else _translate_non_comment (annotated_line.line )
-          ),
-        block.block_annotation
+          )
       )
+    )
 
   def _translate_non_comment (line: String ): String =
       SomeSD_ (line )

@@ -9,6 +9,7 @@ class MultiLineSpec ()
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.DefaultBlockTranslator_
     soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.BlockProcessor_
 
@@ -58,7 +59,7 @@ class MultiLineSpec ()
     "       x * x + y * y + z * z"
 
   build_block (lines: Seq [String]): AnnotatedBlock =
-    BlockBuilder_ ().build (lines, BlockAnnotationEnum_ ().undefined)
+    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
 
   test ("should split a program in multiple lines")
     let

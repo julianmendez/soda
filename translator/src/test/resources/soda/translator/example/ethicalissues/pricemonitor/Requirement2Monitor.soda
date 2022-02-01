@@ -1,12 +1,26 @@
 package soda.example.ethicalissues.pricemonitor
 
-class Report2 (compliant: Boolean, old_price: Int, new_price: Int)
+class Report2
+
+  abstract
+    compliant: Boolean
+    old_price: Int
+    new_price: Int
 
 end
+
+class Report2_ (compliant: Boolean, old_price: Int, new_price: Int)
+  extends Report2
+
+end
+
 
 class Requirement2Monitor
   extends
     RequirementMonitor
+
+  abstract
+    pricing_agent: PricingAgent
 
   acceptable_increase = 1.25
 
@@ -17,7 +31,7 @@ class Requirement2Monitor
     )
 
   get_report_with (old_price: Int, new_price: Int): Report2 =
-    Report2 (new_price <= old_price * acceptable_increase, old_price, new_price)
+    Report2_ (new_price <= old_price * acceptable_increase, old_price, new_price)
 
   get_a_year_before (date_in_days: Int): Int =
     date_in_days - 365

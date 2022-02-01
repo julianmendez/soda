@@ -6,14 +6,14 @@ class CoqProofBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.ProofBlockAnnotation
+    soda.translator.parser.annotation.ProofBlockAnnotation_
 
   space = " "
 
   tc = TranslationConstantToCoq_ ()
-
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
@@ -25,39 +25,36 @@ class CoqProofBlockTranslator
       | x => annotated_block
     end
 
-  _translate_block (block: ProofBlockAnnotation): AnnotatedBlock =
-    if is_a_proof (block)
-    then append (
-      tc.coq_proof_end_reserved_word,
-        replace_first_line (tc.coq_proof_begin_reserved_word, block) )
-    else block
-
-  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
-    BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+  _translate_block (block: ProofBlockAnnotation): ProofBlockAnnotation =
+    ProofBlockAnnotation_ (
+      append (
+        tc.coq_proof_end_reserved_word,
+          replace_first_line (tc.coq_proof_begin_reserved_word, block)
+      )
     )
 
-  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+  prepend (prefix: String, block: Block): Block =
     BlockBuilder_ ().build (
-      block.lines.:+ (suffix), block.block_annotation
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+    )
+
+  append (suffix: String, block: Block): Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
   get_first_line (block: AnnotatedBlock): String =
     block.lines.headOption.getOrElse ("").trim
 
-  replace_first_line (first_line: String, block: AnnotatedBlock): AnnotatedBlock =
+  replace_first_line (first_line: String, block: Block): Block =
     BlockBuilder_ ().build (
-      Seq (first_line) .++ (get_tail_or_empty (block.lines) ),
-      block.block_annotation
+      Seq (first_line) .++ (get_tail_or_empty (block.lines) )
     )
 
-  get_tail_or_empty (sequence: Seq [String]): Seq [String] =
+  get_tail_or_empty (sequence: Seq [String] ): Seq [String] =
     if sequence.isEmpty
     then sequence
     else sequence.tail
-
-  is_a_proof (block: AnnotatedBlock): Boolean =
-    get_first_line (block) == tc.proof_reserved_word
 
 end
 

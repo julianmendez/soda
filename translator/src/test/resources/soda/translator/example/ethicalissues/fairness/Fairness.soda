@@ -16,15 +16,20 @@ end
 class AbstractFairness
 
   abstract
-    rank: Applicant -> Double
     score_difference_tolerance: Double
     ranking_difference_tolerance: Double
+    rank: Applicant -> Double
 
 end
 
 class Fairness
   extends
     AbstractFairness
+
+  abstract
+    score_difference_tolerance: Double
+    ranking_difference_tolerance: Double
+    rank: Applicant -> Double
 
   is_fair (alice: Applicant, bob: Applicant) is
     if have_similar_score (alice.background_score, bob.background_score)

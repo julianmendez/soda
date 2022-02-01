@@ -7,7 +7,7 @@ class ImportDeclarationBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedLine
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.Block
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.ImportDeclarationAnnotation
@@ -20,8 +20,6 @@ class ImportDeclarationBlockTranslator
   scala_import_declaration_pattern =
     tc.scala_import_declaration + space
 
-  _labels = BlockAnnotationEnum_ ()
-
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
@@ -32,19 +30,18 @@ class ImportDeclarationBlockTranslator
       | x => annotated_block
     end
 
-  _translate_block (block: ImportDeclarationAnnotation): AnnotatedBlock =
-    if is_import_block_declaration (block)
-    then prepend_to_lines_aligned_at (
-      get_number_of_spaces_at_beginning (get_first_line (block) ),
-      scala_import_declaration_pattern,
-      ImportDeclarationAnnotation_ (block).imported_items,
-      block.block_annotation )
-    else block
+  _translate_block (block: ImportDeclarationAnnotation): ImportDeclarationAnnotation =
+    ImportDeclarationAnnotation_ (
+      prepend_to_lines_aligned_at (
+        get_number_of_spaces_at_beginning (get_first_line (block) ),
+        scala_import_declaration_pattern,
+        block.imported_items
+      )
+    )
 
-  prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId): AnnotatedBlock =
+  prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine] ): Block =
     BlockBuilder_ ().build (
-      annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) ),
-      block_annotation
+      annotated_lines.map (annotated_line -> prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line) )
     )
 
   prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine): String =
@@ -59,9 +56,6 @@ class ImportDeclarationBlockTranslator
 
   get_first_line (block: AnnotatedBlock): String =
     block.lines.headOption.getOrElse ("")
-
-  is_import_block_declaration (block: AnnotatedBlock): Boolean =
-    (get_first_line (block) ).trim == tc.import_reserved_word
 
 end
 

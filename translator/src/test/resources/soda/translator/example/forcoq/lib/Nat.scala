@@ -8,7 +8,7 @@ trait nat
 
 }
 
-case class O ()
+trait O
   extends
     nat
 {
@@ -27,10 +27,18 @@ case class O ()
 
 }
 
-case class S (k: nat )
+case class O_ ()
+  extends O
+{
+
+}
+
+trait S
   extends
     nat
 {
+
+  def   k: nat
 
   lazy val t = IntNat_ ()
 
@@ -45,6 +53,12 @@ case class S (k: nat )
 
   def mul_for (a: nat ): nat =
     t.from_non_negative ((t.to_Int (k ) + 1 ) * t.to_Int (a ) )
+
+}
+
+case class S_ (k: nat )
+  extends S
+{
 
 }
 
@@ -65,15 +79,15 @@ trait IntNat
   def _tailrec_from_non_negative (a: Int, b: nat ): nat =
     if (a <= 0
     ) b
-    else _tailrec_from_non_negative (a - 1, S (b )  )
+    else _tailrec_from_non_negative (a - 1, S_ (b )  )
 
   def from_non_negative (a: Int ): nat =
-    _tailrec_from_non_negative (a, O ()  )
+    _tailrec_from_non_negative (a, O_ ()  )
 
   def to_Int (a: nat ): Int =
     a match  {
-      case O () => 0
-      case S (k ) => 1 + to_Int (k )
+      case O_ () => 0
+      case S_ (k ) => 1 + to_Int (k )
     }
 
 }

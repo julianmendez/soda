@@ -12,6 +12,7 @@ trait BlockProcessor
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockSequenceTranslator
+  import   soda.translator.parser.annotation.AnnotationFactory_
 
   lazy val new_line = "\n"
 
@@ -33,8 +34,10 @@ trait BlockProcessor
       .map (paragraph => make_block (paragraph ) )
 
   def make_block (paragraph: String ): AnnotatedBlock =
-    BlockBuilder_ () .build (
-      remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq ), BlockAnnotationEnum_ () .undefined
+    AnnotationFactory_ () .annotate (
+      BlockBuilder_ () .build (
+        remove_empty_lines (paragraph.split (new_line ) .toIndexedSeq )
+      )
     )
 
   def translate_blocks (blocks: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =

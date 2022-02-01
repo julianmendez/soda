@@ -88,7 +88,7 @@ trait RegisteredPerson
 {
 
   /* A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.
-   Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
+   * Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. */
 
   def   first_name: String
   def   last_name: String

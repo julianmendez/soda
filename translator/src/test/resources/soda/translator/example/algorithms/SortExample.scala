@@ -142,7 +142,7 @@ trait EmptySortedSequence [A <: Comparable [A]]
      element => add_for (element )
 
   def add_for (element: A ): SortedSequence [A] =
-     _NonEmptySortedSequence_ (Seq (element )  )
+    NonEmptySortedSequence_ (Seq (element )  )
 
   lazy val invariant: Boolean = true
 
@@ -175,13 +175,13 @@ trait NonEmptySortedSequence [A <: Comparable [A]]
      element => add_for (element )
 
   def add_for (element: A ): SortedSequence [A] =
-    _NonEmptySortedSequence_ (aux.insert_sorted (sequence, element )  )
+    NonEmptySortedSequence_ (aux.insert_sorted (sequence, element )  )
 
   lazy val invariant: Boolean = aux.is_sorted (sequence )
 
 }
 
-case class _NonEmptySortedSequence_ [A <: Comparable [A]] (sequence: Seq [A]  )
+case class NonEmptySortedSequence_ [A <: Comparable [A]] (sequence: Seq [A]  )
   extends
     NonEmptySortedSequence [A]
 {
