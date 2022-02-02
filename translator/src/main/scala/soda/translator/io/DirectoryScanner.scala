@@ -25,9 +25,12 @@ trait DirectoryScanner
     _tailrec_scan (found, to_scan )
 
   def get_files_to_scan (to_scan: Seq [File]  ): Seq [File] =
-    if (to_scan.head.isDirectory
-    ) to_scan.tail.++ (to_scan.head.listFiles ()  )
-    else to_scan.tail
+    if (to_scan.isEmpty
+    ) to_scan
+    else
+      if (to_scan.head.isDirectory
+      ) to_scan.tail.++ (to_scan.head.listFiles ()  )
+      else to_scan.tail
 
 }
 

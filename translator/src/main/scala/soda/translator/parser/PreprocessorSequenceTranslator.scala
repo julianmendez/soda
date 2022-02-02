@@ -79,12 +79,17 @@ trait PreprocessorSequenceTranslator
     current.block_sequence.apply (index ) match  {
       case b: ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b ) )
       case b: AbstractDeclarationAnnotation => _update_first_element (current.references, b )
-      case b: ClassEndAnnotation => current.references.tail
+      case b: ClassEndAnnotation => _tail_non_empty (current.references )
       case x => current.references
     }
 
   def _update_first_element (s: Seq [Seq [AnnotatedBlock]], b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
-    s.tail.+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
+    _tail_non_empty (s ) .+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
+
+  def _tail_non_empty [T] (s: Seq [T]  ): Seq [T] =
+    if (s.isEmpty
+    ) s
+    else s.tail
 
 }
 
