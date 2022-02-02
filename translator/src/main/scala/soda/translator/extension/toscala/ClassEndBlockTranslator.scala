@@ -24,7 +24,10 @@ trait ClassEndBlockTranslator
 
   def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
     ClassEndAnnotation_ (
-      BlockBuilder_ () .build (Seq [String] (tc.scala_class_end_symbol ) )
+      BlockBuilder_ () .build (
+        Seq [String] (tc.scala_class_end_symbol )
+      ),
+      block.references
     )
 
 }

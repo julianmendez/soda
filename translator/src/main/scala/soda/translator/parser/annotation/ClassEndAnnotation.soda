@@ -6,6 +6,7 @@ class ClassEndAnnotation
 
   abstract
     block: soda.translator.block.Block
+    references: Seq [soda.translator.block.AnnotatedBlock]
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -20,7 +21,7 @@ class ClassEndAnnotation
 
 end
 
-class ClassEndAnnotation_ (block: soda.translator.block.Block)
+class ClassEndAnnotation_ (block: soda.translator.block.Block, references: Seq [soda.translator.block.AnnotatedBlock] )
   extends
     ClassEndAnnotation
 

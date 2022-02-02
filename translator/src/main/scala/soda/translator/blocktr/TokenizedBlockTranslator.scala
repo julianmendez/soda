@@ -22,7 +22,8 @@ trait TokenizedBlockTranslator
       translate_for (block )
 
   def translate_for (block: AnnotatedBlock ): AnnotatedBlock =
-    AnnotationFactory_ () .annotate (
+    AnnotationFactory_ () .update_block (
+      block,
       BlockBuilder_ () .build (
         block
           .annotated_lines

@@ -61,7 +61,7 @@ case class BlockAnnotationSpec ()
     Seq (
       FunctionDefinitionAnnotation_ (block ),
       ClassBeginningAnnotation_ (block ),
-      ClassEndAnnotation_ (block ),
+      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
       AbstractDeclarationAnnotation_ (block ),
       ImportDeclarationAnnotation_ (block ),
       PackageDeclarationAnnotation_ (block ),

@@ -6,6 +6,7 @@ trait ClassEndAnnotation
 {
 
   def   block: soda.translator.block.Block
+  def   references: Seq [soda.translator.block.AnnotatedBlock]
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
@@ -19,7 +20,7 @@ trait ClassEndAnnotation
 
 }
 
-case class ClassEndAnnotation_ (block: soda.translator.block.Block )
+case class ClassEndAnnotation_ (block: soda.translator.block.Block, references: Seq [soda.translator.block.AnnotatedBlock] )
   extends
     ClassEndAnnotation
 {

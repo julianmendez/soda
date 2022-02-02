@@ -7,11 +7,13 @@ trait PreprocessorSequenceTranslator
 
   def   translator: soda.translator.block.BlockSequenceTranslator
 
-  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.parser.annotation.AnnotationFactory_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassEndAnnotation
+  import   soda.translator.parser.annotation.ClassEndAnnotation_
 
   lazy val block_annotator = AnnotationFactory_ ()
 
@@ -50,56 +52,39 @@ trait PreprocessorSequenceTranslator
   def _initial_value (block_sequence: Seq [AnnotatedBlock] ): AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = block_sequence,
-      accumulated = Seq [AnnotatedBlock] ()
+      accumulated = Seq [AnnotatedBlock] (),
+      references = Seq [Seq [AnnotatedBlock]] ()
     )
 
   def _next_value_function (current: AuxiliaryTuple, index: Int ): AuxiliaryTuple =
     _pass_next_step (current, index, _get_additional_information (current, index ) )
 
-  def _get_additional_information (current: AuxiliaryTuple, index: Int ): Option [AnnotatedLine] =
-    if ((current.block_sequence.apply (index ) .block_annotation == ba.class_end )
-    ) _not_enabled_yet
-    else None
+  def _get_additional_information (current: AuxiliaryTuple, index: Int ): AnnotatedBlock =
+    current.block_sequence.apply (index ) match  {
+      case block: ClassEndAnnotation => _get_updated_block (current, block )
+      case x => x
+    }
 
-  /*
-  _get_as_comment (_get_class_name (current, index) )
-  */
+  def _get_updated_block (current: AuxiliaryTuple, block: ClassEndAnnotation ): ClassEndAnnotation =
+    ClassEndAnnotation_ (block.block, block.references.++ (current.references.lastOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
-  lazy val _not_enabled_yet = None
-
-  def _pass_next_step (current: AuxiliaryTuple, index: Int, maybe_annotated_line: Option [AnnotatedLine] ): AuxiliaryTuple =
+  def _pass_next_step (current: AuxiliaryTuple, index: Int, updated_block: AnnotatedBlock ): AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = current.block_sequence,
-      accumulated = current.accumulated.+: (_append_line (current.block_sequence.apply (index ), maybe_annotated_line ) )
+      accumulated = current.accumulated.+: (updated_block ),
+      references = _update_references (current, index )
     )
 
-  def _append_line (block: AnnotatedBlock, maybe_annotated_line: Option [AnnotatedLine] ): AnnotatedBlock =
-    if (maybe_annotated_line.isEmpty
-    ) block
-    else AnnotatedBlock_ (block.annotated_lines.+: (maybe_annotated_line.get ), block.block_annotation )
+  def _update_references (current: AuxiliaryTuple, index: Int ): Seq [Seq [AnnotatedBlock]] =
+    current.block_sequence.apply (index ) match  {
+      case b: ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b ) )
+      case b: AbstractDeclarationAnnotation => _update_first_element (current.references, b )
+      case b: ClassEndAnnotation => current.references.tail
+      case x => current.references
+    }
 
-  def _get_class_name (current: AuxiliaryTuple, index: Int ): Option [AnnotatedLine] =
-    current
-      .block_sequence
-      .indices
-      .takeWhile (k => (k < current.block_sequence.length ) && (k <= index ) )
-      .filter (k => current.block_sequence.apply (k ) .block_annotation == ba.class_beginning )
-      .map (k => current.block_sequence.apply (k ) )
-      .lastOption
-      .flatMap (annotated_block => annotated_block.annotated_lines.headOption )
-
-  def _get_as_comment (maybe_annotated_line: Option [AnnotatedLine]  ): Option [AnnotatedLine] =
-    if (maybe_annotated_line.isEmpty
-    ) maybe_annotated_line
-    else
-      Some (
-        AnnotatedLine_ (
-          sc.comment_open + sc.space + maybe_annotated_line.get.line + sc.space + sc.comment_close,
-          true
-        )
-      )
-
-  /* FIXME this does not consider classes inside classes */
+  def _update_first_element (s: Seq [Seq [AnnotatedBlock]], b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
+    s.tail.+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
 
 }
 
@@ -115,10 +100,11 @@ trait AuxiliaryTuple
 
   def   block_sequence: Seq [soda.translator.block.AnnotatedBlock]
   def   accumulated: Seq [soda.translator.block.AnnotatedBlock]
+  def   references: Seq [Seq [soda.translator.block.AnnotatedBlock]]
 
 }
 
-case class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock] )
+case class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock], references: Seq [Seq [soda.translator.block.AnnotatedBlock]] )
   extends
     AuxiliaryTuple
 {
