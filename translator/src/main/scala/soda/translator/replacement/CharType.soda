@@ -8,6 +8,10 @@ class CharType
   extends
     soda.lib.EnumConstant
 
+  abstract
+    ordinal: Int
+    name: String
+
 end
 
 class CharType_ (ordinal: Int, name: String)

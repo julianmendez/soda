@@ -44,8 +44,16 @@ class BlockAnnotationParser
   first_readable_line: AnnotatedLine =
     block.readable_lines.headOption.getOrElse (default_annotated_line)
 
+  get_first_word (line: String): String =
+    _get_first_word_with (line.trim.indexOf (space), line).trim
+
+  _get_first_word_with (index: Int, line: String): String =
+    if index >= 0
+    then line.substring (0, index)
+    else line
+
   skip_first_word (line: String): String =
-    _skip_first_word_with (line.indexOf (space), line)
+    _skip_first_word_with (line.trim.indexOf (space), line).trim
 
   _skip_first_word_with (index: Int, line: String): String =
     if index >= 0

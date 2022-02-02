@@ -49,6 +49,7 @@ trait MicroTranslatorToScala
         AbstractDeclarationBlockTranslator_ (),
         TheoremAndProofBlockTranslator_ (),
         ClassEndBlockTranslator_ (),
+        /* ClassConstructorBlockTranslator_ (), */
         TokenReplacement_ () .replace_regex (tc.beautifier )
       )
     )

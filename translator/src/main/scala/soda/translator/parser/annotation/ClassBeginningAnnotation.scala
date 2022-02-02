@@ -22,8 +22,14 @@ trait ClassBeginningAnnotation
   lazy val contains_the_equals_symbol: Boolean =
     FunctionDefinitionAnnotation_ (block ) .contains_the_equals_symbol
 
-  lazy val class_name: String =
+  lazy val _get_class_name_and_type_parameters: String =
     skip_first_word (first_readable_line.line )
+
+  lazy val class_name: String =
+    get_first_word (_get_class_name_and_type_parameters )
+
+  lazy val type_parameters: String =
+    skip_first_word (_get_class_name_and_type_parameters )
 
 }
 

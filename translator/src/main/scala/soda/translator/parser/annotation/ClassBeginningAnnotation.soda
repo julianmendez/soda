@@ -23,8 +23,14 @@ class ClassBeginningAnnotation
   contains_the_equals_symbol: Boolean =
     FunctionDefinitionAnnotation_ (block).contains_the_equals_symbol
 
-  class_name: String =
+  _get_class_name_and_type_parameters: String =
     skip_first_word (first_readable_line.line)
+
+  class_name: String =
+    get_first_word (_get_class_name_and_type_parameters)
+
+  type_parameters: String =
+    skip_first_word (_get_class_name_and_type_parameters)
 
 end
 

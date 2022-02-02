@@ -24,6 +24,8 @@ class SodaConstant
 
   class_definition_synonym = "is"
 
+  constructor_suffix = "_"
+
   extends_reserved_word = "extends"
 
   function_definition_symbol = "="

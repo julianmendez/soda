@@ -9,63 +9,71 @@ trait TranslationConstantToScala
     soda.translator.parser.SodaConstant
 {
 
-  lazy val soda_definition: String = "="
+  lazy val soda_definition = "="
 
-  lazy val soda_colon: String = ":"
+  lazy val soda_colon = ":"
 
-  lazy val soda_opening_parenthesis: String = "("
+  lazy val soda_opening_parenthesis = "("
 
-  lazy val soda_opening_brace: String = "{"
+  lazy val soda_opening_brace = "{"
 
-  lazy val scala_3_class_definition: String = ":"
+  lazy val scala_3_class_definition = ":"
 
-  lazy val soda_let_reserved_word: String = "let"
+  lazy val soda_let_reserved_word = "let"
 
-  lazy val soda_let_pattern: String = soda_let_reserved_word + " "
+  lazy val soda_let_pattern = soda_let_reserved_word + " "
 
-  lazy val soda_in_reserved_word: String = "in"
+  lazy val soda_in_reserved_word = "in"
 
-  lazy val soda_in_pattern: String = soda_in_reserved_word + " "
+  lazy val soda_in_pattern = soda_in_reserved_word + " "
 
-  lazy val scala_in_translation: String = " }"
+  lazy val scala_in_translation = " }"
 
-  lazy val soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+  lazy val soda_in_let_pattern = soda_in_reserved_word + " " + soda_let_reserved_word + " "
 
-  lazy val scala_in_let_translation: String = " "
+  lazy val scala_in_let_translation = " "
 
-  lazy val soda_match_reserved_word: String = "match"
+  lazy val soda_match_reserved_word = "match"
 
-  lazy val soda_match_pattern: String = soda_match_reserved_word + " "
+  lazy val soda_match_pattern = soda_match_reserved_word + " "
 
-  lazy val scala_match_translation: String = " match "
+  lazy val scala_match_translation = " match "
 
-  lazy val soda_match_end_reserved_word: String = "end"
+  lazy val soda_match_end_reserved_word = "end"
 
-  lazy val scala_match_end_translation: String = "}"
+  lazy val scala_space = " "
 
-  lazy val scala_opening_brace: String = "{"
+  lazy val scala_comma = ","
 
-  lazy val scala_closing_brace: String = "}"
+  lazy val scala_match_end_translation = "}"
 
-  lazy val scala_class_begin_symbol: String = "{"
+  lazy val scala_opening_parenthesis = "("
 
-  lazy val scala_class_end_symbol: String = "}"
+  lazy val scala_closing_parenthesis = ")"
 
-  lazy val soda_class_reserved_word: String = "class"
+  lazy val scala_opening_brace = "{"
 
-  lazy val scala_abstract_function_declaration: String = "def"
+  lazy val scala_closing_brace = "}"
 
-  lazy val scala_definition: String = "def"
+  lazy val scala_class_begin_symbol = "{"
 
-  lazy val scala_value: String = "lazy val"
+  lazy val scala_class_end_symbol = "}"
 
-  lazy val scala_import_declaration: String = "import"
+  lazy val soda_class_reserved_word = "class"
 
-  lazy val scala_with_translation: String = "with"
+  lazy val scala_abstract_function_declaration = "def"
 
-  lazy val scala_extends_translation: String = "extends"
+  lazy val scala_definition = "def"
 
-  lazy val scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
+  lazy val scala_value = "lazy val"
+
+  lazy val scala_import_declaration = "import"
+
+  lazy val scala_with_translation = "with"
+
+  lazy val scala_extends_translation = "extends"
+
+  lazy val scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
   /**
    * Scala 3 keywords:

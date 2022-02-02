@@ -13,6 +13,9 @@ trait DirectoryProcessor
     AbstractDirectoryProcessor
 {
 
+  def   start: String
+  def   process_soda_file: java.io.File => Boolean
+
   import   java.io.File
 
   lazy val soda_suffix = ".soda"

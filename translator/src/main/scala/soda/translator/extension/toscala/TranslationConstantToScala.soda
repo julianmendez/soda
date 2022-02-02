@@ -8,63 +8,71 @@ class TranslationConstantToScala
   extends
     soda.translator.parser.SodaConstant
 
-  soda_definition: String = "="
+  soda_definition = "="
 
-  soda_colon: String = ":"
+  soda_colon = ":"
 
-  soda_opening_parenthesis: String = "("
+  soda_opening_parenthesis = "("
 
-  soda_opening_brace: String = "{"
+  soda_opening_brace = "{"
 
-  scala_3_class_definition: String = ":"
+  scala_3_class_definition = ":"
 
-  soda_let_reserved_word: String = "let"
+  soda_let_reserved_word = "let"
 
-  soda_let_pattern: String = soda_let_reserved_word + " "
+  soda_let_pattern = soda_let_reserved_word + " "
 
-  soda_in_reserved_word: String = "in"
+  soda_in_reserved_word = "in"
 
-  soda_in_pattern: String = soda_in_reserved_word + " "
+  soda_in_pattern = soda_in_reserved_word + " "
 
-  scala_in_translation: String = " }"
+  scala_in_translation = " }"
 
-  soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+  soda_in_let_pattern = soda_in_reserved_word + " " + soda_let_reserved_word + " "
 
-  scala_in_let_translation: String = " "
+  scala_in_let_translation = " "
 
-  soda_match_reserved_word: String = "match"
+  soda_match_reserved_word = "match"
 
-  soda_match_pattern: String = soda_match_reserved_word + " "
+  soda_match_pattern = soda_match_reserved_word + " "
 
-  scala_match_translation: String = " match "
+  scala_match_translation = " match "
 
-  soda_match_end_reserved_word: String = "end"
+  soda_match_end_reserved_word = "end"
 
-  scala_match_end_translation: String = "}"
+  scala_space = " "
 
-  scala_opening_brace: String = "{"
+  scala_comma = ","
 
-  scala_closing_brace: String = "}"
+  scala_match_end_translation = "}"
 
-  scala_class_begin_symbol: String = "{"
+  scala_opening_parenthesis = "("
 
-  scala_class_end_symbol: String = "}"
+  scala_closing_parenthesis = ")"
 
-  soda_class_reserved_word: String = "class"
+  scala_opening_brace = "{"
 
-  scala_abstract_function_declaration: String = "def"
+  scala_closing_brace = "}"
 
-  scala_definition: String = "def"
+  scala_class_begin_symbol = "{"
 
-  scala_value: String = "lazy val"
+  scala_class_end_symbol = "}"
 
-  scala_import_declaration: String = "import"
+  soda_class_reserved_word = "class"
 
-  scala_with_translation: String = "with"
+  scala_abstract_function_declaration = "def"
 
-  scala_extends_translation: String = "extends"
+  scala_definition = "def"
 
-  scala_entry_point: String = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
+  scala_value = "lazy val"
+
+  scala_import_declaration = "import"
+
+  scala_with_translation = "with"
+
+  scala_extends_translation = "extends"
+
+  scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
 
   /**
    * Scala 3 keywords:

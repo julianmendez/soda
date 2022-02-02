@@ -12,6 +12,10 @@ class DirectoryProcessor
   extends
     AbstractDirectoryProcessor
 
+  abstract
+    start: String
+    process_soda_file: java.io.File -> Boolean
+
   import
     java.io.File
 

@@ -9,6 +9,9 @@ trait CharType
     soda.lib.EnumConstant
 {
 
+  def   ordinal: Int
+  def   name: String
+
 }
 
 case class CharType_ (ordinal: Int, name: String )
