@@ -2,7 +2,7 @@ package soda.collection.example
 
 @main
 
-class MainClass
+class Main
 
   e = ListExample_ ()
 
@@ -39,8 +39,8 @@ class MainClass
 
 end
 
-class Main ()
+class Main_ ()
   extends
-    MainClass
+    Main
 
 end

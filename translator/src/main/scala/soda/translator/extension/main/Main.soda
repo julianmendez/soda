@@ -6,13 +6,7 @@ package soda.translator.extension.main
  * This is the main entry point.
  */
 
-class Main ()
-  extends
-    MainClass
-
-end
-
-class MainClass
+class Main
   extends
     soda.translator.extension.common.Extension
 
@@ -45,6 +39,12 @@ class MainClass
         extensions
           .getOrElse (arguments.head, help)
           .execute (arguments.tail)
+
+end
+
+class Main_ ()
+  extends
+    Main
 
 end
 

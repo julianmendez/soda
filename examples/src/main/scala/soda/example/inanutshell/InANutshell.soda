@@ -139,16 +139,16 @@ class TimeOfToday
 
 end
 
-class MainClass
+class Main
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
 
 end
 
-class Main ()
+class Main_ ()
   extends
-    MainClass
+    Main
 
 end
 

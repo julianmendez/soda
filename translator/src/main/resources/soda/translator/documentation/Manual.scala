@@ -360,17 +360,9 @@ case class Recursion_ ()
 
 }
 
-/* The main class is concrete and it is called `Main ()`. */
-
-case class Main ()
-  extends MainClass
-{
-
-}
-
 /* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 
-trait MainClass
+trait Main
 {
 
   /* An output to the standard output can be sent with a `println` command.
@@ -381,10 +373,18 @@ trait MainClass
 
 }
 
+/* The main class is concrete and it is called `Main_ ()`. */
+
+case class Main_ ()
+  extends Main
+{
+
+}
+
 /* The main class needs to be indicated with the `@main` annotation.
  * Only one main class per package is allowed. */
 
 object EntryPoint {
-  def main (args: Array [String]): Unit = Main ().main (args)
+  def main (args: Array [String]): Unit = Main_ ().main (args)
 }
 

@@ -1,6 +1,6 @@
 package soda.example.algorithms
 
-trait MainClass
+trait Main
 {
 
   def main (arguments: Array [String]  ): Unit =
@@ -8,13 +8,13 @@ trait MainClass
 
 }
 
-case class Main ()
-  extends MainClass
+case class Main_ ()
+  extends Main
 {
 
 }
 
 object EntryPoint {
-  def main (args: Array [String]): Unit = Main ().main (args)
+  def main (args: Array [String]): Unit = Main_ ().main (args)
 }
 

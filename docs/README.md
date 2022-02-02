@@ -76,7 +76,7 @@ Annotations:
 Special names:
 - `_tailrec_` as prefix indicates that the function must be tail recursive
 - `_rec_` as prefix indicates that the function is recursive
-- `Main ()` is the entry point class
+- `Main_ ()` is the entry point class
 
 
 ## Side Effects

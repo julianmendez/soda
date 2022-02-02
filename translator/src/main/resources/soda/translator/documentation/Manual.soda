@@ -343,22 +343,22 @@ class Recursion_ ()
 
 end
 
-/* The main class is concrete and it is called `Main ()`. */
-
-class Main ()
-  extends MainClass
-
-end
-
 /* The main class requires a `main` function that receives an `Array [String]` and returns a `Unit`. */
 
-class MainClass
+class Main
 
   /* An output to the standard output can be sent with a `println` command.
    * This is a shorter form of JVM's `System.out.println`. */
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
+
+end
+
+/* The main class is concrete and it is called `Main_ ()`. */
+
+class Main_ ()
+  extends Main
 
 end
 

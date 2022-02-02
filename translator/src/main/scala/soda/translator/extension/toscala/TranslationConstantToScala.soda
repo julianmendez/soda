@@ -72,7 +72,7 @@ class TranslationConstantToScala
 
   scala_extends_translation = "extends"
 
-  scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main ().main (args)\n}\n"
+  scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   /**
    * Scala 3 keywords:

@@ -3,6 +3,7 @@
   - date: unreleased
   - new_features:
     - does not support the `with` reserved word 
+    - renames the main class to be Main and Main_ for the abstract and concrete classes respectively 
     - changes the syntax of class declarations such that each super class needs its own line and the definition sign (`=`) is not used 
     - includes reserved word `abstract` to define a block of abstract constants and functions
     - makes reserved word `import` define a block of classes to import 

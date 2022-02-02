@@ -146,7 +146,7 @@ trait TimeOfToday
 
 }
 
-trait MainClass
+trait Main
 {
 
   def main (arguments: Array [String]  ): Unit =
@@ -154,9 +154,9 @@ trait MainClass
 
 }
 
-case class Main ()
+case class Main_ ()
   extends
-    MainClass
+    Main
 {
 
 }

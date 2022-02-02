@@ -1,14 +1,14 @@
 package soda.example.algorithms
 
-class MainClass
+class Main
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
 
 end
 
-class Main ()
-  extends MainClass
+class Main_ ()
+  extends Main
 
 end
 

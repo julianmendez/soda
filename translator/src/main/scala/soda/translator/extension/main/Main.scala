@@ -1,7 +1,7 @@
 package soda.translator.extension.main
 
 object EntryPoint {
-  def main (args: Array [String]): Unit = Main ().main (args)
+  def main (args: Array [String]): Unit = Main_ ().main (args)
 }
 
 
@@ -9,14 +9,7 @@ object EntryPoint {
  * This is the main entry point.
  */
 
-case class Main ()
-  extends
-    MainClass
-{
-
-}
-
-trait MainClass
+trait Main
   extends
     soda.translator.extension.common.Extension
 {
@@ -49,5 +42,12 @@ trait MainClass
         extensions
           .getOrElse (arguments.head, help )
           .execute (arguments.tail )
+
+}
+
+case class Main_ ()
+  extends
+    Main
+{
 
 }

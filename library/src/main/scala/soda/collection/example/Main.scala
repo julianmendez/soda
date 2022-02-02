@@ -1,11 +1,11 @@
 package soda.collection.example
 
 object EntryPoint {
-  def main (args: Array [String]): Unit = Main ().main (args)
+  def main (args: Array [String]): Unit = Main_ ().main (args)
 }
 
 
-trait MainClass
+trait Main
 {
 
   lazy val e = ListExample_ ()
@@ -43,9 +43,9 @@ trait MainClass
 
 }
 
-case class Main ()
+case class Main_ ()
   extends
-    MainClass
+    Main
 {
 
 }
