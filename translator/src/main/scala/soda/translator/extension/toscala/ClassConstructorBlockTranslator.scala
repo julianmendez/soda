@@ -68,7 +68,7 @@ trait ClassConstructorBlockTranslator
 
   def _get_type_parameters (references: Seq [AnnotatedBlock] ): String =
     _get_class_beginning (references )
-      .map (block => block.type_parameters )
+      .map (block => _translate_type_symbols (block.type_parameters ) )
       .getOrElse ("")
 
   def _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
@@ -90,7 +90,13 @@ trait ClassConstructorBlockTranslator
         }
       )
       .flatMap (block => block.abstract_items )
-      .map (annotated_line => annotated_line.line )
+      .map (annotated_line =>  _translate_type_symbols (annotated_line.line ) )
+
+  def _translate_type_symbols (line: String ): String =
+    line
+      .replaceAll (sc.subtype_reserved_word, tc.scala_subtype_symbol )
+      .replaceAll (sc.supertype_reserved_word, tc.scala_supertype_symbol )
+      .replaceAll (sc.function_arrow_symbol, tc.scala_function_arrow_symbol )
 
 }
 
