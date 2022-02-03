@@ -78,13 +78,12 @@ Annotations:
 - `@new` to create JVM instances in translations to Scala 2
 - `@tailrec` to ensure a tail recursion
 - `@override` to override a JVM function
-- `@main` to indicate the entry point
 
 Special names:
 
 - `_tailrec_` as prefix indicates that the function is tail recursive
 - `_rec_` as prefix indicates that the function is recursive
-- `Main_ ()` is the entry point class
+- `Main` is the entry point class, and `Main_ ()` its constructor
 
 
 ## Side Effects
@@ -101,7 +100,9 @@ The language does not provide `throw`, `try`, and `catch`, because those command
 
 This language is statically typed. It is possible to define abstract and concrete classes.
 
-An *abstract class* is like a *trait* in Scala. A *concrete class* is like a *case class* in Scala.
+A *class* is like a *trait* in Scala.
+Each class should have a single class constructor.
+The class constructor is implemented with a *concrete class*, which is like a *case class* in Scala.
 
 
 ## Package Declaration and Imports

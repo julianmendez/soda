@@ -1,7 +1,5 @@
 package soda.translator.extension.main
 
-@main
-
 /**
  * This is the main entry point.
  */

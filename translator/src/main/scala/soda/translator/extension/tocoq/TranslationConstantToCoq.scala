@@ -179,8 +179,7 @@ trait TranslationConstantToCoq
       Tuple2 ("package", ""),
       Tuple2 ("import", "Require Import"),
       Tuple2 ("@override", ""),
-      Tuple2 ("@tailrec", ""),
-      Tuple2 ("@main", "")
+      Tuple2 ("@tailrec", "")
     )
 
   lazy val type_translation: Seq [Tuple2 [String, String]] =

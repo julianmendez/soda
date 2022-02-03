@@ -154,6 +154,11 @@ trait Main
 
 }
 
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
+}
+
+
 case class Main_ ()
   extends
     Main

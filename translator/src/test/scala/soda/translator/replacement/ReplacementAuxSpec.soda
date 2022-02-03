@@ -12,7 +12,7 @@ class ReplacementAuxSpec ()
 
   line_2 = " false ,true ,not ,and ,or ,package ,import ,theorem ,proof ,is ,lambda"
 
-  line_3 = "  @new, @tailrec, @override, @main "
+  line_3 = "  @new, @tailrec, @override "
 
   one_word = "lambda"
 
@@ -102,7 +102,7 @@ class ReplacementAuxSpec ()
 
   test ("remove_space_from_scala_line")
     let
-      expected = " @new, @tailrec, @override, @main"
+      expected = " @new, @tailrec, @override"
       obtained = instance.remove_space_from_scala_line (line_3)
     in assert (obtained == expected)
 
@@ -120,7 +120,7 @@ class ReplacementAuxSpec ()
 
   test ("add_after_spaces_or_pattern 3")
     let
-      expected = "  @new, here, @tailrec, @override, @main "
+      expected = "  @new, here, @tailrec, @override "
       obtained = instance.add_after_spaces_or_pattern (line_3, "@new", ", here")
     in assert (obtained == expected)
 

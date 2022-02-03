@@ -1,7 +1,5 @@
 package soda.collection.example
 
-@main
-
 class Main
 
   e = ListExample_ ()

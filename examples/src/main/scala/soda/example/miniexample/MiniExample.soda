@@ -16,8 +16,6 @@ class MiniExample_ ()
 
 end
 
-@main
-
 class Main
 
   main (arguments: Array [String]): Unit =

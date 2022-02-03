@@ -67,6 +67,8 @@ class TranslationConstantToScala
 
   scala_supertype_symbol = ">:"
 
+  soda_main_class_name = "Main"
+
   scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   /**
@@ -222,8 +224,7 @@ class TranslationConstantToScala
       Tuple2 ("proof", "proof"),
       Tuple2 ("@new", "new"),
       Tuple2 ("@override", "override"),
-      Tuple2 ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
-      Tuple2 ("@main", scala_entry_point)
+      Tuple2 ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final")
     )
 
   prefix_scala_non_soda = "__soda__"

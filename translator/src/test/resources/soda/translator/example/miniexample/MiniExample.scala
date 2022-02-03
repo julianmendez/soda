@@ -18,11 +18,6 @@ case class MiniExample_ ()
 
 }
 
-object EntryPoint {
-  def main (args: Array [String]): Unit = Main_ ().main (args)
-}
-
-
 trait Main
 {
 
@@ -30,6 +25,11 @@ trait Main
     MiniExample_ () .run ()
 
 }
+
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
+}
+
 
 case class Main_ ()
   extends

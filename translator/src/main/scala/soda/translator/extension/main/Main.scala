@@ -1,10 +1,5 @@
 package soda.translator.extension.main
 
-object EntryPoint {
-  def main (args: Array [String]): Unit = Main_ ().main (args)
-}
-
-
 /**
  * This is the main entry point.
  */
@@ -44,6 +39,11 @@ trait Main
           .execute (arguments.tail )
 
 }
+
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
+}
+
 
 case class Main_ ()
   extends

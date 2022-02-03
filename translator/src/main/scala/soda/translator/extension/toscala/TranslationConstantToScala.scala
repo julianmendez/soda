@@ -67,6 +67,8 @@ trait TranslationConstantToScala
 
   lazy val scala_supertype_symbol = ">:"
 
+  lazy val soda_main_class_name = "Main"
+
   lazy val scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   /**
@@ -222,8 +224,7 @@ trait TranslationConstantToScala
       Tuple2 ("proof", "proof"),
       Tuple2 ("@new", "new"),
       Tuple2 ("@override", "override"),
-      Tuple2 ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final"),
-      Tuple2 ("@main", scala_entry_point )
+      Tuple2 ("@tailrec", "import scala.annotation.tailrec\n        @tailrec  final")
     )
 
   lazy val prefix_scala_non_soda = "__soda__"

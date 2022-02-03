@@ -1,10 +1,5 @@
 package soda.collection.example
 
-object EntryPoint {
-  def main (args: Array [String]): Unit = Main_ ().main (args)
-}
-
-
 trait Main
 {
 
@@ -42,6 +37,11 @@ trait Main
     println (all_examples )
 
 }
+
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
+}
+
 
 case class Main_ ()
   extends

@@ -13,7 +13,7 @@ case class ReplacementAuxSpec ()
 
   lazy val line_2 = " false ,true ,not ,and ,or ,package ,import ,theorem ,proof ,is ,lambda"
 
-  lazy val line_3 = "  @new, @tailrec, @override, @main "
+  lazy val line_3 = "  @new, @tailrec, @override "
 
   lazy val one_word = "lambda"
 
@@ -103,7 +103,7 @@ case class ReplacementAuxSpec ()
 
   test ("remove_space_from_scala_line")
     {
-      lazy val expected = " @new, @tailrec, @override, @main"
+      lazy val expected = " @new, @tailrec, @override"
       lazy val obtained = instance.remove_space_from_scala_line (line_3 )
       assert (obtained == expected ) }
 
@@ -121,7 +121,7 @@ case class ReplacementAuxSpec ()
 
   test ("add_after_spaces_or_pattern 3")
     {
-      lazy val expected = "  @new, here, @tailrec, @override, @main "
+      lazy val expected = "  @new, here, @tailrec, @override "
       lazy val obtained = instance.add_after_spaces_or_pattern (line_3, "@new", ", here")
       assert (obtained == expected ) }
 
