@@ -140,76 +140,82 @@ class TranslationConstantToCoq
       "Variable"
     )
 
-  synonym_at_beginning: Seq [ Tuple2 [String, String] ] = Seq (
-    ("*", "class"),
-    ("+", "import")
-  )
+  synonym_at_beginning: Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 ("*", "class"),
+      Tuple2 ("+", "import")
+    )
 
-  synonym: Seq [ Tuple2 [String, String] ] = Seq (
-    ("is", ":="),
-    ("def", "")
-  )
+  synonym: Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 ("is", ":="),
+      Tuple2 ("def", "")
+    )
 
-  main_translation: Seq [ Tuple2 [String, String] ] = Seq (
-    (";", "."),
-    (":", ":"),
-    ("->", "->"),
-    ("=", ":="),
-    ("lambda", "fun"),
-    ("if", "if"),
-    ("then", "then"),
-    ("else", "else"),
-    ("let", "let"),
-    ("in", "in"),
-    ("match", "match"),
-    ("case", "|"),
-    ("end", "end"),
-    ("|", "|"),
-    ("false", "false"),
-    ("true", "true"),
-    ("not", "negb"),
-    ("and", "andb"),
-    ("or", "orb"),
-    ("class", "Module Type"),
-    ("has", "Parameter"),
-    ("extends", "<:"),
-    ("package", ""),
-    ("import", "Require Import"),
-    ("@override", ""),
-    ("@tailrec", ""),
-    ("@main", "")
-  )
+  main_translation: Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 (";", "."),
+      Tuple2 (":", ":"),
+      Tuple2 ("->", "->"),
+      Tuple2 ("=", ":="),
+      Tuple2 ("lambda", "fun"),
+      Tuple2 ("if", "if"),
+      Tuple2 ("then", "then"),
+      Tuple2 ("else", "else"),
+      Tuple2 ("let", "let"),
+      Tuple2 ("in", "in"),
+      Tuple2 ("match", "match"),
+      Tuple2 ("case", "|"),
+      Tuple2 ("end", "end"),
+      Tuple2 ("|", "|"),
+      Tuple2 ("false", "false"),
+      Tuple2 ("true", "true"),
+      Tuple2 ("not", "negb"),
+      Tuple2 ("and", "andb"),
+      Tuple2 ("or", "orb"),
+      Tuple2 ("class", "Module Type"),
+      Tuple2 ("has", "Parameter"),
+      Tuple2 ("extends", "<:"),
+      Tuple2 ("package", ""),
+      Tuple2 ("import", "Require Import"),
+      Tuple2 ("@override", ""),
+      Tuple2 ("@tailrec", ""),
+      Tuple2 ("@main", "")
+    )
 
-  type_translation: Seq [ Tuple2 [String, String]  ] = Seq (
-      ("Boolean", "bool"),
-      ("Nat", "nat"),
-      ("Option", "option"),
-      ("List", "list"),
-      ("String", "string"),
-      ("BigInt", "Z")
-  )
+  type_translation: Seq [ Tuple2 [String, String]  ] =
+    Seq (
+        Tuple2 ("Boolean", "bool"),
+        Tuple2 ("Nat", "nat"),
+        Tuple2 ("Option", "option"),
+        Tuple2 ("List", "list"),
+        Tuple2 ("String", "string"),
+        Tuple2 ("BigInt", "Z")
+    )
 
   prefix_coq_non_soda = "__soda__"
 
-  coq_non_soda: Seq [ Tuple2 [String, String] ] =
+  coq_non_soda: Seq [Tuple2 [String, String] ] =
     coq_reserved_words
       .filter (x -> not soda_constant.soda_reserved_words.contains (x))
       .map (x ->  (x, prefix_coq_non_soda + x) )
 
-  soda_brackets_and_comma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
+  soda_brackets_and_comma =
+    Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq [ Tuple2 [String, String] ] = Seq (
-    ("\\.\\s+", "."),
-    ("=\\s+", "= "),
-    ("\\s+=", " ="),
-    ("\\(\\s+", "("),
-    ("\\[\\s+", "["),
-    ("\\s+\\]", "]"),
-    ("\\s+,", ","),
-    (",\\s+", ", "),
-    ("\\s+:", " :"),
-    (":\\s+", ": ")
-  )
+  beautifier: Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 ("\\.\\s+", "."),
+      Tuple2 ("=\\s+", "= "),
+      Tuple2 ("\\s+=", " ="),
+      Tuple2 ("\\(\\s+", "("),
+      Tuple2 ("\\[\\s+", "["),
+      Tuple2 ("\\s+\\]", "]"),
+      Tuple2 ("\\s+,", ","),
+      Tuple2 (",\\s+", ", "),
+      Tuple2 ("\\s+:", " :"),
+      Tuple2 (":\\s+", ": ")
+    )
 
   is_coq_word (word: String): Boolean =
     coq_reserved_words.contains (word)

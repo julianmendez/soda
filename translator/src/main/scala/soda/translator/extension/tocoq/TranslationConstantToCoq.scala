@@ -140,54 +140,58 @@ trait TranslationConstantToCoq
       "Variable"
     )
 
-  lazy val synonym_at_beginning: Seq [Tuple2 [String, String]] = Seq (
-    ("*", "class"),
-    ("+", "import")
-  )
+  lazy val synonym_at_beginning: Seq [Tuple2 [String, String]] =
+    Seq (
+      Tuple2 ("*", "class"),
+      Tuple2 ("+", "import")
+    )
 
-  lazy val synonym: Seq [Tuple2 [String, String]] = Seq (
-    ("is", ":="),
-    ("def", "")
-  )
+  lazy val synonym: Seq [Tuple2 [String, String]] =
+    Seq (
+      Tuple2 ("is", ":="),
+      Tuple2 ("def", "")
+    )
 
-  lazy val main_translation: Seq [Tuple2 [String, String]] = Seq (
-    (";", "."),
-    (":", ":"),
-    ("->", "->"),
-    ("=", ":="),
-    ("lambda", "fun"),
-    ("if", "if"),
-    ("then", "then"),
-    ("else", "else"),
-    ("let", "let"),
-    ("in", "in"),
-    ("match", "match"),
-    ("case", "|"),
-    ("end", "end"),
-    ("|", "|"),
-    ("false", "false"),
-    ("true", "true"),
-    ("not", "negb"),
-    ("and", "andb"),
-    ("or", "orb"),
-    ("class", "Module Type"),
-    ("has", "Parameter"),
-    ("extends", "<:"),
-    ("package", ""),
-    ("import", "Require Import"),
-    ("@override", ""),
-    ("@tailrec", ""),
-    ("@main", "")
-  )
+  lazy val main_translation: Seq [Tuple2 [String, String]] =
+    Seq (
+      Tuple2 (";", "."),
+      Tuple2 (":", ":"),
+      Tuple2 ("->", "->"),
+      Tuple2 ("=", ":="),
+      Tuple2 ("lambda", "fun"),
+      Tuple2 ("if", "if"),
+      Tuple2 ("then", "then"),
+      Tuple2 ("else", "else"),
+      Tuple2 ("let", "let"),
+      Tuple2 ("in", "in"),
+      Tuple2 ("match", "match"),
+      Tuple2 ("case", "|"),
+      Tuple2 ("end", "end"),
+      Tuple2 ("|", "|"),
+      Tuple2 ("false", "false"),
+      Tuple2 ("true", "true"),
+      Tuple2 ("not", "negb"),
+      Tuple2 ("and", "andb"),
+      Tuple2 ("or", "orb"),
+      Tuple2 ("class", "Module Type"),
+      Tuple2 ("has", "Parameter"),
+      Tuple2 ("extends", "<:"),
+      Tuple2 ("package", ""),
+      Tuple2 ("import", "Require Import"),
+      Tuple2 ("@override", ""),
+      Tuple2 ("@tailrec", ""),
+      Tuple2 ("@main", "")
+    )
 
-  lazy val type_translation: Seq [Tuple2 [String, String]] = Seq (
-      ("Boolean", "bool"),
-      ("Nat", "nat"),
-      ("Option", "option"),
-      ("List", "list"),
-      ("String", "string"),
-      ("BigInt", "Z")
-  )
+  lazy val type_translation: Seq [Tuple2 [String, String]] =
+    Seq (
+        Tuple2 ("Boolean", "bool"),
+        Tuple2 ("Nat", "nat"),
+        Tuple2 ("Option", "option"),
+        Tuple2 ("List", "list"),
+        Tuple2 ("String", "string"),
+        Tuple2 ("BigInt", "Z")
+    )
 
   lazy val prefix_coq_non_soda = "__soda__"
 
@@ -196,20 +200,22 @@ trait TranslationConstantToCoq
       .filter (x => ! soda_constant.soda_reserved_words.contains (x )  )
       .map (x =>  (x, prefix_coq_non_soda + x ) )
 
-  lazy val soda_brackets_and_comma = Seq ('(', ')', '[', ']', '{', '}', ',' )
+  lazy val soda_brackets_and_comma =
+    Seq ('(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val beautifier: Seq [Tuple2 [String, String]] = Seq (
-    ("\\.\\s+", "."),
-    ("=\\s+", "= "),
-    ("\\s+=", " ="),
-    ("\\(\\s+", "("),
-    ("\\[\\s+", "["),
-    ("\\s+\\]", "]"),
-    ("\\s+,", ","),
-    (",\\s+", ", "),
-    ("\\s+:", " :"),
-    (":\\s+", ": ")
-  )
+  lazy val beautifier: Seq [Tuple2 [String, String]] =
+    Seq (
+      Tuple2 ("\\.\\s+", "."),
+      Tuple2 ("=\\s+", "= "),
+      Tuple2 ("\\s+=", " ="),
+      Tuple2 ("\\(\\s+", "("),
+      Tuple2 ("\\[\\s+", "["),
+      Tuple2 ("\\s+\\]", "]"),
+      Tuple2 ("\\s+,", ","),
+      Tuple2 (",\\s+", ", "),
+      Tuple2 ("\\s+:", " :"),
+      Tuple2 (":\\s+", ": ")
+    )
 
   def is_coq_word (word: String ): Boolean =
     coq_reserved_words.contains (word )
