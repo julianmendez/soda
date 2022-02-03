@@ -3,7 +3,7 @@ package soda.translator.blocktr
 trait Table
 {
 
-  def   table: Seq [(String, String )]
+  def   table: Seq [Tuple2 [String, String]]
 
 }
 
@@ -13,6 +13,8 @@ trait TableTranslator
     with soda.translator.block.Translator
 {
 
+  def   table: Seq [Tuple2 [String, String]]
+
   lazy val keys = table.map (pair => pair._1 )
 
   lazy val translate: String => String =
@@ -21,7 +23,7 @@ trait TableTranslator
 
 }
 
-case class TableTranslator_ (table: Seq [(String, String )]  )
+case class TableTranslator_ (table: Seq [Tuple2 [String, String]] )
   extends
     TableTranslator
 {

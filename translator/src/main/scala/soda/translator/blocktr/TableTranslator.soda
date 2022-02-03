@@ -3,7 +3,7 @@ package soda.translator.blocktr
 class Table
 
   abstract
-    table: Seq [ (String, String)]
+    table: Seq [Tuple2 [String, String] ]
 
 end
 
@@ -11,6 +11,9 @@ class TableTranslator
   extends
     Table
     soda.translator.block.Translator
+
+  abstract
+    table: Seq [Tuple2 [String, String] ]
 
   keys = table.map (pair -> pair._1)
 
@@ -20,7 +23,7 @@ class TableTranslator
 
 end
 
-class TableTranslator_ (table: Seq[ (String, String)])
+class TableTranslator_ (table: Seq [Tuple2 [String, String] ] )
   extends
     TableTranslator
 

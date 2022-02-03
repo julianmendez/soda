@@ -12,22 +12,22 @@ trait TokenReplacement
         ReplacementAux_ () .add_spaces_to_symbols (token.text, symbols )
     )
 
-  def replace (table: Seq [(String, String )] ): TokenizedBlockTranslator =
+  def replace (table: Seq [Tuple2 [String, String]] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace (token.text )
+        ReplacementWithTranslator_ (TableTranslator_ (table ) ) .replace (token.text )
     )
 
-  def replace_regex (table: Seq [(String, String )] ): TokenizedBlockTranslator =
+  def replace_regex (table: Seq [Tuple2 [String, String]] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace_regex (token.text )
+        ReplacementWithTranslator_ (TableTranslator_ (table ) ) .replace_regex (token.text )
     )
 
-  def replace_at_beginning (table: Seq [(String, String )] ): TokenizedBlockTranslator =
+  def replace_at_beginning (table: Seq [Tuple2 [String, String]] ): TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table )  ) .replace_at_beginning (token.text, token.index )
+        ReplacementWithTranslator_ (TableTranslator_ (table ) ) .replace_at_beginning (token.text, token.index )
     )
 
 }
