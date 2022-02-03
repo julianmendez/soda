@@ -4,6 +4,7 @@
   - new_features:
     - does not support the `with` reserved word
     - renames the main class to be Main and Main_ for the abstract and concrete classes respectively
+    - uses Main class to detect the entry point
     - changes the syntax of class declarations such that each super class needs its own line and the definition sign (`=`) is not used
     - includes reserved word `abstract` to define a block of abstract constants and functions
     - makes reserved word `import` define a block of classes to import
@@ -17,6 +18,7 @@
     - reserved word `has` is replaced by `abstract` block
     - abbreviation `+` is replaced by its long form `import`
     - classes are not defined with braces (`{` and `}`) anymore
+    - annotation `@main` is no longer user
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - release: target/scala-3.1.0/soda-0.14.0.jar
 - - version: v0.13.0
