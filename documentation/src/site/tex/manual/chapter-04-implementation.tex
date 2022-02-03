@@ -102,7 +102,7 @@ class Person (name: String)
 
 The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
 
-\subsubsection{\sodaextends, \sodawith}
+\subsubsection{\sodaextends}
 
 It is possible to declare that a concrete class extends an abstract class using the \sodaextends reserved word.
 Concrete classes are final and cannot be extended.
@@ -127,11 +127,13 @@ class RankedIndividual =
 end
 
 class RankedAgentPerson (name: String, person_rank: Int)
-  extends Agent with RankedIndividual =
+  extends
+    Agent
+    RankedIndividual
 
-    identifier = name
+  identifier = name
 
-    rank = person_rank
+  rank = person_rank
 
 end
 \end{lstlisting}
@@ -143,21 +145,23 @@ For that, the \sodathis reserved word is used.
 
 For example,
 \begin{lstlisting}[label={lst:exampleExtendsElement}]
-class Element =
+class Element
 
   abstract
     accept (v: Visitor): Boolean
 
 end
 
-class Visitor =
+class Visitor
 
   abstract
     visit (x: Element): Boolean
 
 end
 
-class Item (identifier: Int) extends Element =
+class Item (identifier: Int)
+  extends
+    Element
 
   accept (v: Visitor) = v.visit (this)
 
@@ -289,9 +293,9 @@ If a tail recursive function is not properly converted to a loop, it could produ
     _tailrec (n, 0)
 \end{lstlisting}
 
-\subsubsection{\sodamain}
+\subsubsection{Main}
 
-The \sodamain annotation is used to indicate that an entry point is needed.
+The Main class is used to indicate the entry point.
 This is kept to have functions that can be executed from the console.
 
 \begin{lstlisting}[label={lst:exampleMain}]
@@ -316,20 +320,6 @@ This \srccode{main} method can be accessed by invoking a statically accessible \
 
 One of the interesting features of \Soda is the use of synonyms.
 They can be used to shape the code for a particular domain.
-
-The synonyms found only at the beginning of a line are:
-
-\begin{center}
-    \begin{tabular}{|ll|}
-        \hline
-        \textbf{synonym} & \textbf{reserved word} \\
-        \hline
-        \sodaasterisk    & \sodaclass             \\
-        \hline
-        \sodaplus        & \sodaimport            \\
-        \hline
-    \end{tabular}
-\end{center}
 
 The synonyms that can be at any part of a line are:
 

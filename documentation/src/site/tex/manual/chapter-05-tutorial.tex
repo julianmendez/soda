@@ -213,8 +213,6 @@ class Main
 end
 \end{lstlisting}
 
-The \sodamain annotation indicates the entry point of execution.
-
 Another antipattern is overriding functionality.
 It is strongly discouraged, but it is the only way of overriding \srccode{toString}, which is available to all objects.
 
@@ -232,7 +230,4 @@ A tail recursion can be explicitly stated with a \sodatailrec annotation.
 
 This language is meant to be concise, but using a reduced number of symbols.
 However, there are a couple of useful synonyms to write a little less.
-
-The symbol \sodaasterisk can be used instead of \sodaclass, regardless if it is abstract or concrete.
-The symbol \sodaplus can be used instead of \sodaimport.
 

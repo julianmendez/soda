@@ -128,14 +128,12 @@
         </context>
 
         <context id="declaration" style-ref="keyword">
-            <keyword>let</keyword>
-            <keyword>in</keyword>
             <keyword>match</keyword>
             <keyword>case</keyword>
-            <keyword>end</keyword>
             <keyword>class</keyword>
-            <keyword>abstract</keyword>
             <keyword>extends</keyword>
+            <keyword>abstract</keyword>
+            <keyword>end</keyword>
             <keyword>this</keyword>
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>
