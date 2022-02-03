@@ -16,7 +16,7 @@ class ClassEndAnnotation
 
   applies: Boolean =
     block.readable_lines.nonEmpty and
-    ( (block.readable_lines.head.line.trim == SodaConstant_ ().class_end_symbol) or
+    ( (block.readable_lines.head.line.trim == SodaConstant_ ().deprecated_class_end_symbol) or
       (block.readable_lines.head.line.trim == SodaConstant_ ().class_end_reserved_word) )
 
 end

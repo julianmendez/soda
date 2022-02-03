@@ -8,12 +8,17 @@ class MatchCaseBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
     soda.translator.parser.annotation.TestDeclarationAnnotation_
 
+  sc = SodaConstant_ ()
+
   tc = TranslationConstantToScala_ ()
+
+  soda_match_pattern = sc.match_reserved_word + " "
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
@@ -40,23 +45,23 @@ class MatchCaseBlockTranslator
     )
 
   insert_match_before_brace_if_found (line: String): String =
-    if line.trim.startsWith (tc.soda_match_pattern)
-    then _assemble_parts (index := line.indexOf (tc.soda_match_pattern), line)
+    if line.trim.startsWith (soda_match_pattern)
+    then _assemble_parts (index := line.indexOf (soda_match_pattern), line)
     else line
 
   replace_match_end_if_found (line: String): String =
-    if line.trim == tc.soda_match_end_reserved_word
-    then line.replaceAll (tc.soda_match_end_reserved_word, tc.scala_match_end_translation)
+    if line.trim == sc.match_end_reserved_word
+    then line.replaceAll (sc.match_end_reserved_word, tc.scala_match_end_translation)
     else line
 
   _assemble_parts (index: Int, line: String): String =
-    _left_part (index, line) + _right_part (index, line) + tc.scala_match_translation + tc.space + tc.scala_opening_brace
+    _left_part (index, line) + _right_part (index, line) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
 
   _left_part (index: Int, line: String): String =
     line.substring (0, index)
 
   _right_part (index: Int, line: String): String =
-    line.substring (index + tc.soda_match_pattern.length, line.length)
+    line.substring (index + soda_match_pattern.length, line.length)
 
 end
 

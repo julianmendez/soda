@@ -7,10 +7,13 @@ class ClassConstructorBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
+
+  sc = SodaConstant_ ()
 
   tc = TranslationConstantToScala_ ()
 
@@ -44,7 +47,7 @@ class ClassConstructorBlockTranslator
     tc.class_declaration_translation_at_beginning_with_paren +
     tc.scala_space +
     class_name +
-    tc.constructor_suffix +
+    sc.constructor_suffix +
     tc.scala_space +
     type_parameters +
     tc.scala_space +

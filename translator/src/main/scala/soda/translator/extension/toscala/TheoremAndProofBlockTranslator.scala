@@ -33,7 +33,7 @@ trait TheoremAndProofBlockTranslator
     ProofBlockAnnotation_ (_translate_block (block ) )
 
   def _translate_block (block: AnnotatedBlock ): Block =
-    append (tc.comment_close, prepend (tc.comment_open, block ) )
+    append (tc.scala_comment_closing_symbol, prepend (tc.scala_comment_opening_symbol, block ) )
 
   def prepend (prefix: String, block: Block ): Block =
     BlockBuilder_ () .build (

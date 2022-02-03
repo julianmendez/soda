@@ -10,17 +10,18 @@ class ClassDeclarationBlockTranslator
     soda.translator.block.Translator
     soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassAliasAnnotation
     soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.replacement.Replacement_
 
-  soda_opening_parenthesis: String = "("
+  sc = SodaConstant_ ()
 
   tc = TranslationConstantToScala_ ()
 
-  soda_space: String = " "
+  soda_space: String = sc.space
 
   scala_space: String = " "
 
@@ -52,23 +53,23 @@ class ClassDeclarationBlockTranslator
     _process_head_with (get_first_line (block), block)
 
   _process_head_with (line: String, block: Block): Seq [String] =
-    Seq [String] (Replacement_ (soda_space + line).replace_at_beginning (0, get_table_translator (line) ).line.substring (soda_space.length) )
+    Seq [String] (Replacement_ (sc.space + line).replace_at_beginning (0, get_table_translator (line) ).line.substring (sc.space.length) )
 
   _process_tail (block: Block): Seq [String] =
     _process_if_extends (remove_first_line (block) )
 
   _process_if_extends (block: Block): Seq [String] =
-    if (get_first_line (block).trim == tc.extends_reserved_word)
+    if (get_first_line (block).trim == sc.extends_reserved_word)
     then Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
     else block.lines
 
   get_table_translator (line: String): Translator =
     TableTranslator_ (
-      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line) ) )
+      Seq (Tuple2 (sc.class_reserved_word, get_class_declaration_translation (line) ) )
     )
 
   get_class_declaration_translation (line: String): String =
-    if line.contains (soda_opening_parenthesis)
+    if line.contains (sc.opening_parenthesis_symbol)
     then tc.class_declaration_translation_at_beginning_with_paren
     else
       if has_condition_for_type_alias (line)
@@ -99,13 +100,13 @@ class ClassDeclarationBlockTranslator
     block.lines.headOption.getOrElse ("")
 
   ends_with_equals (line: String): Boolean =
-    line.trim.endsWith (tc.soda_definition)
+    line.trim.endsWith (sc.deprecated_class_definition_symbol)
 
   ends_with_opening_brace (line: String): Boolean =
-    line.trim.endsWith (tc.soda_opening_brace)
+    line.trim.endsWith (sc.deprecated_class_beginning_symbol)
 
   contains_equals (line: String): Boolean =
-    line.trim.contains (tc.soda_definition)
+    line.trim.contains (sc.function_definition_symbol)
 
   has_condition_for_type_alias (line: String): Boolean =
     contains_equals (line) and not (ends_with_equals (line) or ends_with_opening_brace (line) )

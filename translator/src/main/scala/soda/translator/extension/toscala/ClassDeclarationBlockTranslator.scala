@@ -10,17 +10,18 @@ trait ClassDeclarationBlockTranslator
   import   soda.translator.block.Translator
   import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassAliasAnnotation
   import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.replacement.Replacement_
 
-  lazy val soda_opening_parenthesis: String = "("
+  lazy val sc = SodaConstant_ ()
 
   lazy val tc = TranslationConstantToScala_ ()
 
-  lazy val soda_space: String = " "
+  lazy val soda_space: String = sc.space
 
   lazy val scala_space: String = " "
 
@@ -52,23 +53,23 @@ trait ClassDeclarationBlockTranslator
     _process_head_with (get_first_line (block ), block )
 
   def _process_head_with (line: String, block: Block ): Seq [String] =
-    Seq [String] (Replacement_ (soda_space + line ) .replace_at_beginning (0, get_table_translator (line ) ) .line.substring (soda_space.length ) )
+    Seq [String] (Replacement_ (sc.space + line ) .replace_at_beginning (0, get_table_translator (line ) ) .line.substring (sc.space.length ) )
 
   def _process_tail (block: Block ): Seq [String] =
     _process_if_extends (remove_first_line (block ) )
 
   def _process_if_extends (block: Block ): Seq [String] =
-    if ((get_first_line (block ) .trim == tc.extends_reserved_word )
+    if ((get_first_line (block ) .trim == sc.extends_reserved_word )
     ) Seq [String] (get_spaces_at_beginning (get_first_line (block ) ) + tc.scala_extends_translation ) ++ _process_after_extends (remove_first_line (block ) )
     else block.lines
 
   def get_table_translator (line: String ): Translator =
     TableTranslator_ (
-      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line ) ) )
+      Seq (Tuple2 (sc.class_reserved_word, get_class_declaration_translation (line ) ) )
     )
 
   def get_class_declaration_translation (line: String ): String =
-    if (line.contains (soda_opening_parenthesis )
+    if (line.contains (sc.opening_parenthesis_symbol )
     ) tc.class_declaration_translation_at_beginning_with_paren
     else
       if (has_condition_for_type_alias (line )
@@ -99,13 +100,13 @@ trait ClassDeclarationBlockTranslator
     block.lines.headOption.getOrElse ("")
 
   def ends_with_equals (line: String ): Boolean =
-    line.trim.endsWith (tc.soda_definition )
+    line.trim.endsWith (sc.deprecated_class_definition_symbol )
 
   def ends_with_opening_brace (line: String ): Boolean =
-    line.trim.endsWith (tc.soda_opening_brace )
+    line.trim.endsWith (sc.deprecated_class_beginning_symbol )
 
   def contains_equals (line: String ): Boolean =
-    line.trim.contains (tc.soda_definition )
+    line.trim.contains (sc.function_definition_symbol )
 
   def has_condition_for_type_alias (line: String ): Boolean =
     contains_equals (line ) && ! (ends_with_equals (line ) || ends_with_opening_brace (line ) )

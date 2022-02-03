@@ -7,10 +7,13 @@ trait ClassConstructorBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
+
+  lazy val sc = SodaConstant_ ()
 
   lazy val tc = TranslationConstantToScala_ ()
 
@@ -44,7 +47,7 @@ trait ClassConstructorBlockTranslator
     tc.class_declaration_translation_at_beginning_with_paren +
     tc.scala_space +
     class_name +
-    tc.constructor_suffix +
+    sc.constructor_suffix +
     tc.scala_space +
     type_parameters +
     tc.scala_space +

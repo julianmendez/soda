@@ -5,40 +5,25 @@ package soda.translator.extension.toscala
  */
 
 class TranslationConstantToScala
-  extends
-    soda.translator.parser.SodaConstant
 
-  soda_definition = "="
+  import
+    soda.translator.parser.SodaConstant_
 
-  soda_colon = ":"
-
-  soda_opening_parenthesis = "("
-
-  soda_opening_brace = "{"
+  soda_constant = SodaConstant_ ()
 
   scala_3_class_definition = ":"
 
-  soda_let_reserved_word = "let"
+  soda_let_pattern = soda_constant.deprecated_let_reserved_word + " "
 
-  soda_let_pattern = soda_let_reserved_word + " "
-
-  soda_in_reserved_word = "in"
-
-  soda_in_pattern = soda_in_reserved_word + " "
+  soda_in_pattern = soda_constant.deprecated_in_reserved_word + " "
 
   scala_in_translation = " }"
 
-  soda_in_let_pattern = soda_in_reserved_word + " " + soda_let_reserved_word + " "
+  soda_in_let_pattern = soda_constant.deprecated_in_reserved_word + " " + soda_constant.deprecated_let_reserved_word + " "
 
   scala_in_let_translation = " "
 
-  soda_match_reserved_word = "match"
-
-  soda_match_pattern = soda_match_reserved_word + " "
-
   scala_match_translation = " match "
-
-  soda_match_end_reserved_word = "end"
 
   scala_space = " "
 
@@ -58,6 +43,10 @@ class TranslationConstantToScala
 
   scala_class_end_symbol = "}"
 
+  scala_comment_opening_symbol = "/*"
+
+  scala_comment_closing_symbol = "*/"
+
   soda_class_reserved_word = "class"
 
   scala_abstract_function_declaration = "def"
@@ -71,6 +60,12 @@ class TranslationConstantToScala
   scala_with_translation = "with"
 
   scala_extends_translation = "extends"
+
+  scala_arrow_symbol = "=>"
+
+  scala_subtype_symbol = "<:"
+
+  scala_supertype_symbol = ">:"
 
   scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
@@ -164,7 +159,7 @@ class TranslationConstantToScala
     "\u2190"
   )
 
-  synonym_at_beginning: Seq [ (String, String)] = Seq (
+  synonym_at_beginning: Seq [ Tuple2 [String, String] ] = Seq (
     ("*", "class"),
     ("+", "import"),
     ("|", "case")
@@ -176,7 +171,7 @@ class TranslationConstantToScala
 
   class_declaration_translation_at_beginning_without_paren = "trait"
 
-  synonym: Seq [ (String, String)] = Seq (
+  synonym: Seq [ Tuple2 [String, String] ] = Seq (
     ("is", "="),
     ("fun", "lambda"),
     ("def", ""),
@@ -184,7 +179,7 @@ class TranslationConstantToScala
     (">:", "supertype")
   )
 
-  main_translation: Seq [ (String, String)] = Seq (
+  main_translation: Seq [ Tuple2 [String, String] ] = Seq (
     (":", ":"),
     ("->", "=>"),
     ("=>", "=>"),
@@ -220,14 +215,14 @@ class TranslationConstantToScala
 
   prefix_scala_non_soda = "__soda__"
 
-  scala_non_soda: Seq [ (String, String)] =
+  scala_non_soda: Seq [ Tuple2 [String, String] ] =
     scala_reserved_words
-      .filter (x -> not soda_reserved_words.contains (x))
+      .filter (x -> not soda_constant.soda_reserved_words.contains (x))
       .map (x ->  (x, prefix_scala_non_soda + x) )
 
   soda_brackets_and_comma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq [ (String, String)] = Seq (
+  beautifier: Seq [ Tuple2 [String, String] ] = Seq (
     ("\\.\\s+", "."),
     ("=\\s+", "= "),
     ("\\s+=", " ="),
@@ -244,7 +239,7 @@ class TranslationConstantToScala
     scala_reserved_words.contains (word)
 
   is_soda_word (word: String): Boolean =
-    soda_reserved_words.contains (word)
+    soda_constant.soda_reserved_words.contains (word)
 
 end
 

@@ -1,58 +1,23 @@
 package soda.translator.extension.tocoq
 
 /**
- * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
+ * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
  */
 
 class TranslationConstantToCoq
-  extends
-    soda.translator.parser.SodaConstant
 
-  soda_definition: String = "="
+  import
+    soda.translator.parser.SodaConstant_
 
-  soda_colon: String = ":"
+  soda_constant = SodaConstant_ ()
 
-  soda_opening_parenthesis: String = "("
+  soda_let_pattern = soda_constant.deprecated_let_reserved_word + " "
 
-  soda_closing_parenthesis: String = ")"
+  soda_in_pattern = soda_constant.deprecated_in_reserved_word + " "
 
-  soda_opening_brace: String = "{"
+  soda_in_let_pattern = soda_constant.deprecated_in_reserved_word + " " + soda_constant.deprecated_let_reserved_word + " "
 
-  soda_closing_brace: String = "}"
-
-  soda_opening_comment: String = "/*"
-
-  soda_closing_comment: String = "*/"
-
-  scala_3_class_definition: String = ":"
-
-  soda_in_reserved_word: String = "in"
-
-  soda_in_pattern: String = soda_in_reserved_word + " "
-
-  soda_let_reserved_word: String = "let"
-
-  soda_let_pattern: String = soda_let_reserved_word + " "
-
-  scala_in_translation: String = " }"
-
-  soda_in_let_pattern: String = soda_in_reserved_word + " " + soda_let_reserved_word + " "
-
-  scala_in_let_translation: String = " "
-
-  soda_match_reserved_word: String = "match"
-
-  soda_match_pattern: String = soda_match_reserved_word + " "
-
-  scala_match_translation: String = " match "
-
-  soda_class_reserved_word: String = "class"
-
-  soda_package_reserved_word: String = "package"
-
-  soda_import_reserved_word: String = "import"
-
-  soda_has_reserved_word: String = "has"
+  coq_space = " "
 
   coq_definition: String = "Definition"
 
@@ -85,11 +50,11 @@ class TranslationConstantToCoq
 
   non_definition_block_prefixes: Seq [String] =
     Seq (
-      soda_package_reserved_word,
-      soda_import_reserved_word,
-      soda_closing_brace,
-      soda_class_reserved_word,
-      soda_opening_comment
+      soda_constant.package_reserved_word,
+      soda_constant.import_reserved_word,
+      soda_constant.class_end_reserved_word,
+      soda_constant.class_reserved_word,
+      soda_constant.comment_opening_symbol
     )
 
   coq_reserved_words =
@@ -175,17 +140,17 @@ class TranslationConstantToCoq
       "Variable"
     )
 
-  synonym_at_beginning: Seq [ (String, String)] = Seq (
+  synonym_at_beginning: Seq [ Tuple2 [String, String] ] = Seq (
     ("*", "class"),
     ("+", "import")
   )
 
-  synonym: Seq [ (String, String)] = Seq (
+  synonym: Seq [ Tuple2 [String, String] ] = Seq (
     ("is", ":="),
     ("def", "")
   )
 
-  main_translation: Seq [ (String, String)] = Seq (
+  main_translation: Seq [ Tuple2 [String, String] ] = Seq (
     (";", "."),
     (":", ":"),
     ("->", "->"),
@@ -215,7 +180,7 @@ class TranslationConstantToCoq
     ("@main", "")
   )
 
-  type_translation: Seq [ (String, String) ] = Seq (
+  type_translation: Seq [ Tuple2 [String, String]  ] = Seq (
       ("Boolean", "bool"),
       ("Nat", "nat"),
       ("Option", "option"),
@@ -226,14 +191,14 @@ class TranslationConstantToCoq
 
   prefix_coq_non_soda = "__soda__"
 
-  coq_non_soda: Seq [ (String, String)] =
+  coq_non_soda: Seq [ Tuple2 [String, String] ] =
     coq_reserved_words
-      .filter (x -> not soda_reserved_words.contains (x))
+      .filter (x -> not soda_constant.soda_reserved_words.contains (x))
       .map (x ->  (x, prefix_coq_non_soda + x) )
 
   soda_brackets_and_comma = Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq [ (String, String)] = Seq (
+  beautifier: Seq [ Tuple2 [String, String] ] = Seq (
     ("\\.\\s+", "."),
     ("=\\s+", "= "),
     ("\\s+=", " ="),
@@ -250,7 +215,7 @@ class TranslationConstantToCoq
     coq_reserved_words.contains (word)
 
   is_soda_word (word: String): Boolean =
-    soda_reserved_words.contains (word)
+    soda_constant.soda_reserved_words.contains (word)
 
 end
 

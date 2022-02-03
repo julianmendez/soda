@@ -15,7 +15,7 @@ trait ClassEndAnnotation
 
   lazy val applies: Boolean =
     block.readable_lines.nonEmpty &&
-    ((block.readable_lines.head.line.trim == SodaConstant_ () .class_end_symbol ) ||
+    ((block.readable_lines.head.line.trim == SodaConstant_ () .deprecated_class_end_symbol ) ||
       (block.readable_lines.head.line.trim == SodaConstant_ () .class_end_reserved_word ) )
 
 }

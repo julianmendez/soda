@@ -8,12 +8,17 @@ trait MatchCaseBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
 
+  lazy val sc = SodaConstant_ ()
+
   lazy val tc = TranslationConstantToCoq_ ()
+
+  lazy val soda_match_pattern = sc.match_reserved_word + " "
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -39,8 +44,8 @@ trait MatchCaseBlockTranslator
     )
 
   def append_with_after_match (line: String ): String =
-    if (line.trim () .startsWith (tc.soda_match_pattern )
-    ) line + tc.space + tc.coq_with_reserved_word
+    if (line.trim () .startsWith (soda_match_pattern )
+    ) line + tc.coq_space + tc.coq_with_reserved_word
     else line
 
 }
