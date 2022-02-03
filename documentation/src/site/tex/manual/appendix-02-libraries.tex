@@ -27,7 +27,7 @@
 
 
 \begin{lstlisting}[label={lst:option}]
-class OptionSD [A] =
+class OptionSD [A]
 
   abstract
     opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
@@ -39,7 +39,8 @@ class OptionSD [A] =
 end
 
 class NoneSD [A]
-  extends OptionSD [A] =
+  extends
+    OptionSD [A]
 
   opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
@@ -54,10 +55,14 @@ class NoneSD [A]
 end
 
 class NoneSD_ [A] ()
-  extends NoneSD [A]
+  extends
+    NoneSD [A]
+
+end
 
 class SomeSD [A]
-  extends OptionSD [A] =
+  extends
+    OptionSD [A]
 
   abstract
     element: A
@@ -77,6 +82,9 @@ class SomeSD [A]
 end
 
 class SomeSD_ [A] (element: A)
-  extends SomeSD [A]
+  extends
+    SomeSD [A]
+
+end
 \end{lstlisting}
 

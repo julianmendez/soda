@@ -295,14 +295,18 @@ The \sodamain annotation is used to indicate that an entry point is needed.
 This is kept to have functions that can be executed from the console.
 
 \begin{lstlisting}[label={lst:exampleMain}]
-class Main_ () =
+class Main
 
   main (args: Array[String]): Unit =
     println ("Hello world!")
 
 end
 
-@main
+class Main_ ()
+  extends
+    Main
+
+end
 \end{lstlisting}
 
 This \srccode{main} method can be accessed by invoking a statically accessible \srccode{main} method in class \srccode{EntryPoint} located in the same package.
@@ -339,30 +343,7 @@ The synonyms that can be at any part of a line are:
     \end{tabular}
 \end{center}
 
-As an example we can see the factorial written first in a concise and then in a verbose manner.
-
-\begin{lstlisting}[label={lst:exampleFactorialConcise}]
-* AbstractFactorialConcise =
-
-  abstract
-    factorial (n: Int): Int
-
-end
-
-* FactorialConcise ()
-  extends AbstractFactorialConcise =
-
-  @tailrec
-  _tailrec (n: Int, product: Int): Int =
-    if n == 0
-    then product
-    else _tailrec (n - 1, n * product)
-
-  factorial (n: Int): Int =
-    _tailrec (n, 1)
-
-end
-\end{lstlisting}
+As an example we can see the factorial.
 
 
 \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
