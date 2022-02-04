@@ -29,6 +29,8 @@ trait TranslationConstantToScala
 
   lazy val scala_comma = ","
 
+  lazy val scala_parameter_separator_symbol = ","
+
   lazy val scala_match_end_translation = "}"
 
   lazy val scala_opening_parenthesis = "("
