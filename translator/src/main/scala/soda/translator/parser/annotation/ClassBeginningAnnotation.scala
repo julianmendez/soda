@@ -25,15 +25,16 @@ trait ClassBeginningAnnotation
   lazy val contains_an_opening_parenthesis: Boolean =
     first_readable_line.line.contains (sc.opening_parenthesis_symbol )
 
-  lazy val _get_class_name_and_type_parameters: String =
+  lazy val class_name_and_type_parameters: String =
     skip_first_word (first_readable_line.line )
 
   lazy val class_name: String =
-    get_first_word (_get_class_name_and_type_parameters )
+    get_first_word (class_name_and_type_parameters )
 
   lazy val type_parameters_and_bounds: Seq [String] =
-    remove_brackets (skip_first_word (_get_class_name_and_type_parameters ) )
+    remove_brackets (skip_first_word (class_name_and_type_parameters ) )
       .split (sc.parameter_separator_symbol )
+      .toIndexedSeq
       .map (parameter => parameter.trim )
 
   lazy val type_parameters: Seq [String] =
