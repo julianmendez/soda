@@ -35,6 +35,7 @@ trait ClassConstructorBlockTranslator
           "",
           _get_constructor_declaration (
             _get_class_name (block.references ),
+            _get_type_parameters_and_bounds (block.references ),
             _get_type_parameters (block.references ),
             _get_abstract_functions (block.references )
           )
@@ -43,13 +44,13 @@ trait ClassConstructorBlockTranslator
       block.references
     )
 
-  def _get_constructor_declaration (class_name: String, type_parameters: String, abstract_functions: Seq [String] ): String =
+  def _get_constructor_declaration (class_name: String, type_parameters_and_bounds: String, type_parameters: String, abstract_functions: Seq [String] ): String =
     tc.class_declaration_translation_at_beginning_with_paren +
     tc.scala_space +
     class_name +
     sc.constructor_suffix +
     tc.scala_space +
-    type_parameters +
+    type_parameters_and_bounds +
     tc.scala_space +
     tc.scala_opening_parenthesis +
     abstract_functions.mkString (tc.scala_comma ) +
@@ -66,10 +67,18 @@ trait ClassConstructorBlockTranslator
       .map (block => block.class_name )
       .getOrElse ("")
 
+  def _get_type_parameters_and_bounds (references: Seq [AnnotatedBlock] ): String =
+    _get_class_beginning (references )
+      .map (block => _translate_type_symbols (_get_as_parameter_list (block.type_parameters ) ) )
+      .getOrElse ("")
+
   def _get_type_parameters (references: Seq [AnnotatedBlock] ): String =
     _get_class_beginning (references )
-      .map (block => _translate_type_symbols (block.type_parameters ) )
+      .map (block => _get_as_parameter_list (block.type_parameters ) )
       .getOrElse ("")
+
+  def _get_as_parameter_list (parameters: Seq [String] ): String =
+    tc.scala_opening_bracket + parameters.mkString (sc.parameter_separator_symbol ) + tc.scala_closing_bracket
 
   def _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
     references

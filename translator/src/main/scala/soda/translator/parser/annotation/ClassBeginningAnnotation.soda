@@ -15,6 +15,12 @@ class ClassBeginningAnnotation
 
   sc = SodaConstant_ ()
 
+  type_separator = ","
+
+  soda_opening_bracket = "["
+
+  soda_closing_bracket = "]"
+
   applies: Boolean =
     (starts_with_prefix_and_space (sc.class_reserved_word) or
       starts_with_prefix_and_space (sc.deprecated_class_abbreviation) ) and
@@ -29,8 +35,23 @@ class ClassBeginningAnnotation
   class_name: String =
     get_first_word (_get_class_name_and_type_parameters)
 
-  type_parameters: String =
-    skip_first_word (_get_class_name_and_type_parameters)
+  type_parameters_and_bounds: Seq [String] =
+    remove_brackets (skip_first_word (_get_class_name_and_type_parameters) )
+      .split (sc.parameter_separator_symbol)
+      .map (parameter -> parameter.trim)
+
+  type_parameters: Seq [String] =
+    type_parameters_and_bounds
+      .map (parameter -> get_first_word (parameter) )
+
+  remove_brackets (text: String): String =
+    remove_brackets_with (text.trim)
+
+  remove_brackets_with (trimmed_text: String): String =
+    if trimmed_text.startsWith (sc.opening_bracket_symbol) and
+      trimmed_text.endsWith (sc.closing_bracket_symbol)
+    then trimmed_text.substring (sc.opening_bracket_symbol.length, trimmed_text.length - sc.closing_bracket_symbol.length)
+    else trimmed_text
 
 end
 

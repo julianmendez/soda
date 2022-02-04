@@ -6,6 +6,7 @@ trait ExampleProgram
   import   soda.translator.block.Block
   import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.BlockProcessor
   import   soda.translator.parser.BlockProcessor_
 
   lazy val example_program =
@@ -48,12 +49,15 @@ trait ExampleProgram
     "\n" +
     "\n")
 
-  lazy val example_blocks: Seq [Block] =
+  lazy val default_block_processor: BlockProcessor =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
         DefaultBlockTranslator_ ()
       )
-    ) .split_blocks (example_program )
+    )
+
+  lazy val example_blocks: Seq [Block] =
+    default_block_processor.split_blocks (example_program )
 
 }
 

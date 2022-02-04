@@ -6,6 +6,7 @@ class ExampleProgram
     soda.translator.block.Block
     soda.translator.block.DefaultBlockTranslator_
     soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor
     soda.translator.parser.BlockProcessor_
 
   example_program =
@@ -48,12 +49,15 @@ class ExampleProgram
     "\n" +
     "\n")
 
-  example_blocks: Seq [Block] =
+  default_block_processor: BlockProcessor =
     BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         DefaultBlockTranslator_ ()
       )
-    ).split_blocks (example_program)
+    )
+
+  example_blocks: Seq [Block] =
+    default_block_processor.split_blocks (example_program)
 
 end
 

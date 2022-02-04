@@ -35,6 +35,10 @@ trait TranslationConstantToScala
 
   lazy val scala_closing_parenthesis = ")"
 
+  lazy val scala_opening_bracket = "["
+
+  lazy val scala_closing_bracket = "]"
+
   lazy val scala_opening_brace = "{"
 
   lazy val scala_closing_brace = "}"

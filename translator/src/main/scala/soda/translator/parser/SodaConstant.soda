@@ -78,6 +78,12 @@ class SodaConstant
 
   closing_parenthesis_symbol = ")"
 
+  opening_bracket_symbol = "["
+
+  closing_bracket_symbol = "]"
+
+  parameter_separator_symbol = ","
+
   addition_symbol = "+"
 
   subtraction_symbol = "-"

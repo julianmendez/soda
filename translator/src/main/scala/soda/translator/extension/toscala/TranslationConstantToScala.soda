@@ -35,6 +35,10 @@ class TranslationConstantToScala
 
   scala_closing_parenthesis = ")"
 
+  scala_opening_bracket = "["
+
+  scala_closing_bracket = "]"
+
   scala_opening_brace = "{"
 
   scala_closing_brace = "}"

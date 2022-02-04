@@ -79,6 +79,12 @@ trait SodaConstant
 
   lazy val closing_parenthesis_symbol = ")"
 
+  lazy val opening_bracket_symbol = "["
+
+  lazy val closing_bracket_symbol = "]"
+
+  lazy val parameter_separator_symbol = ","
+
   lazy val addition_symbol = "+"
 
   lazy val subtraction_symbol = "-"
