@@ -10,52 +10,8 @@ case class BlockAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  lazy val example_program =
-    ("package soda.example.mytest" +
-    "\n" +
-    "\n/**" +
-    "\n * Example class for testing." +
-    "\n */" +
-    "\n" +
-    "\nclass Example" +
-    "\n  extends" +
-    "\n    SuperClassExample" +
-    "\n" +
-    "\n  abstract" +
-    "\n    value: Int" +
-    "\n" +
-    "\n  import" +
-    "\n    soda.lib.Recursion_" +
-    "\n    soda.lib.Enum" +
-    "\n" +
-    "\n  my_constant: Int = 0" +
-    "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
-    "\n    x + y" +
-    "\n" +
-    "\n  test (\"should test the example\")" +
-    "\n    let" +
-    "\n      result = true" +
-    "\n    in assert (result)" +
-    "\n" +
-    "\n  theorem" +
-    "\n    True" +
-    "\n" +
-    "\n  proof" +
-    "\n    auto." +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\nclass AnotherExample = Example" +
-    "\n" +
-    "\n")
-
-  lazy val example_blocks: Seq [Block] =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        DefaultBlockTranslator_ ()
-      )
-    ) .split_blocks (example_program )
+  lazy val example_blocks =
+    ExampleProgram_ () .example_blocks
 
   def detectors (block: Block ): Seq [BlockAnnotationParser] =
     Seq (
