@@ -37,6 +37,7 @@ class ClassBeginningAnnotation
       .split (sc.parameter_separator_symbol)
       .toIndexedSeq
       .map (parameter -> parameter.trim)
+      .filter (parameter -> not parameter.isEmpty)
 
   type_parameters: Seq [String] =
     type_parameters_and_bounds

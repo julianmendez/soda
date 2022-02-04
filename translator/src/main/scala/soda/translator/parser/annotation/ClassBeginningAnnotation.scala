@@ -36,6 +36,7 @@ trait ClassBeginningAnnotation
       .split (sc.parameter_separator_symbol )
       .toIndexedSeq
       .map (parameter => parameter.trim )
+      .filter (parameter => ! parameter.isEmpty )
 
   lazy val type_parameters: Seq [String] =
     type_parameters_and_bounds

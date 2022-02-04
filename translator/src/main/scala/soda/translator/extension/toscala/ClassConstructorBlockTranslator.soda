@@ -58,7 +58,6 @@ class ClassConstructorBlockTranslator
     tc.scala_space +
     beginning.class_name +
     sc.constructor_suffix +
-    tc.scala_space +
     _translate_type_symbols (_get_as_parameter_list (beginning.type_parameters_and_bounds) ) +
     tc.scala_space +
     tc.scala_opening_parenthesis +
@@ -68,11 +67,12 @@ class ClassConstructorBlockTranslator
     tc.scala_extends_translation +
     tc.scala_space +
     beginning.class_name +
-    tc.scala_space +
     _get_as_parameter_list (beginning.type_parameters)
 
   _get_as_parameter_list (parameters: Seq [String] ): String =
-    tc.scala_opening_bracket + parameters.mkString (tc.scala_parameter_separator_symbol + tc.scala_space) + tc.scala_closing_bracket
+    if parameters.isEmpty
+    then ""
+    else tc.scala_space + tc.scala_opening_bracket + parameters.mkString (tc.scala_parameter_separator_symbol + tc.scala_space) + tc.scala_closing_bracket
 
   _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
     references

@@ -71,6 +71,19 @@ class ClassBeginningAnnotationSpec ()
       expected = "Example"
     in assert (obtained == expected)
 
+  test ("should extract the type parameters and bounds in example 0")
+    let
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
+      expected = Seq [String] ()
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 0")
+    let
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters
+      expected = Seq [String] ()
+    in assert (obtained == expected)
+
+
   test ("should extract the class name in example 1")
     let
       obtained = ClassBeginningAnnotation_ (example_1).class_name

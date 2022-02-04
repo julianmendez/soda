@@ -71,6 +71,18 @@ case class ClassBeginningAnnotationSpec ()
       lazy val expected = "Example"
       assert (obtained == expected ) }
 
+  test ("should extract the type parameters and bounds in example 0")
+    {
+      lazy val obtained = ClassBeginningAnnotation_ (example_0 ) .type_parameters_and_bounds
+      lazy val expected = Seq [String] ()
+      assert (obtained == expected ) }
+
+  test ("should extract the type parameters in example 0")
+    {
+      lazy val obtained = ClassBeginningAnnotation_ (example_0 ) .type_parameters
+      lazy val expected = Seq [String] ()
+      assert (obtained == expected ) }
+
   test ("should extract the class name in example 1")
     {
       lazy val obtained = ClassBeginningAnnotation_ (example_1 ) .class_name
