@@ -169,6 +169,8 @@ trait NonEmptySortedSequence [A <: Comparable [A]]
     SortedSequenceWithElements [A]
 {
 
+  def   sequence: Seq [A]
+
   lazy val aux = NonEmptySortedSequenceAux_ [A] ()
 
   lazy val add: A => SortedSequence [A] =

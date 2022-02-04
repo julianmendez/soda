@@ -160,6 +160,9 @@ class NonEmptySortedSequence [A subtype Comparable [A]]
   extends
     SortedSequenceWithElements [A]
 
+  abstract
+    sequence: Seq [A]
+
   aux = NonEmptySortedSequenceAux_ [A] ()
 
   add : A -> SortedSequence [A] =

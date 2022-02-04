@@ -51,6 +51,9 @@ class Memoizer [A, B]
     MemoizableFunction [A, B]
     MainFunction [A, B]
 
+  abstract
+    main_function: InputPair [A, B] -> OutputPair [A, B]
+
   abs_compute: InputPair [A, B] -> OutputPair [A, B] =
     lambda input ->
       compute_for (input)

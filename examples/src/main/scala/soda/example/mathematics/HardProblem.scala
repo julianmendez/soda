@@ -54,6 +54,8 @@ trait Memoizer [A, B]
     with MainFunction [A, B]
 {
 
+  def   main_function: InputPair [A, B] => OutputPair [A, B]
+
   lazy val abs_compute: InputPair [A, B] => OutputPair [A, B] =
      input =>
       compute_for (input )

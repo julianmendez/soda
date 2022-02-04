@@ -69,6 +69,9 @@ trait NESeq [T]
     NEMSeq [T]
 {
 
+  def   head0: T
+  def   tail0: MSeq [T]
+
   lazy val isEmpty = false
 
   lazy val head: T = head0

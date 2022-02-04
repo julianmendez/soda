@@ -53,10 +53,8 @@ case class BlockBuilder_ ()
 trait PreprocessorFoldTuple
 {
 
-  import   soda.translator.block.AnnotatedLine
-
   def   comment_state: Boolean
-  def   annotated_lines_rev: Seq [AnnotatedLine]
+  def   annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]
 
 }
 

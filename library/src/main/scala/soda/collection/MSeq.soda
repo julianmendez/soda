@@ -63,6 +63,10 @@ class NESeq [T]
   extends
     NEMSeq [T]
 
+  abstract
+    head0: T
+    tail0: MSeq [T]
+
   isEmpty = false
 
   head: T = head0

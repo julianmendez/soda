@@ -52,12 +52,9 @@ end
 
 class PreprocessorFoldTuple
 
-  import
-    soda.translator.block.AnnotatedLine
-
   abstract
     comment_state: Boolean
-    annotated_lines_rev: Seq [AnnotatedLine]
+    annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]
 
 end
 
