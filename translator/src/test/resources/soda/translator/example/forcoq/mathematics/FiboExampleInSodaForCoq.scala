@@ -21,9 +21,4 @@ trait FiboExampleInSodaForCoq
 
 }
 
-case class FiboExampleInSodaForCoq_ ()
-  extends
-    FiboExampleInSodaForCoq
-{
-
-}
+case class FiboExampleInSodaForCoq_ () extends FiboExampleInSodaForCoq

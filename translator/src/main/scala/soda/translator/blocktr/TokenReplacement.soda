@@ -32,9 +32,4 @@ class TokenReplacement
 
 end
 
-class TokenReplacement_ ()
-  extends
-    TokenReplacement
-
-end
 

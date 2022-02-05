@@ -16,9 +16,3 @@ class SaladMaker
 
 end
 
-class SaladMaker_()
-  extends
-    SaladMaker
-
-end
-

@@ -20,9 +20,4 @@ trait TriangularNumberForCoq
 
 }
 
-case class TriangularNumberForCoq_ ()
-  extends
-    TriangularNumberForCoq
-{
-
-}
+case class TriangularNumberForCoq_ () extends TriangularNumberForCoq

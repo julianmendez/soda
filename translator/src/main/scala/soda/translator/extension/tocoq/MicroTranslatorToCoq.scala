@@ -45,9 +45,4 @@ trait MicroTranslatorToCoq
 
 }
 
-case class MicroTranslatorToCoq_ ()
-  extends
-    MicroTranslatorToCoq
-{
-
-}
+case class MicroTranslatorToCoq_ () extends MicroTranslatorToCoq

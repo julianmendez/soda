@@ -32,8 +32,3 @@ class ClassEndBlockTranslator
 
 end
 
-class ClassEndBlockTranslator_ ()
-  extends
-    ClassEndBlockTranslator
-
-end

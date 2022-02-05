@@ -52,9 +52,4 @@ trait BlockProcessor
 
 }
 
-case class BlockProcessor_ (translator: soda.translator.block.BlockSequenceTranslator )
-  extends
-    BlockProcessor
-{
-
-}
+case class BlockProcessor_ (translator: soda.translator.block.BlockSequenceTranslator) extends BlockProcessor

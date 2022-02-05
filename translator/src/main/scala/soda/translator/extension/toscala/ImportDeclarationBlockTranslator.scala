@@ -58,9 +58,4 @@ trait ImportDeclarationBlockTranslator
 
 }
 
-case class ImportDeclarationBlockTranslator_ ()
-  extends
-    ImportDeclarationBlockTranslator
-{
-
-}
+case class ImportDeclarationBlockTranslator_ () extends ImportDeclarationBlockTranslator

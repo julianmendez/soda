@@ -14,12 +14,7 @@ trait CharType
 
 }
 
-case class CharType_ (ordinal: Int, name: String )
-  extends
-    CharType
-{
-
-}
+case class CharType_ (ordinal: Int, name: String) extends CharType
 
 /**
  * This is an enumeration for all types of characters.
@@ -79,9 +74,4 @@ trait CharTypeEnum
 
 }
 
-case class CharTypeEnum_ ()
-  extends
-    CharTypeEnum
-{
-
-}
+case class CharTypeEnum_ () extends CharTypeEnum

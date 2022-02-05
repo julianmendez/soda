@@ -29,9 +29,3 @@ class MyPair [A, B]
 
 end
 
-class MyPair_ [A, B] (key: A, value: B)
-  extends
-    MyPair [A, B]
-
-end
-

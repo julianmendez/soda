@@ -43,12 +43,7 @@ trait BlockBuilder
 
 }
 
-case class BlockBuilder_ ()
-  extends
-    BlockBuilder
-{
-
-}
+case class BlockBuilder_ () extends BlockBuilder
 
 trait PreprocessorFoldTuple
 {
@@ -58,12 +53,7 @@ trait PreprocessorFoldTuple
 
 }
 
-case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]  )
-  extends
-    PreprocessorFoldTuple
-{
-
-}
+case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]) extends PreprocessorFoldTuple
 
 trait CurrentAndNewCommentState
 {
@@ -73,9 +63,4 @@ trait CurrentAndNewCommentState
 
 }
 
-case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean )
-  extends
-    CurrentAndNewCommentState
-{
-
-}
+case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean) extends CurrentAndNewCommentState

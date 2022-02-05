@@ -265,9 +265,4 @@ trait TranslationConstantToScala
 
 }
 
-case class TranslationConstantToScala_ ()
-  extends
-    TranslationConstantToScala
-{
-
-}
+case class TranslationConstantToScala_ () extends TranslationConstantToScala

@@ -7,12 +7,7 @@ trait Applicant
 
 }
 
-case class Applicant_ (background_score: Double )
-  extends
-    Applicant
-{
-
-}
+case class Applicant_ (background_score: Double) extends Applicant
 
 trait AbstractFairness
 {
@@ -22,6 +17,8 @@ trait AbstractFairness
   def   rank: Applicant => Double
 
 }
+
+case class AbstractFairness_ (score_difference_tolerance: Double, ranking_difference_tolerance: Double, rank: Applicant => Double) extends AbstractFairness
 
 trait Fairness
   extends
@@ -48,9 +45,4 @@ trait Fairness
 
 }
 
-case class Fairness_ (score_difference_tolerance: Double, ranking_difference_tolerance: Double, rank: Applicant => Double )
-  extends
-    Fairness
-{
-
-}
+case class Fairness_ (score_difference_tolerance: Double, ranking_difference_tolerance: Double, rank: Applicant => Double) extends Fairness

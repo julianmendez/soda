@@ -19,9 +19,4 @@ trait BlockTranslatorPipeline
 
 }
 
-case class BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator]  )
-  extends
-    BlockTranslatorPipeline
-{
-
-}
+case class BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator]) extends BlockTranslatorPipeline

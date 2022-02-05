@@ -10,12 +10,6 @@ class SaladIngredient
 
 end
 
-class SaladIngredient_ (ordinal: Int, name: String)
-  extends
-    SaladIngredient
-
-end
-
 class SaladIngredientConstant
 
   tomato = SaladIngredient_ (1, "tomato")

@@ -8,12 +8,6 @@ class Customer
 
 end
 
-class Customer_ (name: String, ip_address: String)
-  extends
-    Customer
-
-end
-
 class PricingAgent
 
   import
@@ -39,12 +33,6 @@ class Flight
     start_airport: String
     intermediate_airports: Seq [String]
     end_airport: String
-
-end
-
-class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String)
-  extends
-    Flight
 
 end
 

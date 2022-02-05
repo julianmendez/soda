@@ -59,9 +59,4 @@ trait AbstractDeclarationBlockTranslator
 
 }
 
-case class AbstractDeclarationBlockTranslator_ ()
-  extends
-    AbstractDeclarationBlockTranslator
-{
-
-}
+case class AbstractDeclarationBlockTranslator_ () extends AbstractDeclarationBlockTranslator

@@ -8,12 +8,6 @@ class PairExample
 
 end
 
-class PairExample_ (left: Int, right: Int)
-  extends
-    PairExample
-
-end
-
 class SwapExample
 
   left (pair: PairExample): Int =

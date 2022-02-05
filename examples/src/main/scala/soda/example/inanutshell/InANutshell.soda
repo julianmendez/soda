@@ -51,22 +51,11 @@ class MaxAndMin
 
 end
 
-class MaxAndMin_ ()
-  extends
-    MaxAndMin
-
-end
-
 class MinMaxPair
 
   abstract
     min: Int
     max: Int
-
-end
-
-class MinMaxPair_ (min: Int, max: Int)
-  extends MinMaxPair
 
 end
 
@@ -88,12 +77,6 @@ class Example
       min := MaxAndMin_ ().min (a) (b),
       max := MaxAndMin_ ().max (a) (b)
     )
-
-end
-
-class Example_ (index: Int)
-  extends
-    Example
 
 end
 
@@ -124,6 +107,9 @@ class MyClass
   extends
     WithInstance
 
+  abstract
+    instance_parameter: Int
+
   class_constant: Int = 1
 
   another_function (x: Int): Int = 2 * x
@@ -143,12 +129,6 @@ class Main
 
   main (arguments: Array [String]): Unit =
     println ("Hello world!")
-
-end
-
-class Main_ ()
-  extends
-    Main
 
 end
 

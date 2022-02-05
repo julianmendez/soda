@@ -8,12 +8,7 @@ trait Customer
 
 }
 
-case class Customer_ (name: String, ip_address: String )
-  extends
-    Customer
-{
-
-}
+case class Customer_ (name: String, ip_address: String) extends Customer
 
 trait PricingAgent
 {
@@ -33,6 +28,8 @@ trait PricingAgent
 
 }
 
+case class PricingAgent_ (abs_get_price: Customer => Flight => Int => Int) extends PricingAgent
+
 trait Flight
 {
 
@@ -42,12 +39,7 @@ trait Flight
 
 }
 
-case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String )
-  extends
-    Flight
-{
-
-}
+case class Flight_ (start_airport: String, intermediate_airports: Seq [String], end_airport: String) extends Flight
 
 trait RequirementMonitor
 {
@@ -58,3 +50,5 @@ trait RequirementMonitor
     pricing_agent.get_price (customer, flight, date_in_days )
 
 }
+
+case class RequirementMonitor_ (pricing_agent: PricingAgent) extends RequirementMonitor

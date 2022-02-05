@@ -7,12 +7,6 @@ class Applicant
 
 end
 
-class Applicant_ (background_score: Double)
-  extends
-    Applicant
-
-end
-
 class AbstractFairness
 
   abstract
@@ -47,8 +41,3 @@ class Fairness
 
 end
 
-class Fairness_ (score_difference_tolerance: Double, ranking_difference_tolerance: Double, rank: Applicant -> Double)
-  extends
-    Fairness
-
-end

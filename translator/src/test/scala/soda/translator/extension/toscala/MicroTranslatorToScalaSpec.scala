@@ -47,7 +47,7 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate classes")
     {
       lazy val original =
-        "* A" +
+        "class A" +
         "\n" +
         "\n  f(x: Int): Int = x + 1" +
         "\n" +
@@ -75,7 +75,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\nend" +
         "\n" +
-        "\n* B[T]" +
+        "\nclass B [T]" +
         "\n" +
         "\n  i(x: T): T = x" +
         "\n" +
@@ -89,12 +89,16 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
+        "\ncase class A_ () extends A" +
+        "\n" +
         "\ntrait B" +
         "\n{" +
         "\n" +
         "\n  def g (x: Int ): Int = 2 * x" +
         "\n" +
         "\n}" +
+        "\n" +
+        "\ncase class B_ () extends B" +
         "\n" +
         "\ncase class C ()" +
         "\n  extends" +
@@ -118,6 +122,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n  def i (x: T ): T = x" +
         "\n" +
         "\n}" +
+        "\n" +
+        "\ncase class B_ [T] () extends B [T]" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }

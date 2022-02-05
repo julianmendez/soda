@@ -47,9 +47,4 @@ trait TheoremAndProofBlockTranslator
 
 }
 
-case class TheoremAndProofBlockTranslator_ ()
-  extends
-    TheoremAndProofBlockTranslator
-{
-
-}
+case class TheoremAndProofBlockTranslator_ () extends TheoremAndProofBlockTranslator

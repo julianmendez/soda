@@ -21,9 +21,4 @@ trait FactorialPatternMatching
 
 }
 
-case class FactorialPatternMatching_ ()
-  extends
-    FactorialPatternMatching
-{
-
-}
+case class FactorialPatternMatching_ () extends FactorialPatternMatching

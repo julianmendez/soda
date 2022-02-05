@@ -29,23 +29,11 @@ class MSeqRec [T]
 
 end
 
-class MSeqRec_ [T] ()
-  extends
-    MSeqRec [T]
-
-end
-
 class ESeq [T]
   extends
     MSeq [T]
 
   isEmpty = true
-
-end
-
-class ESeq_ [T] ()
-  extends
-    ESeq [T]
 
 end
 
@@ -57,6 +45,8 @@ class NEMSeq [T]
     head0: T
     tail0: MSeq [T]
 
+  isEmpty = false
+
 end
 
 class NESeq [T]
@@ -67,17 +57,9 @@ class NESeq [T]
     head0: T
     tail0: MSeq [T]
 
-  isEmpty = false
-
   head: T = head0
 
   tail: MSeq [T] = tail0
-
-end
-
-class NESeq_ [T] (head0: T, tail0: MSeq [T])
-  extends
-    NESeq [T]
 
 end
 

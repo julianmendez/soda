@@ -20,12 +20,7 @@ trait BlockTranslator00
 
 }
 
-case class BlockTranslator00_ ()
-  extends
-    BlockTranslator00
-{
-
-}
+case class BlockTranslator00_ () extends BlockTranslator00
 
 trait BlockTranslator01
   extends
@@ -47,12 +42,7 @@ trait BlockTranslator01
 
 }
 
-case class BlockTranslator01_ ()
-  extends
-    BlockTranslator01
-{
-
-}
+case class BlockTranslator01_ () extends BlockTranslator01
 
 trait BlockTranslator02
   extends
@@ -74,12 +64,7 @@ trait BlockTranslator02
 
 }
 
-case class BlockTranslator02_ ()
-  extends
-    BlockTranslator02
-{
-
-}
+case class BlockTranslator02_ () extends BlockTranslator02
 
 case class BlockTranslatorPipelineSpec ()
   extends

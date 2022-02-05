@@ -49,16 +49,11 @@ class MicroTranslatorToScala
         AbstractDeclarationBlockTranslator_ (),
         TheoremAndProofBlockTranslator_ (),
         ClassEndBlockTranslator_ (),
-        /* ClassConstructorBlockTranslator_ (), */
         MainClassBlockTranslator_ (),
+        ClassConstructorBlockTranslator_ (),
         TokenReplacement_ ().replace_regex (tc.beautifier)
       )
     )
 
 end
 
-class MicroTranslatorToScala_ ()
-  extends
-    MicroTranslatorToScala
-
-end

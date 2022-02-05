@@ -9,11 +9,7 @@ trait Report3
 
 }
 
-case class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int )
-  extends Report3
-{
-
-}
+case class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int) extends Report3
 
 trait Requirement3Monitor
   extends
@@ -42,12 +38,7 @@ trait Requirement3Monitor
 
 }
 
-case class Requirement3Monitor_ (pricing_agent: PricingAgent )
-  extends
-    Requirement3Monitor
-{
-
-}
+case class Requirement3Monitor_ (pricing_agent: PricingAgent) extends Requirement3Monitor
 
 trait Segment
   extends
@@ -61,12 +52,7 @@ trait Segment
 
 }
 
-case class Segment_ (start_airport: String, end_airport: String )
-  extends
-    Segment
-{
-
-}
+case class Segment_ (start_airport: String, end_airport: String) extends Segment
 
 trait SegmentsForFlight
 {
@@ -84,9 +70,4 @@ trait SegmentsForFlight
 
 }
 
-case class SegmentsForFlight_ (flight: Flight )
-  extends
-    SegmentsForFlight
-{
-
-}
+case class SegmentsForFlight_ (flight: Flight) extends SegmentsForFlight

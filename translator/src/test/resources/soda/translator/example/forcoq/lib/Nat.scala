@@ -8,6 +8,8 @@ trait nat
 
 }
 
+case class nat_ (add: nat => nat, mul: nat => nat) extends nat
+
 trait O
   extends
     nat
@@ -27,11 +29,7 @@ trait O
 
 }
 
-case class O_ ()
-  extends O
-{
-
-}
+case class O_ () extends O
 
 trait S
   extends
@@ -56,11 +54,7 @@ trait S
 
 }
 
-case class S_ (k: nat )
-  extends S
-{
-
-}
+case class S_ (k: nat) extends S
 
 trait IntNat
 {
@@ -92,9 +86,4 @@ trait IntNat
 
 }
 
-case class IntNat_ ()
-  extends
-    IntNat
-{
-
-}
+case class IntNat_ () extends IntNat

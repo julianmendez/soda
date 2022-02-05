@@ -11,9 +11,4 @@ trait FactorialWithFold
 
 }
 
-case class FactorialWithFold_ ()
-  extends
-    FactorialWithFold
-{
-
-}
+case class FactorialWithFold_ () extends FactorialWithFold

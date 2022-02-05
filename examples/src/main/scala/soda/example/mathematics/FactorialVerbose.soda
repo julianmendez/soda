@@ -25,9 +25,3 @@ class FactorialVerbose
 
 end
 
-class FactorialVerbose_ ()
-  extends
-    FactorialVerbose
-
-end
-

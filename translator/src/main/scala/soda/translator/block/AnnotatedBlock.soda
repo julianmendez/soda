@@ -10,8 +10,3 @@ class AnnotatedBlock
 
 end
 
-class AnnotatedBlock_ (annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId)
-  extends
-    AnnotatedBlock
-
-end

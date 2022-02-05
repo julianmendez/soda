@@ -10,12 +10,6 @@ class BlockAnnotationId
 
 end
 
-class BlockAnnotationId_ (ordinal: Int, name: String)
-  extends
-    BlockAnnotationId
-
-end
-
 class BlockAnnotationEnum
   extends
     soda.lib.Enum [BlockAnnotationId]
@@ -59,11 +53,5 @@ class BlockAnnotationEnum
       comment,
       test_declaration
     )
-
-end
-
-class BlockAnnotationEnum_ ()
-  extends
-    BlockAnnotationEnum
 
 end

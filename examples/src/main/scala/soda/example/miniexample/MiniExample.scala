@@ -11,12 +11,7 @@ trait MiniExample
 
 }
 
-case class MiniExample_ ()
-  extends
-    MiniExample
-{
-
-}
+case class MiniExample_ () extends MiniExample
 
 trait Main
 {
@@ -31,9 +26,4 @@ object EntryPoint {
 }
 
 
-case class Main_ ()
-  extends
-    Main
-{
-
-}
+case class Main_ () extends Main

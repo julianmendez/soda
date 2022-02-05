@@ -9,11 +9,7 @@ trait Report2
 
 }
 
-case class Report2_ (compliant: Boolean, old_price: Int, new_price: Int )
-  extends Report2
-{
-
-}
+case class Report2_ (compliant: Boolean, old_price: Int, new_price: Int) extends Report2
 
 trait Requirement2Monitor
   extends
@@ -38,9 +34,4 @@ trait Requirement2Monitor
 
 }
 
-case class Requirement2Monitor_ (pricing_agent: PricingAgent )
-  extends
-    Requirement2Monitor
-{
-
-}
+case class Requirement2Monitor_ (pricing_agent: PricingAgent) extends Requirement2Monitor

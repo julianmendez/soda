@@ -130,9 +130,4 @@ trait DefinitionLineTranslator
 
 }
 
-case class DefinitionLineTranslator_ (line: String )
-  extends
-    DefinitionLineTranslator
-{
-
-}
+case class DefinitionLineTranslator_ (line: String) extends DefinitionLineTranslator

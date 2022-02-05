@@ -32,9 +32,6 @@ trait TokenReplacement
 
 }
 
-case class TokenReplacement_ ()
-  extends
-    TokenReplacement
-{
+case class TokenReplacement_ () extends TokenReplacement
 
-}
+

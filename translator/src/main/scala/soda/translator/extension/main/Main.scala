@@ -45,9 +45,4 @@ object EntryPoint {
 }
 
 
-case class Main_ ()
-  extends
-    Main
-{
-
-}
+case class Main_ () extends Main

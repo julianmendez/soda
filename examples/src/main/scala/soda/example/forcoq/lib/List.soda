@@ -10,12 +10,6 @@ class nil [A]
 
 end
 
-class nil_ [A] ()
-  extends
-    nil [A]
-
-end
-
 class cons [A]
   extends
     list [A]
@@ -23,12 +17,6 @@ class cons [A]
   abstract
     e: A
     s: list [A]
-
-end
-
-class cons_ [A] (e: A, s: list [A])
-  extends
-    cons [A]
 
 end
 
@@ -66,8 +54,3 @@ class SeqList
 
 end
 
-class SeqList_ ()
-  extends
-    SeqList
-
-end

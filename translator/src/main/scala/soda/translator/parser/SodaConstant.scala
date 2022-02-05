@@ -170,9 +170,4 @@ trait SodaConstant
 
 }
 
-case class SodaConstant_ ()
-  extends
-    SodaConstant
-{
-
-}
+case class SodaConstant_ () extends SodaConstant

@@ -32,12 +32,6 @@ class EmptySeqSD [A]
 
 end
 
-class EmptySeqSD_ [A] ()
-  extends
-    EmptySeqSD [A]
-
-end
-
 class NonEmptySeqSD [A]
   extends
     SeqSD [A]
@@ -53,23 +47,11 @@ class NonEmptySeqSD [A]
 
 end
 
-class NonEmptySeqSD_ [A] (toSeq: Seq [A])
-  extends
-    NonEmptySeqSD [A]
-
-end
-
 class SeqSDBuilder [A]
 
   build (seq: Seq [A]): SeqSD [A] =
     if seq.isEmpty
     then EmptySeqSD_ [A] ()
     else NonEmptySeqSD_ [A] (seq)
-
-end
-
-class SeqSDBuilder_ [A] ()
-  extends
-    SeqSDBuilder [A]
 
 end

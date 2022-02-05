@@ -25,9 +25,3 @@ class FizzBuzz
     n % k == 0
 
 end
-
-class FizzBuzz_ ()
-  extends
-    FizzBuzz
-
-end

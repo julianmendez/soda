@@ -25,23 +25,11 @@ class MSeqTranslator [T]
 
 end
 
-class MSeqTranslator_ [T] ()
-  extends
-    MSeqTranslator [T]
-
-end
-
 class MSeqPair [T]
 
   abstract
     left: MSeq [T]
     right: MSeq [T]
-
-end
-
-class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T])
-  extends
-    MSeqPair [T]
 
 end
 
@@ -263,23 +251,11 @@ class Min [T]
 
 end
 
-class Min_ [T] ()
-  extends
-    Min [T]
-
-end
-
 class IndexFoldTuple [T]
 
   abstract
     index: Int
     position: Int
-
-end
-
-class IndexFoldTuple_ [T] (index: Int, position: Int)
-  extends
-    IndexFoldTuple [T]
 
 end
 
@@ -291,23 +267,11 @@ class AtFoldTuple [T]
 
 end
 
-class AtFoldTuple_ [T] (elem: T, index: Int)
-  extends
-    AtFoldTuple [T]
-
-end
-
 class TakeDropFoldTuple [T]
 
   abstract
     seq: MSeq [T]
     index: Int
-
-end
-
-class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int)
-  extends
-    TakeDropFoldTuple [T]
 
 end
 
@@ -320,8 +284,3 @@ class SpanRevFoldTuple [T]
 
 end
 
-class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean)
-  extends
-    SpanRevFoldTuple [T]
-
-end

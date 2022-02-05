@@ -28,9 +28,4 @@ trait CartesianProduct
 
 }
 
-case class CartesianProduct_ ()
-  extends
-    CartesianProduct
-{
-
-}
+case class CartesianProduct_ () extends CartesianProduct

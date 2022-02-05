@@ -8,23 +8,11 @@ class InputPair [A, B]
 
 end
 
-class InputPair_ [A, B] (value: A, memoized_values: Map [A, B])
-  extends
-    InputPair [A, B]
-
-end
-
 class OutputPair [A, B]
 
   abstract
     value: B
     memoized_values: Map [A, B]
-
-end
-
-class OutputPair_ [A, B] (value: B, memoized_values: Map [A, B])
-  extends
-    OutputPair [A, B]
 
 end
 
@@ -51,6 +39,9 @@ class Memoizer [A, B]
     MemoizableFunction [A, B]
     MainFunction [A, B]
 
+  abstract
+    main_function: InputPair [A, B] -> OutputPair [A, B]
+
   abs_compute: InputPair [A, B] -> OutputPair [A, B] =
     lambda input ->
       compute_for (input)
@@ -71,12 +62,6 @@ class Memoizer [A, B]
 
   _add_element (output: OutputPair [A, B], new_pair: Tuple2 [A, B] ): OutputPair [A, B] =
     OutputPair_ (output.value, output.memoized_values + new_pair)
-
-end
-
-class Memoizer_ [A, B] (main_function: InputPair [A, B] -> OutputPair [A, B] )
-  extends
-    Memoizer [A, B]
 
 end
 
@@ -109,12 +94,6 @@ class HardProblem
 
   compute_for (input: InputPair [Int, Int] ): OutputPair [Int, Int] =
     memoizer.compute (input)
-
-end
-
-class HardProblem_ ()
-  extends
-    HardProblem
 
 end
 
@@ -151,8 +130,3 @@ class MemoizedFibonacci
 
 end
 
-class MemoizedFibonacci_ ()
-  extends
-    MemoizedFibonacci
-
-end

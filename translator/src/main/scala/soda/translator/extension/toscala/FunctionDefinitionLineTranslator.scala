@@ -108,9 +108,4 @@ trait FunctionDefinitionLineTranslator
 
 }
 
-case class FunctionDefinitionLineTranslator_ (line: String )
-  extends
-    FunctionDefinitionLineTranslator
-{
-
-}
+case class FunctionDefinitionLineTranslator_ (line: String) extends FunctionDefinitionLineTranslator

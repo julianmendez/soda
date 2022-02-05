@@ -24,9 +24,3 @@ class FizzBuzzPatternMatching
     end
 
 end
-
-class FizzBuzzPatternMatching_ ()
-  extends
-    FizzBuzzPatternMatching
-
-end

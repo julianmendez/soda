@@ -13,12 +13,6 @@ class Token
 
 end
 
-class Token_ (text: String, parser_state: ParserState, index: Int)
-  extends
-    Token
-
-end
-
 /**
  * This class processes a line to divide it into tokens.
  */
@@ -81,24 +75,12 @@ class Tokenizer
 
 end
 
-class Tokenizer_ (line: String)
-  extends
-    Tokenizer
-
-end
-
 class TokenizerFoldTuple
 
   abstract
     last_index: Int
     parser_state: ParserState
     rev_tokens: Seq [Token]
-
-end
-
-class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token])
-  extends
-    TokenizerFoldTuple
 
 end
 

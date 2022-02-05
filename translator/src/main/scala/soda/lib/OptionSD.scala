@@ -61,6 +61,8 @@ trait OptionSD [A]
 
 }
 
+case class OptionSD_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A]) extends OptionSD [A]
+
 trait NoneSD [A]
   extends
     OptionSD [A]
@@ -78,12 +80,7 @@ trait NoneSD [A]
 
 }
 
-case class NoneSD_ [A] ()
-  extends
-    NoneSD [A]
-{
-
-}
+case class NoneSD_ [A] () extends NoneSD [A]
 
 trait OptionSDWithElement [A]
   extends
@@ -98,6 +95,8 @@ trait OptionSDWithElement [A]
   def   element: A
 
 }
+
+case class OptionSDWithElement_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A], element: A) extends OptionSDWithElement [A]
 
 trait SomeSD [A]
   extends
@@ -120,11 +119,7 @@ trait SomeSD [A]
 
 }
 
-case class SomeSD_ [A] (element: A )
-  extends SomeSD [A]
-{
-
-}
+case class SomeSD_ [A] (element: A) extends SomeSD [A]
 
 trait OptionSDBuilder [A]
 {
@@ -136,9 +131,4 @@ trait OptionSDBuilder [A]
 
 }
 
-case class OptionSDBuilder_ [A] ()
-  extends
-    OptionSDBuilder [A]
-{
-
-}
+case class OptionSDBuilder_ [A] () extends OptionSDBuilder [A]

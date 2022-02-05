@@ -17,9 +17,3 @@ class DefaultBlockTranslator
 
 end
 
-class DefaultBlockTranslator_ ()
-  extends
-    DefaultBlockTranslator
-
-end
-

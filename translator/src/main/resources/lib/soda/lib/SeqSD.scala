@@ -22,6 +22,8 @@ trait SeqSD [A]
 
 }
 
+case class SeqSD_ [A] (toSeq: Seq [A], reverse: SeqSD [A]) extends SeqSD [A]
+
 trait EmptySeqSD [A]
   extends
     SeqSD [A]
@@ -33,12 +35,7 @@ trait EmptySeqSD [A]
 
 }
 
-case class EmptySeqSD_ [A] ()
-  extends
-    EmptySeqSD [A]
-{
-
-}
+case class EmptySeqSD_ [A] () extends EmptySeqSD [A]
 
 trait NonEmptySeqSD [A]
   extends
@@ -55,12 +52,7 @@ trait NonEmptySeqSD [A]
 
 }
 
-case class NonEmptySeqSD_ [A] (toSeq: Seq [A]  )
-  extends
-    NonEmptySeqSD [A]
-{
-
-}
+case class NonEmptySeqSD_ [A] (toSeq: Seq [A]) extends NonEmptySeqSD [A]
 
 trait SeqSDBuilder [A]
 {
@@ -72,9 +64,4 @@ trait SeqSDBuilder [A]
 
 }
 
-case class SeqSDBuilder_ [A] ()
-  extends
-    SeqSDBuilder [A]
-{
-
-}
+case class SeqSDBuilder_ [A] () extends SeqSDBuilder [A]

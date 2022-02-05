@@ -65,8 +65,3 @@ class MatchCaseBlockTranslator
 
 end
 
-class MatchCaseBlockTranslator_ ()
-  extends
-    MatchCaseBlockTranslator
-
-end

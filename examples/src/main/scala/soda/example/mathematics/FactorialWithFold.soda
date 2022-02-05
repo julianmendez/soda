@@ -11,9 +11,3 @@ class FactorialWithFold
 
 end
 
-class FactorialWithFold_ ()
-  extends
-    FactorialWithFold
-
-end
-

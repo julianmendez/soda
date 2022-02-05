@@ -61,9 +61,3 @@ class ExampleProgram
 
 end
 
-class ExampleProgram_ ()
-  extends
-    ExampleProgram
-
-end
-

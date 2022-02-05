@@ -94,24 +94,12 @@ class PreprocessorSequenceTranslator
 
 end
 
-class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator)
-  extends
-    PreprocessorSequenceTranslator
-
-end
-
 class AuxiliaryTuple
 
   abstract
     block_sequence: Seq [soda.translator.block.AnnotatedBlock]
     accumulated: Seq [soda.translator.block.AnnotatedBlock]
     references: Seq [ Seq [soda.translator.block.AnnotatedBlock] ]
-
-end
-
-class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock], references: Seq [Seq [soda.translator.block.AnnotatedBlock] ] )
-  extends
-    AuxiliaryTuple
 
 end
 

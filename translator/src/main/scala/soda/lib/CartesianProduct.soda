@@ -26,9 +26,3 @@ class CartesianProduct
     else _apply_recursion (sequences.reverse)
 
 end
-
-class CartesianProduct_ ()
-  extends
-    CartesianProduct
-
-end

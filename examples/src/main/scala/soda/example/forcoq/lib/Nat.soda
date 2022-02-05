@@ -26,11 +26,6 @@ class O
 
 end
 
-class O_ ()
-  extends O
-
-end
-
 class S
   extends
     nat
@@ -51,11 +46,6 @@ class S
 
   mul_for (a: nat): nat =
     t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
-
-end
-
-class S_ (k: nat)
-  extends S
 
 end
 
@@ -85,11 +75,5 @@ class IntNat
       | O_ () => 0
       | S_ (k) => 1 + to_Int (k)
     end
-
-end
-
-class IntNat_ ()
-  extends
-    IntNat
 
 end

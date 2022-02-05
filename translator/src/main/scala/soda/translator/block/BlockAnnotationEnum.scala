@@ -10,12 +10,7 @@ trait BlockAnnotationId
 
 }
 
-case class BlockAnnotationId_ (ordinal: Int, name: String )
-  extends
-    BlockAnnotationId
-{
-
-}
+case class BlockAnnotationId_ (ordinal: Int, name: String) extends BlockAnnotationId
 
 trait BlockAnnotationEnum
   extends
@@ -64,9 +59,4 @@ trait BlockAnnotationEnum
 
 }
 
-case class BlockAnnotationEnum_ ()
-  extends
-    BlockAnnotationEnum
-{
-
-}
+case class BlockAnnotationEnum_ () extends BlockAnnotationEnum

@@ -65,12 +65,7 @@ trait TranslatorToScala
 
 }
 
-case class TranslatorToScala_ ()
-  extends
-    TranslatorToScala
-{
-
-}
+case class TranslatorToScala_ () extends TranslatorToScala
 
 trait FileNamePair
 {
@@ -80,9 +75,4 @@ trait FileNamePair
 
 }
 
-case class FileNamePair_ (input_file_name: String, output_file_name: String )
-  extends
-    FileNamePair
-{
-
-}
+case class FileNamePair_ (input_file_name: String, output_file_name: String) extends FileNamePair

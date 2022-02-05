@@ -19,8 +19,3 @@ class FactorialForCoq
 
 end
 
-class FactorialForCoq_ ()
-  extends
-    FactorialForCoq
-
-end

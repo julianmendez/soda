@@ -10,12 +10,7 @@ trait SaladIngredient
 
 }
 
-case class SaladIngredient_ (ordinal: Int, name: String )
-  extends
-    SaladIngredient
-{
-
-}
+case class SaladIngredient_ (ordinal: Int, name: String) extends SaladIngredient
 
 trait SaladIngredientConstant
 {
@@ -31,6 +26,8 @@ trait SaladIngredientConstant
   lazy val SaladIngredient_values = Seq (tomato, lettuce, sunflower_seeds, olive_oil )
 
 }
+
+case class SaladIngredientConstant_ () extends SaladIngredientConstant
 
 case class SaladMakerSpec ()
   extends

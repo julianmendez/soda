@@ -27,9 +27,3 @@ class CartesianProduct
 
 end
 
-class CartesianProduct_ ()
-  extends
-    CartesianProduct
-
-end
-

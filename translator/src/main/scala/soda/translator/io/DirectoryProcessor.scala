@@ -8,6 +8,8 @@ trait AbstractDirectoryProcessor
 
 }
 
+case class AbstractDirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean) extends AbstractDirectoryProcessor
+
 trait DirectoryProcessor
   extends
     AbstractDirectoryProcessor
@@ -41,9 +43,4 @@ trait DirectoryProcessor
 
 }
 
-case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean )
-  extends
-    DirectoryProcessor
-{
-
-}
+case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean) extends DirectoryProcessor

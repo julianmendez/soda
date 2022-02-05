@@ -8,11 +8,7 @@ trait AnnotatedLine
 
 }
 
-case class AnnotatedLine_ (line: String, is_comment: Boolean )
-  extends AnnotatedLine
-{
-
-}
+case class AnnotatedLine_ (line: String, is_comment: Boolean) extends AnnotatedLine
 
 trait Block
   extends
@@ -31,9 +27,4 @@ trait Block
 
 }
 
-case class Block_ (annotated_lines: Seq [AnnotatedLine]  )
-  extends
-    Block
-{
-
-}
+case class Block_ (annotated_lines: Seq [AnnotatedLine]) extends Block

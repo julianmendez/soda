@@ -7,6 +7,8 @@ trait FiboExample
 
 }
 
+case class FiboExample_ (fib: Int => Int) extends FiboExample
+
 trait FiboExampleInSoda
   extends
     FiboExample
@@ -25,9 +27,4 @@ trait FiboExampleInSoda
 
 }
 
-case class FiboExampleInSoda_ ()
-  extends
-    FiboExampleInSoda
-{
-
-}
+case class FiboExampleInSoda_ () extends FiboExampleInSoda

@@ -11,3 +11,5 @@ trait Translator
   def   keys: Seq [String]
 
 }
+
+case class Translator_ (translate: String => String, keys: Seq [String]) extends Translator

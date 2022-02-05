@@ -10,12 +10,7 @@ trait DayOfTheWeek
 
 }
 
-case class DayOfTheWeek_ (ordinal: Int, name: String )
-  extends
-    DayOfTheWeek
-{
-
-}
+case class DayOfTheWeek_ (ordinal: Int, name: String) extends DayOfTheWeek
 
 trait DayOfTheWeekConstant
 {
@@ -38,6 +33,8 @@ trait DayOfTheWeekConstant
 
 }
 
+case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
+
 trait DayOfTheWeekEnum
   extends
     DayOfTheWeekConstant
@@ -47,12 +44,7 @@ trait DayOfTheWeekEnum
 
 }
 
-case class DayOfTheWeekEnum_ ()
-  extends
-    DayOfTheWeekEnum
-{
-
-}
+case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
 case class EnumSpec ()
   extends

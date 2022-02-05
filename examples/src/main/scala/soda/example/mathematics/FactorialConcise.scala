@@ -7,6 +7,8 @@ trait AbstractFactorialConcise
 
 }
 
+case class AbstractFactorialConcise_ (get_factorial: Int => Int) extends AbstractFactorialConcise
+
 trait FactorialConcise
   extends
     AbstractFactorialConcise
@@ -27,8 +29,4 @@ trait FactorialConcise
 
 }
 
-case class FactorialConcise_ ()
-  extends FactorialConcise
-{
-
-}
+case class FactorialConcise_ () extends FactorialConcise

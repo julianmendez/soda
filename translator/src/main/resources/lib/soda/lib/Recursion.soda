@@ -42,10 +42,3 @@ class Recursion
 
 end
 
-class Recursion_ ()
-  extends
-    Recursion
-
-end
-
-

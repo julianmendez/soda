@@ -5,6 +5,8 @@ trait list [A]
 
 }
 
+case class list_ [A] () extends list [A]
+
 trait nil [A]
   extends
     list [A]
@@ -12,12 +14,7 @@ trait nil [A]
 
 }
 
-case class nil_ [A] ()
-  extends
-    nil [A]
-{
-
-}
+case class nil_ [A] () extends nil [A]
 
 trait cons [A]
   extends
@@ -29,12 +26,7 @@ trait cons [A]
 
 }
 
-case class cons_ [A] (e: A, s: list [A]  )
-  extends
-    cons [A]
-{
-
-}
+case class cons_ [A] (e: A, s: list [A]) extends cons [A]
 
 trait SeqList
 {
@@ -74,9 +66,4 @@ trait SeqList
 
 }
 
-case class SeqList_ ()
-  extends
-    SeqList
-{
-
-}
+case class SeqList_ () extends SeqList

@@ -24,9 +24,4 @@ trait ClassAliasAnnotation
 
 }
 
-case class ClassAliasAnnotation_ (block: soda.translator.block.Block )
-  extends
-    ClassAliasAnnotation
-{
-
-}
+case class ClassAliasAnnotation_ (block: soda.translator.block.Block) extends ClassAliasAnnotation

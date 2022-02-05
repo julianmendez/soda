@@ -58,8 +58,3 @@ class LetInBlockTranslator
 
 end
 
-class LetInBlockTranslator_ ()
-  extends
-    LetInBlockTranslator
-
-end

@@ -58,9 +58,3 @@ class CoqProofBlockTranslator
 
 end
 
-class CoqProofBlockTranslator_ ()
-  extends
-    CoqProofBlockTranslator
-
-end
-

@@ -61,9 +61,4 @@ trait ExampleProgram
 
 }
 
-case class ExampleProgram_ ()
-  extends
-    ExampleProgram
-{
-
-}
+case class ExampleProgram_ () extends ExampleProgram

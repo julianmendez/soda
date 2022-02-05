@@ -18,9 +18,4 @@ trait CommentAnnotation
 
 }
 
-case class CommentAnnotation_ (block: soda.translator.block.Block )
-  extends
-    CommentAnnotation
-{
-
-}
+case class CommentAnnotation_ (block: soda.translator.block.Block) extends CommentAnnotation

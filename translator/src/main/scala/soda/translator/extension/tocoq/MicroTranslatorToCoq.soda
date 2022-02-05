@@ -45,9 +45,3 @@ class MicroTranslatorToCoq
 
 end
 
-class MicroTranslatorToCoq_ ()
-  extends
-    MicroTranslatorToCoq
-
-end
-

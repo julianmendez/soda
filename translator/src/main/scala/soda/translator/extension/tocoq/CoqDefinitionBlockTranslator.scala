@@ -58,9 +58,4 @@ trait CoqDefinitionBlockTranslator
 
 }
 
-case class CoqDefinitionBlockTranslator_ ()
-  extends
-    CoqDefinitionBlockTranslator
-{
-
-}
+case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator

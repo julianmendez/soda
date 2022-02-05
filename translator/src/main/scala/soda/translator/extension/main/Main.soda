@@ -39,10 +39,3 @@ class Main
           .execute (arguments.tail)
 
 end
-
-class Main_ ()
-  extends
-    Main
-
-end
-

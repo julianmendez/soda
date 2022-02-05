@@ -7,6 +7,8 @@ trait Parameter
 
 }
 
+case class Parameter_ (name: String) extends Parameter
+
 trait PatternMatching
 {
 
@@ -28,12 +30,7 @@ trait PatternMatching
 
 }
 
-case class PatternMatching_ ()
-  extends
-    PatternMatching
-{
-
-}
+case class PatternMatching_ () extends PatternMatching
 
 trait Singleton
   extends
@@ -46,12 +43,7 @@ trait Singleton
 
 }
 
-case class Singleton_ (x: Int )
-  extends
-    Singleton
-{
-
-}
+case class Singleton_ (x: Int) extends Singleton
 
 trait Pair
   extends
@@ -65,12 +57,7 @@ trait Pair
 
 }
 
-case class Pair_ (x: Int, y: Int )
-  extends
-    Pair
-{
-
-}
+case class Pair_ (x: Int, y: Int) extends Pair
 
 trait Triplet
   extends
@@ -85,9 +72,4 @@ trait Triplet
 
 }
 
-case class Triplet_ (x: Int, y: Int, z: Int )
-  extends
-    Triplet
-{
-
-}
+case class Triplet_ (x: Int, y: Int, z: Int) extends Triplet

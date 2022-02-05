@@ -131,9 +131,3 @@ class DefinitionLineTranslator
 
 end
 
-class DefinitionLineTranslator_ (line: String)
-  extends
-    DefinitionLineTranslator
-
-end
-

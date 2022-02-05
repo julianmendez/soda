@@ -14,12 +14,6 @@ class CharType
 
 end
 
-class CharType_ (ordinal: Int, name: String)
-  extends
-    CharType
-
-end
-
 /**
  * This is an enumeration for all types of characters.
  */
@@ -74,12 +68,6 @@ class CharTypeEnum
 
   is_backslash (ch: Char): Boolean =
     ch == backslash_char
-
-end
-
-class CharTypeEnum_ ()
-  extends
-    CharTypeEnum
 
 end
 

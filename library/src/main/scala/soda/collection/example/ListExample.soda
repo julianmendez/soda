@@ -8,12 +8,6 @@ class Pair [T]
 
 end
 
-class Pair_ [T] (name: String, result: T)
-  extends
-    Pair [T]
-
-end
-
 class ListExample
 
   a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
@@ -91,12 +85,6 @@ class ListExample
 
   foldRight_example: Pair [Seq [Char]] =
     Pair_("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight(Seq('*'))((elem, list) -> "(" + elem + " +: " + list + ")"))
-
-end
-
-class ListExample_ ()
-  extends
-    ListExample
 
 end
 

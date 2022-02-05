@@ -65,11 +65,7 @@ trait TranslatorToCoq
 
 }
 
-case class TranslatorToCoq_ ()
-  extends TranslatorToCoq
-{
-
-}
+case class TranslatorToCoq_ () extends TranslatorToCoq
 
 trait FileNamePair
 {
@@ -79,9 +75,4 @@ trait FileNamePair
 
 }
 
-case class FileNamePair_ (input_file_name: String, output_file_name: String )
-  extends
-    FileNamePair
-{
-
-}
+case class FileNamePair_ (input_file_name: String, output_file_name: String) extends FileNamePair

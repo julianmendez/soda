@@ -18,9 +18,4 @@ trait TheoremBlockAnnotation
 
 }
 
-case class TheoremBlockAnnotation_ (block: soda.translator.block.Block )
-  extends
-    TheoremBlockAnnotation
-{
-
-}
+case class TheoremBlockAnnotation_ (block: soda.translator.block.Block) extends TheoremBlockAnnotation

@@ -16,9 +16,3 @@ class ConditionalBlockTranslator
 
 end
 
-class ConditionalBlockTranslator_ (accepted_annotations: Seq [BlockAnnotationId], translator: BlockTranslator)
-  extends
-    ConditionalBlockTranslator
-
-end
-

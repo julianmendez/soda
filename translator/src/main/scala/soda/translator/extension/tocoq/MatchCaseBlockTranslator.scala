@@ -50,9 +50,4 @@ trait MatchCaseBlockTranslator
 
 }
 
-case class MatchCaseBlockTranslator_ ()
-  extends
-    MatchCaseBlockTranslator
-{
-
-}
+case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator

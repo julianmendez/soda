@@ -7,6 +7,8 @@ trait Table
 
 }
 
+case class Table_ (table: Seq [Tuple2 [String, String]]) extends Table
+
 trait TableTranslator
   extends
     Table
@@ -23,9 +25,4 @@ trait TableTranslator
 
 }
 
-case class TableTranslator_ (table: Seq [Tuple2 [String, String]] )
-  extends
-    TableTranslator
-{
-
-}
+case class TableTranslator_ (table: Seq [Tuple2 [String, String]]) extends TableTranslator

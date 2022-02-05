@@ -64,9 +64,4 @@ trait AnnotationFactory
 
 }
 
-case class AnnotationFactory_ ()
-  extends
-    AnnotationFactory
-{
-
-}
+case class AnnotationFactory_ () extends AnnotationFactory

@@ -19,8 +19,3 @@ class TriangularNumberForCoq
 
 end
 
-class TriangularNumberForCoq_ ()
-  extends
-    TriangularNumberForCoq
-
-end

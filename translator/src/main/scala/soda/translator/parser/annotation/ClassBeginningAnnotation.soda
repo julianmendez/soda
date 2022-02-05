@@ -58,8 +58,3 @@ class ClassBeginningAnnotation
 
 end
 
-class ClassBeginningAnnotation_ (block: soda.translator.block.Block)
-  extends
-    ClassBeginningAnnotation
-
-end

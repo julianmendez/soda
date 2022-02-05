@@ -169,9 +169,3 @@ class SodaConstant
 
 end
 
-class SodaConstant_ ()
-  extends
-    SodaConstant
-
-end
-

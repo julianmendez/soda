@@ -58,9 +58,4 @@ trait LetInBlockTranslator
 
 }
 
-case class LetInBlockTranslator_ ()
-  extends
-    LetInBlockTranslator
-{
-
-}
+case class LetInBlockTranslator_ () extends LetInBlockTranslator

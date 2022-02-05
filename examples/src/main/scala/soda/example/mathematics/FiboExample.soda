@@ -23,9 +23,3 @@ class FiboExampleInSoda
     _rec (n, 0, 1)
 
 end
-
-class FiboExampleInSoda_ ()
-  extends
-    FiboExampleInSoda
-
-end

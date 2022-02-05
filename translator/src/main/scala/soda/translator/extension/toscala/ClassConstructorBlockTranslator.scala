@@ -103,9 +103,4 @@ trait ClassConstructorBlockTranslator
 
 }
 
-case class ClassConstructorBlockTranslator_ ()
-  extends
-    ClassConstructorBlockTranslator
-{
-
-}
+case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator

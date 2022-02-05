@@ -7,6 +7,8 @@ trait BlockTranslator
 
 }
 
+case class BlockTranslator_ (translate: AnnotatedBlock => AnnotatedBlock) extends BlockTranslator
+
 trait DefaultBlockTranslator
   extends
     BlockTranslator
@@ -18,9 +20,4 @@ trait DefaultBlockTranslator
 
 }
 
-case class DefaultBlockTranslator_ ()
-  extends
-    DefaultBlockTranslator
-{
-
-}
+case class DefaultBlockTranslator_ () extends DefaultBlockTranslator

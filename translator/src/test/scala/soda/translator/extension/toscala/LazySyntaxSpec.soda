@@ -8,23 +8,11 @@ class ExampleWithWrongOrder
 
 end
 
-class ExampleWithWrongOrder_ ()
-  extends
-    ExampleWithWrongOrder
-
-end
-
 class ExampleWithRightOrder
 
   constant_defined_before = "Success!"
 
   this_is_not_null = constant_defined_before
-
-end
-
-class ExampleWithRightOrder_ ()
-  extends
-    ExampleWithRightOrder
 
 end
 
@@ -36,21 +24,11 @@ class ExampleWithEmptyParentheses
 
 end
 
-class ExampleWithEmptyParentheses_ ()
-  extends ExampleWithEmptyParentheses
-
-end
-
 class AnotherExampleWithEmptyParentheses
 
   this_is_not_null = constant_function_defined_later  ()
 
   constant_function_defined_later  () = "Success!"
-
-end
-
-class AnotherExampleWithEmptyParentheses_ ()
-  extends AnotherExampleWithEmptyParentheses
 
 end
 

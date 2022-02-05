@@ -10,12 +10,6 @@ class DayOfTheWeek
 
 end
 
-class DayOfTheWeek_ (ordinal: Int, name: String)
-  extends
-    DayOfTheWeek
-
-end
-
 class DayOfTheWeekConstant
 
   sunday = DayOfTheWeek_ (0, "Sunday")
@@ -41,12 +35,6 @@ class DayOfTheWeekEnum
     DayOfTheWeekConstant
 
   values = DayOfTheWeek_values
-
-end
-
-class DayOfTheWeekEnum_ ()
-  extends
-    DayOfTheWeekEnum
 
 end
 

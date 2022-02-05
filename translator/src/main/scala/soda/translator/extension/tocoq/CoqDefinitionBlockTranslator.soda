@@ -58,9 +58,3 @@ class CoqDefinitionBlockTranslator
 
 end
 
-class CoqDefinitionBlockTranslator_ ()
-  extends
-    CoqDefinitionBlockTranslator
-
-end
-

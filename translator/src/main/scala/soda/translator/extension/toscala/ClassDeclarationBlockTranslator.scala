@@ -113,9 +113,4 @@ trait ClassDeclarationBlockTranslator
 
 }
 
-case class ClassDeclarationBlockTranslator_ ()
-  extends
-    ClassDeclarationBlockTranslator
-{
-
-}
+case class ClassDeclarationBlockTranslator_ () extends ClassDeclarationBlockTranslator

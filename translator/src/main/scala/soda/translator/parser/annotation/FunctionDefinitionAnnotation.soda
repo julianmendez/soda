@@ -74,9 +74,4 @@ class FunctionDefinitionAnnotation
 
 end
 
-class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block)
-  extends
-    FunctionDefinitionAnnotation
-
-end
 

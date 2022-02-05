@@ -20,9 +20,3 @@ class FiboExampleInSodaForCoq
 
 end
 
-class FiboExampleInSodaForCoq_ ()
-  extends
-    FiboExampleInSodaForCoq
-
-end
-

@@ -32,10 +32,14 @@ trait Shape
 
 }
 
+case class Shape_ () extends Shape
+
 trait Movable
 {
 
 }
+
+case class Movable_ () extends Movable
 
 /* A class can be parameterized.
  * The parameter type can be constrained using `subtype` and `supertype`.
@@ -45,6 +49,8 @@ trait ShapePainter [A <: Shape]
 {
 
 }
+
+case class ShapePainter_ [A <: Shape] () extends ShapePainter [A]
 
 /* It is recommended to indent the constants and functions declared inside. */
 
@@ -68,19 +74,14 @@ trait EqualsExample
 
 }
 
+case class EqualsExample_ () extends EqualsExample
+
 /* A class can extend another one by using `extends`.
  * Abstract classes cannot be instantiated but can be extended.
  * Conversely, concrete classes cannot be extended but can be instantiated.
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
  * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
-
-case class EqualsExample_ ()
-  extends
-    EqualsExample
-{
-
-}
 
 /* A class does not need to define all its constants and functions. */
 
@@ -103,6 +104,8 @@ trait RegisteredPerson
 
 }
 
+case class RegisteredPerson_ (first_name: String, last_name: String) extends RegisteredPerson
+
 trait Agent
 {
 
@@ -110,15 +113,10 @@ trait Agent
 
 }
 
+case class Agent_ (identifier: String) extends Agent
+
 /* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
  * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
-
-case class Agent_ (identifier: String )
-  extends
-    Agent
-{
-
-}
 
 trait RegisteredPersonAgent
   extends
@@ -132,12 +130,7 @@ trait RegisteredPersonAgent
 
 }
 
-case class RegisteredPersonAgent_ (identifier: String, first_name: String, last_name: String )
-  extends
-    RegisteredPersonAgent
-{
-
-}
+case class RegisteredPersonAgent_ (identifier: String, first_name: String, last_name: String) extends RegisteredPersonAgent
 
 trait Element
 {
@@ -146,12 +139,16 @@ trait Element
 
 }
 
+case class Element_ (accept: Visitor => Boolean) extends Element
+
 trait Visitor
 {
 
   def   visit: Element => Boolean
 
 }
+
+case class Visitor_ (visit: Element => Boolean) extends Visitor
 
 trait Item
   extends Element
@@ -167,11 +164,7 @@ trait Item
 
 }
 
-case class Item_ (identifier: Int )
-  extends Item
-{
-
-}
+case class Item_ (identifier: Int) extends Item
 
 trait PersonName
 {
@@ -185,6 +178,8 @@ trait PersonName
   lazy val toString = name
 
 }
+
+case class PersonName_ (name: String) extends PersonName
 
 /**
   * This contains the examples shown in the manual.
@@ -274,12 +269,16 @@ trait Manual
 
 }
 
+case class Manual_ () extends Manual
+
 trait AbstractFactorialConcise
 {
 
   def   factorial: Int => Int
 
 }
+
+case class AbstractFactorialConcise_ (factorial: Int => Int) extends AbstractFactorialConcise
 
 trait FactorialConcise
   extends
@@ -300,12 +299,16 @@ trait FactorialConcise
 
 }
 
+case class FactorialConcise_ () extends FactorialConcise
+
 trait AbstractFactorialVerbose
 {
 
   def   factorial: Int => Int
 
 }
+
+case class AbstractFactorialVerbose_ (factorial: Int => Int) extends AbstractFactorialVerbose
 
 /* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
 
@@ -325,6 +328,8 @@ trait FactorialVerbose
       _tailrec_ (n, 1 )
 
 }
+
+case class FactorialVerbose_ () extends FactorialVerbose
 
 trait Recursion
 {
@@ -354,11 +359,7 @@ trait Recursion
 
 }
 
-case class Recursion_ ()
-  extends Recursion
-{
-
-}
+case class Recursion_ () extends Recursion
 
 /* The main class has to be named `Main` and requires a `main` function that receives an `Array [String]` and returns a `Unit`.
  * Only one main class per package is allowed. */
@@ -379,10 +380,6 @@ object EntryPoint {
 }
 
 
-/* The main class needs an extending concrete class and it is called `Main_ ()`. */
+case class Main_ () extends Main
 
-case class Main_ ()
-  extends Main
-{
-
-}
+/* The main class has an extending concrete class and it is called `Main_ ()`. */

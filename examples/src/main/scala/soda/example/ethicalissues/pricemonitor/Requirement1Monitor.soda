@@ -10,12 +10,6 @@ class Report1
 
 end
 
-class Report1_ (compliant: Boolean, price1: Int, price2: Int, similarity: Double)
-  extends
-    Report1
-
-end
-
 class Requirement1Monitor
   extends
     RequirementMonitor
@@ -45,12 +39,6 @@ class Requirement1Monitor
 
   max (x: Int, y: Int): Int =
     if x < y then y else x
-
-end
-
-class Requirement1Monitor_ (pricing_agent: PricingAgent)
-  extends
-    Requirement1Monitor
 
 end
 

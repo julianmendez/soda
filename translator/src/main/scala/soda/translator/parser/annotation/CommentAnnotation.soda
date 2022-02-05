@@ -19,9 +19,3 @@ class CommentAnnotation
 
 end
 
-class CommentAnnotation_ (block: soda.translator.block.Block)
-  extends
-    CommentAnnotation
-
-end
-

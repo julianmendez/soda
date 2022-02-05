@@ -9,11 +9,6 @@ class Report3
 
 end
 
-class Report3_ (compliant: Boolean, price_of_flight: Int, price_of_flight_by_segments: Int)
-  extends Report3
-
-end
-
 class Requirement3Monitor
   extends
     RequirementMonitor
@@ -41,12 +36,6 @@ class Requirement3Monitor
 
 end
 
-class Requirement3Monitor_ (pricing_agent: PricingAgent)
-  extends
-    Requirement3Monitor
-
-end
-
 class Segment
   extends
     Flight
@@ -56,12 +45,6 @@ class Segment
     end_airport: String
 
   intermediate_airports = Seq [String]()
-
-end
-
-class Segment_ (start_airport: String, end_airport: String)
-  extends
-    Segment
 
 end
 
@@ -78,12 +61,6 @@ class SegmentsForFlight
       case Nil => Nil.+:(Segment_ (first_airport, last_airport))
       case x :: xs => rec_segments_multi(x, xs, last_airport).+:(Segment_ (first_airport, x))
     end
-
-end
-
-class SegmentsForFlight_ (flight: Flight)
-  extends
-    SegmentsForFlight
 
 end
 

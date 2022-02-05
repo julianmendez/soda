@@ -19,8 +19,3 @@ class FactorialPatternMatching
 
 end
 
-class FactorialPatternMatching_ ()
-  extends
-    FactorialPatternMatching
-
-end

@@ -9,12 +9,7 @@ trait ExampleWithWrongOrder
 
 }
 
-case class ExampleWithWrongOrder_ ()
-  extends
-    ExampleWithWrongOrder
-{
-
-}
+case class ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
 
 trait ExampleWithRightOrder
 {
@@ -25,12 +20,7 @@ trait ExampleWithRightOrder
 
 }
 
-case class ExampleWithRightOrder_ ()
-  extends
-    ExampleWithRightOrder
-{
-
-}
+case class ExampleWithRightOrder_ () extends ExampleWithRightOrder
 
 trait ExampleWithEmptyParentheses
 {
@@ -41,11 +31,7 @@ trait ExampleWithEmptyParentheses
 
 }
 
-case class ExampleWithEmptyParentheses_ ()
-  extends ExampleWithEmptyParentheses
-{
-
-}
+case class ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
 
 trait AnotherExampleWithEmptyParentheses
 {
@@ -56,11 +42,7 @@ trait AnotherExampleWithEmptyParentheses
 
 }
 
-case class AnotherExampleWithEmptyParentheses_ ()
-  extends AnotherExampleWithEmptyParentheses
-{
-
-}
+case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.

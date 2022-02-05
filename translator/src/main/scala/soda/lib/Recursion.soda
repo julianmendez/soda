@@ -41,10 +41,3 @@ class Recursion
     _tailrec_range (length, Seq [Int] ())
 
 end
-
-class Recursion_ ()
-  extends
-    Recursion
-
-end
-

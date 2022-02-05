@@ -32,9 +32,4 @@ trait ClassEndBlockTranslator
 
 }
 
-case class ClassEndBlockTranslator_ ()
-  extends
-    ClassEndBlockTranslator
-{
-
-}
+case class ClassEndBlockTranslator_ () extends ClassEndBlockTranslator

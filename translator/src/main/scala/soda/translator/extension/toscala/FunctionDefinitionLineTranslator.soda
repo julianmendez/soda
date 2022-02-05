@@ -109,8 +109,3 @@ class FunctionDefinitionLineTranslator
 
 end
 
-class FunctionDefinitionLineTranslator_ (line: String)
-  extends
-    FunctionDefinitionLineTranslator
-
-end

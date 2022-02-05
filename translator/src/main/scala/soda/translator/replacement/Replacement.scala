@@ -47,12 +47,7 @@ trait Replacement
 
 }
 
-case class Replacement_ (line: String )
-  extends
-    Replacement
-{
-
-}
+case class Replacement_ (line:String) extends Replacement
 
 trait ReplacementAux
 {
@@ -129,12 +124,7 @@ trait ReplacementAux
 
 }
 
-case class ReplacementAux_ ()
-  extends
-    ReplacementAux
-{
-
-}
+case class ReplacementAux_ () extends ReplacementAux
 
 trait ReplacementWithTranslator
 {
@@ -177,9 +167,4 @@ trait ReplacementWithTranslator
 
 }
 
-case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator )
-  extends
-    ReplacementWithTranslator
-{
-
-}
+case class ReplacementWithTranslator_ (translator: soda.translator.block.Translator) extends ReplacementWithTranslator

@@ -113,8 +113,3 @@ class ClassDeclarationBlockTranslator
 
 end
 
-class ClassDeclarationBlockTranslator_ ()
-  extends
-    ClassDeclarationBlockTranslator
-
-end

@@ -7,6 +7,8 @@ trait AbstractFactorialVerbose
 
 }
 
+case class AbstractFactorialVerbose_ (get_factorial: Int => Int) extends AbstractFactorialVerbose
+
 trait FactorialVerbose
   extends
     AbstractFactorialVerbose
@@ -27,9 +29,4 @@ trait FactorialVerbose
 
 }
 
-case class FactorialVerbose_ ()
-  extends
-    FactorialVerbose
-{
-
-}
+case class FactorialVerbose_ () extends FactorialVerbose

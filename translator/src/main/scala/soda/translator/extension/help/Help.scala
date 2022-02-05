@@ -31,6 +31,8 @@ trait AbstractHelp
 
 }
 
+case class AbstractHelp_ (execute: Seq [String] => Boolean) extends AbstractHelp
+
 trait Help
   extends
     AbstractHelp
@@ -44,12 +46,7 @@ trait Help
 
 }
 
-case class Help_ ()
-  extends
-    Help
-{
-
-}
+case class Help_ () extends Help
 
 trait Manual
   extends
@@ -64,12 +61,7 @@ trait Manual
 
 }
 
-case class Manual_ ()
-  extends
-    Manual
-{
-
-}
+case class Manual_ () extends Manual
 
 trait License
   extends
@@ -84,9 +76,4 @@ trait License
 
 }
 
-case class License_ ()
-  extends
-    License
-{
-
-}
+case class License_ () extends License

@@ -40,8 +40,3 @@ class RecursionForCoq
 
 end
 
-class RecursionForCoq_ ()
-  extends
-    RecursionForCoq
-
-end

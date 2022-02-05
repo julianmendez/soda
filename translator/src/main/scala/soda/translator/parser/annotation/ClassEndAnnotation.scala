@@ -20,9 +20,4 @@ trait ClassEndAnnotation
 
 }
 
-case class ClassEndAnnotation_ (block: soda.translator.block.Block, references: Seq [soda.translator.block.AnnotatedBlock] )
-  extends
-    ClassEndAnnotation
-{
-
-}
+case class ClassEndAnnotation_ (block: soda.translator.block.Block, references: Seq [soda.translator.block.AnnotatedBlock]) extends ClassEndAnnotation

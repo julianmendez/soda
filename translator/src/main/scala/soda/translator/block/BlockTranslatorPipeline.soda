@@ -20,9 +20,3 @@ class BlockTranslatorPipeline
 
 end
 
-class BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator])
-  extends
-    BlockTranslatorPipeline
-
-end
-

@@ -19,8 +19,3 @@ class ProofBlockAnnotation
 
 end
 
-class ProofBlockAnnotation_ (block: soda.translator.block.Block)
-  extends
-    ProofBlockAnnotation
-
-end

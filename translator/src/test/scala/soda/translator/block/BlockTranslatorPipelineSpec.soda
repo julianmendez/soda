@@ -20,12 +20,6 @@ class BlockTranslator00
 
 end
 
-class BlockTranslator00_ ()
-  extends
-    BlockTranslator00
-
-end
-
 class BlockTranslator01
   extends
     BlockTranslator
@@ -46,12 +40,6 @@ class BlockTranslator01
 
 end
 
-class BlockTranslator01_ ()
-  extends
-    BlockTranslator01
-
-end
-
 class BlockTranslator02
   extends
     BlockTranslator
@@ -69,12 +57,6 @@ class BlockTranslator02
           else block.lines.++ ( Seq ("tr02") )
         )
       )
-
-end
-
-class BlockTranslator02_ ()
-  extends
-    BlockTranslator02
 
 end
 

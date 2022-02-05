@@ -26,11 +26,4 @@ trait AbstractDeclarationAnnotation
 
 }
 
-case class AbstractDeclarationAnnotation_ (block: soda.translator.block.Block )
-  extends
-    AbstractDeclarationAnnotation
-{
-
-}
-
-
+case class AbstractDeclarationAnnotation_ (block: soda.translator.block.Block) extends AbstractDeclarationAnnotation

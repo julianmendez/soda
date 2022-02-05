@@ -14,12 +14,7 @@ trait ParserState
 
 }
 
-case class ParserState_ (ordinal: Int, name: String )
-  extends
-    ParserState
-{
-
-}
+case class ParserState_ (ordinal: Int, name: String) extends ParserState
 
 /**
  * This is an enumeration of all the parser states.
@@ -53,12 +48,7 @@ trait ParserStateEnum
 
 }
 
-case class ParserStateEnum_ ()
-  extends
-    ParserStateEnum
-{
-
-}
+case class ParserStateEnum_ () extends ParserStateEnum
 
 trait ParserTransition
 {
@@ -102,9 +92,4 @@ trait ParserTransition
 
 }
 
-case class ParserTransition_ ()
-  extends
-    ParserTransition
-{
-
-}
+case class ParserTransition_ () extends ParserTransition

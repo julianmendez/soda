@@ -54,9 +54,4 @@ trait CoqTheoremBlockTranslator
 
 }
 
-case class CoqTheoremBlockTranslator_ ()
-  extends
-    CoqTheoremBlockTranslator
-{
-
-}
+case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator

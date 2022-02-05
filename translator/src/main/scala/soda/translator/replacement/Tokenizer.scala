@@ -13,12 +13,7 @@ trait Token
 
 }
 
-case class Token_ (text: String, parser_state: ParserState, index: Int )
-  extends
-    Token
-{
-
-}
+case class Token_ (text: String, parser_state: ParserState, index: Int) extends Token
 
 /**
  * This class processes a line to divide it into tokens.
@@ -81,12 +76,7 @@ trait Tokenizer
 
 }
 
-case class Tokenizer_ (line: String )
-  extends
-    Tokenizer
-{
-
-}
+case class Tokenizer_ (line: String) extends Tokenizer
 
 trait TokenizerFoldTuple
 {
@@ -97,9 +87,4 @@ trait TokenizerFoldTuple
 
 }
 
-case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]  )
-  extends
-    TokenizerFoldTuple
-{
-
-}
+case class TokenizerFoldTuple_ (last_index: Int, parser_state: ParserState, rev_tokens: Seq [Token]) extends TokenizerFoldTuple

@@ -50,12 +50,6 @@ class Replacer
 
 end
 
-class Replacer_ (line: String, pattern: String, replacement: String)
-  extends
-    Replacer
-
-end
-
 class ReplacerFoldTuple
 
   abstract
@@ -64,8 +58,3 @@ class ReplacerFoldTuple
 
 end
 
-class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int)
-  extends
-    ReplacerFoldTuple
-
-end

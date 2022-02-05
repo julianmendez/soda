@@ -64,9 +64,3 @@ class AnnotationFactory
 
 end
 
-class AnnotationFactory_ ()
-  extends
-    AnnotationFactory
-
-end
-

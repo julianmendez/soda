@@ -16,12 +16,7 @@ trait UnfairPricingAgent
 
 }
 
-case class UnfairPricingAgent_ ()
-  extends
-    UnfairPricingAgent
-{
-
-}
+case class UnfairPricingAgent_ () extends UnfairPricingAgent
 
 trait FairPricingAgent
   extends
@@ -39,12 +34,7 @@ trait FairPricingAgent
 
 }
 
-case class FairPricingAgent_ ()
-  extends
-    FairPricingAgent
-{
-
-}
+case class FairPricingAgent_ () extends FairPricingAgent
 
 case class PriceMonitorSpec ()
   extends

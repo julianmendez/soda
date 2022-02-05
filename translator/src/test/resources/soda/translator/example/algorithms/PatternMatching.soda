@@ -27,12 +27,6 @@ class PatternMatching
 
 end
 
-class PatternMatching_ ()
-  extends
-    PatternMatching
-
-end
-
 class Singleton
   extends
     Parameter
@@ -41,12 +35,6 @@ class Singleton
     x: Int
 
   name = "singleton"
-
-end
-
-class Singleton_ (x: Int)
-  extends
-    Singleton
 
 end
 
@@ -62,12 +50,6 @@ class Pair
 
 end
 
-class Pair_ (x: Int, y: Int)
-  extends
-    Pair
-
-end
-
 class Triplet
   extends
     Parameter
@@ -78,12 +60,6 @@ class Triplet
     z: Int
 
   name = "triplet"
-
-end
-
-class Triplet_ (x: Int, y: Int, z: Int)
-  extends
-    Triplet
 
 end
 

@@ -48,12 +48,6 @@ class Replacement
 
 end
 
-class Replacement_ (line: String)
-  extends
-    Replacement
-
-end
-
 class ReplacementAux
 
   soda_space = " "
@@ -128,12 +122,6 @@ class ReplacementAux
 
 end
 
-class ReplacementAux_ ()
-  extends
-    ReplacementAux
-
-end
-
 class ReplacementWithTranslator
 
   abstract
@@ -173,12 +161,6 @@ class ReplacementWithTranslator
 
   _next_replace_regex (line: String, regex: String): String =
     line.replaceAll (regex, translator.translate (regex))
-
-end
-
-class ReplacementWithTranslator_ (translator: soda.translator.block.Translator)
-  extends
-    ReplacementWithTranslator
 
 end
 

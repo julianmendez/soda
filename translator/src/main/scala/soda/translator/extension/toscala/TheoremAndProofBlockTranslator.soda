@@ -47,9 +47,3 @@ class TheoremAndProofBlockTranslator
 
 end
 
-class TheoremAndProofBlockTranslator_ ()
-  extends
-    TheoremAndProofBlockTranslator
-
-end
-

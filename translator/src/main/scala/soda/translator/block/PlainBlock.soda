@@ -12,8 +12,3 @@ class PlainBlock
 
 end
 
-class PlainBlock_ (lines: Seq [String])
-  extends
-    PlainBlock
-
-end

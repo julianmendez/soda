@@ -18,9 +18,3 @@ class PackageDeclarationAnnotation
 
 end
 
-class PackageDeclarationAnnotation_ (block: soda.translator.block.Block)
-  extends
-    PackageDeclarationAnnotation
-
-end
-

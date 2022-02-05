@@ -93,12 +93,7 @@ trait PreprocessorSequenceTranslator
 
 }
 
-case class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator )
-  extends
-    PreprocessorSequenceTranslator
-{
-
-}
+case class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
 
 trait AuxiliaryTuple
 {
@@ -109,9 +104,4 @@ trait AuxiliaryTuple
 
 }
 
-case class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock], references: Seq [Seq [soda.translator.block.AnnotatedBlock]] )
-  extends
-    AuxiliaryTuple
-{
-
-}
+case class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock], references: Seq [Seq [soda.translator.block.AnnotatedBlock]]) extends AuxiliaryTuple

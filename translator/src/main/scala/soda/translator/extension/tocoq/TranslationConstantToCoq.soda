@@ -224,8 +224,3 @@ class TranslationConstantToCoq
 
 end
 
-class TranslationConstantToCoq_ ()
-  extends
-    TranslationConstantToCoq
-
-end

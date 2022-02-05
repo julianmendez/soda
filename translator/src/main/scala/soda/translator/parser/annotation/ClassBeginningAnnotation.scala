@@ -57,9 +57,4 @@ trait ClassBeginningAnnotation
 
 }
 
-case class ClassBeginningAnnotation_ (block: soda.translator.block.Block )
-  extends
-    ClassBeginningAnnotation
-{
-
-}
+case class ClassBeginningAnnotation_ (block: soda.translator.block.Block) extends ClassBeginningAnnotation

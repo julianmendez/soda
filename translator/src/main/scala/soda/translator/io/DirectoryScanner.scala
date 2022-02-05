@@ -34,10 +34,4 @@ trait DirectoryScanner
 
 }
 
-case class DirectoryScanner_ ()
-  extends DirectoryScanner
-{
-
-}
-
-
+case class DirectoryScanner_ () extends DirectoryScanner

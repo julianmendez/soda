@@ -44,12 +44,6 @@ class Help
 
 end
 
-class Help_ ()
-  extends
-    Help
-
-end
-
 class Manual
   extends
     AbstractHelp
@@ -62,12 +56,6 @@ class Manual
 
 end
 
-class Manual_ ()
-  extends
-    Manual
-
-end
-
 class License
   extends
     AbstractHelp
@@ -77,12 +65,6 @@ class License
   execute: Seq [String] -> Boolean =
     lambda arguments ->
       output_content (read (file_name))
-
-end
-
-class License_ ()
-  extends
-    License
 
 end
 

@@ -41,9 +41,3 @@ class LetBindingExample
 
 end
 
-class LetBindingExample_ ()
-  extends
-    LetBindingExample
-
-end
-

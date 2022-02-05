@@ -14,3 +14,5 @@ trait Doc
   def   doc: String
 
 }
+
+case class Doc_ (doc: String) extends Doc

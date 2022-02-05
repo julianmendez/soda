@@ -38,6 +38,8 @@ trait InANutshell
 
 }
 
+case class InANutshell_ () extends InANutshell
+
 trait MaxAndMin
 {
 
@@ -53,12 +55,7 @@ trait MaxAndMin
 
 }
 
-case class MaxAndMin_ ()
-  extends
-    MaxAndMin
-{
-
-}
+case class MaxAndMin_ () extends MaxAndMin
 
 trait MinMaxPair
 {
@@ -68,11 +65,7 @@ trait MinMaxPair
 
 }
 
-case class MinMaxPair_ (min: Int, max: Int )
-  extends MinMaxPair
-{
-
-}
+case class MinMaxPair_ (min: Int, max: Int) extends MinMaxPair
 
 trait Indexable
 {
@@ -80,6 +73,8 @@ trait Indexable
   def   index: Int
 
 }
+
+case class Indexable_ (index: Int) extends Indexable
 
 trait Example
   extends Indexable
@@ -95,12 +90,7 @@ trait Example
 
 }
 
-case class Example_ (index: Int )
-  extends
-    Example
-{
-
-}
+case class Example_ (index: Int) extends Example
 
 trait Comparable
 {
@@ -108,6 +98,8 @@ trait Comparable
   def   is_greater_than: Comparable => Boolean
 
 }
+
+case class Comparable_ (is_greater_than: Comparable => Boolean) extends Comparable
 
 trait ComparableMax [T <: Comparable]
 {
@@ -119,6 +111,8 @@ trait ComparableMax [T <: Comparable]
 
 }
 
+case class ComparableMax_ [T <: Comparable] () extends ComparableMax [T]
+
 trait WithInstance
 {
 
@@ -126,16 +120,22 @@ trait WithInstance
 
 }
 
+case class WithInstance_ (instance_parameter: Int) extends WithInstance
+
 trait MyClass
   extends
     WithInstance
 {
+
+  def   instance_parameter: Int
 
   lazy val class_constant: Int = 1
 
   def another_function (x: Int ): Int = 2 * x
 
 }
+
+case class MyClass_ (instance_parameter: Int) extends MyClass
 
 trait TimeOfToday
 {
@@ -145,6 +145,8 @@ trait TimeOfToday
   lazy val get_time: Date = new Date ()
 
 }
+
+case class TimeOfToday_ () extends TimeOfToday
 
 trait Main
 {
@@ -159,12 +161,7 @@ object EntryPoint {
 }
 
 
-case class Main_ ()
-  extends
-    Main
-{
-
-}
+case class Main_ () extends Main
 
 trait PersonName
 {
@@ -175,3 +172,5 @@ trait PersonName
   lazy val toString = name
 
 }
+
+case class PersonName_ (name: String) extends PersonName

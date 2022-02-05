@@ -18,9 +18,4 @@ trait ProofBlockAnnotation
 
 }
 
-case class ProofBlockAnnotation_ (block: soda.translator.block.Block )
-  extends
-    ProofBlockAnnotation
-{
-
-}
+case class ProofBlockAnnotation_ (block: soda.translator.block.Block) extends ProofBlockAnnotation

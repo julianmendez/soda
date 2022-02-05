@@ -265,9 +265,3 @@ class TranslationConstantToScala
 
 end
 
-class TranslationConstantToScala_ ()
-  extends
-    TranslationConstantToScala
-
-end
-

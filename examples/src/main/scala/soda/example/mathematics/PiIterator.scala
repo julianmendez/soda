@@ -15,12 +15,7 @@ trait Status
 
 }
 
-case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int )
-  extends
-    Status
-{
-
-}
+case class Status_ (r: BigInt, n: Int, q: BigInt, t: BigInt, l: Int, k: Int) extends Status
 
 trait PiIterator
 {
@@ -76,12 +71,7 @@ trait PiIterator
 
 }
 
-case class PiIterator_ ()
-  extends
-    PiIterator
-{
-
-}
+case class PiIterator_ () extends PiIterator
 
 trait IntAndStatus
 {
@@ -91,9 +81,4 @@ trait IntAndStatus
 
 }
 
-case class IntAndStatus_ (digit: Int, new_status: Status )
-  extends
-    IntAndStatus
-{
-
-}
+case class IntAndStatus_ (digit: Int, new_status: Status) extends IntAndStatus

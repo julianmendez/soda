@@ -14,12 +14,6 @@ class ParserState
 
 end
 
-class ParserState_ (ordinal: Int, name: String)
-  extends
-    ParserState
-
-end
-
 /**
  * This is an enumeration of all the parser states.
  */
@@ -48,12 +42,6 @@ class ParserStateEnum
   is_like (x: ParserState, y: ParserState): Boolean =
      (x == quotes_state and y == quotes_backslash_state) or
        (x == apostrophe_state and y == apostrophe_backslash_state)
-
-end
-
-class ParserStateEnum_ ()
-  extends
-    ParserStateEnum
 
 end
 
@@ -95,12 +83,6 @@ class ParserTransition
 
   next_parser_state (parser_state: ParserState, char_type: CharType): ParserState =
     transitions_that_change_states.getOrElse ( (parser_state, char_type), parser_state)
-
-end
-
-class ParserTransition_ ()
-  extends
-    ParserTransition
 
 end
 

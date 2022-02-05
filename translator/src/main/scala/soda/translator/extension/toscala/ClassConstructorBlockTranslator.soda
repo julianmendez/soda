@@ -103,8 +103,3 @@ class ClassConstructorBlockTranslator
 
 end
 
-class ClassConstructorBlockTranslator_ ()
-  extends
-    ClassConstructorBlockTranslator
-
-end

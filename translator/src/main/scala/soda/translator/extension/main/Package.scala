@@ -10,4 +10,6 @@ trait Package
 
 }
 
+case class Package_ () extends Package
+
 

@@ -49,17 +49,12 @@ trait MicroTranslatorToScala
         AbstractDeclarationBlockTranslator_ (),
         TheoremAndProofBlockTranslator_ (),
         ClassEndBlockTranslator_ (),
-        /* ClassConstructorBlockTranslator_ (), */
         MainClassBlockTranslator_ (),
+        ClassConstructorBlockTranslator_ (),
         TokenReplacement_ () .replace_regex (tc.beautifier )
       )
     )
 
 }
 
-case class MicroTranslatorToScala_ ()
-  extends
-    MicroTranslatorToScala
-{
-
-}
+case class MicroTranslatorToScala_ () extends MicroTranslatorToScala

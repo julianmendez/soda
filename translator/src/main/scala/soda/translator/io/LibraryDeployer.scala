@@ -32,9 +32,4 @@ trait LibraryDeployer
 
 }
 
-case class LibraryDeployer_ ()
-  extends
-    LibraryDeployer
-{
-
-}
+case class LibraryDeployer_ () extends LibraryDeployer

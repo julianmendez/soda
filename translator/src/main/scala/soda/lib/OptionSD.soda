@@ -77,12 +77,6 @@ class NoneSD [A]
 
 end
 
-class NoneSD_ [A] ()
-  extends
-    NoneSD [A]
-
-end
-
 class OptionSDWithElement [A]
   extends
     OptionSD [A]
@@ -118,22 +112,11 @@ class SomeSD [A]
 
 end
 
-class SomeSD_ [A] (element: A)
-  extends SomeSD [A]
-
-end
-
 class OptionSDBuilder [A]
 
   build (option: Option [A]): OptionSD [A] =
     if option.isEmpty
     then NoneSD_ [A] ()
     else SomeSD_ [A] (option.get)
-
-end
-
-class OptionSDBuilder_ [A] ()
-  extends
-    OptionSDBuilder [A]
 
 end

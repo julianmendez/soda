@@ -23,8 +23,3 @@ class TableTranslator
 
 end
 
-class TableTranslator_ (table: Seq [Tuple2 [String, String] ] )
-  extends
-    TableTranslator
-
-end

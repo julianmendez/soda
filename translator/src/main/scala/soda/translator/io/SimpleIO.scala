@@ -30,16 +30,11 @@ trait SimpleFileReader
 
 }
 
+case class SimpleFileReader_ () extends SimpleFileReader
+
 /**
  * This is an auxiliary class to write small files.
  */
-
-case class SimpleFileReader_ ()
-  extends
-    SimpleFileReader
-{
-
-}
 
 trait SimpleFileWriter
 {
@@ -68,9 +63,4 @@ trait SimpleFileWriter
 
 }
 
-case class SimpleFileWriter_ ()
-  extends
-    SimpleFileWriter
-{
-
-}
+case class SimpleFileWriter_ () extends SimpleFileWriter

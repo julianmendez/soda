@@ -27,12 +27,7 @@ trait MSeqTranslator [T]
 
 }
 
-case class MSeqTranslator_ [T] ()
-  extends
-    MSeqTranslator [T]
-{
-
-}
+case class MSeqTranslator_ [T] () extends MSeqTranslator [T]
 
 trait MSeqPair [T]
 {
@@ -42,12 +37,7 @@ trait MSeqPair [T]
 
 }
 
-case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]  )
-  extends
-    MSeqPair [T]
-{
-
-}
+case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]) extends MSeqPair [T]
 
 trait Min [T]
 {
@@ -267,12 +257,7 @@ trait Min [T]
 
 }
 
-case class Min_ [T] ()
-  extends
-    Min [T]
-{
-
-}
+case class Min_ [T] () extends Min [T]
 
 trait IndexFoldTuple [T]
 {
@@ -282,12 +267,7 @@ trait IndexFoldTuple [T]
 
 }
 
-case class IndexFoldTuple_ [T] (index: Int, position: Int )
-  extends
-    IndexFoldTuple [T]
-{
-
-}
+case class IndexFoldTuple_ [T] (index: Int, position: Int) extends IndexFoldTuple [T]
 
 trait AtFoldTuple [T]
 {
@@ -297,12 +277,7 @@ trait AtFoldTuple [T]
 
 }
 
-case class AtFoldTuple_ [T] (elem: T, index: Int )
-  extends
-    AtFoldTuple [T]
-{
-
-}
+case class AtFoldTuple_ [T] (elem: T, index: Int) extends AtFoldTuple [T]
 
 trait TakeDropFoldTuple [T]
 {
@@ -312,12 +287,7 @@ trait TakeDropFoldTuple [T]
 
 }
 
-case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int )
-  extends
-    TakeDropFoldTuple [T]
-{
-
-}
+case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int) extends TakeDropFoldTuple [T]
 
 trait SpanRevFoldTuple [T]
 {
@@ -328,9 +298,4 @@ trait SpanRevFoldTuple [T]
 
 }
 
-case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean )
-  extends
-    SpanRevFoldTuple [T]
-{
-
-}
+case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean) extends SpanRevFoldTuple [T]

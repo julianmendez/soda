@@ -224,9 +224,4 @@ trait TranslationConstantToCoq
 
 }
 
-case class TranslationConstantToCoq_ ()
-  extends
-    TranslationConstantToCoq
-{
-
-}
+case class TranslationConstantToCoq_ () extends TranslationConstantToCoq

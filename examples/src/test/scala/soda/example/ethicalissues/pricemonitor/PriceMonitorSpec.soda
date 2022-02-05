@@ -15,12 +15,6 @@ class UnfairPricingAgent
 
 end
 
-class UnfairPricingAgent_ ()
-  extends
-    UnfairPricingAgent
-
-end
-
 class FairPricingAgent
   extends
     PricingAgent
@@ -33,12 +27,6 @@ class FairPricingAgent
 
   get_price_for (customer: Customer, flight: Flight, date: Int): Int =
     100 * (flight.intermediate_airports.length + 1)
-
-end
-
-class FairPricingAgent_ ()
-  extends
-    FairPricingAgent
 
 end
 

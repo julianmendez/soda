@@ -20,9 +20,3 @@ class DefaultBlockSequenceTranslator
 
 end
 
-class DefaultBlockSequenceTranslator_ (translator : BlockTranslator)
-  extends
-    DefaultBlockSequenceTranslator
-
-end
-

@@ -17,9 +17,4 @@ trait TestDeclarationAnnotation
 
 }
 
-case class TestDeclarationAnnotation_ (block: soda.translator.block.Block )
-  extends
-    TestDeclarationAnnotation
-{
-
-}
+case class TestDeclarationAnnotation_ (block: soda.translator.block.Block) extends TestDeclarationAnnotation

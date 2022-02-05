@@ -34,12 +34,6 @@ end
  * This is an auxiliary class to write small files.
  */
 
-class SimpleFileReader_ ()
-  extends
-    SimpleFileReader
-
-end
-
 class SimpleFileWriter
 
   import
@@ -67,8 +61,3 @@ class SimpleFileWriter
 
 end
 
-class SimpleFileWriter_ ()
-  extends
-    SimpleFileWriter
-
-end

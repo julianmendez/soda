@@ -16,9 +16,4 @@ trait ConditionalBlockTranslator
 
 }
 
-case class ConditionalBlockTranslator_ (accepted_annotations: Seq [BlockAnnotationId], translator: BlockTranslator )
-  extends
-    ConditionalBlockTranslator
-{
-
-}
+case class ConditionalBlockTranslator_ (accepted_annotations: Seq [BlockAnnotationId], translator: BlockTranslator) extends ConditionalBlockTranslator

@@ -54,9 +54,3 @@ class CoqTheoremBlockTranslator
 
 end
 
-class CoqTheoremBlockTranslator_ ()
-  extends
-    CoqTheoremBlockTranslator
-
-end
-

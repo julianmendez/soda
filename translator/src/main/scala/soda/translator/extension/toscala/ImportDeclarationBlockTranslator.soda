@@ -58,9 +58,3 @@ class ImportDeclarationBlockTranslator
 
 end
 
-class ImportDeclarationBlockTranslator_ ()
-  extends
-    ImportDeclarationBlockTranslator
-
-end
-

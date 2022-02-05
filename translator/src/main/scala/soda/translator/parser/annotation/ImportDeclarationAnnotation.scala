@@ -22,9 +22,4 @@ trait ImportDeclarationAnnotation
 
 }
 
-case class ImportDeclarationAnnotation_ (block: soda.translator.block.Block )
-  extends
-    ImportDeclarationAnnotation
-{
-
-}
+case class ImportDeclarationAnnotation_ (block: soda.translator.block.Block) extends ImportDeclarationAnnotation

@@ -61,9 +61,4 @@ trait MainClassBlockTranslator
 
 }
 
-case class MainClassBlockTranslator_ ()
-  extends
-    MainClassBlockTranslator
-{
-
-}
+case class MainClassBlockTranslator_ () extends MainClassBlockTranslator

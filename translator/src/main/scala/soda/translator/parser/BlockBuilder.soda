@@ -44,12 +44,6 @@ class BlockBuilder
 
 end
 
-class BlockBuilder_ ()
-  extends
-    BlockBuilder
-
-end
-
 class PreprocessorFoldTuple
 
   abstract
@@ -58,23 +52,11 @@ class PreprocessorFoldTuple
 
 end
 
-class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine])
-  extends
-    PreprocessorFoldTuple
-
-end
-
 class CurrentAndNewCommentState
 
   abstract
     current_state: Boolean
     new_comment_state: Boolean
-
-end
-
-class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean)
-  extends
-    CurrentAndNewCommentState
 
 end
 

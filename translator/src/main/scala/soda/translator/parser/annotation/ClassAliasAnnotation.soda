@@ -25,9 +25,3 @@ class ClassAliasAnnotation
 
 end
 
-class ClassAliasAnnotation_ (block: soda.translator.block.Block)
-  extends
-    ClassAliasAnnotation
-
-end
-

@@ -59,9 +59,4 @@ trait TokenizedBlockTranslator
 
 }
 
-case class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token => String )
-  extends
-    TokenizedBlockTranslator
-{
-
-}
+case class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token => String) extends TokenizedBlockTranslator

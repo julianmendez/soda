@@ -32,9 +32,3 @@ class LibraryDeployer
 
 end
 
-class LibraryDeployer_ ()
-  extends
-    LibraryDeployer
-
-end
-

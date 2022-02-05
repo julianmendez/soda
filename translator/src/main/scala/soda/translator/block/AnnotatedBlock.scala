@@ -10,9 +10,4 @@ trait AnnotatedBlock
 
 }
 
-case class AnnotatedBlock_ (annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId )
-  extends
-    AnnotatedBlock
-{
-
-}
+case class AnnotatedBlock_ (annotated_lines: Seq [AnnotatedLine], block_annotation: BlockAnnotationId) extends AnnotatedBlock

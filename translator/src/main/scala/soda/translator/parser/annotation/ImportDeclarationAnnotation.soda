@@ -23,9 +23,3 @@ class ImportDeclarationAnnotation
 
 end
 
-class ImportDeclarationAnnotation_ (block: soda.translator.block.Block)
-  extends
-    ImportDeclarationAnnotation
-
-end
-

@@ -7,6 +7,8 @@ trait BlockSequenceTranslator
 
 }
 
+case class BlockSequenceTranslator_ (translate: Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) extends BlockSequenceTranslator
+
 trait DefaultBlockSequenceTranslator
   extends
     BlockSequenceTranslator
@@ -20,9 +22,4 @@ trait DefaultBlockSequenceTranslator
 
 }
 
-case class DefaultBlockSequenceTranslator_ (translator: BlockTranslator )
-  extends
-    DefaultBlockSequenceTranslator
-{
-
-}
+case class DefaultBlockSequenceTranslator_ (translator: BlockTranslator) extends DefaultBlockSequenceTranslator

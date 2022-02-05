@@ -60,3 +60,5 @@ trait BlockAnnotationParser
     else ""
 
 }
+
+case class BlockAnnotationParser_ (block: soda.translator.block.Block, applies: Boolean, identifier: soda.translator.block.BlockAnnotationId) extends BlockAnnotationParser

@@ -8,11 +8,6 @@ class AnnotatedLine
 
 end
 
-class AnnotatedLine_ (line: String, is_comment: Boolean)
-  extends AnnotatedLine
-
-end
-
 class Block
   extends
     PlainBlock
@@ -30,8 +25,3 @@ class Block
 
 end
 
-class Block_ (annotated_lines: Seq [AnnotatedLine])
-  extends
-    Block
-
-end

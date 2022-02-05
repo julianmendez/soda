@@ -22,12 +22,6 @@ class SortExampleWithAt
 
 end
 
-class SortExampleWithAt_ ()
-  extends
-    SortExampleWithAt
-
-end
-
 class SortExampleWithZip
   extends
     SortExample
@@ -39,12 +33,6 @@ class SortExampleWithZip
     sequence
       .zip (sequence.tail)
       .forall (pair ->  (pair._1 <= pair._2))
-
-end
-
-class SortExampleWithZip_ ()
-  extends
-    SortExampleWithZip
 
 end
 
@@ -87,12 +75,6 @@ class SortAlgorithmExampleWithFold
 
 end
 
-class SortAlgorithmExampleWithFold_ ()
-  extends
-    SortAlgorithmExampleWithFold
-
-end
-
 class ConstrainedSortAlgorithm
 
   import
@@ -107,12 +89,6 @@ class ConstrainedSortAlgorithm
     if SortExampleWithZip_ ().is_sorted (sorted_sequence)
     then SomeSD_ (sorted_sequence)
     else NoneSD_ [Seq [Int]] ()
-
-end
-
-class ConstrainedSortAlgorithm_ ()
-  extends
-    ConstrainedSortAlgorithm
 
 end
 
@@ -141,24 +117,23 @@ class EmptySortedSequence [A subtype Comparable [A]]
 
 end
 
-class EmptySortedSequence_ [A subtype Comparable [A]] ()
-  extends
-    EmptySortedSequence [A]
-
-end
-
 class SortedSequenceWithElements [A subtype Comparable [A]]
   extends
     SortedSequence [A]
 
   abstract
     sequence: Seq [A]
+    add: A -> SortedSequence [A]
+    invariant: Boolean
 
 end
 
 class NonEmptySortedSequence [A subtype Comparable [A]]
   extends
     SortedSequenceWithElements [A]
+
+  abstract
+    sequence: Seq [A]
 
   aux = NonEmptySortedSequenceAux_ [A] ()
 
@@ -169,12 +144,6 @@ class NonEmptySortedSequence [A subtype Comparable [A]]
     NonEmptySortedSequence_ (aux.insert_sorted (sequence, element))
 
   invariant: Boolean = aux.is_sorted (sequence)
-
-end
-
-class NonEmptySortedSequence_ [A subtype Comparable [A]] (sequence: Seq [A])
-  extends
-    NonEmptySortedSequence [A]
 
 end
 
@@ -200,12 +169,6 @@ class NonEmptySortedSequenceAux [A subtype Comparable [A]]
 
 end
 
-class NonEmptySortedSequenceAux_ [A subtype Comparable [A]] ()
-  extends
-    NonEmptySortedSequenceAux [A]
-
-end
-
 class SortedSequenceBuilder [A subtype Comparable [A]]
 
   import
@@ -218,12 +181,6 @@ class SortedSequenceBuilder [A subtype Comparable [A]]
 
   _next_value_function (sorted_sequence: SortedSequence [A], element: A): SortedSequence [A] =
     sorted_sequence.add (element)
-
-end
-
-class SortedSequenceBuilder_ [A subtype Comparable [A]] ()
-  extends
-    SortedSequenceBuilder [A]
 
 end
 

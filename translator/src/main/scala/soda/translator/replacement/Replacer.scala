@@ -9,6 +9,8 @@ trait LinePatternProcessor
 
 }
 
+case class LinePatternProcessor_ (line: String, pattern: String, replacement: String) extends LinePatternProcessor
+
 trait Replacer
   extends
     LinePatternProcessor
@@ -49,12 +51,7 @@ trait Replacer
 
 }
 
-case class Replacer_ (line: String, pattern: String, replacement: String )
-  extends
-    Replacer
-{
-
-}
+case class Replacer_ (line: String, pattern: String, replacement: String) extends Replacer
 
 trait ReplacerFoldTuple
 {
@@ -64,9 +61,4 @@ trait ReplacerFoldTuple
 
 }
 
-case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int )
-  extends
-    ReplacerFoldTuple
-{
-
-}
+case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int) extends ReplacerFoldTuple

@@ -17,9 +17,4 @@ trait PackageDeclarationAnnotation
 
 }
 
-case class PackageDeclarationAnnotation_ (block: soda.translator.block.Block )
-  extends
-    PackageDeclarationAnnotation
-{
-
-}
+case class PackageDeclarationAnnotation_ (block: soda.translator.block.Block) extends PackageDeclarationAnnotation

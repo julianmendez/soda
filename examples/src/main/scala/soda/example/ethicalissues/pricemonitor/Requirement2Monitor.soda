@@ -9,12 +9,6 @@ class Report2
 
 end
 
-class Report2_ (compliant: Boolean, old_price: Int, new_price: Int)
-  extends Report2
-
-end
-
-
 class Requirement2Monitor
   extends
     RequirementMonitor
@@ -38,8 +32,3 @@ class Requirement2Monitor
 
 end
 
-class Requirement2Monitor_ (pricing_agent: PricingAgent)
-  extends
-    Requirement2Monitor
-
-end

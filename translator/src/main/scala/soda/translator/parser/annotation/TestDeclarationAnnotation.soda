@@ -18,8 +18,3 @@ class TestDeclarationAnnotation
 
 end
 
-class TestDeclarationAnnotation_ (block: soda.translator.block.Block)
-  extends
-    TestDeclarationAnnotation
-
-end

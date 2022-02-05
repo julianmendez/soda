@@ -60,9 +60,3 @@ class TokenizedBlockTranslator
 
 end
 
-class TokenizedBlockTranslator_ (replace_token: soda.translator.replacement.Token -> String)
-  extends
-    TokenizedBlockTranslator
-
-end
-

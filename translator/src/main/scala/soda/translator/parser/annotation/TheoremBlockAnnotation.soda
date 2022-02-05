@@ -19,8 +19,3 @@ class TheoremBlockAnnotation
 
 end
 
-class TheoremBlockAnnotation_ (block: soda.translator.block.Block)
-  extends
-    TheoremBlockAnnotation
-
-end
