@@ -17,8 +17,12 @@ trait AbstractDeclarationAnnotation
     block.readable_lines.nonEmpty &&
     (block.readable_lines.head.line.trim == SodaConstant_ () .abstract_reserved_word )
 
-  lazy val abstract_items: Seq [AnnotatedLine] =
+  lazy val abstract_functions_with_comments: Seq [AnnotatedLine] =
     content_lines
+
+  lazy val abstract_functions: Seq [AnnotatedLine] =
+    abstract_functions_with_comments
+      .filter (line => ! line.is_comment )
 
 }
 

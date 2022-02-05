@@ -92,7 +92,7 @@ class ClassConstructorBlockTranslator
           | x => None
         end
       )
-      .flatMap (block -> block.abstract_items)
+      .flatMap (block -> block.abstract_functions)
       .map (annotated_line ->  _translate_type_symbols (annotated_line.line).trim )
 
   _translate_type_symbols (line: String): String =

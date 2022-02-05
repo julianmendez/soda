@@ -18,8 +18,13 @@ class AbstractDeclarationAnnotation
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().abstract_reserved_word)
 
-  abstract_items: Seq [AnnotatedLine] =
+
+  abstract_functions_with_comments: Seq [AnnotatedLine] =
     content_lines
+
+  abstract_functions: Seq [AnnotatedLine] =
+    abstract_functions_with_comments
+      .filter (line -> not line.is_comment)
 
 end
 

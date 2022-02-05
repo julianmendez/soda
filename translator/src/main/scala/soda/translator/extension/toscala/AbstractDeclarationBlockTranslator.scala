@@ -35,7 +35,7 @@ trait AbstractDeclarationBlockTranslator
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block ) ),
         scala_abstract_function_declaration_pattern,
-        block.abstract_items
+        block.abstract_functions_with_comments
       )
     )
 

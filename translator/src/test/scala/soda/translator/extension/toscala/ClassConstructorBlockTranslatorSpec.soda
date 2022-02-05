@@ -16,7 +16,9 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n    SuperClassExample" +
     "\n" +
     "\n  abstract" +
+    "\n    /** this value is an example */" +
     "\n    value: Int" +
+    "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
     "\nend" +
@@ -37,7 +39,9 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n    SuperClassExample" +
     "\n" +
     "\n  abstract" +
+    "\n    /** this value is an example */" +
     "\n    value: Int" +
+    "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
     "\nend" +
