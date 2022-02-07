@@ -28,7 +28,7 @@ trait ClassConstructorBlockTranslator
     }
 
   def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
-    _translate_block_with (_get_class_beginning (block.references ), block: ClassEndAnnotation )
+    _translate_block_with (_get_class_beginning (block.references ), block )
 
   def _translate_block_with (maybe_beginning: Option [ClassBeginningAnnotation], block: ClassEndAnnotation ): ClassEndAnnotation =
     if (maybe_beginning.isEmpty

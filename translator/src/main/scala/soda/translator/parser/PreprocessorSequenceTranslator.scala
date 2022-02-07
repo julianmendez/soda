@@ -66,7 +66,7 @@ trait PreprocessorSequenceTranslator
     }
 
   def _get_updated_block (current: AuxiliaryTuple, block: ClassEndAnnotation ): ClassEndAnnotation =
-    ClassEndAnnotation_ (block.block, block.references.++ (current.references.lastOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+    ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   def _pass_next_step (current: AuxiliaryTuple, index: Int, updated_block: AnnotatedBlock ): AuxiliaryTuple =
     AuxiliaryTuple_ (

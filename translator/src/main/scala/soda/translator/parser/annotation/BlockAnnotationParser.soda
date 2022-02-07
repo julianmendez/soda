@@ -57,7 +57,7 @@ class BlockAnnotationParser
 
   _skip_first_word_with (index: Int, line: String): String =
     if index >= 0
-    then line.substring (index)
+    then line.trim.substring (index)
     else ""
 
 end

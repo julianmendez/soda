@@ -56,7 +56,7 @@ trait BlockAnnotationParser
 
   def _skip_first_word_with (index: Int, line: String ): String =
     if (index >= 0
-    ) line.substring (index )
+    ) line.trim.substring (index )
     else ""
 
 }
