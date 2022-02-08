@@ -12,13 +12,14 @@
     - produces a more similar translation to Scala by removing the line joiners
     - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
     - does not need opening brace (`{`) to start a class definition
-    - accepts reserved word `end` to end a class definition
-    - accepts reserved word `fun` as synonym for `lambda`, which is optional
+    - uses word `end` to end a class definition
+    - has `lambda` reserved word as 'recommended' instead of 'optional'
+    - accepts reserved word `fun` as synonym for `lambda`
     - accepts reserved word `def` as optional to define constants and functions
   - deprecated_features:
     - reserved word `has` is replaced by `abstract` block
     - abbreviation `+` is replaced by its long form `import`
-    - classes are not defined with braces (`{` and `}`) anymore
+    - classes are no longer defined with braces (`{` and `}`)
     - annotation `@main` is no longer user
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - release: target/scala-3.1.0/soda-0.14.0.jar
