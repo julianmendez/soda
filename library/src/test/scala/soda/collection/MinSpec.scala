@@ -19,11 +19,11 @@ case class MinSpec ()
 
   lazy val example: NESeq [Int] =
     Recursion_ () .fold (revExampleSeq.tail,
-      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] ()  ), prepend_elem )
+      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ), prepend_elem )
 
   test ("prepended")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8 ) )
       lazy val obtained = Min_ () .prepended (example, 1 )
       assert (obtained == expected ) }
 
@@ -35,13 +35,13 @@ case class MinSpec ()
 
   test ("tail")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 1, 2, 3, 5, 8 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 1, 2, 3, 5, 8 ) )
       lazy val obtained = Min_ () .tail (example )
       assert (obtained == expected ) }
 
   test ("reverse")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (8, 5, 3, 2, 1, 1, 0 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (8, 5, 3, 2, 1, 1, 0 ) )
       lazy val obtained = Min_ () .reverse (example )
       assert (obtained == expected ) }
 
@@ -101,7 +101,7 @@ case class MinSpec ()
 
   test ("take 0")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 ) )
       lazy val obtained = Min_ () .take (example, 5 )
       assert (obtained == expected ) }
 
@@ -137,7 +137,7 @@ case class MinSpec ()
 
   test ("drop 0")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 ) )
       lazy val obtained = Min_ () .drop (example, 3 )
       assert (obtained == expected ) }
 
@@ -162,7 +162,7 @@ case class MinSpec ()
 
   test ("takeWhile")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2 ) )
       lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = Min_ () .takeWhile (example, f )
       assert (obtained == expected ) }
@@ -176,38 +176,38 @@ case class MinSpec ()
 
   test ("dropWhile")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (3, 5, 8 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (3, 5, 8 ) )
       lazy val f: Int => Boolean = e => !  (e == 3 )
       lazy val obtained = Min_ () .dropWhile (example, f )
       assert (obtained == expected ) }
 
   test ("splitAt with Seq")
     {
-      lazy val expected = Tuple2 (Seq (0, 1, 1 ), Seq (2, 3, 5, 8 )  )
+      lazy val expected = Tuple2 (Seq (0, 1, 1 ), Seq (2, 3, 5, 8 ) )
       lazy val obtained = exampleSeq.splitAt (3 )
       assert (obtained == expected ) }
 
   test ("splitAt")
     {
-      lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1 )  ), MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 )  )  )
+      lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1 ) ), MSeqTranslator_ () .asMSeq (Seq (2, 3, 5, 8 ) )  )
       lazy val obtained = Min_ () .splitAt (example, 3 )
       assert (obtained == expected ) }
 
   test ("span with Seq")
     {
-      lazy val expected = Tuple2 (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 )  )
-      lazy val obtained = exampleSeq.span (x => !  (x == 5 )  )
+      lazy val expected = Tuple2 (Seq (0, 1, 1, 2, 3 ), Seq (5, 8 ) )
+      lazy val obtained = exampleSeq.span (x => !  (x == 5 ) )
       assert (obtained == expected ) }
 
   test ("span")
     {
-      lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 )  ), MSeqTranslator_ () .asMSeq (Seq (5, 8 )  )  )
-      lazy val obtained = Min_ () .span (example, (x: Int ) => !  (x == 5 )  )
+      lazy val expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3 ) ), MSeqTranslator_ () .asMSeq (Seq (5, 8 ) )  )
+      lazy val obtained = Min_ () .span (example, (x: Int ) => !  (x == 5 ) )
       assert (obtained == expected ) }
 
   test ("append")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13 ) )
       lazy val obtained = Min_ () .appended (example, 13 )
       assert (obtained == expected ) }
 
@@ -219,8 +219,8 @@ case class MinSpec ()
 
   test ("concat")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 )  )
-      lazy val second = MSeqTranslator_ () .asMSeq (Seq (13, 21, 34, 55 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ) )
+      lazy val second = MSeqTranslator_ () .asMSeq (Seq (13, 21, 34, 55 ) )
       lazy val obtained = Min_ () .concat (example, second )
       assert (obtained == expected ) }
 
@@ -262,7 +262,7 @@ case class MinSpec ()
 
   test ("slice 0")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 2, 3 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (1, 2, 3 ) )
       lazy val obtained = Min_ () .slice (example, 2, 5 )
       assert (obtained == expected ) }
 
@@ -431,7 +431,7 @@ case class MinSpec ()
 
   test ("filter")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 3 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 3 ) )
       lazy val f: Int => Boolean = x => x % 3 == 0
       lazy val obtained = Min_ () .filter (example, f )
       assert (obtained == expected ) }
@@ -445,7 +445,7 @@ case class MinSpec ()
 
   test ("map in the same type")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (100, 101, 101, 102, 103, 105, 108 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (100, 101, 101, 102, 103, 105, 108 ) )
       lazy val f: Int => Int = x => x + 100
       lazy val obtained = Min_ () .map0 (example, f )
       assert (obtained == expected ) }
@@ -453,14 +453,14 @@ case class MinSpec ()
   test ("foldLeft with Seq")
     {
       lazy val expected = Seq (108, 105, 103, 102, 101, 101, 100 )
-      lazy val obtained = exampleSeq.foldLeft (Seq [Int] ()  ) ((s: Seq [Int], e: Int ) => s.+: ((e + 100 )  )  )
+      lazy val obtained = exampleSeq.foldLeft (Seq [Int] () ) ((s: Seq [Int], e: Int ) => s.+: ((e + 100 ) )  )
       assert (obtained == expected ) }
 
   test ("foldLeft in the same type")
     {
-      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 )  )
+      lazy val expected = MSeqTranslator_ () .asMSeq (Seq (108, 105, 103, 102, 101, 101, 100 ) )
       lazy val obtained = Min_ () .foldLeft0 (example ) (Min_ () .empty,
-         (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )
+          (s: MSeq [Int], e: Int ) => Min_ () .prepended (s, e + 100 )
       )
       assert (obtained == expected ) }
 

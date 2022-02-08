@@ -74,7 +74,7 @@ trait Min [T]
       foldLeftWhile [B, C] (s, initial_value, next_value, condition ) }
 
   def reverse (s: MSeq [T]  ): MSeq [T] =
-    s.opt (ifEmpty = empty, ifNonEmpty = (neseq => reverseNonEmpty (neseq )  )  )
+    s.opt (ifEmpty = empty, ifNonEmpty = neseq => reverseNonEmpty (neseq ) )
 
   def reverseNonEmpty (s: NESeq [T]  ): NESeq [T] =
     {
@@ -137,7 +137,7 @@ trait Min [T]
       def next_value (tuple: TakeDropFoldTuple [T], elem: T ): TakeDropFoldTuple [T] =
         tuple.seq.opt (
           ifEmpty = TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1 ),
-          ifNonEmpty = (neseq => TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1 ) )
+          ifNonEmpty = neseq => TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1 )
         )
       def condition (tuple: TakeDropFoldTuple [T], elem: T ): Boolean =
         tuple.index < n
@@ -149,7 +149,7 @@ trait Min [T]
 
   def splitAt (s: MSeq [T], n: Int ): MSeqPair [T] = MSeqPair_ (take (s, n ), drop (s, n )  )
 
-  def span (s: MSeq [T], p: (T => Boolean )  ): MSeqPair [T] =
+  def span (s: MSeq [T], p: (T => Boolean ) ): MSeqPair [T] =
     {
       lazy val pair = spanRevRec (s, p )
       MSeqPair_ (reverse (pair.left ), pair.right ) }
@@ -237,7 +237,7 @@ trait Min [T]
           lazy val right = tuple.right
           lazy val result = left.opt (
             ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ),
-            ifNonEmpty = (neleft => _aux_next_value (tuple, p, neleft ) )
+            ifNonEmpty = neleft => _aux_next_value (tuple, p, neleft )
           )
           result }
       def condition (tuple: SpanRevFoldTuple [T], elem: T ): Boolean = tuple.taking

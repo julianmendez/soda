@@ -40,7 +40,7 @@ class MatchCaseBlockTranslator
   _translate_block (block: AnnotatedBlock): Block =
     BlockBuilder_ ().build(
       block.lines
-        .map (line -> append_with_after_match (line) )
+        .map (lambda line -> append_with_after_match (line) )
     )
 
   append_with_after_match (line: String): String =

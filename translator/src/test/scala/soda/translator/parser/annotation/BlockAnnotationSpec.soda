@@ -29,7 +29,7 @@ class BlockAnnotationSpec ()
     )
 
   apply_detectors (block: Block): Seq [Boolean] =
-    detectors (block).map (detector -> detector.applies)
+    detectors (block).map (lambda detector -> detector.applies)
 
   test ("should detect a package declaration")
     let
@@ -112,7 +112,7 @@ class BlockAnnotationSpec ()
   test ("should be ordered by the identifier ordinal")
     let
       expected: Seq [Int] = Seq (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
-      obtained = detectors (example_blocks (0) ).map (detector -> detector.identifier.ordinal)
+      obtained = detectors (example_blocks (0) ).map (lambda detector -> detector.identifier.ordinal)
     in assert (obtained == expected)
 
 end

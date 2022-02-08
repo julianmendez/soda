@@ -6,7 +6,7 @@ class MiniExample
 
   run () =
     range (50)
-      .map (x -> print (" " + (2 * x + 1)) )
+      .map (lambda x -> print (" " + (2 * x + 1)) )
 
 end
 

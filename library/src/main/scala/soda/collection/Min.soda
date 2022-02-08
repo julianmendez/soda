@@ -68,7 +68,7 @@ class Min [T]
     in foldLeftWhile [B, C] (s, initial_value, next_value, condition)
 
   reverse (s: MSeq [T]): MSeq [T] =
-    s.opt (ifEmpty := empty, ifNonEmpty := (neseq -> reverseNonEmpty (neseq)))
+    s.opt (ifEmpty := empty, ifNonEmpty := lambda neseq -> reverseNonEmpty (neseq) )
 
   reverseNonEmpty (s: NESeq [T]): NESeq [T] =
     let
@@ -131,7 +131,7 @@ class Min [T]
       next_value (tuple: TakeDropFoldTuple [T], elem: T): TakeDropFoldTuple [T] =
         tuple.seq.opt (
           ifEmpty := TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1),
-          ifNonEmpty := (neseq -> TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1) )
+          ifNonEmpty := lambda neseq -> TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1)
         )
       condition (tuple: TakeDropFoldTuple [T], elem: T): Boolean =
         tuple.index < n
@@ -143,7 +143,7 @@ class Min [T]
 
   splitAt (s: MSeq [T], n: Int): MSeqPair [T] = MSeqPair_ (take (s, n), drop (s, n))
 
-  span (s: MSeq [T], p: (T -> Boolean)): MSeqPair [T] =
+  span (s: MSeq [T], p: (T -> Boolean) ): MSeqPair [T] =
     let
       pair = spanRevRec (s, p)
     in MSeqPair_ (reverse (pair.left), pair.right)
@@ -194,14 +194,14 @@ class Min [T]
         if p (elem)
         then prepended (acc, elem)
         else acc
-    in reverse ( foldLeft (s, initial_value, next_value) )
+    in reverse (foldLeft (s, initial_value, next_value) )
 
   map0 (s: MSeq [T], f: (T -> T)): MSeq [T] =
     let
       initial_value = empty
       next_value (acc: MSeq [T], elem: T): MSeq [T] =
         prepended (acc, f (elem))
-    in reverse ( foldLeft (s, initial_value, next_value) )
+    in reverse (foldLeft (s, initial_value, next_value) )
 
   /**
    * <pre>
@@ -231,7 +231,7 @@ class Min [T]
           right = tuple.right
           result = left.opt (
             ifEmpty := SpanRevFoldTuple_ [T] (left, right, false),
-            ifNonEmpty := (neleft -> _aux_next_value (tuple, p, neleft) )
+            ifNonEmpty := lambda neleft -> _aux_next_value (tuple, p, neleft)
           )
         in result
       condition (tuple: SpanRevFoldTuple [T], elem: T): Boolean = tuple.taking

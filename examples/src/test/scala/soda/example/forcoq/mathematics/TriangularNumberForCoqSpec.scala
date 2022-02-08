@@ -23,7 +23,7 @@ case class TriangularNumberForCoqSpec ()
       lazy val expected = triangular_number_with_nat
       lazy val obtained = triangular_number_with_nat
         .map (pair => pair._1 )
-        .map (n => (n, TriangularNumberForCoq_ () .get_number (n )  )  )
+        .map (n => Tuple2 (n, TriangularNumberForCoq_ () .get_number (n ) ) )
       assert (obtained == expected ) }
 
 }

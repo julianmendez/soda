@@ -28,7 +28,7 @@ class Tokenizer
     soda.lib.Recursion_
 
   tokens: Seq [Token] =
-    _postprocess (Recursion_ ().fold ( Recursion_ ().range (line.length), _initial_value, _next_value_function ))
+    _postprocess (Recursion_ ().fold (Recursion_ ().range (line.length), _initial_value, _next_value_function ))
 
   _initial_value = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq ())
 

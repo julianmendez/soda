@@ -34,7 +34,7 @@ class SeqSDSpec ()
       obtained =
         SeqSDBuilder_ ().build (input).opt (
           ifEmpty := NoneSD_ (),
-          ifNonEmpty := sequence -> SomeSD_ (max (sequence))
+          ifNonEmpty := lambda sequence -> SomeSD_ (max (sequence))
         )
     in assert (obtained == expected)
 
@@ -51,7 +51,7 @@ class SeqSDSpec ()
       expected = SeqSDBuilder_ ().build ( Seq (9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
       obtained = input.opt (
         ifEmpty := EmptySeqSD_ (),
-        ifNonEmpty := sequence -> sequence.reverse
+        ifNonEmpty := lambda sequence -> sequence.reverse
       )
     in assert (obtained == expected)
 

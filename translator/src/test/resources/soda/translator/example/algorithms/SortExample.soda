@@ -17,8 +17,8 @@ class SortExampleWithAt
   is_sorted_for (sequence: Seq [Int]): Boolean =
     sequence
       .indices
-      .filter (index -> index > 0)
-      .forall (index -> sequence (index - 1) <= sequence (index))
+      .filter (lambda index -> index > 0)
+      .forall (lambda index -> sequence (index - 1) <= sequence (index))
 
 end
 
@@ -32,7 +32,7 @@ class SortExampleWithZip
   is_sorted_for (sequence: Seq [Int]): Boolean =
     sequence
       .zip (sequence.tail)
-      .forall (pair ->  (pair._1 <= pair._2))
+      .forall (lambda pair ->  (pair._1 <= pair._2))
 
 end
 
@@ -155,7 +155,7 @@ class NonEmptySortedSequenceAux [A subtype Comparable [A]]
   is_sorted (other_sequence: Seq [A]): Boolean =
     other_sequence
       .zip (other_sequence.tail)
-      .forall (pair -> is_less_than (pair._1, pair._2))
+      .forall (lambda pair -> is_less_than (pair._1, pair._2))
 
   insert_sorted (original_sequence: Seq [A], element: A): Seq [A] =
     concatenate (

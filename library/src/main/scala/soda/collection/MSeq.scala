@@ -25,7 +25,7 @@ trait MSeqRec [T]
     ) current_value
     else
       {
-        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = (x => Some (x ) ) ) .get
+        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = x => Some (x ) ) .get
         if (! condition (current_value, neseq.head ) ) current_value else _tailrec_fold (neseq.tail, next_value (current_value, neseq.head ), next_value, condition ) }
 
   def fold [B, C <: B] (sequence: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =

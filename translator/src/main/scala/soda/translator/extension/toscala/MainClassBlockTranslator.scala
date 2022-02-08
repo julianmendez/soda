@@ -57,8 +57,6 @@ trait MainClassBlockTranslator
       )
       .headOption
 
-
-
 }
 
 case class MainClassBlockTranslator_ () extends MainClassBlockTranslator

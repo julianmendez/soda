@@ -16,7 +16,7 @@ class DefaultBlockSequenceTranslator
 
   translate: Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
     lambda block_sequence ->
-      block_sequence.map (block -> translator.translate (block) )
+      block_sequence.map (lambda block -> translator.translate (block) )
 
 end
 

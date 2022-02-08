@@ -17,11 +17,11 @@ trait SortExampleWithAt
   lazy val is_sorted: Seq [Int] => Boolean =
      sequence => is_sorted_for (sequence )
 
-  def is_sorted_for (sequence: Seq [Int]  ): Boolean =
+  def is_sorted_for (sequence: Seq [Int] ): Boolean =
     sequence
       .indices
       .filter (index => index > 0 )
-      .forall (index => sequence (index - 1 ) <= sequence (index )  )
+      .forall (index => sequence.apply (index - 1 ) <= sequence.apply (index )  )
 
 }
 
@@ -35,10 +35,10 @@ trait SortExampleWithZip
   lazy val is_sorted: Seq [Int] => Boolean =
      sequence => is_sorted_for (sequence )
 
-  def is_sorted_for (sequence: Seq [Int]  ): Boolean =
+  def is_sorted_for (sequence: Seq [Int] ): Boolean =
     sequence
       .zip (sequence.tail )
-      .forall (pair =>  (pair._1 <= pair._2 )  )
+      .forall (pair => (pair._1 <= pair._2 )  )
 
 }
 
@@ -63,7 +63,7 @@ trait SortAlgorithmExampleWithFold
   lazy val sort: Seq [Int] => Seq [Int] =
      sequence => sort_for (sequence )
 
-  def sort_for (sequence: Seq [Int]  ): Seq [Int] =
+  def sort_for (sequence: Seq [Int] ): Seq [Int] =
     if (sequence.length < 2
     ) sequence
     else Recursion_ () .fold (sequence, _initial_value, _next_value_function )
@@ -80,7 +80,7 @@ trait SortAlgorithmExampleWithFold
       last_part = sequence.dropWhile (x => x < element )
     )
 
-  def concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int]  ): Seq [Int] =
+  def concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int] ): Seq [Int] =
     first_part.++ (middle.++ (last_part )  )
 
 }
@@ -94,10 +94,10 @@ trait ConstrainedSortAlgorithm
   import   soda.lib.SomeSD_
   import   soda.lib.NoneSD_
 
-  def sort (sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
+  def sort (sequence: Seq [Int] ): OptionSD [Seq [Int]] =
     sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence ) )
 
-  def sort_with (sorted_sequence: Seq [Int]  ): OptionSD [Seq [Int]] =
+  def sort_with (sorted_sequence: Seq [Int] ): OptionSD [Seq [Int]] =
     if (SortExampleWithZip_ () .is_sorted (sorted_sequence )
     ) SomeSD_ (sorted_sequence )
     else NoneSD_ [Seq [Int]] ()
@@ -176,7 +176,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]]
   def is_less_than (x: A, y: A ): Boolean =
     x.compareTo (y ) < 0
 
-  def is_sorted (other_sequence: Seq [A]  ): Boolean =
+  def is_sorted (other_sequence: Seq [A] ): Boolean =
     other_sequence
       .zip (other_sequence.tail )
       .forall (pair => is_less_than (pair._1, pair._2 )  )
@@ -188,7 +188,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A]]
       last_part = original_sequence.dropWhile (x => is_less_than (x, element )  )
     )
 
-  def concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A]  ): Seq [A] =
+  def concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A] ): Seq [A] =
     first_part.++ (middle.++ (last_part )  )
 
 }
@@ -200,7 +200,7 @@ trait SortedSequenceBuilder [A <: Comparable [A]]
 
   import   soda.lib.Recursion_
 
-  def build (sequence: Seq [A]  ): SortedSequence [A] =
+  def build (sequence: Seq [A] ): SortedSequence [A] =
     Recursion_ () .fold (sequence, _initial_value, _next_value_function )
 
   lazy val _initial_value = EmptySortedSequence_ [A] ()

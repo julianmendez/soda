@@ -78,7 +78,7 @@ class ClassDeclarationBlockTranslator
 
   get_number_of_spaces_at_beginning (line: String): Int =
     line
-      .takeWhile (ch => ch.isSpaceChar)
+      .takeWhile (lambda ch -> ch.isSpaceChar)
       .length
 
   get_spaces_at_beginning (line: String): String =
@@ -86,7 +86,7 @@ class ClassDeclarationBlockTranslator
 
   _process_after_extends (block: Block): Seq [String] =
     if (get_first_line (block).trim.nonEmpty)
-    then Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (line -> get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
+    then Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (lambda line -> get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
     else Seq [String] ()
 
   remove_first_line (block: Block): Block =

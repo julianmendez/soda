@@ -15,7 +15,7 @@ class TableTranslator
   abstract
     table: Seq [Tuple2 [String, String] ]
 
-  keys = table.map (pair -> pair._1)
+  keys = table.map (lambda pair -> pair._1)
 
   translate: String -> String =
     lambda word ->

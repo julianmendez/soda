@@ -36,10 +36,10 @@ trait Replacer
 
   def _get_next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): ReplacerFoldTuple =
     if (pos == -1
-    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index )  ), pos )
+    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index ) ), pos )
     else
       ReplacerFoldTuple_ (
-        (replaced_text_rev.+: (line.substring (start_index, pos )  )  ) .+: (replacement ),
+        (replaced_text_rev.+: (line.substring (start_index, pos ) ) ) .+: (replacement ),
         pos + pattern.length
       )
 

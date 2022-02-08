@@ -14,7 +14,7 @@ case class FiboExampleSpec ()
       lazy val expected = fibonacci_values
       lazy val obtained = fibonacci_values
         .map (pair => pair._1 )
-        .map (n => (n, FiboExampleInSoda_ () .fib (n )  )  )
+        .map (n => Tuple2 (n, FiboExampleInSoda_ () .fib (n ) ) )
       assert (obtained == expected ) }
 
 }

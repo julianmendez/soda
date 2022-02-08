@@ -35,9 +35,9 @@ class LetInBlockTranslator
   _translate_block (block: AnnotatedBlock): Block =
       BlockBuilder_ ().build (
         block.lines
-          .map (line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
-          .map (line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )
-          .map (line -> append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation) )
+          .map (lambda line -> replace_all_when (line, starts_with, tc.soda_in_let_pattern, tc.scala_in_let_translation) )
+          .map (lambda line -> replace_all_when (line, are_trim_equal, tc.soda_in_let_pattern.trim, tc.scala_in_let_translation) )
+          .map (lambda line -> append_if_condition (line, starts_with, tc.soda_in_pattern, tc.scala_in_translation) )
       )
 
   replace_all_when (line: String, condition: (String, String) -> Boolean, pattern: String, new_text: String): String =

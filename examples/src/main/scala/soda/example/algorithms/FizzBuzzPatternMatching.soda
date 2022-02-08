@@ -12,14 +12,14 @@ class FizzBuzzPatternMatching
   fizz_buzz =
     Recursion_ ()
       .range (100)
-      .map ( (lambda x: Int) -> x + 1)
+      .map (lambda (x: Int) -> x + 1)
       .map (get_fizz_buzz_term)
 
   get_fizz_buzz_term (n: Int) =
-    match (n % 3, n % 5)
-      | (0, 0) => fizz + buzz
-      | (0, x) => fizz
-      | (x, 0) => buzz
+    match Tuple2 (n % 3, n % 5)
+      | Tuple2 (0, 0) => fizz + buzz
+      | Tuple2 (0, x) => fizz
+      | Tuple2 (x, 0) => buzz
       | otherwise => n.toString
     end
 

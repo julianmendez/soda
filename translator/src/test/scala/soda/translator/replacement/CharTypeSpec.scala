@@ -39,7 +39,7 @@ case class CharTypeSpec ()
       lazy val expected = Seq (CharTypeEnum_ () .plain_type )
       lazy val obtained =
         inputStr
-          .map (ch => CharTypeEnum_ () .get_char_type (ch )  )
+          .map (ch => CharTypeEnum_ () .get_char_type (ch ) )
           .toSet
           .toSeq
       assert (obtained == expected ) }

@@ -238,7 +238,7 @@ trait TranslationConstantToScala
   lazy val scala_non_soda: Seq [Tuple2 [String, String]] =
       scala_reserved_words
         .filter (x => ! soda_constant.soda_reserved_words.contains (x )  )
-        .map (x =>  (x, prefix_scala_non_soda + x ) )
+        .map (x => Tuple2 (x, prefix_scala_non_soda + x ) )
 
   lazy val soda_brackets_and_comma =
       Seq ('(', ')', '[', ']', '{', '}', ',' )

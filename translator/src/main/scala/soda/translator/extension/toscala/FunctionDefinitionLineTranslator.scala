@@ -103,8 +103,8 @@ trait FunctionDefinitionLineTranslator
     get_index (line, pattern, 0 )
 
   def get_index (line: String, pattern: String, start: Int ): OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start )  )
-      .filter (position => !  (position == -1 )  )
+    SomeSD_ (line.indexOf (pattern, start ) )
+      .filter (position => ! (position == -1 ) )
 
 }
 

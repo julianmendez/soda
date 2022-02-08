@@ -27,10 +27,11 @@ trait TokenizedBlockTranslator
       BlockBuilder_ () .build (
         block
           .annotated_lines
-          .map (annotated_line =>
-            if (annotated_line.is_comment
-            ) annotated_line.line
-            else _translate_non_comment (annotated_line.line )
+          .map (
+             annotated_line =>
+              if (annotated_line.is_comment
+              ) annotated_line.line
+              else _translate_non_comment (annotated_line.line )
           )
       )
     )
@@ -39,14 +40,14 @@ trait TokenizedBlockTranslator
       SomeSD_ (line )
         .map (x => Replacement_ (x ) .add_space_to_soda_line () .line )
         .map (x => Tokenizer_ (x ) .tokens )
-        .map (x => _translate_line (x )  )
-        .map (x => _join_tokens (x )  )
+        .map (x => _translate_line (x ) )
+        .map (x => _join_tokens (x ) )
         .map (x => Replacement_ (x ) .remove_space_from_scala_line () .line )
         .getOrElse ("")
 
   def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
     tokens.map (
-      token =>
+       token =>
         if (token.parser_state == ParserStateEnum_ () .plain
         ) Token_ (replace_token (token ), token.parser_state, token.index )
         else token

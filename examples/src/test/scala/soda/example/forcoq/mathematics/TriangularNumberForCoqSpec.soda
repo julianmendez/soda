@@ -14,7 +14,7 @@ class TriangularNumberForCoqSpec ()
 
   triangular_number_with_nat: Seq [ Tuple2 [nat, nat] ] =
     triangular_number_values
-      .map (pair ->
+      .map (lambda pair ->
        ( IntNat_ ().from_non_negative (pair._1),  IntNat_ ().from_non_negative (pair._2) )
       )
 
@@ -22,8 +22,8 @@ class TriangularNumberForCoqSpec ()
     let
       expected = triangular_number_with_nat
       obtained = triangular_number_with_nat
-        .map (pair -> pair._1)
-        .map (n -> (n, TriangularNumberForCoq_ ().get_number (n)))
+        .map (lambda pair -> pair._1)
+        .map (lambda n -> Tuple2 (n, TriangularNumberForCoq_ ().get_number (n) ) )
     in assert (obtained == expected)
 
 end

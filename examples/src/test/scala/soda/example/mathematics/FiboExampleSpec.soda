@@ -12,8 +12,8 @@ class FiboExampleSpec ()
     let
       expected = fibonacci_values
       obtained = fibonacci_values
-        .map (pair -> pair._1)
-        .map (n -> (n, FiboExampleInSoda_ ().fib (n)))
+        .map (lambda pair -> pair._1)
+        .map (lambda n -> Tuple2 (n, FiboExampleInSoda_ ().fib (n) ) )
     in assert (obtained == expected)
 
 end

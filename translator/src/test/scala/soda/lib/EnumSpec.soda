@@ -45,7 +45,7 @@ class EnumSpec ()
   test ("the names of the elements in enumerations")
     let
       expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
-      obtained = DayOfTheWeekEnum_ ().values.map (x -> x.toString)
+      obtained = DayOfTheWeekEnum_ ().values.map (lambda x -> x.toString)
     in assert (obtained == expected)
 
 end

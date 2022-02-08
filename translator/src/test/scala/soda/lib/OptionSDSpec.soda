@@ -177,21 +177,21 @@ class OptionSDSpec ()
     let
       input = NoneSD_[Int] ()
       expected = NoneSD_[Int] ()
-      obtained = input.filter (x -> true)
+      obtained = input.filter (lambda x -> true)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate does not hold")
     let
       input = SomeSD_[Int] (0)
       expected = NoneSD_[Int] ()
-      obtained = input.filter (x -> x > 0)
+      obtained = input.filter (lambda x -> x > 0)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate holds")
     let
       input = SomeSD_[Int] (1)
       expected = SomeSD_[Int] (1)
-      obtained = input.filter (x -> x > 0)
+      obtained = input.filter (lambda x -> x > 0)
     in assert (obtained == expected)
 
 end

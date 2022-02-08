@@ -38,7 +38,7 @@ class CharTypeSpec ()
       expected = Seq ( CharTypeEnum_ ().plain_type )
       obtained =
         inputStr
-          .map (ch -> CharTypeEnum_ ().get_char_type (ch))
+          .map (lambda ch -> CharTypeEnum_ ().get_char_type (ch) )
           .toSet
           .toSeq
     in assert (obtained == expected)

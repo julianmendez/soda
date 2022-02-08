@@ -17,7 +17,7 @@ trait BlockBuilder
 
   def build (lines: Seq [String] ): Block =
     Block_ (
-        get_annotated_lines (lines )
+      get_annotated_lines (lines )
     )
 
   def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =

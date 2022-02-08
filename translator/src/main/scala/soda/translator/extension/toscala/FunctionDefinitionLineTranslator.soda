@@ -49,14 +49,14 @@ class FunctionDefinitionLineTranslator
   translation =
     find_definition (line).opt (
       ifEmpty := line,
-      ifNonEmpty := position -> try_found_definition (position).line
+      ifNonEmpty := lambda position -> try_found_definition (position).line
     )
 
   translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, tc.scala_value + scala_space )
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space)
 
   translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern ( tc.soda_let_pattern, tc.scala_definition + scala_space )
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_definition + scala_space)
 
   try_found_definition (position: Int): Replacement =
     if is_val_definition (position)
@@ -76,13 +76,13 @@ class FunctionDefinitionLineTranslator
     position_of_first_opening_parenthesis.isEmpty
 
   is_val_definition_case_2 (initial_position: Int) =
-    position_of_first_opening_parenthesis.opt (false, position -> position > initial_position)
+    position_of_first_opening_parenthesis.opt (false, lambda position -> position > initial_position)
 
   is_val_definition_case_3 =
     get_index (line, sc.type_membership_symbol).opt (
       ifEmpty := false,
-      ifNonEmpty := other_position ->
-        position_of_first_opening_parenthesis.opt (false, position -> position > other_position)
+      ifNonEmpty := lambda other_position ->
+        position_of_first_opening_parenthesis.opt (false, lambda position -> position > other_position)
     )
 
   is_val_definition_case_4 =
@@ -104,8 +104,8 @@ class FunctionDefinitionLineTranslator
     get_index (line, pattern, 0)
 
   get_index (line: String, pattern: String, start: Int): OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start))
-      .filter (position -> not  (position == -1))
+    SomeSD_ (line.indexOf (pattern, start) )
+      .filter (lambda position -> not (position == -1) )
 
 end
 

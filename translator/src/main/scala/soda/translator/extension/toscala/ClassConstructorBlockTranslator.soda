@@ -76,7 +76,7 @@ class ClassConstructorBlockTranslator
 
   _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
     references
-      .flatMap (block =>
+      .flatMap (lambda block ->
         match block
           | b: ClassBeginningAnnotation => Some (b)
           | x => None
@@ -86,14 +86,14 @@ class ClassConstructorBlockTranslator
 
   _get_abstract_functions (references: Seq [AnnotatedBlock] ): Seq [String] =
     references
-      .flatMap (block =>
+      .flatMap (lambda block =>
         match block
           | b: AbstractDeclarationAnnotation => Some (b)
           | x => None
         end
       )
-      .flatMap (block -> block.abstract_functions)
-      .map (annotated_line ->  _translate_type_symbols (annotated_line.line).trim )
+      .flatMap (lambda block -> block.abstract_functions)
+      .map (lambda annotated_line ->  _translate_type_symbols (annotated_line.line).trim )
 
   _translate_type_symbols (line: String): String =
     line

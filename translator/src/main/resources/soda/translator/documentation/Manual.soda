@@ -187,7 +187,7 @@ class Manual
    * Lambda functions are declared using a right arrow (`->`). */
 
   plus_one (sequence: Seq [Int]): Seq [Int] =
-    sequence.map (element -> element + 1)
+    sequence.map (lambda element -> element + 1)
 
   /* Boolean values `false` and `true` are available. */
 

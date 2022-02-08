@@ -12,8 +12,8 @@ class FizzBuzzPatternMatching
   fizz_buzz =
     Recursion_ ()
       .range (100)
-      .map ( (lambda x: Int) -> x + 1)
-      .map (get_fizz_buzz_term)
+      .map (lambda (x: Int) -> x + 1)
+      .map (lambda get_fizz_buzz_term)
 
   get_fizz_buzz_term (n: Int) =
     match (n % 3, n % 5)

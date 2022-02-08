@@ -47,7 +47,7 @@ class FunctionDefinitionAnnotation
   _contains_the_equals_symbol_with (first_line: String): Boolean =
     Tokenizer_ (first_line)
       .tokens
-      .exists (token ->
+      .exists (lambda token ->
         token.parser_state == plain_state and
         _contains_the_equals_symbol_in_token (token.text)
       )
