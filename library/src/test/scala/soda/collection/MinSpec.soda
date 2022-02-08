@@ -341,43 +341,43 @@ class MinSpec ()
   test ("exists with Seq 0")
     let
       expected = true
-      predicate: Int -> Boolean = x -> x == 8
-      obtained = exampleSeq.exists (lambda predicate)
+      predicate: Int -> Boolean = lambda x -> x == 8
+      obtained = exampleSeq.exists (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 1")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = exampleSeq.exists (lambda predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = exampleSeq.exists (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 2")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = Seq ().exists (lambda predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = Seq ().exists (predicate)
     in assert (obtained == expected)
 
   test ("exists 0")
     let
       expected = true
-      predicate: Int -> Boolean = x -> x == 8
-      obtained = Min_ ().exists (lambda example, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 8
+      obtained = Min_ ().exists (example, predicate)
     in assert (obtained == expected)
 
   test ("exists 1")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().exists (lambda example, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = Min_ ().exists (example, predicate)
     in assert (obtained == expected)
 
   test ("exists 2")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().exists (lambda empty, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = Min_ ().exists (empty, predicate)
     in assert (obtained == expected)
 
   test ("find with Seq 0")

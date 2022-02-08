@@ -178,7 +178,7 @@ trait Min [T]
       def condition (acc: Boolean, elem: T ): Boolean = acc
       foldLeftWhile (s, initial_value, next_value, condition ) }
 
-  def exists (s: MSeq [T], p: (T => Boolean )  ): Boolean =
+  def exists (s: MSeq [T], p: (T => Boolean ) ): Boolean =
     {
       lazy val initial_value = false
       def next_value (acc: Boolean, elem: T ): Boolean = acc || p (elem )
