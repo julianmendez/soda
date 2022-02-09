@@ -21,8 +21,8 @@
     - abbreviation `+` is replaced by its long form `import`
     - classes are no longer defined with braces (`{` and `}`)
     - annotation `@main` is no longer user
-  - build: sbt '++ 3.1.0' clean compile test package assembly
-  - release: target/scala-3.1.0/soda-0.14.0.jar
+  - build: sbt '++ 3.1.1' clean compile test package assembly
+  - release: target/scala-3.1.1/soda-0.14.0.jar
 - - version: v0.13.0
   - date: '2021-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly

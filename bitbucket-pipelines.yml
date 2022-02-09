@@ -2,7 +2,7 @@
 # Configuration file for Bitbucket Pipelines
 
 # https://hub.docker.com/r/hseeberger/scala-sbt/
-image: hseeberger/scala-sbt:17.0.1_1.6.1_3.1.0
+image: hseeberger/scala-sbt:17.0.1_1.6.2_3.1.1
 
 pipelines:
   default:
@@ -11,7 +11,7 @@ pipelines:
       caches:
       - sbt
       script:
-      - sbt '++ 3.1.0' scalaVersion sbtVersion version clean compile test package assembly
+      - sbt '++ 3.1.1' scalaVersion sbtVersion version clean compile test package assembly
       - apt update
       - apt install -y texlive-latex-recommended texlive-latex-extra
       - cd documentation/src/site/tex
