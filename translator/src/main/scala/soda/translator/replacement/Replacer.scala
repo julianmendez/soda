@@ -23,11 +23,11 @@ trait Replacer
   import   soda.lib.Recursion_
 
   lazy val replaced_text =
-    postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), initial_value, next_value_function, should_continue ) )
+    postprocess (Recursion_ () .fold_while (Recursion_ () .range (line.length ) ) (initial_value ) (next_value_function ) (should_continue ) )
 
   lazy val initial_value = ReplacerFoldTuple_ (Seq (), 0 )
 
-  def next_value_function (tuple: ReplacerFoldTuple, x: Int ): ReplacerFoldTuple =
+  def next_value_function (tuple: ReplacerFoldTuple ) (x: Int ): ReplacerFoldTuple =
     _get_next_tuple (
       replaced_text_rev = tuple.replaced_text_rev,
       start_index = tuple.start_index,
@@ -43,7 +43,7 @@ trait Replacer
         pos + pattern.length
       )
 
-  def should_continue (tuple: ReplacerFoldTuple, x: Int ): Boolean =
+  def should_continue (tuple: ReplacerFoldTuple ) (x: Int ): Boolean =
     !  (tuple.start_index == -1 )
 
   def postprocess (tuple: ReplacerFoldTuple ): String =

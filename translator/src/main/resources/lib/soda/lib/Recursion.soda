@@ -11,34 +11,34 @@ package soda.lib
 class Recursion
 
   @tailrec
-  _tailrec_fold4 [A, B, C subtype B] (sequence: Seq [A], current_value: C, next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
+  _tailrec_fold_while [A, B, C subtype B] (sequence : Seq [A] ) (current_value : C) (next_value_function : B -> A -> C) (condition : B -> A -> Boolean)  : C =
     if sequence.isEmpty
     then current_value
     else
-      if not condition (current_value, sequence.head)
+      if not condition (current_value) (sequence.head)
       then current_value
-      else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head), next_value_function, condition)
+      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-  fold [A, B, C subtype B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A) -> C, condition: (B, A) -> Boolean): C =
-    _tailrec_fold4 (sequence, initial_value, next_value_function, condition)
+  fold_while [A, B, C subtype B] (sequence : Seq [A] ) (initial_value : C) (next_value_function : B -> A -> C) (condition : B -> A -> Boolean) : C =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
   @tailrec
-  _tailrec_fold3 [A, B, C subtype B] (sequence: Seq [A], current_value: C, next_value_function: (B, A) -> C): C =
+  _tailrec_fold [A, B, C subtype B] (sequence : Seq [A] ) (current_value : C) (next_value_function : B -> A -> C) : C =
     if sequence.isEmpty
     then current_value
-    else _tailrec_fold3 (sequence.tail, next_value_function (current_value, sequence.head), next_value_function)
+    else _tailrec_fold (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function)
 
-  fold [A, B, C subtype B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A) -> C): C =
-    _tailrec_fold3 (sequence, initial_value, next_value_function)
+  fold [A, B, C subtype B] (sequence : Seq [A] ) (initial_value : C) (next_value_function : B -> A -> C) : C =
+    _tailrec_fold (sequence) (initial_value) (next_value_function)
 
   @tailrec
-  _tailrec_range (n: Int, sequence: Seq [Int]): Seq [Int] =
+  _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if n <= 0
     then sequence
-    else _tailrec_range (n - 1, sequence.+: (n - 1))
+    else _tailrec_range (n - 1) (sequence.+: (n - 1) )
 
-  range (length: Int): Seq [Int] =
-    _tailrec_range (length, Seq [Int] ())
+  range (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
 
 end
 

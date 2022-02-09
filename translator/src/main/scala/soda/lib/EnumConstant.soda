@@ -11,14 +11,14 @@ package soda.lib
 class EnumConstant
 
   abstract
-    ordinal: Int
-    name: String
+    ordinal : Int
+    name : String
 
 end
 
 class Enum [A subtype EnumConstant]
 
   abstract
-    values: Seq [A]
+    values : Seq [A]
 
 end

@@ -11,10 +11,10 @@ package soda.lib
 class SeqSD [A]
 
   abstract
-    toSeq: Seq [A]
-    reverse: SeqSD [A]
+    toSeq : Seq [A]
+    reverse : SeqSD [A]
 
-  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B =
+  opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] -> B) : B =
     match this
       | EmptySeqSD_ () => ifEmpty
       | NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
@@ -26,9 +26,9 @@ class EmptySeqSD [A]
   extends
     SeqSD [A]
 
-  toSeq: Seq [A] = Seq [A] ()
+  toSeq : Seq [A] = Seq [A] ()
 
-  reverse: EmptySeqSD [A] = this
+  reverse : EmptySeqSD [A] = this
 
 end
 
@@ -37,19 +37,19 @@ class NonEmptySeqSD [A]
     SeqSD [A]
 
   abstract
-    toSeq: Seq [A]
+    toSeq : Seq [A]
 
-  head: A = toSeq.head
+  head : A = toSeq.head
 
-  tail: SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)
+  tail : SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)
 
-  reverse: NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse)
+  reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse)
 
 end
 
 class SeqSDBuilder [A]
 
-  build (seq: Seq [A]): SeqSD [A] =
+  build (seq : Seq [A] ) : SeqSD [A] =
     if seq.isEmpty
     then EmptySeqSD_ [A] ()
     else NonEmptySeqSD_ [A] (seq)

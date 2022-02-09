@@ -42,11 +42,7 @@ class PreprocessorSequenceTranslator
 
   _get_second_pass (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
     recursion
-      .fold (
-        block_sequence.indices,
-        _initial_value (block_sequence),
-        _next_value_function
-      )
+      .fold (block_sequence.indices) (_initial_value (block_sequence) ) (_next_value_function)
       .accumulated
       .reverse
 
@@ -57,7 +53,7 @@ class PreprocessorSequenceTranslator
       references := Seq [Seq [AnnotatedBlock] ] ()
     )
 
-  _next_value_function (current: AuxiliaryTuple, index: Int): AuxiliaryTuple =
+  _next_value_function (current: AuxiliaryTuple) (index: Int): AuxiliaryTuple =
     _pass_next_step (current, index, _get_additional_information (current, index) )
 
   _get_additional_information (current: AuxiliaryTuple, index: Int): AnnotatedBlock =

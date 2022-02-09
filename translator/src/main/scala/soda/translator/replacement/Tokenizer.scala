@@ -29,15 +29,15 @@ trait Tokenizer
   import   soda.lib.Recursion_
 
   lazy val tokens: Seq [Token] =
-    _postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ), _initial_value, _next_value_function )  )
+    _postprocess (Recursion_ () .fold (Recursion_ () .range (line.length ) ) (_initial_value ) (_next_value_function ) )
 
-  lazy val _initial_value = TokenizerFoldTuple_ (0, ParserStateEnum_ () .plain, Seq ()  )
+  lazy val _initial_value = TokenizerFoldTuple_ (0, ParserStateEnum_ () .plain, Seq () )
 
   def _postprocess (tuple: TokenizerFoldTuple ): Seq [Token] =
-    (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index ), tuple.parser_state, tuple.last_index )  )  )
+    (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index ), tuple.parser_state, tuple.last_index ) ) )
       .reverse
 
-  def _next_value_function (tuple: TokenizerFoldTuple, current_index: Int ): TokenizerFoldTuple =
+  def _next_value_function (tuple: TokenizerFoldTuple ) (current_index: Int ): TokenizerFoldTuple =
     _new_value_function_with (tuple, current_index, _new_parser_state (tuple, current_index ) )
 
   def _new_value_function_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
@@ -49,7 +49,7 @@ trait Tokenizer
     ParserTransition_ ()
       .next_parser_state (
         tuple.parser_state,
-        CharTypeEnum_ () .get_char_type (line.charAt (current_index )  )
+        CharTypeEnum_ () .get_char_type (line.charAt (current_index ) )
       )
 
   def _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =

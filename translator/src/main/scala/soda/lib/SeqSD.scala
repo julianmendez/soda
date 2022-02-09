@@ -14,7 +14,7 @@ trait SeqSD [A]
   def   toSeq: Seq [A]
   def   reverse: SeqSD [A]
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B =
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: NonEmptySeqSD [A] => B ): B =
     this match  {
       case EmptySeqSD_ () => ifEmpty
       case NonEmptySeqSD_ (toSeq ) => ifNonEmpty (NonEmptySeqSD_ (toSeq ) )
@@ -57,7 +57,7 @@ case class NonEmptySeqSD_ [A] (toSeq: Seq [A]) extends NonEmptySeqSD [A]
 trait SeqSDBuilder [A]
 {
 
-  def build (seq: Seq [A]  ): SeqSD [A] =
+  def build (seq: Seq [A] ): SeqSD [A] =
     if (seq.isEmpty
     ) EmptySeqSD_ [A] ()
     else NonEmptySeqSD_ [A] (seq )

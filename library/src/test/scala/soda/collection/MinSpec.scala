@@ -15,11 +15,10 @@ case class MinSpec ()
 
   lazy val revExampleSeq: Seq [Int] = exampleSeq.reverse
 
-  def prepend_elem (list: MSeq [Int], elem: Int ) = Min_ () .prepended (list, elem )
+  def prepend_elem (list: MSeq [Int]  ) (elem: Int ) = Min_ () .prepended (list, elem )
 
   lazy val example: NESeq [Int] =
-    Recursion_ () .fold (revExampleSeq.tail,
-      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ), prepend_elem )
+    Recursion_ () .fold (revExampleSeq.tail ) (NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ) ) (prepend_elem )
 
   test ("prepended")
     {

@@ -37,9 +37,7 @@ class OptionSDSpec ()
       result_if_non_empty (value: String): String = "Its value is " + value + "."
       empty = NoneSD_[String] ()
       expected = "It is empty."
-      obtained = empty.opt (
-        ifEmpty := result_if_empty,
-        ifNonEmpty := result_if_non_empty)
+      obtained = empty.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
     in assert (obtained == expected)
 
   test ("should open an non empty option")
@@ -48,9 +46,7 @@ class OptionSDSpec ()
       result_if_non_empty (value: String): String = "Its value is " + value + "."
       some_element = SomeSD_[String] ("0")
       expected = "Its value is 0."
-      obtained = some_element.opt (
-        ifEmpty := result_if_empty,
-        ifNonEmpty := result_if_non_empty)
+      obtained = some_element.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
     in assert (obtained == expected)
 
   test ("should try fold an empty option")
@@ -59,9 +55,7 @@ class OptionSDSpec ()
       result_if_non_empty (value: String): String = "Its value is " + value + "."
       empty = NoneSD_[String] ()
       expected = "It is empty."
-      obtained = empty.fold (
-        ifEmpty := result_if_empty,
-        f := result_if_non_empty)
+      obtained = empty.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
     in assert (obtained == expected)
 
   test ("should try fold an non empty option")
@@ -70,9 +64,7 @@ class OptionSDSpec ()
       result_if_non_empty (value: String): String = "Its value is " + value + "."
       some_element = SomeSD_[String] ("0")
       expected = "Its value is 0."
-      obtained = some_element.fold (
-        ifEmpty := result_if_empty,
-        f := result_if_non_empty)
+      obtained = some_element.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
     in assert (obtained == expected)
 
   test ("should map empty to empty")
@@ -122,11 +114,11 @@ class OptionSDSpec ()
       maybeC = toInt (stringC)
       expected = SomeSD_ (6)
       obtained =
-        maybeA.opt (ifEmpty := NoneSD_,
+        maybeA.opt (ifEmpty := NoneSD_) (
           ifNonEmpty := a ->
-            maybeB.opt (ifEmpty := NoneSD_,
+            maybeB.opt (ifEmpty := NoneSD_) (
               ifNonEmpty := b ->
-                maybeC.opt (ifEmpty := NoneSD_,
+                maybeC.opt (ifEmpty := NoneSD_) (
                   ifNonEmpty := c ->
                     SomeSD_ (a + b + c) ) ) )
     in assert (obtained == expected)

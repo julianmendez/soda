@@ -11,6 +11,6 @@ package soda.lib
 class Doc
 
   abstract
-    doc: String
+    doc : String
 
 end

@@ -22,11 +22,11 @@ class Replacer
     soda.lib.Recursion_
 
   replaced_text =
-    postprocess (Recursion_ ().fold (Recursion_ ().range (line.length), initial_value, next_value_function, should_continue ) )
+    postprocess (Recursion_ ().fold_while (Recursion_ ().range (line.length) ) (initial_value) (next_value_function) (should_continue) )
 
   initial_value = ReplacerFoldTuple_ (Seq (), 0 )
 
-  next_value_function (tuple: ReplacerFoldTuple, x: Int): ReplacerFoldTuple =
+  next_value_function (tuple: ReplacerFoldTuple) (x: Int): ReplacerFoldTuple =
     _get_next_tuple (
       replaced_text_rev := tuple.replaced_text_rev,
       start_index := tuple.start_index,
@@ -42,7 +42,7 @@ class Replacer
         pos + pattern.length
       )
 
-  should_continue (tuple: ReplacerFoldTuple, x: Int): Boolean =
+  should_continue (tuple: ReplacerFoldTuple) (x: Int): Boolean =
     not  (tuple.start_index == -1)
 
   postprocess (tuple: ReplacerFoldTuple): String =

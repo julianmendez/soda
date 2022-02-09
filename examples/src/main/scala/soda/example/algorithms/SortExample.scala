@@ -66,11 +66,11 @@ trait SortAlgorithmExampleWithFold
   def sort_for (sequence: Seq [Int] ): Seq [Int] =
     if (sequence.length < 2
     ) sequence
-    else Recursion_ () .fold (sequence, _initial_value, _next_value_function )
+    else Recursion_ () .fold (sequence ) (_initial_value ) (_next_value_function )
 
   lazy val _initial_value = Seq [Int] ()
 
-  def _next_value_function (current_sequence: Seq [Int], elem: Int ): Seq [Int] =
+  def _next_value_function (current_sequence: Seq [Int]  ) (elem: Int ): Seq [Int] =
     insert_sorted (current_sequence, elem )
 
   def insert_sorted (sequence: Seq [Int], element: Int ): Seq [Int] =
@@ -201,11 +201,11 @@ trait SortedSequenceBuilder [A <: Comparable [A]]
   import   soda.lib.Recursion_
 
   def build (sequence: Seq [A] ): SortedSequence [A] =
-    Recursion_ () .fold (sequence, _initial_value, _next_value_function )
+    Recursion_ () .fold (sequence ) (_initial_value ) (_next_value_function )
 
   lazy val _initial_value = EmptySortedSequence_ [A] ()
 
-  def _next_value_function (sorted_sequence: SortedSequence [A], element: A ): SortedSequence [A] =
+  def _next_value_function (sorted_sequence: SortedSequence [A] ) (element: A ): SortedSequence [A] =
     sorted_sequence.add (element )
 
 }

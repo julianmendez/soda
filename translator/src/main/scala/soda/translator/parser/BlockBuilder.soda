@@ -22,24 +22,24 @@ class BlockBuilder
     )
 
   get_annotated_lines (lines: Seq [String]): Seq [AnnotatedLine] =
-    Recursion_ ().fold (lines, initial_value, next_value_function)
+    Recursion_ ().fold (lines) (initial_value) (next_value_function)
       .annotated_lines_rev
       .reverse
 
-  initial_value = PreprocessorFoldTuple_ (false, Seq ())
+  initial_value = PreprocessorFoldTuple_ (false, Seq () )
 
-  next_value_function (pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
+  next_value_function (pair: PreprocessorFoldTuple) (line: String): PreprocessorFoldTuple =
     _next_value_function_with (_annotate_this_line (line, pair.comment_state), pair, line)
 
   _next_value_function_with (t: CurrentAndNewCommentState, pair: PreprocessorFoldTuple, line: String): PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state)))
+    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state) ) )
 
   _annotate_this_line (line: String, comment_state: Boolean): CurrentAndNewCommentState =
     if comment_state
-    then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
+    then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment) )
     else
       if line.trim.startsWith (soda_begin_comment)
-      then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment))
+      then CurrentAndNewCommentState_ (true, not line.trim.endsWith (soda_end_comment) )
       else CurrentAndNewCommentState_ (false, false)
 
 end

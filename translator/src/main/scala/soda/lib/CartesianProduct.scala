@@ -12,14 +12,14 @@ trait CartesianProduct
 {
 
   def _initial_value [A] (seq: Seq [A] ): Seq [Seq [A]] =
-    seq.map (elem => Seq [A] (elem )  )
+    seq.map (elem => Seq [A] (elem ) )
 
-  def _next_value [A] (accum: Seq [Seq [A]], seq_a: Seq [A] ): Seq [Seq [A]] =
+  def _next_value [A] (accum: Seq [Seq [A]] ) (seq_a: Seq [A] ): Seq [Seq [A]] =
     seq_a.flatMap (elem_a =>
       accum.map (seq_b => seq_b.+: (elem_a ) ) )
 
   def _apply_recursion [A] (rev_sequences: Seq [Seq [A]] ): Seq [Seq [A]] =
-    Recursion_ () .fold (rev_sequences.tail, _initial_value (rev_sequences.head ), _next_value [A] )
+    Recursion_ () .fold (rev_sequences.tail ) (_initial_value (rev_sequences.head ) ) (_next_value [A] )
 
   def get_cartesian_product [A] (sequences: Seq [Seq [A]] ): Seq [Seq [A]] =
     if (sequences.isEmpty

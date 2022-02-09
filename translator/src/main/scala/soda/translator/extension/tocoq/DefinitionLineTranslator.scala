@@ -47,10 +47,7 @@ trait DefinitionLineTranslator
   lazy val coq_space: String = " "
 
   lazy val translation =
-    find_definition (line ) .opt (
-      ifEmpty = line,
-      ifNonEmpty = position => try_found_definition (position ) .line
-    )
+    find_definition (line ) .opt (ifEmpty = line ) (ifNonEmpty = position => try_found_definition (position ) .line )
 
   lazy val is_class_definition =
     get_index (line, sc.space + sc.class_reserved_word + sc.space ) .isDefined
@@ -96,13 +93,11 @@ trait DefinitionLineTranslator
     position_of_first_opening_parenthesis.isEmpty
 
   def is_val_definition_case_2 (initial_position: Int ) =
-    position_of_first_opening_parenthesis.opt (false, position => (position > initial_position ) )
+    position_of_first_opening_parenthesis.opt (false ) (position => (position > initial_position ) )
 
   lazy val is_val_definition_case_3 =
-    get_index (line, sc.type_membership_symbol ) .opt (
-      ifEmpty = false,
-      ifNonEmpty = other_position =>
-        position_of_first_opening_parenthesis.opt (false, position => (position > other_position ) )
+    get_index (line, sc.type_membership_symbol ) .opt (ifEmpty = false ) (ifNonEmpty = other_position =>
+      position_of_first_opening_parenthesis.opt (false ) (position => (position > other_position ) )
     )
 
   lazy val is_val_definition_case_4 =

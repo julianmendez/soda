@@ -47,10 +47,7 @@ class FunctionDefinitionLineTranslator
   scala_space: String = " "
 
   translation =
-    find_definition (line).opt (
-      ifEmpty := line,
-      ifNonEmpty := lambda position -> try_found_definition (position).line
-    )
+    find_definition (line).opt (ifEmpty := line) (ifNonEmpty := lambda position -> try_found_definition (position).line)
 
   translation_of_val_definition =
     Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern, tc.scala_value + scala_space)
@@ -76,13 +73,11 @@ class FunctionDefinitionLineTranslator
     position_of_first_opening_parenthesis.isEmpty
 
   is_val_definition_case_2 (initial_position: Int) =
-    position_of_first_opening_parenthesis.opt (false, lambda position -> position > initial_position)
+    position_of_first_opening_parenthesis.opt (false) (lambda position -> position > initial_position)
 
   is_val_definition_case_3 =
-    get_index (line, sc.type_membership_symbol).opt (
-      ifEmpty := false,
-      ifNonEmpty := lambda other_position ->
-        position_of_first_opening_parenthesis.opt (false, lambda position -> position > other_position)
+    get_index (line, sc.type_membership_symbol).opt (ifEmpty := false) (ifNonEmpty := lambda other_position ->
+        position_of_first_opening_parenthesis.opt (false) (lambda position -> position > other_position)
     )
 
   is_val_definition_case_4 =

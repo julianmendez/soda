@@ -15,11 +15,10 @@ class MinSpec ()
 
   revExampleSeq: Seq [Int] = exampleSeq.reverse
 
-  prepend_elem (list: MSeq [Int], elem: Int) = Min_ ().prepended (list, elem)
+  prepend_elem (list: MSeq [Int]) (elem: Int) = Min_ ().prepended (list, elem)
 
   example: NESeq [Int] =
-    Recursion_ ().fold (revExampleSeq.tail,
-      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ), prepend_elem )
+    Recursion_ ().fold (revExampleSeq.tail) (NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ) ) (prepend_elem)
 
   test ("prepended")
     let
@@ -300,42 +299,42 @@ class MinSpec ()
     let
       expected = true
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = exampleSeq.forall (lambda predicate)
+      obtained = exampleSeq.forall (predicate)
     in assert (obtained == expected)
 
   test ("forall with Seq 1")
     let
       expected = false
       predicate: Int -> Boolean = x -> x < 7
-      obtained = exampleSeq.forall (lambda predicate)
+      obtained = exampleSeq.forall (predicate)
     in assert (obtained == expected)
 
   test ("forall with Seq 2")
     let
       expected = true
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Seq ().forall (lambda predicate)
+      obtained = Seq ().forall (predicate)
     in assert (obtained == expected)
 
   test ("forall 0")
     let
       expected = true
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = Min_ ().forall (lambda example, predicate)
+      obtained = Min_ ().forall (example, predicate)
     in assert (obtained == expected)
 
   test ("forall 1")
     let
       expected = false
       predicate: Int -> Boolean = x -> x < 7
-      obtained = Min_ ().forall (lambda example, predicate)
+      obtained = Min_ ().forall (example, predicate)
     in assert (obtained == expected)
 
   test ("forall 2")
     let
       expected = true
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().forall (lambda empty, predicate)
+      obtained = Min_ ().forall (empty, predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 0")
@@ -426,21 +425,21 @@ class MinSpec ()
     let
       expected = Seq (0, 3)
       predicate: Int -> Boolean = x -> x % 3 == 0
-      obtained = exampleSeq.filter (lambda predicate)
+      obtained = exampleSeq.filter (predicate)
     in assert (obtained == expected)
 
   test ("filter")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 3) )
       f: Int -> Boolean = x -> x % 3 == 0
-      obtained = Min_ ().filter (lambda example, f)
+      obtained = Min_ ().filter (example, f)
     in assert (obtained == expected)
 
   test ("map with Seq")
     let
       expected = Seq (100, 101, 101, 102, 103, 105, 108)
       f: Int -> Int = x -> x + 100
-      obtained = exampleSeq.map (lambda f)
+      obtained = exampleSeq.map (f)
     in assert (obtained == expected)
 
   test ("map in the same type")

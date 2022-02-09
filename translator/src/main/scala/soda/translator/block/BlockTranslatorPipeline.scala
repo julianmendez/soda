@@ -12,9 +12,9 @@ trait BlockTranslatorPipeline
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
       Recursion_ ()
-        .fold (pipeline, block, _next_value_function )
+        .fold (pipeline ) (block ) (_next_value_function )
 
-  def _next_value_function (block: AnnotatedBlock, translator: BlockTranslator ): AnnotatedBlock =
+  def _next_value_function (block: AnnotatedBlock ) (translator: BlockTranslator ): AnnotatedBlock =
     translator.translate (block )
 
 }

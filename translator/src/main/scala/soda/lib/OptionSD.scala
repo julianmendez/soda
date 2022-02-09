@@ -17,7 +17,7 @@ trait OptionSD [A]
   def   isNonEmpty: Boolean
   def   toSeq: Seq [A]
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B =
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: A => B ): B =
     this match  {
       case NoneSD_ () => ifEmpty
       case SomeSD_ (element ) => ifNonEmpty (element )
@@ -26,7 +26,7 @@ trait OptionSD [A]
   def map [B] (mapping: A => B ): OptionSD [B] =
     this match  {
       case NoneSD_ () => NoneSD_ [B] ()
-      case SomeSD_ (element ) => SomeSD_ [B] (mapping (element )  )
+      case SomeSD_ (element ) => SomeSD_ [B] (mapping (element ) )
     }
 
   def getOrElse (default: A ): A =
@@ -35,19 +35,19 @@ trait OptionSD [A]
       case SomeSD_ (element ) => element
     }
 
-  def fold [B] (ifEmpty: B, f: A => B ): B =
+  def fold [B] (ifEmpty: B ) (f: A => B ): B =
     this match  {
       case NoneSD_ () => ifEmpty
       case SomeSD_ (element ) => f (element )
     }
 
-  def flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B] =
+  def flatMap [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
     this match  {
       case NoneSD_ () => NoneSD_ ()
       case SomeSD_ (element ) => mapping (element )
     }
 
-  def bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B] =
+  def bind [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
     flatMap [B] (mapping )
 
   def filter (predicate: A => Boolean ): OptionSD [A] =
@@ -124,7 +124,7 @@ case class SomeSD_ [A] (element: A) extends SomeSD [A]
 trait OptionSDBuilder [A]
 {
 
-  def build (option: Option [A]  ): OptionSD [A] =
+  def build (option: Option [A] ): OptionSD [A] =
     if (option.isEmpty
     ) NoneSD_ [A] ()
     else SomeSD_ [A] (option.get )
