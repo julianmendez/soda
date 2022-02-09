@@ -203,7 +203,7 @@ trait SortedSequenceBuilder [A <: Comparable [A]]
   def build (sequence: Seq [A] ): SortedSequence [A] =
     Recursion_ () .fold (sequence ) (_initial_value ) (_next_value_function )
 
-  lazy val _initial_value = EmptySortedSequence_ [A] ()
+  lazy val _initial_value: SortedSequence [A] = EmptySortedSequence_ [A] ()
 
   def _next_value_function (sorted_sequence: SortedSequence [A] ) (element: A ): SortedSequence [A] =
     sorted_sequence.add (element )

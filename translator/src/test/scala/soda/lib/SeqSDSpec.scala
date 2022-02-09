@@ -25,9 +25,10 @@ case class SeqSDSpec ()
       def max (s: NonEmptySeqSD [Int]  ): Int =
         Recursion_ () .fold (s.tail.toSeq ) (s.head ) (max_of_2 )
       lazy val input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 )
+      lazy val empty: OptionSD [Int] = NoneSD_ ()
       lazy val expected = SomeSD_ [Int] (9 )
       lazy val obtained =
-        SeqSDBuilder_ () .build (input ) .opt (ifEmpty = NoneSD_ () ) (ifNonEmpty = sequence => SomeSD_ (max (sequence ) ) )
+        SeqSDBuilder_ () .build (input ) .opt (ifEmpty = empty ) (ifNonEmpty = sequence => SomeSD_ (max (sequence ) ) )
       assert (obtained == expected ) }
 
   test ("should reverse a sequence")
@@ -40,8 +41,9 @@ case class SeqSDSpec ()
   test ("should reverse another sequence")
     {
       lazy val input = SeqSDBuilder_ () .build (Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9 ) )
+      lazy val empty: SeqSD [Int] = EmptySeqSD_ ()
       lazy val expected = SeqSDBuilder_ () .build (Seq (9, 5, 4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2 ) )
-      lazy val obtained = input.opt (ifEmpty = EmptySeqSD_ () ) (ifNonEmpty = sequence => sequence.reverse )
+      lazy val obtained = input.opt (ifEmpty = empty ) (ifNonEmpty = sequence => sequence.reverse )
       assert (obtained == expected ) }
 
 }

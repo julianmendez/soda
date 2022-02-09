@@ -24,7 +24,7 @@ class Replacer
   replaced_text =
     postprocess (Recursion_ ().fold_while (Recursion_ ().range (line.length) ) (initial_value) (next_value_function) (should_continue) )
 
-  initial_value = ReplacerFoldTuple_ (Seq (), 0 )
+  initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 
   next_value_function (tuple: ReplacerFoldTuple) (x: Int): ReplacerFoldTuple =
     _get_next_tuple (

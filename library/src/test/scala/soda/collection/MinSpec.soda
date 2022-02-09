@@ -15,10 +15,12 @@ class MinSpec ()
 
   revExampleSeq: Seq [Int] = exampleSeq.reverse
 
-  prepend_elem (list: MSeq [Int]) (elem: Int) = Min_ ().prepended (list, elem)
+  prepend_elem (list: MSeq [Int]) (elem: Int) : NESeq [Int] = Min_ ().prepended (list, elem)
+
+  _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
   example: NESeq [Int] =
-    Recursion_ ().fold (revExampleSeq.tail) (NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () ) ) (prepend_elem)
+    Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
 
   test ("prepended")
     let

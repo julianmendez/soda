@@ -25,7 +25,7 @@ trait BlockBuilder
       .annotated_lines_rev
       .reverse
 
-  lazy val initial_value = PreprocessorFoldTuple_ (false, Seq () )
+  lazy val initial_value: PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
 
   def next_value_function (pair: PreprocessorFoldTuple ) (line: String ): PreprocessorFoldTuple =
     _next_value_function_with (_annotate_this_line (line, pair.comment_state ), pair, line )

@@ -26,7 +26,7 @@ class BlockBuilder
       .annotated_lines_rev
       .reverse
 
-  initial_value = PreprocessorFoldTuple_ (false, Seq () )
+  initial_value : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
 
   next_value_function (pair: PreprocessorFoldTuple) (line: String): PreprocessorFoldTuple =
     _next_value_function_with (_annotate_this_line (line, pair.comment_state), pair, line)

@@ -112,13 +112,14 @@ case class OptionSDSpec ()
       lazy val maybeA = toInt (stringA )
       lazy val maybeB = toInt (stringB )
       lazy val maybeC = toInt (stringC )
+      lazy val empty: OptionSD [Int] = NoneSD_ ()
       lazy val expected = SomeSD_ (6 )
       lazy val obtained =
-        maybeA.opt (ifEmpty = NoneSD_ ) (
+        maybeA.opt (ifEmpty = empty ) (
           ifNonEmpty = a =>
-            maybeB.opt (ifEmpty = NoneSD_ ) (
+            maybeB.opt (ifEmpty = empty ) (
               ifNonEmpty = b =>
-                maybeC.opt (ifEmpty = NoneSD_ ) (
+                maybeC.opt (ifEmpty = empty ) (
                   ifNonEmpty = c =>
                     SomeSD_ (a + b + c ) ) ) )
       assert (obtained == expected ) }

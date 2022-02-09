@@ -25,7 +25,7 @@ trait Replacer
   lazy val replaced_text =
     postprocess (Recursion_ () .fold_while (Recursion_ () .range (line.length ) ) (initial_value ) (next_value_function ) (should_continue ) )
 
-  lazy val initial_value = ReplacerFoldTuple_ (Seq (), 0 )
+  lazy val initial_value: ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 
   def next_value_function (tuple: ReplacerFoldTuple ) (x: Int ): ReplacerFoldTuple =
     _get_next_tuple (
