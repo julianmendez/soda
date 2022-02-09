@@ -17,7 +17,7 @@ class ScalaReservedWordEscaping
 
   f (x: Int, y: Int): Int = x + y
 
-  cons: (Int, Int) -> Int = (x, y) -> f (x, y)
+  cons: (Int, Int) -> Int = lambda (x, y) -> f (x, y)
 
 end
 

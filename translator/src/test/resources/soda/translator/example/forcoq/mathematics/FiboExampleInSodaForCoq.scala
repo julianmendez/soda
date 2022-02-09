@@ -13,11 +13,11 @@ trait FiboExampleInSodaForCoq
     m match  {
       case O_ () => a
       case S_ (O_ () ) => b
-      case S_ (k ) => _tailrec_fib (k ) (b ) (a .add (b )  )
+      case S_ (k ) => _tailrec_fib (k ) (b ) (a .add (b ) )
     }
 
   def fib (n: nat ) =
-    _tailrec_fib (n ) (O_ ()  ) (S_ (O_ () ) )
+    _tailrec_fib (n ) (O_ () ) (S_ (O_ () ) )
 
 }
 
