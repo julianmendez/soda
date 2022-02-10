@@ -15,39 +15,39 @@ class CoqTheoremBlockTranslator
 
   tc = TranslationConstantToCoq_ ()
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: TheoremBlockAnnotation => _translate_block (block)
+      | block : TheoremBlockAnnotation => _translate_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: TheoremBlockAnnotation): TheoremBlockAnnotation =
+  _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
       append (
-        tc.coq_theorem_end, prepend (
-          tc.coq_theorem_begin_reserved_word, remove_first_line (block)
+        tc.coq_theorem_end) (prepend (
+          tc.coq_theorem_begin_reserved_word) (remove_first_line (block)
         )
       )
     )
 
-  prepend (prefix: String, block: Block): Block =
+  prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: Block): Block =
+  append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
-  first_line (block: Block): String =
+  first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("").trim
 
-  remove_first_line (block: Block): Block =
+  remove_first_line (block : Block) : Block =
     if block.lines.isEmpty
     then block
     else BlockBuilder_ ().build (block.lines.tail)

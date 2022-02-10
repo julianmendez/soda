@@ -25,11 +25,11 @@ class MicroTranslatorToScala
 
   functions_and_tests = Seq (function_definition, test_declaration)
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translation_pipeline.translate (block)
 
-  try_definition: Token -> String =
+  try_definition : Token -> String =
     lambda token ->
       FunctionDefinitionLineTranslator_ (token.text).translation
 

@@ -15,43 +15,43 @@ class CoqProofBlockTranslator
 
   tc = TranslationConstantToCoq_ ()
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: ProofBlockAnnotation => _translate_block (block)
+      | block : ProofBlockAnnotation => _translate_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: ProofBlockAnnotation): ProofBlockAnnotation =
+  _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (
       append (
-        tc.coq_proof_end_reserved_word,
-          replace_first_line (tc.coq_proof_begin_reserved_word, block)
+        tc.coq_proof_end_reserved_word) (
+          replace_first_line (tc.coq_proof_begin_reserved_word) (block)
       )
     )
 
-  prepend (prefix: String, block: Block): Block =
+  prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: Block): Block =
+  append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
-  get_first_line (block: AnnotatedBlock): String =
+  get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("").trim
 
-  replace_first_line (first_line: String, block: Block): Block =
+  replace_first_line (first_line : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq (first_line) .++ (get_tail_or_empty (block.lines) )
     )
 
-  get_tail_or_empty (sequence: Seq [String] ): Seq [String] =
+  get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
     if sequence.isEmpty
     then sequence
     else sequence.tail

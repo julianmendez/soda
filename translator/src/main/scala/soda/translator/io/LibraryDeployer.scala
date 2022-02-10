@@ -15,7 +15,7 @@ trait LibraryDeployer
       .split ("\n")
       .toSeq
 
-  def expand_library (lib_files: Seq [File]  ): Boolean =
+  def expand_library (lib_files: Seq [File] ): Boolean =
     lib_files
       .map (lib_file => lib_file.getParent )
       .map (parent_directory => expand_files (parent_directory ) )
@@ -24,8 +24,8 @@ trait LibraryDeployer
   def expand_files (parent_directory: String ): Boolean =
     library_content_files
       .map (lib_file_name =>
-        SimpleFileWriter_ () .write_file (
-          file = SimpleFileWriter_ () .create_file (parent_directory, lib_file_name ),
+        SimpleFileWriter_ () .write_file_with (
+          file = SimpleFileWriter_ () .create_file (parent_directory ) (lib_file_name ) ) (
           content = SimpleFileReader_ () .read_resource (library_directory_in_jar + lib_file_name )
         ) )
       .forall (x => x )

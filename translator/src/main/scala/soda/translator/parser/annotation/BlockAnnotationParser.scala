@@ -44,17 +44,17 @@ trait BlockAnnotationParser
     block.readable_lines.headOption.getOrElse (default_annotated_line )
 
   def get_first_word (line: String ): String =
-    _get_first_word_with (line.trim.indexOf (space ), line ) .trim
+    (_get_first_word_with (line.trim.indexOf (space ) ) (line ) ) .trim
 
-  def _get_first_word_with (index: Int, line: String ): String =
+  def _get_first_word_with (index: Int ) (line: String ): String =
     if (index >= 0
     ) line.substring (0, index )
     else line
 
   def skip_first_word (line: String ): String =
-    _skip_first_word_with (line.trim.indexOf (space ), line ) .trim
+    (_skip_first_word_with (line.trim.indexOf (space ) ) (line ) ) .trim
 
-  def _skip_first_word_with (index: Int, line: String ): String =
+  def _skip_first_word_with (index: Int ) (line: String ): String =
     if (index >= 0
     ) line.trim.substring (index )
     else ""

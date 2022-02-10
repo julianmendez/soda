@@ -28,7 +28,7 @@ class DirectoryScannerSpec ()
         "otherexample/OtherExample.scala",
         "otherexample/OtherExample.soda",
         "otherexample/OtherExample.txt"
-      ).map (lambda x -> @new File (start, x)).toSet
+      ).map (lambda x -> @new File (start, x) ).toSet
       start_file = @new File (start)
       obtained = scanner.get_all_files (start_file).toSet
     in assert (obtained == expected)

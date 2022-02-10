@@ -3,8 +3,8 @@ package soda.translator.io
 class AbstractDirectoryProcessor
 
   abstract
-    start: String
-    process_soda_file: java.io.File -> Boolean
+    start : String
+    process_soda_file : java.io.File -> Boolean
 
 end
 
@@ -13,8 +13,8 @@ class DirectoryProcessor
     AbstractDirectoryProcessor
 
   abstract
-    start: String
-    process_soda_file: java.io.File -> Boolean
+    start : String
+    process_soda_file : java.io.File -> Boolean
 
   import
     java.io.File
@@ -34,7 +34,7 @@ class DirectoryProcessor
       .filter (lambda x -> x.isFile)
       .filter (lambda file -> file.getName == LibraryDeployer_ ().library_marker_file)
 
-  process (): Boolean =
+  process () : Boolean =
     LibraryDeployer_ ().expand_library (lib_files) and
       soda_files
         .map (process_soda_file)

@@ -49,14 +49,14 @@ class ExampleProgram
     "\n" +
     "\n")
 
-  default_block_processor: BlockProcessor =
+  default_block_processor : BlockProcessor =
     BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         DefaultBlockTranslator_ ()
       )
     )
 
-  example_blocks: Seq [Block] =
+  example_blocks : Seq [Block] =
     default_block_processor.split_blocks (example_program)
 
 end

@@ -20,7 +20,7 @@ trait BlockBuilder
       get_annotated_lines (lines )
     )
 
-  def get_annotated_lines (lines: Seq [String]  ): Seq [AnnotatedLine] =
+  def get_annotated_lines (lines: Seq [String] ): Seq [AnnotatedLine] =
     Recursion_ () .fold (lines ) (initial_value ) (next_value_function )
       .annotated_lines_rev
       .reverse
@@ -28,12 +28,12 @@ trait BlockBuilder
   lazy val initial_value: PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
 
   def next_value_function (pair: PreprocessorFoldTuple ) (line: String ): PreprocessorFoldTuple =
-    _next_value_function_with (_annotate_this_line (line, pair.comment_state ), pair, line )
+    _next_value_function_with (_annotate_this_line (line ) (pair.comment_state ) ) (pair ) (line )
 
-  def _next_value_function_with (t: CurrentAndNewCommentState, pair: PreprocessorFoldTuple, line: String ): PreprocessorFoldTuple =
+  def _next_value_function_with (t: CurrentAndNewCommentState ) (pair: PreprocessorFoldTuple ) (line: String ): PreprocessorFoldTuple =
     PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state ) ) )
 
-  def _annotate_this_line (line: String, comment_state: Boolean ): CurrentAndNewCommentState =
+  def _annotate_this_line (line: String ) (comment_state: Boolean ): CurrentAndNewCommentState =
     if (comment_state
     ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment ) )
     else

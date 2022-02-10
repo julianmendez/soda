@@ -33,18 +33,18 @@ trait AbstractDeclarationBlockTranslator
   def _translate_block (block: AbstractDeclarationAnnotation ): AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       prepend_to_lines_aligned_at (
-        get_number_of_spaces_at_beginning (get_first_line (block ) ),
-        scala_abstract_function_declaration_pattern,
+        get_number_of_spaces_at_beginning (get_first_line (block ) ) ) (
+        scala_abstract_function_declaration_pattern ) (
         block.abstract_functions_with_comments
       )
     )
 
-  def prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine] ): Block =
+  def prepend_to_lines_aligned_at (number_of_spaces: Int ) (prefix: String ) (annotated_lines: Seq [AnnotatedLine] ): Block =
     Block_ (
-      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line ) )
+      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces ) (prefix ) (annotated_line ) )
     )
 
-  def prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine ): AnnotatedLine =
+  def prepend_aligned_non_comment (index: Int ) (prefix: String ) (annotated_line: AnnotatedLine ): AnnotatedLine =
     if (annotated_line.is_comment
     ) annotated_line
     else AnnotatedLine_ (annotated_line.line.substring (0, index ) + prefix + annotated_line.line.substring (index ), annotated_line.is_comment )

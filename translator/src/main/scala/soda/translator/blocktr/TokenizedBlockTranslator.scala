@@ -23,7 +23,7 @@ trait TokenizedBlockTranslator
 
   def translate_for (block: AnnotatedBlock ): AnnotatedBlock =
     AnnotationFactory_ () .update_block (
-      block,
+      block ) (
       BlockBuilder_ () .build (
         block
           .annotated_lines
@@ -45,7 +45,7 @@ trait TokenizedBlockTranslator
         .map (x => Replacement_ (x ) .remove_space_from_scala_line () .line )
         .getOrElse ("")
 
-  def _translate_line (tokens: Seq [Token]  ): Seq [Token] =
+  def _translate_line (tokens: Seq [Token] ): Seq [Token] =
     tokens.map (
        token =>
         if (token.parser_state == ParserStateEnum_ () .plain
@@ -53,7 +53,7 @@ trait TokenizedBlockTranslator
         else token
     )
 
-  def _join_tokens (tokens: Seq [Token]  ): String =
+  def _join_tokens (tokens: Seq [Token] ): String =
     tokens
       .map (token => token.text )
       .mkString ("")

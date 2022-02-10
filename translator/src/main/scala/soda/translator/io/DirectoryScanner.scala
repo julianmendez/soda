@@ -12,24 +12,24 @@ trait DirectoryScanner
   def get_all_files (start: File ): Seq [File] =
     if (start.isFile
     ) Seq (start )
-    else scan (Seq (), start.listFiles () .toSeq )
+    else scan (Seq () ) (start.listFiles () .toSeq )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
+  def _tailrec_scan (found: Seq [File] ) (to_scan: Seq [File] ): Seq [File] =
     if (to_scan.isEmpty
     ) found
-    else _tailrec_scan (found.+: (to_scan.head ), get_files_to_scan (to_scan )  )
+    else _tailrec_scan (found.+: (to_scan.head ) ) (get_files_to_scan (to_scan ) )
 
-  def scan (found: Seq [File], to_scan: Seq [File]  ): Seq [File] =
-    _tailrec_scan (found, to_scan )
+  def scan (found: Seq [File] ) (to_scan: Seq [File] ): Seq [File] =
+    _tailrec_scan (found ) (to_scan )
 
-  def get_files_to_scan (to_scan: Seq [File]  ): Seq [File] =
+  def get_files_to_scan (to_scan: Seq [File] ): Seq [File] =
     if (to_scan.isEmpty
     ) to_scan
     else
       if (to_scan.head.isDirectory
-      ) to_scan.tail.++ (to_scan.head.listFiles ()  )
+      ) to_scan.tail.++ (to_scan.head.listFiles () )
       else to_scan.tail
 
 }

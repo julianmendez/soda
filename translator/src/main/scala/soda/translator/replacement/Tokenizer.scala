@@ -38,32 +38,32 @@ trait Tokenizer
       .reverse
 
   def _next_value_function (tuple: TokenizerFoldTuple ) (current_index: Int ): TokenizerFoldTuple =
-    _new_value_function_with (tuple, current_index, _new_parser_state (tuple, current_index ) )
+    _new_value_function_with (tuple ) (current_index ) (_new_parser_state (tuple ) (current_index ) )
 
-  def _new_value_function_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
-    if (ParserStateEnum_ () .is_same_class (new_parser_state, tuple.parser_state )
+  def _new_value_function_with (tuple: TokenizerFoldTuple ) (current_index: Int ) (new_parser_state: ParserState ): TokenizerFoldTuple =
+    if (ParserStateEnum_ () .is_same_class (new_parser_state ) (tuple.parser_state )
     ) TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens )
-    else _next_value_function_of_different_class (tuple, current_index, new_parser_state )
+    else _next_value_function_of_different_class (tuple ) (current_index ) (new_parser_state )
 
-  def _new_parser_state (tuple: TokenizerFoldTuple, current_index: Int ): ParserState =
+  def _new_parser_state (tuple: TokenizerFoldTuple ) (current_index: Int ): ParserState =
     ParserTransition_ ()
       .next_parser_state (
-        tuple.parser_state,
+        tuple.parser_state ) (
         CharTypeEnum_ () .get_char_type (line.charAt (current_index ) )
       )
 
-  def _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState ): TokenizerFoldTuple =
+  def _next_value_function_of_different_class (tuple: TokenizerFoldTuple ) (current_index: Int ) (new_parser_state: ParserState ): TokenizerFoldTuple =
     _next_value_function_of_different_class_with (
-      tuple,
-      current_index,
-      new_parser_state,
+      tuple ) (
+      current_index ) (
+      new_parser_state ) (
       if (tuple.parser_state == ParserStateEnum_ () .quotes_state ||
         tuple.parser_state == ParserStateEnum_ () .apostrophe_state
       ) current_index + 1
       else current_index
     )
 
-  def _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState, index: Int ): TokenizerFoldTuple =
+  def _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple ) (current_index: Int ) (new_parser_state: ParserState ) (index: Int ): TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,
       tuple.rev_tokens.+: (
         Token_ (

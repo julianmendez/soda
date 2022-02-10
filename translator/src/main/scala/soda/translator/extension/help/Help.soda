@@ -5,26 +5,26 @@ class AbstractHelp
     soda.translator.extension.common.Extension
 
   abstract
-    execute: Seq [String] -> Boolean
+    execute : Seq [String] -> Boolean
 
   import
     soda.lib.SomeSD_
     soda.translator.io.SimpleFileReader_
 
-  path: String = "/soda/translator/documentation/"
+  path : String = "/soda/translator/documentation/"
 
-  read (file_name: String): String =
+  read (file_name : String) : String =
     SimpleFileReader_ ().read_resource (path + file_name)
 
   this_package = this.getClass.getPackage
 
-  name: String = Option (this_package.getImplementationTitle).getOrElse ("")
+  name : String = Option (this_package.getImplementationTitle).getOrElse ("")
 
-  version: String = Option (this_package.getImplementationVersion).getOrElse ("")
+  version : String = Option (this_package.getImplementationVersion).getOrElse ("")
 
-  title_and_version: String = (name + " " + version).trim
+  title_and_version : String = (name + " " + version).trim
 
-  output_content (content: String): Boolean =
+  output_content (content : String) : Boolean =
     SomeSD_ (content)
       .map (lambda x -> println (x) )
       .map (lambda x -> true)
@@ -38,7 +38,7 @@ class Help
 
   file_name = "help.txt"
 
-  execute: Seq [String] -> Boolean =
+  execute : Seq [String] -> Boolean =
     lambda arguments ->
       output_content (title_and_version + "\n\n" + read (file_name) )
 
@@ -50,7 +50,7 @@ class Manual
 
   file_name = "Manual.soda"
 
-  execute: Seq [String] -> Boolean =
+  execute : Seq [String] -> Boolean =
     lambda arguments ->
       output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
 
@@ -62,7 +62,7 @@ class License
 
   file_name = "LICENSE.txt"
 
-  execute: Seq [String] -> Boolean =
+  execute : Seq [String] -> Boolean =
     lambda arguments ->
       output_content (read (file_name))
 

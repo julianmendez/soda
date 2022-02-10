@@ -5,14 +5,14 @@ class CommentAnnotation
     BlockAnnotationParser
 
   abstract
-    block: soda.translator.block.Block
+    block : soda.translator.block.Block
 
   import
     soda.translator.block.BlockAnnotationEnum_
 
   identifier = BlockAnnotationEnum_ ().comment
 
-  applies: Boolean =
+  applies : Boolean =
     block
       .annotated_lines
       .forall (lambda annotated_line -> annotated_line.is_comment)

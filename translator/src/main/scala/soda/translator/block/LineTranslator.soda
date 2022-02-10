@@ -3,7 +3,7 @@ package soda.translator.block
 class LineTranslator
 
   abstract
-    line: String
+    line : String
 
 end
 

@@ -74,5 +74,3 @@ trait FunctionDefinitionAnnotation
 }
 
 case class FunctionDefinitionAnnotation_ (block: soda.translator.block.Block) extends FunctionDefinitionAnnotation
-
-

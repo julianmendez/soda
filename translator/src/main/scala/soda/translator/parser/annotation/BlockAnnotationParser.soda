@@ -5,9 +5,9 @@ class BlockAnnotationParser
     soda.translator.block.AnnotatedBlock
 
   abstract
-    block: soda.translator.block.Block
-    applies: Boolean
-    identifier: soda.translator.block.BlockAnnotationId
+    block : soda.translator.block.Block
+    applies : Boolean
+    identifier : soda.translator.block.BlockAnnotationId
 
   import
     soda.translator.block.AnnotatedLine
@@ -20,19 +20,19 @@ class BlockAnnotationParser
 
   default_annotated_line = AnnotatedLine_ ("", true)
 
-  annotated_lines: Seq [AnnotatedLine] = block.annotated_lines
+  annotated_lines : Seq [AnnotatedLine] = block.annotated_lines
 
-  block_annotation: BlockAnnotationId = identifier
+  block_annotation : BlockAnnotationId = identifier
 
-  starts_with_prefix_and_space (prefix: String): Boolean =
+  starts_with_prefix_and_space (prefix : String) : Boolean =
     block.readable_lines.nonEmpty and
     block.readable_lines.head.line.trim.startsWith (prefix + space)
 
-  ends_with_space_and_suffix (suffix: String): Boolean =
+  ends_with_space_and_suffix (suffix : String) : Boolean =
     block.readable_lines.nonEmpty and
     block.readable_lines.last.line.trim.endsWith (space + suffix)
 
-  content_lines: Seq [AnnotatedLine] =
+  content_lines : Seq [AnnotatedLine] =
     if block.readable_lines.isEmpty
     then block.annotated_lines
     else
@@ -41,21 +41,21 @@ class BlockAnnotationParser
         .tail
         .filter (lambda x -> not x.line.trim.isEmpty)
 
-  first_readable_line: AnnotatedLine =
+  first_readable_line : AnnotatedLine =
     block.readable_lines.headOption.getOrElse (default_annotated_line)
 
-  get_first_word (line: String): String =
-    _get_first_word_with (line.trim.indexOf (space), line).trim
+  get_first_word (line : String) : String =
+    (_get_first_word_with (line.trim.indexOf (space) ) (line) ).trim
 
-  _get_first_word_with (index: Int, line: String): String =
+  _get_first_word_with (index : Int) (line : String) : String =
     if index >= 0
     then line.substring (0, index)
     else line
 
-  skip_first_word (line: String): String =
-    _skip_first_word_with (line.trim.indexOf (space), line).trim
+  skip_first_word (line : String) : String =
+    (_skip_first_word_with (line.trim.indexOf (space) ) (line) ).trim
 
-  _skip_first_word_with (index: Int, line: String): String =
+  _skip_first_word_with (index : Int) (line : String) : String =
     if index >= 0
     then line.trim.substring (index)
     else ""

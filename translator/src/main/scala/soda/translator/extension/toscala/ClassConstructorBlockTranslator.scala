@@ -28,32 +28,32 @@ trait ClassConstructorBlockTranslator
     }
 
   def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
-    _translate_block_with (_get_class_beginning (block.references ), block )
+    _translate_block_with (_get_class_beginning (block.references ) ) (block )
 
-  def _translate_block_with (maybe_beginning: Option [ClassBeginningAnnotation], block: ClassEndAnnotation ): ClassEndAnnotation =
+  def _translate_block_with (maybe_beginning: Option [ClassBeginningAnnotation] ) (block: ClassEndAnnotation ): ClassEndAnnotation =
     if (maybe_beginning.isEmpty
     ) block
-    else _translate_block_with_beginning (maybe_beginning.get, block )
+    else _translate_block_with_beginning (maybe_beginning.get ) (block )
 
-  def _translate_block_with_beginning (beginning: ClassBeginningAnnotation, block: ClassEndAnnotation ): ClassEndAnnotation =
+  def _translate_block_with_beginning (beginning: ClassBeginningAnnotation ) (block: ClassEndAnnotation ): ClassEndAnnotation =
     if (beginning.is_concrete
     ) block
-    else _translate_block_with_abstract_beginning (beginning, block )
+    else _translate_block_with_abstract_beginning (beginning ) (block )
 
-  def _translate_block_with_abstract_beginning (beginning: ClassBeginningAnnotation, block: ClassEndAnnotation ): ClassEndAnnotation =
+  def _translate_block_with_abstract_beginning (beginning: ClassBeginningAnnotation ) (block: ClassEndAnnotation ): ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         block.lines.++ (
           Seq [String] (
             "",
-            _get_constructor_declaration (beginning, _get_abstract_functions (block.references ) )
+            _get_constructor_declaration (beginning ) (_get_abstract_functions (block.references ) )
           )
         )
       ),
       block.references
     )
 
-  def _get_constructor_declaration (beginning: ClassBeginningAnnotation, abstract_functions: Seq [String] ): String =
+  def _get_constructor_declaration (beginning: ClassBeginningAnnotation ) (abstract_functions: Seq [String] ): String =
     tc.class_declaration_translation_at_beginning_with_paren +
     tc.scala_space +
     beginning.class_name +
@@ -93,7 +93,7 @@ trait ClassConstructorBlockTranslator
         }
       )
       .flatMap (block => block.abstract_functions )
-      .map (annotated_line =>  _translate_type_symbols (annotated_line.line ) .trim )
+      .map (annotated_line => _translate_type_symbols (annotated_line.line ) .trim )
 
   def _translate_type_symbols (line: String ): String =
     line

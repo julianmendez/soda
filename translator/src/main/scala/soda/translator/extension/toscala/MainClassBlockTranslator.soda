@@ -17,17 +17,17 @@ class MainClassBlockTranslator
 
   tc = TranslationConstantToScala_ ()
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: ClassEndAnnotation => _translate_block (block)
+      | block : ClassEndAnnotation => _translate_block (block)
       | x => annotated_block
     end
 
-  _translate_block (block: ClassEndAnnotation): ClassEndAnnotation =
+  _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if _get_class_name (block.references) == tc.soda_main_class_name
     then
       ClassEndAnnotation_ (
@@ -42,16 +42,16 @@ class MainClassBlockTranslator
       )
     else block
 
-  _get_class_name (references: Seq [AnnotatedBlock] ): String =
+  _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
       .map (lambda x -> x.class_name)
       .getOrElse ("")
 
-  _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
+  _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
       .flatMap (lambda block ->
         match block
-          | b: ClassBeginningAnnotation => Some (b)
+          | b : ClassBeginningAnnotation => Some (b)
           | x => None
         end
       )

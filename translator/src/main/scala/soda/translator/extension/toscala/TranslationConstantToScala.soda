@@ -170,14 +170,14 @@ class TranslationConstantToScala
       "\u2190"
     )
 
-  synonym_at_beginning: Seq [Tuple2 [String, String] ] =
+  synonym_at_beginning : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("*", "class"),
       Tuple2 ("+", "import"),
       Tuple2 ("|", "case")
     )
 
-  type_symbols_translation: Seq [Tuple2 [String, String] ] =
+  type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (soda_constant.subtype_reserved_word, scala_subtype_symbol),
       Tuple2 (soda_constant.supertype_reserved_word, scala_supertype_symbol),
@@ -190,7 +190,7 @@ class TranslationConstantToScala
 
   class_declaration_translation_at_beginning_without_paren = "trait"
 
-  synonym: Seq [Tuple2 [String, String] ] =
+  synonym : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("is", "="),
       Tuple2 ("fun", "lambda"),
@@ -199,7 +199,7 @@ class TranslationConstantToScala
       Tuple2 (">:", "supertype")
     )
 
-  main_translation: Seq [Tuple2 [String, String] ] =
+  main_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (":", ":"),
       Tuple2 ("->", "=>"),
@@ -235,7 +235,7 @@ class TranslationConstantToScala
 
   prefix_scala_non_soda = "__soda__"
 
-  scala_non_soda: Seq [Tuple2 [String, String] ] =
+  scala_non_soda : Seq [Tuple2 [String, String] ] =
       scala_reserved_words
         .filter (lambda x -> not soda_constant.soda_reserved_words.contains (x))
         .map (lambda x -> Tuple2 (x, prefix_scala_non_soda + x) )
@@ -243,7 +243,7 @@ class TranslationConstantToScala
   soda_brackets_and_comma =
       Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq [Tuple2 [String, String] ] =
+  beautifier : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("\\.\\s+", "."),
       Tuple2 ("=\\s+", "= "),
@@ -257,10 +257,10 @@ class TranslationConstantToScala
       Tuple2 (":\\s+", ": ")
     )
 
-  is_scala_word (word: String): Boolean =
+  is_scala_word (word : String) : Boolean =
     scala_reserved_words.contains (word)
 
-  is_soda_word (word: String): Boolean =
+  is_soda_word (word : String) : Boolean =
     soda_constant.soda_reserved_words.contains (word)
 
 end

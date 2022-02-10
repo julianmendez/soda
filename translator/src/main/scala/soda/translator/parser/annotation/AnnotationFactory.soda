@@ -10,35 +10,35 @@ class AnnotationFactory
     soda.translator.block.Block
     soda.translator.block.BlockAnnotationEnum_
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       if block.block_annotation == BlockAnnotationEnum_ ().undefined
       then annotate (block)
       else block
 
-  annotate (block: Block): AnnotatedBlock =
+  annotate (block : Block) : AnnotatedBlock =
     match block
-      | b: AnnotatedBlock => b
-      | x => _get_first_or_undefined (_find_candidates (x), x )
+      | b : AnnotatedBlock => b
+      | x => _get_first_or_undefined (_find_candidates (x) ) (x)
     end
 
-  update_block (original_content: AnnotatedBlock, new_content: Block): AnnotatedBlock =
+  update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     match original_content
-      | b: FunctionDefinitionAnnotation => FunctionDefinitionAnnotation_ (new_content)
-      | b: ClassBeginningAnnotation => ClassBeginningAnnotation_ (new_content)
-      | b: ClassEndAnnotation => ClassEndAnnotation_ (new_content, b.references)
-      | b: AbstractDeclarationAnnotation => AbstractDeclarationAnnotation_ (new_content)
-      | b: ImportDeclarationAnnotation => ImportDeclarationAnnotation_ (new_content)
-      | b: PackageDeclarationAnnotation => PackageDeclarationAnnotation_ (new_content)
-      | b: ClassAliasAnnotation => ClassAliasAnnotation_ (new_content)
-      | b: TheoremBlockAnnotation => TheoremBlockAnnotation_ (new_content)
-      | b: ProofBlockAnnotation => ProofBlockAnnotation_ (new_content)
-      | b: CommentAnnotation => CommentAnnotation_ (new_content)
-      | b: TestDeclarationAnnotation => TestDeclarationAnnotation_ (new_content)
+      | b : FunctionDefinitionAnnotation => FunctionDefinitionAnnotation_ (new_content)
+      | b : ClassBeginningAnnotation => ClassBeginningAnnotation_ (new_content)
+      | b : ClassEndAnnotation => ClassEndAnnotation_ (new_content, b.references)
+      | b : AbstractDeclarationAnnotation => AbstractDeclarationAnnotation_ (new_content)
+      | b : ImportDeclarationAnnotation => ImportDeclarationAnnotation_ (new_content)
+      | b : PackageDeclarationAnnotation => PackageDeclarationAnnotation_ (new_content)
+      | b : ClassAliasAnnotation => ClassAliasAnnotation_ (new_content)
+      | b : TheoremBlockAnnotation => TheoremBlockAnnotation_ (new_content)
+      | b : ProofBlockAnnotation => ProofBlockAnnotation_ (new_content)
+      | b : CommentAnnotation => CommentAnnotation_ (new_content)
+      | b : TestDeclarationAnnotation => TestDeclarationAnnotation_ (new_content)
       | x => AnnotatedBlock_ (new_content.annotated_lines, x.block_annotation)
     end
 
-  _detectors (block: Block): Seq [BlockAnnotationParser] =
+  _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
@@ -53,11 +53,11 @@ class AnnotationFactory
       TestDeclarationAnnotation_ (block)
     )
 
-  _find_candidates (block: Block): Seq [BlockAnnotationParser] =
+  _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
     _detectors (block)
       .filter (lambda detector -> detector.applies)
 
-  _get_first_or_undefined (candidates: Seq [BlockAnnotationParser], block: Block): AnnotatedBlock =
+  _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
     if candidates.length == 1
     then candidates.head
     else AnnotatedBlock_ (block.annotated_lines, BlockAnnotationEnum_ ().undefined )

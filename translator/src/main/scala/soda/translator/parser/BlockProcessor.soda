@@ -7,7 +7,7 @@ package soda.translator.parser
 class BlockProcessor
 
   abstract
-    translator: soda.translator.block.BlockSequenceTranslator
+    translator : soda.translator.block.BlockSequenceTranslator
 
   import
     soda.translator.block.AnnotatedBlock
@@ -19,35 +19,35 @@ class BlockProcessor
 
   translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
 
-  translate (program: String): String =
+  translate (program : String) : String =
     join_translated_blocks (
       translator_with_preprocessor.translate (
         split_blocks (program)
       )
     )
 
-  split_blocks (program: String): Seq [AnnotatedBlock] =
+  split_blocks (program : String) : Seq [AnnotatedBlock] =
     program
       .split (double_new_line)
       .toIndexedSeq
       .map (lambda paragraph -> make_block (paragraph) )
 
-  make_block (paragraph: String): AnnotatedBlock =
+  make_block (paragraph : String) : AnnotatedBlock =
     AnnotationFactory_ ().annotate (
       BlockBuilder_ ().build (
         remove_empty_lines (paragraph.split (new_line).toIndexedSeq)
       )
     )
 
-  translate_blocks (blocks: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
+  translate_blocks (blocks : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     translator.translate (blocks)
 
-  join_translated_blocks (blocks: Seq [AnnotatedBlock] ): String =
+  join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
     blocks
       .map (lambda x -> x.contents)
       .mkString (double_new_line) + new_line
 
-  remove_empty_lines (lines: Seq [String] ): Seq [String] =
+  remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
       .filter (lambda line -> line.trim.nonEmpty)
 

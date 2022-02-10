@@ -30,18 +30,18 @@ trait CoqDefinitionBlockTranslator
 
   def _translate_block (block: FunctionDefinitionAnnotation ): Block =
     if (is_a_recursive_definition (block )
-    ) append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block ) )
+    ) append (tc.coq_recursive_definition_end ) (prepend (tc.coq_recursive_definition + space ) (block ) )
     else
       if (is_a_definition (block )
-      ) append (tc.coq_definition_end, prepend (tc.coq_definition + space, block ) )
+      ) append (tc.coq_definition_end ) (prepend (tc.coq_definition + space ) (block ) )
       else block
 
-  def prepend (prefix: String, block: Block ): Block =
+  def prepend (prefix: String ) (block: Block ): Block =
     BlockBuilder_ () .build (
       Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
     )
 
-  def append (suffix: String, block: Block ): Block =
+  def append (suffix: String ) (block: Block ): Block =
     BlockBuilder_ () .build (
       block.lines.:+ (suffix )
     )

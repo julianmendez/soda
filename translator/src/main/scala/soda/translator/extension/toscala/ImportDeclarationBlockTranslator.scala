@@ -32,18 +32,18 @@ trait ImportDeclarationBlockTranslator
   def _translate_block (block: ImportDeclarationAnnotation ): ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (
       prepend_to_lines_aligned_at (
-        get_number_of_spaces_at_beginning (get_first_line (block ) ),
-        scala_import_declaration_pattern,
+        get_number_of_spaces_at_beginning (get_first_line (block ) ) ) (
+        scala_import_declaration_pattern ) (
         block.imported_items
       )
     )
 
-  def prepend_to_lines_aligned_at (number_of_spaces: Int, prefix: String, annotated_lines: Seq [AnnotatedLine] ): Block =
+  def prepend_to_lines_aligned_at (number_of_spaces: Int ) (prefix: String ) (annotated_lines: Seq [AnnotatedLine] ): Block =
     BlockBuilder_ () .build (
-      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces, prefix, annotated_line ) )
+      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces ) (prefix ) (annotated_line ) )
     )
 
-  def prepend_aligned_non_comment (index: Int, prefix: String, annotated_line: AnnotatedLine ): String =
+  def prepend_aligned_non_comment (index: Int ) (prefix: String ) (annotated_line: AnnotatedLine ): String =
     if (annotated_line.is_comment
     ) annotated_line.line
     else annotated_line.line.substring (0, index ) + prefix + annotated_line.line.substring (index )

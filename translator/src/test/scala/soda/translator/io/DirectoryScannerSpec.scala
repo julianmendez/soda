@@ -28,7 +28,7 @@ case class DirectoryScannerSpec ()
         "otherexample/OtherExample.scala",
         "otherexample/OtherExample.soda",
         "otherexample/OtherExample.txt"
-      ) .map (x => new File (start, x )  ) .toSet
+      ) .map (x => new File (start, x ) ) .toSet
       lazy val start_file = new File (start )
       lazy val obtained = scanner.get_all_files (start_file ) .toSet
       assert (obtained == expected ) }

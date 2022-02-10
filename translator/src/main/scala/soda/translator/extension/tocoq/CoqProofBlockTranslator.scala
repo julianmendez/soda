@@ -28,17 +28,17 @@ trait CoqProofBlockTranslator
   def _translate_block (block: ProofBlockAnnotation ): ProofBlockAnnotation =
     ProofBlockAnnotation_ (
       append (
-        tc.coq_proof_end_reserved_word,
-          replace_first_line (tc.coq_proof_begin_reserved_word, block )
+        tc.coq_proof_end_reserved_word ) (
+          replace_first_line (tc.coq_proof_begin_reserved_word ) (block )
       )
     )
 
-  def prepend (prefix: String, block: Block ): Block =
+  def prepend (prefix: String ) (block: Block ): Block =
     BlockBuilder_ () .build (
       Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
     )
 
-  def append (suffix: String, block: Block ): Block =
+  def append (suffix: String ) (block: Block ): Block =
     BlockBuilder_ () .build (
       block.lines.:+ (suffix )
     )
@@ -46,7 +46,7 @@ trait CoqProofBlockTranslator
   def get_first_line (block: AnnotatedBlock ): String =
     block.lines.headOption.getOrElse ("") .trim
 
-  def replace_first_line (first_line: String, block: Block ): Block =
+  def replace_first_line (first_line: String ) (block: Block ): Block =
     BlockBuilder_ () .build (
       Seq (first_line ) .++ (get_tail_or_empty (block.lines ) )
     )

@@ -3,8 +3,8 @@ package soda.translator.block
 class AnnotatedLine
 
   abstract
-    line: String
-    is_comment: Boolean
+    line : String
+    is_comment : Boolean
 
 end
 
@@ -13,13 +13,13 @@ class Block
     PlainBlock
 
   abstract
-    annotated_lines: Seq [AnnotatedLine]
+    annotated_lines : Seq [AnnotatedLine]
 
-  lines: Seq [String] =
+  lines : Seq [String] =
     annotated_lines
       .map (lambda x -> x.line)
 
-  readable_lines: Seq [AnnotatedLine] =
+  readable_lines : Seq [AnnotatedLine] =
     annotated_lines
       .filter (lambda line -> not line.is_comment)
 

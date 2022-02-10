@@ -20,30 +20,30 @@ class MatchCaseBlockTranslator
 
   soda_match_pattern = sc.match_reserved_word + " "
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: FunctionDefinitionAnnotation => _translate_function_block (block)
-      | block: TestDeclarationAnnotation => _translate_test_block (block)
+      | block : FunctionDefinitionAnnotation => _translate_function_block (block)
+      | block : TestDeclarationAnnotation => _translate_test_block (block)
       | x => annotated_block
     end
 
-  _translate_function_block (block: AnnotatedBlock): FunctionDefinitionAnnotation =
+  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  _translate_test_block (block: AnnotatedBlock): TestDeclarationAnnotation =
+  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )
 
-  _translate_block (block: AnnotatedBlock): Block =
+  _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
         .map (lambda line -> append_with_after_match (line) )
     )
 
-  append_with_after_match (line: String): String =
+  append_with_after_match (line : String) : String =
     if line.trim ().startsWith (soda_match_pattern)
     then line + tc.coq_space + tc.coq_with_reserved_word
     else line

@@ -29,12 +29,12 @@ trait Replacer
 
   def next_value_function (tuple: ReplacerFoldTuple ) (x: Int ): ReplacerFoldTuple =
     _get_next_tuple (
-      replaced_text_rev = tuple.replaced_text_rev,
-      start_index = tuple.start_index,
+      replaced_text_rev = tuple.replaced_text_rev ) (
+      start_index = tuple.start_index ) (
       pos = line.indexOf (pattern, tuple.start_index )
     )
 
-  def _get_next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int ): ReplacerFoldTuple =
+  def _get_next_tuple (replaced_text_rev: Seq [String] ) (start_index: Int ) (pos: Int ): ReplacerFoldTuple =
     if (pos == -1
     ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index ) ), pos )
     else
@@ -44,7 +44,7 @@ trait Replacer
       )
 
   def should_continue (tuple: ReplacerFoldTuple ) (x: Int ): Boolean =
-    !  (tuple.start_index == -1 )
+    ! (tuple.start_index == -1 )
 
   def postprocess (tuple: ReplacerFoldTuple ): String =
     tuple.replaced_text_rev.reverse.mkString ("")

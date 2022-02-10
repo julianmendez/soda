@@ -5,8 +5,8 @@ class DayOfTheWeek
     EnumConstant
 
   abstract
-    ordinal: Int
-    name: String
+    ordinal : Int
+    name : String
 
 end
 

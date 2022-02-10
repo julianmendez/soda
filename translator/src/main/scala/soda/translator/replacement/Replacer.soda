@@ -3,9 +3,9 @@ package soda.translator.replacement
 class LinePatternProcessor
 
   abstract
-    line: String
-    pattern: String
-    replacement: String
+    line : String
+    pattern : String
+    replacement : String
 
 end
 
@@ -14,9 +14,9 @@ class Replacer
     LinePatternProcessor
 
   abstract
-    line: String
-    pattern: String
-    replacement: String
+    line : String
+    pattern : String
+    replacement : String
 
   import
     soda.lib.Recursion_
@@ -26,14 +26,14 @@ class Replacer
 
   initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 
-  next_value_function (tuple: ReplacerFoldTuple) (x: Int): ReplacerFoldTuple =
+  next_value_function (tuple : ReplacerFoldTuple) (x : Int) : ReplacerFoldTuple =
     _get_next_tuple (
-      replaced_text_rev := tuple.replaced_text_rev,
-      start_index := tuple.start_index,
+      replaced_text_rev := tuple.replaced_text_rev) (
+      start_index := tuple.start_index) (
       pos := line.indexOf (pattern, tuple.start_index)
     )
 
-  _get_next_tuple (replaced_text_rev: Seq [String], start_index: Int, pos: Int): ReplacerFoldTuple =
+  _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
     if pos == -1
     then ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index) ), pos )
     else
@@ -42,10 +42,10 @@ class Replacer
         pos + pattern.length
       )
 
-  should_continue (tuple: ReplacerFoldTuple) (x: Int): Boolean =
-    not  (tuple.start_index == -1)
+  should_continue (tuple : ReplacerFoldTuple) (x : Int) : Boolean =
+    not (tuple.start_index == -1)
 
-  postprocess (tuple: ReplacerFoldTuple): String =
+  postprocess (tuple : ReplacerFoldTuple) : String =
     tuple.replaced_text_rev.reverse.mkString ("")
 
 end
@@ -53,8 +53,8 @@ end
 class ReplacerFoldTuple
 
   abstract
-    replaced_text_rev: Seq [String]
-    start_index: Int
+    replaced_text_rev : Seq [String]
+    start_index : Int
 
 end
 

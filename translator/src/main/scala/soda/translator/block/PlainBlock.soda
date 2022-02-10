@@ -3,11 +3,11 @@ package soda.translator.block
 class PlainBlock
 
   abstract
-    lines: Seq [String]
+    lines : Seq [String]
 
   new_line = "\n"
 
-  contents: String =
+  contents : String =
     lines.mkString (new_line)
 
 end

@@ -24,43 +24,43 @@ class MatchCaseBlockTranslator
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: FunctionDefinitionAnnotation => _translate_function_block (block)
-      | block: TestDeclarationAnnotation => _translate_test_block (block)
+      | block : FunctionDefinitionAnnotation => _translate_function_block (block)
+      | block : TestDeclarationAnnotation => _translate_test_block (block)
       | x => annotated_block
     end
 
-  _translate_function_block (block: AnnotatedBlock): FunctionDefinitionAnnotation =
+  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  _translate_test_block (block: AnnotatedBlock): TestDeclarationAnnotation =
+  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )
 
-  _translate_block (block: AnnotatedBlock): Block =
+  _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build (
       block.lines
         .map (lambda line -> insert_match_before_brace_if_found (line) )
         .map (lambda line -> replace_match_end_if_found (line) )
     )
 
-  insert_match_before_brace_if_found (line: String): String =
+  insert_match_before_brace_if_found (line : String) : String =
     if line.trim.startsWith (soda_match_pattern)
-    then _assemble_parts (index := line.indexOf (soda_match_pattern), line)
+    then _assemble_parts (index := line.indexOf (soda_match_pattern) ) (line)
     else line
 
-  replace_match_end_if_found (line: String): String =
+  replace_match_end_if_found (line : String) : String =
     if line.trim == sc.match_end_reserved_word
     then line.replaceAll (sc.match_end_reserved_word, tc.scala_match_end_translation)
     else line
 
-  _assemble_parts (index: Int, line: String): String =
-    _left_part (index, line) + _right_part (index, line) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
+  _assemble_parts (index : Int) (line : String) : String =
+    (_left_part (index) (line) ) + (_right_part (index) (line) ) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
 
-  _left_part (index: Int, line: String): String =
+  _left_part (index : Int) (line : String) : String =
     line.substring (0, index)
 
-  _right_part (index: Int, line: String): String =
+  _right_part (index : Int) (line : String) : String =
     line.substring (index + soda_match_pattern.length, line.length)
 
 end

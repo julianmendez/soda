@@ -46,7 +46,7 @@ trait MatchCaseBlockTranslator
 
   def insert_match_before_brace_if_found (line: String ): String =
     if (line.trim.startsWith (soda_match_pattern )
-    ) _assemble_parts (index = line.indexOf (soda_match_pattern ), line )
+    ) _assemble_parts (index = line.indexOf (soda_match_pattern ) ) (line )
     else line
 
   def replace_match_end_if_found (line: String ): String =
@@ -54,13 +54,13 @@ trait MatchCaseBlockTranslator
     ) line.replaceAll (sc.match_end_reserved_word, tc.scala_match_end_translation )
     else line
 
-  def _assemble_parts (index: Int, line: String ): String =
-    _left_part (index, line ) + _right_part (index, line ) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
+  def _assemble_parts (index: Int ) (line: String ): String =
+    (_left_part (index ) (line ) ) + (_right_part (index ) (line ) ) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
 
-  def _left_part (index: Int, line: String ): String =
+  def _left_part (index: Int ) (line: String ): String =
     line.substring (0, index )
 
-  def _right_part (index: Int, line: String ): String =
+  def _right_part (index: Int ) (line: String ): String =
     line.substring (index + soda_match_pattern.length, line.length )
 
 }

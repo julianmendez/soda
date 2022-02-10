@@ -19,17 +19,17 @@ class TranslationConstantToCoq
 
   coq_space = " "
 
-  coq_definition: String = "Definition"
+  coq_definition : String = "Definition"
 
-  coq_value: String = "Definition"
+  coq_value : String = "Definition"
 
-  coq_recursive_definition: String = "Fixpoint"
+  coq_recursive_definition : String = "Fixpoint"
 
-  coq_definition_end: String = "."
+  coq_definition_end : String = "."
 
-  coq_recursive_definition_end: String = "."
+  coq_recursive_definition_end : String = "."
 
-  coq_with_reserved_word: String = "with"
+  coq_with_reserved_word : String = "with"
 
   coq_theorem_begin_reserved_word = "Theorem"
 
@@ -39,7 +39,7 @@ class TranslationConstantToCoq
 
   coq_proof_end_reserved_word = "Qed."
 
-  coq_recursive_function_prefixes: Seq [String] =
+  coq_recursive_function_prefixes : Seq [String] =
     Seq (
       "rec_",
       "_rec_",
@@ -48,7 +48,7 @@ class TranslationConstantToCoq
       "@tailrec"
     )
 
-  non_definition_block_prefixes: Seq [String] =
+  non_definition_block_prefixes : Seq [String] =
     Seq (
       soda_constant.package_reserved_word,
       soda_constant.import_reserved_word,
@@ -60,7 +60,7 @@ class TranslationConstantToCoq
   coq_reserved_words =
     coq_1 ++ coq_2 ++ coq_3 ++ coq_4
 
-  coq_1: Seq [String] =
+  coq_1 : Seq [String] =
     Seq (
       "as",
       "else",
@@ -75,7 +75,7 @@ class TranslationConstantToCoq
       "with"
     )
 
-  coq_2: Seq [String] =
+  coq_2 : Seq [String] =
     Seq (
       "Admitted",
       "Arguments",
@@ -100,7 +100,7 @@ class TranslationConstantToCoq
       "Unset"
     )
 
-  coq_3: Seq [String] =
+  coq_3 : Seq [String] =
     Seq (
       "admit",
       "apply",
@@ -122,7 +122,7 @@ class TranslationConstantToCoq
       "unfold"
     )
 
-  coq_4: Seq [String] =
+  coq_4 : Seq [String] =
     Seq (
       "CoFixpoint",
       "CoInductive",
@@ -140,19 +140,19 @@ class TranslationConstantToCoq
       "Variable"
     )
 
-  synonym_at_beginning: Seq [Tuple2 [String, String] ] =
+  synonym_at_beginning : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("*", "class"),
       Tuple2 ("+", "import")
     )
 
-  synonym: Seq [Tuple2 [String, String] ] =
+  synonym : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("is", ":="),
       Tuple2 ("def", "")
     )
 
-  main_translation: Seq [Tuple2 [String, String] ] =
+  main_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (";", "."),
       Tuple2 (":", ":"),
@@ -182,7 +182,7 @@ class TranslationConstantToCoq
       Tuple2 ("@tailrec", "")
     )
 
-  type_translation: Seq [ Tuple2 [String, String]  ] =
+  type_translation : Seq [ Tuple2 [String, String]  ] =
     Seq (
         Tuple2 ("Boolean", "bool"),
         Tuple2 ("Nat", "nat"),
@@ -194,7 +194,7 @@ class TranslationConstantToCoq
 
   prefix_coq_non_soda = "__soda__"
 
-  coq_non_soda: Seq [Tuple2 [String, String] ] =
+  coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words
       .filter (lambda x -> not soda_constant.soda_reserved_words.contains (x))
       .map (lambda x -> Tuple2 (x, prefix_coq_non_soda + x) )
@@ -202,7 +202,7 @@ class TranslationConstantToCoq
   soda_brackets_and_comma =
     Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  beautifier: Seq [Tuple2 [String, String] ] =
+  beautifier : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("\\.\\s+", "."),
       Tuple2 ("=\\s+", "= "),
@@ -216,10 +216,10 @@ class TranslationConstantToCoq
       Tuple2 (":\\s+", ": ")
     )
 
-  is_coq_word (word: String): Boolean =
+  is_coq_word (word : String) : Boolean =
     coq_reserved_words.contains (word)
 
-  is_soda_word (word: String): Boolean =
+  is_soda_word (word : String) : Boolean =
     soda_constant.soda_reserved_words.contains (word)
 
 end

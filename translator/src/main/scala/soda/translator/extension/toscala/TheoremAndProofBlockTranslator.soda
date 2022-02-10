@@ -15,32 +15,32 @@ class TheoremAndProofBlockTranslator
 
   tc = TranslationConstantToScala_ ()
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       translate_for (block)
 
-  translate_for (annotated_block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block: TheoremBlockAnnotation => _translate_theorem_block (block)
-      | block: ProofBlockAnnotation => _translate_proof_block (block)
+      | block : TheoremBlockAnnotation => _translate_theorem_block (block)
+      | block : ProofBlockAnnotation => _translate_proof_block (block)
       | x => annotated_block
     end
 
-  _translate_theorem_block (block: AnnotatedBlock): TheoremBlockAnnotation =
+  _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
 
-  _translate_proof_block (block: AnnotatedBlock): ProofBlockAnnotation =
+  _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (_translate_block (block) )
 
-  _translate_block (block: AnnotatedBlock): Block =
-    append (tc.scala_comment_closing_symbol, prepend (tc.scala_comment_opening_symbol, block) )
+  _translate_block (block : AnnotatedBlock) : Block =
+    append (tc.scala_comment_closing_symbol) (prepend (tc.scala_comment_opening_symbol) (block) )
 
-  prepend (prefix: String, block: Block): Block =
+  prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: Block): Block =
+  append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )

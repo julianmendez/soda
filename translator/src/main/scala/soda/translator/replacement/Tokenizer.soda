@@ -7,9 +7,9 @@ package soda.translator.replacement
 class Token
 
   abstract
-    text: String
-    parser_state: ParserState
-    index: Int
+    text : String
+    parser_state : ParserState
+    index : Int
 
 end
 
@@ -22,47 +22,47 @@ class Tokenizer
     soda.translator.block.SingleLineProcessor
 
   abstract
-    line: String
+    line : String
 
   import
     soda.lib.Recursion_
 
-  tokens: Seq [Token] =
+  tokens : Seq [Token] =
     _postprocess (Recursion_ ().fold (Recursion_ ().range (line.length) ) (_initial_value) (_next_value_function) )
 
-  _initial_value : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
+  _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
 
-  _postprocess (tuple: TokenizerFoldTuple): Seq [Token] =
-    (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index), tuple.parser_state, tuple.last_index) ) )
+  _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
+    (tuple.rev_tokens.+ : (Token_ (line.substring (tuple.last_index), tuple.parser_state, tuple.last_index) ) )
       .reverse
 
-  _next_value_function (tuple: TokenizerFoldTuple) (current_index: Int): TokenizerFoldTuple =
-    _new_value_function_with (tuple, current_index, _new_parser_state (tuple, current_index) )
+  _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
+    _new_value_function_with (tuple) (current_index) (_new_parser_state (tuple) (current_index) )
 
-  _new_value_function_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState): TokenizerFoldTuple =
-    if ParserStateEnum_ ().is_same_class (new_parser_state, tuple.parser_state)
+  _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
+    if ParserStateEnum_ ().is_same_class (new_parser_state) (tuple.parser_state)
     then TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens)
-    else _next_value_function_of_different_class (tuple, current_index, new_parser_state)
+    else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
-  _new_parser_state (tuple: TokenizerFoldTuple, current_index: Int): ParserState =
+  _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
     ParserTransition_ ()
       .next_parser_state (
-        tuple.parser_state,
+        tuple.parser_state) (
         CharTypeEnum_ ().get_char_type (line.charAt (current_index) )
       )
 
-  _next_value_function_of_different_class (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState): TokenizerFoldTuple =
+  _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
     _next_value_function_of_different_class_with (
-      tuple,
-      current_index,
-      new_parser_state,
+      tuple) (
+      current_index) (
+      new_parser_state) (
       if tuple.parser_state == ParserStateEnum_ ().quotes_state or
         tuple.parser_state == ParserStateEnum_ ().apostrophe_state
       then current_index + 1
       else current_index
     )
 
-  _next_value_function_of_different_class_with (tuple: TokenizerFoldTuple, current_index: Int, new_parser_state: ParserState, index: Int): TokenizerFoldTuple =
+  _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,
       tuple.rev_tokens.+: (
         Token_ (
@@ -78,9 +78,9 @@ end
 class TokenizerFoldTuple
 
   abstract
-    last_index: Int
-    parser_state: ParserState
-    rev_tokens: Seq [Token]
+    last_index : Int
+    parser_state : ParserState
+    rev_tokens : Seq [Token]
 
 end
 

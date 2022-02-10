@@ -64,13 +64,13 @@ trait EqualsExample
    * This is especially recommended when the parameters are of the same type.
    * Constants are only evaluated once, which is the first time they are needed. */
 
-  lazy val answer: Int = f (x = 20, y = 2 )
+  lazy val answer: Int = f (x = 20 ) (y = 2 )
 
   /* A function has parameters.
    * If the parameters are empty, it is implied that the function produces some side effect.
    * Functions, even with empty parameters, are evaluated every time they are invoked. */
 
-  def f (x: Int, y: Int ): Int = 2 * x + y
+  def f (x: Int ) (y: Int ): Int = 2 * x + y
 
 }
 
@@ -204,7 +204,7 @@ trait Manual
   /* A piecewise function can be defined using an `if`-`then`-`else` structure.
    * The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. */
 
-  def max (x: Int, y: Int ): Int =
+  def max (x: Int ) (y: Int ): Int =
     if (x > y
     ) x
     else y
@@ -212,7 +212,7 @@ trait Manual
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
    * Lambda functions are declared using a right arrow (`->`). */
 
-  def plus_one (sequence: Seq [Int]  ): Seq [Int] =
+  def plus_one (sequence: Seq [Int] ): Seq [Int] =
     sequence.map (element => element + 1 )
 
   /* Boolean values `false` and `true` are available. */
@@ -222,25 +222,25 @@ trait Manual
     ) false
     else true
 
-  def my_and (x: Boolean, y: Boolean ): Boolean =
+  def my_and (x: Boolean ) (y: Boolean ): Boolean =
     if (x
     ) y
     else false
 
-  def my_or (x: Boolean, y: Boolean ): Boolean =
+  def my_or (x: Boolean ) (y: Boolean ): Boolean =
     if (x
     ) true
     else y
 
   /* Boolean values have the standard `not`-`and`-`or` functions. */
 
-  def my_xor (x: Boolean, y: Boolean ): Boolean =
+  def my_xor (x: Boolean ) (y: Boolean ): Boolean =
     (x || y ) && ! (x && y )
 
   /* It is possible to use pattern matching with `match` and `case`.
    * Please observe the double arrow `=>`. */
 
-  def if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
+  def if_then_else [A] (condition: Boolean ) (if_true: A ) (if_false: A ): A =
     condition match  {
       case true => if_true
       case false => if_false
@@ -248,24 +248,24 @@ trait Manual
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
 
-  def another_if_then_else [A] (condition: Boolean, if_true: A, if_false: A ): A =
+  def another_if_then_else [A] (condition: Boolean ) (if_true: A ) (if_false: A ): A =
     condition match  {
       case true => if_true
       case false => if_false
     }
 
   def sum (n: Int ) =
-    _tailrec_ (n, 0 )
+    _tailrec_ (n ) (0 )
 
   /* A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n: Int, accum: Int ): Int =
+  def _tailrec_ (n: Int ) (accum: Int ): Int =
     if (n < 0
     ) accum
-    else _tailrec_ (n - 1, n + accum )
+    else _tailrec_ (n - 1 ) (n + accum )
 
 }
 
@@ -289,13 +289,13 @@ trait FactorialConcise
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n: Int, product: Int ): Int =
+  def _tailrec_ (n: Int ) (product: Int ): Int =
     if (n == 0
     ) product
-    else _tailrec_ (n - 1, n * product )
+    else _tailrec_ (n - 1 ) (n * product )
 
   def factorial (n: Int ): Int =
-    _tailrec_ (n, 1 )
+    _tailrec_ (n ) (1 )
 
 }
 
@@ -318,14 +318,14 @@ trait FactorialVerbose
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n: Int, product: Int ): Int =
+  def _tailrec_ (n: Int ) (product: Int ): Int =
     if (n == 0
     ) product
-    else _tailrec_ (n - 1, n * product )
+    else _tailrec_ (n - 1 ) (n * product )
 
   lazy val factorial: Int => Int =
      n =>
-      _tailrec_ (n, 1 )
+      _tailrec_ (n ) (1 )
 
 }
 
@@ -336,26 +336,26 @@ trait Recursion
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
+  def _tailrec_fold4 [A, B] (sequence: Seq [A] ) (current_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
     if (sequence.isEmpty
     ) current_value
     else
-      if (! condition (current_value, sequence.head )
+      if (! condition (current_value ) (sequence.head )
       ) current_value
-      else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
+      else _tailrec_fold4 (sequence.tail ) (next_value_function (current_value ) (sequence.head ) ) (next_value_function ) (condition )
 
-  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean ): C =
-    _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
+  def fold [A, B] (sequence: Seq [A] ) (initial_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
+    _tailrec_fold4 (sequence ) (initial_value ) (next_value_function ) (condition )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
+  def _tailrec_range (n: Int, sequence: Seq [Int] ): Seq [Int] =
     if (n <= 0
     ) sequence
-    else _tailrec_range (n - 1, sequence.+: (n - 1 )  )
+    else _tailrec_range (n - 1 ) (sequence.+: (n - 1 ) )
 
   def range (length: Int ): Seq [Int] =
-    _tailrec_range (length, Seq [Int] ()  )
+    _tailrec_range (length ) (Seq [Int] () )
 
 }
 
@@ -370,7 +370,7 @@ trait Main
   /* An output to the standard output can be sent with a `println` command.
    * This is a shorter form of JVM's `System.out.println`. */
 
-  def main (arguments: Array [String]  ): Unit =
+  def main (arguments: Array [String] ): Unit =
     println ("Hello world!")
 
 }

@@ -53,7 +53,7 @@ trait ClassDeclarationBlockTranslator
     _process_head_with (get_first_line (block ), block )
 
   def _process_head_with (line: String, block: Block ): Seq [String] =
-    Seq [String] (Replacement_ (sc.space + line ) .replace_at_beginning (0, get_table_translator (line ) ) .line.substring (sc.space.length ) )
+    Seq [String] (Replacement_ (sc.space + line ) .replace_at_beginning (0 ) (get_table_translator (line ) ) .line.substring (sc.space.length ) )
 
   def _process_tail (block: Block ): Seq [String] =
     _process_if_extends (remove_first_line (block ) )

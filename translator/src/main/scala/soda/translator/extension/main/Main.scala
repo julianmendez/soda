@@ -26,7 +26,7 @@ trait Main
       ("main", this )
     ) .toMap
 
-  def main (arguments: Array [String]  ): Unit =
+  def main (arguments: Array [String] ): Unit =
     execute (arguments.toSeq )
 
   lazy val execute: Seq [String] => Boolean =

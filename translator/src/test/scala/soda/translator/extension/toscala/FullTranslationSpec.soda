@@ -37,13 +37,13 @@ class FullTranslationSpec ()
 
   ManualExpected = "/soda/translator/documentation/Manual.scala"
 
-  test_translation (file_name: String): Assertion =
+  test_translation (file_name : String) : Assertion =
     let
       input_file_name = Base + file_name + SodaSuffix
       expected_file_name = Base + file_name + ScalaSuffix
     in test_translation (input_file_name, expected_file_name)
 
-  test_translation (input_file_name: String, expected_file_name: String): Assertion =
+  test_translation (input_file_name : String, expected_file_name : String) : Assertion =
     let
       input_file = read_file (input_file_name)
       expected = read_file (expected_file_name)
@@ -55,7 +55,7 @@ class FullTranslationSpec ()
         ).translate (input_file)
     in assert (obtained == expected)
 
-  read_file (file_name: String): String =
+  read_file (file_name : String) : String =
     let
       document_resource = getClass.getResource (file_name)
       document_URI = document_resource.toURI

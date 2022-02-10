@@ -19,10 +19,10 @@ trait AnnotationFactory
   def annotate (block: Block ): AnnotatedBlock =
     block match  {
       case b: AnnotatedBlock => b
-      case x => _get_first_or_undefined (_find_candidates (x ), x )
+      case x => _get_first_or_undefined (_find_candidates (x ) ) (x )
     }
 
-  def update_block (original_content: AnnotatedBlock, new_content: Block ): AnnotatedBlock =
+  def update_block (original_content: AnnotatedBlock ) (new_content: Block ): AnnotatedBlock =
     original_content match  {
       case b: FunctionDefinitionAnnotation => FunctionDefinitionAnnotation_ (new_content )
       case b: ClassBeginningAnnotation => ClassBeginningAnnotation_ (new_content )
@@ -57,7 +57,7 @@ trait AnnotationFactory
     _detectors (block )
       .filter (detector => detector.applies )
 
-  def _get_first_or_undefined (candidates: Seq [BlockAnnotationParser], block: Block ): AnnotatedBlock =
+  def _get_first_or_undefined (candidates: Seq [BlockAnnotationParser] ) (block: Block ): AnnotatedBlock =
     if (candidates.length == 1
     ) candidates.head
     else AnnotatedBlock_ (block.annotated_lines, BlockAnnotationEnum_ () .undefined )

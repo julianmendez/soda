@@ -29,7 +29,7 @@ trait PreprocessorSequenceTranslator
      block_sequence =>
       translate_for (block_sequence )
 
-  def translate_for (block_sequence: Seq [AnnotatedBlock]  ): Seq [AnnotatedBlock] =
+  def translate_for (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
     translator.translate (
       _get_second_pass (
         _get_first_pass (block_sequence )
@@ -53,36 +53,36 @@ trait PreprocessorSequenceTranslator
     )
 
   def _next_value_function (current: AuxiliaryTuple ) (index: Int ): AuxiliaryTuple =
-    _pass_next_step (current, index, _get_additional_information (current, index ) )
+    _pass_next_step (current ) (index ) (_get_additional_information (current ) (index ) )
 
-  def _get_additional_information (current: AuxiliaryTuple, index: Int ): AnnotatedBlock =
+  def _get_additional_information (current: AuxiliaryTuple ) (index: Int ): AnnotatedBlock =
     current.block_sequence.apply (index ) match  {
-      case block: ClassEndAnnotation => _get_updated_block (current, block )
+      case block: ClassEndAnnotation => _get_updated_block (current ) (block )
       case x => x
     }
 
-  def _get_updated_block (current: AuxiliaryTuple, block: ClassEndAnnotation ): ClassEndAnnotation =
+  def _get_updated_block (current: AuxiliaryTuple ) (block: ClassEndAnnotation ): ClassEndAnnotation =
     ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
-  def _pass_next_step (current: AuxiliaryTuple, index: Int, updated_block: AnnotatedBlock ): AuxiliaryTuple =
+  def _pass_next_step (current: AuxiliaryTuple ) (index: Int ) (updated_block: AnnotatedBlock ): AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = current.block_sequence,
       accumulated = current.accumulated.+: (updated_block ),
-      references = _update_references (current, index )
+      references = _update_references (current ) (index )
     )
 
-  def _update_references (current: AuxiliaryTuple, index: Int ): Seq [Seq [AnnotatedBlock]] =
+  def _update_references (current: AuxiliaryTuple ) (index: Int ): Seq [Seq [AnnotatedBlock]] =
     current.block_sequence.apply (index ) match  {
       case b: ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b ) )
-      case b: AbstractDeclarationAnnotation => _update_first_element (current.references, b )
+      case b: AbstractDeclarationAnnotation => _update_first_element (current.references ) (b )
       case b: ClassEndAnnotation => _tail_non_empty (current.references )
       case x => current.references
     }
 
-  def _update_first_element (s: Seq [Seq [AnnotatedBlock]], b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
+  def _update_first_element (s: Seq [Seq [AnnotatedBlock]] ) (b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
     _tail_non_empty (s ) .+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
 
-  def _tail_non_empty [T] (s: Seq [T]  ): Seq [T] =
+  def _tail_non_empty [T] (s: Seq [T] ): Seq [T] =
     if (s.isEmpty
     ) s
     else s.tail

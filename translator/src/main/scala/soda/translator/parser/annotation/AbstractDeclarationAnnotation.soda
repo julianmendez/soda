@@ -5,7 +5,7 @@ class AbstractDeclarationAnnotation
     BlockAnnotationParser
 
   abstract
-    block: soda.translator.block.Block
+    block : soda.translator.block.Block
 
   import
     soda.translator.block.AnnotatedLine
@@ -14,15 +14,14 @@ class AbstractDeclarationAnnotation
 
   identifier = BlockAnnotationEnum_ ().abstract_declaration
 
-  applies: Boolean =
+  applies : Boolean =
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().abstract_reserved_word)
 
-
-  abstract_functions_with_comments: Seq [AnnotatedLine] =
+  abstract_functions_with_comments : Seq [AnnotatedLine] =
     content_lines
 
-  abstract_functions: Seq [AnnotatedLine] =
+  abstract_functions : Seq [AnnotatedLine] =
     abstract_functions_with_comments
       .filter (lambda line -> not line.is_comment)
 

@@ -13,7 +13,7 @@ class Main
 
   help = soda.translator.extension.help.Help_ ()
 
-  extensions: Map [String, Extension] =
+  extensions : Map [String, Extension] =
     Seq (
       ( ".", soda.translator.extension.toscala.TranslatorToScala_ () ),
       ( "scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
@@ -26,10 +26,10 @@ class Main
       ( "main", this )
     ).toMap
 
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     execute (arguments.toSeq)
 
-  execute: Seq [String] -> Boolean =
+  execute : Seq [String] -> Boolean =
     lambda arguments ->
       if arguments.length == 0
       then help.execute (arguments.toSeq)
@@ -39,3 +39,4 @@ class Main
           .execute (arguments.tail)
 
 end
+

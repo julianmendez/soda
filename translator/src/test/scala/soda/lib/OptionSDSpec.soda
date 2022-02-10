@@ -33,8 +33,8 @@ class OptionSDSpec ()
 
   test ("should open an empty option")
     let
-      result_if_empty: String = "It is empty."
-      result_if_non_empty (value: String): String = "Its value is " + value + "."
+      result_if_empty : String = "It is empty."
+      result_if_non_empty (value : String) : String = "Its value is " + value + "."
       empty = NoneSD_ [String] ()
       expected = "It is empty."
       obtained = empty.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
@@ -42,8 +42,8 @@ class OptionSDSpec ()
 
   test ("should open an non empty option")
     let
-      result_if_empty: String = "It is empty."
-      result_if_non_empty (value: String): String = "Its value is " + value + "."
+      result_if_empty : String = "It is empty."
+      result_if_non_empty (value : String) : String = "Its value is " + value + "."
       some_element = SomeSD_ [String] ("0")
       expected = "Its value is 0."
       obtained = some_element.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
@@ -51,8 +51,8 @@ class OptionSDSpec ()
 
   test ("should try fold an empty option")
     let
-      result_if_empty: String = "It is empty."
-      result_if_non_empty (value: String): String = "Its value is " + value + "."
+      result_if_empty : String = "It is empty."
+      result_if_non_empty (value : String) : String = "Its value is " + value + "."
       empty = NoneSD_ [String] ()
       expected = "It is empty."
       obtained = empty.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
@@ -60,8 +60,8 @@ class OptionSDSpec ()
 
   test ("should try fold an non empty option")
     let
-      result_if_empty: String = "It is empty."
-      result_if_non_empty (value: String): String = "Its value is " + value + "."
+      result_if_empty : String = "It is empty."
+      result_if_non_empty (value : String) : String = "Its value is " + value + "."
       some_element = SomeSD_ [String] ("0")
       expected = "Its value is 0."
       obtained = some_element.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
@@ -69,7 +69,7 @@ class OptionSDSpec ()
 
   test ("should map empty to empty")
     let
-      to_string (n: Int): String = "" + n
+      to_string (n : Int) : String = "" + n
       empty = NoneSD_ [Int] ()
       expected = NoneSD_ [String] ()
       obtained = empty.map (to_string)
@@ -77,7 +77,7 @@ class OptionSDSpec ()
 
   test ("should map a non-empty to another non-empty")
     let
-      to_string (n: Int): String = "" + n
+      to_string (n : Int) : String = "" + n
       some_element = SomeSD_ [Int] (2)
       expected = SomeSD_ [String] ("2")
       obtained = some_element.map (to_string)
@@ -85,7 +85,7 @@ class OptionSDSpec ()
 
   test ("should flat map empty to empty")
     let
-      to_string (n: Int): SomeSD_ [String] = SomeSD_ [String] ("" + n)
+      to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
       empty = NoneSD_ [Int] ()
       expected = NoneSD_ [String] ()
       obtained = empty.flatMap (to_string)
@@ -93,7 +93,7 @@ class OptionSDSpec ()
 
   test ("should flat map a non-empty to another non-empty")
     let
-      to_string (n: Int): SomeSD_ [String] = SomeSD_ [String] ("" + n)
+      to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
       some_element = SomeSD_ [Int] (2)
       expected = SomeSD_ [String] ("2")
       obtained = some_element.flatMap (to_string)
@@ -101,7 +101,7 @@ class OptionSDSpec ()
 
   test ("should try how successive applications of open works")
     let
-      toInt (s: String): OptionSD [Int] =
+      toInt (s : String) : OptionSD [Int] =
         OptionSDBuilder_ ().build (
           Try ( Integer.parseInt (s.trim) )
             .toOption
@@ -112,7 +112,7 @@ class OptionSDSpec ()
       maybeA = toInt (stringA)
       maybeB = toInt (stringB)
       maybeC = toInt (stringC)
-      empty : OptionSD [Int] = NoneSD_ ()
+      empty  : OptionSD [Int] = NoneSD_ ()
       expected = SomeSD_ (6)
       obtained =
         maybeA.opt (ifEmpty := empty) (
@@ -126,42 +126,42 @@ class OptionSDSpec ()
 
   test ("toOption with non empty option")
     let
-      input: OptionSD [Int] = SomeSD_ (1)
-      expected: Option [Int] = Some (1)
+      input : OptionSD [Int] = SomeSD_ (1)
+      expected : Option [Int] = Some (1)
       obtained = input.toOption
     in assert (obtained == expected)
 
   test ("toOption with another non empty option")
     let
-      input: SomeSD_ [Int] = SomeSD_ (2)
-      expected: Some [Int] = Some (2)
+      input : SomeSD_ [Int] = SomeSD_ (2)
+      expected : Some [Int] = Some (2)
       obtained = input.toOption
     in assert (obtained == expected)
 
   test ("toOption with empty option")
     let
-      input: OptionSD [Int] = NoneSD_ ()
+      input : OptionSD [Int] = NoneSD_ ()
       expected = None
       obtained = input.toOption
     in assert (obtained == expected)
 
   test ("toSeq with non empty option")
     let
-      input: OptionSD [Int] = SomeSD_ (1)
-      expected: Seq [Int] = Seq (1)
+      input : OptionSD [Int] = SomeSD_ (1)
+      expected : Seq [Int] = Seq (1)
       obtained = input.toSeq
     in assert (obtained == expected)
 
   test ("toSeq with another non empty option")
     let
-      input: SomeSD_ [Int] = SomeSD_ (2)
-      expected: Seq [Int] = Seq (2)
+      input : SomeSD_ [Int] = SomeSD_ (2)
+      expected : Seq [Int] = Seq (2)
       obtained = input.toSeq
     in assert (obtained == expected)
 
   test ("toSeq with empty option")
     let
-      input: OptionSD [Int] = NoneSD_ ()
+      input : OptionSD [Int] = NoneSD_ ()
       expected = Seq ()
       obtained = input.toSeq
     in assert (obtained == expected)

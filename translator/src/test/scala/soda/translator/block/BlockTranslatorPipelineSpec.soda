@@ -8,7 +8,7 @@ class BlockTranslator00
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
@@ -28,7 +28,7 @@ class BlockTranslator01
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
@@ -48,7 +48,7 @@ class BlockTranslator02
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
 
-  translate: AnnotatedBlock -> AnnotatedBlock =
+  translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block ->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (

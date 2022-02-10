@@ -3,7 +3,7 @@ package soda.translator.block
 class SingleLineProcessor
 
   abstract
-    line: String
+    line : String
 
 end
 

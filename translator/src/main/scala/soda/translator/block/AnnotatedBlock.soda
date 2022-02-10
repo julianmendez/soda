@@ -5,8 +5,8 @@ class AnnotatedBlock
     Block
 
   abstract
-    annotated_lines: Seq [AnnotatedLine]
-    block_annotation: BlockAnnotationId
+    annotated_lines : Seq [AnnotatedLine]
+    block_annotation : BlockAnnotationId
 
 end
 

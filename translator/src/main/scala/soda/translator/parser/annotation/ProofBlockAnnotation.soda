@@ -5,7 +5,7 @@ class ProofBlockAnnotation
     BlockAnnotationParser
 
   abstract
-    block: soda.translator.block.Block
+    block : soda.translator.block.Block
 
   import
     soda.translator.block.BlockAnnotationEnum_
@@ -13,7 +13,7 @@ class ProofBlockAnnotation
 
   identifier = BlockAnnotationEnum_ ().proof_block
 
-  applies: Boolean =
+  applies : Boolean =
     block.readable_lines.nonEmpty and
     (block.readable_lines.head.line.trim == SodaConstant_ ().proof_reserved_word)
 

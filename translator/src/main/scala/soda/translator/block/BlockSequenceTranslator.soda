@@ -3,7 +3,7 @@ package soda.translator.block
 class BlockSequenceTranslator
 
   abstract
-    translate: Seq [AnnotatedBlock] -> Seq [AnnotatedBlock]
+    translate : Seq [AnnotatedBlock] -> Seq [AnnotatedBlock]
 
 end
 
@@ -14,7 +14,7 @@ class DefaultBlockSequenceTranslator
   abstract
     translator : BlockTranslator
 
-  translate: Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
+  translate : Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
     lambda block_sequence ->
       block_sequence.map (lambda block -> translator.translate (block) )
 
