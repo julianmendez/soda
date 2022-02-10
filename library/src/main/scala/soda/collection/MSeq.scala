@@ -20,16 +20,17 @@ trait MSeqRec [T]
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold [B, C <: B] (sequence: MSeq [T], current_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-    if (sequence.isEmpty
-    ) current_value
-    else
-      {
-        lazy val neseq = sequence.opt (ifEmpty = None, ifNonEmpty = x => Some (x ) ) .get
-        if (! condition (current_value, neseq.head ) ) current_value else _tailrec_fold (neseq.tail, next_value (current_value, neseq.head ), next_value, condition ) }
+  def _tailrec_fold_while [B] (sequence: MSeq [T] ) (current_value: B ) (next_value_function: B => T => B ) (condition: B => T => Boolean ): B =
+    sequence match  {
+      case ESeq_ () => current_value
+      case NESeq_ (head, tail ) =>
+        if (! condition (current_value ) (head )
+        ) current_value
+        else _tailrec_fold_while (tail ) (next_value_function (current_value ) (head ) ) (next_value_function ) (condition )
+      }
 
-  def fold [B, C <: B] (sequence: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-    _tailrec_fold (sequence, initial_value, next_value, condition )
+  def fold_while [B] (sequence: MSeq [T] ) (initial_value: B ) (next_value: B => T => B ) (condition: B => T => Boolean ): B =
+    _tailrec_fold_while (sequence ) (initial_value ) (next_value ) (condition )
 
 }
 

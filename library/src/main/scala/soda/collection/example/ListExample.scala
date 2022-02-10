@@ -57,13 +57,13 @@ trait ListExample
     Pair_ ("a.reverse", a.reverse )
 
   /**
-   * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
+   * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val prepended_example: Pair [Seq [Char]] =
     Pair_ ("a.+:('X')", (a.+: ('X')  )  )
 
   /**
-   * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
+   * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val appended_example: Pair [Seq [Char]] =
     Pair_ ("a.:+('X')", (a.:+ ('X')  )  )

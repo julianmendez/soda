@@ -65,13 +65,16 @@ trait Min [T]
 
   /* */
 
-  def foldLeftWhile [B, C <: B] (s: MSeq [T], initial_value: C, next_value: (B, T ) => C, condition: (B, T ) => Boolean ): C =
-    MSeqRec_ [T] () .fold [B, C] (s, initial_value, next_value, condition )
+  def foldLeftWhile [B] (s: MSeq [T], initial_value: B, next_value: (B, T ) => B, condition: (B, T ) => Boolean ): B =
+    {
+      lazy val _next_value: B => T => B = acc =>  elem => next_value (acc, elem )
+      lazy val _condition: B => T => Boolean = acc =>  elem => condition (acc, elem )
+      MSeqRec_ [T] () .fold_while [B] (s ) (initial_value ) (_next_value ) (_condition ) }
 
-  def foldLeft [B, C <: B] (s: MSeq [T], initial_value: C, next_value: (B, T ) => C ): C =
+  def foldLeft [B] (s: MSeq [T], initial_value: B, next_value: (B, T ) => B ): B =
     {
       def condition (acc: B, elem: T ): Boolean = true
-      foldLeftWhile [B, C] (s, initial_value, next_value, condition ) }
+      foldLeftWhile (s, initial_value, next_value, condition ) }
 
   def reverse (s: MSeq [T]  ): MSeq [T] =
     s.opt (ifEmpty = empty, ifNonEmpty = neseq => reverseNonEmpty (neseq ) )

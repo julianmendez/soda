@@ -33,7 +33,7 @@ trait Main
     .map (pair => pair.name + " = " + pair.result.toString )
     .mkString ("\n")
 
-  def main (arguments: Array [String]  ): Unit =
+  def main (arguments: Array [String] ): Unit =
     println (all_examples )
 
 }

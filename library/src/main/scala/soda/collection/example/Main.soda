@@ -32,7 +32,7 @@ class Main
     .map (lambda pair -> pair.name + " = " + pair.result.toString)
     .mkString ("\n")
 
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     println (all_examples)
 
 end
