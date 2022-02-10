@@ -6,13 +6,13 @@ class MiniExample
 
   run () =
     range (50)
-      .map (lambda x -> print (" " + (2 * x + 1)) )
+      .map (lambda x -> print (" " + (2 * x + 1) ) )
 
 end
 
 class Main
 
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     MiniExample_ ().run ()
 
 end

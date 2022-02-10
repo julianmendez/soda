@@ -16,7 +16,7 @@ class FairnessSpec ()
     let
       instance =
         Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 5, rank_1)
-      obtained = instance.is_fair (Applicant_ (78), Applicant_ (77))
+      obtained = instance.is_fair (Applicant_ (78) ) (Applicant_ (77) )
       expected = true
     in assert (obtained == expected)
 
@@ -24,7 +24,7 @@ class FairnessSpec ()
     let
       instance =
         Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 1, rank_2)
-      obtained = instance.is_fair (Applicant_ (78), Applicant_ (77))
+      obtained = instance.is_fair (Applicant_ (78) ) (Applicant_ (77) )
       expected = false
     in assert (obtained == expected)
 

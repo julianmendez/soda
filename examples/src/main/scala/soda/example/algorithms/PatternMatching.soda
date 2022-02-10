@@ -3,13 +3,13 @@ package soda.example.algorithms
 class Parameter
 
   abstract
-    name: String
+    name : String
 
 end
 
 class PatternMatching
 
-  get_value (p: Parameter): Int =
+  get_value (p : Parameter) : Int =
     match p
       | Singleton_ (x) => x
       | Pair_ (x, y) => (x + y) / 2
@@ -17,11 +17,11 @@ class PatternMatching
       | otherwise => 0
     end
 
-  get_type_name (p: Parameter): String =
+  get_type_name (p : Parameter) : String =
     match p
-      | x: Singleton => x.name + "(x)"
-      | x: Pair => x.name + "(x, y)"
-      | x: Triplet => x.name + "(x, y, z)"
+      | x : Singleton => x.name + "(x)"
+      | x : Pair => x.name + "(x, y)"
+      | x : Triplet => x.name + "(x, y, z)"
       | otherwise => ""
     end
 
@@ -32,7 +32,7 @@ class Singleton
     Parameter
 
   abstract
-    x: Int
+    x : Int
 
   name = "singleton"
 
@@ -43,8 +43,8 @@ class Pair
     Parameter
 
   abstract
-    x: Int
-    y: Int
+    x : Int
+    y : Int
 
   name = "pair"
 
@@ -55,9 +55,9 @@ class Triplet
     Parameter
 
   abstract
-    x: Int
-    y: Int
-    z: Int
+    x : Int
+    y : Int
+    z : Int
 
   name = "triplet"
 

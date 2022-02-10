@@ -12,7 +12,7 @@ trait TriangularNumberForCoq
   def _tailrec_get_number (m: nat ) (acc: nat ): nat =
     m match  {
       case O_ () => acc
-      case S_ (k ) => _tailrec_get_number (k ) (acc .add (S_ (k ) )  )
+      case S_ (k ) => _tailrec_get_number (k ) (acc .add (S_ (k ) ) )
     }
 
   def get_number (n: nat ): nat =

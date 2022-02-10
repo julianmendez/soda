@@ -32,7 +32,7 @@ trait PiIterator
       _tailrec_compute_new_status (
         Status_ (
           r = (2 * s.q + s.r ) * s.l,
-          n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l )  ) / (s.t * s.l )  ) .toInt,
+          n = ((s.q * (7 * s.k ) + 2 + (s.r * s.l ) ) / (s.t * s.l ) ) .toInt,
           q = s.q * s.k,
           t = s.t * s.l,
           l = s.l + 2,
@@ -45,23 +45,23 @@ trait PiIterator
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_take (n: Int, rev_seq: Seq [Int], s: Status, t: IntAndStatus ): Seq [Int] =
+  def _tailrec_take (n: Int ) (rev_seq: Seq [Int] ) (s: Status ) (t: IntAndStatus ): Seq [Int] =
     if (n == 0
     ) rev_seq.reverse
-    else _tailrec_take (n - 1, rev_seq.+: (t.digit ), t.new_status, _get_next (t.new_status ) )
+    else _tailrec_take (n - 1 ) (rev_seq.+: (t.digit ) ) (t.new_status ) (_get_next (t.new_status ) )
 
   def take (n: Int ): Seq [Int] =
-    _tailrec_take (n, Seq (), initial_status, _get_next (initial_status ) )
+    _tailrec_take (n ) (Seq () ) (initial_status ) (_get_next (initial_status ) )
 
   def _get_next (s: Status ): IntAndStatus =
-    _get_next_with_new_status (compute_new_status (s )  )
+    _get_next_with_new_status (compute_new_status (s ) )
 
   def _get_next_with_new_status (s: Status ): IntAndStatus =
     IntAndStatus_ (
       s.n,
       Status_ (
         r = 10 * (s.r - s.n * s.t ),
-        n = (((10 * (3 * s.q + s.r )  ) / s.t ) - (10 * s.n )  ) .toInt,
+        n = (((10 * (3 * s.q + s.r ) ) / s.t ) - (10 * s.n ) ) .toInt,
         q = s.q * 10,
         t = s.t,
         l = s.l,

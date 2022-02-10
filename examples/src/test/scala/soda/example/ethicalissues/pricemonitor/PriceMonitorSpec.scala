@@ -9,9 +9,9 @@ trait UnfairPricingAgent
      customer =>
        flight =>
          date =>
-          get_price_for (customer, flight, date )
+          get_price_for (customer ) (flight ) (date )
 
-  def get_price_for (customer: Customer, flight: Flight, date: Int ): Int =
+  def get_price_for (customer: Customer ) (flight: Flight ) (date: Int ): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1 )
 
 }
@@ -27,9 +27,9 @@ trait FairPricingAgent
      customer =>
        flight =>
          date =>
-          get_price_for (customer, flight, date )
+          get_price_for (customer ) (flight ) (date )
 
-  def get_price_for (customer: Customer, flight: Flight, date: Int ): Int =
+  def get_price_for (customer: Customer ) (flight: Flight ) (date: Int ): Int =
     100 * (flight.intermediate_airports.length + 1 )
 
 }
@@ -59,42 +59,42 @@ case class PriceMonitorSpec ()
   test ("unfair pricing agent - requirement_monitor 1")
     {
       lazy val requirement_monitor = Requirement1Monitor_ (unfair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (customer_2 ) (flight_1 ) (date_1 )
       lazy val expected = Report1_ (false, 897, 1495, 0.6 )
       assert (obtained == expected ) }
 
   test ("unfair pricing agent - requirement_monitor 2")
     {
       lazy val requirement_monitor = Requirement2Monitor_ (unfair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (flight_1 ) (date_1 )
       lazy val expected = Report2_ (false, 702, 897 )
       assert (obtained == expected ) }
 
   test ("unfair pricing agent - requirement_monitor 3")
     {
       lazy val requirement_monitor = Requirement3Monitor_ (unfair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (flight_1 ) (date_1 )
       lazy val expected = Report3_ (false, 897, 891 )
       assert (obtained == expected ) }
 
   test ("fair pricing agent - requirement_monitor 1")
     {
       lazy val requirement_monitor = Requirement1Monitor_ (fair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (customer_2 ) (flight_1 ) (date_1 )
       lazy val expected = Report1_ (true, 300, 300, 1.0 )
       assert (obtained == expected ) }
 
   test ("fair pricing agent - requirement_monitor 2")
     {
       lazy val requirement_monitor = Requirement2Monitor_ (fair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (flight_1 ) (date_1 )
       lazy val expected = Report2_ (true, 300, 300 )
       assert (obtained == expected ) }
 
   test ("fair pricing agent - requirement_monitor 3")
     {
       lazy val requirement_monitor = Requirement3Monitor_ (fair_pricing_agent )
-      lazy val obtained = requirement_monitor.get_report (customer_1, flight_1, date_1 )
+      lazy val obtained = requirement_monitor.get_report (customer_1 ) (flight_1 ) (date_1 )
       lazy val expected = Report3_ (true, 300, 300 )
       assert (obtained == expected ) }
 

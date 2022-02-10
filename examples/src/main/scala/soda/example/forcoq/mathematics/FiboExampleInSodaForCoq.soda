@@ -8,14 +8,14 @@ class FiboExampleInSodaForCoq
     soda.example.forcoq.lib.nat
 
   @tailrec
-  _tailrec_fib (m: nat) (a: nat) (b: nat): nat =
+  _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     match m
       | O_ () => a
       | S_ (O_ () ) => b
       | S_ (k) => _tailrec_fib (k) (b) (a .add (b) )
     end
 
-  fib (n: nat) =
+  fib (n : nat) =
     _tailrec_fib (n) (O_ () ) ( S_ (O_ () ) )
 
 end

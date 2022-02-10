@@ -3,8 +3,8 @@ package soda.example.forcoq.lib
 class nat
 
   abstract
-    add: nat -> nat
-    mul: nat -> nat
+    add : nat -> nat
+    mul : nat -> nat
 
 end
 
@@ -12,16 +12,16 @@ class O
   extends
     nat
 
-  add: nat -> nat =
+  add : nat -> nat =
     lambda a -> add_for (a)
 
-  add_for (a: nat): nat =
+  add_for (a : nat) : nat =
     a
 
-  mul: nat ->  nat =
+  mul : nat ->  nat =
     lambda a -> mul_for (a)
 
-  mul_for (a: nat): nat =
+  mul_for (a : nat) : nat =
     this
 
 end
@@ -31,20 +31,20 @@ class S
     nat
 
   abstract
-    k: nat
+    k : nat
 
   t = IntNat_ ()
 
-  add: nat -> nat =
+  add : nat -> nat =
     lambda a -> add_for (a)
 
-  add_for (a: nat): nat =
+  add_for (a : nat) : nat =
     t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
 
-  mul: nat ->  nat =
+  mul : nat ->  nat =
     lambda a -> mul_for (a)
 
-  mul_for (a: nat): nat =
+  mul_for (a : nat) : nat =
     t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
 
 end
@@ -56,21 +56,21 @@ class IntNat
     soda.lib.OptionSD
     soda.lib.SomeSD_
 
-  from_Int (a: Int): OptionSD [nat] =
+  from_Int (a : Int) : OptionSD [nat] =
     if a < 0
     then NoneSD_ [nat] ()
-    else SomeSD_ [nat] (from_non_negative (a))
+    else SomeSD_ [nat] (from_non_negative (a) )
 
   @tailrec
-  _tailrec_from_non_negative (a: Int, b: nat): nat =
+  _tailrec_from_non_negative (a : Int) (b : nat) : nat =
     if a <= 0
     then b
-    else _tailrec_from_non_negative (a - 1, S_ (b))
+    else _tailrec_from_non_negative (a - 1) (S_ (b) )
 
-  from_non_negative (a: Int): nat =
-    _tailrec_from_non_negative (a, O_ ())
+  from_non_negative (a : Int) : nat =
+    _tailrec_from_non_negative (a) (O_ () )
 
-  to_Int (a: nat): Int =
+  to_Int (a : nat) : Int =
     match a
       | O_ () => 0
       | S_ (k) => 1 + to_Int (k)

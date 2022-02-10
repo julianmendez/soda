@@ -151,7 +151,7 @@ case class TimeOfToday_ () extends TimeOfToday
 trait Main
 {
 
-  def main (arguments: Array [String]  ): Unit =
+  def main (arguments: Array [String] ): Unit =
     println ("Hello world!")
 
 }

@@ -2,35 +2,35 @@ package soda.example.inanutshell
 
 class InANutshell
 
-  f (x: Int): Int = x + 16
+  f (x : Int) : Int = x + 16
 
   b = f (a)
 
   a = 1 + 2 + 4 + 8
 
-  h0 (x: Int) (y: Int): Int =
+  h0 (x : Int) (y : Int) : Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h1 (x: Int) (y: Int): Int =
+  h1 (x : Int) (y : Int) : Int =
     let
       a = x + y
       b = x - y
     in a * b
 
-  h2 (x: Int) (y: Int): Int =
+  h2 (x : Int) (y : Int) : Int =
     let
       result = a * b
       a = x + y
       b = x - y
     in result
 
-  is_greater_than (a: Int) (b: Int): Boolean =
+  is_greater_than (a : Int) (b : Int) : Boolean =
     a > b
 
-  max (a: Int) (b: Int): Int =
+  max (a : Int) (b : Int) : Int =
     if a > b
     then a
     else b
@@ -39,12 +39,12 @@ end
 
 class MaxAndMin
 
-  max (a: Int) (b: Int): Int =
+  max (a : Int) (b : Int) : Int =
     if a > b
     then a
     else b
 
-  min (a: Int) (b: Int): Int =
+  min (a : Int) (b : Int) : Int =
     if a < b
     then a
     else b
@@ -54,15 +54,15 @@ end
 class MinMaxPair
 
   abstract
-    min: Int
-    max: Int
+    min : Int
+    max : Int
 
 end
 
 class Indexable
 
   abstract
-    index: Int
+    index : Int
 
 end
 
@@ -70,9 +70,9 @@ class Example
   extends Indexable
 
   abstract
-    index: Int
+    index : Int
 
-  min_max (a: Int) (b: Int): MinMaxPair =
+  min_max (a : Int) (b : Int) : MinMaxPair =
     MinMaxPair_ (
       min := MaxAndMin_ ().min (a) (b),
       max := MaxAndMin_ ().max (a) (b)
@@ -83,13 +83,13 @@ end
 class Comparable
 
   abstract
-    is_greater_than: Comparable -> Boolean
+    is_greater_than : Comparable -> Boolean
 
 end
 
 class ComparableMax [T subtype Comparable]
 
-  max (a: T) (b: T): T =
+  max (a : T) (b : T) : T =
     if a.is_greater_than (b)
     then a
     else b
@@ -99,7 +99,7 @@ end
 class WithInstance
 
   abstract
-    instance_parameter: Int
+    instance_parameter : Int
 
 end
 
@@ -108,11 +108,11 @@ class MyClass
     WithInstance
 
   abstract
-    instance_parameter: Int
+    instance_parameter : Int
 
-  class_constant: Int = 1
+  class_constant : Int = 1
 
-  another_function (x: Int): Int = 2 * x
+  another_function (x : Int) : Int = 2 * x
 
 end
 
@@ -121,13 +121,13 @@ class TimeOfToday
   import
     java.util.Date
 
-  get_time: Date = @new Date ()
+  get_time : Date = @new Date ()
 
 end
 
 class Main
 
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
 
 end
@@ -135,7 +135,7 @@ end
 class PersonName
 
   abstract
-    name: String
+    name : String
 
   @override
   toString = name

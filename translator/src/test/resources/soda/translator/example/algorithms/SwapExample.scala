@@ -27,7 +27,7 @@ trait SwapExample
     PairExample_ (pair.right, pair.left )
 
 /*  theorem
-    swap_of_swap: forall ( pair: PairExample )  , ( swap ( swap ( pair ) ) ) == pair
+    swap_of_swap : forall ( pair : PairExample )  , ( swap ( swap ( pair ) ) ) == pair
 */
 
 /*  proof

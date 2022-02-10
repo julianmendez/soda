@@ -15,7 +15,7 @@ case class FactorialForCoqSpec ()
   lazy val factorial_values_with_nat: Seq [Tuple2 [nat, nat]] =
     factorial_values
       .map (pair =>
-       (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )
+        Tuple2 (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )
       )
 
   test ("should test the factorial function for Coq")

@@ -21,7 +21,7 @@ trait SortExampleWithAt
     sequence
       .indices
       .filter (index => index > 0 )
-      .forall (index => sequence.apply (index - 1 ) <= sequence.apply (index )  )
+      .forall (index => sequence.apply (index - 1 ) <= sequence.apply (index ) )
 
 }
 
@@ -38,7 +38,7 @@ trait SortExampleWithZip
   def is_sorted_for (sequence: Seq [Int] ): Boolean =
     sequence
       .zip (sequence.tail )
-      .forall (pair => (pair._1 <= pair._2 )  )
+      .forall (pair => (pair._1 <= pair._2 ) )
 
 }
 
@@ -70,18 +70,18 @@ trait SortAlgorithmExampleWithFold
 
   lazy val _initial_value = Seq [Int] ()
 
-  def _next_value_function (current_sequence: Seq [Int]  ) (elem: Int ): Seq [Int] =
-    insert_sorted (current_sequence, elem )
+  def _next_value_function (current_sequence: Seq [Int] ) (elem: Int ): Seq [Int] =
+    insert_sorted (current_sequence ) (elem )
 
-  def insert_sorted (sequence: Seq [Int], element: Int ): Seq [Int] =
+  def insert_sorted (sequence: Seq [Int] ) (element: Int ): Seq [Int] =
     concatenate (
-      first_part = sequence.takeWhile (x => x < element ),
-      middle = Seq (element ),
+      first_part = sequence.takeWhile (x => x < element ) ) (
+      middle = Seq (element ) ) (
       last_part = sequence.dropWhile (x => x < element )
     )
 
-  def concatenate (first_part: Seq [Int], middle: Seq [Int], last_part: Seq [Int] ): Seq [Int] =
-    first_part.++ (middle.++ (last_part )  )
+  def concatenate (first_part: Seq [Int] ) (middle: Seq [Int] ) (last_part: Seq [Int] ): Seq [Int] =
+    first_part.++ (middle.++ (last_part ) )
 
 }
 
@@ -128,7 +128,7 @@ trait EmptySortedSequence [A <: Comparable [A]]
      element => add_for (element )
 
   def add_for (element: A ): SortedSequence [A] =
-    NonEmptySortedSequence_ (Seq (element )  )
+    NonEmptySortedSequence_ (Seq (element ) )
 
   lazy val invariant: Boolean = true
 
@@ -162,7 +162,7 @@ trait NonEmptySortedSequence [A <: Comparable [A]]
      element => add_for (element )
 
   def add_for (element: A ): SortedSequence [A] =
-    NonEmptySortedSequence_ (aux.insert_sorted (sequence, element )  )
+    NonEmptySortedSequence_ (aux.insert_sorted (sequence ) (element ) )
 
   lazy val invariant: Boolean = aux.is_sorted (sequence )
 
@@ -173,23 +173,23 @@ case class NonEmptySortedSequence_ [A <: Comparable [A]] (sequence: Seq [A]) ext
 trait NonEmptySortedSequenceAux [A <: Comparable [A]]
 {
 
-  def is_less_than (x: A, y: A ): Boolean =
+  def is_less_than (x: A ) (y: A ): Boolean =
     x.compareTo (y ) < 0
 
   def is_sorted (other_sequence: Seq [A] ): Boolean =
     other_sequence
       .zip (other_sequence.tail )
-      .forall (pair => is_less_than (pair._1, pair._2 )  )
+      .forall (pair => is_less_than (pair._1 ) (pair._2 ) )
 
-  def insert_sorted (original_sequence: Seq [A], element: A ): Seq [A] =
+  def insert_sorted (original_sequence: Seq [A] ) (element: A ): Seq [A] =
     concatenate (
-      first_part = original_sequence.takeWhile (x => is_less_than (x, element )  ),
-      middle = Seq (element ),
-      last_part = original_sequence.dropWhile (x => is_less_than (x, element )  )
+      first_part = original_sequence.takeWhile (x => is_less_than (x ) (element ) ) ) (
+      middle = Seq (element ) ) (
+      last_part = original_sequence.dropWhile (x => is_less_than (x ) (element ) )
     )
 
-  def concatenate (first_part: Seq [A], middle: Seq [A], last_part: Seq [A] ): Seq [A] =
-    first_part.++ (middle.++ (last_part )  )
+  def concatenate (first_part: Seq [A] ) (middle: Seq [A] ) (last_part: Seq [A] ): Seq [A] =
+    first_part.++ (middle.++ (last_part ) )
 
 }
 

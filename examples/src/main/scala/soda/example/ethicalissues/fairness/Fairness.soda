@@ -3,16 +3,16 @@ package soda.example.ethicalissues.fairness
 class Applicant
 
   abstract
-    background_score: Double
+    background_score : Double
 
 end
 
 class AbstractFairness
 
   abstract
-    score_difference_tolerance: Double
-    ranking_difference_tolerance: Double
-    rank: Applicant -> Double
+    score_difference_tolerance : Double
+    ranking_difference_tolerance : Double
+    rank : Applicant -> Double
 
 end
 
@@ -21,22 +21,22 @@ class Fairness
     AbstractFairness
 
   abstract
-    score_difference_tolerance: Double
-    ranking_difference_tolerance: Double
-    rank: Applicant -> Double
+    score_difference_tolerance : Double
+    ranking_difference_tolerance : Double
+    rank : Applicant -> Double
 
-  is_fair (alice: Applicant, bob: Applicant) is
-    if have_similar_score (alice.background_score, bob.background_score)
-    then have_similar_ranking (rank (alice), rank (bob))
+  is_fair (alice : Applicant) (bob : Applicant) is
+    if have_similar_score (alice.background_score) (bob.background_score)
+    then have_similar_ranking (rank (alice) ) (rank (bob))
     else true
 
-  have_similar_score (score1: Double, score2: Double) is
-    difference_between (score1, score2) < score_difference_tolerance
+  have_similar_score (score1 : Double) (score2 : Double) is
+    difference_between (score1) (score2) < score_difference_tolerance
 
-  have_similar_ranking (result1: Double, result2: Double) is
-    difference_between (result1, result2) < ranking_difference_tolerance
+  have_similar_ranking (result1 : Double) (result2 : Double) is
+    difference_between (result1) (result2) < ranking_difference_tolerance
 
-  difference_between (value: Double, another_value: Double) is
+  difference_between (value : Double) (another_value : Double) is
     Math.abs (value - another_value)
 
 end

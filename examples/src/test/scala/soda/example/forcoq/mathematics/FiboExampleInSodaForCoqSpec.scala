@@ -15,7 +15,7 @@ case class FiboExampleInSodaForCoqSpec ()
   lazy val fibonacci_values_with_nat: Seq [Tuple2 [nat, nat]] =
     fibonacci_values
       .map (pair =>
-       (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )
+        Tuple2 (IntNat_ () .from_non_negative (pair._1 ), IntNat_ () .from_non_negative (pair._2 ) )
       )
 
   test ("should test the fibonacci function for Coq")

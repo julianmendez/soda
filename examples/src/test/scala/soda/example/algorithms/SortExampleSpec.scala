@@ -40,7 +40,7 @@ case class SortExampleSpec ()
       lazy val instance = SortAlgorithmExampleWithFold_ ()
       lazy val sorted_sequence = Seq (1, 2, 3, 6, 8, 9 )
       lazy val expected = Seq (1, 2, 3, 5, 6, 8, 9 )
-      lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
+      lazy val obtained = instance.insert_sorted (sorted_sequence ) (5 )
       assert (obtained == expected ) }
 
   test ("insert sorted with repetition")
@@ -48,7 +48,7 @@ case class SortExampleSpec ()
       lazy val instance = SortAlgorithmExampleWithFold_ ()
       lazy val sorted_sequence = Seq (1, 2, 3, 5, 6, 8, 9 )
       lazy val expected = Seq (1, 2, 3, 5, 5, 6, 8, 9 )
-      lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
+      lazy val obtained = instance.insert_sorted (sorted_sequence ) (5 )
       assert (obtained == expected ) }
 
   test ("sort unsorted sequence")

@@ -5,17 +5,17 @@ class FactorialPatternMatching
     AbstractFactorialConcise
 
   @tailrec
-  _tailrec_get_factorial (n: Int, product: Int): Int =
+  _tailrec_get_factorial (n : Int) (product : Int) : Int =
     match n
       | 0 => product
-      | k => _tailrec_get_factorial (k - 1, k * product)
+      | k => _tailrec_get_factorial (k - 1) (k * product)
     end
 
-  get_factorial: Int -> Int =
+  get_factorial : Int -> Int =
     lambda n -> get_factorial_for (n)
 
-  get_factorial_for (n: Int): Int =
-    _tailrec_get_factorial (n, 1)
+  get_factorial_for (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
 
 end
 

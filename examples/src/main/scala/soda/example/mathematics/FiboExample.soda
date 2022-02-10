@@ -3,7 +3,7 @@ package soda.example.mathematics
 class FiboExample
 
   abstract
-    fib: Int -> Int
+    fib : Int -> Int
 
 end
 
@@ -11,15 +11,15 @@ class FiboExampleInSoda
   extends
     FiboExample
 
-  _rec (m: Int, a: Int, b: Int): Int is
+  _rec (m : Int) (a : Int) (b : Int) : Int is
     if m == 0 then a
     else if m == 1 then b
-    else _rec (m - 1, b, a + b)
+    else _rec (m - 1) (b) (a + b)
 
-  fib: Int -> Int is
+  fib : Int -> Int is
     lambda n -> fib_for (n)
 
-  fib_for (n: Int) is
-    _rec (n, 0, 1)
+  fib_for (n : Int) is
+    _rec (n) (0) (1)
 
 end

@@ -18,22 +18,22 @@ trait Requirement3Monitor
 
   def   pricing_agent: PricingAgent
 
-  def get_report (customer: Customer, flight: Flight, date_in_days: Int ): Report3 =
+  def get_report (customer: Customer ) (flight: Flight ) (date_in_days: Int ): Report3 =
     get_report_with (
-      get_price (customer, flight, date_in_days ),
-      get_price_of_flight_by_segments (customer, flight, date_in_days )
+      get_price (customer ) (flight ) (date_in_days ) ) (
+      get_price_of_flight_by_segments (customer ) (flight ) (date_in_days )
     )
 
-  def get_report_with (price_of_flight: Int, price_of_flight_by_segments: Int ): Report3 =
+  def get_report_with (price_of_flight: Int ) (price_of_flight_by_segments: Int ): Report3 =
     Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments )
 
-  def get_price_of_flight_by_segments (customer: Customer, flight: Flight, date_in_days: Int ): Int =
-    sum_prices (get_prices_of_segments (customer, SegmentsForFlight_ (flight ) .segments, date_in_days )  )
+  def get_price_of_flight_by_segments (customer: Customer ) (flight: Flight ) (date_in_days: Int ): Int =
+    sum_prices (get_prices_of_segments (customer ) (SegmentsForFlight_ (flight ) .segments ) (date_in_days ) )
 
-  def get_prices_of_segments (customer: Customer, segments: Seq [Segment], date_in_days: Int ): Seq [Int] =
-    segments.map (segment => get_price (customer, segment, date_in_days ) )
+  def get_prices_of_segments (customer: Customer ) (segments: Seq [Segment] ) (date_in_days: Int ): Seq [Int] =
+    segments.map (segment => get_price (customer ) (segment ) (date_in_days ) )
 
-  def sum_prices (prices: Seq [Int]  ): Int =
+  def sum_prices (prices: Seq [Int] ): Int =
     prices.sum
 
 }
@@ -48,7 +48,7 @@ trait Segment
   def   start_airport: String
   def   end_airport: String
 
-  lazy val intermediate_airports = Seq [String]  ()
+  lazy val intermediate_airports = Seq [String] ()
 
 }
 
@@ -60,12 +60,12 @@ trait SegmentsForFlight
   def   flight: Flight
 
   lazy val segments: Seq [Segment] =
-    rec_segments_multi (flight.start_airport, flight.intermediate_airports, flight.end_airport )
+    rec_segments_multi (flight.start_airport ) (flight.intermediate_airports ) (flight.end_airport )
 
-  def rec_segments_multi (first_airport: String, intermediate_stops: Seq [String], last_airport: String ): Seq [Segment] =
+  def rec_segments_multi (first_airport: String ) (intermediate_stops: Seq [String] ) (last_airport: String ): Seq [Segment] =
     intermediate_stops match  {
-      case Nil => Nil.+: (Segment_ (first_airport, last_airport )  )
-      case x:: xs => rec_segments_multi (x, xs, last_airport ) .+: (Segment_ (first_airport, x )  )
+      case Nil => Nil.+: (Segment_ (first_airport, last_airport ) )
+      case x:: xs => (rec_segments_multi (x ) (xs ) (last_airport ) ) .+: (Segment_ (first_airport, x ) )
     }
 
 }

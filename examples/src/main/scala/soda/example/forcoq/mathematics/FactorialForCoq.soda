@@ -8,13 +8,13 @@ class FactorialForCoq
     soda.example.forcoq.lib.nat
 
   @tailrec
-  _tailrec_get_factorial (m: nat) (product: nat): nat =
+  _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m
       | O_ () => product
-      | S_ (k) => _tailrec_get_factorial (k) (product .mul ( S_ (k) ))
+      | S_ (k) => _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
     end
 
-  get_factorial (n: nat): nat =
+  get_factorial (n : nat) : nat =
     _tailrec_get_factorial (n) (S_ ( O_ () ) )
 
 end

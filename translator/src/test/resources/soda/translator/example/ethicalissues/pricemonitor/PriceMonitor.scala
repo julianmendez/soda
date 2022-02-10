@@ -15,10 +15,10 @@ trait PricingAgent
 
   import   java.util.Date
 
-    /** get_price (customer: Customer, flight: Flight, date_in_days: Int): Int */
+    /** get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int */
   def   abs_get_price: Customer => Flight => Int => Int
 
-  def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int =
+  def get_price (customer: Customer ) (flight: Flight ) (date_in_days: Int ): Int =
     abs_get_price (customer ) (flight ) (date_in_days )
 
   lazy val milliseconds_per_day: Long = 24 * 60 * 60 * 1000
@@ -46,8 +46,8 @@ trait RequirementMonitor
 
   def   pricing_agent: PricingAgent
 
-  def get_price (customer: Customer, flight: Flight, date_in_days: Int ): Int =
-    pricing_agent.get_price (customer, flight, date_in_days )
+  def get_price (customer: Customer ) (flight: Flight ) (date_in_days: Int ): Int =
+    pricing_agent.get_price (customer ) (flight ) (date_in_days )
 
 }
 

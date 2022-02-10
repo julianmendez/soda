@@ -66,17 +66,17 @@ trait IntNat
   def from_Int (a: Int ): OptionSD [nat] =
     if (a < 0
     ) NoneSD_ [nat] ()
-    else SomeSD_ [nat] (from_non_negative (a )  )
+    else SomeSD_ [nat] (from_non_negative (a ) )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_from_non_negative (a: Int, b: nat ): nat =
+  def _tailrec_from_non_negative (a: Int ) (b: nat ): nat =
     if (a <= 0
     ) b
-    else _tailrec_from_non_negative (a - 1, S_ (b )  )
+    else _tailrec_from_non_negative (a - 1 ) (S_ (b ) )
 
   def from_non_negative (a: Int ): nat =
-    _tailrec_from_non_negative (a, O_ ()  )
+    _tailrec_from_non_negative (a ) (O_ () )
 
   def to_Int (a: nat ): Int =
     a match  {

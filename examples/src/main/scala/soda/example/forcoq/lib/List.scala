@@ -40,14 +40,14 @@ trait SeqList
     }
 
   def reverse [A] (s: list [A] ): list [A] =
-    _tailrec_reverse [A] (s ) (nil_ [A] ()  )
+    _tailrec_reverse [A] (s ) (nil_ [A] () )
 
   import scala.annotation.tailrec
         @tailrec  final
   def _tailrec_from_Seq [A] (a: Seq [A] ) (b: list [A] ): list [A] =
     a match  {
       case Nil => b
-      case (e ):: (s ) => _tailrec_from_Seq (s ) (cons_ (e, b )  )
+      case (e ):: (s ) => _tailrec_from_Seq (s ) (cons_ (e, b ) )
     }
 
   def from_Seq [A] (a: Seq [A] ): list [A] =
@@ -62,7 +62,7 @@ trait SeqList
     }
 
   def to_Seq [A] (a: list [A] ): Seq [A] =
-    (_tailrec_to_Seq (a ) (Seq [A]  () )  ) .reverse
+    (_tailrec_to_Seq (a ) (Seq [A]  () ) ) .reverse
 
 }
 
