@@ -5,7 +5,7 @@ class MSeq [T]
   abstract
     isEmpty : Boolean
 
-  opt [B] (ifEmpty : B, ifNonEmpty : NESeq [T] -> B) : B =
+  opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [T] -> B) : B =
     match this
       | ESeq_ () => ifEmpty
       | NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )

@@ -5,7 +5,7 @@ trait MSeq [T]
 
   def   isEmpty: Boolean
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NESeq [T] => B ): B =
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: NESeq [T] => B ): B =
     this match  {
       case ESeq_ () => ifEmpty
       case NESeq_ (head, tail ) => ifNonEmpty (NESeq_ (head, tail ) )

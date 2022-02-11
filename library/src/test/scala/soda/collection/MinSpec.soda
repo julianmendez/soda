@@ -15,7 +15,7 @@ class MinSpec ()
 
   revExampleSeq: Seq [Int] = exampleSeq.reverse
 
-  prepend_elem (list: MSeq [Int]) (elem: Int) : NESeq [Int] = Min_ ().prepended (list, elem)
+  prepend_elem (list: MSeq [Int]) (elem: Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
 
   _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
@@ -25,7 +25,7 @@ class MinSpec ()
   test ("prepended")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8) )
-      obtained = Min_ ().prepended (example, 1)
+      obtained = Min_ ().prepended (example) (1)
     in assert (obtained == expected)
 
   test ("head")
@@ -55,31 +55,31 @@ class MinSpec ()
   test ("indexOf something found")
     let
       expected = 6
-      obtained = Min_ ().indexOf (example, 8)
+      obtained = Min_ ().indexOf (example) (8)
     in assert (obtained == expected)
 
   test ("indexOf something not found")
     let
       expected = -1
-      obtained = Min_ ().indexOf (example, 7)
+      obtained = Min_ ().indexOf (example) (7)
     in assert (obtained == expected)
 
   test ("contains something found")
     let
       expected = true
-      obtained = Min_ ().contains (example, 8)
+      obtained = Min_ ().contains (example) (8)
     in assert (obtained == expected)
 
   test ("contains something not found")
     let
       expected = false
-      obtained = Min_ ().contains (example, 7)
+      obtained = Min_ ().contains (example) (7)
     in assert (obtained == expected)
 
   test ("at")
     let
       expected = SomeSD_ (3)
-      obtained = Min_ ().at (example, 4)
+      obtained = Min_ ().at (example) (4)
     in assert (obtained == expected)
 
   test ("take with Seq 0")
@@ -103,19 +103,19 @@ class MinSpec ()
   test ("take 0")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) )
-      obtained = Min_ ().take (example, 5)
+      obtained = Min_ ().take (example) (5)
     in assert (obtained == expected)
 
   test ("take 1")
     let
       expected = empty
-      obtained = Min_ ().take (example, -100)
+      obtained = Min_ ().take (example) (-100)
     in assert (obtained == expected)
 
   test ("take 2")
     let
       expected = example
-      obtained = Min_ ().take (example, 100)
+      obtained = Min_ ().take (example) (100)
     in assert (obtained == expected)
 
   test ("drop with Seq 0")
@@ -139,19 +139,19 @@ class MinSpec ()
   test ("drop 0")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) )
-      obtained = Min_ ().drop (example, 3)
+      obtained = Min_ ().drop (example) (3)
     in assert (obtained == expected)
 
   test ("drop 1")
     let
       expected = example
-      obtained = Min_ ().drop (example, -100)
+      obtained = Min_ ().drop (example) (-100)
     in assert (obtained == expected)
 
   test ("drop 2")
     let
       expected = empty
-      obtained = Min_ ().drop (example, 100)
+      obtained = Min_ ().drop (example) (100)
     in assert (obtained == expected)
 
   test ("takeWhile with Seq")
@@ -164,22 +164,22 @@ class MinSpec ()
   test ("takeWhile")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
-      f: Int -> Boolean = e -> not  (e == 3)
-      obtained = Min_ ().takeWhile (example, f)
+      f: Int -> Boolean = lambda e -> not  (e == 3)
+      obtained = Min_ ().takeWhile (example) (f)
     in assert (obtained == expected)
 
   test ("dropWhile with Seq")
     let
       expected = Seq (3, 5, 8)
-      f: Int -> Boolean = e -> not  (e == 3)
+      f: Int -> Boolean = lambda e -> not  (e == 3)
       obtained = exampleSeq.dropWhile (f)
     in assert (obtained == expected)
 
   test ("dropWhile")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
-      f: Int -> Boolean = e -> not  (e == 3)
-      obtained = Min_ ().dropWhile (example, f)
+      f: Int -> Boolean = lambda e -> not  (e == 3)
+      obtained = Min_ ().dropWhile (example) (f)
     in assert (obtained == expected)
 
   test ("splitAt with Seq")
@@ -191,25 +191,25 @@ class MinSpec ()
   test ("splitAt")
     let
       expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1) ), MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) ))
-      obtained = Min_ ().splitAt (example, 3)
+      obtained = Min_ ().splitAt (example) (3)
     in assert (obtained == expected)
 
   test ("span with Seq")
     let
       expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
-      obtained = exampleSeq.span (x -> not  (x == 5) )
+      obtained = exampleSeq.span (lambda x -> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("span")
     let
       expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ))
-      obtained = Min_ ().span (example,  (x: Int) -> not  (x == 5) )
+      obtained = Min_ ().span (example) (lambda (x: Int) -> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("append")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13) )
-      obtained = Min_ ().appended (example, 13)
+      obtained = Min_ ().appended (example) (13)
     in assert (obtained == expected)
 
   test ("last")
@@ -222,7 +222,7 @@ class MinSpec ()
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55) )
       second = MSeqTranslator_ ().asMSeq (Seq (13, 21, 34, 55) )
-      obtained = Min_ ().concat (example, second)
+      obtained = Min_ ().concat (example) (second)
     in assert (obtained == expected)
 
   test ("slice with Seq 0")
@@ -264,37 +264,37 @@ class MinSpec ()
   test ("slice 0")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (1, 2, 3) )
-      obtained = Min_ ().slice (example, 2, 5)
+      obtained = Min_ ().slice (example) (2) (5)
     in assert (obtained == expected)
 
   test ("slice 1")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 5, 2)
+      obtained = Min_ ().slice (example) (5) (2)
     in assert (obtained == expected)
 
   test ("slice 2")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 3, 3)
+      obtained = Min_ ().slice (example) (3) (3)
     in assert (obtained == expected)
 
   test ("slice 3")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 100, 5)
+      obtained = Min_ ().slice (example) (100) (5)
     in assert (obtained == expected)
 
   test ("slice 4")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 100, 200)
+      obtained = Min_ ().slice (example) (100) (200)
     in assert (obtained == expected)
 
   test ("slice 5")
     let
       expected = example
-      obtained = Min_ ().slice (example, -100, 200)
+      obtained = Min_ ().slice (example) (-100) (200)
     in assert (obtained == expected)
 
   test ("forall with Seq 0")
@@ -322,21 +322,21 @@ class MinSpec ()
     let
       expected = true
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = Min_ ().forall (example, predicate)
+      obtained = Min_ ().forall (example) (predicate)
     in assert (obtained == expected)
 
   test ("forall 1")
     let
       expected = false
       predicate: Int -> Boolean = x -> x < 7
-      obtained = Min_ ().forall (example, predicate)
+      obtained = Min_ ().forall (example) (predicate)
     in assert (obtained == expected)
 
   test ("forall 2")
     let
       expected = true
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().forall (empty, predicate)
+      obtained = Min_ ().forall (empty) (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 0")
@@ -364,21 +364,21 @@ class MinSpec ()
     let
       expected = true
       predicate: Int -> Boolean = lambda x -> x == 8
-      obtained = Min_ ().exists (example, predicate)
+      obtained = Min_ ().exists (example) (predicate)
     in assert (obtained == expected)
 
   test ("exists 1")
     let
       expected = false
       predicate: Int -> Boolean = lambda x -> x == 7
-      obtained = Min_ ().exists (example, predicate)
+      obtained = Min_ ().exists (example) (predicate)
     in assert (obtained == expected)
 
   test ("exists 2")
     let
       expected = false
       predicate: Int -> Boolean = lambda x -> x == 7
-      obtained = Min_ ().exists (empty, predicate)
+      obtained = Min_ ().exists (empty) (predicate)
     in assert (obtained == expected)
 
   test ("find with Seq 0")
@@ -406,21 +406,21 @@ class MinSpec ()
     let
       expected = SomeSD_ (0)
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = Min_ ().find (example, predicate)
+      obtained = Min_ ().find (example) (predicate)
     in assert (obtained == expected)
 
   test ("find 1")
     let
       expected = SomeSD_ (8)
       predicate: Int -> Boolean = x -> x == 8
-      obtained = Min_ ().find (example, predicate)
+      obtained = Min_ ().find (example) (predicate)
     in assert (obtained == expected)
 
   test ("find 2")
     let
       expected = NoneSD_ ()
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().find (empty, predicate)
+      obtained = Min_ ().find (empty) (predicate)
     in assert (obtained == expected)
 
   test ("filter with Seq")
@@ -434,7 +434,7 @@ class MinSpec ()
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 3) )
       f: Int -> Boolean = x -> x % 3 == 0
-      obtained = Min_ ().filter (example, f)
+      obtained = Min_ ().filter (example) (f)
     in assert (obtained == expected)
 
   test ("map with Seq")
@@ -448,7 +448,7 @@ class MinSpec ()
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
       f: Int -> Int = x -> x + 100
-      obtained = Min_ ().map0 (example, f)
+      obtained = Min_ ().map0 (example) (f)
     in assert (obtained == expected)
 
   test ("foldLeft with Seq")
@@ -460,8 +460,8 @@ class MinSpec ()
   test ("foldLeft in the same type")
     let
       expected = MSeqTranslator_ ().asMSeq (Seq (108, 105, 103, 102, 101, 101, 100) )
-      obtained = Min_ ().foldLeft0 (example) (Min_ ().empty,
-         lambda (s: MSeq [Int], e: Int) -> Min_ ().prepended (s, e + 100)
+      obtained = Min_ ().foldLeft0 (example) (Min_ ().empty) (
+         lambda (s: MSeq [Int] ) -> lambda (e: Int) -> Min_ ().prepended (s) (e + 100)
       )
     in assert (obtained == expected)
 

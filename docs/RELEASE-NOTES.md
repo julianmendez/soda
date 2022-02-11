@@ -2,7 +2,7 @@
 - - version: v0.14.0
   - date: unreleased
   - new_features:
-    - uses curried functions in Soda library instead of the uncurried ones, for example, replacing `f (x, y)` by `f (x) (y)`
+    - uses curried functions instead of the uncurried ones, for example, replacing `f (x, y)` by `f (x) (y)`
     - generates default constructors for all the abstract classes and these constructors are named like the class with an underscore (`_`) at the end
     - renames the main class to be `Main` and `Main_` for the abstract and concrete classes respectively
     - uses `Main` class to detect the entry point
