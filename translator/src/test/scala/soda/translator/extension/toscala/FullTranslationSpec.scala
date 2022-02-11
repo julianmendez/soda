@@ -1,11 +1,15 @@
 package soda.translator.extension.toscala
 
-case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class FullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
-  import org.scalatest.Assertion
-  import soda.translator.parser.BlockProcessor_
-  import java.nio.file.Files
-  import java.nio.file.Paths
+  import   org.scalatest.Assertion
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.BlockProcessor_
+  import   java.nio.file.Files
+  import   java.nio.file.Paths
 
   lazy val Base = "/soda/translator/example/"
 
@@ -13,19 +17,19 @@ case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
 
   lazy val ScalaSuffix = ".scala"
 
-  lazy val SwapExample = "SwapExample"
+  lazy val SwapExample = "algorithms/SwapExample"
 
-  lazy val FiboExample = "FiboExample"
+  lazy val FiboExample = "mathematics/FiboExample"
 
-  lazy val FactorialConcise = "FactorialConcise"
+  lazy val FactorialConcise = "mathematics/FactorialConcise"
 
-  lazy val FactorialVerbose = "FactorialVerbose"
+  lazy val FactorialVerbose = "mathematics/FactorialVerbose"
 
-  lazy val Fairness = "Fairness"
+  lazy val Fairness = "ethicalissues/fairness/Fairness"
 
-  lazy val PiIterator = "PiIterator"
+  lazy val PiIterator = "mathematics/PiIterator"
 
-  lazy val ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"
 
@@ -43,7 +47,12 @@ case class FullTranslationSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     {
       lazy val input_file = read_file (input_file_name )
       lazy val expected = read_file (expected_file_name )
-      lazy val obtained = BlockProcessor_ (MicroTranslatorToScala_ ()  ) .translate  (input_file )
+      lazy val obtained =
+        BlockProcessor_ (
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_ ()
+          )
+        ) .translate (input_file )
       assert (obtained == expected ) }
 
   def read_file (file_name: String ): String =

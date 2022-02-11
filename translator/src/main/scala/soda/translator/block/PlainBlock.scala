@@ -1,8 +1,9 @@
 package soda.translator.block
 
-trait PlainBlock {
+trait PlainBlock
+{
 
-  def lines: Seq [String]
+  def   lines: Seq [String]
 
   lazy val new_line = "\n"
 
@@ -11,4 +12,4 @@ trait PlainBlock {
 
 }
 
-case class PlainBlock_ (lines: Seq [String]  )  extends PlainBlock
+case class PlainBlock_ (lines: Seq [String]) extends PlainBlock

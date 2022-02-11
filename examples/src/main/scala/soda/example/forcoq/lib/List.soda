@@ -1,47 +1,56 @@
 package soda.example.forcoq.lib
 
-* list [A]
+class list [A]
 
-* nil [A] ()
-  extends list [A]
+end
 
-* cons [A] (e: A, s: list [A])
-  extends list [A]
+class nil [A]
+  extends
+    list [A]
 
-* SeqList = {
+end
+
+class cons [A]
+  extends
+    list [A]
+
+  abstract
+    e : A
+    s : list [A]
+
+end
+
+class SeqList
 
   @tailrec
-  _tailrec_reverse [A] (a: list [A]) (b: list [A]): list [A] =
+  _tailrec_reverse [A] (a : list [A] ) (b : list [A] ) : list [A] =
     match a
-      | nil () => b
-      | cons (e, s) => _tailrec_reverse (s) ( cons (e, b) )
+      | nil_ () => b
+      | cons_ (e, s) => _tailrec_reverse (s) ( cons_ (e, b) )
     end
 
-  reverse [A] (s: list [A]): list [A] =
-    _tailrec_reverse [A] (s) (nil[A]())
+  reverse [A] (s : list [A] ) : list [A] =
+    _tailrec_reverse [A] (s) (nil_ [A] () )
 
   @tailrec
-  _tailrec_from_Seq [A] (a: Seq [A]) (b: list [A]): list [A] =
+  _tailrec_from_Seq [A] (a : Seq [A] ) (b : list [A] ) : list [A] =
     match a
       | Nil => b
-      | (e) :: (s) => _tailrec_from_Seq (s) (cons (e, b))
+      | (e) : : (s) => _tailrec_from_Seq (s) (cons_ (e, b) )
     end
 
-  from_Seq [A] (a: Seq [A]): list [A] =
-    reverse (_tailrec_from_Seq (a) ( nil[A]() ) )
+  from_Seq [A] (a : Seq [A] ) : list [A] =
+    reverse (_tailrec_from_Seq (a) ( nil_ [A] () ) )
 
   @tailrec
-  _tailrec_to_Seq [A] (a: list [A]) (b: Seq [A]): Seq [A] =
+  _tailrec_to_Seq [A] (a : list [A] ) (b : Seq [A] ) : Seq [A] =
     match a
-      | nil () => b
-      | cons (e, s) => _tailrec_to_Seq (s) ( b .+: (e) )
+      | nil_ () => b
+      | cons_ (e, s) => _tailrec_to_Seq (s) ( b .+ : (e) )
     end
 
-  to_Seq [A] (a: list [A]): Seq [A] =
-    (_tailrec_to_Seq (a) ( Seq [A]() )) .reverse
+  to_Seq [A] (a : list [A] ) : Seq [A] =
+    (_tailrec_to_Seq (a) ( Seq [A]() ) ) .reverse
 
-}
-
-* SeqList_ ()
-  extends SeqList
+end
 

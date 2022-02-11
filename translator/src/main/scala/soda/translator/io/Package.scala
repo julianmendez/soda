@@ -6,3 +6,8 @@ package soda.translator.io
  */
 
 trait Package
+{
+
+}
+
+case class Package_ () extends Package

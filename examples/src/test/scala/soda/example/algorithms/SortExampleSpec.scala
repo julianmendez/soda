@@ -1,8 +1,11 @@
 package soda.example.algorithms
 
-case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class SortExampleSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
-  import soda.lib.SomeSD_
+  import   soda.lib.SomeSD_
 
   test ("test sorted sequence with at")
     {
@@ -37,7 +40,7 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val instance = SortAlgorithmExampleWithFold_ ()
       lazy val sorted_sequence = Seq (1, 2, 3, 6, 8, 9 )
       lazy val expected = Seq (1, 2, 3, 5, 6, 8, 9 )
-      lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
+      lazy val obtained = instance.insert_sorted (sorted_sequence ) (5 )
       assert (obtained == expected ) }
 
   test ("insert sorted with repetition")
@@ -45,7 +48,7 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val instance = SortAlgorithmExampleWithFold_ ()
       lazy val sorted_sequence = Seq (1, 2, 3, 5, 6, 8, 9 )
       lazy val expected = Seq (1, 2, 3, 5, 5, 6, 8, 9 )
-      lazy val obtained = instance.insert_sorted (sorted_sequence, 5 )
+      lazy val obtained = instance.insert_sorted (sorted_sequence ) (5 )
       assert (obtained == expected ) }
 
   test ("sort unsorted sequence")
@@ -60,14 +63,14 @@ case class SortExampleSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     {
       lazy val instance = ConstrainedSortAlgorithm_ ()
       lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 )
-      lazy val expected = SomeSD_ (Seq (1, 3, 4, 5, 8, 9 )  )
+      lazy val expected = SomeSD_ (Seq (1, 3, 4, 5, 8, 9 ) )
       lazy val obtained = instance.sort (unsorted_sequence )
       assert (obtained == expected ) }
 
   test ("sort unsorted sequence with SortedSequenceBuilder")
     {
       lazy val instance = SortedSequenceBuilder_ [Integer] ()
-      lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 ) .map (x => Integer.valueOf (x )  )
+      lazy val unsorted_sequence = Seq (3, 5, 1, 9, 8, 4 ) .map (x => Integer.valueOf (x ) )
       lazy val expected = Seq (1, 3, 4, 5, 8, 9 )
       lazy val obtained =
         instance

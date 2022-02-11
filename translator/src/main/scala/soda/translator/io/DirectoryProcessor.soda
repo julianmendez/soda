@@ -1,19 +1,23 @@
 package soda.translator.io
 
-* AbstractDirectoryProcessor = {
+class AbstractDirectoryProcessor
 
-  has start: String
+  abstract
+    start : String
+    process_soda_file : java.io.File -> Boolean
 
-  has process_soda_file: java.io.File -> Boolean
+end
 
-  has process (): Boolean
+class DirectoryProcessor
+  extends
+    AbstractDirectoryProcessor
 
-}
+  abstract
+    start : String
+    process_soda_file : java.io.File -> Boolean
 
-* DirectoryProcessor
-  extends AbstractDirectoryProcessor = {
-
-  + java.io.File
+  import
+    java.io.File
 
   soda_suffix = ".soda"
 
@@ -22,22 +26,19 @@ package soda.translator.io
 
   soda_files =
     all_files
-      .filter (x -> x.isFile)
-      .filter (x -> x.getName.endsWith (soda_suffix))
+      .filter (lambda x -> x.isFile)
+      .filter (lambda x -> x.getName.endsWith (soda_suffix))
 
   lib_files =
     all_files
-      .filter (x -> x.isFile)
-      .filter (file -> file.getName == LibraryDeployer_ ().library_marker_file)
+      .filter (lambda x -> x.isFile)
+      .filter (lambda file -> file.getName == LibraryDeployer_ ().library_marker_file)
 
-  process (): Boolean =
+  process () : Boolean =
     LibraryDeployer_ ().expand_library (lib_files) and
       soda_files
         .map (process_soda_file)
-        .forall (x -> x)
+        .forall (lambda x -> x)
 
-}
-
-* DirectoryProcessor_ (start: String, process_soda_file: java.io.File -> Boolean)
-  extends DirectoryProcessor
+end
 

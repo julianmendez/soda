@@ -1,8 +1,6 @@
 package soda.collection.example
 
-@main
-
-* MainClass = {
+class Main
 
   e = ListExample_ ()
 
@@ -31,14 +29,11 @@ package soda.collection.example
       e.foldLeft_example,
       e.foldRight_example
     )
-    .map (pair -> pair.name + " = " + pair.result.toString)
+    .map (lambda pair -> pair.name + " = " + pair.result.toString)
     .mkString ("\n")
 
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     println (all_examples)
 
-}
-
-* Main ()
-  extends MainClass
+end
 

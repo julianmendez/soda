@@ -1,0 +1,106 @@
+package soda.translator.extension.toscala
+
+/**
+ * A line containing the definition sign will be classified as a definition.
+ * The definitions need to be identified as 'val' or 'def'.
+ *
+ * 'val' is for value definition.
+ * It is detected in three cases.
+ * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x:  (A, B) -> C =  (x, y) -> f (x,y)`
+ * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
+ *
+ * 'def' is for function definition.
+ * If it does not fit in any of the 'val' cases.
+ *
+ * Formerly there was another case for 'val'.
+ * Deprecated Case:
+ * This was implemented simply as:
+ * `line.trim.startsWith (soda_opening_parenthesis)`
+ * This is no longer supported.
+ *
+ */
+
+class FunctionDefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
+
+  abstract
+    line: String
+
+  import
+    soda.lib.OptionSD
+    soda.lib.SomeSD_
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Replacement
+    soda.translator.replacement.Replacement_
+
+  sc = SodaConstant_ ()
+
+  tc = TranslationConstantToScala_ ()
+
+  trimmed_line = line.trim
+
+  soda_space : String = " "
+
+  scala_space : String = " "
+
+  translation =
+    find_definition (line).opt (ifEmpty := line) (ifNonEmpty := lambda position -> try_found_definition (position).line)
+
+  translation_of_val_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (tc.scala_value + scala_space)
+
+  translation_of_def_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (tc.scala_definition + scala_space)
+
+  try_found_definition (position : Int) : Replacement =
+    if is_val_definition (position)
+    then translation_of_val_definition
+    else translation_of_def_definition
+
+  is_val_definition (initial_position : Int) =
+    is_val_definition_case_1 or
+    is_val_definition_case_2 (initial_position) or
+    is_val_definition_case_3 or
+    is_val_definition_case_4
+
+  position_of_first_opening_parenthesis =
+    get_index (line) (sc.opening_parenthesis_symbol)
+
+  is_val_definition_case_1 =
+    position_of_first_opening_parenthesis.isEmpty
+
+  is_val_definition_case_2 (initial_position : Int) =
+    position_of_first_opening_parenthesis.opt (false) (lambda position -> position > initial_position)
+
+  is_val_definition_case_3 =
+    (get_index (line) (sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position ->
+        position_of_first_opening_parenthesis.opt (false) (lambda position -> position > other_position)
+    )
+
+  is_val_definition_case_4 =
+    trimmed_line.startsWith (sc.opening_parenthesis_symbol)
+
+  /**
+   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+  find_definition (line : String) : OptionSD [Int] =
+    if line.endsWith (soda_space + sc.function_definition_symbol)
+    then SomeSD_ (line.length - sc.function_definition_symbol.length)
+    else get_index (line) (soda_space + sc.function_definition_symbol + soda_space)
+
+  get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
+
+  get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line.indexOf (pattern, start) )
+      .filter (lambda position -> not (position == -1) )
+
+end
+

@@ -1,16 +1,20 @@
 package soda.translator.parser.annotation
 
-trait PackageDeclarationAnnotation  extends BlockAnnotation {
+trait PackageDeclarationAnnotation
+  extends
+    BlockAnnotationParser
+{
 
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.SodaConstant_
+  def   block: soda.translator.block.Block
+
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .package_declaration
 
   lazy val applies: Boolean =
-    contains_one_line &&
     starts_with_prefix_and_space (SodaConstant_ () .package_reserved_word )
 
 }
 
-case class PackageDeclarationAnnotation_ (block: soda.translator.block.Block )  extends PackageDeclarationAnnotation
+case class PackageDeclarationAnnotation_ (block: soda.translator.block.Block) extends PackageDeclarationAnnotation

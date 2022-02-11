@@ -1,6 +1,7 @@
 package soda.example.inanutshell
 
-trait InANutshell {
+trait InANutshell
+{
 
   def f (x: Int ): Int = x + 16
 
@@ -37,7 +38,10 @@ trait InANutshell {
 
 }
 
-trait MaxAndMin {
+case class InANutshell_ () extends InANutshell
+
+trait MaxAndMin
+{
 
   def max (a: Int ) (b: Int ): Int =
     if (a > b
@@ -51,32 +55,54 @@ trait MaxAndMin {
 
 }
 
-case class ConcreteMaxAndMin ()  extends MaxAndMin
+case class MaxAndMin_ () extends MaxAndMin
 
-case class MinMaxPair (min: Int, max: Int )
+trait MinMaxPair
+{
 
-trait Indexable {
-
-  def index: Int
+  def   min: Int
+  def   max: Int
 
 }
 
-trait Example  extends Indexable {
+case class MinMaxPair_ (min: Int, max: Int) extends MinMaxPair
+
+trait Indexable
+{
+
+  def   index: Int
+
+}
+
+case class Indexable_ (index: Int) extends Indexable
+
+trait Example
+  extends Indexable
+{
+
+  def   index: Int
 
   def min_max (a: Int ) (b: Int ): MinMaxPair =
-    MinMaxPair (min = ConcreteMaxAndMin () .min (a ) (b ), max = ConcreteMaxAndMin () .max (a ) (b )    )
+    MinMaxPair_ (
+      min = MaxAndMin_ () .min (a ) (b ),
+      max = MaxAndMin_ () .max (a ) (b )
+    )
 
 }
 
-case class Example_ (index: Int )  extends Example
+case class Example_ (index: Int) extends Example
 
-trait Comparable {
+trait Comparable
+{
 
-  def is_greater_than (x: Comparable ): Boolean
+  def   is_greater_than: Comparable => Boolean
 
 }
 
-trait ComparableMax [T <: Comparable] {
+case class Comparable_ (is_greater_than: Comparable => Boolean) extends Comparable
+
+trait ComparableMax [T <: Comparable]
+{
 
   def max (a: T ) (b: T ): T =
     if (a.is_greater_than (b )
@@ -85,13 +111,23 @@ trait ComparableMax [T <: Comparable] {
 
 }
 
-trait WithInstance {
+case class ComparableMax_ [T <: Comparable] () extends ComparableMax [T]
 
-  def instance_parameter: Int
+trait WithInstance
+{
+
+  def   instance_parameter: Int
 
 }
 
-trait MyClass   extends WithInstance {
+case class WithInstance_ (instance_parameter: Int) extends WithInstance
+
+trait MyClass
+  extends
+    WithInstance
+{
+
+  def   instance_parameter: Int
 
   lazy val class_constant: Int = 1
 
@@ -99,28 +135,42 @@ trait MyClass   extends WithInstance {
 
 }
 
-trait TimeOfToday {
+case class MyClass_ (instance_parameter: Int) extends MyClass
 
-  import java.util.Date
+trait TimeOfToday
+{
+
+  import   java.util.Date
 
   lazy val get_time: Date = new Date ()
 
 }
 
-trait MainClass {
+case class TimeOfToday_ () extends TimeOfToday
 
-  def main (arguments: Array [String]  ): Unit =
+trait Main
+{
+
+  def main (arguments: Array [String] ): Unit =
     println ("Hello world!")
 
 }
 
-case class Main () extends MainClass
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
+}
 
-trait PersonName {
 
-  def name: String
+case class Main_ () extends Main
+
+trait PersonName
+{
+
+  def   name: String
 
   override
   lazy val toString = name
 
 }
+
+case class PersonName_ (name: String) extends PersonName

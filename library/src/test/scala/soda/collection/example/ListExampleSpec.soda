@@ -1,7 +1,8 @@
 package soda.collection.example
 
-* ListExampleSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class ListExampleSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("should test a")
     let
@@ -29,7 +30,7 @@ package soda.collection.example
 
   test ("should test a.takeWhile")
     let
-      expected = Pair_ ("a.takeWhile(x -> not (x == 'E'))", List ('A', 'B', 'C', 'D'))
+      expected = Pair_ ("a.takeWhile(lambda x -> not (x == 'E'))", List ('A', 'B', 'C', 'D'))
       obtained = ListExample_ ().takeWhile_example
     in assert (obtained == expected)
 
@@ -47,7 +48,7 @@ package soda.collection.example
 
   test ("should test a.dropWhile")
     let
-      expected = Pair_ ("a.dropWhile(x -> not (x == 'E'))", List ('E', 'F'))
+      expected = Pair_ ("a.dropWhile(lambda x -> not (x == 'E'))", List ('E', 'F'))
       obtained = ListExample_ ().dropWhile_example
     in assert (obtained == expected)
 
@@ -101,39 +102,39 @@ package soda.collection.example
 
   test ("should test a.span")
     let
-      expected = Pair_ ("a.span(x -> not (x == 'D'))", (List ('A', 'B', 'C'), List ('D', 'E', 'F')))
+      expected = Pair_ ("a.span(lambda x -> not (x == 'D'))", (List ('A', 'B', 'C'), List ('D', 'E', 'F')))
       obtained = ListExample_ ().span_example
     in assert (obtained == expected)
 
   test ("should test a.map")
     let
-      expected = Pair_ ("a.map(x -> x.toInt)", List (65, 66, 67, 68, 69, 70))
+      expected = Pair_ ("a.map(lambda x -> x.toInt)", List (65, 66, 67, 68, 69, 70))
       obtained = ListExample_ ().map_example
     in assert (obtained == expected)
 
   test ("should test a.filter")
     let
-      expected = Pair_ ("a.filter(x -> x.toInt % 2 == 0)", List ('B', 'D', 'F'))
+      expected = Pair_ ("a.filter(lambda x -> x.toInt % 2 == 0)", List ('B', 'D', 'F'))
       obtained = ListExample_ ().filter_example
     in assert (obtained == expected)
 
   test ("should test b.fold")
     let
-      expected = Pair_ ("b.fold(0)((a, b) -> a + b)", 210)
+      expected = Pair_ ("b.fold(0)(lambda (a, b) -> a + b)", 210)
       obtained = ListExample_ ().fold_example
     in assert (obtained == expected)
 
   test ("should test a.foldLeft")
     let
-      expected = Pair_ ("a.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq)
+      expected = Pair_ ("a.foldLeft(Seq('*'))(lambda (list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq)
       obtained = ListExample_ ().foldLeft_example
     in assert (obtained == expected)
 
   test ("should test a.foldRight")
     let
-      expected = Pair_ ("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq)
+      expected = Pair_ ("a.foldRight(Seq('*'))(lambda (elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq)
       obtained = ListExample_ ().foldRight_example
     in assert (obtained == expected)
 
-}
+end
 

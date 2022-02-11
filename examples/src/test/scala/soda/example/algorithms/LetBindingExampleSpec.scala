@@ -1,6 +1,9 @@
 package soda.example.algorithms
 
-case class LetBindingSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class LetBindingSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("should evaluate an expression like 'where'")
     {

@@ -1,8 +1,11 @@
 package soda.lib
 
-case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class OptionSDSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
-  import scala.util.Try
+  import   scala.util.Try
 
   test ("should test an empty option")
     {
@@ -34,7 +37,7 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       def result_if_non_empty (value: String ): String = "Its value is " + value + "."
       lazy val empty = NoneSD_ [String] ()
       lazy val expected = "It is empty."
-      lazy val obtained = empty.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+      lazy val obtained = empty.opt (ifEmpty = result_if_empty ) (ifNonEmpty = result_if_non_empty )
       assert (obtained == expected ) }
 
   test ("should open an non empty option")
@@ -43,7 +46,7 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       def result_if_non_empty (value: String ): String = "Its value is " + value + "."
       lazy val some_element = SomeSD_ [String] ("0")
       lazy val expected = "Its value is 0."
-      lazy val obtained = some_element.opt (ifEmpty = result_if_empty, ifNonEmpty = result_if_non_empty )
+      lazy val obtained = some_element.opt (ifEmpty = result_if_empty ) (ifNonEmpty = result_if_non_empty )
       assert (obtained == expected ) }
 
   test ("should try fold an empty option")
@@ -52,7 +55,7 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       def result_if_non_empty (value: String ): String = "Its value is " + value + "."
       lazy val empty = NoneSD_ [String] ()
       lazy val expected = "It is empty."
-      lazy val obtained = empty.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
+      lazy val obtained = empty.fold (ifEmpty = result_if_empty ) (f = result_if_non_empty )
       assert (obtained == expected ) }
 
   test ("should try fold an non empty option")
@@ -61,7 +64,7 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       def result_if_non_empty (value: String ): String = "Its value is " + value + "."
       lazy val some_element = SomeSD_ [String] ("0")
       lazy val expected = "Its value is 0."
-      lazy val obtained = some_element.fold (ifEmpty = result_if_empty, f = result_if_non_empty )
+      lazy val obtained = some_element.fold (ifEmpty = result_if_empty ) (f = result_if_non_empty )
       assert (obtained == expected ) }
 
   test ("should map empty to empty")
@@ -99,19 +102,25 @@ case class OptionSDSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
   test ("should try how successive applications of open works")
     {
       def toInt (s: String ): OptionSD [Int] =
-        OptionSDBuilder_ () .build (Try (Integer.parseInt (s.trim ) )
-            .toOption        )
+        OptionSDBuilder_ () .build (
+          Try (Integer.parseInt (s.trim ) )
+            .toOption
+        )
       lazy val stringA = "1"
       lazy val stringB = "2"
       lazy val stringC = "3"
       lazy val maybeA = toInt (stringA )
       lazy val maybeB = toInt (stringB )
       lazy val maybeC = toInt (stringC )
+      lazy val empty: OptionSD [Int] = NoneSD_ ()
       lazy val expected = SomeSD_ (6 )
       lazy val obtained =
-        maybeA.opt (ifEmpty = NoneSD_, ifNonEmpty = a =>
-            maybeB.opt (ifEmpty = NoneSD_, ifNonEmpty = b =>
-                maybeC.opt (ifEmpty = NoneSD_, ifNonEmpty = c =>
+        maybeA.opt (ifEmpty = empty ) (
+          ifNonEmpty = a =>
+            maybeB.opt (ifEmpty = empty ) (
+              ifNonEmpty = b =>
+                maybeC.opt (ifEmpty = empty ) (
+                  ifNonEmpty = c =>
                     SomeSD_ (a + b + c ) ) ) )
       assert (obtained == expected ) }
 

@@ -1,8 +1,9 @@
 package soda.translator.extension.common
 
-* Extension = {
+class Extension
 
-  has execute (arguments: Seq [String]): Boolean
+  abstract
+    execute : Seq [String] -> Boolean
 
-}
+end
 

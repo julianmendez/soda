@@ -1,36 +1,34 @@
 package soda.translator.blocktr
 
-* TokenReplacement = {
+class TokenReplacement
 
-  + soda.translator.replacement.ReplacementAux_
-  + soda.translator.replacement.ReplacementWithTranslator_
+  import
+    soda.translator.replacement.ReplacementAux_
+    soda.translator.replacement.ReplacementWithTranslator_
 
-  add_spaces_to_symbols (symbols: Set [Char] ): TokenizedBlockTranslator =
+  add_spaces_to_symbols (symbols : Set [Char] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementAux_ ().add_spaces_to_symbols (token.text, symbols)
+        ReplacementAux_ ().add_spaces_to_symbols (token.text) (symbols)
     )
 
-  replace (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+  replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementWithTranslator_ (TableTranslator_ (table)).replace (token.text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace (token.text)
     )
 
-  replace_regex (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+  replace_regex (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementWithTranslator_ (TableTranslator_ (table)).replace_regex (token.text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace_regex (token.text)
     )
 
-  replace_at_beginning (table: Seq [ (String, String) ] ): TokenizedBlockTranslator =
+  replace_at_beginning (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token ->
-        ReplacementWithTranslator_ (TableTranslator_ (table)).replace_at_beginning (token.text, token.index)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace_at_beginning (token.text) (token.index)
     )
 
-}
-
-* TokenReplacement_ ()
-  extends TokenReplacement
+end
 

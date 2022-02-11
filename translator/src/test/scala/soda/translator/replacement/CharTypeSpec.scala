@@ -1,6 +1,9 @@
 package soda.translator.replacement
 
-case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class CharTypeSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("should recognize quotation marks")
     {
@@ -36,7 +39,7 @@ case class CharTypeSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
       lazy val expected = Seq (CharTypeEnum_ () .plain_type )
       lazy val obtained =
         inputStr
-          .map (ch => CharTypeEnum_ () .get_char_type (ch )  )
+          .map (ch => CharTypeEnum_ () .get_char_type (ch ) )
           .toSet
           .toSeq
       assert (obtained == expected ) }

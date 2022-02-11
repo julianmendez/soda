@@ -1,42 +1,57 @@
 package soda.translator.extension.tocoq
 
-trait CoqTheoremBlockTranslator  extends soda.translator.block.BlockTranslator {
+trait CoqTheoremBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.BlockBuilder_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   lazy val space = " "
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  def translate (block: AnnotatedBlock ): AnnotatedBlock =
-    if (block.block_annotation == BlockAnnotationEnum_ () .theorem_block
-    ) _translate_block (block )
-    else block
+  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block )
 
-  def _translate_block (block: AnnotatedBlock ): AnnotatedBlock =
-    if (is_a_theorem (block )
-    ) append (tc.coq_theorem_end, prepend (tc.coq_theorem_begin_reserved_word, remove_first_line (block ) ) )
-    else block
+  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+    annotated_block match  {
+      case block: TheoremBlockAnnotation => _translate_block (block )
+      case x => annotated_block
+    }
 
-  def prepend (prefix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (Seq [String] (prefix + block.lines.head ) ++ block.lines.tail, block.block_annotation    )
+  def _translate_block (block: TheoremBlockAnnotation ): TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (
+      append (
+        tc.coq_theorem_end ) (prepend (
+          tc.coq_theorem_begin_reserved_word ) (remove_first_line (block )
+        )
+      )
+    )
 
-  def append (suffix: String, block: AnnotatedBlock ): AnnotatedBlock =
-    BlockBuilder_ () .build (block.lines.:+ (suffix ), block.block_annotation    )
+  def prepend (prefix: String ) (block: Block ): Block =
+    BlockBuilder_ () .build (
+      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+    )
 
-  def first_line (block: AnnotatedBlock ): String =
+  def append (suffix: String ) (block: Block ): Block =
+    BlockBuilder_ () .build (
+      block.lines.:+ (suffix )
+    )
+
+  def first_line (block: Block ): String =
     block.lines.headOption.getOrElse ("") .trim
 
-  def remove_first_line (block: AnnotatedBlock ): AnnotatedBlock =
+  def remove_first_line (block: Block ): Block =
     if (block.lines.isEmpty
     ) block
-    else BlockBuilder_ () .build (block.lines.tail, block.block_annotation )
-
-  def is_a_theorem (block: AnnotatedBlock ): Boolean =
-    first_line (block ) == tc.theorem_reserved_word
+    else BlockBuilder_ () .build (block.lines.tail )
 
 }
 
-case class CoqTheoremBlockTranslator_ ()  extends CoqTheoremBlockTranslator
+case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator

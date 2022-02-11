@@ -1,6 +1,9 @@
 package soda.translator.extension.toscala
 
-case class MainSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MainSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   lazy val instance = TranslatorToScala_ ()
 

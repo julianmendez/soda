@@ -1,20 +1,21 @@
 package soda.translator.parser.annotation
 
-* CommentAnnotation
-  extends BlockAnnotation = {
+class CommentAnnotation
+  extends
+    BlockAnnotationParser
 
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.SodaConstant_
+  abstract
+    block : soda.translator.block.Block
+
+  import
+    soda.translator.block.BlockAnnotationEnum_
 
   identifier = BlockAnnotationEnum_ ().comment
 
-  applies: Boolean =
+  applies : Boolean =
     block
       .annotated_lines
-      .forall (annotated_line -> annotated_line.is_comment)
+      .forall (lambda annotated_line -> annotated_line.is_comment)
 
-}
-
-* CommentAnnotation_ (block: soda.translator.block.Block)
-  extends CommentAnnotation
+end
 

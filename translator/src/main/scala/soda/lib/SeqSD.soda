@@ -7,54 +7,51 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-* SeqSD [A] = {
 
-  has opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B
+class SeqSD [A]
 
-  has toSeq: Seq [A]
+  abstract
+    toSeq : Seq [A]
+    reverse : SeqSD [A]
 
-  has reverse: SeqSD [A]
+  opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] -> B) : B =
+    match this
+      | EmptySeqSD_ () => ifEmpty
+      | NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
+    end
 
-}
+end
 
-* EmptySeqSD [A]
-  extends SeqSD [A] = {
+class EmptySeqSD [A]
+  extends
+    SeqSD [A]
 
-  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifEmpty
+  toSeq : Seq [A] = Seq [A] ()
 
-  toSeq: Seq [A] = Seq [A] ()
+  reverse : EmptySeqSD [A] = this
 
-  reverse: EmptySeqSD [A] = this
+end
 
-}
+class NonEmptySeqSD [A]
+  extends
+    SeqSD [A]
 
-* EmptySeqSD_ [A] ()
-  extends EmptySeqSD [A]
+  abstract
+    toSeq : Seq [A]
 
-* NonEmptySeqSD [A]
-  extends SeqSD [A] = {
+  head : A = toSeq.head
 
-  opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] -> B): B = ifNonEmpty (this)
+  tail : SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)
 
-  head: A = toSeq.head
+  reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse)
 
-  tail: SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)
+end
 
-  reverse: NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse)
+class SeqSDBuilder [A]
 
-}
-
-* NonEmptySeqSD_ [A] (toSeq: Seq [A])
-  extends NonEmptySeqSD [A]
-
-* SeqSDBuilder [A] = {
-
-  build (seq: Seq [A]): SeqSD [A] =
+  build (seq : Seq [A] ) : SeqSD [A] =
     if seq.isEmpty
     then EmptySeqSD_ [A] ()
     else NonEmptySeqSD_ [A] (seq)
 
-}
-
-* SeqSDBuilder_ [A] ()
-  extends SeqSDBuilder [A]
+end

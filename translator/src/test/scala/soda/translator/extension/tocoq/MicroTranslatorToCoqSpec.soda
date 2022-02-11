@@ -1,26 +1,33 @@
 package soda.translator.extension.tocoq
 
-* MicroTranslatorToCoqSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class MicroTranslatorToCoqSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
 
-  instance = BlockProcessor_ (MicroTranslatorToCoq_ ())
+  instance =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToCoq_ ()
+      )
+    )
 
   test ("Coq translation of a constant")
     let
       original = "x = 0"
-      expected = "Definition  x := 0\n.\n"
-      obtained = instance.translate  (original)
+      expected = " Definition x := 0\n.\n"
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
   test ("Coq translation of a function")
     let
       original = "f (a: nat) = 0"
-      expected = "Definition  f (a: nat ) := 0\n.\n"
-      obtained = instance.translate  (original)
+      expected = " Definition f (a: nat ) := 0\n.\n"
+      obtained = instance.translate (original)
     in assert (obtained == expected)
 
-}
-
+end
 

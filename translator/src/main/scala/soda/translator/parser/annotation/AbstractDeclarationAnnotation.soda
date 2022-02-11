@@ -1,0 +1,29 @@
+package soda.translator.parser.annotation
+
+class AbstractDeclarationAnnotation
+  extends
+    BlockAnnotationParser
+
+  abstract
+    block : soda.translator.block.Block
+
+  import
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.SodaConstant_
+
+  identifier = BlockAnnotationEnum_ ().abstract_declaration
+
+  applies : Boolean =
+    block.readable_lines.nonEmpty and
+    (block.readable_lines.head.line.trim == SodaConstant_ ().abstract_reserved_word)
+
+  abstract_functions_with_comments : Seq [AnnotatedLine] =
+    content_lines
+
+  abstract_functions : Seq [AnnotatedLine] =
+    abstract_functions_with_comments
+      .filter (lambda line -> not line.is_comment)
+
+end
+

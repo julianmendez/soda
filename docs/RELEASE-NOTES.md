@@ -1,6 +1,31 @@
 ---
-- version: v0.13.0
-  - date: '2021-01-14'
+- - version: v0.14.0
+  - date: '2022-02-11'
+  - new_features:
+    - uses curried functions instead of the uncurried ones, for example, replacing `f (x, y)` by `f (x) (y)`
+    - generates default constructors for all the abstract classes and these constructors are named like the class with an underscore (`_`) at the end
+    - renames the main class to be `Main` and `Main_` for the abstract and concrete classes respectively
+    - uses `Main` class to detect the entry point
+    - does not support the `with` reserved word
+    - changes the syntax of class declarations such that each super class needs its own line and the definition sign (`=`) is not used
+    - includes reserved word `abstract` to define a block of abstract constants and functions
+    - makes reserved word `import` define a block of classes to import
+    - produces a more similar translation to Scala by removing the line joiners
+    - restricts how a constant or function is defined, such that the definiendum cannot be written in multiple lines
+    - does not need opening brace (`{`) to start a class definition
+    - uses word `end` to end a class definition
+    - has `lambda` reserved word as 'recommended' instead of 'optional'
+    - accepts reserved word `fun` as synonym for `lambda`
+    - accepts reserved word `def` as optional to define constants and functions
+  - deprecated_features:
+    - reserved word `has` is replaced by `abstract` block
+    - abbreviation `+` is replaced by its long form `import`
+    - classes are no longer defined with braces (`{` and `}`)
+    - annotation `@main` is no longer user
+  - build: sbt '++ 3.1.1' clean compile test package assembly
+  - release: target/scala-3.1.1/soda-0.14.0.jar
+- - version: v0.13.0
+  - date: '2022-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - new_features:
     - compiles with Scala 3.1.0
@@ -14,7 +39,7 @@
   - deprecated_features:
     - use of a `let`-`in` structure is only supported as main structure inside a test or function definition
   - release: target/scala-3.1.0/soda-0.13.0.jar
-- version: v0.12.0
+- - version: v0.12.0
   - date: '2021-10-08'
   - new_features:
     - makes a stronger distinction between interfaces and other abstract classes
@@ -22,7 +47,7 @@
     - includes examples written in Coq
   - build: sbt '++ 3.0.2' clean compile test package assembly
   - release: target/scala-3.0.2/soda-0.12.0.jar
-- version: v0.11.0
+- - version: v0.11.0
   - date: '2021-09-12'
   - new_features:
     - compiles with Scala 3.0.2

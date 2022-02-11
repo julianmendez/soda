@@ -1,26 +1,19 @@
 package soda.example.miniexample
 
-* MiniExample
-  extends soda.lib.Recursion = {
+class MiniExample
+  extends
+    soda.lib.Recursion
 
   run () =
     range (50)
-      .map (x -> print (" " + (2 * x + 1)) )
+      .map (lambda x -> print (" " + (2 * x + 1) ) )
 
-}
+end
 
-* MiniExample_ ()
-  extends MiniExample
+class Main
 
-@main
-
-* MainClass = {
-
-  main (arguments: Array [String]): Unit =
+  main (arguments : Array [String] ) : Unit =
     MiniExample_ ().run ()
 
-}
-
-* Main ()
-  extends MainClass
+end
 

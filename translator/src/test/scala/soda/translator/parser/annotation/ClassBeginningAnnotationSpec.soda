@@ -1,0 +1,159 @@
+package soda.translator.parser.annotation
+
+class ClassBeginningAnnotationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    soda.translator.block.Block
+    soda.translator.block.DefaultBlockTranslator_
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+
+  example_blocks = ExampleProgram_ ().example_blocks
+
+  default_block_processor = ExampleProgram_ ().default_block_processor
+
+  example_0 = example_blocks.apply (2)
+
+  get_as_block (text: String): Block =
+    default_block_processor
+      .split_blocks (text)
+      .head
+
+  example_1 =
+    get_as_block (
+      "class Example [A]" +
+      "\n  extends" +
+      "\n    SuperExample0" +
+      "\n    SuperExample1 [A]" +
+      "\n"
+    )
+
+  example_2 =
+    get_as_block (
+      "class Example [A, B]" +
+      "\n  extends" +
+      "\n    SuperExample0" +
+      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample1 [A]" +
+      "\n"
+    )
+
+  example_3 =
+    get_as_block (
+      "class Example [A subtype SuperTypeExample]" +
+      "\n  extends" +
+      "\n    SuperExample0" +
+      "\n    SuperExample1 [A]" +
+      "\n"
+    )
+
+  example_4 =
+    get_as_block (
+      "class Example [A supertype SubTypeExample, B subtype SuperTypeExample]" +
+      "\n  extends" +
+      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample1 [A]" +
+      "\n    SuperExample0" +
+      "\n"
+    )
+
+  test ("should find the right block for ClassBeginningAnnotation")
+    let
+      obtained = example_blocks.map (lambda block -> ClassBeginningAnnotation_ (block).applies )
+      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false)
+    in assert (obtained == expected)
+
+  test ("should extract the class name")
+    let
+      obtained = ClassBeginningAnnotation_ (example_0).class_name
+      expected = "Example"
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters and bounds in example 0")
+    let
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
+      expected = Seq [String] ()
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 0")
+    let
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters
+      expected = Seq [String] ()
+    in assert (obtained == expected)
+
+
+  test ("should extract the class name in example 1")
+    let
+      obtained = ClassBeginningAnnotation_ (example_1).class_name
+      expected = "Example"
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters and bounds in example 1")
+    let
+      obtained = ClassBeginningAnnotation_ (example_1).type_parameters_and_bounds
+      expected = Seq ("A")
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 1")
+    let
+      obtained = ClassBeginningAnnotation_ (example_1).type_parameters
+      expected = Seq ("A")
+    in assert (obtained == expected)
+
+  test ("should extract the class name in example 2")
+    let
+      obtained = ClassBeginningAnnotation_ (example_2).class_name
+      expected = "Example"
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters and bounds in example 2")
+    let
+      obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
+      expected = Seq ("A", "B")
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 2")
+    let
+      obtained = ClassBeginningAnnotation_ (example_2).type_parameters
+      expected = Seq ("A", "B")
+    in assert (obtained == expected)
+
+  test ("should extract the class name in example 3")
+    let
+      obtained = ClassBeginningAnnotation_ (example_3).class_name
+      expected = "Example"
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters and bounds in example 3")
+    let
+      obtained = ClassBeginningAnnotation_ (example_3).type_parameters_and_bounds
+      expected = Seq ("A subtype SuperTypeExample")
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 3")
+    let
+      obtained = ClassBeginningAnnotation_ (example_3).type_parameters
+      expected = Seq ("A")
+    in assert (obtained == expected)
+
+  test ("should extract the class name in example 4")
+    let
+      obtained = ClassBeginningAnnotation_ (example_4).class_name
+      expected = "Example"
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters and bounds in example 4")
+    let
+      obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
+      expected = Seq ("A supertype SubTypeExample", "B subtype SuperTypeExample")
+    in assert (obtained == expected)
+
+  test ("should extract the type parameters in example 4")
+    let
+      obtained = ClassBeginningAnnotation_ (example_4).type_parameters
+      expected = Seq ("A", "B")
+    in assert (obtained == expected)
+
+end

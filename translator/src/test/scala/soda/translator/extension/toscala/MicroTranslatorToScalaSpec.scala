@@ -1,10 +1,19 @@
 package soda.translator.extension.toscala
 
-case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MicroTranslatorToScalaSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
-  import soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.BlockProcessor_
 
-  lazy val instance = BlockProcessor_ (MicroTranslatorToScala_ ()  )
+  lazy val instance =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   test ("should translate a small snippet")
     {
@@ -14,9 +23,9 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
         "\n    \"       x + y\")" +
         "\n"
       lazy val expected = "  lazy val input_lines = Seq (" +
-        "\"  f( x: Int,\\t\", " +
-        "\"     y: Int) =\"," +
-        " \"       x + y\")" +
+        "\n    \"  f( x: Int,\\t\"," +
+        "\n    \"     y: Int) =\"," +
+        "\n    \"       x + y\")" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
@@ -38,46 +47,83 @@ case class MicroTranslatorToScalaSpec ()  extends org.scalatest.funsuite.AnyFunS
   test ("should translate classes")
     {
       lazy val original =
-        "* A =" +
+        "class A" +
         "\n" +
         "\n  f(x: Int): Int = x + 1" +
         "\n" +
-        "\nclass B = {" +
+        "\nend" +
+        "\n" +
+        "\nclass B" +
         "\n" +
         "\n  g(x: Int): Int = 2 * x" +
         "\n" +
-        "\n}" +
+        "\nend" +
         "\n" +
-        "\nclass C() extends A =" +
+        "\nclass C ()" +
+        "\n  extends" +
+        "\n    A" +
+        "\n" +
+        "\n  abstract" +
+        "\n    /** name for this object */" +
+        "\n    name: String" +
+        "\n    /**" +
+        "\n     * value for this object" +
+        "\n     */" +
+        "\n    value: Int" +
         "\n" +
         "\n  h(x: Int): Int = 2 * x + 1" +
         "\n" +
-        "\n* B[T] = {" +
+        "\nend" +
+        "\n" +
+        "\nclass B [T]" +
         "\n" +
         "\n  i(x: T): T = x" +
         "\n" +
-        "\n}" +
+        "\nend" +
         "\n"
       lazy val expected =
-        "trait A:" +
+        "trait A" +
+        "\n{" +
         "\n" +
         "\n  def f (x: Int ): Int = x + 1" +
         "\n" +
-        "\ntrait B {" +
+        "\n}" +
+        "\n" +
+        "\ncase class A_ () extends A" +
+        "\n" +
+        "\ntrait B" +
+        "\n{" +
         "\n" +
         "\n  def g (x: Int ): Int = 2 * x" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class C () extends A:" +
+        "\ncase class B_ () extends B" +
+        "\n" +
+        "\ncase class C ()" +
+        "\n  extends" +
+        "\n    A" +
+        "\n{" +
+        "\n" +
+        "\n    /** name for this object */" +
+        "\n  def   name: String" +
+        "\n    /**" +
+        "\n     * value for this object" +
+        "\n     */" +
+        "\n  def   value: Int" +
         "\n" +
         "\n  def h (x: Int ): Int = 2 * x + 1" +
         "\n" +
-        "\ntrait B [T] {" +
+        "\n}" +
+        "\n" +
+        "\ntrait B [T]" +
+        "\n{" +
         "\n" +
         "\n  def i (x: T ): T = x" +
         "\n" +
         "\n}" +
+        "\n" +
+        "\ncase class B_ [T] () extends B [T]" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }

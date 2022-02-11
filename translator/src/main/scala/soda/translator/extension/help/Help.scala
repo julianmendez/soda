@@ -1,11 +1,14 @@
 package soda.translator.extension.help
 
-trait Help  extends soda.translator.extension.common.Extension {
+trait AbstractHelp
+  extends
+    soda.translator.extension.common.Extension
+{
 
-  import soda.lib.SomeSD_
-  import soda.translator.io.SimpleFileReader_
+  def   execute: Seq [String] => Boolean
 
-  def execute (arguments: Seq [String]  ): Boolean
+  import   soda.lib.SomeSD_
+  import   soda.translator.io.SimpleFileReader_
 
   lazy val path: String = "/soda/translator/documentation/"
 
@@ -24,33 +27,53 @@ trait Help  extends soda.translator.extension.common.Extension {
     SomeSD_ (content )
       .map (x => println (x ) )
       .map (x => true )
-      .value
+      .getOrElse (false )
 
 }
 
-case class Help_ ()  extends Help {
+case class AbstractHelp_ (execute: Seq [String] => Boolean) extends AbstractHelp
+
+trait Help
+  extends
+    AbstractHelp
+{
 
   lazy val file_name = "help.txt"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content (title_and_version + "\n\n" + read (file_name ) )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content (title_and_version + "\n\n" + read (file_name ) )
 
 }
 
-case class Manual_ ()  extends Help {
+case class Help_ () extends Help
+
+trait Manual
+  extends
+    AbstractHelp
+{
 
   lazy val file_name = "Manual.soda"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content ("/* " + title_and_version + " */\n\n" + read (file_name ) )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content ("/* " + title_and_version + " */\n\n" + read (file_name ) )
 
 }
 
-case class License_ ()  extends Help {
+case class Manual_ () extends Manual
+
+trait License
+  extends
+    AbstractHelp
+{
 
   lazy val file_name = "LICENSE.txt"
 
-  def execute (arguments: Seq [String]  ): Boolean =
-    output_content (read (file_name )  )
+  lazy val execute: Seq [String] => Boolean =
+     arguments =>
+      output_content (read (file_name )  )
 
 }
+
+case class License_ () extends License

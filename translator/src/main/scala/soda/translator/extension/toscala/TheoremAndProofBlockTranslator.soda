@@ -1,53 +1,49 @@
 package soda.translator.extension.toscala
 
-* TheoremAndProofBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+class TheoremAndProofBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.BlockBuilder_
-
-  space = " "
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.ProofBlockAnnotation
+    soda.translator.parser.annotation.ProofBlockAnnotation_
+    soda.translator.parser.annotation.TheoremBlockAnnotation
+    soda.translator.parser.annotation.TheoremBlockAnnotation_
 
   tc = TranslationConstantToScala_ ()
 
-  _labels = BlockAnnotationEnum_ ()
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translate_for (block)
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.theorem_block or
-      block.block_annotation == _labels.proof_block
-    then _translate_block (block)
-    else block
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      | block : TheoremBlockAnnotation => _translate_theorem_block (block)
+      | block : ProofBlockAnnotation => _translate_proof_block (block)
+      | x => annotated_block
+    end
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
-    if is_a_theorem_or_a_proof (block)
-    then append (
-      tc.comment_close, prepend (
-        tc.comment_open, block ) )
-    else block
+  _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (_translate_block (block) )
 
-  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
+  _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
+    ProofBlockAnnotation_ (_translate_block (block) )
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    append (tc.scala_comment_closing_symbol) (prepend (tc.scala_comment_opening_symbol) (block) )
+
+  prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+  append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      block.lines.:+ (suffix), block.block_annotation
+      block.lines.:+ (suffix)
     )
 
-  first_line (block: AnnotatedBlock): String =
-    block.lines.headOption.getOrElse ("").trim
-
-  is_a_theorem_or_a_proof (block: AnnotatedBlock): Boolean =
-    _is_line_a_theorem_or_a_proof (first_line (block) )
-
-  _is_line_a_theorem_or_a_proof (line: String): Boolean =
-    line == tc.theorem_reserved_word or
-    line == tc.proof_reserved_word
-
-}
-
-* TheoremAndProofBlockTranslator_ ()
-  extends TheoremAndProofBlockTranslator
+end
 

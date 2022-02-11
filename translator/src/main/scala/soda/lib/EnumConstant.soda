@@ -7,16 +7,18 @@ package soda.lib
 /**
  * This is a constant to be used in enumerations.
  */
-* EnumConstant = {
 
-  has ordinal: Int
+class EnumConstant
 
-  has name: String
+  abstract
+    ordinal : Int
+    name : String
 
-}
+end
 
-* Enum [A subtype EnumConstant] = {
+class Enum [A subtype EnumConstant]
 
-  has values: Seq [A]
+  abstract
+    values : Seq [A]
 
-}
+end

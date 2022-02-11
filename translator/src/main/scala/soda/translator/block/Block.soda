@@ -1,27 +1,27 @@
 package soda.translator.block
 
-* AnnotatedLine = {
+class AnnotatedLine
 
-  has line: String
+  abstract
+    line : String
+    is_comment : Boolean
 
-  has is_comment: Boolean
+end
 
-}
+class Block
+  extends
+    PlainBlock
 
-* AnnotatedLine_ (line: String, is_comment: Boolean)
-  extends AnnotatedLine
+  abstract
+    annotated_lines : Seq [AnnotatedLine]
 
-* Block
-  extends PlainBlock = {
-
-  has annotated_lines: Seq [AnnotatedLine]
-
-  readable_lines: Seq [AnnotatedLine] =
+  lines : Seq [String] =
     annotated_lines
-      .filter (line -> not line.is_comment)
+      .map (lambda x -> x.line)
 
-}
+  readable_lines : Seq [AnnotatedLine] =
+    annotated_lines
+      .filter (lambda line -> not line.is_comment)
 
-* Block_ (lines: Seq [String], annotated_lines: Seq [AnnotatedLine])
-  extends Block
+end
 

@@ -7,3 +7,8 @@ package soda.translator
  */
 
 trait Package
+{
+
+}
+
+case class Package_ () extends Package

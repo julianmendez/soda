@@ -7,115 +7,116 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-* OptionSD [A] = {
 
-  has opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
+class OptionSD [A]
 
-  has map [B] (mapping: A -> B): OptionSD [B]
+  abstract
+    toOption : Option [A]
+    isEmpty : Boolean
+    isDefined : Boolean
+    isNonEmpty : Boolean
+    toSeq : Seq [A]
 
-  has toOption: Option [A]
+  opt [B] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
+    match this
+      | NoneSD_ () => ifEmpty
+      | SomeSD_ (element) => ifNonEmpty (element)
+    end
 
-  has isEmpty: Boolean
+  map [B] (mapping : A -> B) : OptionSD [B] =
+    match this
+      | NoneSD_ () => NoneSD_ [B] ()
+      | SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
+    end
 
-  has isDefined: Boolean
+  getOrElse (default : A) : A =
+    match this
+      | NoneSD_ () => default
+      | SomeSD_ (element) => element
+    end
 
-  has isNonEmpty: Boolean
+  fold [B] (ifEmpty : B) (f : A -> B) : B =
+    match this
+      | NoneSD_ () => ifEmpty
+      | SomeSD_ (element) => f (element)
+    end
 
-  has toSeq: Seq [A]
+  flatMap [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
+    match this
+      | NoneSD_ () => NoneSD_ ()
+      | SomeSD_ (element) => mapping (element)
+    end
 
-  has getOrElse (default: A): A
+  bind [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
+    flatMap [B] (mapping)
 
-  has fold [B] (ifEmpty: B, f: A -> B): B
+  filter (predicate : A -> Boolean) : OptionSD [A] =
+    match this
+      | NoneSD_ () => NoneSD_ ()
+      | SomeSD_ (element) =>
+        if predicate (element)
+        then this
+        else NoneSD_ [A] ()
+    end
 
-  has flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B]
+end
 
-  has bind [B] (mapping: A -> OptionSD [B]): OptionSD [B]
+class NoneSD [A]
+  extends
+    OptionSD [A]
 
-  has filter (predicate: A -> Boolean): OptionSD [A]
+  toOption : None.type = None
 
-}
+  isEmpty : Boolean = true
 
-* NoneSD [A]
-  extends OptionSD [A] = {
+  isDefined : Boolean = not isEmpty
 
-  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
+  isNonEmpty : Boolean = not isEmpty
 
-  map [B] (mapping: A -> B): NoneSD [B] = NoneSD_ [B] ()
+  toSeq : Seq [A] = Seq ()
 
-  toOption: None.type = None
+end
 
-  isEmpty: Boolean = true
+class OptionSDWithElement [A]
+  extends
+    OptionSD [A]
 
-  isDefined: Boolean = not isEmpty
+  abstract
+    toOption : Option [A]
+    isEmpty : Boolean
+    isDefined : Boolean
+    isNonEmpty : Boolean
+    toSeq : Seq [A]
+    element : A
 
-  isNonEmpty: Boolean = not isEmpty
+end
 
-  toSeq: Seq [A] = Seq ()
+class SomeSD [A]
+  extends
+    OptionSDWithElement [A]
 
-  getOrElse (default: A): A = default
+  abstract
+    element : A
 
-  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
+  value : A = element
 
-  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = NoneSD_ [B] ()
+  toOption : Some [A] = Some [A] (element)
 
-  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
+  isEmpty : Boolean = false
 
-  filter (predicate: A -> Boolean): OptionSD [A] = this
+  isDefined : Boolean = not isEmpty
 
-}
+  isNonEmpty : Boolean = not isEmpty
 
-* NoneSD_ [A] ()
-  extends NoneSD [A]
+  toSeq : Seq [A] = Seq (element)
 
-* OptionSDWithElement [A]
-  extends OptionSD [A] = {
+end
 
-  has element: A
+class OptionSDBuilder [A]
 
-}
-
-* SomeSD [A]
-  extends OptionSDWithElement [A] = {
-
-  value: A = element
-
-  opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifNonEmpty (element)
-
-  map [B] (mapping: A -> B): SomeSD [B] = SomeSD_ [B] (mapping (element))
-
-  toOption: Some [A] = Some [A] (element)
-
-  isEmpty: Boolean = false
-
-  isDefined: Boolean = not isEmpty
-
-  isNonEmpty: Boolean = not isEmpty
-
-  toSeq: Seq [A] = Seq (element)
-
-  getOrElse (default: A): A = element
-
-  fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
-
-  flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = mapping (element)
-
-  bind [B] (mapping: A -> OptionSD [B]): OptionSD [B] = flatMap [B] (mapping)
-
-  filter (predicate: A -> Boolean): OptionSD [A] = if predicate (element) then this else NoneSD_ [A] ()
-
-}
-
-* SomeSD_ [A] (element: A)
-  extends SomeSD [A]
-
-* OptionSDBuilder [A] = {
-
-  build (option: Option [A]): OptionSD [A] =
+  build (option : Option [A] ) : OptionSD [A] =
     if option.isEmpty
     then NoneSD_ [A] ()
     else SomeSD_ [A] (option.get)
 
-}
-
-* OptionSDBuilder_ [A] ()
-  extends OptionSDBuilder [A]
+end

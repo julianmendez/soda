@@ -1,35 +1,52 @@
 package soda.translator.extension.tocoq
 
-* MatchCaseBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+class MatchCaseBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.BlockBuilder_
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.parser.annotation.TestDeclarationAnnotation
+    soda.translator.parser.annotation.TestDeclarationAnnotation_
+
+  sc = SodaConstant_ ()
 
   tc = TranslationConstantToCoq_ ()
 
-  _labels = BlockAnnotationEnum_ ()
+  soda_match_pattern = sc.match_reserved_word + " "
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.function_definition or
-      block.block_annotation == _labels.test_declaration
-    then _translate_block (block)
-    else block
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translate_for (block)
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      | block : FunctionDefinitionAnnotation => _translate_function_block (block)
+      | block : TestDeclarationAnnotation => _translate_test_block (block)
+      | x => annotated_block
+    end
+
+  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
-        .map (line -> append_with_after_match (line) ), block.block_annotation
+        .map (lambda line -> append_with_after_match (line) )
     )
 
-  append_with_after_match (line: String): String =
-    if line.trim ().startsWith (tc.soda_match_pattern)
-    then line + tc.space + tc.coq_with_reserved_word
+  append_with_after_match (line : String) : String =
+    if line.trim ().startsWith (soda_match_pattern)
+    then line + tc.coq_space + tc.coq_with_reserved_word
     else line
 
-}
-
-* MatchCaseBlockTranslator_ ()
-  extends MatchCaseBlockTranslator
+end
 

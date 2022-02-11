@@ -4,125 +4,132 @@ package soda.translator.replacement
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
  */
-* Replacement
-  extends soda.translator.block.SingleLineProcessor = {
 
-  + soda.translator.block.Translator
+class Replacement
+  extends
+    soda.translator.block.SingleLineProcessor
+
+  abstract
+    line : String
+
+  import
+    soda.translator.block.Translator
 
   aux = ReplacementAux_ ()
 
   soda_space = aux.soda_space
 
-  replace_with (function: String -> String): Replacement =
-    Replacement_ (function (line))
+  replace_with (function : String -> String) : Replacement =
+    Replacement_ (function (line) )
 
-  replace_at_beginning (index: Int, translator: Translator): Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line, index))
+  replace_at_beginning (index : Int) (translator : Translator) : Replacement =
+    Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line) (index) )
 
-  replace_all (pattern: String, replacement: String): Replacement =
-    Replacement_ (aux.replace_all (line, pattern, replacement))
+  replace_all (pattern : String) (replacement : String) : Replacement =
+    Replacement_ (aux.replace_all (line) (pattern) (replacement) )
 
-  replace (translator: Translator): Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace (line))
+  replace (translator : Translator) : Replacement =
+    Replacement_ (ReplacementWithTranslator_ (translator).replace (line) )
 
-  add_space_to_soda_line (): Replacement =
+  add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
-  add_spaces_to_symbols (symbols: Set [Char]): Replacement =
-    Replacement_ (aux.add_spaces_to_symbols (line, symbols))
+  add_spaces_to_symbols (symbols : Set [Char] ) : Replacement =
+    Replacement_ (aux.add_spaces_to_symbols (line) (symbols) )
 
-  remove_space_from_scala_line (): Replacement =
-    Replacement_ (aux.remove_space_from_scala_line (line))
+  remove_space_from_scala_line () : Replacement =
+    Replacement_ (aux.remove_space_from_scala_line (line) )
 
-  add_after_spaces_or_pattern (pattern: String, text_to_prepend: String): Replacement =
-    Replacement_ (aux.add_after_spaces_or_pattern (line, pattern, text_to_prepend))
+  add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
+    Replacement_ (aux.add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
-  replace_regex (translator: Translator): Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_regex (line))
+  replace_regex (translator : Translator) : Replacement =
+    Replacement_ (ReplacementWithTranslator_ (translator).replace_regex (line) )
 
-}
+end
 
-* Replacement_ (line: String)
-  extends Replacement
-
-* ReplacementAux = {
-
- + soda.translator.block.Translator
- + soda.lib.Recursion_
+class ReplacementAux
 
   soda_space = " "
 
   scala_space = " "
 
-  replace_if_found_at_beginning (line: String, pattern: String, new_text: String): String =
+  replace_if_found_at_beginning (line : String) (pattern : String) (new_text : String) : String =
     if line.trim.startsWith (pattern.trim)
-    then replace_all (line, pattern, new_text)
+    then replace_first (line) (pattern) (new_text)
     else line
 
-  replace_if_found (line: String, pattern: String, new_text: String): String =
+  replace_first (line : String) (pattern : String) (replacement : String) : String =
+    replace_at (line.indexOf (pattern) ) (line) (pattern) (replacement)
+
+  replace_at (index : Int) (line : String) (pattern : String) (replacement : String) : String =
+    if (0 <= index) and (index + pattern.length <= line.length)
+    then line.substring (0, index) + replacement + line.substring (index + pattern.length, line.length)
+    else line
+
+  replace_if_found (line : String) (pattern : String) (new_text : String) : String =
     if line.contains (pattern)
-    then replace_all (line, pattern, new_text)
+    then replace_all (line) (pattern) (new_text)
     else line
 
-  replace_all (line: String, pattern: String, replacement: String): String =
+  replace_all (line : String) (pattern : String) (replacement : String) : String =
     Replacer_ (line, pattern, replacement).replaced_text
 
-  add_spaces_to_symbols (line: String, symbols: Set [Char]): String =
+  add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
       .indices
-      .map (index -> _add_spaces_to_symbols_with (line (index), index, line, symbols) )
+      .map (lambda index -> _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
       .mkString ("")
 
-  _add_spaces_to_symbols_with (ch: Char, index: Int, line: String, symbols: Set [Char]): String =
-    _left_part_of_symbols (line, symbols, index, ch) + ch + _right_part_of_symbols (line, symbols, index, ch)
+  _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
+    (_left_part_of_symbols (line) (symbols) (index) (ch) ) + ch + (_right_part_of_symbols (line) (symbols) (index) (ch) )
 
-  _left_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char): String =
+  _left_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
     if (index > 0) and symbols.contains (ch) and
       not line (index - 1).isWhitespace
     then scala_space
     else ""
 
-  _right_part_of_symbols (line: String, symbols: Set [Char], index: Int, ch: Char): String =
+  _right_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
     if (index < line.length - 1) and symbols.contains (ch) and
       not line (index + 1).isWhitespace
     then scala_space
     else ""
 
-  remove_space_from_scala_line (line: String): String =
+  remove_space_from_scala_line (line : String) : String =
     _get_line_without_ending_space ( _get_line_without_starting_space (line) )
 
-  _get_line_without_starting_space (line: String): String =
+  _get_line_without_starting_space (line : String) : String =
     if line.startsWith (scala_space)
     then line.substring (1)
     else line
 
-  _get_line_without_ending_space (line: String): String =
+  _get_line_without_ending_space (line : String) : String =
     if line.endsWith (scala_space)
     then line.substring (0, line.length - 1)
     else line
 
-  add_after_spaces_or_pattern (line: String, pattern: String, text_to_prepend: String): String =
-    _add_after_spaces_or_pattern_with (_get_prefix_length (line, pattern), line, pattern, text_to_prepend)
+  add_after_spaces_or_pattern (line : String) (pattern : String) (text_to_prepend : String) : String =
+    _add_after_spaces_or_pattern_with (_get_prefix_length (line) (pattern) ) (line) (pattern) (text_to_prepend)
 
-  _add_after_spaces_or_pattern_with (prefix_length: Int, line: String, pattern: String, text_to_prepend: String): String =
+  _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String) (text_to_prepend : String) : String =
     line.substring (0, prefix_length) + text_to_prepend + line.substring (prefix_length)
 
-  _get_prefix_length (line: String, pattern: String): Int =
+  _get_prefix_length (line : String) (pattern : String) : Int =
     if line.trim.startsWith (pattern)
     then line.indexOf (pattern) + pattern.length
-    else line.takeWhile (ch -> ch.isSpaceChar).length
+    else line.takeWhile (lambda ch -> ch.isSpaceChar).length
 
-}
+end
 
-* ReplacementAux_ ()
-  extends ReplacementAux
+class ReplacementWithTranslator
 
-* ReplacementWithTranslator = {
+  abstract
+    translator : soda.translator.block.Translator
 
-  + soda.translator.block.Translator
-  + soda.lib.Recursion_
-
-  has translator: Translator
+  import
+    soda.translator.block.Translator
+    soda.lib.Recursion_
 
   aux = ReplacementAux_ ()
 
@@ -130,33 +137,30 @@ package soda.translator.replacement
 
   scala_space = aux.scala_space
 
-  replace_at_beginning (line: String, index: Int): String =
+  replace_at_beginning (line : String) (index : Int) : String =
     if index == 0
     then replace_only_beginning (line)
     else line
 
-  replace_only_beginning (line: String): String =
-    Recursion_ ().fold (translator.keys, initial_value := line, next_value_function := _next_replace_only_beginning)
+  replace_only_beginning (line : String) : String =
+    Recursion_ ().fold (translator.keys) (initial_value := line) (next_value_function := _next_replace_only_beginning)
 
-  _next_replace_only_beginning (line: String, reserved_word: String): String =
-    aux.replace_if_found_at_beginning (line,
-      soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word) + scala_space)
+  _next_replace_only_beginning (line : String) (reserved_word : String) : String =
+    aux.replace_if_found_at_beginning (line) (
+      soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
-  replace (line: String): String =
-    Recursion_ ().fold (translator.keys, initial_value := line, next_value_function := _next_replace)
+  replace (line : String) : String =
+    Recursion_ ().fold (translator.keys) (initial_value := line) (next_value_function := _next_replace)
 
-  _next_replace (line: String, reserved_word: String): String =
-    aux.replace_if_found (line,
-      soda_space + reserved_word + soda_space, scala_space + translator.translate (reserved_word) + scala_space)
+  _next_replace (line : String) (reserved_word : String) : String =
+    aux.replace_if_found (line) (
+      soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
-  replace_regex (line: String): String =
-    Recursion_ ().fold (translator.keys, initial_value := line, next_value_function := _next_replace_regex)
+  replace_regex (line : String) : String =
+    Recursion_ ().fold (translator.keys) (initial_value := line) (next_value_function := _next_replace_regex)
 
-  _next_replace_regex (line: String, regex: String): String =
-    line.replaceAll (regex, translator.translate (regex))
+  _next_replace_regex (line : String) (regex : String) : String =
+    line.replaceAll (regex, translator.translate (regex) )
 
-}
-
-* ReplacementWithTranslator_ (translator: soda.translator.block.Translator)
-  extends ReplacementWithTranslator
+end
 

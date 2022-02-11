@@ -1,0 +1,128 @@
+package soda.translator.replacement
+
+class ReplacementAuxSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  instance = ReplacementAux_ ()
+
+  line_0 = "if, then, else, let, in, match, case, end"
+
+  line_1 = "class has extends with this subtype supertype "
+
+  line_2 = " false ,true ,not ,and ,or ,package ,import ,theorem ,proof ,is ,lambda"
+
+  line_3 = "  @new, @tailrec, @override "
+
+  one_word = "lambda"
+
+  test ("replace_if_found_at_beginning 1")
+    let
+      expected = "trait has extends with this subtype supertype "
+      obtained = instance.replace_if_found_at_beginning (line_1) ("class") ("trait")
+    in assert (obtained == expected)
+
+  test ("replace_if_found_at_beginning 2")
+    let
+      expected = line_1
+      obtained = instance.replace_if_found_at_beginning (line_1) ("has") ("---")
+    in assert (obtained == expected)
+
+  test ("replace_first 1")
+    let
+      expected = "trait has extends with this subtype supertype "
+      obtained = instance.replace_first (line_1) ("class") ("trait")
+    in assert (obtained == expected)
+
+  test ("replace_first 2")
+    let
+      expected = "class has extends with that subtype supertype "
+      obtained = instance.replace_first (line_1) ("this") ("that")
+    in assert (obtained == expected)
+
+  test ("replace_at 1")
+    let
+      expected = "class has extends without this subtype supertype "
+      obtained = instance.replace_at (22) (line_1) (" ") ("out ")
+    in assert (obtained == expected)
+
+  test ("replace_at 2")
+    let
+      expected = line_1
+      obtained = instance.replace_at (-1) (line_1) (" ") ("no replacement here")
+    in assert (obtained == expected)
+
+  test ("replace_at 3")
+    let
+      expected = "class has extends with this subtype supertype"
+      obtained = instance.replace_at (line_1.length - 1) (line_1) (" ") ("")
+    in assert (obtained == expected)
+
+  test ("replace_at 4")
+    let
+      expected = line_1
+      obtained = instance.replace_at (line_1.length) (line_1) (" ") ("no replacement")
+    in assert (obtained == expected)
+
+  test ("replace_if_found")
+    let
+      expected = "class has extends with this subclass superclass "
+      obtained = instance.replace_if_found (line_1) ("type") ("class")
+    in assert (obtained == expected)
+
+  test ("replace_all 1")
+    let
+      expected = "class,has,extends,with,this,subtype,supertype,"
+      obtained = instance.replace_all (line_1) (" ") (",")
+    in assert (obtained == expected)
+
+  test ("replace_all 2")
+    let
+      expected = line_1
+      obtained = instance.replace_all (line_1) ("z") ("-")
+    in assert (obtained == expected)
+
+  test ("add_spaces_to_symbols 1")
+    let
+      expected = "if , then , else , let , in , match , case , end"
+      obtained = instance.add_spaces_to_symbols (line_0) ( (Seq [Char] (',') ).toSet )
+    in assert (obtained == expected)
+
+  test ("add_spaces_to_symbols 2")
+    let
+      expected = " false , true , not , and , or , package , import , theorem , proof , is , lambda"
+      obtained = instance.add_spaces_to_symbols (line_2) ( (Seq [Char] (',') ).toSet )
+    in assert (obtained == expected)
+
+  test ("add_spaces_to_symbols 3")
+    let
+      expected = "cl a ss h a s e xt e nds w i th th i s s u btyp e s u p e rtyp e "
+      obtained = instance.add_spaces_to_symbols (line_1) ( (Seq [Char] ('a', 'e', 'i', 'o', 'u') ).toSet )
+    in assert (obtained == expected)
+
+  test ("remove_space_from_scala_line")
+    let
+      expected = " @new, @tailrec, @override"
+      obtained = instance.remove_space_from_scala_line (line_3)
+    in assert (obtained == expected)
+
+  test ("add_after_spaces_or_pattern 1")
+    let
+      expected = "class here has extends with this subtype supertype "
+      obtained = instance.add_after_spaces_or_pattern (line_1) ("class") (" here")
+    in assert (obtained == expected)
+
+  test ("add_after_spaces_or_pattern 2")
+    let
+      expected = " here class has extends with this subtype supertype "
+      obtained = instance.add_after_spaces_or_pattern (line_1) ("has") (" here ")
+    in assert (obtained == expected)
+
+  test ("add_after_spaces_or_pattern 3")
+    let
+      expected = "  @new, here, @tailrec, @override "
+      obtained = instance.add_after_spaces_or_pattern (line_3) ("@new") (", here")
+    in assert (obtained == expected)
+
+end
+

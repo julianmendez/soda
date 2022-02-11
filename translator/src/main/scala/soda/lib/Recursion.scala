@@ -7,41 +7,43 @@ package soda.lib
 /**
  * This class contains tail recursive auxiliary functions.
  */
-trait Recursion {
+
+trait Recursion
+{
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold4 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean         ): C =
+  def _tailrec_fold_while [A, B] (sequence: Seq [A] ) (current_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
     if (sequence.isEmpty
     ) current_value
     else
-      if (! condition (current_value, sequence.head )
+      if (! condition (current_value ) (sequence.head )
       ) current_value
-      else _tailrec_fold4 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function, condition )
+      else _tailrec_fold_while (sequence.tail ) (next_value_function (current_value ) (sequence.head ) ) (next_value_function ) (condition )
 
-  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C, condition: (B, A ) => Boolean  ): C =
-    _tailrec_fold4 (sequence, initial_value, next_value_function, condition )
+  def fold_while [A, B] (sequence: Seq [A] ) (initial_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
+    _tailrec_fold_while (sequence ) (initial_value ) (next_value_function ) (condition )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold3 [A, B, C <: B] (sequence: Seq [A], current_value: C, next_value_function: (B, A ) => C         ): C =
+  def _tailrec_fold [A, B] (sequence: Seq [A] ) (current_value: B ) (next_value_function: B => A => B ): B =
     if (sequence.isEmpty
     ) current_value
-    else _tailrec_fold3 (sequence.tail, next_value_function (current_value, sequence.head ), next_value_function )
+    else _tailrec_fold (sequence.tail ) (next_value_function (current_value ) (sequence.head ) ) (next_value_function )
 
-  def fold [A, B, C <: B] (sequence: Seq [A], initial_value: C, next_value_function: (B, A ) => C  ): C =
-    _tailrec_fold3 (sequence, initial_value, next_value_function )
+  def fold [A, B] (sequence: Seq [A] ) (initial_value: B ) (next_value_function: B => A => B ): B =
+    _tailrec_fold (sequence ) (initial_value ) (next_value_function )
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_range (n: Int, sequence: Seq [Int]  ): Seq [Int] =
+  def _tailrec_range (n: Int ) (sequence: Seq [Int] ): Seq [Int] =
     if (n <= 0
     ) sequence
-    else _tailrec_range (n - 1, sequence.+: (n - 1 )  )
+    else _tailrec_range (n - 1 ) (sequence.+: (n - 1 ) )
 
   def range (length: Int ): Seq [Int] =
-    _tailrec_range (length, Seq [Int] ()  )
+    _tailrec_range (length ) (Seq [Int] () )
 
 }
 
-case class Recursion_ ()  extends Recursion
+case class Recursion_ () extends Recursion

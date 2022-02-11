@@ -1,7 +1,8 @@
 package soda.lib
 
-* CartesianProductSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class CartesianProductSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("Cartesian product of two sequences")
     let
@@ -48,5 +49,5 @@ package soda.lib
       obtained = CartesianProduct_ ().get_cartesian_product (Seq (seq_a, seq_b, seq_c))
     in assert (obtained == expected)
 
-}
+end
 

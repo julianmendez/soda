@@ -5,5 +5,7 @@ package soda.translator.io
  * It is also the entry point for the translator.
  */
 
-* Package
+class Package
+
+end
 

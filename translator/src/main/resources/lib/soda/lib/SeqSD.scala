@@ -7,19 +7,27 @@ package soda.lib
 /**
  * This is a Seq implemented without exceptions.
  */
-trait SeqSD [A] {
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B
+trait SeqSD [A]
+{
 
-  def toSeq: Seq [A]
+  def   toSeq: Seq [A]
+  def   reverse: SeqSD [A]
 
-  def reverse: SeqSD [A]
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: NonEmptySeqSD [A] => B ): B =
+    this match  {
+      case EmptySeqSD_ () => ifEmpty
+      case NonEmptySeqSD_ (toSeq ) => ifNonEmpty (NonEmptySeqSD_ (toSeq ) )
+    }
 
 }
 
-trait EmptySeqSD [A]  extends SeqSD [A] {
+case class SeqSD_ [A] (toSeq: Seq [A], reverse: SeqSD [A]) extends SeqSD [A]
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifEmpty
+trait EmptySeqSD [A]
+  extends
+    SeqSD [A]
+{
 
   lazy val toSeq: Seq [A] = Seq [A] ()
 
@@ -27,11 +35,14 @@ trait EmptySeqSD [A]  extends SeqSD [A] {
 
 }
 
-case class EmptySeqSD_ [A] ()  extends EmptySeqSD [A]
+case class EmptySeqSD_ [A] () extends EmptySeqSD [A]
 
-trait NonEmptySeqSD [A]  extends SeqSD [A] {
+trait NonEmptySeqSD [A]
+  extends
+    SeqSD [A]
+{
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: NonEmptySeqSD [A] => B ): B = ifNonEmpty (this )
+  def   toSeq: Seq [A]
 
   lazy val head: A = toSeq.head
 
@@ -41,15 +52,16 @@ trait NonEmptySeqSD [A]  extends SeqSD [A] {
 
 }
 
-case class NonEmptySeqSD_ [A] (toSeq: Seq [A]  )  extends NonEmptySeqSD [A]
+case class NonEmptySeqSD_ [A] (toSeq: Seq [A]) extends NonEmptySeqSD [A]
 
-trait SeqSDBuilder [A] {
+trait SeqSDBuilder [A]
+{
 
-  def build (seq: Seq [A]  ): SeqSD [A] =
+  def build (seq: Seq [A] ): SeqSD [A] =
     if (seq.isEmpty
     ) EmptySeqSD_ [A] ()
     else NonEmptySeqSD_ [A] (seq )
 
 }
 
-case class SeqSDBuilder_ [A] ()  extends SeqSDBuilder [A]
+case class SeqSDBuilder_ [A] () extends SeqSDBuilder [A]

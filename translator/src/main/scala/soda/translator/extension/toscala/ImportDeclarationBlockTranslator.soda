@@ -1,0 +1,60 @@
+package soda.translator.extension.toscala
+
+class ImportDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.ImportDeclarationAnnotation
+    soda.translator.parser.annotation.ImportDeclarationAnnotation_
+
+  space = " "
+
+  tc = TranslationConstantToScala_ ()
+
+  scala_import_declaration_pattern =
+    tc.scala_import_declaration + space
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translate_for (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      | block : ImportDeclarationAnnotation => _translate_block (block)
+      | x => annotated_block
+    end
+
+  _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
+    ImportDeclarationAnnotation_ (
+      prepend_to_lines_aligned_at (
+        get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
+        scala_import_declaration_pattern) (
+        block.imported_items
+      )
+    )
+
+  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+    BlockBuilder_ ().build (
+      annotated_lines.map (lambda annotated_line -> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+    )
+
+  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+    if annotated_line.is_comment
+    then annotated_line.line
+    else annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index)
+
+  get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (lambda ch -> ch.isSpaceChar)
+      .length
+
+  get_first_line (block : AnnotatedBlock) : String =
+    block.lines.headOption.getOrElse ("")
+
+end
+

@@ -1,18 +1,24 @@
 package soda.translator.io
 
-trait AbstractDirectoryProcessor {
+trait AbstractDirectoryProcessor
+{
 
-  def start: String
-
-  def process_soda_file: java.io.File => Boolean
-
-  def process (): Boolean
+  def   start: String
+  def   process_soda_file: java.io.File => Boolean
 
 }
 
-trait DirectoryProcessor  extends AbstractDirectoryProcessor {
+case class AbstractDirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean) extends AbstractDirectoryProcessor
 
-  import java.io.File
+trait DirectoryProcessor
+  extends
+    AbstractDirectoryProcessor
+{
+
+  def   start: String
+  def   process_soda_file: java.io.File => Boolean
+
+  import   java.io.File
 
   lazy val soda_suffix = ".soda"
 
@@ -37,4 +43,4 @@ trait DirectoryProcessor  extends AbstractDirectoryProcessor {
 
 }
 
-case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean )  extends DirectoryProcessor
+case class DirectoryProcessor_ (start: String, process_soda_file: java.io.File => Boolean) extends DirectoryProcessor

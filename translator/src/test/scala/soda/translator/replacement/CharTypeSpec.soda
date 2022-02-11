@@ -1,7 +1,8 @@
 package soda.translator.replacement
 
-* CharTypeSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class CharTypeSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   test ("should recognize quotation marks")
     let
@@ -37,10 +38,10 @@ package soda.translator.replacement
       expected = Seq ( CharTypeEnum_ ().plain_type )
       obtained =
         inputStr
-          .map (ch -> CharTypeEnum_ ().get_char_type (ch))
+          .map (lambda ch -> CharTypeEnum_ ().get_char_type (ch) )
           .toSet
           .toSeq
     in assert (obtained == expected)
 
-}
+end
 

@@ -1,12 +1,13 @@
 package soda.collection
 
-* MinSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class MinSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + soda.lib.OptionSD
-  + soda.lib.NoneSD_
-  + soda.lib.SomeSD_
-  + soda.lib.Recursion_
+  import
+    soda.lib.NoneSD_
+    soda.lib.Recursion_
+    soda.lib.SomeSD_
 
   empty: ESeq [Int] = ESeq_ [Int] ()
 
@@ -14,16 +15,17 @@ package soda.collection
 
   revExampleSeq: Seq [Int] = exampleSeq.reverse
 
-  prepend_elem (list: MSeq [Int], elem: Int) = Min_ ().prepended (list, elem)
+  prepend_elem (list: MSeq [Int]) (elem: Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
+
+  _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
   example: NESeq [Int] =
-    Recursion_ ().fold (revExampleSeq.tail,
-      NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] ()), prepend_elem )
+    Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
 
   test ("prepended")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8))
-      obtained = Min_ ().prepended (example, 1)
+      expected = MSeqTranslator_ ().asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8) )
+      obtained = Min_ ().prepended (example) (1)
     in assert (obtained == expected)
 
   test ("head")
@@ -34,13 +36,13 @@ package soda.collection
 
   test ("tail")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 1, 2, 3, 5, 8))
+      expected = MSeqTranslator_ ().asMSeq (Seq (1, 1, 2, 3, 5, 8) )
       obtained = Min_ ().tail (example)
     in assert (obtained == expected)
 
   test ("reverse")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (8, 5, 3, 2, 1, 1, 0))
+      expected = MSeqTranslator_ ().asMSeq (Seq (8, 5, 3, 2, 1, 1, 0) )
       obtained = Min_ ().reverse (example)
     in assert (obtained == expected)
 
@@ -53,31 +55,31 @@ package soda.collection
   test ("indexOf something found")
     let
       expected = 6
-      obtained = Min_ ().indexOf (example, 8)
+      obtained = Min_ ().indexOf (example) (8)
     in assert (obtained == expected)
 
   test ("indexOf something not found")
     let
       expected = -1
-      obtained = Min_ ().indexOf (example, 7)
+      obtained = Min_ ().indexOf (example) (7)
     in assert (obtained == expected)
 
   test ("contains something found")
     let
       expected = true
-      obtained = Min_ ().contains (example, 8)
+      obtained = Min_ ().contains (example) (8)
     in assert (obtained == expected)
 
   test ("contains something not found")
     let
       expected = false
-      obtained = Min_ ().contains (example, 7)
+      obtained = Min_ ().contains (example) (7)
     in assert (obtained == expected)
 
   test ("at")
     let
       expected = SomeSD_ (3)
-      obtained = Min_ ().at (example, 4)
+      obtained = Min_ ().at (example) (4)
     in assert (obtained == expected)
 
   test ("take with Seq 0")
@@ -100,20 +102,20 @@ package soda.collection
 
   test ("take 0")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3))
-      obtained = Min_ ().take (example, 5)
+      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) )
+      obtained = Min_ ().take (example) (5)
     in assert (obtained == expected)
 
   test ("take 1")
     let
       expected = empty
-      obtained = Min_ ().take (example, -100)
+      obtained = Min_ ().take (example) (-100)
     in assert (obtained == expected)
 
   test ("take 2")
     let
       expected = example
-      obtained = Min_ ().take (example, 100)
+      obtained = Min_ ().take (example) (100)
     in assert (obtained == expected)
 
   test ("drop with Seq 0")
@@ -136,20 +138,20 @@ package soda.collection
 
   test ("drop 0")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8))
-      obtained = Min_ ().drop (example, 3)
+      expected = MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) )
+      obtained = Min_ ().drop (example) (3)
     in assert (obtained == expected)
 
   test ("drop 1")
     let
       expected = example
-      obtained = Min_ ().drop (example, -100)
+      obtained = Min_ ().drop (example) (-100)
     in assert (obtained == expected)
 
   test ("drop 2")
     let
       expected = empty
-      obtained = Min_ ().drop (example, 100)
+      obtained = Min_ ().drop (example) (100)
     in assert (obtained == expected)
 
   test ("takeWhile with Seq")
@@ -161,53 +163,53 @@ package soda.collection
 
   test ("takeWhile")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2))
-      f: Int -> Boolean = e -> not  (e == 3)
-      obtained = Min_ ().takeWhile (example, f)
+      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
+      f: Int -> Boolean = lambda e -> not  (e == 3)
+      obtained = Min_ ().takeWhile (example) (f)
     in assert (obtained == expected)
 
   test ("dropWhile with Seq")
     let
       expected = Seq (3, 5, 8)
-      f: Int -> Boolean = e -> not  (e == 3)
+      f: Int -> Boolean = lambda e -> not  (e == 3)
       obtained = exampleSeq.dropWhile (f)
     in assert (obtained == expected)
 
   test ("dropWhile")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (3, 5, 8))
-      f: Int -> Boolean = e -> not  (e == 3)
-      obtained = Min_ ().dropWhile (example, f)
+      expected = MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
+      f: Int -> Boolean = lambda e -> not  (e == 3)
+      obtained = Min_ ().dropWhile (example) (f)
     in assert (obtained == expected)
 
   test ("splitAt with Seq")
     let
-      expected = Tuple2 (Seq (0, 1, 1), Seq (2, 3, 5, 8))
+      expected = Tuple2 (Seq (0, 1, 1), Seq (2, 3, 5, 8) )
       obtained = exampleSeq.splitAt (3)
     in assert (obtained == expected)
 
   test ("splitAt")
     let
-      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1)), MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8)))
-      obtained = Min_ ().splitAt (example, 3)
+      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1) ), MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) ))
+      obtained = Min_ ().splitAt (example) (3)
     in assert (obtained == expected)
 
   test ("span with Seq")
     let
-      expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8))
-      obtained = exampleSeq.span (x -> not  (x == 5))
+      expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
+      obtained = exampleSeq.span (lambda x -> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("span")
     let
-      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3)), MSeqTranslator_ ().asMSeq (Seq (5, 8)))
-      obtained = Min_ ().span (example,  (x: Int) -> not  (x == 5))
+      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ))
+      obtained = Min_ ().span (example) (lambda (x: Int) -> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("append")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13))
-      obtained = Min_ ().appended (example, 13)
+      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13) )
+      obtained = Min_ ().appended (example) (13)
     in assert (obtained == expected)
 
   test ("last")
@@ -218,9 +220,9 @@ package soda.collection
 
   test ("concat")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55))
-      second = MSeqTranslator_ ().asMSeq (Seq (13, 21, 34, 55))
-      obtained = Min_ ().concat (example, second)
+      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55) )
+      second = MSeqTranslator_ ().asMSeq (Seq (13, 21, 34, 55) )
+      obtained = Min_ ().concat (example) (second)
     in assert (obtained == expected)
 
   test ("slice with Seq 0")
@@ -261,38 +263,38 @@ package soda.collection
 
   test ("slice 0")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 2, 3))
-      obtained = Min_ ().slice (example, 2, 5)
+      expected = MSeqTranslator_ ().asMSeq (Seq (1, 2, 3) )
+      obtained = Min_ ().slice (example) (2) (5)
     in assert (obtained == expected)
 
   test ("slice 1")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 5, 2)
+      obtained = Min_ ().slice (example) (5) (2)
     in assert (obtained == expected)
 
   test ("slice 2")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 3, 3)
+      obtained = Min_ ().slice (example) (3) (3)
     in assert (obtained == expected)
 
   test ("slice 3")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 100, 5)
+      obtained = Min_ ().slice (example) (100) (5)
     in assert (obtained == expected)
 
   test ("slice 4")
     let
       expected = empty
-      obtained = Min_ ().slice (example, 100, 200)
+      obtained = Min_ ().slice (example) (100) (200)
     in assert (obtained == expected)
 
   test ("slice 5")
     let
       expected = example
-      obtained = Min_ ().slice (example, -100, 200)
+      obtained = Min_ ().slice (example) (-100) (200)
     in assert (obtained == expected)
 
   test ("forall with Seq 0")
@@ -320,63 +322,63 @@ package soda.collection
     let
       expected = true
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = Min_ ().forall (example, predicate)
+      obtained = Min_ ().forall (example) (predicate)
     in assert (obtained == expected)
 
   test ("forall 1")
     let
       expected = false
       predicate: Int -> Boolean = x -> x < 7
-      obtained = Min_ ().forall (example, predicate)
+      obtained = Min_ ().forall (example) (predicate)
     in assert (obtained == expected)
 
   test ("forall 2")
     let
       expected = true
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().forall (empty, predicate)
+      obtained = Min_ ().forall (empty) (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 0")
     let
       expected = true
-      predicate: Int -> Boolean = x -> x == 8
+      predicate: Int -> Boolean = lambda x -> x == 8
       obtained = exampleSeq.exists (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 1")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
+      predicate: Int -> Boolean = lambda x -> x == 7
       obtained = exampleSeq.exists (predicate)
     in assert (obtained == expected)
 
   test ("exists with Seq 2")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
+      predicate: Int -> Boolean = lambda x -> x == 7
       obtained = Seq ().exists (predicate)
     in assert (obtained == expected)
 
   test ("exists 0")
     let
       expected = true
-      predicate: Int -> Boolean = x -> x == 8
-      obtained = Min_ ().exists (example, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 8
+      obtained = Min_ ().exists (example) (predicate)
     in assert (obtained == expected)
 
   test ("exists 1")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().exists (example, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = Min_ ().exists (example) (predicate)
     in assert (obtained == expected)
 
   test ("exists 2")
     let
       expected = false
-      predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().exists (empty, predicate)
+      predicate: Int -> Boolean = lambda x -> x == 7
+      obtained = Min_ ().exists (empty) (predicate)
     in assert (obtained == expected)
 
   test ("find with Seq 0")
@@ -404,21 +406,21 @@ package soda.collection
     let
       expected = SomeSD_ (0)
       predicate: Int -> Boolean = x -> not  (x == 7)
-      obtained = Min_ ().find (example, predicate)
+      obtained = Min_ ().find (example) (predicate)
     in assert (obtained == expected)
 
   test ("find 1")
     let
       expected = SomeSD_ (8)
       predicate: Int -> Boolean = x -> x == 8
-      obtained = Min_ ().find (example, predicate)
+      obtained = Min_ ().find (example) (predicate)
     in assert (obtained == expected)
 
   test ("find 2")
     let
       expected = NoneSD_ ()
       predicate: Int -> Boolean = x -> x == 7
-      obtained = Min_ ().find (empty, predicate)
+      obtained = Min_ ().find (empty) (predicate)
     in assert (obtained == expected)
 
   test ("filter with Seq")
@@ -430,9 +432,9 @@ package soda.collection
 
   test ("filter")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 3))
+      expected = MSeqTranslator_ ().asMSeq (Seq (0, 3) )
       f: Int -> Boolean = x -> x % 3 == 0
-      obtained = Min_ ().filter (example, f)
+      obtained = Min_ ().filter (example) (f)
     in assert (obtained == expected)
 
   test ("map with Seq")
@@ -444,24 +446,24 @@ package soda.collection
 
   test ("map in the same type")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108))
+      expected = MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
       f: Int -> Int = x -> x + 100
-      obtained = Min_ ().map0 (example, f)
+      obtained = Min_ ().map0 (example) (f)
     in assert (obtained == expected)
 
   test ("foldLeft with Seq")
     let
       expected = Seq (108, 105, 103, 102, 101, 101, 100)
-      obtained = exampleSeq.foldLeft (Seq [Int] ()) ( (s: Seq [Int], e: Int) -> s.+: ( (e + 100)))
+      obtained = exampleSeq.foldLeft (Seq [Int] () ) ( lambda (s: Seq [Int], e: Int) -> s.+: ( (e + 100) ))
     in assert (obtained == expected)
 
   test ("foldLeft in the same type")
     let
-      expected = MSeqTranslator_ ().asMSeq (Seq (108, 105, 103, 102, 101, 101, 100))
-      obtained = Min_ ().foldLeft0 (example) (Min_ ().empty,
-         (s: MSeq [Int], e: Int) -> Min_ ().prepended (s, e + 100)
+      expected = MSeqTranslator_ ().asMSeq (Seq (108, 105, 103, 102, 101, 101, 100) )
+      obtained = Min_ ().foldLeft0 (example) (Min_ ().empty) (
+         lambda (s: MSeq [Int] ) -> lambda (e: Int) -> Min_ ().prepended (s) (e + 100)
       )
     in assert (obtained == expected)
 
-}
+end
 

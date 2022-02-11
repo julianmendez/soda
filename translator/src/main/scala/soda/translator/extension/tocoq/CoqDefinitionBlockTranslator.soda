@@ -1,51 +1,60 @@
 package soda.translator.extension.tocoq
 
-* CoqDefinitionBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+class CoqDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.BlockBuilder_
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
 
   space = " "
 
   tc = TranslationConstantToCoq_ ()
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == BlockAnnotationEnum_ ().function_definition
-    then _translate_block (block)
-    else block
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translate_for (block)
 
-  _translate_block (block: AnnotatedBlock): AnnotatedBlock =
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      | block : FunctionDefinitionAnnotation => _translate_definition_block (block)
+      | x => annotated_block
+    end
+
+  _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
-    then append (tc.coq_recursive_definition_end, prepend (tc.coq_recursive_definition + space, block) )
+    then append (tc.coq_recursive_definition_end) (prepend (tc.coq_recursive_definition + space) (block) )
     else
       if is_a_definition (block)
-      then append (tc.coq_definition_end, prepend (tc.coq_definition + space, block) )
+      then append (tc.coq_definition_end) (prepend (tc.coq_definition + space) (block) )
       else block
 
-  prepend (prefix: String, block: AnnotatedBlock): AnnotatedBlock =
+  prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail, block.block_annotation
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix: String, block: AnnotatedBlock): AnnotatedBlock =
+  append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      block.lines.:+ (suffix), block.block_annotation
+      block.lines.:+ (suffix)
     )
 
-  is_a_recursive_definition (block: AnnotatedBlock): Boolean =
-    tc.coq_recursive_function_prefixes.exists (prefix -> first_line (block).startsWith (prefix))
+  is_a_recursive_definition (block : Block) : Boolean =
+    tc.coq_recursive_function_prefixes.exists (lambda prefix -> first_line (block).startsWith (prefix))
 
-  first_line (block: AnnotatedBlock): String =
+  first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("").trim
 
-  is_a_definition (block: AnnotatedBlock): Boolean =
+  is_a_definition (block : Block) : Boolean =
     not is_a_recursive_definition (block) and
-    not tc.non_definition_block_prefixes.exists (prefix -> block.contents.trim.startsWith (prefix))
+    not tc.non_definition_block_prefixes.exists (lambda prefix -> block.contents.trim.startsWith (prefix))
 
-}
-
-* CoqDefinitionBlockTranslator_ ()
-  extends CoqDefinitionBlockTranslator
+end
 

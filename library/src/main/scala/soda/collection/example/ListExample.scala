@@ -1,16 +1,17 @@
 package soda.collection.example
 
-trait Pair [T] {
+trait Pair [T]
+{
 
-  def name: String
-
-  def result: T
+  def   name: String
+  def   result: T
 
 }
 
-case class Pair_ [T]  (name: String, result: T )  extends Pair [T]
+case class Pair_ [T] (name: String, result: T) extends Pair [T]
 
-trait ListExample {
+trait ListExample
+{
 
   lazy val a: Seq [Char] = Seq ('A', 'B', 'C', 'D', 'E', 'F')
 
@@ -29,7 +30,7 @@ trait ListExample {
     Pair_ ("a.takeRight(3)", a.takeRight (3 )  )
 
   lazy val takeWhile_example: Pair [Seq [Char]] =
-    Pair_ ("a.takeWhile(x -> not (x == 'E'))", a.takeWhile (x => ! (x == 'E')  )  )
+    Pair_ ("a.takeWhile(lambda x -> not (x == 'E'))", a.takeWhile (x => ! (x == 'E')  )  )
 
   lazy val drop_example: Pair [Seq [Char]] =
     Pair_ ("a.drop(2)", a.drop (2 )  )
@@ -38,7 +39,7 @@ trait ListExample {
     Pair_ ("a.dropRight(2)", a.dropRight (2 )  )
 
   lazy val dropWhile_example: Pair [Seq [Char]] =
-    Pair_ ("a.dropWhile(x -> not (x == 'E'))", a.dropWhile (x => ! (x == 'E')  )  )
+    Pair_ ("a.dropWhile(lambda x -> not (x == 'E'))", a.dropWhile (x => ! (x == 'E')  )  )
 
   lazy val splitAt_example: Pair [(Seq [Char], Seq [Char]  )] =
     Pair_ ("a.splitAt(3)", a.splitAt (3 )  )
@@ -56,13 +57,13 @@ trait ListExample {
     Pair_ ("a.reverse", a.reverse )
 
   /**
-   * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
+   * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val prepended_example: Pair [Seq [Char]] =
     Pair_ ("a.+:('X')", (a.+: ('X')  )  )
 
   /**
-   * A mnemonic for `+:` vs. `:+` is: the COLon goes on the COLlection side.
+   * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val appended_example: Pair [Seq [Char]] =
     Pair_ ("a.:+('X')", (a.:+ ('X')  )  )
@@ -71,23 +72,25 @@ trait ListExample {
     Pair_ ("a.map(_.toInt).++(b)", a.map (_.toInt ) .++ (b )  )
 
   lazy val span_example: Pair [(Seq [Char], Seq [Char]  )] =
-    Pair_ ("a.span(x -> not (x == 'D'))", a.span (x => ! (x == 'D')  )  )
+    Pair_ ("a.span(lambda x -> not (x == 'D'))", a.span (x => ! (x == 'D')  )  )
 
   lazy val map_example: Pair [Seq [Int]] =
-    Pair_ ("a.map(x -> x.toInt)", a.map (x => x.toInt )  )
+    Pair_ ("a.map(lambda x -> x.toInt)", a.map (x => x.toInt )  )
 
   lazy val filter_example: Pair [Seq [Char]] =
-    Pair_ ("a.filter(x -> x.toInt % 2 == 0)", a.filter (x => x.toInt % 2 == 0 )  )
+    Pair_ ("a.filter(lambda x -> x.toInt % 2 == 0)", a.filter (x => x.toInt % 2 == 0 ) )
 
   lazy val fold_example: Pair [Int] =
-    Pair_ ("b.fold(0)((a, b) -> a + b)", b.fold (0 )  ((a, b ) => a + b )  )
+    Pair_ ("b.fold(0)(lambda (a, b) -> a + b)", b.fold (0 )  ((a, b ) => a + b )  )
 
   lazy val foldLeft_example: Pair [Seq [Char]] =
-    Pair_ ("a.foldLeft(Seq('*'))((list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*')  )  ((list, elem ) => "(" + list + " :+ " + elem + ")")  )
+    Pair_ ("a.foldLeft(Seq('*'))(lambda (list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*')  )  ((list, elem ) => "(" + list + " :+ " + elem + ")")  )
 
   lazy val foldRight_example: Pair [Seq [Char]] =
-    Pair_ ("a.foldRight(Seq('*'))((elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
+    Pair_ ("a.foldRight(Seq('*'))(lambda (elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
 
 }
 
-case class ListExample_ ()  extends ListExample
+case class ListExample_ () extends ListExample
+
+

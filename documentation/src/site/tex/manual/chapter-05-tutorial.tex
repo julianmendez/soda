@@ -47,8 +47,8 @@ Something like:
 
 However, if we want to condense both the domain definition and the function itself, then we can write:
 \begin{lstlisting}[label={lst:exampleFunctionDefinition}]
-  f(x: Int): Int = x + 16
-  b = f(a)
+  f (x : Int) : Int = x + 16
+  b = f (a)
   a = 1 + 2 + 4 + 8
 \end{lstlisting}
 
@@ -60,53 +60,15 @@ For example, the definition
 $g = (\lambda x)(x + 32)$
 would be defined as:
 \begin{lstlisting}[label={lst:exampleFunctionDefinitionWithLambda}]
-  g: Int -> Int = x -> x + 32
+  g : Int -> Int = x -> x + 32
 \end{lstlisting}
 
 The right arrow (\srccode(->)) is used to define a domain mapping and also to define a lambda expression.
 
-
-We can use a block to compute a value, for example:
-\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithBraces}]
-  h0(x: Int, y: Int): Int = {
-    a = x + y
-    b = x - y
-    a * b
-  }
-\end{lstlisting}
-returns $(x + y)(x - y)$, which is $x^{2} - y^{2}$.
-
-Although the order of the bindings does not matter, the result of the function has to be always at the end.
-This is completely conventional.
-
-It is also possible to explicitly write the expression as a \sodalet-\sodain expression.
-\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithLetIn}]
-  h1(x: Int, y: Int): Int =
-    let
-      a = x + y
-      b = x - y
-    in a * b
-\end{lstlisting}
-
-For technical reasons, each definition should be in its own line, and not in the line of the \sodalet reserved word.
-In addition, the expression evaluated with the bindings has to be in the same line as the \sodain reserved word.
-
-For some people, the result at the beginning could be readable.
-This can be somehow mimic by using a temporary constant stating that it contains the result.
-Something like,
-\begin{lstlisting}[label={lst:exampleFunctionDefinitionWithBlockAndResult}]
-  h2(x: Int, y: Int): Int =
-    let
-      result = a * b
-      a = x + y
-      b = x - y
-    in result
-\end{lstlisting}
-
 Standard arithmetic comparisons are also very useful.
 For example,
 \begin{lstlisting}[label={lst:exampleComparison}]
-  geater_than(a: Int, b: Int): Boolean =
+  geater_than (a : Int) (b : Int) : Boolean =
     a > b
 \end{lstlisting}
 
@@ -115,7 +77,7 @@ The functions \sodaand, \sodaor, and \sodanot have the standard definitions.
 
 Conditions can be also evaluated.
 \begin{lstlisting}[label={lst:exampleMax}]
-  max(a: Int, b: Int): Int =
+  max (a : Int) (b : Int) : Int =
     if a > b
     then a
     else b
@@ -124,17 +86,19 @@ Conditions can be also evaluated.
 We can group the constant and functions in classes.
 
 \begin{lstlisting}[label={lst:exampleClassMax}]
-  class MaxAndMin = {
-    max(a: Int, b: Int): Int =
-      if a > b
-      then a
-      else b
+class MaxAndMin
 
-    min(a: Int, b: Int): Int =
-      if a < b
-      then a
-      else b
-  }
+  max (a : Int) (b : Int) : Int =
+    if a > b
+    then a
+    else b
+
+  min (a : Int) (b : Int) : Int =
+    if a < b
+    then a
+    else b
+
+end
 \end{lstlisting}
 
 And we can have classes derived from \emph{abstract classes}.
@@ -147,26 +111,40 @@ The \emph{concrete classes} can produce instances.
 To create an instance we can just give the parameters, if needed.
 
 \begin{lstlisting}[label={lst:exampleClassMaxAnInstance}]
-  class MinMaxPair(min: Int, max: Int)
+class MinMaxPair
 
-  class Example(index: Int) = {
-    min_max(a: Int, b: Int): MinMaxPair =
-      MinMaxPair(
-        min := ConcreteMaxAndMin().min(a, b),
-        max := ConcreteMaxAndMin().max(a, b)
-      )
-  }
+  abstract
+    min : Int
+    max : Int
+
+end
+
+class Example
+
+  abstract
+    index : Int
+
+  min_max (a : Int) (b : Int) : MinMaxPair =
+    MinMaxPair (
+      min := ConcreteMaxAndMin ().min (a) (b),
+      max := ConcreteMaxAndMin ().max (a) (b)
+    )
+
+end
 \end{lstlisting}
 
 Classes can be marked with \sodapackage reserved word and be put in \emph{packages}, which are collections of classes.
 Classes can contain functions and other classes.
 
-If a constant or function is to be implemented in another class, this can be denoted with \sodahas.
+If a constant or function is to be implemented in another class, this can be denoted with \sodaabstract.
 
 \begin{lstlisting}[label={lst:exampleAbstractFunction}]
-  class Comparable = {
-    has is_greater_than(x: Comparable): Boolean
-  }
+class Comparable
+
+  abstract
+    is_greater_than (x : Comparable) : Boolean
+
+end
 \end{lstlisting}
 
 While the content in classes is public, the content in functions is private.
@@ -176,18 +154,23 @@ Basic Scala types are available (Int, Long, Boolean, Float, Double, String, \ldo
 
 Class definition can be also parameterized:
 \begin{lstlisting}[label={lst:exampleParameterizedClass}]
-  package example
+package example
 
-  class Comparable = {
-    has is_greater_than(x: Comparable): Boolean
-  }
+class Comparable
 
-  class ComparableMax[T subtype Comparable]() = {
-    max(a: T, b: T): T =
-      if a.is_greater_than(b)
-      then a
-      else b
-  }
+  abstract
+    is_greater_than : Comparable -> Boolean
+
+end
+
+class ComparableMax [T subtype Comparable]
+
+  max (a : T) (b : T) : T =
+    if a.is_greater_than(b)
+    then a
+    else b
+
+end
 \end{lstlisting}
 
 Note that, considering packages, every constant, function, or class is defined in only one place, using the \sodadef symbol.
@@ -199,16 +182,23 @@ This means, that all the defining components are explicitly available.
 
 Let us see the following example:
 \begin{lstlisting}[label={lst:exampleExplicitDefinition}]
-  class MyClass (instance_parameter: Int) = {
-    class_constant: Int = 1
+class MyClass
 
-    another_function (x: Int): Int = 2 * x
+  abstract
+    instance_parameter : Int
 
-    class InnerClass() = {
-      main_function (function_parameter: Int): Int =
-        another_function(instance_parameter + class_constant + function_parameter)
-    }
-  }
+  class_constant : Int = 1
+
+  another_function (x : Int) : Int = 2 * x
+
+  class InnerClass
+
+    main_function (function_parameter : Int) : Int =
+      another_function (instance_parameter + class_constant + function_parameter)
+
+  end
+
+end
 \end{lstlisting}
 
 The function \srccode{main\_function} is defined in exactly one place, inside \srccode{example.MyClass.InnerClass}, and to be fully defined it requires:
@@ -223,43 +213,46 @@ The reserved words \sodasubtype and \sodasupertype put constraints in the parame
 JDK classes can be imported, using the \sodaimport command, and can be instantiated with \sodanew.
 
 \begin{lstlisting}[label={lst:exampleJDKImport}]
-  class TimeOfToday() {
-    import java.util.Date
+class TimeOfToday
 
-    get_time: Date = @new Date()
-  }
+    import
+      java.util.Date
+
+    get_time () : Date = @new Date()
+
+end
 \end{lstlisting}
 
 Side effects are strongly discouraged, but they are possible through Java and Scala classes.
 
 For example, a ``Hello world!'' would be:
 \begin{lstlisting}[label={lst:exampleHelloWorld}]
-  class Main() = {
-    main (args: Array[String]) =
-      println("Hello world!")
-  }
+class Main
 
-  @main
+  main (args : Array[String] ) =
+    println ("Hello world!")
+
+end
 \end{lstlisting}
-
-The \sodamain annotation indicates the entry point of execution.
 
 Another antipattern is overriding functionality.
 It is strongly discouraged, but it is the only way of overriding \srccode{toString}, which is available to all objects.
 
 This is:
 \begin{lstlisting}[label={lst:exampleToString}]
-  class PersonName (name: String) = {
-    @override
-    toString = name
-  }
+class PersonName
+
+  abstract
+    name : String
+
+  @override
+  toString = name
+
+end
 \end{lstlisting}
 
 A tail recursion can be explicitly stated with a \sodatailrec annotation.
 
 This language is meant to be concise, but using a reduced number of symbols.
 However, there are a couple of useful synonyms to write a little less.
-
-The symbol \sodaasterisk can be used instead of \sodaclass, regardless if it is abstract or concrete.
-The symbol \sodaplus can be used instead of \sodaimport.
 

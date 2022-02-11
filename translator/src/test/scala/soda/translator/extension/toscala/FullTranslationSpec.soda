@@ -1,12 +1,15 @@
 package soda.translator.extension.toscala
 
-* FullTranslationSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class FullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + org.scalatest.Assertion
-  + soda.translator.parser.BlockProcessor_
-  + java.nio.file.Files
-  + java.nio.file.Paths
+  import
+    org.scalatest.Assertion
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+    java.nio.file.Files
+    java.nio.file.Paths
 
   Base = "/soda/translator/example/"
 
@@ -14,19 +17,19 @@ package soda.translator.extension.toscala
 
   ScalaSuffix = ".scala"
 
-  SwapExample = "SwapExample"
+  SwapExample = "algorithms/SwapExample"
 
-  FiboExample = "FiboExample"
+  FiboExample = "mathematics/FiboExample"
 
-  FactorialConcise = "FactorialConcise"
+  FactorialConcise = "mathematics/FactorialConcise"
 
-  FactorialVerbose = "FactorialVerbose"
+  FactorialVerbose = "mathematics/FactorialVerbose"
 
-  Fairness = "Fairness"
+  Fairness = "ethicalissues/fairness/Fairness"
 
-  PiIterator = "PiIterator"
+  PiIterator = "mathematics/PiIterator"
 
-  ScalaReservedWordEscaping = "ScalaReservedWordEscaping"
+  ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"
 
@@ -34,20 +37,25 @@ package soda.translator.extension.toscala
 
   ManualExpected = "/soda/translator/documentation/Manual.scala"
 
-  test_translation (file_name: String): Assertion =
+  test_translation (file_name : String) : Assertion =
     let
       input_file_name = Base + file_name + SodaSuffix
       expected_file_name = Base + file_name + ScalaSuffix
     in test_translation (input_file_name, expected_file_name)
 
-  test_translation (input_file_name: String, expected_file_name: String): Assertion =
+  test_translation (input_file_name : String, expected_file_name : String) : Assertion =
     let
       input_file = read_file (input_file_name)
       expected = read_file (expected_file_name)
-      obtained = BlockProcessor_ (MicroTranslatorToScala_ ()).translate  (input_file)
+      obtained =
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_()
+          )
+        ).translate (input_file)
     in assert (obtained == expected)
 
-  read_file (file_name: String): String =
+  read_file (file_name : String) : String =
     let
       document_resource = getClass.getResource (file_name)
       document_URI = document_resource.toURI
@@ -99,5 +107,5 @@ package soda.translator.extension.toscala
       result = test_translation (ManualInput, ManualExpected)
     in result
 
-}
+end
 

@@ -1,7 +1,8 @@
 package soda.example.algorithms
 
-* FizzBuzzSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class FizzBuzzSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
   expected = Seq (
     "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
@@ -26,5 +27,5 @@ package soda.example.algorithms
       obtained = FizzBuzzPatternMatching_ ().fizz_buzz
     in assert  (obtained == expected)
 
-}
+end
 

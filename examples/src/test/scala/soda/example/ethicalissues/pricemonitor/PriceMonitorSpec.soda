@@ -1,33 +1,42 @@
 package soda.example.ethicalissues.pricemonitor
 
-* UnfairPricingAgent
-  extends PricingAgent = {
+class UnfairPricingAgent
+  extends
+    PricingAgent
 
-  get_price (customer: Customer, flight: Flight, date: Int): Int =
+  abs_get_price: Customer -> Flight -> Int -> Int =
+    lambda customer ->
+      lambda flight ->
+        lambda date ->
+          get_price_for (customer) (flight) (date)
+
+  get_price_for (customer: Customer) (flight: Flight) (date: Int): Int =
     customer.name.length * (date % 100 + 100 * flight.intermediate_airports.length + 1)
 
-}
+end
 
-* UnfairPricingAgent_ ()
-  extends UnfairPricingAgent
+class FairPricingAgent
+  extends
+    PricingAgent
 
-* FairPricingAgent
-  extends PricingAgent = {
+  abs_get_price: Customer -> Flight -> Int -> Int =
+    lambda customer ->
+      lambda flight ->
+        lambda date ->
+          get_price_for (customer) (flight) (date)
 
-  get_price (customer: Customer, flight: Flight, date: Int): Int =
+  get_price_for (customer: Customer) (flight: Flight) (date: Int): Int =
     100 * (flight.intermediate_airports.length + 1)
 
-}
+end
 
-* FairPricingAgent_ ()
-  extends FairPricingAgent
+class PriceMonitorSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-* PriceMonitorSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
-
-  + java.util.Date
-  + java.util.Calendar
-  + java.util.TimeZone
+  import
+    java.util.Calendar
+    java.util.TimeZone
 
   fair_pricing_agent = FairPricingAgent_ ()
 
@@ -44,43 +53,43 @@ package soda.example.ethicalissues.pricemonitor
   test ("unfair pricing agent - requirement_monitor 1")
     let
       requirement_monitor = Requirement1Monitor_ (unfair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1)
-      expected = Report1 (false, 897, 1495, 0.6)
+      obtained = requirement_monitor.get_report (customer_1) (customer_2) (flight_1) (date_1)
+      expected = Report1_ (false, 897, 1495, 0.6)
     in assert (obtained == expected)
 
   test ("unfair pricing agent - requirement_monitor 2")
     let
       requirement_monitor = Requirement2Monitor_ (unfair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report2 (false, 702, 897)
+      obtained = requirement_monitor.get_report (customer_1) (flight_1) (date_1)
+      expected = Report2_ (false, 702, 897)
     in assert (obtained == expected)
 
   test ("unfair pricing agent - requirement_monitor 3")
     let
       requirement_monitor = Requirement3Monitor_ (unfair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report3 (false, 897, 891)
+      obtained = requirement_monitor.get_report (customer_1) (flight_1) (date_1)
+      expected = Report3_ (false, 897, 891)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 1")
     let
       requirement_monitor = Requirement1Monitor_ (fair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, customer_2, flight_1, date_1)
-      expected = Report1 (true, 300, 300, 1.0)
+      obtained = requirement_monitor.get_report (customer_1) (customer_2) (flight_1) (date_1)
+      expected = Report1_ (true, 300, 300, 1.0)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 2")
     let
       requirement_monitor = Requirement2Monitor_ (fair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report2 (true, 300, 300)
+      obtained = requirement_monitor.get_report (customer_1) (flight_1) (date_1)
+      expected = Report2_ (true, 300, 300)
     in assert (obtained == expected)
 
   test ("fair pricing agent - requirement_monitor 3")
     let
       requirement_monitor = Requirement3Monitor_ (fair_pricing_agent)
-      obtained = requirement_monitor.get_report (customer_1, flight_1, date_1)
-      expected = Report3 (true, 300, 300)
+      obtained = requirement_monitor.get_report (customer_1) (flight_1) (date_1)
+      expected = Report3_ (true, 300, 300)
     in assert (obtained == expected)
 
   test ("get number of days for 1970-01-01")
@@ -105,5 +114,5 @@ package soda.example.ethicalissues.pricemonitor
       expected = 18898
     in assert (obtained == expected)
 
-}
+end
 

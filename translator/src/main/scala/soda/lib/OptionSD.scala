@@ -7,39 +7,66 @@ package soda.lib
 /**
  * This is an Option implemented without exceptions.
  */
-trait OptionSD [A] {
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B
+trait OptionSD [A]
+{
 
-  def map [B] (mapping: A => B ): OptionSD [B]
+  def   toOption: Option [A]
+  def   isEmpty: Boolean
+  def   isDefined: Boolean
+  def   isNonEmpty: Boolean
+  def   toSeq: Seq [A]
 
-  def toOption: Option [A]
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: A => B ): B =
+    this match  {
+      case NoneSD_ () => ifEmpty
+      case SomeSD_ (element ) => ifNonEmpty (element )
+    }
 
-  def isEmpty: Boolean
+  def map [B] (mapping: A => B ): OptionSD [B] =
+    this match  {
+      case NoneSD_ () => NoneSD_ [B] ()
+      case SomeSD_ (element ) => SomeSD_ [B] (mapping (element ) )
+    }
 
-  def isDefined: Boolean
+  def getOrElse (default: A ): A =
+    this match  {
+      case NoneSD_ () => default
+      case SomeSD_ (element ) => element
+    }
 
-  def isNonEmpty: Boolean
+  def fold [B] (ifEmpty: B ) (f: A => B ): B =
+    this match  {
+      case NoneSD_ () => ifEmpty
+      case SomeSD_ (element ) => f (element )
+    }
 
-  def toSeq: Seq [A]
+  def flatMap [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
+    this match  {
+      case NoneSD_ () => NoneSD_ ()
+      case SomeSD_ (element ) => mapping (element )
+    }
 
-  def getOrElse (default: A ): A
+  def bind [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
+    flatMap [B] (mapping )
 
-  def fold [B] (ifEmpty: B, f: A => B ): B
-
-  def flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
-
-  def bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B]
-
-  def filter (predicate: A => Boolean ): OptionSD [A]
+  def filter (predicate: A => Boolean ): OptionSD [A] =
+    this match  {
+      case NoneSD_ () => NoneSD_ ()
+      case SomeSD_ (element ) =>
+        if (predicate (element )
+        ) this
+        else NoneSD_ [A] ()
+    }
 
 }
 
-trait NoneSD [A]  extends OptionSD [A] {
+case class OptionSD_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A]) extends OptionSD [A]
 
-  def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B = ifEmpty
-
-  def map [B] (mapping: A => B ): NoneSD [B] = NoneSD_ [B] ()
+trait NoneSD [A]
+  extends
+    OptionSD [A]
+{
 
   lazy val toOption: None.type = None
 
@@ -51,33 +78,34 @@ trait NoneSD [A]  extends OptionSD [A] {
 
   lazy val toSeq: Seq [A] = Seq ()
 
-  def getOrElse (default: A ): A = default
+}
 
-  def fold [B] (ifEmpty: B, f: A => B ): B = opt (ifEmpty, f )
+case class NoneSD_ [A] () extends NoneSD [A]
 
-  def flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B] = NoneSD_ [B] ()
+trait OptionSDWithElement [A]
+  extends
+    OptionSD [A]
+{
 
-  def bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B] = flatMap [B] (mapping )
-
-  def filter (predicate: A => Boolean ): OptionSD [A] = this
+  def   toOption: Option [A]
+  def   isEmpty: Boolean
+  def   isDefined: Boolean
+  def   isNonEmpty: Boolean
+  def   toSeq: Seq [A]
+  def   element: A
 
 }
 
-case class NoneSD_ [A] ()  extends NoneSD [A]
+case class OptionSDWithElement_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A], element: A) extends OptionSDWithElement [A]
 
-trait OptionSDWithElement [A]  extends OptionSD [A] {
+trait SomeSD [A]
+  extends
+    OptionSDWithElement [A]
+{
 
-  def element: A
-
-}
-
-trait SomeSD [A]  extends OptionSDWithElement [A] {
+  def   element: A
 
   lazy val value: A = element
-
-  def opt [B] (ifEmpty: B, ifNonEmpty: A => B ): B = ifNonEmpty (element )
-
-  def map [B] (mapping: A => B ): SomeSD [B] = SomeSD_ [B] (mapping (element )  )
 
   lazy val toOption: Some [A] = Some [A] (element )
 
@@ -89,27 +117,18 @@ trait SomeSD [A]  extends OptionSDWithElement [A] {
 
   lazy val toSeq: Seq [A] = Seq (element )
 
-  def getOrElse (default: A ): A = element
-
-  def fold [B] (ifEmpty: B, f: A => B ): B = opt (ifEmpty, f )
-
-  def flatMap [B] (mapping: A => OptionSD [B]  ): OptionSD [B] = mapping (element )
-
-  def bind [B] (mapping: A => OptionSD [B]  ): OptionSD [B] = flatMap [B] (mapping )
-
-  def filter (predicate: A => Boolean ): OptionSD [A] = if (predicate (element ) ) this else NoneSD_ [A] ()
-
 }
 
-case class SomeSD_ [A] (element: A )  extends SomeSD [A]
+case class SomeSD_ [A] (element: A) extends SomeSD [A]
 
-trait OptionSDBuilder [A] {
+trait OptionSDBuilder [A]
+{
 
-  def build (option: Option [A]  ): OptionSD [A] =
+  def build (option: Option [A] ): OptionSD [A] =
     if (option.isEmpty
     ) NoneSD_ [A] ()
     else SomeSD_ [A] (option.get )
 
 }
 
-case class OptionSDBuilder_ [A] ()  extends OptionSDBuilder [A]
+case class OptionSDBuilder_ [A] () extends OptionSDBuilder [A]

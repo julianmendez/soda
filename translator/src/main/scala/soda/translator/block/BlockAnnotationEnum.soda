@@ -1,53 +1,57 @@
 package soda.translator.block
 
-* BlockAnnotationId (ordinal: Int, name: String)
-  extends soda.lib.EnumConstant
+class BlockAnnotationId
+  extends
+    soda.lib.EnumConstant
 
-* BlockAnnotationEnum
-  extends soda.lib.Enum [BlockAnnotationId] = {
+  abstract
+    ordinal : Int
+    name : String
 
-  undefined = BlockAnnotationId (0, "undefined")
+end
 
-  function_definition = BlockAnnotationId (1, "function_definition")
+class BlockAnnotationEnum
+  extends
+    soda.lib.Enum [BlockAnnotationId]
 
-  class_beginning = BlockAnnotationId (2, "class_beginning")
+  undefined = BlockAnnotationId_ (0, "undefined")
 
-  class_end = BlockAnnotationId (3, "class_end")
+  function_definition = BlockAnnotationId_ (1, "function_definition")
 
-  class_declaration = BlockAnnotationId (4, "class_end")
+  class_beginning = BlockAnnotationId_ (2, "class_beginning")
 
-  abstract_function_declaration = BlockAnnotationId (5, "abstract_function_declaration")
+  class_end = BlockAnnotationId_ (3, "class_end")
 
-  import_declaration = BlockAnnotationId (6, "import_declaration")
+  abstract_declaration = BlockAnnotationId_ (4, "abstract_declaration")
 
-  package_declaration = BlockAnnotationId (7, "package_declaration")
+  import_declaration = BlockAnnotationId_ (5, "import_declaration")
 
-  theorem_block = BlockAnnotationId (8, "theorem_block")
+  package_declaration = BlockAnnotationId_ (6, "package_declaration")
 
-  proof_block = BlockAnnotationId (9, "proof_block")
+  class_alias = BlockAnnotationId_ (7, "class_alias")
 
-  comment = BlockAnnotationId (10, "comment")
+  theorem_block = BlockAnnotationId_ (8, "theorem_block")
 
-  test_declaration = BlockAnnotationId (11, "comment")
+  proof_block = BlockAnnotationId_ (9, "proof_block")
+
+  comment = BlockAnnotationId_ (10, "comment")
+
+  test_declaration = BlockAnnotationId_ (11, "test_declaration")
 
   values =
     Seq (
       undefined,
       function_definition,
-      abstract_function_declaration,
       class_beginning,
       class_end,
-      class_declaration,
-      package_declaration,
+      abstract_declaration,
       import_declaration,
+      package_declaration,
+      class_alias,
       theorem_block,
       proof_block,
       comment,
       test_declaration
     )
 
-}
-
-* BlockAnnotationEnum_ ()
-  extends BlockAnnotationEnum
-
+end

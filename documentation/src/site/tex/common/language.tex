@@ -1,8 +1,8 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={if, then, else, let, in, match, case, end, class, has, extends, with, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, is, lambda, @new, @tailrec, @override, @main},
-    sensitive=true, % keywords are not case-sensitive
+    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, is, @new, @tailrec, @override},
+    sensitive=true, % keywords are not case-sensitive by default
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
 } %
@@ -46,21 +46,20 @@
 \newcommand{\sodaimplies}{{=\textgreater}\xspace}
 \newcommand{\sodadefparam}{\srccode{:=}\xspace}
 
+\newcommand{\sodalambda}{\reservedWordSoda{lambda}}
+
 \newcommand{\sodaif}{\reservedWordSoda{if}}
 \newcommand{\sodathen}{\reservedWordSoda{then}}
 \newcommand{\sodaelse}{\reservedWordSoda{else}}
 
-\newcommand{\sodalet}{\reservedWordSoda{let}}
-\newcommand{\sodain}{\reservedWordSoda{in}}
-
 \newcommand{\sodamatch}{\reservedWordSoda{match}}
 \newcommand{\sodacase}{\reservedWordSoda{case}}
-\newcommand{\sodaend}{\reservedWordSoda{end}}
+\newcommand{\sodaendmatch}{\reservedWordSoda{end}}
 
 \newcommand{\sodaclass}{\reservedWordSoda{class}}
-\newcommand{\sodahas}{\reservedWordSoda{has}}
 \newcommand{\sodaextends}{\reservedWordSoda{extends}}
-\newcommand{\sodawith}{\reservedWordSoda{with}}
+\newcommand{\sodaabstract}{\reservedWordSoda{abstract}}
+\newcommand{\sodaendclass}{\reservedWordSoda{end}}
 \newcommand{\sodathis}{\reservedWordSoda{this}}
 \newcommand{\sodasubtype}{\reservedWordSoda{subtype}}
 \newcommand{\sodasupertype}{\reservedWordSoda{supertype}}
@@ -77,17 +76,11 @@
 \newcommand{\sodanew}{\annotation{@new}}
 \newcommand{\sodatailrec}{\annotation{@tailrec}}
 \newcommand{\sodaoverride}{\annotation{@override}}
-\newcommand{\sodamain}{\annotation{@main}}
 
 \newcommand{\sodaequalsSign}{\reservedWordSoda{==}}
 
-\newcommand{\sodaasterisk}{\reservedWordSoda{*}}
-\newcommand{\sodaplus}{\reservedWordSoda{+}}
 \newcommand{\sodabar}{\reservedWordSoda{|}}
-
 \newcommand{\sodais}{\reservedWordSoda{is}}
-\newcommand{\sodalambda}{\reservedWordSoda{lambda}}
-
 \newcommand{\sodalessthancolon}{\reservedWordSoda{<:}}
 \newcommand{\sodagreaterthancolon}{\reservedWordSoda{>:}}
 

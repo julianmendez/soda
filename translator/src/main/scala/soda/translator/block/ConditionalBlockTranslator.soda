@@ -1,0 +1,18 @@
+package soda.translator.block
+
+class ConditionalBlockTranslator
+  extends
+    BlockTranslator
+
+  abstract
+    accepted_annotations : Seq [BlockAnnotationId]
+    translator : BlockTranslator
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      if accepted_annotations.contains (block.block_annotation)
+      then translator.translate (block)
+      else block
+
+end
+

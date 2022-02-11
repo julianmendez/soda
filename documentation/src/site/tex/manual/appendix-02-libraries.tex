@@ -1,53 +1,47 @@
 \chapter{Libraries}
 
 \begin{lstlisting}[label={lst:fold}]
-  fold [A, B, C subtype B] (
-      sequence: Seq [A],
-      initial_value: C,
-      next_value_function: (B, A) -> C,
-      condition: (B, A) -> Boolean
-  ): C =
-    let
-      @tailrec
-      rec (seq: Seq [A], acc: C): C =
-        if seq.isEmpty
-        then acc
-        else
-          if not condition (acc, seq.head)
-          then acc
-          else rec (seq.tail, next_value_function (acc, seq.head))
 
-    in rec (sequence, initial_value)
+  @tailrec
+  _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    if sequence.isEmpty
+    then current_value
+    else
+      if not condition (current_value) (sequence.head)
+      then current_value
+      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+
+  fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 \end{lstlisting}
 
 \begin{lstlisting}[label={lst:range}]
-  range (length: Int): Seq [Int] =
-    let
-      @tailrec
-      rec (n: Int, seq: Seq [Int]): Seq [Int] =
-        if n <= 0
-        then seq
-        else rec (n - 1, seq.+: (n - 1))
+  @tailrec
+  _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    if n <= 0
+    then sequence
+    else _tailrec_range (n - 1) (sequence.+: (n - 1) )
 
-    in rec (length, Seq [Int] ())
+  range (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
 \end{lstlisting}
 
 
 \begin{lstlisting}[label={lst:option}]
-class OptionSD [A] = {
+class OptionSD [A]
 
-  has opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
+  abstract
+    opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B
+    isEmpty: Boolean
+    getOrElse (default: A): A
+    fold [B] (ifEmpty: B, f: A -> B): B
+    flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B]
 
-  has isEmpty: Boolean
+end
 
-  has getOrElse (default: A): A
-
-  has fold [B] (ifEmpty: B, f: A -> B): B
-
-  has flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B]
-}
-
-class NoneSD [A] extends OptionSD [A] = {
+class NoneSD [A]
+  extends
+    OptionSD [A]
 
   opt [B] (ifEmpty: B, ifNonEmpty: A -> B): B = ifEmpty
 
@@ -58,13 +52,21 @@ class NoneSD [A] extends OptionSD [A] = {
   fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
 
   flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = NoneSD_ [B] ()
-}
 
-class NoneSD_ [A] () extends NoneSD [A]
+end
 
-class SomeSD [A] extends OptionSD [A] = {
+class NoneSD_ [A] ()
+  extends
+    NoneSD [A]
 
-  has element: A
+end
+
+class SomeSD [A]
+  extends
+    OptionSD [A]
+
+  abstract
+    element: A
 
   value: A = element
 
@@ -77,8 +79,13 @@ class SomeSD [A] extends OptionSD [A] = {
   fold [B] (ifEmpty: B, f: A -> B): B = opt (ifEmpty, f)
 
   flatMap [B] (mapping: A -> OptionSD [B]): OptionSD [B] = mapping (element)
-}
 
-class SomeSD_ [A] (element: A) extends SomeSD [A]
+end
+
+class SomeSD_ [A] (element: A)
+  extends
+    SomeSD [A]
+
+end
 \end{lstlisting}
 

@@ -1,61 +1,70 @@
 package soda.translator.extension.help
 
-* Help
-  extends soda.translator.extension.common.Extension = {
+class AbstractHelp
+  extends
+    soda.translator.extension.common.Extension
 
-  + soda.lib.SomeSD_
-  + soda.translator.io.SimpleFileReader_
+  abstract
+    execute : Seq [String] -> Boolean
 
-  has execute (arguments: Seq [String]): Boolean
+  import
+    soda.lib.SomeSD_
+    soda.translator.io.SimpleFileReader_
 
-  path: String = "/soda/translator/documentation/"
+  path : String = "/soda/translator/documentation/"
 
-  read (file_name: String): String =
+  read (file_name : String) : String =
     SimpleFileReader_ ().read_resource (path + file_name)
 
   this_package = this.getClass.getPackage
 
-  name: String = Option (this_package.getImplementationTitle).getOrElse ("")
+  name : String = Option (this_package.getImplementationTitle).getOrElse ("")
 
-  version: String = Option (this_package.getImplementationVersion).getOrElse ("")
+  version : String = Option (this_package.getImplementationVersion).getOrElse ("")
 
-  title_and_version: String = (name + " " + version).trim
+  title_and_version : String = (name + " " + version).trim
 
-  output_content (content: String): Boolean =
+  output_content (content : String) : Boolean =
     SomeSD_ (content)
-      .map (x -> println (x) )
-      .map (x -> true)
-      .value
+      .map (lambda x -> println (x) )
+      .map (lambda x -> true)
+      .getOrElse (false)
 
-}
+end
 
-* Help_ ()
-  extends Help = {
+class Help
+  extends
+    AbstractHelp
 
   file_name = "help.txt"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content (title_and_version + "\n\n" + read (file_name) )
+  execute : Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content (title_and_version + "\n\n" + read (file_name) )
 
-}
+end
 
-* Manual_ ()
-  extends Help = {
+class Manual
+  extends
+    AbstractHelp
 
   file_name = "Manual.soda"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
+  execute : Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
 
-}
+end
 
-* License_ ()
-  extends Help = {
+class License
+  extends
+    AbstractHelp
 
   file_name = "LICENSE.txt"
 
-  execute (arguments: Seq [String]): Boolean =
-    output_content (read (file_name))
+  execute : Seq [String] -> Boolean =
+    lambda arguments ->
+      output_content (read (file_name))
 
-}
+end
 

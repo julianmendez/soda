@@ -1,15 +1,24 @@
 package soda.translator.extension.toscala
 
-case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class MultiLineSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
-  import soda.translator.block.AnnotatedBlock
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.block.DefaultBlockTranslator_
-  import soda.translator.blocktr.LineForwardJoinerBlockTranslator_
-  import soda.translator.parser.BlockBuilder_
-  import soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.annotation.AnnotationFactory_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockProcessor_
 
-  lazy val bp = BlockProcessor_ (DefaultBlockTranslator_ ()  )
+  lazy val bp =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   lazy val mt = MicroTranslatorToScala_ ()
 
@@ -23,9 +32,21 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  lazy val original_input_lines = Seq ("  value = 1", "  sequence = Seq(1 ,", "    2,  ", "    3)", "  f( x: Int,\t", "     y: Int,", "     z: Int) =", "       x * x + y * y + z * z")
+  lazy val original_input_lines = Seq (
+    "  value = 1",
+    "  sequence = Seq(1 ,",
+    "    2,  ",
+    "    3)",
+    "  f( x: Int,\t",
+    "     y: Int,",
+    "     z: Int) =",
+    "       x * x + y * y + z * z")
 
-  lazy val joined_comma_lines = Seq ("  value = 1", "  sequence = Seq(1 ,    2,      3)", "  f( x: Int,\t     y: Int,     z: Int) =", "       x * x + y * y + z * z")
+  lazy val joined_comma_lines = Seq (
+    "  value = 1",
+    "  sequence = Seq(1 ,    2,      3)",
+    "  f( x: Int,\t     y: Int,     z: Int) =",
+    "       x * x + y * y + z * z")
 
   lazy val joined_output =
     "  value = 1\n" +
@@ -38,18 +59,12 @@ case class MultiLineSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
     "       x * x + y * y + z * z"
 
   def build_block (lines: Seq [String]  ): AnnotatedBlock =
-    BlockBuilder_ () .build (lines, BlockAnnotationEnum_ () .undefined )
+    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines ) )
 
   test ("should split a program in multiple lines")
     {
       lazy val obtained = bp.make_block (original_input )
       lazy val expected = build_block (original_input_lines )
-      assert (obtained == expected ) }
-
-  test ("should preprocess the comma in multiple lines")
-    {
-      lazy val obtained = LineForwardJoinerBlockTranslator_ () .translate (build_block (original_input_lines ) )
-      lazy val expected = build_block (joined_comma_lines )
       assert (obtained == expected ) }
 
   test ("should join the translated lines of a program")

@@ -1,88 +1,171 @@
 package soda.translator.parser
 
-* SodaConstant = {
+class SodaConstant
 
   space = " "
 
   new_line = "\n"
 
-  has_reserved_word = "has"
+  function_definition_symbol = "="
+
+  type_membership_symbol = ":"
+
+  function_arrow_symbol = "->"
+
+  lambda_arrow_symbol = "->"
+
+  case_arrow_symbol = "=>"
+
+  parameter_definition_symbol = ":="
+
+  lambda_reserved_word = "lambda"
+
+  if_reserved_word = "if"
+
+  then_reserved_word = "then"
+
+  else_reserved_word = "else"
+
+  match_reserved_word = "match"
+
+  case_reserved_word = "case"
+
+  match_end_reserved_word = "end"
 
   class_reserved_word = "class"
 
-  class_abbreviation = "*"
+  extends_reserved_word = "extends"
 
-  class_open_symbol = "{"
+  abstract_reserved_word = "abstract"
 
-  class_close_symbol = "}"
+  class_end_reserved_word = "end"
 
-  function_definition_symbol = "="
+  this_reserved_word = "this"
 
-  function_definition_synonym = "is"
+  subtype_reserved_word = "subtype"
+
+  supertype_reserved_word = "supertype"
+
+  false_reserved_word = "false"
+
+  true_reserved_word = "true"
+
+  not_reserved_word = "not"
+
+  and_reserved_word = "and"
+
+  or_reserved_word = "or"
 
   package_reserved_word = "package"
 
   import_reserved_word = "import"
 
-  import_abbreviation = "+"
-
-  test_special_function = "test"
-
   theorem_reserved_word = "theorem"
 
   proof_reserved_word = "proof"
 
-  comment_open = "/*"
+  constructor_suffix = "_"
 
-  comment_close = "*/"
+  function_definition_synonym = "is"
+
+  test_special_function = "test"
+
+  subtype_abbreviation = "<:"
+
+  supertype_abbreviation =  ">:"
+
+  opening_parenthesis_symbol = "("
+
+  closing_parenthesis_symbol = ")"
+
+  opening_bracket_symbol = "["
+
+  closing_bracket_symbol = "]"
+
+  parameter_separator_symbol = ","
+
+  addition_symbol = "+"
+
+  subtraction_symbol = "-"
+
+  multiplication_symbol = "*"
+
+  division_symbol = "/"
+
+  modulo_symbol = "%"
+
+  case_abbreviation = "|"
+
+  comment_opening_symbol = "/*"
+
+  comment_closing_symbol = "*/"
 
   tail_recursion_annotation = "@tailrec"
 
   override_annotation = "@override"
 
+  deprecated_let_reserved_word = "let"
+
+  deprecated_in_reserved_word = "in"
+
+  deprecated_has_reserved_word = "has"
+
+  deprecated_with_reserved_word = "with"
+
+  deprecated_class_abbreviation = "*"
+
+  deprecated_class_beginning_symbol = "{"
+
+  deprecated_class_end_symbol = "}"
+
+  deprecated_class_definition_symbol = "="
+
+  deprecated_class_definition_synonym = "is"
+
+  deprecated_import_abbreviation = "+"
+
   soda_reserved_words = Seq (
-    "=",
-    ":",
-    "->",
-    "=>",
-    ":=",
-    "if",
-    "then",
-    "else",
-    "let",
-    "in",
-    "match",
-    "case",
-    "end",
-    "class",
-    "has",
-    "extends",
-    "with",
-    "this",
-    "subtype",
-    "supertype",
-    "false",
-    "true",
-    "not",
-    "and",
-    "or",
-    "package",
-    "import",
-    "theorem",
-    "proof",
-    "is",
-    "lambda",
-    "<:",
-    ">:",
-    "+",
-    "-",
-    "*",
-    "/",
-    "|"
+    function_definition_symbol,
+    type_membership_symbol,
+    function_arrow_symbol,
+    case_arrow_symbol,
+    parameter_definition_symbol,
+    lambda_reserved_word,
+    if_reserved_word,
+    then_reserved_word,
+    else_reserved_word,
+    match_reserved_word,
+    case_reserved_word,
+    class_reserved_word,
+    extends_reserved_word,
+    abstract_reserved_word,
+    class_end_reserved_word,
+    this_reserved_word,
+    subtype_reserved_word,
+    supertype_reserved_word,
+    false_reserved_word,
+    true_reserved_word,
+    not_reserved_word,
+    and_reserved_word,
+    or_reserved_word,
+    package_reserved_word,
+    import_reserved_word,
+    theorem_reserved_word,
+    proof_reserved_word,
+    addition_symbol,
+    subtraction_symbol,
+    multiplication_symbol,
+    division_symbol,
+    modulo_symbol,
+    function_definition_synonym,
+    subtype_abbreviation,
+    supertype_abbreviation,
+    case_abbreviation,
+    deprecated_let_reserved_word,
+    deprecated_in_reserved_word,
+    deprecated_has_reserved_word,
+    deprecated_with_reserved_word
   )
 
-}
-
-* SodaConstant_ ()
-  extends SodaConstant
+end
 

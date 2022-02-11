@@ -1,16 +1,24 @@
 package soda.translator.extension.toscala
 
-* MultiLineSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class MultiLineSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.block.DefaultBlockTranslator_
-  + soda.translator.blocktr.LineForwardJoinerBlockTranslator_
-  + soda.translator.parser.BlockBuilder_
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.DefaultBlockTranslator_
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.annotation.AnnotationFactory_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockProcessor_
 
-  bp = BlockProcessor_ (DefaultBlockTranslator_ ())
+  bp =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
   mt = MicroTranslatorToScala_ ()
 
@@ -51,18 +59,12 @@ package soda.translator.extension.toscala
     "       x * x + y * y + z * z"
 
   build_block (lines: Seq [String]): AnnotatedBlock =
-    BlockBuilder_ ().build (lines, BlockAnnotationEnum_ ().undefined)
+    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
 
   test ("should split a program in multiple lines")
     let
       obtained = bp.make_block (original_input)
       expected = build_block (original_input_lines )
-    in assert(obtained == expected)
-
-  test ("should preprocess the comma in multiple lines")
-    let
-      obtained = LineForwardJoinerBlockTranslator_ ().translate (build_block (original_input_lines) )
-      expected = build_block (joined_comma_lines)
     in assert(obtained == expected)
 
   test ("should join the translated lines of a program")
@@ -71,5 +73,5 @@ package soda.translator.extension.toscala
       expected = bp.make_block (joined_output)
     in assert(obtained == expected)
 
-}
+end
 

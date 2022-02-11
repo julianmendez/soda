@@ -1,10 +1,11 @@
 package soda.translator.parser
 
-* BlockSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class BlockSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + soda.translator.block.AnnotatedLine_
-  + soda.translator.block.BlockAnnotationEnum_
+  import
+    soda.translator.block.AnnotatedLine_
 
   /* This is to test how to find commented text. */
   test ("should find commented text")
@@ -27,8 +28,8 @@ package soda.translator.parser
         AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment := false),
         AnnotatedLine_ ("}", is_comment := false)
       )
-      obtained = BlockBuilder_ ().build (input, BlockAnnotationEnum_ ().undefined).annotated_lines
+      obtained = BlockBuilder_ ().build (input).annotated_lines
     in assert (obtained == expected)
 
-}
+end
 

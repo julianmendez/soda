@@ -5,3 +5,10 @@ package soda.translator.extension.tocoq
  */
 
 trait Package
+{
+
+}
+
+case class Package_ () extends Package
+
+

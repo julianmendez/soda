@@ -1,9 +1,12 @@
 package soda.translator.extension.toscala
 
-* BeautifierSpec ()
-  extends org.scalatest.funsuite.AnyFunSuite = {
+class BeautifierSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
 
-  + soda.translator.parser.BlockProcessor_
+  import
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
 
   test ("the translated source code should not have too many unnecessary spaces")
     let
@@ -11,8 +14,13 @@ package soda.translator.extension.toscala
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
       expected = "  def beautify_this  (original: String   ): String =\n" +
         "    original .replaceAll (\"  \", \" \")   \n"
-      obtained = BlockProcessor_(MicroTranslatorToScala_()).translate (original)
+      obtained =
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_()
+          )
+        ).translate (original)
     in assert (obtained == expected)
 
-}
+end
 

@@ -1,51 +1,115 @@
 package soda.translator.extension.toscala
 
-* ClassDeclarationBlockTranslator
-  extends soda.translator.block.BlockTranslator = {
+class ClassDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
 
-  + soda.translator.block.AnnotatedBlock
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.block.Translator
-  + soda.translator.blocktr.TokenizedBlockTranslator_
-  + soda.translator.blocktr.TableTranslator_
-  + soda.translator.replacement.Replacement_
-  + soda.translator.replacement.Token
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.block.Translator
+    soda.translator.blocktr.TableTranslator_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
+    soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation_
+    soda.translator.replacement.Replacement_
 
-  soda_opening_parenthesis: String = "("
+  sc = SodaConstant_ ()
 
   tc = TranslationConstantToScala_ ()
 
-  _labels = BlockAnnotationEnum_ ()
+  soda_space : String = sc.space
 
-  replace_token: Token -> String =
-    lambda token ->
-      Replacement_ (token.text)
-        .replace_at_beginning (token.index, get_table_translator (token.text) )
-        .line
+  scala_space : String = " "
 
-  get_table_translator (line: String): Translator =
-    TableTranslator_ (
-      Seq (Tuple2 (tc.soda_class_reserved_word, get_class_declaration_translation (line) ) )
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      translate_for (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      | block : ClassBeginningAnnotation => _translate_class_beginning_block (block)
+      | block : ClassAliasAnnotation => _translate_class_alias_block (block)
+      | x => annotated_block
+    end
+
+  _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
+
+  _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder_ ().build (
+      if (has_condition_for_type_alias (get_first_line (block) ) )
+      then _process_head (block) ++ _process_tail (block)
+      else _process_head (block) ++ _process_tail (block) ++  Seq [String] (tc.scala_class_begin_symbol)
     )
 
-  get_class_declaration_translation (line: String): String =
-    if line.contains (soda_opening_parenthesis)
+  _process_head (block : Block) : Seq [String] =
+    _process_head_with (get_first_line (block), block)
+
+  _process_head_with (line : String, block : Block) : Seq [String] =
+    Seq [String] (Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) )
+
+  _process_tail (block : Block) : Seq [String] =
+    _process_if_extends (remove_first_line (block) )
+
+  _process_if_extends (block : Block) : Seq [String] =
+    if (get_first_line (block).trim == sc.extends_reserved_word)
+    then Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
+    else block.lines
+
+  get_table_translator (line : String) : Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (sc.class_reserved_word, get_class_declaration_translation (line) ) )
+    )
+
+  get_class_declaration_translation (line : String) : String =
+    if line.contains (sc.opening_parenthesis_symbol)
     then tc.class_declaration_translation_at_beginning_with_paren
     else
-      if DefinitionLineTranslator_ (line).condition_for_type_alias
+      if has_condition_for_type_alias (line)
       then tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
       else tc.class_declaration_translation_at_beginning_without_paren
 
-  translator = TokenizedBlockTranslator_ (replace_token)
+  get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (lambda ch -> ch.isSpaceChar)
+      .length
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    if block.block_annotation == _labels.class_beginning
-      or block.block_annotation == _labels.class_declaration
-    then translator.translate (block)
-    else block
+  get_spaces_at_beginning (line : String) : String =
+    line.substring (0, get_number_of_spaces_at_beginning (line) )
 
-}
+  _process_after_extends (block : Block) : Seq [String] =
+    if (get_first_line (block).trim.nonEmpty)
+    then Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (lambda line -> get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
+    else Seq [String] ()
 
-* ClassDeclarationBlockTranslator_ ()
-  extends ClassDeclarationBlockTranslator
+  remove_first_line (block : Block) : Block =
+    BlockBuilder_ ().build (
+      if block.lines.isEmpty
+      then block.lines
+      else block.lines.tail
+    )
+
+  get_first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("")
+
+  ends_with_equals (line : String) : Boolean =
+    line.trim.endsWith (sc.deprecated_class_definition_symbol)
+
+  ends_with_opening_brace (line : String) : Boolean =
+    line.trim.endsWith (sc.deprecated_class_beginning_symbol)
+
+  contains_equals (line : String) : Boolean =
+    line.trim.contains (sc.function_definition_symbol)
+
+  has_condition_for_type_alias (line : String) : Boolean =
+    contains_equals (line) and not (ends_with_equals (line) or ends_with_opening_brace (line) )
+
+end
 

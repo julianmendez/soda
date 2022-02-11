@@ -1,9 +1,14 @@
 package soda.translator.parser.annotation
 
-trait TheoremBlockAnnotation  extends BlockAnnotation {
+trait TheoremBlockAnnotation
+  extends
+    BlockAnnotationParser
+{
 
-  import soda.translator.block.BlockAnnotationEnum_
-  import soda.translator.parser.SodaConstant_
+  def   block: soda.translator.block.Block
+
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .theorem_block
 
@@ -13,4 +18,4 @@ trait TheoremBlockAnnotation  extends BlockAnnotation {
 
 }
 
-case class TheoremBlockAnnotation_ (block: soda.translator.block.Block )  extends TheoremBlockAnnotation
+case class TheoremBlockAnnotation_ (block: soda.translator.block.Block) extends TheoremBlockAnnotation

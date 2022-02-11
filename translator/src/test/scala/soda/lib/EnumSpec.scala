@@ -1,10 +1,19 @@
 package soda.lib
 
-trait DayOfTheWeek extends EnumConstant
+trait DayOfTheWeek
+  extends
+    EnumConstant
+{
 
-case class DayOfTheWeek_ (ordinal: Int, name: String ) extends DayOfTheWeek
+  def   ordinal: Int
+  def   name: String
 
-trait DayOfTheWeekConstant {
+}
+
+case class DayOfTheWeek_ (ordinal: Int, name: String) extends DayOfTheWeek
+
+trait DayOfTheWeekConstant
+{
 
   lazy val sunday = DayOfTheWeek_ (0, "Sunday")
 
@@ -24,7 +33,12 @@ trait DayOfTheWeekConstant {
 
 }
 
-trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
+case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
+
+trait DayOfTheWeekEnum
+  extends
+    DayOfTheWeekConstant
+{
 
   lazy val values = DayOfTheWeek_values
 
@@ -32,7 +46,10 @@ trait DayOfTheWeekEnum extends DayOfTheWeekConstant {
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
-case class EnumSpec ()  extends org.scalatest.funsuite.AnyFunSuite {
+case class EnumSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
 
   test ("the names of the elements in enumerations")
     {

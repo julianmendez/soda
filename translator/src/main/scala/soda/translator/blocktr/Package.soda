@@ -6,5 +6,7 @@ package soda.translator.blocktr
  * @see soda.translator.block.BlockTranslator
  */
 
-* Package
+class Package
+
+end
 

@@ -1,20 +1,23 @@
 package soda.translator.parser.annotation
 
-* ClassEndAnnotation
-  extends BlockAnnotation = {
+class ClassEndAnnotation
+  extends
+    BlockAnnotationParser
 
-  + soda.translator.block.BlockAnnotationEnum_
-  + soda.translator.parser.SodaConstant_
+  abstract
+    block : soda.translator.block.Block
+    references : Seq [soda.translator.block.AnnotatedBlock]
+
+  import
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.SodaConstant_
 
   identifier = BlockAnnotationEnum_ ().class_end
 
-  applies: Boolean =
-    contains_one_line and
+  applies : Boolean =
     block.readable_lines.nonEmpty and
-    (block.readable_lines.head.line.trim == SodaConstant_ ().class_close_symbol )
+    ( (block.readable_lines.head.line.trim == SodaConstant_ ().deprecated_class_end_symbol) or
+      (block.readable_lines.head.line.trim == SodaConstant_ ().class_end_reserved_word) )
 
-}
-
-* ClassEndAnnotation_ (block: soda.translator.block.Block)
-  extends ClassEndAnnotation
+end
 

@@ -1,21 +1,22 @@
 package soda.translator.block
 
-* BlockTranslatorPipeline
-  extends BlockTranslator = {
+class BlockTranslatorPipeline
+  extends
+    BlockTranslator
 
-  + soda.lib.Recursion_
+  import
+    soda.lib.Recursion_
 
-  has pipeline: Seq [BlockTranslator]
+  abstract
+    pipeline : Seq [BlockTranslator]
 
-  translate (block: AnnotatedBlock): AnnotatedBlock =
-    Recursion_ ()
-      .fold (pipeline, block, _next_value_function)
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block ->
+      Recursion_ ()
+        .fold (pipeline) (block) (_next_value_function)
 
-  _next_value_function (block: AnnotatedBlock, translator: BlockTranslator): AnnotatedBlock =
+  _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator.translate (block)
 
-}
-
-* BlockTranslatorPipeline_ (pipeline: Seq [BlockTranslator])
-  extends BlockTranslatorPipeline
+end
 

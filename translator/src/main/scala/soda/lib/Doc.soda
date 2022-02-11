@@ -7,8 +7,10 @@ package soda.lib
 /**
  * All concrete classes extending this class need to have a 'doc' attribute.
  */
-* Doc = {
 
-  has doc: String
+class Doc
 
-}
+  abstract
+    doc : String
+
+end
