@@ -1,6 +1,6 @@
 ---
 - - version: v0.14.0
-  - date: unreleased
+  - date: '2022-02-11'
   - new_features:
     - uses curried functions instead of the uncurried ones, for example, replacing `f (x, y)` by `f (x) (y)`
     - generates default constructors for all the abstract classes and these constructors are named like the class with an underscore (`_`) at the end
@@ -25,7 +25,7 @@
   - build: sbt '++ 3.1.1' clean compile test package assembly
   - release: target/scala-3.1.1/soda-0.14.0.jar
 - - version: v0.13.0
-  - date: '2021-01-14'
+  - date: '2022-01-14'
   - build: sbt '++ 3.1.0' clean compile test package assembly
   - new_features:
     - compiles with Scala 3.1.0
