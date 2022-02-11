@@ -2,7 +2,7 @@
 
 \lstdefinelanguage{Soda}{
     morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, is, @new, @tailrec, @override},
-    sensitive=true, % keywords are not case-sensitive
+    sensitive=true, % keywords are not case-sensitive by default
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
 } %
@@ -54,11 +54,12 @@
 
 \newcommand{\sodamatch}{\reservedWordSoda{match}}
 \newcommand{\sodacase}{\reservedWordSoda{case}}
+\newcommand{\sodaendmatch}{\reservedWordSoda{end}}
 
 \newcommand{\sodaclass}{\reservedWordSoda{class}}
 \newcommand{\sodaextends}{\reservedWordSoda{extends}}
 \newcommand{\sodaabstract}{\reservedWordSoda{abstract}}
-\newcommand{\sodaend}{\reservedWordSoda{end}}
+\newcommand{\sodaendclass}{\reservedWordSoda{end}}
 \newcommand{\sodathis}{\reservedWordSoda{this}}
 \newcommand{\sodasubtype}{\reservedWordSoda{subtype}}
 \newcommand{\sodasupertype}{\reservedWordSoda{supertype}}

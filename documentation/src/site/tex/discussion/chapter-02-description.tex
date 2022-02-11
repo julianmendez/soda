@@ -212,20 +212,14 @@ The larger the class, the more vague its purpose, and therefore, the less useful
 An extension should only be used when a concept modelled by a class clearly extends another one.
 If a class modelling a concept uses functions from another class modelling a different concept, the former should instantiate the latter to use the constants and functions.
 
-The name of a concrete class that is a default implementation of another class could be the name of the abstract class with a suffix underscore.
+The name of a concrete class that is a default implementation of another class is the name of the abstract class with a suffix underscore.
 
 \begin{lstlisting}[label={lst:exampleDefaultImplementation}]
-  class MyModule
+class MyModule
 
-    f(x: Int) = x + 1
+  f (x : Int) : Int = x + 1
 
-  end
-
-  class MyModule_ ()
-    extends
-      MyModule
-
-  end
+end
 \end{lstlisting}
 
 The definition of the sequence of constants, functions, and subclasses starts with an left brace (``\srccode{\{}'') and closes with a right brace (``\srccode{\}}'').
@@ -243,9 +237,9 @@ This is just a renaming of a more complex definition.
 This can be done by defining a class equals to another class instead of defining the body.
 
 \begin{lstlisting}[label={lst:exampleTypeAlias}]
-  class MyMap = Map[Int, Seq[Int]]
+  class MyMap = Map [Int, Seq [Int] ]
 
-  class A[T] = Seq[Int, String]
+  class A [T] = Seq [Int, String]
 \end{lstlisting}
 
 This feature is only available when translating to Scala 3.
@@ -272,11 +266,11 @@ class Movable
 
 end
 
-class Painter[A]
+class Painter [A]
 
 end
 
-class ShapePainter[A subtype Shape]
+class ShapePainter [A subtype Shape]
 
 end
 \end{lstlisting}
@@ -301,11 +295,11 @@ Defining a constant or a function requires a space around the `equals' character
 With \sodadefparam is also possible to define values for parameters when using named parameters.
 
 \begin{lstlisting}[label={lst:exampleFunctionWithoutBraces}]
-class EqualsExample () =
+class EqualsExample
 
-  answer = f (x := 20, y := 2)
+  answer = f (x := 20) (y := 2)
 
-  f (x: Int, y: Int) = 2 * x + y
+  f (x : Int) (y : Int) : Int = 2 * x + y
 
 end
 \end{lstlisting}
@@ -328,14 +322,14 @@ Thus, the contrast of reading a noun used as a function is reduced.
 This example shows the three cases
 
 \begin{lstlisting}[label={lst:exampleFunctionsAsParameter}]
-    naive_definition(values: Seq[Int], weighted_average: Seq[Int] -> Int): Int =
-      weighted_average(values)
+    naive_definition (values : Seq [Int] ) (weighted_average : Seq [Int] -> Int) : Int =
+      weighted_average (values)
 
-    alternative_definition(values: Seq[Int], compute_weighted_average: Seq[Int] -> Int): Int =
-      compute_weighted_average(values)
+    alternative_definition (values : Seq[Int] ) (compute_weighted_average : Seq[Int] -> Int) : Int =
+      compute_weighted_average (values)
 
-    recommended_definition(values: Seq[Int], weighted_average_function: Seq[Int] -> Int): Int =
-      weighted_average_function(values)
+    recommended_definition (values : Seq[Int] ) (weighted_average_function : Seq[Int] -> Int) : Int =
+      weighted_average_function (values)
 \end{lstlisting}
 
 Analogously, for a Boolean function, the suffix ``\srccode{condition}'' could simplify the reading.
@@ -397,7 +391,11 @@ Example using snake case, recommended in \Soda
 \begin{lstlisting}[label={lst:exampleExtendsSnakeCase}]
 /** Class for a registered person, in snake case */
 
-class Registered_person (first_name: String, last_name: String)
+class Registered_person
+
+  abstract
+    first_name : String
+    last_name : String
 
   _separator = " "
 
@@ -410,7 +408,11 @@ Example using camel case, as in Java:
 \begin{lstlisting}[label={lst:exampleExtendsCamelCase}]
 /** Class for a registered person, in camel case */
 
-class RegisteredPerson (firstName: String, lastName: String)
+class RegisteredPerson
+
+  abstract
+    firstName : String
+    lastName : String
 
   _separator = " "
 
@@ -461,14 +463,6 @@ class AbstractClassB
     AbstractClassA
 
     doc_AbstractClassB = "Documentation of abstract class B. " + doc_AbstractClassA
-
-end
-
-class ConcreteClassC()
-  extends
-    AbstractClassB
-
-    doc = "Documentation of concrete class C. " + doc_AbstractClassB
 
 end
 \end{lstlisting}
@@ -630,12 +624,12 @@ Please observe that this definition does not consider defining classes inside ot
 For those acquainted with class-inside-class definition, this expression:
 \[
 \sodaclass\ A (V_{A}) \ \sodaextends\ P_{1}
-\sodaclass\ B (V_{B}) \ \sodaextends\ P_{2} S_{B} \sodaend\ \cup S_{A}
+\sodaclass\ B (V_{B}) \ \sodaextends\ P_{2} S_{B} \sodaendclass\ \cup S_{A}
 \]
 can be rewritten as:
-\[\sodaclass\ A (V_{A}) \ \sodaextends\ P_{1}  S_{A} \sodaend\
+\[\sodaclass\ A (V_{A}) \ \sodaextends\ P_{1}  S_{A} \sodaendclass\
 \]
-\[\sodaclass\ AB (V_{A}, V_{B}) \ \sodaextends\ P_{2} (S_{A} \cup S_{B}) \sodaend\
+\[\sodaclass\ AB (V_{A}, V_{B}) \ \sodaextends\ P_{2} (S_{A} \cup S_{B}) \sodaendclass\
 \]
 
 where ``$V_{A}$, $V_{B}$'' contains the variables from $A$ and $B$.
@@ -646,7 +640,7 @@ This means that
 f_{1} = g_{1},
 \ldots ,
 f_{n} = g_{n}
-\sodaend\
+\sodaendclass\
 \]
 
 can be rewritten as
@@ -654,7 +648,7 @@ can be rewritten as
 f_{1}(V_{A}) = g_{1},
 \ldots ,
 f_{n}(V_{A}) = g_{n}
-\sodaend\
+\sodaendclass\
 \]
 
 In practice, all function calls should also include the parameters in $V_{A}$.
@@ -665,14 +659,14 @@ This means that
 f_{1} = g_{1},
 \ldots ,
 f_{n} = g_{n}
-\sodaend\
+\sodaendclass\
 \]
 can be rewritten as:
 \[\sodaclass\ A \ \sodaextends\ P
 f_{1}(self) = g_{1},
 \ldots ,
 f_{n}(self) = g_{n}
-\sodaend\
+\sodaendclass\
 \]
 where $self$ is an extra variable needed to invoke the functions, and it is given when a class instance is created.
 
@@ -738,37 +732,37 @@ The interpretation function is defined as follows:
 One problem to avoid is the definition of infinite recursions, like in the example below:
 
 \begin{lstlisting}[label={lst:exampleOfRecursion}]
-  f (x: Int) = g(x)
-  g (x: Int) = f(x)
+  f (x : Int) : Int = g(x)
+  g (x : Int) : Int = f(x)
 \end{lstlisting}
 
 Because of that, conventionally, every recursive function should be declared as such, by being named or starting with prefix \srccode{rec}.
 
 For example, instead of writing this function
 \begin{lstlisting}[label={lst:exampleOfFactorialBadNaming}]
-  f (n: Int) =
+  f (n : Int) : Int =
     if n <= 0
     then 1
-    else n * f(n - 1)
+    else n * f (n - 1)
 \end{lstlisting}
 
 writing this other function
 \begin{lstlisting}[label={lst:exampleOfFactorialGoodNaming}]
-  rec_f (n: Int) =
+  rec_f (n : Int) =
     if n <= 0
     then 1
-    else n * rec_f(n - 1)
+    else n * rec_f (n - 1)
 \end{lstlisting}
 
 The purpose is to highlight that it requires extra care to verify that its recursion finishes.
 
 Alternatively, it is possible to use \srccode{foldLeft} over an finite iterable structure.
 \begin{lstlisting}[label={lst:exampleOfFactorialFoldLeft}]
-  f (n: Int) =
+  f (n: Int) : Int =
     let
       initial_value = 1
-      next_value(acc: Int, elem: Int): Int = acc * elem
-    in Range(0, n).foldLeft(initial_value)(next_value)
+      next_value (acc : Int, elem : Int) : Int = acc * elem
+    in Range (0, n).foldLeft (initial_value) (next_value)
 \end{lstlisting}
 
 More information about it can be found in \textbf{System-F}, \textbf{Martin-L\"{o}f type theory}, and in \textbf{dependent types}.

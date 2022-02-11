@@ -72,45 +72,48 @@ If a function is not specific of another function, it can be extracted
 For example,
 
 \begin{lstlisting}[label={lst:rewritingFunctionExtractionBefore}]
-  class SomeClass = {
+class SomeClass
 
-    relevant_function(x: Input) =
-      let
-        a = f(x)
-        b = some_constant
-        result = a + b
-      in result
-  }
+  relevant_function (x : Input) =
+    let
+      a = f (x)
+      b = some_constant
+      result = a + b
+    in result
+
+end
 \end{lstlisting}
 
 since function b does not depend on $x$ or $a$, it can be extracted
 
 \begin{lstlisting}[label={lst:rewritingFunctionExtractionAfter0}]
-  class SomeClass = {
+class SomeClass
 
-    b = some_constant
+  b = some_constant
 
-    relevant_function(x: Input) =
-      let
-        a = f(x)
-        result = a + b
-      in result
-  }
+  relevant_function (x : Input) =
+    let
+      a = f (x)
+      result = a + b
+    in result
+
+end
 \end{lstlisting}
 
 and it can be renamed to be more descriptive
 
 \begin{lstlisting}[label={lst:rewritingFunctionExtractionAfter1}]
-  class SomeClass = {
+class SomeClass
 
-    specific_constant_for_this_class = some_constant
+  specific_constant_for_this_class = some_constant
 
-    relevant_function(x: Input) =
-      let
-        a = f(x)
-        result = a + specific_constant_for_this_class
-      in result
-  }
+  relevant_function (x : Input) =
+    let
+      a = f(x)
+      result = a + specific_constant_for_this_class
+    in result
+
+end
 \end{lstlisting}
 
 \subsubsection{Function replacement}
@@ -120,37 +123,39 @@ If a function is too complex, we can replace a piece by another function.
 For example,
 
 \begin{lstlisting}[label={lst:rewritingFunctionReplacementBefore}]
-  class SomeClass = {
+class SomeClass
 
-    relevant_function(x: Input) =
-      let
-        a: TypeOfF = f(x)
-        b =
-          if some_condition(a)
-          then some_value(x)
-          else some_other_value(x)
-        result = a + b
-      in result
-  }
+  relevant_function (x : Input) =
+    let
+      a : TypeOfF = f(x)
+      b =
+        if some_condition(a)
+        then some_value(x)
+        else some_other_value(x)
+      result = a + b
+    in result
+
+end
 \end{lstlisting}
 
 since function $b$ depends on $x$ and $a$, it can be replaced by $new\_function$
 
 \begin{lstlisting}[label={lst:rewritingFunctionReplacementAfter}]
-  class SomeClass = {
+class SomeClass
 
-    new_function(x: Input, a: TypeOfF) =
-      if some_condition(a)
-      then some_value(x)
-      else some_other_value(x)
+  new_function (x : Input) (a : TypeOfF) =
+    if some_condition (a)
+    then some_value (x)
+    else some_other_value (x)
 
-    relevant_function(x: Input) =
-      let
-        a: TypeOfF = f(x)
-        b = new_function(x, a)
-        result = a + b
-      in result
-  }
+  relevant_function (x : Input) =
+    let
+      a : TypeOfF = f (x)
+      b = new_function (x) (a)
+      result = a + b
+    in result
+
+end
 \end{lstlisting}
 
 \subsubsection{Class split}
@@ -161,42 +166,46 @@ Let us assume that there two groups of functions $f_{i}$ and $g_{i}$, where the 
 Such a class could look like:
 
 \begin{lstlisting}[label={lst:rewritingClassSplitBefore}]
-  class SomeClass = {
+class SomeClass
 
-    f_0 = ...
-    f_1 = ...
-    ...
-    f_n = ...
+  f_0 = ...
+  f_1 = ...
+  ...
+  f_n = ...
 
-    g_0 = ...
-    g_1 = ...
-    ...
-    g_m = ...
-  }
+  g_0 = ...
+  g_1 = ...
+  ...
+  g_m = ...
+
+end
 \end{lstlisting}
 
 We can then split the class as:
 
 \begin{lstlisting}[label={lst:rewritingClassSplitAfter}]
-  class SomeClassWithF = {
+class SomeClassWithF
 
-    f_0 = ...
-    f_1 = ...
-    ...
-    f_n = ...
-  }
+  f_0 = ...
+  f_1 = ...
+  ...
+  f_n = ...
 
-  class SomeClassWithG = {
+end
 
-    g_0 = ...
-    g_1 = ...
-    ...
-    g_m = ...
-  }
+class SomeClassWithG
 
-  class SomeClass
-    extends SomeClassWithF
-    with SomeClassWithG
+  g_0 = ...
+  g_1 = ...
+  ...
+  g_m = ...
+
+end
+
+class SomeClass
+  extends
+    SomeClassWithF
+    SomeClassWithG
 \end{lstlisting}
 
 \subsubsection{Class generalization}
@@ -232,12 +241,6 @@ class AbstractPartOfSomeClass
     ...
 
     f_n = ...
-
-end
-
-class SomeClass(v_0: Type_0, ..., v_n: Type_n)
-  extends
-    AbstractPartOfSomeClass
 
 end
 \end{lstlisting}
@@ -291,7 +294,7 @@ For example,
 is far less legible than
 
 \begin{lstlisting}[label={lst:exampleJonIndividual}]
-  Individual(name := "Jon", registered := true, evaluated := true, passed := true)
+  Individual_ (name := "Jon", registered := true, evaluated := true, passed := true)
 \end{lstlisting}
 
 \subsection{Significant whitespace}

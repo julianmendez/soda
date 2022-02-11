@@ -6,27 +6,24 @@
     \begin{center}
         \begin{tabular}{|l|l|}
             \hline
-            $f$ \sodadef $e$                                               & function or constant definition of $f$ as $e$                   \\
-            $x$ \sodacolon $A$                                             & declaration that $x$ is of type $A$                             \\
-            $x$ \sodaarrow $e$                                             & lambda definition for $\lambda x . e$                           \\
-            (\sodalambda $x$) \sodaarrow $e$                               & lambda definition for $\lambda x . e$, with `lambda' word       \\
-            $t$ \sodadefparam $e$                                          & assignment of parameter $t$ to have value $e$                   \\
+            $f$ \sodadef $e$                                                    & function or constant definition of $f$ as $e$                         \\
+            $x$ \sodacolon $A$                                                  & declaration that $x$ is of type $A$                                   \\
+            \sodalambda ($x : A$) \sodaarrow $e$                                & lambda definition for $\lambda (x : A) . e$, where $x$ is of type $A$ \\
+            $t$ \sodadefparam $e$                                               & assignment of parameter $t$ to have value $e$                         \\
             \hline
-            \sodaif $b$ \sodathen $e_{0}$ \sodaelse $e_{1}$                & expression if $b$ is true, then $e_{0}$, else $e_{1}$           \\
+            \sodaif $b$ \sodathen $e_{0}$ \sodaelse $e_{1}$                     & expression if $b$ is true, then $e_{0}$, else $e_{1}$                 \\
             \hline
-            \sodamatch $x$ \sodacase $p_{i}$ \sodaimplies $e_{i}$ \sodaend & pattern matching from $p_{i}$ to $e_{i}$ for $1 \leq i \leq n$  \\
+            \sodamatch $x$ \sodacase $p_{i}$ \sodaimplies $e_{i}$ \sodaendmatch & pattern matching from $p_{i}$ to $e_{i}$ for $1 \leq i \leq n$        \\
             \hline
-            \sodaclass $A$                                                 & definition of class $A$                                         \\
-            \sodaclass $A(\ldots)$                                         & definition of class $A(\ldots )$ with constructor               \\
-            \sodaclass $B$ \sodaextends $A_{0} \ldots A_{n}$               & class $B$ extends classes $A_{0}$ and $A_{1}$                   \\
-            \sodaclass $B$[$A_{0}$ \sodasubtype ($A_{1}$)]                 & class $B$ requires a class $A_{0}$ which extends $A_{1}$        \\
-            \sodaclass $B$[$A_{0}$ \sodasupertype ($A_{1}$)]               & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$ \\
-            \sodaabstract $f_{0} \ldots f_{n}$                             & block of functions or constants $f_{i}$ to be defined           \\
-            \sodathis                                                      & reference to itself as an instance                              \\
-            \sodaend $A$                                                   & end of class definition $A$                                     \\
+            \sodaclass $B$ \sodaextends $A_{1} \ldots A_{n}$                    & class $B$ extends classes $A_{0}$ and $A_{1}$                         \\
+            \sodaclass $B$ [$A_{0}$ \sodasubtype $A_{1}$ ]                      & class $B$ requires a class $A_{0}$ which extends $A_{1}$              \\
+            \sodaclass $B$ [$A_{0}$ \sodasupertype $A_{1}$ ]                    & class $B$ requires a class $A_{0}$ which is extended by $A_{1}$       \\
+            \sodaabstract $f_{1} \ldots f_{n}$                                  & block of functions or constants $f_{i}$ to be defined                 \\
+            \sodathis                                                           & reference to itself as an instance                                    \\
+            \sodaendclass                                                       & end of class definition                                               \\
             \hline
-            \sodapackage $p$                                               & package declaration for this piece of code                      \\
-            \sodaimport $p$                                                & block of import declarations                                    \\
+            \sodapackage $p$                                                    & package declaration for this piece of code                            \\
+            \sodaimport $p$                                                     & block of import declarations                                          \\
             \hline
         \end{tabular}
     \end{center}

@@ -39,12 +39,12 @@ The type symbol, written as a colon symbol, is used to assign a statically defin
 
 For example,
 \begin{lstlisting}[label={lst:exampleType01}]
-  b: Int = 2
+  b : Int = 2
 \end{lstlisting}
 
 Another example is the following:
 \begin{lstlisting}[label={lst:exampleType02}]
-  plus_one (x: Int): Int = x + 1
+  plus_one (x : Int) : Int = x + 1
 \end{lstlisting}
 
 \subsubsection{\sodaif, \sodathen, \sodaelse}
@@ -53,7 +53,7 @@ The \sodaif-\sodathen-\sodaelse construct is used to define a conditional result
 
 For example,
 \begin{lstlisting}[label={lst:exampleIfThenElse}]
-  max (x: Int, y: Int) =
+  max (x : Int) (y : Int) : Int =
     if x > y
     then x
     else y
@@ -65,8 +65,8 @@ The lambda symbol, written as a right arrow, is used to bind a variable in a lam
 
 For example, this piece of code
 \begin{lstlisting}[label={lst:exampleLambda}]
-  plus_one (sequence: Seq[Int]) =
-    sequence.map(element -> element + 1)
+  plus_one (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map (element -> element + 1)
 \end{lstlisting}
 returns a sequence of integers where each element is computed as the next integer from the input
 
@@ -83,10 +83,10 @@ Both types are declared using the \sodaclass reserved words.
 
 For example,
 \begin{lstlisting}[label={lst:exampleAbstractClass}]
-class Agent =
+class Agent
 
   abstract
-    identifier: String
+    identifier : String
 
 end
 \end{lstlisting}
@@ -95,9 +95,14 @@ Agent is an abstract class and cannot be instantiated.
 
 By contrast, concrete classes compare to final classes in Java and case classes in Scala.
 
-The following example shows a concrete class consisting only of a parameterized name.
+The following example shows a class consisting only of a parameterized name.
 \begin{lstlisting}[label={lst:exampleConcreteClass}]
-class Person (name: String)
+class Person
+
+    abstract
+      name : String
+
+end
 \end{lstlisting}
 
 The difference between abstract classes and concrete classes is the parameters, possibly empty, that are required for concrete classes.
@@ -108,8 +113,12 @@ It is possible to declare that a concrete class extends an abstract class using 
 Concrete classes are final and cannot be extended.
 
 \begin{lstlisting}[label={lst:exampleExtends}]
-class AgentPerson (name: String)
-  extends Agent =
+class AgentPerson
+  extends
+    Agent
+
+  abstract
+    name: String
 
   identifier = name
 
@@ -119,21 +128,10 @@ end
 Concrete classes can also extend multiple abstract classes.
 For example,
 \begin{lstlisting}[label={lst:exampleWith}]
-class RankedIndividual =
+class RankedIndividual
 
   abstract
     rank: Int
-
-end
-
-class RankedAgentPerson (name: String, person_rank: Int)
-  extends
-    Agent
-    RankedIndividual
-
-  identifier = name
-
-  rank = person_rank
 
 end
 \end{lstlisting}
@@ -148,22 +146,25 @@ For example,
 class Element
 
   abstract
-    accept (v: Visitor): Boolean
+    accept (v : Visitor) : Boolean
 
 end
 
 class Visitor
 
   abstract
-    visit (x: Element): Boolean
+    visit (x : Element) : Boolean
 
 end
 
-class Item (identifier: Int)
+class Item
   extends
     Element
 
-  accept (v: Visitor) = v.visit (this)
+  abstract
+    identifier : Int
+
+  accept (v : Visitor) = v.visit (this)
 
 end
 \end{lstlisting}
@@ -180,27 +181,20 @@ The bounds of a parametric type can be determined with \sodasubtype, for the upp
 As in other programming languages, the \sodafalse and \sodatrue reserved words are used for the Boolean values.
 
 \begin{lstlisting}[label={lst:exampleFalseTrue}]
-
-  my_not (x: Boolean) =
+  my_not (x : Boolean) : Boolean =
     if x
     then false
     else true
 
-  my_and (x: Boolean, y: Boolean) =
+  my_and (x : Boolean) (y : Boolean) : Boolean =
     if x
-    then
-      if y
-      then true
-      else false
+    then y
     else false
 
-  my_or (x: Boolean, y: Boolean) =
+  my_or (x : Boolean) (y : Boolean) : Boolean =
     if x
     then true
-    else
-      if y
-      then true
-      else false
+    else y
 \end{lstlisting}
 
 \subsubsection{\sodanot, \sodaand, \sodaor}
@@ -209,7 +203,7 @@ The reserved words \sodanot, \sodaand, \sodaor are introduced for the sake of re
 
 \begin{lstlisting}[label={lst:exampleNotAndOr}]
 
-  my_xor (x: Boolean, y: Boolean) =
+  my_xor (x : Boolean) (y : Boolean) : Boolean =
     (x or y) and not (x and y)
 
 \end{lstlisting}
@@ -284,12 +278,12 @@ If a tail recursive function is not properly converted to a loop, it could produ
 
 \begin{lstlisting}[label={lst:exampleTailrecInside}]
   @tailrec
-  _tailrec (n: Int, accum: Int): Int =
+  _tailrec (n : Int) (accum : Int) : Int =
     if n < 0
     then accum
-    else _tailrec (n - 1, n + accum)
+    else _tailrec (n - 1) (n + accum)
 
-  sum (n: Int) =
+  sum (n : Int) : Int =
     _tailrec (n, 0)
 \end{lstlisting}
 
@@ -301,14 +295,8 @@ This is kept to have functions that can be executed from the console.
 \begin{lstlisting}[label={lst:exampleMain}]
 class Main
 
-  main (args: Array[String]): Unit =
+  main (args : Array[String] ) : Unit =
     println ("Hello world!")
-
-end
-
-class Main_ ()
-  extends
-    Main
 
 end
 \end{lstlisting}
@@ -337,24 +325,25 @@ As an example we can see the factorial.
 
 
 \begin{lstlisting}[label={lst:exampleFactorialVerbose}]
-class AbstractFactorialVerbose is
+class AbstractFactorialVerbose
 
   abstract
-    factorial (n: Int): Int
+    factorial (n : Int) : Int
 
 end
 
-class FactorialVerbose ()
-  extends AbstractFactorialVerbose is
+class FactorialVerbose
+  extends
+    AbstractFactorialVerbose
 
   @tailrec
-  _tailrec (n: Int, product: Int): Int is
+  _tailrec (n : Int) (product : Int) : Int is
     if n == 0
     then product
-    else _tailrec (n - 1, n * product)
+    else _tailrec (n - 1) (n * product)
 
-  factorial (n: Int) is
-    _tailrec (n, 1)
+  factorial (n : Int) : Int is
+    _tailrec (n) (1)
 
 end
 \end{lstlisting}
