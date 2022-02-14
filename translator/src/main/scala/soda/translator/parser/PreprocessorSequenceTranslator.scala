@@ -82,7 +82,7 @@ trait PreprocessorSequenceTranslator
   def _update_first_element (s: Seq [Seq [AnnotatedBlock]] ) (b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
     _tail_non_empty (s ) .+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
 
-  def _tail_non_empty [T] (s: Seq [T] ): Seq [T] =
+  def _tail_non_empty [A] (s: Seq [A] ): Seq [A] =
     if (s.isEmpty
     ) s
     else s.tail

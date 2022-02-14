@@ -1,209 +1,209 @@
 package soda.collection
 
-trait MSeqTranslator [T]
+trait MSeqTranslator [A]
 {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_foldLeftSeq [B] (sequence: Seq [T] ) (current_value: B ) (next_value: B => T => B ): B =
+  def _tailrec_foldLeftSeq [B] (sequence: Seq [A] ) (current_value: B ) (next_value: B => A => B ): B =
     if (sequence.isEmpty
     ) current_value
     else _tailrec_foldLeftSeq (sequence.tail ) (next_value (current_value ) (sequence.head ) ) (next_value )
 
-  def foldLeftSeq [B] (sequence: Seq [T] ) (initial_value: B ) (next_value: B => T => B ): B =
+  def foldLeftSeq [B] (sequence: Seq [A] ) (initial_value: B ) (next_value: B => A => B ): B =
     _tailrec_foldLeftSeq (sequence ) (initial_value ) (next_value )
 
-  def asMSeq (seq: Seq [T] ): MSeq [T] =
+  def asMSeq (seq: Seq [A] ): MSeq [A] =
     {
-      lazy val initial_value: MSeq [T] = Min_ () .empty
-      def next_value (acc: MSeq [T] ) (elem: T ): MSeq [T] = Min_ () .prepended (acc ) (elem )
-      Min_ () .reverse (foldLeftSeq [MSeq [T]] (seq ) (initial_value ) (next_value ) ) }
+      lazy val initial_value: MSeq [A] = Min_ () .empty
+      def next_value (acc: MSeq [A] ) (elem: A ): MSeq [A] = Min_ () .prepended (acc ) (elem )
+      Min_ () .reverse (foldLeftSeq [MSeq [A]] (seq ) (initial_value ) (next_value ) ) }
 
-  def asSeq (mseq: MSeq [T] ): Seq [T] =
+  def asSeq (mseq: MSeq [A] ): Seq [A] =
     {
-      lazy val initial_value: Seq [T] = Seq ()
-      def next_value (acc: Seq [T] ) (elem: T ): Seq [T] = acc.+: (elem )
+      lazy val initial_value: Seq [A] = Seq ()
+      def next_value (acc: Seq [A] ) (elem: A ): Seq [A] = acc.+: (elem )
       (Min_ () .foldLeft (mseq ) (initial_value ) (next_value ) ) .reverse }
 
 }
 
-case class MSeqTranslator_ [T] () extends MSeqTranslator [T]
+case class MSeqTranslator_ [A] () extends MSeqTranslator [A]
 
-trait MSeqPair [T]
+trait MSeqPair [A]
 {
 
-  def   left: MSeq [T]
-  def   right: MSeq [T]
+  def   left: MSeq [A]
+  def   right: MSeq [A]
 
 }
 
-case class MSeqPair_ [T] (left: MSeq [T], right: MSeq [T]) extends MSeqPair [T]
+case class MSeqPair_ [A] (left: MSeq [A], right: MSeq [A]) extends MSeqPair [A]
 
-trait Min [T]
+trait Min [A]
 {
 
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
 
-  lazy val empty: ESeq [T] = ESeq_ ()
+  lazy val empty: ESeq [A] = ESeq_ ()
 
-  def prepended (s: MSeq [T] ) (e: T ): NESeq [T] =
+  def prepended (s: MSeq [A] ) (e: A ): NESeq [A] =
     NESeq_ (e, s )
 
-  def head (s: NESeq [T] ): T =
+  def head (s: NESeq [A] ): A =
     s.head
 
-  def tail (s: NESeq [T] ): MSeq [T] =
+  def tail (s: NESeq [A] ): MSeq [A] =
     s.tail
 
-  def nonEmpty (s: MSeq [T] ): Boolean =
+  def nonEmpty (s: MSeq [A] ): Boolean =
     ! isEmpty (s )
 
-  def isEmpty (s: MSeq [T] ): Boolean =
+  def isEmpty (s: MSeq [A] ): Boolean =
     s.isEmpty
 
   /* */
 
-  def foldLeftWhile [B] (s: MSeq [T] ) (initial_value: B ) (next_value: B => T => B ) (condition: B => T => Boolean ): B =
-    MSeqRec_ [T] () .fold_while [B] (s ) (initial_value ) (next_value ) (condition )
+  def foldLeftWhile [B] (s: MSeq [A] ) (initial_value: B ) (next_value: B => A => B ) (condition: B => A => Boolean ): B =
+    MSeqRec_ [A] () .fold_while [B] (s ) (initial_value ) (next_value ) (condition )
 
-  def foldLeft [B] (s: MSeq [T] ) (initial_value: B ) (next_value: B => T => B ): B =
-    foldLeftWhile (s ) (initial_value ) (next_value ) ((acc: B ) =>  (elem: T ) => true )
+  def foldLeft [B] (s: MSeq [A] ) (initial_value: B ) (next_value: B => A => B ): B =
+    foldLeftWhile (s ) (initial_value ) (next_value ) ((acc: B ) =>  (elem: A ) => true )
 
-  def reverse (s: MSeq [T] ): MSeq [T] =
-    s.opt [MSeq [T]] (ifEmpty = empty ) (ifNonEmpty = neseq => reverseNonEmpty (neseq ) )
+  def reverse (s: MSeq [A] ): MSeq [A] =
+    s.opt [MSeq [A]] (ifEmpty = empty ) (ifNonEmpty = neseq => reverseNonEmpty (neseq ) )
 
-  def reverseNonEmpty (s: NESeq [T] ): NESeq [T] =
+  def reverseNonEmpty (s: NESeq [A] ): NESeq [A] =
     {
-      lazy val initial_value: NESeq [T] = prepended (empty ) (s.head )
-      def next_value (acc: MSeq [T] ) (elem: T ): NESeq [T] = prepended (acc ) (elem )
+      lazy val initial_value: NESeq [A] = prepended (empty ) (s.head )
+      def next_value (acc: MSeq [A] ) (elem: A ): NESeq [A] = prepended (acc ) (elem )
       foldLeft (s.tail ) (initial_value ) (next_value ) }
 
-  def length (s: MSeq [T] ): Int =
+  def length (s: MSeq [A] ): Int =
     {
       lazy val initial_value: Int = 0
-      def next_value (acc: Int ) (elem: T ): Int = acc + 1
+      def next_value (acc: Int ) (elem: A ): Int = acc + 1
       foldLeft (s ) (initial_value ) (next_value ) }
 
-  def indexOf (s: MSeq [T] ) (e: T ): Int =
+  def indexOf (s: MSeq [A] ) (e: A ): Int =
     {
-      lazy val initial_value: IndexFoldTuple [T] = IndexFoldTuple_ [T] (0, -1 )
-      def next_value (tuple: IndexFoldTuple [T] ) (elem: T ): IndexFoldTuple [T] =
-        IndexFoldTuple_ [T] (tuple.index + 1,
+      lazy val initial_value: IndexFoldTuple [A] = IndexFoldTuple_ [A] (0, -1 )
+      def next_value (tuple: IndexFoldTuple [A] ) (elem: A ): IndexFoldTuple [A] =
+        IndexFoldTuple_ [A] (tuple.index + 1,
           if (elem == e ) tuple.index else tuple.position )
-      def condition (tuple: IndexFoldTuple [T] ) (elem: T ): Boolean = tuple.position == -1
+      def condition (tuple: IndexFoldTuple [A] ) (elem: A ): Boolean = tuple.position == -1
       (foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) ) .position }
 
-  def contains (s: MSeq [T] ) (e: T ): Boolean =
+  def contains (s: MSeq [A] ) (e: A ): Boolean =
     {
       lazy val initial_value: Boolean = false
-      def next_value (acc: Boolean ) (elem: T ): Boolean = elem == e
-      def condition (acc: Boolean ) (elem: T ): Boolean = ! acc
+      def next_value (acc: Boolean ) (elem: A ): Boolean = elem == e
+      def condition (acc: Boolean ) (elem: A ): Boolean = ! acc
       foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) }
 
-  def at (s: MSeq [T] ) (n: Int ): OptionSD [T] =
-    s.opt [OptionSD [T]] (
-      ifEmpty = NoneSD_ [T] () ) (
+  def at (s: MSeq [A] ) (n: Int ): OptionSD [A] =
+    s.opt [OptionSD [A]] (
+      ifEmpty = NoneSD_ [A] () ) (
       ifNonEmpty = (neseq =>
         if (n < 0 || n >= length (s )
-        ) NoneSD_ [T] ()
-        else SomeSD_ [T] (_atNonEmpty (neseq ) (n ) )
+        ) NoneSD_ [A] ()
+        else SomeSD_ [A] (_atNonEmpty (neseq ) (n ) )
       )
     )
 
-  def _atNonEmpty (xs: NESeq [T] ) (n: Int ): T =
+  def _atNonEmpty (xs: NESeq [A] ) (n: Int ): A =
     {
-      lazy val initial_value: AtFoldTuple [T] = AtFoldTuple_ [T] (xs.head, -1 )
-      def next_value (tuple: AtFoldTuple [T] ) (elem: T ): AtFoldTuple [T] = AtFoldTuple_ [T] (elem, tuple.index + 1 )
-      def condition (tuple: AtFoldTuple [T] ) (elem: T ): Boolean = tuple.index < n
+      lazy val initial_value: AtFoldTuple [A] = AtFoldTuple_ [A] (xs.head, -1 )
+      def next_value (tuple: AtFoldTuple [A] ) (elem: A ): AtFoldTuple [A] = AtFoldTuple_ [A] (elem, tuple.index + 1 )
+      def condition (tuple: AtFoldTuple [A] ) (elem: A ): Boolean = tuple.index < n
       (foldLeftWhile (xs ) (initial_value ) (next_value ) (condition ) ) .elem }
 
   /* */
 
-  def take (s: MSeq [T] ) (n: Int ): MSeq [T] =
+  def take (s: MSeq [A] ) (n: Int ): MSeq [A] =
     {
-      lazy val initial_value: TakeDropFoldTuple [T] = TakeDropFoldTuple_ [T] (empty, 0 )
-      def next_value (tuple: TakeDropFoldTuple [T] ) (elem: T ): TakeDropFoldTuple [T] =
-        TakeDropFoldTuple_ [T] (prepended (tuple.seq ) (elem ), tuple.index + 1 )
-      def condition (tuple: TakeDropFoldTuple [T] ) (elem: T ): Boolean = tuple.index < n
+      lazy val initial_value: TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (empty, 0 )
+      def next_value (tuple: TakeDropFoldTuple [A] ) (elem: A ): TakeDropFoldTuple [A] =
+        TakeDropFoldTuple_ [A] (prepended (tuple.seq ) (elem ), tuple.index + 1 )
+      def condition (tuple: TakeDropFoldTuple [A] ) (elem: A ): Boolean = tuple.index < n
       reverse ((foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) ) .seq ) }
 
-  def drop (s: MSeq [T] ) (n: Int ): MSeq [T] =
+  def drop (s: MSeq [A] ) (n: Int ): MSeq [A] =
     {
-      lazy val initial_value: TakeDropFoldTuple [T] = TakeDropFoldTuple_ [T] (s, 0 )
-      def next_value (tuple: TakeDropFoldTuple [T] ) (elem: T ): TakeDropFoldTuple [T] =
+      lazy val initial_value: TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (s, 0 )
+      def next_value (tuple: TakeDropFoldTuple [A] ) (elem: A ): TakeDropFoldTuple [A] =
         tuple.seq.opt (
-          ifEmpty = TakeDropFoldTuple_ [T] (tuple.seq, tuple.index + 1 ) ) (
-          ifNonEmpty = neseq => TakeDropFoldTuple_ [T] (neseq.tail, tuple.index + 1 )
+          ifEmpty = TakeDropFoldTuple_ [A] (tuple.seq, tuple.index + 1 ) ) (
+          ifNonEmpty = neseq => TakeDropFoldTuple_ [A] (neseq.tail, tuple.index + 1 )
         )
-      def condition (tuple: TakeDropFoldTuple [T] ) (elem: T ): Boolean =
+      def condition (tuple: TakeDropFoldTuple [A] ) (elem: A ): Boolean =
         tuple.index < n
       (foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) ) .seq }
 
-  def takeWhile (s: MSeq [T] ) (p: T => Boolean ): MSeq [T] = reverse ((spanRevRec (s ) (p ) ) .left )
+  def takeWhile (s: MSeq [A] ) (p: A => Boolean ): MSeq [A] = reverse ((spanRevRec (s ) (p ) ) .left )
 
-  def dropWhile (s: MSeq [T] ) (p: T => Boolean ): MSeq [T] = (spanRevRec (s ) (p ) ) .right
+  def dropWhile (s: MSeq [A] ) (p: A => Boolean ): MSeq [A] = (spanRevRec (s ) (p ) ) .right
 
-  def splitAt (s: MSeq [T] ) (n: Int ): MSeqPair [T] = MSeqPair_ (take (s ) (n ), drop (s ) (n ) )
+  def splitAt (s: MSeq [A] ) (n: Int ): MSeqPair [A] = MSeqPair_ (take (s ) (n ), drop (s ) (n ) )
 
-  def span (s: MSeq [T] ) (p: T => Boolean ): MSeqPair [T] =
+  def span (s: MSeq [A] ) (p: A => Boolean ): MSeqPair [A] =
     {
       lazy val pair = spanRevRec (s ) (p )
       MSeqPair_ (reverse (pair.left ), pair.right ) }
 
   /* */
 
-  def appended (s: MSeq [T] ) (e: T ): MSeq [T] = reverse (prepended (reverse (s ) ) (e ) )
+  def appended (s: MSeq [A] ) (e: A ): MSeq [A] = reverse (prepended (reverse (s ) ) (e ) )
 
-  def last (s: NESeq [T] ): T = reverseNonEmpty (s ) .head
+  def last (s: NESeq [A] ): A = reverseNonEmpty (s ) .head
 
-  def concat (s0: MSeq [T] ) (s1: MSeq [T] ): MSeq [T] =
+  def concat (s0: MSeq [A] ) (s1: MSeq [A] ): MSeq [A] =
     {
-      lazy val initial_value: MSeq [T] = s1
-      def next_value (acc: MSeq [T] ) (elem: T ): MSeq [T] = prepended (acc ) (elem )
+      lazy val initial_value: MSeq [A] = s1
+      def next_value (acc: MSeq [A] ) (elem: A ): MSeq [A] = prepended (acc ) (elem )
       lazy val s0rev = reverse (s0 )
       foldLeft (s0rev ) (initial_value ) (next_value ) }
 
-  def slice (s: MSeq [T] ) (from: Int ) (until: Int ): MSeq [T] = take (drop (s ) (from ) ) (until - from )
+  def slice (s: MSeq [A] ) (from: Int ) (until: Int ): MSeq [A] = take (drop (s ) (from ) ) (until - from )
 
   /* */
 
-  def forall (s: MSeq [T] ) (p: T => Boolean ): Boolean =
+  def forall (s: MSeq [A] ) (p: A => Boolean ): Boolean =
     {
       lazy val initial_value: Boolean = true
-      def next_value (acc: Boolean ) (elem: T ): Boolean = acc && p (elem )
-      def condition (acc: Boolean ) (elem: T ): Boolean = acc
+      def next_value (acc: Boolean ) (elem: A ): Boolean = acc && p (elem )
+      def condition (acc: Boolean ) (elem: A ): Boolean = acc
       foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) }
 
-  def exists (s: MSeq [T] ) (p: T => Boolean ): Boolean =
+  def exists (s: MSeq [A] ) (p: A => Boolean ): Boolean =
     {
       lazy val initial_value: Boolean = false
-      def next_value (acc: Boolean ) (elem: T ): Boolean = acc || p (elem )
-      def condition (acc: Boolean ) (elem: T ): Boolean = ! acc
+      def next_value (acc: Boolean ) (elem: A ): Boolean = acc || p (elem )
+      def condition (acc: Boolean ) (elem: A ): Boolean = ! acc
       foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) }
 
-  def find (s: MSeq [T] ) (p: T => Boolean ): OptionSD [T] =
+  def find (s: MSeq [A] ) (p: A => Boolean ): OptionSD [A] =
     {
-      lazy val initial_value: OptionSD [T] = NoneSD_ [T] ()
-      def next_value (acc: OptionSD [T] ) (elem: T ): OptionSD [T] =
-        if (p (elem ) ) SomeSD_ [T] (elem ) else NoneSD_ [T] ()
-      def condition (acc: OptionSD [T] ) (elem: T ): Boolean = acc.isEmpty
+      lazy val initial_value: OptionSD [A] = NoneSD_ [A] ()
+      def next_value (acc: OptionSD [A] ) (elem: A ): OptionSD [A] =
+        if (p (elem ) ) SomeSD_ [A] (elem ) else NoneSD_ [A] ()
+      def condition (acc: OptionSD [A] ) (elem: A ): Boolean = acc.isEmpty
       foldLeftWhile (s ) (initial_value ) (next_value ) (condition ) }
 
-  def filter (s: MSeq [T] ) (p: T => Boolean ): MSeq [T] =
+  def filter (s: MSeq [A] ) (p: A => Boolean ): MSeq [A] =
     {
-      lazy val initial_value: MSeq [T] = empty
-      def next_value (acc: MSeq [T] ) (elem: T ): MSeq [T] =
+      lazy val initial_value: MSeq [A] = empty
+      def next_value (acc: MSeq [A] ) (elem: A ): MSeq [A] =
         if (p (elem )
         ) prepended (acc ) (elem )
         else acc
       reverse (foldLeft (s ) (initial_value ) (next_value ) ) }
 
-  def map0 (s: MSeq [T] ) (f: T => T ): MSeq [T] =
+  def map0 (s: MSeq [A] ) (f: A => A ): MSeq [A] =
     {
-      lazy val initial_value: MSeq [T] = empty
-      def next_value (acc: MSeq [T] ) (elem: T ): MSeq [T] =
+      lazy val initial_value: MSeq [A] = empty
+      def next_value (acc: MSeq [A] ) (elem: A ): MSeq [A] =
         prepended (acc ) (f (elem ) )
       reverse (foldLeft (s ) (initial_value ) (next_value ) ) }
 
@@ -219,31 +219,31 @@ trait Min [T]
    * end
    * </pre>
    */
-  def foldLeft0 (mseq: MSeq [T] ): MSeq [T] => (MSeq [T] => T => MSeq [T] ) => MSeq [T] =
-     (initial_value: MSeq [T] ) =>
-       (next_value: MSeq [T] => T => MSeq [T] ) =>
+  def foldLeft0 (mseq: MSeq [A] ): MSeq [A] => (MSeq [A] => A => MSeq [A] ) => MSeq [A] =
+     (initial_value: MSeq [A] ) =>
+       (next_value: MSeq [A] => A => MSeq [A] ) =>
         foldLeft (mseq ) (initial_value ) (next_value )
 
   /* */
 
-  def spanRevRec (s0: MSeq [T] ) (p: T => Boolean ): MSeqPair [T] =
+  def spanRevRec (s0: MSeq [A] ) (p: A => Boolean ): MSeqPair [A] =
     {
       lazy val result = MSeqPair_ (pair.right, pair.left )
       lazy val pair = foldLeftWhile (s0 ) (initial_value ) (next_value ) (condition )
-      lazy val initial_value: SpanRevFoldTuple [T] = SpanRevFoldTuple_ [T] (s0, empty, true )
-      def next_value (tuple: SpanRevFoldTuple [T] ) (elem: T ): SpanRevFoldTuple [T] =
+      lazy val initial_value: SpanRevFoldTuple [A] = SpanRevFoldTuple_ [A] (s0, empty, true )
+      def next_value (tuple: SpanRevFoldTuple [A] ) (elem: A ): SpanRevFoldTuple [A] =
         {
           lazy val left = tuple.left
           lazy val right = tuple.right
-          lazy val result = left.opt [SpanRevFoldTuple [T]] (
-            ifEmpty = SpanRevFoldTuple_ [T] (left, right, false ) ) (
+          lazy val result = left.opt [SpanRevFoldTuple [A]] (
+            ifEmpty = SpanRevFoldTuple_ [A] (left, right, false ) ) (
             ifNonEmpty = neleft => _aux_next_value (tuple ) (p ) (neleft )
           )
           result }
-      def condition (tuple: SpanRevFoldTuple [T] ) (elem: T ): Boolean = tuple.taking
+      def condition (tuple: SpanRevFoldTuple [A] ) (elem: A ): Boolean = tuple.taking
       result }
 
-  def _aux_next_value (tuple: SpanRevFoldTuple [T] ) (p: T => Boolean ) (neleft: NESeq [T] ): SpanRevFoldTuple [T] =
+  def _aux_next_value (tuple: SpanRevFoldTuple [A] ) (p: A => Boolean ) (neleft: NESeq [A] ): SpanRevFoldTuple [A] =
     {
       lazy val left = tuple.left
       lazy val right = tuple.right
@@ -251,15 +251,15 @@ trait Min [T]
       lazy val new_taking = p (e )
       lazy val new_tuple =
         if (new_taking
-        ) SpanRevFoldTuple_ [T] (neleft.tail, prepended (right ) (e ), new_taking )
-        else SpanRevFoldTuple_ [T] (neleft, right, new_taking )
+        ) SpanRevFoldTuple_ [A] (neleft.tail, prepended (right ) (e ), new_taking )
+        else SpanRevFoldTuple_ [A] (neleft, right, new_taking )
       new_tuple }
 
 }
 
-case class Min_ [T] () extends Min [T]
+case class Min_ [A] () extends Min [A]
 
-trait IndexFoldTuple [T]
+trait IndexFoldTuple [A]
 {
 
   def   index: Int
@@ -267,35 +267,35 @@ trait IndexFoldTuple [T]
 
 }
 
-case class IndexFoldTuple_ [T] (index: Int, position: Int) extends IndexFoldTuple [T]
+case class IndexFoldTuple_ [A] (index: Int, position: Int) extends IndexFoldTuple [A]
 
-trait AtFoldTuple [T]
+trait AtFoldTuple [A]
 {
 
-  def   elem: T
+  def   elem: A
   def   index: Int
 
 }
 
-case class AtFoldTuple_ [T] (elem: T, index: Int) extends AtFoldTuple [T]
+case class AtFoldTuple_ [A] (elem: A, index: Int) extends AtFoldTuple [A]
 
-trait TakeDropFoldTuple [T]
+trait TakeDropFoldTuple [A]
 {
 
-  def   seq: MSeq [T]
+  def   seq: MSeq [A]
   def   index: Int
 
 }
 
-case class TakeDropFoldTuple_ [T] (seq: MSeq [T], index: Int) extends TakeDropFoldTuple [T]
+case class TakeDropFoldTuple_ [A] (seq: MSeq [A], index: Int) extends TakeDropFoldTuple [A]
 
-trait SpanRevFoldTuple [T]
+trait SpanRevFoldTuple [A]
 {
 
-  def   left: MSeq [T]
-  def   right: MSeq [T]
+  def   left: MSeq [A]
+  def   right: MSeq [A]
   def   taking: Boolean
 
 }
 
-case class SpanRevFoldTuple_ [T] (left: MSeq [T], right: MSeq [T], taking: Boolean) extends SpanRevFoldTuple [T]
+case class SpanRevFoldTuple_ [A] (left: MSeq [A], right: MSeq [A], taking: Boolean) extends SpanRevFoldTuple [A]

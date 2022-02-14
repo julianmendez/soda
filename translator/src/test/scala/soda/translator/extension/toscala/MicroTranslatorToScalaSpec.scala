@@ -47,21 +47,21 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate classes")
     {
       lazy val original =
-        "class A" +
+        "class D" +
         "\n" +
         "\n  f(x: Int): Int = x + 1" +
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass B" +
+        "\nclass E" +
         "\n" +
         "\n  g(x: Int): Int = 2 * x" +
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass C ()" +
+        "\nclass F ()" +
         "\n  extends" +
-        "\n    A" +
+        "\n    D" +
         "\n" +
         "\n  abstract" +
         "\n    /** name for this object */" +
@@ -75,34 +75,34 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass B [T]" +
+        "\nclass E [A]" +
         "\n" +
-        "\n  i(x: T): T = x" +
+        "\n  i(x: A): A = x" +
         "\n" +
         "\nend" +
         "\n"
       lazy val expected =
-        "trait A" +
+        "trait D" +
         "\n{" +
         "\n" +
         "\n  def f (x: Int ): Int = x + 1" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class A_ () extends A" +
+        "\ncase class D_ () extends D" +
         "\n" +
-        "\ntrait B" +
+        "\ntrait E" +
         "\n{" +
         "\n" +
         "\n  def g (x: Int ): Int = 2 * x" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class B_ () extends B" +
+        "\ncase class E_ () extends E" +
         "\n" +
-        "\ncase class C ()" +
+        "\ncase class F ()" +
         "\n  extends" +
-        "\n    A" +
+        "\n    D" +
         "\n{" +
         "\n" +
         "\n    /** name for this object */" +
@@ -116,14 +116,14 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\ntrait B [T]" +
+        "\ntrait E [A]" +
         "\n{" +
         "\n" +
-        "\n  def i (x: T ): T = x" +
+        "\n  def i (x: A ): A = x" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ncase class B_ [T] () extends B [T]" +
+        "\ncase class E_ [A] () extends E [A]" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }

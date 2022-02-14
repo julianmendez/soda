@@ -1,11 +1,11 @@
 package soda.collection
 
-trait MSeq [T]
+trait MSeq [A]
 {
 
   def   isEmpty: Boolean
 
-  def opt [B] (ifEmpty: B ) (ifNonEmpty: NESeq [T] => B ): B =
+  def opt [B] (ifEmpty: B ) (ifNonEmpty: NESeq [A] => B ): B =
     this match  {
       case ESeq_ () => ifEmpty
       case NESeq_ (head, tail ) => ifNonEmpty (NESeq_ (head, tail ) )
@@ -13,14 +13,14 @@ trait MSeq [T]
 
 }
 
-case class MSeq_ [T] (isEmpty: Boolean) extends MSeq [T]
+case class MSeq_ [A] (isEmpty: Boolean) extends MSeq [A]
 
-trait MSeqRec [T]
+trait MSeqRec [A]
 {
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold_while [B] (sequence: MSeq [T] ) (current_value: B ) (next_value_function: B => T => B ) (condition: B => T => Boolean ): B =
+  def _tailrec_fold_while [B] (sequence: MSeq [A] ) (current_value: B ) (next_value_function: B => A => B ) (condition: B => A => Boolean ): B =
     sequence match  {
       case ESeq_ () => current_value
       case NESeq_ (head, tail ) =>
@@ -29,50 +29,50 @@ trait MSeqRec [T]
         else _tailrec_fold_while (tail ) (next_value_function (current_value ) (head ) ) (next_value_function ) (condition )
       }
 
-  def fold_while [B] (sequence: MSeq [T] ) (initial_value: B ) (next_value: B => T => B ) (condition: B => T => Boolean ): B =
+  def fold_while [B] (sequence: MSeq [A] ) (initial_value: B ) (next_value: B => A => B ) (condition: B => A => Boolean ): B =
     _tailrec_fold_while (sequence ) (initial_value ) (next_value ) (condition )
 
 }
 
-case class MSeqRec_ [T] () extends MSeqRec [T]
+case class MSeqRec_ [A] () extends MSeqRec [A]
 
-trait ESeq [T]
+trait ESeq [A]
   extends
-    MSeq [T]
+    MSeq [A]
 {
 
   lazy val isEmpty = true
 
 }
 
-case class ESeq_ [T] () extends ESeq [T]
+case class ESeq_ [A] () extends ESeq [A]
 
-trait NEMSeq [T]
+trait NEMSeq [A]
   extends
-    MSeq [T]
+    MSeq [A]
 {
 
-  def   head0: T
-  def   tail0: MSeq [T]
+  def   head0: A
+  def   tail0: MSeq [A]
 
   lazy val isEmpty = false
 
 }
 
-case class NEMSeq_ [T] (head0: T, tail0: MSeq [T]) extends NEMSeq [T]
+case class NEMSeq_ [A] (head0: A, tail0: MSeq [A]) extends NEMSeq [A]
 
-trait NESeq [T]
+trait NESeq [A]
   extends
-    NEMSeq [T]
+    NEMSeq [A]
 {
 
-  def   head0: T
-  def   tail0: MSeq [T]
+  def   head0: A
+  def   tail0: MSeq [A]
 
-  lazy val head: T = head0
+  lazy val head: A = head0
 
-  lazy val tail: MSeq [T] = tail0
+  lazy val tail: MSeq [A] = tail0
 
 }
 
-case class NESeq_ [T] (head0: T, tail0: MSeq [T]) extends NESeq [T]
+case class NESeq_ [A] (head0: A, tail0: MSeq [A]) extends NESeq [A]

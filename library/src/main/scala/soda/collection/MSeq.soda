@@ -1,11 +1,11 @@
 package soda.collection
 
-class MSeq [T]
+class MSeq [A]
 
   abstract
     isEmpty : Boolean
 
-  opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [T] -> B) : B =
+  opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
       | ESeq_ () => ifEmpty
       | NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
@@ -13,10 +13,10 @@ class MSeq [T]
 
 end
 
-class MSeqRec [T]
+class MSeqRec [A]
 
   @tailrec
-  _tailrec_fold_while [B] (sequence : MSeq [T] ) (current_value : B) (next_value_function : B -> T -> B) (condition : B -> T -> Boolean) : B =
+  _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
       case ESeq_ () => current_value
       case NESeq_ (head, tail) =>
@@ -25,42 +25,42 @@ class MSeqRec [T]
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (next_value_function) (condition)
       end
 
-  fold_while [B] (sequence : MSeq [T] ) (initial_value : B) (next_value : B -> T -> B) (condition : B -> T -> Boolean) : B =
+  fold_while [B] (sequence : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value) (condition)
 
 end
 
-class ESeq [T]
+class ESeq [A]
   extends
-    MSeq [T]
+    MSeq [A]
 
   isEmpty = true
 
 end
 
-class NEMSeq [T]
+class NEMSeq [A]
   extends
-    MSeq [T]
+    MSeq [A]
 
   abstract
-    head0 : T
-    tail0 : MSeq [T]
+    head0 : A
+    tail0 : MSeq [A]
 
   isEmpty = false
 
 end
 
-class NESeq [T]
+class NESeq [A]
   extends
-    NEMSeq [T]
+    NEMSeq [A]
 
   abstract
-    head0 : T
-    tail0 : MSeq [T]
+    head0 : A
+    tail0 : MSeq [A]
 
-  head : T = head0
+  head : A = head0
 
-  tail : MSeq [T] = tail0
+  tail : MSeq [A] = tail0
 
 end
 

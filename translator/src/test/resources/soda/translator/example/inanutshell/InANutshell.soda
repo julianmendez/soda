@@ -87,9 +87,9 @@ class Comparable
 
 end
 
-class ComparableMax [T subtype Comparable]
+class ComparableMax [A subtype Comparable]
 
-  max (a : T) (b : T) : T =
+  max (a : A) (b : A) : A =
     if a.is_greater_than (b)
     then a
     else b

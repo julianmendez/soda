@@ -1,14 +1,14 @@
 package soda.collection.example
 
-trait Pair [T]
+trait Pair [A]
 {
 
   def   name: String
-  def   result: T
+  def   result: A
 
 }
 
-case class Pair_ [T] (name: String, result: T) extends Pair [T]
+case class Pair_ [A] (name: String, result: A) extends Pair [A]
 
 trait ListExample
 {
@@ -24,13 +24,13 @@ trait ListExample
     Pair_ ("b", b )
 
   lazy val take_example: Pair [Seq [Char]] =
-    Pair_ ("a.take(3)", a.take (3 )  )
+    Pair_ ("a.take(3)", a.take (3 ) )
 
   lazy val takeRight_example: Pair [Seq [Char]] =
-    Pair_ ("a.takeRight(3)", a.takeRight (3 )  )
+    Pair_ ("a.takeRight(3)", a.takeRight (3 ) )
 
   lazy val takeWhile_example: Pair [Seq [Char]] =
-    Pair_ ("a.takeWhile(lambda x -> not (x == 'E'))", a.takeWhile (x => ! (x == 'E')  )  )
+    Pair_ ("a.takeWhile(lambda x -> not (x == 'E'))", a.takeWhile (x => ! (x == 'E') ) )
 
   lazy val drop_example: Pair [Seq [Char]] =
     Pair_ ("a.drop(2)", a.drop (2 )  )
@@ -39,18 +39,18 @@ trait ListExample
     Pair_ ("a.dropRight(2)", a.dropRight (2 )  )
 
   lazy val dropWhile_example: Pair [Seq [Char]] =
-    Pair_ ("a.dropWhile(lambda x -> not (x == 'E'))", a.dropWhile (x => ! (x == 'E')  )  )
+    Pair_ ("a.dropWhile(lambda x -> not (x == 'E'))", a.dropWhile (x => ! (x == 'E') ) )
 
-  lazy val splitAt_example: Pair [(Seq [Char], Seq [Char]  )] =
-    Pair_ ("a.splitAt(3)", a.splitAt (3 )  )
+  lazy val splitAt_example: Pair [(Seq [Char], Seq [Char] )] =
+    Pair_ ("a.splitAt(3)", a.splitAt (3 ) )
 
   lazy val indices_example: Pair [Range] =
     Pair_ ("a.indices", a.indices )
 
-  lazy val zipWithIndex_example: Pair [Seq [(Char, Int )]] =
+  lazy val zipWithIndex_example: Pair [Seq [Tuple2 [Char, Int]]] =
     Pair_ ("a.zipWithIndex", a.zipWithIndex )
 
-  lazy val zip_example: Pair [Seq [(Char, Int )]] =
+  lazy val zip_example: Pair [Seq [Tuple2 [Char, Int]]] =
     Pair_ ("a.zip(b)", a.zip (b )  )
 
   lazy val reverse_example: Pair [Seq [Char]] =
@@ -60,37 +60,35 @@ trait ListExample
    * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val prepended_example: Pair [Seq [Char]] =
-    Pair_ ("a.+:('X')", (a.+: ('X')  )  )
+    Pair_ ("a.+:('X')", (a.+: ('X') ) )
 
   /**
    * A mnemonic for `+:` vs. `:+` is that the COLon goes on the COLlection side.
    */
   lazy val appended_example: Pair [Seq [Char]] =
-    Pair_ ("a.:+('X')", (a.:+ ('X')  )  )
+    Pair_ ("a.:+('X')", (a.:+ ('X') ) )
 
   lazy val concat_example: Pair [Seq [Int]] =
-    Pair_ ("a.map(_.toInt).++(b)", a.map (_.toInt ) .++ (b )  )
+    Pair_ ("a.map(_.toInt).++(b)", a.map (_.toInt ) .++ (b ) )
 
   lazy val span_example: Pair [(Seq [Char], Seq [Char]  )] =
-    Pair_ ("a.span(lambda x -> not (x == 'D'))", a.span (x => ! (x == 'D')  )  )
+    Pair_ ("a.span(lambda x -> not (x == 'D'))", a.span (x => ! (x == 'D') ) )
 
   lazy val map_example: Pair [Seq [Int]] =
-    Pair_ ("a.map(lambda x -> x.toInt)", a.map (x => x.toInt )  )
+    Pair_ ("a.map(lambda x -> x.toInt)", a.map (x => x.toInt ) )
 
   lazy val filter_example: Pair [Seq [Char]] =
     Pair_ ("a.filter(lambda x -> x.toInt % 2 == 0)", a.filter (x => x.toInt % 2 == 0 ) )
 
   lazy val fold_example: Pair [Int] =
-    Pair_ ("b.fold(0)(lambda (a, b) -> a + b)", b.fold (0 )  ((a, b ) => a + b )  )
+    Pair_ ("b.fold(0)(lambda (a, b) -> a + b)", b.fold (0 )  ((a, b ) => a + b ) )
 
   lazy val foldLeft_example: Pair [Seq [Char]] =
-    Pair_ ("a.foldLeft(Seq('*'))(lambda (list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*')  )  ((list, elem ) => "(" + list + " :+ " + elem + ")")  )
+    Pair_ ("a.foldLeft(Seq('*'))(lambda (list, elem) -> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*') )  ((list, elem ) => "(" + list + " :+ " + elem + ")") )
 
   lazy val foldRight_example: Pair [Seq [Char]] =
-    Pair_ ("a.foldRight(Seq('*'))(lambda (elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*')  )  ((elem, list ) => "(" + elem + " +: " + list + ")")  )
+    Pair_ ("a.foldRight(Seq('*'))(lambda (elem, list) -> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*') )  ((elem, list ) => "(" + elem + " +: " + list + ")") )
 
 }
 
 case class ListExample_ () extends ListExample
-
-

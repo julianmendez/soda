@@ -101,17 +101,17 @@ trait Comparable
 
 case class Comparable_ (is_greater_than: Comparable => Boolean) extends Comparable
 
-trait ComparableMax [T <: Comparable]
+trait ComparableMax [A <: Comparable]
 {
 
-  def max (a: T ) (b: T ): T =
+  def max (a: A ) (b: A ): A =
     if (a.is_greater_than (b )
     ) a
     else b
 
 }
 
-case class ComparableMax_ [T <: Comparable] () extends ComparableMax [T]
+case class ComparableMax_ [A <: Comparable] () extends ComparableMax [A]
 
 trait WithInstance
 {
