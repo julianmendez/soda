@@ -5,28 +5,18 @@ trait InANutshell
 
   def f (x: Int ): Int = x + 16
 
-  lazy val b = f (a )
+  lazy val value = f (numbers )
 
-  lazy val a = 1 + 2 + 4 + 8
+  lazy val numbers = 1 + 2 + 4 + 8
 
   def h0 (x: Int ) (y: Int ): Int =
-    {
-      lazy val a = x + y
-      lazy val b = x - y
-      a * b }
+    x + y
 
   def h1 (x: Int ) (y: Int ): Int =
-    {
-      lazy val a = x + y
-      lazy val b = x - y
-      a * b }
+    x - y
 
   def h2 (x: Int ) (y: Int ): Int =
-    {
-      lazy val result = a * b
-      lazy val a = x + y
-      lazy val b = x - y
-      result }
+    (h0 (x ) (y ) ) * (h1 (x ) (y ) )
 
   def is_greater_than (a: Int ) (b: Int ): Boolean =
     a > b
