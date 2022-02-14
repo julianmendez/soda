@@ -20,7 +20,7 @@ class MSeqTranslator [T]
   asSeq (mseq : MSeq [T] ) : Seq [T] =
     let
       initial_value : Seq [T] = Seq ()
-      next_value (acc : Seq [T] ) (elem : T) : Seq [T] = acc.+ : (elem)
+      next_value (acc : Seq [T] ) (elem : T) : Seq [T] = acc.+: (elem)
     in (Min_ ().foldLeft (mseq) (initial_value) (next_value) ).reverse
 
 end

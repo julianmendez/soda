@@ -46,7 +46,7 @@ class SeqList
   _tailrec_to_Seq [A] (a : list [A] ) (b : Seq [A] ) : Seq [A] =
     match a
       | nil_ () => b
-      | cons_ (e, s) => _tailrec_to_Seq (s) ( b .+ : (e) )
+      | cons_ (e, s) => _tailrec_to_Seq (s) ( b .+: (e) )
     end
 
   to_Seq [A] (a : list [A] ) : Seq [A] =

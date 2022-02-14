@@ -18,7 +18,7 @@ class DirectoryScanner
   _tailrec_scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     if to_scan.isEmpty
     then found
-    else _tailrec_scan (found.+ : (to_scan.head) ) (get_files_to_scan (to_scan) )
+    else _tailrec_scan (found.+: (to_scan.head) ) (get_files_to_scan (to_scan) )
 
   scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     _tailrec_scan (found) (to_scan)
