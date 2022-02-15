@@ -30,7 +30,7 @@ class BlockProcessor
     program
       .split (double_new_line)
       .toIndexedSeq
-      .map (lambda paragraph -> make_block (paragraph) )
+      .map (lambda paragraph --> make_block (paragraph) )
 
   make_block (paragraph : String) : AnnotatedBlock =
     AnnotationFactory_ ().annotate (
@@ -44,12 +44,12 @@ class BlockProcessor
 
   join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
     blocks
-      .map (lambda x -> x.contents)
+      .map (lambda x --> x.contents)
       .mkString (double_new_line) + new_line
 
   remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
-      .filter (lambda line -> line.trim.nonEmpty)
+      .filter (lambda line --> line.trim.nonEmpty)
 
 end
 

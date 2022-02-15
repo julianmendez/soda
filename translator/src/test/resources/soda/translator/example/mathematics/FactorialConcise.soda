@@ -18,7 +18,7 @@ class FactorialConcise
     else _tailrec_get_factorial (n - 1) (n * product)
 
   get_factorial : Int -> Int =
-    lambda n -> get_factorial_for (n)
+    lambda n --> get_factorial_for (n)
 
   get_factorial_for (n : Int) : Int =
     _tailrec_get_factorial (n) (1)

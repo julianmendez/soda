@@ -15,7 +15,7 @@ class CommentAnnotation
   applies : Boolean =
     block
       .annotated_lines
-      .forall (lambda annotated_line -> annotated_line.is_comment)
+      .forall (lambda annotated_line --> annotated_line.is_comment)
 
 end
 

@@ -17,7 +17,7 @@ class FiboExampleInSoda
     else _rec (m - 1) (b) (a + b)
 
   fib : Int -> Int is
-    lambda n -> fib_for (n)
+    lambda n --> fib_for (n)
 
   fib_for (n : Int) is
     _rec (n) (0) (1)

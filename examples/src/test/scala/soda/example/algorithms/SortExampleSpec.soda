@@ -76,7 +76,7 @@ class SortExampleSpec ()
         instance
           .build (unsorted_sequence)
           .sequence
-          .map (lambda x -> x.intValue)
+          .map (lambda x --> x.intValue)
     in assert (obtained == expected)
 
 end

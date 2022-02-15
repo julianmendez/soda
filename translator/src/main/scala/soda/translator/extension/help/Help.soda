@@ -26,8 +26,8 @@ class AbstractHelp
 
   output_content (content : String) : Boolean =
     SomeSD_ (content)
-      .map (lambda x -> println (x) )
-      .map (lambda x -> true)
+      .map (lambda x --> println (x) )
+      .map (lambda x --> true)
       .getOrElse (false)
 
 end

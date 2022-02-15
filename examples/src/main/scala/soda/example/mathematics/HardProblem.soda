@@ -43,7 +43,7 @@ class Memoizer [A, B]
     main_function : InputPair [A, B] -> OutputPair [A, B]
 
   abs_compute : InputPair [A, B] -> OutputPair [A, B] =
-    lambda input ->
+    lambda input -->
       compute_for (input)
 
   compute_for (input : InputPair [A, B] ) : OutputPair [A, B] =
@@ -80,7 +80,7 @@ class HardProblem
     else 3 * n + 1
 
   main_function : InputPair [Int, Int] -> OutputPair [Int, Int] =
-    lambda input ->
+    lambda input -->
       if input.value == 1
       then OutputPair_ (0, input.memoized_values)
       else _plus_one (compute (InputPair_ (one_step (input.value), input.memoized_values) ) )
@@ -89,7 +89,7 @@ class HardProblem
     OutputPair_ (1 + pair.value, pair.memoized_values)
 
   abs_compute : InputPair [Int, Int] -> OutputPair [Int, Int] =
-    lambda input ->
+    lambda input -->
       compute_for (input)
 
   compute_for (input : InputPair [Int, Int] ) : OutputPair [Int, Int] =
@@ -104,7 +104,7 @@ class MemoizedFibonacci
   memoizer = Memoizer_ [Int, Int] (main_function)
 
   main_function : InputPair [Int, Int] -> OutputPair [Int, Int] =
-    lambda input ->
+    lambda input -->
       if input.value == 0 then OutputPair_ (0, input.memoized_values )
       else if input.value == 1 then OutputPair_ (1, input.memoized_values )
       else _compute_and_update_1 (compute (InputPair_ (input.value - 2, input.memoized_values ) ) ) (input.value)
@@ -122,7 +122,7 @@ class MemoizedFibonacci
     a + b
 
   abs_compute : InputPair [Int, Int] -> OutputPair [Int, Int] =
-    lambda input ->
+    lambda input -->
       compute_for (input)
 
   compute_for (input : InputPair [Int, Int] ) : OutputPair [Int, Int] =

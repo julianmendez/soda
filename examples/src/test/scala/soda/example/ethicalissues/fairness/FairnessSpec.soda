@@ -5,11 +5,11 @@ class FairnessSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   rank_1: Applicant -> Double =
-    lambda applicant ->
+    lambda applicant -->
       applicant.background_score * 2
 
   rank_2: Applicant -> Double =
-    lambda applicant ->
+    lambda applicant -->
       (1 - applicant.background_score) * 2
 
   test ("simple test for fairness (true)")

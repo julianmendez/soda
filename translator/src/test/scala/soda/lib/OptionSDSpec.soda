@@ -116,11 +116,11 @@ class OptionSDSpec ()
       expected = SomeSD_ (6)
       obtained =
         maybeA.opt (ifEmpty := empty) (
-          ifNonEmpty := a ->
+          ifNonEmpty := lambda a -->
             maybeB.opt (ifEmpty := empty) (
-              ifNonEmpty := b ->
+              ifNonEmpty := lambda b -->
                 maybeC.opt (ifEmpty := empty) (
-                  ifNonEmpty := c ->
+                  ifNonEmpty := lambda c -->
                     SomeSD_ (a + b + c) ) ) )
     in assert (obtained == expected)
 
@@ -170,21 +170,21 @@ class OptionSDSpec ()
     let
       input = NoneSD_ [Int] ()
       expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x -> true)
+      obtained = input.filter (lambda x --> true)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate does not hold")
     let
       input = SomeSD_ [Int] (0)
       expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x -> x > 0)
+      obtained = input.filter (lambda x --> x > 0)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate holds")
     let
       input = SomeSD_ [Int] (1)
       expected = SomeSD_ [Int] (1)
-      obtained = input.filter (lambda x -> x > 0)
+      obtained = input.filter (lambda x --> x > 0)
     in assert (obtained == expected)
 
 end

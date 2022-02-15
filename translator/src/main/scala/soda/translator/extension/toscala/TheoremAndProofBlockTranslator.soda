@@ -16,7 +16,7 @@ class TheoremAndProofBlockTranslator
   tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =

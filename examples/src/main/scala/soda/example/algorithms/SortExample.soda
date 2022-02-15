@@ -12,13 +12,13 @@ class SortExampleWithAt
     SortExample
 
   is_sorted : Seq [Int] -> Boolean =
-    lambda sequence -> is_sorted_for (sequence)
+    lambda sequence --> is_sorted_for (sequence)
 
   is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
-      .filter (lambda index -> index > 0)
-      .forall (lambda index -> sequence.apply (index - 1) <= sequence.apply (index) )
+      .filter (lambda index --> index > 0)
+      .forall (lambda index --> sequence.apply (index - 1) <= sequence.apply (index) )
 
 end
 
@@ -27,12 +27,12 @@ class SortExampleWithZip
     SortExample
 
   is_sorted : Seq [Int] -> Boolean =
-    lambda sequence -> is_sorted_for (sequence)
+    lambda sequence --> is_sorted_for (sequence)
 
   is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .zip (sequence.tail)
-      .forall (lambda pair -> (pair._1 <= pair._2) )
+      .forall (lambda pair --> (pair._1 <= pair._2) )
 
 end
 
@@ -51,7 +51,7 @@ class SortAlgorithmExampleWithFold
     soda.lib.Recursion_
 
   sort : Seq [Int] -> Seq [Int] =
-    lambda sequence -> sort_for (sequence)
+    lambda sequence --> sort_for (sequence)
 
   sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if sequence.length < 2
@@ -65,9 +65,9 @@ class SortAlgorithmExampleWithFold
 
   insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
     concatenate (
-      first_part := sequence.takeWhile (lambda x -> x < element) ) (
+      first_part := sequence.takeWhile (lambda x --> x < element) ) (
       middle := Seq (element) ) (
-      last_part := sequence.dropWhile (lambda x -> x < element)
+      last_part := sequence.dropWhile (lambda x --> x < element)
     )
 
   concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
@@ -108,7 +108,7 @@ class EmptySortedSequence [A subtype Comparable [A] ]
   sequence = Seq ()
 
   add : A -> SortedSequence [A] =
-    lambda element -> add_for (element)
+    lambda element --> add_for (element)
 
   add_for (element : A) : SortedSequence [A] =
     NonEmptySortedSequence_ (Seq (element) )
@@ -138,7 +138,7 @@ class NonEmptySortedSequence [A subtype Comparable [A] ]
   aux = NonEmptySortedSequenceAux_ [A] ()
 
   add : A -> SortedSequence [A] =
-    lambda element -> add_for (element)
+    lambda element --> add_for (element)
 
   add_for (element : A) : SortedSequence [A] =
     NonEmptySortedSequence_ (aux.insert_sorted (sequence) (element) )
@@ -155,13 +155,13 @@ class NonEmptySortedSequenceAux [A subtype Comparable [A] ]
   is_sorted (other_sequence : Seq [A] ) : Boolean =
     other_sequence
       .zip (other_sequence.tail)
-      .forall (lambda pair -> is_less_than (pair._1) (pair._2) )
+      .forall (lambda pair --> is_less_than (pair._1) (pair._2) )
 
   insert_sorted (original_sequence : Seq [A] ) (element : A) : Seq [A] =
     concatenate (
-      first_part := original_sequence.takeWhile (lambda x -> is_less_than (x) (element) ) ) (
+      first_part := original_sequence.takeWhile (lambda x --> is_less_than (x) (element) ) ) (
       middle := Seq (element) ) (
-      last_part := original_sequence.dropWhile (lambda x -> is_less_than (x) (element) )
+      last_part := original_sequence.dropWhile (lambda x --> is_less_than (x) (element) )
     )
 
   concatenate (first_part : Seq [A] ) (middle : Seq [A] ) (last_part : Seq [A] ) : Seq [A] =

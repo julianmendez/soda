@@ -9,7 +9,7 @@ class BlockTranslator00
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty
@@ -29,7 +29,7 @@ class BlockTranslator01
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty
@@ -49,7 +49,7 @@ class BlockTranslator02
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty

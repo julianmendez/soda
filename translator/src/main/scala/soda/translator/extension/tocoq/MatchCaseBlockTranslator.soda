@@ -21,7 +21,7 @@ class MatchCaseBlockTranslator
   soda_match_pattern = sc.match_reserved_word + " "
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
@@ -40,7 +40,7 @@ class MatchCaseBlockTranslator
   _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
-        .map (lambda line -> append_with_after_match (line) )
+        .map (lambda line --> append_with_after_match (line) )
     )
 
   append_with_after_match (line : String) : String =

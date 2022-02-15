@@ -10,9 +10,9 @@ class RecursionForCoqSpec ()
     let
       initial_value = Seq [String] ()
       next_value_function: Seq [String] -> Int -> Seq [String] =
-        lambda (s: Seq [String]) -> lambda (e: Int) -> s .+:  ("" +  (e + 100))
+        lambda (s: Seq [String]) --> lambda (e: Int) --> s .+:  ("" +  (e + 100))
       condition: Seq [String] -> Int -> Boolean =
-        lambda (s: Seq [String]) -> lambda (e: Int) -> e < 5
+        lambda (s: Seq [String]) --> lambda (e: Int) --> e < 5
       expected = Seq ("103", "102", "101", "101", "100")
       obtained = RecursionForCoq_ ().fold4 (exampleSeq) (initial_value) (next_value_function) (condition)
     in assert (obtained == expected)
@@ -21,7 +21,7 @@ class RecursionForCoqSpec ()
     let
       initial_value = Seq [String] ()
       next_value_function: Seq [String] -> Int -> Seq [String] =
-        lambda (s: Seq [String]) -> lambda (e: Int) -> s .+:  ("" +  (e + 100))
+        lambda (s: Seq [String]) --> lambda (e: Int) --> s .+:  ("" +  (e + 100))
       expected = Seq ("108", "105", "103", "102", "101", "101", "100")
       obtained = RecursionForCoq_ ().fold3 (exampleSeq) (initial_value) (next_value_function)
     in assert (obtained == expected)

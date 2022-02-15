@@ -157,28 +157,28 @@ case class MinSpec ()
   test ("takeWhile with Seq")
     {
       lazy val expected = Seq (0, 1, 1, 2 )
-      lazy val f: Int => Boolean = e => !  (e == 3 )
+      lazy val f: Int => Boolean = e => ! (e == 3 )
       lazy val obtained = exampleSeq.takeWhile (f )
       assert (obtained == expected ) }
 
   test ("takeWhile")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (0, 1, 1, 2 ) )
-      lazy val f: Int => Boolean = e => !  (e == 3 )
+      lazy val f: Int => Boolean = e => ! (e == 3 )
       lazy val obtained = Min_ () .takeWhile (example ) (f )
       assert (obtained == expected ) }
 
   test ("dropWhile with Seq")
     {
       lazy val expected = Seq (3, 5, 8 )
-      lazy val f: Int => Boolean = e => !  (e == 3 )
+      lazy val f: Int => Boolean = e => ! (e == 3 )
       lazy val obtained = exampleSeq.dropWhile (f )
       assert (obtained == expected ) }
 
   test ("dropWhile")
     {
       lazy val expected = MSeqTranslator_ () .asMSeq (Seq (3, 5, 8 ) )
-      lazy val f: Int => Boolean = e => !  (e == 3 )
+      lazy val f: Int => Boolean = e => ! (e == 3 )
       lazy val obtained = Min_ () .dropWhile (example ) (f )
       assert (obtained == expected ) }
 

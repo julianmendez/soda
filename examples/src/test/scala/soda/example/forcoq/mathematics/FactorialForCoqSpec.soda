@@ -14,7 +14,7 @@ class FactorialForCoqSpec ()
 
   factorial_values_with_nat: Seq [ Tuple2 [nat, nat] ] =
     factorial_values
-      .map (lambda pair ->
+      .map (lambda pair -->
         Tuple2 ( IntNat_ ().from_non_negative (pair._1), IntNat_ ().from_non_negative (pair._2) )
       )
 
@@ -22,8 +22,8 @@ class FactorialForCoqSpec ()
     let
       expected = factorial_values_with_nat
       obtained = factorial_values_with_nat
-        .map (lambda pair -> pair._1)
-        .map (lambda n -> Tuple2 (n, FactorialForCoq_ ().get_factorial (n) ) )
+        .map (lambda pair --> pair._1)
+        .map (lambda n --> Tuple2 (n, FactorialForCoq_ ().get_factorial (n) ) )
     in assert (obtained == expected)
 
 end

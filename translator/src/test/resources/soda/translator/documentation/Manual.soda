@@ -137,7 +137,7 @@ class Item
   /* It is possible to refer to an object instance by using `this`. */
 
   accept : Visitor -> Boolean =
-    lambda visitor ->
+    lambda visitor -->
       visitor.visit (this)
 
 end
@@ -187,7 +187,7 @@ class Manual
    * Lambda functions are declared using a right arrow (`->`). */
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map (lambda element -> element + 1)
+    sequence.map (lambda element --> element + 1)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -285,7 +285,7 @@ class FactorialVerbose
     else _tailrec_ (n - 1) (n * product)
 
   factorial : Int -> Int is
-    lambda n ->
+    lambda n -->
       _tailrec_ (n) (1)
 
 end

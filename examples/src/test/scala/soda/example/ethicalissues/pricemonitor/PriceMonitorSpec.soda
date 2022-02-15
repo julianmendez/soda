@@ -5,9 +5,9 @@ class UnfairPricingAgent
     PricingAgent
 
   abs_get_price: Customer -> Flight -> Int -> Int =
-    lambda customer ->
-      lambda flight ->
-        lambda date ->
+    lambda customer -->
+      lambda flight -->
+        lambda date -->
           get_price_for (customer) (flight) (date)
 
   get_price_for (customer: Customer) (flight: Flight) (date: Int): Int =
@@ -20,9 +20,9 @@ class FairPricingAgent
     PricingAgent
 
   abs_get_price: Customer -> Flight -> Int -> Int =
-    lambda customer ->
-      lambda flight ->
-        lambda date ->
+    lambda customer -->
+      lambda flight -->
+        lambda date -->
           get_price_for (customer) (flight) (date)
 
   get_price_for (customer: Customer) (flight: Flight) (date: Int): Int =

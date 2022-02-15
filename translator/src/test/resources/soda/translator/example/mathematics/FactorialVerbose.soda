@@ -18,7 +18,7 @@ class FactorialVerbose
     else _tailrec_get_factorial (n - 1) (n * product)
 
   get_factorial is
-    lambda n -> get_factorial_for (n)
+    lambda n --> get_factorial_for (n)
 
   get_factorial_for (n : Int) is
     _tailrec_get_factorial (n) (1)

@@ -8,25 +8,25 @@ class TokenReplacement
 
   add_spaces_to_symbols (symbols : Set [Char] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
-      lambda token ->
+      lambda token -->
         ReplacementAux_ ().add_spaces_to_symbols (token.text) (symbols)
     )
 
   replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
-      lambda token ->
+      lambda token -->
         ReplacementWithTranslator_ (TableTranslator_ (table) ).replace (token.text)
     )
 
   replace_regex (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
-      lambda token ->
+      lambda token -->
         ReplacementWithTranslator_ (TableTranslator_ (table) ).replace_regex (token.text)
     )
 
   replace_at_beginning (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
-      lambda token ->
+      lambda token -->
         ReplacementWithTranslator_ (TableTranslator_ (table) ).replace_at_beginning (token.text) (token.index)
     )
 
