@@ -12,9 +12,10 @@ This project includes a translator to Scala.
 The reserved words are:
 
 - `=` (definition symbol)
-- `:` (type symbol)
-- `->` (lambda symbol)
-- `=>` (implication symbol)
+- `:` (type membership symbol)
+- `->` (type mapping symbol)
+- `-->` (lambda symbol)
+- `==>` (implication symbol in pattern matching)
 - `:=` (parameter definition symbol)
 - `lambda`
 - `if`
@@ -100,9 +101,8 @@ The language does not provide `throw`, `try`, and `catch`, because those command
 
 This language is statically typed. It is possible to define abstract and concrete classes.
 
-A *class* is like a *trait* in Scala.
-Each class should have a single class constructor.
-The class constructor is implemented with a *concrete class*, which is like a *case class* in Scala.
+A *class* is like a *trait* in Scala. Each class should have a single class constructor. The class constructor is
+implemented with a *concrete class*, which is like a *case class* in Scala.
 
 
 ## Package Declaration and Imports

@@ -1,6 +1,9 @@
 ---
 - - version: v0.15.0
   - date: unreleased
+  - new_features:
+    - accepts a long arrow `-->` for lambda expressions
+    - accepts a long double arrow `==>` for pattern matching cases
   - build: sbt '++ 3.1.1' clean compile test package assembly
   - release: target/scala-3.1.1/soda-0.15.0.jar
 - - version: v0.14.0

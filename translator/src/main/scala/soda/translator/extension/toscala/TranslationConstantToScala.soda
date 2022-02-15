@@ -203,7 +203,9 @@ class TranslationConstantToScala
     Seq (
       Tuple2 (":", ":"),
       Tuple2 ("->", "=>"),
+      Tuple2 ("-->", "=>"),
       Tuple2 ("=>", "=>"),
+      Tuple2 ("==>", "=>"),
       Tuple2 (":=", "="),
       Tuple2 ("if", "if ("),
       Tuple2 ("then", ")"),

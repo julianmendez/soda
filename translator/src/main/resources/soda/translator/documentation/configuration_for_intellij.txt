@@ -23,10 +23,12 @@ Syntax Highlighting
 Keywords
 
 1
+-->
 ->
 :
 :=
 =
+==>
 =>
 abstract
 case
