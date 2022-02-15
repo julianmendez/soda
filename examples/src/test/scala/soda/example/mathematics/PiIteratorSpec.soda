@@ -4,15 +4,19 @@ class PiIteratorSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   pi_start = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446"
 
   pi_sequence = PiIterator_ ().take (128)
 
-  test ("first digits of Pi")
-    let
-      expected = pi_start
-      obtained = "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("")
-    in assert (obtained == expected)
+  test ("first digits of Pi") (
+    check (
+      obtained := "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("") ) (
+      expected := pi_start
+    )
+  )
 
 end
 
