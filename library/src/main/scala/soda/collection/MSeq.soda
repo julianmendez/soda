@@ -7,8 +7,8 @@ class MSeq [A]
 
   opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
-      | ESeq_ () => ifEmpty
-      | NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
+      case ESeq_ () => ifEmpty
+      case NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
     end
 
 end

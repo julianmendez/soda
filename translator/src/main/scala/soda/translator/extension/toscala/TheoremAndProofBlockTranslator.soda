@@ -21,9 +21,9 @@ class TheoremAndProofBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block : TheoremBlockAnnotation => _translate_theorem_block (block)
-      | block : ProofBlockAnnotation => _translate_proof_block (block)
-      | x => annotated_block
+      case block : TheoremBlockAnnotation => _translate_theorem_block (block)
+      case block : ProofBlockAnnotation => _translate_proof_block (block)
+      case x => annotated_block
     end
 
   _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =

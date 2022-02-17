@@ -224,8 +224,8 @@ class Manual
 
   another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
-      | true => if_true
-      | false => if_false
+      case true => if_true
+      case false => if_false
     end
 
   sum (n : Int) =

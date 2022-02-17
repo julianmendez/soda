@@ -17,10 +17,10 @@ class FizzBuzzPatternMatching
 
   get_fizz_buzz_term (n : Int) =
     match Tuple2 (n % 3, n % 5)
-      | Tuple2 (0, 0) => fizz + buzz
-      | Tuple2 (0, x) => fizz
-      | Tuple2 (x, 0) => buzz
-      | otherwise => n.toString
+      case Tuple2 (0, 0) => fizz + buzz
+      case Tuple2 (0, x) => fizz
+      case Tuple2 (x, 0) => buzz
+      case otherwise => n.toString
     end
 
 end
