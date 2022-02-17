@@ -13,7 +13,7 @@ trait SodaConstant
 
   lazy val function_arrow_symbol = "->"
 
-  lazy val lambda_arrow_symbol = "->"
+  lazy val lambda_arrow_symbol = "-->"
 
   lazy val case_arrow_symbol = "=>"
 
@@ -104,6 +104,8 @@ trait SodaConstant
   lazy val tail_recursion_annotation = "@tailrec"
 
   lazy val override_annotation = "@override"
+
+  lazy val new_annotation = "@new"
 
   lazy val deprecated_let_reserved_word = "let"
 

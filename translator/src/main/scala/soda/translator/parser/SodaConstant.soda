@@ -12,7 +12,7 @@ class SodaConstant
 
   function_arrow_symbol = "->"
 
-  lambda_arrow_symbol = "->"
+  lambda_arrow_symbol = "-->"
 
   case_arrow_symbol = "=>"
 
@@ -103,6 +103,8 @@ class SodaConstant
   tail_recursion_annotation = "@tailrec"
 
   override_annotation = "@override"
+
+  new_annotation = "@new"
 
   deprecated_let_reserved_word = "let"
 
