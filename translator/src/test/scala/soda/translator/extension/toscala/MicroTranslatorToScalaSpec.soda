@@ -131,11 +131,11 @@ class MicroTranslatorToScalaSpec ()
   test ("should translate type aliases")
     let
       original =
-        "* A[T] = B[T]" +
+        "class A[T] = B[T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\n* M = Map[Int, Seq[Int]]" +
+        "\nclass M = Map[Int, Seq[Int]]" +
         "\n"
       expected =
         "type A [T] = B [T]" +

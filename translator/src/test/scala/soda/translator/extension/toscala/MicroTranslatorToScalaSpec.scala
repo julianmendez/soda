@@ -131,11 +131,11 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate type aliases")
     {
       lazy val original =
-        "* A[T] = B[T]" +
+        "class A[T] = B[T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\n* M = Map[Int, Seq[Int]]" +
+        "\nclass M = Map[Int, Seq[Int]]" +
         "\n"
       lazy val expected =
         "type A [T] = B [T]" +
