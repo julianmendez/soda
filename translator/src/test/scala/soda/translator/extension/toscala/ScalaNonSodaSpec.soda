@@ -26,7 +26,7 @@ class ScalaNonSodaSpec ()
         "\n  while (x != 0)"
       expected = "" +
         "lazy val __soda__val x =" +
-        "\n  __soda__while (x != 0 )" +
+        "\n  __soda__while (x != 0)" +
         "\n"
       obtained = bp.translate (program)
     in assert(obtained == expected)

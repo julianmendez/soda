@@ -8,12 +8,12 @@ case class BeautifierSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  test ("the translated source code should not have too many unnecessary spaces")
+  test ("the translated source code should respect unnecessary spaces")
     {
       lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
-      lazy val expected = "  def beautify_this  (original: String   ): String =\n" +
-        "    original .replaceAll (\"  \", \" \")   \n"
+      lazy val expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
+        "    original .  replaceAll(\"  \" ,  \" \")   \n"
       lazy val obtained =
         BlockProcessor_ (
           DefaultBlockSequenceTranslator_ (

@@ -17,14 +17,14 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a small snippet")
     {
-      lazy val original = "  input_lines = Seq(" +
-        "\n    \"  f( x: Int,\\t\", " +
-        "\n    \"     y: Int) =\"," +
+      lazy val original = "  input_lines = Seq (" +
+        "\n    \"  f ( x : Int,\\t\", " +
+        "\n    \"     y : Int) =\"," +
         "\n    \"       x + y\")" +
         "\n"
       lazy val expected = "  lazy val input_lines = Seq (" +
-        "\n    \"  f( x: Int,\\t\"," +
-        "\n    \"     y: Int) =\"," +
+        "\n    \"  f ( x : Int,\\t\", " +
+        "\n    \"     y : Int) =\"," +
         "\n    \"       x + y\")" +
         "\n"
       lazy val obtained = instance.translate (original )
@@ -32,14 +32,14 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of apostrophes unchanged")
     {
-      lazy val input = " a = Seq('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
+      lazy val input = " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
       lazy val expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
       lazy val obtained = instance.translate (input )
       assert (obtained == expected ) }
 
   test ("should leave content of quotation marks unchanged")
     {
-      lazy val input = " a = Seq(\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+      lazy val input = " a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       lazy val obtained = instance.translate (input )
       assert (obtained == expected ) }
@@ -49,13 +49,13 @@ case class MicroTranslatorToScalaSpec ()
       lazy val original =
         "class D" +
         "\n" +
-        "\n  f(x: Int): Int = x + 1" +
+        "\n  f (x : Int) : Int = x + 1" +
         "\n" +
         "\nend" +
         "\n" +
         "\nclass E" +
         "\n" +
-        "\n  g(x: Int): Int = 2 * x" +
+        "\n  g (x : Int) : Int = 2 * x" +
         "\n" +
         "\nend" +
         "\n" +
@@ -65,19 +65,19 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  abstract" +
         "\n    /** name for this object */" +
-        "\n    name: String" +
+        "\n    name : String" +
         "\n    /**" +
         "\n     * value for this object" +
         "\n     */" +
-        "\n    value: Int" +
+        "\n    value : Int" +
         "\n" +
-        "\n  h(x: Int): Int = 2 * x + 1" +
+        "\n  h (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\nend" +
         "\n" +
         "\nclass E [A]" +
         "\n" +
-        "\n  i(x: A): A = x" +
+        "\n  i (x : A) : A = x" +
         "\n" +
         "\nend" +
         "\n"
@@ -85,7 +85,7 @@ case class MicroTranslatorToScalaSpec ()
         "trait D" +
         "\n{" +
         "\n" +
-        "\n  def f (x: Int ): Int = x + 1" +
+        "\n  def f (x : Int) : Int = x + 1" +
         "\n" +
         "\n}" +
         "\n" +
@@ -94,7 +94,7 @@ case class MicroTranslatorToScalaSpec ()
         "\ntrait E" +
         "\n{" +
         "\n" +
-        "\n  def g (x: Int ): Int = 2 * x" +
+        "\n  def g (x : Int) : Int = 2 * x" +
         "\n" +
         "\n}" +
         "\n" +
@@ -106,20 +106,20 @@ case class MicroTranslatorToScalaSpec ()
         "\n{" +
         "\n" +
         "\n    /** name for this object */" +
-        "\n  def   name: String" +
+        "\n  def   name : String" +
         "\n    /**" +
         "\n     * value for this object" +
         "\n     */" +
-        "\n  def   value: Int" +
+        "\n  def   value : Int" +
         "\n" +
-        "\n  def h (x: Int ): Int = 2 * x + 1" +
+        "\n  def h (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\n}" +
         "\n" +
         "\ntrait E [A]" +
         "\n{" +
         "\n" +
-        "\n  def i (x: A ): A = x" +
+        "\n  def i (x : A) : A = x" +
         "\n" +
         "\n}" +
         "\n" +
@@ -131,11 +131,11 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate type aliases")
     {
       lazy val original =
-        "class A[T] = B[T]" +
+        "class A [T] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\nclass M = Map[Int, Seq[Int]]" +
+        "\nclass M = Map [Int, Seq [Int]]" +
         "\n"
       lazy val expected =
         "type A [T] = B [T]" +
@@ -149,31 +149,31 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a tuple assignment")
     {
-      lazy val original = "  (x, y) = (f(a), g(a))" +
+      lazy val original = "  (x, y) = (f (a), g (a))" +
         "\n  (p, q) =" +
-        "\n    h(1, 2)" +
+        "\n    h (1, 2)" +
         "\n"
-      lazy val expected = "  lazy val (x, y ) = (f (a ), g (a )  )" +
-        "\n  lazy val (p, q ) =" +
-        "\n    h (1, 2 )" +
+      lazy val expected = "  lazy val (x, y) = (f (a), g (a))" +
+        "\n  lazy val (p, q) =" +
+        "\n    h (1, 2)" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate a pattern matching")
     {
-      lazy val original = "fibo(n: Int): Int = " +
+      lazy val original = "fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n  case m ==> if m > 0 then fibo (m - 1) + fibo (m - 2) else 0" +
         "\n end" +
         "\n"
-      lazy val expected = "def fibo (n: Int ): Int =" +
+      lazy val expected = "def fibo (n : Int) : Int = " +
         "\n  n match  {" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
+        "\n  case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n }" +
         "\n"
       lazy val obtained = instance.translate (original )
@@ -181,18 +181,18 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate another pattern matching")
     {
-      lazy val original = "fibo(n: Int): Int = " +
+      lazy val original = "fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
-        "\n    case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n    case m ==> if m > 0 then fibo (m - 1) + fibo (m - 2) else 0" +
         "\n  end" +
         "\n"
-      lazy val expected = "def fibo (n: Int ): Int =" +
+      lazy val expected = "def fibo (n : Int) : Int = " +
         "\n  n match  {" +
         "\n    case 0 => 1 " +
         "\n    case 1 => 1 " +
-        "\n    case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
+        "\n    case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n  }" +
         "\n"
       lazy val obtained = instance.translate (original )
@@ -200,86 +200,86 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should ignore a pattern matching written in the Scala style")
     {
-      lazy val original = "fibo(n: Int): Int = " +
+      lazy val original = "fibo (n : Int) : Int = " +
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n  case m ==> if m > 0 then fibo (m - 1) + fibo (m - 2) else 0" +
         "\n"
-      lazy val expected = "def fibo (n: Int ): Int =" +
+      lazy val expected = "def fibo (n : Int) : Int = " +
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case m => if (m > 0 ) fibo (m - 1 ) + fibo (m - 2 ) else 0" +
+        "\n  case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate an explicit lambda expression")
     {
-      lazy val original = "plus_1: Int = ( lambda x: Int) --> x + 1" +
+      lazy val original = "plus_1 : Int = lambda (x : Int) --> x + 1" +
         "\n"
-      lazy val expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
+      lazy val expected = "lazy val plus_1 : Int =  (x : Int) => x + 1" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate let in 1")
     {
-      lazy val original = "f(x: Int): Int =" +
+      lazy val original = "f (x : Int) : Int =" +
         "\n  let y = x + x" +
         "\n  in y"
-      lazy val expected = "def f (x: Int ): Int =" +
+      lazy val expected = "def f (x : Int) : Int =" +
         "\n  { lazy val y = x + x" +
-        "\n    y }" +
+        "\n   y }" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate let in 2")
     {
-      lazy val original = "f(x: Int): Int =" +
+      lazy val original = "f (x : Int) : Int =" +
         "\n  let" +
         "\n    y = x + x" +
         "\n  in y"
-      lazy val expected = "def f (x: Int ): Int =" +
+      lazy val expected = "def f (x : Int) : Int =" +
         "\n  {" +
         "\n    lazy val y = x + x" +
-        "\n    y }" +
+        "\n   y }" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate let in 3")
     {
-      lazy val original = "f(x: Int): Int =" +
+      lazy val original = "f (x : Int) : Int =" +
         "\n  let" +
         "\n    y = x + x" +
         "\n  in let z = y + y" +
         "\n  in z"
-      lazy val expected = "def f (x: Int ): Int =" +
+      lazy val expected = "def f (x : Int) : Int =" +
         "\n  {" +
         "\n    lazy val y = x + x" +
         "\n   lazy val z = y + y" +
-        "\n    z }" +
+        "\n   z }" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }
 
   test ("should translate let in 4")
     {
-      lazy val original = "f(x: Int): Int =" +
+      lazy val original = "f (x : Int) : Int =" +
         "\n  let" +
         "\n    y = x + x" +
         "\n  in let" +
         "\n    z = y + y" +
         "\n  in z"
-      lazy val expected = "def f (x: Int ): Int =" +
+      lazy val expected = "def f (x : Int) : Int =" +
         "\n  {" +
         "\n    lazy val y = x + x" +
         "\n   " +
         "\n    lazy val z = y + y" +
-        "\n    z }" +
+        "\n   z }" +
         "\n"
       lazy val obtained = instance.translate (original )
       assert (obtained == expected ) }

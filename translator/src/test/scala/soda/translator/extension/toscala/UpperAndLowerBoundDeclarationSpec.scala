@@ -25,9 +25,9 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\nend" +
         "\n"
       lazy val expected =
-        "  case class BlackBox ()" +
+        "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A <: AbstractInput]" +
+        "\n    AbstractBlackBox[A <: AbstractInput]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -45,10 +45,10 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      lazy val expected = "  case class BlackBox ()" +
+      lazy val expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A <: AbstractInput]" +
-        "\n    with AbstractDevice [B <: AbstractDeviceInput]" +
+        "\n    AbstractBlackBox[A <: AbstractInput]" +
+        "\n    with AbstractDevice[B <: AbstractDeviceInput]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -64,9 +64,9 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      lazy val expected = "  case class BlackBox ()" +
+      lazy val expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A >: (AbstractInput )]" +
+        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -83,10 +83,10 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      lazy val expected = "  case class BlackBox ()" +
+      lazy val expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A >: (AbstractInput )]" +
-        "\n    with AbstractDevice [B >: (AbstractDeviceInput )]" +
+        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
+        "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
         "\n{" +
         "\n" +
         "\n}" +

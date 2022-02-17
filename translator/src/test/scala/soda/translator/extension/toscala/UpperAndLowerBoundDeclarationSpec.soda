@@ -25,9 +25,9 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\nend" +
         "\n"
       expected =
-        "  case class BlackBox ()" +
+        "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A <: AbstractInput]" +
+        "\n    AbstractBlackBox[A <: AbstractInput]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -45,10 +45,10 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox ()" +
+      expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A <: AbstractInput]" +
-        "\n    with AbstractDevice [B <: AbstractDeviceInput]" +
+        "\n    AbstractBlackBox[A <: AbstractInput]" +
+        "\n    with AbstractDevice[B <: AbstractDeviceInput]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -64,9 +64,9 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox ()" +
+      expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A >: (AbstractInput )]" +
+        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
         "\n{" +
         "\n" +
         "\n}" +
@@ -83,10 +83,10 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox ()" +
+      expected = "  case class BlackBox()" +
         "\n  extends" +
-        "\n    AbstractBlackBox [A >: (AbstractInput )]" +
-        "\n    with AbstractDevice [B >: (AbstractDeviceInput )]" +
+        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
+        "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
         "\n{" +
         "\n" +
         "\n}" +
