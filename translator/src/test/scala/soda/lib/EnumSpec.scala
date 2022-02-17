@@ -5,12 +5,12 @@ trait DayOfTheWeek
     EnumConstant
 {
 
-  def   ordinal: Int
-  def   name: String
+  def   ordinal : Int
+  def   name : String
 
 }
 
-case class DayOfTheWeek_ (ordinal: Int, name: String) extends DayOfTheWeek
+case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
 
 trait DayOfTheWeekConstant
 {
@@ -29,7 +29,7 @@ trait DayOfTheWeekConstant
 
   lazy val saturday = DayOfTheWeek_ (6, "Saturday")
 
-  lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday )
+  lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday)
 
 }
 
@@ -54,7 +54,7 @@ case class EnumSpec ()
   test ("the names of the elements in enumerations")
     {
       lazy val expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
-      lazy val obtained = DayOfTheWeekEnum_ () .values.map (x => x.toString )
-      assert (obtained == expected ) }
+      lazy val obtained = DayOfTheWeekEnum_ ().values.map (  x => x.toString)
+     assert (obtained == expected) }
 
 }

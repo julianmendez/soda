@@ -7,9 +7,9 @@ package soda.translator.block
 trait Translator
 {
 
-  def   translate: String => String
-  def   keys: Seq [String]
+  def   translate : String => String
+  def   keys : Seq [String]
 
 }
 
-case class Translator_ (translate: String => String, keys: Seq [String]) extends Translator
+case class Translator_ (translate : String => String, keys : Seq [String]) extends Translator

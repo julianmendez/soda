@@ -3,62 +3,62 @@ package soda.translator.replacement
 trait LinePatternProcessor
 {
 
-  def   line: String
-  def   pattern: String
-  def   replacement: String
+  def   line : String
+  def   pattern : String
+  def   replacement : String
 
 }
 
-case class LinePatternProcessor_ (line: String, pattern: String, replacement: String) extends LinePatternProcessor
+case class LinePatternProcessor_ (line : String, pattern : String, replacement : String) extends LinePatternProcessor
 
 trait Replacer
   extends
     LinePatternProcessor
 {
 
-  def   line: String
-  def   pattern: String
-  def   replacement: String
+  def   line : String
+  def   pattern : String
+  def   replacement : String
 
   import   soda.lib.Recursion_
 
   lazy val replaced_text =
-    postprocess (Recursion_ () .fold_while (Recursion_ () .range (line.length ) ) (initial_value ) (next_value_function ) (should_continue ) )
+    postprocess (Recursion_ ().fold_while (Recursion_ ().range (line.length) ) (initial_value) (next_value_function) (should_continue) )
 
-  lazy val initial_value: ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
+  lazy val initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 
-  def next_value_function (tuple: ReplacerFoldTuple ) (x: Int ): ReplacerFoldTuple =
+  def next_value_function (tuple : ReplacerFoldTuple) (x : Int) : ReplacerFoldTuple =
     _get_next_tuple (
-      replaced_text_rev = tuple.replaced_text_rev ) (
-      start_index = tuple.start_index ) (
-      pos = line.indexOf (pattern, tuple.start_index )
+      replaced_text_rev = tuple.replaced_text_rev) (
+      start_index = tuple.start_index) (
+      pos = line.indexOf (pattern, tuple.start_index)
     )
 
-  def _get_next_tuple (replaced_text_rev: Seq [String] ) (start_index: Int ) (pos: Int ): ReplacerFoldTuple =
-    if (pos == -1
-    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index ) ), pos )
+  def _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
+    if ( pos == -1
+    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index) ), pos )
     else
       ReplacerFoldTuple_ (
-        (replaced_text_rev.+: (line.substring (start_index, pos ) ) ) .+: (replacement ),
+        (replaced_text_rev.+: (line.substring (start_index, pos) ) ).+: (replacement),
         pos + pattern.length
       )
 
-  def should_continue (tuple: ReplacerFoldTuple ) (x: Int ): Boolean =
-    ! (tuple.start_index == -1 )
+  def should_continue (tuple : ReplacerFoldTuple) (x : Int) : Boolean =
+    ! (tuple.start_index == -1)
 
-  def postprocess (tuple: ReplacerFoldTuple ): String =
+  def postprocess (tuple : ReplacerFoldTuple) : String =
     tuple.replaced_text_rev.reverse.mkString ("")
 
 }
 
-case class Replacer_ (line: String, pattern: String, replacement: String) extends Replacer
+case class Replacer_ (line : String, pattern : String, replacement : String) extends Replacer
 
 trait ReplacerFoldTuple
 {
 
-  def   replaced_text_rev: Seq [String]
-  def   start_index: Int
+  def   replaced_text_rev : Seq [String]
+  def   start_index : Int
 
 }
 
-case class ReplacerFoldTuple_ (replaced_text_rev: Seq [String], start_index: Int) extends ReplacerFoldTuple
+case class ReplacerFoldTuple_ (replaced_text_rev : Seq [String], start_index : Int) extends ReplacerFoldTuple

@@ -13,7 +13,7 @@ case class ScalaNonSodaSpec ()
   import   soda.translator.parser.BlockProcessor_
 
   lazy val bp =
-    BlockProcessor_ (
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         MicroTranslatorToScala_ ()
       )
@@ -28,8 +28,8 @@ case class ScalaNonSodaSpec ()
         "lazy val __soda__val x =" +
         "\n  __soda__while (x != 0)" +
         "\n"
-      lazy val obtained = bp.translate (program )
-      assert (obtained == expected ) }
+      lazy val obtained = bp.translate (program)
+     assert(obtained == expected) }
 
   test ("some synonyms are Scala reserved words")
     {
@@ -79,7 +79,7 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
         "\n"
-       lazy val obtained = bp.translate (program )
-      assert (obtained == expected ) }
+       lazy val obtained = bp.translate (program)
+     assert (obtained == expected) }
 
 }

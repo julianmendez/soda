@@ -198,29 +198,29 @@ trait TranslationConstantToScala
       "\u2190"
     )
 
-  lazy val type_symbols_translation: Seq [Tuple2 [String, String]] =
+  lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant.subtype_reserved_word, scala_subtype_symbol ),
-      Tuple2 (soda_constant.supertype_reserved_word, scala_supertype_symbol ),
-      Tuple2 (soda_constant.function_arrow_symbol, scala_function_arrow_symbol )
+      Tuple2 (soda_constant.subtype_reserved_word, scala_subtype_symbol),
+      Tuple2 (soda_constant.supertype_reserved_word, scala_supertype_symbol),
+      Tuple2 (soda_constant.function_arrow_symbol, scala_function_arrow_symbol)
     )
 
-  lazy val function_symbols_translation: Seq [Tuple2 [String, String]] =
+  lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant.lambda_reserved_word, scala_empty_string ),
-      Tuple2 (soda_constant.lambda_arrow_symbol, scala_lambda_arrow_symbol ),
-      Tuple2 (soda_constant.case_arrow_symbol, scala_case_arrow_symbol ),
-      Tuple2 (soda_constant.not_reserved_word, scala_not_symbol ),
-      Tuple2 (soda_constant.and_reserved_word, scala_and_symbol ),
-      Tuple2 (soda_constant.or_reserved_word, scala_or_symbol ),
-      Tuple2 (soda_constant.if_reserved_word, scala_if_translation ),
-      Tuple2 (soda_constant.then_reserved_word, scala_then_translation ),
-      Tuple2 (soda_constant.parameter_definition_symbol, scala_parameter_definition_symbol ),
-      Tuple2 (soda_constant.tail_recursion_annotation, scala_tail_recursion_annotation_translation ),
-      Tuple2 (soda_constant.override_annotation, scala_override_annotation_translation ),
-      Tuple2 (soda_constant.new_annotation, scala_new_annotation_translation ),
-      Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_scala_let_translation ),
-      Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_scala_in_translation )
+      Tuple2 (soda_constant.lambda_reserved_word, scala_empty_string),
+      Tuple2 (soda_constant.lambda_arrow_symbol, scala_lambda_arrow_symbol),
+      Tuple2 (soda_constant.case_arrow_symbol, scala_case_arrow_symbol),
+      Tuple2 (soda_constant.not_reserved_word, scala_not_symbol),
+      Tuple2 (soda_constant.and_reserved_word, scala_and_symbol),
+      Tuple2 (soda_constant.or_reserved_word, scala_or_symbol),
+      Tuple2 (soda_constant.if_reserved_word, scala_if_translation),
+      Tuple2 (soda_constant.then_reserved_word, scala_then_translation),
+      Tuple2 (soda_constant.parameter_definition_symbol, scala_parameter_definition_symbol),
+      Tuple2 (soda_constant.tail_recursion_annotation, scala_tail_recursion_annotation_translation),
+      Tuple2 (soda_constant.override_annotation, scala_override_annotation_translation),
+      Tuple2 (soda_constant.new_annotation, scala_new_annotation_translation),
+      Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_scala_let_translation),
+      Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_scala_in_translation)
     )
 
   lazy val class_declaration_translation_at_beginning_with_paren = "case class"
@@ -231,16 +231,16 @@ trait TranslationConstantToScala
 
   lazy val prefix_scala_non_soda = "__soda__"
 
-  lazy val scala_non_soda: Seq [Tuple2 [String, String]] =
+  lazy val scala_non_soda : Seq [Tuple2 [String, String] ] =
       scala_reserved_words
-        .filter (x => ! soda_constant.soda_reserved_words.contains (x )  )
-        .map (x => Tuple2 (x, prefix_scala_non_soda + x ) )
+        .filter (  x => ! soda_constant.soda_reserved_words.contains (x))
+        .map (  x => Tuple2 (x, prefix_scala_non_soda + x) )
 
-  def is_scala_word (word: String ): Boolean =
-    scala_reserved_words.contains (word )
+  def is_scala_word (word : String) : Boolean =
+    scala_reserved_words.contains (word)
 
-  def is_soda_word (word: String ): Boolean =
-    soda_constant.soda_reserved_words.contains (word )
+  def is_soda_word (word : String) : Boolean =
+    soda_constant.soda_reserved_words.contains (word)
 
 }
 

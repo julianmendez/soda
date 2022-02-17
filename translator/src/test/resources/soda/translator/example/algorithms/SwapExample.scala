@@ -3,31 +3,31 @@ package soda.example.algorithms
 trait PairExample
 {
 
-  def   left: Int
-  def   right: Int
+  def   left : Int
+  def   right : Int
 
 }
 
-case class PairExample_ (left: Int, right: Int) extends PairExample
+case class PairExample_ (left : Int, right : Int) extends PairExample
 
 trait SwapExample
 {
 
-  def left (pair: PairExample ): Int =
+  def left (pair : PairExample) : Int =
     pair match  {
-      case (PairExample_ (x, y ) ) => x
+      case (PairExample_ (x, y) ) => x
     }
 
-  def right (pair: PairExample ): Int =
+  def right (pair : PairExample) : Int =
     pair match  {
-      case (PairExample_ (x, y ) ) => y
+      case (PairExample_ (x, y) ) => y
     }
 
-  def swap (pair: PairExample ): PairExample =
-    PairExample_ (pair.right, pair.left )
+  def swap (pair : PairExample) : PairExample =
+    PairExample_ (pair.right, pair.left)
 
 /*  theorem
-    swap_of_swap : forall ( pair : PairExample )  , ( swap ( swap ( pair ) ) ) == pair
+    swap_of_swap : forall (pair : PairExample), (swap (swap (pair) ) ) == pair
 */
 
 /*  proof

@@ -9,7 +9,7 @@ case class MicroTranslatorToScalaSpec ()
   import   soda.translator.parser.BlockProcessor_
 
   lazy val instance =
-    BlockProcessor_ (
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         MicroTranslatorToScala_ ()
       )
@@ -27,22 +27,22 @@ case class MicroTranslatorToScalaSpec ()
         "\n    \"     y : Int) =\"," +
         "\n    \"       x + y\")" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should leave content of apostrophes unchanged")
     {
       lazy val input = " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n"
       lazy val expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
-      lazy val obtained = instance.translate (input )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (input)
+     assert (obtained == expected) }
 
   test ("should leave content of quotation marks unchanged")
     {
       lazy val input = " a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
       lazy val expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
-      lazy val obtained = instance.translate (input )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (input)
+     assert (obtained == expected) }
 
   test ("should translate classes")
     {
@@ -125,8 +125,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\ncase class E_ [A] () extends E [A]" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate type aliases")
     {
@@ -144,8 +144,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\ntype M = Map [Int, Seq [Int]]" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate a tuple assignment")
     {
@@ -157,8 +157,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n  lazy val (p, q) =" +
         "\n    h (1, 2)" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate a pattern matching")
     {
@@ -176,8 +176,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n  case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate another pattern matching")
     {
@@ -195,8 +195,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n    case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n  }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should ignore a pattern matching written in the Scala style")
     {
@@ -212,8 +212,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n  case 1 => 1 " +
         "\n  case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate an explicit lambda expression")
     {
@@ -221,8 +221,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n"
       lazy val expected = "lazy val plus_1 : Int =  (x : Int) => x + 1" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate let in 1")
     {
@@ -233,8 +233,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n  { lazy val y = x + x" +
         "\n   y }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate let in 2")
     {
@@ -247,8 +247,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n    lazy val y = x + x" +
         "\n   y }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate let in 3")
     {
@@ -263,8 +263,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n   lazy val z = y + y" +
         "\n   z }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate let in 4")
     {
@@ -281,7 +281,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n    lazy val z = y + y" +
         "\n   z }" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
 }

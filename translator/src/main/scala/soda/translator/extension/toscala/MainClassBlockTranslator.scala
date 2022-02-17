@@ -17,21 +17,21 @@ trait MainClassBlockTranslator
 
   lazy val tc = TranslationConstantToScala_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: ClassEndAnnotation => _translate_block (block )
+      case block : ClassEndAnnotation => _translate_block (block)
       case x => annotated_block
     }
 
-  def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
-    if (_get_class_name (block.references ) == tc.soda_main_class_name
+  def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if ( _get_class_name (block.references) == tc.soda_main_class_name
     )
       ClassEndAnnotation_ (
-        BlockBuilder_ () .build (
+        BlockBuilder_ ().build (
           Seq [String] (
             tc.scala_class_end_symbol,
             "",
@@ -42,16 +42,16 @@ trait MainClassBlockTranslator
       )
     else block
 
-  def _get_class_name (references: Seq [AnnotatedBlock] ): String =
-    _get_class_beginning (references )
-      .map (x => x.class_name )
+  def _get_class_name (references : Seq [AnnotatedBlock] ) : String =
+    _get_class_beginning (references)
+      .map (  x => x.class_name)
       .getOrElse ("")
 
-  def _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
+  def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (block =>
+      .flatMap (  block =>
         block match  {
-          case b: ClassBeginningAnnotation => Some (b )
+          case b : ClassBeginningAnnotation => Some (b)
           case x => None
         }
       )

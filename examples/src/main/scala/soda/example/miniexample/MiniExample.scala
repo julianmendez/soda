@@ -6,8 +6,8 @@ trait MiniExample
 {
 
   def run () =
-    range (50 )
-      .map (x => print (" " + (2 * x + 1 ) ) )
+    range (50)
+      .map (  x => print (" " + (2 * x + 1) ) )
 
 }
 
@@ -16,8 +16,8 @@ case class MiniExample_ () extends MiniExample
 trait Main
 {
 
-  def main (arguments: Array [String] ): Unit =
-    MiniExample_ () .run ()
+  def main (arguments : Array [String] ) : Unit =
+    MiniExample_ ().run ()
 
 }
 

@@ -56,26 +56,26 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when constants are defined in the wrong order")
     {
-      lazy val obtained = ExampleWithWrongOrder_ () .this_is_null_but
+      lazy val obtained = ExampleWithWrongOrder_ ().this_is_null_but
       lazy val expected = "Success!"
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
   test ("should show what happens when constants are defined in the right order")
     {
-      lazy val obtained = ExampleWithRightOrder_ () .this_is_not_null
+      lazy val obtained = ExampleWithRightOrder_ ().this_is_not_null
       lazy val expected = "Success!"
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
   test ("should show what happens when one work-around is used")
     {
-      lazy val obtained = ExampleWithEmptyParentheses_ () .this_is_not_null  ()
+      lazy val obtained = ExampleWithEmptyParentheses_ ().this_is_not_null  ()
       lazy val expected = "Success!"
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
   test ("should show what happens when another work-around is used")
     {
-      lazy val obtained = AnotherExampleWithEmptyParentheses_ () .this_is_not_null
+      lazy val obtained = AnotherExampleWithEmptyParentheses_ ().this_is_not_null
       lazy val expected = "Success!"
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
 }

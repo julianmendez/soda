@@ -1,6 +1,6 @@
 package soda.example
 
-case class Example ()
+case class Example()
 {
 
 }

@@ -70,7 +70,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     {
       lazy val input = example_program
       lazy val expected = expected_output
-      lazy val obtained = block_processor.translate (input )
-      assert (obtained == expected ) }
+      lazy val obtained = block_processor.translate (input)
+     assert (obtained == expected) }
 
 }

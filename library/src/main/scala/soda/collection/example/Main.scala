@@ -30,11 +30,11 @@ trait Main
       e.foldLeft_example,
       e.foldRight_example
     )
-    .map (pair => pair.name + " = " + pair.result.toString )
+    .map (  pair => pair.name + " = " + pair.result.toString)
     .mkString ("\n")
 
-  def main (arguments: Array [String] ): Unit =
-    println (all_examples )
+  def main (arguments : Array [String] ) : Unit =
+    println (all_examples)
 
 }
 

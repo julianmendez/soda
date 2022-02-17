@@ -5,17 +5,17 @@ trait TheoremBlockAnnotation
     BlockAnnotationParser
 {
 
-  def   block: soda.translator.block.Block
+  def   block : soda.translator.block.Block
 
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 
-  lazy val identifier = BlockAnnotationEnum_ () .theorem_block
+  lazy val identifier = BlockAnnotationEnum_ ().theorem_block
 
-  lazy val applies: Boolean =
+  lazy val applies : Boolean =
     block.readable_lines.nonEmpty &&
-    (block.readable_lines.head.line.trim == SodaConstant_ () .theorem_reserved_word )
+    (block.readable_lines.head.line.trim == SodaConstant_ ().theorem_reserved_word)
 
 }
 
-case class TheoremBlockAnnotation_ (block: soda.translator.block.Block) extends TheoremBlockAnnotation
+case class TheoremBlockAnnotation_ (block : soda.translator.block.Block) extends TheoremBlockAnnotation

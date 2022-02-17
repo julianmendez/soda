@@ -47,61 +47,61 @@ trait DefinitionLineTranslator
   lazy val coq_space: String = " "
 
   lazy val translation =
-    find_definition (line ) .opt (ifEmpty = line ) (ifNonEmpty = position => try_found_definition (position ) .line )
+    find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => try_found_definition (position).line)
 
   lazy val is_class_definition =
-    get_index (line ) (sc.space + sc.class_reserved_word + sc.space ) .isDefined
+    get_index (line) (sc.space + sc.class_reserved_word + sc.space).isDefined
 
   lazy val translation_of_class_definition =
-    if (condition_for_type_alias
-    ) Replacement_ (line )
-    else Replacement_ (line ) .replace_all (sc.space + sc.function_definition_symbol ) ("")
+    if ( condition_for_type_alias
+    ) Replacement_ (line)
+    else Replacement_ (line).replace_all (sc.space + sc.function_definition_symbol) ("")
 
   lazy val ends_with_equals =
-    trimmed_line.endsWith (sc.deprecated_class_definition_symbol )
+    trimmed_line.endsWith (sc.deprecated_class_definition_symbol)
 
   lazy val ends_with_opening_brace =
-    trimmed_line.endsWith (sc.deprecated_class_beginning_symbol )
+    trimmed_line.endsWith (sc.deprecated_class_beginning_symbol)
 
   lazy val contains_equals =
-    trimmed_line.contains (sc.function_definition_symbol )
+    trimmed_line.contains (sc.function_definition_symbol)
 
   lazy val condition_for_type_alias =
-    contains_equals && ! (ends_with_equals || ends_with_opening_brace )
+    contains_equals && ! (ends_with_equals || ends_with_opening_brace)
 
   lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern ) (coq_space )
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (coq_space)
 
   lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern ) (coq_space )
+    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (coq_space)
 
-  def try_found_definition (position: Int ): Replacement =
-    if (is_class_definition ) translation_of_class_definition
-    else if (is_val_definition (position ) ) translation_of_val_definition
+  def try_found_definition (position : Int) : Replacement =
+    if ( is_class_definition ) translation_of_class_definition
+    else if ( is_val_definition (position) ) translation_of_val_definition
     else translation_of_def_definition
 
-  def is_val_definition (initial_position: Int ) =
+  def is_val_definition (initial_position : Int) =
     is_val_definition_case_1 ||
-    is_val_definition_case_2 (initial_position ) ||
+    is_val_definition_case_2 (initial_position) ||
     is_val_definition_case_3 ||
     is_val_definition_case_4
 
   lazy val position_of_first_opening_parenthesis =
-    get_index (line ) (sc.opening_parenthesis_symbol )
+    get_index (line) (sc.opening_parenthesis_symbol)
 
   lazy val is_val_definition_case_1 =
     position_of_first_opening_parenthesis.isEmpty
 
-  def is_val_definition_case_2 (initial_position: Int ) =
-    position_of_first_opening_parenthesis.opt (false ) (position => (position > initial_position ) )
+  def is_val_definition_case_2 (initial_position : Int) =
+    position_of_first_opening_parenthesis.opt (false) (  position => (position > initial_position) )
 
   lazy val is_val_definition_case_3 =
-    (get_index (line ) (sc.type_membership_symbol ) ) .opt (ifEmpty = false ) (ifNonEmpty = other_position =>
-      position_of_first_opening_parenthesis.opt (false ) (position => (position > other_position ) )
+    (get_index (line) (sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
+      position_of_first_opening_parenthesis.opt (false) (  position => (position > other_position) )
     )
 
   lazy val is_val_definition_case_4 =
-    trimmed_line.startsWith (sc.opening_parenthesis_symbol )
+    trimmed_line.startsWith (sc.opening_parenthesis_symbol)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
@@ -111,17 +111,17 @@ trait DefinitionLineTranslator
    * @return maybe the position of the definition sign
    */
 
-  def find_definition (line: String ): OptionSD [Int] =
-    if (line.endsWith (sc.space + sc.function_definition_symbol )
-    ) SomeSD_ (line.length - sc.function_definition_symbol.length )
-    else get_index (line ) (sc.space + sc.function_definition_symbol + sc.space )
+  def find_definition (line : String) : OptionSD [Int] =
+    if ( line.endsWith (sc.space + sc.function_definition_symbol)
+    ) SomeSD_ (line.length - sc.function_definition_symbol.length)
+    else get_index (line) (sc.space + sc.function_definition_symbol + sc.space)
 
-  def get_index (line: String ) (pattern: String ): OptionSD [Int] =
-    get_index_from (line ) (pattern ) (0 )
+  def get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
 
-  def get_index_from (line: String ) (pattern: String ) (start: Int ): OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start ) )
-      .filter (position => !  (position == -1 ) )
+  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line.indexOf (pattern, start) )
+      .filter (  position => !  (position == -1) )
 
 }
 

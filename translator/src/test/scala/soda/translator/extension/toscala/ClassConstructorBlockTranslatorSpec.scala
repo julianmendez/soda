@@ -109,14 +109,14 @@ case class ClassConstructorBlockTranslatorSpec ()
 
   test ("should produce the constructors for a simple class")
     {
-      lazy val obtained = translator.translate (example_program_0 )
+      lazy val obtained = translator.translate (example_program_0)
       lazy val expected = expected_program_0
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
   test ("should produce the constructors for a class with type parameters")
     {
-      lazy val obtained = translator.translate (example_program_1 )
+      lazy val obtained = translator.translate (example_program_1)
       lazy val expected = expected_program_1
-      assert (obtained == expected ) }
+     assert (obtained == expected) }
 
 }

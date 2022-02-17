@@ -5,7 +5,7 @@ trait PreprocessorSequenceTranslator
     soda.translator.block.BlockSequenceTranslator
 {
 
-  def   translator: soda.translator.block.BlockSequenceTranslator
+  def   translator : soda.translator.block.BlockSequenceTranslator
 
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.AnnotatedBlock
@@ -23,81 +23,81 @@ trait PreprocessorSequenceTranslator
 
   lazy val recursion = soda.lib.Recursion_ ()
 
-  lazy val empty_line = AnnotatedLine_ ("", true )
+  lazy val empty_line = AnnotatedLine_ ("", true)
 
-  lazy val translate: Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
+  lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
      block_sequence =>
-      translate_for (block_sequence )
+      translate_for (block_sequence)
 
-  def translate_for (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
+  def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     translator.translate (
       _get_second_pass (
-        _get_first_pass (block_sequence )
+        _get_first_pass (block_sequence)
       )
     )
 
-  def _get_first_pass (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
-    block_sequence.map (block => block_annotator.translate (block ) )
+  def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+    block_sequence.map (  block => block_annotator.translate (block) )
 
-  def _get_second_pass (block_sequence: Seq [AnnotatedBlock] ): Seq [AnnotatedBlock] =
+  def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     recursion
-      .fold (block_sequence.indices ) (_initial_value (block_sequence ) ) (_next_value_function )
+      .fold (block_sequence.indices) (_initial_value (block_sequence) ) (_next_value_function)
       .accumulated
       .reverse
 
-  def _initial_value (block_sequence: Seq [AnnotatedBlock] ): AuxiliaryTuple =
+  def _initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = block_sequence,
       accumulated = Seq [AnnotatedBlock] (),
-      references = Seq [Seq [AnnotatedBlock]] ()
+      references = Seq [Seq [AnnotatedBlock] ] ()
     )
 
-  def _next_value_function (current: AuxiliaryTuple ) (index: Int ): AuxiliaryTuple =
-    _pass_next_step (current ) (index ) (_get_additional_information (current ) (index ) )
+  def _next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
+    _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
-  def _get_additional_information (current: AuxiliaryTuple ) (index: Int ): AnnotatedBlock =
-    current.block_sequence.apply (index ) match  {
-      case block: ClassEndAnnotation => _get_updated_block (current ) (block )
+  def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
+    current.block_sequence.apply (index) match  {
+      case block : ClassEndAnnotation => _get_updated_block (current) (block)
       case x => x
     }
 
-  def _get_updated_block (current: AuxiliaryTuple ) (block: ClassEndAnnotation ): ClassEndAnnotation =
+  def _get_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
-  def _pass_next_step (current: AuxiliaryTuple ) (index: Int ) (updated_block: AnnotatedBlock ): AuxiliaryTuple =
+  def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = current.block_sequence,
-      accumulated = current.accumulated.+: (updated_block ),
-      references = _update_references (current ) (index )
+      accumulated = current.accumulated.+: (updated_block),
+      references = _update_references (current) (index)
     )
 
-  def _update_references (current: AuxiliaryTuple ) (index: Int ): Seq [Seq [AnnotatedBlock]] =
-    current.block_sequence.apply (index ) match  {
-      case b: ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b ) )
-      case b: AbstractDeclarationAnnotation => _update_first_element (current.references ) (b )
-      case b: ClassEndAnnotation => _tail_non_empty (current.references )
+  def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
+    current.block_sequence.apply (index) match  {
+      case b : ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b) )
+      case b : AbstractDeclarationAnnotation => _update_first_element (current.references) (b)
+      case b : ClassEndAnnotation => _tail_non_empty (current.references)
       case x => current.references
     }
 
-  def _update_first_element (s: Seq [Seq [AnnotatedBlock]] ) (b: AnnotatedBlock ): Seq [Seq [AnnotatedBlock]] =
-    _tail_non_empty (s ) .+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ) .+: (b ) )
+  def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
+    _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
 
-  def _tail_non_empty [A] (s: Seq [A] ): Seq [A] =
-    if (s.isEmpty
+  def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
+    if ( s.isEmpty
     ) s
     else s.tail
 
 }
 
-case class PreprocessorSequenceTranslator_ (translator: soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
+case class PreprocessorSequenceTranslator_ (translator : soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
 
 trait AuxiliaryTuple
 {
 
-  def   block_sequence: Seq [soda.translator.block.AnnotatedBlock]
-  def   accumulated: Seq [soda.translator.block.AnnotatedBlock]
-  def   references: Seq [Seq [soda.translator.block.AnnotatedBlock]]
+  def   block_sequence : Seq [soda.translator.block.AnnotatedBlock]
+  def   accumulated : Seq [soda.translator.block.AnnotatedBlock]
+  def   references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]
 
 }
 
-case class AuxiliaryTuple_ (block_sequence: Seq [soda.translator.block.AnnotatedBlock], accumulated: Seq [soda.translator.block.AnnotatedBlock], references: Seq [Seq [soda.translator.block.AnnotatedBlock]]) extends AuxiliaryTuple
+case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple

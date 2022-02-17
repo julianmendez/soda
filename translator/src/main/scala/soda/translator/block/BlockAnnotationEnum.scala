@@ -5,12 +5,12 @@ trait BlockAnnotationId
     soda.lib.EnumConstant
 {
 
-  def   ordinal: Int
-  def   name: String
+  def   ordinal : Int
+  def   name : String
 
 }
 
-case class BlockAnnotationId_ (ordinal: Int, name: String) extends BlockAnnotationId
+case class BlockAnnotationId_ (ordinal : Int, name : String) extends BlockAnnotationId
 
 trait BlockAnnotationEnum
   extends

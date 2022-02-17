@@ -18,13 +18,13 @@ trait MicroTranslatorToCoq
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translation_pipeline.translate (block )
+      translation_pipeline.translate (block)
 
-  lazy val try_definition: Token => String =
+  lazy val try_definition : Token => String =
      token =>
-      DefinitionLineTranslator_ (token.text ) .translation
+      DefinitionLineTranslator_ (token.text).translation
 
   lazy val translation_pipeline =
     BlockTranslatorPipeline_ (
@@ -33,13 +33,13 @@ trait MicroTranslatorToCoq
         CoqDefinitionBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
-        TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ),
+        TokenReplacement_ (). add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet),
         /* TokenReplacement_ (). replace (tc.coq_non_soda), FIXME */
-        TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ),
-        TokenReplacement_ () .replace (tc.synonym ),
-        TokenizedBlockTranslator_ (try_definition ),
-        TokenReplacement_ () .replace (tc.main_translation ),
-        TokenReplacement_ () .replace_regex (tc.beautifier )
+        TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),
+        TokenReplacement_ (). replace (tc.synonym),
+        TokenizedBlockTranslator_ (try_definition),
+        TokenReplacement_ (). replace (tc.main_translation),
+        TokenReplacement_ (). replace_regex (tc.beautifier)
       )
     )
 

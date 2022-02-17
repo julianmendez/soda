@@ -11,27 +11,27 @@ package soda.lib
 trait SeqSD [A]
 {
 
-  def   toSeq: Seq [A]
-  def   reverse: SeqSD [A]
+  def   toSeq : Seq [A]
+  def   reverse : SeqSD [A]
 
-  def opt [B] (ifEmpty: B ) (ifNonEmpty: NonEmptySeqSD [A] => B ): B =
+  def opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
     this match  {
       case EmptySeqSD_ () => ifEmpty
-      case NonEmptySeqSD_ (toSeq ) => ifNonEmpty (NonEmptySeqSD_ (toSeq ) )
+      case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
     }
 
 }
 
-case class SeqSD_ [A] (toSeq: Seq [A], reverse: SeqSD [A]) extends SeqSD [A]
+case class SeqSD_ [A] (toSeq : Seq [A], reverse : SeqSD [A]) extends SeqSD [A]
 
 trait EmptySeqSD [A]
   extends
     SeqSD [A]
 {
 
-  lazy val toSeq: Seq [A] = Seq [A] ()
+  lazy val toSeq : Seq [A] = Seq [A] ()
 
-  lazy val reverse: EmptySeqSD [A] = this
+  lazy val reverse : EmptySeqSD [A] = this
 
 }
 
@@ -42,25 +42,25 @@ trait NonEmptySeqSD [A]
     SeqSD [A]
 {
 
-  def   toSeq: Seq [A]
+  def   toSeq : Seq [A]
 
-  lazy val head: A = toSeq.head
+  lazy val head : A = toSeq.head
 
-  lazy val tail: SeqSD [A] = SeqSDBuilder_ [A] () .build (toSeq.tail )
+  lazy val tail : SeqSD [A] = SeqSDBuilder_ [A] ().build (toSeq.tail)
 
-  lazy val reverse: NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse )
+  lazy val reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq.reverse)
 
 }
 
-case class NonEmptySeqSD_ [A] (toSeq: Seq [A]) extends NonEmptySeqSD [A]
+case class NonEmptySeqSD_ [A] (toSeq : Seq [A]) extends NonEmptySeqSD [A]
 
 trait SeqSDBuilder [A]
 {
 
-  def build (seq: Seq [A] ): SeqSD [A] =
-    if (seq.isEmpty
+  def build (seq : Seq [A] ) : SeqSD [A] =
+    if ( seq.isEmpty
     ) EmptySeqSD_ [A] ()
-    else NonEmptySeqSD_ [A] (seq )
+    else NonEmptySeqSD_ [A] (seq)
 
 }
 

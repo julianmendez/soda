@@ -15,46 +15,46 @@ trait CoqDefinitionBlockTranslator
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: FunctionDefinitionAnnotation => _translate_definition_block (block )
+      case block : FunctionDefinitionAnnotation => _translate_definition_block (block)
       case x => annotated_block
     }
 
-  def _translate_definition_block (block: FunctionDefinitionAnnotation ): FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block ) )
+  def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block: FunctionDefinitionAnnotation ): Block =
-    if (is_a_recursive_definition (block )
-    ) append (tc.coq_recursive_definition_end ) (prepend (tc.coq_recursive_definition + space ) (block ) )
+  def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) append (tc.coq_recursive_definition_end) (prepend (tc.coq_recursive_definition + space) (block) )
     else
-      if (is_a_definition (block )
-      ) append (tc.coq_definition_end ) (prepend (tc.coq_definition + space ) (block ) )
+      if ( is_a_definition (block)
+      ) append (tc.coq_definition_end) (prepend (tc.coq_definition + space) (block) )
       else block
 
-  def prepend (prefix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+  def prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  def append (suffix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      block.lines.:+ (suffix )
+  def append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
-  def is_a_recursive_definition (block: Block ): Boolean =
-    tc.coq_recursive_function_prefixes.exists (prefix => first_line (block ) .startsWith (prefix )  )
+  def is_a_recursive_definition (block : Block) : Boolean =
+    tc.coq_recursive_function_prefixes.exists (  prefix => first_line (block).startsWith (prefix))
 
-  def first_line (block: Block ): String =
-    block.lines.headOption.getOrElse ("") .trim
+  def first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("").trim
 
-  def is_a_definition (block: Block ): Boolean =
-    ! is_a_recursive_definition (block ) &&
-    ! tc.non_definition_block_prefixes.exists (prefix => block.contents.trim.startsWith (prefix )  )
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! tc.non_definition_block_prefixes.exists (  prefix => block.contents.trim.startsWith (prefix))
 
 }
 

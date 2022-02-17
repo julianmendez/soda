@@ -14,7 +14,7 @@ case class MultiLineSpec ()
   import   soda.translator.parser.BlockProcessor_
 
   lazy val bp =
-    BlockProcessor_ (
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         MicroTranslatorToScala_ ()
       )
@@ -32,7 +32,7 @@ case class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  lazy val original_input_lines = Seq (
+  lazy val original_input_lines = Seq(
     "  value = 1",
     "  sequence = Seq(1 ,",
     "    2,  ",
@@ -42,7 +42,7 @@ case class MultiLineSpec ()
     "     z: Int) =",
     "       x * x + y * y + z * z")
 
-  lazy val joined_comma_lines = Seq (
+  lazy val joined_comma_lines = Seq(
     "  value = 1",
     "  sequence = Seq(1 ,    2,      3)",
     "  f( x: Int,\t     y: Int,     z: Int) =",
@@ -58,19 +58,19 @@ case class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z"
 
-  def build_block (lines: Seq [String]  ): AnnotatedBlock =
-    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines ) )
+  def build_block (lines: Seq [String]): AnnotatedBlock =
+    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
 
   test ("should split a program in multiple lines")
     {
-      lazy val obtained = bp.make_block (original_input )
+      lazy val obtained = bp.make_block (original_input)
       lazy val expected = build_block (original_input_lines )
-      assert (obtained == expected ) }
+     assert(obtained == expected) }
 
   test ("should join the translated lines of a program")
     {
-      lazy val obtained = build_block (joined_comma_lines )
-      lazy val expected = bp.make_block (joined_output )
-      assert (obtained == expected ) }
+      lazy val obtained = build_block (joined_comma_lines)
+      lazy val expected = bp.make_block (joined_output)
+     assert(obtained == expected) }
 
 }

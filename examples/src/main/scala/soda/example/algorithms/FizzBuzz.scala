@@ -11,17 +11,17 @@ trait FizzBuzz
 
   lazy val fizz_buzz =
     Recursion_ ()
-      .range (100 )
-      .map ((x: Int ) => x + 1 )
-      .map (get_fizz_buzz_term )
+      .range (100)
+      .map (  (x : Int) => x + 1)
+      .map (get_fizz_buzz_term)
 
-  def get_fizz_buzz_term (n: Int ) =
-    if (is_divisible_by (n ) (15 ) ) fizz + buzz
-    else if (is_divisible_by (n ) (3 ) ) fizz
-    else if (is_divisible_by (n ) (5 ) ) buzz
+  def get_fizz_buzz_term (n : Int) =
+    if ( is_divisible_by (n) (15) ) fizz + buzz
+    else if ( is_divisible_by (n) (3) ) fizz
+    else if ( is_divisible_by (n) (5) ) buzz
     else n.toString
 
-  def is_divisible_by (n: Int ) (k: Int ): Boolean =
+  def is_divisible_by (n : Int) (k : Int) : Boolean =
     n % k == 0
 
 }

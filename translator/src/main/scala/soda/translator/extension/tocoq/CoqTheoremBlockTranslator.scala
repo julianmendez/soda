@@ -15,42 +15,42 @@ trait CoqTheoremBlockTranslator
 
   lazy val tc = TranslationConstantToCoq_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: TheoremBlockAnnotation => _translate_block (block )
+      case block : TheoremBlockAnnotation => _translate_block (block)
       case x => annotated_block
     }
 
-  def _translate_block (block: TheoremBlockAnnotation ): TheoremBlockAnnotation =
+  def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
       append (
-        tc.coq_theorem_end ) (prepend (
-          tc.coq_theorem_begin_reserved_word ) (remove_first_line (block )
+        tc.coq_theorem_end) (prepend (
+          tc.coq_theorem_begin_reserved_word) (remove_first_line (block)
         )
       )
     )
 
-  def prepend (prefix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+  def prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  def append (suffix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      block.lines.:+ (suffix )
+  def append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
-  def first_line (block: Block ): String =
-    block.lines.headOption.getOrElse ("") .trim
+  def first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("").trim
 
-  def remove_first_line (block: Block ): Block =
-    if (block.lines.isEmpty
+  def remove_first_line (block : Block) : Block =
+    if ( block.lines.isEmpty
     ) block
-    else BlockBuilder_ () .build (block.lines.tail )
+    else BlockBuilder_ ().build (block.lines.tail)
 
 }
 

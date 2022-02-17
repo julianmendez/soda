@@ -19,41 +19,41 @@ trait ImportDeclarationBlockTranslator
   lazy val scala_import_declaration_pattern =
     tc.scala_import_declaration + space
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: ImportDeclarationAnnotation => _translate_block (block )
+      case block : ImportDeclarationAnnotation => _translate_block (block)
       case x => annotated_block
     }
 
-  def _translate_block (block: ImportDeclarationAnnotation ): ImportDeclarationAnnotation =
+  def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (
       prepend_to_lines_aligned_at (
-        get_number_of_spaces_at_beginning (get_first_line (block ) ) ) (
-        scala_import_declaration_pattern ) (
+        get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
+        scala_import_declaration_pattern) (
         block.imported_items
       )
     )
 
-  def prepend_to_lines_aligned_at (number_of_spaces: Int ) (prefix: String ) (annotated_lines: Seq [AnnotatedLine] ): Block =
-    BlockBuilder_ () .build (
-      annotated_lines.map (annotated_line => prepend_aligned_non_comment (number_of_spaces ) (prefix ) (annotated_line ) )
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+    BlockBuilder_ ().build (
+      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
-  def prepend_aligned_non_comment (index: Int ) (prefix: String ) (annotated_line: AnnotatedLine ): String =
-    if (annotated_line.is_comment
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+    if ( annotated_line.is_comment
     ) annotated_line.line
-    else annotated_line.line.substring (0, index ) + prefix + annotated_line.line.substring (index )
+    else annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index)
 
-  def get_number_of_spaces_at_beginning (line: String ): Int =
+  def get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (ch => ch.isSpaceChar )
+      .takeWhile (  ch => ch.isSpaceChar)
       .length
 
-  def get_first_line (block: AnnotatedBlock ): String =
+  def get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
 
 }

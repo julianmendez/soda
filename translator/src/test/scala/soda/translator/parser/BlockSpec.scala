@@ -10,7 +10,7 @@ case class BlockSpec ()
   /* This is to test how to find commented text. */
   test ("should find commented text")
     {
-      lazy val input = ("\n" +
+      lazy val input =  ("\n" +
         "\n/** This is an example */" +
         "\n* Example () {" +
         "\n  /* This is a comment */" +
@@ -20,15 +20,15 @@ case class BlockSpec ()
         .split ("\n")
         .toSeq
       lazy val expected = Seq (
-        AnnotatedLine_ ("", is_comment = false ),
-        AnnotatedLine_ ("", is_comment = false ),
-        AnnotatedLine_ ("/** This is an example */", is_comment = true ),
-        AnnotatedLine_ ("* Example () {", is_comment = false ),
-        AnnotatedLine_ ("  /* This is a comment */", is_comment = true ),
-        AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment = false ),
-        AnnotatedLine_ ("}", is_comment = false )
+        AnnotatedLine_ ("", is_comment = false),
+        AnnotatedLine_ ("", is_comment = false),
+        AnnotatedLine_ ("/** This is an example */", is_comment = true),
+        AnnotatedLine_ ("* Example () {", is_comment = false),
+        AnnotatedLine_ ("  /* This is a comment */", is_comment = true),
+        AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment = false),
+        AnnotatedLine_ ("}", is_comment = false)
       )
-      lazy val obtained = BlockBuilder_ () .build (input ) .annotated_lines
-      assert (obtained == expected ) }
+      lazy val obtained = BlockBuilder_ ().build (input).annotated_lines
+     assert (obtained == expected) }
 
 }

@@ -19,17 +19,17 @@ trait TranslationConstantToCoq
 
   lazy val coq_space = " "
 
-  lazy val coq_definition: String = "Definition"
+  lazy val coq_definition : String = "Definition"
 
-  lazy val coq_value: String = "Definition"
+  lazy val coq_value : String = "Definition"
 
-  lazy val coq_recursive_definition: String = "Fixpoint"
+  lazy val coq_recursive_definition : String = "Fixpoint"
 
-  lazy val coq_definition_end: String = "."
+  lazy val coq_definition_end : String = "."
 
-  lazy val coq_recursive_definition_end: String = "."
+  lazy val coq_recursive_definition_end : String = "."
 
-  lazy val coq_with_reserved_word: String = "with"
+  lazy val coq_with_reserved_word : String = "with"
 
   lazy val coq_theorem_begin_reserved_word = "Theorem"
 
@@ -39,7 +39,7 @@ trait TranslationConstantToCoq
 
   lazy val coq_proof_end_reserved_word = "Qed."
 
-  lazy val coq_recursive_function_prefixes: Seq [String] =
+  lazy val coq_recursive_function_prefixes : Seq [String] =
     Seq (
       "rec_",
       "_rec_",
@@ -48,7 +48,7 @@ trait TranslationConstantToCoq
       "@tailrec"
     )
 
-  lazy val non_definition_block_prefixes: Seq [String] =
+  lazy val non_definition_block_prefixes : Seq [String] =
     Seq (
       soda_constant.package_reserved_word,
       soda_constant.import_reserved_word,
@@ -60,7 +60,7 @@ trait TranslationConstantToCoq
   lazy val coq_reserved_words =
     coq_1 ++ coq_2 ++ coq_3 ++ coq_4
 
-  lazy val coq_1: Seq [String] =
+  lazy val coq_1 : Seq [String] =
     Seq (
       "as",
       "else",
@@ -75,7 +75,7 @@ trait TranslationConstantToCoq
       "with"
     )
 
-  lazy val coq_2: Seq [String] =
+  lazy val coq_2 : Seq [String] =
     Seq (
       "Admitted",
       "Arguments",
@@ -100,7 +100,7 @@ trait TranslationConstantToCoq
       "Unset"
     )
 
-  lazy val coq_3: Seq [String] =
+  lazy val coq_3 : Seq [String] =
     Seq (
       "admit",
       "apply",
@@ -122,7 +122,7 @@ trait TranslationConstantToCoq
       "unfold"
     )
 
-  lazy val coq_4: Seq [String] =
+  lazy val coq_4 : Seq [String] =
     Seq (
       "CoFixpoint",
       "CoInductive",
@@ -140,19 +140,19 @@ trait TranslationConstantToCoq
       "Variable"
     )
 
-  lazy val synonym_at_beginning: Seq [Tuple2 [String, String]] =
+  lazy val synonym_at_beginning : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("*", "class"),
       Tuple2 ("+", "import")
     )
 
-  lazy val synonym: Seq [Tuple2 [String, String]] =
+  lazy val synonym : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("is", ":="),
       Tuple2 ("def", "")
     )
 
-  lazy val main_translation: Seq [Tuple2 [String, String]] =
+  lazy val main_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (";", "."),
       Tuple2 (":", ":"),
@@ -185,7 +185,7 @@ trait TranslationConstantToCoq
       Tuple2 ("@tailrec", "")
     )
 
-  lazy val type_translation: Seq [Tuple2 [String, String]] =
+  lazy val type_translation : Seq [ Tuple2 [String, String]  ] =
     Seq (
         Tuple2 ("Boolean", "bool"),
         Tuple2 ("Nat", "nat"),
@@ -197,15 +197,15 @@ trait TranslationConstantToCoq
 
   lazy val prefix_coq_non_soda = "__soda__"
 
-  lazy val coq_non_soda: Seq [Tuple2 [String, String]] =
+  lazy val coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words
-      .filter (x => ! soda_constant.soda_reserved_words.contains (x )  )
-      .map (x => Tuple2 (x, prefix_coq_non_soda + x ) )
+      .filter (  x => ! soda_constant.soda_reserved_words.contains (x))
+      .map (  x => Tuple2 (x, prefix_coq_non_soda + x) )
 
   lazy val soda_brackets_and_comma =
-    Seq ('(', ')', '[', ']', '{', '}', ',' )
+    Seq ( '(', ')', '[', ']', '{', '}', ',' )
 
-  lazy val beautifier: Seq [Tuple2 [String, String]] =
+  lazy val beautifier : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 ("\\.\\s+", "."),
       Tuple2 ("=\\s+", "= "),
@@ -219,11 +219,11 @@ trait TranslationConstantToCoq
       Tuple2 (":\\s+", ": ")
     )
 
-  def is_coq_word (word: String ): Boolean =
-    coq_reserved_words.contains (word )
+  def is_coq_word (word : String) : Boolean =
+    coq_reserved_words.contains (word)
 
-  def is_soda_word (word: String ): Boolean =
-    soda_constant.soda_reserved_words.contains (word )
+  def is_soda_word (word : String) : Boolean =
+    soda_constant.soda_reserved_words.contains (word)
 
 }
 

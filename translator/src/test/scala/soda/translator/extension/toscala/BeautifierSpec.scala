@@ -15,11 +15,11 @@ case class BeautifierSpec ()
       lazy val expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
       lazy val obtained =
-        BlockProcessor_ (
+        BlockProcessor_(
           DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToScala_ ()
+            MicroTranslatorToScala_()
           )
-        ) .translate (original )
-      assert (obtained == expected ) }
+        ).translate (original)
+     assert (obtained == expected) }
 
 }

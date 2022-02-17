@@ -9,7 +9,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
   import   soda.translator.parser.BlockProcessor_
 
   lazy val instance =
-    BlockProcessor_ (
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         MicroTranslatorToScala_ ()
       )
@@ -32,8 +32,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate multiple upper bounds")
     {
@@ -53,8 +53,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate a single lower bound")
     {
@@ -71,8 +71,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
   test ("should translate multiple lower bounds")
     {
@@ -91,7 +91,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+      lazy val obtained = instance.translate (original)
+     assert (obtained == expected) }
 
 }

@@ -73,7 +73,7 @@ trait SodaConstant
 
   lazy val subtype_abbreviation = "<:"
 
-  lazy val supertype_abbreviation = ">:"
+  lazy val supertype_abbreviation =  ">:"
 
   lazy val opening_parenthesis_symbol = "("
 

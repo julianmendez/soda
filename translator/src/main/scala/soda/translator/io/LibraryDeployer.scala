@@ -9,26 +9,26 @@ trait LibraryDeployer
 
   lazy val library_directory_in_jar = "/lib/soda/lib/"
 
-  lazy val library_content_files: Seq [String] =
+  lazy val library_content_files : Seq [String] =
     SimpleFileReader_ ()
       .read_resource (library_directory_in_jar + "files.txt")
       .split ("\n")
       .toSeq
 
-  def expand_library (lib_files: Seq [File] ): Boolean =
+  def expand_library (lib_files : Seq [File] ) : Boolean =
     lib_files
-      .map (lib_file => lib_file.getParent )
-      .map (parent_directory => expand_files (parent_directory ) )
-      .forall (x => x )
+      .map (  lib_file => lib_file.getParent)
+      .map (  parent_directory => expand_files (parent_directory) )
+      .forall (  x => x)
 
-  def expand_files (parent_directory: String ): Boolean =
+  def expand_files (parent_directory : String) : Boolean =
     library_content_files
-      .map (lib_file_name =>
-        SimpleFileWriter_ () .write_file_with (
-          file = SimpleFileWriter_ () .create_file (parent_directory ) (lib_file_name ) ) (
-          content = SimpleFileReader_ () .read_resource (library_directory_in_jar + lib_file_name )
+      .map (  lib_file_name =>
+        SimpleFileWriter_ ().write_file_with (
+          file = SimpleFileWriter_ ().create_file (parent_directory) (lib_file_name) ) (
+          content = SimpleFileReader_ ().read_resource (library_directory_in_jar + lib_file_name)
         ) )
-      .forall (x => x )
+      .forall (  x => x)
 
 }
 
