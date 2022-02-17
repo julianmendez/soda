@@ -310,8 +310,6 @@ trait AbstractFactorialVerbose
 
 case class AbstractFactorialVerbose_ (factorial: Int => Int) extends AbstractFactorialVerbose
 
-/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
-
 trait FactorialVerbose
   extends AbstractFactorialVerbose
 {

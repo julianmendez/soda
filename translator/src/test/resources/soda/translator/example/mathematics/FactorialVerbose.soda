@@ -12,15 +12,15 @@ class FactorialVerbose
     AbstractFactorialVerbose
 
   @tailrec
-  _tailrec_get_factorial (n : Int) (product : Int) : Int is
+  _tailrec_get_factorial (n : Int) (product : Int) : Int =
     if n == 0
     then product
     else _tailrec_get_factorial (n - 1) (n * product)
 
-  get_factorial is
+  get_factorial =
     lambda n --> get_factorial_for (n)
 
-  get_factorial_for (n : Int) is
+  get_factorial_for (n : Int) =
     _tailrec_get_factorial (n) (1)
 
 end

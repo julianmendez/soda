@@ -273,18 +273,16 @@ class AbstractFactorialVerbose
 
 end
 
-/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
-
 class FactorialVerbose
   extends AbstractFactorialVerbose
 
   @tailrec
-  _tailrec_ (n : Int) (product : Int) : Int is
+  _tailrec_ (n : Int) (product : Int) : Int =
     if n == 0
     then product
     else _tailrec_ (n - 1) (n * product)
 
-  factorial : Int -> Int is
+  factorial : Int -> Int =
     lambda n -->
       _tailrec_ (n) (1)
 
