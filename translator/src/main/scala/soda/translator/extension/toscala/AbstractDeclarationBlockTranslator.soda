@@ -26,8 +26,8 @@ class AbstractDeclarationBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : AbstractDeclarationAnnotation => _translate_block (block)
-      case x => annotated_block
+      case block : AbstractDeclarationAnnotation ==> _translate_block (block)
+      case x ==> annotated_block
     end
 
   _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -51,7 +51,7 @@ class AbstractDeclarationBlockTranslator
 
   get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (ch => ch.isSpaceChar)
+      .takeWhile (ch ==> ch.isSpaceChar)
       .length
 
   get_first_line (block : AnnotatedBlock) : String =

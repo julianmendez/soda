@@ -7,8 +7,8 @@ class FactorialPatternMatching
   @tailrec
   _tailrec_get_factorial (n : Int) (product : Int) : Int =
     match n
-      case 0 => product
-      case k => _tailrec_get_factorial (k - 1) (k * product)
+      case 0 ==> product
+      case k ==> _tailrec_get_factorial (k - 1) (k * product)
     end
 
   get_factorial : Int -> Int =

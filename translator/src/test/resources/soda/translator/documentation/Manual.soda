@@ -212,20 +212,20 @@ class Manual
     (x or y) and not (x and y)
 
   /* It is possible to use pattern matching with `match` and `case`.
-   * Please observe the double arrow `=>`. */
+   * Please observe the long double arrow `==>`. */
 
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
-      case true => if_true
-      case false => if_false
+      case true ==> if_true
+      case false ==> if_false
     end
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
 
   another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
-      case true => if_true
-      case false => if_false
+      case true ==> if_true
+      case false ==> if_false
     end
 
   sum (n : Int) =

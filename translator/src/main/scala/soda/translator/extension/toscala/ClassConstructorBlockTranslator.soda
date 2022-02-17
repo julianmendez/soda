@@ -23,8 +23,8 @@ class ClassConstructorBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : ClassEndAnnotation => _translate_block (block)
-      case x => annotated_block
+      case block : ClassEndAnnotation ==> _translate_block (block)
+      case x ==> annotated_block
     end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -78,18 +78,18 @@ class ClassConstructorBlockTranslator
     references
       .flatMap (lambda block ->
         match block
-          case b : ClassBeginningAnnotation => Some (b)
-          case x => None
+          case b : ClassBeginningAnnotation ==> Some (b)
+          case x ==> None
         end
       )
       .headOption
 
   _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap (lambda block =>
+      .flatMap (lambda block ==>
         match block
-          case b : AbstractDeclarationAnnotation => Some (b)
-          case x => None
+          case b : AbstractDeclarationAnnotation ==> Some (b)
+          case x ==> None
         end
       )
       .flatMap (lambda block -> block.abstract_functions)

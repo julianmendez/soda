@@ -18,8 +18,8 @@ class ClassEndBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : ClassEndAnnotation => _translate_block (block)
-      case x => annotated_block
+      case block : ClassEndAnnotation ==> _translate_block (block)
+      case x ==> annotated_block
     end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =

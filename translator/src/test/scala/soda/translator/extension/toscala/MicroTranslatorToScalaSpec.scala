@@ -164,9 +164,9 @@ case class MicroTranslatorToScalaSpec ()
     {
       lazy val original = "fibo(n: Int): Int = " +
         "\n  match n" +
-        "\n  | 0 => 1 " +
-        "\n  | 1 => 1 " +
-        "\n  | m => if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n  case 0 ==> 1 " +
+        "\n  case 1 ==> 1 " +
+        "\n  case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
         "\n end" +
         "\n"
       lazy val expected = "def fibo (n: Int ): Int =" +
@@ -183,9 +183,9 @@ case class MicroTranslatorToScalaSpec ()
     {
       lazy val original = "fibo(n: Int): Int = " +
         "\n  match n" +
-        "\n    | 0 => 1 " +
-        "\n    | 1 => 1 " +
-        "\n    | m => if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n    case 0 ==> 1 " +
+        "\n    case 1 ==> 1 " +
+        "\n    case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
         "\n  end" +
         "\n"
       lazy val expected = "def fibo (n: Int ): Int =" +
@@ -202,9 +202,9 @@ case class MicroTranslatorToScalaSpec ()
     {
       lazy val original = "fibo(n: Int): Int = " +
         "\n  n match" +
-        "\n  | 0 => 1 " +
-        "\n  | 1 => 1 " +
-        "\n  | m => if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
+        "\n  case 0 ==> 1 " +
+        "\n  case 1 ==> 1 " +
+        "\n  case m ==> if m > 0 then fibo(m - 1) + fibo(m - 2) else 0" +
         "\n"
       lazy val expected = "def fibo (n: Int ): Int =" +
         "\n  n match" +

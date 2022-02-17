@@ -72,8 +72,8 @@ class IntNat
 
   to_Int (a : nat) : Int =
     match a
-      case O_ () => 0
-      case S_ (k) => 1 + to_Int (k)
+      case O_ () ==> 0
+      case S_ (k) ==> 1 + to_Int (k)
     end
 
 end

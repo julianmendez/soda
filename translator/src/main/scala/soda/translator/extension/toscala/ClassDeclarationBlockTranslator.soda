@@ -31,9 +31,9 @@ class ClassDeclarationBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : ClassBeginningAnnotation => _translate_class_beginning_block (block)
-      case block : ClassAliasAnnotation => _translate_class_alias_block (block)
-      case x => annotated_block
+      case block : ClassBeginningAnnotation ==> _translate_class_beginning_block (block)
+      case block : ClassAliasAnnotation ==> _translate_class_alias_block (block)
+      case x ==> annotated_block
     end
 
   _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =

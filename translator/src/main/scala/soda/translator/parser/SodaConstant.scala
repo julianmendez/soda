@@ -15,7 +15,7 @@ trait SodaConstant
 
   lazy val lambda_arrow_symbol = "-->"
 
-  lazy val case_arrow_symbol = "=>"
+  lazy val case_arrow_symbol = "==>"
 
   lazy val parameter_definition_symbol = ":="
 

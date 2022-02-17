@@ -21,8 +21,8 @@ class CoqTheoremBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : TheoremBlockAnnotation => _translate_block (block)
-      case x => annotated_block
+      case block : TheoremBlockAnnotation ==> _translate_block (block)
+      case x ==> annotated_block
     end
 
   _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =

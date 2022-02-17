@@ -58,8 +58,8 @@ class PreprocessorSequenceTranslator
 
   _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
     match current.block_sequence.apply (index)
-      case block : ClassEndAnnotation => _get_updated_block (current) (block)
-      case x => x
+      case block : ClassEndAnnotation ==> _get_updated_block (current) (block)
+      case x ==> x
     end
 
   _get_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -74,10 +74,10 @@ class PreprocessorSequenceTranslator
 
   _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
     match current.block_sequence.apply (index)
-      case b : ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b) )
-      case b : AbstractDeclarationAnnotation => _update_first_element (current.references) (b)
-      case b : ClassEndAnnotation => _tail_non_empty (current.references)
-      case x => current.references
+      case b : ClassBeginningAnnotation ==> current.references.+: (Seq [AnnotatedBlock] (b) )
+      case b : AbstractDeclarationAnnotation ==> _update_first_element (current.references) (b)
+      case b : ClassEndAnnotation ==> _tail_non_empty (current.references)
+      case x ==> current.references
     end
 
   _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =

@@ -238,7 +238,7 @@ trait Manual
     (x || y ) && ! (x && y )
 
   /* It is possible to use pattern matching with `match` and `case`.
-   * Please observe the double arrow `=>`. */
+   * Please observe the long double arrow `==>`. */
 
   def if_then_else [A] (condition: Boolean ) (if_true: A ) (if_false: A ): A =
     condition match  {

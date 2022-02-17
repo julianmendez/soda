@@ -12,12 +12,12 @@ class SwapExample
 
   left (pair : PairExample) : Int =
     match pair
-      case (PairExample_ (x, y) ) => x
+      case (PairExample_ (x, y) ) ==> x
     end
 
   right (pair : PairExample) : Int =
     match pair
-      case (PairExample_ (x, y) ) => y
+      case (PairExample_ (x, y) ) ==> y
     end
 
   swap (pair : PairExample) : PairExample =

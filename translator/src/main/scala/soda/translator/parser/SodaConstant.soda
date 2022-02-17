@@ -14,7 +14,7 @@ class SodaConstant
 
   lambda_arrow_symbol = "-->"
 
-  case_arrow_symbol = "=>"
+  case_arrow_symbol = "==>"
 
   parameter_definition_symbol = ":="
 
