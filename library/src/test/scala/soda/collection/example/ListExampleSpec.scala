@@ -31,7 +31,7 @@ case class ListExampleSpec ()
 
   test ("should test a.takeWhile")
     {
-      lazy val expected = Pair_ ("a.takeWhile(lambda x --> not (x == 'E'))", List ('A', 'B', 'C', 'D')  )
+      lazy val expected = Pair_ ("a.takeWhile( lambda x --> not (x == 'E'))", List ('A', 'B', 'C', 'D')  )
       lazy val obtained = ListExample_ () .takeWhile_example
       assert (obtained == expected ) }
 
@@ -49,7 +49,7 @@ case class ListExampleSpec ()
 
   test ("should test a.dropWhile")
     {
-      lazy val expected = Pair_ ("a.dropWhile(lambda x --> not (x == 'E'))", List ('E', 'F')  )
+      lazy val expected = Pair_ ("a.dropWhile( lambda x --> not (x == 'E'))", List ('E', 'F')  )
       lazy val obtained = ListExample_ () .dropWhile_example
       assert (obtained == expected ) }
 
@@ -103,37 +103,37 @@ case class ListExampleSpec ()
 
   test ("should test a.span")
     {
-      lazy val expected = Pair_ ("a.span(lambda x --> not (x == 'D'))", (List ('A', 'B', 'C'), List ('D', 'E', 'F')  )  )
+      lazy val expected = Pair_ ("a.span( lambda x --> not (x == 'D'))", (List ('A', 'B', 'C'), List ('D', 'E', 'F')  )  )
       lazy val obtained = ListExample_ () .span_example
       assert (obtained == expected ) }
 
   test ("should test a.map")
     {
-      lazy val expected = Pair_ ("a.map(lambda x --> x.toInt)", List (65, 66, 67, 68, 69, 70 )  )
+      lazy val expected = Pair_ ("a.map( lambda x --> x.toInt)", List (65, 66, 67, 68, 69, 70 )  )
       lazy val obtained = ListExample_ () .map_example
       assert (obtained == expected ) }
 
   test ("should test a.filter")
     {
-      lazy val expected = Pair_ ("a.filter(lambda x --> x.toInt % 2 == 0)", List ('B', 'D', 'F')  )
+      lazy val expected = Pair_ ("a.filter( lambda x --> x.toInt % 2 == 0)", List ('B', 'D', 'F')  )
       lazy val obtained = ListExample_ () .filter_example
       assert (obtained == expected ) }
 
   test ("should test b.fold")
     {
-      lazy val expected = Pair_ ("b.fold(0)(lambda (a, b) --> a + b)", 210 )
+      lazy val expected = Pair_ ("b.fold(0)( lambda (a, b) --> a + b)", 210 )
       lazy val obtained = ListExample_ () .fold_example
       assert (obtained == expected ) }
 
   test ("should test a.foldLeft")
     {
-      lazy val expected = Pair_ ("a.foldLeft(Seq('*'))(lambda (list, elem) --> \"(\" + list + \" :+ \" + elem + \")\")", "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq )
+      lazy val expected = Pair_ ("a.foldLeft(Seq('*'))( lambda (list, elem) --> \"(\" + list + \" :+ \" + elem + \")\")", "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq )
       lazy val obtained = ListExample_ () .foldLeft_example
       assert (obtained == expected ) }
 
   test ("should test a.foldRight")
     {
-      lazy val expected = Pair_ ("a.foldRight(Seq('*'))(lambda (elem, list) --> \"(\" + elem + \" +: \" + list + \")\")", "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq )
+      lazy val expected = Pair_ ("a.foldRight(Seq('*'))( lambda (elem, list) --> \"(\" + elem + \" +: \" + list + \")\")", "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq )
       lazy val obtained = ListExample_ () .foldRight_example
       assert (obtained == expected ) }
 

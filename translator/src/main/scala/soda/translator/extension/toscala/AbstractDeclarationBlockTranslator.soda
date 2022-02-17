@@ -41,7 +41,7 @@ class AbstractDeclarationBlockTranslator
 
   prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      annotated_lines.map (lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map ( lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =

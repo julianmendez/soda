@@ -39,7 +39,7 @@ class BlockAnnotationParser
       block
         .annotated_lines
         .tail
-        .filter (lambda x -> not x.line.trim.isEmpty)
+        .filter ( lambda x -> not x.line.trim.isEmpty)
 
   first_readable_line : AnnotatedLine =
     block.readable_lines.headOption.getOrElse (default_annotated_line)

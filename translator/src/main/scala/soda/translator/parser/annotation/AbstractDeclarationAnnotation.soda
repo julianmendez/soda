@@ -23,7 +23,7 @@ class AbstractDeclarationAnnotation
 
   abstract_functions : Seq [AnnotatedLine] =
     abstract_functions_with_comments
-      .filter (lambda line -> not line.is_comment)
+      .filter ( lambda line -> not line.is_comment)
 
 end
 

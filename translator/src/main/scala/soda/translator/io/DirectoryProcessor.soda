@@ -22,23 +22,23 @@ class DirectoryProcessor
   soda_suffix = ".soda"
 
   all_files =
-    DirectoryScanner_ ().get_all_files (@new File (start))
+    DirectoryScanner_ ().get_all_files ( @new File (start))
 
   soda_files =
     all_files
-      .filter (lambda x --> x.isFile)
-      .filter (lambda x --> x.getName.endsWith (soda_suffix))
+      .filter ( lambda x --> x.isFile)
+      .filter ( lambda x --> x.getName.endsWith (soda_suffix))
 
   lib_files =
     all_files
-      .filter (lambda x --> x.isFile)
-      .filter (lambda file --> file.getName == LibraryDeployer_ ().library_marker_file)
+      .filter ( lambda x --> x.isFile)
+      .filter ( lambda file --> file.getName == LibraryDeployer_ ().library_marker_file)
 
   process () : Boolean =
     LibraryDeployer_ ().expand_library (lib_files) and
       soda_files
         .map (process_soda_file)
-        .forall (lambda x --> x)
+        .forall ( lambda x --> x)
 
 end
 

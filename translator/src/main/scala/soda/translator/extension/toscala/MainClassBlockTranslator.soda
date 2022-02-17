@@ -44,12 +44,12 @@ class MainClassBlockTranslator
 
   _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
-      .map (lambda x -> x.class_name)
+      .map ( lambda x -> x.class_name)
       .getOrElse ("")
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (lambda block ->
+      .flatMap ( lambda block ->
         match block
           case b : ClassBeginningAnnotation ==> Some (b)
           case x ==> None

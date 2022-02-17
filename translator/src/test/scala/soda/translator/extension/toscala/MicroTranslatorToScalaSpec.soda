@@ -217,7 +217,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate an explicit lambda expression")
     let
-      original = "plus_1: Int = (lambda x: Int) --> x + 1" +
+      original = "plus_1: Int = ( lambda x: Int) --> x + 1" +
         "\n"
       expected = "lazy val plus_1: Int = (x: Int ) => x + 1" +
         "\n"

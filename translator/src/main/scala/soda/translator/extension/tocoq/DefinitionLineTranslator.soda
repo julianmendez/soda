@@ -94,11 +94,11 @@ class DefinitionLineTranslator
     position_of_first_opening_parenthesis.isEmpty
 
   is_val_definition_case_2 (initial_position : Int) =
-    position_of_first_opening_parenthesis.opt (false) (lambda position --> (position > initial_position) )
+    position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > initial_position) )
 
   is_val_definition_case_3 =
     (get_index (line) (sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
-      position_of_first_opening_parenthesis.opt (false) (lambda position --> (position > other_position) )
+      position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > other_position) )
     )
 
   is_val_definition_case_4 =
@@ -122,7 +122,7 @@ class DefinitionLineTranslator
 
   get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line.indexOf (pattern, start) )
-      .filter (lambda position --> not  (position == -1) )
+      .filter ( lambda position --> not  (position == -1) )
 
 end
 

@@ -14,7 +14,7 @@ class FiboExampleInSodaForCoqSpec ()
 
   fibonacci_values_with_nat: Seq [ Tuple2 [nat, nat] ] =
     fibonacci_values
-      .map (lambda pair -->
+      .map ( lambda pair -->
         Tuple2 ( IntNat_ ().from_non_negative (pair._1), IntNat_ ().from_non_negative (pair._2) )
       )
 
@@ -22,8 +22,8 @@ class FiboExampleInSodaForCoqSpec ()
     let
       expected = fibonacci_values_with_nat
       obtained = fibonacci_values_with_nat
-        .map (lambda pair --> pair._1)
-        .map (lambda n --> Tuple2 (n, FiboExampleInSodaForCoq_ ().fib (n) ) )
+        .map ( lambda pair --> pair._1)
+        .map ( lambda n --> Tuple2 (n, FiboExampleInSodaForCoq_ ().fib (n) ) )
     in assert (obtained == expected)
 
 end

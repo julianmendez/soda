@@ -15,7 +15,7 @@ class OptionSDSpec ()
   test ("should test a non empty option")
     let
       element = SomeSD_ (1)
-    in assert (not element.isEmpty and element.isDefined and element.isNonEmpty)
+    in assert ( not element.isEmpty and element.isDefined and element.isNonEmpty)
 
   test ("should get a default value, when empty")
     let
@@ -170,21 +170,21 @@ class OptionSDSpec ()
     let
       input = NoneSD_ [Int] ()
       expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x --> true)
+      obtained = input.filter ( lambda x --> true)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate does not hold")
     let
       input = SomeSD_ [Int] (0)
       expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x --> x > 0)
+      obtained = input.filter ( lambda x --> x > 0)
     in assert (obtained == expected)
 
   test ("filter should work for Some, if predicate holds")
     let
       input = SomeSD_ [Int] (1)
       expected = SomeSD_ [Int] (1)
-      obtained = input.filter (lambda x --> x > 0)
+      obtained = input.filter ( lambda x --> x > 0)
     in assert (obtained == expected)
 
 end

@@ -36,12 +36,12 @@ class ClassBeginningAnnotation
     remove_brackets (skip_first_word (class_name_and_type_parameters) )
       .split (sc.parameter_separator_symbol)
       .toIndexedSeq
-      .map (lambda parameter --> parameter.trim)
-      .filter (lambda parameter --> not parameter.isEmpty)
+      .map ( lambda parameter --> parameter.trim)
+      .filter ( lambda parameter --> not parameter.isEmpty)
 
   type_parameters : Seq [String] =
     type_parameters_and_bounds
-      .map (lambda parameter --> get_first_word (parameter) )
+      .map ( lambda parameter --> get_first_word (parameter) )
 
   remove_brackets (text : String) : String =
     remove_brackets_with (text.trim)

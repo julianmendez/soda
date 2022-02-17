@@ -40,8 +40,8 @@ class MatchCaseBlockTranslator
   _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build (
       block.lines
-        .map (lambda line --> insert_match_before_brace_if_found (line) )
-        .map (lambda line --> replace_match_end_if_found (line) )
+        .map ( lambda line --> insert_match_before_brace_if_found (line) )
+        .map ( lambda line --> replace_match_end_if_found (line) )
     )
 
   insert_match_before_brace_if_found (line : String) : String =

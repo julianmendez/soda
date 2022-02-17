@@ -11,7 +11,7 @@ class RecursionForCoq
     match sequence
       case Nil ==> current_value
       case (head) :: (tail) ==>
-         if (not (condition (current_value) (head) ) )
+         if ( not (condition (current_value) (head) ) )
          then current_value
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
     end

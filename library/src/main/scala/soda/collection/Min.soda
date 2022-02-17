@@ -67,7 +67,7 @@ class Min [A]
     MSeqRec_ [A] ().fold_while [B] (s) (initial_value) (next_value) (condition)
 
   foldLeft [B] (s : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) : B =
-    foldLeftWhile (s) (initial_value) (next_value) (lambda (acc : B) --> lambda (elem : A) --> true)
+    foldLeftWhile (s) (initial_value) (next_value) ( lambda (acc : B) --> lambda (elem : A) --> true)
 
   reverse (s : MSeq [A] ) : MSeq [A] =
     s.opt [MSeq [A] ] (ifEmpty := empty) (ifNonEmpty := lambda neseq --> reverseNonEmpty (neseq) )
@@ -95,7 +95,7 @@ class Min [A]
   _indexOf_next_value (tuple : IndexFoldTuple [A] ) (current_element : A) : IndexFoldTuple [A] =
     IndexFoldTuple_ [A] (
       tuple.index + 1,
-      (if current_element == tuple.element
+      ( if current_element == tuple.element
       then tuple.index
       else tuple.position),
       tuple.element
@@ -119,7 +119,7 @@ class Min [A]
   at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     s.opt [OptionSD [A] ] (
       ifEmpty := NoneSD_ [A] () ) (
-      ifNonEmpty := (lambda neseq -->
+      ifNonEmpty := ( lambda neseq -->
         if n < 0 or n >= length (s)
         then NoneSD_ [A] ()
         else SomeSD_ [A] (_atNonEmpty (neseq ) (n) )
@@ -242,7 +242,7 @@ class Min [A]
 
   _filter_next_value (tuple : FilterFoldTuple [A] ) (elem : A) :  FilterFoldTuple [A] =
     FilterFoldTuple_ (
-      (if tuple.condition (elem)
+      ( if tuple.condition (elem)
       then prepended (tuple.sequence) (elem)
       else tuple.sequence),
       tuple.condition

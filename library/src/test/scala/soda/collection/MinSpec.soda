@@ -197,13 +197,13 @@ class MinSpec ()
   test ("span with Seq")
     let
       expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
-      obtained = exampleSeq.span (lambda x --> not  (x == 5) )
+      obtained = exampleSeq.span ( lambda x --> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("span")
     let
       expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ))
-      obtained = Min_ ().span (example) (lambda (x: Int) --> not  (x == 5) )
+      obtained = Min_ ().span (example) ( lambda (x: Int) --> not  (x == 5) )
     in assert (obtained == expected)
 
   test ("append")

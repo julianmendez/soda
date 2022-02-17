@@ -38,7 +38,7 @@ class PreprocessorSequenceTranslator
     )
 
   _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    block_sequence.map (lambda block --> block_annotator.translate (block) )
+    block_sequence.map ( lambda block --> block_annotator.translate (block) )
 
   _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     recursion
