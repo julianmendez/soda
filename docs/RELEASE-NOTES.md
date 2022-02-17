@@ -4,6 +4,14 @@
   - new_features:
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
+  - deprecated_features:
+    - the following synonyms a no longer supported
+    - (asterisk) `*` (synonym for `class`)
+    - (minus) `-` (synonym for `has`)
+    - (plus) `+` (synonym for `import`)
+    - (vertical bar) `|` (synonym for `case`)
+    - . `is` (synonym for `=`)
+    - . `fun` (synonym for `lambda`)
   - build: sbt '++ 3.1.1' clean compile test package assembly
   - release: target/scala-3.1.1/soda-0.15.0.jar
 - - version: v0.14.0

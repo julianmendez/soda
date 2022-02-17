@@ -41,22 +41,6 @@ The reserved words are:
 - `proof`
 
 
-## Synonyms
-
-The synonyms at the beginning of a line are:
-
-- `|` for `case`
-
-The synonyms in any part of a line are:
-
-- `is` for `=`
-
-Technical synonyms:
-
-- `<:` for `subtype`
-- `>:` for `supertype`
-
-
 ## Other Symbols
 
 In addition, the language has:
