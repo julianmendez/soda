@@ -10,13 +10,21 @@ trait MicroTranslatorToCoq
 {
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.ConditionalBlockTranslator_
   import   soda.translator.blocktr.TokenReplacement_
   import   soda.translator.blocktr.TokenizedBlockTranslator_
   import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.replacement.Token
 
   lazy val tc = TranslationConstantToCoq_ ()
+
+  lazy val function_definition = BlockAnnotationEnum_ ().function_definition
+
+  lazy val test_declaration = BlockAnnotationEnum_ ().test_declaration
+
+  lazy val functions_and_tests = Seq (function_definition, test_declaration)
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -33,13 +41,8 @@ trait MicroTranslatorToCoq
         CoqDefinitionBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
-        TokenReplacement_ (). add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet),
-        /* TokenReplacement_ (). replace (tc.coq_non_soda), FIXME */
-        TokenReplacement_ (). replace_at_beginning (tc.synonym_at_beginning),
-        TokenReplacement_ (). replace (tc.synonym),
-        TokenizedBlockTranslator_ (try_definition),
-        TokenReplacement_ (). replace (tc.main_translation),
-        TokenReplacement_ (). replace_regex (tc.beautifier)
+        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.function_symbols_translation) )
       )
     )
 

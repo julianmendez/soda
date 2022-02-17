@@ -19,6 +19,32 @@ trait TranslationConstantToCoq
 
   lazy val coq_space = " "
 
+  lazy val coq_function_definition_symbol = ":="
+
+  lazy val coq_subtype_symbol = "<:"
+
+  lazy val coq_supertype_symbol = ">:"
+
+  lazy val coq_function_arrow_symbol = "->"
+
+  lazy val coq_empty_string = ""
+
+  lazy val coq_lambda_reserved_word = "fun"
+
+  lazy val coq_lambda_arrow_symbol = "=>"
+
+  lazy val coq_case_arrow_symbol = "=>"
+
+  lazy val coq_not_reserved_word = "notb"
+
+  lazy val coq_and_reserved_word = "andb"
+
+  lazy val coq_or_reserved_word = "orb"
+
+  lazy val deprecated_coq_let_translation = "let"
+
+  lazy val deprecated_coq_in_translation = "in"
+
   lazy val coq_definition : String = "Definition"
 
   lazy val coq_value : String = "Definition"
@@ -140,49 +166,24 @@ trait TranslationConstantToCoq
       "Variable"
     )
 
-  lazy val synonym_at_beginning : Seq [Tuple2 [String, String] ] =
+  lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 ("*", "class"),
-      Tuple2 ("+", "import")
+      Tuple2 (soda_constant.subtype_reserved_word, coq_subtype_symbol),
+      Tuple2 (soda_constant.supertype_reserved_word, coq_supertype_symbol),
+      Tuple2 (soda_constant.function_arrow_symbol, coq_function_arrow_symbol)
     )
 
-  lazy val synonym : Seq [Tuple2 [String, String] ] =
+  lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 ("is", ":="),
-      Tuple2 ("def", "")
-    )
-
-  lazy val main_translation : Seq [Tuple2 [String, String] ] =
-    Seq (
-      Tuple2 (";", "."),
-      Tuple2 (":", ":"),
-      Tuple2 ("->", "->"),
-      Tuple2 ("-->", "=>"),
-      Tuple2 ("=>", "=>"),
-      Tuple2 ("==>", "=>"),
-      Tuple2 ("=", ":="),
-      Tuple2 ("lambda", "fun"),
-      Tuple2 ("if", "if"),
-      Tuple2 ("then", "then"),
-      Tuple2 ("else", "else"),
-      Tuple2 ("let", "let"),
-      Tuple2 ("in", "in"),
-      Tuple2 ("match", "match"),
-      Tuple2 ("case", "|"),
-      Tuple2 ("end", "end"),
-      Tuple2 ("|", "|"),
-      Tuple2 ("false", "false"),
-      Tuple2 ("true", "true"),
-      Tuple2 ("not", "negb"),
-      Tuple2 ("and", "andb"),
-      Tuple2 ("or", "orb"),
-      Tuple2 ("class", "Module Type"),
-      Tuple2 ("has", "Parameter"),
-      Tuple2 ("extends", "<:"),
-      Tuple2 ("package", ""),
-      Tuple2 ("import", "Require Import"),
-      Tuple2 ("@override", ""),
-      Tuple2 ("@tailrec", "")
+      Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
+      Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
+      Tuple2 (soda_constant.lambda_arrow_symbol, coq_lambda_arrow_symbol),
+      Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
+      Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),
+      Tuple2 (soda_constant.and_reserved_word, coq_and_reserved_word ),
+      Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word ),
+      Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_coq_let_translation),
+      Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_coq_in_translation)
     )
 
   lazy val type_translation : Seq [ Tuple2 [String, String]  ] =
@@ -201,23 +202,6 @@ trait TranslationConstantToCoq
     coq_reserved_words
       .filter (  x => ! soda_constant.soda_reserved_words.contains (x))
       .map (  x => Tuple2 (x, prefix_coq_non_soda + x) )
-
-  lazy val soda_brackets_and_comma =
-    Seq ( '(', ')', '[', ']', '{', '}', ',' )
-
-  lazy val beautifier : Seq [Tuple2 [String, String] ] =
-    Seq (
-      Tuple2 ("\\.\\s+", "."),
-      Tuple2 ("=\\s+", "= "),
-      Tuple2 ("\\s+=", " ="),
-      Tuple2 ("\\(\\s+", "("),
-      Tuple2 ("\\[\\s+", "["),
-      Tuple2 ("\\s+\\]", "]"),
-      Tuple2 ("\\s+,", ","),
-      Tuple2 (",\\s+", ", "),
-      Tuple2 ("\\s+:", " :"),
-      Tuple2 (":\\s+", ": ")
-    )
 
   def is_coq_word (word : String) : Boolean =
     coq_reserved_words.contains (word)
