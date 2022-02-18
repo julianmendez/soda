@@ -42,7 +42,6 @@ trait MicroTranslatorToScala
   lazy val translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         TokenReplacement_ ().replace (tc.scala_non_soda),
         TokenReplacement_ ().replace (tc.type_symbols_translation),

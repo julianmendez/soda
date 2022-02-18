@@ -5,7 +5,8 @@
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
   - deprecated_features:
-    - the following synonyms a no longer supported
+    - the `let`-`in` structures are no longer supported
+    - the following synonyms are no longer supported
     - (asterisk) `*` (synonym for `class`)
     - (minus) `-` (synonym for `has`)
     - (plus) `+` (synonym for `import`)
