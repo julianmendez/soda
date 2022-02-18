@@ -11,11 +11,11 @@ case class TriangularNumberForCoqSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val triangular_number_values: Seq [ Tuple2 [Int, Int] ] = Seq (
+  lazy val triangular_number_values : Seq [ Tuple2 [Int, Int] ] = Seq (
     (0, 0), (1, 1), (2, 3), (3, 6), (4, 10), (5, 15), (6, 21)
   )
 
-  lazy val triangular_number_with_nat: Seq [ Tuple2 [nat, nat] ] =
+  lazy val triangular_number_with_nat : Seq [ Tuple2 [nat, nat] ] =
     triangular_number_values
       .map (  pair =>
        Tuple2 ( IntNat_ ().from_non_negative (pair._1),  IntNat_ ().from_non_negative (pair._2) )

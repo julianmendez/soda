@@ -8,11 +8,11 @@ case class FairnessSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val rank_1: Applicant => Double =
+  lazy val rank_1 : Applicant => Double =
      applicant =>
       applicant.background_score * 2
 
-  lazy val rank_2: Applicant => Double =
+  lazy val rank_2 : Applicant => Double =
      applicant =>
       (1 - applicant.background_score) * 2
 

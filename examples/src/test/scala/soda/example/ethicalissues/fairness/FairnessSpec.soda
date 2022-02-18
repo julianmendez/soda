@@ -7,11 +7,11 @@ class FairnessSpec ()
   check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  rank_1: Applicant -> Double =
+  rank_1 : Applicant -> Double =
     lambda applicant -->
       applicant.background_score * 2
 
-  rank_2: Applicant -> Double =
+  rank_2 : Applicant -> Double =
     lambda applicant -->
       (1 - applicant.background_score) * 2
 

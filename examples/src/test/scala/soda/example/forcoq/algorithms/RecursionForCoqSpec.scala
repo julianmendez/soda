@@ -8,7 +8,7 @@ case class RecursionForCoqSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example_seq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
+  lazy val example_seq : Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 
   test ("fold left while with Seq") (
     check (
@@ -20,11 +20,11 @@ case class RecursionForCoqSpec ()
 
   lazy val _fold_left_while_initial_value = Seq [String] ()
 
-  lazy val _fold_left_while_next_value_function: Seq [String] => Int => Seq [String] =
-     (s: Seq [String]) =>  (e: Int) => s .+:  ("" +  (e + 100))
+  lazy val _fold_left_while_next_value_function : Seq [String] => Int => Seq [String] =
+     (s : Seq [String]) =>  (e : Int) => s .+:  ("" +  (e + 100))
 
-  lazy val _fold_left_while_condition: Seq [String] => Int => Boolean =
-     (s: Seq [String]) =>  (e: Int) => e < 5
+  lazy val _fold_left_while_condition : Seq [String] => Int => Boolean =
+     (s : Seq [String]) =>  (e : Int) => e < 5
 
   test ("fold left with Seq") (
     check (
@@ -36,8 +36,8 @@ case class RecursionForCoqSpec ()
 
   lazy val _fold_left_initial_value = Seq [String] ()
 
-  lazy val _fold_left_next_value_function: Seq [String] => Int => Seq [String] =
-     (s: Seq [String]) =>  (e: Int) => s .+:  ("" +  (e + 100))
+  lazy val _fold_left_next_value_function : Seq [String] => Int => Seq [String] =
+     (s : Seq [String]) =>  (e : Int) => s .+:  ("" +  (e + 100))
 
   test ("range with positive number") (
     check (
