@@ -8,6 +8,9 @@ case class PreprocessorSequenceTranslatorSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.block.DefaultBlockTranslator_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val example_program =
     ("package soda.example.mytest" +
     "\n" +
@@ -66,11 +69,12 @@ case class PreprocessorSequenceTranslatorSpec ()
       )
     )
 
-  test ("should test the preprocessor")
-    {
-      lazy val input = example_program
-      lazy val expected = expected_output
-      lazy val obtained = block_processor.translate (input)
-     assert (obtained == expected) }
+  test ("should test the preprocessor") (
+    check (
+      obtained = block_processor.translate (example_program)
+    ) (
+      expected = expected_output
+    )
+  )
 
 }

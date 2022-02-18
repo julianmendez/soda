@@ -15,7 +15,8 @@ class FiboExampleSpec ()
     check (
       obtained := fibonacci_values
         .map ( lambda pair --> pair._1)
-        .map ( lambda n --> Tuple2 (n, FiboExampleInSoda_ ().fib (n) ) ) ) (
+        .map ( lambda n --> Tuple2 (n, FiboExampleInSoda_ ().fib (n) ) )
+    ) (
       expected := fibonacci_values
     )
   )

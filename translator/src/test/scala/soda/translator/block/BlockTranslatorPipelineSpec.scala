@@ -74,6 +74,9 @@ case class BlockTranslatorPipelineSpec ()
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val instance =
     BlockTranslatorPipeline_ (
       Seq (
@@ -83,15 +86,18 @@ case class BlockTranslatorPipelineSpec ()
       )
     )
 
-  test ("block translator pipeline")
-    {
-      lazy val original =
-        AnnotationFactory_ ().annotate (
-          BlockBuilder_ ().build (
-            Seq ( "first line" )
-          )
-        )
-      lazy val expected =
+  lazy val original =
+    AnnotationFactory_ ().annotate (
+      BlockBuilder_ ().build (
+        Seq ( "first line" )
+      )
+    )
+
+  test ("block translator pipeline") (
+    check (
+      obtained = instance.translate (original)
+    ) (
+      expected =
         AnnotationFactory_ ().annotate (
           BlockBuilder_ ().build (
             Seq (
@@ -102,7 +108,7 @@ case class BlockTranslatorPipelineSpec ()
             )
           )
         )
-      lazy val obtained = instance.translate (original)
-     assert (obtained == expected) }
+    )
+  )
 
 }

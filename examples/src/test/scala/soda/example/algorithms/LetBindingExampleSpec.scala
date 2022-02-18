@@ -5,22 +5,31 @@ case class LetBindingSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  test ("should evaluate an expression like 'where'")
-    {
-      lazy val obtained = LetBindingExample_ ().three_parts_like_where
-      lazy val expected = Seq ("first part", "second part", "third part")
-     assert (obtained == expected) }
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should evaluate an expression like 'let in'")
-    {
-      lazy val obtained = LetBindingExample_ ().three_parts_like_let_in
-      lazy val expected = Seq ("first part", "second part", "third part")
-     assert (obtained == expected) }
+  test ("should evaluate an expression like 'where'") (
+    check (
+      obtained = LetBindingExample_ ().three_parts_like_where
+    ) (
+      expected = Seq ("first part", "second part", "third part")
+    )
+  )
 
-  test ("should evaluate an expression like Coq 'let in'")
-    {
-      lazy val obtained = LetBindingExample_ ().three_parts_like_coq_let_in
-      lazy val expected = Seq ("first part", "second part", "third part")
-     assert (obtained == expected) }
+  test ("should evaluate an expression like 'let in'") (
+    check (
+      obtained = LetBindingExample_ ().three_parts_like_let_in
+    ) (
+      expected = Seq ("first part", "second part", "third part")
+    )
+  )
+
+  test ("should evaluate an expression like Coq 'let in'") (
+    check (
+      obtained = LetBindingExample_ ().three_parts_like_coq_let_in
+    ) (
+      expected = Seq ("first part", "second part", "third part")
+    )
+  )
 
 }

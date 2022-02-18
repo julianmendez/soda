@@ -5,55 +5,63 @@ case class TokenizerSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  test ("should tokenize a small example")
-    {
-      lazy val input = "    val Constant = \"my text\""
-      lazy val expected = Seq (
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  test ("should tokenize a small example") (
+    check (
+      obtained = Tokenizer_ ("    val Constant = \"my text\"").tokens
+    ) (
+      expected = Seq (
         Token_ ("    val Constant = ", ParserStateEnum_ ().plain, 0),
         Token_ ("\"my text\"", ParserStateEnum_ ().quotes_state, 19),
         Token_ ("", ParserStateEnum_ ().plain, 28)
       )
-      lazy val obtained = Tokenizer_ (input).tokens
-     assert (obtained == expected) }
+    )
+  )
 
-  test ("should tokenize a common tab in a string")
-    {
-      lazy val input = "  x = \"abc\tde\""
-      lazy val expected = Seq (
+  test ("should tokenize a common tab in a string") (
+    check (
+      obtained = Tokenizer_ ("  x = \"abc\tde\"").tokens
+    ) (
+      expected = Seq (
         Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
         Token_ ("\"abc\tde\"", ParserStateEnum_ ().quotes_state, 6),
         Token_ ("", ParserStateEnum_ ().plain, 14)
       )
-      lazy val obtained = Tokenizer_ (input).tokens
-     assert (obtained == expected) }
+    )
+  )
 
-  test ("should tokenize an escaped tab in a string")
-    {
-      lazy val input = "  x = \"abc\\tde\""
-      lazy val expected = Seq (
+  test ("should tokenize an escaped tab in a string") (
+    check (
+      obtained = Tokenizer_ ("  x = \"abc\\tde\"").tokens
+    ) (
+      expected = Seq (
         Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
         Token_ ("\"abc\\tde\"", ParserStateEnum_ ().quotes_state, 6),
         Token_ ("", ParserStateEnum_ ().plain, 15)
       )
-      lazy val obtained = Tokenizer_ (input).tokens
-     assert (obtained == expected) }
+    )
+  )
 
-  test ("should tokenize a single function definition")
-    {
-      lazy val input = "def f (x: Int): Int = x"
-      lazy val expected = Seq (
+  test ("should tokenize a single function definition") (
+    check (
+      obtained = Tokenizer_ ("def f (x: Int): Int = x").tokens
+    ) (
+      expected = Seq (
         Token_ ("def f (x: Int): Int = x", ParserStateEnum_ ().plain, 0)
       )
-      lazy val obtained = Tokenizer_ (input).tokens
-     assert (obtained == expected) }
+    )
+  )
 
-  test ("should tokenize a function call")
-    {
-      lazy val input = "\tas_digits (5 * number)"
-      lazy val expected = Seq (
+  test ("should tokenize a function call") (
+    check (
+      obtained = Tokenizer_ ("\tas_digits (5 * number)").tokens
+    ) (
+      expected = Seq (
         Token_ ("\tas_digits (5 * number)", ParserStateEnum_ ().plain, 0)
       )
-      lazy val obtained = Tokenizer_ (input).tokens
-     assert (obtained == expected) }
+    )
+  )
 
 }

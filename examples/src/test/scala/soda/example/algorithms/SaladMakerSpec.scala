@@ -35,23 +35,26 @@ case class SaladMakerSpec ()
     with SaladIngredientConstant
 {
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
     salad_so_far.+: (ingredient)
 
   def has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far.length < 3
 
-  test ("salad maker")
-    {
-      lazy val instance = SaladMaker_ ()
-      lazy val ingredients = SaladIngredient_values
-      lazy val expected = Seq (sunflower_seeds, lettuce, tomato)
-      lazy val obtained = instance.prepare_salad (
-        list_of_ingredients = ingredients) (
+  test ("salad maker") (
+    check (
+      obtained = SaladMaker_ ().prepare_salad (
+        list_of_ingredients = SaladIngredient_values) (
         initial_bowl = Seq [SaladIngredient] () ) (
         next_ingredient_function = add_next_ingredient) (
         condition_to_continue = has_salad_at_most_2_ingredients
       )
-     assert (obtained == expected) }
+    ) (
+      expected = Seq (sunflower_seeds, lettuce, tomato)
+    )
+  )
 
 }

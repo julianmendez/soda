@@ -8,18 +8,24 @@ case class BeautifierSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  test ("the translated source code should respect unnecessary spaces")
-    {
-      lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
-        "    original .  replaceAll(\"  \" ,  \" \")   \n"
-      lazy val expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
-        "    original .  replaceAll(\"  \" ,  \" \")   \n"
-      lazy val obtained =
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
+    "    original .  replaceAll(\"  \" ,  \" \")   \n"
+
+  test ("the translated source code should respect unnecessary spaces") (
+    check (
+      obtained =
         BlockProcessor_(
           DefaultBlockSequenceTranslator_ (
             MicroTranslatorToScala_()
           )
         ).translate (original)
-     assert (obtained == expected) }
+    ) (
+      expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
+        "    original .  replaceAll(\"  \" ,  \" \")   \n"
+    )
+  )
 
 }

@@ -8,6 +8,9 @@ class UpperAndLowerBoundDeclarationSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   instance =
     BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
@@ -15,16 +18,17 @@ class UpperAndLowerBoundDeclarationSpec ()
       )
     )
 
-  test ("should translate a single upper bound")
-    let
-      original =
-        "  class BlackBox()" +
+  test ("should translate a single upper bound") (
+    check (
+      obtained := instance.translate (        "  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A subtype AbstractInput]" +
         "\n" +
         "\nend" +
         "\n"
-      expected =
+      )
+    ) (
+      expected :=
         "  case class BlackBox()" +
         "\n  extends" +
         "\n    AbstractBlackBox[A <: AbstractInput]" +
@@ -32,20 +36,21 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
+    )
+  )
 
-  test ("should translate multiple upper bounds")
-    let
-      original =
-        "  class BlackBox()" +
+  test ("should translate multiple upper bounds") (
+    check (
+      obtained := instance.translate (        "  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A subtype AbstractInput]" +
         "\n    AbstractDevice[B subtype AbstractDeviceInput]" +
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox()" +
+      )
+    ) (
+      expected := "  case class BlackBox()" +
         "\n  extends" +
         "\n    AbstractBlackBox[A <: AbstractInput]" +
         "\n    with AbstractDevice[B <: AbstractDeviceInput]" +
@@ -53,37 +58,41 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
+    )
+  )
 
-  test ("should translate a single lower bound")
-    let
-      original = "  class BlackBox()" +
+  test ("should translate a single lower bound") (
+    check (
+      obtained := instance.translate ("  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox()" +
+      )
+    ) (
+      expected := "  case class BlackBox()" +
         "\n  extends" +
         "\n    AbstractBlackBox[A >: (AbstractInput)]" +
         "\n{" +
         "\n" +
         "\n}" +
         "\n"
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
+    )
+  )
 
-  test ("should translate multiple lower bounds")
-    let
-      original = "  class BlackBox()" +
+  test ("should translate multiple lower bounds") (
+    check (
+      obtained := instance.translate ("  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n    AbstractDevice[B supertype (AbstractDeviceInput)]" +
         "\n" +
         "\nend" +
         "\n"
-      expected = "  case class BlackBox()" +
+      )
+    ) (
+      expected := "  case class BlackBox()" +
         "\n  extends" +
         "\n    AbstractBlackBox[A >: (AbstractInput)]" +
         "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
@@ -91,8 +100,8 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n"
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
+    )
+  )
 
 end
 

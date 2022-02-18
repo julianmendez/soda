@@ -6,17 +6,24 @@ class MainSpec ()
 
   instance = TranslatorToScala_ ()
 
-  test ("should get the input and output file names without path")
-    let
-      expected = FileNamePair_("my_file.soda", "my_file.scala")
-      obtained = instance.get_input_output_file_names("my_file.soda")
-    in assert (obtained == expected)
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should get the input and output file names with path")
-    let
-      expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
-      obtained = instance.get_input_output_file_names("/path/to/file.soda")
-    in assert (obtained == expected)
+  test ("should get the input and output file names without path") (
+    check (
+      obtained := instance.get_input_output_file_names("my_file.soda")
+    ) (
+      expected := FileNamePair_("my_file.soda", "my_file.scala")
+    )
+  )
+
+  test ("should get the input and output file names with path") (
+    check (
+      obtained := instance.get_input_output_file_names("/path/to/file.soda")
+    ) (
+      expected := FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
+    )
+  )
 
 end
 

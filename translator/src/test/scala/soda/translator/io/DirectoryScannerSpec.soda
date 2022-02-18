@@ -7,20 +7,26 @@ class DirectoryScannerSpec ()
   import
     java.io.File
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   start = "translator/src/test/resources/soda/example"
 
-  test ("scan a file that is not a directory")
-    let
-      scanner = DirectoryScanner_ ()
-      start_file = @new File (start, "Example.soda")
-      expected = Seq (start_file).toSet
-      obtained = scanner.get_all_files (start_file).toSet
-    in assert (obtained == expected)
+  single_start_file = @new File (start, "Example.soda")
 
-  test ("simple scan of all files")
-    let
-      scanner = DirectoryScanner_ ()
-      expected = Seq (
+  test ("scan a file that is not a directory") (
+    check (
+      obtained := DirectoryScanner_ ().get_all_files (single_start_file).toSet
+    ) (
+      expected := Seq (single_start_file).toSet
+    )
+  )
+
+  test ("simple scan of all files") (
+    check (
+      obtained := DirectoryScanner_ ().get_all_files ( @new File (start) ).toSet
+    ) (
+      expected := Seq (
         "otherexample",
         "Example.md",
         "Example.scala",
@@ -29,9 +35,8 @@ class DirectoryScannerSpec ()
         "otherexample/OtherExample.soda",
         "otherexample/OtherExample.txt"
       ).map ( lambda x --> @new File (start, x) ).toSet
-      start_file = @new File (start)
-      obtained = scanner.get_all_files (start_file).toSet
-    in assert (obtained == expected)
+    )
+  )
 
 end
 

@@ -16,7 +16,8 @@ case class FactorialSpec ()
     check (
       obtained = factorial_values
         .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FactorialConcise_ ().get_factorial (n) ) ) ) (
+        .map (  n => Tuple2 (n, FactorialConcise_ ().get_factorial (n) ) )
+    ) (
       expected = factorial_values
     )
   )
@@ -25,7 +26,8 @@ case class FactorialSpec ()
     check (
       obtained = factorial_values
         .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FactorialVerbose_ ().get_factorial (n) ) ) ) (
+        .map (  n => Tuple2 (n, FactorialVerbose_ ().get_factorial (n) ) )
+    ) (
       expected = factorial_values
     )
   )
@@ -34,7 +36,8 @@ case class FactorialSpec ()
     check (
       obtained = factorial_values
         .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FactorialPatternMatching_ ().get_factorial (n) ) ) ) (
+        .map (  n => Tuple2 (n, FactorialPatternMatching_ ().get_factorial (n) ) )
+    ) (
       expected = factorial_values
     )
   )
@@ -43,7 +46,8 @@ case class FactorialSpec ()
     check (
       obtained = factorial_values
         .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FactorialWithFold_ ().get_factorial (n) ) ) ) (
+        .map (  n => Tuple2 (n, FactorialWithFold_ ().get_factorial (n) ) )
+    ) (
       expected = factorial_values
     )
   )

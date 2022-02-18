@@ -10,6 +10,9 @@ case class ClassBeginningAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val example_blocks = ExampleProgram_ ().example_blocks
 
   lazy val default_block_processor = ExampleProgram_ ().default_block_processor
@@ -59,100 +62,132 @@ case class ClassBeginningAnnotationSpec ()
       "\n"
     )
 
-  test ("should find the right block for ClassBeginningAnnotation")
-    {
-      lazy val obtained = example_blocks.map (  block => ClassBeginningAnnotation_ (block).applies )
-      lazy val expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false)
-     assert (obtained == expected) }
+  test ("should find the right block for ClassBeginningAnnotation") (
+    check (
+      obtained = example_blocks.map (  block => ClassBeginningAnnotation_ (block).applies )
+    ) (
+      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false)
+    )
+  )
 
-  test ("should extract the class name")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_0).class_name
-      lazy val expected = "Example"
-     assert (obtained == expected) }
+  test ("should extract the class name") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_0).class_name
+    ) (
+      expected = "Example"
+    )
+  )
 
-  test ("should extract the type parameters and bounds in example 0")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
-      lazy val expected = Seq [String] ()
-     assert (obtained == expected) }
+  test ("should extract the type parameters and bounds in example 0") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
+    ) (
+      expected = Seq [String] ()
+    )
+  )
 
-  test ("should extract the type parameters in example 0")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_0).type_parameters
-      lazy val expected = Seq [String] ()
-     assert (obtained == expected) }
+  test ("should extract the type parameters in example 0") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_0).type_parameters
+    ) (
+      expected = Seq [String] ()
+    )
+  )
 
-  test ("should extract the class name in example 1")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_1).class_name
-      lazy val expected = "Example"
-     assert (obtained == expected) }
+  test ("should extract the class name in example 1") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_1).class_name
+    ) (
+      expected = "Example"
+    )
+  )
 
-  test ("should extract the type parameters and bounds in example 1")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_1).type_parameters_and_bounds
-      lazy val expected = Seq ("A")
-     assert (obtained == expected) }
+  test ("should extract the type parameters and bounds in example 1") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_1).type_parameters_and_bounds
+    ) (
+      expected = Seq ("A")
+    )
+  )
 
-  test ("should extract the type parameters in example 1")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_1).type_parameters
-      lazy val expected = Seq ("A")
-     assert (obtained == expected) }
+  test ("should extract the type parameters in example 1") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_1).type_parameters
+    ) (
+      expected = Seq ("A")
+    )
+  )
 
-  test ("should extract the class name in example 2")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_2).class_name
-      lazy val expected = "Example"
-     assert (obtained == expected) }
+  test ("should extract the class name in example 2") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_2).class_name
+    ) (
+      expected = "Example"
+    )
+  )
 
-  test ("should extract the type parameters and bounds in example 2")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
-      lazy val expected = Seq ("A", "B")
-     assert (obtained == expected) }
+  test ("should extract the type parameters and bounds in example 2") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
+    ) (
+      expected = Seq ("A", "B")
+    )
+  )
 
-  test ("should extract the type parameters in example 2")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_2).type_parameters
-      lazy val expected = Seq ("A", "B")
-     assert (obtained == expected) }
+  test ("should extract the type parameters in example 2") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_2).type_parameters
+    ) (
+      expected = Seq ("A", "B")
+    )
+  )
 
-  test ("should extract the class name in example 3")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_3).class_name
-      lazy val expected = "Example"
-     assert (obtained == expected) }
+  test ("should extract the class name in example 3") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_3).class_name
+    ) (
+      expected = "Example"
+    )
+  )
 
-  test ("should extract the type parameters and bounds in example 3")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_3).type_parameters_and_bounds
-      lazy val expected = Seq ("A subtype SuperTypeExample")
-     assert (obtained == expected) }
+  test ("should extract the type parameters and bounds in example 3") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_3).type_parameters_and_bounds
+    ) (
+      expected = Seq ("A subtype SuperTypeExample")
+    )
+  )
 
-  test ("should extract the type parameters in example 3")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_3).type_parameters
-      lazy val expected = Seq ("A")
-     assert (obtained == expected) }
+  test ("should extract the type parameters in example 3") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_3).type_parameters
+    ) (
+      expected = Seq ("A")
+    )
+  )
 
-  test ("should extract the class name in example 4")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_4).class_name
-      lazy val expected = "Example"
-     assert (obtained == expected) }
+  test ("should extract the class name in example 4") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_4).class_name
+    ) (
+      expected = "Example"
+    )
+  )
 
-  test ("should extract the type parameters and bounds in example 4")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
-      lazy val expected = Seq ("A supertype SubTypeExample", "B subtype SuperTypeExample")
-     assert (obtained == expected) }
+  test ("should extract the type parameters and bounds in example 4") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
+    ) (
+      expected = Seq ("A supertype SubTypeExample", "B subtype SuperTypeExample")
+    )
+  )
 
-  test ("should extract the type parameters in example 4")
-    {
-      lazy val obtained = ClassBeginningAnnotation_ (example_4).type_parameters
-      lazy val expected = Seq ("A", "B")
-     assert (obtained == expected) }
+  test ("should extract the type parameters in example 4") (
+    check (
+      obtained = ClassBeginningAnnotation_ (example_4).type_parameters
+    ) (
+      expected = Seq ("A", "B")
+    )
+  )
 
 }

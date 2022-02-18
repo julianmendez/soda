@@ -7,19 +7,25 @@ class BlockSpec ()
   import
     soda.translator.block.AnnotatedLine_
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  input =  ("\n" +
+    "\n/** This is an example */" +
+    "\n* Example () {" +
+    "\n  /* This is a comment */" +
+    "\n  a = \"/** this is not a comment */\"" +
+    "\n}" +
+    "\n")
+    .split ("\n")
+    .toSeq
+
   /* This is to test how to find commented text. */
-  test ("should find commented text")
-    let
-      input =  ("\n" +
-        "\n/** This is an example */" +
-        "\n* Example () {" +
-        "\n  /* This is a comment */" +
-        "\n  a = \"/** this is not a comment */\"" +
-        "\n}" +
-        "\n")
-        .split ("\n")
-        .toSeq
-      expected = Seq (
+  test ("should find commented text") (
+    check (
+      obtained := BlockBuilder_ ().build (input).annotated_lines
+    ) (
+      expected := Seq (
         AnnotatedLine_ ("", is_comment := false),
         AnnotatedLine_ ("", is_comment := false),
         AnnotatedLine_ ("/** This is an example */", is_comment := true),
@@ -28,8 +34,8 @@ class BlockSpec ()
         AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment := false),
         AnnotatedLine_ ("}", is_comment := false)
       )
-      obtained = BlockBuilder_ ().build (input).annotated_lines
-    in assert (obtained == expected)
+    )
+  )
 
 end
 

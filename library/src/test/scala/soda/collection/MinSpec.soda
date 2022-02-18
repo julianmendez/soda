@@ -9,461 +9,577 @@ class MinSpec ()
     soda.lib.Recursion_
     soda.lib.SomeSD_
 
-  empty: ESeq [Int] = ESeq_ [Int] ()
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  exampleSeq: Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
+  empty : ESeq [Int] = ESeq_ [Int] ()
 
-  revExampleSeq: Seq [Int] = exampleSeq.reverse
+  exampleSeq : Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 
-  prepend_elem (list: MSeq [Int]) (elem: Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
+  revExampleSeq : Seq [Int] = exampleSeq.reverse
+
+  prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
 
   _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
-  example: NESeq [Int] =
+  example : NESeq [Int] =
     Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
 
-  test ("prepended")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 0, 1, 1, 2, 3, 5, 8) )
-      obtained = Min_ ().prepended (example) (1)
-    in assert (obtained == expected)
-
-  test ("head")
-    let
-      expected = 0
-      obtained = Min_ ().head (example)
-    in assert (obtained == expected)
-
-  test ("tail")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 1, 2, 3, 5, 8) )
-      obtained = Min_ ().tail (example)
-    in assert (obtained == expected)
-
-  test ("reverse")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (8, 5, 3, 2, 1, 1, 0) )
-      obtained = Min_ ().reverse (example)
-    in assert (obtained == expected)
-
-  test ("length")
-    let
-      expected = 7
-      obtained = Min_ ().length (example)
-    in assert (obtained == expected)
-
-  test ("indexOf something found")
-    let
-      expected = 6
-      obtained = Min_ ().indexOf (example) (8)
-    in assert (obtained == expected)
-
-  test ("indexOf something not found")
-    let
-      expected = -1
-      obtained = Min_ ().indexOf (example) (7)
-    in assert (obtained == expected)
-
-  test ("contains something found")
-    let
-      expected = true
-      obtained = Min_ ().contains (example) (8)
-    in assert (obtained == expected)
-
-  test ("contains something not found")
-    let
-      expected = false
-      obtained = Min_ ().contains (example) (7)
-    in assert (obtained == expected)
-
-  test ("at")
-    let
-      expected = SomeSD_ (3)
-      obtained = Min_ ().at (example) (4)
-    in assert (obtained == expected)
-
-  test ("take with Seq 0")
-    let
-      expected = Seq (0, 1, 1, 2, 3)
-      obtained = exampleSeq.take (5)
-    in assert (obtained == expected)
-
-  test ("take with Seq 1")
-    let
-      expected = Seq ()
-      obtained = exampleSeq.take (-100)
-    in assert (obtained == expected)
-
-  test ("take with Seq 2")
-    let
-      expected = exampleSeq
-      obtained = exampleSeq.take (100)
-    in assert (obtained == expected)
-
-  test ("take 0")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) )
-      obtained = Min_ ().take (example) (5)
-    in assert (obtained == expected)
-
-  test ("take 1")
-    let
-      expected = empty
-      obtained = Min_ ().take (example) (-100)
-    in assert (obtained == expected)
-
-  test ("take 2")
-    let
-      expected = example
-      obtained = Min_ ().take (example) (100)
-    in assert (obtained == expected)
-
-  test ("drop with Seq 0")
-    let
-      expected = Seq (2, 3, 5, 8)
-      obtained = exampleSeq.drop (3)
-    in assert (obtained == expected)
-
-  test ("drop with Seq 1")
-    let
-      expected = exampleSeq
-      obtained = exampleSeq.drop (-100)
-    in assert (obtained == expected)
-
-  test ("drop with Seq 2")
-    let
-      expected = Seq ()
-      obtained  = exampleSeq.drop (100)
-    in assert (obtained == expected)
-
-  test ("drop 0")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) )
-      obtained = Min_ ().drop (example) (3)
-    in assert (obtained == expected)
-
-  test ("drop 1")
-    let
-      expected = example
-      obtained = Min_ ().drop (example) (-100)
-    in assert (obtained == expected)
-
-  test ("drop 2")
-    let
-      expected = empty
-      obtained = Min_ ().drop (example) (100)
-    in assert (obtained == expected)
-
-  test ("takeWhile with Seq")
-    let
-      expected = Seq (0, 1, 1, 2)
-      f: Int -> Boolean = lambda e --> not (e == 3)
-      obtained = exampleSeq.takeWhile (f)
-    in assert (obtained == expected)
-
-  test ("takeWhile")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
-      f: Int -> Boolean = lambda e --> not (e == 3)
-      obtained = Min_ ().takeWhile (example) (f)
-    in assert (obtained == expected)
-
-  test ("dropWhile with Seq")
-    let
-      expected = Seq (3, 5, 8)
-      f: Int -> Boolean = lambda e --> not (e == 3)
-      obtained = exampleSeq.dropWhile (f)
-    in assert (obtained == expected)
-
-  test ("dropWhile")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
-      f: Int -> Boolean = lambda e --> not (e == 3)
-      obtained = Min_ ().dropWhile (example) (f)
-    in assert (obtained == expected)
-
-  test ("splitAt with Seq")
-    let
-      expected = Tuple2 (Seq (0, 1, 1), Seq (2, 3, 5, 8) )
-      obtained = exampleSeq.splitAt (3)
-    in assert (obtained == expected)
-
-  test ("splitAt")
-    let
-      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1) ), MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) ))
-      obtained = Min_ ().splitAt (example) (3)
-    in assert (obtained == expected)
-
-  test ("span with Seq")
-    let
-      expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
-      obtained = exampleSeq.span ( lambda x --> not  (x == 5) )
-    in assert (obtained == expected)
-
-  test ("span")
-    let
-      expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ))
-      obtained = Min_ ().span (example) ( lambda (x: Int) --> not  (x == 5) )
-    in assert (obtained == expected)
-
-  test ("append")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13) )
-      obtained = Min_ ().appended (example) (13)
-    in assert (obtained == expected)
-
-  test ("last")
-    let
-      expected = 8
-      obtained = Min_ ().last (example)
-    in assert (obtained == expected)
-
-  test ("concat")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55) )
-      second = MSeqTranslator_ ().asMSeq (Seq (13, 21, 34, 55) )
-      obtained = Min_ ().concat (example) (second)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 0")
-    let
-      expected = Seq (1, 2, 3)
-      obtained = exampleSeq.slice (2, 5)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 1")
-    let
-      expected = Seq ()
-      obtained = exampleSeq.slice (5, 2)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 2")
-    let
-      expected = Seq ()
-      obtained = exampleSeq.slice (3, 3)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 3")
-    let
-      expected = Seq ()
-      obtained = exampleSeq.slice (100, 5)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 4")
-    let
-      expected = Seq ()
-      obtained = exampleSeq.slice (100, 200)
-    in assert (obtained == expected)
-
-  test ("slice with Seq 5")
-    let
-      expected = exampleSeq
-      obtained = exampleSeq.slice (-100, 200)
-    in assert (obtained == expected)
-
-  test ("slice 0")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (1, 2, 3) )
-      obtained = Min_ ().slice (example) (2) (5)
-    in assert (obtained == expected)
-
-  test ("slice 1")
-    let
-      expected = empty
-      obtained = Min_ ().slice (example) (5) (2)
-    in assert (obtained == expected)
-
-  test ("slice 2")
-    let
-      expected = empty
-      obtained = Min_ ().slice (example) (3) (3)
-    in assert (obtained == expected)
-
-  test ("slice 3")
-    let
-      expected = empty
-      obtained = Min_ ().slice (example) (100) (5)
-    in assert (obtained == expected)
-
-  test ("slice 4")
-    let
-      expected = empty
-      obtained = Min_ ().slice (example) (100) (200)
-    in assert (obtained == expected)
-
-  test ("slice 5")
-    let
-      expected = example
-      obtained = Min_ ().slice (example) (-100) (200)
-    in assert (obtained == expected)
-
-  test ("forall with Seq 0")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> not  (x == 7)
-      obtained = exampleSeq.forall (predicate)
-    in assert (obtained == expected)
-
-  test ("forall with Seq 1")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x < 7
-      obtained = exampleSeq.forall (predicate)
-    in assert (obtained == expected)
-
-  test ("forall with Seq 2")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Seq ().forall (predicate)
-    in assert (obtained == expected)
-
-  test ("forall 0")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> not  (x == 7)
-      obtained = Min_ ().forall (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("forall 1")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x < 7
-      obtained = Min_ ().forall (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("forall 2")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Min_ ().forall (empty) (predicate)
-    in assert (obtained == expected)
-
-  test ("exists with Seq 0")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> x == 8
-      obtained = exampleSeq.exists (predicate)
-    in assert (obtained == expected)
-
-  test ("exists with Seq 1")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = exampleSeq.exists (predicate)
-    in assert (obtained == expected)
-
-  test ("exists with Seq 2")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Seq ().exists (predicate)
-    in assert (obtained == expected)
-
-  test ("exists 0")
-    let
-      expected = true
-      predicate: Int -> Boolean = lambda x --> x == 8
-      obtained = Min_ ().exists (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("exists 1")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Min_ ().exists (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("exists 2")
-    let
-      expected = false
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Min_ ().exists (empty) (predicate)
-    in assert (obtained == expected)
-
-  test ("find with Seq 0")
-    let
-      expected = Some (0)
-      predicate: Int -> Boolean = lambda x --> not  (x == 7)
-      obtained = exampleSeq.find (predicate)
-    in assert (obtained == expected)
-
-  test ("find with Seq 1")
-    let
-      expected = Some (8)
-      predicate: Int -> Boolean = lambda x --> x == 8
-      obtained = exampleSeq.find (predicate)
-    in assert (obtained == expected)
-
-  test ("find with Seq 2")
-    let
-      expected = None
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Seq ().find (predicate)
-    in assert (obtained == expected)
-
-  test ("find 0")
-    let
-      expected = SomeSD_ (0)
-      predicate: Int -> Boolean = lambda x --> not  (x == 7)
-      obtained = Min_ ().find (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("find 1")
-    let
-      expected = SomeSD_ (8)
-      predicate: Int -> Boolean = lambda x --> x == 8
-      obtained = Min_ ().find (example) (predicate)
-    in assert (obtained == expected)
-
-  test ("find 2")
-    let
-      expected = NoneSD_ ()
-      predicate: Int -> Boolean = lambda x --> x == 7
-      obtained = Min_ ().find (empty) (predicate)
-    in assert (obtained == expected)
-
-  test ("filter with Seq")
-    let
-      expected = Seq (0, 3)
-      predicate: Int -> Boolean = lambda x --> x % 3 == 0
-      obtained = exampleSeq.filter (predicate)
-    in assert (obtained == expected)
-
-  test ("filter")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (0, 3) )
-      f: Int -> Boolean = lambda x --> x % 3 == 0
-      obtained = Min_ ().filter (example) (f)
-    in assert (obtained == expected)
-
-  test ("map with Seq")
-    let
-      expected = Seq (100, 101, 101, 102, 103, 105, 108)
-      f: Int -> Int = lambda x --> x + 100
-      obtained = exampleSeq.map (f)
-    in assert (obtained == expected)
-
-  test ("map in the same type")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
-      f: Int -> Int = x -> x + 100
-      obtained = Min_ ().map0 (example) (f)
-    in assert (obtained == expected)
-
-  test ("foldLeft with Seq")
-    let
-      expected = Seq (108, 105, 103, 102, 101, 101, 100)
-      obtained = exampleSeq.foldLeft (Seq [Int] () ) ( lambda (s: Seq [Int], e: Int) --> s.+: ( (e + 100) ))
-    in assert (obtained == expected)
-
-  test ("foldLeft in the same type")
-    let
-      expected = MSeqTranslator_ ().asMSeq (Seq (108, 105, 103, 102, 101, 101, 100) )
-      obtained = Min_ ().foldLeft0 (example) (Min_ ().empty) (
-         lambda (s: MSeq [Int] ) --> lambda (e: Int) -> Min_ ().prepended (s) (e + 100)
+  test ("prepended") (
+    check (
+      obtained := _prepended_sequence
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq [Int] (1, 0, 1, 1, 2, 3, 5, 8) )
+    )
+  )
+
+  _prepended_sequence : MSeq [Int] = Min_ ().prepended (example) (1)
+
+  test ("head") (
+    check (
+      obtained := Min_ ().head (example)
+    ) (
+      expected := 0
+    )
+  )
+
+  test ("tail") (
+    check (
+      obtained := Min_ ().tail (example)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (1, 1, 2, 3, 5, 8) )
+    )
+  )
+
+  test ("reverse") (
+    check (
+      obtained := Min_ ().reverse (example)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (8, 5, 3, 2, 1, 1, 0) )
+    )
+  )
+
+  test ("length") (
+    check (
+      obtained := Min_ ().length (example)
+    ) (
+      expected := 7
+    )
+  )
+
+  test ("indexOf something found") (
+    check (
+      obtained := Min_ ().indexOf (example) (8)
+    ) (
+      expected := 6
+    )
+  )
+
+  test ("indexOf something not found") (
+    check (
+      obtained := Min_ ().indexOf (example) (7)
+    ) (
+      expected := -1
+    )
+  )
+
+  test ("contains something found") (
+    check (
+      obtained := Min_ ().contains (example) (8)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("contains something not found") (
+    check (
+      obtained := Min_ ().contains (example) (7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("at") (
+    check (
+      obtained := Min_ ().at (example) (4)
+    ) (
+      expected := SomeSD_ (3)
+    )
+  )
+
+  test ("take with Seq 0") (
+    check (
+      obtained := exampleSeq.take (5)
+    ) (
+      expected := Seq (0, 1, 1, 2, 3)
+    )
+  )
+
+  test ("take with Seq 1") (
+    check (
+      obtained := exampleSeq.take (-100)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("take with Seq 2") (
+    check (
+      obtained := exampleSeq.take (100)
+    ) (
+      expected := exampleSeq
+    )
+  )
+
+  test ("take 0") (
+    check (
+      obtained := Min_ ().take (example) (5)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) )
+    )
+  )
+
+  test ("take 1") (
+    check (
+      obtained := Min_ ().take (example) (-100)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("take 2") (
+    check (
+      obtained := Min_ ().take (example) (100)
+    ) (
+      expected := example
+    )
+  )
+
+  test ("drop with Seq 0") (
+    check (
+      obtained := exampleSeq.drop (3)
+    ) (
+      expected := Seq (2, 3, 5, 8)
+    )
+  )
+
+  test ("drop with Seq 1") (
+    check (
+      obtained := exampleSeq.drop (-100)
+    ) (
+      expected := exampleSeq
+    )
+  )
+
+  test ("drop with Seq 2") (
+    check (
+      obtained := exampleSeq.drop (100)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("drop 0") (
+    check (
+      obtained := Min_ ().drop (example) (3)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) )
+    )
+  )
+
+  test ("drop 1") (
+    check (
+      obtained := Min_ ().drop (example) (-100)
+    ) (
+      expected := example
+    )
+  )
+
+  test ("drop 2") (
+    check (
+      obtained := Min_ ().drop (example) (100)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("takeWhile with Seq") (
+    check (
+      obtained := exampleSeq.takeWhile ( lambda e --> not (e == 3) )
+    ) (
+      expected := Seq (0, 1, 1, 2)
+    )
+  )
+
+  test ("takeWhile") (
+    check (
+      obtained := Min_ ().takeWhile (example) ( lambda e --> not (e == 3) )
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
+    )
+  )
+
+  test ("dropWhile with Seq") (
+    check (
+      obtained := exampleSeq.dropWhile ( lambda e --> not (e == 3) )
+    ) (
+      expected := Seq (3, 5, 8)
+    )
+  )
+
+  test ("dropWhile") (
+    check (
+      obtained := Min_ ().dropWhile (example) ( lambda e --> not (e == 3) )
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
+    )
+  )
+
+  test ("splitAt with Seq") (
+    check (
+      obtained := exampleSeq.splitAt (3)
+    ) (
+      expected := Tuple2 (Seq (0, 1, 1), Seq (2, 3, 5, 8) )
+    )
+  )
+
+  test ("splitAt") (
+    check (
+      obtained := Min_ ().splitAt (example) (3)
+    ) (
+      expected := MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1) ), MSeqTranslator_ ().asMSeq (Seq (2, 3, 5, 8) ) )
+    )
+  )
+
+  test ("span with Seq") (
+    check (
+      obtained := exampleSeq.span ( lambda x --> not (x == 5) )
+    ) (
+      expected := Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
+    )
+  )
+
+  test ("span") (
+    check (
+      obtained := Min_ ().span (example) ( lambda (x : Int) --> not (x == 5) )
+    ) (
+      expected := MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ) )
+    )
+  )
+
+  test ("append") (
+    check (
+      obtained := Min_ ().appended (example) (13)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13) )
+    )
+  )
+
+  test ("last") (
+    check (
+      obtained := Min_ ().last (example)
+    ) (
+      expected := 8
+    )
+  )
+
+  test ("concat") (
+    check (
+      obtained := Min_ ().concat (example) (MSeqTranslator_ ().asMSeq (Seq (13, 21, 34, 55) ) )
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55) )
+    )
+  )
+
+  test ("slice with Seq 0") (
+    check (
+      obtained := exampleSeq.slice (2, 5)
+    ) (
+      expected := Seq (1, 2, 3)
+    )
+  )
+
+  test ("slice with Seq 1") (
+    check (
+      obtained := exampleSeq.slice (5, 2)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("slice with Seq 2") (
+    check (
+      obtained := exampleSeq.slice (3, 3)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("slice with Seq 3") (
+    check (
+      obtained := exampleSeq.slice (100, 5)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("slice with Seq 4") (
+    check (
+      obtained := exampleSeq.slice (100, 200)
+    ) (
+      expected := Seq ()
+    )
+  )
+
+  test ("slice with Seq 5") (
+    check (
+      obtained := exampleSeq.slice (-100, 200)
+    ) (
+      expected := exampleSeq
+    )
+  )
+
+  test ("slice 0") (
+    check (
+      obtained := Min_ ().slice (example) (2) (5)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (1, 2, 3) )
+    )
+  )
+
+  test ("slice 1") (
+    check (
+      obtained := Min_ ().slice (example) (5) (2)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("slice 2") (
+    check (
+      obtained := Min_ ().slice (example) (3) (3)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("slice 3") (
+    check (
+      obtained := Min_ ().slice (example) (100) (5)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("slice 4") (
+    check (
+      obtained := Min_ ().slice (example) (100) (200)
+    ) (
+      expected := empty
+    )
+  )
+
+  test ("slice 5") (
+    check (
+      obtained := Min_ ().slice (example) (-100) (200)
+    ) (
+      expected := example
+    )
+  )
+
+  test ("forall with Seq 0") (
+    check (
+      obtained := exampleSeq.forall ( lambda x --> not (x == 7) )
+    ) (
+      expected := true
+    )
+  )
+
+  test ("forall with Seq 1") (
+    check (
+      obtained := exampleSeq.forall ( lambda x --> x < 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("forall with Seq 2") (
+    check (
+      obtained := Seq ().forall ( lambda x --> x == 7)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("forall 0") (
+    check (
+      obtained := Min_ ().forall (example) ( lambda x --> not (x == 7) )
+    ) (
+      expected := true
+    )
+  )
+
+  test ("forall 1") (
+    check (
+      obtained := Min_ ().forall (example) ( lambda x --> x < 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("forall 2") (
+    check (
+      obtained := Min_ ().forall (empty) ( lambda x --> x == 7)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("exists with Seq 0") (
+    check (
+      obtained := exampleSeq.exists ( lambda x --> x == 8)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("exists with Seq 1") (
+    check (
+      obtained := exampleSeq.exists ( lambda x --> x == 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("exists with Seq 2") (
+    check (
+      obtained := Seq ().exists ( lambda x --> x == 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("exists 0") (
+    check (
+      obtained := Min_ ().exists (example) ( lambda x --> x == 8)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("exists 1") (
+    check (
+      obtained := Min_ ().exists (example) ( lambda x --> x == 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("exists 2") (
+    check (
+      obtained := Min_ ().exists (empty) ( lambda x --> x == 7)
+    ) (
+      expected := false
+    )
+  )
+
+  test ("find with Seq 0") (
+    check (
+      obtained := exampleSeq.find ( lambda x --> not (x == 7) )
+    ) (
+      expected := Some (0)
+    )
+  )
+
+  test ("find with Seq 1") (
+    check (
+      obtained := exampleSeq.find ( lambda x --> x == 8)
+    ) (
+      expected := Some (8)
+    )
+  )
+
+  test ("find with Seq 2") (
+    check (
+      obtained := Seq ().find ( lambda x --> x == 7)
+    ) (
+      expected := None
+    )
+  )
+
+  test ("find 0") (
+    check (
+      obtained := Min_ ().find (example) ( lambda x --> not (x == 7) )
+    ) (
+      expected := SomeSD_ (0)
+    )
+  )
+
+  test ("find 1") (
+    check (
+      obtained := Min_ ().find (example) ( lambda x --> x == 8)
+    ) (
+      expected := SomeSD_ (8)
+    )
+  )
+
+  test ("find 2") (
+    check (
+      obtained := Min_ ().find (empty) ( lambda x --> x == 7)
+    ) (
+      expected := NoneSD_ ()
+    )
+  )
+
+  test ("filter with Seq") (
+    check (
+      obtained := exampleSeq.filter ( lambda x --> x % 3 == 0)
+    ) (
+      expected := Seq (0, 3)
+    )
+  )
+
+  test ("filter") (
+    check (
+      obtained := Min_ ().filter (example) ( lambda x --> x % 3 == 0)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (0, 3) )
+    )
+  )
+
+  test ("map with Seq") (
+    check (
+      obtained := exampleSeq.map ( lambda x --> x + 100)
+    ) (
+      expected := Seq (100, 101, 101, 102, 103, 105, 108)
+    )
+  )
+
+  test ("map in the same type") (
+    check (
+      obtained := Min_ ().map0 (example) ( lambda x --> x + 100)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
+    )
+  )
+
+  test ("foldLeft with Seq") (
+    check (
+      obtained := exampleSeq.foldLeft (Seq [Int] () ) ( lambda (s : Seq [Int], e : Int) --> s.+: ( (e + 100) ) )
+    ) (
+      expected := Seq (108, 105, 103, 102, 101, 101, 100)
+    )
+  )
+
+  test ("foldLeft in the same type") (
+    check (
+      obtained := Min_ ().foldLeft0 (example) (Min_ ().empty) (
+         lambda (s : MSeq [Int] ) --> lambda (e : Int) -> Min_ ().prepended (s) (e + 100)
       )
-    in assert (obtained == expected)
+    ) (
+      expected := MSeqTranslator_ ().asMSeq (Seq (108, 105, 103, 102, 101, 101, 100) )
+    )
+  )
 
 end
 

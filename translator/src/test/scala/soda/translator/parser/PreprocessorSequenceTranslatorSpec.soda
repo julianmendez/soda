@@ -8,6 +8,9 @@ class PreprocessorSequenceTranslatorSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.block.DefaultBlockTranslator_
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   example_program =
     ("package soda.example.mytest" +
     "\n" +
@@ -66,12 +69,13 @@ class PreprocessorSequenceTranslatorSpec ()
       )
     )
 
-  test ("should test the preprocessor")
-    let
-      input = example_program
-      expected = expected_output
-      obtained = block_processor.translate (input)
-    in assert (obtained == expected)
+  test ("should test the preprocessor") (
+    check (
+      obtained := block_processor.translate (example_program)
+    ) (
+      expected := expected_output
+    )
+  )
 
 end
 

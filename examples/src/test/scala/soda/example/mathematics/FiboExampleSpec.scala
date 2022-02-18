@@ -16,7 +16,8 @@ case class FiboExampleSpec ()
     check (
       obtained = fibonacci_values
         .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FiboExampleInSoda_ ().fib (n) ) ) ) (
+        .map (  n => Tuple2 (n, FiboExampleInSoda_ ().fib (n) ) )
+    ) (
       expected = fibonacci_values
     )
   )

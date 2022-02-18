@@ -14,7 +14,8 @@ case class PiIteratorSpec ()
 
   test ("first digits of Pi") (
     check (
-      obtained = "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("") ) (
+      obtained = "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("")
+    ) (
       expected = pi_start
     )
   )

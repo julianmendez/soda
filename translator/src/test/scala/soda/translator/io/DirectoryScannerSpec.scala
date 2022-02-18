@@ -7,20 +7,26 @@ case class DirectoryScannerSpec ()
 
   import   java.io.File
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val start = "translator/src/test/resources/soda/example"
 
-  test ("scan a file that is not a directory")
-    {
-      lazy val scanner = DirectoryScanner_ ()
-      lazy val start_file = new File (start, "Example.soda")
-      lazy val expected = Seq (start_file).toSet
-      lazy val obtained = scanner.get_all_files (start_file).toSet
-     assert (obtained == expected) }
+  lazy val single_start_file = new File (start, "Example.soda")
 
-  test ("simple scan of all files")
-    {
-      lazy val scanner = DirectoryScanner_ ()
-      lazy val expected = Seq (
+  test ("scan a file that is not a directory") (
+    check (
+      obtained = DirectoryScanner_ ().get_all_files (single_start_file).toSet
+    ) (
+      expected = Seq (single_start_file).toSet
+    )
+  )
+
+  test ("simple scan of all files") (
+    check (
+      obtained = DirectoryScanner_ ().get_all_files ( new File (start) ).toSet
+    ) (
+      expected = Seq (
         "otherexample",
         "Example.md",
         "Example.scala",
@@ -29,8 +35,7 @@ case class DirectoryScannerSpec ()
         "otherexample/OtherExample.soda",
         "otherexample/OtherExample.txt"
       ).map (  x => new File (start, x) ).toSet
-      lazy val start_file = new File (start)
-      lazy val obtained = scanner.get_all_files (start_file).toSet
-     assert (obtained == expected) }
+    )
+  )
 
 }

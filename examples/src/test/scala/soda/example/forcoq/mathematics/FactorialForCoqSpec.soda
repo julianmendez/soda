@@ -8,6 +8,9 @@ class FactorialForCoqSpec ()
     soda.example.forcoq.lib.IntNat_
     soda.example.forcoq.lib.nat
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   factorial_values: Seq [ Tuple2 [Int, Int] ] = Seq (
     (0, 1), (1, 1), (2, 2), (3, 6), (4, 24), (5, 120), (6, 720)
   )
@@ -18,13 +21,15 @@ class FactorialForCoqSpec ()
         Tuple2 ( IntNat_ ().from_non_negative (pair._1), IntNat_ ().from_non_negative (pair._2) )
       )
 
-  test ("should test the factorial function for Coq")
-    let
-      expected = factorial_values_with_nat
-      obtained = factorial_values_with_nat
+  test ("should test the factorial function for Coq") (
+    check (
+      obtained := factorial_values_with_nat
         .map ( lambda pair --> pair._1)
         .map ( lambda n --> Tuple2 (n, FactorialForCoq_ ().get_factorial (n) ) )
-    in assert (obtained == expected)
+    ) (
+      expected := factorial_values_with_nat
+    )
+  )
 
 end
 

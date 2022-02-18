@@ -7,16 +7,23 @@ case class MainSpec ()
 
   lazy val instance = TranslatorToScala_ ()
 
-  test ("should get the input and output file names without path")
-    {
-      lazy val expected = FileNamePair_("my_file.soda", "my_file.scala")
-      lazy val obtained = instance.get_input_output_file_names("my_file.soda")
-     assert (obtained == expected) }
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should get the input and output file names with path")
-    {
-      lazy val expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
-      lazy val obtained = instance.get_input_output_file_names("/path/to/file.soda")
-     assert (obtained == expected) }
+  test ("should get the input and output file names without path") (
+    check (
+      obtained = instance.get_input_output_file_names("my_file.soda")
+    ) (
+      expected = FileNamePair_("my_file.soda", "my_file.scala")
+    )
+  )
+
+  test ("should get the input and output file names with path") (
+    check (
+      obtained = instance.get_input_output_file_names("/path/to/file.soda")
+    ) (
+      expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
+    )
+  )
 
 }
