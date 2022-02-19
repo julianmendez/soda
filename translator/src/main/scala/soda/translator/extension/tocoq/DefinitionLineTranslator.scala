@@ -44,8 +44,6 @@ trait DefinitionLineTranslator
 
   lazy val trimmed_line = line.trim
 
-  lazy val coq_space: String = " "
-
   lazy val translation =
     find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => try_found_definition (position).line)
 
@@ -57,11 +55,9 @@ trait DefinitionLineTranslator
     ) Replacement_ (line)
     else Replacement_ (line).replace_all (sc.space + sc.function_definition_symbol) ("")
 
-  lazy val ends_with_equals =
-    trimmed_line.endsWith (sc.deprecated_class_definition_symbol)
+  lazy val ends_with_equals = false
 
-  lazy val ends_with_opening_brace =
-    trimmed_line.endsWith (sc.deprecated_class_beginning_symbol)
+  lazy val ends_with_opening_brace = false
 
   lazy val contains_equals =
     trimmed_line.contains (sc.function_definition_symbol)
@@ -70,10 +66,10 @@ trait DefinitionLineTranslator
     contains_equals && ! (ends_with_equals || ends_with_opening_brace)
 
   lazy val translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (coq_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.coq_space) (tc.coq_space)
 
   lazy val translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (coq_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.coq_space) (tc.coq_space)
 
   def try_found_definition (position : Int) : Replacement =
     if ( is_class_definition ) translation_of_class_definition

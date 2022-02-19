@@ -11,12 +11,6 @@ class TranslationConstantToCoq
 
   soda_constant = SodaConstant_ ()
 
-  soda_let_pattern = soda_constant.deprecated_let_reserved_word + " "
-
-  soda_in_pattern = soda_constant.deprecated_in_reserved_word + " "
-
-  soda_in_let_pattern = soda_constant.deprecated_in_reserved_word + " " + soda_constant.deprecated_let_reserved_word + " "
-
   coq_space = " "
 
   coq_function_definition_symbol = ":="
@@ -40,10 +34,6 @@ class TranslationConstantToCoq
   coq_and_reserved_word = "andb"
 
   coq_or_reserved_word = "orb"
-
-  deprecated_coq_let_translation = "let"
-
-  deprecated_coq_in_translation = "in"
 
   coq_definition : String = "Definition"
 
@@ -181,9 +171,7 @@ class TranslationConstantToCoq
       Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
       Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),
       Tuple2 (soda_constant.and_reserved_word, coq_and_reserved_word ),
-      Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word ),
-      Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_coq_let_translation),
-      Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_coq_in_translation)
+      Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word )
     )
 
   type_translation : Seq [ Tuple2 [String, String]  ] =

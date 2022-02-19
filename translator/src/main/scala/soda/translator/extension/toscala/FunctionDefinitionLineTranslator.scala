@@ -41,18 +41,14 @@ trait FunctionDefinitionLineTranslator
 
   lazy val trimmed_line = line.trim
 
-  lazy val soda_space : String = " "
-
-  lazy val scala_space : String = " "
-
   lazy val translation =
     find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => try_found_definition (position).line)
 
   lazy val translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (tc.scala_value + scala_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_value + tc.scala_space)
 
   lazy val translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.soda_let_pattern) (tc.scala_definition + scala_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_definition + tc.scala_space)
 
   def try_found_definition (position : Int) : Replacement =
     if ( is_val_definition (position)
@@ -90,9 +86,9 @@ trait FunctionDefinitionLineTranslator
    * @return maybe the position of the definition sign
    */
   def find_definition (line : String) : OptionSD [Int] =
-    if ( line.endsWith (soda_space + sc.function_definition_symbol)
+    if ( line.endsWith (sc.space + sc.function_definition_symbol)
     ) SomeSD_ (line.length - sc.function_definition_symbol.length)
-    else get_index (line) (soda_space + sc.function_definition_symbol + soda_space)
+    else get_index (line) (sc.space + sc.function_definition_symbol + sc.space)
 
   def get_index (line : String) (pattern : String) : OptionSD [Int] =
     get_index_from (line) (pattern) (0)

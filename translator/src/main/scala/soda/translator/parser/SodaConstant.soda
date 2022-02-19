@@ -106,26 +106,6 @@ class SodaConstant
 
   new_annotation = "@new"
 
-  deprecated_let_reserved_word = "let"
-
-  deprecated_in_reserved_word = "in"
-
-  deprecated_has_reserved_word = "has"
-
-  deprecated_with_reserved_word = "with"
-
-  deprecated_class_abbreviation = "*"
-
-  deprecated_class_beginning_symbol = "{"
-
-  deprecated_class_end_symbol = "}"
-
-  deprecated_class_definition_symbol = "="
-
-  deprecated_class_definition_synonym = "is"
-
-  deprecated_import_abbreviation = "+"
-
   soda_reserved_words = Seq (
     function_definition_symbol,
     type_membership_symbol,
@@ -162,11 +142,7 @@ class SodaConstant
     function_definition_synonym,
     subtype_abbreviation,
     supertype_abbreviation,
-    case_abbreviation,
-    deprecated_let_reserved_word,
-    deprecated_in_reserved_word,
-    deprecated_has_reserved_word,
-    deprecated_with_reserved_word
+    case_abbreviation
   )
 
 end

@@ -107,26 +107,6 @@ trait SodaConstant
 
   lazy val new_annotation = "@new"
 
-  lazy val deprecated_let_reserved_word = "let"
-
-  lazy val deprecated_in_reserved_word = "in"
-
-  lazy val deprecated_has_reserved_word = "has"
-
-  lazy val deprecated_with_reserved_word = "with"
-
-  lazy val deprecated_class_abbreviation = "*"
-
-  lazy val deprecated_class_beginning_symbol = "{"
-
-  lazy val deprecated_class_end_symbol = "}"
-
-  lazy val deprecated_class_definition_symbol = "="
-
-  lazy val deprecated_class_definition_synonym = "is"
-
-  lazy val deprecated_import_abbreviation = "+"
-
   lazy val soda_reserved_words = Seq (
     function_definition_symbol,
     type_membership_symbol,
@@ -163,11 +143,7 @@ trait SodaConstant
     function_definition_synonym,
     subtype_abbreviation,
     supertype_abbreviation,
-    case_abbreviation,
-    deprecated_let_reserved_word,
-    deprecated_in_reserved_word,
-    deprecated_has_reserved_word,
-    deprecated_with_reserved_word
+    case_abbreviation
   )
 
 }

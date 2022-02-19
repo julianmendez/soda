@@ -99,11 +99,9 @@ trait ClassDeclarationBlockTranslator
   def get_first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("")
 
-  def ends_with_equals (line : String) : Boolean =
-    line.trim.endsWith (sc.deprecated_class_definition_symbol)
+  def ends_with_equals (line : String) : Boolean = false
 
-  def ends_with_opening_brace (line : String) : Boolean =
-    line.trim.endsWith (sc.deprecated_class_beginning_symbol)
+  def ends_with_opening_brace (line : String) : Boolean = false
 
   def contains_equals (line : String) : Boolean =
     line.trim.contains (sc.function_definition_symbol)

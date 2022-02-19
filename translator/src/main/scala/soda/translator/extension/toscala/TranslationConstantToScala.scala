@@ -13,16 +13,6 @@ trait TranslationConstantToScala
 
   lazy val scala_3_class_definition = ":"
 
-  lazy val soda_let_pattern = soda_constant.deprecated_let_reserved_word + " "
-
-  lazy val soda_in_pattern = soda_constant.deprecated_in_reserved_word + " "
-
-  lazy val scala_in_translation = " }"
-
-  lazy val soda_in_let_pattern = soda_constant.deprecated_in_reserved_word + " " + soda_constant.deprecated_let_reserved_word + " "
-
-  lazy val scala_in_let_translation = " "
-
   lazy val scala_match_translation = " match "
 
   lazy val scala_space = " "
@@ -100,10 +90,6 @@ trait TranslationConstantToScala
   lazy val soda_main_class_name = "Main"
 
   lazy val scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
-
-  lazy val deprecated_scala_let_translation = "{"
-
-  lazy val deprecated_scala_in_translation = ""
 
   /**
    * Scala 3 keywords:
@@ -218,9 +204,7 @@ trait TranslationConstantToScala
       Tuple2 (soda_constant.parameter_definition_symbol, scala_parameter_definition_symbol),
       Tuple2 (soda_constant.tail_recursion_annotation, scala_tail_recursion_annotation_translation),
       Tuple2 (soda_constant.override_annotation, scala_override_annotation_translation),
-      Tuple2 (soda_constant.new_annotation, scala_new_annotation_translation),
-      Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_scala_let_translation),
-      Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_scala_in_translation)
+      Tuple2 (soda_constant.new_annotation, scala_new_annotation_translation)
     )
 
   lazy val all_translations : Seq [Tuple2 [String, String] ] =
