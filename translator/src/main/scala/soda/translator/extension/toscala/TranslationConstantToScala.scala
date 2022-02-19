@@ -198,14 +198,14 @@ trait TranslationConstantToScala
       "\u2190"
     )
 
-  lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
+  lazy val type_symbol_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (soda_constant.subtype_reserved_word, scala_subtype_symbol),
       Tuple2 (soda_constant.supertype_reserved_word, scala_supertype_symbol),
       Tuple2 (soda_constant.function_arrow_symbol, scala_function_arrow_symbol)
     )
 
-  lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
+  lazy val function_symbol_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (soda_constant.lambda_reserved_word, scala_empty_string),
       Tuple2 (soda_constant.lambda_arrow_symbol, scala_lambda_arrow_symbol),
@@ -222,6 +222,9 @@ trait TranslationConstantToScala
       Tuple2 (soda_constant.deprecated_let_reserved_word, deprecated_scala_let_translation),
       Tuple2 (soda_constant.deprecated_in_reserved_word, deprecated_scala_in_translation)
     )
+
+  lazy val all_translations : Seq [Tuple2 [String, String] ] =
+    type_symbol_translation.++ (function_symbol_translation)
 
   lazy val class_declaration_translation_at_beginning_with_paren = "case class"
 

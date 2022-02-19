@@ -19,17 +19,16 @@ trait MicroTranslatorToScala
 
   lazy val tc = TranslationConstantToScala_ ()
 
-  lazy val class_alias = BlockAnnotationEnum_ ().class_alias
+  lazy val ba = BlockAnnotationEnum_ ()
 
-  lazy val class_beginning = BlockAnnotationEnum_ ().class_beginning
+  lazy val functions_and_tests =
+    Seq (ba.function_definition, ba.test_declaration)
 
-  lazy val function_definition = BlockAnnotationEnum_ ().function_definition
+  lazy val class_declarations =
+    Seq (ba.class_alias, ba.class_beginning, ba.abstract_declaration)
 
-  lazy val test_declaration = BlockAnnotationEnum_ ().test_declaration
-
-  lazy val functions_and_tests = Seq (function_definition, test_declaration)
-
-  lazy val class_declaration = Seq (class_alias, class_beginning)
+  lazy val definitions_and_declarations =
+    functions_and_tests.++ (class_declarations)
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -43,10 +42,10 @@ trait MicroTranslatorToScala
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
-        TokenReplacement_ ().replace (tc.scala_non_soda),
-        TokenReplacement_ ().replace (tc.type_symbols_translation),
+        ConditionalBlockTranslator_ (definitions_and_declarations, TokenReplacement_ ().replace (tc.scala_non_soda) ),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.function_symbols_translation) ),
+        ConditionalBlockTranslator_ (class_declarations, TokenReplacement_ ().replace (tc.type_symbol_translation) ),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.all_translations) ),
         ClassDeclarationBlockTranslator_ (),
         ImportDeclarationBlockTranslator_ (),
         AbstractDeclarationBlockTranslator_ (),

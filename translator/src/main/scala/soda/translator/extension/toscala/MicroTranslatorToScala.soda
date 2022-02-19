@@ -19,17 +19,16 @@ class MicroTranslatorToScala
 
   tc = TranslationConstantToScala_ ()
 
-  class_alias = BlockAnnotationEnum_ ().class_alias
+  ba = BlockAnnotationEnum_ ()
 
-  class_beginning = BlockAnnotationEnum_ ().class_beginning
+  functions_and_tests =
+    Seq (ba.function_definition, ba.test_declaration)
 
-  function_definition = BlockAnnotationEnum_ ().function_definition
+  class_declarations =
+    Seq (ba.class_alias, ba.class_beginning, ba.abstract_declaration)
 
-  test_declaration = BlockAnnotationEnum_ ().test_declaration
-
-  functions_and_tests = Seq (function_definition, test_declaration)
-
-  class_declaration = Seq (class_alias, class_beginning)
+  definitions_and_declarations =
+    functions_and_tests.++ (class_declarations)
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -43,10 +42,10 @@ class MicroTranslatorToScala
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
-        TokenReplacement_ ().replace (tc.scala_non_soda),
-        TokenReplacement_ ().replace (tc.type_symbols_translation),
+        ConditionalBlockTranslator_ (definitions_and_declarations, TokenReplacement_ ().replace (tc.scala_non_soda) ),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.function_symbols_translation) ),
+        ConditionalBlockTranslator_ (class_declarations, TokenReplacement_ ().replace (tc.type_symbol_translation) ),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.all_translations) ),
         ClassDeclarationBlockTranslator_ (),
         ImportDeclarationBlockTranslator_ (),
         AbstractDeclarationBlockTranslator_ (),
