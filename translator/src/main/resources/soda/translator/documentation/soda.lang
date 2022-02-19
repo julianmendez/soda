@@ -148,7 +148,6 @@
         </context>
 
         <context id="synonym" style-ref="keyword">
-            <keyword>is</keyword>
             <keyword>lambda</keyword>
         </context>
 

@@ -29,7 +29,6 @@ Keywords
 :=
 =
 ==>
-=>
 abstract
 case
 class
@@ -38,7 +37,6 @@ end
 extends
 if
 import
-is
 lambda
 match
 package
@@ -48,7 +46,6 @@ supertype
 then
 theorem
 this
-|
 
 2
 %
