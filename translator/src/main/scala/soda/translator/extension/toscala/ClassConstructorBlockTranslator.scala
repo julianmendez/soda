@@ -54,6 +54,7 @@ trait ClassConstructorBlockTranslator
     )
 
   def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
+    _get_initial_spaces (beginning) +
     tc.class_declaration_translation_at_beginning_with_paren +
     tc.scala_space +
     beginning.class_name +
@@ -100,6 +101,15 @@ trait ClassConstructorBlockTranslator
       .replaceAll (sc.subtype_reserved_word, tc.scala_subtype_symbol)
       .replaceAll (sc.supertype_reserved_word, tc.scala_supertype_symbol)
       .replaceAll (sc.function_arrow_symbol, tc.scala_function_arrow_symbol)
+
+  def _get_initial_spaces (block : AnnotatedBlock) : String =
+    _get_initial_spaces_with (_get_first_line (block) )
+
+  def _get_initial_spaces_with (line : String) : String =
+    line.takeWhile (  ch => ch.isSpaceChar)
+
+  def _get_first_line (block : AnnotatedBlock) : String =
+    block.lines.headOption.getOrElse ("")
 
 }
 

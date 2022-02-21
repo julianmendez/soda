@@ -136,6 +136,52 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a class in a class") (
+    check (
+      obtained = instance.translate ("class D" +
+        "\n" +
+        "\n  f (x : Int) : Int = x + 1" +
+        "\n" +
+        "\n  class E" +
+        "\n    extends" +
+        "\n      D" +
+        "\n" +
+        "\n    g (x : Int) : Int = 2 * x" +
+        "\n" +
+        "\n  end" +
+        "\n" +
+        "\n  class F = E" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected =
+        "trait D" +
+        "\n{" +
+        "\n" +
+        "\n  def f (x : Int) : Int = x + 1" +
+        "\n" +
+        "\n  trait E" +
+        "\n    extends" +
+        "\n      D" +
+        "\n  {" +
+        "\n" +
+        "\n    def g (x : Int) : Int = 2 * x" +
+        "\n" +
+        "\n  }" +
+        "\n" +
+        "\n  case class E_ () extends E" +
+        "\n" +
+        "\n  type F = E" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\ncase class D_ () extends D" +
+        "\n"
+    )
+  )
+
   test ("should translate type aliases") (
     check (
       obtained = instance.translate ("class A [T] = B [T]" +

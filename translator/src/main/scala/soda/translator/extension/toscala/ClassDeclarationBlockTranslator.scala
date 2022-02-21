@@ -46,13 +46,13 @@ trait ClassDeclarationBlockTranslator
     BlockBuilder_ ().build (
       if ( (has_condition_for_type_alias (get_first_line (block) ) )
       ) _process_head (block) ++ _process_tail (block)
-      else _process_head (block) ++ _process_tail (block) ++  Seq [String] (tc.scala_class_begin_symbol)
+      else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + tc.scala_class_begin_symbol)
     )
 
   def _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block), block)
+    _process_head_with (get_first_line (block) ) (block)
 
-  def _process_head_with (line : String, block : Block) : Seq [String] =
+  def _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) )
 
   def _process_tail (block : Block) : Seq [String] =
@@ -60,7 +60,7 @@ trait ClassDeclarationBlockTranslator
 
   def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim == sc.extends_reserved_word)
-    ) Seq [String] (get_spaces_at_beginning (get_first_line (block) ) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
+    ) Seq [String] (get_initial_spaces (block) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
     else block.lines
 
   def get_table_translator (line : String) : Translator =
@@ -76,17 +76,9 @@ trait ClassDeclarationBlockTranslator
       ) tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
       else tc.class_declaration_translation_at_beginning_without_paren
 
-  def get_number_of_spaces_at_beginning (line : String) : Int =
-    line
-      .takeWhile (  ch => ch.isSpaceChar)
-      .length
-
-  def get_spaces_at_beginning (line : String) : String =
-    line.substring (0, get_number_of_spaces_at_beginning (line) )
-
   def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
-    ) Seq [String] (get_first_line (block)) ++ remove_first_line (block).lines.map (  line => get_spaces_at_beginning (line) + tc.scala_with_translation + scala_space + line.trim)
+    ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map (  line => get_initial_spaces_for (line) + tc.scala_with_translation + scala_space + line.trim)
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =
@@ -99,6 +91,12 @@ trait ClassDeclarationBlockTranslator
   def get_first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("")
 
+  def get_initial_spaces (block : Block) : String =
+    get_initial_spaces_for (get_first_line (block) )
+
+  def get_initial_spaces_for (line : String) : String =
+    line.takeWhile (  ch => ch.isSpaceChar)
+
   def ends_with_equals (line : String) : Boolean = false
 
   def ends_with_opening_brace (line : String) : Boolean = false
@@ -107,7 +105,7 @@ trait ClassDeclarationBlockTranslator
     line.trim.contains (sc.function_definition_symbol)
 
   def has_condition_for_type_alias (line : String) : Boolean =
-    contains_equals (line) && ! (ends_with_equals (line) || ends_with_opening_brace (line) )
+    contains_equals (line)
 
 }
 
