@@ -20,7 +20,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate a single upper bound") (
     check (
-      obtained := instance.translate (        "  class BlackBox()" +
+      obtained := instance.translate ("class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A subtype AbstractInput]" +
         "\n" +
@@ -29,7 +29,7 @@ class UpperAndLowerBoundDeclarationSpec ()
       )
     ) (
       expected :=
-        "  case class BlackBox()" +
+        "case class BlackBox()" +
         "\n  extends" +
         "\n    AbstractBlackBox[A <: AbstractInput]" +
         "\n{" +
@@ -42,41 +42,41 @@ class UpperAndLowerBoundDeclarationSpec ()
   test ("should translate multiple upper bounds") (
     check (
       obtained := instance.translate (        "  class BlackBox()" +
-        "\n  extends " +
-        "\n    AbstractBlackBox[A subtype AbstractInput]" +
-        "\n    AbstractDevice[B subtype AbstractDeviceInput]" +
+        "\n    extends " +
+        "\n      AbstractBlackBox[A subtype AbstractInput]" +
+        "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
         "\n" +
-        "\nend" +
+        "\n  end" +
         "\n"
       )
     ) (
       expected := "  case class BlackBox()" +
-        "\n  extends" +
-        "\n    AbstractBlackBox[A <: AbstractInput]" +
-        "\n    with AbstractDevice[B <: AbstractDeviceInput]" +
-        "\n{" +
+        "\n    extends" +
+        "\n      AbstractBlackBox[A <: AbstractInput]" +
+        "\n      with AbstractDevice[B <: AbstractDeviceInput]" +
+        "\n  {" +
         "\n" +
-        "\n}" +
+        "\n  }" +
         "\n"
     )
   )
 
   test ("should translate a single lower bound") (
     check (
-      obtained := instance.translate ("  class BlackBox()" +
-        "\n  extends " +
-        "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
+      obtained := instance.translate (" class BlackBox()" +
+        "\n   extends " +
+        "\n     AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n" +
-        "\nend" +
+        "\n end" +
         "\n"
       )
     ) (
-      expected := "  case class BlackBox()" +
-        "\n  extends" +
-        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
-        "\n{" +
+      expected := " case class BlackBox()" +
+        "\n   extends" +
+        "\n     AbstractBlackBox[A >: (AbstractInput)]" +
+        "\n {" +
         "\n" +
-        "\n}" +
+        "\n }" +
         "\n"
     )
   )
@@ -96,7 +96,7 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n  extends" +
         "\n    AbstractBlackBox[A >: (AbstractInput)]" +
         "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
-        "\n{" +
+        "\n  {" +
         "\n" +
         "\n}" +
         "\n"
