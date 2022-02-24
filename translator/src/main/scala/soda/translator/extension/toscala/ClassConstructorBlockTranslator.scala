@@ -9,7 +9,9 @@ trait ClassConstructorBlockTranslator
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
@@ -23,7 +25,7 @@ trait ClassConstructorBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : ClassEndAnnotation => _translate_block (block)
+      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
       case x => annotated_block
     }
 
@@ -79,7 +81,7 @@ trait ClassConstructorBlockTranslator
     references
       .flatMap (  block =>
         block match  {
-          case b : ClassBeginningAnnotation => Some (b)
+          case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
           case x => None
         }
       )
@@ -89,7 +91,7 @@ trait ClassConstructorBlockTranslator
     references
       .flatMap (  block =>
         block match  {
-          case b : AbstractDeclarationAnnotation => Some (b)
+          case AbstractDeclarationAnnotation_ (b) => Some (AbstractDeclarationAnnotation_ (b) )
           case x => None
         }
       )

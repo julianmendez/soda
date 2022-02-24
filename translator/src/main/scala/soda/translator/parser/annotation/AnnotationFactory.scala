@@ -18,23 +18,23 @@ trait AnnotationFactory
 
   def annotate (block : Block) : AnnotatedBlock =
     block match  {
-      case b : AnnotatedBlock => b
+      case AnnotatedBlock_ (annotated_lines, block_annotation) => AnnotatedBlock_ (annotated_lines, block_annotation)
       case x => _get_first_or_undefined (_find_candidates (x) ) (x)
     }
 
   def update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     original_content match  {
-      case b : FunctionDefinitionAnnotation => FunctionDefinitionAnnotation_ (new_content)
-      case b : ClassBeginningAnnotation => ClassBeginningAnnotation_ (new_content)
-      case b : ClassEndAnnotation => ClassEndAnnotation_ (new_content, b.references)
-      case b : AbstractDeclarationAnnotation => AbstractDeclarationAnnotation_ (new_content)
-      case b : ImportDeclarationAnnotation => ImportDeclarationAnnotation_ (new_content)
-      case b : PackageDeclarationAnnotation => PackageDeclarationAnnotation_ (new_content)
-      case b : ClassAliasAnnotation => ClassAliasAnnotation_ (new_content)
-      case b : TheoremBlockAnnotation => TheoremBlockAnnotation_ (new_content)
-      case b : ProofBlockAnnotation => ProofBlockAnnotation_ (new_content)
-      case b : CommentAnnotation => CommentAnnotation_ (new_content)
-      case b : TestDeclarationAnnotation => TestDeclarationAnnotation_ (new_content)
+      case FunctionDefinitionAnnotation_ (b) => FunctionDefinitionAnnotation_ (new_content)
+      case ClassBeginningAnnotation_ (b) => ClassBeginningAnnotation_ (new_content)
+      case ClassEndAnnotation_ (b, references) => ClassEndAnnotation_ (new_content, references)
+      case AbstractDeclarationAnnotation_ (b) => AbstractDeclarationAnnotation_ (new_content)
+      case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation_ (new_content)
+      case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation_ (new_content)
+      case ClassAliasAnnotation_ (b) => ClassAliasAnnotation_ (new_content)
+      case TheoremBlockAnnotation_ (b) => TheoremBlockAnnotation_ (new_content)
+      case ProofBlockAnnotation_ (b) => ProofBlockAnnotation_ (new_content)
+      case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
+      case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
       case x => AnnotatedBlock_ (new_content.annotated_lines, x.block_annotation)
     }
 

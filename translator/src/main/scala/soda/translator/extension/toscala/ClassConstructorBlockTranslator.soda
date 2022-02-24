@@ -9,7 +9,9 @@ class ClassConstructorBlockTranslator
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
@@ -23,7 +25,7 @@ class ClassConstructorBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : ClassEndAnnotation ==> _translate_block (block)
+      case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
       case x ==> annotated_block
     end
 
@@ -79,7 +81,7 @@ class ClassConstructorBlockTranslator
     references
       .flatMap ( lambda block ->
         match block
-          case b : ClassBeginningAnnotation ==> Some (b)
+          case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
           case x ==> None
         end
       )
@@ -89,7 +91,7 @@ class ClassConstructorBlockTranslator
     references
       .flatMap ( lambda block ==>
         match block
-          case b : AbstractDeclarationAnnotation ==> Some (b)
+          case AbstractDeclarationAnnotation_ (b) ==> Some (AbstractDeclarationAnnotation_ (b) )
           case x ==> None
         end
       )

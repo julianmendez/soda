@@ -25,7 +25,7 @@ trait ImportDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : ImportDeclarationAnnotation => _translate_block (block)
+      case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
       case x => annotated_block
     }
 

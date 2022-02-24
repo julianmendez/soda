@@ -31,8 +31,8 @@ trait ClassDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : ClassBeginningAnnotation => _translate_class_beginning_block (block)
-      case block : ClassAliasAnnotation => _translate_class_alias_block (block)
+      case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case ClassAliasAnnotation_ (block) => _translate_class_alias_block (ClassAliasAnnotation_ (block) )
       case x => annotated_block
     }
 

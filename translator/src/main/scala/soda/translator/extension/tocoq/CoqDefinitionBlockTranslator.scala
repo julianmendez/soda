@@ -21,7 +21,7 @@ trait CoqDefinitionBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : FunctionDefinitionAnnotation => _translate_definition_block (block)
+      case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case x => annotated_block
     }
 

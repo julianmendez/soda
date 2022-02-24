@@ -21,8 +21,8 @@ trait TheoremAndProofBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : TheoremBlockAnnotation => _translate_theorem_block (block)
-      case block : ProofBlockAnnotation => _translate_proof_block (block)
+      case TheoremBlockAnnotation_ (block) => _translate_theorem_block (TheoremBlockAnnotation_ (block) )
+      case ProofBlockAnnotation_ (block) => _translate_proof_block (ProofBlockAnnotation_ (block) )
       case x => annotated_block
     }
 

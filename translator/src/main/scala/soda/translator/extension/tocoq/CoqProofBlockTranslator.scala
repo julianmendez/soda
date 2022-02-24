@@ -21,7 +21,7 @@ trait CoqProofBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : ProofBlockAnnotation => _translate_block (block)
+      case ProofBlockAnnotation_ (block) => _translate_block (ProofBlockAnnotation_ (block) )
       case x => annotated_block
     }
 

@@ -11,7 +11,9 @@ trait PreprocessorSequenceTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
@@ -57,7 +59,7 @@ trait PreprocessorSequenceTranslator
 
   def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
     current.block_sequence.apply (index) match  {
-      case block : ClassEndAnnotation => _get_updated_block (current) (block)
+      case ClassEndAnnotation_ (block, references) => _get_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x => x
     }
 
@@ -73,9 +75,9 @@ trait PreprocessorSequenceTranslator
 
   def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
     current.block_sequence.apply (index) match  {
-      case b : ClassBeginningAnnotation => current.references.+: (Seq [AnnotatedBlock] (b) )
-      case b : AbstractDeclarationAnnotation => _update_first_element (current.references) (b)
-      case b : ClassEndAnnotation => _tail_non_empty (current.references)
+      case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
+      case AbstractDeclarationAnnotation_ (b) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b) )
+      case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
       case x => current.references
     }
 

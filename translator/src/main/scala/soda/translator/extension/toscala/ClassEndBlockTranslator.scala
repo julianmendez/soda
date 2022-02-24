@@ -18,7 +18,7 @@ trait ClassEndBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block : ClassEndAnnotation => _translate_block (block)
+      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
       case x => annotated_block
     }
 

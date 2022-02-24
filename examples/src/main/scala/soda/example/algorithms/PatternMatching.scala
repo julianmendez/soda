@@ -22,9 +22,9 @@ trait PatternMatching
 
   def get_type_name (p : Parameter) : String =
     p match  {
-      case x : Singleton => x.name + "(x)"
-      case x : Pair => x.name + "(x, y)"
-      case x : Triplet => x.name + "(x, y, z)"
+      case Singleton_ (x) => (Singleton_ (x) ).name + "(x)"
+      case Pair_ (x, y) => (Pair_ (x, y) ).name + "(x, y)"
+      case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ).name + "(x, y, z)"
       case otherwise => ""
     }
 

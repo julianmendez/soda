@@ -26,8 +26,8 @@ class MatchCaseBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case block : FunctionDefinitionAnnotation ==> _translate_function_block (block)
-      case block : TestDeclarationAnnotation ==> _translate_test_block (block)
+      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
       case x ==> annotated_block
     end
 
