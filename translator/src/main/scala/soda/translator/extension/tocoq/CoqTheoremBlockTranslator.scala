@@ -28,7 +28,7 @@ trait CoqTheoremBlockTranslator
   def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
       append (
-        tc.coq_theorem_end) (prepend (
+        tc.coq_theorem_end_symbol) (prepend (
           tc.coq_theorem_begin_reserved_word) (remove_first_line (block)
         )
       )
@@ -36,7 +36,7 @@ trait CoqTheoremBlockTranslator
 
   def prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+      Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
     )
 
   def append (suffix : String) (block : Block) : Block =

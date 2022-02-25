@@ -39,6 +39,7 @@ trait MicroTranslatorToCoq
       Seq (
         MatchCaseBlockTranslator_ (),
         CoqDefinitionBlockTranslator_ (),
+        CoqClassConstructorBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),

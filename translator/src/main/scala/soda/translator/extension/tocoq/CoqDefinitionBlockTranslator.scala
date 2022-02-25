@@ -30,10 +30,10 @@ trait CoqDefinitionBlockTranslator
 
   def _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_recursive_definition (block)
-    ) append (tc.coq_recursive_definition_end) (prepend (tc.coq_recursive_definition + space) (block) )
+    ) append (tc.coq_recursive_definition_end_symbol) (prepend (tc.coq_recursive_definition_reserved_word + space) (block) )
     else
       if ( is_a_definition (block)
-      ) append (tc.coq_definition_end) (prepend (tc.coq_definition + space) (block) )
+      ) append (tc.coq_definition_end_symbol) (prepend (tc.coq_definition_reserved_word + space) (block) )
       else block
 
   def prepend (prefix : String) (block : Block) : Block =

@@ -13,7 +13,11 @@ class TranslationConstantToCoq
 
   coq_space = " "
 
+  coq_new_line = "\n"
+
   coq_function_definition_symbol = ":="
+
+  coq_type_membership_symbol = ":"
 
   coq_subtype_symbol = "<:"
 
@@ -22,6 +26,20 @@ class TranslationConstantToCoq
   coq_function_arrow_symbol = "->"
 
   coq_empty_string = ""
+
+  coq_vertical_bar_symbol = "|"
+
+  coq_opening_parenthesis = "("
+
+  coq_closing_parenthesis = ")"
+
+  coq_some_variable_name = "x"
+
+  coq_opening_brace = "{"
+
+  coq_closing_brace = "}"
+
+  coq_product_type_symbol = "*"
 
   coq_lambda_reserved_word = "fun"
 
@@ -35,21 +53,27 @@ class TranslationConstantToCoq
 
   coq_or_reserved_word = "orb"
 
-  coq_definition : String = "Definition"
+  coq_definition_reserved_word : String = "Definition"
 
-  coq_value : String = "Definition"
+  coq_inductive_reserved_word : String = "Inductive"
 
-  coq_recursive_definition : String = "Fixpoint"
+  coq_set_reserved_word : String = "Set"
 
-  coq_definition_end : String = "."
+  coq_type_reserved_word : String = "Type"
 
-  coq_recursive_definition_end : String = "."
+  coq_recursive_definition_reserved_word : String = "Fixpoint"
+
+  coq_inductive_end_symbol : String = "."
+
+  coq_definition_end_symbol : String = "."
+
+  coq_recursive_definition_end_symbol : String = "."
 
   coq_with_reserved_word : String = "with"
 
   coq_theorem_begin_reserved_word = "Theorem"
 
-  coq_theorem_end = "."
+  coq_theorem_end_symbol = "."
 
   coq_proof_begin_reserved_word = "Proof."
 

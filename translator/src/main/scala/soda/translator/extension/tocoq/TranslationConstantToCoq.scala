@@ -13,7 +13,11 @@ trait TranslationConstantToCoq
 
   lazy val coq_space = " "
 
+  lazy val coq_new_line = "\n"
+
   lazy val coq_function_definition_symbol = ":="
+
+  lazy val coq_type_membership_symbol = ":"
 
   lazy val coq_subtype_symbol = "<:"
 
@@ -22,6 +26,20 @@ trait TranslationConstantToCoq
   lazy val coq_function_arrow_symbol = "->"
 
   lazy val coq_empty_string = ""
+
+  lazy val coq_vertical_bar_symbol = "|"
+
+  lazy val coq_opening_parenthesis = "("
+
+  lazy val coq_closing_parenthesis = ")"
+
+  lazy val coq_some_variable_name = "x"
+
+  lazy val coq_opening_brace = "{"
+
+  lazy val coq_closing_brace = "}"
+
+  lazy val coq_product_type_symbol = "*"
 
   lazy val coq_lambda_reserved_word = "fun"
 
@@ -35,21 +53,27 @@ trait TranslationConstantToCoq
 
   lazy val coq_or_reserved_word = "orb"
 
-  lazy val coq_definition : String = "Definition"
+  lazy val coq_definition_reserved_word : String = "Definition"
 
-  lazy val coq_value : String = "Definition"
+  lazy val coq_inductive_reserved_word : String = "Inductive"
 
-  lazy val coq_recursive_definition : String = "Fixpoint"
+  lazy val coq_set_reserved_word : String = "Set"
 
-  lazy val coq_definition_end : String = "."
+  lazy val coq_type_reserved_word : String = "Type"
 
-  lazy val coq_recursive_definition_end : String = "."
+  lazy val coq_recursive_definition_reserved_word : String = "Fixpoint"
+
+  lazy val coq_inductive_end_symbol : String = "."
+
+  lazy val coq_definition_end_symbol : String = "."
+
+  lazy val coq_recursive_definition_end_symbol : String = "."
 
   lazy val coq_with_reserved_word : String = "with"
 
   lazy val coq_theorem_begin_reserved_word = "Theorem"
 
-  lazy val coq_theorem_end = "."
+  lazy val coq_theorem_end_symbol = "."
 
   lazy val coq_proof_begin_reserved_word = "Proof."
 
