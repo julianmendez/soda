@@ -91,7 +91,7 @@ trait ClassConstructorBlockTranslator
     references
       .flatMap (  block =>
         block match  {
-          case AbstractDeclarationAnnotation_ (b) => Some (AbstractDeclarationAnnotation_ (b) )
+          case AbstractDeclarationAnnotation_ (b, references) => Some (AbstractDeclarationAnnotation_ (b, references) )
           case x => None
         }
       )

@@ -6,6 +6,7 @@ class AbstractDeclarationAnnotation
 
   abstract
     block : soda.translator.block.Block
+    references : Seq [soda.translator.block.AnnotatedBlock]
 
   import
     soda.translator.block.AnnotatedLine

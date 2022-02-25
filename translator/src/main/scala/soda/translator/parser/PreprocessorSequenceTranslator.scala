@@ -59,11 +59,15 @@ trait PreprocessorSequenceTranslator
 
   def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
     current.block_sequence.apply (index) match  {
-      case ClassEndAnnotation_ (block, references) => _get_updated_block (current) (ClassEndAnnotation_ (block, references) )
+      case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
+      case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x => x
     }
 
-  def _get_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+
+  def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
@@ -76,7 +80,7 @@ trait PreprocessorSequenceTranslator
   def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
     current.block_sequence.apply (index) match  {
       case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
-      case AbstractDeclarationAnnotation_ (b) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b) )
+      case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
       case x => current.references
     }

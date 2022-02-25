@@ -27,7 +27,7 @@ class AnnotationFactory
       case FunctionDefinitionAnnotation_ (b) ==> FunctionDefinitionAnnotation_ (new_content)
       case ClassBeginningAnnotation_ (b) ==> ClassBeginningAnnotation_ (new_content)
       case ClassEndAnnotation_ (b, references) ==> ClassEndAnnotation_ (new_content, references)
-      case AbstractDeclarationAnnotation_ (b) ==> AbstractDeclarationAnnotation_ (new_content)
+      case AbstractDeclarationAnnotation_ (b, references) ==> AbstractDeclarationAnnotation_ (new_content, references)
       case ImportDeclarationAnnotation_ (b) ==> ImportDeclarationAnnotation_ (new_content)
       case PackageDeclarationAnnotation_ (b) ==> PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) ==> ClassAliasAnnotation_ (new_content)
@@ -43,7 +43,7 @@ class AnnotationFactory
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
       ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block),
+      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
       ClassAliasAnnotation_ (block),

@@ -91,7 +91,7 @@ class ClassConstructorBlockTranslator
     references
       .flatMap ( lambda block ==>
         match block
-          case AbstractDeclarationAnnotation_ (b) ==> Some (AbstractDeclarationAnnotation_ (b) )
+          case AbstractDeclarationAnnotation_ (b, references) ==> Some (AbstractDeclarationAnnotation_ (b, references) )
           case x ==> None
         end
       )

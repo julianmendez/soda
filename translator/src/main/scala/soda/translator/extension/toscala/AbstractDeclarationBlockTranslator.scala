@@ -26,7 +26,7 @@ trait AbstractDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case AbstractDeclarationAnnotation_ (block) => _translate_block (AbstractDeclarationAnnotation_ (block) )
+      case AbstractDeclarationAnnotation_ (block, references) => _translate_block (AbstractDeclarationAnnotation_ (block, references) )
       case x => annotated_block
     }
 
@@ -36,7 +36,8 @@ trait AbstractDeclarationBlockTranslator
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
         block.abstract_functions_with_comments
-      )
+      ),
+      block.references
     )
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =

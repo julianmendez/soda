@@ -21,7 +21,7 @@ case class BlockAnnotationSpec ()
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
       ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block),
+      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
       ClassAliasAnnotation_ (block),

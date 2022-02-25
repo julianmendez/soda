@@ -6,6 +6,7 @@ trait AbstractDeclarationAnnotation
 {
 
   def   block : soda.translator.block.Block
+  def   references : Seq [soda.translator.block.AnnotatedBlock]
 
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.BlockAnnotationEnum_
@@ -26,4 +27,4 @@ trait AbstractDeclarationAnnotation
 
 }
 
-case class AbstractDeclarationAnnotation_ (block : soda.translator.block.Block) extends AbstractDeclarationAnnotation
+case class AbstractDeclarationAnnotation_ (block : soda.translator.block.Block, references : Seq [soda.translator.block.AnnotatedBlock]) extends AbstractDeclarationAnnotation

@@ -60,11 +60,15 @@ class PreprocessorSequenceTranslator
 
   _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
     match current.block_sequence.apply (index)
-      case ClassEndAnnotation_ (block, references) ==> _get_updated_block (current) (ClassEndAnnotation_ (block, references) )
+      case AbstractDeclarationAnnotation_ (block, references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
+      case ClassEndAnnotation_ (block, references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x ==> x
     end
 
-  _get_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+
+  _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
@@ -77,7 +81,7 @@ class PreprocessorSequenceTranslator
   _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
     match current.block_sequence.apply (index)
       case ClassBeginningAnnotation_ (b) ==> current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
-      case AbstractDeclarationAnnotation_ (b) ==> _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b) )
+      case AbstractDeclarationAnnotation_ (b, references) ==> _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) ==> _tail_non_empty (current.references)
       case x ==> current.references
     end
