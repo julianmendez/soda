@@ -61,6 +61,12 @@ trait TranslationConstantToCoq
 
   lazy val coq_type_reserved_word : String = "Type"
 
+  lazy val coq_module_reserved_word : String = "Module"
+
+  lazy val coq_module_end_reserved_word : String = "End"
+
+  lazy val coq_import_reserved_word : String = "Import"
+
   lazy val coq_recursive_definition_reserved_word : String = "Fixpoint"
 
   lazy val coq_inductive_end_symbol : String = "."

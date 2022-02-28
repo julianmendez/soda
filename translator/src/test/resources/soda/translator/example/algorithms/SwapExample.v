@@ -1,6 +1,12 @@
 package soda.example.algorithms
 
-class PairExample
+Module SimpleExample
+
+end
+
+Module PairExample
+  
+Import SimpleExample
 
   abstract
     left : Int
@@ -12,7 +18,7 @@ Inductive PairExample : Type :=
 
 end
 
-class SwapExample
+Module SwapExample
 
  Definition   left (pair : PairExample) : Int :=
     match pair with

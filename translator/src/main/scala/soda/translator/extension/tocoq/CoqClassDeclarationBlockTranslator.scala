@@ -1,6 +1,6 @@
-package soda.translator.extension.toscala
+package soda.translator.extension.tocoq
 
-trait ClassDeclarationBlockTranslator
+trait CoqClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -11,6 +11,12 @@ trait ClassDeclarationBlockTranslator
   import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassAliasAnnotation
@@ -19,9 +25,11 @@ trait ClassDeclarationBlockTranslator
 
   lazy val sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToScala_ ()
+  lazy val tc = TranslationConstantToCoq_ ()
 
   lazy val soda_space : String = sc.space
+
+  lazy val scala_space : String = " "
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -30,22 +38,19 @@ trait ClassDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case ClassAliasAnnotation_ (block) => _translate_class_alias_block (ClassAliasAnnotation_ (block) )
       case x => annotated_block
     }
 
   def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
-  def _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
-    ClassAliasAnnotation_ (_translate_block (block) )
-
   def _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ ().build (
-      if ( (has_condition_for_type_alias (get_first_line (block) ) )
-      ) _process_head (block) ++ _process_tail (block)
-      else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + tc.scala_class_begin_symbol)
-    )
+    if ( (has_condition_for_type_alias (get_first_line (block) ) )
+    ) block
+    else
+      BlockBuilder_ ().build (
+        _process_head (block) ++ _process_tail (block)
+      )
 
   def _process_head (block : Block) : Seq [String] =
     _process_head_with (get_first_line (block) ) (block)
@@ -58,25 +63,17 @@ trait ClassDeclarationBlockTranslator
 
   def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim == sc.extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
+    ) Seq [String] (get_initial_spaces (block) ).++ ( _process_after_extends (remove_first_line (block) ) )
     else block.lines
 
   def get_table_translator (line : String) : Translator =
     TableTranslator_ (
-      Seq (Tuple2 (sc.class_reserved_word, get_class_declaration_translation (line) ) )
+      Seq (Tuple2 (sc.class_reserved_word, tc.coq_module_reserved_word ) )
     )
-
-  def get_class_declaration_translation (line : String) : String =
-    if ( line.contains (sc.opening_parenthesis_symbol)
-    ) tc.class_declaration_translation_at_beginning_with_paren
-    else
-      if ( has_condition_for_type_alias (line)
-      ) tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
-      else tc.class_declaration_translation_at_beginning_without_paren
 
   def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
-    ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map (  line => get_initial_spaces_for (line) + tc.scala_with_translation + tc.scala_space + line.trim)
+    ) block.lines.map (  line => tc.coq_import_reserved_word + tc.coq_space + line.trim)
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =
@@ -95,10 +92,6 @@ trait ClassDeclarationBlockTranslator
   def get_initial_spaces_for (line : String) : String =
     line.takeWhile (  ch => ch.isSpaceChar)
 
-  def ends_with_equals (line : String) : Boolean = false
-
-  def ends_with_opening_brace (line : String) : Boolean = false
-
   def contains_equals (line : String) : Boolean =
     line.trim.contains (sc.function_definition_symbol)
 
@@ -107,4 +100,4 @@ trait ClassDeclarationBlockTranslator
 
 }
 
-case class ClassDeclarationBlockTranslator_ () extends ClassDeclarationBlockTranslator
+case class CoqClassDeclarationBlockTranslator_ () extends CoqClassDeclarationBlockTranslator

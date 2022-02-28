@@ -1,6 +1,12 @@
 package soda.example.algorithms
 
+class SimpleExample
+
+end
+
 class PairExample
+  extends
+    SimpleExample
 
   abstract
     left : Int

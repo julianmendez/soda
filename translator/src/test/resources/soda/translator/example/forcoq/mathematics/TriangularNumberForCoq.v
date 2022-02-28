@@ -1,6 +1,6 @@
 package soda.example.forcoq.mathematics
 
-class TriangularNumberForCoq
+Module TriangularNumberForCoq
 
   import
     soda.example.forcoq.lib.O_

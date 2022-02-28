@@ -61,6 +61,12 @@ class TranslationConstantToCoq
 
   coq_type_reserved_word : String = "Type"
 
+  coq_module_reserved_word : String = "Module"
+
+  coq_module_end_reserved_word : String = "End"
+
+  coq_import_reserved_word : String = "Import"
+
   coq_recursive_definition_reserved_word : String = "Fixpoint"
 
   coq_inductive_end_symbol : String = "."
