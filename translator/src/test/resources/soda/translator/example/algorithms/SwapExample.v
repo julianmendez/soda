@@ -1,12 +1,12 @@
 package soda.example.algorithms
 
-Module SimpleExample
+Module SimpleExample .
 
-end
+End SimpleExample .
 
-Module PairExample
+Module PairExample .
   
-Import SimpleExample
+Import SimpleExample .
 
   abstract
     left : Int
@@ -16,9 +16,9 @@ Inductive PairExample : Type :=
   | PairExample_ (x : Int * Int)
 .
 
-end
+End PairExample .
 
-Module SwapExample
+Module SwapExample .
 
  Definition   left (pair : PairExample) : Int :=
     match pair with
@@ -46,4 +46,4 @@ Proof.
     apply eq_refl.
 Qed.
 
-end
+End SwapExample .

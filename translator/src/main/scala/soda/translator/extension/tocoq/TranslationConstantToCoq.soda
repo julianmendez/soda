@@ -53,6 +53,8 @@ class TranslationConstantToCoq
 
   coq_or_reserved_word = "orb"
 
+  coq_end_symbol = "."
+
   coq_definition_reserved_word : String = "Definition"
 
   coq_inductive_reserved_word : String = "Inductive"
@@ -69,17 +71,17 @@ class TranslationConstantToCoq
 
   coq_recursive_definition_reserved_word : String = "Fixpoint"
 
-  coq_inductive_end_symbol : String = "."
+  coq_inductive_end_symbol : String = coq_end_symbol
 
-  coq_definition_end_symbol : String = "."
+  coq_definition_end_symbol : String = coq_end_symbol
 
-  coq_recursive_definition_end_symbol : String = "."
+  coq_recursive_definition_end_symbol : String = coq_end_symbol
 
   coq_with_reserved_word : String = "with"
 
   coq_theorem_begin_reserved_word = "Theorem"
 
-  coq_theorem_end_symbol = "."
+  coq_theorem_end_symbol = coq_end_symbol
 
   coq_proof_begin_reserved_word = "Proof."
 

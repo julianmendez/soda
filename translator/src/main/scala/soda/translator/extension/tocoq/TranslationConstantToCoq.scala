@@ -53,6 +53,8 @@ trait TranslationConstantToCoq
 
   lazy val coq_or_reserved_word = "orb"
 
+  lazy val coq_end_symbol = "."
+
   lazy val coq_definition_reserved_word : String = "Definition"
 
   lazy val coq_inductive_reserved_word : String = "Inductive"
@@ -69,17 +71,17 @@ trait TranslationConstantToCoq
 
   lazy val coq_recursive_definition_reserved_word : String = "Fixpoint"
 
-  lazy val coq_inductive_end_symbol : String = "."
+  lazy val coq_inductive_end_symbol : String = coq_end_symbol
 
-  lazy val coq_definition_end_symbol : String = "."
+  lazy val coq_definition_end_symbol : String = coq_end_symbol
 
-  lazy val coq_recursive_definition_end_symbol : String = "."
+  lazy val coq_recursive_definition_end_symbol : String = coq_end_symbol
 
   lazy val coq_with_reserved_word : String = "with"
 
   lazy val coq_theorem_begin_reserved_word = "Theorem"
 
-  lazy val coq_theorem_end_symbol = "."
+  lazy val coq_theorem_end_symbol = coq_end_symbol
 
   lazy val coq_proof_begin_reserved_word = "Proof."
 

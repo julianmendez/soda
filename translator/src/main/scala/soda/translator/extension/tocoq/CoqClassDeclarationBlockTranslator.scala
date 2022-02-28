@@ -56,7 +56,9 @@ trait CoqClassDeclarationBlockTranslator
     _process_head_with (get_first_line (block) ) (block)
 
   def _process_head_with (line : String) (block : Block) : Seq [String] =
-    Seq [String] (Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) )
+    Seq [String] (
+      Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) + tc.coq_space + tc.coq_end_symbol
+    )
 
   def _process_tail (block : Block) : Seq [String] =
     _process_if_extends (remove_first_line (block) )
@@ -73,7 +75,7 @@ trait CoqClassDeclarationBlockTranslator
 
   def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
-    ) block.lines.map (  line => tc.coq_import_reserved_word + tc.coq_space + line.trim)
+    ) block.lines.map (  line => tc.coq_import_reserved_word + tc.coq_space + line.trim + tc.coq_space + tc.coq_end_symbol)
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =

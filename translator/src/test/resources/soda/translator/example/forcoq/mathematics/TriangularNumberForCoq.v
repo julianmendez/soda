@@ -1,6 +1,6 @@
 package soda.example.forcoq.mathematics
 
-Module TriangularNumberForCoq
+Module TriangularNumberForCoq .
 
   import
     soda.example.forcoq.lib.O_
@@ -19,4 +19,4 @@ Fixpoint   @tailrec
     _tailrec_get_number (n) ( O_ () )
 .
 
-end
+End TriangularNumberForCoq .

@@ -41,6 +41,7 @@ trait MicroTranslatorToCoq
         CoqDefinitionBlockTranslator_ (),
         CoqClassConstructorBlockTranslator_ (),
         CoqClassDeclarationBlockTranslator_ (),
+        CoqClassEndBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
