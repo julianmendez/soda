@@ -20,8 +20,6 @@ End PairExample .
 
 Module SwapExample .
 
-  Import   soda.lib.Recursion .
-
  Definition   left (pair : PairExample) : Int :=
     match pair with
       | (PairExample_ (x, y) ) => x
