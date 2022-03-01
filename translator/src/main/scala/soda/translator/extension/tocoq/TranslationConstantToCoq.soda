@@ -33,6 +33,14 @@ class TranslationConstantToCoq
 
   coq_closing_parenthesis = ")"
 
+  coq_opening_comment = "(*"
+
+  coq_closing_comment = "*)"
+
+  coq_opening_documentation = "(**"
+
+  coq_closing_documentation = "*)"
+
   coq_some_variable_name = "x"
 
   coq_opening_brace = "{"
@@ -46,6 +54,8 @@ class TranslationConstantToCoq
   coq_lambda_arrow_symbol = "=>"
 
   coq_case_arrow_symbol = "=>"
+
+  coq_case_translation = coq_vertical_bar_symbol + coq_space
 
   coq_not_reserved_word = "notb"
 

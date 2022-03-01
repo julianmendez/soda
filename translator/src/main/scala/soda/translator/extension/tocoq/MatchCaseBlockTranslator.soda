@@ -13,8 +13,11 @@ class MatchCaseBlockTranslator
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
     soda.translator.parser.annotation.TestDeclarationAnnotation_
+    soda.translator.replacement.ReplacementAux_
 
   sc = SodaConstant_ ()
+
+  soda_case_pattern = sc.case_reserved_word + sc.space
 
   tc = TranslationConstantToCoq_ ()
 
@@ -41,11 +44,17 @@ class MatchCaseBlockTranslator
     BlockBuilder_ ().build(
       block.lines
         .map ( lambda line --> append_with_after_match (line) )
+        .map ( lambda line --> replace_case (line) )
     )
 
   append_with_after_match (line : String) : String =
     if line.trim ().startsWith (soda_match_pattern)
     then line + tc.coq_space + tc.coq_with_reserved_word
+    else line
+
+  replace_case (line : String) : String =
+    if line.trim.startsWith (soda_case_pattern)
+    then ReplacementAux_ (). replace_first (line) (soda_case_pattern) (tc.coq_case_translation)
     else line
 
 end

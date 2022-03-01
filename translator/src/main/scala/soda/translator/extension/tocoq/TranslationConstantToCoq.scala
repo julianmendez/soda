@@ -33,6 +33,14 @@ trait TranslationConstantToCoq
 
   lazy val coq_closing_parenthesis = ")"
 
+  lazy val coq_opening_comment = "(*"
+
+  lazy val coq_closing_comment = "*)"
+
+  lazy val coq_opening_documentation = "(**"
+
+  lazy val coq_closing_documentation = "*)"
+
   lazy val coq_some_variable_name = "x"
 
   lazy val coq_opening_brace = "{"
@@ -46,6 +54,8 @@ trait TranslationConstantToCoq
   lazy val coq_lambda_arrow_symbol = "=>"
 
   lazy val coq_case_arrow_symbol = "=>"
+
+  lazy val coq_case_translation = coq_vertical_bar_symbol + coq_space
 
   lazy val coq_not_reserved_word = "notb"
 
