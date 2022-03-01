@@ -16,9 +16,6 @@ end
 
 class SwapExample
 
-  import
-    soda.lib.Recursion
-
   left (pair : PairExample) : Int =
     match pair
       case (PairExample_ (x, y) ) ==> x
