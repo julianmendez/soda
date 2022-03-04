@@ -1,15 +1,6 @@
 package soda.example.algorithms
 
-trait SimpleExample
-{
-
-}
-
-case class SimpleExample_ () extends SimpleExample
-
 trait PairExample
-  extends
-    SimpleExample
 {
 
   def   left : Int

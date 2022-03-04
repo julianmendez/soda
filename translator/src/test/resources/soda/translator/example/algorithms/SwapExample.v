@@ -1,12 +1,6 @@
 package soda.example.algorithms
 
-Module SimpleExample .
-
-End SimpleExample .
-
 Module PairExample .
-  
-Import SimpleExample .
 
   abstract
     left : Int

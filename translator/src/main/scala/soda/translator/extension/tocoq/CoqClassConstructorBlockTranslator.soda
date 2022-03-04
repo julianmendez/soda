@@ -20,7 +20,7 @@ class CoqClassConstructorBlockTranslator
   tc = TranslationConstantToCoq_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
@@ -93,7 +93,7 @@ class CoqClassConstructorBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block ->
+      .flatMap ( lambda block -->
         match block
           case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
           case x ==> None
@@ -103,8 +103,8 @@ class CoqClassConstructorBlockTranslator
 
   _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
     block.abstract_functions
-      .map ( lambda annotated_line -> _translate_type_symbols (annotated_line.line).trim )
-      .map ( lambda line -> _remove_variable (line) )
+      .map ( lambda annotated_line --> _translate_type_symbols (annotated_line.line).trim )
+      .map ( lambda line --> _remove_variable (line) )
 
   _remove_variable (line : String) : String =
     _remove_variable_with (line) (line.indexOf (sc.type_membership_symbol) )

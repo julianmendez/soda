@@ -19,7 +19,7 @@ class MainClassBlockTranslator
   tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
@@ -45,12 +45,12 @@ class MainClassBlockTranslator
 
   _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
-      .map ( lambda x -> x.class_name)
+      .map ( lambda x --> x.class_name)
       .getOrElse ("")
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block ->
+      .flatMap ( lambda block -->
         match block
           case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
           case x ==> None
