@@ -89,13 +89,20 @@ trait TranslationConstantToCoq
 
   lazy val coq_with_reserved_word : String = "with"
 
-  lazy val coq_theorem_begin_reserved_word = "Theorem"
+  lazy val coq_theorem_begin_reserved_word : String = "Theorem"
 
-  lazy val coq_theorem_end_symbol = coq_end_symbol
+  lazy val coq_theorem_end_symbol : String = coq_end_symbol
 
-  lazy val coq_proof_begin_reserved_word = "Proof."
+  lazy val coq_proof_begin_reserved_word : String = "Proof."
 
-  lazy val coq_proof_end_reserved_word = "Qed."
+  lazy val coq_proof_end_reserved_word : String = "Qed."
+
+  lazy val coq_prelude : Seq [String] =
+    Seq (
+      "",
+      "Notation Int := nat .",
+      ""
+    )
 
   lazy val coq_recursive_function_prefixes : Seq [String] =
     Seq (
@@ -226,7 +233,7 @@ trait TranslationConstantToCoq
         Tuple2 ("BigInt", "Z")
     )
 
-  lazy val prefix_coq_non_soda = "__soda__"
+  lazy val prefix_coq_non_soda : String = "__soda__"
 
   lazy val coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words

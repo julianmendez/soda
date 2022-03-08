@@ -1,4 +1,9 @@
+(*
 package soda.example.algorithms
+*)
+
+Notation Int := nat .
+
 
 Module PairExample .
 

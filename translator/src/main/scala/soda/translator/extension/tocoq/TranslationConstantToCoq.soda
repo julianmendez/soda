@@ -89,13 +89,20 @@ class TranslationConstantToCoq
 
   coq_with_reserved_word : String = "with"
 
-  coq_theorem_begin_reserved_word = "Theorem"
+  coq_theorem_begin_reserved_word : String = "Theorem"
 
-  coq_theorem_end_symbol = coq_end_symbol
+  coq_theorem_end_symbol : String = coq_end_symbol
 
-  coq_proof_begin_reserved_word = "Proof."
+  coq_proof_begin_reserved_word : String = "Proof."
 
-  coq_proof_end_reserved_word = "Qed."
+  coq_proof_end_reserved_word : String = "Qed."
+
+  coq_prelude : Seq [String] =
+    Seq (
+      "",
+      "Notation Int := nat .",
+      ""
+    )
 
   coq_recursive_function_prefixes : Seq [String] =
     Seq (
@@ -226,7 +233,7 @@ class TranslationConstantToCoq
         Tuple2 ("BigInt", "Z")
     )
 
-  prefix_coq_non_soda = "__soda__"
+  prefix_coq_non_soda : String = "__soda__"
 
   coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words

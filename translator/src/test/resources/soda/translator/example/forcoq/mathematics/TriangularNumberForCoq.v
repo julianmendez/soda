@@ -1,4 +1,9 @@
+(*
 package soda.example.forcoq.mathematics
+*)
+
+Notation Int := nat .
+
 
 Module TriangularNumberForCoq .
 
