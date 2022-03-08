@@ -100,7 +100,10 @@ trait TranslationConstantToCoq
   lazy val coq_prelude : Seq [String] =
     Seq (
       "",
-      "Notation Int := nat .",
+      "Require Import Coq.ZArith.BinInt .",
+      "(* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)",
+      "",
+      "Notation Int := Z .",
       ""
     )
 

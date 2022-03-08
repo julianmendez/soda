@@ -2,7 +2,10 @@
 package soda.example.forcoq.mathematics
 *)
 
-Notation Int := nat .
+Require Import Coq.ZArith.BinInt .
+(* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)
+
+Notation Int := Z .
 
 
 Module TriangularNumberForCoq .
