@@ -45,10 +45,13 @@ class CoqClassConstructorBlockTranslator
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ ().build (
-        block.lines.++ (
-          Seq [String] (
-            "",
-            _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
+        Seq (tc.coq_opening_comment).++ (
+          block.lines.++ (
+            Seq [String] (
+              tc.coq_closing_comment,
+              "",
+              _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
+            )
           )
         )
       ),

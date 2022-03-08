@@ -2,9 +2,11 @@ package soda.example.algorithms
 
 Module PairExample .
 
+(*
   abstract
     left : Int
     right : Int
+*)
 
 Inductive PairExample : Type :=
   | PairExample_ (x : Int * Int)
