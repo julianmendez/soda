@@ -21,29 +21,32 @@ End PairExample .
 
 Module SwapExample .
 
+  Import   PairExample .
+
  Definition   left (pair : PairExample) : Int :=
     match pair with
-      | (PairExample_ (x, y) ) => x
+      | (PairExample_ (x , y) ) => x
     end
 .
 
  Definition   right (pair : PairExample) : Int :=
     match pair with
-      | (PairExample_ (x, y) ) => y
+      | (PairExample_ (x , y) ) => y
     end
 .
 
  Definition   swap (pair : PairExample) : PairExample :=
-    PairExample_ (pair.right, pair.left)
+    PairExample_ (right (pair) , left (pair) )
 .
 
-Theorem    swap_of_swap : forall (pair : PairExample), (swap (swap (pair) ) ) == pair
+Theorem    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair
 .
 
 Proof.
     intros p.
     destruct p.
     compute.
+    destruct x.
     apply eq_refl.
 Qed.
 
