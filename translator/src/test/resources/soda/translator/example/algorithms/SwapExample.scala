@@ -13,8 +13,6 @@ case class PairExample_ (left : Int, right : Int) extends PairExample
 trait SwapExample
 {
 
-  import   PairExample
-
   def left (pair : PairExample) : Int =
     pair match  {
       case (PairExample_ (x , y) ) => x

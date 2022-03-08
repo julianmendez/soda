@@ -24,8 +24,6 @@ End PairExample .
 
 Module SwapExample .
 
-  Import   PairExample .
-
  Definition   left (pair : PairExample) : Int :=
     match pair with
       | (PairExample_ (x , y) ) => x
