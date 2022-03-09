@@ -43,18 +43,18 @@ trait PreprocessorSequenceTranslator
 
   def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     recursion
-      .fold (block_sequence.indices) (_initial_value (block_sequence) ) (_next_value_function)
+      .fold (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
       .accumulated
       .reverse
 
-  def _initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
+  def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = block_sequence,
       accumulated = Seq [AnnotatedBlock] (),
       references = Seq [Seq [AnnotatedBlock] ] ()
     )
 
-  def _next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
+  def _get_second_pass_next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
