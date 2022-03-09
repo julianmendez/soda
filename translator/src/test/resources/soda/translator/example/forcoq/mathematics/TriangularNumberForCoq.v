@@ -27,3 +27,5 @@ Fixpoint   @tailrec
 .
 
 End TriangularNumberForCoq .
+
+Import TriangularNumberForCoq .

@@ -44,7 +44,9 @@ class CoqClassEndBlockTranslator
     ClassEndAnnotation_ (
       BlockBuilder_ ().build (
         Seq [String] (
-          tc.coq_module_end_reserved_word + tc.coq_space + beginning.class_name + tc.coq_space + tc.coq_end_symbol
+          tc.coq_module_end_reserved_word + tc.coq_space + beginning.class_name + tc.coq_space + tc.coq_end_symbol,
+          "",
+          tc.coq_import_reserved_word + tc.coq_space + beginning.class_name + tc.coq_space + tc.coq_end_symbol
         )
       ),
       block.references

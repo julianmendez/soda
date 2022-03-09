@@ -22,6 +22,8 @@ Inductive PairExample : Type :=
 
 End PairExample .
 
+Import PairExample .
+
 Module SwapExample .
 
  Definition   left (pair : PairExample) : Int :=
@@ -52,3 +54,5 @@ Proof.
 Qed.
 
 End SwapExample .
+
+Import SwapExample .

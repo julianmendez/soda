@@ -4,6 +4,7 @@
   - new_features:
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
+    - can fully translate small snippets to Coq
   - deprecated_features:
     - the `let`-`in` structures are no longer supported
     - the following synonyms are no longer supported
