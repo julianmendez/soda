@@ -11,16 +11,8 @@ class CoqClassDeclarationBlockTranslator
     soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-    soda.translator.parser.annotation.ClassBeginningAnnotation
-    soda.translator.parser.annotation.ClassBeginningAnnotation_
-    soda.translator.parser.annotation.ClassAliasAnnotation
-    soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.replacement.Replacement_
 
   sc = SodaConstant_ ()

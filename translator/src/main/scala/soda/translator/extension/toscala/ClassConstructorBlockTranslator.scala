@@ -8,7 +8,6 @@ trait ClassConstructorBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_

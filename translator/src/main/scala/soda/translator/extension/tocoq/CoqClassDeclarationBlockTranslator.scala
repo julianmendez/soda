@@ -11,16 +11,8 @@ trait CoqClassDeclarationBlockTranslator
   import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.ClassAliasAnnotation
-  import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.replacement.Replacement_
 
   lazy val sc = SodaConstant_ ()

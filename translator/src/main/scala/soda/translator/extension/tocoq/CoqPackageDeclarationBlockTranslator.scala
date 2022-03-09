@@ -6,10 +6,7 @@ trait CoqPackageDeclarationBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
-  import   soda.translator.block.Block_
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation_

@@ -15,7 +15,6 @@ trait MicroTranslatorToCoq
   import   soda.translator.block.ConditionalBlockTranslator_
   import   soda.translator.blocktr.TokenReplacement_
   import   soda.translator.blocktr.TokenizedBlockTranslator_
-  import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.replacement.Token
 
   lazy val tc = TranslationConstantToCoq_ ()
