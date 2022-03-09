@@ -106,7 +106,7 @@ class SodaConstant
 
   new_annotation = "@new"
 
-  soda_reserved_words = Seq (
+  soda_reserved_words : Seq [String] = Seq (
     function_definition_symbol,
     type_membership_symbol,
     function_arrow_symbol,
