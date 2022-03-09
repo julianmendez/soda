@@ -11,8 +11,6 @@ trait PairExample
 case class PairExample_ (left : Int, right : Int) extends PairExample
 
 trait SwapExample
-  extends
-    PairExample
 {
 
   def left (pair : PairExample) : Int =

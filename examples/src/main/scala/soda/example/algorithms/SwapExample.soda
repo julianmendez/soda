@@ -9,8 +9,6 @@ class PairExample
 end
 
 class SwapExample
-  extends
-    PairExample
 
   left (pair : PairExample) : Int =
     match pair
