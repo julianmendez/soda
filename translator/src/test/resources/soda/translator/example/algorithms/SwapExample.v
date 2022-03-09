@@ -23,6 +23,8 @@ Inductive PairExample : Type :=
 End PairExample .
 
 Module SwapExample .
+  
+Import PairExample .
 
  Definition   left (pair : PairExample) : Int :=
     match pair with
