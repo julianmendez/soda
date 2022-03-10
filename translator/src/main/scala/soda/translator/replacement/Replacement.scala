@@ -18,32 +18,20 @@ trait Replacement
 
   lazy val soda_space = aux.soda_space
 
-  def replace_with (function : String => String) : Replacement =
-    Replacement_ (function (line) )
-
   def replace_at_beginning (index : Int) (translator : Translator) : Replacement =
     Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line) (index) )
 
   def replace_all (pattern : String) (replacement : String) : Replacement =
     Replacement_ (aux.replace_all (line) (pattern) (replacement) )
 
-  def replace (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace (line) )
-
   def add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
-
-  def add_spaces_to_symbols (symbols : Set [Char] ) : Replacement =
-    Replacement_ (aux.add_spaces_to_symbols (line) (symbols) )
 
   def remove_space_from_scala_line () : Replacement =
     Replacement_ (aux.remove_space_from_scala_line (line) )
 
   def add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
     Replacement_ (aux.add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
-
-  def replace_regex (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_regex (line) )
 
 }
 
@@ -131,7 +119,6 @@ trait ReplacementWithTranslator
 
   def   translator : soda.translator.block.Translator
 
-  import   soda.translator.block.Translator
   import   soda.lib.Recursion_
 
   lazy val aux = ReplacementAux_ ()
@@ -142,10 +129,10 @@ trait ReplacementWithTranslator
 
   def replace_at_beginning (line : String) (index : Int) : String =
     if ( index == 0
-    ) replace_only_beginning (line)
+    ) _replace_only_beginning (line)
     else line
 
-  def replace_only_beginning (line : String) : String =
+  def _replace_only_beginning (line : String) : String =
     Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
 
   def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
