@@ -12,12 +12,10 @@ class ImportDeclarationBlockTranslator
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   scala_import_declaration_pattern =
-    tc.scala_import_declaration + space
+    _tc.scala_import_declaration + _tc.scala_space
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

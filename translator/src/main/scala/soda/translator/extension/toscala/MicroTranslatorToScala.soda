@@ -17,35 +17,35 @@ class MicroTranslatorToScala
     soda.translator.blocktr.TokenizedBlockTranslator_
     soda.translator.replacement.Token
 
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
-  ba = BlockAnnotationEnum_ ()
+  _ba = BlockAnnotationEnum_ ()
 
-  functions_and_tests =
-    Seq (ba.function_definition, ba.test_declaration)
+  _functions_and_tests =
+    Seq (_ba.function_definition, _ba.test_declaration)
 
-  class_declarations =
-    Seq (ba.class_alias, ba.class_beginning, ba.abstract_declaration)
+  _class_declarations =
+    Seq (_ba.class_alias, _ba.class_beginning, _ba.abstract_declaration)
 
-  definitions_and_declarations =
-    functions_and_tests.++ (class_declarations)
+  _definitions_and_declarations =
+    _functions_and_tests.++ (_class_declarations)
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      translation_pipeline.translate (block)
+      _translation_pipeline.translate (block)
 
-  try_definition : Token -> String =
+  _try_definition : Token -> String =
     lambda token -->
       FunctionDefinitionLineTranslator_ (token.text).translation
 
-  translation_pipeline =
+  _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
-        ConditionalBlockTranslator_ (definitions_and_declarations, TokenReplacement_ ().replace (tc.scala_non_soda) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (class_declarations, TokenReplacement_ ().replace (tc.type_symbol_translation) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.all_translations) ),
+        ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
+        ConditionalBlockTranslator_ (_functions_and_tests, TokenizedBlockTranslator_ (_try_definition) ),
+        ConditionalBlockTranslator_ (_class_declarations, TokenReplacement_ ().replace (_tc.type_symbol_translation) ),
+        ConditionalBlockTranslator_ (_functions_and_tests, TokenReplacement_ ().replace (_tc.all_translations) ),
         ClassDeclarationBlockTranslator_ (),
         ImportDeclarationBlockTranslator_ (),
         AbstractDeclarationBlockTranslator_ (),

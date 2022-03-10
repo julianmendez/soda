@@ -13,12 +13,10 @@ class CoqImportDeclarationBlockTranslator
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
   coq_import_declaration_pattern =
-    tc.coq_import_reserved_word + space
+    _tc.coq_import_reserved_word + _tc.coq_space
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -37,7 +35,7 @@ class CoqImportDeclarationBlockTranslator
         coq_import_declaration_pattern) (
         block.imported_items
           .filter( lambda annotated_line --> not annotated_line.is_comment)
-          .map ( lambda annotated_line --> AnnotatedLine_ (annotated_line.line + tc.coq_space + tc.coq_end_symbol, false) )
+          .map ( lambda annotated_line --> AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
       )
     )
 

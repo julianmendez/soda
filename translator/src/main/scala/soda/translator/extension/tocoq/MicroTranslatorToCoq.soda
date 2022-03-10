@@ -17,23 +17,23 @@ class MicroTranslatorToCoq
     soda.translator.blocktr.TokenizedBlockTranslator_
     soda.translator.replacement.Token
 
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
-  function_definition = BlockAnnotationEnum_ ().function_definition
+  _function_definition = BlockAnnotationEnum_ ().function_definition
 
-  test_declaration = BlockAnnotationEnum_ ().test_declaration
+  _test_declaration = BlockAnnotationEnum_ ().test_declaration
 
-  functions_and_tests = Seq (function_definition, test_declaration)
+  functions_and_tests = Seq (_function_definition, _test_declaration)
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      translation_pipeline.translate (block)
+      _translation_pipeline.translate (block)
 
   try_definition : Token -> String =
     lambda token -->
       DefinitionLineTranslator_ (token.text).translation
 
-  translation_pipeline =
+  _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
@@ -46,7 +46,7 @@ class MicroTranslatorToCoq
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.function_symbols_translation) )
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (_tc.function_symbols_translation) )
       )
     )
 

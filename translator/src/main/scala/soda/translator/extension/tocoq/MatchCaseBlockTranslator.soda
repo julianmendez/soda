@@ -15,13 +15,13 @@ class MatchCaseBlockTranslator
     soda.translator.parser.annotation.TestDeclarationAnnotation_
     soda.translator.replacement.ReplacementAux_
 
-  sc = SodaConstant_ ()
+  _sc = SodaConstant_ ()
 
-  soda_case_pattern = sc.case_reserved_word + sc.space
+  _soda_case_pattern = _sc.case_reserved_word + _sc.space
 
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
-  soda_match_pattern = sc.match_reserved_word + " "
+  _soda_match_pattern = _sc.match_reserved_word + " "
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -43,18 +43,18 @@ class MatchCaseBlockTranslator
   _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
-        .map ( lambda line --> append_with_after_match (line) )
-        .map ( lambda line --> replace_case (line) )
+        .map ( lambda line --> _append_with_after_match (line) )
+        .map ( lambda line --> _replace_case (line) )
     )
 
-  append_with_after_match (line : String) : String =
-    if line.trim ().startsWith (soda_match_pattern)
-    then line + tc.coq_space + tc.coq_with_reserved_word
+  _append_with_after_match (line : String) : String =
+    if line.trim ().startsWith (_soda_match_pattern)
+    then line + _tc.coq_space + _tc.coq_with_reserved_word
     else line
 
-  replace_case (line : String) : String =
-    if line.trim.startsWith (soda_case_pattern)
-    then ReplacementAux_ (). replace_first (line) (soda_case_pattern) (tc.coq_case_translation)
+  _replace_case (line : String) : String =
+    if line.trim.startsWith (_soda_case_pattern)
+    then ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
     else line
 
 end

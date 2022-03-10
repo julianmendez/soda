@@ -39,66 +39,66 @@ class DefinitionLineTranslator
     soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
 
-  sc = SodaConstant_ ()
+  _sc = SodaConstant_ ()
 
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
-  trimmed_line = line.trim
+  _trimmed_line = line.trim
 
   translation =
-    find_definition (line).opt (ifEmpty := line) (ifNonEmpty := lambda position --> try_found_definition (position).line)
+    find_definition (line).opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position).line)
 
-  is_class_definition =
-    get_index (line) (sc.space + sc.class_reserved_word + sc.space).isDefined
+  _is_class_definition =
+    get_index (line) (_sc.space + _sc.class_reserved_word + _sc.space).isDefined
 
-  translation_of_class_definition =
-    if condition_for_type_alias
+  _translation_of_class_definition =
+    if _condition_for_type_alias
     then Replacement_ (line)
-    else Replacement_ (line).replace_all (sc.space + sc.function_definition_symbol) ("")
+    else Replacement_ (line).replace_all (_sc.space + _sc.function_definition_symbol) ("")
 
-  ends_with_equals = false
+  _ends_with_equals = false
 
-  ends_with_opening_brace = false
+  _ends_with_opening_brace = false
 
-  contains_equals =
-    trimmed_line.contains (sc.function_definition_symbol)
+  _contains_equals =
+    _trimmed_line.contains (_sc.function_definition_symbol)
 
-  condition_for_type_alias =
-    contains_equals and not (ends_with_equals or ends_with_opening_brace)
+  _condition_for_type_alias =
+    _contains_equals and not (_ends_with_equals or _ends_with_opening_brace)
 
-  translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.coq_space) (tc.coq_space)
+  _translation_of_val_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
 
-  translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.coq_space) (tc.coq_space)
+  _translation_of_def_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
 
-  try_found_definition (position : Int) : Replacement =
-    if is_class_definition then translation_of_class_definition
-    else if is_val_definition (position) then translation_of_val_definition
-    else translation_of_def_definition
+  _try_found_definition (position : Int) : Replacement =
+    if _is_class_definition then _translation_of_class_definition
+    else if _is_val_definition (position) then _translation_of_val_definition
+    else _translation_of_def_definition
 
-  is_val_definition (initial_position : Int) =
-    is_val_definition_case_1 or
-    is_val_definition_case_2 (initial_position) or
-    is_val_definition_case_3 or
-    is_val_definition_case_4
+  _is_val_definition (initial_position : Int) =
+    _is_val_definition_case_1 or
+    _is_val_definition_case_2 (initial_position) or
+    _is_val_definition_case_3 or
+    _is_val_definition_case_4
 
-  position_of_first_opening_parenthesis =
-    get_index (line) (sc.opening_parenthesis_symbol)
+  _position_of_first_opening_parenthesis =
+    get_index (line) (_sc.opening_parenthesis_symbol)
 
-  is_val_definition_case_1 =
-    position_of_first_opening_parenthesis.isEmpty
+  _is_val_definition_case_1 =
+    _position_of_first_opening_parenthesis.isEmpty
 
-  is_val_definition_case_2 (initial_position : Int) =
-    position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > initial_position) )
+  _is_val_definition_case_2 (initial_position : Int) =
+    _position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > initial_position) )
 
-  is_val_definition_case_3 =
-    (get_index (line) (sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
-      position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > other_position) )
+  _is_val_definition_case_3 =
+    (get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
+      _position_of_first_opening_parenthesis.opt (false) ( lambda position --> (position > other_position) )
     )
 
-  is_val_definition_case_4 =
-    trimmed_line.startsWith (sc.opening_parenthesis_symbol)
+  _is_val_definition_case_4 =
+    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
@@ -109,9 +109,9 @@ class DefinitionLineTranslator
    */
 
   find_definition (line : String) : OptionSD [Int] =
-    if line.endsWith (sc.space + sc.function_definition_symbol)
-    then SomeSD_ (line.length - sc.function_definition_symbol.length)
-    else get_index (line) (sc.space + sc.function_definition_symbol + sc.space)
+    if line.endsWith (_sc.space + _sc.function_definition_symbol)
+    then SomeSD_ (line.length - _sc.function_definition_symbol.length)
+    else get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
 
   get_index (line : String) (pattern : String) : OptionSD [Int] =
     get_index_from (line) (pattern) (0)

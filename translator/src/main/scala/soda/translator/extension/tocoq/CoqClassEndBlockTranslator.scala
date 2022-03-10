@@ -13,9 +13,7 @@ trait CoqClassEndBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val sc = SodaConstant_ ()
-
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -44,9 +42,9 @@ trait CoqClassEndBlockTranslator
     ClassEndAnnotation_ (
       BlockBuilder_ ().build (
         Seq [String] (
-          tc.coq_module_end_reserved_word + tc.coq_space + beginning.class_name + tc.coq_space + tc.coq_end_symbol,
+          _tc.coq_module_end_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol,
           "",
-          tc.coq_import_reserved_word + tc.coq_space + beginning.class_name + tc.coq_space + tc.coq_end_symbol
+          _tc.coq_import_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol
         )
       ),
       block.references

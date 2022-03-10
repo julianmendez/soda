@@ -15,13 +15,13 @@ trait MatchCaseBlockTranslator
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
   import   soda.translator.replacement.ReplacementAux_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val soda_case_pattern = sc.case_reserved_word + sc.space
+  private lazy val _soda_case_pattern = _sc.case_reserved_word + _sc.space
 
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
-  lazy val soda_match_pattern = sc.match_reserved_word + " "
+  private lazy val _soda_match_pattern = _sc.match_reserved_word + " "
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -43,18 +43,18 @@ trait MatchCaseBlockTranslator
   private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
-        .map (  line => append_with_after_match (line) )
-        .map (  line => replace_case (line) )
+        .map (  line => _append_with_after_match (line) )
+        .map (  line => _replace_case (line) )
     )
 
-  def append_with_after_match (line : String) : String =
-    if ( line.trim ().startsWith (soda_match_pattern)
-    ) line + tc.coq_space + tc.coq_with_reserved_word
+  private def _append_with_after_match (line : String) : String =
+    if ( line.trim ().startsWith (_soda_match_pattern)
+    ) line + _tc.coq_space + _tc.coq_with_reserved_word
     else line
 
-  def replace_case (line : String) : String =
-    if ( line.trim.startsWith (soda_case_pattern)
-    ) ReplacementAux_ (). replace_first (line) (soda_case_pattern) (tc.coq_case_translation)
+  private def _replace_case (line : String) : String =
+    if ( line.trim.startsWith (_soda_case_pattern)
+    ) ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
     else line
 
 }

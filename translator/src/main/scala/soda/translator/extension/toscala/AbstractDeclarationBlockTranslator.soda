@@ -13,12 +13,10 @@ class AbstractDeclarationBlockTranslator
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   scala_abstract_function_declaration_pattern =
-    tc.scala_abstract_function_declaration + space
+    _tc.scala_abstract_function_declaration + _tc.scala_space
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

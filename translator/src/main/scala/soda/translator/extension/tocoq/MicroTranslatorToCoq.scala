@@ -17,23 +17,23 @@ trait MicroTranslatorToCoq
   import   soda.translator.blocktr.TokenizedBlockTranslator_
   import   soda.translator.replacement.Token
 
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
-  lazy val function_definition = BlockAnnotationEnum_ ().function_definition
+  private lazy val _function_definition = BlockAnnotationEnum_ ().function_definition
 
-  lazy val test_declaration = BlockAnnotationEnum_ ().test_declaration
+  private lazy val _test_declaration = BlockAnnotationEnum_ ().test_declaration
 
-  lazy val functions_and_tests = Seq (function_definition, test_declaration)
+  lazy val functions_and_tests = Seq (_function_definition, _test_declaration)
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translation_pipeline.translate (block)
+      _translation_pipeline.translate (block)
 
   lazy val try_definition : Token => String =
      token =>
       DefinitionLineTranslator_ (token.text).translation
 
-  lazy val translation_pipeline =
+  private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
@@ -46,7 +46,7 @@ trait MicroTranslatorToCoq
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
         ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (tc.function_symbols_translation) )
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ ().replace (_tc.function_symbols_translation) )
       )
     )
 

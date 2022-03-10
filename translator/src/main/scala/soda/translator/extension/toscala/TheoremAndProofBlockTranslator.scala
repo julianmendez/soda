@@ -13,7 +13,7 @@ trait TheoremAndProofBlockTranslator
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -33,14 +33,14 @@ trait TheoremAndProofBlockTranslator
     ProofBlockAnnotation_ (_translate_block (block) )
 
   private def _translate_block (block : AnnotatedBlock) : Block =
-    append (tc.scala_comment_closing_symbol) (prepend (tc.scala_comment_opening_symbol) (block) )
+    _append (_tc.scala_comment_closing_symbol) (_prepend (_tc.scala_comment_opening_symbol) (block) )
 
-  def prepend (prefix : String) (block : Block) : Block =
+  private def _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  def append (suffix : String) (block : Block) : Block =
+  private def _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )

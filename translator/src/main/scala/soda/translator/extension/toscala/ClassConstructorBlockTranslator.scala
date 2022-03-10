@@ -14,9 +14,9 @@ trait ClassConstructorBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -56,25 +56,25 @@ trait ClassConstructorBlockTranslator
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    tc.class_declaration_translation_at_beginning_with_paren +
-    tc.scala_space +
+    _tc.class_declaration_translation_at_beginning_with_paren +
+    _tc.scala_space +
     beginning.class_name +
-    sc.constructor_suffix +
+    _sc.constructor_suffix +
     _translate_type_symbols (_get_as_parameter_list (beginning.type_parameters_and_bounds) ) +
-    tc.scala_space +
-    tc.scala_opening_parenthesis +
-    abstract_functions.mkString (tc.scala_parameter_separator_symbol + tc.scala_space) +
-    tc.scala_closing_parenthesis +
-    tc.scala_space +
-    tc.scala_extends_translation +
-    tc.scala_space +
+    _tc.scala_space +
+    _tc.scala_opening_parenthesis +
+    abstract_functions.mkString (_tc.scala_parameter_separator_symbol + _tc.scala_space) +
+    _tc.scala_closing_parenthesis +
+    _tc.scala_space +
+    _tc.scala_extends_translation +
+    _tc.scala_space +
     beginning.class_name +
     _get_as_parameter_list (beginning.type_parameters)
 
   private def _get_as_parameter_list (parameters : Seq [String] ) : String =
     if ( parameters.isEmpty
     ) ""
-    else tc.scala_space + tc.scala_opening_bracket + parameters.mkString (tc.scala_parameter_separator_symbol + tc.scala_space) + tc.scala_closing_bracket
+    else _tc.scala_space + _tc.scala_opening_bracket + parameters.mkString (_tc.scala_parameter_separator_symbol + _tc.scala_space) + _tc.scala_closing_bracket
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
@@ -99,9 +99,9 @@ trait ClassConstructorBlockTranslator
 
   private def _translate_type_symbols (line : String) : String =
     line
-      .replaceAll (sc.subtype_reserved_word, tc.scala_subtype_symbol)
-      .replaceAll (sc.supertype_reserved_word, tc.scala_supertype_symbol)
-      .replaceAll (sc.function_arrow_symbol, tc.scala_function_arrow_symbol)
+      .replaceAll (_sc.subtype_reserved_word, _tc.scala_subtype_symbol)
+      .replaceAll (_sc.supertype_reserved_word, _tc.scala_supertype_symbol)
+      .replaceAll (_sc.function_arrow_symbol, _tc.scala_function_arrow_symbol)
 
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )

@@ -11,7 +11,7 @@ class CoqPackageDeclarationBlockTranslator
     soda.translator.parser.annotation.PackageDeclarationAnnotation
     soda.translator.parser.annotation.PackageDeclarationAnnotation_
 
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -32,7 +32,7 @@ class CoqPackageDeclarationBlockTranslator
 
   _comment_block (block : Block) : Block =
     BlockBuilder_ ().build (
-      ( (Seq (tc.coq_opening_comment).++ (block.lines) ).++ (Seq (tc.coq_closing_comment) ) ).++ (tc.coq_prelude)
+      ( (Seq (_tc.coq_opening_comment).++ (block.lines) ).++ (Seq (_tc.coq_closing_comment) ) ).++ (_tc.coq_prelude)
     )
 
 end

@@ -11,7 +11,7 @@ trait CoqPackageDeclarationBlockTranslator
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
 
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -32,7 +32,7 @@ trait CoqPackageDeclarationBlockTranslator
 
   private def _comment_block (block : Block) : Block =
     BlockBuilder_ ().build (
-      ( (Seq (tc.coq_opening_comment).++ (block.lines) ).++ (Seq (tc.coq_closing_comment) ) ).++ (tc.coq_prelude)
+      ( (Seq (_tc.coq_opening_comment).++ (block.lines) ).++ (Seq (_tc.coq_closing_comment) ) ).++ (_tc.coq_prelude)
     )
 
 }

@@ -11,9 +11,7 @@ class CoqDefinitionBlockTranslator
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -30,31 +28,31 @@ class CoqDefinitionBlockTranslator
 
   _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
-    then append (tc.coq_recursive_definition_end_symbol) (prepend (tc.coq_recursive_definition_reserved_word + space) (block) )
+    then _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
     else
       if is_a_definition (block)
-      then append (tc.coq_definition_end_symbol) (prepend (tc.coq_definition_reserved_word + space) (block) )
+      then _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
       else block
 
-  prepend (prefix : String) (block : Block) : Block =
+  _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix : String) (block : Block) : Block =
+  _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
   is_a_recursive_definition (block : Block) : Boolean =
-    tc.coq_recursive_function_prefixes.exists ( lambda prefix --> first_line (block).startsWith (prefix))
+    _tc.coq_recursive_function_prefixes.exists ( lambda prefix --> first_line (block).startsWith (prefix) )
 
   first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("").trim
 
   is_a_definition (block : Block) : Boolean =
     not is_a_recursive_definition (block) and
-    not tc.non_definition_block_prefixes.exists ( lambda prefix --> block.contents.trim.startsWith (prefix))
+    not _tc.non_definition_block_prefixes.exists ( lambda prefix --> block.contents.trim.startsWith (prefix) )
 
 end
 

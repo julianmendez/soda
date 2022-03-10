@@ -11,9 +11,7 @@ trait BlockBuilder
   import   soda.translator.block.Block
   import   soda.translator.block.Block_
 
-  lazy val soda_begin_comment = "/*"
-
-  lazy val soda_end_comment = "*/"
+  private lazy val _sc = SodaConstant_ ()
 
   def build (lines : Seq [String] ) : Block =
     Block_ (
@@ -35,10 +33,10 @@ trait BlockBuilder
 
   private def _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if ( comment_state
-    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment) )
+    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
     else
-      if ( line.trim.startsWith (soda_begin_comment)
-      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment) )
+      if ( line.trim.startsWith (_sc.comment_opening_symbol)
+      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
       else CurrentAndNewCommentState_ (false, false)
 
 }

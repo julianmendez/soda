@@ -13,12 +13,10 @@ trait AbstractDeclarationBlockTranslator
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
-  lazy val space = " "
-
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val scala_abstract_function_declaration_pattern =
-    tc.scala_abstract_function_declaration + space
+    _tc.scala_abstract_function_declaration + _tc.scala_space
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>

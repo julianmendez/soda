@@ -14,11 +14,11 @@ trait MatchCaseBlockTranslator
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val soda_match_pattern = sc.match_reserved_word + " "
+  private lazy val _soda_match_pattern = _sc.match_reserved_word + " "
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -40,28 +40,28 @@ trait MatchCaseBlockTranslator
   private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build (
       block.lines
-        .map (  line => insert_match_before_brace_if_found (line) )
-        .map (  line => replace_match_end_if_found (line) )
+        .map (  line => _insert_match_before_brace_if_found (line) )
+        .map (  line => _replace_match_end_if_found (line) )
     )
 
-  def insert_match_before_brace_if_found (line : String) : String =
-    if ( line.trim.startsWith (soda_match_pattern)
-    ) _assemble_parts (index = line.indexOf (soda_match_pattern) ) (line)
+  private def _insert_match_before_brace_if_found (line : String) : String =
+    if ( line.trim.startsWith (_soda_match_pattern)
+    ) _assemble_parts (index = line.indexOf (_soda_match_pattern) ) (line)
     else line
 
-  def replace_match_end_if_found (line : String) : String =
-    if ( line.trim == sc.match_end_reserved_word
-    ) line.replaceAll (sc.match_end_reserved_word, tc.scala_match_end_translation)
+  private def _replace_match_end_if_found (line : String) : String =
+    if ( line.trim == _sc.match_end_reserved_word
+    ) line.replaceAll (_sc.match_end_reserved_word, _tc.scala_match_end_translation)
     else line
 
   private def _assemble_parts (index : Int) (line : String) : String =
-    (_left_part (index) (line) ) + (_right_part (index) (line) ) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
+    (_left_part (index) (line) ) + (_right_part (index) (line) ) + _tc.scala_match_translation + _tc.scala_space + _tc.scala_opening_brace
 
   private def _left_part (index : Int) (line : String) : String =
     line.substring (0, index)
 
   private def _right_part (index : Int) (line : String) : String =
-    line.substring (index + soda_match_pattern.length, line.length)
+    line.substring (index + _soda_match_pattern.length, line.length)
 
 }
 

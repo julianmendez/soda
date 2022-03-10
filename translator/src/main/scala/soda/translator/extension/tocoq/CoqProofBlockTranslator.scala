@@ -11,9 +11,7 @@ trait CoqProofBlockTranslator
   import   soda.translator.parser.annotation.ProofBlockAnnotation
   import   soda.translator.parser.annotation.ProofBlockAnnotation_
 
-  lazy val space = " "
-
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -27,23 +25,23 @@ trait CoqProofBlockTranslator
 
   private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (
-      append (
-        tc.coq_proof_end_reserved_word) (
-          replace_first_line (tc.coq_proof_begin_reserved_word) (block)
+      _append (
+        _tc.coq_proof_end_reserved_word) (
+          _replace_first_line (_tc.coq_proof_begin_reserved_word) (block)
       )
     )
 
-  def append (suffix : String) (block : Block) : Block =
+  private def _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
-  def replace_first_line (first_line : String) (block : Block) : Block =
+  private def _replace_first_line (first_line : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq (first_line) .++ (get_tail_or_empty (block.lines) )
+      Seq (first_line) .++ (_get_tail_or_empty (block.lines) )
     )
 
-  def get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
+  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
     if ( sequence.isEmpty
     ) sequence
     else sequence.tail

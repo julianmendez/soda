@@ -10,7 +10,7 @@ trait ClassEndBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -33,7 +33,7 @@ trait ClassEndBlockTranslator
     )
 
   private def _get_translation (block : ClassEndAnnotation) : String =
-    _get_initial_spaces (block) + tc.scala_class_end_symbol
+    _get_initial_spaces (block) + _tc.scala_class_end_symbol
 
   private def _get_initial_spaces (block : ClassEndAnnotation) : String =
     _get_initial_spaces_with (_get_first_line (block) )

@@ -11,9 +11,7 @@ class CoqTheoremBlockTranslator
     soda.translator.parser.annotation.TheoremBlockAnnotation
     soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -27,27 +25,24 @@ class CoqTheoremBlockTranslator
 
   _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
-      append (
-        tc.coq_theorem_end_symbol) (prepend (
-          tc.coq_theorem_begin_reserved_word) (remove_first_line (block)
+      _append (
+        _tc.coq_theorem_end_symbol) (_prepend (
+          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
         )
       )
     )
 
-  prepend (prefix : String) (block : Block) : Block =
+  _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
     )
 
-  append (suffix : String) (block : Block) : Block =
+  _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
-  first_line (block : Block) : String =
-    block.lines.headOption.getOrElse ("").trim
-
-  remove_first_line (block : Block) : Block =
+  _remove_first_line (block : Block) : Block =
     if block.lines.isEmpty
     then block
     else BlockBuilder_ ().build (block.lines.tail)

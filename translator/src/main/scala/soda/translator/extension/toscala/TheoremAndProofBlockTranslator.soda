@@ -13,7 +13,7 @@ class TheoremAndProofBlockTranslator
     soda.translator.parser.annotation.TheoremBlockAnnotation
     soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -33,14 +33,14 @@ class TheoremAndProofBlockTranslator
     ProofBlockAnnotation_ (_translate_block (block) )
 
   _translate_block (block : AnnotatedBlock) : Block =
-    append (tc.scala_comment_closing_symbol) (prepend (tc.scala_comment_opening_symbol) (block) )
+    _append (_tc.scala_comment_closing_symbol) (_prepend (_tc.scala_comment_opening_symbol) (block) )
 
-  prepend (prefix : String) (block : Block) : Block =
+  _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  append (suffix : String) (block : Block) : Block =
+  _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )

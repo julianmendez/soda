@@ -12,12 +12,10 @@ trait ImportDeclarationBlockTranslator
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  lazy val space = " "
-
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val scala_import_declaration_pattern =
-    tc.scala_import_declaration + space
+    _tc.scala_import_declaration + _tc.scala_space
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>

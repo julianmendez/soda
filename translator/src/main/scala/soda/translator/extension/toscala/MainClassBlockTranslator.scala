@@ -13,9 +13,7 @@ trait MainClassBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val sc = SodaConstant_ ()
-
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -28,14 +26,14 @@ trait MainClassBlockTranslator
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if ( _get_class_name (block.references) == tc.soda_main_class_name
+    if ( _get_class_name (block.references) == _tc.soda_main_class_name
     )
       ClassEndAnnotation_ (
         BlockBuilder_ ().build (
           Seq [String] (
-            tc.scala_class_end_symbol,
+            _tc.scala_class_end_symbol,
             "",
-            tc.scala_entry_point
+            _tc.scala_entry_point
           )
         ),
         block.references

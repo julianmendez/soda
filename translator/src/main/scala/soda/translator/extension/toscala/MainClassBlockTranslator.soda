@@ -13,9 +13,7 @@ class MainClassBlockTranslator
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  sc = SodaConstant_ ()
-
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -28,14 +26,14 @@ class MainClassBlockTranslator
     end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if _get_class_name (block.references) == tc.soda_main_class_name
+    if _get_class_name (block.references) == _tc.soda_main_class_name
     then
       ClassEndAnnotation_ (
         BlockBuilder_ ().build (
           Seq [String] (
-            tc.scala_class_end_symbol,
+            _tc.scala_class_end_symbol,
             "",
-            tc.scala_entry_point
+            _tc.scala_entry_point
           )
         ),
         block.references

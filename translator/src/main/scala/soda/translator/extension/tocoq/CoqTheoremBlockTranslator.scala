@@ -11,9 +11,7 @@ trait CoqTheoremBlockTranslator
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  lazy val space = " "
-
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -27,27 +25,24 @@ trait CoqTheoremBlockTranslator
 
   private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
-      append (
-        tc.coq_theorem_end_symbol) (prepend (
-          tc.coq_theorem_begin_reserved_word) (remove_first_line (block)
+      _append (
+        _tc.coq_theorem_end_symbol) (_prepend (
+          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
         )
       )
     )
 
-  def prepend (prefix : String) (block : Block) : Block =
+  private def _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
     )
 
-  def append (suffix : String) (block : Block) : Block =
+  private def _append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
 
-  def first_line (block : Block) : String =
-    block.lines.headOption.getOrElse ("").trim
-
-  def remove_first_line (block : Block) : Block =
+  private def _remove_first_line (block : Block) : Block =
     if ( block.lines.isEmpty
     ) block
     else BlockBuilder_ ().build (block.lines.tail)

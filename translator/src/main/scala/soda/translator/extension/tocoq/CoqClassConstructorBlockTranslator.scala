@@ -13,9 +13,9 @@ trait CoqClassConstructorBlockTranslator
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -43,10 +43,10 @@ trait CoqClassConstructorBlockTranslator
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ ().build (
-        Seq (tc.coq_opening_comment).++ (
+        Seq (_tc.coq_opening_comment).++ (
           block.lines.++ (
             Seq [String] (
-              tc.coq_closing_comment,
+              _tc.coq_closing_comment,
               "",
               _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
             )
@@ -58,34 +58,34 @@ trait CoqClassConstructorBlockTranslator
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    tc.coq_inductive_reserved_word +
-    tc.coq_space +
+    _tc.coq_inductive_reserved_word +
+    _tc.coq_space +
     beginning.class_name +
-    tc.coq_space +
-    tc.coq_type_membership_symbol +
-    tc.coq_space +
-    tc.coq_type_reserved_word +
-    tc.coq_space +
-    tc.coq_function_definition_symbol +
-    tc.coq_new_line +
+    _tc.coq_space +
+    _tc.coq_type_membership_symbol +
+    _tc.coq_space +
+    _tc.coq_type_reserved_word +
+    _tc.coq_space +
+    _tc.coq_function_definition_symbol +
+    _tc.coq_new_line +
     _get_initial_spaces (beginning) +
-    tc.coq_space +
-    tc.coq_space +
-    tc.coq_vertical_bar_symbol +
-    tc.coq_space +
+    _tc.coq_space +
+    _tc.coq_space +
+    _tc.coq_vertical_bar_symbol +
+    _tc.coq_space +
     beginning.class_name +
-    sc.constructor_suffix +
-    tc.coq_space +
-    tc.coq_opening_parenthesis +
-    tc.coq_some_variable_name +
-    tc.coq_space +
-    tc.coq_type_membership_symbol +
-    tc.coq_space +
-    abstract_functions.mkString (tc.coq_space + tc.coq_product_type_symbol + tc.coq_space) +
-    tc.coq_closing_parenthesis +
-    tc.coq_new_line +
+    _sc.constructor_suffix +
+    _tc.coq_space +
+    _tc.coq_opening_parenthesis +
+    _tc.coq_some_variable_name +
+    _tc.coq_space +
+    _tc.coq_type_membership_symbol +
+    _tc.coq_space +
+    abstract_functions.mkString (_tc.coq_space + _tc.coq_product_type_symbol + _tc.coq_space) +
+    _tc.coq_closing_parenthesis +
+    _tc.coq_new_line +
     _get_initial_spaces (beginning) +
-    tc.coq_inductive_end_symbol
+    _tc.coq_inductive_end_symbol
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
@@ -103,18 +103,18 @@ trait CoqClassConstructorBlockTranslator
       .map (  line => _remove_variable (line) )
 
   private def _remove_variable (line : String) : String =
-    _remove_variable_with (line) (line.indexOf (sc.type_membership_symbol) )
+    _remove_variable_with (line) (line.indexOf (_sc.type_membership_symbol) )
 
   private def _remove_variable_with (line : String) (index : Int) : String =
     if ( index < 0
     ) line
-    else line.substring (index + sc.type_membership_symbol.length).trim
+    else line.substring (index + _sc.type_membership_symbol.length).trim
 
   private def _translate_type_symbols (line : String) : String =
     line
-      .replaceAll (sc.subtype_reserved_word, tc.coq_subtype_symbol)
-      .replaceAll (sc.supertype_reserved_word, tc.coq_supertype_symbol)
-      .replaceAll (sc.function_arrow_symbol, tc.coq_function_arrow_symbol)
+      .replaceAll (_sc.subtype_reserved_word, _tc.coq_subtype_symbol)
+      .replaceAll (_sc.supertype_reserved_word, _tc.coq_supertype_symbol)
+      .replaceAll (_sc.function_arrow_symbol, _tc.coq_function_arrow_symbol)
 
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )

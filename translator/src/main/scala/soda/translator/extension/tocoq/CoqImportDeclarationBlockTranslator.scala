@@ -13,12 +13,10 @@ trait CoqImportDeclarationBlockTranslator
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  lazy val space = " "
-
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val coq_import_declaration_pattern =
-    tc.coq_import_reserved_word + space
+    _tc.coq_import_reserved_word + _tc.coq_space
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -37,7 +35,7 @@ trait CoqImportDeclarationBlockTranslator
         coq_import_declaration_pattern) (
         block.imported_items
           .filter(  annotated_line => ! annotated_line.is_comment)
-          .map (  annotated_line => AnnotatedLine_ (annotated_line.line + tc.coq_space + tc.coq_end_symbol, false) )
+          .map (  annotated_line => AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
       )
     )
 
