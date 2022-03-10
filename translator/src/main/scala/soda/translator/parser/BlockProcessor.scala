@@ -38,9 +38,6 @@ trait BlockProcessor
       )
     )
 
-  def translate_blocks (blocks : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    translator.translate (blocks)
-
   def join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
     blocks
       .map (  x => x.contents)

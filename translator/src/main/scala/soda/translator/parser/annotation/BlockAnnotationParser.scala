@@ -27,10 +27,6 @@ trait BlockAnnotationParser
     block.readable_lines.nonEmpty &&
     block.readable_lines.head.line.trim.startsWith (prefix + space)
 
-  def ends_with_space_and_suffix (suffix : String) : Boolean =
-    block.readable_lines.nonEmpty &&
-    block.readable_lines.last.line.trim.endsWith (space + suffix)
-
   lazy val content_lines : Seq [AnnotatedLine] =
     if ( block.readable_lines.isEmpty
     ) block.annotated_lines
