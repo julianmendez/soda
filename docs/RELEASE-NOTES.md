@@ -1,6 +1,6 @@
 ---
 - - version: v0.15.0
-  - date: unreleased
+  - date: '2022-03-10'
   - new_features:
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
