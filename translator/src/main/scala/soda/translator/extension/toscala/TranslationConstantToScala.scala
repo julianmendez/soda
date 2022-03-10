@@ -91,6 +91,8 @@ trait TranslationConstantToScala
 
   lazy val scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
+  lazy val scala_private_reserved_word = "private"
+
   /**
    * Scala 3 keywords:
    *   https://dotty.epfl.ch/docs/internals/syntax.html

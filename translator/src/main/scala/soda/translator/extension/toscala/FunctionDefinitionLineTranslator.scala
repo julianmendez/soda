@@ -48,7 +48,12 @@ trait FunctionDefinitionLineTranslator
     Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_value + tc.scala_space)
 
   lazy val translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_definition + tc.scala_space)
+    if ( _is_private_function
+    ) Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_private_reserved_word + tc.scala_space + tc.scala_definition + tc.scala_space)
+    else Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_definition + tc.scala_space)
+
+  lazy val _is_private_function : Boolean =
+    line.trim.startsWith (sc.private_function_prefix)
 
   def try_found_definition (position : Int) : Replacement =
     if ( is_val_definition (position)

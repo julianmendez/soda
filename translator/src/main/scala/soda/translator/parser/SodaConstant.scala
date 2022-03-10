@@ -107,6 +107,8 @@ trait SodaConstant
 
   lazy val new_annotation = "@new"
 
+  lazy val private_function_prefix = "_"
+
   lazy val soda_reserved_words : Seq [String] = Seq (
     function_definition_symbol,
     type_membership_symbol,

@@ -5,6 +5,7 @@
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
     - can fully translate small snippets to Coq
+    - translates each function starting with `_` as private in Scala
   - deprecated_features:
     - the `let`-`in` structures are no longer supported
     - the following synonyms are no longer supported
