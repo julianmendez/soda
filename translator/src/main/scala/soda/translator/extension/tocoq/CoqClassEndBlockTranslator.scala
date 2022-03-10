@@ -52,16 +52,6 @@ trait CoqClassEndBlockTranslator
       block.references
     )
 
-  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
-    tc.coq_module_end_reserved_word +
-    tc.coq_space +
-    beginning.class_name
-
-  private def _get_as_parameter_list (parameters : Seq [String] ) : String =
-    if ( parameters.isEmpty
-    ) ""
-    else tc.coq_space + tc.coq_opening_brace + parameters.mkString (tc.coq_product_type_symbol + tc.coq_space) + tc.coq_closing_brace
-
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
       .flatMap (  block =>
@@ -71,29 +61,6 @@ trait CoqClassEndBlockTranslator
         }
       )
       .headOption
-
-  private def _remove_variable (line : String) : String =
-    _remove_variable_with (line) (line.indexOf (sc.type_membership_symbol) )
-
-  private def _remove_variable_with (line : String) (index : Int) : String =
-    if ( index < 0
-    ) line
-    else line.substring (index + sc.type_membership_symbol.length).trim
-
-  private def _translate_type_symbols (line : String) : String =
-    line
-      .replaceAll (sc.subtype_reserved_word, tc.coq_subtype_symbol)
-      .replaceAll (sc.supertype_reserved_word, tc.coq_supertype_symbol)
-      .replaceAll (sc.function_arrow_symbol, tc.coq_function_arrow_symbol)
-
-  private def _get_initial_spaces (block : AnnotatedBlock) : String =
-    _get_initial_spaces_with (_get_first_line (block) )
-
-  private def _get_initial_spaces_with (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
-
-  private def _get_first_line (block : AnnotatedBlock) : String =
-    block.lines.headOption.getOrElse ("")
 
 }
 

@@ -87,11 +87,6 @@ trait CoqClassConstructorBlockTranslator
     _get_initial_spaces (beginning) +
     tc.coq_inductive_end_symbol
 
-  private def _get_as_parameter_list (parameters : Seq [String] ) : String =
-    if ( parameters.isEmpty
-    ) ""
-    else tc.coq_space + tc.coq_opening_brace + parameters.mkString (tc.coq_product_type_symbol + tc.coq_space) + tc.coq_closing_brace
-
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
       .flatMap (  block =>
