@@ -53,7 +53,5 @@ class ClassBeginningAnnotation
 
   is_concrete : Boolean = applies and _contains_an_opening_parenthesis
 
-  is_abstract : Boolean = applies and not _contains_an_opening_parenthesis
-
 end
 

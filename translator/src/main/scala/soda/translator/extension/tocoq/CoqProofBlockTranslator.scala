@@ -33,18 +33,10 @@ trait CoqProofBlockTranslator
       )
     )
 
-  def prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
-    )
-
   def append (suffix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
       block.lines.:+ (suffix)
     )
-
-  def get_first_line (block : AnnotatedBlock) : String =
-    block.lines.headOption.getOrElse ("").trim
 
   def replace_first_line (first_line : String) (block : Block) : Block =
     BlockBuilder_ ().build (

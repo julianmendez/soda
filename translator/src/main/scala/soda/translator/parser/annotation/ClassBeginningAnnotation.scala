@@ -52,8 +52,6 @@ trait ClassBeginningAnnotation
 
   lazy val is_concrete : Boolean = applies && _contains_an_opening_parenthesis
 
-  lazy val is_abstract : Boolean = applies && ! _contains_an_opening_parenthesis
-
 }
 
 case class ClassBeginningAnnotation_ (block : soda.translator.block.Block) extends ClassBeginningAnnotation
