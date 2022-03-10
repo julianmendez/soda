@@ -31,7 +31,7 @@ trait Tokenizer
   lazy val tokens : Seq [Token] =
     _postprocess (Recursion_ ().fold (Recursion_ ().range (line.length) ) (_initial_value) (_next_value_function) )
 
-  lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
+  private lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
 
   private def _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
     (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index), tuple.parser_state, tuple.last_index) ) )

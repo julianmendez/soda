@@ -18,12 +18,12 @@ case class RecursionSpec ()
     )
   )
 
-  lazy val _fold0_initial_value = Seq [String] ()
+  private lazy val _fold0_initial_value = Seq [String] ()
 
-  lazy val _fold0_next_value_function : Seq [String] => Int => Seq [String] =
+  private lazy val _fold0_next_value_function : Seq [String] => Int => Seq [String] =
      (s : Seq [String]) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
 
-  lazy val _fold0_condition : Seq [String] => Int => Boolean =
+  private lazy val _fold0_condition : Seq [String] => Int => Boolean =
      (s : Seq [String] ) =>  (e : Int) => (e < 5)
 
   test ("fold left with Seq") (
@@ -34,9 +34,9 @@ case class RecursionSpec ()
     )
   )
 
-  lazy val _fold1_initial_value = Seq [String] ()
+  private lazy val _fold1_initial_value = Seq [String] ()
 
-  lazy val _fold1_next_value_function : Seq [String] => Int => Seq [String] =
+  private lazy val _fold1_next_value_function : Seq [String] => Int => Seq [String] =
      (s : Seq [String] ) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
 
   test ("range with positive number") (

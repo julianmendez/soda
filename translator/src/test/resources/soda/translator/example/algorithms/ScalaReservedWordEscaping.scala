@@ -3,18 +3,18 @@ package soda.example.algorithms
 trait ScalaReservedWordEscaping
 {
 
-  lazy val __soda__var = "var"
+  private lazy val __soda__var = "var"
 
-  lazy val __soda__val = 1
+  private lazy val __soda__val = 1
 
   private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
 
   private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
     seq.takeWhile (cond).map (funct)
 
-  lazy val __soda__protected = "protected"
+  private lazy val __soda__protected = "protected"
 
-  lazy val __soda__private = "private"
+  private lazy val __soda__private = "private"
 
   def f (x : Int) (y : Int) : Int = x + y
 

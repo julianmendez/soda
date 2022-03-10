@@ -139,7 +139,7 @@ case class OptionSDSpec ()
     )
   )
 
-  lazy val _empty_opt : OptionSD [Int] = NoneSD_ [Int] ()
+  private lazy val _empty_opt : OptionSD [Int] = NoneSD_ [Int] ()
 
   test ("toOption with non empty option") (
     check (

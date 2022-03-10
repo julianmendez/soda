@@ -115,7 +115,7 @@ case class PriceMonitorSpec ()
     )
   )
 
-  lazy val _calendar_0 = new Calendar.Builder ()
+  private lazy val _calendar_0 = new Calendar.Builder ()
     .setTimeZone (TimeZone.getTimeZone ("UTC"))
     .setDate (1970, 0, 1)
     .build
@@ -128,7 +128,7 @@ case class PriceMonitorSpec ()
     )
   )
 
-  lazy val _calendar_1 = new Calendar.Builder ()
+  private lazy val _calendar_1 = new Calendar.Builder ()
     .setTimeZone (TimeZone.getTimeZone ("UTC"))
     .setDate (2021, 8, 28)
     .build

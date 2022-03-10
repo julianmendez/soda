@@ -20,7 +20,7 @@ case class MinSpec ()
 
   def prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
 
-  lazy val _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
+  private lazy val _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
   lazy val example : NESeq [Int] =
     Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
@@ -33,7 +33,7 @@ case class MinSpec ()
     )
   )
 
-  lazy val _prepended_sequence : MSeq [Int] = Min_ ().prepended (example) (1)
+  private lazy val _prepended_sequence : MSeq [Int] = Min_ ().prepended (example) (1)
 
   test ("head") (
     check (

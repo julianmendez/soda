@@ -16,7 +16,7 @@ trait MSeqTranslator [A]
   def asMSeq (seq : Seq [A] ) : MSeq [A] =
     Min_ ().reverse (foldLeftSeq [MSeq [A] ] (seq) (_asMSeq_initial_value) (_asMSeq_next_value) )
 
-  lazy val _asMSeq_initial_value : MSeq [A] = Min_ ().empty
+  private lazy val _asMSeq_initial_value : MSeq [A] = Min_ ().empty
 
   private def _asMSeq_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] =
     Min_ ().prepended (acc) (elem)
@@ -24,7 +24,7 @@ trait MSeqTranslator [A]
   def asSeq (mseq : MSeq [A] ) : Seq [A] =
     (Min_ ().foldLeft (mseq) (_asSeq_initial_value) (_asSeq_next_value) ).reverse
 
-  lazy val _asSeq_initial_value : Seq [A] = Seq ()
+  private lazy val _asSeq_initial_value : Seq [A] = Seq ()
 
   private def _asSeq_next_value (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc.+: (elem)
@@ -88,7 +88,7 @@ trait Min [A]
   def length (s : MSeq [A] ) : Int =
     foldLeft (s) (_length_initial_value) (_length_next_value)
 
-  lazy val _length_initial_value : Int = 0
+  private lazy val _length_initial_value : Int = 0
 
   private def _length_next_value (acc : Int) (elem : A) : Int =
     acc + 1

@@ -96,7 +96,7 @@ trait RegisteredPerson
 
   /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
 
-  lazy val _separator = " "
+  private lazy val _separator = " "
 
   /* Strings can be concatenated by using the plus sign (`+`). */
 

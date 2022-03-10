@@ -50,7 +50,7 @@ trait FunctionDefinitionLineTranslator
   lazy val translation_of_def_definition =
     Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (_private_prefix_if_necessary + tc.scala_definition + tc.scala_space)
 
-  lazy val _private_prefix_if_necessary : String =
+  private lazy val _private_prefix_if_necessary : String =
     if ( line.trim.startsWith (sc.private_function_prefix)
     ) tc.scala_private_reserved_word + tc.scala_space
     else ""
