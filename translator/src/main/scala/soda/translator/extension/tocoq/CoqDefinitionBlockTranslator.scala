@@ -25,10 +25,10 @@ trait CoqDefinitionBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_recursive_definition (block)
     ) append (tc.coq_recursive_definition_end_symbol) (prepend (tc.coq_recursive_definition_reserved_word + space) (block) )
     else

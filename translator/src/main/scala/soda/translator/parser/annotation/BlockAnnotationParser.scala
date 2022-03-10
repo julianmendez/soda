@@ -46,7 +46,7 @@ trait BlockAnnotationParser
   def get_first_word (line : String) : String =
     (_get_first_word_with (line.trim.indexOf (space) ) (line) ).trim
 
-  def _get_first_word_with (index : Int) (line : String) : String =
+  private def _get_first_word_with (index : Int) (line : String) : String =
     if ( index >= 0
     ) line.substring (0, index)
     else line
@@ -54,7 +54,7 @@ trait BlockAnnotationParser
   def skip_first_word (line : String) : String =
     (_skip_first_word_with (line.trim.indexOf (space) ) (line) ).trim
 
-  def _skip_first_word_with (index : Int) (line : String) : String =
+  private def _skip_first_word_with (index : Int) (line : String) : String =
     if ( index >= 0
     ) line.trim.substring (index)
     else ""

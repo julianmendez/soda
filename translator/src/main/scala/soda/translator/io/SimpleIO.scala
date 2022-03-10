@@ -50,7 +50,7 @@ trait SimpleFileWriter
   def write_file_with (file : File) (content : String) : Boolean =
     _write_content ( new FileWriter (file) ) (content)
 
-  def _write_content (writer : Writer) (content : String) : Boolean =
+  private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
       .map (  x => writer.write (content) )
       .map (  x => writer.flush () )

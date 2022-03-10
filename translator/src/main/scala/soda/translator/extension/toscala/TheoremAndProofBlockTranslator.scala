@@ -26,13 +26,13 @@ trait TheoremAndProofBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
+  private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
 
-  def _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
+  private def _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : AnnotatedBlock) : Block =
+  private def _translate_block (block : AnnotatedBlock) : Block =
     append (tc.scala_comment_closing_symbol) (prepend (tc.scala_comment_opening_symbol) (block) )
 
   def prepend (prefix : String) (block : Block) : Block =

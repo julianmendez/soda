@@ -5,7 +5,7 @@ trait SaladMaker
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_prepare_salad [Ingredient, Salad] (ingredients_so_far : Seq [Ingredient] ) (salad_so_far : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
+  private def _tailrec_prepare_salad [Ingredient, Salad] (ingredients_so_far : Seq [Ingredient] ) (salad_so_far : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
     if ( ingredients_so_far.isEmpty
     ) salad_so_far
     else

@@ -16,7 +16,7 @@ trait DirectoryScanner
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
+  private def _tailrec_scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     if ( to_scan.isEmpty
     ) found
     else _tailrec_scan (found.+: (to_scan.head) ) (get_files_to_scan (to_scan) )

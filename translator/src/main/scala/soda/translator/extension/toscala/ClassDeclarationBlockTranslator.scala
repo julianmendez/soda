@@ -34,29 +34,29 @@ trait ClassDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
-  def _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
+  private def _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
     ClassAliasAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : AnnotatedBlock) : Block =
+  private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build (
       if ( (has_condition_for_type_alias (get_first_line (block) ) )
       ) _process_head (block) ++ _process_tail (block)
       else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + tc.scala_class_begin_symbol)
     )
 
-  def _process_head (block : Block) : Seq [String] =
+  private def _process_head (block : Block) : Seq [String] =
     _process_head_with (get_first_line (block) ) (block)
 
-  def _process_head_with (line : String) (block : Block) : Seq [String] =
+  private def _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) )
 
-  def _process_tail (block : Block) : Seq [String] =
+  private def _process_tail (block : Block) : Seq [String] =
     _process_if_extends (remove_first_line (block) )
 
-  def _process_if_extends (block : Block) : Seq [String] =
+  private def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim == sc.extends_reserved_word)
     ) Seq [String] (get_initial_spaces (block) + tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
     else block.lines
@@ -74,7 +74,7 @@ trait ClassDeclarationBlockTranslator
       ) tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
       else tc.class_declaration_translation_at_beginning_without_paren
 
-  def _process_after_extends (block : Block) : Seq [String] =
+  private def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
     ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map (  line => get_initial_spaces_for (line) + tc.scala_with_translation + tc.scala_space + line.trim)
     else Seq [String] ()

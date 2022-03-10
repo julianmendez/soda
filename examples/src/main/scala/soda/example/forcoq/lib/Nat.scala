@@ -70,7 +70,7 @@ trait IntNat
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_from_non_negative (a : Int) (b : nat) : nat =
+  private def _tailrec_from_non_negative (a : Int) (b : nat) : nat =
     if ( a <= 0
     ) b
     else _tailrec_from_non_negative (a - 1) (S_ (b) )

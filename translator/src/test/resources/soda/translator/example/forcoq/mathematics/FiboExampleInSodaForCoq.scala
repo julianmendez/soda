@@ -9,7 +9,7 @@ trait FiboExampleInSodaForCoq
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
+  private def _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     m match  {
       case O_ () => a
       case S_ (O_ () ) => b

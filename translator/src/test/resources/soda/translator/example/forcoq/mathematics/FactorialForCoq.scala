@@ -9,7 +9,7 @@ trait FactorialForCoq
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_get_factorial (m : nat) (product : nat) : nat =
+  private def _tailrec_get_factorial (m : nat) (product : nat) : nat =
     m match  {
       case O_ () => product
       case S_ (k) => _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )

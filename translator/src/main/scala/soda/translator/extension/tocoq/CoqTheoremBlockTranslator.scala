@@ -25,7 +25,7 @@ trait CoqTheoremBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
+  private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
       append (
         tc.coq_theorem_end_symbol) (prepend (

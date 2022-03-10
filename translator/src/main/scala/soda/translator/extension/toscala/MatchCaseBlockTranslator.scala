@@ -31,13 +31,13 @@ trait MatchCaseBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : AnnotatedBlock) : Block =
+  private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build (
       block.lines
         .map (  line => insert_match_before_brace_if_found (line) )
@@ -54,13 +54,13 @@ trait MatchCaseBlockTranslator
     ) line.replaceAll (sc.match_end_reserved_word, tc.scala_match_end_translation)
     else line
 
-  def _assemble_parts (index : Int) (line : String) : String =
+  private def _assemble_parts (index : Int) (line : String) : String =
     (_left_part (index) (line) ) + (_right_part (index) (line) ) + tc.scala_match_translation + tc.scala_space + tc.scala_opening_brace
 
-  def _left_part (index : Int) (line : String) : String =
+  private def _left_part (index : Int) (line : String) : String =
     line.substring (0, index)
 
-  def _right_part (index : Int) (line : String) : String =
+  private def _right_part (index : Int) (line : String) : String =
     line.substring (index + soda_match_pattern.length, line.length)
 
 }

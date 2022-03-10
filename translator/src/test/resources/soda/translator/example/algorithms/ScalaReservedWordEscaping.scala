@@ -7,9 +7,9 @@ trait ScalaReservedWordEscaping
 
   lazy val __soda__val = 1
 
-  def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
+  private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
 
-  def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
+  private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
     seq.takeWhile (cond).map (funct)
 
   lazy val __soda__protected = "protected"

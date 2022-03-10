@@ -33,10 +33,10 @@ trait CoqClassDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : AnnotatedBlock) : Block =
+  private def _translate_block (block : AnnotatedBlock) : Block =
     if ( (has_condition_for_type_alias (get_first_line (block) ) )
     ) block
     else
@@ -44,18 +44,18 @@ trait CoqClassDeclarationBlockTranslator
         _process_head (block) ++ _process_tail (block)
       )
 
-  def _process_head (block : Block) : Seq [String] =
+  private def _process_head (block : Block) : Seq [String] =
     _process_head_with (get_first_line (block) ) (block)
 
-  def _process_head_with (line : String) (block : Block) : Seq [String] =
+  private def _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (
       Replacement_ (sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (sc.space.length) + tc.coq_space + tc.coq_end_symbol
     )
 
-  def _process_tail (block : Block) : Seq [String] =
+  private def _process_tail (block : Block) : Seq [String] =
     _process_if_extends (remove_first_line (block) )
 
-  def _process_if_extends (block : Block) : Seq [String] =
+  private def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim == sc.extends_reserved_word)
     ) Seq [String] (get_initial_spaces (block) ).++ ( _process_after_extends (remove_first_line (block) ) )
     else block.lines
@@ -65,7 +65,7 @@ trait CoqClassDeclarationBlockTranslator
       Seq (Tuple2 (sc.class_reserved_word, tc.coq_module_reserved_word ) )
     )
 
-  def _process_after_extends (block : Block) : Seq [String] =
+  private def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
     ) block.lines.map (  line => tc.coq_import_reserved_word + tc.coq_space + line.trim + tc.coq_space + tc.coq_end_symbol)
     else Seq [String] ()

@@ -71,16 +71,16 @@ trait ReplacementAux
       .map (  index => _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
       .mkString ("")
 
-  def _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
+  private def _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
     (_left_part_of_symbols (line) (symbols) (index) (ch) ) + ch + (_right_part_of_symbols (line) (symbols) (index) (ch) )
 
-  def _left_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
+  private def _left_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
     if ( (index > 0) && symbols.contains (ch) &&
       ! line (index - 1).isWhitespace
     ) scala_space
     else ""
 
-  def _right_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
+  private def _right_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
     if ( (index < line.length - 1) && symbols.contains (ch) &&
       ! line (index + 1).isWhitespace
     ) scala_space
@@ -89,12 +89,12 @@ trait ReplacementAux
   def remove_space_from_scala_line (line : String) : String =
     _get_line_without_ending_space ( _get_line_without_starting_space (line) )
 
-  def _get_line_without_starting_space (line : String) : String =
+  private def _get_line_without_starting_space (line : String) : String =
     if ( line.startsWith (scala_space)
     ) line.substring (1)
     else line
 
-  def _get_line_without_ending_space (line : String) : String =
+  private def _get_line_without_ending_space (line : String) : String =
     if ( line.endsWith (scala_space)
     ) line.substring (0, line.length - 1)
     else line
@@ -102,10 +102,10 @@ trait ReplacementAux
   def add_after_spaces_or_pattern (line : String) (pattern : String) (text_to_prepend : String) : String =
     _add_after_spaces_or_pattern_with (_get_prefix_length (line) (pattern) ) (line) (pattern) (text_to_prepend)
 
-  def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String) (text_to_prepend : String) : String =
+  private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String) (text_to_prepend : String) : String =
     line.substring (0, prefix_length) + text_to_prepend + line.substring (prefix_length)
 
-  def _get_prefix_length (line : String) (pattern : String) : Int =
+  private def _get_prefix_length (line : String) (pattern : String) : Int =
     if ( line.trim.startsWith (pattern)
     ) line.indexOf (pattern) + pattern.length
     else line.takeWhile (  ch => ch.isSpaceChar).length
@@ -132,24 +132,24 @@ trait ReplacementWithTranslator
     ) _replace_only_beginning (line)
     else line
 
-  def _replace_only_beginning (line : String) : String =
+  private def _replace_only_beginning (line : String) : String =
     Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
 
-  def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
+  private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux.replace_if_found_at_beginning (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
   def replace (line : String) : String =
     Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace)
 
-  def _next_replace (line : String) (reserved_word : String) : String =
+  private def _next_replace (line : String) (reserved_word : String) : String =
     aux.replace_if_found (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
   def replace_regex (line : String) : String =
     Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace_regex)
 
-  def _next_replace_regex (line : String) (regex : String) : String =
+  private def _next_replace_regex (line : String) (regex : String) : String =
     line.replaceAll (regex, translator.translate (regex) )
 
 }

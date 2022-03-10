@@ -25,7 +25,7 @@ trait CoqProofBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
+  private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (
       append (
         tc.coq_proof_end_reserved_word) (

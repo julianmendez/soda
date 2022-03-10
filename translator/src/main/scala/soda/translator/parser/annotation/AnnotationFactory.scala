@@ -38,7 +38,7 @@ trait AnnotationFactory
       case x => AnnotatedBlock_ (new_content.annotated_lines, x.block_annotation)
     }
 
-  def _detectors (block : Block) : Seq [BlockAnnotationParser] =
+  private def _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
@@ -53,11 +53,11 @@ trait AnnotationFactory
       TestDeclarationAnnotation_ (block)
     )
 
-  def _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
+  private def _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
     _detectors (block)
       .filter (  detector => detector.applies)
 
-  def _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
+  private def _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
     if ( candidates.length == 1
     ) candidates.head
     else AnnotatedBlock_ (block.annotated_lines, BlockAnnotationEnum_ ().undefined )

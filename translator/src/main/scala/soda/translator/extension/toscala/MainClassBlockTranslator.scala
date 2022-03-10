@@ -27,7 +27,7 @@ trait MainClassBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( _get_class_name (block.references) == tc.soda_main_class_name
     )
       ClassEndAnnotation_ (
@@ -42,12 +42,12 @@ trait MainClassBlockTranslator
       )
     else block
 
-  def _get_class_name (references : Seq [AnnotatedBlock] ) : String =
+  private def _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
       .map (  x => x.class_name)
       .getOrElse ("")
 
-  def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
       .flatMap (  block =>
         block match  {

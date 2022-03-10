@@ -38,46 +38,46 @@ trait PreprocessorSequenceTranslator
       )
     )
 
-  def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+  private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     block_sequence.map (  block => block_annotator.translate (block) )
 
-  def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+  private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     recursion
       .fold (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
       .accumulated
       .reverse
 
-  def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
+  private def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = block_sequence,
       accumulated = Seq [AnnotatedBlock] (),
       references = Seq [Seq [AnnotatedBlock] ] ()
     )
 
-  def _get_second_pass_next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
+  private def _get_second_pass_next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
-  def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
+  private def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
     current.block_sequence.apply (index) match  {
       case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x => x
     }
 
-  def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
-  def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
 
-  def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
+  private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
       block_sequence = current.block_sequence,
       accumulated = current.accumulated.+: (updated_block),
       references = _update_references (current) (index)
     )
 
-  def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
+  private def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
     current.block_sequence.apply (index) match  {
       case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
       case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
@@ -85,10 +85,10 @@ trait PreprocessorSequenceTranslator
       case x => current.references
     }
 
-  def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
+  private def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
     _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
 
-  def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
+  private def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
     if ( s.isEmpty
     ) s
     else s.tail

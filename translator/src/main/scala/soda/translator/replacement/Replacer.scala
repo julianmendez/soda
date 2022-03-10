@@ -34,7 +34,7 @@ trait Replacer
       pos = line.indexOf (pattern, tuple.start_index)
     )
 
-  def _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
+  private def _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
     if ( pos == -1
     ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index) ), pos )
     else

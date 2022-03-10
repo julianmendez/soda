@@ -23,7 +23,7 @@ trait CoqPackageDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
+  private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
     PackageDeclarationAnnotation_ (
       comment_block (
         block

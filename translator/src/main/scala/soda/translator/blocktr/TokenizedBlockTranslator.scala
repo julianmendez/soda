@@ -36,7 +36,7 @@ trait TokenizedBlockTranslator
       )
     )
 
-  def _translate_non_comment (line : String) : String =
+  private def _translate_non_comment (line : String) : String =
       SomeSD_ (line)
         .map (  x => Replacement_ (x).add_space_to_soda_line ().line)
         .map (  x => Tokenizer_ (x).tokens)
@@ -45,7 +45,7 @@ trait TokenizedBlockTranslator
         .map (  x => Replacement_ (x).remove_space_from_scala_line ().line)
         .getOrElse ("")
 
-  def _translate_line (tokens : Seq [Token] ) : Seq [Token] =
+  private def _translate_line (tokens : Seq [Token] ) : Seq [Token] =
     tokens.map (
        token =>
         if ( token.parser_state == ParserStateEnum_ ().plain
@@ -53,7 +53,7 @@ trait TokenizedBlockTranslator
         else token
     )
 
-  def _join_tokens (tokens : Seq [Token] ) : String =
+  private def _join_tokens (tokens : Seq [Token] ) : String =
     tokens
       .map (  token => token.text)
       .mkString ("")

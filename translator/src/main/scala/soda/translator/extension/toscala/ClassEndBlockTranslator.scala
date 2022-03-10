@@ -22,7 +22,7 @@ trait ClassEndBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ ().build (
         Seq [String] (
@@ -32,16 +32,16 @@ trait ClassEndBlockTranslator
       block.references
     )
 
-  def _get_translation (block : ClassEndAnnotation) : String =
+  private def _get_translation (block : ClassEndAnnotation) : String =
     _get_initial_spaces (block) + tc.scala_class_end_symbol
 
-  def _get_initial_spaces (block : ClassEndAnnotation) : String =
+  private def _get_initial_spaces (block : ClassEndAnnotation) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  def _get_initial_spaces_with (line : String) : String =
+  private def _get_initial_spaces_with (line : String) : String =
     line.takeWhile (  ch => ch.isSpaceChar)
 
-  def _get_first_line (block : AnnotatedBlock) : String =
+  private def _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
 
 }

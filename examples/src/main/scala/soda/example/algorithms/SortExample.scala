@@ -70,7 +70,7 @@ trait SortAlgorithmExampleWithFold
 
   lazy val _initial_value = Seq [Int] ()
 
-  def _next_value_function (current_sequence : Seq [Int] ) (elem : Int) : Seq [Int] =
+  private def _next_value_function (current_sequence : Seq [Int] ) (elem : Int) : Seq [Int] =
     insert_sorted (current_sequence) (elem)
 
   def insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
@@ -205,7 +205,7 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 
   lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 
-  def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
+  private def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
     sorted_sequence.add (element)
 
 }

@@ -33,26 +33,26 @@ trait Tokenizer
 
   lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
 
-  def _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
+  private def _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
     (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index), tuple.parser_state, tuple.last_index) ) )
       .reverse
 
-  def _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
+  private def _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
     _new_value_function_with (tuple) (current_index) (_new_parser_state (tuple) (current_index) )
 
-  def _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
+  private def _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
     if ( ParserStateEnum_ ().is_same_class (new_parser_state) (tuple.parser_state)
     ) TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens)
     else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
-  def _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
+  private def _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
     ParserTransition_ ()
       .next_parser_state (
         tuple.parser_state) (
         CharTypeEnum_ ().get_char_type (line.charAt (current_index) )
       )
 
-  def _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
+  private def _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
     _next_value_function_of_different_class_with (
       tuple) (
       current_index) (
@@ -63,7 +63,7 @@ trait Tokenizer
       else current_index
     )
 
-  def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
+  private def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,
       tuple.rev_tokens.+: (
         Token_ (

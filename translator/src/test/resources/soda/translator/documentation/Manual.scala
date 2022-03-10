@@ -262,7 +262,7 @@ trait Manual
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n : Int) (accum : Int) : Int =
+  private def _tailrec_ (n : Int) (accum : Int) : Int =
     if ( n < 0
     ) accum
     else _tailrec_ (n - 1) (n + accum)
@@ -289,7 +289,7 @@ trait FactorialConcise
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n : Int) (product : Int) : Int =
+  private def _tailrec_ (n : Int) (product : Int) : Int =
     if ( n == 0
     ) product
     else _tailrec_ (n - 1) (n * product)
@@ -316,7 +316,7 @@ trait FactorialVerbose
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_ (n : Int) (product : Int) : Int =
+  private def _tailrec_ (n : Int) (product : Int) : Int =
     if ( n == 0
     ) product
     else _tailrec_ (n - 1) (n * product)
@@ -334,7 +334,7 @@ trait Recursion
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence.isEmpty
     ) current_value
     else
@@ -347,7 +347,7 @@ trait Recursion
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
+  private def _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )

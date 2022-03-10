@@ -30,7 +30,7 @@ trait AbstractDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  private def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (

@@ -14,7 +14,7 @@ trait BlockTranslatorPipeline
       Recursion_ ()
         .fold (pipeline) (block) (_next_value_function)
 
-  def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
+  private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator.translate (block)
 
 }

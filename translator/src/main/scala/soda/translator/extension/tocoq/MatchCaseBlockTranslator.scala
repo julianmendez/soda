@@ -34,13 +34,13 @@ trait MatchCaseBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block : AnnotatedBlock) : Block =
+  private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ ().build(
       block.lines
         .map (  line => append_with_after_match (line) )

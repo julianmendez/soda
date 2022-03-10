@@ -20,7 +20,7 @@ trait MSeqRec [A]
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
       case ESeq_ () => current_value
       case NESeq_ (head, tail) =>

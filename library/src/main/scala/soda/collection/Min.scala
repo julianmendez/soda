@@ -5,7 +5,7 @@ trait MSeqTranslator [A]
 
   import scala.annotation.tailrec
         @tailrec  final
-  def _tailrec_foldLeftSeq [B] (sequence : Seq [A] ) (current_value : B) (next_value : B => A => B) : B =
+  private def _tailrec_foldLeftSeq [B] (sequence : Seq [A] ) (current_value : B) (next_value : B => A => B) : B =
     if ( sequence.isEmpty
     ) current_value
     else _tailrec_foldLeftSeq (sequence.tail) (next_value (current_value) (sequence.head) ) (next_value)
@@ -18,7 +18,7 @@ trait MSeqTranslator [A]
 
   lazy val _asMSeq_initial_value : MSeq [A] = Min_ ().empty
 
-  def _asMSeq_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] =
+  private def _asMSeq_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] =
     Min_ ().prepended (acc) (elem)
 
   def asSeq (mseq : MSeq [A] ) : Seq [A] =
@@ -26,7 +26,7 @@ trait MSeqTranslator [A]
 
   lazy val _asSeq_initial_value : Seq [A] = Seq ()
 
-  def _asSeq_next_value (acc : Seq [A] ) (elem : A) : Seq [A] =
+  private def _asSeq_next_value (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc.+: (elem)
 
 }
@@ -81,24 +81,24 @@ trait Min [A]
   def reverseNonEmpty (s : NESeq [A] ) : NESeq [A] =
     foldLeft (s.tail) (_reverseNonEmpty_initial_value (s) ) (_reverseNonEmpty_next_value)
 
-  def _reverseNonEmpty_initial_value (s : NESeq [A] ) : NESeq [A] = prepended (empty) (s.head)
+  private def _reverseNonEmpty_initial_value (s : NESeq [A] ) : NESeq [A] = prepended (empty) (s.head)
 
-  def _reverseNonEmpty_next_value (acc : MSeq [A] ) (elem : A) : NESeq [A] = prepended (acc) (elem)
+  private def _reverseNonEmpty_next_value (acc : MSeq [A] ) (elem : A) : NESeq [A] = prepended (acc) (elem)
 
   def length (s : MSeq [A] ) : Int =
     foldLeft (s) (_length_initial_value) (_length_next_value)
 
   lazy val _length_initial_value : Int = 0
 
-  def _length_next_value (acc : Int) (elem : A) : Int =
+  private def _length_next_value (acc : Int) (elem : A) : Int =
     acc + 1
 
   def indexOf (s : MSeq [A] ) (e : A) : Int =
     (foldLeftWhile (s) (_indexOf_initial_value (e) ) (_indexOf_next_value) (_indexOf_condition) ).position
 
-  def _indexOf_initial_value (element : A) : IndexFoldTuple [A] = IndexFoldTuple_ [A] (0, -1, element)
+  private def _indexOf_initial_value (element : A) : IndexFoldTuple [A] = IndexFoldTuple_ [A] (0, -1, element)
 
-  def _indexOf_next_value (tuple : IndexFoldTuple [A] ) (current_element : A) : IndexFoldTuple [A] =
+  private def _indexOf_next_value (tuple : IndexFoldTuple [A] ) (current_element : A) : IndexFoldTuple [A] =
     IndexFoldTuple_ [A] (
       tuple.index + 1,
       ( if ( current_element == tuple.element
@@ -107,19 +107,19 @@ trait Min [A]
       tuple.element
     )
 
-  def _indexOf_condition (tuple : IndexFoldTuple [A] ) (elem : A) : Boolean =
+  private def _indexOf_condition (tuple : IndexFoldTuple [A] ) (elem : A) : Boolean =
     tuple.position == -1
 
   def contains (s : MSeq [A] ) (e : A) : Boolean =
     (foldLeftWhile (s) (_contains_initial_value (e) ) (_contains_next_value) (_contains_condition) ).contained
 
-  def _contains_initial_value (element : A) : ContainsFoldTuple [A] =
+  private def _contains_initial_value (element : A) : ContainsFoldTuple [A] =
     ContainsFoldTuple_ (false, element)
 
-  def _contains_next_value (tuple : ContainsFoldTuple [A] ) (elem : A) : ContainsFoldTuple [A] =
+  private def _contains_next_value (tuple : ContainsFoldTuple [A] ) (elem : A) : ContainsFoldTuple [A] =
     ContainsFoldTuple_ (elem == tuple.element, tuple.element)
 
-  def _contains_condition (tuple : ContainsFoldTuple [A] ) (elem : A) : Boolean =
+  private def _contains_condition (tuple : ContainsFoldTuple [A] ) (elem : A) : Boolean =
     ! tuple.contained
 
   def at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
@@ -132,16 +132,16 @@ trait Min [A]
       )
     )
 
-  def _atNonEmpty (xs : NESeq [A] ) (n : Int) : A =
+  private def _atNonEmpty (xs : NESeq [A] ) (n : Int) : A =
     (foldLeftWhile (xs) (_atNonEmpty_initial_value (xs) (n) ) (_atNonEmpty_next_value) (_atNonEmpty_condition) ).elem
 
-  def _atNonEmpty_initial_value (xs : NESeq [A] ) (position : Int ) : AtFoldTuple [A] =
+  private def _atNonEmpty_initial_value (xs : NESeq [A] ) (position : Int ) : AtFoldTuple [A] =
     AtFoldTuple_ [A] (xs.head, -1, position)
 
-  def _atNonEmpty_next_value (tuple : AtFoldTuple [A] ) (elem : A) : AtFoldTuple [A] =
+  private def _atNonEmpty_next_value (tuple : AtFoldTuple [A] ) (elem : A) : AtFoldTuple [A] =
     AtFoldTuple_ [A] (elem, tuple.index + 1, tuple.position)
 
-  def _atNonEmpty_condition (tuple : AtFoldTuple [A] ) (elem : A) : Boolean =
+  private def _atNonEmpty_condition (tuple : AtFoldTuple [A] ) (elem : A) : Boolean =
     tuple.index < tuple.position
 
   /* */
@@ -149,25 +149,25 @@ trait Min [A]
   def take (s : MSeq [A] ) (n : Int) : MSeq [A] =
     reverse ( (foldLeftWhile (s) (_take_initial_value (n) ) (_take_next_value) (_take_condition) ).seq )
 
-  def _take_initial_value (length : Int ) : TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (empty, 0, length)
+  private def _take_initial_value (length : Int ) : TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (empty, 0, length)
 
-  def _take_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
+  private def _take_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
     TakeDropFoldTuple_ [A] (prepended (tuple.seq) (elem), tuple.index + 1, tuple.length)
 
-  def _take_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean = tuple.index < tuple.length
+  private def _take_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean = tuple.index < tuple.length
 
   def drop (s : MSeq [A] ) (n : Int) : MSeq [A] =
     (foldLeftWhile (s) (_drop_initial_value (s) (n) ) (_drop_next_value) (_drop_condition) ).seq
 
-  def _drop_initial_value (s : MSeq [A] ) (length : Int) : TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (s, 0, length)
+  private def _drop_initial_value (s : MSeq [A] ) (length : Int) : TakeDropFoldTuple [A] = TakeDropFoldTuple_ [A] (s, 0, length)
 
-  def _drop_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
+  private def _drop_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
     tuple.seq.opt (
       ifEmpty = TakeDropFoldTuple_ [A] (tuple.seq, tuple.index + 1, tuple.length) ) (
       ifNonEmpty =  neseq => TakeDropFoldTuple_ [A] (neseq.tail, tuple.index + 1, tuple.length)
     )
 
-  def _drop_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
+  private def _drop_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
     tuple.index < tuple.length
 
   def takeWhile (s : MSeq [A] ) (p : A => Boolean) : MSeq [A] =
@@ -182,7 +182,7 @@ trait Min [A]
   def span (s : MSeq [A] ) (p : A => Boolean) : MSeqPair [A] =
     _span_with (s) (p) (spanRevRec (s) (p) )
 
-  def _span_with (s : MSeq [A] ) (p : A => Boolean) (pair : MSeqPair [A] ) : MSeqPair [A] =
+  private def _span_with (s : MSeq [A] ) (p : A => Boolean) (pair : MSeqPair [A] ) : MSeqPair [A] =
     MSeqPair_ (reverse (pair.left), pair.right)
 
   /* */
@@ -196,9 +196,9 @@ trait Min [A]
   def concat (s0 : MSeq [A] ) (s1 : MSeq [A] ) : MSeq [A] =
     foldLeft (reverse (s0) ) (_concat_initial_value (s1) ) (_concat_next_value)
 
-  def _concat_initial_value (s1 : MSeq [A] ) : MSeq [A] = s1
+  private def _concat_initial_value (s1 : MSeq [A] ) : MSeq [A] = s1
 
-  def _concat_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] = prepended (acc) (elem)
+  private def _concat_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] = prepended (acc) (elem)
 
   def slice (s : MSeq [A] ) (from : Int) (until : Int) : MSeq [A] = take (drop (s) (from) ) (until - from)
 
@@ -207,46 +207,46 @@ trait Min [A]
   def forall (s : MSeq [A] ) (p : A => Boolean) : Boolean =
     (foldLeftWhile (s) (_forall_initial_value (p) ) (_forall_next_value) (_forall_condition) ).status
 
-  def _forall_initial_value (condition : A => Boolean ) : ForallExistsFoldTuple [A] = ForallExistsFoldTuple_ (true, condition)
+  private def _forall_initial_value (condition : A => Boolean ) : ForallExistsFoldTuple [A] = ForallExistsFoldTuple_ (true, condition)
 
-  def _forall_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A) : ForallExistsFoldTuple [A] =
+  private def _forall_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A) : ForallExistsFoldTuple [A] =
     ForallExistsFoldTuple_ (tuple.status && tuple.condition (elem), tuple.condition)
 
-  def _forall_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
+  private def _forall_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
     tuple.status
 
   def exists (s : MSeq [A] ) (p : A => Boolean ) : Boolean =
     (foldLeftWhile (s) (_exists_initial_value (p) ) (_exists_next_value) (_exists_condition) ).status
 
-  def _exists_initial_value (condition : A => Boolean ) : ForallExistsFoldTuple [A] = ForallExistsFoldTuple_ (false, condition)
+  private def _exists_initial_value (condition : A => Boolean ) : ForallExistsFoldTuple [A] = ForallExistsFoldTuple_ (false, condition)
 
-  def _exists_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A) : ForallExistsFoldTuple [A] =
+  private def _exists_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A) : ForallExistsFoldTuple [A] =
     ForallExistsFoldTuple_ (tuple.status || tuple.condition (elem), tuple.condition)
 
-  def _exists_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
+  private def _exists_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
     ! tuple.status
 
   def find (s : MSeq [A] ) (p : A => Boolean) : OptionSD [A] =
     (foldLeftWhile (s) (_find_initial_value (p) ) (_find_next_value) (_find_condition) ).maybe_element
 
-  def _find_initial_value (condition : A => Boolean) : FindFoldTuple [A] =
+  private def _find_initial_value (condition : A => Boolean) : FindFoldTuple [A] =
     FindFoldTuple_ (NoneSD_ [A] (), condition)
 
-  def _find_next_value (tuple : FindFoldTuple [A] ) (elem : A) : FindFoldTuple [A] =
+  private def _find_next_value (tuple : FindFoldTuple [A] ) (elem : A) : FindFoldTuple [A] =
     if ( tuple.condition (elem)
     ) FindFoldTuple_ (SomeSD_ [A] (elem), tuple.condition)
     else FindFoldTuple_ (NoneSD_ [A] (), tuple.condition)
 
-  def _find_condition (tuple : FindFoldTuple [A] ) (elem : A) : Boolean =
+  private def _find_condition (tuple : FindFoldTuple [A] ) (elem : A) : Boolean =
     tuple.maybe_element.isEmpty
 
   def filter (s : MSeq [A] ) (p : A => Boolean) : MSeq [A] =
     reverse ( (foldLeft (s) (_filter_initial_value (p) ) (_filter_next_value) ).sequence )
 
-  def _filter_initial_value (condition : A => Boolean) : FilterFoldTuple [A] =
+  private def _filter_initial_value (condition : A => Boolean) : FilterFoldTuple [A] =
     FilterFoldTuple_ (empty, condition)
 
-  def _filter_next_value (tuple : FilterFoldTuple [A] ) (elem : A) :  FilterFoldTuple [A] =
+  private def _filter_next_value (tuple : FilterFoldTuple [A] ) (elem : A) :  FilterFoldTuple [A] =
     FilterFoldTuple_ (
       ( if ( tuple.condition (elem)
       ) prepended (tuple.sequence) (elem)
@@ -257,10 +257,10 @@ trait Min [A]
   def map0 (s : MSeq [A] ) (f : A => A) : MSeq [A] =
     reverse ( (foldLeft (s) (_map0_initial_value (f) ) (_map0_next_value) ).sequence)
 
-  def _map0_initial_value (mapping : A => A) : Map0FoldTuple [A] =
+  private def _map0_initial_value (mapping : A => A) : Map0FoldTuple [A] =
     Map0FoldTuple_ (empty, mapping)
 
-  def _map0_next_value (tuple : Map0FoldTuple [A] ) (elem : A) : Map0FoldTuple [A] =
+  private def _map0_next_value (tuple : Map0FoldTuple [A] ) (elem : A) : Map0FoldTuple [A] =
     Map0FoldTuple_ (prepended (tuple.sequence) (tuple.mapping (elem) ), tuple.mapping)
 
   /**
@@ -285,25 +285,25 @@ trait Min [A]
   def spanRevRec (s0 : MSeq [A] ) (p : A => Boolean) : MSeqPair [A] =
     _spanRevRec_for (foldLeftWhile (s0) (_spanRevRec_initial_value (s0) (p) ) (_spanRevRec_next_value) (_spanRevRec_condition) )
 
-  def _spanRevRec_for (tuple: SpanRevFoldTuple [A] ) : MSeqPair [A] =
+  private def _spanRevRec_for (tuple: SpanRevFoldTuple [A] ) : MSeqPair [A] =
     MSeqPair_ (tuple.right, tuple.left)
 
-  def _spanRevRec_initial_value (s0 : MSeq [A] ) (condition : A => Boolean) : SpanRevFoldTuple [A] =
+  private def _spanRevRec_initial_value (s0 : MSeq [A] ) (condition : A => Boolean) : SpanRevFoldTuple [A] =
     SpanRevFoldTuple_ [A] (s0, empty, true, condition)
 
-  def _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
+  private def _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
     tuple.left.opt [SpanRevFoldTuple [A] ] (
       ifEmpty = SpanRevFoldTuple_ [A] (tuple.left, tuple.right, false, tuple.condition) ) (
       ifNonEmpty =  neleft => _aux_next_value (tuple) (neleft)
     )
 
-  def _spanRevRec_condition (tuple : SpanRevFoldTuple [A] ) (elem : A) : Boolean =
+  private def _spanRevRec_condition (tuple : SpanRevFoldTuple [A] ) (elem : A) : Boolean =
     tuple.taking
 
-  def _aux_next_value (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) : SpanRevFoldTuple [A] =
+  private def _aux_next_value (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) : SpanRevFoldTuple [A] =
     _aux_next_value_for (tuple) (neleft) (tuple.condition (neleft.head) )
 
-  def _aux_next_value_for (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) (new_taking : Boolean) : SpanRevFoldTuple [A] =
+  private def _aux_next_value_for (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) (new_taking : Boolean) : SpanRevFoldTuple [A] =
     if ( new_taking
     ) SpanRevFoldTuple_ [A] (neleft.tail, prepended (tuple.right) (neleft.head), new_taking, tuple.condition)
     else SpanRevFoldTuple_ [A] (neleft, tuple.right, new_taking, tuple.condition)

@@ -29,7 +29,7 @@ trait ImportDeclarationBlockTranslator
       case x => annotated_block
     }
 
-  def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
+  private def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (

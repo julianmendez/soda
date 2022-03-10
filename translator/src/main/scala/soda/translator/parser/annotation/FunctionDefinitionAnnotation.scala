@@ -43,7 +43,7 @@ trait FunctionDefinitionAnnotation
     block.readable_lines.nonEmpty &&
     _contains_the_equals_symbol_with (block.readable_lines.head.line)
 
-  def _contains_the_equals_symbol_with (first_line : String) : Boolean =
+  private def _contains_the_equals_symbol_with (first_line : String) : Boolean =
     Tokenizer_ (first_line)
       .tokens
       .exists (  token =>
@@ -51,7 +51,7 @@ trait FunctionDefinitionAnnotation
         _contains_the_equals_symbol_in_token (token.text)
       )
 
-  def _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
+  private def _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
       (token_text.contains (symbol_in_the_middle) ) ||
       (token_text.contains (synonym_in_the_middle) ) ||
@@ -63,7 +63,7 @@ trait FunctionDefinitionAnnotation
     block.readable_lines.nonEmpty &&
     _starts_with_valid_annotation_with (block.readable_lines.head.line.trim)
 
-  def _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
+  private def _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
     ( first_line_trimmed == sc.tail_recursion_annotation ||
       first_line_trimmed == sc.override_annotation )
 
