@@ -3,7 +3,6 @@ package soda.translator.blocktr
 class TokenReplacement
 
   import
-    soda.translator.replacement.ReplacementAux_
     soda.translator.replacement.ReplacementWithTranslator_
 
   replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
