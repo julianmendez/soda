@@ -45,15 +45,15 @@ trait FunctionDefinitionLineTranslator
     find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => try_found_definition (position).line)
 
   lazy val translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_value + tc.scala_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (_private_prefix_if_necessary + tc.scala_value + tc.scala_space)
 
   lazy val translation_of_def_definition =
-    if ( _is_private_function
-    ) Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_private_reserved_word + tc.scala_space + tc.scala_definition + tc.scala_space)
-    else Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (tc.scala_definition + tc.scala_space)
+    Replacement_ (line).add_after_spaces_or_pattern (tc.scala_space) (_private_prefix_if_necessary + tc.scala_definition + tc.scala_space)
 
-  lazy val _is_private_function : Boolean =
-    line.trim.startsWith (sc.private_function_prefix)
+  lazy val _private_prefix_if_necessary : String =
+    if ( line.trim.startsWith (sc.private_function_prefix)
+    ) tc.scala_private_reserved_word + tc.scala_space
+    else ""
 
   def try_found_definition (position : Int) : Replacement =
     if ( is_val_definition (position)

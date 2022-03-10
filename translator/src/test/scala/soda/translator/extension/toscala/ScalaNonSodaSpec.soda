@@ -30,7 +30,7 @@ class ScalaNonSodaSpec ()
       )
     ) (
       expected := "" +
-        "lazy val __soda__val x =" +
+        "private lazy val __soda__val x =" +
         "\n  __soda__while (x != 0)" +
         "\n"
     )
