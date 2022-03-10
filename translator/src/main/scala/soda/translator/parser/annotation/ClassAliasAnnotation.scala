@@ -16,9 +16,9 @@ trait ClassAliasAnnotation
 
   lazy val applies : Boolean =
      starts_with_prefix_and_space (sc.class_reserved_word) &&
-     contains_the_equals_symbol
+     _contains_the_equals_symbol
 
-  lazy val contains_the_equals_symbol : Boolean =
+  private lazy val _contains_the_equals_symbol : Boolean =
     FunctionDefinitionAnnotation_ (block).contains_the_equals_symbol
 
 }

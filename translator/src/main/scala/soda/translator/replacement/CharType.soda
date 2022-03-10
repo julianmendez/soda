@@ -45,28 +45,28 @@ class CharTypeEnum
   symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   get_char_type (ch : Char) : CharType =
-    if is_quotes (ch) then quotes_type
-    else if is_apostrophe (ch) then apostrophe_type
-    else if is_backslash (ch) then backslash_type
-    else if is_whitespace (ch) or is_letter_or_digit_or_underscore (ch) or is_symbol (ch) then plain_type
+    if _is_quotes (ch) then quotes_type
+    else if _is_apostrophe (ch) then apostrophe_type
+    else if _is_backslash (ch) then backslash_type
+    else if _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch) then plain_type
     else undefined_type
 
-  is_whitespace (ch : Char) : Boolean =
+  _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
 
-  is_letter_or_digit_or_underscore (ch : Char) : Boolean =
+  _is_letter_or_digit_or_underscore (ch : Char) : Boolean =
     ch.isLetterOrDigit or ch == underscore_char
 
-  is_symbol (ch : Char) : Boolean =
+  _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
 
-  is_quotes (ch : Char) : Boolean =
+  _is_quotes (ch : Char) : Boolean =
     ch == quotes_char
 
-  is_apostrophe (ch : Char) : Boolean =
+  _is_apostrophe (ch : Char) : Boolean =
     ch == apostrophe_char
 
-  is_backslash (ch : Char) : Boolean =
+  _is_backslash (ch : Char) : Boolean =
     ch == backslash_char
 
 end

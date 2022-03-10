@@ -23,9 +23,9 @@ trait SimpleFileReader
     read_input_stream (getClass.getResourceAsStream (file_name) )
 
   def read_input_stream (input_stream : InputStream) : String =
-    read_reader_content ( new BufferedReader ( new InputStreamReader (input_stream) ) )
+    _read_reader_content ( new BufferedReader ( new InputStreamReader (input_stream) ) )
 
-  def read_reader_content (reader : BufferedReader) : String =
+  private def _read_reader_content (reader : BufferedReader) : String =
     reader.lines ().collect (Collectors.joining (new_line) )
 
 }

@@ -25,12 +25,12 @@ trait CoqPackageDeclarationBlockTranslator
 
   private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
     PackageDeclarationAnnotation_ (
-      comment_block (
+      _comment_block (
         block
       )
     )
 
-  def comment_block (block : Block) : Block =
+  private def _comment_block (block : Block) : Block =
     BlockBuilder_ ().build (
       ( (Seq (tc.coq_opening_comment).++ (block.lines) ).++ (Seq (tc.coq_closing_comment) ) ).++ (tc.coq_prelude)
     )

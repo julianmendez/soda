@@ -40,9 +40,9 @@ trait ParserStateEnum
   lazy val values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 
   def is_same_class (x : ParserState) (y : ParserState) : Boolean =
-     (x == y) || is_like (x) (y) || is_like (y) (x)
+     (x == y) || _is_like (x) (y) || _is_like (y) (x)
 
-  def is_like (x : ParserState) (y : ParserState) : Boolean =
+  private def _is_like (x : ParserState) (y : ParserState) : Boolean =
      (x == quotes_state && y == quotes_backslash_state) ||
        (x == apostrophe_state && y == apostrophe_backslash_state)
 

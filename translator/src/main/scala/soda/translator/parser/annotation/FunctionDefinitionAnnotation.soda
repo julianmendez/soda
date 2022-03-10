@@ -17,28 +17,28 @@ class FunctionDefinitionAnnotation
 
   sc = SodaConstant_ ()
 
-  symbol_at_the_end : String =
+  _symbol_at_the_end : String =
     sc.space +
     sc.function_definition_symbol
 
-  synonym_at_the_end : String =
+  _synonym_at_the_end : String =
     sc.space +
     sc.function_definition_synonym
 
-  symbol_in_the_middle : String =
+  _symbol_in_the_middle : String =
     sc.space +
     sc.function_definition_symbol +
     sc.space
 
-  synonym_in_the_middle : String =
+  _synonym_in_the_middle : String =
     sc.space +
     sc.function_definition_synonym +
     sc.space
 
-  plain_state = ParserStateEnum_ ().plain
+  _plain_state = ParserStateEnum_ ().plain
 
   applies : Boolean =
-    (contains_the_equals_symbol or starts_with_valid_annotation) and not is_a_class_declaration
+    (contains_the_equals_symbol or _starts_with_valid_annotation) and not _is_a_class_declaration
 
   contains_the_equals_symbol : Boolean =
     block.readable_lines.nonEmpty and
@@ -48,19 +48,19 @@ class FunctionDefinitionAnnotation
     Tokenizer_ (first_line)
       .tokens
       .exists ( lambda token -->
-        token.parser_state == plain_state and
+        token.parser_state == _plain_state and
         _contains_the_equals_symbol_in_token (token.text)
       )
 
   _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
-      (token_text.contains (symbol_in_the_middle) ) or
-      (token_text.contains (synonym_in_the_middle) ) or
-      (token_text.endsWith (symbol_at_the_end) ) or
-      (token_text.endsWith (synonym_at_the_end) )
+      (token_text.contains (_symbol_in_the_middle) ) or
+      (token_text.contains (_synonym_in_the_middle) ) or
+      (token_text.endsWith (_symbol_at_the_end) ) or
+      (token_text.endsWith (_synonym_at_the_end) )
     )
 
-  starts_with_valid_annotation : Boolean =
+  _starts_with_valid_annotation : Boolean =
     block.readable_lines.nonEmpty and
     _starts_with_valid_annotation_with (block.readable_lines.head.line.trim)
 
@@ -68,7 +68,7 @@ class FunctionDefinitionAnnotation
     ( first_line_trimmed == sc.tail_recursion_annotation or
       first_line_trimmed == sc.override_annotation )
 
-  is_a_class_declaration : Boolean =
+  _is_a_class_declaration : Boolean =
     starts_with_prefix_and_space (sc.class_reserved_word)
 
 end

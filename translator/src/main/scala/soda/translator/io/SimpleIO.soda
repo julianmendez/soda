@@ -23,9 +23,9 @@ class SimpleFileReader
     read_input_stream (getClass.getResourceAsStream (file_name) )
 
   read_input_stream (input_stream : InputStream) : String =
-    read_reader_content ( @new BufferedReader ( @new InputStreamReader (input_stream) ) )
+    _read_reader_content ( @new BufferedReader ( @new InputStreamReader (input_stream) ) )
 
-  read_reader_content (reader : BufferedReader) : String =
+  _read_reader_content (reader : BufferedReader) : String =
     reader.lines ().collect (Collectors.joining (new_line) )
 
 end

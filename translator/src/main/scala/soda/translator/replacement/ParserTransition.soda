@@ -37,9 +37,9 @@ class ParserStateEnum
   values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
 
   is_same_class (x : ParserState) (y : ParserState) : Boolean =
-     (x == y) or is_like (x) (y) or is_like (y) (x)
+     (x == y) or _is_like (x) (y) or _is_like (y) (x)
 
-  is_like (x : ParserState) (y : ParserState) : Boolean =
+  _is_like (x : ParserState) (y : ParserState) : Boolean =
      (x == quotes_state and y == quotes_backslash_state) or
        (x == apostrophe_state and y == apostrophe_backslash_state)
 

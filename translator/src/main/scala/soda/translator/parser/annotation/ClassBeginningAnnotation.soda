@@ -17,22 +17,22 @@ class ClassBeginningAnnotation
 
   applies : Boolean =
     starts_with_prefix_and_space (sc.class_reserved_word) and
-    not contains_the_equals_symbol
+    not _contains_the_equals_symbol
 
-  contains_the_equals_symbol : Boolean =
+  _contains_the_equals_symbol : Boolean =
     FunctionDefinitionAnnotation_ (block).contains_the_equals_symbol
 
-  contains_an_opening_parenthesis : Boolean =
+  _contains_an_opening_parenthesis : Boolean =
     first_readable_line.line.contains (sc.opening_parenthesis_symbol)
 
-  class_name_and_type_parameters : String =
+  _class_name_and_type_parameters : String =
     skip_first_word (first_readable_line.line)
 
   class_name : String =
-    get_first_word (class_name_and_type_parameters)
+    get_first_word (_class_name_and_type_parameters)
 
   type_parameters_and_bounds : Seq [String] =
-    remove_brackets (skip_first_word (class_name_and_type_parameters) )
+    remove_brackets (skip_first_word (_class_name_and_type_parameters) )
       .split (sc.parameter_separator_symbol)
       .toIndexedSeq
       .map ( lambda parameter --> parameter.trim)
@@ -51,9 +51,9 @@ class ClassBeginningAnnotation
     then trimmed_text.substring (sc.opening_bracket_symbol.length, trimmed_text.length - sc.closing_bracket_symbol.length)
     else trimmed_text
 
-  is_concrete : Boolean = applies and contains_an_opening_parenthesis
+  is_concrete : Boolean = applies and _contains_an_opening_parenthesis
 
-  is_abstract : Boolean = applies and not contains_an_opening_parenthesis
+  is_abstract : Boolean = applies and not _contains_an_opening_parenthesis
 
 end
 

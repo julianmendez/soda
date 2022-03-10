@@ -48,28 +48,28 @@ trait CharTypeEnum
   lazy val symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
   def get_char_type (ch : Char) : CharType =
-    if ( is_quotes (ch) ) quotes_type
-    else if ( is_apostrophe (ch) ) apostrophe_type
-    else if ( is_backslash (ch) ) backslash_type
-    else if ( is_whitespace (ch) || is_letter_or_digit_or_underscore (ch) || is_symbol (ch) ) plain_type
+    if ( _is_quotes (ch) ) quotes_type
+    else if ( _is_apostrophe (ch) ) apostrophe_type
+    else if ( _is_backslash (ch) ) backslash_type
+    else if ( _is_whitespace (ch) || _is_letter_or_digit_or_underscore (ch) || _is_symbol (ch) ) plain_type
     else undefined_type
 
-  def is_whitespace (ch : Char) : Boolean =
+  private def _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
 
-  def is_letter_or_digit_or_underscore (ch : Char) : Boolean =
+  private def _is_letter_or_digit_or_underscore (ch : Char) : Boolean =
     ch.isLetterOrDigit || ch == underscore_char
 
-  def is_symbol (ch : Char) : Boolean =
+  private def _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
 
-  def is_quotes (ch : Char) : Boolean =
+  private def _is_quotes (ch : Char) : Boolean =
     ch == quotes_char
 
-  def is_apostrophe (ch : Char) : Boolean =
+  private def _is_apostrophe (ch : Char) : Boolean =
     ch == apostrophe_char
 
-  def is_backslash (ch : Char) : Boolean =
+  private def _is_backslash (ch : Char) : Boolean =
     ch == backslash_char
 
 }

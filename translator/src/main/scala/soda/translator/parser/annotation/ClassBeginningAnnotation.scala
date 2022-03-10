@@ -16,22 +16,22 @@ trait ClassBeginningAnnotation
 
   lazy val applies : Boolean =
     starts_with_prefix_and_space (sc.class_reserved_word) &&
-    ! contains_the_equals_symbol
+    ! _contains_the_equals_symbol
 
-  lazy val contains_the_equals_symbol : Boolean =
+  private lazy val _contains_the_equals_symbol : Boolean =
     FunctionDefinitionAnnotation_ (block).contains_the_equals_symbol
 
-  lazy val contains_an_opening_parenthesis : Boolean =
+  private lazy val _contains_an_opening_parenthesis : Boolean =
     first_readable_line.line.contains (sc.opening_parenthesis_symbol)
 
-  lazy val class_name_and_type_parameters : String =
+  private lazy val _class_name_and_type_parameters : String =
     skip_first_word (first_readable_line.line)
 
   lazy val class_name : String =
-    get_first_word (class_name_and_type_parameters)
+    get_first_word (_class_name_and_type_parameters)
 
   lazy val type_parameters_and_bounds : Seq [String] =
-    remove_brackets (skip_first_word (class_name_and_type_parameters) )
+    remove_brackets (skip_first_word (_class_name_and_type_parameters) )
       .split (sc.parameter_separator_symbol)
       .toIndexedSeq
       .map (  parameter => parameter.trim)
@@ -50,9 +50,9 @@ trait ClassBeginningAnnotation
     ) trimmed_text.substring (sc.opening_bracket_symbol.length, trimmed_text.length - sc.closing_bracket_symbol.length)
     else trimmed_text
 
-  lazy val is_concrete : Boolean = applies && contains_an_opening_parenthesis
+  lazy val is_concrete : Boolean = applies && _contains_an_opening_parenthesis
 
-  lazy val is_abstract : Boolean = applies && ! contains_an_opening_parenthesis
+  lazy val is_abstract : Boolean = applies && ! _contains_an_opening_parenthesis
 
 }
 

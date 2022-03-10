@@ -17,20 +17,20 @@ trait BlockBuilder
 
   def build (lines : Seq [String] ) : Block =
     Block_ (
-      get_annotated_lines (lines)
+      _get_annotated_lines (lines)
     )
 
-  def get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    Recursion_ ().fold (lines) (initial_value) (next_value_function)
+  private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
+    Recursion_ ().fold (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 
-  lazy val initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
+  private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
 
-  def next_value_function (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    _next_value_function_with (_annotate_this_line (line) (pair.comment_state) ) (pair) (line)
+  private def _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
+    _get_annotated_lines_next_value_function_with (_annotate_this_line (line) (pair.comment_state) ) (pair) (line)
 
-  private def _next_value_function_with (t : CurrentAndNewCommentState) (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
+  private def _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState) (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
     PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state) ) )
 
   private def _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
