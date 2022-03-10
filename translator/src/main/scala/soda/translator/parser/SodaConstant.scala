@@ -13,9 +13,9 @@ trait SodaConstant
 
   lazy val function_arrow_symbol = "->"
 
-  lazy val lambda_arrow_symbol = "->"
+  lazy val lambda_arrow_symbol = "-->"
 
-  lazy val case_arrow_symbol = "=>"
+  lazy val case_arrow_symbol = "==>"
 
   lazy val parameter_definition_symbol = ":="
 
@@ -73,7 +73,7 @@ trait SodaConstant
 
   lazy val subtype_abbreviation = "<:"
 
-  lazy val supertype_abbreviation = ">:"
+  lazy val supertype_abbreviation =  ">:"
 
   lazy val opening_parenthesis_symbol = "("
 
@@ -105,27 +105,11 @@ trait SodaConstant
 
   lazy val override_annotation = "@override"
 
-  lazy val deprecated_let_reserved_word = "let"
+  lazy val new_annotation = "@new"
 
-  lazy val deprecated_in_reserved_word = "in"
+  lazy val private_function_prefix = "_"
 
-  lazy val deprecated_has_reserved_word = "has"
-
-  lazy val deprecated_with_reserved_word = "with"
-
-  lazy val deprecated_class_abbreviation = "*"
-
-  lazy val deprecated_class_beginning_symbol = "{"
-
-  lazy val deprecated_class_end_symbol = "}"
-
-  lazy val deprecated_class_definition_symbol = "="
-
-  lazy val deprecated_class_definition_synonym = "is"
-
-  lazy val deprecated_import_abbreviation = "+"
-
-  lazy val soda_reserved_words = Seq (
+  lazy val soda_reserved_words : Seq [String] = Seq (
     function_definition_symbol,
     type_membership_symbol,
     function_arrow_symbol,
@@ -161,11 +145,7 @@ trait SodaConstant
     function_definition_synonym,
     subtype_abbreviation,
     supertype_abbreviation,
-    case_abbreviation,
-    deprecated_let_reserved_word,
-    deprecated_in_reserved_word,
-    deprecated_has_reserved_word,
-    deprecated_with_reserved_word
+    case_abbreviation
   )
 
 }

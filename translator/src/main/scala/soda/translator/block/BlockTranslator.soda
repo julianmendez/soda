@@ -12,7 +12,7 @@ class DefaultBlockTranslator
     BlockTranslator
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       block
 
 end

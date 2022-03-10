@@ -9,7 +9,7 @@ class BlockTranslator00
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty
@@ -29,7 +29,7 @@ class BlockTranslator01
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty
@@ -49,7 +49,7 @@ class BlockTranslator02
     soda.translator.parser.annotation.AnnotationFactory_
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       AnnotationFactory_ ().annotate (
         BlockBuilder_ ().build (
           if block.lines.isEmpty
@@ -68,6 +68,9 @@ class BlockTranslatorPipelineSpec ()
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   instance =
     BlockTranslatorPipeline_ (
       Seq (
@@ -77,15 +80,18 @@ class BlockTranslatorPipelineSpec ()
       )
     )
 
-  test ("block translator pipeline")
-    let
-      original =
-        AnnotationFactory_ ().annotate (
-          BlockBuilder_ ().build (
-            Seq ( "first line" )
-          )
-        )
-      expected =
+  original =
+    AnnotationFactory_ ().annotate (
+      BlockBuilder_ ().build (
+        Seq ( "first line" )
+      )
+    )
+
+  test ("block translator pipeline") (
+    check (
+      obtained := instance.translate (original)
+    ) (
+      expected :=
         AnnotationFactory_ ().annotate (
           BlockBuilder_ ().build (
             Seq (
@@ -96,8 +102,8 @@ class BlockTranslatorPipelineSpec ()
             )
           )
         )
-      obtained = instance.translate (original)
-    in assert (obtained == expected)
+    )
+  )
 
 end
 

@@ -17,41 +17,42 @@ trait MicroTranslatorToScala
   import   soda.translator.blocktr.TokenizedBlockTranslator_
   import   soda.translator.replacement.Token
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val function_definition = BlockAnnotationEnum_ () .function_definition
+  private lazy val _ba = BlockAnnotationEnum_ ()
 
-  lazy val test_declaration = BlockAnnotationEnum_ () .test_declaration
+  private lazy val _functions_and_tests =
+    Seq (_ba.function_definition, _ba.test_declaration)
 
-  lazy val functions_and_tests = Seq (function_definition, test_declaration )
+  private lazy val _class_declarations =
+    Seq (_ba.class_alias, _ba.class_beginning, _ba.abstract_declaration)
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  private lazy val _definitions_and_declarations =
+    _functions_and_tests.++ (_class_declarations)
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translation_pipeline.translate (block )
+      _translation_pipeline.translate (block)
 
-  lazy val try_definition: Token => String =
+  private lazy val _try_definition : Token => String =
      token =>
-      FunctionDefinitionLineTranslator_ (token.text ) .translation
+      FunctionDefinitionLineTranslator_ (token.text).translation
 
-  lazy val translation_pipeline =
+  private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        LetInBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
-        TokenReplacement_ () .add_spaces_to_symbols (symbols = tc.soda_brackets_and_comma.toSet ),
-        TokenReplacement_ () .replace (tc.scala_non_soda ),
-        TokenReplacement_ () .replace_at_beginning (tc.synonym_at_beginning ),
-        TokenReplacement_ () .replace (tc.synonym ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition ) ),
+        ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
+        ConditionalBlockTranslator_ (_functions_and_tests, TokenizedBlockTranslator_ (_try_definition) ),
+        ConditionalBlockTranslator_ (_class_declarations, TokenReplacement_ ().replace (_tc.type_symbol_translation) ),
+        ConditionalBlockTranslator_ (_functions_and_tests, TokenReplacement_ ().replace (_tc.all_translations) ),
         ClassDeclarationBlockTranslator_ (),
-        TokenReplacement_ () .replace (tc.main_translation ),
         ImportDeclarationBlockTranslator_ (),
         AbstractDeclarationBlockTranslator_ (),
         TheoremAndProofBlockTranslator_ (),
         ClassEndBlockTranslator_ (),
         MainClassBlockTranslator_ (),
-        ClassConstructorBlockTranslator_ (),
-        TokenReplacement_ () .replace_regex (tc.beautifier )
+        ClassConstructorBlockTranslator_ ()
       )
     )
 

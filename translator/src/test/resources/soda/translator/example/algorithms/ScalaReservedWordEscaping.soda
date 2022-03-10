@@ -8,8 +8,8 @@ class ScalaReservedWordEscaping
 
   def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
 
-  while [A, B] (seq : Seq [A] ) (cond : A -> Boolean) (do : A -> B) : Seq [B] =
-    seq.takeWhile (cond).map (lambda do)
+  while [A, B] (seq : Seq [A] ) (cond : A -> Boolean) (funct : A -> B) : Seq [B] =
+    seq.takeWhile (cond).map (funct)
 
   protected = "protected"
 
@@ -17,7 +17,10 @@ class ScalaReservedWordEscaping
 
   f (x : Int) (y : Int) : Int = x + y
 
-  cons : Int -> Int -> Int = lambda x -> lambda y -> f (x) (y)
+  cons : Int -> Int -> Int =
+    lambda x -->
+      lambda y -->
+        f (x) (y)
 
 end
 

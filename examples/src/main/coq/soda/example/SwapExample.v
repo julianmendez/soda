@@ -6,23 +6,23 @@ Module soda_example.
 Module SwapExample.
 
   Inductive PairExample : Type :=
-    | PairExample_ (x: nat) (y: nat) .
+    | PairExample_ (x : nat) (y : nat) .
 
-  Definition left (pair: PairExample) :=
+  Definition left (pair : PairExample) :=
     match pair with
       | (PairExample_ x y) => x
     end.
 
-  Definition right (pair: PairExample) :=
+  Definition right (pair : PairExample) :=
     match pair with
       | (PairExample_ x y) => y
     end.
 
-  Definition swap (pair: PairExample): PairExample :=
+  Definition swap (pair : PairExample) : PairExample :=
     (PairExample_ (right pair) (left pair)).
 
 
-  Lemma swap_of_swap : forall (pair: PairExample), swap (swap pair) = pair.
+  Lemma swap_of_swap : forall (pair : PairExample), swap (swap pair) = pair.
   Proof.
     intros p.
     destruct p.

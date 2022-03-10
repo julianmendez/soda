@@ -10,25 +10,39 @@ class ClassEndBlockTranslator
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block : ClassEndAnnotation => _translate_block (block)
-      | x => annotated_block
+      case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
+      case x ==> annotated_block
     end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ ().build (
-        Seq [String] (tc.scala_class_end_symbol)
+        Seq [String] (
+          _get_translation (block)
+        )
       ),
       block.references
     )
+
+  _get_translation (block : ClassEndAnnotation) : String =
+    _get_initial_spaces (block) + _tc.scala_class_end_symbol
+
+  _get_initial_spaces (block : ClassEndAnnotation) : String =
+    _get_initial_spaces_with (_get_first_line (block) )
+
+  _get_initial_spaces_with (line : String) : String =
+    line.takeWhile ( lambda ch --> ch.isSpaceChar)
+
+  _get_first_line (block : AnnotatedBlock) : String =
+    block.lines.headOption.getOrElse ("")
 
 end
 

@@ -11,50 +11,48 @@ trait CoqDefinitionBlockTranslator
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
 
-  lazy val space = " "
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
-  lazy val tc = TranslationConstantToCoq_ ()
-
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: FunctionDefinitionAnnotation => _translate_definition_block (block )
+      case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case x => annotated_block
     }
 
-  def _translate_definition_block (block: FunctionDefinitionAnnotation ): FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block ) )
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block: FunctionDefinitionAnnotation ): Block =
-    if (is_a_recursive_definition (block )
-    ) append (tc.coq_recursive_definition_end ) (prepend (tc.coq_recursive_definition + space ) (block ) )
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
     else
-      if (is_a_definition (block )
-      ) append (tc.coq_definition_end ) (prepend (tc.coq_definition + space ) (block ) )
+      if ( is_a_definition (block)
+      ) _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
       else block
 
-  def prepend (prefix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  def append (suffix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      block.lines.:+ (suffix )
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
-  def is_a_recursive_definition (block: Block ): Boolean =
-    tc.coq_recursive_function_prefixes.exists (prefix => first_line (block ) .startsWith (prefix )  )
+  def is_a_recursive_definition (block : Block) : Boolean =
+    _tc.coq_recursive_function_prefixes.exists (  prefix => first_line (block).startsWith (prefix) )
 
-  def first_line (block: Block ): String =
-    block.lines.headOption.getOrElse ("") .trim
+  def first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("").trim
 
-  def is_a_definition (block: Block ): Boolean =
-    ! is_a_recursive_definition (block ) &&
-    ! tc.non_definition_block_prefixes.exists (prefix => block.contents.trim.startsWith (prefix )  )
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! _tc.non_definition_block_prefixes.exists (  prefix => block.contents.trim.startsWith (prefix) )
 
 }
 

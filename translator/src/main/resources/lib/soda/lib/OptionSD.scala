@@ -11,72 +11,72 @@ package soda.lib
 trait OptionSD [A]
 {
 
-  def   toOption: Option [A]
-  def   isEmpty: Boolean
-  def   isDefined: Boolean
-  def   isNonEmpty: Boolean
-  def   toSeq: Seq [A]
+  def   toOption : Option [A]
+  def   isEmpty : Boolean
+  def   isDefined : Boolean
+  def   isNonEmpty : Boolean
+  def   toSeq : Seq [A]
 
-  def opt [B] (ifEmpty: B ) (ifNonEmpty: A => B ): B =
+  def opt [B] (ifEmpty : B) (ifNonEmpty : A => B) : B =
     this match  {
       case NoneSD_ () => ifEmpty
-      case SomeSD_ (element ) => ifNonEmpty (element )
+      case SomeSD_ (element) => ifNonEmpty (element)
     }
 
-  def map [B] (mapping: A => B ): OptionSD [B] =
+  def map [B] (mapping : A => B) : OptionSD [B] =
     this match  {
       case NoneSD_ () => NoneSD_ [B] ()
-      case SomeSD_ (element ) => SomeSD_ [B] (mapping (element ) )
+      case SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
     }
 
-  def getOrElse (default: A ): A =
+  def getOrElse (default : A) : A =
     this match  {
       case NoneSD_ () => default
-      case SomeSD_ (element ) => element
+      case SomeSD_ (element) => element
     }
 
-  def fold [B] (ifEmpty: B ) (f: A => B ): B =
+  def fold [B] (ifEmpty : B) (f : A => B) : B =
     this match  {
       case NoneSD_ () => ifEmpty
-      case SomeSD_ (element ) => f (element )
+      case SomeSD_ (element) => f (element)
     }
 
-  def flatMap [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
+  def flatMap [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     this match  {
       case NoneSD_ () => NoneSD_ ()
-      case SomeSD_ (element ) => mapping (element )
+      case SomeSD_ (element) => mapping (element)
     }
 
-  def bind [B] (mapping: A => OptionSD [B] ): OptionSD [B] =
-    flatMap [B] (mapping )
+  def bind [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
+    flatMap [B] (mapping)
 
-  def filter (predicate: A => Boolean ): OptionSD [A] =
+  def filter (predicate : A => Boolean) : OptionSD [A] =
     this match  {
       case NoneSD_ () => NoneSD_ ()
-      case SomeSD_ (element ) =>
-        if (predicate (element )
+      case SomeSD_ (element) =>
+        if ( predicate (element)
         ) this
         else NoneSD_ [A] ()
     }
 
 }
 
-case class OptionSD_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A]) extends OptionSD [A]
+case class OptionSD_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A]) extends OptionSD [A]
 
 trait NoneSD [A]
   extends
     OptionSD [A]
 {
 
-  lazy val toOption: None.type = None
+  lazy val toOption : None.type = None
 
-  lazy val isEmpty: Boolean = true
+  lazy val isEmpty : Boolean = true
 
-  lazy val isDefined: Boolean = ! isEmpty
+  lazy val isDefined : Boolean = ! isEmpty
 
-  lazy val isNonEmpty: Boolean = ! isEmpty
+  lazy val isNonEmpty : Boolean = ! isEmpty
 
-  lazy val toSeq: Seq [A] = Seq ()
+  lazy val toSeq : Seq [A] = Seq ()
 
 }
 
@@ -87,47 +87,47 @@ trait OptionSDWithElement [A]
     OptionSD [A]
 {
 
-  def   toOption: Option [A]
-  def   isEmpty: Boolean
-  def   isDefined: Boolean
-  def   isNonEmpty: Boolean
-  def   toSeq: Seq [A]
-  def   element: A
+  def   toOption : Option [A]
+  def   isEmpty : Boolean
+  def   isDefined : Boolean
+  def   isNonEmpty : Boolean
+  def   toSeq : Seq [A]
+  def   element : A
 
 }
 
-case class OptionSDWithElement_ [A] (toOption: Option [A], isEmpty: Boolean, isDefined: Boolean, isNonEmpty: Boolean, toSeq: Seq [A], element: A) extends OptionSDWithElement [A]
+case class OptionSDWithElement_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A], element : A) extends OptionSDWithElement [A]
 
 trait SomeSD [A]
   extends
     OptionSDWithElement [A]
 {
 
-  def   element: A
+  def   element : A
 
-  lazy val value: A = element
+  lazy val value : A = element
 
-  lazy val toOption: Some [A] = Some [A] (element )
+  lazy val toOption : Some [A] = Some [A] (element)
 
-  lazy val isEmpty: Boolean = false
+  lazy val isEmpty : Boolean = false
 
-  lazy val isDefined: Boolean = ! isEmpty
+  lazy val isDefined : Boolean = ! isEmpty
 
-  lazy val isNonEmpty: Boolean = ! isEmpty
+  lazy val isNonEmpty : Boolean = ! isEmpty
 
-  lazy val toSeq: Seq [A] = Seq (element )
+  lazy val toSeq : Seq [A] = Seq (element)
 
 }
 
-case class SomeSD_ [A] (element: A) extends SomeSD [A]
+case class SomeSD_ [A] (element : A) extends SomeSD [A]
 
 trait OptionSDBuilder [A]
 {
 
-  def build (option: Option [A] ): OptionSD [A] =
-    if (option.isEmpty
+  def build (option : Option [A] ) : OptionSD [A] =
+    if ( option.isEmpty
     ) NoneSD_ [A] ()
-    else SomeSD_ [A] (option.get )
+    else SomeSD_ [A] (option.get)
 
 }
 

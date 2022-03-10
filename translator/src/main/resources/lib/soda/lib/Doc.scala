@@ -11,8 +11,8 @@ package soda.lib
 trait Doc
 {
 
-  def   doc: String
+  def   doc : String
 
 }
 
-case class Doc_ (doc: String) extends Doc
+case class Doc_ (doc : String) extends Doc

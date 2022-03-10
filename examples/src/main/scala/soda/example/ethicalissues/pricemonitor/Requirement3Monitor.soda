@@ -29,7 +29,7 @@ class Requirement3Monitor
     sum_prices (get_prices_of_segments (customer) (SegmentsForFlight_ (flight).segments) (date_in_days) )
 
   get_prices_of_segments (customer : Customer) (segments : Seq [Segment] ) (date_in_days : Int) : Seq [Int] =
-    segments.map (lambda segment -> get_price (customer) (segment) (date_in_days) )
+    segments.map ( lambda segment --> get_price (customer) (segment) (date_in_days) )
 
   sum_prices (prices : Seq [Int] ) : Int =
     prices.sum
@@ -58,8 +58,8 @@ class SegmentsForFlight
 
   rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] ) (last_airport : String) : Seq [Segment] =
     match intermediate_stops
-      case Nil => Nil.+: (Segment_ (first_airport, last_airport) )
-      case x :: xs => (rec_segments_multi (x) (xs) (last_airport) ).+: (Segment_ (first_airport, x) )
+      case Nil ==> Nil.+: (Segment_ (first_airport, last_airport) )
+      case x :: xs ==> (rec_segments_multi (x) (xs) (last_airport) ).+: (Segment_ (first_airport, x) )
     end
 
 end

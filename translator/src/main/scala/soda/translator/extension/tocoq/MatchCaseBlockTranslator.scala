@@ -13,39 +13,48 @@ trait MatchCaseBlockTranslator
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import   soda.translator.replacement.ReplacementAux_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToCoq_ ()
+  private lazy val _soda_case_pattern = _sc.case_reserved_word + _sc.space
 
-  lazy val soda_match_pattern = sc.match_reserved_word + " "
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  private lazy val _soda_match_pattern = _sc.match_reserved_word + " "
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: FunctionDefinitionAnnotation => _translate_function_block (block )
-      case block: TestDeclarationAnnotation => _translate_test_block (block )
+      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
       case x => annotated_block
     }
 
-  def _translate_function_block (block: AnnotatedBlock ): FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block ) )
+  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  def _translate_test_block (block: AnnotatedBlock ): TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block ) )
+  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block: AnnotatedBlock ): Block =
-    BlockBuilder_ () .build (
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder_ ().build(
       block.lines
-        .map (line => append_with_after_match (line ) )
+        .map (  line => _append_with_after_match (line) )
+        .map (  line => _replace_case (line) )
     )
 
-  def append_with_after_match (line: String ): String =
-    if (line.trim () .startsWith (soda_match_pattern )
-    ) line + tc.coq_space + tc.coq_with_reserved_word
+  private def _append_with_after_match (line : String) : String =
+    if ( line.trim ().startsWith (_soda_match_pattern)
+    ) line + _tc.coq_space + _tc.coq_with_reserved_word
+    else line
+
+  private def _replace_case (line : String) : String =
+    if ( line.trim.startsWith (_soda_case_pattern)
+    ) ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
     else line
 
 }

@@ -26,8 +26,8 @@ class AbstractHelp
 
   output_content (content : String) : Boolean =
     SomeSD_ (content)
-      .map (lambda x -> println (x) )
-      .map (lambda x -> true)
+      .map ( lambda x --> println (x) )
+      .map ( lambda x --> true)
       .getOrElse (false)
 
 end
@@ -39,7 +39,7 @@ class Help
   file_name = "help.txt"
 
   execute : Seq [String] -> Boolean =
-    lambda arguments ->
+    lambda arguments -->
       output_content (title_and_version + "\n\n" + read (file_name) )
 
 end
@@ -51,7 +51,7 @@ class Manual
   file_name = "Manual.soda"
 
   execute : Seq [String] -> Boolean =
-    lambda arguments ->
+    lambda arguments -->
       output_content ("/* " + title_and_version + " */\n\n" + read (file_name) )
 
 end
@@ -63,7 +63,7 @@ class License
   file_name = "LICENSE.txt"
 
   execute : Seq [String] -> Boolean =
-    lambda arguments ->
+    lambda arguments -->
       output_content (read (file_name))
 
 end

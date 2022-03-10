@@ -1,0 +1,58 @@
+package soda.translator.extension.tocoq
+
+class CoqFullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    org.scalatest.Assertion
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+    java.nio.file.Files
+    java.nio.file.Paths
+
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  Base = "/soda/translator/example/"
+
+  SodaSuffix = ".soda"
+
+  CoqSuffix = ".v"
+
+  SwapExample = "algorithms/SwapExample"
+
+  TriangularNumber = "forcoq/mathematics/TriangularNumberForCoq"
+
+  test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name := Base + file_name + SodaSuffix) (expected_file_name := Base + file_name + CoqSuffix)
+
+  test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
+    check (
+      obtained :=
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToCoq_()
+          )
+        ).translate (read_file (input_file_name) )
+    ) (
+      expected := read_file (expected_file_name)
+    )
+
+  read_file (file_name : String) : String =
+    @new String (
+      Files.readAllBytes (
+        Paths.get (getClass.getResource (file_name).toURI)
+      )
+    )
+
+  test ("should translate the swap example") (
+    test_translation (SwapExample)
+  )
+
+  test ("should translate the example of triangular numbers") (
+    test_translation (TriangularNumber)
+  )
+
+end
+

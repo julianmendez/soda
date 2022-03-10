@@ -8,6 +8,9 @@ case class ClassConstructorBlockTranslatorSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val example_program_0 =
     "package soda.example.mytest" +
     "\n" +
@@ -107,16 +110,20 @@ case class ClassConstructorBlockTranslatorSpec ()
       )
     )
 
-  test ("should produce the constructors for a simple class")
-    {
-      lazy val obtained = translator.translate (example_program_0 )
-      lazy val expected = expected_program_0
-      assert (obtained == expected ) }
+  test ("should produce the constructors for a simple class") (
+    check (
+      obtained = translator.translate (example_program_0)
+    ) (
+      expected = expected_program_0
+    )
+  )
 
-  test ("should produce the constructors for a class with type parameters")
-    {
-      lazy val obtained = translator.translate (example_program_1 )
-      lazy val expected = expected_program_1
-      assert (obtained == expected ) }
+  test ("should produce the constructors for a class with type parameters") (
+    check (
+      obtained = translator.translate (example_program_1)
+    ) (
+      expected = expected_program_1
+    )
+  )
 
 }

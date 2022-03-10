@@ -1,4 +1,22 @@
 ---
+- - version: v0.15.0
+  - date: unreleased
+  - new_features:
+    - accepts a long arrow `-->` for lambda expressions
+    - accepts a long double arrow `==>` for pattern matching cases
+    - can fully translate small snippets to Coq
+    - translates constants and functions starting with `_` as private in Scala
+  - deprecated_features:
+    - the `let`-`in` structures are no longer supported
+    - the following synonyms are no longer supported
+    - (asterisk) `*` (synonym for `class`)
+    - (minus) `-` (synonym for `has`)
+    - (plus) `+` (synonym for `import`)
+    - (vertical bar) `|` (synonym for `case`)
+    - . `is` (synonym for `=`)
+    - . `fun` (synonym for `lambda`)
+  - build: sbt '++ 3.1.1' clean compile test package assembly
+  - release: target/scala-3.1.1/soda-0.15.0.jar
 - - version: v0.14.0
   - date: '2022-02-11'
   - new_features:

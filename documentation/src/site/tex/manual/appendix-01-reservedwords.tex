@@ -8,7 +8,7 @@
             \hline
             $f$ \sodadef $e$                                                    & function or constant definition of $f$ as $e$                         \\
             $x$ \sodacolon $A$                                                  & declaration that $x$ is of type $A$                                   \\
-            \sodalambda ($x : A$) \sodaarrow $e$                                & lambda definition for $\lambda (x : A) . e$, where $x$ is of type $A$ \\
+            \sodalambda ($x : A$) \sodalambdaarrow $e$                                & lambda definition for $\lambda (x : A) . e$, where $x$ is of type $A$ \\
             $t$ \sodadefparam $e$                                               & assignment of parameter $t$ to have value $e$                         \\
             \hline
             \sodaif $b$ \sodathen $e_{0}$ \sodaelse $e_{1}$                     & expression if $b$ is true, then $e_{0}$, else $e_{1}$                 \\
@@ -62,21 +62,6 @@
             \sodanew      & creation of an instance of a JVM class (for Scala 2) \\
             \sodatailrec  & annotation to enforce a tail recursion               \\
             \sodaoverride & annotation to allow overriding                       \\
-            \hline
-        \end{tabular}
-    \end{center}
-\end{table}
-
-\begin{table}[t]
-    \caption{Synonyms}
-    \label{tab:synonyms}
-    \begin{center}
-        \begin{tabular}{|l|l|}
-            \hline
-            $f$ \sodais $e$               & synonym for $f$ \sodadef $e$       \\
-            \sodabar $p$                  & synonym for \sodacase $p$          \\
-            $A$ \sodalessthancolon $B$    & synonym for $A$ \sodasubtype $B$   \\
-            $A$ \sodagreaterthancolon $B$ & synonym for $A$ \sodasupertype $B$ \\
             \hline
         \end{tabular}
     \end{center}

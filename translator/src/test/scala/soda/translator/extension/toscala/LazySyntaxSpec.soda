@@ -41,29 +41,40 @@ class LazySyntaxSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  test ("should show what happens when constants are defined in the wrong order")
-    let
-      obtained = ExampleWithWrongOrder_ ().this_is_null_but
-      expected = "Success!"
-    in assert (obtained == expected)
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should show what happens when constants are defined in the right order")
-    let
-      obtained = ExampleWithRightOrder_ ().this_is_not_null
-      expected = "Success!"
-    in assert (obtained == expected)
+  test ("should show what happens when constants are defined in the wrong order") (
+    check (
+      obtained := ExampleWithWrongOrder_ ().this_is_null_but
+    ) (
+      expected := "Success!"
+    )
+  )
 
-  test ("should show what happens when one work-around is used")
-    let
-      obtained = ExampleWithEmptyParentheses_ ().this_is_not_null  ()
-      expected = "Success!"
-    in assert (obtained == expected)
+  test ("should show what happens when constants are defined in the right order") (
+    check (
+      obtained := ExampleWithRightOrder_ ().this_is_not_null
+    ) (
+      expected := "Success!"
+    )
+  )
 
-  test ("should show what happens when another work-around is used")
-    let
-      obtained = AnotherExampleWithEmptyParentheses_ ().this_is_not_null
-      expected = "Success!"
-    in assert (obtained == expected)
+  test ("should show what happens when one work-around is used") (
+    check (
+      obtained := ExampleWithEmptyParentheses_ ().this_is_not_null  ()
+    ) (
+      expected := "Success!"
+    )
+  )
+
+  test ("should show what happens when another work-around is used") (
+    check (
+      obtained := AnotherExampleWithEmptyParentheses_ ().this_is_not_null
+    ) (
+      expected := "Success!"
+    )
+  )
 
 end
 

@@ -5,48 +5,57 @@ case class PatternMatchingSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val instance = PatternMatching_ ()
 
-  test ("get value and name of singleton - 1")
-    {
-      lazy val input = Singleton_ (5 )
-      lazy val expected = 5
-      lazy val obtained = instance.get_value (input )
-      assert (obtained == expected ) }
+  test ("get value and name of singleton - 1") (
+    check (
+      obtained = instance.get_value (Singleton_ (5) )
+    ) (
+      expected = 5
+    )
+  )
 
-  test ("get value and name of singleton - 2")
-    {
-      lazy val input = Singleton_ (5 )
-      lazy val expected_name = "singleton(x)"
-      lazy val obtained_name = instance.get_type_name (input )
-      assert (obtained_name == expected_name ) }
+  test ("get value and name of singleton - 2") (
+    check (
+      obtained = instance.get_type_name (Singleton_ (5) )
+    ) (
+      expected = "singleton(x)"
+    )
+  )
 
-  test ("get value and name of pair - 1")
-    {
-      lazy val input = Pair_ (10, 100 )
-      lazy val expected = 55
-      lazy val obtained = instance.get_value (input )
-      assert (obtained == expected ) }
+  test ("get value and name of pair - 1") (
+    check (
+      obtained = instance.get_value (Pair_ (10, 100) )
+    ) (
+      expected = 55
+    )
+  )
 
-  test ("get value and name of pair - 2")
-    {
-      lazy val input = Pair_ (10, 100 )
-      lazy val expected_name = "pair(x, y)"
-      lazy val obtained_name = instance.get_type_name (input )
-      assert (obtained_name == expected_name ) }
+  test ("get value and name of pair - 2") (
+    check (
+      obtained = instance.get_type_name (Pair_ (10, 100) )
+    ) (
+      expected = "pair(x, y)"
+    )
+  )
 
-  test ("get value and name of triplet - 1")
-    {
-      lazy val input = Triplet_ (9, 100, 890 )
-      lazy val expected = 333
-      lazy val obtained = instance.get_value (input )
-      assert (obtained == expected ) }
+  test ("get value and name of triplet - 1") (
+    check (
+      obtained = instance.get_value (Triplet_ (9, 100, 890) )
+    ) (
+      expected = 333
+    )
+  )
 
-  test ("get value and name of triplet - 2")
-    {
-      lazy val input = Triplet_ (9, 100, 890 )
-      lazy val expected_name = "triplet(x, y, z)"
-      lazy val obtained_name = instance.get_type_name (input )
-      assert (obtained_name == expected_name ) }
+  test ("get value and name of triplet - 2") (
+    check (
+      obtained = instance.get_type_name (Triplet_ (9, 100, 890) )
+    ) (
+      expected = "triplet(x, y, z)"
+    )
+  )
 
 }

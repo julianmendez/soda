@@ -7,184 +7,210 @@ case class OptionSDSpec ()
 
   import   scala.util.Try
 
-  test ("should test an empty option")
-    {
-      lazy val empty = NoneSD_ ()
-      assert (empty.isEmpty && ! empty.isDefined && ! empty.isNonEmpty ) }
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should test a non empty option")
-    {
-      lazy val element = SomeSD_ (1 )
-      assert (! element.isEmpty && element.isDefined && element.isNonEmpty ) }
+  lazy val result_if_empty : String = "It is empty."
 
-  test ("should get a default value, when empty")
-    {
-      lazy val empty = NoneSD_ [Int] ()
-      lazy val expected = 1
-      lazy val obtained = empty.getOrElse (1 )
-      assert (obtained == expected ) }
+  def result_if_non_empty (value : String) : String = "Its value is " + value + "."
 
-  test ("should get a value")
-    {
-      lazy val empty = SomeSD_ [Int] (2 )
-      lazy val expected = 2
-      lazy val obtained = empty.getOrElse (1 )
-      assert (obtained == expected ) }
+  def int_to_string (n : Int) : String = "" + n
 
-  test ("should open an empty option")
-    {
-      lazy val result_if_empty: String = "It is empty."
-      def result_if_non_empty (value: String ): String = "Its value is " + value + "."
-      lazy val empty = NoneSD_ [String] ()
-      lazy val expected = "It is empty."
-      lazy val obtained = empty.opt (ifEmpty = result_if_empty ) (ifNonEmpty = result_if_non_empty )
-      assert (obtained == expected ) }
+  def maybe_int_to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
 
-  test ("should open an non empty option")
-    {
-      lazy val result_if_empty: String = "It is empty."
-      def result_if_non_empty (value: String ): String = "Its value is " + value + "."
-      lazy val some_element = SomeSD_ [String] ("0")
-      lazy val expected = "Its value is 0."
-      lazy val obtained = some_element.opt (ifEmpty = result_if_empty ) (ifNonEmpty = result_if_non_empty )
-      assert (obtained == expected ) }
+  def maybe_string_to_int (s : String) : OptionSD [Int] =
+    OptionSDBuilder_ ().build (
+      Try ( Integer.parseInt (s.trim) )
+        .toOption
+    )
 
-  test ("should try fold an empty option")
-    {
-      lazy val result_if_empty: String = "It is empty."
-      def result_if_non_empty (value: String ): String = "Its value is " + value + "."
-      lazy val empty = NoneSD_ [String] ()
-      lazy val expected = "It is empty."
-      lazy val obtained = empty.fold (ifEmpty = result_if_empty ) (f = result_if_non_empty )
-      assert (obtained == expected ) }
+  test ("should test an empty option") (
+    check (
+      obtained = empty_opt.isEmpty && ! empty_opt.isDefined && ! empty_opt.isNonEmpty
+    ) (
+      expected = true
+    )
+  )
 
-  test ("should try fold an non empty option")
-    {
-      lazy val result_if_empty: String = "It is empty."
-      def result_if_non_empty (value: String ): String = "Its value is " + value + "."
-      lazy val some_element = SomeSD_ [String] ("0")
-      lazy val expected = "Its value is 0."
-      lazy val obtained = some_element.fold (ifEmpty = result_if_empty ) (f = result_if_non_empty )
-      assert (obtained == expected ) }
+  lazy val empty_opt = NoneSD_ ()
 
-  test ("should map empty to empty")
-    {
-      def to_string (n: Int ): String = "" + n
-      lazy val empty = NoneSD_ [Int] ()
-      lazy val expected = NoneSD_ [String] ()
-      lazy val obtained = empty.map (to_string )
-      assert (obtained == expected ) }
+  test ("should test a non empty option") (
+    check (
+      obtained = ! non_empty_opt.isEmpty && non_empty_opt.isDefined && non_empty_opt.isNonEmpty
+    ) (
+      expected = true
+    )
+  )
 
-  test ("should map a non-empty to another non-empty")
-    {
-      def to_string (n: Int ): String = "" + n
-      lazy val some_element = SomeSD_ [Int] (2 )
-      lazy val expected = SomeSD_ [String] ("2")
-      lazy val obtained = some_element.map (to_string )
-      assert (obtained == expected ) }
+  lazy val non_empty_opt = SomeSD_ (1)
 
-  test ("should flat map empty to empty")
-    {
-      def to_string (n: Int ): SomeSD_ [String] = SomeSD_ [String] ("" + n )
-      lazy val empty = NoneSD_ [Int] ()
-      lazy val expected = NoneSD_ [String] ()
-      lazy val obtained = empty.flatMap (to_string )
-      assert (obtained == expected ) }
+  test ("should get a default value, when empty") (
+    check (
+      obtained = (NoneSD_ [Int] () ).getOrElse (1)
+    ) (
+      expected = 1
+    )
+  )
 
-  test ("should flat map a non-empty to another non-empty")
-    {
-      def to_string (n: Int ): SomeSD_ [String] = SomeSD_ [String] ("" + n )
-      lazy val some_element = SomeSD_ [Int] (2 )
-      lazy val expected = SomeSD_ [String] ("2")
-      lazy val obtained = some_element.flatMap (to_string )
-      assert (obtained == expected ) }
+  test ("should get a value") (
+    check (
+      obtained = (SomeSD_ [Int] (2) ).getOrElse (1)
+    ) (
+      expected = 2
+    )
+  )
 
-  test ("should try how successive applications of open works")
-    {
-      def toInt (s: String ): OptionSD [Int] =
-        OptionSDBuilder_ () .build (
-          Try (Integer.parseInt (s.trim ) )
-            .toOption
-        )
-      lazy val stringA = "1"
-      lazy val stringB = "2"
-      lazy val stringC = "3"
-      lazy val maybeA = toInt (stringA )
-      lazy val maybeB = toInt (stringB )
-      lazy val maybeC = toInt (stringC )
-      lazy val empty: OptionSD [Int] = NoneSD_ ()
-      lazy val expected = SomeSD_ (6 )
-      lazy val obtained =
-        maybeA.opt (ifEmpty = empty ) (
-          ifNonEmpty = a =>
-            maybeB.opt (ifEmpty = empty ) (
-              ifNonEmpty = b =>
-                maybeC.opt (ifEmpty = empty ) (
-                  ifNonEmpty = c =>
-                    SomeSD_ (a + b + c ) ) ) )
-      assert (obtained == expected ) }
+  test ("should open an empty option") (
+    check (
+      obtained = (NoneSD_ [String] () ).opt (ifEmpty = result_if_empty) (ifNonEmpty = result_if_non_empty)
+    ) (
+      expected = "It is empty."
+    )
+  )
 
-  test ("toOption with non empty option")
-    {
-      lazy val input: OptionSD [Int] = SomeSD_ (1 )
-      lazy val expected: Option [Int] = Some (1 )
-      lazy val obtained = input.toOption
-      assert (obtained == expected ) }
+  test ("should open an non empty option") (
+    check (
+      obtained = (SomeSD_ [String] ("0") ).opt (ifEmpty = result_if_empty) (ifNonEmpty = result_if_non_empty)
+    ) (
+      expected = "Its value is 0."
+    )
+  )
 
-  test ("toOption with another non empty option")
-    {
-      lazy val input: SomeSD_ [Int] = SomeSD_ (2 )
-      lazy val expected: Some [Int] = Some (2 )
-      lazy val obtained = input.toOption
-      assert (obtained == expected ) }
+  test ("should try fold an empty option") (
+    check (
+      obtained = (NoneSD_ [String] () ).fold (ifEmpty = result_if_empty) (f = result_if_non_empty)
+    ) (
+      expected = "It is empty."
+    )
+  )
 
-  test ("toOption with empty option")
-    {
-      lazy val input: OptionSD [Int] = NoneSD_ ()
-      lazy val expected = None
-      lazy val obtained = input.toOption
-      assert (obtained == expected ) }
+  test ("should try fold an non empty option") (
+    check (
+      obtained = (SomeSD_ [String] ("0") ).fold (ifEmpty = result_if_empty) (f = result_if_non_empty)
+    ) (
+      expected = "Its value is 0."
+    )
+  )
 
-  test ("toSeq with non empty option")
-    {
-      lazy val input: OptionSD [Int] = SomeSD_ (1 )
-      lazy val expected: Seq [Int] = Seq (1 )
-      lazy val obtained = input.toSeq
-      assert (obtained == expected ) }
+  test ("should map empty to empty") (
+    check (
+      obtained = (NoneSD_ [Int] () ).map (int_to_string)
+    ) (
+      expected = NoneSD_ [String] ()
+    )
+  )
 
-  test ("toSeq with another non empty option")
-    {
-      lazy val input: SomeSD_ [Int] = SomeSD_ (2 )
-      lazy val expected: Seq [Int] = Seq (2 )
-      lazy val obtained = input.toSeq
-      assert (obtained == expected ) }
+  test ("should map a non-empty to another non-empty") (
+    check (
+      obtained = (SomeSD_ [Int] (2) ).map (int_to_string)
+    ) (
+      expected = SomeSD_ [String] ("2")
+    )
+  )
 
-  test ("toSeq with empty option")
-    {
-      lazy val input: OptionSD [Int] = NoneSD_ ()
-      lazy val expected = Seq ()
-      lazy val obtained = input.toSeq
-      assert (obtained == expected ) }
+  test ("should flat map empty to empty") (
+    check (
+      obtained = (NoneSD_ [Int] () ).flatMap (maybe_int_to_string)
+    ) (
+      expected = NoneSD_ [String] ()
+    )
+  )
 
-  test ("filter should work for None")
-    {
-      lazy val input = NoneSD_ [Int] ()
-      lazy val expected = NoneSD_ [Int] ()
-      lazy val obtained = input.filter (x => true )
-      assert (obtained == expected ) }
+  test ("should flat map a non-empty to another non-empty") (
+    check (
+      obtained = (SomeSD_ [Int] (2) ).flatMap (maybe_int_to_string)
+    ) (
+      expected = SomeSD_ [String] ("2")
+    )
+  )
 
-  test ("filter should work for Some, if predicate does not hold")
-    {
-      lazy val input = SomeSD_ [Int] (0 )
-      lazy val expected = NoneSD_ [Int] ()
-      lazy val obtained = input.filter (x => x > 0 )
-      assert (obtained == expected ) }
+  test ("should try how successive applications of open works") (
+    check (
+      obtained =
+        maybe_string_to_int ("1").opt (ifEmpty = _empty_opt ) (
+          ifNonEmpty =  a =>
+            maybe_string_to_int ("2").opt (ifEmpty = _empty_opt ) (
+              ifNonEmpty =  b =>
+                maybe_string_to_int ("3").opt (ifEmpty = _empty_opt ) (
+                  ifNonEmpty =  c =>
+                    SomeSD_ (a + b + c) ) ) )
+    ) (
+      expected = SomeSD_ (6)
+    )
+  )
 
-  test ("filter should work for Some, if predicate holds")
-    {
-      lazy val input = SomeSD_ [Int] (1 )
-      lazy val expected = SomeSD_ [Int] (1 )
-      lazy val obtained = input.filter (x => x > 0 )
-      assert (obtained == expected ) }
+  private lazy val _empty_opt : OptionSD [Int] = NoneSD_ [Int] ()
+
+  test ("toOption with non empty option") (
+    check (
+      obtained = (SomeSD_ [Int] (1) ).toOption
+    ) (
+      expected = Some (1)
+    )
+  )
+
+  test ("toOption with another non empty option") (
+    check (
+      obtained = (SomeSD_ [Int] (2) ).toOption
+    ) (
+      expected = Some (2)
+    )
+  )
+
+  test ("toOption with empty option") (
+    check (
+      obtained = (NoneSD_ [Int] () ).toOption
+    ) (
+      expected = None
+    )
+  )
+
+  test ("toSeq with non empty option") (
+    check (
+      obtained = (SomeSD_ (1) ).toSeq
+    ) (
+      expected = Seq (1)
+    )
+  )
+
+  test ("toSeq with another non empty option") (
+    check (
+      obtained = (SomeSD_ (2) ).toSeq
+    ) (
+      expected = Seq (2)
+    )
+  )
+
+  test ("toSeq with empty option") (
+    check (
+      obtained = (NoneSD_ () ).toSeq
+    ) (
+      expected = Seq ()
+    )
+  )
+
+  test ("filter should work for None") (
+    check (
+      obtained = (NoneSD_ [Int] () ).filter (  x => true)
+    ) (
+      expected = NoneSD_ [Int] ()
+    )
+  )
+
+  test ("filter should work for Some, if predicate does not hold") (
+    check (
+      obtained = (SomeSD_ [Int] (0) ).filter (  x => x > 0)
+    ) (
+      expected = NoneSD_ [Int] ()
+    )
+  )
+
+  test ("filter should work for Some, if predicate holds") (
+    check (
+      obtained = (SomeSD_ [Int] (1) ).filter (  x => x > 0)
+    ) (
+      expected = SomeSD_ [Int] (1)
+    )
+  )
 
 }

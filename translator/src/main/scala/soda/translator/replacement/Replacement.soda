@@ -19,32 +19,20 @@ class Replacement
 
   soda_space = aux.soda_space
 
-  replace_with (function : String -> String) : Replacement =
-    Replacement_ (function (line) )
-
   replace_at_beginning (index : Int) (translator : Translator) : Replacement =
     Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line) (index) )
 
   replace_all (pattern : String) (replacement : String) : Replacement =
     Replacement_ (aux.replace_all (line) (pattern) (replacement) )
 
-  replace (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace (line) )
-
   add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
-
-  add_spaces_to_symbols (symbols : Set [Char] ) : Replacement =
-    Replacement_ (aux.add_spaces_to_symbols (line) (symbols) )
 
   remove_space_from_scala_line () : Replacement =
     Replacement_ (aux.remove_space_from_scala_line (line) )
 
   add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
     Replacement_ (aux.add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
-
-  replace_regex (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_regex (line) )
 
 end
 
@@ -78,7 +66,7 @@ class ReplacementAux
   add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
       .indices
-      .map (lambda index -> _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
+      .map ( lambda index --> _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
       .mkString ("")
 
   _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
@@ -118,7 +106,7 @@ class ReplacementAux
   _get_prefix_length (line : String) (pattern : String) : Int =
     if line.trim.startsWith (pattern)
     then line.indexOf (pattern) + pattern.length
-    else line.takeWhile (lambda ch -> ch.isSpaceChar).length
+    else line.takeWhile ( lambda ch --> ch.isSpaceChar).length
 
 end
 
@@ -128,7 +116,6 @@ class ReplacementWithTranslator
     translator : soda.translator.block.Translator
 
   import
-    soda.translator.block.Translator
     soda.lib.Recursion_
 
   aux = ReplacementAux_ ()
@@ -139,10 +126,10 @@ class ReplacementWithTranslator
 
   replace_at_beginning (line : String) (index : Int) : String =
     if index == 0
-    then replace_only_beginning (line)
+    then _replace_only_beginning (line)
     else line
 
-  replace_only_beginning (line : String) : String =
+  _replace_only_beginning (line : String) : String =
     Recursion_ ().fold (translator.keys) (initial_value := line) (next_value_function := _next_replace_only_beginning)
 
   _next_replace_only_beginning (line : String) (reserved_word : String) : String =

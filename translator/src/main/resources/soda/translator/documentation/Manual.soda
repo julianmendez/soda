@@ -137,7 +137,7 @@ class Item
   /* It is possible to refer to an object instance by using `this`. */
 
   accept : Visitor -> Boolean =
-    lambda visitor ->
+    lambda visitor -->
       visitor.visit (this)
 
 end
@@ -187,7 +187,7 @@ class Manual
    * Lambda functions are declared using a right arrow (`->`). */
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map (lambda element -> element + 1)
+    sequence.map ( lambda element --> element + 1)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -212,20 +212,20 @@ class Manual
     (x or y) and not (x and y)
 
   /* It is possible to use pattern matching with `match` and `case`.
-   * Please observe the double arrow `=>`. */
+   * Please observe the long double arrow `==>`. */
 
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
-      case true => if_true
-      case false => if_false
+      case true ==> if_true
+      case false ==> if_false
     end
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
 
   another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
-      | true => if_true
-      | false => if_false
+      case true ==> if_true
+      case false ==> if_false
     end
 
   sum (n : Int) =
@@ -273,19 +273,17 @@ class AbstractFactorialVerbose
 
 end
 
-/* The word `is` is a synonym for the equals sign (`=`) and they are interchangeable. */
-
 class FactorialVerbose
   extends AbstractFactorialVerbose
 
   @tailrec
-  _tailrec_ (n : Int) (product : Int) : Int is
+  _tailrec_ (n : Int) (product : Int) : Int =
     if n == 0
     then product
     else _tailrec_ (n - 1) (n * product)
 
-  factorial : Int -> Int is
-    lambda n ->
+  factorial : Int -> Int =
+    lambda n -->
       _tailrec_ (n) (1)
 
 end

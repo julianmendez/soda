@@ -13,13 +13,13 @@ class O
     nat
 
   add : nat -> nat =
-    lambda a -> add_for (a)
+    lambda a --> add_for (a)
 
   add_for (a : nat) : nat =
     a
 
   mul : nat ->  nat =
-    lambda a -> mul_for (a)
+    lambda a --> mul_for (a)
 
   mul_for (a : nat) : nat =
     this
@@ -36,13 +36,13 @@ class S
   t = IntNat_ ()
 
   add : nat -> nat =
-    lambda a -> add_for (a)
+    lambda a --> add_for (a)
 
   add_for (a : nat) : nat =
     t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
 
   mul : nat ->  nat =
-    lambda a -> mul_for (a)
+    lambda a --> mul_for (a)
 
   mul_for (a : nat) : nat =
     t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
@@ -72,8 +72,8 @@ class IntNat
 
   to_Int (a : nat) : Int =
     match a
-      | O_ () => 0
-      | S_ (k) => 1 + to_Int (k)
+      case O_ () ==> 0
+      case S_ (k) ==> 1 + to_Int (k)
     end
 
 end

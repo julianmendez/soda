@@ -13,6 +13,9 @@ class MultiLineSpec ()
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.BlockProcessor_
 
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   bp =
     BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
@@ -61,17 +64,21 @@ class MultiLineSpec ()
   build_block (lines: Seq [String]): AnnotatedBlock =
     AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
 
-  test ("should split a program in multiple lines")
-    let
-      obtained = bp.make_block (original_input)
-      expected = build_block (original_input_lines )
-    in assert(obtained == expected)
+  test ("should split a program in multiple lines") (
+    check (
+      obtained := bp.make_block (original_input)
+    ) (
+      expected := build_block (original_input_lines )
+    )
+  )
 
-  test ("should join the translated lines of a program")
-    let
-      obtained = build_block (joined_comma_lines)
-      expected = bp.make_block (joined_output)
-    in assert(obtained == expected)
+  test ("should join the translated lines of a program") (
+    check (
+      obtained := build_block (joined_comma_lines)
+    ) (
+      expected := bp.make_block (joined_output)
+    )
+  )
 
 end
 

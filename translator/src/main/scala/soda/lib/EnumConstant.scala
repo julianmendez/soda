@@ -11,18 +11,18 @@ package soda.lib
 trait EnumConstant
 {
 
-  def   ordinal: Int
-  def   name: String
+  def   ordinal : Int
+  def   name : String
 
 }
 
-case class EnumConstant_ (ordinal: Int, name: String) extends EnumConstant
+case class EnumConstant_ (ordinal : Int, name : String) extends EnumConstant
 
 trait Enum [A <: EnumConstant]
 {
 
-  def   values: Seq [A]
+  def   values : Seq [A]
 
 }
 
-case class Enum_ [A <: EnumConstant] (values: Seq [A]) extends Enum [A]
+case class Enum_ [A <: EnumConstant] (values : Seq [A]) extends Enum [A]

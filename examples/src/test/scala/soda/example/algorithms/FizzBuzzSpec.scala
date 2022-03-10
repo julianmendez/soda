@@ -5,7 +5,10 @@ case class FizzBuzzSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  lazy val expected = Seq (
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val expected_result = Seq (
     "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
     "11", "Fizz", "13", "14", "FizzBuzz", "16", "17", "Fizz", "19", "Buzz",
     "Fizz", "22", "23", "Fizz", "Buzz", "26", "Fizz", "28", "29", "FizzBuzz",
@@ -18,14 +21,20 @@ case class FizzBuzzSpec ()
     "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"
   )
 
-  test ("first elements of FizzBuzz")
-    {
-      lazy val obtained = FizzBuzz_ () .fizz_buzz
-      assert  (obtained == expected ) }
+  test ("first elements of FizzBuzz") (
+    check (
+      obtained = FizzBuzz_ ().fizz_buzz
+    ) (
+      expected = expected_result
+    )
+  )
 
-  test ("first elements of FizzBuzz with pattern matching")
-    {
-      lazy val obtained = FizzBuzzPatternMatching_ () .fizz_buzz
-      assert  (obtained == expected ) }
+  test ("first elements of FizzBuzz with pattern matching") (
+    check (
+      obtained = FizzBuzzPatternMatching_ ().fizz_buzz
+    ) (
+      expected = expected_result
+    )
+  )
 
 }

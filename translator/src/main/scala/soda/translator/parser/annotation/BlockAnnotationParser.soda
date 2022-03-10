@@ -28,10 +28,6 @@ class BlockAnnotationParser
     block.readable_lines.nonEmpty and
     block.readable_lines.head.line.trim.startsWith (prefix + space)
 
-  ends_with_space_and_suffix (suffix : String) : Boolean =
-    block.readable_lines.nonEmpty and
-    block.readable_lines.last.line.trim.endsWith (space + suffix)
-
   content_lines : Seq [AnnotatedLine] =
     if block.readable_lines.isEmpty
     then block.annotated_lines
@@ -39,7 +35,7 @@ class BlockAnnotationParser
       block
         .annotated_lines
         .tail
-        .filter (lambda x -> not x.line.trim.isEmpty)
+        .filter ( lambda x -> not x.line.trim.isEmpty)
 
   first_readable_line : AnnotatedLine =
     block.readable_lines.headOption.getOrElse (default_annotated_line)

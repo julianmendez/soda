@@ -11,46 +11,41 @@ trait CoqTheoremBlockTranslator
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  lazy val space = " "
+  private lazy val _tc = TranslationConstantToCoq_ ()
 
-  lazy val tc = TranslationConstantToCoq_ ()
-
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: TheoremBlockAnnotation => _translate_block (block )
+      case TheoremBlockAnnotation_ (block) => _translate_block (TheoremBlockAnnotation_ (block) )
       case x => annotated_block
     }
 
-  def _translate_block (block: TheoremBlockAnnotation ): TheoremBlockAnnotation =
+  private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
-      append (
-        tc.coq_theorem_end ) (prepend (
-          tc.coq_theorem_begin_reserved_word ) (remove_first_line (block )
+      _append (
+        _tc.coq_theorem_end_symbol) (_prepend (
+          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
         )
       )
     )
 
-  def prepend (prefix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
     )
 
-  def append (suffix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      block.lines.:+ (suffix )
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
-  def first_line (block: Block ): String =
-    block.lines.headOption.getOrElse ("") .trim
-
-  def remove_first_line (block: Block ): Block =
-    if (block.lines.isEmpty
+  private def _remove_first_line (block : Block) : Block =
+    if ( block.lines.isEmpty
     ) block
-    else BlockBuilder_ () .build (block.lines.tail )
+    else BlockBuilder_ ().build (block.lines.tail)
 
 }
 

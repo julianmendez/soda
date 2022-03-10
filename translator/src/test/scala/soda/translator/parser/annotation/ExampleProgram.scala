@@ -49,15 +49,15 @@ trait ExampleProgram
     "\n" +
     "\n")
 
-  lazy val default_block_processor: BlockProcessor =
-    BlockProcessor_ (
+  lazy val default_block_processor : BlockProcessor =
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         DefaultBlockTranslator_ ()
       )
     )
 
-  lazy val example_blocks: Seq [Block] =
-    default_block_processor.split_blocks (example_program )
+  lazy val example_blocks : Seq [Block] =
+    default_block_processor.split_blocks (example_program)
 
 }
 

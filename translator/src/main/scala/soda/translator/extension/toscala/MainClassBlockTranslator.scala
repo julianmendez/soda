@@ -8,50 +8,48 @@ trait MainClassBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val tc = TranslationConstantToScala_ ()
-
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: ClassEndAnnotation => _translate_block (block )
+      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
       case x => annotated_block
     }
 
-  def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
-    if (_get_class_name (block.references ) == tc.soda_main_class_name
+  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if ( _get_class_name (block.references) == _tc.soda_main_class_name
     )
       ClassEndAnnotation_ (
-        BlockBuilder_ () .build (
+        BlockBuilder_ ().build (
           Seq [String] (
-            tc.scala_class_end_symbol,
+            _tc.scala_class_end_symbol,
             "",
-            tc.scala_entry_point
+            _tc.scala_entry_point
           )
         ),
         block.references
       )
     else block
 
-  def _get_class_name (references: Seq [AnnotatedBlock] ): String =
-    _get_class_beginning (references )
-      .map (x => x.class_name )
+  private def _get_class_name (references : Seq [AnnotatedBlock] ) : String =
+    _get_class_beginning (references)
+      .map (  x => x.class_name)
       .getOrElse ("")
 
-  def _get_class_beginning (references: Seq [AnnotatedBlock] ): Option [ClassBeginningAnnotation] =
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (block =>
+      .flatMap (  block =>
         block match  {
-          case b: ClassBeginningAnnotation => Some (b )
+          case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
           case x => None
         }
       )

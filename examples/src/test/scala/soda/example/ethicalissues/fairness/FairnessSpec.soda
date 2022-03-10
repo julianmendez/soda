@@ -4,29 +4,34 @@ class FairnessSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  rank_1: Applicant -> Double =
-    lambda applicant ->
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  rank_1 : Applicant -> Double =
+    lambda applicant -->
       applicant.background_score * 2
 
-  rank_2: Applicant -> Double =
-    lambda applicant ->
+  rank_2 : Applicant -> Double =
+    lambda applicant -->
       (1 - applicant.background_score) * 2
 
-  test ("simple test for fairness (true)")
-    let
-      instance =
-        Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 5, rank_1)
-      obtained = instance.is_fair (Applicant_ (78) ) (Applicant_ (77) )
-      expected = true
-    in assert (obtained == expected)
+  test ("simple test for fairness (true)") (
+    check (
+      obtained := Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 5, rank_1)
+        .is_fair (Applicant_ (78) ) (Applicant_ (77) )
+    ) (
+      expected := true
+    )
+  )
 
-  test ("simple test for fairness (false)")
-    let
-      instance =
-        Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 1, rank_2)
-      obtained = instance.is_fair (Applicant_ (78) ) (Applicant_ (77) )
-      expected = false
-    in assert (obtained == expected)
+  test ("simple test for fairness (false)") (
+    check (
+      Fairness_ (score_difference_tolerance := 2, ranking_difference_tolerance := 1, rank_2)
+        .is_fair (Applicant_ (78) ) (Applicant_ (77) )
+    ) (
+      expected := false
+    )
+  )
 
 end
 

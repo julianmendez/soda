@@ -11,35 +11,33 @@ trait BlockBuilder
   import   soda.translator.block.Block
   import   soda.translator.block.Block_
 
-  lazy val soda_begin_comment = "/*"
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val soda_end_comment = "*/"
-
-  def build (lines: Seq [String] ): Block =
+  def build (lines : Seq [String] ) : Block =
     Block_ (
-      get_annotated_lines (lines )
+      _get_annotated_lines (lines)
     )
 
-  def get_annotated_lines (lines: Seq [String] ): Seq [AnnotatedLine] =
-    Recursion_ () .fold (lines ) (initial_value ) (next_value_function )
+  private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
+    Recursion_ ().fold (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 
-  lazy val initial_value: PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
+  private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
 
-  def next_value_function (pair: PreprocessorFoldTuple ) (line: String ): PreprocessorFoldTuple =
-    _next_value_function_with (_annotate_this_line (line ) (pair.comment_state ) ) (pair ) (line )
+  private def _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
+    _get_annotated_lines_next_value_function_with (_annotate_this_line (line) (pair.comment_state) ) (pair) (line)
 
-  def _next_value_function_with (t: CurrentAndNewCommentState ) (pair: PreprocessorFoldTuple ) (line: String ): PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state ) ) )
+  private def _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState) (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state) ) )
 
-  def _annotate_this_line (line: String ) (comment_state: Boolean ): CurrentAndNewCommentState =
-    if (comment_state
-    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment ) )
+  private def _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
+    if ( comment_state
+    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
     else
-      if (line.trim.startsWith (soda_begin_comment )
-      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (soda_end_comment ) )
-      else CurrentAndNewCommentState_ (false, false )
+      if ( line.trim.startsWith (_sc.comment_opening_symbol)
+      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
+      else CurrentAndNewCommentState_ (false, false)
 
 }
 
@@ -48,19 +46,19 @@ case class BlockBuilder_ () extends BlockBuilder
 trait PreprocessorFoldTuple
 {
 
-  def   comment_state: Boolean
-  def   annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]
+  def   comment_state : Boolean
+  def   annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]
 
 }
 
-case class PreprocessorFoldTuple_ (comment_state: Boolean, annotated_lines_rev: Seq [soda.translator.block.AnnotatedLine]) extends PreprocessorFoldTuple
+case class PreprocessorFoldTuple_ (comment_state : Boolean, annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]) extends PreprocessorFoldTuple
 
 trait CurrentAndNewCommentState
 {
 
-  def   current_state: Boolean
-  def   new_comment_state: Boolean
+  def   current_state : Boolean
+  def   new_comment_state : Boolean
 
 }
 
-case class CurrentAndNewCommentState_ (current_state: Boolean, new_comment_state: Boolean) extends CurrentAndNewCommentState
+case class CurrentAndNewCommentState_ (current_state : Boolean, new_comment_state : Boolean) extends CurrentAndNewCommentState

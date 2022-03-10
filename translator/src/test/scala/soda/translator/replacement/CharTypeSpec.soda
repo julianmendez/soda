@@ -4,44 +4,52 @@ class CharTypeSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  test ("should recognize quotation marks")
-    let
-      input = '"'
-      obtained = CharTypeEnum_ ().get_char_type (input)
-      expected = CharTypeEnum_ ().quotes_type
-    in assert (obtained == expected)
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should recognize apostrophes")
-    let
-      input = '\''
-      obtained = CharTypeEnum_ ().get_char_type (input)
-      expected = CharTypeEnum_ ().apostrophe_type
-    in assert (obtained == expected)
+  test ("should recognize quotation marks") (
+    check (
+      obtained := CharTypeEnum_ ().get_char_type ('"')
+    ) (
+      expected := CharTypeEnum_ ().quotes_type
+    )
+  )
 
-  test ("should recognize backslash")
-    let
-      input = '\\'
-      obtained = CharTypeEnum_ ().get_char_type (input)
-      expected = CharTypeEnum_ ().backslash_type
-    in assert (obtained == expected)
+  test ("should recognize apostrophes") (
+    check (
+      obtained := CharTypeEnum_ ().get_char_type ('\'')
+    ) (
+      expected := CharTypeEnum_ ().apostrophe_type
+    )
+  )
 
-  test ("should recognize a simple char")
-    let
-      input = 'a'
-      obtained = CharTypeEnum_ ().get_char_type (input)
-      expected = CharTypeEnum_ ().plain_type
-    in assert (obtained == expected)
+  test ("should recognize backslash") (
+    check (
+      obtained := CharTypeEnum_ ().get_char_type ('\\')
+    ) (
+      expected := CharTypeEnum_ ().backslash_type
+    )
+  )
 
-  test ("should recognize plain text")
-    let
-      inputStr = "This is plain text with symbols. 0123456789 _ . !?"
-      expected = Seq ( CharTypeEnum_ ().plain_type )
-      obtained =
-        inputStr
-          .map (lambda ch -> CharTypeEnum_ ().get_char_type (ch) )
+  test ("should recognize a simple char") (
+    check (
+      obtained := CharTypeEnum_ ().get_char_type ('a')
+    ) (
+      expected := CharTypeEnum_ ().plain_type
+    )
+  )
+
+  test ("should recognize plain text") (
+    check (
+      obtained :=
+        "This is plain text with symbols. 0123456789 _ . !?"
+          .map ( lambda ch --> CharTypeEnum_ ().get_char_type (ch) )
           .toSet
           .toSeq
-    in assert (obtained == expected)
+    ) (
+      expected := Seq ( CharTypeEnum_ ().plain_type )
+    )
+  )
 
 end
 

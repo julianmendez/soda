@@ -10,25 +10,39 @@ trait ClassEndBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: ClassEndAnnotation => _translate_block (block )
+      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
       case x => annotated_block
     }
 
-  def _translate_block (block: ClassEndAnnotation ): ClassEndAnnotation =
+  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
-      BlockBuilder_ () .build (
-        Seq [String] (tc.scala_class_end_symbol )
+      BlockBuilder_ ().build (
+        Seq [String] (
+          _get_translation (block)
+        )
       ),
       block.references
     )
+
+  private def _get_translation (block : ClassEndAnnotation) : String =
+    _get_initial_spaces (block) + _tc.scala_class_end_symbol
+
+  private def _get_initial_spaces (block : ClassEndAnnotation) : String =
+    _get_initial_spaces_with (_get_first_line (block) )
+
+  private def _get_initial_spaces_with (line : String) : String =
+    line.takeWhile (  ch => ch.isSpaceChar)
+
+  private def _get_first_line (block : AnnotatedBlock) : String =
+    block.lines.headOption.getOrElse ("")
 
 }
 

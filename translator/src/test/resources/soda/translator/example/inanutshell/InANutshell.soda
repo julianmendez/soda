@@ -4,28 +4,18 @@ class InANutshell
 
   f (x : Int) : Int = x + 16
 
-  b = f (a)
+  value = f (numbers)
 
-  a = 1 + 2 + 4 + 8
+  numbers = 1 + 2 + 4 + 8
 
   h0 (x : Int) (y : Int) : Int =
-    let
-      a = x + y
-      b = x - y
-    in a * b
+    x + y
 
   h1 (x : Int) (y : Int) : Int =
-    let
-      a = x + y
-      b = x - y
-    in a * b
+    x - y
 
   h2 (x : Int) (y : Int) : Int =
-    let
-      result = a * b
-      a = x + y
-      b = x - y
-    in result
+    (h0 (x) (y) ) * (h1 (x) (y) )
 
   is_greater_than (a : Int) (b : Int) : Boolean =
     a > b
@@ -87,9 +77,9 @@ class Comparable
 
 end
 
-class ComparableMax [T subtype Comparable]
+class ComparableMax [A subtype Comparable]
 
-  max (a : T) (b : T) : T =
+  max (a : A) (b : A) : A =
     if a.is_greater_than (b)
     then a
     else b

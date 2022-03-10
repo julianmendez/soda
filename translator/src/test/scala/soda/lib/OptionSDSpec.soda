@@ -7,185 +7,211 @@ class OptionSDSpec ()
   import
     scala.util.Try
 
-  test ("should test an empty option")
-    let
-      empty = NoneSD_ ()
-    in assert (empty.isEmpty and not empty.isDefined and not empty.isNonEmpty)
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should test a non empty option")
-    let
-      element = SomeSD_ (1)
-    in assert (not element.isEmpty and element.isDefined and element.isNonEmpty)
+  result_if_empty : String = "It is empty."
 
-  test ("should get a default value, when empty")
-    let
-      empty = NoneSD_ [Int] ()
-      expected = 1
-      obtained = empty.getOrElse (1)
-    in assert (obtained == expected)
+  result_if_non_empty (value : String) : String = "Its value is " + value + "."
 
-  test ("should get a value")
-    let
-      empty = SomeSD_ [Int] (2)
-      expected = 2
-      obtained = empty.getOrElse (1)
-    in assert (obtained == expected)
+  int_to_string (n : Int) : String = "" + n
 
-  test ("should open an empty option")
-    let
-      result_if_empty : String = "It is empty."
-      result_if_non_empty (value : String) : String = "Its value is " + value + "."
-      empty = NoneSD_ [String] ()
-      expected = "It is empty."
-      obtained = empty.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
-    in assert (obtained == expected)
+  maybe_int_to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
 
-  test ("should open an non empty option")
-    let
-      result_if_empty : String = "It is empty."
-      result_if_non_empty (value : String) : String = "Its value is " + value + "."
-      some_element = SomeSD_ [String] ("0")
-      expected = "Its value is 0."
-      obtained = some_element.opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
-    in assert (obtained == expected)
+  maybe_string_to_int (s : String) : OptionSD [Int] =
+    OptionSDBuilder_ ().build (
+      Try ( Integer.parseInt (s.trim) )
+        .toOption
+    )
 
-  test ("should try fold an empty option")
-    let
-      result_if_empty : String = "It is empty."
-      result_if_non_empty (value : String) : String = "Its value is " + value + "."
-      empty = NoneSD_ [String] ()
-      expected = "It is empty."
-      obtained = empty.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
-    in assert (obtained == expected)
+  test ("should test an empty option") (
+    check (
+      obtained := empty_opt.isEmpty and not empty_opt.isDefined and not empty_opt.isNonEmpty
+    ) (
+      expected := true
+    )
+  )
 
-  test ("should try fold an non empty option")
-    let
-      result_if_empty : String = "It is empty."
-      result_if_non_empty (value : String) : String = "Its value is " + value + "."
-      some_element = SomeSD_ [String] ("0")
-      expected = "Its value is 0."
-      obtained = some_element.fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
-    in assert (obtained == expected)
+  empty_opt = NoneSD_ ()
 
-  test ("should map empty to empty")
-    let
-      to_string (n : Int) : String = "" + n
-      empty = NoneSD_ [Int] ()
-      expected = NoneSD_ [String] ()
-      obtained = empty.map (to_string)
-    in assert (obtained == expected)
+  test ("should test a non empty option") (
+    check (
+      obtained := not non_empty_opt.isEmpty and non_empty_opt.isDefined and non_empty_opt.isNonEmpty
+    ) (
+      expected := true
+    )
+  )
 
-  test ("should map a non-empty to another non-empty")
-    let
-      to_string (n : Int) : String = "" + n
-      some_element = SomeSD_ [Int] (2)
-      expected = SomeSD_ [String] ("2")
-      obtained = some_element.map (to_string)
-    in assert (obtained == expected)
+  non_empty_opt = SomeSD_ (1)
 
-  test ("should flat map empty to empty")
-    let
-      to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
-      empty = NoneSD_ [Int] ()
-      expected = NoneSD_ [String] ()
-      obtained = empty.flatMap (to_string)
-    in assert (obtained == expected)
+  test ("should get a default value, when empty") (
+    check (
+      obtained := (NoneSD_ [Int] () ).getOrElse (1)
+    ) (
+      expected := 1
+    )
+  )
 
-  test ("should flat map a non-empty to another non-empty")
-    let
-      to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
-      some_element = SomeSD_ [Int] (2)
-      expected = SomeSD_ [String] ("2")
-      obtained = some_element.flatMap (to_string)
-    in assert (obtained == expected)
+  test ("should get a value") (
+    check (
+      obtained := (SomeSD_ [Int] (2) ).getOrElse (1)
+    ) (
+      expected := 2
+    )
+  )
 
-  test ("should try how successive applications of open works")
-    let
-      toInt (s : String) : OptionSD [Int] =
-        OptionSDBuilder_ ().build (
-          Try ( Integer.parseInt (s.trim) )
-            .toOption
-        )
-      stringA = "1"
-      stringB = "2"
-      stringC = "3"
-      maybeA = toInt (stringA)
-      maybeB = toInt (stringB)
-      maybeC = toInt (stringC)
-      empty  : OptionSD [Int] = NoneSD_ ()
-      expected = SomeSD_ (6)
-      obtained =
-        maybeA.opt (ifEmpty := empty) (
-          ifNonEmpty := a ->
-            maybeB.opt (ifEmpty := empty) (
-              ifNonEmpty := b ->
-                maybeC.opt (ifEmpty := empty) (
-                  ifNonEmpty := c ->
+  test ("should open an empty option") (
+    check (
+      obtained := (NoneSD_ [String] () ).opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+    ) (
+      expected := "It is empty."
+    )
+  )
+
+  test ("should open an non empty option") (
+    check (
+      obtained := (SomeSD_ [String] ("0") ).opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+    ) (
+      expected := "Its value is 0."
+    )
+  )
+
+  test ("should try fold an empty option") (
+    check (
+      obtained := (NoneSD_ [String] () ).fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+    ) (
+      expected := "It is empty."
+    )
+  )
+
+  test ("should try fold an non empty option") (
+    check (
+      obtained := (SomeSD_ [String] ("0") ).fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+    ) (
+      expected := "Its value is 0."
+    )
+  )
+
+  test ("should map empty to empty") (
+    check (
+      obtained := (NoneSD_ [Int] () ).map (int_to_string)
+    ) (
+      expected := NoneSD_ [String] ()
+    )
+  )
+
+  test ("should map a non-empty to another non-empty") (
+    check (
+      obtained := (SomeSD_ [Int] (2) ).map (int_to_string)
+    ) (
+      expected := SomeSD_ [String] ("2")
+    )
+  )
+
+  test ("should flat map empty to empty") (
+    check (
+      obtained := (NoneSD_ [Int] () ).flatMap (maybe_int_to_string)
+    ) (
+      expected := NoneSD_ [String] ()
+    )
+  )
+
+  test ("should flat map a non-empty to another non-empty") (
+    check (
+      obtained := (SomeSD_ [Int] (2) ).flatMap (maybe_int_to_string)
+    ) (
+      expected := SomeSD_ [String] ("2")
+    )
+  )
+
+  test ("should try how successive applications of open works") (
+    check (
+      obtained :=
+        maybe_string_to_int ("1").opt (ifEmpty := _empty_opt ) (
+          ifNonEmpty := lambda a -->
+            maybe_string_to_int ("2").opt (ifEmpty := _empty_opt ) (
+              ifNonEmpty := lambda b -->
+                maybe_string_to_int ("3").opt (ifEmpty := _empty_opt ) (
+                  ifNonEmpty := lambda c -->
                     SomeSD_ (a + b + c) ) ) )
-    in assert (obtained == expected)
+    ) (
+      expected := SomeSD_ (6)
+    )
+  )
 
-  test ("toOption with non empty option")
-    let
-      input : OptionSD [Int] = SomeSD_ (1)
-      expected : Option [Int] = Some (1)
-      obtained = input.toOption
-    in assert (obtained == expected)
+  _empty_opt : OptionSD [Int] = NoneSD_ [Int] ()
 
-  test ("toOption with another non empty option")
-    let
-      input : SomeSD_ [Int] = SomeSD_ (2)
-      expected : Some [Int] = Some (2)
-      obtained = input.toOption
-    in assert (obtained == expected)
+  test ("toOption with non empty option") (
+    check (
+      obtained := (SomeSD_ [Int] (1) ).toOption
+    ) (
+      expected := Some (1)
+    )
+  )
 
-  test ("toOption with empty option")
-    let
-      input : OptionSD [Int] = NoneSD_ ()
-      expected = None
-      obtained = input.toOption
-    in assert (obtained == expected)
+  test ("toOption with another non empty option") (
+    check (
+      obtained := (SomeSD_ [Int] (2) ).toOption
+    ) (
+      expected := Some (2)
+    )
+  )
 
-  test ("toSeq with non empty option")
-    let
-      input : OptionSD [Int] = SomeSD_ (1)
-      expected : Seq [Int] = Seq (1)
-      obtained = input.toSeq
-    in assert (obtained == expected)
+  test ("toOption with empty option") (
+    check (
+      obtained := (NoneSD_ [Int] () ).toOption
+    ) (
+      expected := None
+    )
+  )
 
-  test ("toSeq with another non empty option")
-    let
-      input : SomeSD_ [Int] = SomeSD_ (2)
-      expected : Seq [Int] = Seq (2)
-      obtained = input.toSeq
-    in assert (obtained == expected)
+  test ("toSeq with non empty option") (
+    check (
+      obtained := (SomeSD_ (1) ).toSeq
+    ) (
+      expected := Seq (1)
+    )
+  )
 
-  test ("toSeq with empty option")
-    let
-      input : OptionSD [Int] = NoneSD_ ()
-      expected = Seq ()
-      obtained = input.toSeq
-    in assert (obtained == expected)
+  test ("toSeq with another non empty option") (
+    check (
+      obtained := (SomeSD_ (2) ).toSeq
+    ) (
+      expected := Seq (2)
+    )
+  )
 
-  test ("filter should work for None")
-    let
-      input = NoneSD_ [Int] ()
-      expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x -> true)
-    in assert (obtained == expected)
+  test ("toSeq with empty option") (
+    check (
+      obtained := (NoneSD_ () ).toSeq
+    ) (
+      expected := Seq ()
+    )
+  )
 
-  test ("filter should work for Some, if predicate does not hold")
-    let
-      input = SomeSD_ [Int] (0)
-      expected = NoneSD_ [Int] ()
-      obtained = input.filter (lambda x -> x > 0)
-    in assert (obtained == expected)
+  test ("filter should work for None") (
+    check (
+      obtained := (NoneSD_ [Int] () ).filter ( lambda x --> true)
+    ) (
+      expected := NoneSD_ [Int] ()
+    )
+  )
 
-  test ("filter should work for Some, if predicate holds")
-    let
-      input = SomeSD_ [Int] (1)
-      expected = SomeSD_ [Int] (1)
-      obtained = input.filter (lambda x -> x > 0)
-    in assert (obtained == expected)
+  test ("filter should work for Some, if predicate does not hold") (
+    check (
+      obtained := (SomeSD_ [Int] (0) ).filter ( lambda x --> x > 0)
+    ) (
+      expected := NoneSD_ [Int] ()
+    )
+  )
+
+  test ("filter should work for Some, if predicate holds") (
+    check (
+      obtained := (SomeSD_ [Int] (1) ).filter ( lambda x --> x > 0)
+    ) (
+      expected := SomeSD_ [Int] (1)
+    )
+  )
 
 end
 

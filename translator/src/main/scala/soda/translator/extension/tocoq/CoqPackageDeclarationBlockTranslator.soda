@@ -1,0 +1,39 @@
+package soda.translator.extension.tocoq
+
+class CoqPackageDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.PackageDeclarationAnnotation
+    soda.translator.parser.annotation.PackageDeclarationAnnotation_
+
+  _tc = TranslationConstantToCoq_ ()
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case PackageDeclarationAnnotation_ (block) ==> _translate_block (PackageDeclarationAnnotation_ (block) )
+      case x ==> annotated_block
+    end
+
+  _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
+    PackageDeclarationAnnotation_ (
+      _comment_block (
+        block
+      )
+    )
+
+  _comment_block (block : Block) : Block =
+    BlockBuilder_ ().build (
+      ( (Seq (_tc.coq_opening_comment).++ (block.lines) ).++ (Seq (_tc.coq_closing_comment) ) ).++ (_tc.coq_prelude)
+    )
+
+end
+

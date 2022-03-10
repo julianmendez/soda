@@ -8,6 +8,9 @@ case class MicroTranslatorToCoqSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val instance =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
@@ -15,18 +18,20 @@ case class MicroTranslatorToCoqSpec ()
       )
     )
 
-  test ("Coq translation of a constant")
-    {
-      lazy val original = "x = 0"
-      lazy val expected = " Definition x := 0\n.\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+  test ("Coq translation of a constant") (
+    check (
+      obtained = instance.translate ("x = 0")
+    ) (
+      expected = " Definition x := 0\n.\n"
+    )
+  )
 
-  test ("Coq translation of a function")
-    {
-      lazy val original = "f (a: nat) = 0"
-      lazy val expected = " Definition f (a: nat ) := 0\n.\n"
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+  test ("Coq translation of a function") (
+    check (
+      obtained = instance.translate ("f (a: nat) = 0")
+    ) (
+      expected = " Definition f (a: nat) := 0\n.\n"
+    )
+  )
 
 }

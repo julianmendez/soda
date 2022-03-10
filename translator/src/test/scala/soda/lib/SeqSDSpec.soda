@@ -4,46 +4,66 @@ class SeqSDSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  test ("should detect an empty sequence")
-    let
-      input = Seq ()
-      seqsd = SeqSDBuilder_ ().build (input)
-      obtained = seqsd.opt (ifEmpty := true) (ifNonEmpty := nonEmpty -> false)
-    in assert (obtained)
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
 
-  test ("should detect an non empty sequence")
-    let
-      input = Seq (1)
-      seqsd = SeqSDBuilder_ ().build (input)
-      obtained = seqsd.opt (ifEmpty := false) (ifNonEmpty := nonEmpty -> true)
-    in assert (obtained)
+  int_seq : Seq [Int] = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
 
-  test ("should get the maximum")
-    let
-      max_of_2 (a : Int) (b : Int) : Int = if a > b then a else b
-      max (s : NonEmptySeqSD [Int]) : Int =
-        Recursion_ ().fold (s.tail.toSeq) (s.head) (max_of_2)
-      input = Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9)
-      empty  : OptionSD [Int] = NoneSD_ ()
-      expected = SomeSD_ [Int] (9)
-      obtained =
-        SeqSDBuilder_ ().build (input).opt (ifEmpty := empty) (ifNonEmpty := lambda sequence -> SomeSD_ (max (sequence) ) )
-    in assert (obtained == expected)
+  rev_int_seq : Seq [Int] = Seq (9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2)
 
-  test ("should reverse a sequence")
-    let
-      input = SeqSDBuilder_ ().build ( Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
-      expected = SeqSDBuilder_ ().build ( Seq (9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
-      obtained = input.reverse
-    in assert (obtained == expected)
+  test ("should detect an empty sequence") (
+    check (
+      obtained := SeqSDBuilder_ ().build (Seq [Int] () ).opt (ifEmpty := true) (ifNonEmpty := lambda nonEmpty --> false)
+    ) (
+      expected := true
+    )
+  )
 
-  test ("should reverse another sequence")
-    let
-      input = SeqSDBuilder_ ().build ( Seq (2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4, 5, 9) )
-      empty : SeqSD [Int] = EmptySeqSD_ ()
-      expected = SeqSDBuilder_ ().build ( Seq (9, 5 ,4, 8, 2, 8, 1, 8, 2, 8, 1, 7, 2) )
-      obtained = input.opt (ifEmpty := empty) (ifNonEmpty := lambda sequence -> sequence.reverse)
-    in assert (obtained == expected)
+  test ("should detect an non empty sequence") (
+    check (
+      obtained := SeqSDBuilder_ ().build (Seq [Int] (1) ).opt (ifEmpty := false) (ifNonEmpty := lambda nonEmpty --> true)
+    ) (
+      expected := true
+    )
+  )
+
+  test ("should get the maximum") (
+    check (
+      obtained := SeqSDBuilder_ ().build (int_seq).opt (ifEmpty := empty_opt) (ifNonEmpty := non_empty_opt)
+    ) (
+      expected := SomeSD_ [Int] (9)
+    )
+  )
+
+  empty_opt : OptionSD [Int] = NoneSD_ ()
+
+  non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] = lambda sequence --> SomeSD_ (max (sequence) )
+
+  max_of_2 (a : Int) (b : Int) : Int =
+    if a > b then a else b
+
+  max (s : NonEmptySeqSD [Int]) : Int =
+    Recursion_ ().fold (s.tail.toSeq) (s.head) (max_of_2)
+
+  test ("should reverse a sequence") (
+    check (
+      obtained := SeqSDBuilder_ ().build (int_seq).reverse
+    ) (
+      expected := SeqSDBuilder_ ().build (rev_int_seq)
+    )
+  )
+
+  test ("should reverse another sequence") (
+    check (
+      obtained := SeqSDBuilder_ ().build (int_seq).opt (ifEmpty := empty_seq) (ifNonEmpty := non_empty_seq)
+    ) (
+      expected := SeqSDBuilder_ ().build (rev_int_seq)
+    )
+  )
+
+  empty_seq : SeqSD [Int] = EmptySeqSD_ ()
+
+  non_empty_seq : NonEmptySeqSD [Int] -> NonEmptySeqSD [Int] = lambda sequence --> sequence.reverse
 
 end
 

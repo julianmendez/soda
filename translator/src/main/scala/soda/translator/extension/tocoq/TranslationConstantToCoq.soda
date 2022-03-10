@@ -11,33 +11,101 @@ class TranslationConstantToCoq
 
   soda_constant = SodaConstant_ ()
 
-  soda_let_pattern = soda_constant.deprecated_let_reserved_word + " "
-
-  soda_in_pattern = soda_constant.deprecated_in_reserved_word + " "
-
-  soda_in_let_pattern = soda_constant.deprecated_in_reserved_word + " " + soda_constant.deprecated_let_reserved_word + " "
-
   coq_space = " "
 
-  coq_definition : String = "Definition"
+  coq_new_line = "\n"
 
-  coq_value : String = "Definition"
+  coq_function_definition_symbol = ":="
 
-  coq_recursive_definition : String = "Fixpoint"
+  coq_type_membership_symbol = ":"
 
-  coq_definition_end : String = "."
+  coq_subtype_symbol = "<:"
 
-  coq_recursive_definition_end : String = "."
+  coq_supertype_symbol = ">:"
+
+  coq_function_arrow_symbol = "->"
+
+  coq_empty_string = ""
+
+  coq_vertical_bar_symbol = "|"
+
+  coq_opening_parenthesis = "("
+
+  coq_closing_parenthesis = ")"
+
+  coq_opening_comment = "(*"
+
+  coq_closing_comment = "*)"
+
+  coq_opening_documentation = "(**"
+
+  coq_closing_documentation = "*)"
+
+  coq_some_variable_name = "x"
+
+  coq_opening_brace = "{"
+
+  coq_closing_brace = "}"
+
+  coq_product_type_symbol = "*"
+
+  coq_lambda_reserved_word = "fun"
+
+  coq_lambda_arrow_symbol = "=>"
+
+  coq_case_arrow_symbol = "=>"
+
+  coq_case_translation = coq_vertical_bar_symbol + coq_space
+
+  coq_not_reserved_word = "notb"
+
+  coq_and_reserved_word = "andb"
+
+  coq_or_reserved_word = "orb"
+
+  coq_end_symbol = "."
+
+  coq_definition_reserved_word : String = "Definition"
+
+  coq_inductive_reserved_word : String = "Inductive"
+
+  coq_set_reserved_word : String = "Set"
+
+  coq_type_reserved_word : String = "Type"
+
+  coq_module_reserved_word : String = "Module"
+
+  coq_module_end_reserved_word : String = "End"
+
+  coq_import_reserved_word : String = "Import"
+
+  coq_recursive_definition_reserved_word : String = "Fixpoint"
+
+  coq_inductive_end_symbol : String = coq_end_symbol
+
+  coq_definition_end_symbol : String = coq_end_symbol
+
+  coq_recursive_definition_end_symbol : String = coq_end_symbol
 
   coq_with_reserved_word : String = "with"
 
-  coq_theorem_begin_reserved_word = "Theorem"
+  coq_theorem_begin_reserved_word : String = "Theorem"
 
-  coq_theorem_end = "."
+  coq_theorem_end_symbol : String = coq_end_symbol
 
-  coq_proof_begin_reserved_word = "Proof."
+  coq_proof_begin_reserved_word : String = "Proof."
 
-  coq_proof_end_reserved_word = "Qed."
+  coq_proof_end_reserved_word : String = "Qed."
+
+  coq_prelude : Seq [String] =
+    Seq (
+      "",
+      "Require Import Coq.ZArith.BinInt .",
+      "(* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)",
+      "",
+      "Notation Int := Z .",
+      ""
+    )
 
   coq_recursive_function_prefixes : Seq [String] =
     Seq (
@@ -140,46 +208,22 @@ class TranslationConstantToCoq
       "Variable"
     )
 
-  synonym_at_beginning : Seq [Tuple2 [String, String] ] =
+  type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 ("*", "class"),
-      Tuple2 ("+", "import")
+      Tuple2 (soda_constant.subtype_reserved_word, coq_subtype_symbol),
+      Tuple2 (soda_constant.supertype_reserved_word, coq_supertype_symbol),
+      Tuple2 (soda_constant.function_arrow_symbol, coq_function_arrow_symbol)
     )
 
-  synonym : Seq [Tuple2 [String, String] ] =
+  function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 ("is", ":="),
-      Tuple2 ("def", "")
-    )
-
-  main_translation : Seq [Tuple2 [String, String] ] =
-    Seq (
-      Tuple2 (";", "."),
-      Tuple2 (":", ":"),
-      Tuple2 ("->", "->"),
-      Tuple2 ("=", ":="),
-      Tuple2 ("lambda", "fun"),
-      Tuple2 ("if", "if"),
-      Tuple2 ("then", "then"),
-      Tuple2 ("else", "else"),
-      Tuple2 ("let", "let"),
-      Tuple2 ("in", "in"),
-      Tuple2 ("match", "match"),
-      Tuple2 ("case", "|"),
-      Tuple2 ("end", "end"),
-      Tuple2 ("|", "|"),
-      Tuple2 ("false", "false"),
-      Tuple2 ("true", "true"),
-      Tuple2 ("not", "negb"),
-      Tuple2 ("and", "andb"),
-      Tuple2 ("or", "orb"),
-      Tuple2 ("class", "Module Type"),
-      Tuple2 ("has", "Parameter"),
-      Tuple2 ("extends", "<:"),
-      Tuple2 ("package", ""),
-      Tuple2 ("import", "Require Import"),
-      Tuple2 ("@override", ""),
-      Tuple2 ("@tailrec", "")
+      Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
+      Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
+      Tuple2 (soda_constant.lambda_arrow_symbol, coq_lambda_arrow_symbol),
+      Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
+      Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),
+      Tuple2 (soda_constant.and_reserved_word, coq_and_reserved_word ),
+      Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word )
     )
 
   type_translation : Seq [ Tuple2 [String, String]  ] =
@@ -192,29 +236,12 @@ class TranslationConstantToCoq
         Tuple2 ("BigInt", "Z")
     )
 
-  prefix_coq_non_soda = "__soda__"
+  prefix_coq_non_soda : String = "__soda__"
 
   coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words
-      .filter (lambda x -> not soda_constant.soda_reserved_words.contains (x))
-      .map (lambda x -> Tuple2 (x, prefix_coq_non_soda + x) )
-
-  soda_brackets_and_comma =
-    Seq ( '(', ')', '[', ']', '{', '}', ',' )
-
-  beautifier : Seq [Tuple2 [String, String] ] =
-    Seq (
-      Tuple2 ("\\.\\s+", "."),
-      Tuple2 ("=\\s+", "= "),
-      Tuple2 ("\\s+=", " ="),
-      Tuple2 ("\\(\\s+", "("),
-      Tuple2 ("\\[\\s+", "["),
-      Tuple2 ("\\s+\\]", "]"),
-      Tuple2 ("\\s+,", ","),
-      Tuple2 (",\\s+", ", "),
-      Tuple2 ("\\s+:", " :"),
-      Tuple2 (":\\s+", ": ")
-    )
+      .filter ( lambda x --> not soda_constant.soda_reserved_words.contains (x))
+      .map ( lambda x --> Tuple2 (x, prefix_coq_non_soda + x) )
 
   is_coq_word (word : String) : Boolean =
     coq_reserved_words.contains (word)

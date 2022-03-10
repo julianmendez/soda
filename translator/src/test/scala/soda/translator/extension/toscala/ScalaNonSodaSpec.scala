@@ -12,28 +12,33 @@ case class ScalaNonSodaSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val bp =
-    BlockProcessor_ (
+    BlockProcessor_(
       DefaultBlockSequenceTranslator_ (
         MicroTranslatorToScala_ ()
       )
     )
 
-  test ("Scala reserved words are replaced")
-    {
-      lazy val program = "" +
+  test ("Scala reserved words are replaced") (
+    check (
+      obtained = bp.translate ("" +
         "\nval x =" +
         "\n  while (x != 0)"
-      lazy val expected = "" +
-        "lazy val __soda__val x =" +
-        "\n  __soda__while (x != 0 )" +
+      )
+    ) (
+      expected = "" +
+        "private lazy val __soda__val x =" +
+        "\n  __soda__while (x != 0)" +
         "\n"
-      lazy val obtained = bp.translate (program )
-      assert (obtained == expected ) }
+    )
+  )
 
-  test ("some synonyms are Scala reserved words")
-    {
-      lazy val program = "" +
+  test ("some synonyms are Scala reserved words") (
+    check (
+      obtained = bp.translate ("" +
         "\nclass A0 [B0 <: C0]" +
         "\n" +
         "\nend" +
@@ -50,7 +55,9 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\nend" +
         "\n"
-      lazy val expected = "" +
+      )
+    ) (
+      expected = "" +
         "trait A0 [B0 <: C0]" +
         "\n{" +
         "\n" +
@@ -79,7 +86,7 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
         "\n"
-       lazy val obtained = bp.translate (program )
-      assert (obtained == expected ) }
+    )
+  )
 
 }

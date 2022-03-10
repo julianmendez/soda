@@ -16,11 +16,11 @@ Module soda_example.
 Module SaladMaker.
 
   Fixpoint prepare_salad
-      (Ingredient: Type) (Salad: Type)
-      (next_ingredient_function: Salad -> Ingredient -> Salad)
-      (condition_to_continue: Salad -> Ingredient -> bool)
-      (ingredients_so_far: list Ingredient)
-      (salad_so_far: Salad): Salad :=
+      (Ingredient : Type) (Salad : Type)
+      (next_ingredient_function : Salad -> Ingredient -> Salad)
+      (condition_to_continue : Salad -> Ingredient -> bool)
+      (ingredients_so_far : list Ingredient)
+      (salad_so_far : Salad) : Salad :=
     match ingredients_so_far with
       | nil => salad_so_far
       | head :: tail =>
@@ -35,8 +35,8 @@ Module SaladMakerSpec.
 
 Import SaladMaker.
 
-  Inductive SaladIngredient: Type :=
-    | SaladIngredient_ (ordinal: nat) (name: string).
+  Inductive SaladIngredient : Type :=
+    | SaladIngredient_ (ordinal : nat) (name : string).
 
 
   Definition tomato := (SaladIngredient_ 1 "tomato").
@@ -49,10 +49,10 @@ Import SaladMaker.
 
   Definition SaladIngredient_values := tomato :: lettuce :: sunflower_seeds :: olive_oil :: nil.
 
-  Definition add_next_ingredient (salad_so_far: list SaladIngredient) (ingredient: SaladIngredient): list SaladIngredient :=
+  Definition add_next_ingredient (salad_so_far : list SaladIngredient) (ingredient : SaladIngredient) : list SaladIngredient :=
     ingredient :: salad_so_far.
 
-  Definition has_salad_at_most_2_ingredients (salad_so_far: list SaladIngredient) (next_ingredient: SaladIngredient): bool :=
+  Definition has_salad_at_most_2_ingredients (salad_so_far : list SaladIngredient) (next_ingredient : SaladIngredient) : bool :=
     (length salad_so_far) <? 3.
 
   Definition ingredients := SaladIngredient_values.
@@ -66,7 +66,7 @@ Import SaladMaker.
         ingredients
         nil).
 
-  Example test1 : obtained = expected.
+  Example test1  : obtained = expected.
   Proof.
     reflexivity.
   Qed.

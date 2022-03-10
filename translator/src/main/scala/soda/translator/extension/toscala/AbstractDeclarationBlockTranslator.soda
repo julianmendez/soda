@@ -13,21 +13,19 @@ class AbstractDeclarationBlockTranslator
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
 
-  space = " "
-
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   scala_abstract_function_declaration_pattern =
-    tc.scala_abstract_function_declaration + space
+    _tc.scala_abstract_function_declaration + _tc.scala_space
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block : AbstractDeclarationAnnotation => _translate_block (block)
-      | x => annotated_block
+      case AbstractDeclarationAnnotation_ (block, references) ==> _translate_block (AbstractDeclarationAnnotation_ (block, references) )
+      case x ==> annotated_block
     end
 
   _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -36,12 +34,13 @@ class AbstractDeclarationBlockTranslator
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
         block.abstract_functions_with_comments
-      )
+      ),
+      block.references
     )
 
   prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      annotated_lines.map (lambda annotated_line -> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map ( lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =
@@ -51,7 +50,7 @@ class AbstractDeclarationBlockTranslator
 
   get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (ch => ch.isSpaceChar)
+      .takeWhile (ch ==> ch.isSpaceChar)
       .length
 
   get_first_line (block : AnnotatedBlock) : String =

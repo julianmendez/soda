@@ -30,7 +30,7 @@ class Main
     execute (arguments.toSeq)
 
   execute : Seq [String] -> Boolean =
-    lambda arguments ->
+    lambda arguments -->
       if arguments.length == 0
       then help.execute (arguments.toSeq)
       else

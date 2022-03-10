@@ -19,32 +19,32 @@ class OptionSD [A]
 
   opt [B] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
     match this
-      | NoneSD_ () => ifEmpty
-      | SomeSD_ (element) => ifNonEmpty (element)
+      case NoneSD_ () ==> ifEmpty
+      case SomeSD_ (element) ==> ifNonEmpty (element)
     end
 
   map [B] (mapping : A -> B) : OptionSD [B] =
     match this
-      | NoneSD_ () => NoneSD_ [B] ()
-      | SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
+      case NoneSD_ () ==> NoneSD_ [B] ()
+      case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
     end
 
   getOrElse (default : A) : A =
     match this
-      | NoneSD_ () => default
-      | SomeSD_ (element) => element
+      case NoneSD_ () ==> default
+      case SomeSD_ (element) ==> element
     end
 
   fold [B] (ifEmpty : B) (f : A -> B) : B =
     match this
-      | NoneSD_ () => ifEmpty
-      | SomeSD_ (element) => f (element)
+      case NoneSD_ () ==> ifEmpty
+      case SomeSD_ (element) ==> f (element)
     end
 
   flatMap [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
-      | NoneSD_ () => NoneSD_ ()
-      | SomeSD_ (element) => mapping (element)
+      case NoneSD_ () ==> NoneSD_ ()
+      case SomeSD_ (element) ==> mapping (element)
     end
 
   bind [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
@@ -52,8 +52,8 @@ class OptionSD [A]
 
   filter (predicate : A -> Boolean) : OptionSD [A] =
     match this
-      | NoneSD_ () => NoneSD_ ()
-      | SomeSD_ (element) =>
+      case NoneSD_ () ==> NoneSD_ ()
+      case SomeSD_ (element) ==>
         if predicate (element)
         then this
         else NoneSD_ [A] ()

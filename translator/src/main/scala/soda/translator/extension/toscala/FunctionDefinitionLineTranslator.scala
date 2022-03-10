@@ -35,52 +35,53 @@ trait FunctionDefinitionLineTranslator
   import   soda.translator.replacement.Replacement
   import   soda.translator.replacement.Replacement_
 
-  lazy val sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant_ ()
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val trimmed_line = line.trim
-
-  lazy val soda_space: String = " "
-
-  lazy val scala_space: String = " "
+  private lazy val _trimmed_line = line.trim
 
   lazy val translation =
-    find_definition (line ) .opt (ifEmpty = line ) (ifNonEmpty = position => try_found_definition (position ) .line )
+    _find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => _try_found_definition (position).line)
 
-  lazy val translation_of_val_definition =
-    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern ) (tc.scala_value + scala_space )
+  private lazy val _translation_of_val_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary + _tc.scala_value + _tc.scala_space)
 
-  lazy val translation_of_def_definition =
-    Replacement_ (line ) .add_after_spaces_or_pattern (tc.soda_let_pattern ) (tc.scala_definition + scala_space )
+  private lazy val _translation_of_def_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary + _tc.scala_definition + _tc.scala_space)
 
-  def try_found_definition (position: Int ): Replacement =
-    if (is_val_definition (position )
-    ) translation_of_val_definition
-    else translation_of_def_definition
+  private lazy val _private_prefix_if_necessary : String =
+    if ( line.trim.startsWith (_sc.private_function_prefix)
+    ) _tc.scala_private_reserved_word + _tc.scala_space
+    else ""
 
-  def is_val_definition (initial_position: Int ) =
-    is_val_definition_case_1 ||
-    is_val_definition_case_2 (initial_position ) ||
-    is_val_definition_case_3 ||
-    is_val_definition_case_4
+  private def _try_found_definition (position : Int) : Replacement =
+    if ( _is_val_definition (position)
+    ) _translation_of_val_definition
+    else _translation_of_def_definition
 
-  lazy val position_of_first_opening_parenthesis =
-    get_index (line ) (sc.opening_parenthesis_symbol )
+  private def _is_val_definition (initial_position : Int) =
+    _is_val_definition_case_1 ||
+    _is_val_definition_case_2 (initial_position) ||
+    _is_val_definition_case_3 ||
+    _is_val_definition_case_4
 
-  lazy val is_val_definition_case_1 =
-    position_of_first_opening_parenthesis.isEmpty
+  private lazy val _position_of_first_opening_parenthesis =
+    _get_index (line) (_sc.opening_parenthesis_symbol)
 
-  def is_val_definition_case_2 (initial_position: Int ) =
-    position_of_first_opening_parenthesis.opt (false ) (position => position > initial_position )
+  private lazy val _is_val_definition_case_1 =
+    _position_of_first_opening_parenthesis.isEmpty
 
-  lazy val is_val_definition_case_3 =
-    (get_index (line ) (sc.type_membership_symbol ) ) .opt (ifEmpty = false ) (ifNonEmpty = other_position =>
-        position_of_first_opening_parenthesis.opt (false ) (position => position > other_position )
+  private def _is_val_definition_case_2 (initial_position : Int) =
+    _position_of_first_opening_parenthesis.opt (false) (  position => position > initial_position)
+
+  private lazy val _is_val_definition_case_3 =
+    (_get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
+        _position_of_first_opening_parenthesis.opt (false) (  position => position > other_position)
     )
 
-  lazy val is_val_definition_case_4 =
-    trimmed_line.startsWith (sc.opening_parenthesis_symbol )
+  private lazy val _is_val_definition_case_4 =
+    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
@@ -89,17 +90,17 @@ trait FunctionDefinitionLineTranslator
    * @param line line
    * @return maybe the position of the definition sign
    */
-  def find_definition (line: String ): OptionSD [Int] =
-    if (line.endsWith (soda_space + sc.function_definition_symbol )
-    ) SomeSD_ (line.length - sc.function_definition_symbol.length )
-    else get_index (line ) (soda_space + sc.function_definition_symbol + soda_space )
+  private def _find_definition (line : String) : OptionSD [Int] =
+    if ( line.endsWith (_sc.space + _sc.function_definition_symbol)
+    ) SomeSD_ (line.length - _sc.function_definition_symbol.length)
+    else _get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
 
-  def get_index (line: String ) (pattern: String ): OptionSD [Int] =
-    get_index_from (line ) (pattern ) (0 )
+  private def _get_index (line : String) (pattern : String) : OptionSD [Int] =
+    _get_index_from (line) (pattern) (0)
 
-  def get_index_from (line: String ) (pattern: String ) (start: Int ): OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start ) )
-      .filter (position => ! (position == -1 ) )
+  private def _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line.indexOf (pattern, start) )
+      .filter (  position => ! (position == -1) )
 
 }
 

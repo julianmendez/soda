@@ -11,7 +11,7 @@ class BlockTranslatorPipeline
     pipeline : Seq [BlockTranslator]
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       Recursion_ ()
         .fold (pipeline) (block) (_next_value_function)
 

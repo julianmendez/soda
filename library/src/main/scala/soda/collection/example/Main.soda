@@ -29,7 +29,7 @@ class Main
       e.foldLeft_example,
       e.foldRight_example
     )
-    .map (lambda pair -> pair.name + " = " + pair.result.toString)
+    .map ( lambda pair --> pair.name + " = " + pair.result.toString)
     .mkString ("\n")
 
   main (arguments : Array [String] ) : Unit =

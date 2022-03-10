@@ -8,34 +8,32 @@ class MainClassBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  sc = SodaConstant_ ()
-
-  tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala_ ()
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       translate_for (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      | block : ClassEndAnnotation => _translate_block (block)
-      | x => annotated_block
+      case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
+      case x ==> annotated_block
     end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if _get_class_name (block.references) == tc.soda_main_class_name
+    if _get_class_name (block.references) == _tc.soda_main_class_name
     then
       ClassEndAnnotation_ (
         BlockBuilder_ ().build (
           Seq [String] (
-            tc.scala_class_end_symbol,
+            _tc.scala_class_end_symbol,
             "",
-            tc.scala_entry_point
+            _tc.scala_entry_point
           )
         ),
         block.references
@@ -44,15 +42,15 @@ class MainClassBlockTranslator
 
   _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
-      .map (lambda x -> x.class_name)
+      .map ( lambda x --> x.class_name)
       .getOrElse ("")
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (lambda block ->
+      .flatMap ( lambda block -->
         match block
-          | b : ClassBeginningAnnotation => Some (b)
-          | x => None
+          case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+          case x ==> None
         end
       )
       .headOption

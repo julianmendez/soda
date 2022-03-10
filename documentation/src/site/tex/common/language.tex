@@ -1,7 +1,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, is, @new, @tailrec, @override},
+    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
     sensitive=true, % keywords are not case-sensitive by default
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
     morestring=[b]" % defines that strings are enclosed in double quotes
@@ -43,7 +43,8 @@
 \newcommand{\sodadef}{\srccode{=}\xspace}
 \newcommand{\sodacolon}{\srccode{:}\xspace}
 \newcommand{\sodaarrow}{{-\textgreater}\xspace}
-\newcommand{\sodaimplies}{{=\textgreater}\xspace}
+\newcommand{\sodalambdaarrow}{{--\textgreater}\xspace}
+\newcommand{\sodaimplies}{{==\textgreater}\xspace}
 \newcommand{\sodadefparam}{\srccode{:=}\xspace}
 
 \newcommand{\sodalambda}{\reservedWordSoda{lambda}}
@@ -79,8 +80,6 @@
 
 \newcommand{\sodaequalsSign}{\reservedWordSoda{==}}
 
-\newcommand{\sodabar}{\reservedWordSoda{|}}
-\newcommand{\sodais}{\reservedWordSoda{is}}
 \newcommand{\sodalessthancolon}{\reservedWordSoda{<:}}
 \newcommand{\sodagreaterthancolon}{\reservedWordSoda{>:}}
 

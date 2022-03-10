@@ -8,13 +8,13 @@ trait BlockTranslator00
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
-          if (block.lines.isEmpty
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if ( block.lines.isEmpty
           ) Seq ("")
-          else block.lines.++ (Seq ("tr00") )
+          else block.lines.++ ( Seq ("tr00") )
         )
       )
 
@@ -30,13 +30,13 @@ trait BlockTranslator01
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
-          if (block.lines.isEmpty
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if ( block.lines.isEmpty
           ) Seq ("")
-          else block.lines.++ (Seq ("tr01") )
+          else block.lines.++ ( Seq ("tr01") )
         )
       )
 
@@ -52,13 +52,13 @@ trait BlockTranslator02
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
-          if (block.lines.isEmpty
+      AnnotationFactory_ ().annotate (
+        BlockBuilder_ ().build (
+          if ( block.lines.isEmpty
           ) Seq ("")
-          else block.lines.++ (Seq ("tr02") )
+          else block.lines.++ ( Seq ("tr02") )
         )
       )
 
@@ -74,6 +74,9 @@ case class BlockTranslatorPipelineSpec ()
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
   lazy val instance =
     BlockTranslatorPipeline_ (
       Seq (
@@ -83,17 +86,20 @@ case class BlockTranslatorPipelineSpec ()
       )
     )
 
-  test ("block translator pipeline")
-    {
-      lazy val original =
-        AnnotationFactory_ () .annotate (
-          BlockBuilder_ () .build (
-            Seq ("first line" )
-          )
-        )
-      lazy val expected =
-        AnnotationFactory_ () .annotate (
-          BlockBuilder_ () .build (
+  lazy val original =
+    AnnotationFactory_ ().annotate (
+      BlockBuilder_ ().build (
+        Seq ( "first line" )
+      )
+    )
+
+  test ("block translator pipeline") (
+    check (
+      obtained = instance.translate (original)
+    ) (
+      expected =
+        AnnotationFactory_ ().annotate (
+          BlockBuilder_ ().build (
             Seq (
               "first line",
               "tr00",
@@ -102,7 +108,7 @@ case class BlockTranslatorPipelineSpec ()
             )
           )
         )
-      lazy val obtained = instance.translate (original )
-      assert (obtained == expected ) }
+    )
+  )
 
 }

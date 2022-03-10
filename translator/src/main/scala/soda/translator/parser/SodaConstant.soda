@@ -12,9 +12,9 @@ class SodaConstant
 
   function_arrow_symbol = "->"
 
-  lambda_arrow_symbol = "->"
+  lambda_arrow_symbol = "-->"
 
-  case_arrow_symbol = "=>"
+  case_arrow_symbol = "==>"
 
   parameter_definition_symbol = ":="
 
@@ -104,27 +104,11 @@ class SodaConstant
 
   override_annotation = "@override"
 
-  deprecated_let_reserved_word = "let"
+  new_annotation = "@new"
 
-  deprecated_in_reserved_word = "in"
+  private_function_prefix = "_"
 
-  deprecated_has_reserved_word = "has"
-
-  deprecated_with_reserved_word = "with"
-
-  deprecated_class_abbreviation = "*"
-
-  deprecated_class_beginning_symbol = "{"
-
-  deprecated_class_end_symbol = "}"
-
-  deprecated_class_definition_symbol = "="
-
-  deprecated_class_definition_synonym = "is"
-
-  deprecated_import_abbreviation = "+"
-
-  soda_reserved_words = Seq (
+  soda_reserved_words : Seq [String] = Seq (
     function_definition_symbol,
     type_membership_symbol,
     function_arrow_symbol,
@@ -160,11 +144,7 @@ class SodaConstant
     function_definition_synonym,
     subtype_abbreviation,
     supertype_abbreviation,
-    case_abbreviation,
-    deprecated_let_reserved_word,
-    deprecated_in_reserved_word,
-    deprecated_has_reserved_word,
-    deprecated_with_reserved_word
+    case_abbreviation
   )
 
 end

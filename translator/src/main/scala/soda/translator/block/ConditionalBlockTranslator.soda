@@ -9,7 +9,7 @@ class ConditionalBlockTranslator
     translator : BlockTranslator
 
   translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block ->
+    lambda block -->
       if accepted_annotations.contains (block.block_annotation)
       then translator.translate (block)
       else block

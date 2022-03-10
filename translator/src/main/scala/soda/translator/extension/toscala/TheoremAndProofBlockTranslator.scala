@@ -13,36 +13,36 @@ trait TheoremAndProofBlockTranslator
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  lazy val tc = TranslationConstantToScala_ ()
+  private lazy val _tc = TranslationConstantToScala_ ()
 
-  lazy val translate: AnnotatedBlock => AnnotatedBlock =
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      translate_for (block )
+      translate_for (block)
 
-  def translate_for (annotated_block: AnnotatedBlock ): AnnotatedBlock =
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case block: TheoremBlockAnnotation => _translate_theorem_block (block )
-      case block: ProofBlockAnnotation => _translate_proof_block (block )
+      case TheoremBlockAnnotation_ (block) => _translate_theorem_block (TheoremBlockAnnotation_ (block) )
+      case ProofBlockAnnotation_ (block) => _translate_proof_block (ProofBlockAnnotation_ (block) )
       case x => annotated_block
     }
 
-  def _translate_theorem_block (block: AnnotatedBlock ): TheoremBlockAnnotation =
-    TheoremBlockAnnotation_ (_translate_block (block ) )
+  private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (_translate_block (block) )
 
-  def _translate_proof_block (block: AnnotatedBlock ): ProofBlockAnnotation =
-    ProofBlockAnnotation_ (_translate_block (block ) )
+  private def _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
+    ProofBlockAnnotation_ (_translate_block (block) )
 
-  def _translate_block (block: AnnotatedBlock ): Block =
-    append (tc.scala_comment_closing_symbol ) (prepend (tc.scala_comment_opening_symbol ) (block ) )
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    _append (_tc.scala_comment_closing_symbol) (_prepend (_tc.scala_comment_opening_symbol) (block) )
 
-  def prepend (prefix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      Seq [String] (prefix + block.lines.head ) ++ block.lines.tail
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
     )
 
-  def append (suffix: String ) (block: Block ): Block =
-    BlockBuilder_ () .build (
-      block.lines.:+ (suffix )
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
     )
 
 }
