@@ -1,0 +1,575 @@
+package soda.translator.documentation
+
+
+
+\end{lstlisting}
+
+This is a Soda tutorial written in Soda.
+Copyright 2021 Julian Mendez
+ Version: 2021-11-19
+
+
+\begin{lstlisting}
+
+
+
+\end{lstlisting}
+
+Source code written in Soda is intended to be descriptive.
+It is usually written in different files, and each file has `blocks`.
+These blocks are pieces of code that have some meaning.
+A block should be short, maybe less than 10 lines.
+However, it is more important to make things clear than concise.
+These are examples of blocks:
+1. a constant or function definition
+2. the beginning of a class definition
+3. the end of a class definition
+4. a block declaration of abstract constants and functions
+5. a block of imports
+6. a package declaration
+7. a class alias
+ 8. a comment
+
+
+\begin{lstlisting}
+
+
+
+\end{lstlisting}
+
+The name could be a noun or an adjective, but it should not be a verb. To declare a class, just add `class` before a class name, and end it with `end`.It is recommended to use camel case style starting with a capital letter.
+
+
+\begin{lstlisting}
+
+
+class Shape
+
+
+end
+
+
+class Movable
+
+
+end
+
+
+
+\end{lstlisting}
+
+For example, `A subtype B` means that `A` is a subtype of `B`. A class can be parameterized.The parameter type can be constrained using `subtype` and `supertype`.
+
+
+\begin{lstlisting}
+
+
+class ShapePainter [A subtype Shape]
+
+
+end
+
+
+
+\end{lstlisting}
+
+It is recommended to indent the constants and functions declared inside. 
+
+
+\begin{lstlisting}
+
+
+class EqualsExample
+
+
+
+\end{lstlisting}
+
+A constant does not have parameters and it is declared with the equals sign (`=`).It is recommended to use snake case and start in lowercase.
+The constant name should be a noun.
+In a function call the parameters can be specified with the colon-equals sign (`:=`).
+Constants are only evaluated once, which is the first time they are needed. This is especially recommended when the parameters are of the same type.
+
+
+\begin{lstlisting}
+
+
+  answer : Int = f (x := 20) (y := 2)
+
+
+
+\end{lstlisting}
+
+Functions, even with empty parameters, are evaluated every time they are invoked. A function has parameters.If the parameters are empty, it is implied that the function produces some side effect.
+
+
+\begin{lstlisting}
+
+
+  f (x : Int) (y : Int) : Int = 2 * x + y
+
+
+end
+
+
+
+\end{lstlisting}
+
+A class can extend another one by using `extends`.Abstract classes cannot be instantiated but can be extended.
+Conversely, concrete classes cannot be extended but can be instantiated.
+Concrete classes are declared with parentheses `(` and `)`.
+Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). It is recommended that concrete classes do not have a body, because this cannot be reused.
+
+
+\begin{lstlisting}
+
+
+
+\end{lstlisting}
+
+A class does not need to define all its constants and functions. 
+
+
+\begin{lstlisting}
+
+
+class RegisteredPerson
+
+
+
+\end{lstlisting}
+
+A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. 
+
+
+\begin{lstlisting}
+
+
+  abstract
+    first_name : String
+    last_name : String
+
+
+
+\end{lstlisting}
+
+If a constant or function is not meant to be exported, its name should start with an underscore (`_`). 
+
+
+\begin{lstlisting}
+
+
+  _separator = " "
+
+
+
+\end{lstlisting}
+
+Strings can be concatenated by using the plus sign (`+`). 
+
+
+\begin{lstlisting}
+
+
+  full_name = first_name + _separator + last_name
+
+
+end
+
+
+class Agent
+
+
+  abstract
+    identifier : String
+
+
+end
+
+
+
+\end{lstlisting}
+
+A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. 
+
+
+\begin{lstlisting}
+
+
+class RegisteredPersonAgent
+  extends
+    Agent
+    RegisteredPerson
+
+
+  abstract
+    identifier : String
+    first_name : String
+    last_name : String
+
+
+end
+
+
+class Element
+
+
+  abstract
+    accept : Visitor -> Boolean
+
+
+end
+
+
+class Visitor
+
+
+  abstract
+    visit : Element -> Boolean
+
+
+end
+
+
+class Item
+  extends Element
+
+
+  abstract
+    identifier : Int
+
+
+
+\end{lstlisting}
+
+It is possible to refer to an object instance by using `this`. 
+
+
+\begin{lstlisting}
+
+
+  accept : Visitor -> Boolean =
+    lambda visitor -->
+      visitor.visit (this)
+
+
+end
+
+
+class PersonName
+
+
+  abstract
+    name : String
+
+
+
+\end{lstlisting}
+
+It is possible to override a function by using the `@override` annotation.This is intended only for exceptional cases, like the `toString` function, or a diamond-shaped class hierarchy. 
+
+
+\begin{lstlisting}
+
+
+  @override
+  toString = name
+
+
+end
+
+
+
+\end{lstlisting}
+
+  *This contains the examples shown in the manual.
+
+
+\begin{lstlisting}
+
+
+class Manual
+
+
+  import
+    java.util.Date
+
+
+  a = 1
+
+
+  b : Int = 2
+
+
+
+\end{lstlisting}
+
+An instance of a JVM class can be created with the `@new` annotation.If the code is translated to Scala 3, this annotation is not required. 
+
+
+\begin{lstlisting}
+
+
+  now = @new Date ()
+
+
+  plus_one (x : Int) : Int = x + 1
+
+
+
+\end{lstlisting}
+
+A piecewise function can be defined using an `if`-`then`-`else` structure.The condition in the `if` is evaluated, and then only the corresponding branch is evaluated. 
+
+
+\begin{lstlisting}
+
+
+  max (x : Int) (y : Int) : Int =
+    if x > y
+    then x
+    else y
+
+
+
+\end{lstlisting}
+
+Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared using a right arrow (`->`). 
+
+
+\begin{lstlisting}
+
+
+  plus_one (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map ( lambda element --> element + 1)
+
+
+
+\end{lstlisting}
+
+Boolean values `false` and `true` are available. 
+
+
+\begin{lstlisting}
+
+
+  my_not (x : Boolean) : Boolean =
+    if x
+    then false
+    else true
+
+
+  my_and (x : Boolean) (y : Boolean) : Boolean =
+    if x
+    then y
+    else false
+
+
+  my_or (x : Boolean) (y : Boolean) : Boolean =
+    if x
+    then true
+    else y
+
+
+
+\end{lstlisting}
+
+Boolean values have the standard `not`-`and`-`or` functions. 
+
+
+\begin{lstlisting}
+
+
+  my_xor (x : Boolean) (y : Boolean) : Boolean =
+    (x or y) and not (x and y)
+
+
+
+\end{lstlisting}
+
+It is possible to use pattern matching with `match` and `case`.Please observe the long double arrow `==>`. 
+
+
+\begin{lstlisting}
+
+
+  if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
+    match condition
+      case true ==> if_true
+      case false ==> if_false
+    end
+
+
+
+\end{lstlisting}
+
+A vertical bar `|` can be used as an abbreviation for `case`. 
+
+
+\begin{lstlisting}
+
+
+  another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
+    match condition
+      case true ==> if_true
+      case false ==> if_false
+    end
+
+
+  sum (n : Int) =
+    _tailrec_ (n) (0)
+
+
+
+\end{lstlisting}
+
+A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. 
+
+
+\begin{lstlisting}
+
+
+  @tailrec
+  _tailrec_ (n : Int) (accum : Int) : Int =
+    if n < 0
+    then accum
+    else _tailrec_ (n - 1) (n + accum)
+
+
+end
+
+
+class AbstractFactorialConcise
+
+
+  abstract
+    factorial : Int -> Int
+
+
+end
+
+
+class FactorialConcise
+  extends
+    AbstractFactorialConcise
+
+
+
+\end{lstlisting}
+
+The function used to compare equality is a long equals (`==`). 
+
+
+\begin{lstlisting}
+
+
+  @tailrec
+  _tailrec_ (n : Int) (product : Int) : Int =
+    if n == 0
+    then product
+    else _tailrec_ (n - 1) (n * product)
+
+
+  factorial (n : Int) : Int =
+    _tailrec_ (n) (1)
+
+
+end
+
+
+class AbstractFactorialVerbose
+
+
+  abstract
+    factorial : Int -> Int
+
+
+end
+
+
+class FactorialVerbose
+  extends AbstractFactorialVerbose
+
+
+  @tailrec
+  _tailrec_ (n : Int) (product : Int) : Int =
+    if n == 0
+    then product
+    else _tailrec_ (n - 1) (n * product)
+
+
+  factorial : Int -> Int =
+    lambda n -->
+      _tailrec_ (n) (1)
+
+
+end
+
+
+class Recursion
+
+
+  @tailrec
+  _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    if sequence.isEmpty
+    then current_value
+    else
+      if not condition (current_value) (sequence.head)
+      then current_value
+      else _tailrec_fold4 (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+
+
+  fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+
+
+  @tailrec
+  _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
+    if n <= 0
+    then sequence
+    else _tailrec_range (n - 1) (sequence.+: (n - 1) )
+
+
+  range (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
+
+
+end
+
+
+
+\end{lstlisting}
+
+The main class has to be named `Main` and requires a `main` function that receives an `Array [String]` and returns a `Unit`.Only one main class per package is allowed. 
+
+
+\begin{lstlisting}
+
+
+class Main
+
+
+
+\end{lstlisting}
+
+An output to the standard output can be sent with a `println` command.This is a shorter form of JVM's `System.out.println`. 
+
+
+\begin{lstlisting}
+
+
+  main (arguments : Array [String] ) : Unit =
+    println ("Hello world!")
+
+
+end
+
+
+
+\end{lstlisting}
+
+The main class has an extending concrete class and it is called `Main_ ()`. 
+
+
+\begin{lstlisting}
+

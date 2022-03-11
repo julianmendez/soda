@@ -97,9 +97,13 @@ trait SodaConstant
 
   lazy val case_abbreviation = "|"
 
+  lazy val documentation_comment_opening_symbol = "/**"
+
   lazy val comment_opening_symbol = "/*"
 
   lazy val comment_closing_symbol = "*/"
+
+  lazy val comment_line_symbol = "*"
 
   lazy val tail_recursion_annotation = "@tailrec"
 

@@ -12,6 +12,8 @@ where EXTENSION can be:
 
     coq         calls the Soda-to-Coq translator  (only for snippets)
 
+    doc         creates LaTeX documents based on Soda files
+
     manual      outputs the manual, which is written in Soda
 
     license     outputs the license

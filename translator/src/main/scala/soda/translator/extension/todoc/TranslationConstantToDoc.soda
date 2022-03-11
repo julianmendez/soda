@@ -1,0 +1,31 @@
+package soda.translator.extension.todoc
+
+/**
+ * This class contains constants that are specific for the documentation generation.
+ */
+
+class TranslationConstantToDoc
+
+  import
+    soda.translator.parser.SodaConstant_
+
+  soda_constant = SodaConstant_ ()
+
+  doc_space = " "
+
+  doc_new_line = "\n"
+
+  doc_header = "\\begin{document}"
+
+  doc_footer = "\\end{document}"
+
+  doc_opening_comment_translation = "\n\\end{lstlisting}\n\n"
+
+  doc_closing_comment_translation = "\n\n\\begin{lstlisting}\n"
+
+  doc_opening_source_translation = ""
+
+  doc_closing_source_translation = ""
+
+end
+

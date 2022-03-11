@@ -96,9 +96,13 @@ class SodaConstant
 
   case_abbreviation = "|"
 
+  documentation_comment_opening_symbol = "/**"
+
   comment_opening_symbol = "/*"
 
   comment_closing_symbol = "*/"
+
+  comment_line_symbol = "*"
 
   tail_recursion_annotation = "@tailrec"
 
