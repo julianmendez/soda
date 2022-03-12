@@ -70,7 +70,7 @@ trait TranslationConstantToDoc
       "\\usepackage[utf8]{inputenc}",
       "\\usepackage{xcolor}",
       "\\usepackage{hyperref}",
-      "\\usepackage{listings}",
+      "\\usepackage{listings}"
     )
 
   lazy val doc_packages_text : String =
