@@ -20,18 +20,9 @@ trait FunctionDefinitionAnnotation
     sc.space +
     sc.function_definition_symbol
 
-  private lazy val _synonym_at_the_end : String =
-    sc.space +
-    sc.function_definition_synonym
-
   private lazy val _symbol_in_the_middle : String =
     sc.space +
     sc.function_definition_symbol +
-    sc.space
-
-  private lazy val _synonym_in_the_middle : String =
-    sc.space +
-    sc.function_definition_synonym +
     sc.space
 
   private lazy val _plain_state = ParserStateEnum_ ().plain
@@ -54,9 +45,7 @@ trait FunctionDefinitionAnnotation
   private def _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
       (token_text.contains (_symbol_in_the_middle) ) ||
-      (token_text.contains (_synonym_in_the_middle) ) ||
-      (token_text.endsWith (_symbol_at_the_end) ) ||
-      (token_text.endsWith (_synonym_at_the_end) )
+      (token_text.endsWith (_symbol_at_the_end) )
     )
 
   private lazy val _starts_with_valid_annotation : Boolean =

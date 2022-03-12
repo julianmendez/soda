@@ -21,18 +21,9 @@ class FunctionDefinitionAnnotation
     sc.space +
     sc.function_definition_symbol
 
-  _synonym_at_the_end : String =
-    sc.space +
-    sc.function_definition_synonym
-
   _symbol_in_the_middle : String =
     sc.space +
     sc.function_definition_symbol +
-    sc.space
-
-  _synonym_in_the_middle : String =
-    sc.space +
-    sc.function_definition_synonym +
     sc.space
 
   _plain_state = ParserStateEnum_ ().plain
@@ -55,9 +46,7 @@ class FunctionDefinitionAnnotation
   _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
       (token_text.contains (_symbol_in_the_middle) ) or
-      (token_text.contains (_synonym_in_the_middle) ) or
-      (token_text.endsWith (_symbol_at_the_end) ) or
-      (token_text.endsWith (_synonym_at_the_end) )
+      (token_text.endsWith (_symbol_at_the_end) )
     )
 
   _starts_with_valid_annotation : Boolean =
