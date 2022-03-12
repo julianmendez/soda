@@ -22,6 +22,8 @@ trait TranslatorToDoc
 
   private lazy val _default_argument = "."
 
+  private lazy val _tc = TranslationConstantToDoc_ ()
+
   private lazy val _translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
@@ -35,6 +37,9 @@ trait TranslatorToDoc
       else if ( arguments.length == 1 ) _process_directory (arguments (0) )
       else if ( arguments.length == 2 ) _translate (arguments (0) ) (arguments (1) )
       else false
+
+  def translate_content (input : String) : String =
+    _tc.doc_header + _translator.translate (input) + _tc.doc_footer
 
   private def _process_directory (start : String) : Boolean =
     DirectoryProcessor_ (start, _process_soda_file).process ()
@@ -60,7 +65,7 @@ trait TranslatorToDoc
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
     SimpleFileWriter_ ().write_file (
       output_file_name) (
-      content = _translator.translate (input)
+      content = translate_content (input)
     )
 
 }

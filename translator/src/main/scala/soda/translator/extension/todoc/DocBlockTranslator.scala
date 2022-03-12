@@ -43,12 +43,7 @@ trait DocBlockTranslator
 
   private def _translate_source_code (block : AnnotatedBlock) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ ().build (
-        _append (
-          _tc.doc_closing_source_translation) (
-          _prepend (_tc.doc_opening_source_translation) (block.lines)
-        )
-      )
+      block
     )
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =

@@ -1,5 +1,38 @@
-package soda.translator.documentation
+\documentclass[12pt,a4paper]{article}
 
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\lstdefinelanguage{Soda}{
+    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @tailrec, @override, @new},
+    sensitive=true,
+    morecomment=[s]{/*}{*/},
+   morestring=[b]"
+}
+
+\lstset{frame=tb,
+    language=Soda,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
+
+\begin{document}
+
+\begin{lstlisting}
+package soda.translator.documentation
 
 
 \end{lstlisting}
@@ -45,15 +78,11 @@ The name could be a noun or an adjective, but it should not be a verb. To declar
 
 class Shape
 
-
 end
-
 
 class Movable
 
-
 end
-
 
 
 \end{lstlisting}
@@ -66,9 +95,7 @@ For example, `A subtype B` means that `A` is a subtype of `B`. A class can be pa
 
 class ShapePainter [A subtype Shape]
 
-
 end
-
 
 
 \end{lstlisting}
@@ -80,7 +107,6 @@ It is recommended to indent the constants and functions declared inside.
 
 
 class EqualsExample
-
 
 
 \end{lstlisting}
@@ -97,7 +123,6 @@ Constants are only evaluated once, which is the first time they are needed. This
   answer : Int = f (x := 20) (y := 2)
 
 
-
 \end{lstlisting}
 
 Functions, even with empty parameters, are evaluated every time they are invoked. A function has parameters.If the parameters are empty, it is implied that the function produces some side effect.
@@ -108,9 +133,7 @@ Functions, even with empty parameters, are evaluated every time they are invoked
 
   f (x : Int) (y : Int) : Int = 2 * x + y
 
-
 end
-
 
 
 \end{lstlisting}
@@ -118,7 +141,7 @@ end
 A class can extend another one by using `extends`.Abstract classes cannot be instantiated but can be extended.
 Conversely, concrete classes cannot be extended but can be instantiated.
 Concrete classes are declared with parentheses `(` and `)`.
-Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). It is recommended that concrete classes do not have a body, because this cannot be reused.
+Concrete classes extending only one class could be named as its superclass, but ending with an underscore. It is recommended that concrete classes do not have a body, because this cannot be reused.
 
 
 \begin{lstlisting}
@@ -136,7 +159,6 @@ A class does not need to define all its constants and functions.
 class RegisteredPerson
 
 
-
 \end{lstlisting}
 
 A block starting with `abstract` denotes a constant or function that needs to be defined in extending classes.Only one `abstract` block should be defined per class, without leaving lines between the declared attributes. 
@@ -150,17 +172,15 @@ A block starting with `abstract` denotes a constant or function that needs to be
     last_name : String
 
 
-
 \end{lstlisting}
 
-If a constant or function is not meant to be exported, its name should start with an underscore (`_`). 
+If a constant or function is not meant to be exported, its name should start with an underscore. 
 
 
 \begin{lstlisting}
 
 
   _separator = " "
-
 
 
 \end{lstlisting}
@@ -173,19 +193,14 @@ Strings can be concatenated by using the plus sign (`+`).
 
   full_name = first_name + _separator + last_name
 
-
 end
 
-
 class Agent
-
 
   abstract
     identifier : String
 
-
 end
-
 
 
 \end{lstlisting}
@@ -201,43 +216,32 @@ class RegisteredPersonAgent
     Agent
     RegisteredPerson
 
-
   abstract
     identifier : String
     first_name : String
     last_name : String
 
-
 end
 
-
 class Element
-
 
   abstract
     accept : Visitor -> Boolean
 
-
 end
 
-
 class Visitor
-
 
   abstract
     visit : Element -> Boolean
 
-
 end
-
 
 class Item
   extends Element
 
-
   abstract
     identifier : Int
-
 
 
 \end{lstlisting}
@@ -252,16 +256,12 @@ It is possible to refer to an object instance by using `this`.
     lambda visitor -->
       visitor.visit (this)
 
-
 end
-
 
 class PersonName
 
-
   abstract
     name : String
-
 
 
 \end{lstlisting}
@@ -275,9 +275,7 @@ It is possible to override a function by using the `@override` annotation.This i
   @override
   toString = name
 
-
 end
-
 
 
 \end{lstlisting}
@@ -290,16 +288,12 @@ end
 
 class Manual
 
-
   import
     java.util.Date
 
-
   a = 1
 
-
   b : Int = 2
-
 
 
 \end{lstlisting}
@@ -312,9 +306,7 @@ An instance of a JVM class can be created with the `@new` annotation.If the code
 
   now = @new Date ()
 
-
   plus_one (x : Int) : Int = x + 1
-
 
 
 \end{lstlisting}
@@ -331,7 +323,6 @@ A piecewise function can be defined using an `if`-`then`-`else` structure.The co
     else y
 
 
-
 \end{lstlisting}
 
 Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared using a right arrow (`->`). 
@@ -342,7 +333,6 @@ Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map ( lambda element --> element + 1)
-
 
 
 \end{lstlisting}
@@ -358,18 +348,15 @@ Boolean values `false` and `true` are available.
     then false
     else true
 
-
   my_and (x : Boolean) (y : Boolean) : Boolean =
     if x
     then y
     else false
 
-
   my_or (x : Boolean) (y : Boolean) : Boolean =
     if x
     then true
     else y
-
 
 
 \end{lstlisting}
@@ -382,7 +369,6 @@ Boolean values have the standard `not`-`and`-`or` functions.
 
   my_xor (x : Boolean) (y : Boolean) : Boolean =
     (x or y) and not (x and y)
-
 
 
 \end{lstlisting}
@@ -400,7 +386,6 @@ It is possible to use pattern matching with `match` and `case`.Please observe th
     end
 
 
-
 \end{lstlisting}
 
 A vertical bar `|` can be used as an abbreviation for `case`. 
@@ -415,15 +400,13 @@ A vertical bar `|` can be used as an abbreviation for `case`.
       case false ==> if_false
     end
 
-
   sum (n : Int) =
     _tailrec_ (n) (0)
 
 
-
 \end{lstlisting}
 
-A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. 
+A tail recursive function cannot be declared inside another function, and its name could start with underscore.Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. 
 
 
 \begin{lstlisting}
@@ -435,24 +418,18 @@ A tail recursive function cannot be declared inside another function, and its na
     then accum
     else _tailrec_ (n - 1) (n + accum)
 
-
 end
 
-
 class AbstractFactorialConcise
-
 
   abstract
     factorial : Int -> Int
 
-
 end
-
 
 class FactorialConcise
   extends
     AbstractFactorialConcise
-
 
 
 \end{lstlisting}
@@ -469,27 +446,20 @@ The function used to compare equality is a long equals (`==`).
     then product
     else _tailrec_ (n - 1) (n * product)
 
-
   factorial (n : Int) : Int =
     _tailrec_ (n) (1)
 
-
 end
 
-
 class AbstractFactorialVerbose
-
 
   abstract
     factorial : Int -> Int
 
-
 end
-
 
 class FactorialVerbose
   extends AbstractFactorialVerbose
-
 
   @tailrec
   _tailrec_ (n : Int) (product : Int) : Int =
@@ -497,17 +467,13 @@ class FactorialVerbose
     then product
     else _tailrec_ (n - 1) (n * product)
 
-
   factorial : Int -> Int =
     lambda n -->
       _tailrec_ (n) (1)
 
-
 end
 
-
 class Recursion
-
 
   @tailrec
   _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
@@ -518,10 +484,8 @@ class Recursion
       then current_value
       else _tailrec_fold4 (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-
   fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
-
 
   @tailrec
   _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
@@ -529,13 +493,10 @@ class Recursion
     then sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )
 
-
   range (length : Int) : Seq [Int] =
     _tailrec_range (length) (Seq [Int] () )
 
-
 end
-
 
 
 \end{lstlisting}
@@ -549,7 +510,6 @@ The main class has to be named `Main` and requires a `main` function that receiv
 class Main
 
 
-
 \end{lstlisting}
 
 An output to the standard output can be sent with a `println` command.This is a shorter form of JVM's `System.out.println`. 
@@ -561,15 +521,18 @@ An output to the standard output can be sent with a `println` command.This is a 
   main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
 
-
 end
-
 
 
 \end{lstlisting}
 
-The main class has an extending concrete class and it is called `Main_ ()`. 
+The main class has an extending concrete class. 
 
 
 \begin{lstlisting}
+
+
+\end{lstlisting}
+
+\end{document}
 

@@ -27,12 +27,7 @@ case class DocFullTranslationSpec ()
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
-      obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToDoc_()
-          )
-        ).translate (read_file (input_file_name) )
+      obtained = TranslatorToDoc_ ().translate_content (read_file (input_file_name) )
     ) (
       expected = read_file (expected_file_name)
     )

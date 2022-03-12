@@ -81,7 +81,7 @@ case class EqualsExample_ () extends EqualsExample
  * Conversely, concrete classes cannot be extended but can be instantiated.
  * Concrete classes are declared with parentheses `(` and `)`.
  * It is recommended that concrete classes do not have a body, because this cannot be reused.
- * Concrete classes extending only one class could be named as its superclass, but ending with an underscore (`_`). */
+ * Concrete classes extending only one class could be named as its superclass, but ending with an underscore. */
 
 /* A class does not need to define all its constants and functions. */
 
@@ -94,7 +94,7 @@ trait RegisteredPerson
   def   first_name : String
   def   last_name : String
 
-  /* If a constant or function is not meant to be exported, its name should start with an underscore (`_`). */
+  /* If a constant or function is not meant to be exported, its name should start with an underscore. */
 
   private lazy val _separator = " "
 
@@ -257,7 +257,7 @@ trait Manual
   def sum (n : Int) =
     _tailrec_ (n) (0)
 
-  /* A tail recursive function cannot be declared inside another function, and its name could start with underscore '_'.
+  /* A tail recursive function cannot be declared inside another function, and its name could start with underscore.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
 
   import scala.annotation.tailrec
@@ -380,4 +380,4 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-/* The main class has an extending concrete class and it is called `Main_ ()`. */
+/* The main class has an extending concrete class. */
