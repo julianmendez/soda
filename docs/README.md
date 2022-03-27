@@ -11,18 +11,18 @@ This project includes a translator to Scala.
 
 The reserved words are:
 
-- `=` (definition symbol)
 - `:` (type membership symbol)
 - `->` (type mapping symbol)
-- `-->` (lambda symbol)
-- `==>` (implication symbol in pattern matching)
+- `=` (definition symbol)
 - `:=` (parameter definition symbol)
 - `lambda`
+- `-->` (lambda symbol)
 - `if`
 - `then`
 - `else`
 - `match`
 - `case`
+- `==>` (implication symbol in pattern matching)
 - `class`
 - `extends`
 - `abstract`
