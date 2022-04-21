@@ -2,10 +2,10 @@
 
 \lstdefinelanguage{Soda}{
     morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
-    sensitive=true, % keywords are not case-sensitive by default
-    morecomment=[s]{/*}{*/}, % s is for start and end delimiter
-    morestring=[b]" % defines that strings are enclosed in double quotes
-} %
+    sensitive=true,
+    morecomment=[s]{/*}{*/},
+    morestring=[b]"
+}
 
 \lstset{frame=tb,
     language=Soda,
@@ -43,7 +43,7 @@
 \newcommand{\sodadef}{\srccode{=}\xspace}
 \newcommand{\sodacolon}{\srccode{:}\xspace}
 \newcommand{\sodaarrow}{{-\textgreater}\xspace}
-\newcommand{\sodalambdaarrow}{{--\textgreater}\xspace}
+\newcommand{\sodalambdaarrow}{{---\textgreater}\xspace}
 \newcommand{\sodaimplies}{{==\textgreater}\xspace}
 \newcommand{\sodadefparam}{\srccode{:=}\xspace}
 

@@ -18,6 +18,7 @@ trait Main
       ( ".", soda.translator.extension.toscala.TranslatorToScala_ () ),
       ( "scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
       ( "coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ),
+      ( "doc", soda.translator.extension.todoc.TranslatorToDoc_ () ),
       ( "manual", soda.translator.extension.help.Manual_ () ),
       ( "license", soda.translator.extension.help.License_ () ),
       ( "help", help ),

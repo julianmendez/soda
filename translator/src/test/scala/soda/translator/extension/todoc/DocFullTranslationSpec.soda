@@ -1,0 +1,47 @@
+package soda.translator.extension.todoc
+
+class DocFullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    org.scalatest.Assertion
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+    java.nio.file.Files
+    java.nio.file.Paths
+
+  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  base = "/soda/translator/documentation/"
+
+  soda_suffix = ".soda"
+
+  doc_suffix = ".tex"
+
+  manual = "Manual"
+
+  test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name := base + file_name + soda_suffix) (expected_file_name := base + file_name + doc_suffix)
+
+  test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
+    check (
+      obtained := TranslatorToDoc_ ().translate_content (read_file (input_file_name) )
+    ) (
+      expected := read_file (expected_file_name)
+    )
+
+  read_file (file_name : String) : String =
+    @new String (
+      Files.readAllBytes (
+        Paths.get (getClass.getResource (file_name).toURI)
+      )
+    )
+
+  test ("should translate the manual") (
+    test_translation (manual)
+  )
+
+end
+

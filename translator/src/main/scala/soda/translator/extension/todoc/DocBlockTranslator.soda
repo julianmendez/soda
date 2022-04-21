@@ -1,0 +1,99 @@
+package soda.translator.extension.todoc
+
+class DocBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.CommentAnnotation
+    soda.translator.parser.annotation.CommentAnnotation_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToDoc_ ()
+
+  _comment_line_prefix = _sc.comment_line_symbol + _sc.space
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case CommentAnnotation_ (block) ==> _translate_comment (CommentAnnotation_ (block) )
+      case x ==> _translate_source_code (x)
+    end
+
+  _translate_comment (block : CommentAnnotation) : CommentAnnotation =
+    CommentAnnotation_ (
+      BlockBuilder_ ().build (
+        _append (
+          _tc.doc_closing_comment_translation) (
+          _prepend (_tc.doc_opening_comment_translation) (
+            _remove_comment_delimiter (
+              _remove_comment_line_prefix (block.lines)
+            )
+          )
+        )
+      )
+    )
+
+  _translate_source_code (block : AnnotatedBlock) : CommentAnnotation =
+    CommentAnnotation_ (
+      block
+    )
+
+  _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
+    if content.isEmpty
+    then Seq [String] (prefix)
+    else Seq[String] (prefix + content.head).++ (content.tail)
+
+  _append (suffix : String) (content : Seq [String] ) : Seq [String] =
+    content.:+ (suffix)
+
+  _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
+    _remove_last_delimiter (
+      _remove_first_delimiter (content)
+    )
+
+  _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
+    if content.isEmpty
+    then content
+    else _prepend (
+      _remove_prefix_in_line (_sc.documentation_comment_opening_symbol) (
+        _remove_prefix_in_line (_sc.comment_opening_symbol) (content.head)
+     )
+    ) (content.tail)
+
+  _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
+    ( _remove_last_delimiter_on_first_line (content.reverse) ).reverse
+
+  _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
+    if content.isEmpty
+    then content
+    else _prepend (_remove_suffix_in_line (_sc.comment_closing_symbol) (content.head) ) (content.tail)
+
+  _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
+    content.map ( lambda line --> _remove_prefix_in_line (_comment_line_prefix) (line) )
+
+  _remove_prefix_in_line (prefix : String) (line : String) : String =
+    _remove_prefix_in_line_at (line.indexOf (prefix) ) (prefix) (line)
+
+  _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
+    if index >= 0
+    then line.substring (index + prefix.length)
+    else line
+
+  _remove_suffix_in_line (suffix : String) (line : String) : String =
+    _remove_suffix_in_line_at (line.lastIndexOf (suffix) ) (line)
+
+  _remove_suffix_in_line_at (index : Int) (line : String) : String =
+    if index >= 0
+    then line.substring (0, index)
+    else line
+
+end
+
