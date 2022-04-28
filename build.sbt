@@ -34,7 +34,7 @@ lazy val commonSettings =
     scalaVersion := scala3_1,
     /**
      * ScalaTest
-     * [[http://www.scalatest.org]]
+     * [[https://www.scalatest.org]]
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
