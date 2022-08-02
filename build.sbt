@@ -6,12 +6,12 @@ lazy val scala2_12 = "2.12.16"
 
 lazy val scala2_13 = "2.13.8"
 
-lazy val scala3_1 = "3.1.1"
+lazy val scala3_1 = "3.1.3"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.16.0-SNAPSHOT",
+    version := "0.16.0",
     description := "Functional language to describe ethical problems",
     homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
     startYear := Some(2020),
@@ -36,7 +36,7 @@ lazy val commonSettings =
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,

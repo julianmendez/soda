@@ -11,7 +11,7 @@ pipelines:
       caches:
       - sbt
       script:
-      - sbt '++ 3.1.1' scalaVersion sbtVersion version clean compile test package assembly
+      - sbt '++ 3.1.3' scalaVersion sbtVersion version clean compile test package assembly
       - apt update
       - apt install -y texlive-latex-recommended texlive-latex-extra
       - cd documentation/src/site/tex
