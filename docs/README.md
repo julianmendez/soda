@@ -105,7 +105,7 @@ The following tools can be configured to have syntax highlighting:
 
 ## Build
 
-The project can be build with [sbt](https://www.scala-sbt.org/).
+The project can be built with [sbt](https://www.scala-sbt.org/).
 
 The command is:
 `sbt clean compile test package assembly`

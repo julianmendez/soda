@@ -1,4 +1,8 @@
 ---
+- - version: v0.17.0
+  - date: unreleased
+  - build: sbt '++ 3.1.3' clean compile test package assembly
+  - release: target/scala-3.1.3/soda-0.17.0.jar
 - - version: v0.16.0
   - date: '2022-08-02'
   - new_features:
