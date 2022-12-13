@@ -16,8 +16,8 @@ trait SeqSD [A]
 
   def opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
     this match  {
-      case EmptySeqSD_ () => ifEmpty
       case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
+      case x => ifEmpty
     }
 
 }

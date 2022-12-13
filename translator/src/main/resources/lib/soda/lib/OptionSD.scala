@@ -19,32 +19,32 @@ trait OptionSD [A]
 
   def opt [B] (ifEmpty : B) (ifNonEmpty : A => B) : B =
     this match  {
-      case NoneSD_ () => ifEmpty
       case SomeSD_ (element) => ifNonEmpty (element)
+      case x => ifEmpty
     }
 
   def map [B] (mapping : A => B) : OptionSD [B] =
     this match  {
-      case NoneSD_ () => NoneSD_ [B] ()
       case SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
+      case x => NoneSD_ [B] ()
     }
 
   def getOrElse (default : A) : A =
     this match  {
-      case NoneSD_ () => default
       case SomeSD_ (element) => element
+      case x => default
     }
 
   def fold [B] (ifEmpty : B) (f : A => B) : B =
     this match  {
-      case NoneSD_ () => ifEmpty
       case SomeSD_ (element) => f (element)
+      case x => ifEmpty
     }
 
   def flatMap [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     this match  {
-      case NoneSD_ () => NoneSD_ ()
       case SomeSD_ (element) => mapping (element)
+      case x => NoneSD_ ()
     }
 
   def bind [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
@@ -52,11 +52,11 @@ trait OptionSD [A]
 
   def filter (predicate : A => Boolean) : OptionSD [A] =
     this match  {
-      case NoneSD_ () => NoneSD_ ()
       case SomeSD_ (element) =>
         if ( predicate (element)
         ) this
         else NoneSD_ [A] ()
+      case x => NoneSD_ ()
     }
 
 }

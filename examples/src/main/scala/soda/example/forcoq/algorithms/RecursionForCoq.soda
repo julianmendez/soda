@@ -9,11 +9,11 @@ class RecursionForCoq
   @tailrec
   _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
-      case Nil ==> current_value
       case (head) :: (tail) ==>
          if ( not (condition (current_value) (head) ) )
          then current_value
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
+      case x ==> current_value
     end
 
   fold4 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
@@ -22,8 +22,8 @@ class RecursionForCoq
   @tailrec
   _tailrec_fold3 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) : B =
     match sequence
-      case Nil ==> current_value
       case (head) :: (tail) ==> _tailrec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
+      case x ==> current_value
     end
 
   fold3 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) : B =

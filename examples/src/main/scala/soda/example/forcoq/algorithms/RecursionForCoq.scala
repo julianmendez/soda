@@ -11,11 +11,11 @@ trait RecursionForCoq
         @tailrec  final
   private def _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
-      case Nil => current_value
       case (head) :: (tail) =>
          if ( ( ! (condition (current_value) (head) ) )
          ) current_value
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
+      case x => current_value
     }
 
   def fold4 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
@@ -25,8 +25,8 @@ trait RecursionForCoq
         @tailrec  final
   private def _tailrec_fold3 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) : B =
     sequence match  {
-      case Nil => current_value
       case (head) :: (tail) => _tailrec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
+      case x => current_value
     }
 
   def fold3 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) : B =

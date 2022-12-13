@@ -35,10 +35,14 @@ class Requirement1Monitor
     1.0 * (min (x) (y) ) / (max (x) (y) )
 
   min (x : Int) (y : Int) : Int =
-    if x < y then x else y
+    if x < y
+    then x
+    else y
 
   max (x : Int) (y : Int) : Int =
-    if x < y then y else x
+    if x < y
+    then y
+    else x
 
 end
 

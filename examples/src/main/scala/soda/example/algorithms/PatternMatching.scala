@@ -17,7 +17,7 @@ trait PatternMatching
       case Singleton_ (x) => x
       case Pair_ (x, y) => (x + y) / 2
       case Triplet_ (x, y, z) => (x + y + z) / 3
-      case otherwise => 0
+      case x => 0
     }
 
   def get_type_name (p : Parameter) : String =
@@ -25,7 +25,7 @@ trait PatternMatching
       case Singleton_ (x) => (Singleton_ (x) ).name + "(x)"
       case Pair_ (x, y) => (Pair_ (x, y) ).name + "(x, y)"
       case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ).name + "(x, y, z)"
-      case otherwise => ""
+      case x => ""
     }
 
 }

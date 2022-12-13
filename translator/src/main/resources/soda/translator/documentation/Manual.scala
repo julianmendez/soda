@@ -3,7 +3,7 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-11-19
+ * Version: 2022-12-13
  */
 
 /*
@@ -243,15 +243,7 @@ trait Manual
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case false => if_false
-    }
-
-  /* A vertical bar `|` can be used as an abbreviation for `case`. */
-
-  def another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
-    condition match  {
-      case true => if_true
-      case false => if_false
+      case x => if_false
     }
 
   def sum (n : Int) =

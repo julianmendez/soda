@@ -20,7 +20,7 @@ trait FizzBuzzPatternMatching
       case Tuple2 (0, 0) => fizz + buzz
       case Tuple2 (0, x) => fizz
       case Tuple2 (x, 0) => buzz
-      case otherwise => n.toString
+      case x => n.toString
     }
 
 }

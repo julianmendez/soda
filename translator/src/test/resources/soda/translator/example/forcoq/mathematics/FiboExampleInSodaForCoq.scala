@@ -11,9 +11,9 @@ trait FiboExampleInSodaForCoq
         @tailrec  final
   private def _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     m match  {
-      case O_ () => a
       case S_ (O_ () ) => b
       case S_ (k) => _tailrec_fib (k) (b) (a .add (b) )
+      case x => a
     }
 
   def fib (n : nat) =
