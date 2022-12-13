@@ -3,7 +3,7 @@ package soda.translator.documentation
 /*
  * This is a Soda tutorial written in Soda.
  * Copyright 2021 Julian Mendez
- * Version: 2021-11-19
+ * Version: 2022-12-13
  */
 
 /*
@@ -215,14 +215,6 @@ class Manual
    * Please observe the long double arrow `==>`. */
 
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
-    match condition
-      case true ==> if_true
-      case x ==> if_false
-    end
-
-  /* A vertical bar `|` can be used as an abbreviation for `case`. */
-
-  another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
       case x ==> if_false
