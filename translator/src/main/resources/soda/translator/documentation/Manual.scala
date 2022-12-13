@@ -243,7 +243,7 @@ trait Manual
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case false => if_false
+      case x => if_false
     }
 
   /* A vertical bar `|` can be used as an abbreviation for `case`. */
@@ -251,7 +251,7 @@ trait Manual
   def another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case false => if_false
+      case x => if_false
     }
 
   def sum (n : Int) =

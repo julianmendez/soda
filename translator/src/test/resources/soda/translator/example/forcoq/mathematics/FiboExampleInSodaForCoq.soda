@@ -10,9 +10,9 @@ class FiboExampleInSodaForCoq
   @tailrec
   _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     match m
-      case O_ () ==> a
       case S_ (O_ () ) ==> b
       case S_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
+      case x ==> a
     end
 
   fib (n : nat) =
