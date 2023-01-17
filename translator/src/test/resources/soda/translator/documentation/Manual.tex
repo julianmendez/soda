@@ -38,8 +38,8 @@ package soda.translator.documentation
 \end{lstlisting}
 
 This is a Soda tutorial written in Soda.
-Copyright 2021 Julian Mendez
- Version: 2021-11-19
+Copyright 2021--2023 Julian Mendez
+ Version: 2023-01-17
 
 
 \begin{lstlisting}
@@ -87,7 +87,7 @@ end
 
 \end{lstlisting}
 
-For example, `A subtype B` means that `A` is a subtype of `B`. A class can be parameterized.The parameter type can be constrained using `subtype` and `supertype`.
+For example, `A subtype B` means that `A` is a subtype of `B`. A class can be parameterized using square brackets ('[' and ']').The parameter type can be constrained using `subtype` and `supertype`.
 
 
 \begin{lstlisting}
@@ -205,7 +205,7 @@ end
 
 \end{lstlisting}
 
-A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. 
+A concrete class needs as parameters all the constants and functions that have not been defined in its super classes. 
 
 
 \begin{lstlisting}
@@ -325,7 +325,7 @@ A piecewise function can be defined using an `if`-`then`-`else` structure.The co
 
 \end{lstlisting}
 
-Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared using a right arrow (`->`). 
+Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared using a long right arrow (`-->`). 
 
 
 \begin{lstlisting}
@@ -373,7 +373,7 @@ Boolean values have the standard `not`-`and`-`or` functions.
 
 \end{lstlisting}
 
-It is possible to use pattern matching with `match` and `case`.Please observe the long double arrow `==>`. 
+It is possible to use pattern matching with `match` and `case`.The result of the matching case is put after a long double arrow `==>`. 
 
 
 \begin{lstlisting}
@@ -382,22 +382,7 @@ It is possible to use pattern matching with `match` and `case`.Please observe th
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
-      case false ==> if_false
-    end
-
-
-\end{lstlisting}
-
-A vertical bar `|` can be used as an abbreviation for `case`. 
-
-
-\begin{lstlisting}
-
-
-  another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
-    match condition
-      case true ==> if_true
-      case false ==> if_false
+      case x ==> if_false
     end
 
   sum (n : Int) =
@@ -476,19 +461,19 @@ end
 class Recursion
 
   @tailrec
-  _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     if sequence.isEmpty
     then current_value
     else
       if not condition (current_value) (sequence.head)
       then current_value
-      else _tailrec_fold4 (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-  fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+  fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
   @tailrec
-  _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
+  _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if n <= 0
     then sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )

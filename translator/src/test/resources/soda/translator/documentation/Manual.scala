@@ -2,8 +2,8 @@ package soda.translator.documentation
 
 /*
  * This is a Soda tutorial written in Soda.
- * Copyright 2021 Julian Mendez
- * Version: 2021-11-19
+ * Copyright 2021--2023 Julian Mendez
+ * Version: 2023-01-17
  */
 
 /*
@@ -41,7 +41,7 @@ trait Movable
 
 case class Movable_ () extends Movable
 
-/* A class can be parameterized.
+/* A class can be parameterized using square brackets ('[' and ']').
  * The parameter type can be constrained using `subtype` and `supertype`.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
 
@@ -115,8 +115,7 @@ trait Agent
 
 case class Agent_ (identifier : String) extends Agent
 
-/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
- * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
+/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes. */
 
 trait RegisteredPersonAgent
   extends
@@ -210,7 +209,7 @@ trait Manual
     else y
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
-   * Lambda functions are declared using a right arrow (`->`). */
+   * Lambda functions are declared using a long right arrow (`-->`). */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map (  element => element + 1)
@@ -238,20 +237,12 @@ trait Manual
     (x || y) && ! (x && y)
 
   /* It is possible to use pattern matching with `match` and `case`.
-   * Please observe the long double arrow `==>`. */
+   * The result of the matching case is put after a long double arrow `==>`. */
 
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case false => if_false
-    }
-
-  /* A vertical bar `|` can be used as an abbreviation for `case`. */
-
-  def another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
-    condition match  {
-      case true => if_true
-      case false => if_false
+      case x => if_false
     }
 
   def sum (n : Int) =
@@ -334,20 +325,20 @@ trait Recursion
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence.isEmpty
     ) current_value
     else
       if ( ! condition (current_value) (sequence.head)
       ) current_value
-      else _tailrec_fold4 (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-  def fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+  def fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
+  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )
