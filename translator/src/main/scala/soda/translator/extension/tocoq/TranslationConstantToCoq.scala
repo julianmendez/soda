@@ -29,6 +29,8 @@ trait TranslationConstantToCoq
 
   lazy val coq_vertical_bar_symbol = "|"
 
+  lazy val coq_match_end_translation = "end"
+
   lazy val coq_opening_parenthesis = "("
 
   lazy val coq_closing_parenthesis = ")"

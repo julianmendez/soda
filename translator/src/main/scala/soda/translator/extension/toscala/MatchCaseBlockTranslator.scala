@@ -38,20 +38,32 @@ trait MatchCaseBlockTranslator
     TestDeclarationAnnotation_ (_translate_block (block) )
 
   private def _translate_block (block : AnnotatedBlock) : Block =
+    if ( _is_a_match_case_structure (block)
+    ) _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block.lines.exists (  line => _is_a_match_line (line) )
+
+  private def _is_a_match_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_match_pattern)
+
+  private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block.lines
+      .find (  line => _is_a_match_line (line) )
+      .map (  line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc.scala_space)
+
+  private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ ().build (
       block.lines
         .map (  line => _insert_match_before_brace_if_found (line) )
-        .map (  line => _replace_match_end_if_found (line) )
+        .++ ( Seq [String] () .+: (tabulation + _tc.scala_match_end_translation) )
     )
 
   private def _insert_match_before_brace_if_found (line : String) : String =
-    if ( line.trim.startsWith (_soda_match_pattern)
+    if ( _is_a_match_line (line)
     ) _assemble_parts (index = line.indexOf (_soda_match_pattern) ) (line)
-    else line
-
-  private def _replace_match_end_if_found (line : String) : String =
-    if ( line.trim == _sc.match_end_reserved_word
-    ) line.replaceAll (_sc.match_end_reserved_word, _tc.scala_match_end_translation)
     else line
 
   private def _assemble_parts (index : Int) (line : String) : String =

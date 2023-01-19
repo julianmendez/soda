@@ -29,6 +29,8 @@ class TranslationConstantToCoq
 
   coq_vertical_bar_symbol = "|"
 
+  coq_match_end_translation = "end"
+
   coq_opening_parenthesis = "("
 
   coq_closing_parenthesis = ")"
