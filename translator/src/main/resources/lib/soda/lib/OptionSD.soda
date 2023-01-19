@@ -21,31 +21,26 @@ class OptionSD [A]
     match this
       case SomeSD_ (element) ==> ifNonEmpty (element)
       case x ==> ifEmpty
-    end
 
   map [B] (mapping : A -> B) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
       case x ==> NoneSD_ [B] ()
-    end
 
   getOrElse (default : A) : A =
     match this
       case SomeSD_ (element) ==> element
       case x ==> default
-    end
 
   fold [B] (ifEmpty : B) (f : A -> B) : B =
     match this
       case SomeSD_ (element) ==> f (element)
       case x ==> ifEmpty
-    end
 
   flatMap [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
       case x ==> NoneSD_ ()
-    end
 
   bind [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
@@ -57,7 +52,6 @@ class OptionSD [A]
         then this
         else NoneSD_ [A] ()
       case x ==> NoneSD_ ()
-    end
 
 end
 

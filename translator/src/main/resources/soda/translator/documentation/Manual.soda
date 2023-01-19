@@ -222,7 +222,6 @@ class Manual
     match condition
       case true ==> if_true
       case x ==> if_false
-    end
 
   sum (n : Int) =
     _tailrec_ (n) (0)

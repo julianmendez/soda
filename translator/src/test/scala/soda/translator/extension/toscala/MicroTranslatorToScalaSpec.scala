@@ -224,7 +224,6 @@ case class MicroTranslatorToScalaSpec ()
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
         "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
-        "\n end" +
         "\n"
       )
     ) (
@@ -233,7 +232,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
         "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
-        "\n }" +
+        "\n  }" +
         "\n"
     )
   )
@@ -245,7 +244,6 @@ case class MicroTranslatorToScalaSpec ()
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
         "\n    case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
-        "\n  end" +
         "\n"
       )
     ) (

@@ -74,6 +74,5 @@ class IntNat
     match a
       case S_ (k) ==> 1 + to_Int (k)
       case x ==> 0
-    end
 
 end

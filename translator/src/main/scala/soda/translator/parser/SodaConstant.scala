@@ -33,8 +33,6 @@ trait SodaConstant
 
   lazy val case_reserved_word = "case"
 
-  lazy val match_end_reserved_word = "end"
-
   lazy val class_reserved_word = "class"
 
   lazy val extends_reserved_word = "extends"
@@ -120,7 +118,6 @@ trait SodaConstant
       else_reserved_word,
       match_reserved_word,
       case_reserved_word,
-      match_end_reserved_word,
       class_reserved_word,
       extends_reserved_word,
       abstract_reserved_word,

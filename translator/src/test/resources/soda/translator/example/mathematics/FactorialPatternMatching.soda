@@ -15,7 +15,6 @@ class FactorialPatternMatching
     match n
       case 0 ==> product
       case x ==> _tailrec_get_factorial (x - 1) (x * product)
-    end
 
 end
 

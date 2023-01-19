@@ -6,7 +6,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, any, if, then, else, match, case, end, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @tailrec, @override, @new},
+    morekeywords={lambda, any, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @tailrec, @override, @new},
     sensitive=true,
     morecomment=[s]{/*}{*/},
    morestring=[b]"
@@ -395,7 +395,6 @@ It is possible to use pattern matching with `match` and `case`.The result of the
     match condition
       case true ==> if_true
       case x ==> if_false
-    end
 
   sum (n : Int) =
     _tailrec_ (n) (0)

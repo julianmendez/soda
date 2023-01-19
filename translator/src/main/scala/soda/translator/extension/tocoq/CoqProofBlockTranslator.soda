@@ -21,7 +21,6 @@ class CoqProofBlockTranslator
     match annotated_block
       case ProofBlockAnnotation_ (block) ==> _translate_block (ProofBlockAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (

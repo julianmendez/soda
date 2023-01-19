@@ -23,7 +23,6 @@ class MainClassBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if _get_class_name (block.references) == _tc.soda_main_class_name
@@ -54,7 +53,6 @@ class MainClassBlockTranslator
     match block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
       case x ==> None
-    end
 
 end
 

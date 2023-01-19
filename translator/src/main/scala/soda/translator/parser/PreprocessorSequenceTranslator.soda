@@ -63,7 +63,6 @@ class PreprocessorSequenceTranslator
       case AbstractDeclarationAnnotation_ (block, references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x ==> x
-    end
 
   _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
@@ -84,7 +83,6 @@ class PreprocessorSequenceTranslator
       case AbstractDeclarationAnnotation_ (b, references) ==> _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) ==> _tail_non_empty (current.references)
       case x ==> current.references
-    end
 
   _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
     _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )

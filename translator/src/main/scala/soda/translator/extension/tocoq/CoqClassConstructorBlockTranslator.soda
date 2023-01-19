@@ -25,7 +25,6 @@ class CoqClassConstructorBlockTranslator
     match annotated_block
       case AbstractDeclarationAnnotation_ (block, references) ==> _translate_block (AbstractDeclarationAnnotation_ (block, references) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     _translate_block_with (_get_class_beginning (block.references) ) (block)
@@ -89,13 +88,13 @@ class CoqClassConstructorBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block -->
-        match block
-          case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-          case x ==> None
-        end
-      )
+      .flatMap ( lambda block --> _get_as_class_beginning_annotation (block) )
       .headOption
+
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    match annotated_block
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case x ==> None
 
   _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
     block.abstract_functions

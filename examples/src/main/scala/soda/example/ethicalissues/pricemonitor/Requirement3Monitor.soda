@@ -60,7 +60,6 @@ class SegmentsForFlight
     match intermediate_stops
       case head :: tail ==> (rec_segments_multi (head) (tail) (last_airport) ).+: (Segment_ (first_airport, head) )
       case x ==> Nil.+: (Segment_ (first_airport, last_airport) )
-    end
 
 end
 

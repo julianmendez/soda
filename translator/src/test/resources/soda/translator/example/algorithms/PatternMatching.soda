@@ -15,7 +15,6 @@ class PatternMatching
       case Pair_ (x, y) ==> (x + y) / 2
       case Triplet_ (x, y, z) ==> (x + y + z) / 3
       case x ==> 0
-    end
 
   get_type_name (p : Parameter) : String =
     match p
@@ -23,7 +22,6 @@ class PatternMatching
       case Pair_ (x, y) ==> (Pair_ (x, y) ).name + "(x, y)"
       case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) ).name + "(x, y, z)"
       case x ==> ""
-    end
 
 end
 

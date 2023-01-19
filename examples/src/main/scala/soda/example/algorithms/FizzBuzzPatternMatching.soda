@@ -21,6 +21,5 @@ class FizzBuzzPatternMatching
       case Tuple2 (0, x) ==> fizz
       case Tuple2 (x, 0) ==> buzz
       case x ==> n.toString
-    end
 
 end

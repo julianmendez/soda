@@ -27,7 +27,6 @@ class SeqList
     match a
       case cons_ (e, s) ==> _tailrec_reverse (s) ( cons_ (e, b) )
       case x ==> b
-    end
 
   reverse [A] (s : list [A] ) : list [A] =
     _tailrec_reverse [A] (s) (nil_ [A] () )
@@ -37,7 +36,6 @@ class SeqList
     match a
       case (e) :: (s) ==> _tailrec_from_Seq (s) (cons_ (e, b) )
       case x ==> b
-    end
 
   from_Seq [A] (a : Seq [A] ) : list [A] =
     reverse (_tailrec_from_Seq (a) ( nil_ [A] () ) )
@@ -47,7 +45,6 @@ class SeqList
     match a
       case cons_ (e, s) ==> _tailrec_to_Seq (s) ( b .+: (e) )
       case x ==> b
-    end
 
   to_Seq [A] (a : list [A] ) : Seq [A] =
     (_tailrec_to_Seq (a) ( Seq [A]() ) ) .reverse

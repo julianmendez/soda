@@ -18,7 +18,6 @@ class SeqSD [A]
     match this
       case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD_ (toSeq) )
       case x ==> ifEmpty
-    end
 
 end
 

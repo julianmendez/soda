@@ -14,7 +14,6 @@ class RecursionForCoq
          then current_value
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
       case x ==> current_value
-    end
 
   fold4 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
@@ -24,7 +23,6 @@ class RecursionForCoq
     match sequence
       case (head) :: (tail) ==> _tailrec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
       case x ==> current_value
-    end
 
   fold3 [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) : B =
     _tailrec_fold3 (sequence) (initial_value) (next_value_function)

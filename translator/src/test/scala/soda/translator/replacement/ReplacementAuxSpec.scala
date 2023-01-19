@@ -10,7 +10,7 @@ case class ReplacementAuxSpec ()
 
   lazy val instance = ReplacementAux_ ()
 
-  lazy val line_0 = "if, then, else, let, in, match, case, end"
+  lazy val line_0 = "lambda, if, then, else, match, case"
 
   lazy val line_1 = "class has extends with this subtype supertype "
 
@@ -112,7 +112,7 @@ case class ReplacementAuxSpec ()
     check (
       obtained = instance.add_spaces_to_symbols (line_0) ( (Seq [Char] (',') ).toSet )
     ) (
-      expected = "if , then , else , let , in , match , case , end"
+      expected = "lambda , if , then , else , match , case"
     )
   )
 

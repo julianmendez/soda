@@ -21,7 +21,6 @@ class CoqDefinitionBlockTranslator
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==> _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
