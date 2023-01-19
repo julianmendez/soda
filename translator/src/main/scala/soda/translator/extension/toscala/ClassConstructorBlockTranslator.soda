@@ -88,7 +88,7 @@ class ClassConstructorBlockTranslator
 
   _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap ( lambda block ==>
+      .flatMap ( lambda block -->
         match block
           case AbstractDeclarationAnnotation_ (b, references) ==> Some (AbstractDeclarationAnnotation_ (b, references) )
           case x ==> None
