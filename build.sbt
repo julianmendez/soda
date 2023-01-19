@@ -19,7 +19,7 @@ lazy val commonSettings =
     organizationName := "Responsible Artificial Intelligence - Umea University",
     organizationHomepage := Some(url("https://www.umu.se/en/research/groups/responsible-artificial-intelligence")),
     developers := List(
-      Developer("julianmendez", "Julian Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
+      Developer("julianmendez", "Julian Alfredo Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
     ),
     /**
      * Scala

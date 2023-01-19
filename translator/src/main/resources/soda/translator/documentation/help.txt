@@ -1,5 +1,7 @@
 Soda - Symbolic Objective Descriptive Analysis
 
+Copyright 2020--2023 Julian Alfredo Mendez
+
 Soda is an object-oriented purely-functional language for descriptions.
 
 Usage:

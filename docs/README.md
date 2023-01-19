@@ -114,3 +114,8 @@ The command is:
 It is also possible to compile it for different Scala versions.
 
 
+## Author
+
+[Julian Alfredo Mendez](https://julianmendez.github.io)
+
+
