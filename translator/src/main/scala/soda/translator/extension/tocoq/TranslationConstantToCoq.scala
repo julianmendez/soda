@@ -219,6 +219,7 @@ trait TranslationConstantToCoq
     Seq (
       Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
       Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
+      Tuple2 (soda_constant.any_reserved_word, coq_lambda_reserved_word),
       Tuple2 (soda_constant.lambda_arrow_symbol, coq_lambda_arrow_symbol),
       Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
       Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),

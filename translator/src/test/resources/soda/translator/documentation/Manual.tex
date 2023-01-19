@@ -6,7 +6,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @tailrec, @override, @new},
+    morekeywords={lambda, any, if, then, else, match, case, end, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @tailrec, @override, @new},
     sensitive=true,
     morecomment=[s]{/*}{*/},
    morestring=[b]"
@@ -325,7 +325,7 @@ A piecewise function can be defined using an `if`-`then`-`else` structure.The co
 
 \end{lstlisting}
 
-Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared using a long right arrow (`-->`). 
+Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared with `lambda` and a long right arrow (`-->`). 
 
 
 \begin{lstlisting}
@@ -333,6 +333,18 @@ Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map ( lambda element --> element + 1)
+
+
+\end{lstlisting}
+
+A synonym for `lambda` is `any`, which sometimes brings more readability. 
+
+
+\begin{lstlisting}
+
+
+  plus_two (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map ( any element --> element + 2)
 
 
 \end{lstlisting}

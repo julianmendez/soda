@@ -149,6 +149,7 @@
 
         <context id="synonym" style-ref="keyword">
             <keyword>lambda</keyword>
+            <keyword>any</keyword>
         </context>
 
         <context id="special" style-ref="special">

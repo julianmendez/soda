@@ -20,6 +20,8 @@ class SodaConstant
 
   lambda_reserved_word = "lambda"
 
+  any_reserved_word = "any"
+
   if_reserved_word = "if"
 
   then_reserved_word = "then"
@@ -70,7 +72,7 @@ class SodaConstant
 
   subtype_abbreviation = "<:"
 
-  supertype_abbreviation =  ">:"
+  supertype_abbreviation = ">:"
 
   opening_parenthesis_symbol = "("
 
@@ -111,11 +113,13 @@ class SodaConstant
   soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,
+      any_reserved_word,
       if_reserved_word,
       then_reserved_word,
       else_reserved_word,
       match_reserved_word,
       case_reserved_word,
+      match_end_reserved_word,
       class_reserved_word,
       extends_reserved_word,
       abstract_reserved_word,

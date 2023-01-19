@@ -265,7 +265,7 @@ class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case m ==> if m > 0 then fibo (m - 1) + fibo (m - 2) else 0" +
+        "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -273,7 +273,7 @@ class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case m => if ( m > 0 ) fibo (m - 1) + fibo (m - 2) else 0" +
+        "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
     )
   )
@@ -281,6 +281,17 @@ class MicroTranslatorToScalaSpec ()
   test ("should translate an explicit lambda expression") (
     check (
       obtained := instance.translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val plus_1 : Int =  (x : Int) => x + 1" +
+        "\n"
+    )
+  )
+
+  test ("should translate another explicit lambda expression") (
+    check (
+      obtained := instance.translate ("plus_1 : Int = any (x : Int) --> x + 1" +
         "\n"
       )
     ) (

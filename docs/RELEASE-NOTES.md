@@ -3,6 +3,8 @@
   - date: unreleased
   - build: sbt '++ 3.2.0' clean compile test package assembly
   - release: target/scala-3.2.0/soda-0.17.0.jar
+  - new_features:
+    - accepts reserved word `any` as a synonym for `lambda`
 - - version: v0.16.0
   - date: '2022-08-02'
   - new_features:
@@ -136,7 +138,7 @@
     - includes a file expansion of a basic library when it finds `lib.soda`
     - produces better looking Scala translated source code
   - deprecated_features:
-    - does not longer support the use of tuples on the left-hand side of a definition sign (`=`)
+    - does not support any longer the use of tuples on the left-hand side of a definition sign (`=`)
   - bug_fixes:
     - fixes translation of constants that are lambda functions
   - build: sbt '++ 3.0.0-RC2' clean compile test package assembly

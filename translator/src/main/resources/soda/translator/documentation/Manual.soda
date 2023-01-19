@@ -183,10 +183,15 @@ class Manual
     else y
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
-   * Lambda functions are declared using a long right arrow (`-->`). */
+   * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map ( lambda element --> element + 1)
+
+  /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
+
+  plus_two (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map ( any element --> element + 2)
 
   /* Boolean values `false` and `true` are available. */
 

@@ -21,6 +21,8 @@ trait SodaConstant
 
   lazy val lambda_reserved_word = "lambda"
 
+  lazy val any_reserved_word = "any"
+
   lazy val if_reserved_word = "if"
 
   lazy val then_reserved_word = "then"
@@ -71,7 +73,7 @@ trait SodaConstant
 
   lazy val subtype_abbreviation = "<:"
 
-  lazy val supertype_abbreviation =  ">:"
+  lazy val supertype_abbreviation = ">:"
 
   lazy val opening_parenthesis_symbol = "("
 
@@ -112,11 +114,13 @@ trait SodaConstant
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,
+      any_reserved_word,
       if_reserved_word,
       then_reserved_word,
       else_reserved_word,
       match_reserved_word,
       case_reserved_word,
+      match_end_reserved_word,
       class_reserved_word,
       extends_reserved_word,
       abstract_reserved_word,

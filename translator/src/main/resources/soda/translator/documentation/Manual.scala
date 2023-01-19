@@ -209,10 +209,15 @@ trait Manual
     else y
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
-   * Lambda functions are declared using a long right arrow (`-->`). */
+   * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map (  element => element + 1)
+
+  /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
+
+  def plus_two (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map (  element => element + 2)
 
   /* Boolean values `false` and `true` are available. */
 
