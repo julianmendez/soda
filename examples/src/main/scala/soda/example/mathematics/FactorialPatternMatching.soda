@@ -4,18 +4,18 @@ class FactorialPatternMatching
   extends
     AbstractFactorialConcise
 
+  get_factorial : Int -> Int =
+    lambda n --> get_factorial_for (n)
+
+  get_factorial_for (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
+
   @tailrec
   _tailrec_get_factorial (n : Int) (product : Int) : Int =
     match n
       case 0 ==> product
       case x ==> _tailrec_get_factorial (x - 1) (x * product)
     end
-
-  get_factorial : Int -> Int =
-    lambda n --> get_factorial_for (n)
-
-  get_factorial_for (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
 
 end
 
