@@ -8,6 +8,7 @@ class ClassConstructorBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
@@ -78,24 +79,26 @@ class ClassConstructorBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block -->
-        match block
-          case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-          case x ==> None
-        end
-      )
+      .flatMap ( lambda block --> _get_as_class_beginning_annotation (block) )
       .headOption
+
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    match annotated_block
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case x ==> None
+    end
 
   _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap ( lambda block -->
-        match block
-          case AbstractDeclarationAnnotation_ (b, references) ==> Some (AbstractDeclarationAnnotation_ (b, references) )
-          case x ==> None
-        end
-      )
+      .flatMap ( lambda block --> _get_as_abstract_declaration_annotation (block) )
       .flatMap ( lambda block --> block.abstract_functions)
       .map ( lambda annotated_line --> _translate_type_symbols (annotated_line.line).trim )
+
+  _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
+    match block
+      case AbstractDeclarationAnnotation_ (b, references) ==> Some (AbstractDeclarationAnnotation_ (b, references) )
+      case x ==> None
+    end
 
   _translate_type_symbols (line : String) : String =
     line

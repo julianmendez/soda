@@ -52,13 +52,14 @@ trait CoqClassEndBlockTranslator
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block =>
-        block match  {
-          case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-          case x => None
-        }
-      )
+      .flatMap (  block => _get_as_class_beginning_annotation (block) )
       .headOption
+
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    annotated_block match  {
+      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
+      case x => None
+    }
 
 }
 

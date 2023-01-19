@@ -29,10 +29,12 @@ trait CoqDefinitionBlockTranslator
   private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_recursive_definition (block)
     ) _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
-    else
-      if ( is_a_definition (block)
-      ) _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
-      else block
+    else _translate_non_recursive_definition (block)
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
+    else block
 
   private def _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (

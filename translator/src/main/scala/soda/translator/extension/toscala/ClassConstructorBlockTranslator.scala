@@ -8,6 +8,7 @@ trait ClassConstructorBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
@@ -78,24 +79,26 @@ trait ClassConstructorBlockTranslator
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block =>
-        block match  {
-          case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-          case x => None
-        }
-      )
+      .flatMap (  block => _get_as_class_beginning_annotation (block) )
       .headOption
+
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    annotated_block match  {
+      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
+      case x => None
+    }
 
   private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap (  block =>
-        block match  {
-          case AbstractDeclarationAnnotation_ (b, references) => Some (AbstractDeclarationAnnotation_ (b, references) )
-          case x => None
-        }
-      )
+      .flatMap (  block => _get_as_abstract_declaration_annotation (block) )
       .flatMap (  block => block.abstract_functions)
       .map (  annotated_line => _translate_type_symbols (annotated_line.line).trim )
+
+  private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
+    block match  {
+      case AbstractDeclarationAnnotation_ (b, references) => Some (AbstractDeclarationAnnotation_ (b, references) )
+      case x => None
+    }
 
   private def _translate_type_symbols (line : String) : String =
     line
