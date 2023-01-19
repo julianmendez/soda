@@ -16,6 +16,7 @@ The reserved words are:
 - `=` (definition symbol)
 - `:=` (parameter definition symbol)
 - `lambda`
+- `any` (synonym of `lambda`)
 - `-->` (lambda symbol)
 - `if`
 - `then`
