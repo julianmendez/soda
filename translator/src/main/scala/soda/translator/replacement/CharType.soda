@@ -42,14 +42,27 @@ class CharTypeEnum
 
   underscore_char = '_'
 
-  symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+  symbol_chars : Seq [Char] =
+    Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+
+  simple_char_type_map : Map [Char , CharType] =
+    Map (
+      Tuple2 ( quotes_char , quotes_type ),
+      Tuple2 ( apostrophe_char , apostrophe_type ),
+      Tuple2 ( backslash_char, backslash_type )
+    )
 
   get_char_type (ch : Char) : CharType =
-    if _is_quotes (ch) then quotes_type
-    else if _is_apostrophe (ch) then apostrophe_type
-    else if _is_backslash (ch) then backslash_type
-    else if _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch) then plain_type
+    simple_char_type_map
+      .getOrElse (ch, _get_char_type_if_plain (ch) )
+
+  _get_char_type_if_plain (ch : Char) : CharType =
+    if _is_plain (ch)
+    then plain_type
     else undefined_type
+
+  _is_plain (ch : Char) : Boolean =
+    _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch)
 
   _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
@@ -59,15 +72,6 @@ class CharTypeEnum
 
   _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
-
-  _is_quotes (ch : Char) : Boolean =
-    ch == quotes_char
-
-  _is_apostrophe (ch : Char) : Boolean =
-    ch == apostrophe_char
-
-  _is_backslash (ch : Char) : Boolean =
-    ch == backslash_char
 
 end
 

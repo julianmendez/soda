@@ -34,10 +34,12 @@ trait BlockBuilder
   private def _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if ( comment_state
     ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
-    else
-      if ( line.trim.startsWith (_sc.comment_opening_symbol)
-      ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
-      else CurrentAndNewCommentState_ (false, false)
+    else _annotate_this_line_considering_opening_symbol (line) (comment_state)
+
+  private def _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
+    if ( line.trim.startsWith (_sc.comment_opening_symbol)
+    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
+    else CurrentAndNewCommentState_ (false, false)
 
 }
 

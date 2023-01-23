@@ -26,10 +26,12 @@ class DirectoryScanner
   _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
     if to_scan.isEmpty
     then to_scan
-    else
-      if to_scan.head.isDirectory
-      then to_scan.tail.++ (to_scan.head.listFiles () )
-      else to_scan.tail
+    else _get_files_to_scan_with (to_scan.head) (to_scan.tail)
+
+  _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
+    if to_scan_head.isDirectory
+    then to_scan_tail.++ (to_scan_head.listFiles () )
+    else to_scan_tail
 
 end
 

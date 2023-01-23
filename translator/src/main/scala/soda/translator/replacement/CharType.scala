@@ -45,14 +45,27 @@ trait CharTypeEnum
 
   lazy val underscore_char = '_'
 
-  lazy val symbol_chars = Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+  lazy val symbol_chars : Seq [Char] =
+    Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+
+  lazy val simple_char_type_map : Map [Char , CharType] =
+    Map (
+      Tuple2 ( quotes_char , quotes_type ),
+      Tuple2 ( apostrophe_char , apostrophe_type ),
+      Tuple2 ( backslash_char, backslash_type )
+    )
 
   def get_char_type (ch : Char) : CharType =
-    if ( _is_quotes (ch) ) quotes_type
-    else if ( _is_apostrophe (ch) ) apostrophe_type
-    else if ( _is_backslash (ch) ) backslash_type
-    else if ( _is_whitespace (ch) || _is_letter_or_digit_or_underscore (ch) || _is_symbol (ch) ) plain_type
+    simple_char_type_map
+      .getOrElse (ch, _get_char_type_if_plain (ch) )
+
+  private def _get_char_type_if_plain (ch : Char) : CharType =
+    if ( _is_plain (ch)
+    ) plain_type
     else undefined_type
+
+  private def _is_plain (ch : Char) : Boolean =
+    _is_whitespace (ch) || _is_letter_or_digit_or_underscore (ch) || _is_symbol (ch)
 
   private def _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
@@ -62,15 +75,6 @@ trait CharTypeEnum
 
   private def _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
-
-  private def _is_quotes (ch : Char) : Boolean =
-    ch == quotes_char
-
-  private def _is_apostrophe (ch : Char) : Boolean =
-    ch == apostrophe_char
-
-  private def _is_backslash (ch : Char) : Boolean =
-    ch == backslash_char
 
 }
 

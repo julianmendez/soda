@@ -57,11 +57,14 @@ trait Tokenizer
       tuple) (
       current_index) (
       new_parser_state) (
-      if ( tuple.parser_state == ParserStateEnum_ ().quotes_state ||
-        tuple.parser_state == ParserStateEnum_ ().apostrophe_state
-      ) current_index + 1
-      else current_index
+      _get_new_current_index (tuple) (current_index)
     )
+
+  private def _get_new_current_index (tuple : TokenizerFoldTuple) (current_index : Int) : Int =
+    if ( tuple.parser_state == ParserStateEnum_ ().quotes_state ||
+     tuple.parser_state == ParserStateEnum_ ().apostrophe_state
+    ) current_index + 1
+    else current_index
 
   private def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,

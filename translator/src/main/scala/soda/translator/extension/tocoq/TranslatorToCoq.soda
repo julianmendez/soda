@@ -31,10 +31,14 @@ class TranslatorToCoq
 
   execute : Seq [String] -> Boolean =
     lambda arguments -->
-      if arguments.length == 0 then _process_directory (_default_argument)
-      else if arguments.length == 1 then _process_directory (arguments (0) )
-      else if arguments.length == 2 then _translate (arguments (0) ) (arguments (1) )
-      else false
+      execute_for (arguments)
+
+  execute_for (arguments : Seq [String] ) : Boolean =
+    match arguments.length
+      case 0 ==> _process_directory (_default_argument)
+      case 1 ==> _process_directory (arguments (0) )
+      case 2 ==> _translate (arguments (0) ) (arguments (1) )
+      case x ==> false
 
   _process_directory (start : String) : Boolean =
     DirectoryProcessor_ (start, _process_soda_file).process ()

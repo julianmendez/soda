@@ -31,10 +31,15 @@ trait TranslatorToScala
 
   lazy val execute : Seq [String] => Boolean =
      arguments =>
-      if ( arguments.length == 0 ) _process_directory (_default_argument)
-      else if ( arguments.length == 1 ) _process_directory (arguments (0) )
-      else if ( arguments.length == 2 ) _translate (arguments (0) ) (arguments (1) )
-      else false
+      execute_for (arguments)
+
+  def execute_for (arguments : Seq [String] ) : Boolean =
+    arguments.length match  {
+      case 0 => _process_directory (_default_argument)
+      case 1 => _process_directory (arguments (0) )
+      case 2 => _translate (arguments (0) ) (arguments (1) )
+      case x => false
+    }
 
   private def _process_directory (start : String) : Boolean =
     DirectoryProcessor_ (start, _process_soda_file).process ()

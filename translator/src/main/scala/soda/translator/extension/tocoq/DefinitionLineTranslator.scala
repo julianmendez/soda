@@ -72,8 +72,13 @@ trait DefinitionLineTranslator
     Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
 
   private def _try_found_definition (position : Int) : Replacement =
-    if ( _is_class_definition ) _translation_of_class_definition
-    else if ( _is_val_definition (position) ) _translation_of_val_definition
+    if ( _is_class_definition
+    ) _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
+  private def _decide_val_or_def_translation (position : Int) : Replacement =
+    if ( _is_val_definition (position)
+    ) _translation_of_val_definition
     else _translation_of_def_definition
 
   private def _is_val_definition (initial_position : Int) =

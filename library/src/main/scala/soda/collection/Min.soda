@@ -70,7 +70,10 @@ class Min [A]
     foldLeftWhile (s) (initial_value) (next_value) ( lambda (acc : B) --> lambda (elem : A) --> true)
 
   reverse (s : MSeq [A] ) : MSeq [A] =
-    s.opt [MSeq [A] ] (ifEmpty := empty) (ifNonEmpty := lambda neseq --> reverseNonEmpty (neseq) )
+    s.opt [MSeq [A] ] (
+      ifEmpty := empty) (
+      ifNonEmpty := lambda neseq --> reverseNonEmpty (neseq)
+    )
 
   reverseNonEmpty (s : NESeq [A] ) : NESeq [A] =
     foldLeft (s.tail) (_reverseNonEmpty_initial_value (s) ) (_reverseNonEmpty_next_value)
@@ -95,11 +98,14 @@ class Min [A]
   _indexOf_next_value (tuple : IndexFoldTuple [A] ) (current_element : A) : IndexFoldTuple [A] =
     IndexFoldTuple_ [A] (
       tuple.index + 1,
-      ( if current_element == tuple.element
-      then tuple.index
-      else tuple.position),
+      _get_index_if_element_found (tuple) (current_element) ,
       tuple.element
     )
+
+  _get_index_if_element_found (tuple : IndexFoldTuple [A] ) (current_element : A) : Int =
+    if current_element == tuple.element
+    then tuple.index
+    else tuple.position
 
   _indexOf_condition (tuple : IndexFoldTuple [A] ) (elem : A) : Boolean =
     tuple.position == -1
@@ -119,12 +125,13 @@ class Min [A]
   at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     s.opt [OptionSD [A] ] (
       ifEmpty := NoneSD_ [A] () ) (
-      ifNonEmpty := ( lambda neseq -->
-        if n < 0 or n >= length (s)
-        then NoneSD_ [A] ()
-        else SomeSD_ [A] (_atNonEmpty (neseq ) (n) )
-      )
+      ifNonEmpty := ( lambda neseq --> _retrieve_if_in_range (neseq) (n) )
     )
+
+   _retrieve_if_in_range (xs : NESeq [A] ) (n : Int) : OptionSD [A] =
+     if n < 0 or n >= length (xs)
+     then NoneSD_ [A] ()
+     else SomeSD_ [A] (_atNonEmpty (xs) (n) )
 
   _atNonEmpty (xs : NESeq [A] ) (n : Int) : A =
     (foldLeftWhile (xs) (_atNonEmpty_initial_value (xs) (n) ) (_atNonEmpty_next_value) (_atNonEmpty_condition) ).elem
@@ -242,11 +249,14 @@ class Min [A]
 
   _filter_next_value (tuple : FilterFoldTuple [A] ) (elem : A) :  FilterFoldTuple [A] =
     FilterFoldTuple_ (
-      ( if tuple.condition (elem)
-      then prepended (tuple.sequence) (elem)
-      else tuple.sequence),
+      _prepend_when_condition (tuple) (elem) ,
       tuple.condition
     )
+
+  _prepend_when_condition (tuple : FilterFoldTuple [A] ) (elem : A) :  MSeq [A] =
+    if tuple.condition (elem)
+    then prepended (tuple.sequence) (elem)
+    else tuple.sequence
 
   map0 (s : MSeq [A] ) (f : A -> A) : MSeq [A] =
     reverse ( (foldLeft (s) (_map0_initial_value (f) ) (_map0_next_value) ).sequence)

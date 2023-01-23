@@ -10,9 +10,12 @@ trait ConditionalBlockTranslator
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      if ( accepted_annotations.contains (block.block_annotation)
-      ) translator.translate (block)
-      else block
+      translate_for (block)
+
+  def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if ( accepted_annotations.contains (block.block_annotation)
+    ) translator.translate (block)
+    else block
 
 }
 

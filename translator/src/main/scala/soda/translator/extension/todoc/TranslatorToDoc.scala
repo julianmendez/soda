@@ -33,10 +33,15 @@ trait TranslatorToDoc
 
   lazy val execute : Seq [String] => Boolean =
      arguments =>
-      if ( arguments.length == 0 ) _process_directory (_default_argument)
-      else if ( arguments.length == 1 ) _process_directory (arguments (0) )
-      else if ( arguments.length == 2 ) _translate (arguments (0) ) (arguments (1) )
-      else false
+      execute_for (arguments)
+
+  def execute_for (arguments : Seq [String] ) : Boolean =
+    arguments.length match  {
+      case 0 => _process_directory (_default_argument)
+      case 1 => _process_directory (arguments (0) )
+      case 2 => _translate (arguments (0) ) (arguments (1) )
+      case x => false
+    }
 
   def translate_content (input : String) : String =
     _tc.doc_header + _translator.translate (input) + _tc.doc_footer

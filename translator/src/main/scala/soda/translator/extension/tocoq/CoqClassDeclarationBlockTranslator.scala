@@ -71,11 +71,12 @@ trait CoqClassDeclarationBlockTranslator
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =
-    BlockBuilder_ ().build (
-      if ( block.lines.isEmpty
-      ) block.lines
-      else block.lines.tail
-    )
+    BlockBuilder_ ().build ( _remove_first_line (block.lines) )
+
+  private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if ( lines.isEmpty
+    ) lines
+    else lines.tail
 
   def get_first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("")

@@ -32,12 +32,15 @@ class Main
 
   execute : Seq [String] -> Boolean =
     lambda arguments -->
-      if arguments.length == 0
-      then help.execute (arguments.toSeq)
-      else
-        extensions
-          .getOrElse (arguments.head, help)
-          .execute (arguments.tail)
+      execute_for (arguments)
+
+  execute_for (arguments : Seq [String] ) : Boolean =
+    if arguments.length == 0
+    then help.execute (arguments.toSeq)
+    else
+      extensions
+        .getOrElse (arguments.head, help)
+        .execute (arguments.tail)
 
 end
 

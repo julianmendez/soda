@@ -27,10 +27,12 @@ trait DirectoryScanner
   private def _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
     if ( to_scan.isEmpty
     ) to_scan
-    else
-      if ( to_scan.head.isDirectory
-      ) to_scan.tail.++ (to_scan.head.listFiles () )
-      else to_scan.tail
+    else _get_files_to_scan_with (to_scan.head) (to_scan.tail)
+
+  private def _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
+    if ( to_scan_head.isDirectory
+    ) to_scan_tail.++ (to_scan_head.listFiles () )
+    else to_scan_tail
 
 }
 
