@@ -14,12 +14,9 @@ trait Recursion
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence.isEmpty
+    if ( sequence.isEmpty || ( ! condition (current_value) (sequence.head) )
     ) current_value
-    else
-      if ( ! condition (current_value) (sequence.head)
-      ) current_value
-      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
   def fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
