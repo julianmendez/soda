@@ -11,8 +11,8 @@ package soda.translator.extension.tocoq
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f (x,y)`
- * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.

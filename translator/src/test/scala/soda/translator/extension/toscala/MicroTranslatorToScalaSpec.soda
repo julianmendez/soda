@@ -205,12 +205,14 @@ class MicroTranslatorToScalaSpec ()
   test ("should translate a tuple assignment") (
     check (
       obtained := instance.translate ("  (x, y) = (f (a), g (a))" +
+        "\n" +
         "\n  (p, q) =" +
         "\n    h (1, 2)" +
         "\n"
       )
     ) (
       expected := "  lazy val (x, y) = (f (a), g (a))" +
+        "\n" +
         "\n  lazy val (p, q) =" +
         "\n    h (1, 2)" +
         "\n"

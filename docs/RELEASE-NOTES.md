@@ -5,7 +5,8 @@
   - release: target/scala-3.2.0/soda-0.17.0.jar
   - new_features:
     - accepts reserved word `any` as a synonym for `lambda`
-    - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure 
+    - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure
+    - improves function definition by allowing multiple lines in its signature
   - deprecated_features:
     - the `end` reserved word for `match`-`case` is no longer used
 - version: v0.16.0

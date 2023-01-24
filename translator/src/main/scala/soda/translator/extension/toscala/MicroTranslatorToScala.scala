@@ -34,16 +34,12 @@ trait MicroTranslatorToScala
      block =>
       _translation_pipeline.translate (block)
 
-  private lazy val _try_definition : Token => String =
-     token =>
-      FunctionDefinitionLineTranslator_ (token.text).translation
-
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         MatchCaseBlockTranslator_ (),
         ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
-        ConditionalBlockTranslator_ (_functions_and_tests, TokenizedBlockTranslator_ (_try_definition) ),
+        ConditionalBlockTranslator_ (_functions_and_tests, FunctionDefinitionBlockTranslator_ () ),
         ConditionalBlockTranslator_ (_class_declarations, TokenReplacement_ ().replace (_tc.type_symbol_translation) ),
         ConditionalBlockTranslator_ (_functions_and_tests, TokenReplacement_ ().replace (_tc.all_translations) ),
         ClassDeclarationBlockTranslator_ (),

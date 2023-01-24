@@ -8,8 +8,8 @@ package soda.translator.extension.toscala
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x:  (A, B) -> C =  (x, y) -> f (x,y)`
- * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -22,9 +22,7 @@ package soda.translator.extension.toscala
  *
  */
 
-trait FunctionDefinitionLineTranslator
-  extends
-    soda.translator.block.LineTranslator
+trait FunctionDefinitionLineDetector
 {
 
   def   line: String
@@ -32,33 +30,24 @@ trait FunctionDefinitionLineTranslator
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
   import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Replacement
-  import   soda.translator.replacement.Replacement_
 
   private lazy val _sc = SodaConstant_ ()
 
-  private lazy val _tc = TranslationConstantToScala_ ()
-
   private lazy val _trimmed_line = line.trim
 
-  lazy val translation =
-    _find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => _try_found_definition (position).line)
+  lazy val undetected = 0
 
-  private lazy val _translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary + _tc.scala_value + _tc.scala_space)
+  lazy val val_detected = 1
 
-  private lazy val _translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary + _tc.scala_definition + _tc.scala_space)
+  lazy val def_detected = 2
 
-  private lazy val _private_prefix_if_necessary : String =
-    if ( line.trim.startsWith (_sc.private_function_prefix)
-    ) _tc.scala_private_reserved_word + _tc.scala_space
-    else ""
+  lazy val detect : Int =
+    _find_definition (line).opt (ifEmpty = undetected) (ifNonEmpty =  position => _try_found_definition (position) )
 
-  private def _try_found_definition (position : Int) : Replacement =
+  private def _try_found_definition (position : Int) : Int =
     if ( _is_val_definition (position)
-    ) _translation_of_val_definition
-    else _translation_of_def_definition
+    ) val_detected
+    else def_detected
 
   private def _is_val_definition (initial_position : Int) =
     _is_val_definition_case_1 ||
@@ -104,4 +93,4 @@ trait FunctionDefinitionLineTranslator
 
 }
 
-case class FunctionDefinitionLineTranslator_ (line: String) extends FunctionDefinitionLineTranslator
+case class FunctionDefinitionLineDetector_ (line: String) extends FunctionDefinitionLineDetector

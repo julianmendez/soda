@@ -1,0 +1,107 @@
+package soda.translator.extension.toscala
+
+class FunctionDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
+    soda.translator.block.Block
+    soda.translator.block.Block_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.replacement.Replacement_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_definition_block (block)
+      case x ==> annotated_block
+
+  _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_block (block : Block) : Block =
+     if block.readable_lines.isEmpty
+     then block
+     else _translate_block_with (block.readable_lines.head) (block)
+
+  _translate_block_with (first_line : AnnotatedLine) (block : Block) : Block =
+    if _is_annotation (first_line.line)
+    then _prepend_line (first_line.line) (_translate_main_block (_remove_first_line_if_possible (block) ) )
+    else _translate_main_block (block)
+
+  _translate_main_block (block : Block) : Block =
+    _translate_main_block_with (block) ( FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+
+  _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
+    match detector.detect
+      case detector.val_detected ==> _replace_on_val_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
+      case detector.def_detected ==> _replace_on_def_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
+      case x ==> block
+
+  _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+    Block_ (
+      initial_comments .++ (_replace_first_line (main_block) (_translate_val_definition (main_block.head.line) ) )
+    )
+
+  _replace_on_def_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+    Block_ (
+      initial_comments .++ (_replace_first_line (main_block) (_translate_def_definition (main_block.head.line) ) )
+    )
+
+  _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    lines.takeWhile ( lambda annotated_line --> annotated_line.is_comment )
+
+  _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    lines.dropWhile ( lambda annotated_line --> annotated_line.is_comment )
+
+  _translate_val_definition (line : String) : String =
+    Replacement_ (line)
+      .add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary (line) + _tc.scala_value + _tc.scala_space)
+      .line
+
+  _translate_def_definition (line : String) : String =
+    Replacement_ (line)
+      .add_after_spaces_or_pattern (_tc.scala_space) (_private_prefix_if_necessary (line) + _tc.scala_definition + _tc.scala_space)
+      .line
+
+  _private_prefix_if_necessary (line : String) : String =
+    if line.trim.startsWith (_sc.private_function_prefix)
+    then _tc.scala_private_reserved_word + _tc.scala_space
+    else ""
+
+  _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String) : Seq [AnnotatedLine] =
+    if lines.isEmpty
+    then Seq [AnnotatedLine] () .+: ( AnnotatedLine_ (new_first_line, false) )
+    else lines.tail .+: ( AnnotatedLine_ (new_first_line, false) )
+
+  _remove_first_line_if_possible (block : Block) : Block =
+    if block.lines.isEmpty
+    then block
+    else BlockBuilder_ ().build (block.lines.tail)
+
+  _prepend_line (line : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq [String] (line) .++ (block.lines)
+    )
+
+  _flatten_block (block : Block) : String =
+    block.lines.mkString (_sc.space)
+
+  _is_annotation (line : String) : Boolean =
+    (line.trim == _sc.tail_recursion_annotation) or (line.trim == _sc.override_annotation)
+
+end
+
