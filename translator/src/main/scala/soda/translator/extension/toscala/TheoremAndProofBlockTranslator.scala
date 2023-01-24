@@ -37,7 +37,7 @@ trait TheoremAndProofBlockTranslator
 
   private def _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
+      Seq [String] (prefix + block.lines.head) .++ (block.lines.tail)
     )
 
   private def _append (suffix : String) (block : Block) : Block =
