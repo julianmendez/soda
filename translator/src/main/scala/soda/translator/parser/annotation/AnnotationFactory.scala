@@ -12,9 +12,12 @@ trait AnnotationFactory
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      if ( block.block_annotation == BlockAnnotationEnum_ ().undefined
-      ) annotate (block)
-      else block
+      translate_for (block)
+
+  def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if ( block.block_annotation == BlockAnnotationEnum_ ().undefined
+    ) annotate (block)
+    else block
 
   def annotate (block : Block) : AnnotatedBlock =
     block match  {

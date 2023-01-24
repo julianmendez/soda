@@ -12,9 +12,12 @@ class AnnotationFactory
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      if block.block_annotation == BlockAnnotationEnum_ ().undefined
-      then annotate (block)
-      else block
+      translate_for (block)
+
+  translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if block.block_annotation == BlockAnnotationEnum_ ().undefined
+    then annotate (block)
+    else block
 
   annotate (block : Block) : AnnotatedBlock =
     match block
