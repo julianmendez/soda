@@ -28,14 +28,19 @@ trait FunctionDefinitionAnnotation
   private lazy val _plain_state = ParserStateEnum_ ().plain
 
   lazy val applies : Boolean =
-    (contains_the_equals_symbol || _starts_with_valid_annotation) && ! _is_a_class_declaration
+    ! is_a_theorem &&
+    ! is_a_proof &&
+    ! is_a_class_declaration &&
+    (contains_the_equals_symbol || _starts_with_valid_annotation)
 
   lazy val contains_the_equals_symbol : Boolean =
     block.readable_lines.nonEmpty &&
-    _contains_the_equals_symbol_with (block.readable_lines.head.line)
+    block.readable_lines
+      .filter (  annotated_line => ! annotated_line.is_comment)
+      .exists (  annotated_line => _contains_the_equals_symbol_in_line (annotated_line.line) )
 
-  private def _contains_the_equals_symbol_with (first_line : String) : Boolean =
-    Tokenizer_ (first_line)
+  private def _contains_the_equals_symbol_in_line (line : String) : Boolean =
+    Tokenizer_ (line)
       .tokens
       .exists (  token =>
         token.parser_state == _plain_state &&
@@ -56,8 +61,16 @@ trait FunctionDefinitionAnnotation
     ( first_line_trimmed == sc.tail_recursion_annotation ||
       first_line_trimmed == sc.override_annotation )
 
-  private lazy val _is_a_class_declaration : Boolean =
+  lazy val is_a_class_declaration : Boolean =
     starts_with_prefix_and_space (sc.class_reserved_word)
+
+  lazy val is_a_theorem : Boolean =
+    block.readable_lines.nonEmpty &&
+    (block.readable_lines.head.line.trim == SodaConstant_ ().theorem_reserved_word)
+
+  lazy val is_a_proof : Boolean =
+    block.readable_lines.nonEmpty &&
+    (block.readable_lines.head.line.trim == SodaConstant_ ().proof_reserved_word)
 
 }
 

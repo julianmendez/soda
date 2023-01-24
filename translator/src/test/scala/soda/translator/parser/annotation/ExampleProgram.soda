@@ -32,6 +32,12 @@ class ExampleProgram
     "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
     "\n" +
+    "\n  another_function" +
+    "\n    (x : Int)" +
+    "\n    (y : Int)" +
+    "\n      : Int =" +
+    "\n    x + y" +
+    "\n" +
     "\n  test (\"should test the example\")" +
     "\n    check (" +
     "\n      obtained := ClassBeginningAnnotation_ (example_4).type_parameters" +

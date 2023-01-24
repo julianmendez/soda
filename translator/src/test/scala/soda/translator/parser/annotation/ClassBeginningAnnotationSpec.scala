@@ -66,7 +66,7 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = example_blocks.map (  block => ClassBeginningAnnotation_ (block).applies )
     ) (
-      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false, false)
     )
   )
 
