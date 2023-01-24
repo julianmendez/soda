@@ -21,21 +21,23 @@ trait ExampleProgram
     "\n    SuperClassExample" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
+    "\n    value : Int" +
     "\n" +
     "\n  import" +
     "\n    soda.lib.Recursion_" +
     "\n    soda.lib.Enum" +
     "\n" +
-    "\n  my_constant: Int = 0" +
+    "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
     "\n" +
     "\n  test (\"should test the example\")" +
-    "\n    let" +
-    "\n      result = true" +
-    "\n    in assert (result)" +
+    "\n    check (" +
+    "\n      obtained := ClassBeginningAnnotation_ (example_4).type_parameters" +
+    "\n    ) (" +
+    "\n      expected := Seq (\"A\", \"B\")" +
+    "\n    )" +
     "\n" +
     "\n  theorem" +
     "\n    True" +
