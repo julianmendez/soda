@@ -11,6 +11,8 @@ package soda.lib
 trait CartesianProduct
 {
 
+  private lazy val _fold = Fold_ ()
+
   private def _initial_value [A] (seq : Seq [A] ) : Seq [Seq [A] ] =
     seq.map (  elem => Seq [A] (elem) )
 
@@ -19,9 +21,9 @@ trait CartesianProduct
       accum.map (  seq_b => seq_b.+: (elem_a) ) )
 
   private def _apply_recursion [A] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    Recursion_ ().fold (rev_sequences.tail) (_initial_value (rev_sequences.head) ) (_next_value [A] )
+    _fold.apply (rev_sequences.tail) (_initial_value (rev_sequences.head) ) (_next_value [A] )
 
-  def get_cartesian_product [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+  def apply [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if ( sequences.isEmpty
     ) sequences
     else _apply_recursion (sequences.reverse)

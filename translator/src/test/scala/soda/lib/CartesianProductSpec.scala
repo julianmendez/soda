@@ -18,9 +18,11 @@ case class CartesianProductSpec ()
 
   lazy val str_seq_c = Seq ("a", "b", "c", "d")
 
+  lazy val instance = CartesianProduct_ ()
+
   test ("Cartesian product of two sequences") (
     check (
-      obtained = CartesianProduct_ ().get_cartesian_product (Seq (int_seq_a, int_seq_b) )
+      obtained = instance.apply (Seq (int_seq_a, int_seq_b) )
     ) (
       expected = Seq (
         Seq (10, 100), Seq (10, 200), Seq (10, 300),
@@ -31,7 +33,7 @@ case class CartesianProductSpec ()
 
   test ("Cartesian product of an empty sequence") (
     check (
-      obtained = CartesianProduct_ ().get_cartesian_product (Seq () )
+      obtained = instance.apply (Seq () )
     ) (
       expected = Seq ()
     )
@@ -39,7 +41,7 @@ case class CartesianProductSpec ()
 
   test ("Cartesian product of only empty sequences") (
     check (
-      obtained = CartesianProduct_ ().get_cartesian_product (Seq (Seq (), Seq (), Seq () ) )
+      obtained = instance.apply (Seq (Seq (), Seq (), Seq () ) )
     ) (
       expected = Seq ()
     )
@@ -47,7 +49,7 @@ case class CartesianProductSpec ()
 
   test ("Cartesian product with at least one empty sequence") (
     check (
-      obtained = CartesianProduct_ ().get_cartesian_product (Seq (Seq ("A"), Seq () ) )
+      obtained = instance.apply (Seq (Seq ("A"), Seq () ) )
     ) (
       expected = Seq ()
     )
@@ -55,7 +57,7 @@ case class CartesianProductSpec ()
 
   test ("Cartesian product of three sequences") (
     check (
-      obtained = CartesianProduct_ ().get_cartesian_product (Seq (str_seq_a, str_seq_b, str_seq_c) )
+      obtained = instance.apply (Seq (str_seq_a, str_seq_b, str_seq_c) )
     ) (
       expected = Seq (
         Seq ("A", "0", "a"), Seq ("A", "0", "b"), Seq ("A", "0", "c"), Seq ("A", "0", "d"),
