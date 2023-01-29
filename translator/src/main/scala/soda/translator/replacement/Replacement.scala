@@ -119,7 +119,7 @@ trait ReplacementWithTranslator
 
   def   translator : soda.translator.block.Translator
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
 
   lazy val aux = ReplacementAux_ ()
 
@@ -127,27 +127,29 @@ trait ReplacementWithTranslator
 
   lazy val scala_space = aux.scala_space
 
+  private lazy val _fold = Fold_ ()
+
   def replace_at_beginning (line : String) (index : Int) : String =
     if ( index == 0
     ) _replace_only_beginning (line)
     else line
 
   private def _replace_only_beginning (line : String) : String =
-    Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
+    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux.replace_if_found_at_beginning (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
   def replace (line : String) : String =
-    Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace)
+    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace)
 
   private def _next_replace (line : String) (reserved_word : String) : String =
     aux.replace_if_found (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
   def replace_regex (line : String) : String =
-    Recursion_ ().fold (translator.keys) (initial_value = line) (next_value_function = _next_replace_regex)
+    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace_regex)
 
   private def _next_replace_regex (line : String) (regex : String) : String =
     line.replaceAll (regex, translator.translate (regex) )

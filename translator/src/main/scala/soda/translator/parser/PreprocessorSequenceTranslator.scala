@@ -7,6 +7,7 @@ trait PreprocessorSequenceTranslator
 
   def   translator : soda.translator.block.BlockSequenceTranslator
 
+  import   soda.lib.Fold_
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.annotation.AnnotationFactory_
@@ -23,7 +24,7 @@ trait PreprocessorSequenceTranslator
 
   lazy val sc = SodaConstant_ ()
 
-  lazy val recursion = soda.lib.Recursion_ ()
+  private lazy val _fold = Fold_ ()
 
   lazy val empty_line = AnnotatedLine_ ("", true)
 
@@ -42,8 +43,7 @@ trait PreprocessorSequenceTranslator
     block_sequence.map (  block => block_annotator.translate (block) )
 
   private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    recursion
-      .fold (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
       .accumulated
       .reverse
 

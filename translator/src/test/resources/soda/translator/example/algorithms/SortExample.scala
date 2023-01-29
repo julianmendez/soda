@@ -58,7 +58,9 @@ trait SortAlgorithmExampleWithFold
     SortAlgorithmExample
 {
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
+
+  private lazy val _fold = Fold_ ()
 
   lazy val sort : Seq [Int] => Seq [Int] =
      sequence => sort_for (sequence)
@@ -66,7 +68,7 @@ trait SortAlgorithmExampleWithFold
   def sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if ( sequence.length < 2
     ) sequence
-    else Recursion_ ().fold (sequence) (_initial_value) (_next_value_function)
+    else _fold.apply (sequence) (_initial_value) (_next_value_function)
 
   private lazy val _initial_value = Seq [Int] ()
 
@@ -198,10 +200,12 @@ case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] () extends NonEmptyS
 trait SortedSequenceBuilder [A <: Comparable [A] ]
 {
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
+
+  private lazy val _fold = Fold_ ()
 
   def build (sequence : Seq [A] ) : SortedSequence [A] =
-    Recursion_ ().fold (sequence) (_initial_value) (_next_value_function)
+    _fold.apply (sequence) (_initial_value) (_next_value_function)
 
   private lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 

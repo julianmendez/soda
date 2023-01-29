@@ -3,15 +3,16 @@ package soda.example.algorithms
 class FizzBuzzPatternMatching
 
   import
-    soda.lib.Recursion_
+    soda.lib.Range_
 
   fizz = "Fizz"
 
   buzz = "Buzz"
 
+  _range = Range_ ()
+
   fizz_buzz =
-    Recursion_ ()
-      .range (100)
+    _range.apply (100)
       .map ( lambda (x : Int) --> x + 1)
       .map (get_fizz_buzz_term)
 

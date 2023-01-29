@@ -24,7 +24,7 @@ trait ExampleProgram
     "\n    value : Int" +
     "\n" +
     "\n  import" +
-    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  my_constant : Int = 0" +

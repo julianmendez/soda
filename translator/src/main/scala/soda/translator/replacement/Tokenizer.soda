@@ -25,10 +25,15 @@ class Tokenizer
     line : String
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
+    soda.lib.Range_
+
+  _fold = Fold_ ()
+
+  _range = Range_ ()
 
   tokens : Seq [Token] =
-    _postprocess (Recursion_ ().fold (Recursion_ ().range (line.length) ) (_initial_value) (_next_value_function) )
+    _postprocess (_fold.apply (_range.apply (line.length) ) (_initial_value) (_next_value_function) )
 
   _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
 

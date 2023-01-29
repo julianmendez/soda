@@ -325,21 +325,25 @@ trait FactorialVerbose
 
 case class FactorialVerbose_ () extends FactorialVerbose
 
-trait Recursion
+trait FoldWhile
 {
 
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence.isEmpty
+    if ( sequence.isEmpty || ( ! condition (current_value) (sequence.head) )
     ) current_value
-    else
-      if ( ! condition (current_value) (sequence.head)
-      ) current_value
-      else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-  def fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
+
+}
+
+case class FoldWhile_ () extends FoldWhile
+
+trait Range
+{
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -348,12 +352,12 @@ trait Recursion
     ) sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )
 
-  def range (length : Int) : Seq [Int] =
+  def apply (length : Int) : Seq [Int] =
     _tailrec_range (length) (Seq [Int] () )
 
 }
 
-case class Recursion_ () extends Recursion
+case class Range_ () extends Range
 
 /* The main class has to be named `Main` and requires a `main` function that receives an `Array [String]` and returns a `Unit`.
  * Only one main class per package is allowed. */

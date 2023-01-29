@@ -3,10 +3,15 @@ package soda.example.mathematics
 trait FactorialWithFold
 {
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
+  import   soda.lib.Range_
+
+  private lazy val _fold = Fold_ ()
+
+  private lazy val _range = Range_ ()
 
   def get_factorial (n : Int) : Int =
-    Recursion_ ().fold (Recursion_ ().range (n) ) (1) (  (product : Int) =>  (k : Int) => (product *  (k + 1) ) )
+    _fold.apply (_range.apply (n) ) (1) (  (product : Int) =>  (k : Int) => (product *  (k + 1) ) )
 
 }
 

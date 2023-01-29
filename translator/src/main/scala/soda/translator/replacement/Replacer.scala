@@ -20,10 +20,15 @@ trait Replacer
   def   pattern : String
   def   replacement : String
 
-  import   soda.lib.Recursion_
+  import   soda.lib.FoldWhile_
+  import   soda.lib.Range_
+
+  private lazy val _fold_while = FoldWhile_ ()
+
+  private lazy val _range = Range_ ()
 
   lazy val replaced_text =
-    postprocess (Recursion_ ().fold_while (Recursion_ ().range (line.length) ) (initial_value) (next_value_function) (should_continue) )
+    postprocess (_fold_while.apply (_range.apply (line.length) ) (initial_value) (next_value_function) (should_continue) )
 
   lazy val initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 

@@ -5,14 +5,15 @@ trait BlockTranslatorPipeline
     BlockTranslator
 {
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
 
   def   pipeline : Seq [BlockTranslator]
 
+  private lazy val _fold = Fold_ ()
+
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      Recursion_ ()
-        .fold (pipeline) (block) (_next_value_function)
+      _fold.apply (pipeline) (block) (_next_value_function)
 
   private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator.translate (block)

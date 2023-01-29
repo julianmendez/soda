@@ -5,15 +5,16 @@ class BlockTranslatorPipeline
     BlockTranslator
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
 
   abstract
     pipeline : Seq [BlockTranslator]
 
+  _fold = Fold_ ()
+
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      Recursion_ ()
-        .fold (pipeline) (block) (_next_value_function)
+      _fold.apply (pipeline) (block) (_next_value_function)
 
   _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator.translate (block)

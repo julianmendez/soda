@@ -3,7 +3,7 @@ package soda.translator.parser
 trait BlockBuilder
 {
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.AnnotatedBlock
@@ -13,13 +13,15 @@ trait BlockBuilder
 
   private lazy val _sc = SodaConstant_ ()
 
+  private lazy val _fold = Fold_ ()
+
   def build (lines : Seq [String] ) : Block =
     Block_ (
       _get_annotated_lines (lines)
     )
 
   private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    Recursion_ ().fold (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
+    _fold.apply (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 

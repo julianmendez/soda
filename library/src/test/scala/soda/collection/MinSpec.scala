@@ -6,7 +6,7 @@ case class MinSpec ()
 {
 
   import   soda.lib.NoneSD_
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
   import   soda.lib.SomeSD_
 
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -20,10 +20,12 @@ case class MinSpec ()
 
   def prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
 
+  private lazy val _fold = Fold_ ()
+
   private lazy val _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
   lazy val example : NESeq [Int] =
-    Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
+    _fold.apply (revExampleSeq.tail) (_initial_value) (prepend_elem)
 
   test ("prepended") (
     check (

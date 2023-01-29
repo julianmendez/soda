@@ -3,7 +3,7 @@ package soda.translator.parser
 class BlockBuilder
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
     soda.translator.block.AnnotatedLine
     soda.translator.block.AnnotatedLine_
     soda.translator.block.AnnotatedBlock
@@ -13,13 +13,15 @@ class BlockBuilder
 
   _sc = SodaConstant_ ()
 
+  _fold = Fold_ ()
+
   build (lines : Seq [String] ) : Block =
     Block_ (
       _get_annotated_lines (lines)
     )
 
   _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    Recursion_ ().fold (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
+    _fold.apply (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 

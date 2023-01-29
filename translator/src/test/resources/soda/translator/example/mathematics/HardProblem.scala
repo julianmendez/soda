@@ -119,9 +119,12 @@ trait MemoizedFibonacci
 
   lazy val main_function : InputPair [Int, Int] => OutputPair [Int, Int] =
      input =>
-      if ( input.value == 0 ) OutputPair_ (0, input.memoized_values )
-      else if ( input.value == 1 ) OutputPair_ (1, input.memoized_values )
-      else _compute_and_update_1 (compute (InputPair_ (input.value - 2, input.memoized_values ) ) ) (input.value)
+      main_function_for (input)
+
+  def main_function_for (input : InputPair [Int, Int] ): OutputPair [Int, Int] =
+    if ( (input.value == 0) || (input.value == 1)
+    ) OutputPair_ (input.value, input.memoized_values )
+    else _compute_and_update_1 (compute (InputPair_ (input.value - 2, input.memoized_values ) ) ) (input.value)
 
   private def _compute_and_update_1 (first_tuple : OutputPair [Int, Int] ) (n : Int ) : OutputPair [Int, Int] =
     _compute_and_update_2 (first_tuple.value) (compute (InputPair_ (n - 1, first_tuple.memoized_values) ) ) (n)

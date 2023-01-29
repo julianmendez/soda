@@ -21,7 +21,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\nclass Example" +
     "\n" +
     "\n  import" +
-    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
@@ -47,7 +47,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\nclass Example" +
     "\n" +
     "\n  import" +
-    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +

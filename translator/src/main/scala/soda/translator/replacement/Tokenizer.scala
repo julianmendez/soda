@@ -26,10 +26,15 @@ trait Tokenizer
 
   def   line : String
 
-  import   soda.lib.Recursion_
+  import   soda.lib.Fold_
+  import   soda.lib.Range_
+
+  private lazy val _fold = Fold_ ()
+
+  private lazy val _range = Range_ ()
 
   lazy val tokens : Seq [Token] =
-    _postprocess (Recursion_ ().fold (Recursion_ ().range (line.length) ) (_initial_value) (_next_value_function) )
+    _postprocess (_fold.apply (_range.apply (line.length) ) (_initial_value) (_next_value_function) )
 
   private lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
 
