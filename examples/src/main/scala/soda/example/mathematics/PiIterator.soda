@@ -17,7 +17,10 @@ end
 
 class PiIterator
 
-  initial_status =
+  apply (n : Int) : Seq [Int] =
+    _tailrec_take (n) (Seq () ) (_initial_status) (_get_next (_initial_status) )
+
+  _initial_status =
     Status_ (r := 0, n := 3, q := 1, t := 1, l := 3, k := 1)
 
   @tailrec
@@ -36,7 +39,7 @@ class PiIterator
         )
       )
 
-  compute_new_status (s : Status) : Status =
+  _compute_new_status (s : Status) : Status =
     _tailrec_compute_new_status (s)
 
   @tailrec
@@ -45,11 +48,8 @@ class PiIterator
     then rev_seq.reverse
     else _tailrec_take (n - 1) (rev_seq.+: (t.digit) ) (t.new_status) (_get_next (t.new_status) )
 
-  take (n : Int) : Seq [Int] =
-    _tailrec_take (n) (Seq () ) (initial_status) (_get_next (initial_status) )
-
   _get_next (s : Status) : IntAndStatus =
-    _get_next_with_new_status (compute_new_status (s) )
+    _get_next_with_new_status (_compute_new_status (s) )
 
   _get_next_with_new_status (s : Status) : IntAndStatus =
     IntAndStatus_ (

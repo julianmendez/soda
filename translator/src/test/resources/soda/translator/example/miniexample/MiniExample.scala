@@ -7,7 +7,7 @@ trait MiniExample
 
   private lazy val _range = Range_ ()
 
-  def run () =
+  def run () : Seq [Unit] =
     _range.apply (50)
       .map (  x => print (" " + (2 * x + 1) ) )
 

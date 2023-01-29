@@ -1,14 +1,9 @@
 package soda.example.mathematics
 
 trait FactorialPatternMatching
-  extends
-    AbstractFactorialConcise
 {
 
-  lazy val get_factorial : Int => Int =
-     n => get_factorial_for (n)
-
-  def get_factorial_for (n : Int) : Int =
+  def apply (n : Int) : Int =
     _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec

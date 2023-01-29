@@ -2,16 +2,12 @@ package soda.example.mathematics
 
 class FactorialWithFold
 
-  import
-    soda.lib.Fold_
-    soda.lib.Range_
+  _fold = soda.lib.Fold_ ()
 
-  _fold = Fold_ ()
+  _range = soda.lib.Range_ ()
 
-  _range = Range_ ()
-
-  get_factorial (n : Int) : Int =
-    _fold.apply (_range.apply (n) ) (1) ( lambda (product : Int) --> lambda (k : Int) --> (product *  (k + 1) ) )
+  apply (n : Int) : Int =
+    _fold.apply (_range.apply (n) ) (1) ( any product --> any k --> (product *  (k + 1) ) )
 
 end
 

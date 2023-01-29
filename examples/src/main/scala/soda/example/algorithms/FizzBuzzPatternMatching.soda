@@ -2,21 +2,18 @@ package soda.example.algorithms
 
 class FizzBuzzPatternMatching
 
-  import
-    soda.lib.Range_
-
   fizz = "Fizz"
 
   buzz = "Buzz"
 
-  _range = Range_ ()
+  _range = soda.lib.Range_ ()
 
-  fizz_buzz =
+  apply : Seq [String] =
     _range.apply (100)
       .map ( lambda (x : Int) --> x + 1)
-      .map (get_fizz_buzz_term)
+      .map (_get_fizz_buzz_term)
 
-  get_fizz_buzz_term (n : Int) =
+  _get_fizz_buzz_term (n : Int) : String =
     match Tuple2 (n % 3, n % 5)
       case Tuple2 (0, 0) ==> fizz + buzz
       case Tuple2 (0, x) ==> fizz

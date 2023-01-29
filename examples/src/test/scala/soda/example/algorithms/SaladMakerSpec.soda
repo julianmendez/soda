@@ -38,9 +38,11 @@ class SaladMakerSpec ()
   has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far.length < 3
 
+  _salad_maker = SaladMaker_ ()
+
   test ("salad maker") (
     check (
-      obtained := SaladMaker_ ().prepare_salad (
+      obtained := _salad_maker.apply (
         list_of_ingredients := SaladIngredient_values) (
         initial_bowl := Seq [SaladIngredient] () ) (
         next_ingredient_function := add_next_ingredient) (

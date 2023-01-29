@@ -170,7 +170,7 @@ class Manual
   /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
 
-  now = @new Date ()
+  now : Date = @new Date ()
 
   plus_one (x : Int) : Int = x + 1
 
@@ -237,49 +237,18 @@ class Manual
 
 end
 
-class AbstractFactorialConcise
-
-  abstract
-    factorial : Int -> Int
-
-end
+/* The function used to compare equality is a long equals (`==`). */
 
 class FactorialConcise
-  extends
-    AbstractFactorialConcise
 
-  /* The function used to compare equality is a long equals (`==`). */
-
-  @tailrec
-  _tailrec_ (n : Int) (product : Int) : Int =
-    if n == 0
-    then product
-    else _tailrec_ (n - 1) (n * product)
-
-  factorial (n : Int) : Int =
-    _tailrec_ (n) (1)
-
-end
-
-class AbstractFactorialVerbose
-
-  abstract
-    factorial : Int -> Int
-
-end
-
-class FactorialVerbose
-  extends AbstractFactorialVerbose
+  apply (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
 
   @tailrec
-  _tailrec_ (n : Int) (product : Int) : Int =
+  _tailrec_get_factorial (n : Int) (product : Int) : Int =
     if n == 0
     then product
-    else _tailrec_ (n - 1) (n * product)
-
-  factorial : Int -> Int =
-    lambda n -->
-      _tailrec_ (n) (1)
+    else _tailrec_get_factorial (n - 1) (n * product)
 
 end
 

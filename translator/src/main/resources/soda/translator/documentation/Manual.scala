@@ -196,7 +196,7 @@ trait Manual
   /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
 
-  lazy val now = new Date ()
+  lazy val now : Date = new Date ()
 
   def plus_one (x : Int) : Int = x + 1
 
@@ -267,63 +267,24 @@ trait Manual
 
 case class Manual_ () extends Manual
 
-trait AbstractFactorialConcise
-{
-
-  def   factorial : Int => Int
-
-}
-
-case class AbstractFactorialConcise_ (factorial : Int => Int) extends AbstractFactorialConcise
+/* The function used to compare equality is a long equals (`==`). */
 
 trait FactorialConcise
-  extends
-    AbstractFactorialConcise
 {
 
-  /* The function used to compare equality is a long equals (`==`). */
+  def apply (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_ (n : Int) (product : Int) : Int =
+  private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
     if ( n == 0
     ) product
-    else _tailrec_ (n - 1) (n * product)
-
-  def factorial (n : Int) : Int =
-    _tailrec_ (n) (1)
+    else _tailrec_get_factorial (n - 1) (n * product)
 
 }
 
 case class FactorialConcise_ () extends FactorialConcise
-
-trait AbstractFactorialVerbose
-{
-
-  def   factorial : Int => Int
-
-}
-
-case class AbstractFactorialVerbose_ (factorial : Int => Int) extends AbstractFactorialVerbose
-
-trait FactorialVerbose
-  extends AbstractFactorialVerbose
-{
-
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_ (n : Int) (product : Int) : Int =
-    if ( n == 0
-    ) product
-    else _tailrec_ (n - 1) (n * product)
-
-  lazy val factorial : Int => Int =
-     n =>
-      _tailrec_ (n) (1)
-
-}
-
-case class FactorialVerbose_ () extends FactorialVerbose
 
 trait FoldWhile
 {

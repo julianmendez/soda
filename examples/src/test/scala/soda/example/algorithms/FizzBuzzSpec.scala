@@ -21,9 +21,13 @@ case class FizzBuzzSpec ()
     "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"
   )
 
+  private lazy val _fizz_buzz = FizzBuzz_ ()
+
+  private lazy val _fizz_buzz_pattern_matching = FizzBuzzPatternMatching_ ()
+
   test ("first elements of FizzBuzz") (
     check (
-      obtained = FizzBuzz_ ().fizz_buzz
+      obtained = _fizz_buzz.apply
     ) (
       expected = expected_result
     )
@@ -31,7 +35,7 @@ case class FizzBuzzSpec ()
 
   test ("first elements of FizzBuzz with pattern matching") (
     check (
-      obtained = FizzBuzzPatternMatching_ ().fizz_buzz
+      obtained = _fizz_buzz_pattern_matching.apply
     ) (
       expected = expected_result
     )

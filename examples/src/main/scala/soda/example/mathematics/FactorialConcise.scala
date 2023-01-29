@@ -1,23 +1,9 @@
 package soda.example.mathematics
 
-trait AbstractFactorialConcise
-{
-
-  def   get_factorial : Int => Int
-
-}
-
-case class AbstractFactorialConcise_ (get_factorial : Int => Int) extends AbstractFactorialConcise
-
 trait FactorialConcise
-  extends
-    AbstractFactorialConcise
 {
 
-  lazy val get_factorial : Int => Int =
-     n => get_factorial_for (n)
-
-  def get_factorial_for (n : Int) : Int =
+  def apply (n : Int) : Int =
     _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec

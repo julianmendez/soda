@@ -1,20 +1,8 @@
 package soda.example.mathematics
 
-class AbstractFactorialConcise
-
-  abstract
-    get_factorial : Int -> Int
-
-end
-
 class FactorialConcise
-  extends
-    AbstractFactorialConcise
 
-  get_factorial : Int -> Int =
-    any n --> get_factorial_for (n)
-
-  get_factorial_for (n : Int) : Int =
+  apply (n : Int) : Int =
     _tailrec_get_factorial (n) (1)
 
   @tailrec
