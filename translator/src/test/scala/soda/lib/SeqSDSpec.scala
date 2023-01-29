@@ -40,11 +40,13 @@ case class SeqSDSpec ()
 
   lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =  sequence => SomeSD_ (max (sequence) )
 
+  private lazy val _fold = Fold_ ()
+
   def max_of_2 (a : Int) (b : Int) : Int =
     if ( a > b ) a else b
 
   def max (s : NonEmptySeqSD [Int]) : Int =
-    Recursion_ ().fold (s.tail.toSeq) (s.head) (max_of_2)
+    _fold.apply (s.tail.toSeq) (s.head) (max_of_2)
 
   test ("should reverse a sequence") (
     check (
