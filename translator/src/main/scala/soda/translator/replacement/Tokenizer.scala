@@ -1,5 +1,14 @@
 package soda.translator.replacement
 
+/*
+ * This package contains auxiliary classes for string manipulation,
+ * especially related to replacement.
+ */
+
+
+
+
+
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.
  */

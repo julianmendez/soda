@@ -1,5 +1,14 @@
 package soda.translator.replacement
 
+/*
+ * This package contains auxiliary classes for string manipulation,
+ * especially related to replacement.
+ */
+
+
+
+
+
 /**
  * This models all the possible states that the parser can be.
  */

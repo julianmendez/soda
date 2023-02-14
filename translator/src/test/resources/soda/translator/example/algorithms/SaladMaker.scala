@@ -1,4 +1,3 @@
-
 trait SaladMaker
 {
 

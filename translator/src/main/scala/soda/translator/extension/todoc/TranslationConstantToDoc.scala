@@ -1,5 +1,13 @@
 package soda.translator.extension.todoc
 
+/*
+ * This package contains classes for documentation generation.
+ */
+
+
+
+
+
 /**
  * This class contains constants that are specific for the documentation generation.
  */

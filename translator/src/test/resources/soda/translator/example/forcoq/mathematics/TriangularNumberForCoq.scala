@@ -1,4 +1,3 @@
-
 package soda.example.forcoq.mathematics
 
 trait TriangularNumberForCoq

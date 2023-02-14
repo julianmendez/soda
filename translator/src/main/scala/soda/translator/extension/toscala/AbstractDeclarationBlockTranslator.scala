@@ -1,5 +1,13 @@
 package soda.translator.extension.toscala
 
+/*
+ * This package contains classes for the translation to Scala.
+ */
+
+
+
+
+
 trait AbstractDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator

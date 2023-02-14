@@ -1,5 +1,13 @@
 package soda.translator.extension.tocoq
 
+/*
+ * This package contains classes for the translation to Gallina, the specification language used by Coq.
+ */
+
+
+
+
+
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
  */

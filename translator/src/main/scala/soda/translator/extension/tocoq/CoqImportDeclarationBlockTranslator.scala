@@ -1,5 +1,13 @@
 package soda.translator.extension.tocoq
 
+/*
+ * This package contains classes for the translation to Gallina, the specification language used by Coq.
+ */
+
+
+
+
+
 trait CoqImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator

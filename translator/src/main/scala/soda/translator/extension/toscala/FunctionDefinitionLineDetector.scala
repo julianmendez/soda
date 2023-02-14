@@ -1,5 +1,13 @@
 package soda.translator.extension.toscala
 
+/*
+ * This package contains classes for the translation to Scala.
+ */
+
+
+
+
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val' or 'def'.

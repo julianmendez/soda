@@ -1,14 +1,11 @@
+
+
 package soda.collection
 
-/**
+/*
  * This package contains examples for Soda.
  * They can be used as libraries, but their main purpose is
  * to show possible implementations of functions for list manipulation.
  */
 
-trait Package
-{
 
-}
-
-case class Package_ () extends Package

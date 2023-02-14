@@ -1,5 +1,13 @@
 package soda.translator.parser
 
+/*
+ * This package contains common classes used to describe and parse the Soda language.
+ */
+
+
+
+
+
 /**
  * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
  */

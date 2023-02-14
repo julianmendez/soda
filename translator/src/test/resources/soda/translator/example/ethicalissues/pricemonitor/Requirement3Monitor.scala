@@ -1,5 +1,3 @@
-
-
 package soda.example.ethicalissues.pricemonitor
 
 trait Report3

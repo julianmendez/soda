@@ -1,5 +1,14 @@
 package soda.translator.io
 
+/*
+ * This package contains all the classes for I/O communication.
+ * It is also the entry point for the translator.
+ */
+
+
+
+
+
 /**
  * This class is used to scan files in a given directory.
  */

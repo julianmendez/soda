@@ -1,5 +1,13 @@
 package soda.translator.extension.tocoq
 
+/*
+ * This package contains classes for the translation to Gallina, the specification language used by Coq.
+ */
+
+
+
+
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.

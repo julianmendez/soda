@@ -1,5 +1,13 @@
 package soda.translator.extension.toscala
 
+/*
+ * This package contains classes for the translation to Scala.
+ */
+
+
+
+
+
 /**
  * This translates Soda source code to Scala source code.
  */
