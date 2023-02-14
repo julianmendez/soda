@@ -1,16 +1,3 @@
-(*
-package soda.example.algorithms
-*)
-
-Require Import Coq.ZArith.BinInt .
-(* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)
-
-Require Import Coq.Lists.List .
-(* https://coq.inria.fr/library/Coq.Lists.List.html *)
-
-Notation Int := Z .
-
-
 Module PairExample .
 
 (*

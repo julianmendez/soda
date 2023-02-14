@@ -1,5 +1,3 @@
-package soda.example.mathematics
-
 trait Status
 {
 

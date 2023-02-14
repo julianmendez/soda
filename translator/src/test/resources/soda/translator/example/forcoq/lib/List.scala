@@ -1,3 +1,5 @@
+
+
 package soda.example.forcoq.lib
 
 trait list [A]
