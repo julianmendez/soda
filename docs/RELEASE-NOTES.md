@@ -4,9 +4,11 @@
   - build: sbt '++ 3.2.0' clean compile test package assembly
   - release: target/scala-3.2.0/soda-0.17.0.jar
   - new_features:
+    - reads `Package.soda` as prelude for a Soda file in the same directory  
     - accepts reserved word `any` as a synonym for `lambda`
     - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure
     - improves function definition by allowing multiple lines in its signature
+    - includes a Bash script to build the project and create the binary file
   - deprecated_features:
     - the `end` reserved word for `match`-`case` is no longer used
 - version: v0.16.0

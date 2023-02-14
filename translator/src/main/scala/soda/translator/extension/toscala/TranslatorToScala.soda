@@ -16,6 +16,16 @@ class TranslatorToScala
     soda.translator.parser.BlockProcessor_
     java.io.File
 
+  prelude_file_name : String = "Package.soda"
+
+  default_prelude : String = ""
+
+  new_line : String = "\n"
+
+  prelude_separation : String = new_line + new_line
+
+  prelude_file_body : String = new_line + "trait Package" + prelude_separation
+
   _soda_extension : String = ".soda"
 
   _scala_extension : String = ".scala"
@@ -56,16 +66,29 @@ class TranslatorToScala
     else FileNamePair_ (input_name + _soda_extension, input_name + _scala_extension)
 
   _translate (input_file_name : String) (output_file_name : String) : Boolean =
-    _translate_with_input (
-      SimpleFileReader_ ().read_file (input_file_name) ) (
-      output_file_name
-    )
+    _translate_with_input ( _read_input (input_file_name) ) (output_file_name)
 
   _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (
-      output_file_name) (
-      content := _translator.translate (input)
-    )
+    SimpleFileWriter_ ().write_file (output_file_name) (content := _translator.translate (input) )
+
+  _read_input (input_file_name : String) : String =
+    if _is_a_prelude_file (input_file_name)
+    then SimpleFileReader_ ().read_file (input_file_name) + prelude_file_body
+    else _get_prelude (input_file_name) + SimpleFileReader_ ().read_file (input_file_name)
+
+  _get_prelude (input_file_name : String) : String =
+    _get_prelude_with (_get_prelude_file (input_file_name) )
+
+  _get_prelude_with (prelude_file : File) : String =
+    if prelude_file.exists
+    then (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + prelude_separation
+    else default_prelude
+
+  _get_prelude_file (input_file_name : String) : File =
+    @new File ( @new File (input_file_name) .getParentFile , prelude_file_name )
+
+  _is_a_prelude_file (input_file_name : String) : Boolean =
+    prelude_file_name == ( ( @new File (input_file_name) ) .getName)
 
 end
 

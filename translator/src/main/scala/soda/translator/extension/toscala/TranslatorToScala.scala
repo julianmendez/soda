@@ -16,6 +16,16 @@ trait TranslatorToScala
   import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
+  lazy val prelude_file_name : String = "Package.soda"
+
+  lazy val default_prelude : String = ""
+
+  lazy val new_line : String = "\n"
+
+  lazy val prelude_separation : String = new_line + new_line
+
+  lazy val prelude_file_body : String = new_line + "trait Package" + prelude_separation
+
   private lazy val _soda_extension : String = ".soda"
 
   private lazy val _scala_extension : String = ".scala"
@@ -57,16 +67,29 @@ trait TranslatorToScala
     else FileNamePair_ (input_name + _soda_extension, input_name + _scala_extension)
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
-    _translate_with_input (
-      SimpleFileReader_ ().read_file (input_file_name) ) (
-      output_file_name
-    )
+    _translate_with_input ( _read_input (input_file_name) ) (output_file_name)
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (
-      output_file_name) (
-      content = _translator.translate (input)
-    )
+    SimpleFileWriter_ ().write_file (output_file_name) (content = _translator.translate (input) )
+
+  private def _read_input (input_file_name : String) : String =
+    if ( _is_a_prelude_file (input_file_name)
+    ) SimpleFileReader_ ().read_file (input_file_name) + prelude_file_body
+    else _get_prelude (input_file_name) + SimpleFileReader_ ().read_file (input_file_name)
+
+  private def _get_prelude (input_file_name : String) : String =
+    _get_prelude_with (_get_prelude_file (input_file_name) )
+
+  private def _get_prelude_with (prelude_file : File) : String =
+    if ( prelude_file.exists
+    ) (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + prelude_separation
+    else default_prelude
+
+  private def _get_prelude_file (input_file_name : String) : File =
+    new File ( new File (input_file_name) .getParentFile , prelude_file_name )
+
+  private def _is_a_prelude_file (input_file_name : String) : Boolean =
+    prelude_file_name == ( ( new File (input_file_name) ) .getName)
 
 }
 
