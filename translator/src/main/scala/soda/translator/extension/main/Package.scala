@@ -1,5 +1,3 @@
-
-
 package soda.translator.extension.main
 
 /*
@@ -8,3 +6,5 @@ package soda.translator.extension.main
  */
 
 
+
+trait Package

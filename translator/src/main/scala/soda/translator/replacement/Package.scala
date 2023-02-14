@@ -1,5 +1,3 @@
-
-
 package soda.translator.replacement
 
 /*
@@ -8,3 +6,5 @@ package soda.translator.replacement
  */
 
 
+
+trait Package

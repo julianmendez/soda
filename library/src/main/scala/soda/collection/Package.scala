@@ -1,5 +1,3 @@
-
-
 package soda.collection
 
 /*
@@ -9,3 +7,5 @@ package soda.collection
  */
 
 
+
+trait Package

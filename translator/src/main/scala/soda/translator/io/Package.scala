@@ -1,5 +1,3 @@
-
-
 package soda.translator.io
 
 /*
@@ -8,3 +6,5 @@ package soda.translator.io
  */
 
 
+
+trait Package

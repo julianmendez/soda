@@ -1,5 +1,3 @@
-
-
 package soda.translator.block
 
 /*
@@ -7,3 +5,5 @@ package soda.translator.block
  */
 
 
+
+trait Package
