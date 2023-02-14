@@ -1,4 +1,3 @@
-package soda.translator.replacement
 
 /**
  * This models a collection of replacement functions.

@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 /**
  * This translates Soda source code to Coq source code.

@@ -1,4 +1,3 @@
-package soda.translator.extension.toscala
 
 /**
  * A line containing the definition sign will be classified as a definition.

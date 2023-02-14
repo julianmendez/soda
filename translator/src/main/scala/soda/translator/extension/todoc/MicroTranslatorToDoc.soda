@@ -1,4 +1,3 @@
-package soda.translator.extension.todoc
 
 /**
  * This class generates documentation from Soda snippets.

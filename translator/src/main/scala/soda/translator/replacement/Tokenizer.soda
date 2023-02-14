@@ -1,4 +1,3 @@
-package soda.translator.replacement
 
 /**
  * A token is a piece of code, that can contain one or more words combined with symbols.

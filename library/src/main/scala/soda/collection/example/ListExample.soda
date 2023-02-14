@@ -1,4 +1,3 @@
-package soda.collection.example
 
 class Pair [A]
 
