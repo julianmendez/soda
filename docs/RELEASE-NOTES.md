@@ -8,7 +8,7 @@
     - accepts reserved word `any` as a synonym for `lambda`
     - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure
     - improves function definition by allowing multiple lines in its signature
-    - includes a Bash script to build the project and create the binary file
+    - includes a Bash script (`makeall.sh`) to build the project and create the binary file
   - deprecated_features:
     - the `end` reserved word for `match`-`case` is no longer used
 - version: v0.16.0
