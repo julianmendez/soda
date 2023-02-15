@@ -1,5 +1,9 @@
 package soda.translator.extension.toscala
 
+/*
+ * This package contains tests for the translator to Scala.
+ */
+
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */

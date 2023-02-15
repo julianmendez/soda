@@ -1,0 +1,7 @@
+package soda.translator.parser.annotation
+
+/*
+ * This package contains tests for block annotations.
+ */
+
+trait Package

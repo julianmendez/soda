@@ -1,5 +1,9 @@
 package soda.translator.extension.toscala
 
+/*
+ * This package contains tests for the translator to Scala.
+ */
+
 trait ExampleWithWrongOrder
 {
 

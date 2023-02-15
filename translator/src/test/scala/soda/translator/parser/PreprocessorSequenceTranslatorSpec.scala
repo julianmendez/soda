@@ -1,5 +1,11 @@
 package soda.translator.parser
 
+/*
+ * This package contains tests for the Soda parser.
+ */
+
+
+
 case class PreprocessorSequenceTranslatorSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

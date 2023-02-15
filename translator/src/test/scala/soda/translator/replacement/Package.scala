@@ -1,0 +1,7 @@
+package soda.translator.replacement
+
+/*
+ * This package contains tests for replacement helper functions.
+ */
+
+trait Package

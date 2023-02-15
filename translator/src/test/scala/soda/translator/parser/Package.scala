@@ -1,0 +1,7 @@
+package soda.translator.parser
+
+/*
+ * This package contains tests for the Soda parser.
+ */
+
+trait Package

@@ -1,5 +1,11 @@
 package soda.translator.io
 
+/*
+ * This package contains tests for the directory scanner.
+ */
+
+
+
 case class DirectoryScannerSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -31,9 +37,13 @@ case class DirectoryScannerSpec ()
         "Example.md",
         "Example.scala",
         "Example.soda",
+        "Package.scala",
+        "Package.soda",
         "otherexample/OtherExample.scala",
         "otherexample/OtherExample.soda",
-        "otherexample/OtherExample.txt"
+        "otherexample/OtherExample.txt",
+        "otherexample/Package.scala",
+        "otherexample/Package.soda"
       ).map (  x => new File (start, x) ).toSet
     )
   )

@@ -1,5 +1,11 @@
 package soda.translator.parser.annotation
 
+/*
+ * This package contains tests for block annotations.
+ */
+
+
+
 case class ClassBeginningAnnotationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

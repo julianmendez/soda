@@ -1,5 +1,11 @@
 package soda.lib
 
+/*
+ * This package contains tests for the Soda library.
+ */
+
+
+
 trait DayOfTheWeek
   extends
     EnumConstant

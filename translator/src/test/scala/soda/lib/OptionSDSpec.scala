@@ -1,5 +1,11 @@
 package soda.lib
 
+/*
+ * This package contains tests for the Soda library.
+ */
+
+
+
 case class OptionSDSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

@@ -1,5 +1,9 @@
 package soda.translator.extension.tocoq
 
+/*
+ * This package contains test for the translator to Coq.
+ */
+
 case class MicroTranslatorToCoqSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
