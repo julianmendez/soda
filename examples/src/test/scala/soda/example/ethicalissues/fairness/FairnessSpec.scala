@@ -1,5 +1,11 @@
 package soda.example.ethicalissues.fairness
 
+/*
+ * This package contains tests for examples about ethical issues.
+ */
+
+
+
 case class FairnessSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

@@ -1,4 +1,3 @@
-package soda.example.ethicalissues.fairness
 
 class FairnessSpec ()
   extends

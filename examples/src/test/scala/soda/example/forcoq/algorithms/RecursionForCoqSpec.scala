@@ -1,5 +1,11 @@
 package soda.example.forcoq.algorithms
 
+/*
+ * This package contains examples using recursion for Coq.
+ */
+
+
+
 case class RecursionForCoqSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

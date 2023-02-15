@@ -1,5 +1,11 @@
 package soda.example.algorithms
 
+/*
+ * This package contains tests for examples of simple algorithms.
+ */
+
+
+
 case class SortExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
