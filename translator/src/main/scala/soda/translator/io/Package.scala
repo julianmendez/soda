@@ -71,27 +71,31 @@ trait DirectoryProcessor
 
   lazy val package_file_name = "Package.soda"
 
-  private lazy val _all_files =
+  private lazy val _all_files : Seq [File] =
     DirectoryScanner_ ().get_all_files ( new File (start))
 
-  private lazy val _all_soda_files =
+  private lazy val _all_soda_files : Seq [File] =
     _all_files
       .filter (  x => x.isFile)
       .filter (  x => x.getName.endsWith (soda_suffix))
 
-  private lazy val _package_files =
+  private lazy val _package_files : Seq [File] =
     _all_files
       .filter (  x => x.isFile)
       .filter (  x => x.getName == package_file_name)
 
-  private lazy val _soda_non_package_files =
+  private lazy val _sorted_package_files : Seq [File] = _package_files.sorted
+
+  private lazy val _soda_non_package_files : Seq [File] =
     _all_soda_files
       .filter (  x => ! (x.getName == package_file_name) )
 
-  private lazy val _soda_files =
-    _package_files .++ (_soda_non_package_files)
+  private lazy val _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files.sorted
 
-  private lazy val _lib_files =
+  private lazy val _soda_files : Seq [File] =
+    _sorted_package_files .++ (_sorted_soda_non_package_files)
+
+  private lazy val _lib_files : Seq [File] =
     _all_files
       .filter (  x => x.isFile)
       .filter (  file => file.getName == LibraryDeployer_ ().library_marker_file)

@@ -22,27 +22,31 @@ class DirectoryProcessor
 
   package_file_name = "Package.soda"
 
-  _all_files =
+  _all_files : Seq [File] =
     DirectoryScanner_ ().get_all_files ( @new File (start))
 
-  _all_soda_files =
+  _all_soda_files : Seq [File] =
     _all_files
       .filter ( lambda x --> x.isFile)
       .filter ( lambda x --> x.getName.endsWith (soda_suffix))
 
-  _package_files =
+  _package_files : Seq [File] =
     _all_files
       .filter ( lambda x --> x.isFile)
       .filter ( lambda x --> x.getName == package_file_name)
 
-  _soda_non_package_files =
+  _sorted_package_files : Seq [File] = _package_files.sorted
+
+  _soda_non_package_files : Seq [File] =
     _all_soda_files
       .filter ( lambda x --> not (x.getName == package_file_name) )
 
-  _soda_files =
-    _package_files .++ (_soda_non_package_files)
+  _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files.sorted
 
-  _lib_files =
+  _soda_files : Seq [File] =
+    _sorted_package_files .++ (_sorted_soda_non_package_files)
+
+  _lib_files : Seq [File] =
     _all_files
       .filter ( lambda x --> x.isFile)
       .filter ( lambda file --> file.getName == LibraryDeployer_ ().library_marker_file)

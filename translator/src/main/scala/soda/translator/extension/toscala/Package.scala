@@ -751,7 +751,7 @@ trait TranslatorToScala
     )
 
   private def _process_soda_file_with_package_option_with (pair : FileNamePair) : Boolean =
-      _translate_append (pair.input_file_name) (pair.output_file_name)
+    _translate_append (pair.input_file_name) (pair.output_file_name)
 
   def get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name.endsWith (_soda_extension)
@@ -773,7 +773,7 @@ trait TranslatorToScala
     _translate_append_with_input ( _read_input (input_file_name) ) (output_file_name)
 
   private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().append_file (output_file_name) (content = _translator.translate (input) + append_separation)
+    SimpleFileWriter_ ().append_file (output_file_name) (content = new_line + _translator.translate (input) + new_line)
 
   private def _read_input_with_prelude (input_file_name : String) : String =
     if ( _is_a_prelude_file (input_file_name)
