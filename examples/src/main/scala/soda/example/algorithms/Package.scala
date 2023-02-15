@@ -6,6 +6,35 @@ package soda.example.algorithms
  */
 
 trait Package
+
+trait FizzBuzz
+{
+
+  lazy val fizz = "Fizz"
+
+  lazy val buzz = "Buzz"
+
+  private lazy val _range = soda.lib.Range_ ()
+
+  lazy val apply : Seq [String] =
+    _range.apply (100)
+      .map (  (x : Int) => x + 1)
+      .map (_get_fizz_buzz_term)
+
+  private def _get_fizz_buzz_term (n : Int) : String =
+    if ( _is_divisible_by (n) (15) ) fizz + buzz
+    else if ( _is_divisible_by (n) (3) ) fizz
+    else if ( _is_divisible_by (n) (5) ) buzz
+    else n.toString
+
+  private def _is_divisible_by (n : Int) (k : Int) : Boolean =
+    n % k == 0
+
+}
+
+case class FizzBuzz_ () extends FizzBuzz
+
+
 trait FizzBuzzPatternMatching
 {
 
@@ -33,60 +62,20 @@ trait FizzBuzzPatternMatching
 case class FizzBuzzPatternMatching_ () extends FizzBuzzPatternMatching
 
 
-trait SaladMaker
+trait Main
 {
 
-  def apply [Ingredient, Salad] (list_of_ingredients : Seq [Ingredient] ) (initial_bowl : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
-    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
-
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_prepare_salad [Ingredient, Salad] (ingredients_so_far : Seq [Ingredient] ) (salad_so_far : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
-    if ( ingredients_so_far.isEmpty || ( ! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
-    ) salad_so_far
-    else _tailrec_prepare_salad (ingredients_so_far.tail) (next_ingredient_function (salad_so_far) (ingredients_so_far.head) ) (next_ingredient_function) (condition_to_continue)
+  def main (arguments : Array [String] ) : Unit =
+    println ("Hello world!")
 
 }
 
-case class SaladMaker_ () extends SaladMaker
-
-
-trait ScalaReservedWordEscaping
-{
-
-  private lazy val __soda__var = "var"
-
-  private lazy val __soda__val = 1
-
-  private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
-
-  private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
-    seq.takeWhile (cond).map (funct)
-
-  private lazy val __soda__protected = "protected"
-
-  private lazy val __soda__private = "private"
-
-  def f (x : Int) (y : Int) : Int = x + y
-
-  lazy val cons : Int => Int => Int =
-     x =>
-       y =>
-        f (x) (y)
-
+object EntryPoint {
+  def main (args: Array [String]): Unit = Main_ ().main (args)
 }
 
-case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
 
-trait MyPair [A, B]
-{
-
-  def   key : A
-  def   value : B
-
-}
-
-case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
+case class Main_ () extends Main
 
 
 trait Parameter
@@ -164,32 +153,60 @@ trait Triplet
 case class Triplet_ (x : Int, y : Int, z : Int) extends Triplet
 
 
-trait FizzBuzz
+trait SaladMaker
 {
 
-  lazy val fizz = "Fizz"
+  def apply [Ingredient, Salad] (list_of_ingredients : Seq [Ingredient] ) (initial_bowl : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
+    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
 
-  lazy val buzz = "Buzz"
-
-  private lazy val _range = soda.lib.Range_ ()
-
-  lazy val apply : Seq [String] =
-    _range.apply (100)
-      .map (  (x : Int) => x + 1)
-      .map (_get_fizz_buzz_term)
-
-  private def _get_fizz_buzz_term (n : Int) : String =
-    if ( _is_divisible_by (n) (15) ) fizz + buzz
-    else if ( _is_divisible_by (n) (3) ) fizz
-    else if ( _is_divisible_by (n) (5) ) buzz
-    else n.toString
-
-  private def _is_divisible_by (n : Int) (k : Int) : Boolean =
-    n % k == 0
+  import scala.annotation.tailrec
+        @tailrec  final
+  private def _tailrec_prepare_salad [Ingredient, Salad] (ingredients_so_far : Seq [Ingredient] ) (salad_so_far : Salad) (next_ingredient_function : Salad => Ingredient => Salad) (condition_to_continue : Salad => Ingredient => Boolean) : Salad =
+    if ( ingredients_so_far.isEmpty || ( ! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
+    ) salad_so_far
+    else _tailrec_prepare_salad (ingredients_so_far.tail) (next_ingredient_function (salad_so_far) (ingredients_so_far.head) ) (next_ingredient_function) (condition_to_continue)
 
 }
 
-case class FizzBuzz_ () extends FizzBuzz
+case class SaladMaker_ () extends SaladMaker
+
+
+trait ScalaReservedWordEscaping
+{
+
+  private lazy val __soda__var = "var"
+
+  private lazy val __soda__val = 1
+
+  private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
+
+  private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
+    seq.takeWhile (cond).map (funct)
+
+  private lazy val __soda__protected = "protected"
+
+  private lazy val __soda__private = "private"
+
+  def f (x : Int) (y : Int) : Int = x + y
+
+  lazy val cons : Int => Int => Int =
+     x =>
+       y =>
+        f (x) (y)
+
+}
+
+case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
+
+trait MyPair [A, B]
+{
+
+  def   key : A
+  def   value : B
+
+}
+
+case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
 
 
 trait SortExample
@@ -450,21 +467,4 @@ trait SwapExample
 }
 
 case class SwapExample_ () extends SwapExample
-
-
-trait Main
-{
-
-  def main (arguments : Array [String] ) : Unit =
-    println ("Hello world!")
-
-}
-
-object EntryPoint {
-  def main (args: Array [String]): Unit = Main_ ().main (args)
-}
-
-
-case class Main_ () extends Main
-
 

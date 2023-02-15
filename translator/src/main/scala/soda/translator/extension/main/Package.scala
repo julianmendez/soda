@@ -8,6 +8,7 @@ package soda.translator.extension.main
 
 
 trait Package
+
 /**
  * This is the main entry point.
  */
@@ -58,5 +59,4 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
-
 

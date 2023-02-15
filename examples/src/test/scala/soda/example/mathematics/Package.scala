@@ -5,57 +5,6 @@ package soda.example.mathematics
  */
 
 trait Package
-case class PiIteratorSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val pi_start = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446"
-
-  private lazy val _pi_iterator = PiIterator_ ()
-
-  lazy val pi_sequence = _pi_iterator.apply (128)
-
-  test ("first digits of Pi") (
-    check (
-      obtained = "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("")
-    ) (
-      expected = pi_start
-    )
-  )
-
-}
-
-
-case class FiboExampleSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val fibonacci_values = Seq (
-   (0, 0), (1, 1), (2, 1), (3, 2), (4, 3), (5, 5), (6, 8), (7, 13), (8, 21), (9, 34), (10, 55)
-  )
-
-  private lazy val _fibo_example_in_soda = FiboExampleInSoda_ ()
-
-  test ("should test the fibonacci function") (
-    check (
-      obtained = fibonacci_values
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, _fibo_example_in_soda.apply (n) ) )
-    ) (
-      expected = fibonacci_values
-    )
-  )
-
-}
-
 
 case class FactorialSpec ()
   extends
@@ -102,6 +51,33 @@ case class FactorialSpec ()
         .map (  n => Tuple2 (n, _factorial_with_fold.apply (n) ) )
     ) (
       expected = factorial_values
+    )
+  )
+
+}
+
+
+case class FiboExampleSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val fibonacci_values = Seq (
+   (0, 0), (1, 1), (2, 1), (3, 2), (4, 3), (5, 5), (6, 8), (7, 13), (8, 21), (9, 34), (10, 55)
+  )
+
+  private lazy val _fibo_example_in_soda = FiboExampleInSoda_ ()
+
+  test ("should test the fibonacci function") (
+    check (
+      obtained = fibonacci_values
+        .map (  pair => pair._1)
+        .map (  n => Tuple2 (n, _fibo_example_in_soda.apply (n) ) )
+    ) (
+      expected = fibonacci_values
     )
   )
 
@@ -185,4 +161,28 @@ case class HardProblemSpec ()
 
 }
 
+
+case class PiIteratorSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val pi_start = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446"
+
+  private lazy val _pi_iterator = PiIterator_ ()
+
+  lazy val pi_sequence = _pi_iterator.apply (128)
+
+  test ("first digits of Pi") (
+    check (
+      obtained = "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("")
+    ) (
+      expected = pi_start
+    )
+  )
+
+}
 

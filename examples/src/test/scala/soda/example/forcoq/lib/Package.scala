@@ -5,6 +5,7 @@ package soda.example.forcoq.lib
  */
 
 trait Package
+
 case class ListSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -73,5 +74,4 @@ case class NatSpec ()
   )
 
 }
-
 

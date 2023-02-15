@@ -5,9 +5,9 @@ package soda.example.otherexample
  */
 
 trait Package
+
 case class OtherExample()
 {
 
 }
-
 

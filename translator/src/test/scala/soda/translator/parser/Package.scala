@@ -5,6 +5,7 @@ package soda.translator.parser
  */
 
 trait Package
+
 case class BlockSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -123,5 +124,4 @@ case class PreprocessorSequenceTranslatorSpec ()
   )
 
 }
-
 

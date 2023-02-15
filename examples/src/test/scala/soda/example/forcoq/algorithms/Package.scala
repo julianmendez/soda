@@ -5,6 +5,7 @@ package soda.example.forcoq.algorithms
  */
 
 trait Package
+
 case class RecursionForCoqSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -69,5 +70,4 @@ case class RecursionForCoqSpec ()
   )
 
 }
-
 

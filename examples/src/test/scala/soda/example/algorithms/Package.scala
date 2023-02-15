@@ -5,93 +5,45 @@ package soda.example.algorithms
  */
 
 trait Package
-case class SortExampleSpec ()
+
+case class FizzBuzzSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.lib.SomeSD_
-
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val sorted_sequence = Seq (1, 3, 5, 5, 8, 9)
+  lazy val expected_result = Seq (
+    "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
+    "11", "Fizz", "13", "14", "FizzBuzz", "16", "17", "Fizz", "19", "Buzz",
+    "Fizz", "22", "23", "Fizz", "Buzz", "26", "Fizz", "28", "29", "FizzBuzz",
+    "31", "32", "Fizz", "34", "Buzz", "Fizz", "37", "38", "Fizz", "Buzz",
+    "41", "Fizz", "43", "44", "FizzBuzz", "46", "47", "Fizz", "49", "Buzz",
+    "Fizz", "52", "53", "Fizz", "Buzz", "56", "Fizz", "58", "59", "FizzBuzz",
+    "61", "62", "Fizz", "64", "Buzz", "Fizz", "67", "68", "Fizz", "Buzz",
+    "71", "Fizz", "73", "74", "FizzBuzz", "76", "77", "Fizz", "79", "Buzz",
+    "Fizz", "82", "83", "Fizz", "Buzz", "86", "Fizz", "88", "89", "FizzBuzz",
+    "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"
+  )
 
-  lazy val unsorted_sequence = Seq (1, 3, 5, 4, 8, 9)
+  private lazy val _fizz_buzz = FizzBuzz_ ()
 
-  test ("test sorted sequence with at") (
+  private lazy val _fizz_buzz_pattern_matching = FizzBuzzPatternMatching_ ()
+
+  test ("first elements of FizzBuzz") (
     check (
-      obtained = SortExampleWithAt_ ().is_sorted (sorted_sequence)
+      obtained = _fizz_buzz.apply
     ) (
-      expected = true
+      expected = expected_result
     )
   )
 
-  test ("test unsorted sequence with at") (
+  test ("first elements of FizzBuzz with pattern matching") (
     check (
-      obtained = SortExampleWithAt_ ().is_sorted (unsorted_sequence)
+      obtained = _fizz_buzz_pattern_matching.apply
     ) (
-      expected = false
-    )
-  )
-
-  test ("test sorted sequence with zip") (
-    check (
-      obtained = SortExampleWithZip_ ().is_sorted (sorted_sequence)
-    ) (
-      expected = true
-    )
-  )
-
-  test ("test unsorted sequence with zip") (
-    check (
-      obtained = SortExampleWithZip_ ().is_sorted (unsorted_sequence)
-    ) (
-      expected = false
-    )
-  )
-
-  test ("insert sorted simple") (
-    check (
-      obtained = SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 6, 8, 9) ) (5)
-    ) (
-      expected = Seq (1, 2, 3, 5, 6, 8, 9)
-    )
-  )
-
-  test ("insert sorted with repetition") (
-    check (
-      obtained = SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 5, 6, 8, 9) ) (5)
-    ) (
-      expected = Seq (1, 2, 3, 5, 5, 6, 8, 9)
-    )
-  )
-
-  test ("sort unsorted sequence") (
-    check (
-      obtained = SortAlgorithmExampleWithFold_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
-    ) (
-      expected = Seq (1, 3, 4, 5, 8 ,9)
-    )
-  )
-
-  test ("sort unsorted sequence applying constraints to verify correctness") (
-    check (
-      obtained = ConstrainedSortAlgorithm_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
-    ) (
-      expected = SomeSD_ (Seq (1, 3, 4, 5, 8 ,9) )
-    )
-  )
-
-  test ("sort unsorted sequence with SortedSequenceBuilder") (
-    check (
-      obtained =
-        SortedSequenceBuilder_ [Integer] ()
-          .build ( Seq (3, 5, 1, 9, 8, 4).map (  x => Integer.valueOf (x) ) )
-          .sequence
-          .map (  x => x.intValue)
-    ) (
-      expected = Seq (1, 3, 4, 5, 8 ,9)
+      expected = expected_result
     )
   )
 
@@ -221,47 +173,95 @@ case class SaladMakerSpec ()
 }
 
 
-case class FizzBuzzSpec ()
+case class SortExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  import   soda.lib.SomeSD_
+
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val expected_result = Seq (
-    "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
-    "11", "Fizz", "13", "14", "FizzBuzz", "16", "17", "Fizz", "19", "Buzz",
-    "Fizz", "22", "23", "Fizz", "Buzz", "26", "Fizz", "28", "29", "FizzBuzz",
-    "31", "32", "Fizz", "34", "Buzz", "Fizz", "37", "38", "Fizz", "Buzz",
-    "41", "Fizz", "43", "44", "FizzBuzz", "46", "47", "Fizz", "49", "Buzz",
-    "Fizz", "52", "53", "Fizz", "Buzz", "56", "Fizz", "58", "59", "FizzBuzz",
-    "61", "62", "Fizz", "64", "Buzz", "Fizz", "67", "68", "Fizz", "Buzz",
-    "71", "Fizz", "73", "74", "FizzBuzz", "76", "77", "Fizz", "79", "Buzz",
-    "Fizz", "82", "83", "Fizz", "Buzz", "86", "Fizz", "88", "89", "FizzBuzz",
-    "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"
-  )
+  lazy val sorted_sequence = Seq (1, 3, 5, 5, 8, 9)
 
-  private lazy val _fizz_buzz = FizzBuzz_ ()
+  lazy val unsorted_sequence = Seq (1, 3, 5, 4, 8, 9)
 
-  private lazy val _fizz_buzz_pattern_matching = FizzBuzzPatternMatching_ ()
-
-  test ("first elements of FizzBuzz") (
+  test ("test sorted sequence with at") (
     check (
-      obtained = _fizz_buzz.apply
+      obtained = SortExampleWithAt_ ().is_sorted (sorted_sequence)
     ) (
-      expected = expected_result
+      expected = true
     )
   )
 
-  test ("first elements of FizzBuzz with pattern matching") (
+  test ("test unsorted sequence with at") (
     check (
-      obtained = _fizz_buzz_pattern_matching.apply
+      obtained = SortExampleWithAt_ ().is_sorted (unsorted_sequence)
     ) (
-      expected = expected_result
+      expected = false
+    )
+  )
+
+  test ("test sorted sequence with zip") (
+    check (
+      obtained = SortExampleWithZip_ ().is_sorted (sorted_sequence)
+    ) (
+      expected = true
+    )
+  )
+
+  test ("test unsorted sequence with zip") (
+    check (
+      obtained = SortExampleWithZip_ ().is_sorted (unsorted_sequence)
+    ) (
+      expected = false
+    )
+  )
+
+  test ("insert sorted simple") (
+    check (
+      obtained = SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 6, 8, 9) ) (5)
+    ) (
+      expected = Seq (1, 2, 3, 5, 6, 8, 9)
+    )
+  )
+
+  test ("insert sorted with repetition") (
+    check (
+      obtained = SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 5, 6, 8, 9) ) (5)
+    ) (
+      expected = Seq (1, 2, 3, 5, 5, 6, 8, 9)
+    )
+  )
+
+  test ("sort unsorted sequence") (
+    check (
+      obtained = SortAlgorithmExampleWithFold_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
+    ) (
+      expected = Seq (1, 3, 4, 5, 8 ,9)
+    )
+  )
+
+  test ("sort unsorted sequence applying constraints to verify correctness") (
+    check (
+      obtained = ConstrainedSortAlgorithm_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
+    ) (
+      expected = SomeSD_ (Seq (1, 3, 4, 5, 8 ,9) )
+    )
+  )
+
+  test ("sort unsorted sequence with SortedSequenceBuilder") (
+    check (
+      obtained =
+        SortedSequenceBuilder_ [Integer] ()
+          .build ( Seq (3, 5, 1, 9, 8, 4).map (  x => Integer.valueOf (x) ) )
+          .sequence
+          .map (  x => x.intValue)
+    ) (
+      expected = Seq (1, 3, 4, 5, 8 ,9)
     )
   )
 
 }
-
 

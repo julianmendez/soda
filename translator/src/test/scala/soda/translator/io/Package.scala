@@ -5,6 +5,7 @@ package soda.translator.io
  */
 
 trait Package
+
 case class DirectoryScannerSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -48,5 +49,4 @@ case class DirectoryScannerSpec ()
   )
 
 }
-
 

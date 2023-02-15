@@ -7,6 +7,7 @@ package soda.translator.extension.common
 
 
 trait Package
+
 trait Extension
 {
 
@@ -15,5 +16,4 @@ trait Extension
 }
 
 case class Extension_ (execute : Seq [String] => Boolean) extends Extension
-
 

@@ -7,115 +7,48 @@ package soda.translator.block
 
 
 trait Package
-trait LineTranslator
+
+trait AnnotatedBlock
+  extends
+    Block
+{
+
+  def   annotated_lines : Seq [AnnotatedLine]
+  def   block_annotation : BlockAnnotationId
+
+}
+
+case class AnnotatedBlock_ (annotated_lines : Seq [AnnotatedLine], block_annotation : BlockAnnotationId) extends AnnotatedBlock
+
+
+trait AnnotatedLine
 {
 
   def   line : String
+  def   is_comment : Boolean
 
 }
 
-case class LineTranslator_ (line : String) extends LineTranslator
+case class AnnotatedLine_ (line : String, is_comment : Boolean) extends AnnotatedLine
 
-
-trait BlockSequenceTranslator
-{
-
-  def   translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]
-
-}
-
-case class BlockSequenceTranslator_ (translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) extends BlockSequenceTranslator
-
-trait DefaultBlockSequenceTranslator
+trait Block
   extends
-    BlockSequenceTranslator
+    PlainBlock
 {
 
-  def   translator : BlockTranslator
+  def   annotated_lines : Seq [AnnotatedLine]
 
-  lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
-     block_sequence =>
-      block_sequence.map (  block => translator.translate (block) )
+  lazy val lines : Seq [String] =
+    annotated_lines
+      .map (  x => x.line)
+
+  lazy val readable_lines : Seq [AnnotatedLine] =
+    annotated_lines
+      .filter (  line => ! line.is_comment)
 
 }
 
-case class DefaultBlockSequenceTranslator_ (translator : BlockTranslator) extends DefaultBlockSequenceTranslator
-
-
-trait PlainBlock
-{
-
-  def   lines : Seq [String]
-
-  lazy val new_line = "\n"
-
-  lazy val contents : String =
-    lines.mkString (new_line)
-
-}
-
-case class PlainBlock_ (lines : Seq [String]) extends PlainBlock
-
-
-/**
- * This models an abstract translator.
- */
-
-trait Translator
-{
-
-  def   translate : String => String
-  def   keys : Seq [String]
-
-}
-
-case class Translator_ (translate : String => String, keys : Seq [String]) extends Translator
-
-
-trait BlockTranslatorPipeline
-  extends
-    BlockTranslator
-{
-
-  import   soda.lib.Fold_
-
-  def   pipeline : Seq [BlockTranslator]
-
-  private lazy val _fold = Fold_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      _fold.apply (pipeline) (block) (_next_value_function)
-
-  private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
-    translator.translate (block)
-
-}
-
-case class BlockTranslatorPipeline_ (pipeline : Seq [BlockTranslator]) extends BlockTranslatorPipeline
-
-
-trait BlockTranslator
-{
-
-  def   translate : AnnotatedBlock => AnnotatedBlock
-
-}
-
-case class BlockTranslator_ (translate : AnnotatedBlock => AnnotatedBlock) extends BlockTranslator
-
-trait DefaultBlockTranslator
-  extends
-    BlockTranslator
-{
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      block
-
-}
-
-case class DefaultBlockTranslator_ () extends DefaultBlockTranslator
+case class Block_ (annotated_lines : Seq [AnnotatedLine]) extends Block
 
 
 trait BlockAnnotationId
@@ -180,17 +113,75 @@ trait BlockAnnotationEnum
 case class BlockAnnotationEnum_ () extends BlockAnnotationEnum
 
 
-trait AnnotatedBlock
-  extends
-    Block
+trait BlockSequenceTranslator
 {
 
-  def   annotated_lines : Seq [AnnotatedLine]
-  def   block_annotation : BlockAnnotationId
+  def   translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]
 
 }
 
-case class AnnotatedBlock_ (annotated_lines : Seq [AnnotatedLine], block_annotation : BlockAnnotationId) extends AnnotatedBlock
+case class BlockSequenceTranslator_ (translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) extends BlockSequenceTranslator
+
+trait DefaultBlockSequenceTranslator
+  extends
+    BlockSequenceTranslator
+{
+
+  def   translator : BlockTranslator
+
+  lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
+     block_sequence =>
+      block_sequence.map (  block => translator.translate (block) )
+
+}
+
+case class DefaultBlockSequenceTranslator_ (translator : BlockTranslator) extends DefaultBlockSequenceTranslator
+
+
+trait BlockTranslator
+{
+
+  def   translate : AnnotatedBlock => AnnotatedBlock
+
+}
+
+case class BlockTranslator_ (translate : AnnotatedBlock => AnnotatedBlock) extends BlockTranslator
+
+trait DefaultBlockTranslator
+  extends
+    BlockTranslator
+{
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      block
+
+}
+
+case class DefaultBlockTranslator_ () extends DefaultBlockTranslator
+
+
+trait BlockTranslatorPipeline
+  extends
+    BlockTranslator
+{
+
+  import   soda.lib.Fold_
+
+  def   pipeline : Seq [BlockTranslator]
+
+  private lazy val _fold = Fold_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      _fold.apply (pipeline) (block) (_next_value_function)
+
+  private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
+    translator.translate (block)
+
+}
+
+case class BlockTranslatorPipeline_ (pipeline : Seq [BlockTranslator]) extends BlockTranslatorPipeline
 
 
 trait ConditionalBlockTranslator
@@ -215,36 +206,6 @@ trait ConditionalBlockTranslator
 case class ConditionalBlockTranslator_ (accepted_annotations : Seq [BlockAnnotationId], translator : BlockTranslator) extends ConditionalBlockTranslator
 
 
-trait AnnotatedLine
-{
-
-  def   line : String
-  def   is_comment : Boolean
-
-}
-
-case class AnnotatedLine_ (line : String, is_comment : Boolean) extends AnnotatedLine
-
-trait Block
-  extends
-    PlainBlock
-{
-
-  def   annotated_lines : Seq [AnnotatedLine]
-
-  lazy val lines : Seq [String] =
-    annotated_lines
-      .map (  x => x.line)
-
-  lazy val readable_lines : Seq [AnnotatedLine] =
-    annotated_lines
-      .filter (  line => ! line.is_comment)
-
-}
-
-case class Block_ (annotated_lines : Seq [AnnotatedLine]) extends Block
-
-
 trait SingleLineProcessor
 {
 
@@ -254,4 +215,43 @@ trait SingleLineProcessor
 
 case class SingleLineProcessor_ (line : String) extends SingleLineProcessor
 
+
+trait LineTranslator
+{
+
+  def   line : String
+
+}
+
+case class LineTranslator_ (line : String) extends LineTranslator
+
+
+trait PlainBlock
+{
+
+  def   lines : Seq [String]
+
+  lazy val new_line = "\n"
+
+  lazy val contents : String =
+    lines.mkString (new_line)
+
+}
+
+case class PlainBlock_ (lines : Seq [String]) extends PlainBlock
+
+
+/**
+ * This models an abstract translator.
+ */
+
+trait Translator
+{
+
+  def   translate : String => String
+  def   keys : Seq [String]
+
+}
+
+case class Translator_ (translate : String => String, keys : Seq [String]) extends Translator
 

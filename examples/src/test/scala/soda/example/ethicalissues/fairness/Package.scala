@@ -5,6 +5,7 @@ package soda.example.ethicalissues.fairness
  */
 
 trait Package
+
 case class FairnessSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -40,5 +41,4 @@ case class FairnessSpec ()
   )
 
 }
-
 

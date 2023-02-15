@@ -5,6 +5,7 @@ package soda.example.inanutshell
  */
 
 trait Package
+
 trait InANutshell
 {
 
@@ -169,5 +170,4 @@ trait PersonName
 }
 
 case class PersonName_ (name : String) extends PersonName
-
 

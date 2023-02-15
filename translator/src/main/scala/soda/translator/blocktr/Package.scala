@@ -9,6 +9,7 @@ package soda.translator.blocktr
 
 
 trait Package
+
 trait Table
 {
 
@@ -35,6 +36,22 @@ trait TableTranslator
 }
 
 case class TableTranslator_ (table : Seq [Tuple2 [String, String] ]) extends TableTranslator
+
+
+trait TokenReplacement
+{
+
+  import   soda.translator.replacement.ReplacementWithTranslator_
+
+  def replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+       token =>
+        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace (token.text)
+    )
+
+}
+
+case class TokenReplacement_ () extends TokenReplacement
 
 
 trait TokenizedBlockTranslator
@@ -100,21 +117,4 @@ trait TokenizedBlockTranslator
 }
 
 case class TokenizedBlockTranslator_ (replace_token : soda.translator.replacement.Token => String) extends TokenizedBlockTranslator
-
-
-trait TokenReplacement
-{
-
-  import   soda.translator.replacement.ReplacementWithTranslator_
-
-  def replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
-    TokenizedBlockTranslator_ (
-       token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace (token.text)
-    )
-
-}
-
-case class TokenReplacement_ () extends TokenReplacement
-
 

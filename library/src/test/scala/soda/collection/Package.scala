@@ -5,6 +5,7 @@ package soda.collection
  */
 
 trait Package
+
 case class MinSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -589,5 +590,4 @@ case class MinSpec ()
   )
 
 }
-
 

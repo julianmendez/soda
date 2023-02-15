@@ -5,6 +5,7 @@ package soda.collection.example
  */
 
 trait Package
+
 case class ListExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -190,5 +191,4 @@ case class ListExampleSpec ()
   )
 
 }
-
 

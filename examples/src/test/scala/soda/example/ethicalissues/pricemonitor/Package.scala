@@ -5,6 +5,7 @@ package soda.example.ethicalissues.pricemonitor
  */
 
 trait Package
+
 trait UnfairPricingAgent
   extends
     PricingAgent
@@ -139,5 +140,4 @@ case class PriceMonitorSpec ()
     .build
 
 }
-
 

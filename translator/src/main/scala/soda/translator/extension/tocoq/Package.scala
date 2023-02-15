@@ -7,294 +7,6 @@ package soda.translator.extension.tocoq
 
 
 trait Package
-/**
- * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
- *
- * 'val' is for value definition.
- * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
- *
- * 'def' is for function definition.
- * If it does not fit in any of the 'val' cases.
- *
- * Formerly there was another case for 'val'.
- * Deprecated Case:
- * This was implemented simply as:
- * `line.trim.startsWith (soda_opening_parenthesis)`
- * This is no longer supported.
- *
- */
-
-trait DefinitionLineTranslator
-  extends
-    soda.translator.block.LineTranslator
-{
-
-  def   line: String
-
-  import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Replacement
-  import   soda.translator.replacement.Replacement_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  private lazy val _trimmed_line = line.trim
-
-  lazy val translation =
-    find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => _try_found_definition (position).line)
-
-  private lazy val _is_class_definition =
-    get_index (line) (_sc.space + _sc.class_reserved_word + _sc.space).isDefined
-
-  private lazy val _translation_of_class_definition =
-    if ( _condition_for_type_alias
-    ) Replacement_ (line)
-    else Replacement_ (line).replace_all (_sc.space + _sc.function_definition_symbol) ("")
-
-  private lazy val _ends_with_equals = false
-
-  private lazy val _ends_with_opening_brace = false
-
-  private lazy val _contains_equals =
-    _trimmed_line.contains (_sc.function_definition_symbol)
-
-  private lazy val _condition_for_type_alias =
-    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
-
-  private lazy val _translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
-
-  private lazy val _translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
-
-  private def _try_found_definition (position : Int) : Replacement =
-    if ( _is_class_definition
-    ) _translation_of_class_definition
-    else _decide_val_or_def_translation (position)
-
-  private def _decide_val_or_def_translation (position : Int) : Replacement =
-    if ( _is_val_definition (position)
-    ) _translation_of_val_definition
-    else _translation_of_def_definition
-
-  private def _is_val_definition (initial_position : Int) =
-    _is_val_definition_case_1 ||
-    _is_val_definition_case_2 (initial_position) ||
-    _is_val_definition_case_3 ||
-    _is_val_definition_case_4
-
-  private lazy val _position_of_first_opening_parenthesis =
-    get_index (line) (_sc.opening_parenthesis_symbol)
-
-  private lazy val _is_val_definition_case_1 =
-    _position_of_first_opening_parenthesis.isEmpty
-
-  private def _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis.opt (false) (  position => (position > initial_position) )
-
-  private lazy val _is_val_definition_case_3 =
-    (get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-      _position_of_first_opening_parenthesis.opt (false) (  position => (position > other_position) )
-    )
-
-  private lazy val _is_val_definition_case_4 =
-    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
-
-  /**
-   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-
-  def find_definition (line : String) : OptionSD [Int] =
-    if ( line.endsWith (_sc.space + _sc.function_definition_symbol)
-    ) SomeSD_ (line.length - _sc.function_definition_symbol.length)
-    else get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
-
-  def get_index (line : String) (pattern : String) : OptionSD [Int] =
-    get_index_from (line) (pattern) (0)
-
-  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start) )
-      .filter (  position => !  (position == -1) )
-
-}
-
-case class DefinitionLineTranslator_ (line: String) extends DefinitionLineTranslator
-
-
-trait CoqClassDeclarationBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.block.Translator
-  import   soda.translator.blocktr.TableTranslator_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.replacement.Replacement_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val soda_space : String = _sc.space
-
-  lazy val scala_space : String = " "
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
-    ClassBeginningAnnotation_ (_translate_block (block) )
-
-  private def _translate_block (block : AnnotatedBlock) : Block =
-    if ( (has_condition_for_type_alias (get_first_line (block) ) )
-    ) block
-    else
-      BlockBuilder_ ().build (
-        _process_head (block) ++ _process_tail (block)
-      )
-
-  private def _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
-
-  private def _process_head_with (line : String) (block : Block) : Seq [String] =
-    Seq [String] (
-      Replacement_ (_sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (_sc.space.length) + _tc.coq_space + _tc.coq_end_symbol
-    )
-
-  private def _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
-
-  private def _process_if_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block).trim == _sc.extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) ).++ ( _process_after_extends (remove_first_line (block) ) )
-    else block.lines
-
-  def get_table_translator (line : String) : Translator =
-    TableTranslator_ (
-      Seq (Tuple2 (_sc.class_reserved_word, _tc.coq_module_reserved_word ) )
-    )
-
-  private def _process_after_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block).trim.nonEmpty)
-    ) block.lines.map (  line => _tc.coq_import_reserved_word + _tc.coq_space + line.trim + _tc.coq_space + _tc.coq_end_symbol)
-    else Seq [String] ()
-
-  def remove_first_line (block : Block) : Block =
-    BlockBuilder_ ().build ( _remove_first_line (block.lines) )
-
-  private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
-    if ( lines.isEmpty
-    ) lines
-    else lines.tail
-
-  def get_first_line (block : Block) : String =
-    block.lines.headOption.getOrElse ("")
-
-  def get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
-
-  def get_initial_spaces_for (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
-
-  def contains_equals (line : String) : Boolean =
-    line.trim.contains (_sc.function_definition_symbol)
-
-  def has_condition_for_type_alias (line : String) : Boolean =
-    contains_equals (line)
-
-}
-
-case class CoqClassDeclarationBlockTranslator_ () extends CoqClassDeclarationBlockTranslator
-
-
-trait CoqImportDeclarationBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.AnnotatedLine_
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.ImportDeclarationAnnotation
-  import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val coq_import_declaration_pattern =
-    _tc.coq_import_reserved_word + _tc.coq_space
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
-    ImportDeclarationAnnotation_ (
-      prepend_to_lines_aligned_at (
-        get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
-        coq_import_declaration_pattern) (
-        block.imported_items
-          .filter(  annotated_line => ! annotated_line.is_comment)
-          .map (  annotated_line => AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
-      )
-    )
-
-  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    BlockBuilder_ ().build (
-      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
-    )
-
-  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
-    if ( annotated_line.is_comment
-    ) annotated_line.line
-    else annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index)
-
-  def get_number_of_spaces_at_beginning (line : String) : Int =
-    line
-      .takeWhile (  ch => ch.isSpaceChar)
-      .length
-
-  def get_first_line (block : AnnotatedBlock) : String =
-    block.lines.headOption.getOrElse ("")
-
-}
-
-case class CoqImportDeclarationBlockTranslator_ () extends CoqImportDeclarationBlockTranslator
-
 
 trait CoqClassConstructorBlockTranslator
   extends
@@ -425,6 +137,651 @@ trait CoqClassConstructorBlockTranslator
 }
 
 case class CoqClassConstructorBlockTranslator_ () extends CoqClassConstructorBlockTranslator
+
+
+trait CoqClassDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.block.Translator
+  import   soda.translator.blocktr.TableTranslator_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val soda_space : String = _sc.space
+
+  lazy val scala_space : String = " "
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
+
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    if ( (has_condition_for_type_alias (get_first_line (block) ) )
+    ) block
+    else
+      BlockBuilder_ ().build (
+        _process_head (block) ++ _process_tail (block)
+      )
+
+  private def _process_head (block : Block) : Seq [String] =
+    _process_head_with (get_first_line (block) ) (block)
+
+  private def _process_head_with (line : String) (block : Block) : Seq [String] =
+    Seq [String] (
+      Replacement_ (_sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (_sc.space.length) + _tc.coq_space + _tc.coq_end_symbol
+    )
+
+  private def _process_tail (block : Block) : Seq [String] =
+    _process_if_extends (remove_first_line (block) )
+
+  private def _process_if_extends (block : Block) : Seq [String] =
+    if ( (get_first_line (block).trim == _sc.extends_reserved_word)
+    ) Seq [String] (get_initial_spaces (block) ).++ ( _process_after_extends (remove_first_line (block) ) )
+    else block.lines
+
+  def get_table_translator (line : String) : Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (_sc.class_reserved_word, _tc.coq_module_reserved_word ) )
+    )
+
+  private def _process_after_extends (block : Block) : Seq [String] =
+    if ( (get_first_line (block).trim.nonEmpty)
+    ) block.lines.map (  line => _tc.coq_import_reserved_word + _tc.coq_space + line.trim + _tc.coq_space + _tc.coq_end_symbol)
+    else Seq [String] ()
+
+  def remove_first_line (block : Block) : Block =
+    BlockBuilder_ ().build ( _remove_first_line (block.lines) )
+
+  private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if ( lines.isEmpty
+    ) lines
+    else lines.tail
+
+  def get_first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("")
+
+  def get_initial_spaces (block : Block) : String =
+    get_initial_spaces_for (get_first_line (block) )
+
+  def get_initial_spaces_for (line : String) : String =
+    line.takeWhile (  ch => ch.isSpaceChar)
+
+  def contains_equals (line : String) : Boolean =
+    line.trim.contains (_sc.function_definition_symbol)
+
+  def has_condition_for_type_alias (line : String) : Boolean =
+    contains_equals (line)
+
+}
+
+case class CoqClassDeclarationBlockTranslator_ () extends CoqClassDeclarationBlockTranslator
+
+
+trait CoqClassEndBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.parser.annotation.ClassEndAnnotation
+  import   soda.translator.parser.annotation.ClassEndAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
+      case x => annotated_block
+    }
+
+  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+    _translate_block_with (_get_class_beginning (block.references) ) (block)
+
+  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if ( maybe_beginning.isEmpty
+    ) block
+    else _translate_block_with_beginning (maybe_beginning.get) (block)
+
+  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if ( beginning.is_concrete
+    ) block
+    else _translate_block_with_abstract_beginning (beginning) (block)
+
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    ClassEndAnnotation_ (
+      BlockBuilder_ ().build (
+        Seq [String] (
+          _tc.coq_module_end_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol,
+          "",
+          _tc.coq_import_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol
+        )
+      ),
+      block.references
+    )
+
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+    references
+      .flatMap (  block => _get_as_class_beginning_annotation (block) )
+      .headOption
+
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    annotated_block match  {
+      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
+      case x => None
+    }
+
+}
+
+case class CoqClassEndBlockTranslator_ () extends CoqClassEndBlockTranslator
+
+
+trait CoqDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
+    else _translate_non_recursive_definition (block)
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
+    else block
+
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
+    )
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
+    )
+
+  def is_a_recursive_definition (block : Block) : Boolean =
+    _tc.coq_recursive_function_prefixes.exists (  prefix => first_line (block).startsWith (prefix) )
+
+  def first_line (block : Block) : String =
+    block.lines.headOption.getOrElse ("").trim
+
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! _tc.non_definition_block_prefixes.exists (  prefix => block.contents.trim.startsWith (prefix) )
+
+}
+
+case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
+
+
+trait CoqImportDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.ImportDeclarationAnnotation
+  import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val coq_import_declaration_pattern =
+    _tc.coq_import_reserved_word + _tc.coq_space
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
+    ImportDeclarationAnnotation_ (
+      prepend_to_lines_aligned_at (
+        get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
+        coq_import_declaration_pattern) (
+        block.imported_items
+          .filter(  annotated_line => ! annotated_line.is_comment)
+          .map (  annotated_line => AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
+      )
+    )
+
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+    BlockBuilder_ ().build (
+      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+    )
+
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+    if ( annotated_line.is_comment
+    ) annotated_line.line
+    else annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index)
+
+  def get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (  ch => ch.isSpaceChar)
+      .length
+
+  def get_first_line (block : AnnotatedBlock) : String =
+    block.lines.headOption.getOrElse ("")
+
+}
+
+case class CoqImportDeclarationBlockTranslator_ () extends CoqImportDeclarationBlockTranslator
+
+
+trait CoqPackageDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.PackageDeclarationAnnotation
+  import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case PackageDeclarationAnnotation_ (block) => _translate_block (PackageDeclarationAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
+    PackageDeclarationAnnotation_ (
+      _comment_block (
+        block
+      )
+    )
+
+  private def _comment_block (block : Block) : Block =
+    BlockBuilder_ ().build (
+      ( (Seq (_tc.coq_opening_comment).++ (block.lines) ).++ (Seq (_tc.coq_closing_comment) ) ).++ (_tc.coq_prelude)
+    )
+
+}
+
+case class CoqPackageDeclarationBlockTranslator_ () extends CoqPackageDeclarationBlockTranslator
+
+
+trait CoqProofBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.ProofBlockAnnotation
+  import   soda.translator.parser.annotation.ProofBlockAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ProofBlockAnnotation_ (block) => _translate_block (ProofBlockAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
+    ProofBlockAnnotation_ (
+      _append (
+        _tc.coq_proof_end_reserved_word) (
+          _replace_first_line (_tc.coq_proof_begin_reserved_word) (block)
+      )
+    )
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
+    )
+
+  private def _replace_first_line (first_line : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq (first_line) .++ (_get_tail_or_empty (block.lines) )
+    )
+
+  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
+    if ( sequence.isEmpty
+    ) sequence
+    else sequence.tail
+
+}
+
+case class CoqProofBlockTranslator_ () extends CoqProofBlockTranslator
+
+
+trait CoqTheoremBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation
+  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case TheoremBlockAnnotation_ (block) => _translate_block (TheoremBlockAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (
+      _append (
+        _tc.coq_theorem_end_symbol) (_prepend (
+          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
+        )
+      )
+    )
+
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
+    )
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ ().build (
+      block.lines.:+ (suffix)
+    )
+
+  private def _remove_first_line (block : Block) : Block =
+    if ( block.lines.isEmpty
+    ) block
+    else BlockBuilder_ ().build (block.lines.tail)
+
+}
+
+case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator
+
+
+/**
+ * A line containing the definition sign will be classified as a definition.
+ * The definitions need to be identified as 'val', 'def', or 'class'.
+ *
+ * 'class' is for class definition.
+ * It is detected if the 'class' reserved word is also in the same line.
+ *
+ * 'val' is for value definition.
+ * It is detected in three cases.
+ * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
+ *
+ * 'def' is for function definition.
+ * If it does not fit in any of the 'val' cases.
+ *
+ * Formerly there was another case for 'val'.
+ * Deprecated Case:
+ * This was implemented simply as:
+ * `line.trim.startsWith (soda_opening_parenthesis)`
+ * This is no longer supported.
+ *
+ */
+
+trait DefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
+{
+
+  def   line: String
+
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Replacement
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  private lazy val _trimmed_line = line.trim
+
+  lazy val translation =
+    find_definition (line).opt (ifEmpty = line) (ifNonEmpty =  position => _try_found_definition (position).line)
+
+  private lazy val _is_class_definition =
+    get_index (line) (_sc.space + _sc.class_reserved_word + _sc.space).isDefined
+
+  private lazy val _translation_of_class_definition =
+    if ( _condition_for_type_alias
+    ) Replacement_ (line)
+    else Replacement_ (line).replace_all (_sc.space + _sc.function_definition_symbol) ("")
+
+  private lazy val _ends_with_equals = false
+
+  private lazy val _ends_with_opening_brace = false
+
+  private lazy val _contains_equals =
+    _trimmed_line.contains (_sc.function_definition_symbol)
+
+  private lazy val _condition_for_type_alias =
+    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
+
+  private lazy val _translation_of_val_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
+
+  private lazy val _translation_of_def_definition =
+    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
+
+  private def _try_found_definition (position : Int) : Replacement =
+    if ( _is_class_definition
+    ) _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
+  private def _decide_val_or_def_translation (position : Int) : Replacement =
+    if ( _is_val_definition (position)
+    ) _translation_of_val_definition
+    else _translation_of_def_definition
+
+  private def _is_val_definition (initial_position : Int) =
+    _is_val_definition_case_1 ||
+    _is_val_definition_case_2 (initial_position) ||
+    _is_val_definition_case_3 ||
+    _is_val_definition_case_4
+
+  private lazy val _position_of_first_opening_parenthesis =
+    get_index (line) (_sc.opening_parenthesis_symbol)
+
+  private lazy val _is_val_definition_case_1 =
+    _position_of_first_opening_parenthesis.isEmpty
+
+  private def _is_val_definition_case_2 (initial_position : Int) =
+    _position_of_first_opening_parenthesis.opt (false) (  position => (position > initial_position) )
+
+  private lazy val _is_val_definition_case_3 =
+    (get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
+      _position_of_first_opening_parenthesis.opt (false) (  position => (position > other_position) )
+    )
+
+  private lazy val _is_val_definition_case_4 =
+    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
+
+  /**
+   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+
+  def find_definition (line : String) : OptionSD [Int] =
+    if ( line.endsWith (_sc.space + _sc.function_definition_symbol)
+    ) SomeSD_ (line.length - _sc.function_definition_symbol.length)
+    else get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
+
+  def get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
+
+  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line.indexOf (pattern, start) )
+      .filter (  position => !  (position == -1) )
+
+}
+
+case class DefinitionLineTranslator_ (line: String) extends DefinitionLineTranslator
+
+
+trait MatchCaseBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import   soda.translator.replacement.ReplacementAux_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _soda_case_pattern = _sc.case_reserved_word + _sc.space
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  private lazy val _soda_match_pattern = _sc.match_reserved_word + " "
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case x => annotated_block
+    }
+
+  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    if ( _is_a_match_case_structure (block)
+    ) _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block.lines.exists (  line => _is_a_match_line (line) )
+
+  private def _is_a_match_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_match_pattern)
+
+  private def _is_a_case_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_case_pattern)
+
+  private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block.lines
+      .find (  line => _is_a_match_line (line) )
+      .map (  line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc.coq_space)
+
+  private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
+    BlockBuilder_ ().build (
+      block.lines
+        .map (  line => _append_with_after_match (line) )
+        .map (  line => _replace_case (line) )
+         .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
+    )
+
+  private def _append_with_after_match (line : String) : String =
+    if ( _is_a_match_line (line)
+    ) line + _tc.coq_space + _tc.coq_with_reserved_word
+    else line
+
+  private def _replace_case (line : String) : String =
+    if ( _is_a_case_line (line)
+    ) ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
+    else line
+
+  private def _left_part (index : Int) (line : String) : String =
+    line.substring (0, index)
+
+}
+
+case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
 
 
 /**
@@ -823,361 +1180,4 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
-
-
-trait CoqPackageDeclarationBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.PackageDeclarationAnnotation
-  import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case PackageDeclarationAnnotation_ (block) => _translate_block (PackageDeclarationAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
-    PackageDeclarationAnnotation_ (
-      _comment_block (
-        block
-      )
-    )
-
-  private def _comment_block (block : Block) : Block =
-    BlockBuilder_ ().build (
-      ( (Seq (_tc.coq_opening_comment).++ (block.lines) ).++ (Seq (_tc.coq_closing_comment) ) ).++ (_tc.coq_prelude)
-    )
-
-}
-
-case class CoqPackageDeclarationBlockTranslator_ () extends CoqPackageDeclarationBlockTranslator
-
-
-trait MatchCaseBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.replacement.ReplacementAux_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _soda_case_pattern = _sc.case_reserved_word + _sc.space
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  private lazy val _soda_match_pattern = _sc.match_reserved_word + " "
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
-
-  private def _translate_block (block : AnnotatedBlock) : Block =
-    if ( _is_a_match_case_structure (block)
-    ) _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
-    else block
-
-  private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block.lines.exists (  line => _is_a_match_line (line) )
-
-  private def _is_a_match_line (line : String) : Boolean =
-    line.trim.startsWith (_soda_match_pattern)
-
-  private def _is_a_case_line (line : String) : Boolean =
-    line.trim.startsWith (_soda_case_pattern)
-
-  private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
-    block.lines
-      .find (  line => _is_a_match_line (line) )
-      .map (  line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
-      .getOrElse (_tc.coq_space)
-
-  private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ ().build (
-      block.lines
-        .map (  line => _append_with_after_match (line) )
-        .map (  line => _replace_case (line) )
-         .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
-    )
-
-  private def _append_with_after_match (line : String) : String =
-    if ( _is_a_match_line (line)
-    ) line + _tc.coq_space + _tc.coq_with_reserved_word
-    else line
-
-  private def _replace_case (line : String) : String =
-    if ( _is_a_case_line (line)
-    ) ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
-    else line
-
-  private def _left_part (index : Int) (line : String) : String =
-    line.substring (0, index)
-
-}
-
-case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
-
-
-trait CoqDefinitionBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_recursive_definition (block)
-    ) _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
-    else _translate_non_recursive_definition (block)
-
-  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_definition (block)
-    ) _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
-    else block
-
-  private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head) ++ block.lines.tail
-    )
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      block.lines.:+ (suffix)
-    )
-
-  def is_a_recursive_definition (block : Block) : Boolean =
-    _tc.coq_recursive_function_prefixes.exists (  prefix => first_line (block).startsWith (prefix) )
-
-  def first_line (block : Block) : String =
-    block.lines.headOption.getOrElse ("").trim
-
-  def is_a_definition (block : Block) : Boolean =
-    ! is_a_recursive_definition (block) &&
-    ! _tc.non_definition_block_prefixes.exists (  prefix => block.contents.trim.startsWith (prefix) )
-
-}
-
-case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
-
-
-trait CoqTheoremBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.TheoremBlockAnnotation
-  import   soda.translator.parser.annotation.TheoremBlockAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case TheoremBlockAnnotation_ (block) => _translate_block (TheoremBlockAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
-    TheoremBlockAnnotation_ (
-      _append (
-        _tc.coq_theorem_end_symbol) (_prepend (
-          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
-        )
-      )
-    )
-
-  private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
-    )
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      block.lines.:+ (suffix)
-    )
-
-  private def _remove_first_line (block : Block) : Block =
-    if ( block.lines.isEmpty
-    ) block
-    else BlockBuilder_ ().build (block.lines.tail)
-
-}
-
-case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator
-
-
-trait CoqClassEndBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.ClassEndAnnotation
-  import   soda.translator.parser.annotation.ClassEndAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
-      case x => annotated_block
-    }
-
-  private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _translate_block_with (_get_class_beginning (block.references) ) (block)
-
-  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if ( maybe_beginning.isEmpty
-    ) block
-    else _translate_block_with_beginning (maybe_beginning.get) (block)
-
-  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if ( beginning.is_concrete
-    ) block
-    else _translate_block_with_abstract_beginning (beginning) (block)
-
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (
-      BlockBuilder_ ().build (
-        Seq [String] (
-          _tc.coq_module_end_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol,
-          "",
-          _tc.coq_import_reserved_word + _tc.coq_space + beginning.class_name + _tc.coq_space + _tc.coq_end_symbol
-        )
-      ),
-      block.references
-    )
-
-  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
-    references
-      .flatMap (  block => _get_as_class_beginning_annotation (block) )
-      .headOption
-
-  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
-    annotated_block match  {
-      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case x => None
-    }
-
-}
-
-case class CoqClassEndBlockTranslator_ () extends CoqClassEndBlockTranslator
-
-
-trait CoqProofBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.ProofBlockAnnotation
-  import   soda.translator.parser.annotation.ProofBlockAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case ProofBlockAnnotation_ (block) => _translate_block (ProofBlockAnnotation_ (block) )
-      case x => annotated_block
-    }
-
-  private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
-    ProofBlockAnnotation_ (
-      _append (
-        _tc.coq_proof_end_reserved_word) (
-          _replace_first_line (_tc.coq_proof_begin_reserved_word) (block)
-      )
-    )
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      block.lines.:+ (suffix)
-    )
-
-  private def _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq (first_line) .++ (_get_tail_or_empty (block.lines) )
-    )
-
-  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if ( sequence.isEmpty
-    ) sequence
-    else sequence.tail
-
-}
-
-case class CoqProofBlockTranslator_ () extends CoqProofBlockTranslator
-
 

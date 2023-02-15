@@ -7,6 +7,7 @@ package soda.translator.extension.help
 
 
 trait Package
+
 trait AbstractHelp
   extends
     soda.translator.extension.common.Extension
@@ -84,5 +85,4 @@ trait License
 }
 
 case class License_ () extends License
-
 

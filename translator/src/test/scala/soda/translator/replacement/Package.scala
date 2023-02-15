@@ -5,6 +5,7 @@ package soda.translator.replacement
  */
 
 trait Package
+
 case class CharTypeSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -54,73 +55,6 @@ case class CharTypeSpec ()
           .toSeq
     ) (
       expected = Seq ( CharTypeEnum_ ().plain_type )
-    )
-  )
-
-}
-
-
-case class TokenizerSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  test ("should tokenize a small example") (
-    check (
-      obtained = Tokenizer_ ("    val Constant = \"my text\"").tokens
-    ) (
-      expected = Seq (
-        Token_ ("    val Constant = ", ParserStateEnum_ ().plain, 0),
-        Token_ ("\"my text\"", ParserStateEnum_ ().quotes_state, 19),
-        Token_ ("", ParserStateEnum_ ().plain, 28)
-      )
-    )
-  )
-
-  test ("should tokenize a common tab in a string") (
-    check (
-      obtained = Tokenizer_ ("  x = \"abc\tde\"").tokens
-    ) (
-      expected = Seq (
-        Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
-        Token_ ("\"abc\tde\"", ParserStateEnum_ ().quotes_state, 6),
-        Token_ ("", ParserStateEnum_ ().plain, 14)
-      )
-    )
-  )
-
-  test ("should tokenize an escaped tab in a string") (
-    check (
-      obtained = Tokenizer_ ("  x = \"abc\\tde\"").tokens
-    ) (
-      expected = Seq (
-        Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
-        Token_ ("\"abc\\tde\"", ParserStateEnum_ ().quotes_state, 6),
-        Token_ ("", ParserStateEnum_ ().plain, 15)
-      )
-    )
-  )
-
-  test ("should tokenize a single function definition") (
-    check (
-      obtained = Tokenizer_ ("def f (x: Int): Int = x").tokens
-    ) (
-      expected = Seq (
-        Token_ ("def f (x: Int): Int = x", ParserStateEnum_ ().plain, 0)
-      )
-    )
-  )
-
-  test ("should tokenize a function call") (
-    check (
-      obtained = Tokenizer_ ("\tas_digits (5 * number)").tokens
-    ) (
-      expected = Seq (
-        Token_ ("\tas_digits (5 * number)", ParserStateEnum_ ().plain, 0)
-      )
     )
   )
 
@@ -293,4 +227,70 @@ case class ReplacementAuxSpec ()
 
 }
 
+
+case class TokenizerSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  test ("should tokenize a small example") (
+    check (
+      obtained = Tokenizer_ ("    val Constant = \"my text\"").tokens
+    ) (
+      expected = Seq (
+        Token_ ("    val Constant = ", ParserStateEnum_ ().plain, 0),
+        Token_ ("\"my text\"", ParserStateEnum_ ().quotes_state, 19),
+        Token_ ("", ParserStateEnum_ ().plain, 28)
+      )
+    )
+  )
+
+  test ("should tokenize a common tab in a string") (
+    check (
+      obtained = Tokenizer_ ("  x = \"abc\tde\"").tokens
+    ) (
+      expected = Seq (
+        Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
+        Token_ ("\"abc\tde\"", ParserStateEnum_ ().quotes_state, 6),
+        Token_ ("", ParserStateEnum_ ().plain, 14)
+      )
+    )
+  )
+
+  test ("should tokenize an escaped tab in a string") (
+    check (
+      obtained = Tokenizer_ ("  x = \"abc\\tde\"").tokens
+    ) (
+      expected = Seq (
+        Token_ ("  x = ", ParserStateEnum_ ().plain, 0),
+        Token_ ("\"abc\\tde\"", ParserStateEnum_ ().quotes_state, 6),
+        Token_ ("", ParserStateEnum_ ().plain, 15)
+      )
+    )
+  )
+
+  test ("should tokenize a single function definition") (
+    check (
+      obtained = Tokenizer_ ("def f (x: Int): Int = x").tokens
+    ) (
+      expected = Seq (
+        Token_ ("def f (x: Int): Int = x", ParserStateEnum_ ().plain, 0)
+      )
+    )
+  )
+
+  test ("should tokenize a function call") (
+    check (
+      obtained = Tokenizer_ ("\tas_digits (5 * number)").tokens
+    ) (
+      expected = Seq (
+        Token_ ("\tas_digits (5 * number)", ParserStateEnum_ ().plain, 0)
+      )
+    )
+  )
+
+}
 

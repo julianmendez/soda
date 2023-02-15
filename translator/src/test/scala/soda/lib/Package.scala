@@ -5,6 +5,145 @@ package soda.lib
  */
 
 trait Package
+
+case class CartesianProductSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val int_seq_a = Seq (10, 20)
+
+  lazy val int_seq_b = Seq (100, 200, 300)
+
+  lazy val str_seq_a = Seq ("A", "B")
+
+  lazy val str_seq_b = Seq ("0", "1", "2")
+
+  lazy val str_seq_c = Seq ("a", "b", "c", "d")
+
+  lazy val instance = CartesianProduct_ ()
+
+  test ("Cartesian product of two sequences") (
+    check (
+      obtained = instance.apply (Seq (int_seq_a, int_seq_b) )
+    ) (
+      expected = Seq (
+        Seq (10, 100), Seq (10, 200), Seq (10, 300),
+        Seq (20, 100), Seq (20, 200), Seq (20, 300)
+      )
+    )
+  )
+
+  test ("Cartesian product of an empty sequence") (
+    check (
+      obtained = instance.apply (Seq () )
+    ) (
+      expected = Seq ()
+    )
+  )
+
+  test ("Cartesian product of only empty sequences") (
+    check (
+      obtained = instance.apply (Seq (Seq (), Seq (), Seq () ) )
+    ) (
+      expected = Seq ()
+    )
+  )
+
+  test ("Cartesian product with at least one empty sequence") (
+    check (
+      obtained = instance.apply (Seq (Seq ("A"), Seq () ) )
+    ) (
+      expected = Seq ()
+    )
+  )
+
+  test ("Cartesian product of three sequences") (
+    check (
+      obtained = instance.apply (Seq (str_seq_a, str_seq_b, str_seq_c) )
+    ) (
+      expected = Seq (
+        Seq ("A", "0", "a"), Seq ("A", "0", "b"), Seq ("A", "0", "c"), Seq ("A", "0", "d"),
+        Seq ("A", "1", "a"), Seq ("A", "1", "b"), Seq ("A", "1", "c"), Seq ("A", "1", "d"),
+        Seq ("A", "2", "a"), Seq ("A", "2", "b"), Seq ("A", "2", "c"), Seq ("A", "2", "d"),
+        Seq ("B", "0", "a"), Seq ("B", "0", "b"), Seq ("B", "0", "c"), Seq ("B", "0", "d"),
+        Seq ("B", "1", "a"), Seq ("B", "1", "b"), Seq ("B", "1", "c"), Seq ("B", "1", "d"),
+        Seq ("B", "2", "a"), Seq ("B", "2", "b"), Seq ("B", "2", "c"), Seq ("B", "2", "d")
+      )
+    )
+  )
+
+}
+
+
+trait DayOfTheWeek
+  extends
+    EnumConstant
+{
+
+  def   ordinal : Int
+  def   name : String
+
+}
+
+case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
+
+trait DayOfTheWeekConstant
+{
+
+  lazy val sunday = DayOfTheWeek_ (0, "Sunday")
+
+  lazy val monday = DayOfTheWeek_ (1, "Monday")
+
+  lazy val tuesday = DayOfTheWeek_ (2, "Tuesday")
+
+  lazy val wednesday = DayOfTheWeek_ (3, "Wednesday")
+
+  lazy val thursday = DayOfTheWeek_ (4, "Thursday")
+
+  lazy val friday = DayOfTheWeek_ (5, "Friday")
+
+  lazy val saturday = DayOfTheWeek_ (6, "Saturday")
+
+  lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday)
+
+}
+
+case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
+
+trait DayOfTheWeekEnum
+  extends
+    DayOfTheWeekConstant
+{
+
+  lazy val values = DayOfTheWeek_values
+
+}
+
+case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
+
+case class EnumSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  test ("the names of the elements in enumerations") (
+    check (
+      obtained = DayOfTheWeekEnum_ ().values.map (  x => x.toString)
+    ) (
+      expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
+    )
+  )
+
+}
+
+
 case class OptionSDSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -221,7 +360,7 @@ case class OptionSDSpec ()
 }
 
 
-case class CartesianProductSpec ()
+case class RecursionSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 {
@@ -229,65 +368,64 @@ case class CartesianProductSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val int_seq_a = Seq (10, 20)
+  lazy val example_seq : Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
 
-  lazy val int_seq_b = Seq (100, 200, 300)
+  private lazy val _fold_while = FoldWhile_ ()
 
-  lazy val str_seq_a = Seq ("A", "B")
+  private lazy val _fold = Fold_ ()
 
-  lazy val str_seq_b = Seq ("0", "1", "2")
+  private lazy val _range = Range_ ()
 
-  lazy val str_seq_c = Seq ("a", "b", "c", "d")
-
-  lazy val instance = CartesianProduct_ ()
-
-  test ("Cartesian product of two sequences") (
+  test ("fold left while with Seq") (
     check (
-      obtained = instance.apply (Seq (int_seq_a, int_seq_b) )
+      obtained = _fold_while.apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
     ) (
-      expected = Seq (
-        Seq (10, 100), Seq (10, 200), Seq (10, 300),
-        Seq (20, 100), Seq (20, 200), Seq (20, 300)
-      )
+      expected = Seq ("103", "102", "101", "101", "100")
     )
   )
 
-  test ("Cartesian product of an empty sequence") (
+  private lazy val _fold0_initial_value = Seq [String] ()
+
+  private lazy val _fold0_next_value_function : Seq [String] => Int => Seq [String] =
+     (s : Seq [String]) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
+
+  private lazy val _fold0_condition : Seq [String] => Int => Boolean =
+     (s : Seq [String] ) =>  (e : Int) => (e < 5)
+
+  test ("fold left with Seq") (
     check (
-      obtained = instance.apply (Seq () )
+      obtained = _fold.apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
+    ) (
+      expected = Seq ("108", "105", "103", "102", "101", "101", "100")
+    )
+  )
+
+  private lazy val _fold1_initial_value = Seq [String] ()
+
+  private lazy val _fold1_next_value_function : Seq [String] => Int => Seq [String] =
+     (s : Seq [String] ) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
+
+  test ("range with positive number") (
+    check (
+      obtained = _range.apply (8)
+    ) (
+      expected = Seq (0, 1, 2, 3, 4, 5, 6, 7)
+    )
+  )
+
+  test ("range with zero size") (
+    check (
+      obtained = _range.apply (-1)
     ) (
       expected = Seq ()
     )
   )
 
-  test ("Cartesian product of only empty sequences") (
+  test ("range with negative number") (
     check (
-      obtained = instance.apply (Seq (Seq (), Seq (), Seq () ) )
+      obtained = _range.apply (-1)
     ) (
       expected = Seq ()
-    )
-  )
-
-  test ("Cartesian product with at least one empty sequence") (
-    check (
-      obtained = instance.apply (Seq (Seq ("A"), Seq () ) )
-    ) (
-      expected = Seq ()
-    )
-  )
-
-  test ("Cartesian product of three sequences") (
-    check (
-      obtained = instance.apply (Seq (str_seq_a, str_seq_b, str_seq_c) )
-    ) (
-      expected = Seq (
-        Seq ("A", "0", "a"), Seq ("A", "0", "b"), Seq ("A", "0", "c"), Seq ("A", "0", "d"),
-        Seq ("A", "1", "a"), Seq ("A", "1", "b"), Seq ("A", "1", "c"), Seq ("A", "1", "d"),
-        Seq ("A", "2", "a"), Seq ("A", "2", "b"), Seq ("A", "2", "c"), Seq ("A", "2", "d"),
-        Seq ("B", "0", "a"), Seq ("B", "0", "b"), Seq ("B", "0", "c"), Seq ("B", "0", "d"),
-        Seq ("B", "1", "a"), Seq ("B", "1", "b"), Seq ("B", "1", "c"), Seq ("B", "1", "d"),
-        Seq ("B", "2", "a"), Seq ("B", "2", "b"), Seq ("B", "2", "c"), Seq ("B", "2", "d")
-      )
     )
   )
 
@@ -363,142 +501,4 @@ case class SeqSDSpec ()
   lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =  sequence => sequence.reverse
 
 }
-
-
-trait DayOfTheWeek
-  extends
-    EnumConstant
-{
-
-  def   ordinal : Int
-  def   name : String
-
-}
-
-case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
-
-trait DayOfTheWeekConstant
-{
-
-  lazy val sunday = DayOfTheWeek_ (0, "Sunday")
-
-  lazy val monday = DayOfTheWeek_ (1, "Monday")
-
-  lazy val tuesday = DayOfTheWeek_ (2, "Tuesday")
-
-  lazy val wednesday = DayOfTheWeek_ (3, "Wednesday")
-
-  lazy val thursday = DayOfTheWeek_ (4, "Thursday")
-
-  lazy val friday = DayOfTheWeek_ (5, "Friday")
-
-  lazy val saturday = DayOfTheWeek_ (6, "Saturday")
-
-  lazy val DayOfTheWeek_values = Seq (sunday, monday, tuesday, wednesday, thursday, friday, saturday)
-
-}
-
-case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
-
-trait DayOfTheWeekEnum
-  extends
-    DayOfTheWeekConstant
-{
-
-  lazy val values = DayOfTheWeek_values
-
-}
-
-case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
-
-case class EnumSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  test ("the names of the elements in enumerations") (
-    check (
-      obtained = DayOfTheWeekEnum_ ().values.map (  x => x.toString)
-    ) (
-      expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
-    )
-  )
-
-}
-
-
-case class RecursionSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val example_seq : Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
-
-  private lazy val _fold_while = FoldWhile_ ()
-
-  private lazy val _fold = Fold_ ()
-
-  private lazy val _range = Range_ ()
-
-  test ("fold left while with Seq") (
-    check (
-      obtained = _fold_while.apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
-    ) (
-      expected = Seq ("103", "102", "101", "101", "100")
-    )
-  )
-
-  private lazy val _fold0_initial_value = Seq [String] ()
-
-  private lazy val _fold0_next_value_function : Seq [String] => Int => Seq [String] =
-     (s : Seq [String]) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
-
-  private lazy val _fold0_condition : Seq [String] => Int => Boolean =
-     (s : Seq [String] ) =>  (e : Int) => (e < 5)
-
-  test ("fold left with Seq") (
-    check (
-      obtained = _fold.apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
-    ) (
-      expected = Seq ("108", "105", "103", "102", "101", "101", "100")
-    )
-  )
-
-  private lazy val _fold1_initial_value = Seq [String] ()
-
-  private lazy val _fold1_next_value_function : Seq [String] => Int => Seq [String] =
-     (s : Seq [String] ) =>  (e : Int) => (s.+: ("" + (e + 100) ) )
-
-  test ("range with positive number") (
-    check (
-      obtained = _range.apply (8)
-    ) (
-      expected = Seq (0, 1, 2, 3, 4, 5, 6, 7)
-    )
-  )
-
-  test ("range with zero size") (
-    check (
-      obtained = _range.apply (-1)
-    ) (
-      expected = Seq ()
-    )
-  )
-
-  test ("range with negative number") (
-    check (
-      obtained = _range.apply (-1)
-    ) (
-      expected = Seq ()
-    )
-  )
-
-}
-
 

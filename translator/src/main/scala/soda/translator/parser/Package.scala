@@ -7,6 +7,7 @@ package soda.translator.parser
 
 
 trait Package
+
 trait BlockBuilder
 {
 
@@ -73,6 +74,167 @@ trait CurrentAndNewCommentState
 }
 
 case class CurrentAndNewCommentState_ (current_state : Boolean, new_comment_state : Boolean) extends CurrentAndNewCommentState
+
+
+/**
+ * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
+ */
+
+trait BlockProcessor
+{
+
+  def   translator : soda.translator.block.BlockSequenceTranslator
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.annotation.AnnotationFactory_
+
+  lazy val new_line = "\n"
+
+  lazy val double_new_line = new_line + new_line
+
+  lazy val translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
+
+  def translate (program : String) : String =
+    join_translated_blocks (
+      translator_with_preprocessor.translate (
+        split_blocks (program)
+      )
+    )
+
+  def split_blocks (program : String) : Seq [AnnotatedBlock] =
+    program
+      .split (double_new_line)
+      .toIndexedSeq
+      .map (  paragraph => make_block (paragraph) )
+
+  def make_block (paragraph : String) : AnnotatedBlock =
+    AnnotationFactory_ ().annotate (
+      BlockBuilder_ ().build (
+        remove_empty_lines (paragraph.split (new_line).toIndexedSeq)
+      )
+    )
+
+  def join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
+    blocks
+      .map (  x => x.contents)
+      .mkString (double_new_line) + new_line
+
+  def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
+    lines
+      .filter (  line => line.trim.nonEmpty)
+
+}
+
+case class BlockProcessor_ (translator : soda.translator.block.BlockSequenceTranslator) extends BlockProcessor
+
+
+trait PreprocessorSequenceTranslator
+  extends
+    soda.translator.block.BlockSequenceTranslator
+{
+
+  def   translator : soda.translator.block.BlockSequenceTranslator
+
+  import   soda.lib.Fold_
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.annotation.AnnotationFactory_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.parser.annotation.ClassEndAnnotation
+  import   soda.translator.parser.annotation.ClassEndAnnotation_
+
+  lazy val block_annotator = AnnotationFactory_ ()
+
+  lazy val ba = soda.translator.block.BlockAnnotationEnum_ ()
+
+  lazy val sc = SodaConstant_ ()
+
+  private lazy val _fold = Fold_ ()
+
+  lazy val empty_line = AnnotatedLine_ ("", true)
+
+  lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
+     block_sequence =>
+      translate_for (block_sequence)
+
+  def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+    translator.translate (
+      _get_second_pass (
+        _get_first_pass (block_sequence)
+      )
+    )
+
+  private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+    block_sequence.map (  block => block_annotator.translate (block) )
+
+  private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
+    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+      .accumulated
+      .reverse
+
+  private def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
+    AuxiliaryTuple_ (
+      block_sequence = block_sequence,
+      accumulated = Seq [AnnotatedBlock] (),
+      references = Seq [Seq [AnnotatedBlock] ] ()
+    )
+
+  private def _get_second_pass_next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
+    _pass_next_step (current) (index) (_get_additional_information (current) (index) )
+
+  private def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
+    current.block_sequence.apply (index) match  {
+      case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
+      case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
+      case x => x
+    }
+
+  private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+
+  private def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+
+  private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
+    AuxiliaryTuple_ (
+      block_sequence = current.block_sequence,
+      accumulated = current.accumulated.+: (updated_block),
+      references = _update_references (current) (index)
+    )
+
+  private def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
+    current.block_sequence.apply (index) match  {
+      case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
+      case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
+      case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
+      case x => current.references
+    }
+
+  private def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
+    _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
+
+  private def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
+    if ( s.isEmpty
+    ) s
+    else s.tail
+
+}
+
+case class PreprocessorSequenceTranslator_ (translator : soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
+
+trait AuxiliaryTuple
+{
+
+  def   block_sequence : Seq [soda.translator.block.AnnotatedBlock]
+  def   accumulated : Seq [soda.translator.block.AnnotatedBlock]
+  def   references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]
+
+}
+
+case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple
 
 
 trait SodaConstant
@@ -240,166 +402,4 @@ trait SodaConstant
 }
 
 case class SodaConstant_ () extends SodaConstant
-
-
-trait PreprocessorSequenceTranslator
-  extends
-    soda.translator.block.BlockSequenceTranslator
-{
-
-  def   translator : soda.translator.block.BlockSequenceTranslator
-
-  import   soda.lib.Fold_
-  import   soda.translator.block.AnnotatedLine_
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.annotation.AnnotationFactory_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.ClassEndAnnotation
-  import   soda.translator.parser.annotation.ClassEndAnnotation_
-
-  lazy val block_annotator = AnnotationFactory_ ()
-
-  lazy val ba = soda.translator.block.BlockAnnotationEnum_ ()
-
-  lazy val sc = SodaConstant_ ()
-
-  private lazy val _fold = Fold_ ()
-
-  lazy val empty_line = AnnotatedLine_ ("", true)
-
-  lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
-     block_sequence =>
-      translate_for (block_sequence)
-
-  def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    translator.translate (
-      _get_second_pass (
-        _get_first_pass (block_sequence)
-      )
-    )
-
-  private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    block_sequence.map (  block => block_annotator.translate (block) )
-
-  private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
-      .accumulated
-      .reverse
-
-  private def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
-    AuxiliaryTuple_ (
-      block_sequence = block_sequence,
-      accumulated = Seq [AnnotatedBlock] (),
-      references = Seq [Seq [AnnotatedBlock] ] ()
-    )
-
-  private def _get_second_pass_next_value_function (current : AuxiliaryTuple) (index : Int) : AuxiliaryTuple =
-    _pass_next_step (current) (index) (_get_additional_information (current) (index) )
-
-  private def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
-    current.block_sequence.apply (index) match  {
-      case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
-      case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
-      case x => x
-    }
-
-  private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
-
-  private def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
-
-  private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
-    AuxiliaryTuple_ (
-      block_sequence = current.block_sequence,
-      accumulated = current.accumulated.+: (updated_block),
-      references = _update_references (current) (index)
-    )
-
-  private def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
-    current.block_sequence.apply (index) match  {
-      case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
-      case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
-      case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
-      case x => current.references
-    }
-
-  private def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
-    _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
-
-  private def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
-    if ( s.isEmpty
-    ) s
-    else s.tail
-
-}
-
-case class PreprocessorSequenceTranslator_ (translator : soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
-
-trait AuxiliaryTuple
-{
-
-  def   block_sequence : Seq [soda.translator.block.AnnotatedBlock]
-  def   accumulated : Seq [soda.translator.block.AnnotatedBlock]
-  def   references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]
-
-}
-
-case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple
-
-
-/**
- * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
- */
-
-trait BlockProcessor
-{
-
-  def   translator : soda.translator.block.BlockSequenceTranslator
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.annotation.AnnotationFactory_
-
-  lazy val new_line = "\n"
-
-  lazy val double_new_line = new_line + new_line
-
-  lazy val translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
-
-  def translate (program : String) : String =
-    join_translated_blocks (
-      translator_with_preprocessor.translate (
-        split_blocks (program)
-      )
-    )
-
-  def split_blocks (program : String) : Seq [AnnotatedBlock] =
-    program
-      .split (double_new_line)
-      .toIndexedSeq
-      .map (  paragraph => make_block (paragraph) )
-
-  def make_block (paragraph : String) : AnnotatedBlock =
-    AnnotationFactory_ ().annotate (
-      BlockBuilder_ ().build (
-        remove_empty_lines (paragraph.split (new_line).toIndexedSeq)
-      )
-    )
-
-  def join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
-    blocks
-      .map (  x => x.contents)
-      .mkString (double_new_line) + new_line
-
-  def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
-    lines
-      .filter (  line => line.trim.nonEmpty)
-
-}
-
-case class BlockProcessor_ (translator : soda.translator.block.BlockSequenceTranslator) extends BlockProcessor
-
 

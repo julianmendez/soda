@@ -5,6 +5,7 @@ package soda.example.forcoq.algorithms
  */
 
 trait Package
+
 /**
  * This class contains tail recursive auxiliary functions.
  */
@@ -50,5 +51,4 @@ trait RecursionForCoq
 }
 
 case class RecursionForCoq_ () extends RecursionForCoq
-
 

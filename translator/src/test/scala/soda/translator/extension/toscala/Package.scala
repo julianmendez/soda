@@ -4,83 +4,32 @@ package soda.translator.extension.toscala
  * This package contains tests for the translator to Scala.
  */
 trait Package
-case class MultiLineSpec ()
+
+case class BeautifierSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.annotation.AnnotationFactory_
-  import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.BlockProcessor_
 
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
-      )
-    )
+  lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
+    "    original .  replaceAll(\"  \" ,  \" \")   \n"
 
-  lazy val mt = MicroTranslatorToScala_ ()
-
-  lazy val original_input =
-    "  value = 1\n" +
-    "  sequence = Seq(1 ,\n" +
-    "    2,  \n" +
-    "    3)\n" +
-    "  f( x: Int,\t\n" +
-    "     y: Int,\n" +
-    "     z: Int) =\n" +
-    "       x * x + y * y + z * z\n"
-
-  lazy val original_input_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,",
-    "    2,  ",
-    "    3)",
-    "  f( x: Int,\t",
-    "     y: Int,",
-    "     z: Int) =",
-    "       x * x + y * y + z * z")
-
-  lazy val joined_comma_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,    2,      3)",
-    "  f( x: Int,\t     y: Int,     z: Int) =",
-    "       x * x + y * y + z * z")
-
-  lazy val joined_output =
-    "  value = 1\n" +
-    "  sequence = Seq(1 ," +
-    "    2,  " +
-    "    3)\n" +
-    "  f( x: Int,\t" +
-    "     y: Int," +
-    "     z: Int) =\n" +
-    "       x * x + y * y + z * z"
-
-  def build_block (lines: Seq [String]): AnnotatedBlock =
-    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
-
-  test ("should split a program in multiple lines") (
+  test ("the translated source code should respect unnecessary spaces") (
     check (
-      obtained = bp.make_block (original_input)
+      obtained =
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToScala_()
+          )
+        ).translate (original)
     ) (
-      expected = build_block (original_input_lines )
-    )
-  )
-
-  test ("should join the translated lines of a program") (
-    check (
-      obtained = build_block (joined_comma_lines)
-    ) (
-      expected = bp.make_block (joined_output)
+      expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
+        "    original .  replaceAll(\"  \" ,  \" \")   \n"
     )
   )
 
@@ -216,98 +165,6 @@ case class ClassConstructorBlockTranslatorSpec ()
 }
 
 
-/**
- * This tests how translation is done for Scala reserved words that are not Soda reserved words.
- */
-
-case class ScalaNonSodaSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
-      )
-    )
-
-  test ("Scala reserved words are replaced") (
-    check (
-      obtained = bp.translate ("" +
-        "\nval x =" +
-        "\n  while (x != 0)"
-      )
-    ) (
-      expected = "" +
-        "private lazy val __soda__val x =" +
-        "\n  __soda__while (x != 0)" +
-        "\n"
-    )
-  )
-
-  test ("some synonyms are Scala reserved words") (
-    check (
-      obtained = bp.translate ("" +
-        "\nclass A0 [B0 <: C0]" +
-        "\n" +
-        "\nend" +
-        "\n" +
-        "\nclass C0 [D0 >: E0]" +
-        "\n" +
-        "\nend" +
-        "\n" +
-        "\nclass A1 [B1 subtype C1]" +
-        "\n" +
-        "\nend" +
-        "\n" +
-        "\nclass C1 [D1 supertype E1]" +
-        "\n" +
-        "\nend" +
-        "\n"
-      )
-    ) (
-      expected = "" +
-        "trait A0 [B0 <: C0]" +
-        "\n{" +
-        "\n" +
-        "\n}" +
-        "\n" +
-        "\ncase class A0_ [B0 <: C0] () extends A0 [B0]" +
-        "\n" +
-        "\ntrait C0 [D0 >: E0]" +
-        "\n{" +
-        "\n" +
-        "\n}" +
-        "\n" +
-        "\ncase class C0_ [D0 >: E0] () extends C0 [D0]" +
-        "\n" +
-        "\ntrait A1 [B1 <: C1]" +
-        "\n{" +
-        "\n" +
-        "\n}" +
-        "\n" +
-        "\ncase class A1_ [B1 <: C1] () extends A1 [B1]" +
-        "\n" +
-        "\ntrait C1 [D1 >: E1]" +
-        "\n{" +
-        "\n" +
-        "\n}" +
-        "\n" +
-        "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
-        "\n"
-    )
-  )
-
-}
-
-
 case class FullTranslationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -404,112 +261,6 @@ case class FullTranslationSpec ()
 
   test ("should translate the manual") (
     test_translation_with (ManualInput) (ManualExpected)
-  )
-
-}
-
-
-case class UpperAndLowerBoundDeclarationSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
-
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val instance =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
-      )
-    )
-
-  test ("should translate a single upper bound") (
-    check (
-      obtained = instance.translate ("class BlackBox()" +
-        "\n  extends " +
-        "\n    AbstractBlackBox[A subtype AbstractInput]" +
-        "\n" +
-        "\nend" +
-        "\n"
-      )
-    ) (
-      expected =
-        "case class BlackBox()" +
-        "\n  extends" +
-        "\n    AbstractBlackBox[A <: AbstractInput]" +
-        "\n{" +
-        "\n" +
-        "\n}" +
-        "\n"
-    )
-  )
-
-  test ("should translate multiple upper bounds") (
-    check (
-      obtained = instance.translate (        "  class BlackBox()" +
-        "\n    extends " +
-        "\n      AbstractBlackBox[A subtype AbstractInput]" +
-        "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
-        "\n" +
-        "\n  end" +
-        "\n"
-      )
-    ) (
-      expected = "  case class BlackBox()" +
-        "\n    extends" +
-        "\n      AbstractBlackBox[A <: AbstractInput]" +
-        "\n      with AbstractDevice[B <: AbstractDeviceInput]" +
-        "\n  {" +
-        "\n" +
-        "\n  }" +
-        "\n"
-    )
-  )
-
-  test ("should translate a single lower bound") (
-    check (
-      obtained = instance.translate (" class BlackBox()" +
-        "\n   extends " +
-        "\n     AbstractBlackBox[A supertype (AbstractInput)]" +
-        "\n" +
-        "\n end" +
-        "\n"
-      )
-    ) (
-      expected = " case class BlackBox()" +
-        "\n   extends" +
-        "\n     AbstractBlackBox[A >: (AbstractInput)]" +
-        "\n {" +
-        "\n" +
-        "\n }" +
-        "\n"
-    )
-  )
-
-  test ("should translate multiple lower bounds") (
-    check (
-      obtained = instance.translate ("  class BlackBox()" +
-        "\n  extends " +
-        "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
-        "\n    AbstractDevice[B supertype (AbstractDeviceInput)]" +
-        "\n" +
-        "\nend" +
-        "\n"
-      )
-    ) (
-      expected = "  case class BlackBox()" +
-        "\n  extends" +
-        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
-        "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
-        "\n  {" +
-        "\n" +
-        "\n}" +
-        "\n"
-    )
   )
 
 }
@@ -910,6 +661,181 @@ case class MicroTranslatorToScalaSpec ()
 }
 
 
+case class MultiLineSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.annotation.AnnotationFactory_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockProcessor_
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val bp =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
+
+  lazy val mt = MicroTranslatorToScala_ ()
+
+  lazy val original_input =
+    "  value = 1\n" +
+    "  sequence = Seq(1 ,\n" +
+    "    2,  \n" +
+    "    3)\n" +
+    "  f( x: Int,\t\n" +
+    "     y: Int,\n" +
+    "     z: Int) =\n" +
+    "       x * x + y * y + z * z\n"
+
+  lazy val original_input_lines = Seq(
+    "  value = 1",
+    "  sequence = Seq(1 ,",
+    "    2,  ",
+    "    3)",
+    "  f( x: Int,\t",
+    "     y: Int,",
+    "     z: Int) =",
+    "       x * x + y * y + z * z")
+
+  lazy val joined_comma_lines = Seq(
+    "  value = 1",
+    "  sequence = Seq(1 ,    2,      3)",
+    "  f( x: Int,\t     y: Int,     z: Int) =",
+    "       x * x + y * y + z * z")
+
+  lazy val joined_output =
+    "  value = 1\n" +
+    "  sequence = Seq(1 ," +
+    "    2,  " +
+    "    3)\n" +
+    "  f( x: Int,\t" +
+    "     y: Int," +
+    "     z: Int) =\n" +
+    "       x * x + y * y + z * z"
+
+  def build_block (lines: Seq [String]): AnnotatedBlock =
+    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
+
+  test ("should split a program in multiple lines") (
+    check (
+      obtained = bp.make_block (original_input)
+    ) (
+      expected = build_block (original_input_lines )
+    )
+  )
+
+  test ("should join the translated lines of a program") (
+    check (
+      obtained = build_block (joined_comma_lines)
+    ) (
+      expected = bp.make_block (joined_output)
+    )
+  )
+
+}
+
+
+/**
+ * This tests how translation is done for Scala reserved words that are not Soda reserved words.
+ */
+
+case class ScalaNonSodaSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.BlockProcessor_
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val bp =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
+
+  test ("Scala reserved words are replaced") (
+    check (
+      obtained = bp.translate ("" +
+        "\nval x =" +
+        "\n  while (x != 0)"
+      )
+    ) (
+      expected = "" +
+        "private lazy val __soda__val x =" +
+        "\n  __soda__while (x != 0)" +
+        "\n"
+    )
+  )
+
+  test ("some synonyms are Scala reserved words") (
+    check (
+      obtained = bp.translate ("" +
+        "\nclass A0 [B0 <: C0]" +
+        "\n" +
+        "\nend" +
+        "\n" +
+        "\nclass C0 [D0 >: E0]" +
+        "\n" +
+        "\nend" +
+        "\n" +
+        "\nclass A1 [B1 subtype C1]" +
+        "\n" +
+        "\nend" +
+        "\n" +
+        "\nclass C1 [D1 supertype E1]" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "trait A0 [B0 <: C0]" +
+        "\n{" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\ncase class A0_ [B0 <: C0] () extends A0 [B0]" +
+        "\n" +
+        "\ntrait C0 [D0 >: E0]" +
+        "\n{" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\ncase class C0_ [D0 >: E0] () extends C0 [D0]" +
+        "\n" +
+        "\ntrait A1 [B1 <: C1]" +
+        "\n{" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\ncase class A1_ [B1 <: C1] () extends A1 [B1]" +
+        "\n" +
+        "\ntrait C1 [D1 >: E1]" +
+        "\n{" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
+        "\n"
+    )
+  )
+
+}
+
+
 case class MainSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -939,7 +865,7 @@ case class MainSpec ()
 }
 
 
-case class BeautifierSpec ()
+case class UpperAndLowerBoundDeclarationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 {
@@ -950,23 +876,97 @@ case class BeautifierSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
-    "    original .  replaceAll(\"  \" ,  \" \")   \n"
+  lazy val instance =
+    BlockProcessor_(
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
-  test ("the translated source code should respect unnecessary spaces") (
+  test ("should translate a single upper bound") (
     check (
-      obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToScala_()
-          )
-        ).translate (original)
+      obtained = instance.translate ("class BlackBox()" +
+        "\n  extends " +
+        "\n    AbstractBlackBox[A subtype AbstractInput]" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
     ) (
-      expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
-        "    original .  replaceAll(\"  \" ,  \" \")   \n"
+      expected =
+        "case class BlackBox()" +
+        "\n  extends" +
+        "\n    AbstractBlackBox[A <: AbstractInput]" +
+        "\n{" +
+        "\n" +
+        "\n}" +
+        "\n"
+    )
+  )
+
+  test ("should translate multiple upper bounds") (
+    check (
+      obtained = instance.translate (        "  class BlackBox()" +
+        "\n    extends " +
+        "\n      AbstractBlackBox[A subtype AbstractInput]" +
+        "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
+        "\n" +
+        "\n  end" +
+        "\n"
+      )
+    ) (
+      expected = "  case class BlackBox()" +
+        "\n    extends" +
+        "\n      AbstractBlackBox[A <: AbstractInput]" +
+        "\n      with AbstractDevice[B <: AbstractDeviceInput]" +
+        "\n  {" +
+        "\n" +
+        "\n  }" +
+        "\n"
+    )
+  )
+
+  test ("should translate a single lower bound") (
+    check (
+      obtained = instance.translate (" class BlackBox()" +
+        "\n   extends " +
+        "\n     AbstractBlackBox[A supertype (AbstractInput)]" +
+        "\n" +
+        "\n end" +
+        "\n"
+      )
+    ) (
+      expected = " case class BlackBox()" +
+        "\n   extends" +
+        "\n     AbstractBlackBox[A >: (AbstractInput)]" +
+        "\n {" +
+        "\n" +
+        "\n }" +
+        "\n"
+    )
+  )
+
+  test ("should translate multiple lower bounds") (
+    check (
+      obtained = instance.translate ("  class BlackBox()" +
+        "\n  extends " +
+        "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
+        "\n    AbstractDevice[B supertype (AbstractDeviceInput)]" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "  case class BlackBox()" +
+        "\n  extends" +
+        "\n    AbstractBlackBox[A >: (AbstractInput)]" +
+        "\n    with AbstractDevice[B >: (AbstractDeviceInput)]" +
+        "\n  {" +
+        "\n" +
+        "\n}" +
+        "\n"
     )
   )
 
 }
-
 
