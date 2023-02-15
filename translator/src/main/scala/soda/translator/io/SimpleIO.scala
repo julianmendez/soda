@@ -57,7 +57,13 @@ trait SimpleFileWriter
     write_file_with ( new File (file_name) ) (content)
 
   def write_file_with (file : File) (content : String) : Boolean =
-    _write_content ( new FileWriter (file) ) (content)
+    _write_content ( new FileWriter (file , false) ) (content)
+
+  def append_file (file_name : String) (content : String) : Boolean =
+    append_file_with ( new File (file_name) ) (content)
+
+  def append_file_with (file : File) (content : String) : Boolean =
+    _write_content ( new FileWriter (file , true) ) (content)
 
   private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)

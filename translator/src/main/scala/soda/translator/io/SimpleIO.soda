@@ -45,7 +45,13 @@ class SimpleFileWriter
     write_file_with ( @new File (file_name) ) (content)
 
   write_file_with (file : File) (content : String) : Boolean =
-    _write_content ( @new FileWriter (file) ) (content)
+    _write_content ( @new FileWriter (file , false) ) (content)
+
+  append_file (file_name : String) (content : String) : Boolean =
+    append_file_with ( @new File (file_name) ) (content)
+
+  append_file_with (file : File) (content : String) : Boolean =
+    _write_content ( @new FileWriter (file , true) ) (content)
 
   _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)

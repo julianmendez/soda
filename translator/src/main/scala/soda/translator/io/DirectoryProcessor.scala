@@ -31,13 +31,27 @@ trait DirectoryProcessor
 
   lazy val soda_suffix = ".soda"
 
+  lazy val package_file_name = "Package.soda"
+
   private lazy val _all_files =
     DirectoryScanner_ ().get_all_files ( new File (start))
 
-  private lazy val _soda_files =
+  private lazy val _all_soda_files =
     _all_files
       .filter (  x => x.isFile)
       .filter (  x => x.getName.endsWith (soda_suffix))
+
+  private lazy val _package_files =
+    _all_files
+      .filter (  x => x.isFile)
+      .filter (  x => x.getName == package_file_name)
+
+  private lazy val _soda_non_package_files =
+    _all_soda_files
+      .filter (  x => ! (x.getName == package_file_name) )
+
+  private lazy val _soda_files =
+    _package_files .++ (_soda_non_package_files)
 
   private lazy val _lib_files =
     _all_files
