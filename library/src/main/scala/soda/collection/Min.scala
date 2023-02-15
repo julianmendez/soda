@@ -8,8 +8,6 @@ package soda.collection
 
 
 
-
-
 trait MSeqTranslator [A]
 {
 

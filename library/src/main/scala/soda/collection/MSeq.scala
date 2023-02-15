@@ -8,8 +8,6 @@ package soda.collection
 
 
 
-
-
 trait MSeq [A]
 {
 
