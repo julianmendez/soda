@@ -134,6 +134,8 @@ trait DefinitionLineTranslator
 }
 
 case class DefinitionLineTranslator_ (line: String) extends DefinitionLineTranslator
+
+
 trait CoqClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -230,6 +232,8 @@ trait CoqClassDeclarationBlockTranslator
 }
 
 case class CoqClassDeclarationBlockTranslator_ () extends CoqClassDeclarationBlockTranslator
+
+
 trait CoqImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -290,6 +294,8 @@ trait CoqImportDeclarationBlockTranslator
 }
 
 case class CoqImportDeclarationBlockTranslator_ () extends CoqImportDeclarationBlockTranslator
+
+
 trait CoqClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -419,6 +425,8 @@ trait CoqClassConstructorBlockTranslator
 }
 
 case class CoqClassConstructorBlockTranslator_ () extends CoqClassConstructorBlockTranslator
+
+
 /**
  * This class translates Soda snippets into Coq snippets.
  */
@@ -472,6 +480,8 @@ trait MicroTranslatorToCoq
 }
 
 case class MicroTranslatorToCoq_ () extends MicroTranslatorToCoq
+
+
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
  */
@@ -730,6 +740,8 @@ trait TranslationConstantToCoq
 }
 
 case class TranslationConstantToCoq_ () extends TranslationConstantToCoq
+
+
 /**
  * This translates Soda source code to Coq source code.
  */
@@ -811,6 +823,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+
 trait CoqPackageDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -849,6 +863,8 @@ trait CoqPackageDeclarationBlockTranslator
 }
 
 case class CoqPackageDeclarationBlockTranslator_ () extends CoqPackageDeclarationBlockTranslator
+
+
 trait MatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -933,6 +949,8 @@ trait MatchCaseBlockTranslator
 }
 
 case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
+
+
 trait CoqDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -992,6 +1010,8 @@ trait CoqDefinitionBlockTranslator
 }
 
 case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
+
+
 trait CoqTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1042,6 +1062,8 @@ trait CoqTheoremBlockTranslator
 }
 
 case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator
+
+
 trait CoqClassEndBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1106,6 +1128,8 @@ trait CoqClassEndBlockTranslator
 }
 
 case class CoqClassEndBlockTranslator_ () extends CoqClassEndBlockTranslator
+
+
 trait CoqProofBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1155,3 +1179,5 @@ trait CoqProofBlockTranslator
 }
 
 case class CoqProofBlockTranslator_ () extends CoqProofBlockTranslator
+
+

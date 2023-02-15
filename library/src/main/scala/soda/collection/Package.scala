@@ -423,6 +423,8 @@ trait SpanRevFoldTuple [A]
 }
 
 case class SpanRevFoldTuple_ [A] (left : MSeq [A], right : MSeq [A], taking : Boolean, condition : A => Boolean) extends SpanRevFoldTuple [A]
+
+
 trait MSeq [A]
 {
 
@@ -499,3 +501,5 @@ trait NESeq [A]
 }
 
 case class NESeq_ [A] (head0 : A, tail0 : MSeq [A]) extends NESeq [A]
+
+

@@ -104,6 +104,8 @@ trait TokenizerFoldTuple
 }
 
 case class TokenizerFoldTuple_ (last_index : Int, parser_state : ParserState, rev_tokens : Seq [Token]) extends TokenizerFoldTuple
+
+
 /**
  * This models a collection of replacement functions.
  * This is intended to be used as a pipeline.
@@ -261,6 +263,8 @@ trait ReplacementWithTranslator
 }
 
 case class ReplacementWithTranslator_ (translator : soda.translator.block.Translator) extends ReplacementWithTranslator
+
+
 trait LinePatternProcessor
 {
 
@@ -328,6 +332,8 @@ trait ReplacerFoldTuple
 }
 
 case class ReplacerFoldTuple_ (replaced_text_rev : Seq [String], start_index : Int) extends ReplacerFoldTuple
+
+
 /**
  * This is to classify characters.
  */
@@ -407,6 +413,8 @@ trait CharTypeEnum
 }
 
 case class CharTypeEnum_ () extends CharTypeEnum
+
+
 /**
  * This models all the possible states that the parser can be.
  */
@@ -500,3 +508,5 @@ trait ParserTransition
 }
 
 case class ParserTransition_ () extends ParserTransition
+
+

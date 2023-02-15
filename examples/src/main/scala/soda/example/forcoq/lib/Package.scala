@@ -92,6 +92,8 @@ trait IntNat
 }
 
 case class IntNat_ () extends IntNat
+
+
 trait list [A]
 {
 
@@ -159,3 +161,5 @@ trait SeqList
 }
 
 case class SeqList_ () extends SeqList
+
+

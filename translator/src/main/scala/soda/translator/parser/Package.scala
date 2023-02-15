@@ -73,6 +73,8 @@ trait CurrentAndNewCommentState
 }
 
 case class CurrentAndNewCommentState_ (current_state : Boolean, new_comment_state : Boolean) extends CurrentAndNewCommentState
+
+
 trait SodaConstant
 {
 
@@ -238,6 +240,8 @@ trait SodaConstant
 }
 
 case class SodaConstant_ () extends SodaConstant
+
+
 trait PreprocessorSequenceTranslator
   extends
     soda.translator.block.BlockSequenceTranslator
@@ -345,6 +349,8 @@ trait AuxiliaryTuple
 }
 
 case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple
+
+
 /**
  * An instance of this class splits a String in blocks, applies a translator to them, and joins them again in a String.
  */
@@ -395,3 +401,5 @@ trait BlockProcessor
 }
 
 case class BlockProcessor_ (translator : soda.translator.block.BlockSequenceTranslator) extends BlockProcessor
+
+

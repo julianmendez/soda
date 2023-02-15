@@ -26,6 +26,8 @@ trait TriangularNumberForCoq
 }
 
 case class TriangularNumberForCoq_ () extends TriangularNumberForCoq
+
+
 trait FactorialForCoq
 {
 
@@ -47,6 +49,8 @@ trait FactorialForCoq
 }
 
 case class FactorialForCoq_ () extends FactorialForCoq
+
+
 trait FiboExampleInSodaForCoq
 {
 
@@ -69,3 +73,5 @@ trait FiboExampleInSodaForCoq
 }
 
 case class FiboExampleInSodaForCoq_ () extends FiboExampleInSodaForCoq
+
+

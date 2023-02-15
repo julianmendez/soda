@@ -22,6 +22,8 @@ trait FactorialConcise
 }
 
 case class FactorialConcise_ () extends FactorialConcise
+
+
 trait Status
 {
 
@@ -104,6 +106,8 @@ trait IntAndStatus
 }
 
 case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus
+
+
 trait InputPair [A, B]
 {
 
@@ -252,6 +256,8 @@ trait MemoizedFibonacci
 }
 
 case class MemoizedFibonacci_ () extends MemoizedFibonacci
+
+
 trait FactorialWithFold
 {
 
@@ -265,6 +271,8 @@ trait FactorialWithFold
 }
 
 case class FactorialWithFold_ () extends FactorialWithFold
+
+
 trait FiboExampleInSoda
 {
 
@@ -279,6 +287,8 @@ trait FiboExampleInSoda
 }
 
 case class FiboExampleInSoda_ () extends FiboExampleInSoda
+
+
 trait FactorialPatternMatching
 {
 
@@ -296,3 +306,5 @@ trait FactorialPatternMatching
 }
 
 case class FactorialPatternMatching_ () extends FactorialPatternMatching
+
+

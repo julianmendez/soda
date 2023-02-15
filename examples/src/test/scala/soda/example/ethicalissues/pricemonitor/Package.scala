@@ -139,3 +139,5 @@ case class PriceMonitorSpec ()
     .build
 
 }
+
+

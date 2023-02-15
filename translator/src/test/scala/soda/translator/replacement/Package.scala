@@ -58,6 +58,8 @@ case class CharTypeSpec ()
   )
 
 }
+
+
 case class TokenizerSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -123,6 +125,8 @@ case class TokenizerSpec ()
   )
 
 }
+
+
 case class ReplacementAuxSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -288,3 +292,5 @@ case class ReplacementAuxSpec ()
   )
 
 }
+
+

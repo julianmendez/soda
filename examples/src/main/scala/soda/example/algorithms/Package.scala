@@ -31,6 +31,8 @@ trait FizzBuzzPatternMatching
 }
 
 case class FizzBuzzPatternMatching_ () extends FizzBuzzPatternMatching
+
+
 trait SaladMaker
 {
 
@@ -47,6 +49,8 @@ trait SaladMaker
 }
 
 case class SaladMaker_ () extends SaladMaker
+
+
 trait ScalaReservedWordEscaping
 {
 
@@ -83,6 +87,8 @@ trait MyPair [A, B]
 }
 
 case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
+
+
 trait Parameter
 {
 
@@ -156,6 +162,8 @@ trait Triplet
 }
 
 case class Triplet_ (x : Int, y : Int, z : Int) extends Triplet
+
+
 trait FizzBuzz
 {
 
@@ -182,6 +190,8 @@ trait FizzBuzz
 }
 
 case class FizzBuzz_ () extends FizzBuzz
+
+
 trait SortExample
 {
 
@@ -397,6 +407,8 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 }
 
 case class SortedSequenceBuilder_ [A <: Comparable [A]] () extends SortedSequenceBuilder [A]
+
+
 trait PairExample
 {
 
@@ -438,6 +450,8 @@ trait SwapExample
 }
 
 case class SwapExample_ () extends SwapExample
+
+
 trait Main
 {
 
@@ -452,3 +466,5 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+

@@ -30,6 +30,8 @@ case class ListSpec ()
   )
 
 }
+
+
 case class NatSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -71,3 +73,5 @@ case class NatSpec ()
   )
 
 }
+
+

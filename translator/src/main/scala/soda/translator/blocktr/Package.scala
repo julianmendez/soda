@@ -35,6 +35,8 @@ trait TableTranslator
 }
 
 case class TableTranslator_ (table : Seq [Tuple2 [String, String] ]) extends TableTranslator
+
+
 trait TokenizedBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -98,6 +100,8 @@ trait TokenizedBlockTranslator
 }
 
 case class TokenizedBlockTranslator_ (replace_token : soda.translator.replacement.Token => String) extends TokenizedBlockTranslator
+
+
 trait TokenReplacement
 {
 
@@ -112,3 +116,5 @@ trait TokenReplacement
 }
 
 case class TokenReplacement_ () extends TokenReplacement
+
+

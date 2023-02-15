@@ -45,6 +45,8 @@ trait DirectoryScanner
 }
 
 case class DirectoryScanner_ () extends DirectoryScanner
+
+
 trait AbstractDirectoryProcessor
 {
 
@@ -103,6 +105,8 @@ trait DirectoryProcessor
 }
 
 case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File => Boolean) extends DirectoryProcessor
+
+
 trait LibraryDeployer
 {
 
@@ -136,6 +140,8 @@ trait LibraryDeployer
 }
 
 case class LibraryDeployer_ () extends LibraryDeployer
+
+
 /**
  * This is an auxiliary class to read small files.
  */
@@ -206,3 +212,5 @@ trait SimpleFileWriter
 }
 
 case class SimpleFileWriter_ () extends SimpleFileWriter
+
+

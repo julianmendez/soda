@@ -85,6 +85,8 @@ case class MultiLineSpec ()
   )
 
 }
+
+
 case class ClassConstructorBlockTranslatorSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -212,6 +214,8 @@ case class ClassConstructorBlockTranslatorSpec ()
   )
 
 }
+
+
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
@@ -302,6 +306,8 @@ case class ScalaNonSodaSpec ()
   )
 
 }
+
+
 case class FullTranslationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -401,6 +407,8 @@ case class FullTranslationSpec ()
   )
 
 }
+
+
 case class UpperAndLowerBoundDeclarationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -505,6 +513,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
   )
 
 }
+
+
 trait ExampleWithWrongOrder
 {
 
@@ -595,6 +605,8 @@ case class LazySyntaxSpec ()
   )
 
 }
+
+
 case class MicroTranslatorToScalaSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -896,6 +908,8 @@ case class MicroTranslatorToScalaSpec ()
   )
 
 }
+
+
 case class MainSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -923,6 +937,8 @@ case class MainSpec ()
   )
 
 }
+
+
 case class BeautifierSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -952,3 +968,5 @@ case class BeautifierSpec ()
   )
 
 }
+
+

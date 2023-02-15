@@ -28,6 +28,8 @@ case class PiIteratorSpec ()
   )
 
 }
+
+
 case class FiboExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -53,6 +55,8 @@ case class FiboExampleSpec ()
   )
 
 }
+
+
 case class FactorialSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -102,6 +106,8 @@ case class FactorialSpec ()
   )
 
 }
+
+
 case class HardProblemSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -178,3 +184,5 @@ case class HardProblemSpec ()
   )
 
 }
+
+

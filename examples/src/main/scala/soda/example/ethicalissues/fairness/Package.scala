@@ -53,3 +53,5 @@ trait Fairness
 }
 
 case class Fairness_ (score_difference_tolerance : Double, ranking_difference_tolerance : Double, rank : Applicant => Double) extends Fairness
+
+

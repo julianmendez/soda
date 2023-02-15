@@ -39,6 +39,8 @@ case class MicroTranslatorToCoqSpec ()
   )
 
 }
+
+
 case class CoqFullTranslationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -94,3 +96,5 @@ case class CoqFullTranslationSpec ()
   )
 
 }
+
+

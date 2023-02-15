@@ -15,6 +15,8 @@ trait LineTranslator
 }
 
 case class LineTranslator_ (line : String) extends LineTranslator
+
+
 trait BlockSequenceTranslator
 {
 
@@ -38,6 +40,8 @@ trait DefaultBlockSequenceTranslator
 }
 
 case class DefaultBlockSequenceTranslator_ (translator : BlockTranslator) extends DefaultBlockSequenceTranslator
+
+
 trait PlainBlock
 {
 
@@ -51,6 +55,8 @@ trait PlainBlock
 }
 
 case class PlainBlock_ (lines : Seq [String]) extends PlainBlock
+
+
 /**
  * This models an abstract translator.
  */
@@ -64,6 +70,8 @@ trait Translator
 }
 
 case class Translator_ (translate : String => String, keys : Seq [String]) extends Translator
+
+
 trait BlockTranslatorPipeline
   extends
     BlockTranslator
@@ -85,6 +93,8 @@ trait BlockTranslatorPipeline
 }
 
 case class BlockTranslatorPipeline_ (pipeline : Seq [BlockTranslator]) extends BlockTranslatorPipeline
+
+
 trait BlockTranslator
 {
 
@@ -106,6 +116,8 @@ trait DefaultBlockTranslator
 }
 
 case class DefaultBlockTranslator_ () extends DefaultBlockTranslator
+
+
 trait BlockAnnotationId
   extends
     soda.lib.EnumConstant
@@ -166,6 +178,8 @@ trait BlockAnnotationEnum
 }
 
 case class BlockAnnotationEnum_ () extends BlockAnnotationEnum
+
+
 trait AnnotatedBlock
   extends
     Block
@@ -177,6 +191,8 @@ trait AnnotatedBlock
 }
 
 case class AnnotatedBlock_ (annotated_lines : Seq [AnnotatedLine], block_annotation : BlockAnnotationId) extends AnnotatedBlock
+
+
 trait ConditionalBlockTranslator
   extends
     BlockTranslator
@@ -197,6 +213,8 @@ trait ConditionalBlockTranslator
 }
 
 case class ConditionalBlockTranslator_ (accepted_annotations : Seq [BlockAnnotationId], translator : BlockTranslator) extends ConditionalBlockTranslator
+
+
 trait AnnotatedLine
 {
 
@@ -225,6 +243,8 @@ trait Block
 }
 
 case class Block_ (annotated_lines : Seq [AnnotatedLine]) extends Block
+
+
 trait SingleLineProcessor
 {
 
@@ -233,3 +253,5 @@ trait SingleLineProcessor
 }
 
 case class SingleLineProcessor_ (line : String) extends SingleLineProcessor
+
+

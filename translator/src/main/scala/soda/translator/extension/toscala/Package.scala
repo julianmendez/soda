@@ -54,6 +54,8 @@ trait ClassEndBlockTranslator
 }
 
 case class ClassEndBlockTranslator_ () extends ClassEndBlockTranslator
+
+
 trait TheoremAndProofBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -102,6 +104,8 @@ trait TheoremAndProofBlockTranslator
 }
 
 case class TheoremAndProofBlockTranslator_ () extends TheoremAndProofBlockTranslator
+
+
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
  */
@@ -335,6 +339,8 @@ trait TranslationConstantToScala
 }
 
 case class TranslationConstantToScala_ () extends TranslationConstantToScala
+
+
 trait ClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -443,6 +449,8 @@ trait ClassDeclarationBlockTranslator
 }
 
 case class ClassDeclarationBlockTranslator_ () extends ClassDeclarationBlockTranslator
+
+
 trait ClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -561,6 +569,8 @@ trait ClassConstructorBlockTranslator
 }
 
 case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator
+
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val' or 'def'.
@@ -655,6 +665,8 @@ trait FunctionDefinitionLineDetector
 }
 
 case class FunctionDefinitionLineDetector_ (line: String) extends FunctionDefinitionLineDetector
+
+
 /**
  * This translates Soda source code to Scala source code.
  */
@@ -801,6 +813,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+
 trait MatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -879,6 +893,8 @@ trait MatchCaseBlockTranslator
 }
 
 case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
+
+
 trait FunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -987,6 +1003,8 @@ trait FunctionDefinitionBlockTranslator
 }
 
 case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlockTranslator
+
+
 trait ImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1044,6 +1062,8 @@ trait ImportDeclarationBlockTranslator
 }
 
 case class ImportDeclarationBlockTranslator_ () extends ImportDeclarationBlockTranslator
+
+
 trait MainClassBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1103,6 +1123,8 @@ trait MainClassBlockTranslator
 }
 
 case class MainClassBlockTranslator_ () extends MainClassBlockTranslator
+
+
 /**
  * This class translates Soda source code into Scala source code.
  */
@@ -1158,6 +1180,8 @@ trait MicroTranslatorToScala
 }
 
 case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
+
+
 trait AbstractDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1217,3 +1241,5 @@ trait AbstractDeclarationBlockTranslator
 }
 
 case class AbstractDeclarationBlockTranslator_ () extends AbstractDeclarationBlockTranslator
+
+

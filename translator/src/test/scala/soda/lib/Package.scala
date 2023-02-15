@@ -219,6 +219,8 @@ case class OptionSDSpec ()
   )
 
 }
+
+
 case class CartesianProductSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -290,6 +292,8 @@ case class CartesianProductSpec ()
   )
 
 }
+
+
 case class SeqSDSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -359,6 +363,8 @@ case class SeqSDSpec ()
   lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =  sequence => sequence.reverse
 
 }
+
+
 trait DayOfTheWeek
   extends
     EnumConstant
@@ -422,6 +428,8 @@ case class EnumSpec ()
   )
 
 }
+
+
 case class RecursionSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -492,3 +500,5 @@ case class RecursionSpec ()
   )
 
 }
+
+

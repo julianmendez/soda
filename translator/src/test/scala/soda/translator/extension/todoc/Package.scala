@@ -47,6 +47,8 @@ case class MicroTranslatorToDocSpec ()
   )
 
 }
+
+
 case class DocFullTranslationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -91,3 +93,5 @@ case class DocFullTranslationSpec ()
   )
 
 }
+
+

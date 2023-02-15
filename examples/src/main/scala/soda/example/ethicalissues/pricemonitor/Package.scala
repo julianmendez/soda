@@ -76,6 +76,8 @@ trait SegmentsForFlight
 }
 
 case class SegmentsForFlight_ (flight : Flight) extends SegmentsForFlight
+
+
 trait Report2
 {
 
@@ -111,6 +113,8 @@ trait Requirement2Monitor
 }
 
 case class Requirement2Monitor_ (pricing_agent : PricingAgent) extends Requirement2Monitor
+
+
 trait Report1
 {
 
@@ -160,6 +164,8 @@ trait Requirement1Monitor
 }
 
 case class Requirement1Monitor_ (pricing_agent : PricingAgent) extends Requirement1Monitor
+
+
 trait Customer
 {
 
@@ -212,3 +218,5 @@ trait RequirementMonitor
 }
 
 case class RequirementMonitor_ (pricing_agent : PricingAgent) extends RequirementMonitor
+
+

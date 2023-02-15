@@ -37,6 +37,8 @@ case class FactorialForCoqSpec ()
   )
 
 }
+
+
 case class TriangularNumberForCoqSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -69,6 +71,8 @@ case class TriangularNumberForCoqSpec ()
   )
 
 }
+
+
 case class FiboExampleInSodaForCoqSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -101,3 +105,5 @@ case class FiboExampleInSodaForCoqSpec ()
   )
 
 }
+
+

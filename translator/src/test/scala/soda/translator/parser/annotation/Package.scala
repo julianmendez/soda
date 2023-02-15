@@ -196,6 +196,8 @@ case class ClassBeginningAnnotationSpec ()
   )
 
 }
+
+
 case class BlockAnnotationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -351,6 +353,8 @@ case class BlockAnnotationSpec ()
   )
 
 }
+
+
 trait ExampleProgram
 {
 
@@ -421,3 +425,5 @@ trait ExampleProgram
 }
 
 case class ExampleProgram_ () extends ExampleProgram
+
+

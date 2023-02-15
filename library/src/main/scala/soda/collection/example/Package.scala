@@ -49,6 +49,8 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+
 trait Pair [A]
 {
 
@@ -141,3 +143,5 @@ trait ListExample
 }
 
 case class ListExample_ () extends ListExample
+
+

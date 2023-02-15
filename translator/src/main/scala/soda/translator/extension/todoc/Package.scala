@@ -46,6 +46,8 @@ trait MicroTranslatorToDoc
 }
 
 case class MicroTranslatorToDoc_ () extends MicroTranslatorToDoc
+
+
 trait DocBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -144,6 +146,8 @@ trait DocBlockTranslator
 }
 
 case class DocBlockTranslator_ () extends DocBlockTranslator
+
+
 /**
  * This generates documentation from Soda source code.
  */
@@ -230,6 +234,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+
 /**
  * This class contains constants that are specific for the documentation generation.
  */
@@ -339,3 +345,5 @@ trait TranslationConstantToDoc
 }
 
 case class TranslationConstantToDoc_ () extends TranslationConstantToDoc
+
+

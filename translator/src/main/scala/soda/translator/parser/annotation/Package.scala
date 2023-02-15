@@ -24,6 +24,8 @@ trait ProofBlockAnnotation
 }
 
 case class ProofBlockAnnotation_ (block : soda.translator.block.Block) extends ProofBlockAnnotation
+
+
 trait FunctionDefinitionAnnotation
   extends
     BlockAnnotationParser
@@ -99,6 +101,8 @@ trait FunctionDefinitionAnnotation
 }
 
 case class FunctionDefinitionAnnotation_ (block : soda.translator.block.Block) extends FunctionDefinitionAnnotation
+
+
 trait ImportDeclarationAnnotation
   extends
     BlockAnnotationParser
@@ -122,6 +126,8 @@ trait ImportDeclarationAnnotation
 }
 
 case class ImportDeclarationAnnotation_ (block : soda.translator.block.Block) extends ImportDeclarationAnnotation
+
+
 trait PackageDeclarationAnnotation
   extends
     BlockAnnotationParser
@@ -140,6 +146,8 @@ trait PackageDeclarationAnnotation
 }
 
 case class PackageDeclarationAnnotation_ (block : soda.translator.block.Block) extends PackageDeclarationAnnotation
+
+
 trait BlockAnnotationParser
   extends
     soda.translator.block.AnnotatedBlock
@@ -198,6 +206,8 @@ trait BlockAnnotationParser
 }
 
 case class BlockAnnotationParser_ (block : soda.translator.block.Block, applies : Boolean, identifier : soda.translator.block.BlockAnnotationId) extends BlockAnnotationParser
+
+
 trait ClassBeginningAnnotation
   extends
     BlockAnnotationParser
@@ -253,6 +263,8 @@ trait ClassBeginningAnnotation
 }
 
 case class ClassBeginningAnnotation_ (block : soda.translator.block.Block) extends ClassBeginningAnnotation
+
+
 trait AbstractDeclarationAnnotation
   extends
     BlockAnnotationParser
@@ -281,6 +293,8 @@ trait AbstractDeclarationAnnotation
 }
 
 case class AbstractDeclarationAnnotation_ (block : soda.translator.block.Block, references : Seq [soda.translator.block.AnnotatedBlock]) extends AbstractDeclarationAnnotation
+
+
 trait ClassAliasAnnotation
   extends
     BlockAnnotationParser
@@ -305,6 +319,8 @@ trait ClassAliasAnnotation
 }
 
 case class ClassAliasAnnotation_ (block : soda.translator.block.Block) extends ClassAliasAnnotation
+
+
 trait AnnotationFactory
   extends
     soda.translator.block.BlockTranslator
@@ -373,6 +389,8 @@ trait AnnotationFactory
 }
 
 case class AnnotationFactory_ () extends AnnotationFactory
+
+
 trait CommentAnnotation
   extends
     BlockAnnotationParser
@@ -392,6 +410,8 @@ trait CommentAnnotation
 }
 
 case class CommentAnnotation_ (block : soda.translator.block.Block) extends CommentAnnotation
+
+
 trait TestDeclarationAnnotation
   extends
     BlockAnnotationParser
@@ -410,6 +430,8 @@ trait TestDeclarationAnnotation
 }
 
 case class TestDeclarationAnnotation_ (block : soda.translator.block.Block) extends TestDeclarationAnnotation
+
+
 trait ClassEndAnnotation
   extends
     BlockAnnotationParser
@@ -430,6 +452,8 @@ trait ClassEndAnnotation
 }
 
 case class ClassEndAnnotation_ (block : soda.translator.block.Block, references : Seq [soda.translator.block.AnnotatedBlock]) extends ClassEndAnnotation
+
+
 trait TheoremBlockAnnotation
   extends
     BlockAnnotationParser
@@ -449,3 +473,5 @@ trait TheoremBlockAnnotation
 }
 
 case class TheoremBlockAnnotation_ (block : soda.translator.block.Block) extends TheoremBlockAnnotation
+
+

@@ -96,6 +96,8 @@ case class SortExampleSpec ()
   )
 
 }
+
+
 case class PatternMatchingSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -155,6 +157,8 @@ case class PatternMatchingSpec ()
   )
 
 }
+
+
 trait SaladIngredient
   extends
     soda.lib.EnumConstant
@@ -215,6 +219,8 @@ case class SaladMakerSpec ()
   )
 
 }
+
+
 case class FizzBuzzSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -257,3 +263,5 @@ case class FizzBuzzSpec ()
   )
 
 }
+
+
