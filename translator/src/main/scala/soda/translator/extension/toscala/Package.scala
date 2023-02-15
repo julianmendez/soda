@@ -671,11 +671,17 @@ trait TranslatorToScala
   import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
-  lazy val package_file_name : String = "Package.soda"
+  private lazy val _soda_extension : String = ".soda"
 
-  lazy val prelude_file_name : String = package_file_name
+  private lazy val _scala_extension : String = ".scala"
 
-  lazy val package_scala_file_name : String = "Package.scala"
+  private lazy val _default_argument = "."
+
+  lazy val package_file_prefix : String = "Package"
+
+  lazy val package_file_name : String = package_file_prefix + _soda_extension
+
+  lazy val package_scala_file_name : String = package_file_prefix + _scala_extension
 
   lazy val file_separator : String = File.separator
 
@@ -683,19 +689,13 @@ trait TranslatorToScala
 
   lazy val new_line : String = "\n"
 
-  lazy val prelude_separation : String = new_line + new_line
+  lazy val append_separation : String = new_line + new_line
 
-  lazy val prelude_file_body : String = new_line + "trait Package" + prelude_separation
+  lazy val prelude_file_body : String = new_line + "trait Package" + append_separation
 
   lazy val package_option_1 = "-p"
 
   lazy val package_option_2 = "--package"
-
-  private lazy val _soda_extension : String = ".soda"
-
-  private lazy val _scala_extension : String = ".scala"
-
-  private lazy val _default_argument = "."
 
   private lazy val _translator =
     BlockProcessor_ (
@@ -761,7 +761,7 @@ trait TranslatorToScala
     _translate_append_with_input ( _read_input (input_file_name) ) (output_file_name)
 
   private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().append_file (output_file_name) (content = _translator.translate (input) )
+    SimpleFileWriter_ ().append_file (output_file_name) (content = _translator.translate (input) + append_separation)
 
   private def _read_input_with_prelude (input_file_name : String) : String =
     if ( _is_a_prelude_file (input_file_name)
@@ -776,14 +776,14 @@ trait TranslatorToScala
 
   private def _get_prelude_with (prelude_file : File) : String =
     if ( prelude_file.exists
-    ) (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + prelude_separation
+    ) (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + append_separation
     else default_prelude
 
   private def _get_prelude_file (input_file_name : String) : File =
-    new File ( new File (input_file_name) .getParentFile , prelude_file_name )
+    new File ( new File (input_file_name) .getParentFile , package_file_name )
 
   private def _is_a_prelude_file (input_file_name : String) : Boolean =
-    prelude_file_name == ( ( new File (input_file_name) ) .getName)
+    package_file_name == ( ( new File (input_file_name) ) .getName)
 
   private def _is_package_option (s : String) : Boolean =
     (s == package_option_1) || (s == package_option_2)

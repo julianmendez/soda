@@ -15,11 +15,17 @@ class TranslatorToScala
     soda.translator.parser.BlockProcessor_
     java.io.File
 
-  package_file_name : String = "Package.soda"
+  _soda_extension : String = ".soda"
 
-  prelude_file_name : String = package_file_name
+  _scala_extension : String = ".scala"
 
-  package_scala_file_name : String = "Package.scala"
+  _default_argument = "."
+
+  package_file_prefix : String = "Package"
+
+  package_file_name : String = package_file_prefix + _soda_extension
+
+  package_scala_file_name : String = package_file_prefix + _scala_extension
 
   file_separator : String = File.separator
 
@@ -27,19 +33,13 @@ class TranslatorToScala
 
   new_line : String = "\n"
 
-  prelude_separation : String = new_line + new_line
+  append_separation : String = new_line + new_line
 
-  prelude_file_body : String = new_line + "trait Package" + prelude_separation
+  prelude_file_body : String = new_line + "trait Package" + append_separation
 
   package_option_1 = "-p"
 
   package_option_2 = "--package"
-
-  _soda_extension : String = ".soda"
-
-  _scala_extension : String = ".scala"
-
-  _default_argument = "."
 
   _translator =
     BlockProcessor_ (
@@ -104,7 +104,7 @@ class TranslatorToScala
     _translate_append_with_input ( _read_input (input_file_name) ) (output_file_name)
 
   _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().append_file (output_file_name) (content := _translator.translate (input) )
+    SimpleFileWriter_ ().append_file (output_file_name) (content := _translator.translate (input) + append_separation)
 
   _read_input_with_prelude (input_file_name : String) : String =
     if _is_a_prelude_file (input_file_name)
@@ -119,14 +119,14 @@ class TranslatorToScala
 
   _get_prelude_with (prelude_file : File) : String =
     if prelude_file.exists
-    then (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + prelude_separation
+    then (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + append_separation
     else default_prelude
 
   _get_prelude_file (input_file_name : String) : File =
-    @new File ( @new File (input_file_name) .getParentFile , prelude_file_name )
+    @new File ( @new File (input_file_name) .getParentFile , package_file_name )
 
   _is_a_prelude_file (input_file_name : String) : Boolean =
-    prelude_file_name == ( ( @new File (input_file_name) ) .getName)
+    package_file_name == ( ( @new File (input_file_name) ) .getName)
 
   _is_package_option (s : String) : Boolean =
     (s == package_option_1) or (s == package_option_2)
