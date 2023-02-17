@@ -4,7 +4,7 @@
   - build: sbt '++ 3.2.0' clean compile test package assembly
   - release: target/scala-3.2.0/soda-0.17.0.jar
   - new_features:
-    - includes an option to translate a whole Soda package into a single Scala file 
+    - includes an option to translate a whole Soda package into a single Scala file
     - reads `Package.soda` as prelude for a Soda file in the same directory
     - accepts reserved word `any` as a synonym for `lambda`
     - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure

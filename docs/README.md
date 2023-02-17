@@ -15,47 +15,24 @@ The reserved words are:
 - `->` (type mapping symbol)
 - `=` (definition symbol)
 - `:=` (parameter definition symbol)
-- `lambda`
-- `any` (synonym of `lambda`)
-- `-->` (lambda symbol)
-- `if`
-- `then`
-- `else`
-- `match`
-- `case`
-- `==>` (implication symbol in pattern matching)
-- `class`
-- `extends`
-- `abstract`
-- `end`
-- `this`
-- `subtype`
-- `supertype`
-- `false`
-- `true`
-- `not`
-- `and`
-- `or`
-- `package`
-- `import`
-- `theorem`
-- `proof`
+- `lambda`, `any` (synonym of `lambda`), `-->` (lambda symbol)
+- `if`, `then`, `else`
+- `match`, `case`, `==>` (implication symbol in pattern matching)
+- `class`, `extends`, `abstract`, `end`
+- `this`, `subtype`, `supertype`
+- `false`, `true` , `not`, `and`, `or`
+- `package`, `import`
+- `theorem`, `proof`
 
 
 ## Other Symbols
 
 In addition, the language has:
-
 - `(` and `)` (parentheses) for parameters and operator precedence
-- `[` and `]` (square brackets) for types
+- `[` and `]` (square brackets) for parametric types
 
 The main arithmetic operators are:
-
-- `+`
-- `-`
-- `*`
-- `/`
-- `%`
+- `+`, `-`, `*`, `/`, `%` (modulus)
 
 Comments are marked with `/*` and `*/`. Scaladoc / Javadoc markers are `/**` and `*/`.
 
@@ -76,8 +53,7 @@ Special names:
 
 In this language, variables cannot change their value. Therefore, there is no equivalent to `var`.
 
-For example, it is not possible to write `x = x + 1`. Loops can be managed with `range` and `fold` functions, tail
-recursion, or directly using streams.
+For example, it is not possible to write `x = x + 1`. Loops can be managed with `range` and `fold` functions, tail recursion, or directly using streams.
 
 The language does not provide `throw`, `try`, and `catch`, because those commands do not follow the functional style.
 
