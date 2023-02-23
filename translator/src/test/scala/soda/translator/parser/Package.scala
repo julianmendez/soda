@@ -62,9 +62,10 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n/**" +
     "\n * Example class for testing." +
+    "\n * '\u03BB' in a comment is not replaced." +
     "\n */" +
     "\n" +
-    "\nclass Example" +
+    "\n\u23BE Example" +
     "\n" +
     "\n  import" +
     "\n    soda.lib.Fold_" +
@@ -84,9 +85,17 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
-    "\n      .map ( \u03BB elem \u27F6 my_function (elem) (my_constant) )" +
+    "\n      .map ( \u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n" +
-    "\nend" +
+    "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
+    "\n    (x \u2228 y) \u2227 \u00AC (x \u2227 y)"  +
+    "\n" +
+    "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
+    "\n    match b" +
+    "\n      case \u22A4 \u27F9 x"  +
+    "\n      case \u22A5 \u27F9 y"  +
+    "\n" +
+    "\n\u23BF" +
     "\n" +
     "\n")
 
@@ -95,6 +104,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n/**" +
     "\n * Example class for testing." +
+    "\n * '\u03BB' in a comment is not replaced." +
     "\n */" +
     "\n" +
     "\nclass Example" +
@@ -117,7 +127,15 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
-    "\n      .map ( lambda elem --> my_function (elem) (my_constant) )" +
+    "\n      .map ( lambda elem --> my_function (x := elem) (y := my_constant) )" +
+    "\n" +
+    "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
+    "\n    (x or y) and not (x and y)"  +
+    "\n" +
+    "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
+    "\n    match b" +
+    "\n      case true ==> x"  +
+    "\n      case false ==> y"  +
     "\n" +
     "\nend" +
     "\n")

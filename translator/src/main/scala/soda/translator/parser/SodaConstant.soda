@@ -25,9 +25,9 @@ class SodaConstant
 
   parameter_definition_unicode_symbol = "\u2254"
 
-  lambda_reserved_word = "lambda"
-
   any_reserved_word = "any"
+
+  lambda_reserved_word = "lambda"
 
   lambda_unicode_symbol = "\u03BB"
 
@@ -43,11 +43,15 @@ class SodaConstant
 
   class_reserved_word = "class"
 
+  class_proposed_unicode_symbol = "\u23BE"
+
   extends_reserved_word = "extends"
 
   abstract_reserved_word = "abstract"
 
   class_end_reserved_word = "end"
+
+  class_end_proposed_unicode_symbol = "\u23BF"
 
   this_reserved_word = "this"
 
@@ -57,13 +61,23 @@ class SodaConstant
 
   false_reserved_word = "false"
 
+  false_unicode_symbol = "\u22A5"
+
   true_reserved_word = "true"
+
+  true_unicode_symbol = "\u22A4"
 
   not_reserved_word = "not"
 
+  not_unicode_symbol = "\u00AC"
+
   and_reserved_word = "and"
 
+  and_unicode_symbol = "\u2227"
+
   or_reserved_word = "or"
+
+  or_unicode_symbol = "\u2228"
 
   package_reserved_word = "package"
 
@@ -172,10 +186,18 @@ class SodaConstant
 
   soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (lambda_unicode_symbol, lambda_reserved_word),
-      Tuple2 (lambda_arrow_unicode_symbol, lambda_arrow_symbol),
-      Tuple2 (function_arrow_unicode_symbol, function_arrow_symbol),
-      Tuple2 (case_arrow_unicode_symbol, case_arrow_symbol)
+      Tuple2 (lambda_unicode_symbol , lambda_reserved_word),
+      Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol),
+      Tuple2 (function_arrow_unicode_symbol , function_arrow_symbol),
+      Tuple2 (case_arrow_unicode_symbol , case_arrow_symbol),
+      Tuple2 (false_unicode_symbol , false_reserved_word),
+      Tuple2 (true_unicode_symbol , true_reserved_word),
+      Tuple2 (not_unicode_symbol , not_reserved_word),
+      Tuple2 (and_unicode_symbol , and_reserved_word),
+      Tuple2 (or_unicode_symbol , or_reserved_word),
+      Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol),
+      Tuple2 (class_proposed_unicode_symbol , class_reserved_word),
+      Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word)
     )
 
 end

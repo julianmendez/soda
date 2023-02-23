@@ -292,9 +292,9 @@ trait SodaConstant
 
   lazy val parameter_definition_unicode_symbol = "\u2254"
 
-  lazy val lambda_reserved_word = "lambda"
-
   lazy val any_reserved_word = "any"
+
+  lazy val lambda_reserved_word = "lambda"
 
   lazy val lambda_unicode_symbol = "\u03BB"
 
@@ -310,11 +310,15 @@ trait SodaConstant
 
   lazy val class_reserved_word = "class"
 
+  lazy val class_proposed_unicode_symbol = "\u23BE"
+
   lazy val extends_reserved_word = "extends"
 
   lazy val abstract_reserved_word = "abstract"
 
   lazy val class_end_reserved_word = "end"
+
+  lazy val class_end_proposed_unicode_symbol = "\u23BF"
 
   lazy val this_reserved_word = "this"
 
@@ -324,13 +328,23 @@ trait SodaConstant
 
   lazy val false_reserved_word = "false"
 
+  lazy val false_unicode_symbol = "\u22A5"
+
   lazy val true_reserved_word = "true"
+
+  lazy val true_unicode_symbol = "\u22A4"
 
   lazy val not_reserved_word = "not"
 
+  lazy val not_unicode_symbol = "\u00AC"
+
   lazy val and_reserved_word = "and"
 
+  lazy val and_unicode_symbol = "\u2227"
+
   lazy val or_reserved_word = "or"
+
+  lazy val or_unicode_symbol = "\u2228"
 
   lazy val package_reserved_word = "package"
 
@@ -439,10 +453,18 @@ trait SodaConstant
 
   lazy val soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (lambda_unicode_symbol, lambda_reserved_word),
-      Tuple2 (lambda_arrow_unicode_symbol, lambda_arrow_symbol),
-      Tuple2 (function_arrow_unicode_symbol, function_arrow_symbol),
-      Tuple2 (case_arrow_unicode_symbol, case_arrow_symbol)
+      Tuple2 (lambda_unicode_symbol , lambda_reserved_word),
+      Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol),
+      Tuple2 (function_arrow_unicode_symbol , function_arrow_symbol),
+      Tuple2 (case_arrow_unicode_symbol , case_arrow_symbol),
+      Tuple2 (false_unicode_symbol , false_reserved_word),
+      Tuple2 (true_unicode_symbol , true_reserved_word),
+      Tuple2 (not_unicode_symbol , not_reserved_word),
+      Tuple2 (and_unicode_symbol , and_reserved_word),
+      Tuple2 (or_unicode_symbol , or_reserved_word),
+      Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol),
+      Tuple2 (class_proposed_unicode_symbol , class_reserved_word),
+      Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word)
     )
 
 }
