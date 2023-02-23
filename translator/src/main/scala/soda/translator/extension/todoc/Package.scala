@@ -120,12 +120,6 @@ trait MicroTranslatorToDoc
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.ConditionalBlockTranslator_
-  import   soda.translator.blocktr.TokenReplacement_
-  import   soda.translator.blocktr.TokenizedBlockTranslator_
-  import   soda.translator.replacement.Token
-
-  private lazy val _tc = TranslationConstantToDoc_ ()
 
   private lazy val _function_definition = BlockAnnotationEnum_ ().function_definition
 

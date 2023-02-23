@@ -6,7 +6,6 @@ class MainClassBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation

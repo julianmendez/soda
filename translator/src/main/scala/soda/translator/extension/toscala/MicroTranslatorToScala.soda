@@ -13,8 +13,6 @@ class MicroTranslatorToScala
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.ConditionalBlockTranslator_
     soda.translator.blocktr.TokenReplacement_
-    soda.translator.blocktr.TokenizedBlockTranslator_
-    soda.translator.replacement.Token
 
   _tc = TranslationConstantToScala_ ()
 

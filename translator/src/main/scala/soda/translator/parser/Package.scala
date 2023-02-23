@@ -14,8 +14,6 @@ trait BlockBuilder
   import   soda.lib.Fold_
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.Block
   import   soda.translator.block.Block_
 
@@ -141,7 +139,6 @@ trait PreprocessorSequenceTranslator
   import   soda.translator.parser.annotation.AnnotationFactory_
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_

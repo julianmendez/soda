@@ -11,12 +11,6 @@ class MicroTranslatorToDoc
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockTranslatorPipeline_
-    soda.translator.block.ConditionalBlockTranslator_
-    soda.translator.blocktr.TokenReplacement_
-    soda.translator.blocktr.TokenizedBlockTranslator_
-    soda.translator.replacement.Token
-
-  _tc = TranslationConstantToDoc_ ()
 
   _function_definition = BlockAnnotationEnum_ ().function_definition
 

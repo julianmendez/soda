@@ -5,8 +5,6 @@ class BlockBuilder
     soda.lib.Fold_
     soda.translator.block.AnnotatedLine
     soda.translator.block.AnnotatedLine_
-    soda.translator.block.AnnotatedBlock
-    soda.translator.block.AnnotatedBlock_
     soda.translator.block.Block
     soda.translator.block.Block_
 
