@@ -144,11 +144,5 @@ class ReplacementWithTranslator
     aux.replace_if_found (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
 
-  replace_regex (line : String) : String =
-    _fold.apply (translator.keys) (initial_value := line) (next_value_function := _next_replace_regex)
-
-  _next_replace_regex (line : String) (regex : String) : String =
-    line.replaceAll (regex, translator.translate (regex) )
-
 end
 

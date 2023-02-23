@@ -85,6 +85,14 @@ trait BlockProcessor
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.annotation.AnnotationFactory_
+  import   soda.translator.replacement.ParserStateEnum_
+  import   soda.translator.replacement.Token
+  import   soda.translator.replacement.Tokenizer_
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  lazy val fold = soda.lib.Fold_ ()
 
   lazy val new_line = "\n"
 
@@ -96,14 +104,37 @@ trait BlockProcessor
     join_translated_blocks (
       translator_with_preprocessor.translate (
         split_blocks (program)
+          .map (  block => process_unicode_symbols_in_block (block) )
+          .map (  block => make_block (block) )
       )
     )
 
-  def split_blocks (program : String) : Seq [AnnotatedBlock] =
+  def split_blocks (program : String) : Seq [String] =
     program
       .split (double_new_line)
       .toIndexedSeq
-      .map (  paragraph => make_block (paragraph) )
+
+  def process_unicode_symbols_in_block (block : String) : String =
+    Tokenizer_ (block)
+      .tokens
+      .map (  token => process_unicode_symbols_in_token (token) )
+      .mkString
+
+  def process_unicode_symbols_in_token (token : Token) : String =
+    if ( (token.parser_state == ParserStateEnum_ ().plain)
+    ) replace_unicode_symbols_in_string (token.text)
+    else token.text
+
+  def replace_unicode_symbols_in_string (text : String) : String =
+    fold (_sc.soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+
+  private def _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String , String] ) : String =
+    Replacement_ (text)
+      .replace_all (symbol_pair._1) (symbol_pair._2)
+      .line
+
+  def make_blocks (blocks: Seq [String] ) : Seq[AnnotatedBlock] =
+      blocks.map (  paragraph => make_block (paragraph) )
 
   def make_block (paragraph : String) : AnnotatedBlock =
     AnnotationFactory_ ().annotate (
@@ -247,15 +278,25 @@ trait SodaConstant
 
   lazy val function_arrow_symbol = "->"
 
+  lazy val function_arrow_unicode_symbol = "\u2192"
+
   lazy val lambda_arrow_symbol = "-->"
+
+  lazy val lambda_arrow_unicode_symbol = "\u27F6"
 
   lazy val case_arrow_symbol = "==>"
 
+  lazy val case_arrow_unicode_symbol = "\u27F9"
+
   lazy val parameter_definition_symbol = ":="
+
+  lazy val parameter_definition_unicode_symbol = "\u2254"
 
   lazy val lambda_reserved_word = "lambda"
 
   lazy val any_reserved_word = "any"
+
+  lazy val lambda_unicode_symbol = "\u03BB"
 
   lazy val if_reserved_word = "if"
 
@@ -395,6 +436,14 @@ trait SodaConstant
 
   lazy val soda_reserved_words : Seq [String] =
     soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+
+  lazy val soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 (lambda_unicode_symbol, lambda_reserved_word),
+      Tuple2 (lambda_arrow_unicode_symbol, lambda_arrow_symbol),
+      Tuple2 (function_arrow_unicode_symbol, function_arrow_symbol),
+      Tuple2 (case_arrow_unicode_symbol, case_arrow_symbol)
+    )
 
 }
 

@@ -54,6 +54,8 @@ trait CharTypeEnum
 
   lazy val underscore_char = '_'
 
+  lazy val last_standard_symbol : Char = 0x7F
+
   lazy val symbol_chars : Seq [Char] =
     Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
@@ -74,7 +76,7 @@ trait CharTypeEnum
     else undefined_type
 
   private def _is_plain (ch : Char) : Boolean =
-    _is_whitespace (ch) || _is_letter_or_digit_or_underscore (ch) || _is_symbol (ch)
+    _is_whitespace (ch) || _is_letter_or_digit_or_underscore (ch) || _is_symbol (ch) || _is_extended_character (ch)
 
   private def _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
@@ -84,6 +86,9 @@ trait CharTypeEnum
 
   private def _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
+
+  private def _is_extended_character (ch: Char): Boolean =
+    ch > last_standard_symbol
 
 }
 
@@ -332,12 +337,6 @@ trait ReplacementWithTranslator
   private def _next_replace (line : String) (reserved_word : String) : String =
     aux.replace_if_found (line) (
       soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
-
-  def replace_regex (line : String) : String =
-    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace_regex)
-
-  private def _next_replace_regex (line : String) (regex : String) : String =
-    line.replaceAll (regex, translator.translate (regex) )
 
 }
 

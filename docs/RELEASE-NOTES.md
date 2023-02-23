@@ -6,9 +6,10 @@
   - new_features:
     - includes an option to translate a whole Soda package into a single Scala file
     - reads `Package.soda` as prelude for a Soda file in the same directory
-    - accepts reserved word `any` as a synonym for `lambda`
     - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure
     - improves function definition by allowing multiple lines in its signature
+    - accepts reserved word `any` as a synonym for `lambda`
+    - accepts Unicode characters for reserved words, like the letter lambda for `lambda` and right arrows for `->`, `-->`, and `==>`
     - includes a Bash script (`makeall.sh`) to build the project and create the binary file
   - deprecated_features:
     - the `end` reserved word for `match`-`case` is no longer used

@@ -184,8 +184,10 @@ case class ClassBeginningAnnotationSpec ()
 
   def get_as_block (text: String): Block =
     default_block_processor
-      .split_blocks (text)
-      .head
+      .make_blocks(
+        default_block_processor
+          .split_blocks (text)
+      ).head
 
   lazy val example_1 =
     get_as_block (
@@ -421,7 +423,9 @@ trait ExampleProgram
     )
 
   lazy val example_blocks : Seq [Block] =
-    default_block_processor.split_blocks (example_program)
+    default_block_processor.make_blocks(
+      default_block_processor.split_blocks (example_program)
+    )
 
 }
 

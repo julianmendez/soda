@@ -71,13 +71,20 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
-    "\n    number: Int" +
-    "\n    name: String" +
+    "\n    number : Int" +
+    "\n    name : String" +
     "\n" +
-    "\n  my_constant: Int = 0" +
+    "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
+    "\n" +
+    "\n  another_function (f : Int \u2192 Int) (x : Int) : Int =" +
+    "\n    f (x)" +
+    "\n" +
+    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n    sequence" +
+    "\n      .map ( \u03BB elem \u27F6 my_function (elem) (my_constant) )" +
     "\n" +
     "\nend" +
     "\n" +
@@ -97,13 +104,20 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
-    "\n    number: Int" +
-    "\n    name: String" +
+    "\n    number : Int" +
+    "\n    name : String" +
     "\n" +
-    "\n  my_constant: Int = 0" +
+    "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
+    "\n" +
+    "\n  another_function (f : Int -> Int) (x : Int) : Int =" +
+    "\n    f (x)" +
+    "\n" +
+    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n    sequence" +
+    "\n      .map ( lambda elem --> my_function (elem) (my_constant) )" +
     "\n" +
     "\nend" +
     "\n")

@@ -41,6 +41,8 @@ class CharTypeEnum
 
   underscore_char = '_'
 
+  last_standard_symbol : Char = 0x7F
+
   symbol_chars : Seq [Char] =
     Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
 
@@ -61,7 +63,7 @@ class CharTypeEnum
     else undefined_type
 
   _is_plain (ch : Char) : Boolean =
-    _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch)
+    _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch) or _is_extended_character (ch)
 
   _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace
@@ -71,6 +73,9 @@ class CharTypeEnum
 
   _is_symbol (ch : Char) : Boolean =
     symbol_chars.contains (ch)
+
+  _is_extended_character (ch: Char): Boolean =
+    ch > last_standard_symbol
 
 end
 

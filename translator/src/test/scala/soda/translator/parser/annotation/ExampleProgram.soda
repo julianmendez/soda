@@ -64,7 +64,9 @@ class ExampleProgram
     )
 
   example_blocks : Seq [Block] =
-    default_block_processor.split_blocks (example_program)
+    default_block_processor.make_blocks(
+      default_block_processor.split_blocks (example_program)
+    )
 
 end
 

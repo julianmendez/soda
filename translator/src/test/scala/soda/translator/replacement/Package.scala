@@ -228,6 +228,56 @@ case class ReplacementAuxSpec ()
 }
 
 
+case class ReplacementSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  import   soda.translator.parser.SodaConstant_
+
+  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val instance = ReplacementAux_ ()
+
+  private lazy val _sc = SodaConstant_ ()
+
+  test ("Unicode replacements 1") (
+    check (
+      obtained =
+        Replacement_ ("\u03BB")
+          .replace_all ("\u03BB") (_sc.lambda_reserved_word)
+          .line
+    ) (
+      expected = "lambda"
+    )
+  )
+
+  test ("Unicode replacement 2") (
+    check (
+      obtained =
+        Replacement_ ("\u2192")
+          .replace_all ("\u2192") ("->")
+          .line
+    ) (
+      expected = "->"
+    )
+  )
+
+  test ("Unicode replacement 3") (
+    check (
+      obtained =
+        Replacement_ (_sc.case_arrow_unicode_symbol)
+          .replace_all (_sc.case_arrow_unicode_symbol) (_sc.case_reserved_word)
+          .line
+    ) (
+      expected = _sc.case_reserved_word
+    )
+  )
+
+}
+
+
 case class TokenizerSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

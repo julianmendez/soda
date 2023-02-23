@@ -20,8 +20,10 @@ class ClassBeginningAnnotationSpec ()
 
   get_as_block (text: String): Block =
     default_block_processor
-      .split_blocks (text)
-      .head
+      .make_blocks(
+        default_block_processor
+          .split_blocks (text)
+      ).head
 
   example_1 =
     get_as_block (

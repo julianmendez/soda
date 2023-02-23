@@ -11,15 +11,25 @@ class SodaConstant
 
   function_arrow_symbol = "->"
 
+  function_arrow_unicode_symbol = "\u2192"
+
   lambda_arrow_symbol = "-->"
+
+  lambda_arrow_unicode_symbol = "\u27F6"
 
   case_arrow_symbol = "==>"
 
+  case_arrow_unicode_symbol = "\u27F9"
+
   parameter_definition_symbol = ":="
+
+  parameter_definition_unicode_symbol = "\u2254"
 
   lambda_reserved_word = "lambda"
 
   any_reserved_word = "any"
+
+  lambda_unicode_symbol = "\u03BB"
 
   if_reserved_word = "if"
 
@@ -159,6 +169,14 @@ class SodaConstant
 
   soda_reserved_words : Seq [String] =
     soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+
+  soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 (lambda_unicode_symbol, lambda_reserved_word),
+      Tuple2 (lambda_arrow_unicode_symbol, lambda_arrow_symbol),
+      Tuple2 (function_arrow_unicode_symbol, function_arrow_symbol),
+      Tuple2 (case_arrow_unicode_symbol, case_arrow_symbol)
+    )
 
 end
 
