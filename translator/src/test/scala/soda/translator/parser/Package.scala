@@ -90,6 +90,9 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
     "\n    (x \u2228 y) \u2227 \u00AC (x \u2227 y)"  +
     "\n" +
+    "\n  are_equal (x : Int) (y : Int) : Boolean =" +
+    "\n    (x \u2264 y) \u2227 (x \u2265 y)"  +
+    "\n" +
     "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
     "\n    match b" +
     "\n      case \u22A4 \u27F9 x"  +
@@ -131,6 +134,9 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
     "\n    (x or y) and not (x and y)"  +
+    "\n" +
+    "\n  are_equal (x : Int) (y : Int) : Boolean =" +
+    "\n    (x <= y) and (x >= y)"  +
     "\n" +
     "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
     "\n    match b" +

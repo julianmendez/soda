@@ -382,6 +382,20 @@ trait SodaConstant
 
   lazy val modulo_symbol = "%"
 
+  lazy val equals_symbol = "=="
+
+  lazy val less_than_symbol = "<"
+
+  lazy val less_than_or_equal_to_symbol = "<="
+
+  lazy val less_than_or_equal_to_unicode_symbol = "\u2264"
+
+  lazy val greater_than_symbol = ">"
+
+  lazy val greater_than_or_equal_to_symbol = ">="
+
+  lazy val greater_than_or_equal_to_unicode_symbol = "\u2265"
+
   lazy val documentation_comment_opening_symbol = "/**"
 
   lazy val comment_opening_symbol = "/*"
@@ -437,6 +451,11 @@ trait SodaConstant
       multiplication_symbol,
       division_symbol,
       modulo_symbol,
+      equals_symbol,
+      less_than_symbol,
+      less_than_or_equal_to_symbol,
+      greater_than_symbol,
+      greater_than_or_equal_to_symbol,
       subtype_abbreviation,
       supertype_abbreviation
     )
@@ -462,6 +481,8 @@ trait SodaConstant
       Tuple2 (not_unicode_symbol , not_reserved_word),
       Tuple2 (and_unicode_symbol , and_reserved_word),
       Tuple2 (or_unicode_symbol , or_reserved_word),
+      Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol),
+      Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol),
       Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol),
       Tuple2 (class_proposed_unicode_symbol , class_reserved_word),
       Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word)
