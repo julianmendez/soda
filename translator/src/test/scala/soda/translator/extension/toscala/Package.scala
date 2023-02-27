@@ -197,6 +197,10 @@ case class FullTranslationSpec ()
 
   lazy val PiIterator = "mathematics/PiIterator"
 
+  lazy val SaladMaker = "algorithms/SaladMaker"
+
+  lazy val FizzBuzzUnicode = "algorithms/FizzBuzzUnicode"
+
   lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"
@@ -249,6 +253,14 @@ case class FullTranslationSpec ()
 
   test ("should translate the example that calculates pi") (
     test_translation (PiIterator)
+  )
+
+  test ("should translate the Salad Maker example") (
+    test_translation (SaladMaker)
+  )
+
+  test ("should translate the FizzBuzz Unicode example") (
+    test_translation (FizzBuzzUnicode)
   )
 
   test ("should translated Soda code that uses Scala reserved words as variables and functions") (

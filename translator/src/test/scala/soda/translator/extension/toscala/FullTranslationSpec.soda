@@ -31,6 +31,10 @@ class FullTranslationSpec ()
 
   PiIterator = "mathematics/PiIterator"
 
+  SaladMaker = "algorithms/SaladMaker"
+
+  FizzBuzzUnicode = "algorithms/FizzBuzzUnicode"
+
   ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"
@@ -84,6 +88,15 @@ class FullTranslationSpec ()
   test ("should translate the example that calculates pi") (
     test_translation (PiIterator)
   )
+
+  test ("should translate the Salad Maker example") (
+    test_translation (SaladMaker)
+  )
+
+  test ("should translate the FizzBuzz Unicode example") (
+    test_translation (FizzBuzzUnicode)
+  )
+
 
   test ("should translated Soda code that uses Scala reserved words as variables and functions") (
     test_translation (ScalaReservedWordEscaping)

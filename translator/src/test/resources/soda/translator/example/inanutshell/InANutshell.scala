@@ -1,5 +1,3 @@
-package soda.example.inanutshell
-
 trait InANutshell
 {
 
