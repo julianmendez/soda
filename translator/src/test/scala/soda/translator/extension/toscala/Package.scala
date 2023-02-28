@@ -201,6 +201,8 @@ case class FullTranslationSpec ()
 
   lazy val FizzBuzzUnicode = "algorithms/FizzBuzzUnicode"
 
+  lazy val FiboUnicodeExample = "mathematics/FiboUnicodeExample"
+
   lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"

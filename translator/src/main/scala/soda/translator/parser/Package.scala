@@ -300,9 +300,15 @@ trait SodaConstant
 
   lazy val if_reserved_word = "if"
 
+  lazy val if_proposed_unicode_symbol = "\u29E9"
+
   lazy val then_reserved_word = "then"
 
+  lazy val then_proposed_unicode_symbol = "\u25B6"
+
   lazy val else_reserved_word = "else"
+
+  lazy val else_proposed_unicode_symbol = "\u25B7"
 
   lazy val match_reserved_word = "match"
 
@@ -472,20 +478,23 @@ trait SodaConstant
 
   lazy val soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (lambda_unicode_symbol , lambda_reserved_word),
-      Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol),
-      Tuple2 (function_arrow_unicode_symbol , function_arrow_symbol),
-      Tuple2 (case_arrow_unicode_symbol , case_arrow_symbol),
-      Tuple2 (false_unicode_symbol , false_reserved_word),
-      Tuple2 (true_unicode_symbol , true_reserved_word),
-      Tuple2 (not_unicode_symbol , not_reserved_word),
-      Tuple2 (and_unicode_symbol , and_reserved_word),
-      Tuple2 (or_unicode_symbol , or_reserved_word),
-      Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol),
-      Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol),
-      Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol),
-      Tuple2 (class_proposed_unicode_symbol , class_reserved_word),
-      Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word)
+      Tuple2 (lambda_unicode_symbol , lambda_reserved_word) ,
+      Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol) ,
+      Tuple2 (function_arrow_unicode_symbol , function_arrow_symbol) ,
+      Tuple2 (case_arrow_unicode_symbol , case_arrow_symbol) ,
+      Tuple2 (false_unicode_symbol , false_reserved_word) ,
+      Tuple2 (true_unicode_symbol , true_reserved_word) ,
+      Tuple2 (not_unicode_symbol , not_reserved_word) ,
+      Tuple2 (and_unicode_symbol , and_reserved_word) ,
+      Tuple2 (or_unicode_symbol , or_reserved_word) ,
+      Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol) ,
+      Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol) ,
+      Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol) ,
+      Tuple2 (class_proposed_unicode_symbol , class_reserved_word) ,
+      Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word) ,
+      Tuple2 (if_proposed_unicode_symbol , if_reserved_word) ,
+      Tuple2 (then_proposed_unicode_symbol , then_reserved_word) ,
+      Tuple2 (else_proposed_unicode_symbol , else_reserved_word)
     )
 
 }

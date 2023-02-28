@@ -35,6 +35,8 @@ class FullTranslationSpec ()
 
   FizzBuzzUnicode = "algorithms/FizzBuzzUnicode"
 
+  FiboUnicodeExample = "mathematics/FiboUnicodeExample"
+
   ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"

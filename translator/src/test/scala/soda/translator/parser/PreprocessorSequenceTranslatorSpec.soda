@@ -51,6 +51,11 @@ class PreprocessorSequenceTranslatorSpec ()
     "\n      case \u22A4 \u27F9 x"  +
     "\n      case \u22A5 \u27F9 y"  +
     "\n" +
+    "\n  my_min (x : Int) (y : Int) : Int =" +
+    "\n    \u29E9 x < y" +
+    "\n     \u25B6 x"  +
+    "\n     \u25B7 y"  +
+    "\n" +
     "\n\u23BF" +
     "\n" +
     "\n")
@@ -95,6 +100,11 @@ class PreprocessorSequenceTranslatorSpec ()
     "\n    match b" +
     "\n      case true ==> x"  +
     "\n      case false ==> y"  +
+    "\n" +
+    "\n  my_min (x : Int) (y : Int) : Int =" +
+    "\n    if x < y" +
+    "\n     then x"  +
+    "\n     else y"  +
     "\n" +
     "\nend" +
     "\n")
