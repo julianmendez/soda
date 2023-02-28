@@ -1,5 +1,3 @@
-package soda.example.forcoq.algorithms
-
 /**
  * This class contains tail recursive auxiliary functions.
  */

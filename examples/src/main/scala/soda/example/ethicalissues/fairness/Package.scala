@@ -6,8 +6,6 @@ package soda.example.ethicalissues.fairness
 
 trait Package
 
-
-
 trait Applicant
 {
 
