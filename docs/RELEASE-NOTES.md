@@ -1,8 +1,8 @@
 ---
 - - version: v0.17.0
   - date: unreleased
-  - build: sbt '++ 3.2.0' clean compile test package assembly
-  - release: target/scala-3.2.0/soda-0.17.0.jar
+  - build: sbt '++ 3.2.2' clean compile test package assembly
+  - release: target/scala-3.2.2/soda-0.17.0.jar
   - new_features:
     - includes an option to translate a whole Soda package into a single Scala file
     - reads `Package.soda` as prelude for a Soda file in the same directory

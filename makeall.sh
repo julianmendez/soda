@@ -9,7 +9,7 @@ sbt scalaVersion sbtVersion version clean compile test package assembly
 
 executableStub="exec java -jar \$0 \"\$@\" ; exit"
 sodaFile="soda"
-scalaVersion="3.2.0"
+scalaVersion="3.2.2"
 jarFile="target/scala-${scalaVersion}/soda-*.jar"
 
 echo ${executableStub} >${sodaFile}
