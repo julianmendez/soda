@@ -1,4 +1,3 @@
-package soda.example.forcoq.lib
 
 class nat
 
@@ -72,8 +71,7 @@ class IntNat
 
   to_Int (a : nat) : Int =
     match a
-      case O_ () ==> 0
       case S_ (k) ==> 1 + to_Int (k)
-    end
+      case x ==> 0
 
 end

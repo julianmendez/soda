@@ -1,5 +1,3 @@
-package soda.example.mathematics
-
 trait Status
 {
 
@@ -20,7 +18,10 @@ case class Status_ (r : BigInt, n : Int, q : BigInt, t : BigInt, l : Int, k : In
 trait PiIterator
 {
 
-  lazy val initial_status =
+  def apply (n : Int) : Seq [Int] =
+    _tailrec_take (n) (Seq () ) (_initial_status) (_get_next (_initial_status) )
+
+  private lazy val _initial_status =
     Status_ (r = 0, n = 3, q = 1, t = 1, l = 3, k = 1)
 
   import scala.annotation.tailrec
@@ -40,7 +41,7 @@ trait PiIterator
         )
       )
 
-  def compute_new_status (s : Status) : Status =
+  private def _compute_new_status (s : Status) : Status =
     _tailrec_compute_new_status (s)
 
   import scala.annotation.tailrec
@@ -50,11 +51,8 @@ trait PiIterator
     ) rev_seq.reverse
     else _tailrec_take (n - 1) (rev_seq.+: (t.digit) ) (t.new_status) (_get_next (t.new_status) )
 
-  def take (n : Int) : Seq [Int] =
-    _tailrec_take (n) (Seq () ) (initial_status) (_get_next (initial_status) )
-
   private def _get_next (s : Status) : IntAndStatus =
-    _get_next_with_new_status (compute_new_status (s) )
+    _get_next_with_new_status (_compute_new_status (s) )
 
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
     IntAndStatus_ (

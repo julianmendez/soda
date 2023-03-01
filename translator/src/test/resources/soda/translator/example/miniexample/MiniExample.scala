@@ -1,12 +1,12 @@
-package soda.example.miniexample
-
 trait MiniExample
-  extends
-    soda.lib.Recursion
 {
 
-  def run () =
-    range (50)
+  import   soda.lib.Range_
+
+  private lazy val _range = Range_ ()
+
+  def run () : Seq [Unit] =
+    _range.apply (50)
       .map (  x => print (" " + (2 * x + 1) ) )
 
 }

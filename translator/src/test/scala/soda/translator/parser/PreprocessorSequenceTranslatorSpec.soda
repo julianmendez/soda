@@ -1,4 +1,3 @@
-package soda.translator.parser
 
 class PreprocessorSequenceTranslatorSpec ()
   extends
@@ -16,24 +15,48 @@ class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n/**" +
     "\n * Example class for testing." +
+    "\n * '\u03BB' in a comment is not replaced." +
     "\n */" +
     "\n" +
-    "\nclass Example" +
+    "\n\u23BE Example" +
     "\n" +
     "\n  import" +
-    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
-    "\n    number: Int" +
-    "\n    name: String" +
+    "\n    number : Int" +
+    "\n    name : String" +
     "\n" +
-    "\n  my_constant: Int = 0" +
+    "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
     "\n" +
-    "\nend" +
+    "\n  another_function (f : Int \u2192 Int) (x : Int) : Int =" +
+    "\n    f (x)" +
+    "\n" +
+    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n    sequence" +
+    "\n      .map ( \u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
+    "\n" +
+    "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
+    "\n    (x \u2228 y) \u2227 \u00AC (x \u2227 y)"  +
+    "\n" +
+    "\n  are_equal (x : Int) (y : Int) : Boolean =" +
+    "\n    (x \u2264 y) \u2227 (x \u2265 y)"  +
+    "\n" +
+    "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
+    "\n    match b" +
+    "\n      case \u22A4 \u27F9 x"  +
+    "\n      case \u22A5 \u27F9 y"  +
+    "\n" +
+    "\n  my_min (x : Int) (y : Int) : Int =" +
+    "\n    \u29E9 x < y" +
+    "\n     \u25B6 x"  +
+    "\n     \u25B7 y"  +
+    "\n" +
+    "\n\u23BF" +
     "\n" +
     "\n")
 
@@ -42,22 +65,46 @@ class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n/**" +
     "\n * Example class for testing." +
+    "\n * '\u03BB' in a comment is not replaced." +
     "\n */" +
     "\n" +
     "\nclass Example" +
     "\n" +
     "\n  import" +
-    "\n    soda.lib.Recursion_" +
+    "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
     "\n  abstract" +
-    "\n    number: Int" +
-    "\n    name: String" +
+    "\n    number : Int" +
+    "\n    name : String" +
     "\n" +
-    "\n  my_constant: Int = 0" +
+    "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x: Int, y: Int): Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int =" +
     "\n    x + y" +
+    "\n" +
+    "\n  another_function (f : Int -> Int) (x : Int) : Int =" +
+    "\n    f (x)" +
+    "\n" +
+    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n    sequence" +
+    "\n      .map ( lambda elem --> my_function (x := elem) (y := my_constant) )" +
+    "\n" +
+    "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
+    "\n    (x or y) and not (x and y)"  +
+    "\n" +
+    "\n  are_equal (x : Int) (y : Int) : Boolean =" +
+    "\n    (x <= y) and (x >= y)"  +
+    "\n" +
+    "\n  if_true_else (b : Boolean) (x : Int) (y : Int) : Int =" +
+    "\n    match b" +
+    "\n      case true ==> x"  +
+    "\n      case false ==> y"  +
+    "\n" +
+    "\n  my_min (x : Int) (y : Int) : Int =" +
+    "\n    if x < y" +
+    "\n     then x"  +
+    "\n     else y"  +
     "\n" +
     "\nend" +
     "\n")

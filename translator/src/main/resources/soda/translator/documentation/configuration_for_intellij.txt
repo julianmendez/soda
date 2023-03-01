@@ -30,6 +30,7 @@ Keywords
 =
 ==>
 abstract
+any
 case
 class
 else

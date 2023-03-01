@@ -1,4 +1,3 @@
-package soda.translator.replacement
 
 class LinePatternProcessor
 
@@ -19,10 +18,15 @@ class Replacer
     replacement : String
 
   import
-    soda.lib.Recursion_
+    soda.lib.FoldWhile_
+    soda.lib.Range_
+
+  _fold_while = FoldWhile_ ()
+
+  _range = Range_ ()
 
   replaced_text =
-    postprocess (Recursion_ ().fold_while (Recursion_ ().range (line.length) ) (initial_value) (next_value_function) (should_continue) )
+    postprocess (_fold_while.apply (_range.apply (line.length) ) (initial_value) (next_value_function) (should_continue) )
 
   initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 

@@ -1,4 +1,3 @@
-package soda.translator.extension.todoc
 
 class DocBlockTranslator
   extends
@@ -25,7 +24,6 @@ class DocBlockTranslator
     match annotated_block
       case CommentAnnotation_ (block) ==> _translate_comment (CommentAnnotation_ (block) )
       case x ==> _translate_source_code (x)
-    end
 
   _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (

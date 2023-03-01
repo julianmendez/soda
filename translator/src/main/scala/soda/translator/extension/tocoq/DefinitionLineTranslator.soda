@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 /**
  * A line containing the definition sign will be classified as a definition.
@@ -11,8 +10,8 @@ package soda.translator.extension.tocoq
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x: (A, B) -> C = (x, y) -> f (x,y)`
- * Case 4: The first non-blank character of a line is an open parenthesis, e.g. `(x, y) =  (0, 1)`
+ * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -73,8 +72,13 @@ class DefinitionLineTranslator
     Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
 
   _try_found_definition (position : Int) : Replacement =
-    if _is_class_definition then _translation_of_class_definition
-    else if _is_val_definition (position) then _translation_of_val_definition
+    if _is_class_definition
+    then _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
+  _decide_val_or_def_translation (position : Int) : Replacement =
+    if _is_val_definition (position)
+    then _translation_of_val_definition
     else _translation_of_def_definition
 
   _is_val_definition (initial_position : Int) =

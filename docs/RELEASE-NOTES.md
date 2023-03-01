@@ -1,5 +1,19 @@
 ---
-- - version: v0.16.0
+- - version: v0.17.0
+  - date: '2023-03-01'
+  - build: sbt '++ 3.2.2' clean compile test package assembly
+  - release: target/scala-3.2.2/soda-0.17.0.jar
+  - new_features:
+    - includes an option to translate a whole Soda package into a single Scala file
+    - reads `Package.soda` as prelude for a Soda file in the same directory
+    - requires `match`-`case` structures to be used at most once in a function definition, and cannot be nested in another structure
+    - improves function definition by allowing multiple lines in its signature
+    - accepts reserved word `any` as a synonym for `lambda`
+    - accepts Unicode characters for reserved words, like the letter lambda for `lambda` and right arrows for `->`, `-->`, and `==>`
+    - includes a Bash script (`makeall.sh`) to build the project and create the binary file
+  - deprecated_features:
+    - the `end` reserved word for `match`-`case` is no longer used
+- version: v0.16.0
   - date: '2022-08-02'
   - new_features:
     - includes an extension to generate LaTeX files from source code
@@ -132,7 +146,7 @@
     - includes a file expansion of a basic library when it finds `lib.soda`
     - produces better looking Scala translated source code
   - deprecated_features:
-    - does not longer support the use of tuples on the left-hand side of a definition sign (`=`)
+    - does not support any longer the use of tuples on the left-hand side of a definition sign (`=`)
   - bug_fixes:
     - fixes translation of constants that are lambda functions
   - build: sbt '++ 3.0.0-RC2' clean compile test package assembly

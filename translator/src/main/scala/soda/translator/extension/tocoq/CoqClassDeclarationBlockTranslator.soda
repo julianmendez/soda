@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 class CoqClassDeclarationBlockTranslator
   extends
@@ -31,7 +30,6 @@ class CoqClassDeclarationBlockTranslator
     match annotated_block
       case ClassBeginningAnnotation_ (block) ==> _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
@@ -71,11 +69,12 @@ class CoqClassDeclarationBlockTranslator
     else Seq [String] ()
 
   remove_first_line (block : Block) : Block =
-    BlockBuilder_ ().build (
-      if block.lines.isEmpty
-      then block.lines
-      else block.lines.tail
-    )
+    BlockBuilder_ ().build ( _remove_first_line (block.lines) )
+
+  _remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if lines.isEmpty
+    then lines
+    else lines.tail
 
   get_first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("")

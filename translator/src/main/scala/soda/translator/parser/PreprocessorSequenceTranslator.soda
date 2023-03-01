@@ -1,4 +1,3 @@
-package soda.translator.parser
 
 class PreprocessorSequenceTranslator
   extends
@@ -8,12 +7,12 @@ class PreprocessorSequenceTranslator
     translator : soda.translator.block.BlockSequenceTranslator
 
   import
+    soda.lib.Fold_
     soda.translator.block.AnnotatedLine_
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.annotation.AnnotationFactory_
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-    soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
@@ -24,7 +23,7 @@ class PreprocessorSequenceTranslator
 
   sc = SodaConstant_ ()
 
-  recursion = soda.lib.Recursion_ ()
+  _fold = Fold_ ()
 
   empty_line = AnnotatedLine_ ("", true)
 
@@ -43,8 +42,7 @@ class PreprocessorSequenceTranslator
     block_sequence.map ( lambda block --> block_annotator.translate (block) )
 
   _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    recursion
-      .fold (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
       .accumulated
       .reverse
 
@@ -63,7 +61,6 @@ class PreprocessorSequenceTranslator
       case AbstractDeclarationAnnotation_ (block, references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
       case x ==> x
-    end
 
   _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
@@ -84,7 +81,6 @@ class PreprocessorSequenceTranslator
       case AbstractDeclarationAnnotation_ (b, references) ==> _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) ==> _tail_non_empty (current.references)
       case x ==> current.references
-    end
 
   _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
     _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )

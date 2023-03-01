@@ -1,4 +1,3 @@
-package soda.translator.parser.annotation
 
 class AnnotationFactory
   extends
@@ -12,15 +11,17 @@ class AnnotationFactory
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      if block.block_annotation == BlockAnnotationEnum_ ().undefined
-      then annotate (block)
-      else block
+      translate_for (block)
+
+  translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if block.block_annotation == BlockAnnotationEnum_ ().undefined
+    then annotate (block)
+    else block
 
   annotate (block : Block) : AnnotatedBlock =
     match block
       case AnnotatedBlock_ (annotated_lines, block_annotation) ==> AnnotatedBlock_ (annotated_lines, block_annotation)
       case x ==> _get_first_or_undefined (_find_candidates (x) ) (x)
-    end
 
   update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     match original_content
@@ -36,7 +37,6 @@ class AnnotationFactory
       case CommentAnnotation_ (b) ==> CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) ==> TestDeclarationAnnotation_ (new_content)
       case x ==> AnnotatedBlock_ (new_content.annotated_lines, x.block_annotation)
-    end
 
   _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (

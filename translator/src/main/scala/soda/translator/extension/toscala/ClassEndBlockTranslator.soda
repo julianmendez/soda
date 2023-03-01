@@ -1,4 +1,3 @@
-package soda.translator.extension.toscala
 
 class ClassEndBlockTranslator
   extends
@@ -20,7 +19,6 @@ class ClassEndBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (

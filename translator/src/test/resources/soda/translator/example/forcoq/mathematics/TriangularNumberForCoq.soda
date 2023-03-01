@@ -1,4 +1,3 @@
-package soda.example.forcoq.mathematics
 
 class TriangularNumberForCoq
 
@@ -10,9 +9,8 @@ class TriangularNumberForCoq
   @tailrec
   _tailrec_get_number (m : nat) (acc : nat) : nat =
     match m
-      case O_ () ==> acc
       case S_ (k) ==> _tailrec_get_number (k) (acc .add ( S_ (k) ) )
-    end
+      case x ==> acc
 
   get_number (n : nat) : nat =
     _tailrec_get_number (n) ( O_ () )

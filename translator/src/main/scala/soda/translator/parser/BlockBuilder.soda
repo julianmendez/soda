@@ -1,17 +1,16 @@
-package soda.translator.parser
 
 class BlockBuilder
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
     soda.translator.block.AnnotatedLine
     soda.translator.block.AnnotatedLine_
-    soda.translator.block.AnnotatedBlock
-    soda.translator.block.AnnotatedBlock_
     soda.translator.block.Block
     soda.translator.block.Block_
 
   _sc = SodaConstant_ ()
+
+  _fold = Fold_ ()
 
   build (lines : Seq [String] ) : Block =
     Block_ (
@@ -19,7 +18,7 @@ class BlockBuilder
     )
 
   _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    Recursion_ ().fold (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
+    _fold.apply (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 
@@ -34,10 +33,12 @@ class BlockBuilder
   _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if comment_state
     then CurrentAndNewCommentState_ (true, not line.trim.endsWith (_sc.comment_closing_symbol) )
-    else
-      if line.trim.startsWith (_sc.comment_opening_symbol)
-      then CurrentAndNewCommentState_ (true, not line.trim.endsWith (_sc.comment_closing_symbol) )
-      else CurrentAndNewCommentState_ (false, false)
+    else _annotate_this_line_considering_opening_symbol (line) (comment_state)
+
+  _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
+    if line.trim.startsWith (_sc.comment_opening_symbol)
+    then CurrentAndNewCommentState_ (true, not line.trim.endsWith (_sc.comment_closing_symbol) )
+    else CurrentAndNewCommentState_ (false, false)
 
 end
 

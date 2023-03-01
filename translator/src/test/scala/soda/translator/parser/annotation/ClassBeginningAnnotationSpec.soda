@@ -1,4 +1,3 @@
-package soda.translator.parser.annotation
 
 class ClassBeginningAnnotationSpec ()
   extends
@@ -21,8 +20,10 @@ class ClassBeginningAnnotationSpec ()
 
   get_as_block (text: String): Block =
     default_block_processor
-      .split_blocks (text)
-      .head
+      .make_blocks(
+        default_block_processor
+          .split_blocks (text)
+      ).head
 
   example_1 =
     get_as_block (
@@ -66,7 +67,7 @@ class ClassBeginningAnnotationSpec ()
     check (
       obtained := example_blocks.map ( lambda block --> ClassBeginningAnnotation_ (block).applies )
     ) (
-      expected := Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false, false)
     )
   )
 

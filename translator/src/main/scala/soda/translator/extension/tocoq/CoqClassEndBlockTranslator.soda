@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 class CoqClassEndBlockTranslator
   extends
@@ -23,7 +22,6 @@ class CoqClassEndBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     _translate_block_with (_get_class_beginning (block.references) ) (block)
@@ -52,13 +50,13 @@ class CoqClassEndBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block -->
-        match block
-          case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-          case x ==> None
-        end
-      )
+      .flatMap ( lambda block --> _get_as_class_beginning_annotation (block) )
       .headOption
+
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    match annotated_block
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case x ==> None
 
 end
 

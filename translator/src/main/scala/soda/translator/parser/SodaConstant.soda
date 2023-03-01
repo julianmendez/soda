@@ -1,4 +1,3 @@
-package soda.translator.parser
 
 class SodaConstant
 
@@ -12,33 +11,53 @@ class SodaConstant
 
   function_arrow_symbol = "->"
 
+  function_arrow_unicode_symbol = "\u2192"
+
   lambda_arrow_symbol = "-->"
+
+  lambda_arrow_unicode_symbol = "\u27F6"
 
   case_arrow_symbol = "==>"
 
+  case_arrow_unicode_symbol = "\u27F9"
+
   parameter_definition_symbol = ":="
+
+  parameter_definition_unicode_symbol = "\u2254"
+
+  any_reserved_word = "any"
 
   lambda_reserved_word = "lambda"
 
+  lambda_unicode_symbol = "\u03BB"
+
   if_reserved_word = "if"
+
+  if_proposed_unicode_symbol = "\u29E9"
 
   then_reserved_word = "then"
 
+  then_proposed_unicode_symbol = "\u25B6"
+
   else_reserved_word = "else"
+
+  else_proposed_unicode_symbol = "\u25B7"
 
   match_reserved_word = "match"
 
   case_reserved_word = "case"
 
-  match_end_reserved_word = "end"
-
   class_reserved_word = "class"
+
+  class_proposed_unicode_symbol = "\u23BE"
 
   extends_reserved_word = "extends"
 
   abstract_reserved_word = "abstract"
 
   class_end_reserved_word = "end"
+
+  class_end_proposed_unicode_symbol = "\u23BF"
 
   this_reserved_word = "this"
 
@@ -48,13 +67,23 @@ class SodaConstant
 
   false_reserved_word = "false"
 
+  false_unicode_symbol = "\u22A5"
+
   true_reserved_word = "true"
+
+  true_unicode_symbol = "\u22A4"
 
   not_reserved_word = "not"
 
+  not_unicode_symbol = "\u00AC"
+
   and_reserved_word = "and"
 
+  and_unicode_symbol = "\u2227"
+
   or_reserved_word = "or"
+
+  or_unicode_symbol = "\u2228"
 
   package_reserved_word = "package"
 
@@ -70,7 +99,7 @@ class SodaConstant
 
   subtype_abbreviation = "<:"
 
-  supertype_abbreviation =  ">:"
+  supertype_abbreviation = ">:"
 
   opening_parenthesis_symbol = "("
 
@@ -92,6 +121,20 @@ class SodaConstant
 
   modulo_symbol = "%"
 
+  equals_symbol = "=="
+
+  less_than_symbol = "<"
+
+  less_than_or_equal_to_symbol = "<="
+
+  less_than_or_equal_to_unicode_symbol = "\u2264"
+
+  greater_than_symbol = ">"
+
+  greater_than_or_equal_to_symbol = ">="
+
+  greater_than_or_equal_to_unicode_symbol = "\u2265"
+
   documentation_comment_opening_symbol = "/**"
 
   comment_opening_symbol = "/*"
@@ -111,6 +154,7 @@ class SodaConstant
   soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,
+      any_reserved_word,
       if_reserved_word,
       then_reserved_word,
       else_reserved_word,
@@ -146,6 +190,11 @@ class SodaConstant
       multiplication_symbol,
       division_symbol,
       modulo_symbol,
+      equals_symbol,
+      less_than_symbol,
+      less_than_or_equal_to_symbol,
+      greater_than_symbol,
+      greater_than_or_equal_to_symbol,
       subtype_abbreviation,
       supertype_abbreviation
     )
@@ -159,6 +208,27 @@ class SodaConstant
 
   soda_reserved_words : Seq [String] =
     soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+
+  soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
+    Seq (
+      Tuple2 (lambda_unicode_symbol , lambda_reserved_word) ,
+      Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol) ,
+      Tuple2 (function_arrow_unicode_symbol , function_arrow_symbol) ,
+      Tuple2 (case_arrow_unicode_symbol , case_arrow_symbol) ,
+      Tuple2 (false_unicode_symbol , false_reserved_word) ,
+      Tuple2 (true_unicode_symbol , true_reserved_word) ,
+      Tuple2 (not_unicode_symbol , not_reserved_word) ,
+      Tuple2 (and_unicode_symbol , and_reserved_word) ,
+      Tuple2 (or_unicode_symbol , or_reserved_word) ,
+      Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol) ,
+      Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol) ,
+      Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol) ,
+      Tuple2 (class_proposed_unicode_symbol , class_reserved_word) ,
+      Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word) ,
+      Tuple2 (if_proposed_unicode_symbol , if_reserved_word) ,
+      Tuple2 (then_proposed_unicode_symbol , then_reserved_word) ,
+      Tuple2 (else_proposed_unicode_symbol , else_reserved_word)
+    )
 
 end
 

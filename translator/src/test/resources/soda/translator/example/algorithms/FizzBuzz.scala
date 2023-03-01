@@ -1,27 +1,24 @@
-package soda.example.algorithms
-
 trait FizzBuzz
 {
-
-  import   soda.lib.Recursion_
 
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"
 
-  lazy val fizz_buzz =
-    Recursion_ ()
-      .range (100)
-      .map (  (x : Int) => x + 1)
-      .map (get_fizz_buzz_term)
+  private lazy val _range = soda.lib.Range_ ()
 
-  def get_fizz_buzz_term (n : Int) =
-    if ( is_divisible_by (n) (15) ) fizz + buzz
-    else if ( is_divisible_by (n) (3) ) fizz
-    else if ( is_divisible_by (n) (5) ) buzz
+  lazy val apply : Seq [String] =
+    _range.apply (100)
+      .map (  (x : Int) => x + 1)
+      .map (_get_fizz_buzz_term)
+
+  private def _get_fizz_buzz_term (n : Int) : String =
+    if ( _is_divisible_by (n) (15) ) fizz + buzz
+    else if ( _is_divisible_by (n) (3) ) fizz
+    else if ( _is_divisible_by (n) (5) ) buzz
     else n.toString
 
-  def is_divisible_by (n : Int) (k : Int) : Boolean =
+  private def _is_divisible_by (n : Int) (k : Int) : Boolean =
     n % k == 0
 
 }

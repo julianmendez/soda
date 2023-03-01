@@ -1,5 +1,3 @@
-package soda.example.ethicalissues.pricemonitor
-
 trait Report3
 {
 
@@ -64,8 +62,8 @@ trait SegmentsForFlight
 
   def rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] ) (last_airport : String) : Seq [Segment] =
     intermediate_stops match  {
-      case Nil => Nil.+: (Segment_ (first_airport, last_airport) )
-      case x :: xs => (rec_segments_multi (x) (xs) (last_airport) ).+: (Segment_ (first_airport, x) )
+      case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ).+: (Segment_ (first_airport, head) )
+      case x => Nil.+: (Segment_ (first_airport, last_airport) )
     }
 
 }

@@ -1,4 +1,3 @@
-package soda.translator.io
 
 class DirectoryScannerSpec ()
   extends
@@ -31,9 +30,13 @@ class DirectoryScannerSpec ()
         "Example.md",
         "Example.scala",
         "Example.soda",
+        "Package.scala",
+        "Package.soda",
         "otherexample/OtherExample.scala",
         "otherexample/OtherExample.soda",
-        "otherexample/OtherExample.txt"
+        "otherexample/OtherExample.txt",
+        "otherexample/Package.scala",
+        "otherexample/Package.soda"
       ).map ( lambda x --> @new File (start, x) ).toSet
     )
   )

@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 /**
  * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
@@ -28,6 +27,8 @@ class TranslationConstantToCoq
   coq_empty_string = ""
 
   coq_vertical_bar_symbol = "|"
+
+  coq_match_end_translation = "end"
 
   coq_opening_parenthesis = "("
 
@@ -102,6 +103,9 @@ class TranslationConstantToCoq
       "",
       "Require Import Coq.ZArith.BinInt .",
       "(* https://coq.inria.fr/library/Coq.ZArith.BinInt.html *)",
+      "",
+      "Require Import Coq.Lists.List .",
+      "(* https://coq.inria.fr/library/Coq.Lists.List.html *)",
       "",
       "Notation Int := Z .",
       ""
@@ -219,6 +223,7 @@ class TranslationConstantToCoq
     Seq (
       Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
       Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
+      Tuple2 (soda_constant.any_reserved_word, coq_lambda_reserved_word),
       Tuple2 (soda_constant.lambda_arrow_symbol, coq_lambda_arrow_symbol),
       Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
       Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),

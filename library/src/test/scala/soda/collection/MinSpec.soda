@@ -1,4 +1,3 @@
-package soda.collection
 
 class MinSpec ()
   extends
@@ -6,7 +5,7 @@ class MinSpec ()
 
   import
     soda.lib.NoneSD_
-    soda.lib.Recursion_
+    soda.lib.Fold_
     soda.lib.SomeSD_
 
   check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -20,10 +19,12 @@ class MinSpec ()
 
   prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ ().prepended (list) (elem)
 
+  _fold = Fold_ ()
+
   _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq.head, ESeq_ [Int] () )
 
   example : NESeq [Int] =
-    Recursion_ ().fold (revExampleSeq.tail) (_initial_value) (prepend_elem)
+    _fold.apply (revExampleSeq.tail) (_initial_value) (prepend_elem)
 
   test ("prepended") (
     check (

@@ -2,8 +2,8 @@ package soda.translator.documentation
 
 /*
  * This is a Soda tutorial written in Soda.
- * Copyright 2021 Julian Mendez
- * Version: 2021-11-19
+ * Copyright 2020--2023 Julian Alfredo Mendez
+ * Version: 2023-01-17
  */
 
 /*
@@ -41,7 +41,7 @@ trait Movable
 
 case class Movable_ () extends Movable
 
-/* A class can be parameterized.
+/* A class can be parameterized using square brackets ('[' and ']').
  * The parameter type can be constrained using `subtype` and `supertype`.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
 
@@ -115,8 +115,7 @@ trait Agent
 
 case class Agent_ (identifier : String) extends Agent
 
-/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes.
- * Please note that an abstract class might have constants and functions that are not defined in its ancestor classes. */
+/* A concrete class needs as parameters all the constants and functions that have not been defined in its super classes. */
 
 trait RegisteredPersonAgent
   extends
@@ -197,7 +196,7 @@ trait Manual
   /* An instance of a JVM class can be created with the `@new` annotation.
    * If the code is translated to Scala 3, this annotation is not required. */
 
-  lazy val now = new Date ()
+  lazy val now : Date = new Date ()
 
   def plus_one (x : Int) : Int = x + 1
 
@@ -210,10 +209,15 @@ trait Manual
     else y
 
   /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
-   * Lambda functions are declared using a right arrow (`->`). */
+   * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence.map (  element => element + 1)
+
+  /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
+
+  def plus_two (sequence : Seq [Int] ) : Seq [Int] =
+    sequence.map (  element => element + 2)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -238,20 +242,12 @@ trait Manual
     (x || y) && ! (x && y)
 
   /* It is possible to use pattern matching with `match` and `case`.
-   * Please observe the long double arrow `==>`. */
+   * The result of the matching case is put after a long double arrow `==>`. */
 
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case false => if_false
-    }
-
-  /* A vertical bar `|` can be used as an abbreviation for `case`. */
-
-  def another_if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
-    condition match  {
-      case true => if_true
-      case false => if_false
+      case x => if_false
     }
 
   def sum (n : Int) =
@@ -271,93 +267,58 @@ trait Manual
 
 case class Manual_ () extends Manual
 
-trait AbstractFactorialConcise
-{
-
-  def   factorial : Int => Int
-
-}
-
-case class AbstractFactorialConcise_ (factorial : Int => Int) extends AbstractFactorialConcise
+/* The function used to compare equality is a long equals (`==`). */
 
 trait FactorialConcise
-  extends
-    AbstractFactorialConcise
 {
 
-  /* The function used to compare equality is a long equals (`==`). */
+  def apply (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_ (n : Int) (product : Int) : Int =
+  private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
     if ( n == 0
     ) product
-    else _tailrec_ (n - 1) (n * product)
-
-  def factorial (n : Int) : Int =
-    _tailrec_ (n) (1)
+    else _tailrec_get_factorial (n - 1) (n * product)
 
 }
 
 case class FactorialConcise_ () extends FactorialConcise
 
-trait AbstractFactorialVerbose
-{
-
-  def   factorial : Int => Int
-
-}
-
-case class AbstractFactorialVerbose_ (factorial : Int => Int) extends AbstractFactorialVerbose
-
-trait FactorialVerbose
-  extends AbstractFactorialVerbose
+trait FoldWhile
 {
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_ (n : Int) (product : Int) : Int =
-    if ( n == 0
-    ) product
-    else _tailrec_ (n - 1) (n * product)
-
-  lazy val factorial : Int => Int =
-     n =>
-      _tailrec_ (n) (1)
-
-}
-
-case class FactorialVerbose_ () extends FactorialVerbose
-
-trait Recursion
-{
-
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence.isEmpty
+  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    if ( sequence.isEmpty || ( ! condition (current_value) (sequence.head) )
     ) current_value
-    else
-      if ( ! condition (current_value) (sequence.head)
-      ) current_value
-      else _tailrec_fold4 (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 
-  def fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
+
+}
+
+case class FoldWhile_ () extends FoldWhile
+
+trait Range
+{
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_range (n : Int, sequence : Seq [Int] ) : Seq [Int] =
+  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence.+: (n - 1) )
 
-  def range (length : Int) : Seq [Int] =
+  def apply (length : Int) : Seq [Int] =
     _tailrec_range (length) (Seq [Int] () )
 
 }
 
-case class Recursion_ () extends Recursion
+case class Range_ () extends Range
 
 /* The main class has to be named `Main` and requires a `main` function that receives an `Array [String]` and returns a `Unit`.
  * Only one main class per package is allowed. */

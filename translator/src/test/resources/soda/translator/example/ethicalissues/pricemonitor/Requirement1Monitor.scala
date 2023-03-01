@@ -1,5 +1,3 @@
-package soda.example.ethicalissues.pricemonitor
-
 trait Report1
 {
 
@@ -37,10 +35,14 @@ trait Requirement1Monitor
     1.0 * (min (x) (y) ) / (max (x) (y) )
 
   def min (x : Int) (y : Int) : Int =
-    if ( x < y ) x else y
+    if ( x < y
+    ) x
+    else y
 
   def max (x : Int) (y : Int) : Int =
-    if ( x < y ) y else x
+    if ( x < y
+    ) y
+    else x
 
 }
 

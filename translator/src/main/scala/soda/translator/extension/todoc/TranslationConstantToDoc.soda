@@ -1,4 +1,3 @@
-package soda.translator.extension.todoc
 
 /**
  * This class contains constants that are specific for the documentation generation.

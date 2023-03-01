@@ -1,4 +1,3 @@
-package soda.translator.block
 
 class ConditionalBlockTranslator
   extends
@@ -10,9 +9,12 @@ class ConditionalBlockTranslator
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      if accepted_annotations.contains (block.block_annotation)
-      then translator.translate (block)
-      else block
+      translate_for (block)
+
+  translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if accepted_annotations.contains (block.block_annotation)
+    then translator.translate (block)
+    else block
 
 end
 

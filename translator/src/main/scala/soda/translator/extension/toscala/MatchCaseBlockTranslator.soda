@@ -1,4 +1,3 @@
-package soda.translator.extension.toscala
 
 class MatchCaseBlockTranslator
   extends
@@ -29,7 +28,6 @@ class MatchCaseBlockTranslator
       case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -38,20 +36,32 @@ class MatchCaseBlockTranslator
     TestDeclarationAnnotation_ (_translate_block (block) )
 
   _translate_block (block : AnnotatedBlock) : Block =
+    if _is_a_match_case_structure (block)
+    then _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block.lines.exists ( lambda line --> _is_a_match_line (line) )
+
+  _is_a_match_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_match_pattern)
+
+  _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block.lines
+      .find ( lambda line --> _is_a_match_line (line) )
+      .map ( lambda line --> _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc.scala_space)
+
+  _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ ().build (
       block.lines
         .map ( lambda line --> _insert_match_before_brace_if_found (line) )
-        .map ( lambda line --> _replace_match_end_if_found (line) )
+        .++ ( Seq [String] () .+: (tabulation + _tc.scala_match_end_translation) )
     )
 
   _insert_match_before_brace_if_found (line : String) : String =
-    if line.trim.startsWith (_soda_match_pattern)
+    if _is_a_match_line (line)
     then _assemble_parts (index := line.indexOf (_soda_match_pattern) ) (line)
-    else line
-
-  _replace_match_end_if_found (line : String) : String =
-    if line.trim == _sc.match_end_reserved_word
-    then line.replaceAll (_sc.match_end_reserved_word, _tc.scala_match_end_translation)
     else line
 
   _assemble_parts (index : Int) (line : String) : String =

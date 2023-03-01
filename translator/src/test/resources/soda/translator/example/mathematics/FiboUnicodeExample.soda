@@ -1,0 +1,13 @@
+
+⎾ FiboUnicodeExample
+
+  apply (n : Int) =
+    _rec (n) (0) (1)
+
+  _rec (m : Int) (a : Int) (b : Int) : Int =
+    ⧩ m == 0 ▶ a
+     ▷ ⧩ m == 1 ▶ b
+        ▷ _rec (m - 1) (b) (a + b)
+
+⎿
+

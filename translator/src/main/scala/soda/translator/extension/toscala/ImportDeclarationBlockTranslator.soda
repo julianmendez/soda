@@ -1,4 +1,3 @@
-package soda.translator.extension.toscala
 
 class ImportDeclarationBlockTranslator
   extends
@@ -25,7 +24,6 @@ class ImportDeclarationBlockTranslator
     match annotated_block
       case ImportDeclarationAnnotation_ (block) ==> _translate_block (ImportDeclarationAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (

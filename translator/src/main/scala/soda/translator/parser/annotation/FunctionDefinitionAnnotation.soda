@@ -1,4 +1,3 @@
-package soda.translator.parser.annotation
 
 class FunctionDefinitionAnnotation
   extends
@@ -29,14 +28,19 @@ class FunctionDefinitionAnnotation
   _plain_state = ParserStateEnum_ ().plain
 
   applies : Boolean =
-    (contains_the_equals_symbol or _starts_with_valid_annotation) and not _is_a_class_declaration
+    not is_a_theorem and
+    not is_a_proof and
+    not is_a_class_declaration and
+    (contains_the_equals_symbol or _starts_with_valid_annotation)
 
   contains_the_equals_symbol : Boolean =
     block.readable_lines.nonEmpty and
-    _contains_the_equals_symbol_with (block.readable_lines.head.line)
+    block.readable_lines
+      .filter ( lambda annotated_line --> not annotated_line.is_comment)
+      .exists ( lambda annotated_line --> _contains_the_equals_symbol_in_line (annotated_line.line) )
 
-  _contains_the_equals_symbol_with (first_line : String) : Boolean =
-    Tokenizer_ (first_line)
+  _contains_the_equals_symbol_in_line (line : String) : Boolean =
+    Tokenizer_ (line)
       .tokens
       .exists ( lambda token -->
         token.parser_state == _plain_state and
@@ -57,8 +61,16 @@ class FunctionDefinitionAnnotation
     ( first_line_trimmed == sc.tail_recursion_annotation or
       first_line_trimmed == sc.override_annotation )
 
-  _is_a_class_declaration : Boolean =
+  is_a_class_declaration : Boolean =
     starts_with_prefix_and_space (sc.class_reserved_word)
+
+  is_a_theorem : Boolean =
+    block.readable_lines.nonEmpty and
+    (block.readable_lines.head.line.trim == SodaConstant_ ().theorem_reserved_word)
+
+  is_a_proof : Boolean =
+    block.readable_lines.nonEmpty and
+    (block.readable_lines.head.line.trim == SodaConstant_ ().proof_reserved_word)
 
 end
 

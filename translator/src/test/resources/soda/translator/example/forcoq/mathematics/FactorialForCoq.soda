@@ -1,4 +1,3 @@
-package soda.example.forcoq.mathematics
 
 class FactorialForCoq
 
@@ -10,9 +9,8 @@ class FactorialForCoq
   @tailrec
   _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m
-      case O_ () ==> product
       case S_ (k) ==> _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
-    end
+      case x ==> product
 
   get_factorial (n : nat) : nat =
     _tailrec_get_factorial (n) (S_ ( O_ () ) )

@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 class MatchCaseBlockTranslator
   extends
@@ -32,7 +31,6 @@ class MatchCaseBlockTranslator
       case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -41,21 +39,45 @@ class MatchCaseBlockTranslator
     TestDeclarationAnnotation_ (_translate_block (block) )
 
   _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ ().build(
+    if _is_a_match_case_structure (block)
+    then _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block.lines.exists ( lambda line --> _is_a_match_line (line) )
+
+  _is_a_match_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_match_pattern)
+
+  _is_a_case_line (line : String) : Boolean =
+    line.trim.startsWith (_soda_case_pattern)
+
+  _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block.lines
+      .find ( lambda line --> _is_a_match_line (line) )
+      .map ( lambda line --> _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc.coq_space)
+
+  _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
+    BlockBuilder_ ().build (
       block.lines
         .map ( lambda line --> _append_with_after_match (line) )
         .map ( lambda line --> _replace_case (line) )
+         .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
     )
 
   _append_with_after_match (line : String) : String =
-    if line.trim ().startsWith (_soda_match_pattern)
+    if _is_a_match_line (line)
     then line + _tc.coq_space + _tc.coq_with_reserved_word
     else line
 
   _replace_case (line : String) : String =
-    if line.trim.startsWith (_soda_case_pattern)
+    if _is_a_case_line (line)
     then ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
     else line
+
+  _left_part (index : Int) (line : String) : String =
+    line.substring (0, index)
 
 end
 

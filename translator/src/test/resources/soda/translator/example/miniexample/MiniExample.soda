@@ -1,12 +1,14 @@
-package soda.example.miniexample
 
 class MiniExample
-  extends
-    soda.lib.Recursion
 
-  run () =
-    range (50)
-      .map ( lambda x --> print (" " + (2 * x + 1) ) )
+  import
+    soda.lib.Range_
+
+  _range = Range_ ()
+
+  run () : Seq [Unit] =
+    _range.apply (50)
+      .map ( any x --> print (" " + (2 * x + 1) ) )
 
 end
 

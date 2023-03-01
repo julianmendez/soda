@@ -2,16 +2,16 @@ import sbt.Keys.scalacOptions
 
 lazy val scala2_11 = "2.11.12"
 
-lazy val scala2_12 = "2.12.16"
+lazy val scala2_12 = "2.12.17"
 
-lazy val scala2_13 = "2.13.8"
+lazy val scala2_13 = "2.13.10"
 
-lazy val scala3_1 = "3.1.3"
+lazy val scala3_2 = "3.2.2"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.16.0",
+    version := "0.17.0",
     description := "Functional language to describe ethical problems",
     homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
     startYear := Some(2020),
@@ -19,7 +19,7 @@ lazy val commonSettings =
     organizationName := "Responsible Artificial Intelligence - Umea University",
     organizationHomepage := Some(url("https://www.umu.se/en/research/groups/responsible-artificial-intelligence")),
     developers := List(
-      Developer("julianmendez", "Julian Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
+      Developer("julianmendez", "Julian Alfredo Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
     ),
     /**
      * Scala
@@ -28,15 +28,15 @@ lazy val commonSettings =
      * [[https://repo1.maven.org/maven2/org/scala-lang/scalap/]]
      * [[https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/]]
      */
-    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_1),
-    scalaVersion := scala3_1,
+    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_2),
+    scalaVersion := scala3_2,
     /**
      * ScalaTest
      * [[https://www.scalatest.org]]
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,

@@ -1,7 +1,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
+    morekeywords={lambda, any, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
     sensitive=true,
     morecomment=[s]{/*}{*/},
     morestring=[b]"
@@ -43,11 +43,13 @@
 \newcommand{\sodadef}{\srccode{=}\xspace}
 \newcommand{\sodacolon}{\srccode{:}\xspace}
 \newcommand{\sodaarrow}{{-\textgreater}\xspace}
-\newcommand{\sodalambdaarrow}{{---\textgreater}\xspace}
 \newcommand{\sodaimplies}{{==\textgreater}\xspace}
 \newcommand{\sodadefparam}{\srccode{:=}\xspace}
+\newcommand{\sodalambdaarrow}{\ensuremath{\longrightarrow}\xspace}
+\newcommand{\sodacasearrow}{\ensuremath{\Longrightarrow}\xspace}
 
 \newcommand{\sodalambda}{\reservedWordSoda{lambda}}
+\newcommand{\sodaany}{\reservedWordSoda{any}}
 
 \newcommand{\sodaif}{\reservedWordSoda{if}}
 \newcommand{\sodathen}{\reservedWordSoda{then}}
@@ -55,7 +57,6 @@
 
 \newcommand{\sodamatch}{\reservedWordSoda{match}}
 \newcommand{\sodacase}{\reservedWordSoda{case}}
-\newcommand{\sodaendmatch}{\reservedWordSoda{end}}
 
 \newcommand{\sodaclass}{\reservedWordSoda{class}}
 \newcommand{\sodaextends}{\reservedWordSoda{extends}}
@@ -73,6 +74,9 @@
 
 \newcommand{\sodapackage}{\reservedWordSoda{package}}
 \newcommand{\sodaimport}{\reservedWordSoda{import}}
+
+\newcommand{\sodatheorem}{\reservedWordSoda{theorem}}
+\newcommand{\sodaproof}{\reservedWordSoda{proof}}
 
 \newcommand{\sodanew}{\annotation{@new}}
 \newcommand{\sodatailrec}{\annotation{@tailrec}}
@@ -120,11 +124,19 @@
 
 \newcommand{\coqmatch}{\reservedWordCoq{match}}
 \newcommand{\coqwith}{\reservedWordCoq{with}}
-\newcommand{\coqbar}{\reservedWordCoq{|}}
-\newcommand{\coqend}{\reservedWordCoq{end}}
+\newcommand{\coqcasebar}{\reservedWordCoq{|}}
+\newcommand{\coqcasearrow}{\ensuremath{\Rightarrow}\xspace}
+\newcommand{\coqendmatch}{\reservedWordCoq{end}}
 
 \newcommand{\coqDefinition}{\reservedWordCoq{Definition}}
+\newcommand{\coqNotation}{\reservedWordCoq{Notation}}
+\newcommand{\coqInductive}{\reservedWordCoq{Inductive}}
 \newcommand{\coqFixpoint}{\reservedWordCoq{Fixpoint}}
+\newcommand{\coqRequire}{\reservedWordCoq{Require}}
+\newcommand{\coqImport}{\reservedWordCoq{Import}}
 \newcommand{\coqModule}{\reservedWordCoq{Module}}
 \newcommand{\coqEnd}{\reservedWordCoq{End}}
+\newcommand{\coqTheorem}{\reservedWordCoq{Theorem}}
+\newcommand{\coqProof}{\reservedWordCoq{Proof}}
+\newcommand{\coqQed}{\reservedWordCoq{Qed}}
 

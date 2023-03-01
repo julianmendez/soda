@@ -1,12 +1,12 @@
-package soda.example.mathematics
 
 class FactorialWithFold
 
-  import
-    soda.lib.Recursion_
+  _fold = soda.lib.Fold_ ()
 
-  get_factorial (n : Int) : Int =
-    Recursion_ ().fold (Recursion_ ().range (n) ) (1) ( lambda (product : Int) --> lambda (k : Int) --> (product *  (k + 1) ) )
+  _range = soda.lib.Range_ ()
+
+  apply (n : Int) : Int =
+    _fold.apply (_range.apply (n) ) (1) ( any product --> any k --> (product *  (k + 1) ) )
 
 end
 

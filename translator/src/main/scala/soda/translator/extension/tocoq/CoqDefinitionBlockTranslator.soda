@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 class CoqDefinitionBlockTranslator
   extends
@@ -21,7 +20,6 @@ class CoqDefinitionBlockTranslator
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==> _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -29,10 +27,12 @@ class CoqDefinitionBlockTranslator
   _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
     then _append (_tc.coq_recursive_definition_end_symbol) (_prepend (_tc.coq_recursive_definition_reserved_word + _tc.coq_space) (block) )
-    else
-      if is_a_definition (block)
-      then _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
-      else block
+    else _translate_non_recursive_definition (block)
+
+  _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if is_a_definition (block)
+    then _append (_tc.coq_definition_end_symbol) (_prepend (_tc.coq_definition_reserved_word + _tc.coq_space) (block) )
+    else block
 
   _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (

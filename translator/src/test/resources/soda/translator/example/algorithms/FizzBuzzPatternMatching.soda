@@ -1,26 +1,22 @@
-package soda.example.algorithms
 
 class FizzBuzzPatternMatching
-
-  import
-    soda.lib.Recursion_
 
   fizz = "Fizz"
 
   buzz = "Buzz"
 
-  fizz_buzz =
-    Recursion_ ()
-      .range (100)
-      .map ( lambda (x : Int) --> x + 1)
-      .map (get_fizz_buzz_term)
+  _range = soda.lib.Range_ ()
 
-  get_fizz_buzz_term (n : Int) =
+  apply : Seq [String] =
+    _range.apply (100)
+      .map ( lambda (x : Int) --> x + 1)
+      .map (_get_fizz_buzz_term)
+
+  _get_fizz_buzz_term (n : Int) : String =
     match Tuple2 (n % 3, n % 5)
       case Tuple2 (0, 0) ==> fizz + buzz
       case Tuple2 (0, x) ==> fizz
       case Tuple2 (x, 0) ==> buzz
-      case otherwise ==> n.toString
-    end
+      case x ==> n.toString
 
 end

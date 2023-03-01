@@ -1,5 +1,3 @@
-package soda.example.forcoq.lib
-
 trait nat
 {
 
@@ -80,8 +78,8 @@ trait IntNat
 
   def to_Int (a : nat) : Int =
     a match  {
-      case O_ () => 0
       case S_ (k) => 1 + to_Int (k)
+      case x => 0
     }
 
 }

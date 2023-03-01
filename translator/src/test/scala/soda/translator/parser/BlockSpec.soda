@@ -1,4 +1,3 @@
-package soda.translator.parser
 
 class BlockSpec ()
   extends

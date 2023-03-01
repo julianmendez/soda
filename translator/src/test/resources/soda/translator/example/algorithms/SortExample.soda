@@ -1,4 +1,3 @@
-package soda.example.algorithms
 
 class SortExample
 
@@ -48,7 +47,9 @@ class SortAlgorithmExampleWithFold
     SortAlgorithmExample
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
+
+  _fold = Fold_ ()
 
   sort : Seq [Int] -> Seq [Int] =
     lambda sequence --> sort_for (sequence)
@@ -56,7 +57,7 @@ class SortAlgorithmExampleWithFold
   sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if sequence.length < 2
     then sequence
-    else Recursion_ ().fold (sequence) (_initial_value) (_next_value_function)
+    else _fold.apply (sequence) (_initial_value) (_next_value_function)
 
   _initial_value = Seq [Int] ()
 
@@ -172,10 +173,12 @@ end
 class SortedSequenceBuilder [A subtype Comparable [A] ]
 
   import
-    soda.lib.Recursion_
+    soda.lib.Fold_
+
+  _fold = Fold_ ()
 
   build (sequence : Seq [A] ) : SortedSequence [A] =
-    Recursion_ ().fold (sequence) (_initial_value) (_next_value_function)
+    _fold.apply (sequence) (_initial_value) (_next_value_function)
 
   _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 

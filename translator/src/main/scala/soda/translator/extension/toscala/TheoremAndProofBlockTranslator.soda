@@ -1,4 +1,3 @@
-package soda.translator.extension.toscala
 
 class TheoremAndProofBlockTranslator
   extends
@@ -24,7 +23,6 @@ class TheoremAndProofBlockTranslator
       case TheoremBlockAnnotation_ (block) ==> _translate_theorem_block (TheoremBlockAnnotation_ (block) )
       case ProofBlockAnnotation_ (block) ==> _translate_proof_block (ProofBlockAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
@@ -37,7 +35,7 @@ class TheoremAndProofBlockTranslator
 
   _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ ().build (
-      Seq [String] (prefix + block.lines.head) ++ block.lines.tail
+      Seq [String] (prefix + block.lines.head) .++ (block.lines.tail)
     )
 
   _append (suffix : String) (block : Block) : Block =

@@ -1,4 +1,3 @@
-package soda.translator.extension.tocoq
 
 class CoqPackageDeclarationBlockTranslator
   extends
@@ -21,7 +20,6 @@ class CoqPackageDeclarationBlockTranslator
     match annotated_block
       case PackageDeclarationAnnotation_ (block) ==> _translate_block (PackageDeclarationAnnotation_ (block) )
       case x ==> annotated_block
-    end
 
   _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
     PackageDeclarationAnnotation_ (
