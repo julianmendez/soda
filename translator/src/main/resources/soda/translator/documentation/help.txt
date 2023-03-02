@@ -12,19 +12,19 @@ Usage:
 
 where EXTENSION can be:
 
-  scala       calls the Soda-to-Scala translator
+  scala       call the Soda-to-Scala translator
 
-  coq         calls the Soda-to-Coq translator  (only for snippets)
+  coq         call the Soda-to-Coq translator  (only for snippets)
 
-  doc         creates LaTeX documents based on Soda files
+  doc         create LaTeX documents based on Soda files
 
-  manual      outputs the manual, which is written in Soda
+  manual      output the manual, which is written in Soda
 
-  license     outputs the license
+  license     output the license
 
-  help        shows this help
+  help        show this help
 
-  .           calls the Soda-to-Scala translator
+  .           call the Soda-to-Scala translator
 
 ---
 Soda-to-Scala translator
@@ -39,8 +39,8 @@ where
   SODA_SCALA_INPUT is used to create the Soda input file and Scala output file.
 If it is a directory, it scans recursively the directory to translate Soda files.
 If the extension is .soda, the output file has extension .scala .
-Otherwise, the extension .soda and .scala are appended to the input and output files respectively.
-
+In the default configuration, the translator visits each Soda package, and for each package,
+translates all Soda source files into a single Package.scala file.
 
   SODA_INPUT is the Soda input file, regardless of the extension
 
@@ -49,8 +49,8 @@ Otherwise, the extension .soda and .scala are appended to the input and output f
 
 OPTION:
 
-  -p, --package
-    visit each Soda package and for each package, translate all Soda source files into a single Package.scala file.
+  -s, --single
+    translate every single Soda input file to its corresponding Scala output file
 
 
 ---

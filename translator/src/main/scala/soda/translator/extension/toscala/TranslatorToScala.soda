@@ -37,9 +37,9 @@ class TranslatorToScala
 
   prelude_file_body : String = new_line + "trait Package" + append_separation
 
-  package_option_1 = "-p"
+  single_files_option_1 = "-s"
 
-  package_option_2 = "--package"
+  single_files_option_2 = "--single"
 
   _translator =
     BlockProcessor_ (
@@ -54,12 +54,16 @@ class TranslatorToScala
 
   execute_for (arguments : Seq [String] ) : Boolean =
     match arguments.length
-      case 0 ==> _process_directory (_default_argument)
-      case 1 ==> _process_directory (arguments (0) )
+      case 0 ==> _process_directory_with_package_option (_default_argument)
+      case 1 ==> _process_directory_with_package_option (arguments.apply (0) )
       case 2 ==>
-        if _is_package_option (arguments (0) )
-        then _process_directory_with_package_option (arguments (1) )
-        else _translate (arguments (0) ) (arguments (1) )
+        if _is_single_files_option (arguments.apply (0) )
+        then _process_directory (arguments.apply (1) )
+        else false
+      case 3 ==>
+        if _is_single_files_option (arguments.apply (0) )
+        then _translate (arguments.apply (1) ) (arguments.apply (2) )
+        else false
       case x ==> false
 
   _process_directory (start : String) : Boolean =
@@ -77,11 +81,11 @@ class TranslatorToScala
   _process_soda_file_with_package_option (file : File) : Boolean =
     if file.getName == package_file_name
     then _process_soda_file (file)
-    else _process_soda_file_with_package_option_with (
+    else _process_soda_file_with_single_files_option_with (
       get_input_output_file_names_with_package_option (file.getAbsolutePath) (file.getParent)
     )
 
-  _process_soda_file_with_package_option_with (pair : FileNamePair) : Boolean =
+  _process_soda_file_with_single_files_option_with (pair : FileNamePair) : Boolean =
     _translate_append (pair.input_file_name) (pair.output_file_name)
 
   get_input_output_file_names (input_name : String) : FileNamePair =
@@ -128,8 +132,8 @@ class TranslatorToScala
   _is_a_prelude_file (input_file_name : String) : Boolean =
     package_file_name == ( ( @new File (input_file_name) ) .getName)
 
-  _is_package_option (s : String) : Boolean =
-    (s == package_option_1) or (s == package_option_2)
+  _is_single_files_option (s : String) : Boolean =
+    (s == single_files_option_1) or (s == single_files_option_2)
 
 end
 

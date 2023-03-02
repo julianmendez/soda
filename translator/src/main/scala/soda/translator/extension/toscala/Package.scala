@@ -1131,9 +1131,9 @@ trait TranslatorToScala
 
   lazy val prelude_file_body : String = new_line + "trait Package" + append_separation
 
-  lazy val package_option_1 = "-p"
+  lazy val single_files_option_1 = "-s"
 
-  lazy val package_option_2 = "--package"
+  lazy val single_files_option_2 = "--single"
 
   private lazy val _translator =
     BlockProcessor_ (
@@ -1148,12 +1148,16 @@ trait TranslatorToScala
 
   def execute_for (arguments : Seq [String] ) : Boolean =
     arguments.length match  {
-      case 0 => _process_directory (_default_argument)
-      case 1 => _process_directory (arguments (0) )
+      case 0 => _process_directory_with_package_option (_default_argument)
+      case 1 => _process_directory_with_package_option (arguments.apply (0) )
       case 2 =>
-        if ( _is_package_option (arguments (0) )
-        ) _process_directory_with_package_option (arguments (1) )
-        else _translate (arguments (0) ) (arguments (1) )
+        if ( _is_single_files_option (arguments.apply (0) )
+        ) _process_directory (arguments.apply (1) )
+        else false
+      case 3 =>
+        if ( _is_single_files_option (arguments.apply (0) )
+        ) _translate (arguments.apply (1) ) (arguments.apply (2) )
+        else false
       case x => false
     }
 
@@ -1172,11 +1176,11 @@ trait TranslatorToScala
   private def _process_soda_file_with_package_option (file : File) : Boolean =
     if ( file.getName == package_file_name
     ) _process_soda_file (file)
-    else _process_soda_file_with_package_option_with (
+    else _process_soda_file_with_single_files_option_with (
       get_input_output_file_names_with_package_option (file.getAbsolutePath) (file.getParent)
     )
 
-  private def _process_soda_file_with_package_option_with (pair : FileNamePair) : Boolean =
+  private def _process_soda_file_with_single_files_option_with (pair : FileNamePair) : Boolean =
     _translate_append (pair.input_file_name) (pair.output_file_name)
 
   def get_input_output_file_names (input_name : String) : FileNamePair =
@@ -1223,8 +1227,8 @@ trait TranslatorToScala
   private def _is_a_prelude_file (input_file_name : String) : Boolean =
     package_file_name == ( ( new File (input_file_name) ) .getName)
 
-  private def _is_package_option (s : String) : Boolean =
-    (s == package_option_1) || (s == package_option_2)
+  private def _is_single_files_option (s : String) : Boolean =
+    (s == single_files_option_1) || (s == single_files_option_2)
 
 }
 
