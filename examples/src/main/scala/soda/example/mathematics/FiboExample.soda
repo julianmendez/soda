@@ -1,7 +1,7 @@
 
 class FiboExampleInSoda
 
-  apply (n : Int) =
+  apply (n : Int) : Int =
     _rec (n) (0) (1)
 
   _rec (m : Int) (a : Int) (b : Int) : Int =
