@@ -650,7 +650,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate an explicit lambda expression") (
+  test ("should translate an explicit lambda expression using lambda") (
     check (
       obtained = instance.translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
         "\n"
@@ -661,13 +661,26 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate another explicit lambda expression") (
+  test ("should translate another explicit lambda expression using any") (
     check (
       obtained = instance.translate ("plus_1 : Int = any (x : Int) --> x + 1" +
         "\n"
       )
     ) (
       expected = "lazy val plus_1 : Int =  (x : Int) => x + 1" +
+        "\n"
+    )
+  )
+
+  test ("should translate another explicit lambda expression containing parentheses") (
+    check (
+      obtained = instance.translate ("plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+         "\n  s .map ( lambda x --> x + 1)" +
+        "\n"
+      )
+    ) (
+      expected = "def plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+        "\n  s .map (  x => x + 1)" +
         "\n"
     )
   )
