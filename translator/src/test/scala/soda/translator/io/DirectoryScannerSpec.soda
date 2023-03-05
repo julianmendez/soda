@@ -37,7 +37,7 @@ class DirectoryScannerSpec ()
         "otherexample/OtherExample.txt",
         "otherexample/Package.scala",
         "otherexample/Package.soda"
-      ).map ( lambda x --> @new File (start, x) ).toSet
+      ).map (lambda x --> @new File (start, x) ).toSet
     )
   )
 

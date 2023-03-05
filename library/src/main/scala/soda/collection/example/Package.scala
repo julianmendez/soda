@@ -36,7 +36,7 @@ trait ListExample
     Pair_("a.takeRight(3)", a.takeRight (3) )
 
   lazy val takeWhile_example : Pair [Seq [Char] ] =
-    Pair_("a.takeWhile( lambda x --> not (x == 'E'))", a.takeWhile (  x => ! (x == 'E') ) )
+    Pair_("a.takeWhile(lambda x --> not (x == 'E'))", a.takeWhile ( x => ! (x == 'E') ) )
 
   lazy val drop_example : Pair [Seq [Char] ] =
     Pair_("a.drop(2)", a.drop (2))
@@ -45,7 +45,7 @@ trait ListExample
     Pair_("a.dropRight(2)", a.dropRight (2))
 
   lazy val dropWhile_example : Pair [Seq [Char] ] =
-    Pair_("a.dropWhile( lambda x --> not (x == 'E'))", a.dropWhile (  x => ! (x == 'E') ) )
+    Pair_("a.dropWhile(lambda x --> not (x == 'E'))", a.dropWhile ( x => ! (x == 'E') ) )
 
   lazy val splitAt_example : Pair [(Seq [Char], Seq [Char] ) ] =
     Pair_("a.splitAt(3)", a.splitAt (3) )
@@ -78,22 +78,22 @@ trait ListExample
     Pair_("a.map(_.toInt).++(b)", a.map (_.toInt).++ (b) )
 
   lazy val span_example : Pair [(Seq [Char], Seq [Char])] =
-    Pair_("a.span( lambda x --> not (x == 'D'))", a.span (  x => ! (x == 'D') ) )
+    Pair_("a.span(lambda x --> not (x == 'D'))", a.span ( x => ! (x == 'D') ) )
 
   lazy val map_example : Pair [Seq [Int] ] =
-    Pair_("a.map( lambda x --> x.toInt)", a.map (  x => x.toInt) )
+    Pair_("a.map(lambda x --> x.toInt)", a.map ( x => x.toInt) )
 
   lazy val filter_example : Pair [Seq [Char] ] =
-    Pair_("a.filter( lambda x --> x.toInt % 2 == 0)", a.filter (  x => x.toInt % 2 == 0) )
+    Pair_("a.filter(lambda x --> x.toInt % 2 == 0)", a.filter ( x => x.toInt % 2 == 0) )
 
   lazy val fold_example : Pair [Int] =
-    Pair_("b.fold(0)( lambda (a, b) --> a + b)", b.fold (0)(  (a, b) => a + b) )
+    Pair_("b.fold(0)(lambda (a, b) --> a + b)", b.fold (0)( (a, b) => a + b) )
 
   lazy val foldLeft_example : Pair [Seq [Char] ] =
-    Pair_("a.foldLeft(Seq('*'))( lambda (list, elem) --> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*') )(  (list, elem) => "(" + list + " :+ " + elem + ")") )
+    Pair_("a.foldLeft(Seq('*'))(lambda (list, elem) --> \"(\" + list + \" :+ \" + elem + \")\")", a.foldLeft (Seq ('*') )( (list, elem) => "(" + list + " :+ " + elem + ")") )
 
   lazy val foldRight_example : Pair [Seq [Char] ] =
-    Pair_("a.foldRight(Seq('*'))( lambda (elem, list) --> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*') )(  (elem, list) => "(" + elem + " +: " + list + ")") )
+    Pair_("a.foldRight(Seq('*'))(lambda (elem, list) --> \"(\" + elem + \" +: \" + list + \")\")", a.foldRight (Seq ('*') )( (elem, list) => "(" + elem + " +: " + list + ")") )
 
 }
 
@@ -130,7 +130,7 @@ trait Main
       e.foldLeft_example,
       e.foldRight_example
     )
-    .map (  pair => pair.name + " = " + pair.result.toString)
+    .map ( pair => pair.name + " = " + pair.result.toString)
     .mkString ("\n")
 
   def main (arguments : Array [String] ) : Unit =

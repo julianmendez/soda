@@ -65,7 +65,7 @@ class ReplacementAux
   add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
       .indices
-      .map ( lambda index --> _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
+      .map (lambda index --> _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
       .mkString ("")
 
   _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
@@ -105,7 +105,7 @@ class ReplacementAux
   _get_prefix_length (line : String) (pattern : String) : Int =
     if line.trim.startsWith (pattern)
     then line.indexOf (pattern) + pattern.length
-    else line.takeWhile ( lambda ch --> ch.isSpaceChar).length
+    else line.takeWhile (lambda ch --> ch.isSpaceChar).length
 
 end
 

@@ -9,7 +9,7 @@ class FizzBuzz
 
   apply : Seq [String] =
     _range.apply (100)
-      .map ( lambda (x : Int) --> x + 1)
+      .map (lambda (x : Int) --> x + 1)
       .map (_get_fizz_buzz_term)
 
   _get_fizz_buzz_term (n : Int) : String =

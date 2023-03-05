@@ -8,7 +8,7 @@ class MiniExample
 
   run () : Seq [Unit] =
     _range.apply (50)
-      .map ( any x --> print (" " + (2 * x + 1) ) )
+      .map (any x --> print (" " + (2 * x + 1) ) )
 
 end
 

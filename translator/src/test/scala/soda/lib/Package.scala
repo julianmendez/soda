@@ -135,7 +135,7 @@ case class EnumSpec ()
 
   test ("the names of the elements in enumerations") (
     check (
-      obtained = DayOfTheWeekEnum_ ().values.map (  x => x.toString)
+      obtained = DayOfTheWeekEnum_ ().values.map ( x => x.toString)
     ) (
       expected = Seq ("DayOfTheWeek_(0,Sunday)", "DayOfTheWeek_(1,Monday)", "DayOfTheWeek_(2,Tuesday)", "DayOfTheWeek_(3,Wednesday)", "DayOfTheWeek_(4,Thursday)", "DayOfTheWeek_(5,Friday)", "DayOfTheWeek_(6,Saturday)")
     )
@@ -335,7 +335,7 @@ case class OptionSDSpec ()
 
   test ("filter should work for None") (
     check (
-      obtained = (NoneSD_ [Int] () ).filter (  x => true)
+      obtained = (NoneSD_ [Int] () ).filter ( x => true)
     ) (
       expected = NoneSD_ [Int] ()
     )
@@ -343,7 +343,7 @@ case class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate does not hold") (
     check (
-      obtained = (SomeSD_ [Int] (0) ).filter (  x => x > 0)
+      obtained = (SomeSD_ [Int] (0) ).filter ( x => x > 0)
     ) (
       expected = NoneSD_ [Int] ()
     )
@@ -351,7 +351,7 @@ case class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate holds") (
     check (
-      obtained = (SomeSD_ [Int] (1) ).filter (  x => x > 0)
+      obtained = (SomeSD_ [Int] (1) ).filter ( x => x > 0)
     ) (
       expected = SomeSD_ [Int] (1)
     )

@@ -255,9 +255,9 @@ case class SortExampleSpec ()
     check (
       obtained =
         SortedSequenceBuilder_ [Integer] ()
-          .build ( Seq (3, 5, 1, 9, 8, 4).map (  x => Integer.valueOf (x) ) )
+          .build ( Seq (3, 5, 1, 9, 8, 4).map ( x => Integer.valueOf (x) ) )
           .sequence
-          .map (  x => x.intValue)
+          .map ( x => x.intValue)
     ) (
       expected = Seq (1, 3, 4, 5, 8 ,9)
     )

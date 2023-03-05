@@ -38,19 +38,19 @@ trait DirectoryProcessor
 
   private lazy val _all_soda_files : Seq [File] =
     _all_files
-      .filter (  x => x.isFile)
-      .filter (  x => x.getName.endsWith (soda_suffix))
+      .filter ( x => x.isFile)
+      .filter ( x => x.getName.endsWith (soda_suffix))
 
   private lazy val _package_files : Seq [File] =
     _all_files
-      .filter (  x => x.isFile)
-      .filter (  x => x.getName == package_file_name)
+      .filter ( x => x.isFile)
+      .filter ( x => x.getName == package_file_name)
 
   private lazy val _sorted_package_files : Seq [File] = _package_files.sorted
 
   private lazy val _soda_non_package_files : Seq [File] =
     _all_soda_files
-      .filter (  x => ! (x.getName == package_file_name) )
+      .filter ( x => ! (x.getName == package_file_name) )
 
   private lazy val _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files.sorted
 
@@ -59,14 +59,14 @@ trait DirectoryProcessor
 
   private lazy val _lib_files : Seq [File] =
     _all_files
-      .filter (  x => x.isFile)
-      .filter (  file => file.getName == LibraryDeployer_ ().library_marker_file)
+      .filter ( x => x.isFile)
+      .filter ( file => file.getName == LibraryDeployer_ ().library_marker_file)
 
   def process () : Boolean =
     LibraryDeployer_ ().expand_library (_lib_files) &&
       _soda_files
         .map (process_soda_file)
-        .forall (  x => x)
+        .forall ( x => x)
 
 }
 
@@ -129,18 +129,18 @@ trait LibraryDeployer
 
   def expand_library (lib_files : Seq [File] ) : Boolean =
     lib_files
-      .map (  lib_file => lib_file.getParent)
-      .map (  parent_directory => _expand_files (parent_directory) )
-      .forall (  x => x)
+      .map ( lib_file => lib_file.getParent)
+      .map ( parent_directory => _expand_files (parent_directory) )
+      .forall ( x => x)
 
   private def _expand_files (parent_directory : String) : Boolean =
     _library_content_files
-      .map (  lib_file_name =>
+      .map ( lib_file_name =>
         SimpleFileWriter_ ().write_file_with (
           file = SimpleFileWriter_ ().create_file (parent_directory) (lib_file_name) ) (
           content = SimpleFileReader_ ().read_resource (_library_directory_in_jar + lib_file_name)
         ) )
-      .forall (  x => x)
+      .forall ( x => x)
 
 }
 
@@ -205,10 +205,10 @@ trait SimpleFileWriter
 
   private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
-      .map (  x => writer.write (content) )
-      .map (  x => writer.flush () )
-      .map (  x => writer.close () )
-      .map (  x => true )
+      .map ( x => writer.write (content) )
+      .map ( x => writer.flush () )
+      .map ( x => writer.close () )
+      .map ( x => true )
       .getOrElse (false)
 
   def create_file (parent_directory : String) (file_name : String) : File =

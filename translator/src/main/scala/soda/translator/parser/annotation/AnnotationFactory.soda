@@ -55,7 +55,7 @@ class AnnotationFactory
 
   _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
     _detectors (block)
-      .filter ( lambda detector --> detector.applies)
+      .filter (lambda detector --> detector.applies)
 
   _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
     if candidates.length == 1

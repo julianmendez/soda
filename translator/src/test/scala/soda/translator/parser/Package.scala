@@ -85,6 +85,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
+    "\n      .map (\u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n      .map ( \u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n" +
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
@@ -135,6 +136,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
+    "\n      .map (lambda elem --> my_function (x := elem) (y := my_constant) )" +
     "\n      .map ( lambda elem --> my_function (x := elem) (y := my_constant) )" +
     "\n" +
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +

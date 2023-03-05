@@ -179,7 +179,7 @@ trait Requirement3Monitor
     sum_prices (get_prices_of_segments (customer) (SegmentsForFlight_ (flight).segments) (date_in_days) )
 
   def get_prices_of_segments (customer : Customer) (segments : Seq [Segment] ) (date_in_days : Int) : Seq [Int] =
-    segments.map (  segment => get_price (customer) (segment) (date_in_days) )
+    segments.map ( segment => get_price (customer) (segment) (date_in_days) )
 
   def sum_prices (prices : Seq [Int] ) : Int =
     prices.sum

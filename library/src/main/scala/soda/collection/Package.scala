@@ -159,7 +159,7 @@ trait Min [A]
     MSeqRec_ [A] ().fold_while [B] (s) (initial_value) (next_value) (condition)
 
   def foldLeft [B] (s : MSeq [A] ) (initial_value : B) (next_value : B => A => B) : B =
-    foldLeftWhile (s) (initial_value) (next_value) (  (acc : B) =>  (elem : A) => true)
+    foldLeftWhile (s) (initial_value) (next_value) ( (acc : B) =>  (elem : A) => true)
 
   def reverse (s : MSeq [A] ) : MSeq [A] =
     s.opt [MSeq [A] ] (
@@ -217,7 +217,7 @@ trait Min [A]
   def at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     s.opt [OptionSD [A] ] (
       ifEmpty = NoneSD_ [A] () ) (
-      ifNonEmpty = (  neseq => _retrieve_if_in_range (neseq) (n) )
+      ifNonEmpty = ( neseq => _retrieve_if_in_range (neseq) (n) )
     )
 
    private def _retrieve_if_in_range (xs : NESeq [A] ) (n : Int) : OptionSD [A] =

@@ -45,14 +45,14 @@ class CoqDefinitionBlockTranslator
     )
 
   is_a_recursive_definition (block : Block) : Boolean =
-    _tc.coq_recursive_function_prefixes.exists ( lambda prefix --> first_line (block).startsWith (prefix) )
+    _tc.coq_recursive_function_prefixes.exists (lambda prefix --> first_line (block).startsWith (prefix) )
 
   first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("").trim
 
   is_a_definition (block : Block) : Boolean =
     not is_a_recursive_definition (block) and
-    not _tc.non_definition_block_prefixes.exists ( lambda prefix --> block.contents.trim.startsWith (prefix) )
+    not _tc.non_definition_block_prefixes.exists (lambda prefix --> block.contents.trim.startsWith (prefix) )
 
 end
 

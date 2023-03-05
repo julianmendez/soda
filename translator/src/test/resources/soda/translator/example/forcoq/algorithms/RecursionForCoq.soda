@@ -9,7 +9,7 @@ class RecursionForCoq
   _tailrec_fold4 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
       case (head) :: (tail) ==>
-         if ( not (condition (current_value) (head) ) )
+         if (not (condition (current_value) (head) ) )
          then current_value
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
       case x ==> current_value

@@ -258,7 +258,7 @@ trait ReplacementAux
   def add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
       .indices
-      .map (  index => _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
+      .map ( index => _add_spaces_to_symbols_with (line (index) ) (index ) (line) (symbols) )
       .mkString ("")
 
   private def _add_spaces_to_symbols_with (ch : Char) (index : Int) (line : String) (symbols : Set [Char] ) : String =
@@ -298,7 +298,7 @@ trait ReplacementAux
   private def _get_prefix_length (line : String) (pattern : String) : Int =
     if ( line.trim.startsWith (pattern)
     ) line.indexOf (pattern) + pattern.length
-    else line.takeWhile (  ch => ch.isSpaceChar).length
+    else line.takeWhile ( ch => ch.isSpaceChar).length
 
 }
 

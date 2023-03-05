@@ -32,14 +32,14 @@ class CoqImportDeclarationBlockTranslator
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         coq_import_declaration_pattern) (
         block.imported_items
-          .filter( lambda annotated_line --> not annotated_line.is_comment)
-          .map ( lambda annotated_line --> AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
+          .filter(lambda annotated_line --> not annotated_line.is_comment)
+          .map (lambda annotated_line --> AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
       )
     )
 
   prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ ().build (
-      annotated_lines.map ( lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map (lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
@@ -49,7 +49,7 @@ class CoqImportDeclarationBlockTranslator
 
   get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile ( lambda ch --> ch.isSpaceChar)
+      .takeWhile (lambda ch --> ch.isSpaceChar)
       .length
 
   get_first_line (block : AnnotatedBlock) : String =

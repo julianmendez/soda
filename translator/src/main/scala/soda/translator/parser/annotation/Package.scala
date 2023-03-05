@@ -29,7 +29,7 @@ trait AbstractDeclarationAnnotation
 
   lazy val abstract_functions : Seq [AnnotatedLine] =
     abstract_functions_with_comments
-      .filter (  line => ! line.is_comment)
+      .filter ( line => ! line.is_comment)
 
 }
 
@@ -94,7 +94,7 @@ trait AnnotationFactory
 
   private def _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
     _detectors (block)
-      .filter (  detector => detector.applies)
+      .filter ( detector => detector.applies)
 
   private def _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
     if ( candidates.length == 1
@@ -140,7 +140,7 @@ trait BlockAnnotationParser
       block
         .annotated_lines
         .tail
-        .filter (  x => ! x.line.trim.isEmpty)
+        .filter ( x => ! x.line.trim.isEmpty)
 
   lazy val first_readable_line : AnnotatedLine =
     block.readable_lines.headOption.getOrElse (default_annotated_line)
@@ -226,12 +226,12 @@ trait ClassBeginningAnnotation
     remove_brackets (skip_first_word (_class_name_and_type_parameters) )
       .split (sc.parameter_separator_symbol)
       .toIndexedSeq
-      .map (  parameter => parameter.trim)
-      .filter (  parameter => ! parameter.isEmpty)
+      .map ( parameter => parameter.trim)
+      .filter ( parameter => ! parameter.isEmpty)
 
   lazy val type_parameters : Seq [String] =
     type_parameters_and_bounds
-      .map (  parameter => get_first_word (parameter) )
+      .map ( parameter => get_first_word (parameter) )
 
   def remove_brackets (text : String) : String =
     remove_brackets_with (text.trim)
@@ -285,7 +285,7 @@ trait CommentAnnotation
   lazy val applies : Boolean =
     block
       .annotated_lines
-      .forall (  annotated_line => annotated_line.is_comment)
+      .forall ( annotated_line => annotated_line.is_comment)
 
 }
 
@@ -328,13 +328,13 @@ trait FunctionDefinitionAnnotation
   lazy val contains_the_equals_symbol : Boolean =
     block.readable_lines.nonEmpty &&
     block.readable_lines
-      .filter (  annotated_line => ! annotated_line.is_comment)
-      .exists (  annotated_line => _contains_the_equals_symbol_in_line (annotated_line.line) )
+      .filter ( annotated_line => ! annotated_line.is_comment)
+      .exists ( annotated_line => _contains_the_equals_symbol_in_line (annotated_line.line) )
 
   private def _contains_the_equals_symbol_in_line (line : String) : Boolean =
     Tokenizer_ (line)
       .tokens
-      .exists (  token =>
+      .exists ( token =>
         token.parser_state == _plain_state &&
         _contains_the_equals_symbol_in_token (token.text)
       )

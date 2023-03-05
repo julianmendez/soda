@@ -50,7 +50,7 @@ case class CharTypeSpec ()
     check (
       obtained =
         "This is plain text with symbols. 0123456789 _ . !?"
-          .map (  ch => CharTypeEnum_ ().get_char_type (ch) )
+          .map ( ch => CharTypeEnum_ ().get_char_type (ch) )
           .toSet
           .toSeq
     ) (

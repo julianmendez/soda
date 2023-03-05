@@ -18,7 +18,7 @@ trait FizzBuzz
 
   lazy val apply : Seq [String] =
     _range.apply (100)
-      .map (  (x : Int) => x + 1)
+      .map ( (x : Int) => x + 1)
       .map (_get_fizz_buzz_term)
 
   private def _get_fizz_buzz_term (n : Int) : String =
@@ -46,7 +46,7 @@ trait FizzBuzzPatternMatching
 
   lazy val apply : Seq [String] =
     _range.apply (100)
-      .map (  (x : Int) => x + 1)
+      .map ( (x : Int) => x + 1)
       .map (_get_fizz_buzz_term)
 
   private def _get_fizz_buzz_term (n : Int) : String =
@@ -199,7 +199,7 @@ trait SaladMaker
     (next_ingredient_function : Salad => Ingredient => Salad)
     (condition_to_continue : Salad => Ingredient => Boolean)
       : Salad =
-    if ( ingredients_so_far.isEmpty || ( ! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
+    if ( ingredients_so_far.isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
     ) salad_so_far
     else _tailrec_prepare_salad (ingredients_so_far.tail) (next_ingredient_function (salad_so_far) (ingredients_so_far.head) ) (next_ingredient_function) (condition_to_continue)
 
@@ -266,8 +266,8 @@ trait SortExampleWithAt
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
-      .filter (  index => index > 0)
-      .forall (  index => sequence.apply (index - 1) <= sequence.apply (index) )
+      .filter ( index => index > 0)
+      .forall ( index => sequence.apply (index - 1) <= sequence.apply (index) )
 
 }
 
@@ -284,7 +284,7 @@ trait SortExampleWithZip
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .zip (sequence.tail)
-      .forall (  pair => (pair._1 <= pair._2) )
+      .forall ( pair => (pair._1 <= pair._2) )
 
 }
 
@@ -323,9 +323,9 @@ trait SortAlgorithmExampleWithFold
 
   def insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
     concatenate (
-      first_part = sequence.takeWhile (  x => x < element) ) (
+      first_part = sequence.takeWhile ( x => x < element) ) (
       middle = Seq (element) ) (
-      last_part = sequence.dropWhile (  x => x < element)
+      last_part = sequence.dropWhile ( x => x < element)
     )
 
   def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
@@ -427,13 +427,13 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
   def is_sorted (other_sequence : Seq [A] ) : Boolean =
     other_sequence
       .zip (other_sequence.tail)
-      .forall (  pair => is_less_than (pair._1) (pair._2) )
+      .forall ( pair => is_less_than (pair._1) (pair._2) )
 
   def insert_sorted (original_sequence : Seq [A] ) (element : A) : Seq [A] =
     concatenate (
-      first_part = original_sequence.takeWhile (  x => is_less_than (x) (element) ) ) (
+      first_part = original_sequence.takeWhile ( x => is_less_than (x) (element) ) ) (
       middle = Seq (element) ) (
-      last_part = original_sequence.dropWhile (  x => is_less_than (x) (element) )
+      last_part = original_sequence.dropWhile ( x => is_less_than (x) (element) )
     )
 
   def concatenate (first_part : Seq [A] ) (middle : Seq [A] ) (last_part : Seq [A] ) : Seq [A] =

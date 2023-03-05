@@ -186,12 +186,12 @@ class Manual
    * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( lambda element --> element + 1)
+    sequence.map (lambda element --> element + 1)
 
   /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
 
   plus_two (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( any element --> element + 2)
+    sequence.map (any element --> element + 2)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -256,7 +256,7 @@ class FoldWhile
 
   @tailrec
   _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    if sequence.isEmpty or ( not condition (current_value) (sequence.head) )
+    if sequence.isEmpty or (not condition (current_value) (sequence.head) )
     then current_value
     else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 

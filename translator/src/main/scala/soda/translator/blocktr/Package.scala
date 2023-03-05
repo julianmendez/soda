@@ -27,7 +27,7 @@ trait TableTranslator
 
   def   table : Seq [Tuple2 [String, String] ]
 
-  lazy val keys : Seq [String] = table.map (  pair => pair._1)
+  lazy val keys : Seq [String] = table.map ( pair => pair._1)
 
   lazy val translate : String => String =
      word =>
@@ -85,7 +85,7 @@ trait TokenizedBlockTranslator
       BlockBuilder_ ().build (
         block
           .annotated_lines
-          .map (  annotated_line => _translate_if_not_a_comment (annotated_line) )
+          .map ( annotated_line => _translate_if_not_a_comment (annotated_line) )
       )
     )
 
@@ -96,16 +96,16 @@ trait TokenizedBlockTranslator
 
   private def _translate_non_comment (line : String) : String =
       SomeSD_ (line)
-        .map (  x => Replacement_ (x).add_space_to_soda_line ().line)
-        .map (  x => Tokenizer_ (x).tokens)
-        .map (  x => _translate_line (x) )
-        .map (  x => _join_tokens (x) )
-        .map (  x => Replacement_ (x).remove_space_from_scala_line ().line)
+        .map ( x => Replacement_ (x).add_space_to_soda_line ().line)
+        .map ( x => Tokenizer_ (x).tokens)
+        .map ( x => _translate_line (x) )
+        .map ( x => _join_tokens (x) )
+        .map ( x => Replacement_ (x).remove_space_from_scala_line ().line)
         .getOrElse ("")
 
   private def _translate_line (tokens : Seq [Token] ) : Seq [Token] =
     tokens
-      .map (  token => _get_token_translated_if_in_state (token) )
+      .map ( token => _get_token_translated_if_in_state (token) )
 
   private def _get_token_translated_if_in_state (token : Token) : Token =
     if ( token.parser_state == ParserStateEnum_ ().plain
@@ -114,7 +114,7 @@ trait TokenizedBlockTranslator
 
   private def _join_tokens (tokens : Seq [Token] ) : String =
     tokens
-      .map (  token => token.text)
+      .map ( token => token.text)
       .mkString ("")
 
 }

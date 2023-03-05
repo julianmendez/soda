@@ -213,7 +213,7 @@ case class MinSpec ()
 
   test ("takeWhile with Seq") (
     check (
-      obtained = exampleSeq.takeWhile (  e => ! (e == 3) )
+      obtained = exampleSeq.takeWhile ( e => ! (e == 3) )
     ) (
       expected = Seq (0, 1, 1, 2)
     )
@@ -221,7 +221,7 @@ case class MinSpec ()
 
   test ("takeWhile") (
     check (
-      obtained = Min_ ().takeWhile (example) (  e => ! (e == 3) )
+      obtained = Min_ ().takeWhile (example) ( e => ! (e == 3) )
     ) (
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
     )
@@ -229,7 +229,7 @@ case class MinSpec ()
 
   test ("dropWhile with Seq") (
     check (
-      obtained = exampleSeq.dropWhile (  e => ! (e == 3) )
+      obtained = exampleSeq.dropWhile ( e => ! (e == 3) )
     ) (
       expected = Seq (3, 5, 8)
     )
@@ -237,7 +237,7 @@ case class MinSpec ()
 
   test ("dropWhile") (
     check (
-      obtained = Min_ ().dropWhile (example) (  e => ! (e == 3) )
+      obtained = Min_ ().dropWhile (example) ( e => ! (e == 3) )
     ) (
       expected = MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
     )
@@ -261,7 +261,7 @@ case class MinSpec ()
 
   test ("span with Seq") (
     check (
-      obtained = exampleSeq.span (  x => ! (x == 5) )
+      obtained = exampleSeq.span ( x => ! (x == 5) )
     ) (
       expected = Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
     )
@@ -269,7 +269,7 @@ case class MinSpec ()
 
   test ("span") (
     check (
-      obtained = Min_ ().span (example) (  (x : Int) => ! (x == 5) )
+      obtained = Min_ ().span (example) ( (x : Int) => ! (x == 5) )
     ) (
       expected = MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ) )
     )
@@ -397,7 +397,7 @@ case class MinSpec ()
 
   test ("forall with Seq 0") (
     check (
-      obtained = exampleSeq.forall (  x => ! (x == 7) )
+      obtained = exampleSeq.forall ( x => ! (x == 7) )
     ) (
       expected = true
     )
@@ -405,7 +405,7 @@ case class MinSpec ()
 
   test ("forall with Seq 1") (
     check (
-      obtained = exampleSeq.forall (  x => x < 7)
+      obtained = exampleSeq.forall ( x => x < 7)
     ) (
       expected = false
     )
@@ -413,7 +413,7 @@ case class MinSpec ()
 
   test ("forall with Seq 2") (
     check (
-      obtained = Seq ().forall (  x => x == 7)
+      obtained = Seq ().forall ( x => x == 7)
     ) (
       expected = true
     )
@@ -421,7 +421,7 @@ case class MinSpec ()
 
   test ("forall 0") (
     check (
-      obtained = Min_ ().forall (example) (  x => ! (x == 7) )
+      obtained = Min_ ().forall (example) ( x => ! (x == 7) )
     ) (
       expected = true
     )
@@ -429,7 +429,7 @@ case class MinSpec ()
 
   test ("forall 1") (
     check (
-      obtained = Min_ ().forall (example) (  x => x < 7)
+      obtained = Min_ ().forall (example) ( x => x < 7)
     ) (
       expected = false
     )
@@ -437,7 +437,7 @@ case class MinSpec ()
 
   test ("forall 2") (
     check (
-      obtained = Min_ ().forall (empty) (  x => x == 7)
+      obtained = Min_ ().forall (empty) ( x => x == 7)
     ) (
       expected = true
     )
@@ -445,7 +445,7 @@ case class MinSpec ()
 
   test ("exists with Seq 0") (
     check (
-      obtained = exampleSeq.exists (  x => x == 8)
+      obtained = exampleSeq.exists ( x => x == 8)
     ) (
       expected = true
     )
@@ -453,7 +453,7 @@ case class MinSpec ()
 
   test ("exists with Seq 1") (
     check (
-      obtained = exampleSeq.exists (  x => x == 7)
+      obtained = exampleSeq.exists ( x => x == 7)
     ) (
       expected = false
     )
@@ -461,7 +461,7 @@ case class MinSpec ()
 
   test ("exists with Seq 2") (
     check (
-      obtained = Seq ().exists (  x => x == 7)
+      obtained = Seq ().exists ( x => x == 7)
     ) (
       expected = false
     )
@@ -469,7 +469,7 @@ case class MinSpec ()
 
   test ("exists 0") (
     check (
-      obtained = Min_ ().exists (example) (  x => x == 8)
+      obtained = Min_ ().exists (example) ( x => x == 8)
     ) (
       expected = true
     )
@@ -477,7 +477,7 @@ case class MinSpec ()
 
   test ("exists 1") (
     check (
-      obtained = Min_ ().exists (example) (  x => x == 7)
+      obtained = Min_ ().exists (example) ( x => x == 7)
     ) (
       expected = false
     )
@@ -485,7 +485,7 @@ case class MinSpec ()
 
   test ("exists 2") (
     check (
-      obtained = Min_ ().exists (empty) (  x => x == 7)
+      obtained = Min_ ().exists (empty) ( x => x == 7)
     ) (
       expected = false
     )
@@ -493,7 +493,7 @@ case class MinSpec ()
 
   test ("find with Seq 0") (
     check (
-      obtained = exampleSeq.find (  x => ! (x == 7) )
+      obtained = exampleSeq.find ( x => ! (x == 7) )
     ) (
       expected = Some (0)
     )
@@ -501,7 +501,7 @@ case class MinSpec ()
 
   test ("find with Seq 1") (
     check (
-      obtained = exampleSeq.find (  x => x == 8)
+      obtained = exampleSeq.find ( x => x == 8)
     ) (
       expected = Some (8)
     )
@@ -509,7 +509,7 @@ case class MinSpec ()
 
   test ("find with Seq 2") (
     check (
-      obtained = Seq ().find (  x => x == 7)
+      obtained = Seq ().find ( x => x == 7)
     ) (
       expected = None
     )
@@ -517,7 +517,7 @@ case class MinSpec ()
 
   test ("find 0") (
     check (
-      obtained = Min_ ().find (example) (  x => ! (x == 7) )
+      obtained = Min_ ().find (example) ( x => ! (x == 7) )
     ) (
       expected = SomeSD_ (0)
     )
@@ -525,7 +525,7 @@ case class MinSpec ()
 
   test ("find 1") (
     check (
-      obtained = Min_ ().find (example) (  x => x == 8)
+      obtained = Min_ ().find (example) ( x => x == 8)
     ) (
       expected = SomeSD_ (8)
     )
@@ -533,7 +533,7 @@ case class MinSpec ()
 
   test ("find 2") (
     check (
-      obtained = Min_ ().find (empty) (  x => x == 7)
+      obtained = Min_ ().find (empty) ( x => x == 7)
     ) (
       expected = NoneSD_ ()
     )
@@ -541,7 +541,7 @@ case class MinSpec ()
 
   test ("filter with Seq") (
     check (
-      obtained = exampleSeq.filter (  x => x % 3 == 0)
+      obtained = exampleSeq.filter ( x => x % 3 == 0)
     ) (
       expected = Seq (0, 3)
     )
@@ -549,7 +549,7 @@ case class MinSpec ()
 
   test ("filter") (
     check (
-      obtained = Min_ ().filter (example) (  x => x % 3 == 0)
+      obtained = Min_ ().filter (example) ( x => x % 3 == 0)
     ) (
       expected = MSeqTranslator_ ().asMSeq (Seq (0, 3) )
     )
@@ -557,7 +557,7 @@ case class MinSpec ()
 
   test ("map with Seq") (
     check (
-      obtained = exampleSeq.map (  x => x + 100)
+      obtained = exampleSeq.map ( x => x + 100)
     ) (
       expected = Seq (100, 101, 101, 102, 103, 105, 108)
     )
@@ -565,7 +565,7 @@ case class MinSpec ()
 
   test ("map in the same type") (
     check (
-      obtained = Min_ ().map0 (example) (  x => x + 100)
+      obtained = Min_ ().map0 (example) ( x => x + 100)
     ) (
       expected = MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
     )
@@ -573,7 +573,7 @@ case class MinSpec ()
 
   test ("foldLeft with Seq") (
     check (
-      obtained = exampleSeq.foldLeft (Seq [Int] () ) (  (s : Seq [Int], e : Int) => s.+: ( (e + 100) ) )
+      obtained = exampleSeq.foldLeft (Seq [Int] () ) ( (s : Seq [Int], e : Int) => s.+: ( (e + 100) ) )
     ) (
       expected = Seq (108, 105, 103, 102, 101, 101, 100)
     )

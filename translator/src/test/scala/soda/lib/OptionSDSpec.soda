@@ -190,7 +190,7 @@ class OptionSDSpec ()
 
   test ("filter should work for None") (
     check (
-      obtained := (NoneSD_ [Int] () ).filter ( lambda x --> true)
+      obtained := (NoneSD_ [Int] () ).filter (lambda x --> true)
     ) (
       expected := NoneSD_ [Int] ()
     )
@@ -198,7 +198,7 @@ class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate does not hold") (
     check (
-      obtained := (SomeSD_ [Int] (0) ).filter ( lambda x --> x > 0)
+      obtained := (SomeSD_ [Int] (0) ).filter (lambda x --> x > 0)
     ) (
       expected := NoneSD_ [Int] ()
     )
@@ -206,7 +206,7 @@ class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate holds") (
     check (
-      obtained := (SomeSD_ [Int] (1) ).filter ( lambda x --> x > 0)
+      obtained := (SomeSD_ [Int] (1) ).filter (lambda x --> x > 0)
     ) (
       expected := SomeSD_ [Int] (1)
     )

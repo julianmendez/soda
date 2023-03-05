@@ -27,19 +27,19 @@ class DirectoryProcessor
 
   _all_soda_files : Seq [File] =
     _all_files
-      .filter ( lambda x --> x.isFile)
-      .filter ( lambda x --> x.getName.endsWith (soda_suffix))
+      .filter (lambda x --> x.isFile)
+      .filter (lambda x --> x.getName.endsWith (soda_suffix))
 
   _package_files : Seq [File] =
     _all_files
-      .filter ( lambda x --> x.isFile)
-      .filter ( lambda x --> x.getName == package_file_name)
+      .filter (lambda x --> x.isFile)
+      .filter (lambda x --> x.getName == package_file_name)
 
   _sorted_package_files : Seq [File] = _package_files.sorted
 
   _soda_non_package_files : Seq [File] =
     _all_soda_files
-      .filter ( lambda x --> not (x.getName == package_file_name) )
+      .filter (lambda x --> not (x.getName == package_file_name) )
 
   _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files.sorted
 
@@ -48,14 +48,14 @@ class DirectoryProcessor
 
   _lib_files : Seq [File] =
     _all_files
-      .filter ( lambda x --> x.isFile)
-      .filter ( lambda file --> file.getName == LibraryDeployer_ ().library_marker_file)
+      .filter (lambda x --> x.isFile)
+      .filter (lambda file --> file.getName == LibraryDeployer_ ().library_marker_file)
 
   process () : Boolean =
     LibraryDeployer_ ().expand_library (_lib_files) and
       _soda_files
         .map (process_soda_file)
-        .forall ( lambda x --> x)
+        .forall (lambda x --> x)
 
 end
 

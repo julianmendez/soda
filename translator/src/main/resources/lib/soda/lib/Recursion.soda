@@ -19,7 +19,7 @@ class FoldWhile
 
   @tailrec
   _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    if sequence.isEmpty or ( not condition (current_value) (sequence.head) )
+    if sequence.isEmpty or (not condition (current_value) (sequence.head) )
     then current_value
     else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 

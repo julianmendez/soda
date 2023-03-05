@@ -44,7 +44,7 @@ class MatchCaseBlockTranslator
     else block
 
   _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block.lines.exists ( lambda line --> _is_a_match_line (line) )
+    block.lines.exists (lambda line --> _is_a_match_line (line) )
 
   _is_a_match_line (line : String) : Boolean =
     line.trim.startsWith (_soda_match_pattern)
@@ -54,15 +54,15 @@ class MatchCaseBlockTranslator
 
   _get_tabulation_of_match (block : AnnotatedBlock) : String =
     block.lines
-      .find ( lambda line --> _is_a_match_line (line) )
-      .map ( lambda line --> _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .find (lambda line --> _is_a_match_line (line) )
+      .map (lambda line --> _left_part (line.indexOf (_soda_match_pattern) ) (line) )
       .getOrElse (_tc.coq_space)
 
   _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ ().build (
       block.lines
-        .map ( lambda line --> _append_with_after_match (line) )
-        .map ( lambda line --> _replace_case (line) )
+        .map (lambda line --> _append_with_after_match (line) )
+        .map (lambda line --> _replace_case (line) )
          .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
     )
 

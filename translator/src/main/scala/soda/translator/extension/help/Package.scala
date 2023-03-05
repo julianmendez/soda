@@ -33,8 +33,8 @@ trait AbstractHelp
 
   def output_content (content : String) : Boolean =
     SomeSD_ (content)
-      .map (  x => println (x) )
-      .map (  x => true)
+      .map ( x => println (x) )
+      .map ( x => true)
       .getOrElse (false)
 
 }

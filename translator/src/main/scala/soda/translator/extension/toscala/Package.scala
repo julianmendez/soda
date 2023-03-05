@@ -48,7 +48,7 @@ trait AbstractDeclarationBlockTranslator
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =
@@ -148,7 +148,7 @@ trait ClassConstructorBlockTranslator
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block => _get_as_class_beginning_annotation (block) )
+      .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
 
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
@@ -159,9 +159,9 @@ trait ClassConstructorBlockTranslator
 
   private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap (  block => _get_as_abstract_declaration_annotation (block) )
-      .flatMap (  block => block.abstract_functions)
-      .map (  annotated_line => _translate_type_symbols (annotated_line.line).trim )
+      .flatMap ( block => _get_as_abstract_declaration_annotation (block) )
+      .flatMap ( block => block.abstract_functions)
+      .map ( annotated_line => _translate_type_symbols (annotated_line.line).trim )
 
   private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
     block match  {
@@ -179,7 +179,7 @@ trait ClassConstructorBlockTranslator
     _get_initial_spaces_with (_get_first_line (block) )
 
   private def _get_initial_spaces_with (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
+    line.takeWhile ( ch => ch.isSpaceChar)
 
   private def _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
@@ -265,7 +265,7 @@ trait ClassDeclarationBlockTranslator
 
   private def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
-    ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map (  line => get_initial_spaces_for (line) + _tc.scala_with_translation + _tc.scala_space + line.trim)
+    ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map ( line => get_initial_spaces_for (line) + _tc.scala_with_translation + _tc.scala_space + line.trim)
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =
@@ -282,7 +282,7 @@ trait ClassDeclarationBlockTranslator
     get_initial_spaces_for (get_first_line (block) )
 
   def get_initial_spaces_for (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
+    line.takeWhile ( ch => ch.isSpaceChar)
 
   def ends_with_equals (line : String) : Boolean = false
 
@@ -338,7 +338,7 @@ trait ClassEndBlockTranslator
     _get_initial_spaces_with (_get_first_line (block) )
 
   private def _get_initial_spaces_with (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
+    line.takeWhile ( ch => ch.isSpaceChar)
 
   private def _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
@@ -412,10 +412,10 @@ trait FunctionDefinitionBlockTranslator
     )
 
   private def _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines.takeWhile (  annotated_line => annotated_line.is_comment )
+    lines.takeWhile ( annotated_line => annotated_line.is_comment )
 
   private def _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines.dropWhile (  annotated_line => annotated_line.is_comment )
+    lines.dropWhile ( annotated_line => annotated_line.is_comment )
 
   private def _translate_val_definition (line : String) : String =
     Replacement_ (line)
@@ -520,11 +520,11 @@ trait FunctionDefinitionLineDetector
     _position_of_first_opening_parenthesis.isEmpty
 
   private def _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis.opt (false) (  position => position > initial_position)
+    _position_of_first_opening_parenthesis.opt (false) ( position => position > initial_position)
 
   private lazy val _is_val_definition_case_3 =
     (_get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-        _position_of_first_opening_parenthesis.opt (false) (  position => position > other_position)
+        _position_of_first_opening_parenthesis.opt (false) ( position => position > other_position)
     )
 
   private lazy val _is_val_definition_case_4 =
@@ -547,7 +547,7 @@ trait FunctionDefinitionLineDetector
 
   private def _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line.indexOf (pattern, start) )
-      .filter (  position => ! (position == -1) )
+      .filter ( position => ! (position == -1) )
 
 }
 
@@ -592,7 +592,7 @@ trait ImportDeclarationBlockTranslator
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ ().build (
-      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
@@ -602,7 +602,7 @@ trait ImportDeclarationBlockTranslator
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (  ch => ch.isSpaceChar)
+      .takeWhile ( ch => ch.isSpaceChar)
       .length
 
   def get_first_line (block : AnnotatedBlock) : String =
@@ -654,12 +654,12 @@ trait MainClassBlockTranslator
 
   private def _get_class_name (references : Seq [AnnotatedBlock] ) : String =
     _get_class_beginning (references)
-      .map (  x => x.class_name)
+      .map ( x => x.class_name)
       .getOrElse ("")
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block => _get_as_class_beginning_annotation (block) )
+      .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
 
   private def _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
@@ -716,21 +716,21 @@ trait MatchCaseBlockTranslator
     else block
 
   private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block.lines.exists (  line => _is_a_match_line (line) )
+    block.lines.exists ( line => _is_a_match_line (line) )
 
   private def _is_a_match_line (line : String) : Boolean =
     line.trim.startsWith (_soda_match_pattern)
 
   private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
     block.lines
-      .find (  line => _is_a_match_line (line) )
-      .map (  line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .find ( line => _is_a_match_line (line) )
+      .map ( line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
       .getOrElse (_tc.scala_space)
 
   private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ ().build (
       block.lines
-        .map (  line => _insert_match_before_brace_if_found (line) )
+        .map ( line => _insert_match_before_brace_if_found (line) )
         .++ ( Seq [String] () .+: (tabulation + _tc.scala_match_end_translation) )
     )
 
@@ -1079,8 +1079,8 @@ trait TranslationConstantToScala
 
   lazy val scala_non_soda : Seq [Tuple2 [String, String] ] =
       scala_reserved_words
-        .filter (  x => ! soda_constant.soda_reserved_words.contains (x))
-        .map (  x => Tuple2 (x, prefix_scala_non_soda + x) )
+        .filter ( x => ! soda_constant.soda_reserved_words.contains (x))
+        .map ( x => Tuple2 (x, prefix_scala_non_soda + x) )
 
   def is_scala_word (word : String) : Boolean =
     scala_reserved_words.contains (word)

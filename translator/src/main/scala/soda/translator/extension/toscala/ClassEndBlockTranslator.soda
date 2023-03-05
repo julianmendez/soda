@@ -37,7 +37,7 @@ class ClassEndBlockTranslator
     _get_initial_spaces_with (_get_first_line (block) )
 
   _get_initial_spaces_with (line : String) : String =
-    line.takeWhile ( lambda ch --> ch.isSpaceChar)
+    line.takeWhile (lambda ch --> ch.isSpaceChar)
 
   _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")

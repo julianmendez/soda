@@ -16,15 +16,15 @@ class TriangularNumberForCoqSpec ()
 
   triangular_number_with_nat : Seq [ Tuple2 [nat, nat] ] =
     triangular_number_values
-      .map ( lambda pair -->
+      .map (lambda pair -->
        Tuple2 ( IntNat_ ().from_non_negative (pair._1),  IntNat_ ().from_non_negative (pair._2) )
       )
 
   test ("should test the triangular for Coq") (
     check (
       obtained := triangular_number_with_nat
-        .map ( lambda pair --> pair._1)
-        .map ( lambda n --> Tuple2 (n, TriangularNumberForCoq_ ().get_number (n) ) )
+        .map (lambda pair --> pair._1)
+        .map (lambda n --> Tuple2 (n, TriangularNumberForCoq_ ().get_number (n) ) )
     ) (
       expected := triangular_number_with_nat
     )

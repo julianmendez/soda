@@ -9,7 +9,7 @@ trait FizzBuzz
 
   lazy val apply : Seq [String] =
     _range.apply (100)
-      .map (  (x : Int) => x + 1)
+      .map ( (x : Int) => x + 1)
       .map (_get_fizz_buzz_term)
 
   private def _get_fizz_buzz_term (n : Int) : String =

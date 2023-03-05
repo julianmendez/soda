@@ -42,7 +42,7 @@ class CharTypeSpec ()
     check (
       obtained :=
         "This is plain text with symbols. 0123456789 _ . !?"
-          .map ( lambda ch --> CharTypeEnum_ ().get_char_type (ch) )
+          .map (lambda ch --> CharTypeEnum_ ().get_char_type (ch) )
           .toSet
           .toSeq
     ) (

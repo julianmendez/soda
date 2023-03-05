@@ -36,11 +36,11 @@ trait CartesianProduct
   private lazy val _fold = Fold_ ()
 
   private def _initial_value [A] (seq : Seq [A] ) : Seq [Seq [A] ] =
-    seq.map (  elem => Seq [A] (elem) )
+    seq.map ( elem => Seq [A] (elem) )
 
   private def _next_value [A] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
-    seq_a.flatMap (  elem_a =>
-      accum.map (  seq_b => seq_b.+: (elem_a) ) )
+    seq_a.flatMap ( elem_a =>
+      accum.map ( seq_b => seq_b.+: (elem_a) ) )
 
 }
 
@@ -249,7 +249,7 @@ trait FoldWhile
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence.isEmpty || ( ! condition (current_value) (sequence.head) )
+    if ( sequence.isEmpty || (! condition (current_value) (sequence.head) )
     ) current_value
     else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
 

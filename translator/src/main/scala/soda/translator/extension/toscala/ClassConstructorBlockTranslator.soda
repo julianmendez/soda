@@ -77,7 +77,7 @@ class ClassConstructorBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block --> _get_as_class_beginning_annotation (block) )
+      .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
       .headOption
 
   _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
@@ -87,9 +87,9 @@ class ClassConstructorBlockTranslator
 
   _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
-      .flatMap ( lambda block --> _get_as_abstract_declaration_annotation (block) )
-      .flatMap ( lambda block --> block.abstract_functions)
-      .map ( lambda annotated_line --> _translate_type_symbols (annotated_line.line).trim )
+      .flatMap (lambda block --> _get_as_abstract_declaration_annotation (block) )
+      .flatMap (lambda block --> block.abstract_functions)
+      .map (lambda annotated_line --> _translate_type_symbols (annotated_line.line).trim )
 
   _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
     match block
@@ -106,7 +106,7 @@ class ClassConstructorBlockTranslator
     _get_initial_spaces_with (_get_first_line (block) )
 
   _get_initial_spaces_with (line : String) : String =
-    line.takeWhile ( lambda ch --> ch.isSpaceChar)
+    line.takeWhile (lambda ch --> ch.isSpaceChar)
 
   _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")

@@ -27,8 +27,8 @@ case class FactorialSpec ()
   test ("should test the factorial - concise version") (
     check (
       obtained = factorial_values
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, _factorial_concise.apply (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, _factorial_concise.apply (n) ) )
     ) (
       expected = factorial_values
     )
@@ -37,8 +37,8 @@ case class FactorialSpec ()
   test ("should test the factorial - with pattern matching") (
     check (
       obtained = factorial_values
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, _factorial_patten_matching.apply (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, _factorial_patten_matching.apply (n) ) )
     ) (
       expected = factorial_values
     )
@@ -47,8 +47,8 @@ case class FactorialSpec ()
   test ("should test the factorial - with fold") (
     check (
       obtained = factorial_values
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, _factorial_with_fold.apply (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, _factorial_with_fold.apply (n) ) )
     ) (
       expected = factorial_values
     )
@@ -74,8 +74,8 @@ case class FiboExampleSpec ()
   test ("should test the fibonacci function") (
     check (
       obtained = fibonacci_values
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, _fibo_example_in_soda.apply (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, _fibo_example_in_soda.apply (n) ) )
     ) (
       expected = fibonacci_values
     )

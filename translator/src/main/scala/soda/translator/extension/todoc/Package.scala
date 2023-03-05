@@ -85,7 +85,7 @@ trait DocBlockTranslator
     else _prepend (_remove_suffix_in_line (_sc.comment_closing_symbol) (content.head) ) (content.tail)
 
   private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
-    content.map (  line => _remove_prefix_in_line (_comment_line_prefix) (line) )
+    content.map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
 
   private def _remove_prefix_in_line (prefix : String) (line : String) : String =
     _remove_prefix_in_line_at (line.indexOf (prefix) ) (prefix) (line)

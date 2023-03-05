@@ -40,11 +40,11 @@ trait Block
 
   lazy val lines : Seq [String] =
     annotated_lines
-      .map (  x => x.line)
+      .map ( x => x.line)
 
   lazy val readable_lines : Seq [AnnotatedLine] =
     annotated_lines
-      .filter (  line => ! line.is_comment)
+      .filter ( line => ! line.is_comment)
 
 }
 
@@ -131,7 +131,7 @@ trait DefaultBlockSequenceTranslator
 
   lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
      block_sequence =>
-      block_sequence.map (  block => translator.translate (block) )
+      block_sequence.map ( block => translator.translate (block) )
 
 }
 

@@ -44,7 +44,7 @@ case class DirectoryScannerSpec ()
         "otherexample/OtherExample.txt",
         "otherexample/Package.scala",
         "otherexample/Package.soda"
-      ).map (  x => new File (start, x) ).toSet
+      ).map ( x => new File (start, x) ).toSet
     )
   )
 

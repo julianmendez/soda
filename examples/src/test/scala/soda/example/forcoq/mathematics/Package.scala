@@ -23,15 +23,15 @@ case class FactorialForCoqSpec ()
 
   lazy val factorial_values_with_nat : Seq [ Tuple2 [nat, nat] ] =
     factorial_values
-      .map (  pair =>
+      .map ( pair =>
         Tuple2 ( IntNat_ ().from_non_negative (pair._1), IntNat_ ().from_non_negative (pair._2) )
       )
 
   test ("should test the factorial function for Coq") (
     check (
       obtained = factorial_values_with_nat
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FactorialForCoq_ ().get_factorial (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, FactorialForCoq_ ().get_factorial (n) ) )
     ) (
       expected = factorial_values_with_nat
     )
@@ -57,15 +57,15 @@ case class FiboExampleInSodaForCoqSpec ()
 
   lazy val fibonacci_values_with_nat : Seq [ Tuple2 [nat, nat] ] =
     fibonacci_values
-      .map (  pair =>
+      .map ( pair =>
         Tuple2 ( IntNat_ ().from_non_negative (pair._1), IntNat_ ().from_non_negative (pair._2) )
       )
 
   test ("should test the fibonacci function for Coq") (
     check (
       obtained = fibonacci_values_with_nat
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, FiboExampleInSodaForCoq_ ().fib (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, FiboExampleInSodaForCoq_ ().fib (n) ) )
     ) (
       expected = fibonacci_values_with_nat
     )
@@ -91,15 +91,15 @@ case class TriangularNumberForCoqSpec ()
 
   lazy val triangular_number_with_nat : Seq [ Tuple2 [nat, nat] ] =
     triangular_number_values
-      .map (  pair =>
+      .map ( pair =>
        Tuple2 ( IntNat_ ().from_non_negative (pair._1),  IntNat_ ().from_non_negative (pair._2) )
       )
 
   test ("should test the triangular for Coq") (
     check (
       obtained = triangular_number_with_nat
-        .map (  pair => pair._1)
-        .map (  n => Tuple2 (n, TriangularNumberForCoq_ ().get_number (n) ) )
+        .map ( pair => pair._1)
+        .map ( n => Tuple2 (n, TriangularNumberForCoq_ ().get_number (n) ) )
     ) (
       expected = triangular_number_with_nat
     )

@@ -104,8 +104,8 @@ trait BlockProcessor
     join_translated_blocks (
       translator_with_preprocessor.translate (
         split_blocks (program)
-          .map (  block => process_unicode_symbols_in_block (block) )
-          .map (  block => make_block (block) )
+          .map ( block => process_unicode_symbols_in_block (block) )
+          .map ( block => make_block (block) )
       )
     )
 
@@ -117,7 +117,7 @@ trait BlockProcessor
   def process_unicode_symbols_in_block (block : String) : String =
     Tokenizer_ (block)
       .tokens
-      .map (  token => process_unicode_symbols_in_token (token) )
+      .map ( token => process_unicode_symbols_in_token (token) )
       .mkString
 
   def process_unicode_symbols_in_token (token : Token) : String =
@@ -134,7 +134,7 @@ trait BlockProcessor
       .line
 
   def make_blocks (blocks: Seq [String] ) : Seq[AnnotatedBlock] =
-      blocks.map (  paragraph => make_block (paragraph) )
+      blocks.map ( paragraph => make_block (paragraph) )
 
   def make_block (paragraph : String) : AnnotatedBlock =
     AnnotationFactory_ ().annotate (
@@ -145,12 +145,12 @@ trait BlockProcessor
 
   def join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
     blocks
-      .map (  x => x.contents)
+      .map ( x => x.contents)
       .mkString (double_new_line) + new_line
 
   def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
-      .filter (  line => line.trim.nonEmpty)
+      .filter ( line => line.trim.nonEmpty)
 
 }
 
@@ -196,7 +196,7 @@ trait PreprocessorSequenceTranslator
     )
 
   private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    block_sequence.map (  block => block_annotator.translate (block) )
+    block_sequence.map ( block => block_annotator.translate (block) )
 
   private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)

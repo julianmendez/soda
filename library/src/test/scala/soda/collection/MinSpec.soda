@@ -206,7 +206,7 @@ class MinSpec ()
 
   test ("takeWhile with Seq") (
     check (
-      obtained := exampleSeq.takeWhile ( lambda e --> not (e == 3) )
+      obtained := exampleSeq.takeWhile (lambda e --> not (e == 3) )
     ) (
       expected := Seq (0, 1, 1, 2)
     )
@@ -214,7 +214,7 @@ class MinSpec ()
 
   test ("takeWhile") (
     check (
-      obtained := Min_ ().takeWhile (example) ( lambda e --> not (e == 3) )
+      obtained := Min_ ().takeWhile (example) (lambda e --> not (e == 3) )
     ) (
       expected := MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2) )
     )
@@ -222,7 +222,7 @@ class MinSpec ()
 
   test ("dropWhile with Seq") (
     check (
-      obtained := exampleSeq.dropWhile ( lambda e --> not (e == 3) )
+      obtained := exampleSeq.dropWhile (lambda e --> not (e == 3) )
     ) (
       expected := Seq (3, 5, 8)
     )
@@ -230,7 +230,7 @@ class MinSpec ()
 
   test ("dropWhile") (
     check (
-      obtained := Min_ ().dropWhile (example) ( lambda e --> not (e == 3) )
+      obtained := Min_ ().dropWhile (example) (lambda e --> not (e == 3) )
     ) (
       expected := MSeqTranslator_ ().asMSeq (Seq (3, 5, 8) )
     )
@@ -254,7 +254,7 @@ class MinSpec ()
 
   test ("span with Seq") (
     check (
-      obtained := exampleSeq.span ( lambda x --> not (x == 5) )
+      obtained := exampleSeq.span (lambda x --> not (x == 5) )
     ) (
       expected := Tuple2 (Seq (0, 1, 1, 2, 3), Seq (5, 8) )
     )
@@ -262,7 +262,7 @@ class MinSpec ()
 
   test ("span") (
     check (
-      obtained := Min_ ().span (example) ( lambda (x : Int) --> not (x == 5) )
+      obtained := Min_ ().span (example) (lambda (x : Int) --> not (x == 5) )
     ) (
       expected := MSeqPair_ (MSeqTranslator_ ().asMSeq (Seq (0, 1, 1, 2, 3) ), MSeqTranslator_ ().asMSeq (Seq (5, 8) ) )
     )
@@ -390,7 +390,7 @@ class MinSpec ()
 
   test ("forall with Seq 0") (
     check (
-      obtained := exampleSeq.forall ( lambda x --> not (x == 7) )
+      obtained := exampleSeq.forall (lambda x --> not (x == 7) )
     ) (
       expected := true
     )
@@ -398,7 +398,7 @@ class MinSpec ()
 
   test ("forall with Seq 1") (
     check (
-      obtained := exampleSeq.forall ( lambda x --> x < 7)
+      obtained := exampleSeq.forall (lambda x --> x < 7)
     ) (
       expected := false
     )
@@ -406,7 +406,7 @@ class MinSpec ()
 
   test ("forall with Seq 2") (
     check (
-      obtained := Seq ().forall ( lambda x --> x == 7)
+      obtained := Seq ().forall (lambda x --> x == 7)
     ) (
       expected := true
     )
@@ -414,7 +414,7 @@ class MinSpec ()
 
   test ("forall 0") (
     check (
-      obtained := Min_ ().forall (example) ( lambda x --> not (x == 7) )
+      obtained := Min_ ().forall (example) (lambda x --> not (x == 7) )
     ) (
       expected := true
     )
@@ -422,7 +422,7 @@ class MinSpec ()
 
   test ("forall 1") (
     check (
-      obtained := Min_ ().forall (example) ( lambda x --> x < 7)
+      obtained := Min_ ().forall (example) (lambda x --> x < 7)
     ) (
       expected := false
     )
@@ -430,7 +430,7 @@ class MinSpec ()
 
   test ("forall 2") (
     check (
-      obtained := Min_ ().forall (empty) ( lambda x --> x == 7)
+      obtained := Min_ ().forall (empty) (lambda x --> x == 7)
     ) (
       expected := true
     )
@@ -438,7 +438,7 @@ class MinSpec ()
 
   test ("exists with Seq 0") (
     check (
-      obtained := exampleSeq.exists ( lambda x --> x == 8)
+      obtained := exampleSeq.exists (lambda x --> x == 8)
     ) (
       expected := true
     )
@@ -446,7 +446,7 @@ class MinSpec ()
 
   test ("exists with Seq 1") (
     check (
-      obtained := exampleSeq.exists ( lambda x --> x == 7)
+      obtained := exampleSeq.exists (lambda x --> x == 7)
     ) (
       expected := false
     )
@@ -454,7 +454,7 @@ class MinSpec ()
 
   test ("exists with Seq 2") (
     check (
-      obtained := Seq ().exists ( lambda x --> x == 7)
+      obtained := Seq ().exists (lambda x --> x == 7)
     ) (
       expected := false
     )
@@ -462,7 +462,7 @@ class MinSpec ()
 
   test ("exists 0") (
     check (
-      obtained := Min_ ().exists (example) ( lambda x --> x == 8)
+      obtained := Min_ ().exists (example) (lambda x --> x == 8)
     ) (
       expected := true
     )
@@ -470,7 +470,7 @@ class MinSpec ()
 
   test ("exists 1") (
     check (
-      obtained := Min_ ().exists (example) ( lambda x --> x == 7)
+      obtained := Min_ ().exists (example) (lambda x --> x == 7)
     ) (
       expected := false
     )
@@ -478,7 +478,7 @@ class MinSpec ()
 
   test ("exists 2") (
     check (
-      obtained := Min_ ().exists (empty) ( lambda x --> x == 7)
+      obtained := Min_ ().exists (empty) (lambda x --> x == 7)
     ) (
       expected := false
     )
@@ -486,7 +486,7 @@ class MinSpec ()
 
   test ("find with Seq 0") (
     check (
-      obtained := exampleSeq.find ( lambda x --> not (x == 7) )
+      obtained := exampleSeq.find (lambda x --> not (x == 7) )
     ) (
       expected := Some (0)
     )
@@ -494,7 +494,7 @@ class MinSpec ()
 
   test ("find with Seq 1") (
     check (
-      obtained := exampleSeq.find ( lambda x --> x == 8)
+      obtained := exampleSeq.find (lambda x --> x == 8)
     ) (
       expected := Some (8)
     )
@@ -502,7 +502,7 @@ class MinSpec ()
 
   test ("find with Seq 2") (
     check (
-      obtained := Seq ().find ( lambda x --> x == 7)
+      obtained := Seq ().find (lambda x --> x == 7)
     ) (
       expected := None
     )
@@ -510,7 +510,7 @@ class MinSpec ()
 
   test ("find 0") (
     check (
-      obtained := Min_ ().find (example) ( lambda x --> not (x == 7) )
+      obtained := Min_ ().find (example) (lambda x --> not (x == 7) )
     ) (
       expected := SomeSD_ (0)
     )
@@ -518,7 +518,7 @@ class MinSpec ()
 
   test ("find 1") (
     check (
-      obtained := Min_ ().find (example) ( lambda x --> x == 8)
+      obtained := Min_ ().find (example) (lambda x --> x == 8)
     ) (
       expected := SomeSD_ (8)
     )
@@ -526,7 +526,7 @@ class MinSpec ()
 
   test ("find 2") (
     check (
-      obtained := Min_ ().find (empty) ( lambda x --> x == 7)
+      obtained := Min_ ().find (empty) (lambda x --> x == 7)
     ) (
       expected := NoneSD_ ()
     )
@@ -534,7 +534,7 @@ class MinSpec ()
 
   test ("filter with Seq") (
     check (
-      obtained := exampleSeq.filter ( lambda x --> x % 3 == 0)
+      obtained := exampleSeq.filter (lambda x --> x % 3 == 0)
     ) (
       expected := Seq (0, 3)
     )
@@ -542,7 +542,7 @@ class MinSpec ()
 
   test ("filter") (
     check (
-      obtained := Min_ ().filter (example) ( lambda x --> x % 3 == 0)
+      obtained := Min_ ().filter (example) (lambda x --> x % 3 == 0)
     ) (
       expected := MSeqTranslator_ ().asMSeq (Seq (0, 3) )
     )
@@ -550,7 +550,7 @@ class MinSpec ()
 
   test ("map with Seq") (
     check (
-      obtained := exampleSeq.map ( lambda x --> x + 100)
+      obtained := exampleSeq.map (lambda x --> x + 100)
     ) (
       expected := Seq (100, 101, 101, 102, 103, 105, 108)
     )
@@ -558,7 +558,7 @@ class MinSpec ()
 
   test ("map in the same type") (
     check (
-      obtained := Min_ ().map0 (example) ( lambda x --> x + 100)
+      obtained := Min_ ().map0 (example) (lambda x --> x + 100)
     ) (
       expected := MSeqTranslator_ ().asMSeq (Seq (100, 101, 101, 102, 103, 105, 108) )
     )
@@ -566,7 +566,7 @@ class MinSpec ()
 
   test ("foldLeft with Seq") (
     check (
-      obtained := exampleSeq.foldLeft (Seq [Int] () ) ( lambda (s : Seq [Int], e : Int) --> s.+: ( (e + 100) ) )
+      obtained := exampleSeq.foldLeft (Seq [Int] () ) (lambda (s : Seq [Int], e : Int) --> s.+: ( (e + 100) ) )
     ) (
       expected := Seq (108, 105, 103, 102, 101, 101, 100)
     )

@@ -50,7 +50,7 @@ class CoqClassEndBlockTranslator
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap ( lambda block --> _get_as_class_beginning_annotation (block) )
+      .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
       .headOption
 
   _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =

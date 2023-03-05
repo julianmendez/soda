@@ -7,7 +7,7 @@ trait MiniExample
 
   def run () : Seq [Unit] =
     _range.apply (50)
-      .map (  x => print (" " + (2 * x + 1) ) )
+      .map ( x => print (" " + (2 * x + 1) ) )
 
 }
 

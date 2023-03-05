@@ -61,10 +61,10 @@ class FunctionDefinitionBlockTranslator
     )
 
   _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines.takeWhile ( lambda annotated_line --> annotated_line.is_comment )
+    lines.takeWhile (lambda annotated_line --> annotated_line.is_comment )
 
   _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines.dropWhile ( lambda annotated_line --> annotated_line.is_comment )
+    lines.dropWhile (lambda annotated_line --> annotated_line.is_comment )
 
   _translate_val_definition (line : String) : String =
     Replacement_ (line)

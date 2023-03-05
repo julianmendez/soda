@@ -97,7 +97,7 @@ trait CoqClassConstructorBlockTranslator
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block => _get_as_class_beginning_annotation (block) )
+      .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
 
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
@@ -108,8 +108,8 @@ trait CoqClassConstructorBlockTranslator
 
   private def _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
     block.abstract_functions
-      .map (  annotated_line => _translate_type_symbols (annotated_line.line).trim )
-      .map (  line => _remove_variable (line) )
+      .map ( annotated_line => _translate_type_symbols (annotated_line.line).trim )
+      .map ( line => _remove_variable (line) )
 
   private def _remove_variable (line : String) : String =
     _remove_variable_with (line) (line.indexOf (_sc.type_membership_symbol) )
@@ -129,7 +129,7 @@ trait CoqClassConstructorBlockTranslator
     _get_initial_spaces_with (_get_first_line (block) )
 
   private def _get_initial_spaces_with (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
+    line.takeWhile ( ch => ch.isSpaceChar)
 
   private def _get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
@@ -206,7 +206,7 @@ trait CoqClassDeclarationBlockTranslator
 
   private def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block).trim.nonEmpty)
-    ) block.lines.map (  line => _tc.coq_import_reserved_word + _tc.coq_space + line.trim + _tc.coq_space + _tc.coq_end_symbol)
+    ) block.lines.map ( line => _tc.coq_import_reserved_word + _tc.coq_space + line.trim + _tc.coq_space + _tc.coq_end_symbol)
     else Seq [String] ()
 
   def remove_first_line (block : Block) : Block =
@@ -224,7 +224,7 @@ trait CoqClassDeclarationBlockTranslator
     get_initial_spaces_for (get_first_line (block) )
 
   def get_initial_spaces_for (line : String) : String =
-    line.takeWhile (  ch => ch.isSpaceChar)
+    line.takeWhile ( ch => ch.isSpaceChar)
 
   def contains_equals (line : String) : Boolean =
     line.trim.contains (_sc.function_definition_symbol)
@@ -289,7 +289,7 @@ trait CoqClassEndBlockTranslator
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
-      .flatMap (  block => _get_as_class_beginning_annotation (block) )
+      .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
 
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
@@ -350,14 +350,14 @@ trait CoqDefinitionBlockTranslator
     )
 
   def is_a_recursive_definition (block : Block) : Boolean =
-    _tc.coq_recursive_function_prefixes.exists (  prefix => first_line (block).startsWith (prefix) )
+    _tc.coq_recursive_function_prefixes.exists ( prefix => first_line (block).startsWith (prefix) )
 
   def first_line (block : Block) : String =
     block.lines.headOption.getOrElse ("").trim
 
   def is_a_definition (block : Block) : Boolean =
     ! is_a_recursive_definition (block) &&
-    ! _tc.non_definition_block_prefixes.exists (  prefix => block.contents.trim.startsWith (prefix) )
+    ! _tc.non_definition_block_prefixes.exists ( prefix => block.contents.trim.startsWith (prefix) )
 
 }
 
@@ -398,14 +398,14 @@ trait CoqImportDeclarationBlockTranslator
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         coq_import_declaration_pattern) (
         block.imported_items
-          .filter(  annotated_line => ! annotated_line.is_comment)
-          .map (  annotated_line => AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
+          .filter( annotated_line => ! annotated_line.is_comment)
+          .map ( annotated_line => AnnotatedLine_ (annotated_line.line + _tc.coq_space + _tc.coq_end_symbol, false) )
       )
     )
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ ().build (
-      annotated_lines.map (  annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines.map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
@@ -415,7 +415,7 @@ trait CoqImportDeclarationBlockTranslator
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (  ch => ch.isSpaceChar)
+      .takeWhile ( ch => ch.isSpaceChar)
       .length
 
   def get_first_line (block : AnnotatedBlock) : String =
@@ -663,11 +663,11 @@ trait DefinitionLineTranslator
     _position_of_first_opening_parenthesis.isEmpty
 
   private def _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis.opt (false) (  position => (position > initial_position) )
+    _position_of_first_opening_parenthesis.opt (false) ( position => (position > initial_position) )
 
   private lazy val _is_val_definition_case_3 =
     (get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-      _position_of_first_opening_parenthesis.opt (false) (  position => (position > other_position) )
+      _position_of_first_opening_parenthesis.opt (false) ( position => (position > other_position) )
     )
 
   private lazy val _is_val_definition_case_4 =
@@ -691,7 +691,7 @@ trait DefinitionLineTranslator
 
   def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line.indexOf (pattern, start) )
-      .filter (  position => !  (position == -1) )
+      .filter ( position => !  (position == -1) )
 
 }
 
@@ -744,7 +744,7 @@ trait MatchCaseBlockTranslator
     else block
 
   private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block.lines.exists (  line => _is_a_match_line (line) )
+    block.lines.exists ( line => _is_a_match_line (line) )
 
   private def _is_a_match_line (line : String) : Boolean =
     line.trim.startsWith (_soda_match_pattern)
@@ -754,15 +754,15 @@ trait MatchCaseBlockTranslator
 
   private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
     block.lines
-      .find (  line => _is_a_match_line (line) )
-      .map (  line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
+      .find ( line => _is_a_match_line (line) )
+      .map ( line => _left_part (line.indexOf (_soda_match_pattern) ) (line) )
       .getOrElse (_tc.coq_space)
 
   private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ ().build (
       block.lines
-        .map (  line => _append_with_after_match (line) )
-        .map (  line => _replace_case (line) )
+        .map ( line => _append_with_after_match (line) )
+        .map ( line => _replace_case (line) )
          .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
     )
 
@@ -1085,8 +1085,8 @@ trait TranslationConstantToCoq
 
   lazy val coq_non_soda : Seq [Tuple2 [String, String] ] =
     coq_reserved_words
-      .filter (  x => ! soda_constant.soda_reserved_words.contains (x))
-      .map (  x => Tuple2 (x, prefix_coq_non_soda + x) )
+      .filter ( x => ! soda_constant.soda_reserved_words.contains (x))
+      .map ( x => Tuple2 (x, prefix_coq_non_soda + x) )
 
   def is_coq_word (word : String) : Boolean =
     coq_reserved_words.contains (word)

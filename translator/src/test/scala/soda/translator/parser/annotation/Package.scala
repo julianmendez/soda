@@ -38,7 +38,7 @@ case class BlockAnnotationSpec ()
     )
 
   def apply_detectors (block : Block) : Seq [Boolean] =
-    detectors (block).map (  detector => detector.applies)
+    detectors (block).map ( detector => detector.applies)
 
   test ("should detect a package declaration") (
     check (
@@ -154,7 +154,7 @@ case class BlockAnnotationSpec ()
 
   test ("should be ordered by the identifier ordinal") (
     check (
-      obtained = detectors (example_blocks (0) ).map (  detector => detector.identifier.ordinal)
+      obtained = detectors (example_blocks (0) ).map ( detector => detector.identifier.ordinal)
     ) (
       expected = Seq [Int] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
     )
@@ -229,7 +229,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should find the right block for ClassBeginningAnnotation") (
     check (
-      obtained = example_blocks.map (  block => ClassBeginningAnnotation_ (block).applies )
+      obtained = example_blocks.map ( block => ClassBeginningAnnotation_ (block).applies )
     ) (
       expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false, false)
     )
