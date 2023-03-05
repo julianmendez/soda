@@ -27,11 +27,14 @@ trait TableTranslator
 
   def   table : Seq [Tuple2 [String, String] ]
 
-  lazy val keys = table.map (  pair => pair._1)
+  lazy val keys : Seq [String] = table.map (  pair => pair._1)
 
   lazy val translate : String => String =
      word =>
-      table.toMap.get (word).getOrElse (word)
+      table
+        .toMap
+        .get (word)
+        .getOrElse (word)
 
 }
 

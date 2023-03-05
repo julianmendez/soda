@@ -4,7 +4,9 @@
   - build: sbt '++ 3.2.2' clean compile test package assembly
   - release: target/scala-3.2.2/soda-0.18.0.jar
   - new_features:
-    - assumes translation to `Package.scala` files as default configuration for the Scala translator     
+    - assumes translation to `Package.scala` files as default configuration for the Scala translator
+  - bug_fixes:
+    - fixes translation of reserved words after opening parenthesis
 - - version: v0.17.0
   - date: '2023-03-01'
   - build: sbt '++ 3.2.2' clean compile test package assembly

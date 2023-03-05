@@ -317,6 +317,10 @@ trait ReplacementWithTranslator
 
   lazy val scala_space = aux.scala_space
 
+  lazy val soda_opening_parenthesis_symbol = "("
+
+  lazy val scala_opening_parenthesis_symbol = "("
+
   private lazy val _fold = Fold_ ()
 
   def replace_at_beginning (line : String) (index : Int) : String =
@@ -335,8 +339,13 @@ trait ReplacementWithTranslator
     _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace)
 
   private def _next_replace (line : String) (reserved_word : String) : String =
+    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
+      _replace_if_found (soda_space) (reserved_word) (line)
+    )
+
+  private def _replace_if_found (previous_character : String) (reserved_word : String) (line : String) : String =
     aux.replace_if_found (line) (
-      soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
+      previous_character + reserved_word + soda_space) (previous_character + translator.translate (reserved_word) + scala_space)
 
 }
 

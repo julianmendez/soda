@@ -302,12 +302,12 @@ class MicroTranslatorToScalaSpec ()
   test ("should translate another explicit lambda expression containing parentheses") (
     check (
       obtained := instance.translate ("plus_1 (s : Seq [Int] ) : Seq [Int] =" +
-         "\n  s .map ( lambda x --> x + 1)" +
+         "\n  s .map (lambda x --> x + 1)" +
         "\n"
       )
     ) (
       expected := "def plus_1 (s : Seq [Int] ) : Seq [Int] =" +
-        "\n  s .map (  x => x + 1)" +
+        "\n  s .map ( x => x + 1)" +
         "\n"
     )
   )
