@@ -1104,11 +1104,9 @@ trait TranslatorToScala
     soda.translator.extension.common.Extension
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_
   import   soda.translator.io.SimpleFileReader_
   import   soda.translator.io.SimpleFileWriter_
-  import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
   lazy val tc = TranslatorToScalaConstant_ ()
@@ -1116,13 +1114,6 @@ trait TranslatorToScala
   lazy val reader = SimpleFileReader_ ()
 
   lazy val writer = SimpleFileWriter_ ()
-
-  private lazy val _translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
-      )
-    )
 
   lazy val execute : Seq [String] => Boolean =
      arguments =>
@@ -1134,58 +1125,54 @@ trait TranslatorToScala
       case 1 => _process_directory_with_package_option (arguments.apply (0) )
       case 2 =>
         if ( _is_single_files_option (arguments.apply (0) )
-        ) _process_directory (arguments.apply (1) )
+        ) _process_directory_with_single_files_option (arguments.apply (1) )
         else false
       case 3 =>
         if ( _is_single_files_option (arguments.apply (0) )
-        ) _translate (arguments.apply (1) ) (arguments.apply (2) )
+        ) IndividualProcessor_ ().translate (arguments.apply (1) ) (arguments.apply (2) )
         else false
       case x => false
     }
 
-  private def _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start, _process_soda_file).process ()
-
-  private def _process_soda_file (file : File) : Boolean =
-    _process_soda_file_with (get_input_output_file_names (file.getAbsolutePath) )
-
-  private def _process_soda_file_with (pair : FileNamePair) : Boolean =
-    _translate (pair.input_file_name) (pair.output_file_name)
+  private def _process_directory_with_single_files_option (start : String) : Boolean =
+    DirectoryProcessor_ (start , IndividualProcessor_ ().process_soda_file).process ()
 
   private def _process_directory_with_package_option (start : String) : Boolean =
-    DirectoryProcessor_ (start, _process_soda_file_with_package_option).process ()
+    DirectoryProcessor_ (start , process_soda_file_with_package_option).process ()
 
-  private def _process_soda_file_with_package_option (file : File) : Boolean =
+  def process_soda_file_with_package_option (file : File) : Boolean =
     if ( file.getName == tc.package_file_name
-    ) _process_soda_file (file)
-    else _process_soda_file_with_single_files_option_with (
-      get_input_output_file_names_with_package_option (file.getAbsolutePath) (file.getParent)
-    )
+    ) IndividualProcessor_ ().process_soda_file (file)
+    else PackageProcessor_ ().process_soda_file (file)
 
-  private def _process_soda_file_with_single_files_option_with (pair : FileNamePair) : Boolean =
-    _translate_append (pair.input_file_name) (pair.output_file_name)
+  private def _is_single_files_option (s : String) : Boolean =
+    (s == tc.single_files_option_1) || (s == tc.single_files_option_2)
 
-  def get_input_output_file_names (input_name : String) : FileNamePair =
-    if ( input_name.endsWith (tc.soda_extension)
-    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - tc.soda_extension.length) + tc.scala_extension)
-    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
+}
 
-  def get_input_output_file_names_with_package_option (input_name : String) (parent_name : String) : FileNamePair =
-    if ( input_name.endsWith (tc.soda_extension)
-    ) FileNamePair_ (input_name , parent_name + tc.file_separator + tc.package_scala_file_name )
-    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
+case class TranslatorToScala_ () extends TranslatorToScala
 
-  private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
+trait IndividualProcessor
+{
+
+  import   soda.translator.io.SimpleFileReader_
+  import   soda.translator.io.SimpleFileWriter_
+  import   java.io.File
+
+  lazy val tc = TranslatorToScalaConstant_ ()
+
+  lazy val reader = SimpleFileReader_ ()
+
+  lazy val writer = SimpleFileWriter_ ()
+
+  def process_soda_file (file : File) : Boolean =
+    process_soda_file_with (get_input_output_file_names (file.getAbsolutePath) )
+
+  def process_soda_file_with (pair : FileNamePair) : Boolean =
+    translate (pair.input_file_name) (pair.output_file_name)
+
+  def translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (_read_input_with_prelude (input_file_name) ) (output_file_name)
-
-  private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    writer.write_file (output_file_name) (content = _translator.translate (input) )
-
-  private def _translate_append (input_file_name : String) (output_file_name : String) : Boolean =
-    _translate_append_with_input (reader.read_file (input_file_name) ) (output_file_name)
-
-  private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    writer.append_file (output_file_name) (content = tc.new_line + _translator.translate (input) + tc.new_line)
 
   private def _read_input_with_prelude (input_file_name : String) : String =
     if ( _is_a_prelude_file (input_file_name)
@@ -1206,16 +1193,57 @@ trait TranslatorToScala
   private def _is_a_prelude_file (input_file_name : String) : Boolean =
     tc.package_file_name == ( ( new File (input_file_name) ) .getName)
 
-  private def _is_single_files_option (s : String) : Boolean =
-    (s == tc.single_files_option_1) || (s == tc.single_files_option_2)
+  private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
+    writer.write_file (output_file_name) (content = tc.translator.translate (input) )
+
+  def get_input_output_file_names (input_name : String) : FileNamePair =
+    if ( input_name.endsWith (tc.soda_extension)
+    ) FileNamePair_ (input_name, input_name.substring (0, input_name.length - tc.soda_extension.length) + tc.scala_extension)
+    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
 
 }
 
-case class TranslatorToScala_ () extends TranslatorToScala
+case class IndividualProcessor_ () extends IndividualProcessor
+
+trait PackageProcessor
+{
+
+  import   soda.translator.io.SimpleFileReader_
+  import   soda.translator.io.SimpleFileWriter_
+  import   java.io.File
+
+  lazy val tc = TranslatorToScalaConstant_ ()
+
+  lazy val reader = SimpleFileReader_ ()
+
+  lazy val writer = SimpleFileWriter_ ()
+
+  def process_soda_file (file : File) : Boolean =
+    process_soda_file_with (get_input_output_file_names (file.getAbsolutePath) (file.getParent) )
+
+  def process_soda_file_with (pair : FileNamePair) : Boolean =
+    translate_append (pair.input_file_name) (pair.output_file_name)
+
+  def get_input_output_file_names (input_name : String) (parent_name : String) : FileNamePair =
+    if ( input_name.endsWith (tc.soda_extension)
+    ) FileNamePair_ (input_name , parent_name + tc.file_separator + tc.package_scala_file_name )
+    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
+
+  def translate_append (input_file_name : String) (output_file_name : String) : Boolean =
+    _translate_append_with_input (reader.read_file (input_file_name) ) (output_file_name)
+
+  private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
+    writer.append_file (output_file_name) (content = tc.new_line + tc.translator.translate (input) + tc.new_line)
+
+}
+
+case class PackageProcessor_ () extends PackageProcessor
 
 trait TranslatorToScalaConstant
 {
 
+  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   java.io.File
 
   lazy val soda_extension : String = ".soda"
@@ -1243,6 +1271,13 @@ trait TranslatorToScalaConstant
   lazy val single_files_option_1 = "-s"
 
   lazy val single_files_option_2 = "--single"
+
+  lazy val translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToScala_ ()
+      )
+    )
 
 }
 

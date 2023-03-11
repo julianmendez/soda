@@ -868,7 +868,7 @@ case class MainSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  lazy val instance = TranslatorToScala_ ()
+  lazy val instance = IndividualProcessor_ ()
 
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)

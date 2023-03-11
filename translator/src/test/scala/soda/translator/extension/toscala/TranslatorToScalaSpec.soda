@@ -3,7 +3,7 @@ class MainSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  instance = TranslatorToScala_ ()
+  instance = IndividualProcessor_ ()
 
   check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
