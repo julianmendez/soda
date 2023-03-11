@@ -6,7 +6,9 @@ class FactorialWithFold
   _range = soda.lib.Range_ ()
 
   apply (n : Int) : Int =
-    _fold.apply (_range.apply (n) ) (1) (any product --> any k --> (product *  (k + 1) ) )
+    if n < 0
+    then 0
+    else _fold.apply (_range.apply (n) ) (1) (any product --> any k --> (product * (k + 1) ) )
 
 end
 

@@ -2,7 +2,9 @@ trait FactorialConcise
 {
 
   def apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
+    if ( n < 0
+    ) 0
+    else _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec
         @tailrec  final

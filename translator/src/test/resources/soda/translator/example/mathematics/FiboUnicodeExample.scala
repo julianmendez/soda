@@ -1,7 +1,7 @@
 trait FiboUnicodeExample
 {
 
-  def apply (n : Int) =
+  def apply (n : Int) : Int =
     _rec (n) (0) (1)
 
   private def _rec (m : Int) (a : Int) (b : Int) : Int =
