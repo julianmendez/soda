@@ -1,4 +1,5 @@
 
+
 /**
  * This translates Soda source code to Scala source code.
  */
@@ -15,31 +16,11 @@ class TranslatorToScala
     soda.translator.parser.BlockProcessor_
     java.io.File
 
-  _soda_extension : String = ".soda"
+  tc = TranslatorToScalaConstant_ ()
 
-  _scala_extension : String = ".scala"
+  reader = SimpleFileReader_ ()
 
-  _default_argument = "."
-
-  package_file_prefix : String = "Package"
-
-  package_file_name : String = package_file_prefix + _soda_extension
-
-  package_scala_file_name : String = package_file_prefix + _scala_extension
-
-  file_separator : String = File.separator
-
-  default_prelude : String = ""
-
-  new_line : String = "\n"
-
-  append_separation : String = new_line + new_line
-
-  prelude_file_body : String = new_line + "trait Package" + append_separation
-
-  single_files_option_1 = "-s"
-
-  single_files_option_2 = "--single"
+  writer = SimpleFileWriter_ ()
 
   _translator =
     BlockProcessor_ (
@@ -54,7 +35,7 @@ class TranslatorToScala
 
   execute_for (arguments : Seq [String] ) : Boolean =
     match arguments.length
-      case 0 ==> _process_directory_with_package_option (_default_argument)
+      case 0 ==> _process_directory_with_package_option (tc.default_argument)
       case 1 ==> _process_directory_with_package_option (arguments.apply (0) )
       case 2 ==>
         if _is_single_files_option (arguments.apply (0) )
@@ -79,7 +60,7 @@ class TranslatorToScala
     DirectoryProcessor_ (start, _process_soda_file_with_package_option).process ()
 
   _process_soda_file_with_package_option (file : File) : Boolean =
-    if file.getName == package_file_name
+    if file.getName == tc.package_file_name
     then _process_soda_file (file)
     else _process_soda_file_with_single_files_option_with (
       get_input_output_file_names_with_package_option (file.getAbsolutePath) (file.getParent)
@@ -89,51 +70,81 @@ class TranslatorToScala
     _translate_append (pair.input_file_name) (pair.output_file_name)
 
   get_input_output_file_names (input_name : String) : FileNamePair =
-    if input_name.endsWith (_soda_extension)
-    then FileNamePair_ (input_name, input_name.substring (0, input_name.length - _soda_extension.length) + _scala_extension)
-    else FileNamePair_ (input_name + _soda_extension, input_name + _scala_extension)
+    if input_name.endsWith (tc.soda_extension)
+    then FileNamePair_ (input_name, input_name.substring (0, input_name.length - tc.soda_extension.length) + tc.scala_extension)
+    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
 
   get_input_output_file_names_with_package_option (input_name : String) (parent_name : String) : FileNamePair =
-    if input_name.endsWith (_soda_extension)
-    then FileNamePair_ (input_name , parent_name + file_separator + package_scala_file_name )
-    else FileNamePair_ (input_name + _soda_extension, input_name + _scala_extension)
+    if input_name.endsWith (tc.soda_extension)
+    then FileNamePair_ (input_name , parent_name + tc.file_separator + tc.package_scala_file_name )
+    else FileNamePair_ (input_name + tc.soda_extension, input_name + tc.scala_extension)
 
   _translate (input_file_name : String) (output_file_name : String) : Boolean =
-    _translate_with_input ( _read_input_with_prelude (input_file_name) ) (output_file_name)
+    _translate_with_input (_read_input_with_prelude (input_file_name) ) (output_file_name)
 
   _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (output_file_name) (content := _translator.translate (input) )
+    writer.write_file (output_file_name) (content := _translator.translate (input) )
 
   _translate_append (input_file_name : String) (output_file_name : String) : Boolean =
-    _translate_append_with_input ( _read_input (input_file_name) ) (output_file_name)
+    _translate_append_with_input (reader.read_file (input_file_name) ) (output_file_name)
 
   _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().append_file (output_file_name) (content := new_line + _translator.translate (input) + new_line)
+    writer.append_file (output_file_name) (content := tc.new_line + _translator.translate (input) + tc.new_line)
 
   _read_input_with_prelude (input_file_name : String) : String =
     if _is_a_prelude_file (input_file_name)
-    then _read_input (input_file_name) + prelude_file_body
-    else _get_prelude (input_file_name) + _read_input (input_file_name)
-
-  _read_input (input_file_name : String) : String =
-    SimpleFileReader_ ().read_file (input_file_name)
+    then reader.read_file (input_file_name) + tc.prelude_file_body
+    else _get_prelude (input_file_name) + reader.read_file (input_file_name)
 
   _get_prelude (input_file_name : String) : String =
     _get_prelude_with (_get_prelude_file (input_file_name) )
 
   _get_prelude_with (prelude_file : File) : String =
     if prelude_file.exists
-    then (SimpleFileReader_ ().read_file (prelude_file.getAbsolutePath) ) + append_separation
-    else default_prelude
+    then (reader.read_file (prelude_file.getAbsolutePath) ) + tc.append_separation
+    else tc.default_prelude
 
   _get_prelude_file (input_file_name : String) : File =
-    @new File ( @new File (input_file_name) .getParentFile , package_file_name )
+    @new File ( @new File (input_file_name) .getParentFile , tc.package_file_name )
 
   _is_a_prelude_file (input_file_name : String) : Boolean =
-    package_file_name == ( ( @new File (input_file_name) ) .getName)
+    tc.package_file_name == ( ( @new File (input_file_name) ) .getName)
 
   _is_single_files_option (s : String) : Boolean =
-    (s == single_files_option_1) or (s == single_files_option_2)
+    (s == tc.single_files_option_1) or (s == tc.single_files_option_2)
+
+end
+
+class TranslatorToScalaConstant
+
+  import
+    java.io.File
+
+  soda_extension : String = ".soda"
+
+  scala_extension : String = ".scala"
+
+  default_argument = "."
+
+  package_file_prefix : String = "Package"
+
+  package_file_name : String = package_file_prefix + soda_extension
+
+  package_scala_file_name : String = package_file_prefix + scala_extension
+
+  file_separator : String = File.separator
+
+  default_prelude : String = ""
+
+  new_line : String = "\n"
+
+  append_separation : String = new_line + new_line
+
+  prelude_file_body : String = new_line + "trait Package" + append_separation
+
+  single_files_option_1 = "-s"
+
+  single_files_option_2 = "--single"
 
 end
 
