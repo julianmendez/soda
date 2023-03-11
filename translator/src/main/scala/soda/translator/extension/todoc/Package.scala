@@ -32,7 +32,7 @@ trait DocBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
-      case x => _translate_source_code (x)
+      case otherwise => _translate_source_code (annotated_block)
     }
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =

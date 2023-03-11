@@ -10,7 +10,7 @@ class FactorialPatternMatching
   _tailrec_get_factorial (n : Int) (product : Int) : Int =
     match n
       case 0 ==> product
-      case x ==> _tailrec_get_factorial (x - 1) (x * product)
+      case otherwise ==> _tailrec_get_factorial (n - 1) (n * product)
 
 end
 

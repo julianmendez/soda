@@ -58,7 +58,7 @@ trait AnnotationFactory
   def annotate (block : Block) : AnnotatedBlock =
     block match  {
       case AnnotatedBlock_ (annotated_lines, block_annotation) => AnnotatedBlock_ (annotated_lines, block_annotation)
-      case x => _get_first_or_undefined (_find_candidates (x) ) (x)
+      case otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
     }
 
   def update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
@@ -74,7 +74,7 @@ trait AnnotationFactory
       case ProofBlockAnnotation_ (b) => ProofBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
-      case x => AnnotatedBlock_ (new_content.annotated_lines, x.block_annotation)
+      case otherwise => AnnotatedBlock_ (new_content.annotated_lines, original_content.block_annotation)
     }
 
   private def _detectors (block : Block) : Seq [BlockAnnotationParser] =

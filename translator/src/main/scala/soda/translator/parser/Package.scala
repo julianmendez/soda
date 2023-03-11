@@ -217,7 +217,7 @@ trait PreprocessorSequenceTranslator
     current.block_sequence.apply (index) match  {
       case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
-      case x => x
+      case otherwise => current.block_sequence.apply (index)
     }
 
   private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =

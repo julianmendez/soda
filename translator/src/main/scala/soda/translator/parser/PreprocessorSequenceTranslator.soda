@@ -60,7 +60,7 @@ class PreprocessorSequenceTranslator
     match current.block_sequence.apply (index)
       case AbstractDeclarationAnnotation_ (block, references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
-      case x ==> x
+      case otherwise ==> current.block_sequence.apply (index)
 
   _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
