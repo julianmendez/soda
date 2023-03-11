@@ -11,7 +11,9 @@ trait FactorialConcise
 {
 
   def apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
+    if ( n < 0
+    ) 0
+    else _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -29,7 +31,9 @@ trait FactorialPatternMatching
 {
 
   def apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
+    if ( n < 0
+    ) 0
+    else _tailrec_get_factorial (n) (1)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -52,7 +56,9 @@ trait FactorialWithFold
   private lazy val _range = soda.lib.Range_ ()
 
   def apply (n : Int) : Int =
-    _fold.apply (_range.apply (n) ) (1) ( product =>  k => (product *  (k + 1) ) )
+    if ( n < 0
+    ) 0
+    else _fold.apply (_range.apply (n) ) (1) ( product =>  k => (product * (k + 1) ) )
 
 }
 
