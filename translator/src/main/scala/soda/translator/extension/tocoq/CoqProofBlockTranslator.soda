@@ -19,7 +19,7 @@ class CoqProofBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case ProofBlockAnnotation_ (block) ==> _translate_block (ProofBlockAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (

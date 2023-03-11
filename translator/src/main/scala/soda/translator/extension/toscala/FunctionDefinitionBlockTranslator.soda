@@ -26,7 +26,7 @@ class FunctionDefinitionBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==> _translate_function_definition_block (block)
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -48,7 +48,7 @@ class FunctionDefinitionBlockTranslator
     match detector.detect
       case detector.val_detected ==> _replace_on_val_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
       case detector.def_detected ==> _replace_on_def_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
-      case x ==> block
+      case otherwise ==> block
 
   _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (

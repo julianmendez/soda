@@ -394,7 +394,7 @@ It is possible to use pattern matching with `match` and `case`.The result of the
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
-      case x ==> if_false
+      case otherwise ==> if_false
 
   sum (n : Int) =
     _tailrec_ (n) (0)

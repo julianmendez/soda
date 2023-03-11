@@ -29,7 +29,7 @@ class CoqClassDeclarationBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case ClassBeginningAnnotation_ (block) ==> _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )

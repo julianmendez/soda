@@ -32,7 +32,7 @@ trait CoqClassConstructorBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block, references) => _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -103,7 +103,7 @@ trait CoqClassConstructorBlockTranslator
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case x => None
+      case otherwise => None
     }
 
   private def _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
@@ -169,7 +169,7 @@ trait CoqClassDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
@@ -259,7 +259,7 @@ trait CoqClassEndBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -295,7 +295,7 @@ trait CoqClassEndBlockTranslator
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case x => None
+      case otherwise => None
     }
 
 }
@@ -323,7 +323,7 @@ trait CoqDefinitionBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
@@ -389,7 +389,7 @@ trait CoqImportDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
@@ -446,7 +446,7 @@ trait CoqPackageDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case PackageDeclarationAnnotation_ (block) => _translate_block (PackageDeclarationAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
@@ -486,7 +486,7 @@ trait CoqProofBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ProofBlockAnnotation_ (block) => _translate_block (ProofBlockAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
@@ -537,7 +537,7 @@ trait CoqTheoremBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) => _translate_block (TheoremBlockAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
@@ -729,7 +729,7 @@ trait MatchCaseBlockTranslator
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
@@ -1137,7 +1137,7 @@ trait TranslatorToCoq
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case x => false
+      case otherwise => false
     }
 
   private def _process_directory (start : String) : Boolean =

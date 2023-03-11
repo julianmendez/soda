@@ -294,7 +294,7 @@ trait TranslatorToDoc
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case x => false
+      case otherwise => false
     }
 
   def translate_content (input : String) : String =

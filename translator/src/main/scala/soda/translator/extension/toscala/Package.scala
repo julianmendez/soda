@@ -33,7 +33,7 @@ trait AbstractDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block, references) => _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -95,7 +95,7 @@ trait ClassConstructorBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -154,7 +154,7 @@ trait ClassConstructorBlockTranslator
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case x => None
+      case otherwise => None
     }
 
   private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
@@ -166,7 +166,7 @@ trait ClassConstructorBlockTranslator
   private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
     block match  {
       case AbstractDeclarationAnnotation_ (b, references) => Some (AbstractDeclarationAnnotation_ (b, references) )
-      case x => None
+      case otherwise => None
     }
 
   private def _translate_type_symbols (line : String) : String =
@@ -220,7 +220,7 @@ trait ClassDeclarationBlockTranslator
     annotated_block match  {
       case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
       case ClassAliasAnnotation_ (block) => _translate_class_alias_block (ClassAliasAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
@@ -318,7 +318,7 @@ trait ClassEndBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -375,7 +375,7 @@ trait FunctionDefinitionBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) => _translate_function_definition_block (block)
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
@@ -398,7 +398,7 @@ trait FunctionDefinitionBlockTranslator
     detector.detect match  {
       case detector.val_detected => _replace_on_val_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
       case detector.def_detected => _replace_on_def_block (_get_initial_comment (block.annotated_lines) ) (_get_part_without_initial_comment (block.annotated_lines) )
-      case x => block
+      case otherwise => block
     }
 
   private def _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
@@ -578,7 +578,7 @@ trait ImportDeclarationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
@@ -634,7 +634,7 @@ trait MainClassBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) => _translate_block (ClassEndAnnotation_ (block, references) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -665,7 +665,7 @@ trait MainClassBlockTranslator
   private def _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case x => None
+      case otherwise => None
     }
 
 }
@@ -701,7 +701,7 @@ trait MatchCaseBlockTranslator
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
@@ -831,7 +831,7 @@ trait TheoremAndProofBlockTranslator
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) => _translate_theorem_block (TheoremBlockAnnotation_ (block) )
       case ProofBlockAnnotation_ (block) => _translate_proof_block (ProofBlockAnnotation_ (block) )
-      case x => annotated_block
+      case otherwise => annotated_block
     }
 
   private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
@@ -1131,7 +1131,7 @@ trait TranslatorToScala
         if ( _is_single_files_option (arguments.apply (0) )
         ) IndividualProcessor_ ().translate (arguments.apply (1) ) (arguments.apply (2) )
         else false
-      case x => false
+      case otherwise => false
     }
 
   private def _process_directory_with_single_files_option (start : String) : Boolean =

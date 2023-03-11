@@ -111,31 +111,31 @@ trait OptionSD [A]
   def opt [B] (ifEmpty : B) (ifNonEmpty : A => B) : B =
     this match  {
       case SomeSD_ (element) => ifNonEmpty (element)
-      case x => ifEmpty
+      case otherwise => ifEmpty
     }
 
   def map [B] (mapping : A => B) : OptionSD [B] =
     this match  {
       case SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
-      case x => NoneSD_ [B] ()
+      case otherwise => NoneSD_ [B] ()
     }
 
   def getOrElse (default : A) : A =
     this match  {
       case SomeSD_ (element) => element
-      case x => default
+      case otherwise => default
     }
 
   def fold [B] (ifEmpty : B) (f : A => B) : B =
     this match  {
       case SomeSD_ (element) => f (element)
-      case x => ifEmpty
+      case otherwise => ifEmpty
     }
 
   def flatMap [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     this match  {
       case SomeSD_ (element) => mapping (element)
-      case x => NoneSD_ ()
+      case otherwise => NoneSD_ ()
     }
 
   def bind [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
@@ -147,7 +147,7 @@ trait OptionSD [A]
         if ( predicate (element)
         ) this
         else NoneSD_ [A] ()
-      case x => NoneSD_ ()
+      case otherwise => NoneSD_ ()
     }
 
 }
@@ -333,7 +333,7 @@ trait SeqSD [A]
   def opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
     this match  {
       case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
-      case x => ifEmpty
+      case otherwise => ifEmpty
     }
 
 }

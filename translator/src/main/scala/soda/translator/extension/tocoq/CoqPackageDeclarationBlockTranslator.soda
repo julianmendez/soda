@@ -19,7 +19,7 @@ class CoqPackageDeclarationBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case PackageDeclarationAnnotation_ (block) ==> _translate_block (PackageDeclarationAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
     PackageDeclarationAnnotation_ (

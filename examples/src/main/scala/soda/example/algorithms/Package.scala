@@ -54,7 +54,7 @@ trait FizzBuzzPatternMatching
       case Tuple2 (0, 0) => fizz + buzz
       case Tuple2 (0, x) => fizz
       case Tuple2 (x, 0) => buzz
-      case x => n.toString
+      case otherwise => n.toString
     }
 
 }
@@ -81,7 +81,7 @@ trait FizzBuzzPatternUnicode
       case Tuple2 (0 , 0) => fizz + buzz
       case Tuple2 (0 , x) => fizz
       case Tuple2 (x , 0) => buzz
-      case x => n.toString
+      case otherwise => n.toString
     }
 
 }
@@ -122,7 +122,7 @@ trait PatternMatching
       case Singleton_ (x) => x
       case Pair_ (x, y) => (x + y) / 2
       case Triplet_ (x, y, z) => (x + y + z) / 3
-      case x => 0
+      case otherwise => 0
     }
 
   def get_type_name (p : Parameter) : String =
@@ -130,7 +130,7 @@ trait PatternMatching
       case Singleton_ (x) => (Singleton_ (x) ).name + "(x)"
       case Pair_ (x, y) => (Pair_ (x, y) ).name + "(x, y)"
       case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ).name + "(x, y, z)"
-      case x => ""
+      case otherwise => ""
     }
 
 }

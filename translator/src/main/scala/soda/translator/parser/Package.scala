@@ -238,7 +238,7 @@ trait PreprocessorSequenceTranslator
       case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
       case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
-      case x => current.references
+      case otherwise => current.references
     }
 
   private def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =

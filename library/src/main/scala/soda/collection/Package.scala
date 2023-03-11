@@ -16,7 +16,7 @@ trait MSeq [A]
   def opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] => B) : B =
     this match  {
       case NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
-      case x => ifEmpty
+      case otherwise => ifEmpty
     }
 
 }
@@ -34,7 +34,7 @@ trait MSeqRec [A]
         if ( ! condition (current_value) (head)
         ) current_value
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (next_value_function) (condition)
-      case x => current_value
+      case otherwise => current_value
     }
 
   def fold_while [B] (sequence : MSeq [A] ) (initial_value : B) (next_value : B => A => B) (condition : B => A => Boolean) : B =

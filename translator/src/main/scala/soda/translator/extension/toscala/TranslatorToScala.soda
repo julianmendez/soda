@@ -36,7 +36,7 @@ class TranslatorToScala
         if _is_single_files_option (arguments.apply (0) )
         then IndividualProcessor_ ().translate (arguments.apply (1) ) (arguments.apply (2) )
         else false
-      case x ==> false
+      case otherwise ==> false
 
   _process_directory_with_single_files_option (start : String) : Boolean =
     DirectoryProcessor_ (start , IndividualProcessor_ ().process_soda_file).process ()

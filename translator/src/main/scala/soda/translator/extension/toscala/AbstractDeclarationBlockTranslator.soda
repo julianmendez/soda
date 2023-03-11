@@ -24,7 +24,7 @@ class AbstractDeclarationBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case AbstractDeclarationAnnotation_ (block, references) ==> _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (

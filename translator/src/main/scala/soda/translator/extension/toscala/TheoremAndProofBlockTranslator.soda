@@ -22,7 +22,7 @@ class TheoremAndProofBlockTranslator
     match annotated_block
       case TheoremBlockAnnotation_ (block) ==> _translate_theorem_block (TheoremBlockAnnotation_ (block) )
       case ProofBlockAnnotation_ (block) ==> _translate_proof_block (ProofBlockAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )

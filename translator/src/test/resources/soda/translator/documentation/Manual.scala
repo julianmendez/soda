@@ -247,7 +247,7 @@ trait Manual
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case x => if_false
+      case otherwise => if_false
     }
 
   def sum (n : Int) =

@@ -19,7 +19,7 @@ class CoqDefinitionBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==> _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
