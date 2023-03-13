@@ -12,3 +12,4 @@ Thumbs.db
 .cache
 .cache-main
 .cache-tests
+docs/sphinx/build
