@@ -1,26 +1,25 @@
 
 module Fairness where
 
-open import Data.Bool
-open import Data.Float
+open import Data.Bool using (Bool ; false ; true ; if_then_else_)
+open import Data.Float using (Float ; _-_ ; _<ᵇ_)
 
 
 record Applicant : Set where
   constructor Applicant-
-
   field
     background-score : Float
+
+open Applicant
 
 
 record Fairness : Set where
   constructor Fairness-
-
   field
     score-difference-tolerance : Float
     ranking-difference-tolerance : Float
     rank : Applicant -> Float
 
-  open Applicant
 
   abs-value : (value : Float) -> Float
   abs-value (value) =
