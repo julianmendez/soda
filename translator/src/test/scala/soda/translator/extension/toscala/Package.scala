@@ -995,5 +995,29 @@ case class UpperAndLowerBoundDeclarationSpec ()
     )
   )
 
+  test ("should translate mixed upper and lower bounds") (
+    check (
+      obtained = instance.translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
+        "\n  extends " +
+        "\n    AbstractBlackBox[A][B]" +
+        "\n    AbstractDevice [A]   [B] " +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "  trait BlackBox [A <: AbstractModel] [B <: AbstractParameter]" +
+        "\n  extends" +
+        "\n    AbstractBlackBox[A][B]" +
+        "\n    with AbstractDevice [A]   [B]" +
+        "\n  {" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\n  case class BlackBox_ [A <: AbstractModel] [B <: AbstractParameter] () extends BlackBox [A]" +
+        "\n"
+    )
+  )
+
 }
 
