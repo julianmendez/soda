@@ -1,7 +1,7 @@
 
 class SaladMaker
 
-  apply [Ingredient, Salad]
+  apply [Ingredient] [Salad]
     (list_of_ingredients : Seq [Ingredient] )
     (initial_bowl : Salad)
     (next_ingredient_function : Salad -> Ingredient -> Salad)
@@ -10,7 +10,7 @@ class SaladMaker
     _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
 
   @tailrec
-  _tailrec_prepare_salad [Ingredient, Salad]
+  _tailrec_prepare_salad [Ingredient] [Salad]
     (ingredients_so_far : Seq [Ingredient] )
     (salad_so_far : Salad)
     (next_ingredient_function : Salad -> Ingredient -> Salad)

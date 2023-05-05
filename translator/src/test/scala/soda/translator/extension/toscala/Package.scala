@@ -41,6 +41,7 @@ case class ClassConstructorBlockTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
@@ -56,7 +57,7 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
@@ -79,13 +80,13 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (value: Int, a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -97,7 +98,7 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -119,7 +120,7 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -142,6 +143,13 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
+        _translation_pipeline
+      )
+    )
+
+  private lazy val _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
         ClassConstructorBlockTranslator_ ()
       )
     )
@@ -1006,15 +1014,15 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n"
       )
     ) (
-      expected = "  trait BlackBox [A <: AbstractModel] [B <: AbstractParameter]" +
+      expected = "  trait BlackBox [A <: AbstractModel, B <: AbstractParameter]" +
         "\n  extends" +
-        "\n    AbstractBlackBox[A][B]" +
-        "\n    with AbstractDevice [A]   [B]" +
+        "\n    AbstractBlackBox[A, B]" +
+        "\n    with AbstractDevice [A, B]" +
         "\n  {" +
         "\n" +
         "\n}" +
         "\n" +
-        "\n  case class BlackBox_ [A <: AbstractModel] [B <: AbstractParameter] () extends BlackBox [A]" +
+        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] () extends BlackBox [A, B]" +
         "\n"
     )
   )

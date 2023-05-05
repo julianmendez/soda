@@ -224,7 +224,7 @@ trait ClassBeginningAnnotation
 
   lazy val type_parameters_and_bounds : Seq [String] =
     remove_brackets (skip_first_word (_class_name_and_type_parameters) )
-      .split (sc.parameter_separator_symbol)
+      .split (sc.parameter_separation_regex)
       .toIndexedSeq
       .map ( parameter => parameter.trim)
       .filter ( parameter => ! parameter.isEmpty)

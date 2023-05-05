@@ -120,7 +120,7 @@ case class OutputPair_ [A, B] (value : B, memoized_values : Map [A, B]) extends 
 trait MemoizableFunction [A, B]
 {
 
-    /** compute (input : InputPair [A, B] ) : OutputPair [A, B] */
+    /** compute (input : InputPair [A] [B] ) : OutputPair [A] [B] */
   def   abs_compute : InputPair [A, B] => OutputPair [A, B]
 
   def compute (input : InputPair [A, B] ) : OutputPair [A, B] =

@@ -9,8 +9,11 @@ class AbstractDeclarationBlockTranslator
     soda.translator.block.AnnotatedLine_
     soda.translator.block.Block
     soda.translator.block.Block_
+    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+
+  _sc = SodaConstant_ ()
 
   _tc = TranslationConstantToScala_ ()
 
@@ -31,7 +34,7 @@ class AbstractDeclarationBlockTranslator
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
-        block.abstract_functions_with_comments
+        _translate_type_parameters (block.abstract_functions_with_comments)
       ),
       block.references
     )
@@ -44,7 +47,7 @@ class AbstractDeclarationBlockTranslator
   prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =
     if annotated_line.is_comment
     then annotated_line
-    else AnnotatedLine_ (annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index), annotated_line.is_comment)
+    else AnnotatedLine_ (annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index) , annotated_line.is_comment)
 
   get_number_of_spaces_at_beginning (line : String) : Int =
     line
@@ -53,6 +56,18 @@ class AbstractDeclarationBlockTranslator
 
   get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
+
+  _translate_type_parameters (abstract_functions_with_comments : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    abstract_functions_with_comments
+      .map (lambda annotated_line -->
+        if annotated_line.is_comment
+        then annotated_line
+        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line.line) , annotated_line.is_comment)
+      )
+
+  _translate_type_parameters_in_line (line : String) : String =
+    line
+      .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
 
 end
 

@@ -34,6 +34,7 @@ class MicroTranslatorToScala
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        TypeParameterBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
         ConditionalBlockTranslator_ (_functions_and_tests, FunctionDefinitionBlockTranslator_ () ),

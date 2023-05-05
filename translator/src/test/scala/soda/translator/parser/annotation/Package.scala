@@ -200,10 +200,10 @@ case class ClassBeginningAnnotationSpec ()
 
   lazy val example_2 =
     get_as_block (
-      "class Example [A, B]" +
+      "class Example [A][ B]" +
       "\n  extends" +
       "\n    SuperExample0" +
-      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample2 [A][B]" +
       "\n    SuperExample1 [A]" +
       "\n"
     )
@@ -219,9 +219,9 @@ case class ClassBeginningAnnotationSpec ()
 
   lazy val example_4 =
     get_as_block (
-      "class Example [A supertype SubTypeExample, B subtype SuperTypeExample]" +
+      "class Example [A supertype SubTypeExample][B subtype SuperTypeExample]" +
       "\n  extends" +
-      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample2 [A] [B]" +
       "\n    SuperExample1 [A]" +
       "\n    SuperExample0" +
       "\n"

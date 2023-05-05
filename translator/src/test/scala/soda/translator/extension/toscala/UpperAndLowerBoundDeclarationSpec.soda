@@ -113,15 +113,15 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n"
       )
     ) (
-      expected := "  trait BlackBox [A <: AbstractModel] [B <: AbstractParameter]" +
+      expected := "  trait BlackBox [A <: AbstractModel, B <: AbstractParameter]" +
         "\n  extends" +
-        "\n    AbstractBlackBox[A][B]" +
-        "\n    with AbstractDevice [A]   [B]" +
+        "\n    AbstractBlackBox[A, B]" +
+        "\n    with AbstractDevice [A, B]" +
         "\n  {" +
         "\n" +
         "\n}" +
         "\n" +
-        "\n  case class BlackBox_ [A <: AbstractModel] [B <: AbstractParameter] () extends BlackBox [A]" +
+        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] () extends BlackBox [A, B]" +
         "\n"
     )
   )

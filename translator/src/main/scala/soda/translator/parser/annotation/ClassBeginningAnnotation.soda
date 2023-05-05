@@ -32,7 +32,7 @@ class ClassBeginningAnnotation
 
   type_parameters_and_bounds : Seq [String] =
     remove_brackets (skip_first_word (_class_name_and_type_parameters) )
-      .split (sc.parameter_separator_symbol)
+      .split (sc.parameter_separation_regex)
       .toIndexedSeq
       .map (lambda parameter --> parameter.trim)
       .filter (lambda parameter --> not parameter.isEmpty)

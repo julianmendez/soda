@@ -18,8 +18,11 @@ trait AbstractDeclarationBlockTranslator
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
   import   soda.translator.block.Block_
+  import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+
+  private lazy val _sc = SodaConstant_ ()
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
@@ -41,7 +44,7 @@ trait AbstractDeclarationBlockTranslator
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
-        block.abstract_functions_with_comments
+        _translate_type_parameters (block.abstract_functions_with_comments)
       ),
       block.references
     )
@@ -54,7 +57,7 @@ trait AbstractDeclarationBlockTranslator
   def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =
     if ( annotated_line.is_comment
     ) annotated_line
-    else AnnotatedLine_ (annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index), annotated_line.is_comment)
+    else AnnotatedLine_ (annotated_line.line.substring (0, index) + prefix + annotated_line.line.substring (index) , annotated_line.is_comment)
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
     line
@@ -63,6 +66,18 @@ trait AbstractDeclarationBlockTranslator
 
   def get_first_line (block : AnnotatedBlock) : String =
     block.lines.headOption.getOrElse ("")
+
+  private def _translate_type_parameters (abstract_functions_with_comments : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    abstract_functions_with_comments
+      .map ( annotated_line =>
+        if ( annotated_line.is_comment
+        ) annotated_line
+        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line.line) , annotated_line.is_comment)
+      )
+
+  private def _translate_type_parameters_in_line (line : String) : String =
+    line
+      .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
 
 }
 
@@ -171,6 +186,7 @@ trait ClassConstructorBlockTranslator
 
   private def _translate_type_symbols (line : String) : String =
     line
+      .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
       .replaceAll (_sc.subtype_reserved_word, _tc.scala_subtype_symbol)
       .replaceAll (_sc.supertype_reserved_word, _tc.scala_supertype_symbol)
       .replaceAll (_sc.function_arrow_symbol, _tc.scala_function_arrow_symbol)
@@ -788,6 +804,7 @@ trait MicroTranslatorToScala
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        TypeParameterBlockTranslator_ (),
         MatchCaseBlockTranslator_ (),
         ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
         ConditionalBlockTranslator_ (_functions_and_tests, FunctionDefinitionBlockTranslator_ () ),
@@ -1292,4 +1309,27 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+
+trait TypeParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val replace_token : Token => String =
+     token =>
+      token
+        .text
+        .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
+
+}
+
+case class TypeParameterBlockTranslator_ () extends TypeParameterBlockTranslator
 

@@ -98,6 +98,7 @@ class ClassConstructorBlockTranslator
 
   _translate_type_symbols (line : String) : String =
     line
+      .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
       .replaceAll (_sc.subtype_reserved_word, _tc.scala_subtype_symbol)
       .replaceAll (_sc.supertype_reserved_word, _tc.scala_supertype_symbol)
       .replaceAll (_sc.function_arrow_symbol, _tc.scala_function_arrow_symbol)
