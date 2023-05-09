@@ -43,10 +43,10 @@ class ListExample
   indices_example : Pair [Range] =
     Pair_("a.indices", a.indices)
 
-  zipWithIndex_example : Pair [Seq [ Tuple2 [Char, Int] ] ] =
+  zipWithIndex_example : Pair [Seq [ Tuple2 [Char] [Int] ] ] =
     Pair_("a.zipWithIndex", a.zipWithIndex)
 
-  zip_example : Pair [Seq [ Tuple2 [Char, Int] ] ] =
+  zip_example : Pair [Seq [ Tuple2 [Char] [Int] ] ] =
     Pair_("a.zip(b)", a.zip (b))
 
   reverse_example : Pair [Seq [Char] ] =
