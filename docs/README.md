@@ -80,6 +80,11 @@ The following tools can be configured to have syntax highlighting:
 - gedit (configuration file: soda.lang)
 
 
+## Documentation
+
+- [User manual](https://soda-lang.readthedocs.io/en/latest/)
+
+
 ## Build
 
 The project can be built with [sbt](https://www.scala-sbt.org/).
