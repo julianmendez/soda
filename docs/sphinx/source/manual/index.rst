@@ -9,27 +9,30 @@ Functions
 A simple constant can be defined as:
 
 ::
+
   greeting = "Hello world!"
 
 This could also be defined
 
 ::
+
   greeting : String = "Hello world!"
 
 
 Functions receive one or multiple parameters:
 
 ::
+
   square (n : Int) : Int = n * n
 
   plus (n : Int) (m : Int) : Int = n + m
 
-
 The types ``Boolean``, ``Int``, ``Float``, and ``String`` are already available with the standard basic operations.
 
-It is possible to use ``if-then-else`` structures
+It is possible to use ``if``-``then``-``else`` structures
 
 ::
+
   max (x : Int) (y : Int) : Float =
     if x > y
     then x
@@ -38,6 +41,7 @@ It is possible to use ``if-then-else`` structures
 Soda accepts lambda expressions, like
 
 ::
+
   plus : Float -> Float -> Float =
     lambda x -->
       lambda y -->
@@ -50,6 +54,7 @@ Classes
 It is possible to define classes like
 
 ::
+
   class Shape
 
   end
@@ -59,6 +64,7 @@ which is an empty class.
 It is also possible to add abstract fields to a class.
 
 ::
+
   class RegisteredPerson
 
     abstract
