@@ -14,20 +14,20 @@ trait FizzBuzz
 
   lazy val buzz = "Buzz"
 
-  private lazy val _range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range_ ()
 
   lazy val apply : Seq [String] =
-    _range.apply (100)
-      .map ( (x : Int) => x + 1)
-      .map (_get_fizz_buzz_term)
+    range .apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
-  private def _get_fizz_buzz_term (n : Int) : String =
-    if ( _is_divisible_by (n) (15) ) fizz + buzz
-    else if ( _is_divisible_by (n) (3) ) fizz
-    else if ( _is_divisible_by (n) (5) ) buzz
-    else n.toString
+  def get_term (n : Int) : String =
+    if ( is_div (n) (15) ) fizz + buzz
+    else if ( is_div (n) (3) ) fizz
+    else if ( is_div (n) (5) ) buzz
+    else n .toString
 
-  private def _is_divisible_by (n : Int) (k : Int) : Boolean =
+  def is_div (n : Int) (k : Int) : Boolean =
     n % k == 0
 
 }
@@ -42,19 +42,19 @@ trait FizzBuzzPatternMatching
 
   lazy val buzz = "Buzz"
 
-  private lazy val _range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range_ ()
 
   lazy val apply : Seq [String] =
-    _range.apply (100)
-      .map ( (x : Int) => x + 1)
-      .map (_get_fizz_buzz_term)
+    range .apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
-  private def _get_fizz_buzz_term (n : Int) : String =
-    Tuple2 (n % 3, n % 5) match  {
-      case Tuple2 (0, 0) => fizz + buzz
-      case Tuple2 (0, x) => fizz
-      case Tuple2 (x, 0) => buzz
-      case otherwise => n.toString
+  def get_term (n : Int) : String =
+    (n % 3 , n % 5) match  {
+      case (0 , 0) => fizz + buzz
+      case (0 , x) => fizz
+      case (x , 0) => buzz
+      case otherwise => n .toString
     }
 
 }
@@ -69,19 +69,19 @@ trait FizzBuzzPatternUnicode
 
   lazy val buzz = "Buzz"
 
-  private lazy val _range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range_ ()
 
   lazy val apply : Seq [String] =
-    _range.apply (100)
-      .map (  x => x + 1)
-      .map (_get_fizz_buzz_term)
+    range.apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
-  private def _get_fizz_buzz_term (n : Int) : String =
-    Tuple2 (n % 3 , n % 5) match  {
-      case Tuple2 (0 , 0) => fizz + buzz
-      case Tuple2 (0 , x) => fizz
-      case Tuple2 (x , 0) => buzz
-      case otherwise => n.toString
+  def get_term (n : Int) : String =
+    (n % 3 , n % 5) match  {
+      case (0 , 0) => fizz + buzz
+      case (0 , x) => fizz
+      case (x , 0) => buzz
+      case otherwise => n .toString
     }
 
 }
@@ -120,16 +120,16 @@ trait PatternMatching
   def get_value (p : Parameter) : Int =
     p match  {
       case Singleton_ (x) => x
-      case Pair_ (x, y) => (x + y) / 2
-      case Triplet_ (x, y, z) => (x + y + z) / 3
+      case Pair_ (x , y) => (x + y) / 2
+      case Triplet_ (x , y , z) => (x + y + z) / 3
       case otherwise => 0
     }
 
   def get_type_name (p : Parameter) : String =
     p match  {
       case Singleton_ (x) => (Singleton_ (x) ).name + "(x)"
-      case Pair_ (x, y) => (Pair_ (x, y) ).name + "(x, y)"
-      case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ).name + "(x, y, z)"
+      case Pair_ (x , y) => (Pair_ (x , y) ).name + "(x, y)"
+      case Triplet_ (x , y , z) => (Triplet_ (x , y , z) ).name + "(x, y, z)"
       case otherwise => ""
     }
 
