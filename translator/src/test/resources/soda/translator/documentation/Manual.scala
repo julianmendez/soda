@@ -159,7 +159,7 @@ trait Item
 
   lazy val accept : Visitor => Boolean =
      visitor =>
-      visitor.visit (this)
+      visitor .visit (this)
 
 }
 
@@ -212,12 +212,12 @@ trait Manual
    * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( element => element + 1)
+    sequence .map ( element => element + 1)
 
   /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
 
   def plus_two (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( element => element + 2)
+    sequence .map ( element => element + 2)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -297,7 +297,7 @@ trait FoldWhile
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence.isEmpty || (! condition (current_value) (sequence.head) )
     ) current_value
-    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
 }
 
