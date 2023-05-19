@@ -8,33 +8,33 @@ class CharTypeSpec ()
 
   test ("should recognize quotation marks") (
     check (
-      obtained := CharTypeEnum_ ().get_char_type ('"')
+      obtained := CharTypeEnum_ () .get_char_type ('"')
     ) (
-      expected := CharTypeEnum_ ().quotes_type
+      expected := CharTypeEnum_ () .quotes_type
     )
   )
 
   test ("should recognize apostrophes") (
     check (
-      obtained := CharTypeEnum_ ().get_char_type ('\'')
+      obtained := CharTypeEnum_ () .get_char_type ('\'')
     ) (
-      expected := CharTypeEnum_ ().apostrophe_type
+      expected := CharTypeEnum_ () .apostrophe_type
     )
   )
 
   test ("should recognize backslash") (
     check (
-      obtained := CharTypeEnum_ ().get_char_type ('\\')
+      obtained := CharTypeEnum_ () .get_char_type ('\\')
     ) (
-      expected := CharTypeEnum_ ().backslash_type
+      expected := CharTypeEnum_ () .backslash_type
     )
   )
 
   test ("should recognize a simple char") (
     check (
-      obtained := CharTypeEnum_ ().get_char_type ('a')
+      obtained := CharTypeEnum_ () .get_char_type ('a')
     ) (
-      expected := CharTypeEnum_ ().plain_type
+      expected := CharTypeEnum_ () .plain_type
     )
   )
 
@@ -42,11 +42,11 @@ class CharTypeSpec ()
     check (
       obtained :=
         "This is plain text with symbols. 0123456789 _ . !?"
-          .map (lambda ch --> CharTypeEnum_ ().get_char_type (ch) )
+          .map (lambda ch --> CharTypeEnum_ () .get_char_type (ch) )
           .toSet
           .toSeq
     ) (
-      expected := Seq ( CharTypeEnum_ ().plain_type )
+      expected := Seq (CharTypeEnum_ () .plain_type)
     )
   )
 

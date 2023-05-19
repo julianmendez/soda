@@ -39,15 +39,15 @@ case class CoqFullTranslationSpec ()
           DefaultBlockSequenceTranslator_ (
             MicroTranslatorToCoq_()
           )
-        ).translate (read_file (input_file_name) )
+        ) .translate (read_file (input_file_name) )
     ) (
       expected = read_file (expected_file_name)
     )
 
   def read_file (file_name : String) : String =
     new String (
-      Files.readAllBytes (
-        Paths.get (getClass.getResource (file_name).toURI)
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
       )
     )
 

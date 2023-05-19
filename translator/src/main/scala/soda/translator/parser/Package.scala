@@ -31,23 +31,23 @@ trait BlockBuilder
       .annotated_lines_rev
       .reverse
 
-  private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false, Seq () )
+  private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false , Seq () )
 
   private def _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    _get_annotated_lines_next_value_function_with (_annotate_this_line (line) (pair.comment_state) ) (pair) (line)
+    _get_annotated_lines_next_value_function_with (_annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   private def _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState) (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (t.new_comment_state, pair.annotated_lines_rev.+: (AnnotatedLine_ (line, t.current_state) ) )
+    PreprocessorFoldTuple_ (t .new_comment_state , pair .annotated_lines_rev .+: (AnnotatedLine_ (line , t .current_state) ) )
 
   private def _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if ( comment_state
-    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
+    ) CurrentAndNewCommentState_ (true , ! line .trim .endsWith (_sc .comment_closing_symbol) )
     else _annotate_this_line_considering_opening_symbol (line) (comment_state)
 
   private def _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
-    if ( line.trim.startsWith (_sc.comment_opening_symbol)
-    ) CurrentAndNewCommentState_ (true, ! line.trim.endsWith (_sc.comment_closing_symbol) )
-    else CurrentAndNewCommentState_ (false, false)
+    if ( line .trim .startsWith (_sc .comment_opening_symbol)
+    ) CurrentAndNewCommentState_ (true , ! line .trim .endsWith (_sc .comment_closing_symbol) )
+    else CurrentAndNewCommentState_ (false , false)
 
 }
 
@@ -102,7 +102,7 @@ trait BlockProcessor
 
   def translate (program : String) : String =
     join_translated_blocks (
-      translator_with_preprocessor.translate (
+      translator_with_preprocessor .translate (
         split_blocks (program)
           .map ( block => process_unicode_symbols_in_block (block) )
           .map ( block => make_block (block) )
@@ -121,36 +121,36 @@ trait BlockProcessor
       .mkString
 
   def process_unicode_symbols_in_token (token : Token) : String =
-    if ( (token.parser_state == ParserStateEnum_ ().plain)
-    ) replace_unicode_symbols_in_string (token.text)
-    else token.text
+    if ( (token .parser_state == ParserStateEnum_ () .plain)
+    ) replace_unicode_symbols_in_string (token .text)
+    else token .text
 
   def replace_unicode_symbols_in_string (text : String) : String =
-    fold (_sc.soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
 
   private def _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String , String] ) : String =
     Replacement_ (text)
-      .replace_all (symbol_pair._1) (symbol_pair._2)
+      .replace_all (symbol_pair ._1) (symbol_pair ._2)
       .line
 
   def make_blocks (blocks: Seq [String] ) : Seq[AnnotatedBlock] =
-      blocks.map ( paragraph => make_block (paragraph) )
+      blocks .map ( paragraph => make_block (paragraph) )
 
   def make_block (paragraph : String) : AnnotatedBlock =
-    AnnotationFactory_ ().annotate (
-      BlockBuilder_ ().build (
-        remove_empty_lines (paragraph.split (new_line).toIndexedSeq)
+    AnnotationFactory_ () .annotate (
+      BlockBuilder_ () .build (
+        remove_empty_lines (paragraph .split (new_line) .toIndexedSeq)
       )
     )
 
   def join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
     blocks
-      .map ( x => x.contents)
+      .map ( x => x .contents)
       .mkString (double_new_line) + new_line
 
   def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
-      .filter ( line => line.trim.nonEmpty)
+      .filter ( line => line .trim .nonEmpty)
 
 }
 
@@ -182,26 +182,26 @@ trait PreprocessorSequenceTranslator
 
   private lazy val _fold = Fold_ ()
 
-  lazy val empty_line = AnnotatedLine_ ("", true)
+  lazy val empty_line = AnnotatedLine_ ("" , true)
 
   lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
      block_sequence =>
       translate_for (block_sequence)
 
   def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    translator.translate (
+    translator .translate (
       _get_second_pass (
         _get_first_pass (block_sequence)
       )
     )
 
   private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    block_sequence.map ( block => block_annotator.translate (block) )
+    block_sequence .map ( block => block_annotator .translate (block) )
 
   private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
-      .accumulated
-      .reverse
+    _fold .apply (block_sequence .indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+       .accumulated
+       .reverse
 
   private def _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
@@ -214,40 +214,40 @@ trait PreprocessorSequenceTranslator
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   private def _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
-    current.block_sequence.apply (index) match  {
-      case AbstractDeclarationAnnotation_ (block, references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
-      case ClassEndAnnotation_ (block, references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
-      case otherwise => current.block_sequence.apply (index)
+    current .block_sequence .apply (index) match  {
+      case AbstractDeclarationAnnotation_ (block , references) => _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) => _get_class_end_updated_block (current) (ClassEndAnnotation_ (block , references) )
+      case otherwise => current .block_sequence .apply (index)
     }
 
   private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+    AbstractDeclarationAnnotation_ (block .block , block .references .++ (current .references .headOption .getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   private def _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+    ClassEndAnnotation_ (block .block , block .references .++ (current .references .headOption .getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
-      block_sequence = current.block_sequence,
-      accumulated = current.accumulated.+: (updated_block),
+      block_sequence = current .block_sequence,
+      accumulated = current .accumulated .+: (updated_block),
       references = _update_references (current) (index)
     )
 
   private def _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
-    current.block_sequence.apply (index) match  {
-      case ClassBeginningAnnotation_ (b) => current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
-      case AbstractDeclarationAnnotation_ (b, references) => _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
-      case ClassEndAnnotation_ (b, references) => _tail_non_empty (current.references)
-      case otherwise => current.references
+    current .block_sequence .apply (index) match  {
+      case ClassBeginningAnnotation_ (b) => current .references .+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
+      case AbstractDeclarationAnnotation_ (b , references) => _update_first_element (current .references) (AbstractDeclarationAnnotation_ (b , references) )
+      case ClassEndAnnotation_ (b , references) => _tail_non_empty (current .references)
+      case otherwise => current .references
     }
 
   private def _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
-    _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
+    _tail_non_empty (s) .+: (s .headOption .getOrElse (Seq [AnnotatedBlock] () ) .+: (b) )
 
   private def _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
-    if ( s.isEmpty
+    if ( s .isEmpty
     ) s
-    else s.tail
+    else s .tail
 
 }
 
@@ -474,7 +474,7 @@ trait SodaConstant
     )
 
   lazy val soda_reserved_words : Seq [String] =
-    soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+    soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (soda_reserved_words_annotations_only) )
 
   lazy val soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
     Seq (

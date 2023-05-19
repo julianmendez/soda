@@ -2,7 +2,7 @@
 class Table
 
   abstract
-    table : Seq [Tuple2 [String, String] ]
+    table : Seq [Tuple2 [String] [String] ]
 
 end
 
@@ -12,9 +12,9 @@ class TableTranslator
     soda.translator.block.Translator
 
   abstract
-    table : Seq [Tuple2 [String, String] ]
+    table : Seq [Tuple2 [String] [String] ]
 
-  keys : Seq [String] = table.map (lambda pair --> pair._1)
+  keys : Seq [String] = table .map (lambda pair --> pair ._1)
 
   translate : String -> String =
     lambda word -->

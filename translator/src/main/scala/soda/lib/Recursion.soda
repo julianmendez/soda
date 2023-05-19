@@ -19,9 +19,9 @@ class FoldWhile
 
   @tailrec
   _tailrec_fold_while [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    if sequence.isEmpty or (not condition (current_value) (sequence.head) )
+    if sequence .isEmpty or (not condition (current_value) (sequence .head) )
     then current_value
-    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
 end
 
@@ -36,9 +36,9 @@ class Fold
 
   @tailrec
   _tailrec_fold [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) : B =
-    if sequence.isEmpty
+    if sequence .isEmpty
     then current_value
-    else _tailrec_fold (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function)
+    else _tailrec_fold (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function)
 
 end
 
@@ -64,12 +64,12 @@ class Recursion
   _range = Range_ ()
 
   fold_while [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    _fold_while.apply (sequence) (initial_value) (next_value_function) (condition)
+    _fold_while .apply (sequence) (initial_value) (next_value_function) (condition)
 
   fold [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) : B =
-    _fold.apply (sequence) (initial_value) (next_value_function)
+    _fold .apply (sequence) (initial_value) (next_value_function)
 
   range (length : Int) : Seq [Int] =
-    _range.apply (length)
+    _range .apply (length)
 
 end

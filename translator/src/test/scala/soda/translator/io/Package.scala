@@ -18,19 +18,19 @@ case class DirectoryScannerSpec ()
 
   lazy val start = "translator/src/test/resources/soda/example"
 
-  lazy val single_start_file = new File (start, "Example.soda")
+  lazy val single_start_file = new File (start , "Example.soda")
 
   test ("scan a file that is not a directory") (
     check (
-      obtained = DirectoryScanner_ ().get_all_files (single_start_file).toSet
+      obtained = DirectoryScanner_ () .get_all_files (single_start_file) .toSet
     ) (
-      expected = Seq (single_start_file).toSet
+      expected = Seq (single_start_file) .toSet
     )
   )
 
   test ("simple scan of all files") (
     check (
-      obtained = DirectoryScanner_ ().get_all_files ( new File (start) ).toSet
+      obtained = DirectoryScanner_ () .get_all_files ( new File (start) ) .toSet
     ) (
       expected = Seq (
         "otherexample",
@@ -44,7 +44,7 @@ case class DirectoryScannerSpec ()
         "otherexample/OtherExample.txt",
         "otherexample/Package.scala",
         "otherexample/Package.soda"
-      ).map ( x => new File (start, x) ).toSet
+      ) .map ( x => new File (start , x) ) .toSet
     )
   )
 

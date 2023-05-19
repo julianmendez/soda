@@ -24,26 +24,26 @@ class CoqTheoremBlockTranslator
   _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
       _append (
-        _tc.coq_theorem_end_symbol) (_prepend (
-          _tc.coq_theorem_begin_reserved_word) (_remove_first_line (block)
+        _tc .coq_theorem_end_symbol) (_prepend (
+          _tc .coq_theorem_begin_reserved_word) (_remove_first_line (block)
         )
       )
     )
 
   _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq[String] (prefix + block.lines.head).++ (block.lines.tail)
+    BlockBuilder_ () .build (
+      Seq[String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      block.lines.:+ (suffix)
+    BlockBuilder_ () .build (
+      block .lines .:+ (suffix)
     )
 
   _remove_first_line (block : Block) : Block =
-    if block.lines.isEmpty
+    if block .lines .isEmpty
     then block
-    else BlockBuilder_ ().build (block.lines.tail)
+    else BlockBuilder_ () .build (block .lines .tail)
 
 end
 

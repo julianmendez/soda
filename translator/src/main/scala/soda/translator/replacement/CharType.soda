@@ -21,17 +21,17 @@ class CharTypeEnum
   extends
     soda.lib.Enum [CharType]
 
-  undefined_type = CharType_ (0, "undefined_type")
+  undefined_type = CharType_ (0 , "undefined_type")
 
-  quotes_type = CharType_ (1, "quotes_type")
+  quotes_type = CharType_ (1 , "quotes_type")
 
-  apostrophe_type = CharType_ (2, "apostrophe_type")
+  apostrophe_type = CharType_ (2 , "apostrophe_type")
 
-  backslash_type = CharType_ (3, "backslash_type")
+  backslash_type = CharType_ (3 , "backslash_type")
 
-  plain_type = CharType_ (4, "plain_type")
+  plain_type = CharType_ (4 , "plain_type")
 
-  values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
+  values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 
   backslash_char = '\\'
 
@@ -44,18 +44,18 @@ class CharTypeEnum
   last_standard_symbol : Char = 0x7F
 
   symbol_chars : Seq [Char] =
-    Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+    Seq ('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , ',' , '-' , '.' , '/' , ':' , ';' , '<' , '=' , '>' , '?' , '@' , '[' , ']' , '^' , '`' , '{' , '|' , '}' , '~')
 
-  simple_char_type_map : Map [Char , CharType] =
+  simple_char_type_map : Map [Char] [CharType] =
     Map (
-      Tuple2 ( quotes_char , quotes_type ),
-      Tuple2 ( apostrophe_char , apostrophe_type ),
-      Tuple2 ( backslash_char, backslash_type )
+      Tuple2 (quotes_char , quotes_type) ,
+      Tuple2 (apostrophe_char , apostrophe_type) ,
+      Tuple2 (backslash_char , backslash_type)
     )
 
   get_char_type (ch : Char) : CharType =
     simple_char_type_map
-      .getOrElse (ch, _get_char_type_if_plain (ch) )
+      .getOrElse (ch , _get_char_type_if_plain (ch) )
 
   _get_char_type_if_plain (ch : Char) : CharType =
     if _is_plain (ch)

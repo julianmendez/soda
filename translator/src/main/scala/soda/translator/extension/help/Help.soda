@@ -13,15 +13,15 @@ class AbstractHelp
   path : String = "/soda/translator/documentation/"
 
   read (file_name : String) : String =
-    SimpleFileReader_ ().read_resource (path + file_name)
+    SimpleFileReader_ () .read_resource (path + file_name)
 
-  this_package = this.getClass.getPackage
+  this_package = this .getClass .getPackage
 
-  name : String = Option (this_package.getImplementationTitle).getOrElse ("")
+  name : String = Option (this_package .getImplementationTitle) .getOrElse ("")
 
-  version : String = Option (this_package.getImplementationVersion).getOrElse ("")
+  version : String = Option (this_package .getImplementationVersion) .getOrElse ("")
 
-  title_and_version : String = (name + " " + version).trim
+  title_and_version : String = (name + " " + version) .trim
 
   output_content (content : String) : Boolean =
     SomeSD_ (content)

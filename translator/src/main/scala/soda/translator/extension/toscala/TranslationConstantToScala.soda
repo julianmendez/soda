@@ -183,32 +183,32 @@ class TranslationConstantToScala
       "\u2190"
     )
 
-  type_symbol_translation : Seq [Tuple2 [String, String] ] =
+  type_symbol_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant.subtype_reserved_word, scala_subtype_symbol),
-      Tuple2 (soda_constant.supertype_reserved_word, scala_supertype_symbol),
-      Tuple2 (soda_constant.function_arrow_symbol, scala_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , scala_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , scala_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , scala_function_arrow_symbol)
     )
 
-  function_symbol_translation : Seq [Tuple2 [String, String] ] =
+  function_symbol_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant.lambda_reserved_word, scala_empty_string),
-      Tuple2 (soda_constant.any_reserved_word, scala_empty_string),
-      Tuple2 (soda_constant.lambda_arrow_symbol, scala_lambda_arrow_symbol),
-      Tuple2 (soda_constant.case_arrow_symbol, scala_case_arrow_symbol),
-      Tuple2 (soda_constant.not_reserved_word, scala_not_symbol),
-      Tuple2 (soda_constant.and_reserved_word, scala_and_symbol),
-      Tuple2 (soda_constant.or_reserved_word, scala_or_symbol),
-      Tuple2 (soda_constant.if_reserved_word, scala_if_translation),
-      Tuple2 (soda_constant.then_reserved_word, scala_then_translation),
-      Tuple2 (soda_constant.parameter_definition_symbol, scala_parameter_definition_symbol),
-      Tuple2 (soda_constant.tail_recursion_annotation, scala_tail_recursion_annotation_translation),
-      Tuple2 (soda_constant.override_annotation, scala_override_annotation_translation),
-      Tuple2 (soda_constant.new_annotation, scala_new_annotation_translation)
+      Tuple2 (soda_constant .lambda_reserved_word , scala_empty_string) ,
+      Tuple2 (soda_constant .any_reserved_word , scala_empty_string) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , scala_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , scala_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , scala_not_symbol) ,
+      Tuple2 (soda_constant .and_reserved_word , scala_and_symbol) ,
+      Tuple2 (soda_constant .or_reserved_word , scala_or_symbol) ,
+      Tuple2 (soda_constant .if_reserved_word , scala_if_translation) ,
+      Tuple2 (soda_constant .then_reserved_word , scala_then_translation) ,
+      Tuple2 (soda_constant .parameter_definition_symbol , scala_parameter_definition_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , scala_tail_recursion_annotation_translation) ,
+      Tuple2 (soda_constant .override_annotation , scala_override_annotation_translation) ,
+      Tuple2 (soda_constant .new_annotation , scala_new_annotation_translation)
     )
 
-  all_translations : Seq [Tuple2 [String, String] ] =
-    type_symbol_translation.++ (function_symbol_translation)
+  all_translations : Seq [Tuple2 [String] [String] ] =
+    type_symbol_translation .++ (function_symbol_translation)
 
   class_declaration_translation_at_beginning_with_paren = "case class"
 
@@ -218,16 +218,16 @@ class TranslationConstantToScala
 
   prefix_scala_non_soda = "__soda__"
 
-  scala_non_soda : Seq [Tuple2 [String, String] ] =
+  scala_non_soda : Seq [Tuple2 [String] [String] ] =
       scala_reserved_words
-        .filter (lambda x --> not soda_constant.soda_reserved_words.contains (x))
-        .map (lambda x --> Tuple2 (x, prefix_scala_non_soda + x) )
+        .filter (lambda x --> not soda_constant .soda_reserved_words .contains (x))
+        .map (lambda x --> Tuple2 (x , prefix_scala_non_soda + x) )
 
   is_scala_word (word : String) : Boolean =
-    scala_reserved_words.contains (word)
+    scala_reserved_words .contains (word)
 
   is_soda_word (word : String) : Boolean =
-    soda_constant.soda_reserved_words.contains (word)
+    soda_constant .soda_reserved_words .contains (word)
 
 end
 

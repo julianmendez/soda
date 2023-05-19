@@ -29,7 +29,7 @@ class DefinitionLineTranslator
     soda.translator.block.LineTranslator
 
   abstract
-    line: String
+    line : String
 
   import
     soda.lib.OptionSD
@@ -42,34 +42,34 @@ class DefinitionLineTranslator
 
   _tc = TranslationConstantToCoq_ ()
 
-  _trimmed_line = line.trim
+  _trimmed_line = line .trim
 
   translation =
-    find_definition (line).opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position).line)
+    find_definition (line) .opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position) .line)
 
   _is_class_definition =
-    get_index (line) (_sc.space + _sc.class_reserved_word + _sc.space).isDefined
+    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
 
   _translation_of_class_definition =
     if _condition_for_type_alias
     then Replacement_ (line)
-    else Replacement_ (line).replace_all (_sc.space + _sc.function_definition_symbol) ("")
+    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
 
   _ends_with_equals = false
 
   _ends_with_opening_brace = false
 
   _contains_equals =
-    _trimmed_line.contains (_sc.function_definition_symbol)
+    _trimmed_line .contains (_sc .function_definition_symbol)
 
   _condition_for_type_alias =
     _contains_equals and not (_ends_with_equals or _ends_with_opening_brace)
 
   _translation_of_val_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   _translation_of_def_definition =
-    Replacement_ (line).add_after_spaces_or_pattern (_tc.coq_space) (_tc.coq_space)
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   _try_found_definition (position : Int) : Replacement =
     if _is_class_definition
@@ -88,21 +88,21 @@ class DefinitionLineTranslator
     _is_val_definition_case_4
 
   _position_of_first_opening_parenthesis =
-    get_index (line) (_sc.opening_parenthesis_symbol)
+    get_index (line) (_sc .opening_parenthesis_symbol)
 
   _is_val_definition_case_1 =
-    _position_of_first_opening_parenthesis.isEmpty
+    _position_of_first_opening_parenthesis .isEmpty
 
   _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis.opt (false) (lambda position --> (position > initial_position) )
+    _position_of_first_opening_parenthesis .opt (false) (lambda position --> (position > initial_position) )
 
   _is_val_definition_case_3 =
-    (get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
-      _position_of_first_opening_parenthesis.opt (false) (lambda position --> (position > other_position) )
+    (get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
+      _position_of_first_opening_parenthesis .opt (false) (lambda position --> (position > other_position) )
     )
 
   _is_val_definition_case_4 =
-    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
+    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
@@ -113,15 +113,15 @@ class DefinitionLineTranslator
    */
 
   find_definition (line : String) : OptionSD [Int] =
-    if line.endsWith (_sc.space + _sc.function_definition_symbol)
-    then SomeSD_ (line.length - _sc.function_definition_symbol.length)
-    else get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
+    if line .endsWith (_sc .space + _sc .function_definition_symbol)
+    then SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   get_index (line : String) (pattern : String) : OptionSD [Int] =
     get_index_from (line) (pattern) (0)
 
   get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start) )
+    SomeSD_ (line .indexOf (pattern, start) )
       .filter (lambda position --> not  (position == -1) )
 
 end

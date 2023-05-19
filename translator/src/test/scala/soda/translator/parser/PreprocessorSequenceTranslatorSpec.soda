@@ -120,7 +120,7 @@ class PreprocessorSequenceTranslatorSpec ()
 
   test ("should test the preprocessor") (
     check (
-      obtained := block_processor.translate (example_program)
+      obtained := block_processor .translate (example_program)
     ) (
       expected := expected_output
     )

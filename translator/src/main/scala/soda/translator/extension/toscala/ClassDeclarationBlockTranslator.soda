@@ -20,7 +20,7 @@ class ClassDeclarationBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-  soda_space : String = _sc.space
+  soda_space : String = _sc .space
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -39,66 +39,66 @@ class ClassDeclarationBlockTranslator
     ClassAliasAnnotation_ (_translate_block (block) )
 
   _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ ().build (
+    BlockBuilder_ () .build (
       if (has_condition_for_type_alias (get_first_line (block) ) )
       then _process_head (block) ++ _process_tail (block)
-      else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + _tc.scala_class_begin_symbol)
+      else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + _tc .scala_class_begin_symbol)
     )
 
   _process_head (block : Block) : Seq [String] =
     _process_head_with (get_first_line (block) ) (block)
 
   _process_head_with (line : String) (block : Block) : Seq [String] =
-    Seq [String] (Replacement_ (_sc.space + line).replace_at_beginning (0) (get_table_translator (line) ).line.substring (_sc.space.length) )
+    Seq [String] (Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) )
 
   _process_tail (block : Block) : Seq [String] =
     _process_if_extends (remove_first_line (block) )
 
   _process_if_extends (block : Block) : Seq [String] =
-    if (get_first_line (block).trim == _sc.extends_reserved_word)
-    then Seq [String] (get_initial_spaces (block) + _tc.scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
-    else block.lines
+    if (get_first_line (block) .trim == _sc .extends_reserved_word)
+    then Seq [String] (get_initial_spaces (block) + _tc .scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
+    else block .lines
 
   get_table_translator (line : String) : Translator =
     TableTranslator_ (
-      Seq (Tuple2 (_sc.class_reserved_word, get_class_declaration_translation (line) ) )
+      Seq (Tuple2 (_sc .class_reserved_word, get_class_declaration_translation (line) ) )
     )
 
   get_class_declaration_translation (line : String) : String =
-    if line.contains (_sc.opening_parenthesis_symbol)
-    then _tc.class_declaration_translation_at_beginning_with_paren
+    if line .contains (_sc .opening_parenthesis_symbol)
+    then _tc .class_declaration_translation_at_beginning_with_paren
     else
       if has_condition_for_type_alias (line)
-      then _tc.class_declaration_translation_at_beginning_without_paren_for_type_alias
-      else _tc.class_declaration_translation_at_beginning_without_paren
+      then _tc .class_declaration_translation_at_beginning_without_paren_for_type_alias
+      else _tc .class_declaration_translation_at_beginning_without_paren
 
   _process_after_extends (block : Block) : Seq [String] =
-    if (get_first_line (block).trim.nonEmpty)
-    then Seq [String] (get_first_line (block) ) ++ remove_first_line (block).lines.map (lambda line --> get_initial_spaces_for (line) + _tc.scala_with_translation + _tc.scala_space + line.trim)
+    if (get_first_line (block) .trim .nonEmpty)
+    then Seq [String] (get_first_line (block) ) ++ remove_first_line (block) .lines .map (lambda line --> get_initial_spaces_for (line) + _tc .scala_with_translation + _tc .scala_space + line .trim)
     else Seq [String] ()
 
   remove_first_line (block : Block) : Block =
-    BlockBuilder_ ().build (
-      if block.lines.isEmpty
-      then block.lines
-      else block.lines.tail
+    BlockBuilder_ () .build (
+      if block .lines .isEmpty
+      then block .lines
+      else block .lines .tail
     )
 
   get_first_line (block : Block) : String =
-    block.lines.headOption.getOrElse ("")
+    block .lines .headOption .getOrElse ("")
 
   get_initial_spaces (block : Block) : String =
     get_initial_spaces_for (get_first_line (block) )
 
   get_initial_spaces_for (line : String) : String =
-    line.takeWhile (lambda ch --> ch.isSpaceChar)
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
 
   ends_with_equals (line : String) : Boolean = false
 
   ends_with_opening_brace (line : String) : Boolean = false
 
   contains_equals (line : String) : Boolean =
-    line.trim.contains (_sc.function_definition_symbol)
+    line .trim .contains (_sc .function_definition_symbol)
 
   has_condition_for_type_alias (line : String) : Boolean =
     contains_equals (line)

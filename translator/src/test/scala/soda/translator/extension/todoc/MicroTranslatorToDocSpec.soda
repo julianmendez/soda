@@ -35,7 +35,7 @@ class MicroTranslatorToDocSpec ()
 
   test ("Document generation of a snippet") (
     check (
-      obtained := instance.translate (original_snippet)
+      obtained := instance .translate (original_snippet)
     ) (
       expected := translated_snippet
     )

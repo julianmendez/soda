@@ -40,11 +40,11 @@ trait Block
 
   lazy val lines : Seq [String] =
     annotated_lines
-      .map ( x => x.line)
+      .map ( x => x .line)
 
   lazy val readable_lines : Seq [AnnotatedLine] =
     annotated_lines
-      .filter ( line => ! line.is_comment)
+      .filter ( line => ! line .is_comment)
 
 }
 
@@ -131,7 +131,7 @@ trait DefaultBlockSequenceTranslator
 
   lazy val translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock] =
      block_sequence =>
-      block_sequence.map ( block => translator.translate (block) )
+      block_sequence .map ( block => translator .translate (block) )
 
 }
 
@@ -174,10 +174,10 @@ trait BlockTranslatorPipeline
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      _fold.apply (pipeline) (block) (_next_value_function)
+      _fold .apply (pipeline) (block) (_next_value_function)
 
   private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
-    translator.translate (block)
+    translator .translate (block)
 
 }
 
@@ -197,8 +197,8 @@ trait ConditionalBlockTranslator
       translate_for (block)
 
   def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
-    if ( accepted_annotations.contains (block.block_annotation)
-    ) translator.translate (block)
+    if ( accepted_annotations.contains (block .block_annotation)
+    ) translator .translate (block)
     else block
 
 }
@@ -234,7 +234,7 @@ trait PlainBlock
   lazy val new_line = "\n"
 
   lazy val contents : String =
-    lines.mkString (new_line)
+    lines .mkString (new_line)
 
 }
 

@@ -34,36 +34,36 @@ trait DirectoryProcessor
   lazy val package_file_name = "Package.soda"
 
   private lazy val _all_files : Seq [File] =
-    DirectoryScanner_ ().get_all_files ( new File (start))
+    DirectoryScanner_ () .get_all_files ( new File (start))
 
   private lazy val _all_soda_files : Seq [File] =
     _all_files
-      .filter ( x => x.isFile)
-      .filter ( x => x.getName.endsWith (soda_suffix))
+      .filter ( x => x .isFile)
+      .filter ( x => x .getName .endsWith (soda_suffix))
 
   private lazy val _package_files : Seq [File] =
     _all_files
-      .filter ( x => x.isFile)
-      .filter ( x => x.getName == package_file_name)
+      .filter ( x => x .isFile)
+      .filter ( x => x .getName == package_file_name)
 
-  private lazy val _sorted_package_files : Seq [File] = _package_files.sorted
+  private lazy val _sorted_package_files : Seq [File] = _package_files .sorted
 
   private lazy val _soda_non_package_files : Seq [File] =
     _all_soda_files
-      .filter ( x => ! (x.getName == package_file_name) )
+      .filter ( x => ! (x .getName == package_file_name) )
 
-  private lazy val _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files.sorted
+  private lazy val _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files .sorted
 
   private lazy val _soda_files : Seq [File] =
-    _sorted_package_files .++ (_sorted_soda_non_package_files)
+    _sorted_package_files  .++ (_sorted_soda_non_package_files)
 
   private lazy val _lib_files : Seq [File] =
     _all_files
-      .filter ( x => x.isFile)
-      .filter ( file => file.getName == LibraryDeployer_ ().library_marker_file)
+      .filter ( x => x .isFile)
+      .filter ( file => file .getName == LibraryDeployer_ () .library_marker_file)
 
   def process () : Boolean =
-    LibraryDeployer_ ().expand_library (_lib_files) &&
+    LibraryDeployer_ () .expand_library (_lib_files) &&
       _soda_files
         .map (process_soda_file)
         .forall ( x => x)
@@ -74,37 +74,37 @@ case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File
 
 
 /**
- * This class is used to scan files in a given directory.
+ * This class is used to scan files in a given directory .
  */
 
 trait DirectoryScanner
 {
 
-  import   java.io.File
+  import   java .io.File
 
   def get_all_files (start : File) : Seq [File] =
-    if ( start.isFile
+    if ( start .isFile
     ) Seq (start)
-    else _scan (Seq () ) (start.listFiles ().toSeq)
+    else _scan (Seq () ) (start .listFiles () .toSeq)
 
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
-    if ( to_scan.isEmpty
+    if ( to_scan .isEmpty
     ) found
-    else _tailrec_scan (found.+: (to_scan.head) ) (_get_files_to_scan (to_scan) )
+    else _tailrec_scan (found .+: (to_scan .head) ) (_get_files_to_scan (to_scan) )
 
   private def _scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     _tailrec_scan (found) (to_scan)
 
   private def _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
-    if ( to_scan.isEmpty
+    if ( to_scan .isEmpty
     ) to_scan
-    else _get_files_to_scan_with (to_scan.head) (to_scan.tail)
+    else _get_files_to_scan_with (to_scan .head) (to_scan .tail)
 
   private def _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
-    if ( to_scan_head.isDirectory
-    ) to_scan_tail.++ (to_scan_head.listFiles () )
+    if ( to_scan_head .isDirectory
+    ) to_scan_tail .++ (to_scan_head .listFiles () )
     else to_scan_tail
 
 }
@@ -129,16 +129,16 @@ trait LibraryDeployer
 
   def expand_library (lib_files : Seq [File] ) : Boolean =
     lib_files
-      .map ( lib_file => lib_file.getParent)
+      .map ( lib_file => lib_file .getParent)
       .map ( parent_directory => _expand_files (parent_directory) )
       .forall ( x => x)
 
   private def _expand_files (parent_directory : String) : Boolean =
     _library_content_files
       .map ( lib_file_name =>
-        SimpleFileWriter_ ().write_file_with (
-          file = SimpleFileWriter_ ().create_file (parent_directory) (lib_file_name) ) (
-          content = SimpleFileReader_ ().read_resource (_library_directory_in_jar + lib_file_name)
+        SimpleFileWriter_ () .write_file_with (
+          file = SimpleFileWriter_ () .create_file (parent_directory) (lib_file_name) ) (
+          content = SimpleFileReader_ () .read_resource (_library_directory_in_jar + lib_file_name)
         ) )
       .forall ( x => x)
 
@@ -164,16 +164,16 @@ trait SimpleFileReader
   lazy val new_line = "\n"
 
   def read_file (file_name : String) : String =
-    new String (Files.readAllBytes (Paths.get (file_name) ) )
+    new String (Files .readAllBytes (Paths .get (file_name) ) )
 
   def read_resource (file_name : String) : String =
-    read_input_stream (getClass.getResourceAsStream (file_name) )
+    read_input_stream (getClass .getResourceAsStream (file_name) )
 
   def read_input_stream (input_stream : InputStream) : String =
     _read_reader_content ( new BufferedReader ( new InputStreamReader (input_stream) ) )
 
   private def _read_reader_content (reader : BufferedReader) : String =
-    reader.lines ().collect (Collectors.joining (new_line) )
+    reader .lines () .collect (Collectors .joining (new_line) )
 
 }
 
@@ -192,16 +192,16 @@ trait SimpleFileWriter
   import   java.io.Writer
 
   def write_file (file_name : String) (content : String) : Boolean =
-    write_file_with ( new File (file_name) ) (content)
+    write_file_with (new File (file_name) ) (content)
 
   def write_file_with (file : File) (content : String) : Boolean =
-    _write_content ( new FileWriter (file , false) ) (content)
+    _write_content (new FileWriter (file , false) ) (content)
 
   def append_file (file_name : String) (content : String) : Boolean =
-    append_file_with ( new File (file_name) ) (content)
+    append_file_with (new File (file_name) ) (content)
 
   def append_file_with (file : File) (content : String) : Boolean =
-    _write_content ( new FileWriter (file , true) ) (content)
+    _write_content (new FileWriter (file , true) ) (content)
 
   private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
@@ -212,7 +212,7 @@ trait SimpleFileWriter
       .getOrElse (false)
 
   def create_file (parent_directory : String) (file_name : String) : File =
-    new File (parent_directory, file_name)
+    new File (parent_directory , file_name)
 
 }
 

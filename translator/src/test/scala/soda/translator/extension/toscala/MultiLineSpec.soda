@@ -34,20 +34,20 @@ class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  original_input_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,",
-    "    2,  ",
-    "    3)",
-    "  f( x: Int,\t",
-    "     y: Int,",
-    "     z: Int) =",
+  original_input_lines = Seq (
+    "  value = 1" ,
+    "  sequence = Seq(1 ," ,
+    "    2,  " ,
+    "    3)" ,
+    "  f( x: Int,\t" ,
+    "     y: Int," ,
+    "     z: Int) =" ,
     "       x * x + y * y + z * z")
 
-  joined_comma_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,    2,      3)",
-    "  f( x: Int,\t     y: Int,     z: Int) =",
+  joined_comma_lines = Seq (
+    "  value = 1" ,
+    "  sequence = Seq(1 ,    2,      3)" ,
+    "  f( x: Int,\t     y: Int,     z: Int) =" ,
     "       x * x + y * y + z * z")
 
   joined_output =
@@ -60,12 +60,12 @@ class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z"
 
-  build_block (lines: Seq [String]): AnnotatedBlock =
-    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
+  build_block (lines : Seq [String] ) : AnnotatedBlock =
+    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines) )
 
   test ("should split a program in multiple lines") (
     check (
-      obtained := bp.make_block (original_input)
+      obtained := bp .make_block (original_input)
     ) (
       expected := build_block (original_input_lines )
     )
@@ -75,7 +75,7 @@ class MultiLineSpec ()
     check (
       obtained := build_block (joined_comma_lines)
     ) (
-      expected := bp.make_block (joined_output)
+      expected := bp .make_block (joined_output)
     )
   )
 

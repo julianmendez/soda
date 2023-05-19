@@ -34,17 +34,17 @@ trait CharTypeEnum
     soda.lib.Enum [CharType]
 {
 
-  lazy val undefined_type = CharType_ (0, "undefined_type")
+  lazy val undefined_type = CharType_ (0 , "undefined_type")
 
-  lazy val quotes_type = CharType_ (1, "quotes_type")
+  lazy val quotes_type = CharType_ (1 , "quotes_type")
 
-  lazy val apostrophe_type = CharType_ (2, "apostrophe_type")
+  lazy val apostrophe_type = CharType_ (2 , "apostrophe_type")
 
-  lazy val backslash_type = CharType_ (3, "backslash_type")
+  lazy val backslash_type = CharType_ (3 , "backslash_type")
 
-  lazy val plain_type = CharType_ (4, "plain_type")
+  lazy val plain_type = CharType_ (4 , "plain_type")
 
-  lazy val values = Seq (undefined_type, quotes_type, apostrophe_type, backslash_type, plain_type)
+  lazy val values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 
   lazy val backslash_char = '\\'
 
@@ -57,18 +57,18 @@ trait CharTypeEnum
   lazy val last_standard_symbol : Char = 0x7F
 
   lazy val symbol_chars : Seq [Char] =
-    Seq ('!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~')
+    Seq ('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , ',' , '-' , '.' , '/' , ':' , ';' , '<' , '=' , '>' , '?' , '@' , '[' , ']' , '^' , '`' , '{' , '|' , '}' , '~')
 
-  lazy val simple_char_type_map : Map [Char , CharType] =
+  lazy val simple_char_type_map : Map [Char, CharType] =
     Map (
-      Tuple2 ( quotes_char , quotes_type ),
-      Tuple2 ( apostrophe_char , apostrophe_type ),
-      Tuple2 ( backslash_char, backslash_type )
+      Tuple2 (quotes_char , quotes_type) ,
+      Tuple2 (apostrophe_char , apostrophe_type) ,
+      Tuple2 (backslash_char , backslash_type)
     )
 
   def get_char_type (ch : Char) : CharType =
     simple_char_type_map
-      .getOrElse (ch, _get_char_type_if_plain (ch) )
+      .getOrElse (ch , _get_char_type_if_plain (ch) )
 
   private def _get_char_type_if_plain (ch : Char) : CharType =
     if ( _is_plain (ch)
@@ -120,19 +120,19 @@ trait ParserStateEnum
     soda.lib.Enum [ParserState]
 {
 
-  lazy val undefined_state = ParserState_ (0, "undefined_state")
+  lazy val undefined_state = ParserState_ (0 , "undefined_state")
 
-  lazy val quotes_state = ParserState_ (1, "quotes_state")
+  lazy val quotes_state = ParserState_ (1 , "quotes_state")
 
-  lazy val apostrophe_state = ParserState_ (2, "apostrophe_state")
+  lazy val apostrophe_state = ParserState_ (2 , "apostrophe_state")
 
-  lazy val quotes_backslash_state = ParserState_ (3, "quotes_backslash_state")
+  lazy val quotes_backslash_state = ParserState_ (3 , "quotes_backslash_state")
 
-  lazy val apostrophe_backslash_state = ParserState_ (4, "apostrophe_backslash_state")
+  lazy val apostrophe_backslash_state = ParserState_ (4 , "apostrophe_backslash_state")
 
-  lazy val plain = ParserState_ (5, "plain")
+  lazy val plain = ParserState_ (5 , "plain")
 
-  lazy val values = Seq (undefined_state, quotes_state, apostrophe_state, quotes_backslash_state, apostrophe_backslash_state, plain)
+  lazy val values = Seq (undefined_state , quotes_state , apostrophe_state , quotes_backslash_state , apostrophe_backslash_state , plain)
 
   def is_same_class (x : ParserState) (y : ParserState) : Boolean =
      (x == y) || _is_like (x) (y) || _is_like (y) (x)
@@ -152,38 +152,38 @@ trait ParserTransition
 
   lazy val ct = CharTypeEnum_ ()
 
-  lazy val transitions_that_change_states : Map [ Tuple2 [ParserState, CharType], ParserState] =
+  lazy val transitions_that_change_states : Map [ Tuple2 [ParserState , CharType] , ParserState] =
     Map (
       /* */
-      Tuple2 ( Tuple2 (ps.quotes_state, ct.undefined_type), ps.undefined_state),
-      Tuple2 ( Tuple2 (ps.quotes_state, ct.quotes_type), ps.plain),
-      Tuple2 ( Tuple2 (ps.quotes_state, ct.backslash_type), ps.quotes_backslash_state),
+      Tuple2 ( Tuple2 (ps .quotes_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 ( Tuple2 (ps .quotes_state , ct .quotes_type) , ps .plain),
+      Tuple2 ( Tuple2 (ps .quotes_state , ct .backslash_type) , ps .quotes_backslash_state),
       /* */
-      Tuple2 ( Tuple2 (ps.apostrophe_state, ct.undefined_type), ps.undefined_state),
-      Tuple2 ( Tuple2 (ps.apostrophe_state, ct.apostrophe_type), ps.plain),
-      Tuple2 ( Tuple2 (ps.apostrophe_state, ct.backslash_type), ps.apostrophe_backslash_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .apostrophe_type) , ps .plain),
+      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .backslash_type) , ps .apostrophe_backslash_state),
       /* */
-      Tuple2 ( Tuple2 (ps.quotes_backslash_state, ct.undefined_type), ps.undefined_state),
-      Tuple2 ( Tuple2 (ps.quotes_backslash_state, ct.quotes_type), ps.quotes_state),
-      Tuple2 ( Tuple2 (ps.quotes_backslash_state, ct.apostrophe_type), ps.quotes_state),
-      Tuple2 ( Tuple2 (ps.quotes_backslash_state, ct.backslash_type), ps.quotes_state),
-      Tuple2 ( Tuple2 (ps.quotes_backslash_state, ct.plain_type), ps.quotes_state),
+      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .quotes_type) , ps .quotes_state),
+      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .apostrophe_type) , ps .quotes_state),
+      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .backslash_type) , ps .quotes_state),
+      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .plain_type) , ps .quotes_state),
       /* */
-      Tuple2 ( Tuple2 (ps.apostrophe_backslash_state, ct.undefined_type), ps.undefined_state),
-      Tuple2 ( Tuple2 (ps.apostrophe_backslash_state, ct.quotes_type), ps.apostrophe_state),
-      Tuple2 ( Tuple2 (ps.apostrophe_backslash_state, ct.apostrophe_type), ps.apostrophe_state),
-      Tuple2 ( Tuple2 (ps.apostrophe_backslash_state, ct.backslash_type), ps.apostrophe_state),
-      Tuple2 ( Tuple2 (ps.apostrophe_backslash_state, ct.plain_type), ps.apostrophe_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .quotes_type) , ps .apostrophe_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .apostrophe_type) , ps .apostrophe_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .backslash_type) , ps .apostrophe_state),
+      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .plain_type) , ps .apostrophe_state),
       /* */
-      Tuple2 ( Tuple2 (ps.plain, ct.undefined_type), ps.undefined_state),
-      Tuple2 ( Tuple2 (ps.plain, ct.quotes_type), ps.quotes_state),
-      Tuple2 ( Tuple2 (ps.plain, ct.apostrophe_type), ps.apostrophe_state),
-      Tuple2 ( Tuple2 (ps.plain, ct.backslash_type), ps.plain),
-      Tuple2 ( Tuple2 (ps.plain, ct.plain_type), ps.plain)
+      Tuple2 ( Tuple2 (ps .plain , ct .undefined_type) , ps .undefined_state),
+      Tuple2 ( Tuple2 (ps .plain , ct .quotes_type) , ps .quotes_state),
+      Tuple2 ( Tuple2 (ps .plain , ct .apostrophe_type) , ps .apostrophe_state),
+      Tuple2 ( Tuple2 (ps .plain , ct .backslash_type) , ps .plain),
+      Tuple2 ( Tuple2 (ps .plain , ct .plain_type) , ps .plain)
     )
 
   def next_parser_state (parser_state : ParserState) (char_type : CharType) : ParserState =
-    transitions_that_change_states.getOrElse ( Tuple2 (parser_state, char_type), parser_state)
+    transitions_that_change_states .getOrElse (Tuple2 (parser_state , char_type) , parser_state)
 
 }
 
@@ -209,19 +209,19 @@ trait Replacement
   lazy val soda_space = aux.soda_space
 
   def replace_at_beginning (index : Int) (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line) (index) )
+    Replacement_ (ReplacementWithTranslator_ (translator) .replace_at_beginning (line) (index) )
 
   def replace_all (pattern : String) (replacement : String) : Replacement =
-    Replacement_ (aux.replace_all (line) (pattern) (replacement) )
+    Replacement_ (aux .replace_all (line) (pattern) (replacement) )
 
   def add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
   def remove_space_from_scala_line () : Replacement =
-    Replacement_ (aux.remove_space_from_scala_line (line) )
+    Replacement_ (aux .remove_space_from_scala_line (line) )
 
   def add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
-    Replacement_ (aux.add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+    Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
 }
 
@@ -235,25 +235,25 @@ trait ReplacementAux
   lazy val scala_space = " "
 
   def replace_if_found_at_beginning (line : String) (pattern : String) (new_text : String) : String =
-    if ( line.trim.startsWith (pattern.trim)
+    if ( line .trim .startsWith (pattern .trim)
     ) replace_first (line) (pattern) (new_text)
     else line
 
   def replace_first (line : String) (pattern : String) (replacement : String) : String =
-    replace_at (line.indexOf (pattern) ) (line) (pattern) (replacement)
+    replace_at (line .indexOf (pattern) ) (line) (pattern) (replacement)
 
   def replace_at (index : Int) (line : String) (pattern : String) (replacement : String) : String =
-    if ( (0 <= index) && (index + pattern.length <= line.length)
-    ) line.substring (0, index) + replacement + line.substring (index + pattern.length, line.length)
+    if ( (0 <= index) && (index + pattern .length <= line .length)
+    ) line .substring (0, index) + replacement + line .substring (index + pattern .length, line .length)
     else line
 
   def replace_if_found (line : String) (pattern : String) (new_text : String) : String =
-    if ( line.contains (pattern)
+    if ( line .contains (pattern)
     ) replace_all (line) (pattern) (new_text)
     else line
 
   def replace_all (line : String) (pattern : String) (replacement : String) : String =
-    Replacer_ (line, pattern, replacement).replaced_text
+    Replacer_ (line, pattern, replacement) .replaced_text
 
   def add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
@@ -265,40 +265,40 @@ trait ReplacementAux
     (_left_part_of_symbols (line) (symbols) (index) (ch) ) + ch + (_right_part_of_symbols (line) (symbols) (index) (ch) )
 
   private def _left_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
-    if ( (index > 0) && symbols.contains (ch) &&
-      ! line (index - 1).isWhitespace
+    if ( (index > 0) && symbols .contains (ch) &&
+      ! line (index - 1) .isWhitespace
     ) scala_space
     else ""
 
   private def _right_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
-    if ( (index < line.length - 1) && symbols.contains (ch) &&
-      ! line (index + 1).isWhitespace
+    if ( (index < line .length - 1) && symbols .contains (ch) &&
+      ! line (index + 1) .isWhitespace
     ) scala_space
     else ""
 
   def remove_space_from_scala_line (line : String) : String =
-    _get_line_without_ending_space ( _get_line_without_starting_space (line) )
+    _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
   private def _get_line_without_starting_space (line : String) : String =
-    if ( line.startsWith (scala_space)
-    ) line.substring (1)
+    if ( line .startsWith (scala_space)
+    ) line .substring (1)
     else line
 
   private def _get_line_without_ending_space (line : String) : String =
-    if ( line.endsWith (scala_space)
-    ) line.substring (0, line.length - 1)
+    if ( line .endsWith (scala_space)
+    ) line .substring (0, line .length - 1)
     else line
 
   def add_after_spaces_or_pattern (line : String) (pattern : String) (text_to_prepend : String) : String =
     _add_after_spaces_or_pattern_with (_get_prefix_length (line) (pattern) ) (line) (pattern) (text_to_prepend)
 
   private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String) (text_to_prepend : String) : String =
-    line.substring (0, prefix_length) + text_to_prepend + line.substring (prefix_length)
+    line .substring (0, prefix_length) + text_to_prepend + line .substring (prefix_length)
 
   private def _get_prefix_length (line : String) (pattern : String) : Int =
-    if ( line.trim.startsWith (pattern)
-    ) line.indexOf (pattern) + pattern.length
-    else line.takeWhile ( ch => ch.isSpaceChar).length
+    if ( line .trim .startsWith (pattern)
+    ) line .indexOf (pattern) + pattern .length
+    else line .takeWhile ( ch => ch .isSpaceChar) .length
 
 }
 
@@ -313,9 +313,9 @@ trait ReplacementWithTranslator
 
   lazy val aux = ReplacementAux_ ()
 
-  lazy val soda_space = aux.soda_space
+  lazy val soda_space = aux .soda_space
 
-  lazy val scala_space = aux.scala_space
+  lazy val scala_space = aux .scala_space
 
   lazy val soda_opening_parenthesis_symbol = "("
 
@@ -329,14 +329,14 @@ trait ReplacementWithTranslator
     else line
 
   private def _replace_only_beginning (line : String) : String =
-    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
+    _fold .apply (translator .keys) (initial_value = line) (next_value_function = _next_replace_only_beginning)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
-    aux.replace_if_found_at_beginning (line) (
-      soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
+    aux .replace_if_found_at_beginning (line) (
+      soda_space + reserved_word + soda_space) (scala_space + translator .translate (reserved_word) + scala_space)
 
   def replace (line : String) : String =
-    _fold.apply (translator.keys) (initial_value = line) (next_value_function = _next_replace)
+    _fold .apply (translator .keys) (initial_value = line) (next_value_function = _next_replace)
 
   private def _next_replace (line : String) (reserved_word : String) : String =
     _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
@@ -344,8 +344,8 @@ trait ReplacementWithTranslator
     )
 
   private def _replace_if_found (previous_character : String) (reserved_word : String) (line : String) : String =
-    aux.replace_if_found (line) (
-      previous_character + reserved_word + soda_space) (previous_character + translator.translate (reserved_word) + scala_space)
+    aux .replace_if_found (line) (
+      previous_character + reserved_word + soda_space) (previous_character + translator .translate (reserved_word) + scala_space)
 
 }
 
@@ -380,31 +380,31 @@ trait Replacer
   private lazy val _range = Range_ ()
 
   lazy val replaced_text =
-    postprocess (_fold_while.apply (_range.apply (line.length) ) (initial_value) (next_value_function) (should_continue) )
+    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (next_value_function) (should_continue) )
 
   lazy val initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq (), 0 )
 
   def next_value_function (tuple : ReplacerFoldTuple) (x : Int) : ReplacerFoldTuple =
     _get_next_tuple (
-      replaced_text_rev = tuple.replaced_text_rev) (
-      start_index = tuple.start_index) (
-      pos = line.indexOf (pattern, tuple.start_index)
+      replaced_text_rev = tuple .replaced_text_rev) (
+      start_index = tuple .start_index) (
+      pos = line .indexOf (pattern, tuple .start_index)
     )
 
   private def _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
     if ( pos == -1
-    ) ReplacerFoldTuple_ (replaced_text_rev.+: (line.substring (start_index) ), pos )
+    ) ReplacerFoldTuple_ (replaced_text_rev .+: (line .substring (start_index) ), pos )
     else
       ReplacerFoldTuple_ (
-        (replaced_text_rev.+: (line.substring (start_index, pos) ) ).+: (replacement),
-        pos + pattern.length
+        (replaced_text_rev .+: (line .substring (start_index, pos) ) ) .+: (replacement),
+        pos + pattern .length
       )
 
   def should_continue (tuple : ReplacerFoldTuple) (x : Int) : Boolean =
-    ! (tuple.start_index == -1)
+    ! (tuple .start_index == -1)
 
   def postprocess (tuple : ReplacerFoldTuple) : String =
-    tuple.replaced_text_rev.reverse.mkString ("")
+    tuple .replaced_text_rev .reverse .mkString ("")
 
 }
 
@@ -455,27 +455,27 @@ trait Tokenizer
   private lazy val _range = Range_ ()
 
   lazy val tokens : Seq [Token] =
-    _postprocess (_fold.apply (_range.apply (line.length) ) (_initial_value) (_next_value_function) )
+    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (_next_value_function) )
 
-  private lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ ().plain, Seq () )
+  private lazy val _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ () .plain, Seq () )
 
   private def _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
-    (tuple.rev_tokens.+: (Token_ (line.substring (tuple.last_index), tuple.parser_state, tuple.last_index) ) )
+    (tuple .rev_tokens .+: (Token_ (line .substring (tuple .last_index), tuple .parser_state, tuple .last_index) ) )
       .reverse
 
   private def _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
     _new_value_function_with (tuple) (current_index) (_new_parser_state (tuple) (current_index) )
 
   private def _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
-    if ( ParserStateEnum_ ().is_same_class (new_parser_state) (tuple.parser_state)
-    ) TokenizerFoldTuple_ (tuple.last_index, new_parser_state, tuple.rev_tokens)
+    if ( ParserStateEnum_ () .is_same_class (new_parser_state) (tuple .parser_state)
+    ) TokenizerFoldTuple_ (tuple .last_index, new_parser_state, tuple .rev_tokens)
     else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
   private def _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
     ParserTransition_ ()
       .next_parser_state (
-        tuple.parser_state) (
-        CharTypeEnum_ ().get_char_type (line.charAt (current_index) )
+        tuple .parser_state) (
+        CharTypeEnum_ () .get_char_type (line .charAt (current_index) )
       )
 
   private def _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
@@ -487,18 +487,18 @@ trait Tokenizer
     )
 
   private def _get_new_current_index (tuple : TokenizerFoldTuple) (current_index : Int) : Int =
-    if ( tuple.parser_state == ParserStateEnum_ ().quotes_state ||
-     tuple.parser_state == ParserStateEnum_ ().apostrophe_state
+    if ( tuple .parser_state == ParserStateEnum_ () .quotes_state ||
+     tuple .parser_state == ParserStateEnum_ () .apostrophe_state
     ) current_index + 1
     else current_index
 
   private def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
     TokenizerFoldTuple_ (index, new_parser_state,
-      tuple.rev_tokens.+: (
+      tuple .rev_tokens .+: (
         Token_ (
-          line.substring (tuple.last_index, index),
-          tuple.parser_state,
-          tuple.last_index
+          line .substring (tuple .last_index, index),
+          tuple .parser_state,
+          tuple .last_index
         )
       )
     )

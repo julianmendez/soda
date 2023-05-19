@@ -19,19 +19,19 @@ class Replacement
   soda_space = aux.soda_space
 
   replace_at_beginning (index : Int) (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator).replace_at_beginning (line) (index) )
+    Replacement_ (ReplacementWithTranslator_ (translator) .replace_at_beginning (line) (index) )
 
   replace_all (pattern : String) (replacement : String) : Replacement =
-    Replacement_ (aux.replace_all (line) (pattern) (replacement) )
+    Replacement_ (aux .replace_all (line) (pattern) (replacement) )
 
   add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
   remove_space_from_scala_line () : Replacement =
-    Replacement_ (aux.remove_space_from_scala_line (line) )
+    Replacement_ (aux .remove_space_from_scala_line (line) )
 
   add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
-    Replacement_ (aux.add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+    Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
 end
 
@@ -42,25 +42,25 @@ class ReplacementAux
   scala_space = " "
 
   replace_if_found_at_beginning (line : String) (pattern : String) (new_text : String) : String =
-    if line.trim.startsWith (pattern.trim)
+    if line .trim .startsWith (pattern .trim)
     then replace_first (line) (pattern) (new_text)
     else line
 
   replace_first (line : String) (pattern : String) (replacement : String) : String =
-    replace_at (line.indexOf (pattern) ) (line) (pattern) (replacement)
+    replace_at (line .indexOf (pattern) ) (line) (pattern) (replacement)
 
   replace_at (index : Int) (line : String) (pattern : String) (replacement : String) : String =
-    if (0 <= index) and (index + pattern.length <= line.length)
-    then line.substring (0, index) + replacement + line.substring (index + pattern.length, line.length)
+    if (0 <= index) and (index + pattern .length <= line .length)
+    then line .substring (0, index) + replacement + line .substring (index + pattern .length, line .length)
     else line
 
   replace_if_found (line : String) (pattern : String) (new_text : String) : String =
-    if line.contains (pattern)
+    if line .contains (pattern)
     then replace_all (line) (pattern) (new_text)
     else line
 
   replace_all (line : String) (pattern : String) (replacement : String) : String =
-    Replacer_ (line, pattern, replacement).replaced_text
+    Replacer_ (line, pattern, replacement) .replaced_text
 
   add_spaces_to_symbols (line : String) (symbols : Set [Char] ) : String =
     line
@@ -72,40 +72,40 @@ class ReplacementAux
     (_left_part_of_symbols (line) (symbols) (index) (ch) ) + ch + (_right_part_of_symbols (line) (symbols) (index) (ch) )
 
   _left_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
-    if (index > 0) and symbols.contains (ch) and
-      not line (index - 1).isWhitespace
+    if (index > 0) and symbols .contains (ch) and
+      not line (index - 1) .isWhitespace
     then scala_space
     else ""
 
   _right_part_of_symbols (line : String) (symbols : Set [Char] ) (index : Int) (ch : Char) : String =
-    if (index < line.length - 1) and symbols.contains (ch) and
-      not line (index + 1).isWhitespace
+    if (index < line .length - 1) and symbols .contains (ch) and
+      not line (index + 1) .isWhitespace
     then scala_space
     else ""
 
   remove_space_from_scala_line (line : String) : String =
-    _get_line_without_ending_space ( _get_line_without_starting_space (line) )
+    _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
   _get_line_without_starting_space (line : String) : String =
-    if line.startsWith (scala_space)
-    then line.substring (1)
+    if line .startsWith (scala_space)
+    then line .substring (1)
     else line
 
   _get_line_without_ending_space (line : String) : String =
-    if line.endsWith (scala_space)
-    then line.substring (0, line.length - 1)
+    if line .endsWith (scala_space)
+    then line .substring (0, line .length - 1)
     else line
 
   add_after_spaces_or_pattern (line : String) (pattern : String) (text_to_prepend : String) : String =
     _add_after_spaces_or_pattern_with (_get_prefix_length (line) (pattern) ) (line) (pattern) (text_to_prepend)
 
   _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String) (text_to_prepend : String) : String =
-    line.substring (0, prefix_length) + text_to_prepend + line.substring (prefix_length)
+    line .substring (0, prefix_length) + text_to_prepend + line .substring (prefix_length)
 
   _get_prefix_length (line : String) (pattern : String) : Int =
-    if line.trim.startsWith (pattern)
-    then line.indexOf (pattern) + pattern.length
-    else line.takeWhile (lambda ch --> ch.isSpaceChar).length
+    if line .trim .startsWith (pattern)
+    then line .indexOf (pattern) + pattern .length
+    else line .takeWhile (lambda ch --> ch .isSpaceChar) .length
 
 end
 
@@ -119,9 +119,9 @@ class ReplacementWithTranslator
 
   aux = ReplacementAux_ ()
 
-  soda_space = aux.soda_space
+  soda_space = aux .soda_space
 
-  scala_space = aux.scala_space
+  scala_space = aux .scala_space
 
   soda_opening_parenthesis_symbol = "("
 
@@ -135,14 +135,14 @@ class ReplacementWithTranslator
     else line
 
   _replace_only_beginning (line : String) : String =
-    _fold.apply (translator.keys) (initial_value := line) (next_value_function := _next_replace_only_beginning)
+    _fold .apply (translator .keys) (initial_value := line) (next_value_function := _next_replace_only_beginning)
 
   _next_replace_only_beginning (line : String) (reserved_word : String) : String =
-    aux.replace_if_found_at_beginning (line) (
-      soda_space + reserved_word + soda_space) (scala_space + translator.translate (reserved_word) + scala_space)
+    aux .replace_if_found_at_beginning (line) (
+      soda_space + reserved_word + soda_space) (scala_space + translator .translate (reserved_word) + scala_space)
 
   replace (line : String) : String =
-    _fold.apply (translator.keys) (initial_value := line) (next_value_function := _next_replace)
+    _fold .apply (translator .keys) (initial_value := line) (next_value_function := _next_replace)
 
   _next_replace (line : String) (reserved_word : String) : String =
     _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
@@ -150,8 +150,8 @@ class ReplacementWithTranslator
     )
 
   _replace_if_found (previous_character : String) (reserved_word : String) (line : String) : String =
-    aux.replace_if_found (line) (
-      previous_character + reserved_word + soda_space) (previous_character + translator.translate (reserved_word) + scala_space)
+    aux .replace_if_found (line) (
+      previous_character + reserved_word + soda_space) (previous_character + translator .translate (reserved_word) + scala_space)
 
 end
 

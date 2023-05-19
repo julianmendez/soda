@@ -58,7 +58,7 @@ class NoneSD [A]
   extends
     OptionSD [A]
 
-  toOption : None.type = None
+  toOption : None .type = None
 
   isEmpty : Boolean = true
 
@@ -108,8 +108,8 @@ end
 class OptionSDBuilder [A]
 
   build (option : Option [A] ) : OptionSD [A] =
-    if option.isEmpty
+    if option .isEmpty
     then NoneSD_ [A] ()
-    else SomeSD_ [A] (option.get)
+    else SomeSD_ [A] (option .get)
 
 end

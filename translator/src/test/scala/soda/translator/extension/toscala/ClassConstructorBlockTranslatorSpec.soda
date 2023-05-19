@@ -120,7 +120,7 @@ class ClassConstructorBlockTranslatorSpec ()
 
   test ("should produce the constructors for a simple class") (
     check (
-      obtained := translator.translate (example_program_0)
+      obtained := translator .translate (example_program_0)
     ) (
       expected := expected_program_0
     )
@@ -128,7 +128,7 @@ class ClassConstructorBlockTranslatorSpec ()
 
   test ("should produce the constructors for a class with type parameters") (
     check (
-      obtained := translator.translate (example_program_1)
+      obtained := translator .translate (example_program_1)
     ) (
       expected := expected_program_1
     )

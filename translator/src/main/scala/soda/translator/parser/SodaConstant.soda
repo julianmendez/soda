@@ -207,7 +207,7 @@ class SodaConstant
     )
 
   soda_reserved_words : Seq [String] =
-    soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+    soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (soda_reserved_words_annotations_only) )
 
   soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
     Seq (

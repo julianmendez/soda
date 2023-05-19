@@ -40,30 +40,30 @@ class TranslatorToCoq
       case otherwise ==> false
 
   _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start, _process_soda_file).process ()
+    DirectoryProcessor_ (start , _process_soda_file) .process ()
 
   _process_soda_file (file : File) : Boolean =
-    _process_soda_file_with (_get_input_output_file_names (file.getAbsolutePath) )
+    _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   _process_soda_file_with (pair : FileNamePair) : Boolean =
-    _translate (pair.input_file_name) (pair.output_file_name)
+    _translate (pair .input_file_name) (pair .output_file_name)
 
   _get_input_output_file_names (input_name : String) : FileNamePair =
-    if input_name.endsWith (_soda_extension)
+    if input_name .endsWith (_soda_extension)
     then FileNamePair_ (input_name,
-      input_name.substring (0, input_name.length - _soda_extension.length) + _coq_extension)
+      input_name .substring (0, input_name .length - _soda_extension .length) + _coq_extension)
     else FileNamePair_ (input_name + _soda_extension, input_name + _coq_extension)
 
   _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ ().read_file (input_file_name) ) (
+      SimpleFileReader_ () .read_file (input_file_name) ) (
       output_file_name
     )
 
   _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (
+    SimpleFileWriter_ () .write_file (
       output_file_name) (
-      content := _translator.translate (input)
+      content := _translator .translate (input)
     )
 
 end

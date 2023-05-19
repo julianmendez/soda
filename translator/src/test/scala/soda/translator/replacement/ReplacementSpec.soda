@@ -17,7 +17,7 @@ class ReplacementSpec ()
     check (
       obtained :=
         Replacement_ ("\u03BB")
-          .replace_all ("\u03BB") (_sc.lambda_reserved_word)
+          .replace_all ("\u03BB") (_sc .lambda_reserved_word)
           .line
     ) (
       expected := "lambda"
@@ -38,11 +38,11 @@ class ReplacementSpec ()
   test ("Unicode replacement 3") (
     check (
       obtained :=
-        Replacement_ (_sc.case_arrow_unicode_symbol)
-          .replace_all (_sc.case_arrow_unicode_symbol) (_sc.case_reserved_word)
+        Replacement_ (_sc .case_arrow_unicode_symbol)
+          .replace_all (_sc .case_arrow_unicode_symbol) (_sc .case_reserved_word)
           .line
     ) (
-      expected := _sc.case_reserved_word
+      expected := _sc .case_reserved_word
     )
   )
 

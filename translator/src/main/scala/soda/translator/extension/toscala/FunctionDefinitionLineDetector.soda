@@ -24,7 +24,7 @@
 class FunctionDefinitionLineDetector
 
   abstract
-    line: String
+    line : String
 
   import
     soda.lib.OptionSD
@@ -42,7 +42,7 @@ class FunctionDefinitionLineDetector
   def_detected = 2
 
   detect : Int =
-    _find_definition (line).opt (ifEmpty := undetected) (ifNonEmpty := lambda position --> _try_found_definition (position) )
+    _find_definition (line) .opt (ifEmpty := undetected) (ifNonEmpty := lambda position --> _try_found_definition (position) )
 
   _try_found_definition (position : Int) : Int =
     if _is_val_definition (position)
@@ -56,40 +56,40 @@ class FunctionDefinitionLineDetector
     _is_val_definition_case_4
 
   _position_of_first_opening_parenthesis =
-    _get_index (line) (_sc.opening_parenthesis_symbol)
+    _get_index (line) (_sc .opening_parenthesis_symbol)
 
   _is_val_definition_case_1 =
-    _position_of_first_opening_parenthesis.isEmpty
+    _position_of_first_opening_parenthesis .isEmpty
 
   _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis.opt (false) (lambda position --> position > initial_position)
+    _position_of_first_opening_parenthesis .opt (false) (lambda position --> position > initial_position)
 
   _is_val_definition_case_3 =
-    (_get_index (line) (_sc.type_membership_symbol) ).opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
-        _position_of_first_opening_parenthesis.opt (false) (lambda position --> position > other_position)
+    (_get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
+        _position_of_first_opening_parenthesis .opt (false) (lambda position --> position > other_position)
     )
 
   _is_val_definition_case_4 =
-    _trimmed_line.startsWith (_sc.opening_parenthesis_symbol)
+    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
   /**
-   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
+   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign .
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
    * @return maybe the position of the definition sign
    */
   _find_definition (line : String) : OptionSD [Int] =
-    if line.endsWith (_sc.space + _sc.function_definition_symbol)
-    then SomeSD_ (line.length - _sc.function_definition_symbol.length)
-    else _get_index (line) (_sc.space + _sc.function_definition_symbol + _sc.space)
+    if line .endsWith (_sc .space + _sc .function_definition_symbol)
+    then SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   _get_index (line : String) (pattern : String) : OptionSD [Int] =
     _get_index_from (line) (pattern) (0)
 
   _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line.indexOf (pattern, start) )
-      .filter (lambda position --> not (position == -1) )
+    SomeSD_ (line .indexOf (pattern, start) )
+       .filter (lambda position --> not (position == -1) )
 
 end
 

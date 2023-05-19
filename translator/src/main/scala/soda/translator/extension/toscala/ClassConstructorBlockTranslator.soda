@@ -24,56 +24,56 @@ class ClassConstructorBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ClassEndAnnotation_ (block, references) ==> _translate_block (ClassEndAnnotation_ (block, references) )
+      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
       case otherwise ==> annotated_block
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _translate_block_with (_get_class_beginning (block.references) ) (block)
+    _translate_block_with (_get_class_beginning (block .references) ) (block)
 
   _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if maybe_beginning.isEmpty
+    if maybe_beginning .isEmpty
     then block
-    else _translate_block_with_beginning (maybe_beginning.get) (block)
+    else _translate_block_with_beginning (maybe_beginning .get) (block)
 
   _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if beginning.is_concrete
+    if beginning .is_concrete
     then block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
-      BlockBuilder_ ().build (
-        block.lines.++ (
+      BlockBuilder_ () .build (
+        block .lines .++ (
           Seq [String] (
             "",
-            _get_constructor_declaration (beginning) (_get_abstract_functions (block.references) )
+            _get_constructor_declaration (beginning) (_get_abstract_functions (block .references) )
           )
         )
       ),
-      block.references
+      block .references
     )
 
   _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc.class_declaration_translation_at_beginning_with_paren +
-    _tc.scala_space +
-    beginning.class_name +
-    _sc.constructor_suffix +
-    _translate_type_symbols (_get_as_parameter_list (beginning.type_parameters_and_bounds) ) +
-    _tc.scala_space +
-    _tc.scala_opening_parenthesis +
-    abstract_functions.mkString (_tc.scala_parameter_separator_symbol + _tc.scala_space) +
-    _tc.scala_closing_parenthesis +
-    _tc.scala_space +
-    _tc.scala_extends_translation +
-    _tc.scala_space +
-    beginning.class_name +
-    _get_as_parameter_list (beginning.type_parameters)
+    _tc .class_declaration_translation_at_beginning_with_paren +
+    _tc .scala_space +
+    beginning .class_name +
+    _sc .constructor_suffix +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _tc .scala_space +
+    _tc .scala_opening_parenthesis +
+    abstract_functions .mkString (_tc .scala_parameter_separator_symbol + _tc .scala_space) +
+    _tc .scala_closing_parenthesis +
+    _tc .scala_space +
+    _tc .scala_extends_translation +
+    _tc .scala_space +
+    beginning .class_name +
+    _get_as_parameter_list (beginning .type_parameters)
 
   _get_as_parameter_list (parameters : Seq [String] ) : String =
-    if parameters.isEmpty
+    if parameters .isEmpty
     then ""
-    else _tc.scala_space + _tc.scala_opening_bracket + parameters.mkString (_tc.scala_parameter_separator_symbol + _tc.scala_space) + _tc.scala_closing_bracket
+    else _tc .scala_space + _tc .scala_opening_bracket + parameters .mkString (_tc .scala_parameter_separator_symbol + _tc .scala_space) + _tc .scala_closing_bracket
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
@@ -88,29 +88,29 @@ class ClassConstructorBlockTranslator
   _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
       .flatMap (lambda block --> _get_as_abstract_declaration_annotation (block) )
-      .flatMap (lambda block --> block.abstract_functions)
-      .map (lambda annotated_line --> _translate_type_symbols (annotated_line.line).trim )
+      .flatMap (lambda block --> block .abstract_functions)
+      .map (lambda annotated_line --> _translate_type_symbols (annotated_line .line) .trim )
 
   _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
     match block
-      case AbstractDeclarationAnnotation_ (b, references) ==> Some (AbstractDeclarationAnnotation_ (b, references) )
+      case AbstractDeclarationAnnotation_ (b , references) ==> Some (AbstractDeclarationAnnotation_ (b , references) )
       case otherwise ==> None
 
   _translate_type_symbols (line : String) : String =
     line
-      .replaceAll (_sc.parameter_separation_regex, _tc.scala_parameter_separator_symbol + _tc.scala_space)
-      .replaceAll (_sc.subtype_reserved_word, _tc.scala_subtype_symbol)
-      .replaceAll (_sc.supertype_reserved_word, _tc.scala_supertype_symbol)
-      .replaceAll (_sc.function_arrow_symbol, _tc.scala_function_arrow_symbol)
+      .replaceAll (_sc .parameter_separation_regex , _tc .scala_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
+      .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
+      .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
 
   _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
   _get_initial_spaces_with (line : String) : String =
-    line.takeWhile (lambda ch --> ch.isSpaceChar)
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
 
   _get_first_line (block : AnnotatedBlock) : String =
-    block.lines.headOption.getOrElse ("")
+    block .lines .headOption .getOrElse ("")
 
 end
 

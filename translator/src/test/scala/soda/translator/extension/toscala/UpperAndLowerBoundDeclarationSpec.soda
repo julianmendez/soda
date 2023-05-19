@@ -19,7 +19,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate a single upper bound") (
     check (
-      obtained := instance.translate ("class BlackBox()" +
+      obtained := instance .translate ("class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A subtype AbstractInput]" +
         "\n" +
@@ -40,7 +40,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple upper bounds") (
     check (
-      obtained := instance.translate (        "  class BlackBox()" +
+      obtained := instance .translate (        "  class BlackBox()" +
         "\n    extends " +
         "\n      AbstractBlackBox[A subtype AbstractInput]" +
         "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
@@ -62,7 +62,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate a single lower bound") (
     check (
-      obtained := instance.translate (" class BlackBox()" +
+      obtained := instance .translate (" class BlackBox()" +
         "\n   extends " +
         "\n     AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n" +
@@ -82,7 +82,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple lower bounds") (
     check (
-      obtained := instance.translate ("  class BlackBox()" +
+      obtained := instance .translate ("  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n    AbstractDevice[B supertype (AbstractDeviceInput)]" +
@@ -104,7 +104,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate mixed upper and lower bounds") (
     check (
-      obtained := instance.translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
+      obtained := instance .translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
         "\n  extends " +
         "\n    AbstractBlackBox[A][B]" +
         "\n    AbstractDevice [A]   [B] " +

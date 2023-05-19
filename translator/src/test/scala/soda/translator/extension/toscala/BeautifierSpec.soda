@@ -20,7 +20,7 @@ class BeautifierSpec ()
           DefaultBlockSequenceTranslator_ (
             MicroTranslatorToScala_()
           )
-        ).translate (original)
+        ) .translate (original)
     ) (
       expected := "  def beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"

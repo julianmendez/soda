@@ -25,26 +25,26 @@ class PreprocessorSequenceTranslator
 
   _fold = Fold_ ()
 
-  empty_line = AnnotatedLine_ ("", true)
+  empty_line = AnnotatedLine_ ("" , true)
 
   translate : Seq [AnnotatedBlock] -> Seq [AnnotatedBlock] =
     lambda block_sequence -->
       translate_for (block_sequence)
 
   translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    translator.translate (
+    translator .translate (
       _get_second_pass (
         _get_first_pass (block_sequence)
       )
     )
 
   _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    block_sequence.map (lambda block --> block_annotator.translate (block) )
+    block_sequence .map (lambda block --> block_annotator .translate (block) )
 
   _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold.apply (block_sequence.indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
-      .accumulated
-      .reverse
+    _fold .apply (block_sequence .indices) (_get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+       .accumulated
+       .reverse
 
   _get_second_pass_initial_value (block_sequence : Seq [AnnotatedBlock] ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
@@ -57,38 +57,38 @@ class PreprocessorSequenceTranslator
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   _get_additional_information (current : AuxiliaryTuple) (index : Int) : AnnotatedBlock =
-    match current.block_sequence.apply (index)
-      case AbstractDeclarationAnnotation_ (block, references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block, references) )
-      case ClassEndAnnotation_ (block, references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block, references) )
-      case otherwise ==> current.block_sequence.apply (index)
+    match current .block_sequence .apply (index)
+      case AbstractDeclarationAnnotation_ (block , references) ==> _get_abstract_declaration_updated_block (current) (AbstractDeclarationAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) ==> _get_class_end_updated_block (current) (ClassEndAnnotation_ (block , references) )
+      case otherwise ==> current .block_sequence .apply (index)
 
   _get_abstract_declaration_updated_block (current : AuxiliaryTuple) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+    AbstractDeclarationAnnotation_ (block .block , block .references .++ (current .references .headOption .getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   _get_class_end_updated_block (current : AuxiliaryTuple) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (block.block, block.references.++ (current.references.headOption.getOrElse (Seq [AnnotatedBlock] () ) ) )
+    ClassEndAnnotation_ (block .block , block .references .++ (current .references .headOption .getOrElse (Seq [AnnotatedBlock] () ) ) )
 
   _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock ) : AuxiliaryTuple =
     AuxiliaryTuple_ (
-      block_sequence := current.block_sequence,
-      accumulated := current.accumulated.+: (updated_block),
+      block_sequence := current .block_sequence,
+      accumulated := current .accumulated .+: (updated_block),
       references := _update_references (current) (index)
     )
 
   _update_references (current : AuxiliaryTuple) (index : Int) : Seq [Seq [AnnotatedBlock] ] =
-    match current.block_sequence.apply (index)
-      case ClassBeginningAnnotation_ (b) ==> current.references.+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
-      case AbstractDeclarationAnnotation_ (b, references) ==> _update_first_element (current.references) (AbstractDeclarationAnnotation_ (b, references) )
-      case ClassEndAnnotation_ (b, references) ==> _tail_non_empty (current.references)
-      case otherwise ==> current.references
+    match current .block_sequence .apply (index)
+      case ClassBeginningAnnotation_ (b) ==> current .references .+: (Seq [AnnotatedBlock] (ClassBeginningAnnotation_ (b) ) )
+      case AbstractDeclarationAnnotation_ (b , references) ==> _update_first_element (current .references) (AbstractDeclarationAnnotation_ (b , references) )
+      case ClassEndAnnotation_ (b , references) ==> _tail_non_empty (current .references)
+      case otherwise ==> current .references
 
   _update_first_element (s : Seq [Seq [AnnotatedBlock] ] ) (b : AnnotatedBlock) : Seq [Seq [AnnotatedBlock] ] =
-    _tail_non_empty (s).+: (s.headOption.getOrElse (Seq [AnnotatedBlock] () ).+: (b) )
+    _tail_non_empty (s) .+: (s .headOption .getOrElse (Seq [AnnotatedBlock] () ) .+: (b) )
 
   _tail_non_empty [A] (s : Seq [A] ) : Seq [A] =
-    if s.isEmpty
+    if s .isEmpty
     then s
-    else s.tail
+    else s .tail
 
 end
 

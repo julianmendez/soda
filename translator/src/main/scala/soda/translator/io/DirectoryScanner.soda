@@ -1,35 +1,35 @@
 
 /**
- * This class is used to scan files in a given directory.
+ * This class is used to scan files in a given directory .
  */
 
 class DirectoryScanner
 
   import
-    java.io.File
+    java .io.File
 
   get_all_files (start : File) : Seq [File] =
-    if start.isFile
+    if start .isFile
     then Seq (start)
-    else _scan (Seq () ) (start.listFiles ().toSeq)
+    else _scan (Seq () ) (start .listFiles () .toSeq)
 
   @tailrec
   _tailrec_scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
-    if to_scan.isEmpty
+    if to_scan .isEmpty
     then found
-    else _tailrec_scan (found.+: (to_scan.head) ) (_get_files_to_scan (to_scan) )
+    else _tailrec_scan (found .+: (to_scan .head) ) (_get_files_to_scan (to_scan) )
 
   _scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     _tailrec_scan (found) (to_scan)
 
   _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
-    if to_scan.isEmpty
+    if to_scan .isEmpty
     then to_scan
-    else _get_files_to_scan_with (to_scan.head) (to_scan.tail)
+    else _get_files_to_scan_with (to_scan .head) (to_scan .tail)
 
   _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
-    if to_scan_head.isDirectory
-    then to_scan_tail.++ (to_scan_head.listFiles () )
+    if to_scan_head .isDirectory
+    then to_scan_tail .++ (to_scan_head .listFiles () )
     else to_scan_tail
 
 end
