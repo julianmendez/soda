@@ -16,17 +16,17 @@ case class ListSpec ()
 
   test ("list from Seq") (
     check (
-      obtained = SeqList_ ().from_Seq ( Seq [Int] (0, 1, 1, 2, 3, 5) )
+      obtained = SeqList_ () .from_Seq (Seq [Int] (0 , 1 , 1 , 2 , 3 , 5) )
     ) (
-      expected = (cons_ (0, cons_ (1, cons_ (1, cons_ (2, cons_ (3, cons_ (5, nil_ [Int] () ) ) ) ) ) ) )
+      expected = (cons_ (0 , cons_ (1 , cons_ (1 , cons_ (2 , cons_ (3 , cons_ (5 , nil_ [Int] () ) ) ) ) ) ) )
     )
   )
 
   test ("list to Seq") (
     check (
-      obtained = SeqList_ ().to_Seq ( (cons_ (1, cons_ (2, cons_ (4, cons_ (8, cons_ (16, nil_ [Int] () ) ) ) ) ) ) )
+      obtained = SeqList_ () .to_Seq ( (cons_ (1 , cons_ (2 , cons_ (4 , cons_ (8 , cons_ (16 , nil_ [Int] () ) ) ) ) ) ) )
     ) (
-      expected = Seq [Int] (1, 2, 4, 8, 16)
+      expected = Seq [Int] (1 , 2 , 4 , 8 , 16)
     )
   )
 
@@ -43,7 +43,7 @@ case class NatSpec ()
 
   test ("IntNat from non negative") (
     check (
-      obtained = IntNat_ ().from_non_negative (8)
+      obtained = IntNat_ () .from_non_negative (8)
     ) (
       expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) )
     )
@@ -51,7 +51,7 @@ case class NatSpec ()
 
   test ("IntNat to Int") (
     check (
-      obtained = IntNat_ ().to_Int ( S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) )
+      obtained = IntNat_ () .to_Int ( S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) )
     ) (
       expected = 5
     )
@@ -59,7 +59,7 @@ case class NatSpec ()
 
   test ("Nat add") (
     check (
-      obtained =  S_ (S_ (S_ (O_ ( ) ) ) ).add (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) )
+      obtained =  S_ (S_ (S_ (O_ ( ) ) ) ) .add (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) )
     ) (
       expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) )
     )
@@ -67,7 +67,7 @@ case class NatSpec ()
 
   test ("Nat mul") (
     check (
-      obtained = S_ (S_ (S_ (O_ ( ) ) ) ).mul (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) )
+      obtained = S_ (S_ (S_ (O_ ( ) ) ) ) .mul (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) )
     ) (
       expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ ( ) ) ) ) ) ) ) ) ) ) ) ) )
     )

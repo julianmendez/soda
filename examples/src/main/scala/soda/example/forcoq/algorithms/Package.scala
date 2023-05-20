@@ -31,7 +31,7 @@ trait RecursionForCoq
         @tailrec  final
   private def _tailrec_fold3 [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) : B =
     sequence match  {
-      case (head) :: (tail) => _tailrec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
+      case (head) :: (tail) => _tailrec_fold3 (tail) (next_value_function (current_value) (head) ) (next_value_function)
       case otherwise => current_value
     }
 

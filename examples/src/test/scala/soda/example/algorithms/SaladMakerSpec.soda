@@ -11,15 +11,15 @@ end
 
 class SaladIngredientConstant
 
-  tomato = SaladIngredient_ (1, "tomato")
+  tomato = SaladIngredient_ (1 , "tomato")
 
-  lettuce = SaladIngredient_ (2, "lettuce")
+  lettuce = SaladIngredient_ (2 , "lettuce")
 
-  sunflower_seeds = SaladIngredient_ (3, "sunflower seeds")
+  sunflower_seeds = SaladIngredient_ (3 , "sunflower seeds")
 
-  olive_oil = SaladIngredient_ (4, "olive_oil")
+  olive_oil = SaladIngredient_ (4 , "olive_oil")
 
-  SaladIngredient_values = Seq (tomato, lettuce, sunflower_seeds, olive_oil)
+  SaladIngredient_values = Seq (tomato , lettuce , sunflower_seeds , olive_oil)
 
 end
 
@@ -32,23 +32,23 @@ class SaladMakerSpec ()
     assert (obtained == expected)
 
   add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
-    salad_so_far.+: (ingredient)
+    salad_so_far .+: (ingredient)
 
   has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
-    salad_so_far.length < 3
+    salad_so_far .length < 3
 
   _salad_maker = SaladMaker_ ()
 
   test ("salad maker") (
     check (
-      obtained := _salad_maker.apply (
+      obtained := _salad_maker .apply (
         list_of_ingredients := SaladIngredient_values) (
         initial_bowl := Seq [SaladIngredient] () ) (
         next_ingredient_function := add_next_ingredient) (
         condition_to_continue := has_salad_at_most_2_ingredients
       )
     ) (
-      expected := Seq (sunflower_seeds, lettuce, tomato)
+      expected := Seq (sunflower_seeds , lettuce , tomato)
     )
   )
 

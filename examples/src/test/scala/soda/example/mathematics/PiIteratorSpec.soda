@@ -10,11 +10,11 @@ class PiIteratorSpec ()
 
   _pi_iterator = PiIterator_ ()
 
-  pi_sequence = _pi_iterator.apply (128)
+  pi_sequence = _pi_iterator .apply (128)
 
   test ("first digits of Pi") (
     check (
-      obtained := "" + pi_sequence.head + "." + pi_sequence.tail.mkString ("")
+      obtained := "" + pi_sequence .head + "." + pi_sequence .tail .mkString ("")
     ) (
       expected := pi_start
     )

@@ -23,7 +23,7 @@ trait Fairness
   def   rank : Applicant => Double
 
   def difference_between (value : Double) (another_value : Double) : Double =
-    Math.abs (value - another_value)
+    Math .abs (value - another_value)
 
   def have_similar_ranking (result1 : Double) (result2 : Double) : Boolean =
     difference_between (result1) (result2) < ranking_difference_tolerance

@@ -127,9 +127,9 @@ trait PatternMatching
 
   def get_type_name (p : Parameter) : String =
     p match  {
-      case Singleton_ (x) => (Singleton_ (x) ).name + "(x)"
-      case Pair_ (x , y) => (Pair_ (x , y) ).name + "(x, y)"
-      case Triplet_ (x , y , z) => (Triplet_ (x , y , z) ).name + "(x, y, z)"
+      case Singleton_ (x) => (Singleton_ (x) ) .name + " (x)"
+      case Pair_ (x , y) => (Pair_ (x , y) ) .name + " (x , y)"
+      case Triplet_ (x , y , z) => (Triplet_ (x , y , z) ) .name + " (x , y , z)"
       case otherwise => ""
     }
 
@@ -199,9 +199,9 @@ trait SaladMaker
     (next_ingredient_function : Salad => Ingredient => Salad)
     (condition_to_continue : Salad => Ingredient => Boolean)
       : Salad =
-    if ( ingredients_so_far.isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
+    if ( ingredients_so_far .isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far .head) )
     ) salad_so_far
-    else _tailrec_prepare_salad (ingredients_so_far.tail) (next_ingredient_function (salad_so_far) (ingredients_so_far.head) ) (next_ingredient_function) (condition_to_continue)
+    else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
 
 }
 
@@ -215,10 +215,10 @@ trait ScalaReservedWordEscaping
 
   private lazy val __soda__val = 1
 
-  private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key, value)
+  private def __soda__def [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
 
   private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
-    seq.takeWhile (cond).map (funct)
+    seq .takeWhile (cond) .map (funct)
 
   private lazy val __soda__protected = "protected"
 
@@ -267,7 +267,7 @@ trait SortExampleWithAt
     sequence
       .indices
       .filter ( index => index > 0)
-      .forall ( index => sequence.apply (index - 1) <= sequence.apply (index) )
+      .forall ( index => sequence .apply (index - 1) <= sequence .apply (index) )
 
 }
 
@@ -283,8 +283,8 @@ trait SortExampleWithZip
 
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
-      .zip (sequence.tail)
-      .forall ( pair => (pair._1 <= pair._2) )
+      .zip (sequence .tail)
+      .forall ( pair => (pair ._1 <= pair ._2) )
 
 }
 
@@ -312,9 +312,9 @@ trait SortAlgorithmExampleWithFold
      sequence => sort_for (sequence)
 
   def sort_for (sequence : Seq [Int] ) : Seq [Int] =
-    if ( sequence.length < 2
+    if ( sequence .length < 2
     ) sequence
-    else _fold.apply (sequence) (_initial_value) (_next_value_function)
+    else _fold .apply (sequence) (_initial_value) (_next_value_function)
 
   private lazy val _initial_value = Seq [Int] ()
 
@@ -323,13 +323,13 @@ trait SortAlgorithmExampleWithFold
 
   def insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
     concatenate (
-      first_part = sequence.takeWhile ( x => x < element) ) (
+      first_part = sequence .takeWhile ( x => x < element) ) (
       middle = Seq (element) ) (
-      last_part = sequence.dropWhile ( x => x < element)
+      last_part = sequence .dropWhile ( x => x < element)
     )
 
   def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
-    first_part.++ (middle.++ (last_part) )
+    first_part .++ (middle .++ (last_part) )
 
 }
 
@@ -343,10 +343,10 @@ trait ConstrainedSortAlgorithm
   import   soda.lib.NoneSD_
 
   def sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    sort_with ( SortAlgorithmExampleWithFold_ ().sort (sequence) )
+    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )
 
   def sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    if ( SortExampleWithZip_ ().is_sorted (sorted_sequence)
+    if ( SortExampleWithZip_ () .is_sorted (sorted_sequence)
     ) SomeSD_ (sorted_sequence)
     else NoneSD_ [Seq [Int] ] ()
 
@@ -410,9 +410,9 @@ trait NonEmptySortedSequence [A <: Comparable [A] ]
      element => add_for (element)
 
   def add_for (element : A) : SortedSequence [A] =
-    NonEmptySortedSequence_ (aux.insert_sorted (sequence) (element) )
+    NonEmptySortedSequence_ (aux .insert_sorted (sequence) (element) )
 
-  lazy val invariant : Boolean = aux.is_sorted (sequence)
+  lazy val invariant : Boolean = aux .is_sorted (sequence)
 
 }
 
@@ -422,12 +422,12 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 {
 
   def is_less_than (x : A) (y : A) : Boolean =
-    x.compareTo (y) < 0
+    x .compareTo (y) < 0
 
   def is_sorted (other_sequence : Seq [A] ) : Boolean =
     other_sequence
-      .zip (other_sequence.tail)
-      .forall ( pair => is_less_than (pair._1) (pair._2) )
+      .zip (other_sequence .tail)
+      .forall ( pair => is_less_than (pair ._1) (pair ._2) )
 
   def insert_sorted (original_sequence : Seq [A] ) (element : A) : Seq [A] =
     concatenate (
@@ -437,7 +437,7 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
     )
 
   def concatenate (first_part : Seq [A] ) (middle : Seq [A] ) (last_part : Seq [A] ) : Seq [A] =
-    first_part.++ (middle.++ (last_part) )
+    first_part .++ (middle .++ (last_part) )
 
 }
 
@@ -451,12 +451,12 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
   private lazy val _fold = Fold_ ()
 
   def build (sequence : Seq [A] ) : SortedSequence [A] =
-    _fold.apply (sequence) (_initial_value) (_next_value_function)
+    _fold .apply (sequence) (_initial_value) (_next_value_function)
 
   private lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 
   private def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
-    sorted_sequence.add (element)
+    sorted_sequence .add (element)
 
 }
 

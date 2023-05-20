@@ -63,8 +63,8 @@ class Example
 
   min_max (a : Int) (b : Int) : MinMaxPair =
     MinMaxPair_ (
-      min := MaxAndMin_ ().min (a) (b),
-      max := MaxAndMin_ ().max (a) (b)
+      min := MaxAndMin_ () .min (a) (b),
+      max := MaxAndMin_ () .max (a) (b)
     )
 
 end
@@ -79,7 +79,7 @@ end
 class ComparableMax [A subtype Comparable]
 
   max (a : A) (b : A) : A =
-    if a.is_greater_than (b)
+    if a .is_greater_than (b)
     then a
     else b
 
