@@ -22,7 +22,7 @@ trait PricingAgent
   lazy val milliseconds_per_day : Long = 24 * 60 * 60 * 1000
 
   def get_days_for (date : Date) : Int =
-    (date.getTime / milliseconds_per_day).toInt
+    (date .getTime / milliseconds_per_day) .toInt
 
 }
 
@@ -45,7 +45,7 @@ trait RequirementMonitor
   def   pricing_agent : PricingAgent
 
   def get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
-    pricing_agent.get_price (customer) (flight) (date_in_days)
+    pricing_agent .get_price (customer) (flight) (date_in_days)
 
 }
 

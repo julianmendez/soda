@@ -11,7 +11,7 @@ trait FactorialPatternMatching
   private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
     n match  {
       case 0 => product
-      case x => _tailrec_get_factorial (x - 1) (x * product)
+      case otherwise => _tailrec_get_factorial (n - 1) (n * product)
     }
 
 }

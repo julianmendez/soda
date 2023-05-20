@@ -17,9 +17,9 @@ trait SaladMaker
     (next_ingredient_function : Salad => Ingredient => Salad)
     (condition_to_continue : Salad => Ingredient => Boolean)
       : Salad =
-    if ( ingredients_so_far.isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far.head) )
+    if ( ingredients_so_far .isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far .head) )
     ) salad_so_far
-    else _tailrec_prepare_salad (ingredients_so_far.tail) (next_ingredient_function (salad_so_far) (ingredients_so_far.head) ) (next_ingredient_function) (condition_to_continue)
+    else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
 
 }
 

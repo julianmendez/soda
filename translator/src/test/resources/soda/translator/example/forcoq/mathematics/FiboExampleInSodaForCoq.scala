@@ -11,7 +11,7 @@ trait FiboExampleInSodaForCoq
     m match  {
       case S_ (O_ () ) => b
       case S_ (k) => _tailrec_fib (k) (b) (a .add (b) )
-      case x => a
+      case otherwise => a
     }
 
   def fib (n : nat) =

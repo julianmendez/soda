@@ -17,7 +17,7 @@ trait Main
 {
 
   def main (arguments : Array [String] ) : Unit =
-    MiniExample_ ().run ()
+    MiniExample_ () .run ()
 
 }
 
