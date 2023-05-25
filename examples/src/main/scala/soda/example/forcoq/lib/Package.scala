@@ -119,13 +119,13 @@ trait S
      a => add_for (a)
 
   def add_for (a : nat) : nat =
-    t .from_non_negative( (t .to_Int (k) + 1) + t .to_Int (a) )
+    t .from_non_negative ( (t .to_Int (k) + 1) + t .to_Int (a) )
 
   lazy val mul : nat =>  nat =
      a => mul_for (a)
 
   def mul_for (a : nat) : nat =
-    t .from_non_negative( (t .to_Int (k) + 1) * t .to_Int (a) )
+    t .from_non_negative ( (t .to_Int (k) + 1) * t .to_Int (a) )
 
 }
 

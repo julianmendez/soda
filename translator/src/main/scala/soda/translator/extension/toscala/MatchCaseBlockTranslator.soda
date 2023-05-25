@@ -8,6 +8,8 @@ class MatchCaseBlockTranslator
     soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
@@ -25,12 +27,16 @@ class MatchCaseBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (annotated_block)
+      case ClassAliasAnnotation_ (block) ==> _translate_class_alias_block (annotated_block)
+      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (annotated_block)
       case otherwise ==> annotated_block
 
   _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_class_alias_block (block : AnnotatedBlock) : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
 
   _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )

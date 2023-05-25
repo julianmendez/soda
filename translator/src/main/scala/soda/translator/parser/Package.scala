@@ -418,6 +418,10 @@ trait SodaConstant
 
   lazy val private_function_prefix = "_"
 
+  lazy val intersection_type_symbol = "&"
+
+  lazy val union_type_symbol = "|"
+
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,
@@ -463,7 +467,9 @@ trait SodaConstant
       greater_than_symbol,
       greater_than_or_equal_to_symbol,
       subtype_abbreviation,
-      supertype_abbreviation
+      supertype_abbreviation,
+      intersection_type_symbol,
+      union_type_symbol
     )
 
   lazy val soda_reserved_words_annotations_only : Seq [String] =

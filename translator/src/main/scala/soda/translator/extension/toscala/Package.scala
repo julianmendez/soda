@@ -698,6 +698,8 @@ trait MatchCaseBlockTranslator
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.ClassAliasAnnotation
+  import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
@@ -715,13 +717,17 @@ trait MatchCaseBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (annotated_block)
+      case ClassAliasAnnotation_ (block) => _translate_class_alias_block (annotated_block)
+      case TestDeclarationAnnotation_ (block) => _translate_test_block (annotated_block)
       case otherwise => annotated_block
     }
 
   private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  private def _translate_class_alias_block (block : AnnotatedBlock) : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
 
   private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
     TestDeclarationAnnotation_ (_translate_block (block) )
@@ -789,7 +795,7 @@ trait MicroTranslatorToScala
   private lazy val _ba = BlockAnnotationEnum_ ()
 
   private lazy val _functions_and_tests =
-    Seq (_ba .function_definition , _ba .test_declaration)
+    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
 
   private lazy val _class_declarations =
     Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)

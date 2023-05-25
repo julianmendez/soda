@@ -5,7 +5,8 @@
   - release: target/scala-3.2.2/soda-0.18.0.jar
   - new_features:
     - assumes translation to `Package.scala` files as default configuration for the Scala translator
-    - expects multiple type parameters to be between different square brackets, e.g. `MyPair [A] [B]` instead of `MyPair [A, B]` 
+    - expects multiple type parameters to be between different square brackets, e.g. `MyPair [A] [B]` instead of `MyPair [A, B]`
+    - accepts intersection types (built with `&`) and union types (built with `|`)
   - bug_fixes:
     - fixes translation of reserved words after opening parenthesis
 - - version: v0.17.0

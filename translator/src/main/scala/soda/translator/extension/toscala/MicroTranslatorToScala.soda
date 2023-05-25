@@ -19,7 +19,7 @@ class MicroTranslatorToScala
   _ba = BlockAnnotationEnum_ ()
 
   _functions_and_tests =
-    Seq (_ba .function_definition , _ba .test_declaration)
+    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
 
   _class_declarations =
     Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
