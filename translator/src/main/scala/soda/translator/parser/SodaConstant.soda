@@ -209,7 +209,7 @@ class SodaConstant
   soda_reserved_words : Seq [String] =
     soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (soda_reserved_words_annotations_only) )
 
-  soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
+  soda_unicode_symbols : Seq [Tuple2 [String] [String] ] =
     Seq (
       Tuple2 (lambda_unicode_symbol , lambda_reserved_word) ,
       Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol) ,
