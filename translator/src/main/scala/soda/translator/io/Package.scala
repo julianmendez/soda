@@ -74,13 +74,13 @@ case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File
 
 
 /**
- * This class is used to scan files in a given directory .
+ * This class is used to scan files in a given directory.
  */
 
 trait DirectoryScanner
 {
 
-  import   java .io.File
+  import   java.io.File
 
   def get_all_files (start : File) : Seq [File] =
     if ( start .isFile
@@ -104,8 +104,17 @@ trait DirectoryScanner
 
   private def _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
     if ( to_scan_head .isDirectory
-    ) to_scan_tail .++ (to_scan_head .listFiles () )
+    ) to_scan_tail .++ (_list_files (to_scan_head) )
     else to_scan_tail
+
+  private def _list_files (to_scan_head : File) : Seq [File] =
+    _list_files_with (Option (to_scan_head .listFiles) )
+
+  private def _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
+    files match  {
+      case Some (array) => array .toSeq
+      case otherwise => Seq ()
+    }
 
 }
 

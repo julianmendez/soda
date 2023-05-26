@@ -9,6 +9,7 @@
     - accepts intersection types (built with `&`) and union types (built with `|`)
   - bug_fixes:
     - fixes translation of reserved words after opening parenthesis
+    - fixes edge case of directory scanner when translating multiple Soda files to Scala
 - - version: v0.17.0
   - date: '2023-03-01'
   - build: sbt '++ 3.2.2' clean compile test package assembly

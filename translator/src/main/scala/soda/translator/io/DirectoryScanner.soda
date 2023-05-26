@@ -1,12 +1,12 @@
 
 /**
- * This class is used to scan files in a given directory .
+ * This class is used to scan files in a given directory.
  */
 
 class DirectoryScanner
 
   import
-    java .io.File
+    java.io.File
 
   get_all_files (start : File) : Seq [File] =
     if start .isFile
@@ -29,8 +29,16 @@ class DirectoryScanner
 
   _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
     if to_scan_head .isDirectory
-    then to_scan_tail .++ (to_scan_head .listFiles () )
+    then to_scan_tail .++ (_list_files (to_scan_head) )
     else to_scan_tail
+
+  _list_files (to_scan_head : File) : Seq [File] =
+    _list_files_with (Option (to_scan_head .listFiles) )
+
+  _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
+    match files
+      case Some (array) ==> array .toSeq
+      case otherwise ==> Seq ()
 
 end
 
