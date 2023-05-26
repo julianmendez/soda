@@ -1250,7 +1250,7 @@ trait PackageProcessor
   def get_input_output_file_names (input_name : String) (parent_name : String) : FileNamePair =
     if ( input_name .endsWith (tc .soda_extension)
     ) FileNamePair_ (input_name , parent_name + tc .file_separator + tc .package_scala_file_name )
-    else FileNamePair_ (input_name + tc .soda_extension, input_name + tc .scala_extension)
+    else FileNamePair_ (input_name + tc .soda_extension , input_name + tc .scala_extension)
 
   def translate_append (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_append_with_input (reader .read_file (input_file_name) ) (output_file_name)
