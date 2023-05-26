@@ -23,12 +23,24 @@ class DirectoryProcessor
   package_file_name = "Package.soda"
 
   _all_files : Seq [File] =
-    DirectoryScanner_ () .get_all_files ( @new File (start))
+    DirectoryScanner_ () .get_all_files ( @new File (start) )
 
   _all_soda_files : Seq [File] =
     _all_files
       .filter (lambda x --> x .isFile)
-      .filter (lambda x --> x .getName .endsWith (soda_suffix))
+      .filter (lambda x --> x .getName .endsWith (soda_suffix) )
+
+  _sorted_soda_directories : Seq [File] =
+    _all_soda_files
+      .map (lambda x --> x .getParentFile)
+      .distinct
+      .sorted
+
+  _sorted_package_file_directories : Seq [File] =
+    _sorted_package_files
+      .map (lambda x --> x .getParentFile)
+      .distinct
+      .sorted
 
   _package_files : Seq [File] =
     _all_files
@@ -43,8 +55,16 @@ class DirectoryProcessor
 
   _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files .sorted
 
-  _soda_files : Seq [File] =
+  _original_soda_files : Seq [File] =
     _sorted_package_files  .++ (_sorted_soda_non_package_files)
+
+  _missing_package_files : Seq [File] =
+    _sorted_soda_directories
+      .filter (lambda x --> not (_sorted_package_file_directories .contains (x) ) )
+      .map (lambda x --> @new File (x , package_file_name) )
+
+  _soda_files_and_missing_package_files : Seq [File] =
+    _missing_package_files .++ (_original_soda_files)
 
   _lib_files : Seq [File] =
     _all_files
@@ -53,7 +73,10 @@ class DirectoryProcessor
 
   process () : Boolean =
     LibraryDeployer_ () .expand_library (_lib_files) and
-      _soda_files
+      _missing_package_files
+        .map (lambda x --> x .createNewFile)
+        .forall (lambda x --> x) and
+      _soda_files_and_missing_package_files
         .map (process_soda_file)
         .forall (lambda x --> x)
 
