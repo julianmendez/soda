@@ -5,3 +5,4 @@ OptionSD.soda
 Package.soda
 Recursion.soda
 SeqSD.soda
+SodaException.soda
