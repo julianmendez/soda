@@ -36,13 +36,22 @@ trait DirectoryProcessor
   private lazy val _all_files : Seq [File] =
     DirectoryScanner_ () .get_all_files ( new File (start) )
 
-  private lazy val _all_soda_files : Seq [File] =
+  private lazy val _sorted_all_soda_files : Seq [File] =
     _all_files
       .filter ( x => x .isFile)
       .filter ( x => x .getName .endsWith (soda_suffix) )
+      .distinct
+      .sorted
+
+  private lazy val _sorted_package_files : Seq [File] =
+    _all_files
+      .filter ( x => x .isFile)
+      .filter ( x => x .getName == package_file_name)
+      .distinct
+      .sorted
 
   private lazy val _sorted_soda_directories : Seq [File] =
-    _all_soda_files
+    _sorted_all_soda_files
       .map ( x => x .getParentFile)
       .distinct
       .sorted
@@ -53,18 +62,9 @@ trait DirectoryProcessor
       .distinct
       .sorted
 
-  private lazy val _package_files : Seq [File] =
-    _all_files
-      .filter ( x => x .isFile)
-      .filter ( x => x .getName == package_file_name)
-
-  private lazy val _sorted_package_files : Seq [File] = _package_files .sorted
-
-  private lazy val _soda_non_package_files : Seq [File] =
-    _all_soda_files
+  private lazy val _sorted_soda_non_package_files : Seq [File] =
+    _sorted_all_soda_files
       .filter ( x => ! (x .getName == package_file_name) )
-
-  private lazy val _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files .sorted
 
   private lazy val _original_soda_files : Seq [File] =
     _sorted_package_files  .++ (_sorted_soda_non_package_files)
@@ -77,19 +77,34 @@ trait DirectoryProcessor
   private lazy val _soda_files_and_missing_package_files : Seq [File] =
     _missing_package_files .++ (_original_soda_files)
 
-  private lazy val _lib_files : Seq [File] =
+  private lazy val _sorted_lib_files : Seq [File] =
     _all_files
       .filter ( x => x .isFile)
       .filter ( file => file .getName == LibraryDeployer_ () .library_marker_file)
+      .sorted
 
-  def process () : Boolean =
-    LibraryDeployer_ () .expand_library (_lib_files) &&
+  private def _expand_library_files (ready : Boolean) : Boolean =
+    ready &&
+      LibraryDeployer_ () .expand_library (_sorted_lib_files)
+
+  private def _add_missing_package_files (ready : Boolean) : Boolean =
+    ready &&
       _missing_package_files
-        .map ( x => x .createNewFile)
-        .forall ( x => x) &&
+       .map ( x => x .createNewFile)
+       .forall ( x => x)
+
+  private def _process_all_soda_files (ready : Boolean) : Boolean =
+    ready &&
       _soda_files_and_missing_package_files
         .map (process_soda_file)
         .forall ( x => x)
+
+  def process () : Boolean =
+    Some (true)
+      .map (_expand_library_files)
+      .map (_add_missing_package_files)
+      .map (_process_all_soda_files)
+      .getOrElse (false)
 
 }
 

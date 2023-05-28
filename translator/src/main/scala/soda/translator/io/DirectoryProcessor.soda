@@ -25,13 +25,22 @@ class DirectoryProcessor
   _all_files : Seq [File] =
     DirectoryScanner_ () .get_all_files ( @new File (start) )
 
-  _all_soda_files : Seq [File] =
+  _sorted_all_soda_files : Seq [File] =
     _all_files
       .filter (lambda x --> x .isFile)
       .filter (lambda x --> x .getName .endsWith (soda_suffix) )
+      .distinct
+      .sorted
+
+  _sorted_package_files : Seq [File] =
+    _all_files
+      .filter (lambda x --> x .isFile)
+      .filter (lambda x --> x .getName == package_file_name)
+      .distinct
+      .sorted
 
   _sorted_soda_directories : Seq [File] =
-    _all_soda_files
+    _sorted_all_soda_files
       .map (lambda x --> x .getParentFile)
       .distinct
       .sorted
@@ -42,18 +51,9 @@ class DirectoryProcessor
       .distinct
       .sorted
 
-  _package_files : Seq [File] =
-    _all_files
-      .filter (lambda x --> x .isFile)
-      .filter (lambda x --> x .getName == package_file_name)
-
-  _sorted_package_files : Seq [File] = _package_files .sorted
-
-  _soda_non_package_files : Seq [File] =
-    _all_soda_files
+  _sorted_soda_non_package_files : Seq [File] =
+    _sorted_all_soda_files
       .filter (lambda x --> not (x .getName == package_file_name) )
-
-  _sorted_soda_non_package_files : Seq [File] = _soda_non_package_files .sorted
 
   _original_soda_files : Seq [File] =
     _sorted_package_files  .++ (_sorted_soda_non_package_files)
@@ -66,19 +66,34 @@ class DirectoryProcessor
   _soda_files_and_missing_package_files : Seq [File] =
     _missing_package_files .++ (_original_soda_files)
 
-  _lib_files : Seq [File] =
+  _sorted_lib_files : Seq [File] =
     _all_files
       .filter (lambda x --> x .isFile)
       .filter (lambda file --> file .getName == LibraryDeployer_ () .library_marker_file)
+      .sorted
 
-  process () : Boolean =
-    LibraryDeployer_ () .expand_library (_lib_files) and
+  _expand_library_files (ready : Boolean) : Boolean =
+    ready and
+      LibraryDeployer_ () .expand_library (_sorted_lib_files)
+
+  _add_missing_package_files (ready : Boolean) : Boolean =
+    ready and
       _missing_package_files
-        .map (lambda x --> x .createNewFile)
-        .forall (lambda x --> x) and
+       .map (lambda x --> x .createNewFile)
+       .forall (lambda x --> x)
+
+  _process_all_soda_files (ready : Boolean) : Boolean =
+    ready and
       _soda_files_and_missing_package_files
         .map (process_soda_file)
         .forall (lambda x --> x)
+
+  process () : Boolean =
+    Some (true)
+      .map (_expand_library_files)
+      .map (_add_missing_package_files)
+      .map (_process_all_soda_files)
+      .getOrElse (false)
 
 end
 
