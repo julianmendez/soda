@@ -252,10 +252,10 @@ trait SimpleFileWriter
 
   private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
-      .map ( x => writer.write (content) )
-      .map ( x => writer.flush () )
-      .map ( x => writer.close () )
-      .map ( x => true )
+      .map ( x => writer .write (content) )
+      .map ( x => writer .flush () )
+      .map ( x => writer .close () )
+      .map ( x => true)
       .getOrElse (false)
 
   def create_file (parent_directory : String) (file_name : String) : File =
