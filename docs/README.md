@@ -1,10 +1,10 @@
 # Soda
 
-*Soda* (Symbolic Objective Descriptive Analysis) is a functional language to describe ethical problems. Its main purpose
-is to be used to produce clear code. The source code should be easy to understand, somehow natural, although not
-necessarily easy to write.
+*Soda* (Symbolic Objective Descriptive Analysis) is an object-oriented functional language to describe, analyze, and
+model human-centered problems.
+Due to its readability, it can be applied to model ethical problems.
 
-This project includes a translator to Scala.
+This project includes a translator to [Scala](https://scala-lang.org).
 
 
 ## Reserved words
@@ -28,10 +28,12 @@ The reserved words are:
 ## Other Symbols
 
 In addition, the language has:
+
 - `(` and `)` (parentheses) for parameters and operator precedence
 - `[` and `]` (square brackets) for parametric types
 
 The main arithmetic operators are:
+
 - `+`, `-`, `*`, `/`, `%` (modulus)
 
 Comments are marked with `/*` and `*/`. Scaladoc / Javadoc markers are `/**` and `*/`.
@@ -51,9 +53,8 @@ Special names:
 
 ## Side Effects
 
-In this language, variables cannot change their value. Therefore, there is no equivalent to `var`.
-
-For example, it is not possible to write `x = x + 1`. Loops can be managed with `range` and `fold` functions, tail recursion, or directly using streams.
+In Soda, variables cannot change their value. Thus, it is not possible to write `x = x + 1`.
+Loops can be managed with `range` and `fold` functions and tail recursion.
 
 The language does not provide `throw`, `try`, and `catch`, because those commands do not follow the functional style.
 
@@ -61,15 +62,15 @@ The language does not provide `throw`, `try`, and `catch`, because those command
 ## Static Typing
 
 This language is statically typed. It is possible to define abstract and concrete classes.
-
-A *class* is like a *trait* in Scala. Each class should have a single class constructor. The class constructor is
-implemented with a *concrete class*, which is like a *case class* in Scala.
+Each *class* (like a *trait* in Scala) can be extended and has a single class constructor.
+This constructor is implemented with a *concrete class* (like a *case class* in Scala).
 
 
 ## Package Declaration and Imports
 
-This language is designed to be integrated via the Java Virtual Machine. It is possible to define the package and to
-declare the imports.
+Soda is designed to be integrated via the Java Virtual Machine.
+It is possible to define packages and to declare imports.
+This can be done in a separate file `Package.soda`, which is in the same directory as the source code.
 
 
 ## Syntax Highlighting
@@ -87,12 +88,10 @@ The following tools can be configured to have syntax highlighting:
 
 ## Build
 
-The project can be built with [sbt](https://www.scala-sbt.org/).
-
-The command is:
+The project can be built with [sbt](https://www.scala-sbt.org/) with
 `sbt clean compile test package assembly`
 
-It is also possible to compile it for different Scala versions.
+A Linux binary can be created with the script `makeall.sh`.
 
 
 ## Author
