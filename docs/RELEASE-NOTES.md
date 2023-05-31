@@ -1,8 +1,8 @@
 ---
 - - version: v0.18.0
   - date: '2023-06-01'
-  - build: sbt '++ 3.2.2' clean compile test package assembly
-  - release: target/scala-3.2.2/soda-0.18.0.jar
+  - build: sbt '++ 3.3.0' clean compile test package assembly
+  - release: target/scala-3.3.0/soda-0.18.0.jar
   - new_features:
     - assumes translation to `Package.scala` files as default configuration for the Scala translator
     - expects multiple type parameters to be between different square brackets, e.g. `MyPair [A] [B]` instead of `MyPair [A, B]`
