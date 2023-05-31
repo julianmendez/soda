@@ -22,7 +22,7 @@ class TheoremAndProofBlockTranslator
     match annotated_block
       case TheoremBlockAnnotation_ (block) ==> _translate_theorem_block (TheoremBlockAnnotation_ (block) )
       case ProofBlockAnnotation_ (block) ==> _translate_proof_block (ProofBlockAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
@@ -31,16 +31,16 @@ class TheoremAndProofBlockTranslator
     ProofBlockAnnotation_ (_translate_block (block) )
 
   _translate_block (block : AnnotatedBlock) : Block =
-    _append (_tc.scala_comment_closing_symbol) (_prepend (_tc.scala_comment_opening_symbol) (block) )
+    _append (_tc .scala_comment_closing_symbol) (_prepend (_tc .scala_comment_opening_symbol) (block) )
 
   _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      Seq [String] (prefix + block.lines.head) .++ (block.lines.tail)
+    BlockBuilder_ () .build (
+      Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ ().build (
-      block.lines.:+ (suffix)
+    BlockBuilder_ () .build (
+      block .lines .:+ (suffix)
     )
 
 end

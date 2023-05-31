@@ -26,7 +26,7 @@ case class BeautifierSpec ()
           DefaultBlockSequenceTranslator_ (
             MicroTranslatorToScala_()
           )
-        ).translate (original)
+        ) .translate (original)
     ) (
       expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
@@ -41,6 +41,7 @@ case class ClassConstructorBlockTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
+  import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
@@ -56,7 +57,7 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
@@ -79,13 +80,13 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (value: Int, a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -97,7 +98,7 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -119,7 +120,7 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -142,13 +143,20 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
+        _translation_pipeline
+      )
+    )
+
+  private lazy val _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
         ClassConstructorBlockTranslator_ ()
       )
     )
 
   test ("should produce the constructors for a simple class") (
     check (
-      obtained = translator.translate (example_program_0)
+      obtained = translator .translate (example_program_0)
     ) (
       expected = expected_program_0
     )
@@ -156,7 +164,7 @@ case class ClassConstructorBlockTranslatorSpec ()
 
   test ("should produce the constructors for a class with type parameters") (
     check (
-      obtained = translator.translate (example_program_1)
+      obtained = translator .translate (example_program_1)
     ) (
       expected = expected_program_1
     )
@@ -221,15 +229,15 @@ case class FullTranslationSpec ()
           DefaultBlockSequenceTranslator_ (
             MicroTranslatorToScala_()
           )
-        ).translate (read_file (input_file_name) )
+        ) .translate (read_file (input_file_name) )
     ) (
       expected = read_file (expected_file_name)
     )
 
   def read_file (file_name : String) : String =
     new String (
-      Files.readAllBytes (
-        Paths.get (getClass.getResource (file_name).toURI)
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
       )
     )
 
@@ -339,7 +347,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when constants are defined in the wrong order") (
     check (
-      obtained = ExampleWithWrongOrder_ ().this_is_null_but
+      obtained = ExampleWithWrongOrder_ () .this_is_null_but
     ) (
       expected = "Success!"
     )
@@ -347,7 +355,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when constants are defined in the right order") (
     check (
-      obtained = ExampleWithRightOrder_ ().this_is_not_null
+      obtained = ExampleWithRightOrder_ () .this_is_not_null
     ) (
       expected = "Success!"
     )
@@ -355,7 +363,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when one work-around is used") (
     check (
-      obtained = ExampleWithEmptyParentheses_ ().this_is_not_null  ()
+      obtained = ExampleWithEmptyParentheses_ () .this_is_not_null  ()
     ) (
       expected = "Success!"
     )
@@ -363,7 +371,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when another work-around is used") (
     check (
-      obtained = AnotherExampleWithEmptyParentheses_ ().this_is_not_null
+      obtained = AnotherExampleWithEmptyParentheses_ () .this_is_not_null
     ) (
       expected = "Success!"
     )
@@ -392,7 +400,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a small snippet") (
     check (
-      obtained = instance.translate ("  input_lines = Seq (" +
+      obtained = instance .translate ("  input_lines = Seq (" +
         "\n    \"  f ( x : Int,\\t\", " +
         "\n    \"     y : Int) =\"," +
         "\n    \"       x + y\")" +
@@ -409,7 +417,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained = instance.translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained = instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
       expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
@@ -417,7 +425,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained = instance.translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained = instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
       expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
@@ -425,7 +433,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate classes") (
     check (
-      obtained = instance.translate ("class D" +
+      obtained = instance .translate ("class D" +
         "\n" +
         "\n  f (x : Int) : Int = x + 1" +
         "\n" +
@@ -510,7 +518,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a class in a class") (
     check (
-      obtained = instance.translate ("class D" +
+      obtained = instance .translate ("class D" +
         "\n" +
         "\n  f (x : Int) : Int = x + 1" +
         "\n" +
@@ -556,7 +564,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained = instance.translate ("class A [T] = B [T]" +
+      obtained = instance .translate ("class A [T] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
@@ -576,7 +584,7 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a tuple assignment") (
     check (
-      obtained = instance.translate ("  (x, y) = (f (a), g (a))" +
+      obtained = instance .translate ("  (x, y) = (f (a), g (a))" +
         "\n" +
         "\n  (p, q) =" +
         "\n    h (1, 2)" +
@@ -593,11 +601,11 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a pattern matching") (
     check (
-      obtained = instance.translate ("fibo (n : Int) : Int = " +
+      obtained = instance .translate ("fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -605,7 +613,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -613,11 +621,11 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate another pattern matching") (
     check (
-      obtained = instance.translate ("fibo (n : Int) : Int = " +
+      obtained = instance .translate ("fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
-        "\n    case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -625,7 +633,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n    case 0 => 1 " +
         "\n    case 1 => 1 " +
-        "\n    case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -633,11 +641,11 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should ignore a pattern matching written in the Scala style") (
     check (
-      obtained = instance.translate ("fibo (n : Int) : Int = " +
+      obtained = instance .translate ("fibo (n : Int) : Int = " +
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -645,14 +653,14 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
     )
   )
 
-  test ("should translate an explicit lambda expression") (
+  test ("should translate an explicit lambda expression using lambda") (
     check (
-      obtained = instance.translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
+      obtained = instance .translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
         "\n"
       )
     ) (
@@ -661,13 +669,26 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate another explicit lambda expression") (
+  test ("should translate another explicit lambda expression using any") (
     check (
-      obtained = instance.translate ("plus_1 : Int = any (x : Int) --> x + 1" +
+      obtained = instance .translate ("plus_1 : Int = any (x : Int) --> x + 1" +
         "\n"
       )
     ) (
       expected = "lazy val plus_1 : Int =  (x : Int) => x + 1" +
+        "\n"
+    )
+  )
+
+  test ("should translate another explicit lambda expression containing parentheses") (
+    check (
+      obtained = instance .translate ("plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+         "\n  s .map (lambda x --> x + 1)" +
+        "\n"
+      )
+    ) (
+      expected = "def plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+        "\n  s .map ( x => x + 1)" +
         "\n"
     )
   )
@@ -710,20 +731,20 @@ case class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z\n"
 
-  lazy val original_input_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,",
-    "    2,  ",
-    "    3)",
-    "  f( x: Int,\t",
-    "     y: Int,",
-    "     z: Int) =",
+  lazy val original_input_lines = Seq (
+    "  value = 1" ,
+    "  sequence = Seq(1 ," ,
+    "    2,  " ,
+    "    3)" ,
+    "  f( x: Int,\t" ,
+    "     y: Int," ,
+    "     z: Int) =" ,
     "       x * x + y * y + z * z")
 
-  lazy val joined_comma_lines = Seq(
-    "  value = 1",
-    "  sequence = Seq(1 ,    2,      3)",
-    "  f( x: Int,\t     y: Int,     z: Int) =",
+  lazy val joined_comma_lines = Seq (
+    "  value = 1" ,
+    "  sequence = Seq(1 ,    2,      3)" ,
+    "  f( x: Int,\t     y: Int,     z: Int) =" ,
     "       x * x + y * y + z * z")
 
   lazy val joined_output =
@@ -736,12 +757,12 @@ case class MultiLineSpec ()
     "     z: Int) =\n" +
     "       x * x + y * y + z * z"
 
-  def build_block (lines: Seq [String]): AnnotatedBlock =
-    AnnotationFactory_ ().annotate (BlockBuilder_ ().build (lines) )
+  def build_block (lines : Seq [String] ) : AnnotatedBlock =
+    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines) )
 
   test ("should split a program in multiple lines") (
     check (
-      obtained = bp.make_block (original_input)
+      obtained = bp .make_block (original_input)
     ) (
       expected = build_block (original_input_lines )
     )
@@ -751,7 +772,7 @@ case class MultiLineSpec ()
     check (
       obtained = build_block (joined_comma_lines)
     ) (
-      expected = bp.make_block (joined_output)
+      expected = bp .make_block (joined_output)
     )
   )
 
@@ -782,7 +803,7 @@ case class ScalaNonSodaSpec ()
 
   test ("Scala reserved words are replaced") (
     check (
-      obtained = bp.translate ("" +
+      obtained = bp .translate ("" +
         "\nval x =" +
         "\n  while (x != 0)"
       )
@@ -796,7 +817,7 @@ case class ScalaNonSodaSpec ()
 
   test ("some synonyms are Scala reserved words") (
     check (
-      obtained = bp.translate ("" +
+      obtained = bp .translate ("" +
         "\nclass A0 [B0 <: C0]" +
         "\n" +
         "\nend" +
@@ -855,14 +876,14 @@ case class MainSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  lazy val instance = TranslatorToScala_ ()
+  lazy val instance = IndividualProcessor_ ()
 
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should get the input and output file names without path") (
     check (
-      obtained = instance.get_input_output_file_names("my_file.soda")
+      obtained = instance .get_input_output_file_names("my_file.soda")
     ) (
       expected = FileNamePair_("my_file.soda", "my_file.scala")
     )
@@ -870,7 +891,7 @@ case class MainSpec ()
 
   test ("should get the input and output file names with path") (
     check (
-      obtained = instance.get_input_output_file_names("/path/to/file.soda")
+      obtained = instance .get_input_output_file_names("/path/to/file.soda")
     ) (
       expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
     )
@@ -899,7 +920,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate a single upper bound") (
     check (
-      obtained = instance.translate ("class BlackBox()" +
+      obtained = instance .translate ("class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A subtype AbstractInput]" +
         "\n" +
@@ -920,7 +941,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple upper bounds") (
     check (
-      obtained = instance.translate (        "  class BlackBox()" +
+      obtained = instance .translate (        "  class BlackBox()" +
         "\n    extends " +
         "\n      AbstractBlackBox[A subtype AbstractInput]" +
         "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
@@ -942,7 +963,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate a single lower bound") (
     check (
-      obtained = instance.translate (" class BlackBox()" +
+      obtained = instance .translate (" class BlackBox()" +
         "\n   extends " +
         "\n     AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n" +
@@ -962,7 +983,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple lower bounds") (
     check (
-      obtained = instance.translate ("  class BlackBox()" +
+      obtained = instance .translate ("  class BlackBox()" +
         "\n  extends " +
         "\n    AbstractBlackBox[A supertype (AbstractInput)]" +
         "\n    AbstractDevice[B supertype (AbstractDeviceInput)]" +
@@ -978,6 +999,30 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n  {" +
         "\n" +
         "\n}" +
+        "\n"
+    )
+  )
+
+  test ("should translate mixed upper and lower bounds") (
+    check (
+      obtained = instance .translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
+        "\n  extends " +
+        "\n    AbstractBlackBox[A][B]" +
+        "\n    AbstractDevice [A]   [B] " +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "  trait BlackBox [A <: AbstractModel, B <: AbstractParameter]" +
+        "\n  extends" +
+        "\n    AbstractBlackBox[A, B]" +
+        "\n    with AbstractDevice [A, B]" +
+        "\n  {" +
+        "\n" +
+        "\n}" +
+        "\n" +
+        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] () extends BlackBox [A, B]" +
         "\n"
     )
   )

@@ -13,31 +13,31 @@ class BlockAnnotationSpec ()
     assert (obtained == expected)
 
   example_blocks =
-    ExampleProgram_ ().example_blocks
+    ExampleProgram_ () .example_blocks
 
-  detectors (block: Block): Seq [BlockAnnotationParser] =
+  detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation_ (block),
-      ClassBeginningAnnotation_ (block),
-      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      ImportDeclarationAnnotation_ (block),
-      PackageDeclarationAnnotation_ (block),
-      ClassAliasAnnotation_ (block),
-      TheoremBlockAnnotation_ (block),
-      ProofBlockAnnotation_ (block),
-      CommentAnnotation_ (block),
+      FunctionDefinitionAnnotation_ (block) ,
+      ClassBeginningAnnotation_ (block) ,
+      ClassEndAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      ImportDeclarationAnnotation_ (block) ,
+      PackageDeclarationAnnotation_ (block) ,
+      ClassAliasAnnotation_ (block) ,
+      TheoremBlockAnnotation_ (block) ,
+      ProofBlockAnnotation_ (block) ,
+      CommentAnnotation_ (block) ,
       TestDeclarationAnnotation_ (block)
     )
 
   apply_detectors (block : Block) : Seq [Boolean] =
-    detectors (block).map ( lambda detector --> detector.applies)
+    detectors (block) .map (lambda detector --> detector .applies)
 
   test ("should detect a package declaration") (
     check (
       obtained := apply_detectors (example_blocks (0) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, true, false, false, false, false, false)
+      expected := Seq [Boolean] (false , false , false , false , false , true , false , false , false , false , false)
     )
   )
 
@@ -45,7 +45,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (1) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, false, false, false, false, true, false)
+      expected := Seq [Boolean] (false , false , false , false , false , false , false , false , false , true , false)
     )
   )
 
@@ -53,7 +53,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (2) )
     ) (
-      expected := Seq [Boolean] (false, true, false, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (false , true , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -61,7 +61,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (3) )
     ) (
-      expected := Seq [Boolean] (false, false, false, true, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (false , false , false , true , false , false , false , false , false , false , false)
     )
   )
 
@@ -69,7 +69,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (4) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, true, false, false, false, false, false, false)
+      expected := Seq [Boolean] (false , false , false , false , true , false , false , false , false , false , false)
     )
   )
 
@@ -77,7 +77,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (5) )
     ) (
-      expected := Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -85,7 +85,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (6) )
     ) (
-      expected := Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -93,7 +93,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (7) )
     ) (
-      expected := Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -101,7 +101,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (8) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, false, false, false, false, false, true)
+      expected := Seq [Boolean] (false , false , false , false , false , false , false , false , false , false , true)
     )
   )
 
@@ -109,7 +109,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (9) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, false, false, true, false, false, false)
+      expected := Seq [Boolean] (false , false , false , false , false , false , false , true , false , false , false)
     )
   )
 
@@ -117,7 +117,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (10) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, false, false, false, true, false, false)
+      expected := Seq [Boolean] (false , false , false , false , false , false , false , false , true , false , false)
     )
   )
 
@@ -125,7 +125,7 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (11) )
     ) (
-      expected := Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false)
+      expected := Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -133,13 +133,13 @@ class BlockAnnotationSpec ()
     check (
       obtained := apply_detectors (example_blocks (12) )
     ) (
-      expected := Seq [Boolean] (false, false, false, false, false, false, true, false, false, false, false)
+      expected := Seq [Boolean] (false , false , false , false , false , false , true , false , false , false , false)
     )
   )
 
   test ("should find only 13 blocks") (
     check (
-      obtained := example_blocks.length
+      obtained := example_blocks .length
     ) (
       expected := 13
     )
@@ -147,9 +147,9 @@ class BlockAnnotationSpec ()
 
   test ("should be ordered by the identifier ordinal") (
     check (
-      obtained := detectors (example_blocks (0) ).map ( lambda detector --> detector.identifier.ordinal)
+      obtained := detectors (example_blocks (0) ) .map (lambda detector --> detector .identifier .ordinal)
     ) (
-      expected := Seq [Int] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+      expected := Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11)
     )
   )
 

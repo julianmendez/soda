@@ -19,27 +19,27 @@ class OptionSD [A]
   opt [B] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
     match this
       case SomeSD_ (element) ==> ifNonEmpty (element)
-      case x ==> ifEmpty
+      case otherwise ==> ifEmpty
 
   map [B] (mapping : A -> B) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
-      case x ==> NoneSD_ [B] ()
+      case otherwise ==> NoneSD_ [B] ()
 
   getOrElse (default : A) : A =
     match this
       case SomeSD_ (element) ==> element
-      case x ==> default
+      case otherwise ==> default
 
   fold [B] (ifEmpty : B) (f : A -> B) : B =
     match this
       case SomeSD_ (element) ==> f (element)
-      case x ==> ifEmpty
+      case otherwise ==> ifEmpty
 
   flatMap [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
-      case x ==> NoneSD_ ()
+      case otherwise ==> NoneSD_ ()
 
   bind [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
@@ -50,7 +50,7 @@ class OptionSD [A]
         if predicate (element)
         then this
         else NoneSD_ [A] ()
-      case x ==> NoneSD_ ()
+      case otherwise ==> NoneSD_ ()
 
 end
 
@@ -58,7 +58,7 @@ class NoneSD [A]
   extends
     OptionSD [A]
 
-  toOption : None.type = None
+  toOption : None .type = None
 
   isEmpty : Boolean = true
 
@@ -108,8 +108,8 @@ end
 class OptionSDBuilder [A]
 
   build (option : Option [A] ) : OptionSD [A] =
-    if option.isEmpty
+    if option .isEmpty
     then NoneSD_ [A] ()
-    else SomeSD_ [A] (option.get)
+    else SomeSD_ [A] (option .get)
 
 end

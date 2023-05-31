@@ -35,38 +35,38 @@ class TranslatorToDoc
       execute_for (arguments)
 
   execute_for (arguments : Seq [String] ) : Boolean =
-    match arguments.length
+    match arguments .length
       case 0 ==> _process_directory (_default_argument)
       case 1 ==> _process_directory (arguments (0) )
       case 2 ==> _translate (arguments (0) ) (arguments (1) )
-      case x ==> false
+      case otherwise ==> false
 
   translate_content (input : String) : String =
-    _tc.doc_header + _translator.translate (input) + _tc.doc_footer
+    _tc .doc_header + _translator .translate (input) + _tc .doc_footer
 
   _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start, _process_soda_file).process ()
+    DirectoryProcessor_ (start , _process_soda_file) .process ()
 
   _process_soda_file (file : File) : Boolean =
-    _process_soda_file_with (_get_input_output_file_names (file.getAbsolutePath) )
+    _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   _process_soda_file_with (pair : FileNamePair) : Boolean =
-    _translate (pair.input_file_name) (pair.output_file_name)
+    _translate (pair .input_file_name) (pair .output_file_name)
 
   _get_input_output_file_names (input_name : String) : FileNamePair =
-    if input_name.endsWith (_soda_extension)
-    then FileNamePair_ (input_name,
-      input_name.substring (0, input_name.length - _soda_extension.length) + _doc_extension)
-    else FileNamePair_ (input_name + _soda_extension, input_name + _doc_extension)
+    if input_name .endsWith (_soda_extension)
+    then FileNamePair_ (input_name ,
+      input_name .substring (0 , input_name .length - _soda_extension .length) + _doc_extension)
+    else FileNamePair_ (input_name + _soda_extension , input_name + _doc_extension)
 
   _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ ().read_file (input_file_name) ) (
+      SimpleFileReader_ () .read_file (input_file_name) ) (
       output_file_name
     )
 
   _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (
+    SimpleFileWriter_ () .write_file (
       output_file_name) (
       content := translate_content (input)
     )

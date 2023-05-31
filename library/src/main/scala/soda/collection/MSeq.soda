@@ -6,8 +6,8 @@ class MSeq [A]
 
   opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
-      case NESeq_ (head, tail) ==> ifNonEmpty (NESeq_ (head, tail) )
-      case x ==> ifEmpty
+      case NESeq_ (head , tail) ==> ifNonEmpty (NESeq_ (head , tail) )
+      case otherwise ==> ifEmpty
 
 end
 
@@ -16,11 +16,11 @@ class MSeqRec [A]
   @tailrec
   _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
-      case NESeq_ (head, tail) ==>
+      case NESeq_ (head , tail) ==>
         if not condition (current_value) (head)
         then current_value
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (next_value_function) (condition)
-      case x ==> current_value
+      case otherwise ==> current_value
 
   fold_while [B] (sequence : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value) (condition)

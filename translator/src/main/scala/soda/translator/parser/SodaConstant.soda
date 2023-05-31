@@ -109,7 +109,7 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
-  parameter_separator_symbol = ","
+  parameter_separation_regex = "]\\s*\\["
 
   addition_symbol = "+"
 
@@ -150,6 +150,10 @@ class SodaConstant
   new_annotation = "@new"
 
   private_function_prefix = "_"
+
+  intersection_type_symbol = "&"
+
+  union_type_symbol = "|"
 
   soda_reserved_words_words_only : Seq [String] =
     Seq (
@@ -196,7 +200,9 @@ class SodaConstant
       greater_than_symbol,
       greater_than_or_equal_to_symbol,
       subtype_abbreviation,
-      supertype_abbreviation
+      supertype_abbreviation,
+      intersection_type_symbol,
+      union_type_symbol
     )
 
   soda_reserved_words_annotations_only : Seq [String] =
@@ -207,9 +213,9 @@ class SodaConstant
     )
 
   soda_reserved_words : Seq [String] =
-    soda_reserved_words_words_only.++ (soda_reserved_words_symbols_only.++ (soda_reserved_words_annotations_only) )
+    soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (soda_reserved_words_annotations_only) )
 
-  soda_unicode_symbols : Seq [Tuple2 [String, String] ] =
+  soda_unicode_symbols : Seq [Tuple2 [String] [String] ] =
     Seq (
       Tuple2 (lambda_unicode_symbol , lambda_reserved_word) ,
       Tuple2 (lambda_arrow_unicode_symbol , lambda_arrow_symbol) ,

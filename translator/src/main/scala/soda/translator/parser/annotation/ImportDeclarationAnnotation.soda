@@ -11,11 +11,11 @@ class ImportDeclarationAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
 
-  identifier = BlockAnnotationEnum_ ().import_declaration
+  identifier = BlockAnnotationEnum_ () .import_declaration
 
   applies : Boolean =
-    block.readable_lines.nonEmpty and
-    (block.readable_lines.head.line.trim == SodaConstant_ ().import_reserved_word)
+    block .readable_lines .nonEmpty and
+    (block .readable_lines .head .line .trim == SodaConstant_ () .import_reserved_word)
 
   imported_items : Seq [AnnotatedLine] =
     content_lines

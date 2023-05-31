@@ -30,7 +30,7 @@ trait PricingAgent
   lazy val milliseconds_per_day : Long = 24 * 60 * 60 * 1000
 
   def get_days_for (date : Date) : Int =
-    (date.getTime / milliseconds_per_day).toInt
+    (date .getTime / milliseconds_per_day) .toInt
 
 }
 
@@ -53,7 +53,7 @@ trait RequirementMonitor
   def   pricing_agent : PricingAgent
 
   def get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
-    pricing_agent.get_price (customer) (flight) (date_in_days)
+    pricing_agent .get_price (customer) (flight) (date_in_days)
 
 }
 
@@ -91,7 +91,7 @@ trait Requirement1Monitor
     get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
 
   def get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
-    Report1_ (minimum_similarity <= similarity, price1, price2, similarity)
+    Report1_ (minimum_similarity <= similarity , price1 , price2 , similarity)
 
   def get_similarity (x : Int) (y : Int) : Double =
     1.0 * (min (x) (y) ) / (max (x) (y) )
@@ -138,7 +138,7 @@ trait Requirement2Monitor
     )
 
   def get_report_with (old_price : Int) (new_price : Int) : Report2 =
-    Report2_ (new_price <= old_price * acceptable_increase, old_price, new_price)
+    Report2_ (new_price <= old_price * acceptable_increase , old_price , new_price)
 
   def get_a_year_before (date_in_days : Int) : Int =
     date_in_days - 365
@@ -173,16 +173,16 @@ trait Requirement3Monitor
     )
 
   def get_report_with (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
-    Report3_ (price_of_flight <= price_of_flight_by_segments, price_of_flight, price_of_flight_by_segments)
+    Report3_ (price_of_flight <= price_of_flight_by_segments , price_of_flight , price_of_flight_by_segments)
 
   def get_price_of_flight_by_segments (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
-    sum_prices (get_prices_of_segments (customer) (SegmentsForFlight_ (flight).segments) (date_in_days) )
+    sum_prices (get_prices_of_segments (customer) (SegmentsForFlight_ (flight) .segments) (date_in_days) )
 
   def get_prices_of_segments (customer : Customer) (segments : Seq [Segment] ) (date_in_days : Int) : Seq [Int] =
-    segments.map (  segment => get_price (customer) (segment) (date_in_days) )
+    segments .map ( segment => get_price (customer) (segment) (date_in_days) )
 
   def sum_prices (prices : Seq [Int] ) : Int =
-    prices.sum
+    prices .sum
 
 }
 
@@ -208,12 +208,12 @@ trait SegmentsForFlight
   def   flight : Flight
 
   lazy val segments : Seq [Segment] =
-    rec_segments_multi (flight.start_airport) (flight.intermediate_airports) (flight.end_airport)
+    rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (flight .end_airport)
 
   def rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] ) (last_airport : String) : Seq [Segment] =
     intermediate_stops match  {
-      case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ).+: (Segment_ (first_airport, head) )
-      case x => Nil.+: (Segment_ (first_airport, last_airport) )
+      case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (Segment_ (first_airport , head) )
+      case otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
     }
 
 }

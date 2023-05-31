@@ -4,6 +4,7 @@ class ClassConstructorBlockTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
+    soda.translator.block.BlockTranslatorPipeline_
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
@@ -19,7 +20,7 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
@@ -42,13 +43,13 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    value: Int" +
+    "\n    map: Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
     "\n    a_function: Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (value: Int, a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -60,7 +61,7 @@ class ClassConstructorBlockTranslatorSpec ()
   example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -82,7 +83,7 @@ class ClassConstructorBlockTranslatorSpec ()
   expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A, B subtype SuperType]" +
+    "\nclass Example [A] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
@@ -102,16 +103,24 @@ class ClassConstructorBlockTranslatorSpec ()
     "\nend" +
     "\n"
 
+
   translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
+        _translation_pipeline
+      )
+    )
+
+  _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
         ClassConstructorBlockTranslator_ ()
       )
     )
 
   test ("should produce the constructors for a simple class") (
     check (
-      obtained := translator.translate (example_program_0)
+      obtained := translator .translate (example_program_0)
     ) (
       expected := expected_program_0
     )
@@ -119,7 +128,7 @@ class ClassConstructorBlockTranslatorSpec ()
 
   test ("should produce the constructors for a class with type parameters") (
     check (
-      obtained := translator.translate (example_program_1)
+      obtained := translator .translate (example_program_1)
     ) (
       expected := expected_program_1
     )

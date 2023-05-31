@@ -7,7 +7,7 @@ class PlainBlock
   new_line = "\n"
 
   contents : String =
-    lines.mkString (new_line)
+    lines .mkString (new_line)
 
 end
 

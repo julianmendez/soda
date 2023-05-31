@@ -23,7 +23,7 @@ class ScalaNonSodaSpec ()
 
   test ("Scala reserved words are replaced") (
     check (
-      obtained := bp.translate ("" +
+      obtained := bp .translate ("" +
         "\nval x =" +
         "\n  while (x != 0)"
       )
@@ -37,7 +37,7 @@ class ScalaNonSodaSpec ()
 
   test ("some synonyms are Scala reserved words") (
     check (
-      obtained := bp.translate ("" +
+      obtained := bp .translate ("" +
         "\nclass A0 [B0 <: C0]" +
         "\n" +
         "\nend" +

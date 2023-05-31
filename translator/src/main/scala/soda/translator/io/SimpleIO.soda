@@ -16,16 +16,16 @@ class SimpleFileReader
   new_line = "\n"
 
   read_file (file_name : String) : String =
-    @new String (Files.readAllBytes (Paths.get (file_name) ) )
+    @new String (Files .readAllBytes (Paths .get (file_name) ) )
 
   read_resource (file_name : String) : String =
-    read_input_stream (getClass.getResourceAsStream (file_name) )
+    read_input_stream (getClass .getResourceAsStream (file_name) )
 
   read_input_stream (input_stream : InputStream) : String =
     _read_reader_content ( @new BufferedReader ( @new InputStreamReader (input_stream) ) )
 
   _read_reader_content (reader : BufferedReader) : String =
-    reader.lines ().collect (Collectors.joining (new_line) )
+    reader .lines () .collect (Collectors .joining (new_line) )
 
 end
 
@@ -42,27 +42,27 @@ class SimpleFileWriter
     java.io.Writer
 
   write_file (file_name : String) (content : String) : Boolean =
-    write_file_with ( @new File (file_name) ) (content)
+    write_file_with (@new File (file_name) ) (content)
 
   write_file_with (file : File) (content : String) : Boolean =
-    _write_content ( @new FileWriter (file , false) ) (content)
+    _write_content (@new FileWriter (file , false) ) (content)
 
   append_file (file_name : String) (content : String) : Boolean =
-    append_file_with ( @new File (file_name) ) (content)
+    append_file_with (@new File (file_name) ) (content)
 
   append_file_with (file : File) (content : String) : Boolean =
-    _write_content ( @new FileWriter (file , true) ) (content)
+    _write_content (@new FileWriter (file , true) ) (content)
 
   _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
-      .map ( lambda x --> writer.write (content) )
-      .map ( lambda x --> writer.flush () )
-      .map ( lambda x --> writer.close () )
-      .map ( lambda x --> true )
+      .map (lambda x --> writer .write (content) )
+      .map (lambda x --> writer .flush () )
+      .map (lambda x --> writer .close () )
+      .map (lambda x --> true)
       .getOrElse (false)
 
   create_file (parent_directory : String) (file_name : String) : File =
-    @new File (parent_directory, file_name)
+    @new File (parent_directory , file_name)
 
 end
 

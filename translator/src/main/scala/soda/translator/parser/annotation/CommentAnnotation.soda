@@ -9,12 +9,12 @@ class CommentAnnotation
   import
     soda.translator.block.BlockAnnotationEnum_
 
-  identifier = BlockAnnotationEnum_ ().comment
+  identifier = BlockAnnotationEnum_ () .comment
 
   applies : Boolean =
     block
       .annotated_lines
-      .forall ( lambda annotated_line --> annotated_line.is_comment)
+      .forall (lambda annotated_line --> annotated_line .is_comment)
 
 end
 

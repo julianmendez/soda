@@ -44,12 +44,12 @@ trait Main
       execute_for (arguments)
 
   def execute_for (arguments : Seq [String] ) : Boolean =
-    if ( arguments.length == 0
-    ) help.execute (arguments.toSeq)
+    if ( arguments .length == 0
+    ) help .execute (arguments .toSeq)
     else
       extensions
-        .getOrElse (arguments.head, help)
-        .execute (arguments.tail)
+        .getOrElse (arguments .head, help)
+        .execute (arguments .tail)
 
 }
 

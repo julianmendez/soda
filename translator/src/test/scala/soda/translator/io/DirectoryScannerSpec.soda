@@ -11,19 +11,19 @@ class DirectoryScannerSpec ()
 
   start = "translator/src/test/resources/soda/example"
 
-  single_start_file = @new File (start, "Example.soda")
+  single_start_file = @new File (start , "Example.soda")
 
   test ("scan a file that is not a directory") (
     check (
-      obtained := DirectoryScanner_ ().get_all_files (single_start_file).toSet
+      obtained := DirectoryScanner_ () .get_all_files (single_start_file) .toSet
     ) (
-      expected := Seq (single_start_file).toSet
+      expected := Seq (single_start_file) .toSet
     )
   )
 
   test ("simple scan of all files") (
     check (
-      obtained := DirectoryScanner_ ().get_all_files ( @new File (start) ).toSet
+      obtained := DirectoryScanner_ () .get_all_files ( @new File (start) ) .toSet
     ) (
       expected := Seq (
         "otherexample",
@@ -37,7 +37,7 @@ class DirectoryScannerSpec ()
         "otherexample/OtherExample.txt",
         "otherexample/Package.scala",
         "otherexample/Package.soda"
-      ).map ( lambda x --> @new File (start, x) ).toSet
+      ) .map (lambda x --> @new File (start , x) ) .toSet
     )
   )
 

@@ -32,15 +32,15 @@ case class DocFullTranslationSpec ()
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
-      obtained = TranslatorToDoc_ ().translate_content (read_file (input_file_name) )
+      obtained = TranslatorToDoc_ () .translate_content (read_file (input_file_name) )
     ) (
       expected = read_file (expected_file_name)
     )
 
   def read_file (file_name : String) : String =
     new String (
-      Files.readAllBytes (
-        Paths.get (getClass.getResource (file_name).toURI)
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
       )
     )
 
@@ -87,7 +87,7 @@ case class MicroTranslatorToDocSpec ()
 
   test ("Document generation of a snippet") (
     check (
-      obtained = instance.translate (original_snippet)
+      obtained = instance .translate (original_snippet)
     ) (
       expected = translated_snippet
     )

@@ -1,18 +1,18 @@
 #/bin/bash
 
 #
-# This script builds the Soda binary file.
-# It requires `sbt` installed.
+# This script builds the binary file.
+# It requires `sbt` [https://www.scala-sbt.org/].
 #
 
 sbt scalaVersion sbtVersion version clean compile test package assembly
 
+scalaVersion="3.3.0"
+binaryFile="soda"
 executableStub="exec java -jar \$0 \"\$@\" ; exit"
-sodaFile="soda"
-scalaVersion="3.2.2"
-jarFile="target/scala-${scalaVersion}/soda-*.jar"
+jarFile="target/scala-${scalaVersion}/${binaryFile}-*.jar"
 
-echo ${executableStub} >${sodaFile}
-cat ${jarFile} >>${sodaFile}
-chmod u+x ${sodaFile}
+echo ${executableStub} >${binaryFile}
+cat ${jarFile} >>${binaryFile}
+chmod u+x ${binaryFile}
 

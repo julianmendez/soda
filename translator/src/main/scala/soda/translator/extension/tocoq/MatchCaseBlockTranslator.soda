@@ -16,11 +16,11 @@ class MatchCaseBlockTranslator
 
   _sc = SodaConstant_ ()
 
-  _soda_case_pattern = _sc.case_reserved_word + _sc.space
+  _soda_case_pattern = _sc .case_reserved_word + _sc .space
 
   _tc = TranslationConstantToCoq_ ()
 
-  _soda_match_pattern = _sc.match_reserved_word + " "
+  _soda_match_pattern = _sc .match_reserved_word + " "
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
@@ -30,7 +30,7 @@ class MatchCaseBlockTranslator
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case x ==> annotated_block
+      case otherwise ==> annotated_block
 
   _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -44,40 +44,40 @@ class MatchCaseBlockTranslator
     else block
 
   _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block.lines.exists ( lambda line --> _is_a_match_line (line) )
+    block .lines .exists (lambda line --> _is_a_match_line (line) )
 
   _is_a_match_line (line : String) : Boolean =
-    line.trim.startsWith (_soda_match_pattern)
+    line .trim .startsWith (_soda_match_pattern)
 
   _is_a_case_line (line : String) : Boolean =
-    line.trim.startsWith (_soda_case_pattern)
+    line .trim .startsWith (_soda_case_pattern)
 
   _get_tabulation_of_match (block : AnnotatedBlock) : String =
-    block.lines
-      .find ( lambda line --> _is_a_match_line (line) )
-      .map ( lambda line --> _left_part (line.indexOf (_soda_match_pattern) ) (line) )
-      .getOrElse (_tc.coq_space)
+    block .lines
+      .find (lambda line --> _is_a_match_line (line) )
+      .map (lambda line --> _left_part (line .indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc .coq_space)
 
   _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ ().build (
-      block.lines
-        .map ( lambda line --> _append_with_after_match (line) )
-        .map ( lambda line --> _replace_case (line) )
-         .++ ( Seq [String] () .+: (tabulation + _tc.coq_match_end_translation) )
+    BlockBuilder_ () .build (
+      block .lines
+        .map (lambda line --> _append_with_after_match (line) )
+        .map (lambda line --> _replace_case (line) )
+        .++ ( Seq [String] ()  .+: (tabulation + _tc .coq_match_end_translation) )
     )
 
   _append_with_after_match (line : String) : String =
     if _is_a_match_line (line)
-    then line + _tc.coq_space + _tc.coq_with_reserved_word
+    then line + _tc .coq_space + _tc .coq_with_reserved_word
     else line
 
   _replace_case (line : String) : String =
     if _is_a_case_line (line)
-    then ReplacementAux_ (). replace_first (line) (_soda_case_pattern) (_tc.coq_case_translation)
+    then ReplacementAux_ () . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
     else line
 
   _left_part (index : Int) (line : String) : String =
-    line.substring (0, index)
+    line .substring (0 , index)
 
 end
 

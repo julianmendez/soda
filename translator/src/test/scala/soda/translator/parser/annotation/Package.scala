@@ -20,31 +20,31 @@ case class BlockAnnotationSpec ()
     assert (obtained == expected)
 
   lazy val example_blocks =
-    ExampleProgram_ ().example_blocks
+    ExampleProgram_ () .example_blocks
 
-  def detectors (block: Block): Seq [BlockAnnotationParser] =
+  def detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation_ (block),
-      ClassBeginningAnnotation_ (block),
-      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      ImportDeclarationAnnotation_ (block),
-      PackageDeclarationAnnotation_ (block),
-      ClassAliasAnnotation_ (block),
-      TheoremBlockAnnotation_ (block),
-      ProofBlockAnnotation_ (block),
-      CommentAnnotation_ (block),
+      FunctionDefinitionAnnotation_ (block) ,
+      ClassBeginningAnnotation_ (block) ,
+      ClassEndAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      ImportDeclarationAnnotation_ (block) ,
+      PackageDeclarationAnnotation_ (block) ,
+      ClassAliasAnnotation_ (block) ,
+      TheoremBlockAnnotation_ (block) ,
+      ProofBlockAnnotation_ (block) ,
+      CommentAnnotation_ (block) ,
       TestDeclarationAnnotation_ (block)
     )
 
   def apply_detectors (block : Block) : Seq [Boolean] =
-    detectors (block).map (  detector => detector.applies)
+    detectors (block) .map ( detector => detector .applies)
 
   test ("should detect a package declaration") (
     check (
       obtained = apply_detectors (example_blocks (0) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, true, false, false, false, false, false)
+      expected = Seq [Boolean] (false , false , false , false , false , true , false , false , false , false , false)
     )
   )
 
@@ -52,7 +52,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (1) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, false, false, false, false, true, false)
+      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , true , false)
     )
   )
 
@@ -60,7 +60,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (2) )
     ) (
-      expected = Seq [Boolean] (false, true, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false , true , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -68,7 +68,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (3) )
     ) (
-      expected = Seq [Boolean] (false, false, false, true, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false , false , false , true , false , false , false , false , false , false , false)
     )
   )
 
@@ -76,7 +76,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (4) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, true, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false , false , false , false , true , false , false , false , false , false , false)
     )
   )
 
@@ -84,7 +84,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (5) )
     ) (
-      expected = Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -92,7 +92,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (6) )
     ) (
-      expected = Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -100,7 +100,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (7) )
     ) (
-      expected = Seq [Boolean] (true, false, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -108,7 +108,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (8) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, false, false, false, false, false, true)
+      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , false , true)
     )
   )
 
@@ -116,7 +116,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (9) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, false, false, true, false, false, false)
+      expected = Seq [Boolean] (false , false , false , false , false , false , false , true , false , false , false)
     )
   )
 
@@ -124,7 +124,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (10) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, false, false, false, true, false, false)
+      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , true , false , false)
     )
   )
 
@@ -132,7 +132,7 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (11) )
     ) (
-      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -140,13 +140,13 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (12) )
     ) (
-      expected = Seq [Boolean] (false, false, false, false, false, false, true, false, false, false, false)
+      expected = Seq [Boolean] (false , false , false , false , false , false , true , false , false , false , false)
     )
   )
 
   test ("should find only 13 blocks") (
     check (
-      obtained = example_blocks.length
+      obtained = example_blocks .length
     ) (
       expected = 13
     )
@@ -154,9 +154,9 @@ case class BlockAnnotationSpec ()
 
   test ("should be ordered by the identifier ordinal") (
     check (
-      obtained = detectors (example_blocks (0) ).map (  detector => detector.identifier.ordinal)
+      obtained = detectors (example_blocks (0) ) .map ( detector => detector .identifier .ordinal)
     ) (
-      expected = Seq [Int] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+      expected = Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11)
     )
   )
 
@@ -176,18 +176,18 @@ case class ClassBeginningAnnotationSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example_blocks = ExampleProgram_ ().example_blocks
+  lazy val example_blocks = ExampleProgram_ () .example_blocks
 
-  lazy val default_block_processor = ExampleProgram_ ().default_block_processor
+  lazy val default_block_processor = ExampleProgram_ () .default_block_processor
 
-  lazy val example_0 = example_blocks.apply (2)
+  lazy val example_0 = example_blocks .apply (2)
 
-  def get_as_block (text: String): Block =
+  def get_as_block (text : String) : Block =
     default_block_processor
       .make_blocks(
         default_block_processor
           .split_blocks (text)
-      ).head
+      ) .head
 
   lazy val example_1 =
     get_as_block (
@@ -200,10 +200,10 @@ case class ClassBeginningAnnotationSpec ()
 
   lazy val example_2 =
     get_as_block (
-      "class Example [A, B]" +
+      "class Example [A][ B]" +
       "\n  extends" +
       "\n    SuperExample0" +
-      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample2 [A][B]" +
       "\n    SuperExample1 [A]" +
       "\n"
     )
@@ -219,9 +219,9 @@ case class ClassBeginningAnnotationSpec ()
 
   lazy val example_4 =
     get_as_block (
-      "class Example [A supertype SubTypeExample, B subtype SuperTypeExample]" +
+      "class Example [A supertype SubTypeExample][B subtype SuperTypeExample]" +
       "\n  extends" +
-      "\n    SuperExample2 [A, B]" +
+      "\n    SuperExample2 [A] [B]" +
       "\n    SuperExample1 [A]" +
       "\n    SuperExample0" +
       "\n"
@@ -229,9 +229,9 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should find the right block for ClassBeginningAnnotation") (
     check (
-      obtained = example_blocks.map (  block => ClassBeginningAnnotation_ (block).applies )
+      obtained = example_blocks .map ( block => ClassBeginningAnnotation_ (block) .applies )
     ) (
-      expected = Seq [Boolean] (false, false, true, false, false, false, false, false, false, false, false, false, false)
+      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -295,7 +295,7 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
     ) (
-      expected = Seq ("A", "B")
+      expected = Seq ("A" , "B")
     )
   )
 
@@ -303,7 +303,7 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = ClassBeginningAnnotation_ (example_2).type_parameters
     ) (
-      expected = Seq ("A", "B")
+      expected = Seq ("A" , "B")
     )
   )
 
@@ -343,7 +343,7 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
     ) (
-      expected = Seq ("A supertype SubTypeExample", "B subtype SuperTypeExample")
+      expected = Seq ("A supertype SubTypeExample" , "B subtype SuperTypeExample")
     )
   )
 
@@ -351,7 +351,7 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = ClassBeginningAnnotation_ (example_4).type_parameters
     ) (
-      expected = Seq ("A", "B")
+      expected = Seq ("A" , "B")
     )
   )
 
@@ -416,15 +416,15 @@ trait ExampleProgram
     "\n")
 
   lazy val default_block_processor : BlockProcessor =
-    BlockProcessor_(
+    BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
         DefaultBlockTranslator_ ()
       )
     )
 
   lazy val example_blocks : Seq [Block] =
-    default_block_processor.make_blocks(
-      default_block_processor.split_blocks (example_program)
+    default_block_processor .make_blocks (
+      default_block_processor .split_blocks (example_program)
     )
 
 }

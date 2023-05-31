@@ -254,7 +254,7 @@ It is possible to refer to an object instance by using `this`.
 
   accept : Visitor -> Boolean =
     lambda visitor -->
-      visitor.visit (this)
+      visitor .visit (this)
 
 end
 
@@ -332,7 +332,7 @@ Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda
 
 
   plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( lambda element --> element + 1)
+    sequence .map (lambda element --> element + 1)
 
 
 \end{lstlisting}
@@ -344,7 +344,7 @@ A synonym for `lambda` is `any`, which sometimes brings more readability.
 
 
   plus_two (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map ( any element --> element + 2)
+    sequence .map (any element --> element + 2)
 
 
 \end{lstlisting}
@@ -394,7 +394,7 @@ It is possible to use pattern matching with `match` and `case`.The result of the
   if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
-      case x ==> if_false
+      case otherwise ==> if_false
 
   sum (n : Int) =
     _tailrec_ (n) (0)
@@ -440,27 +440,27 @@ end
 
 class FoldWhile
 
-  @tailrec
-  _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    if sequence.isEmpty or ( not condition (current_value) (sequence.head) )
-    then current_value
-    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
-
-  apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  apply [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
+
+  @tailrec
+  _tailrec_fold_while [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    if sequence.isEmpty or (not condition (current_value) (sequence.head) )
+    then current_value
+    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
 end
 
 class Range
 
+  apply (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
+
   @tailrec
   _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if n <= 0
     then sequence
-    else _tailrec_range (n - 1) (sequence.+: (n - 1) )
-
-  apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
+    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
 
 end
 

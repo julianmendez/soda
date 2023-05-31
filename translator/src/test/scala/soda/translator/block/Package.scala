@@ -15,11 +15,11 @@ trait BlockTranslator00
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ ().annotate (
-        BlockBuilder_ ().build (
-          if ( block.lines.isEmpty
+      AnnotationFactory_ () .annotate (
+        BlockBuilder_ () .build (
+          if ( block .lines .isEmpty
           ) Seq ("")
-          else block.lines.++ ( Seq ("tr00") )
+          else block .lines .++ (Seq ("tr00") )
         )
       )
 
@@ -37,11 +37,11 @@ trait BlockTranslator01
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ ().annotate (
-        BlockBuilder_ ().build (
-          if ( block.lines.isEmpty
+      AnnotationFactory_ () .annotate (
+        BlockBuilder_ () .build (
+          if ( block .lines .isEmpty
           ) Seq ("")
-          else block.lines.++ ( Seq ("tr01") )
+          else block .lines .++ (Seq ("tr01") )
         )
       )
 
@@ -59,11 +59,11 @@ trait BlockTranslator02
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      AnnotationFactory_ ().annotate (
-        BlockBuilder_ ().build (
-          if ( block.lines.isEmpty
+      AnnotationFactory_ () .annotate (
+        BlockBuilder_ () .build (
+          if ( block .lines .isEmpty
           ) Seq ("")
-          else block.lines.++ ( Seq ("tr02") )
+          else block .lines .++ (Seq ("tr02") )
         )
       )
 
@@ -85,30 +85,30 @@ case class BlockTranslatorPipelineSpec ()
   lazy val instance =
     BlockTranslatorPipeline_ (
       Seq (
-        BlockTranslator00_ (),
-        BlockTranslator01_ (),
+        BlockTranslator00_ () ,
+        BlockTranslator01_ () ,
         BlockTranslator02_ ()
       )
     )
 
   lazy val original =
-    AnnotationFactory_ ().annotate (
-      BlockBuilder_ ().build (
-        Seq ( "first line" )
+    AnnotationFactory_ () .annotate (
+      BlockBuilder_ () .build (
+        Seq ("first line" )
       )
     )
 
   test ("block translator pipeline") (
     check (
-      obtained = instance.translate (original)
+      obtained = instance .translate (original)
     ) (
       expected =
-        AnnotationFactory_ ().annotate (
-          BlockBuilder_ ().build (
+        AnnotationFactory_ () .annotate (
+          BlockBuilder_ () .build (
             Seq (
-              "first line",
-              "tr00",
-              "tr01",
+              "first line" ,
+              "tr00" ,
+              "tr01" ,
               "tr02"
             )
           )

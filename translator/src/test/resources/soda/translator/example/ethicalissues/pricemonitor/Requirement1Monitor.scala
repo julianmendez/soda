@@ -29,7 +29,7 @@ trait Requirement1Monitor
     get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
 
   def get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
-    Report1_ (minimum_similarity <= similarity, price1, price2, similarity)
+    Report1_ (minimum_similarity <= similarity , price1 , price2 , similarity)
 
   def get_similarity (x : Int) (y : Int) : Double =
     1.0 * (min (x) (y) ) / (max (x) (y) )

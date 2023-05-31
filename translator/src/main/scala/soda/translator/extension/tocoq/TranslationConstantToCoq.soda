@@ -122,11 +122,11 @@ class TranslationConstantToCoq
 
   non_definition_block_prefixes : Seq [String] =
     Seq (
-      soda_constant.package_reserved_word,
-      soda_constant.import_reserved_word,
-      soda_constant.class_end_reserved_word,
-      soda_constant.class_reserved_word,
-      soda_constant.comment_opening_symbol
+      soda_constant .package_reserved_word ,
+      soda_constant .import_reserved_word ,
+      soda_constant .class_end_reserved_word ,
+      soda_constant .class_reserved_word ,
+      soda_constant .comment_opening_symbol
     )
 
   coq_reserved_words =
@@ -212,14 +212,14 @@ class TranslationConstantToCoq
       "Variable"
     )
 
-  type_symbols_translation : Seq [Tuple2 [String, String] ] =
+  type_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
       Tuple2 (soda_constant.subtype_reserved_word, coq_subtype_symbol),
       Tuple2 (soda_constant.supertype_reserved_word, coq_supertype_symbol),
       Tuple2 (soda_constant.function_arrow_symbol, coq_function_arrow_symbol)
     )
 
-  function_symbols_translation : Seq [Tuple2 [String, String] ] =
+  function_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
       Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
       Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
@@ -231,7 +231,7 @@ class TranslationConstantToCoq
       Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word )
     )
 
-  type_translation : Seq [ Tuple2 [String, String]  ] =
+  type_translation : Seq [ Tuple2 [String] [String]  ] =
     Seq (
         Tuple2 ("Boolean", "bool"),
         Tuple2 ("Nat", "nat"),
@@ -243,16 +243,16 @@ class TranslationConstantToCoq
 
   prefix_coq_non_soda : String = "__soda__"
 
-  coq_non_soda : Seq [Tuple2 [String, String] ] =
+  coq_non_soda : Seq [Tuple2 [String] [String] ] =
     coq_reserved_words
-      .filter ( lambda x --> not soda_constant.soda_reserved_words.contains (x))
-      .map ( lambda x --> Tuple2 (x, prefix_coq_non_soda + x) )
+      .filter (lambda x --> not soda_constant.soda_reserved_words .contains (x))
+      .map (lambda x --> Tuple2 (x , prefix_coq_non_soda + x) )
 
   is_coq_word (word : String) : Boolean =
-    coq_reserved_words.contains (word)
+    coq_reserved_words .contains (word)
 
   is_soda_word (word : String) : Boolean =
-    soda_constant.soda_reserved_words.contains (word)
+    soda_constant .soda_reserved_words.contains (word)
 
 end
 

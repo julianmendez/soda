@@ -7,7 +7,7 @@ class TokenReplacement
   replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token -->
-        ReplacementWithTranslator_ (TableTranslator_ (table) ).replace (token.text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace (token .text)
     )
 
 end

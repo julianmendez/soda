@@ -6,14 +6,14 @@ lazy val scala2_12 = "2.12.17"
 
 lazy val scala2_13 = "2.13.10"
 
-lazy val scala3_2 = "3.2.2"
+lazy val scala3_3 = "3.3.0"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.17.0",
-    description := "Functional language to describe ethical problems",
-    homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
+    version := "0.18.0",
+    description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
+    homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),
     licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     organizationName := "Responsible Artificial Intelligence - Umea University",
@@ -28,15 +28,15 @@ lazy val commonSettings =
      * [[https://repo1.maven.org/maven2/org/scala-lang/scalap/]]
      * [[https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/]]
      */
-    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_2),
-    scalaVersion := scala3_2,
+    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_3),
+    scalaVersion := scala3_3,
     /**
      * ScalaTest
      * [[https://www.scalatest.org]]
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.16" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,

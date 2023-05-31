@@ -38,13 +38,13 @@ class S
     lambda a --> add_for (a)
 
   add_for (a : nat) : nat =
-    t.from_non_negative( (t.to_Int (k) + 1) + t.to_Int (a) )
+    t .from_non_negative ( (t .to_Int (k) + 1) + t .to_Int (a) )
 
   mul : nat ->  nat =
     lambda a --> mul_for (a)
 
   mul_for (a : nat) : nat =
-    t.from_non_negative( (t.to_Int (k) + 1) * t.to_Int (a) )
+    t .from_non_negative ( (t .to_Int (k) + 1) * t .to_Int (a) )
 
 end
 
@@ -72,6 +72,6 @@ class IntNat
   to_Int (a : nat) : Int =
     match a
       case S_ (k) ==> 1 + to_Int (k)
-      case x ==> 0
+      case otherwise ==> 0
 
 end

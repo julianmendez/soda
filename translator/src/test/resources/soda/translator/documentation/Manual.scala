@@ -159,7 +159,7 @@ trait Item
 
   lazy val accept : Visitor => Boolean =
      visitor =>
-      visitor.visit (this)
+      visitor .visit (this)
 
 }
 
@@ -212,12 +212,12 @@ trait Manual
    * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map (  element => element + 1)
+    sequence .map ( element => element + 1)
 
   /* A synonym for `lambda` is `any`, which sometimes brings more readability. */
 
   def plus_two (sequence : Seq [Int] ) : Seq [Int] =
-    sequence.map (  element => element + 2)
+    sequence .map ( element => element + 2)
 
   /* Boolean values `false` and `true` are available. */
 
@@ -247,7 +247,7 @@ trait Manual
   def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case x => if_false
+      case otherwise => if_false
     }
 
   def sum (n : Int) =
@@ -289,15 +289,15 @@ case class FactorialConcise_ () extends FactorialConcise
 trait FoldWhile
 {
 
+  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence.isEmpty || ( ! condition (current_value) (sequence.head) )
+    if ( sequence.isEmpty || (! condition (current_value) (sequence.head) )
     ) current_value
-    else _tailrec_fold_while (sequence.tail) (next_value_function (current_value) (sequence.head) ) (next_value_function) (condition)
-
-  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
 }
 
@@ -306,15 +306,15 @@ case class FoldWhile_ () extends FoldWhile
 trait Range
 {
 
+  def apply (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
-    else _tailrec_range (n - 1) (sequence.+: (n - 1) )
-
-  def apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
+    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
 
 }
 

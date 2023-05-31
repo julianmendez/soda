@@ -19,32 +19,33 @@ class MicroTranslatorToScala
   _ba = BlockAnnotationEnum_ ()
 
   _functions_and_tests =
-    Seq (_ba.function_definition, _ba.test_declaration)
+    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
 
   _class_declarations =
-    Seq (_ba.class_alias, _ba.class_beginning, _ba.abstract_declaration)
+    Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
 
   _definitions_and_declarations =
-    _functions_and_tests.++ (_class_declarations)
+    _functions_and_tests .++ (_class_declarations)
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      _translation_pipeline.translate (block)
+      _translation_pipeline .translate (block)
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ (),
-        ConditionalBlockTranslator_ (_definitions_and_declarations, TokenReplacement_ ().replace (_tc.scala_non_soda) ),
-        ConditionalBlockTranslator_ (_functions_and_tests, FunctionDefinitionBlockTranslator_ () ),
-        ConditionalBlockTranslator_ (_class_declarations, TokenReplacement_ ().replace (_tc.type_symbol_translation) ),
-        ConditionalBlockTranslator_ (_functions_and_tests, TokenReplacement_ ().replace (_tc.all_translations) ),
-        ClassDeclarationBlockTranslator_ (),
-        ImportDeclarationBlockTranslator_ (),
-        AbstractDeclarationBlockTranslator_ (),
-        TheoremAndProofBlockTranslator_ (),
-        ClassEndBlockTranslator_ (),
-        MainClassBlockTranslator_ (),
+        TypeParameterBlockTranslator_ () ,
+        MatchCaseBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (_definitions_and_declarations , TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests , FunctionDefinitionBlockTranslator_ () ) ,
+        ConditionalBlockTranslator_ (_class_declarations , TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests , TokenReplacement_ () .replace (_tc .all_translations) ) ,
+        ClassDeclarationBlockTranslator_ () ,
+        ImportDeclarationBlockTranslator_ () ,
+        AbstractDeclarationBlockTranslator_ () ,
+        TheoremAndProofBlockTranslator_ () ,
+        ClassEndBlockTranslator_ () ,
+        MainClassBlockTranslator_ () ,
         ClassConstructorBlockTranslator_ ()
       )
     )

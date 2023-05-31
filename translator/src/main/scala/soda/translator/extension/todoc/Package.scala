@@ -23,7 +23,7 @@ trait DocBlockTranslator
 
   private lazy val _tc = TranslationConstantToDoc_ ()
 
-  private lazy val _comment_line_prefix = _sc.comment_line_symbol + _sc.space
+  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
@@ -32,17 +32,17 @@ trait DocBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
-      case x => _translate_source_code (x)
+      case otherwise => _translate_source_code (annotated_block)
     }
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ ().build (
+      BlockBuilder_ () .build (
         _append (
-          _tc.doc_closing_comment_translation) (
-          _prepend (_tc.doc_opening_comment_translation) (
+          _tc .doc_closing_comment_translation) (
+          _prepend (_tc .doc_opening_comment_translation) (
             _remove_comment_delimiter (
-              _remove_comment_line_prefix (block.lines)
+              _remove_comment_line_prefix (block .lines)
             )
           )
         )
@@ -55,12 +55,12 @@ trait DocBlockTranslator
     )
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
-    if ( content.isEmpty
+    if ( content .isEmpty
     ) Seq [String] (prefix)
-    else Seq[String] (prefix + content.head).++ (content.tail)
+    else Seq[String] (prefix + content .head) .++ (content .tail)
 
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
-    content.:+ (suffix)
+    content .:+ (suffix)
 
   private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
     _remove_last_delimiter (
@@ -68,39 +68,39 @@ trait DocBlockTranslator
     )
 
   private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
-    if ( content.isEmpty
+    if ( content .isEmpty
     ) content
     else _prepend (
-      _remove_prefix_in_line (_sc.documentation_comment_opening_symbol) (
-        _remove_prefix_in_line (_sc.comment_opening_symbol) (content.head)
+      _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .comment_opening_symbol) (content .head)
      )
-    ) (content.tail)
+    ) (content .tail)
 
   private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
-    ( _remove_last_delimiter_on_first_line (content.reverse) ).reverse
+    ( _remove_last_delimiter_on_first_line (content .reverse) ) .reverse
 
   private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
-    if ( content.isEmpty
+    if ( content .isEmpty
     ) content
-    else _prepend (_remove_suffix_in_line (_sc.comment_closing_symbol) (content.head) ) (content.tail)
+    else _prepend (_remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
 
   private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
-    content.map (  line => _remove_prefix_in_line (_comment_line_prefix) (line) )
+    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
 
   private def _remove_prefix_in_line (prefix : String) (line : String) : String =
-    _remove_prefix_in_line_at (line.indexOf (prefix) ) (prefix) (line)
+    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
 
   private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
     if ( index >= 0
-    ) line.substring (index + prefix.length)
+    ) line .substring (index + prefix .length)
     else line
 
   private def _remove_suffix_in_line (suffix : String) (line : String) : String =
-    _remove_suffix_in_line_at (line.lastIndexOf (suffix) ) (line)
+    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
 
   private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
     if ( index >= 0
-    ) line.substring (0, index)
+    ) line .substring (0, index)
     else line
 
 }
@@ -121,15 +121,15 @@ trait MicroTranslatorToDoc
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockTranslatorPipeline_
 
-  private lazy val _function_definition = BlockAnnotationEnum_ ().function_definition
+  private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
 
-  private lazy val _test_declaration = BlockAnnotationEnum_ ().test_declaration
+  private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
 
-  lazy val functions_and_tests = Seq (_function_definition, _test_declaration)
+  lazy val functions_and_tests = Seq (_function_definition , _test_declaration)
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      _translation_pipeline.translate (block)
+      _translation_pipeline .translate (block)
 
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
@@ -206,7 +206,7 @@ trait TranslationConstantToDoc
   lazy val doc_end_lstlisting = "\\end{lstlisting}"
 
   lazy val soda_reserved_words_csv =
-    (soda_constant.soda_reserved_words_words_only.++ (soda_constant.soda_reserved_words_annotations_only) ).mkString (", ")
+    (soda_constant .soda_reserved_words_words_only .++ (soda_constant .soda_reserved_words_annotations_only) ) .mkString (", ")
 
   lazy val doc_packages : Seq [String] =
     Seq (
@@ -217,14 +217,14 @@ trait TranslationConstantToDoc
     )
 
   lazy val doc_packages_text : String =
-    doc_packages.mkString ("\n")
+    doc_packages .mkString ("\n")
 
   lazy val doc_language_definitions : Seq [String] =
     Seq (
       "\\lstdefinelanguage{Soda}{",
       "    morekeywords={" + soda_reserved_words_csv + "},",
       "    sensitive=true,",
-      "    morecomment=[s]{" + soda_constant.comment_opening_symbol + "}{" + soda_constant.comment_closing_symbol + "},",
+      "    morecomment=[s]{" + soda_constant .comment_opening_symbol + "}{" + soda_constant .comment_closing_symbol + "},",
       "   morestring=[b]\"",
       "}",
       "",
@@ -247,7 +247,7 @@ trait TranslationConstantToDoc
     )
 
   lazy val doc_language_definitions_text : String =
-    doc_language_definitions.mkString ("\n")
+    doc_language_definitions .mkString ("\n")
 
 }
 
@@ -290,39 +290,39 @@ trait TranslatorToDoc
       execute_for (arguments)
 
   def execute_for (arguments : Seq [String] ) : Boolean =
-    arguments.length match  {
+    arguments .length match  {
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case x => false
+      case otherwise => false
     }
 
   def translate_content (input : String) : String =
-    _tc.doc_header + _translator.translate (input) + _tc.doc_footer
+    _tc .doc_header + _translator .translate (input) + _tc .doc_footer
 
   private def _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start, _process_soda_file).process ()
+    DirectoryProcessor_ (start , _process_soda_file) .process ()
 
   private def _process_soda_file (file : File) : Boolean =
-    _process_soda_file_with (_get_input_output_file_names (file.getAbsolutePath) )
+    _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   private def _process_soda_file_with (pair : FileNamePair) : Boolean =
-    _translate (pair.input_file_name) (pair.output_file_name)
+    _translate (pair .input_file_name) (pair .output_file_name)
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
-    if ( input_name.endsWith (_soda_extension)
-    ) FileNamePair_ (input_name,
-      input_name.substring (0, input_name.length - _soda_extension.length) + _doc_extension)
-    else FileNamePair_ (input_name + _soda_extension, input_name + _doc_extension)
+    if ( input_name .endsWith (_soda_extension)
+    ) FileNamePair_ (input_name ,
+      input_name .substring (0 , input_name .length - _soda_extension .length) + _doc_extension)
+    else FileNamePair_ (input_name + _soda_extension , input_name + _doc_extension)
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ ().read_file (input_file_name) ) (
+      SimpleFileReader_ () .read_file (input_file_name) ) (
       output_file_name
     )
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ ().write_file (
+    SimpleFileWriter_ () .write_file (
       output_file_name) (
       content = translate_content (input)
     )

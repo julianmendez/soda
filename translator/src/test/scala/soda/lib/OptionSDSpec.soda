@@ -11,21 +11,24 @@ class OptionSDSpec ()
 
   result_if_empty : String = "It is empty."
 
-  result_if_non_empty (value : String) : String = "Its value is " + value + "."
+  result_if_non_empty (value : String) : String =
+    "Its value is " + value + "."
 
-  int_to_string (n : Int) : String = "" + n
+  int_to_string (n : Int) : String =
+    "" + n
 
-  maybe_int_to_string (n : Int) : SomeSD_ [String] = SomeSD_ [String] ("" + n)
+  maybe_int_to_string (n : Int) : SomeSD_ [String] =
+    SomeSD_ [String] ("" + n)
 
   maybe_string_to_int (s : String) : OptionSD [Int] =
-    OptionSDBuilder_ ().build (
-      Try ( Integer.parseInt (s.trim) )
+    OptionSDBuilder_ () .build (
+      Try (Integer .parseInt (s .trim) )
         .toOption
     )
 
   test ("should test an empty option") (
     check (
-      obtained := empty_opt.isEmpty and not empty_opt.isDefined and not empty_opt.isNonEmpty
+      obtained := empty_opt .isEmpty and not empty_opt .isDefined and not empty_opt .isNonEmpty
     ) (
       expected := true
     )
@@ -35,7 +38,7 @@ class OptionSDSpec ()
 
   test ("should test a non empty option") (
     check (
-      obtained := not non_empty_opt.isEmpty and non_empty_opt.isDefined and non_empty_opt.isNonEmpty
+      obtained := not non_empty_opt .isEmpty and non_empty_opt .isDefined and non_empty_opt .isNonEmpty
     ) (
       expected := true
     )
@@ -45,7 +48,7 @@ class OptionSDSpec ()
 
   test ("should get a default value, when empty") (
     check (
-      obtained := (NoneSD_ [Int] () ).getOrElse (1)
+      obtained := (NoneSD_ [Int] () ) .getOrElse (1)
     ) (
       expected := 1
     )
@@ -53,7 +56,7 @@ class OptionSDSpec ()
 
   test ("should get a value") (
     check (
-      obtained := (SomeSD_ [Int] (2) ).getOrElse (1)
+      obtained := (SomeSD_ [Int] (2) ) .getOrElse (1)
     ) (
       expected := 2
     )
@@ -61,7 +64,7 @@ class OptionSDSpec ()
 
   test ("should open an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ).opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+      obtained := (NoneSD_ [String] () ) .opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
     ) (
       expected := "It is empty."
     )
@@ -69,7 +72,7 @@ class OptionSDSpec ()
 
   test ("should open an non empty option") (
     check (
-      obtained := (SomeSD_ [String] ("0") ).opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+      obtained := (SomeSD_ [String] ("0") ) .opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
     ) (
       expected := "Its value is 0."
     )
@@ -77,7 +80,7 @@ class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ).fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+      obtained := (NoneSD_ [String] () ) .fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
     ) (
       expected := "It is empty."
     )
@@ -85,7 +88,7 @@ class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained := (SomeSD_ [String] ("0") ).fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+      obtained := (SomeSD_ [String] ("0") ) .fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
     ) (
       expected := "Its value is 0."
     )
@@ -93,7 +96,7 @@ class OptionSDSpec ()
 
   test ("should map empty to empty") (
     check (
-      obtained := (NoneSD_ [Int] () ).map (int_to_string)
+      obtained := (NoneSD_ [Int] () ) .map (int_to_string)
     ) (
       expected := NoneSD_ [String] ()
     )
@@ -101,7 +104,7 @@ class OptionSDSpec ()
 
   test ("should map a non-empty to another non-empty") (
     check (
-      obtained := (SomeSD_ [Int] (2) ).map (int_to_string)
+      obtained := (SomeSD_ [Int] (2) ) .map (int_to_string)
     ) (
       expected := SomeSD_ [String] ("2")
     )
@@ -109,7 +112,7 @@ class OptionSDSpec ()
 
   test ("should flat map empty to empty") (
     check (
-      obtained := (NoneSD_ [Int] () ).flatMap (maybe_int_to_string)
+      obtained := (NoneSD_ [Int] () ) .flatMap (maybe_int_to_string)
     ) (
       expected := NoneSD_ [String] ()
     )
@@ -117,7 +120,7 @@ class OptionSDSpec ()
 
   test ("should flat map a non-empty to another non-empty") (
     check (
-      obtained := (SomeSD_ [Int] (2) ).flatMap (maybe_int_to_string)
+      obtained := (SomeSD_ [Int] (2) ) .flatMap (maybe_int_to_string)
     ) (
       expected := SomeSD_ [String] ("2")
     )
@@ -126,11 +129,11 @@ class OptionSDSpec ()
   test ("should try how successive applications of open works") (
     check (
       obtained :=
-        maybe_string_to_int ("1").opt (ifEmpty := _empty_opt ) (
+        maybe_string_to_int ("1") .opt (ifEmpty := _empty_opt ) (
           ifNonEmpty := lambda a -->
-            maybe_string_to_int ("2").opt (ifEmpty := _empty_opt ) (
+            maybe_string_to_int ("2") .opt (ifEmpty := _empty_opt ) (
               ifNonEmpty := lambda b -->
-                maybe_string_to_int ("3").opt (ifEmpty := _empty_opt ) (
+                maybe_string_to_int ("3") .opt (ifEmpty := _empty_opt ) (
                   ifNonEmpty := lambda c -->
                     SomeSD_ (a + b + c) ) ) )
     ) (
@@ -142,7 +145,7 @@ class OptionSDSpec ()
 
   test ("toOption with non empty option") (
     check (
-      obtained := (SomeSD_ [Int] (1) ).toOption
+      obtained := (SomeSD_ [Int] (1) ) .toOption
     ) (
       expected := Some (1)
     )
@@ -150,7 +153,7 @@ class OptionSDSpec ()
 
   test ("toOption with another non empty option") (
     check (
-      obtained := (SomeSD_ [Int] (2) ).toOption
+      obtained := (SomeSD_ [Int] (2) ) .toOption
     ) (
       expected := Some (2)
     )
@@ -158,7 +161,7 @@ class OptionSDSpec ()
 
   test ("toOption with empty option") (
     check (
-      obtained := (NoneSD_ [Int] () ).toOption
+      obtained := (NoneSD_ [Int] () ) .toOption
     ) (
       expected := None
     )
@@ -166,7 +169,7 @@ class OptionSDSpec ()
 
   test ("toSeq with non empty option") (
     check (
-      obtained := (SomeSD_ (1) ).toSeq
+      obtained := (SomeSD_ (1) ) .toSeq
     ) (
       expected := Seq (1)
     )
@@ -174,7 +177,7 @@ class OptionSDSpec ()
 
   test ("toSeq with another non empty option") (
     check (
-      obtained := (SomeSD_ (2) ).toSeq
+      obtained := (SomeSD_ (2) ) .toSeq
     ) (
       expected := Seq (2)
     )
@@ -182,7 +185,7 @@ class OptionSDSpec ()
 
   test ("toSeq with empty option") (
     check (
-      obtained := (NoneSD_ () ).toSeq
+      obtained := (NoneSD_ () ) .toSeq
     ) (
       expected := Seq ()
     )
@@ -190,7 +193,7 @@ class OptionSDSpec ()
 
   test ("filter should work for None") (
     check (
-      obtained := (NoneSD_ [Int] () ).filter ( lambda x --> true)
+      obtained := (NoneSD_ [Int] () ) .filter (lambda x --> true)
     ) (
       expected := NoneSD_ [Int] ()
     )
@@ -198,7 +201,7 @@ class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate does not hold") (
     check (
-      obtained := (SomeSD_ [Int] (0) ).filter ( lambda x --> x > 0)
+      obtained := (SomeSD_ [Int] (0) ) .filter (lambda x --> x > 0)
     ) (
       expected := NoneSD_ [Int] ()
     )
@@ -206,7 +209,7 @@ class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate holds") (
     check (
-      obtained := (SomeSD_ [Int] (1) ).filter ( lambda x --> x > 0)
+      obtained := (SomeSD_ [Int] (1) ) .filter (lambda x --> x > 0)
     ) (
       expected := SomeSD_ [Int] (1)
     )

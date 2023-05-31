@@ -10,11 +10,11 @@ class TheoremBlockAnnotation
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.parser.SodaConstant_
 
-  identifier = BlockAnnotationEnum_ ().theorem_block
+  identifier = BlockAnnotationEnum_ () .theorem_block
 
   applies : Boolean =
-    block.readable_lines.nonEmpty and
-    (block.readable_lines.head.line.trim == SodaConstant_ ().theorem_reserved_word)
+    block .readable_lines .nonEmpty and
+    (block .readable_lines .head .line .trim == SodaConstant_ () .theorem_reserved_word)
 
 end
 

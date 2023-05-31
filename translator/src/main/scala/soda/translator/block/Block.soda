@@ -16,11 +16,11 @@ class Block
 
   lines : Seq [String] =
     annotated_lines
-      .map ( lambda x --> x.line)
+      .map (lambda x --> x .line)
 
   readable_lines : Seq [AnnotatedLine] =
     annotated_lines
-      .filter ( lambda line --> not line.is_comment)
+      .filter (lambda line --> not line .is_comment)
 
 end
 

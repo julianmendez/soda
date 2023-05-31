@@ -19,7 +19,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a small snippet") (
     check (
-      obtained := instance.translate ("  input_lines = Seq (" +
+      obtained := instance .translate ("  input_lines = Seq (" +
         "\n    \"  f ( x : Int,\\t\", " +
         "\n    \"     y : Int) =\"," +
         "\n    \"       x + y\")" +
@@ -36,7 +36,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained := instance.translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained := instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
       expected := " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
@@ -44,7 +44,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained := instance.translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained := instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
       expected := " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
@@ -52,7 +52,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate classes") (
     check (
-      obtained := instance.translate ("class D" +
+      obtained := instance .translate ("class D" +
         "\n" +
         "\n  f (x : Int) : Int = x + 1" +
         "\n" +
@@ -137,7 +137,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a class in a class") (
     check (
-      obtained := instance.translate ("class D" +
+      obtained := instance .translate ("class D" +
         "\n" +
         "\n  f (x : Int) : Int = x + 1" +
         "\n" +
@@ -183,7 +183,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained := instance.translate ("class A [T] = B [T]" +
+      obtained := instance .translate ("class A [T] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
@@ -203,7 +203,7 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a tuple assignment") (
     check (
-      obtained := instance.translate ("  (x, y) = (f (a), g (a))" +
+      obtained := instance .translate ("  (x, y) = (f (a), g (a))" +
         "\n" +
         "\n  (p, q) =" +
         "\n    h (1, 2)" +
@@ -220,11 +220,11 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a pattern matching") (
     check (
-      obtained := instance.translate ("fibo (n : Int) : Int = " +
+      obtained := instance .translate ("fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -232,7 +232,7 @@ class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -240,11 +240,11 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate another pattern matching") (
     check (
-      obtained := instance.translate ("fibo (n : Int) : Int = " +
+      obtained := instance .translate ("fibo (n : Int) : Int = " +
         "\n  match n" +
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
-        "\n    case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -252,7 +252,7 @@ class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n    case 0 => 1 " +
         "\n    case 1 => 1 " +
-        "\n    case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -260,11 +260,11 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should ignore a pattern matching written in the Scala style") (
     check (
-      obtained := instance.translate ("fibo (n : Int) : Int = " +
+      obtained := instance .translate ("fibo (n : Int) : Int = " +
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case x ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -272,14 +272,14 @@ class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case x => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
     )
   )
 
-  test ("should translate an explicit lambda expression") (
+  test ("should translate an explicit lambda expression using lambda") (
     check (
-      obtained := instance.translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
+      obtained := instance .translate ("plus_1 : Int = lambda (x : Int) --> x + 1" +
         "\n"
       )
     ) (
@@ -288,13 +288,26 @@ class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate another explicit lambda expression") (
+  test ("should translate another explicit lambda expression using any") (
     check (
-      obtained := instance.translate ("plus_1 : Int = any (x : Int) --> x + 1" +
+      obtained := instance .translate ("plus_1 : Int = any (x : Int) --> x + 1" +
         "\n"
       )
     ) (
       expected := "lazy val plus_1 : Int =  (x : Int) => x + 1" +
+        "\n"
+    )
+  )
+
+  test ("should translate another explicit lambda expression containing parentheses") (
+    check (
+      obtained := instance .translate ("plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+         "\n  s .map (lambda x --> x + 1)" +
+        "\n"
+      )
+    ) (
+      expected := "def plus_1 (s : Seq [Int] ) : Seq [Int] =" +
+        "\n  s .map ( x => x + 1)" +
         "\n"
     )
   )

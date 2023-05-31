@@ -80,8 +80,8 @@ trait Example
 
   def min_max (a : Int) (b : Int) : MinMaxPair =
     MinMaxPair_ (
-      min = MaxAndMin_ ().min (a) (b),
-      max = MaxAndMin_ ().max (a) (b)
+      min = MaxAndMin_ () .min (a) (b),
+      max = MaxAndMin_ () .max (a) (b)
     )
 
 }
@@ -101,7 +101,7 @@ trait ComparableMax [A <: Comparable]
 {
 
   def max (a : A) (b : A) : A =
-    if ( a.is_greater_than (b)
+    if ( a .is_greater_than (b)
     ) a
     else b
 

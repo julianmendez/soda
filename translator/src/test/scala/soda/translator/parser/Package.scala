@@ -16,7 +16,7 @@ case class BlockSpec ()
   def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val input =  ("\n" +
+  lazy val input = ("\n" +
     "\n/** This is an example */" +
     "\n* Example () {" +
     "\n  /* This is a comment */" +
@@ -29,16 +29,16 @@ case class BlockSpec ()
   /* This is to test how to find commented text. */
   test ("should find commented text") (
     check (
-      obtained = BlockBuilder_ ().build (input).annotated_lines
+      obtained = BlockBuilder_ () .build (input) .annotated_lines
     ) (
       expected = Seq (
-        AnnotatedLine_ ("", is_comment = false),
-        AnnotatedLine_ ("", is_comment = false),
-        AnnotatedLine_ ("/** This is an example */", is_comment = true),
-        AnnotatedLine_ ("* Example () {", is_comment = false),
-        AnnotatedLine_ ("  /* This is a comment */", is_comment = true),
-        AnnotatedLine_ ("  a = \"/** this is not a comment */\"", is_comment = false),
-        AnnotatedLine_ ("}", is_comment = false)
+        AnnotatedLine_ ("" , is_comment = false),
+        AnnotatedLine_ ("" , is_comment = false),
+        AnnotatedLine_ ("/** This is an example */" , is_comment = true),
+        AnnotatedLine_ ("* Example () {" , is_comment = false),
+        AnnotatedLine_ ("  /* This is a comment */" , is_comment = true),
+        AnnotatedLine_ ("  a = \"/** this is not a comment */\"" , is_comment = false),
+        AnnotatedLine_ ("}" , is_comment = false)
       )
     )
   )
@@ -85,6 +85,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
+    "\n      .map (\u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n      .map ( \u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n" +
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
@@ -135,6 +136,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n" +
     "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
     "\n    sequence" +
+    "\n      .map (lambda elem --> my_function (x := elem) (y := my_constant) )" +
     "\n      .map ( lambda elem --> my_function (x := elem) (y := my_constant) )" +
     "\n" +
     "\n  my_xor (x : Boolean) (y : Boolean) : Boolean =" +
@@ -165,7 +167,7 @@ case class PreprocessorSequenceTranslatorSpec ()
 
   test ("should test the preprocessor") (
     check (
-      obtained = block_processor.translate (example_program)
+      obtained = block_processor .translate (example_program)
     ) (
       expected = expected_output
     )

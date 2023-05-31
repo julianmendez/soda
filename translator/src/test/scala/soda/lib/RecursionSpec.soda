@@ -6,7 +6,7 @@ class RecursionSpec ()
   check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  example_seq : Seq [Int] = Seq (0, 1, 1, 2, 3, 5, 8)
+  example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)
 
   _fold_while = FoldWhile_ ()
 
@@ -16,44 +16,44 @@ class RecursionSpec ()
 
   test ("fold left while with Seq") (
     check (
-      obtained := _fold_while.apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
+      obtained := _fold_while .apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
     ) (
-      expected := Seq ("103", "102", "101", "101", "100")
+      expected := Seq ("103" , "102" , "101" , "101" , "100")
     )
   )
 
   _fold0_initial_value = Seq [String] ()
 
   _fold0_next_value_function : Seq [String] -> Int -> Seq [String] =
-    lambda (s : Seq [String]) --> lambda (e : Int) --> (s.+: ("" + (e + 100) ) )
+    lambda (s : Seq [String] ) --> lambda (e : Int) --> (s .+: ("" + (e + 100) ) )
 
   _fold0_condition : Seq [String] -> Int -> Boolean =
     lambda (s : Seq [String] ) --> lambda (e : Int) --> (e < 5)
 
   test ("fold left with Seq") (
     check (
-      obtained := _fold.apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
+      obtained := _fold .apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
     ) (
-      expected := Seq ("108", "105", "103", "102", "101", "101", "100")
+      expected := Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )
   )
 
   _fold1_initial_value = Seq [String] ()
 
   _fold1_next_value_function : Seq [String] -> Int -> Seq [String] =
-    lambda (s : Seq [String] ) --> lambda (e : Int) --> (s.+: ("" + (e + 100) ) )
+    lambda (s : Seq [String] ) --> lambda (e : Int) --> (s .+: ("" + (e + 100) ) )
 
   test ("range with positive number") (
     check (
-      obtained := _range.apply (8)
+      obtained := _range .apply (8)
     ) (
-      expected := Seq (0, 1, 2, 3, 4, 5, 6, 7)
+      expected := Seq (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
   )
 
   test ("range with zero size") (
     check (
-      obtained := _range.apply (-1)
+      obtained := _range .apply (-1)
     ) (
       expected := Seq ()
     )
@@ -61,7 +61,7 @@ class RecursionSpec ()
 
   test ("range with negative number") (
     check (
-      obtained := _range.apply (-1)
+      obtained := _range .apply (-1)
     ) (
       expected := Seq ()
     )

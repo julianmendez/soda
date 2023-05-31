@@ -9,13 +9,13 @@ class SortExampleSpec ()
   check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  sorted_sequence = Seq (1, 3, 5, 5, 8, 9)
+  sorted_sequence = Seq (1 , 3 , 5 , 5 , 8 , 9)
 
-  unsorted_sequence = Seq (1, 3, 5, 4, 8, 9)
+  unsorted_sequence = Seq (1 , 3 , 5 , 4 , 8 , 9)
 
   test ("test sorted sequence with at") (
     check (
-      obtained := SortExampleWithAt_ ().is_sorted (sorted_sequence)
+      obtained := SortExampleWithAt_ () .is_sorted (sorted_sequence)
     ) (
       expected := true
     )
@@ -23,7 +23,7 @@ class SortExampleSpec ()
 
   test ("test unsorted sequence with at") (
     check (
-      obtained := SortExampleWithAt_ ().is_sorted (unsorted_sequence)
+      obtained := SortExampleWithAt_ () .is_sorted (unsorted_sequence)
     ) (
       expected := false
     )
@@ -31,7 +31,7 @@ class SortExampleSpec ()
 
   test ("test sorted sequence with zip") (
     check (
-      obtained := SortExampleWithZip_ ().is_sorted (sorted_sequence)
+      obtained := SortExampleWithZip_ () .is_sorted (sorted_sequence)
     ) (
       expected := true
     )
@@ -39,7 +39,7 @@ class SortExampleSpec ()
 
   test ("test unsorted sequence with zip") (
     check (
-      obtained := SortExampleWithZip_ ().is_sorted (unsorted_sequence)
+      obtained := SortExampleWithZip_ () .is_sorted (unsorted_sequence)
     ) (
       expected := false
     )
@@ -47,33 +47,33 @@ class SortExampleSpec ()
 
   test ("insert sorted simple") (
     check (
-      obtained := SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 6, 8, 9) ) (5)
+      obtained := SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
     ) (
-      expected := Seq (1, 2, 3, 5, 6, 8, 9)
+      expected := Seq (1 , 2 , 3 , 5 , 6 , 8 , 9)
     )
   )
 
   test ("insert sorted with repetition") (
     check (
-      obtained := SortAlgorithmExampleWithFold_ ().insert_sorted (Seq (1, 2, 3, 5, 6, 8, 9) ) (5)
+      obtained := SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
     ) (
-      expected := Seq (1, 2, 3, 5, 5, 6, 8, 9)
+      expected := Seq (1 , 2 , 3 , 5 , 5 , 6 , 8 , 9)
     )
   )
 
   test ("sort unsorted sequence") (
     check (
-      obtained := SortAlgorithmExampleWithFold_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
+      obtained := SortAlgorithmExampleWithFold_ () .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
     ) (
-      expected := Seq (1, 3, 4, 5, 8 ,9)
+      expected := Seq (1 , 3 , 4 , 5 , 8 , 9)
     )
   )
 
   test ("sort unsorted sequence applying constraints to verify correctness") (
     check (
-      obtained := ConstrainedSortAlgorithm_ ().sort (Seq (3, 5, 1, 9, 8, 4) )
+      obtained := ConstrainedSortAlgorithm_ () .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
     ) (
-      expected := SomeSD_ (Seq (1, 3, 4, 5, 8 ,9) )
+      expected := SomeSD_ (Seq (1 , 3 , 4 , 5 , 8 , 9) )
     )
   )
 
@@ -81,11 +81,11 @@ class SortExampleSpec ()
     check (
       obtained :=
         SortedSequenceBuilder_ [Integer] ()
-          .build ( Seq (3, 5, 1, 9, 8, 4).map ( lambda x -> Integer.valueOf (x) ) )
+          .build (Seq (3 , 5 , 1 , 9 , 8 , 4) .map (lambda x -> Integer .valueOf (x) ) )
           .sequence
-          .map ( lambda x --> x.intValue)
+          .map (lambda x --> x .intValue)
     ) (
-      expected := Seq (1, 3, 4, 5, 8 ,9)
+      expected := Seq (1 , 3 , 4 , 5 , 8 , 9)
     )
   )
 

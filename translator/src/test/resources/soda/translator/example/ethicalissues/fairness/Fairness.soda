@@ -6,37 +6,26 @@ class Applicant
 
 end
 
-class AbstractFairness
-
-  abstract
-    score_difference_tolerance : Double
-    ranking_difference_tolerance : Double
-    rank : Applicant -> Double
-
-end
-
 class Fairness
-  extends
-    AbstractFairness
 
   abstract
     score_difference_tolerance : Double
     ranking_difference_tolerance : Double
     rank : Applicant -> Double
 
-  is_fair (alice : Applicant) (bob : Applicant) =
-    if have_similar_score (alice.background_score) (bob.background_score)
-    then have_similar_ranking (rank (alice) ) (rank (bob))
-    else true
+  difference_between (value : Double) (another_value : Double) : Double =
+    Math .abs (value - another_value)
 
-  have_similar_score (score1 : Double) (score2 : Double) =
-    difference_between (score1) (score2) < score_difference_tolerance
-
-  have_similar_ranking (result1 : Double) (result2 : Double) =
+  have_similar_ranking (result1 : Double) (result2 : Double) : Boolean =
     difference_between (result1) (result2) < ranking_difference_tolerance
 
-  difference_between (value : Double) (another_value : Double) =
-    Math.abs (value - another_value)
+  have_similar_score (score1 : Double) (score2 : Double) : Boolean =
+    difference_between (score1) (score2) < score_difference_tolerance
+
+  is_fair (alice : Applicant) (bob : Applicant) : Boolean =
+    if have_similar_score (alice .background_score) (bob .background_score)
+    then have_similar_ranking (rank (alice) ) (rank (bob) )
+    else true
 
 end
 

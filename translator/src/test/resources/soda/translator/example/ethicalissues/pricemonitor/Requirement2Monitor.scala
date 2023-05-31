@@ -25,7 +25,7 @@ trait Requirement2Monitor
     )
 
   def get_report_with (old_price : Int) (new_price : Int) : Report2 =
-    Report2_ (new_price <= old_price * acceptable_increase, old_price, new_price)
+    Report2_ (new_price <= old_price * acceptable_increase , old_price , new_price)
 
   def get_a_year_before (date_in_days : Int) : Int =
     date_in_days - 365

@@ -5,20 +5,20 @@ trait FizzBuzz
 
   lazy val buzz = "Buzz"
 
-  private lazy val _range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range_ ()
 
   lazy val apply : Seq [String] =
-    _range.apply (100)
-      .map (  (x : Int) => x + 1)
-      .map (_get_fizz_buzz_term)
+    range .apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
-  private def _get_fizz_buzz_term (n : Int) : String =
-    if ( _is_divisible_by (n) (15) ) fizz + buzz
-    else if ( _is_divisible_by (n) (3) ) fizz
-    else if ( _is_divisible_by (n) (5) ) buzz
-    else n.toString
+  def get_term (n : Int) : String =
+    if ( is_div (n) (15) ) fizz + buzz
+    else if ( is_div (n) (3) ) fizz
+    else if ( is_div (n) (5) ) buzz
+    else n .toString
 
-  private def _is_divisible_by (n : Int) (k : Int) : Boolean =
+  def is_div (n : Int) (k : Int) : Boolean =
     n % k == 0
 
 }

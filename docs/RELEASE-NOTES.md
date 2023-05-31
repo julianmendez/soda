@@ -1,4 +1,16 @@
 ---
+- - version: v0.18.0
+  - date: '2023-06-01'
+  - build: sbt '++ 3.3.0' clean compile test package assembly
+  - release: target/scala-3.3.0/soda-0.18.0.jar
+  - new_features:
+    - assumes translation to `Package.scala` files as default configuration for the Scala translator
+    - expects multiple type parameters to be between different square brackets, e.g. `MyPair [A] [B]` instead of `MyPair [A, B]`
+    - accepts intersection types (built with `&`) and union types (built with `|`)
+  - bug_fixes:
+    - fixes translation of reserved words after opening parenthesis
+    - fixes edge case of directory scanner when translating multiple Soda files to Scala
+    - fixes processing of Soda files when Package.soda file is missing
 - - version: v0.17.0
   - date: '2023-03-01'
   - build: sbt '++ 3.2.2' clean compile test package assembly
