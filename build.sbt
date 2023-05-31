@@ -36,7 +36,7 @@ lazy val commonSettings =
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.16" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,
