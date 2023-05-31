@@ -12,8 +12,8 @@ lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
     version := "0.18.0-SNAPSHOT",
-    description := "Functional language to describe ethical problems",
-    homepage := Some(url("https://bitbucket.org/mendezjulian/soda")),
+    description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
+    homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),
     licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     organizationName := "Responsible Artificial Intelligence - Umea University",
