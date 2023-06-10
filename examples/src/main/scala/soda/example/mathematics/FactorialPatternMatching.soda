@@ -1,16 +1,16 @@
 
 class FactorialPatternMatching
 
-  apply (n : Int) : Int =
-    if n < 0
-    then 0
-    else _tailrec_get_factorial (n) (1)
-
   @tailrec
   _tailrec_get_factorial (n : Int) (product : Int) : Int =
     match n
       case 0 ==> product
       case otherwise ==> _tailrec_get_factorial (n - 1) (n * product)
+
+  apply (n : Int) : Int =
+    if n < 0
+    then 0
+    else _tailrec_get_factorial (n) (1)
 
 end
 

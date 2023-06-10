@@ -11,14 +11,14 @@ trait UnfairPricingAgent
     PricingAgent
 {
 
+  def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
+    customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
+
   lazy val abs_get_price : Customer => Flight => Int => Int =
      customer =>
        flight =>
          date =>
           get_price_for (customer) (flight) (date)
-
-  def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
-    customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
 
 }
 
@@ -29,14 +29,14 @@ trait FairPricingAgent
     PricingAgent
 {
 
+  def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
+    100 * (flight .intermediate_airports .length + 1)
+
   lazy val abs_get_price : Customer => Flight => Int => Int =
      customer =>
        flight =>
          date =>
           get_price_for (customer) (flight) (date)
-
-  def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
-    100 * (flight .intermediate_airports .length + 1)
 
 }
 
@@ -113,6 +113,11 @@ case class PriceMonitorSpec ()
     )
   )
 
+  private lazy val _calendar_0 = new Calendar .Builder ()
+    .setTimeZone (TimeZone .getTimeZone ("UTC"))
+    .setDate (1970 , 0 , 1)
+    .build
+
   test ("get number of days for 1970-01-01") (
     check (
       obtained = fair_pricing_agent .get_days_for (_calendar_0 .getTime)
@@ -121,9 +126,9 @@ case class PriceMonitorSpec ()
     )
   )
 
-  private lazy val _calendar_0 = new Calendar .Builder ()
+  private lazy val _calendar_1 = new Calendar .Builder ()
     .setTimeZone (TimeZone .getTimeZone ("UTC"))
-    .setDate (1970 , 0 , 1)
+    .setDate (2021 , 8 , 28)
     .build
 
   test ("get number of days for 2021-09-28") (
@@ -133,11 +138,6 @@ case class PriceMonitorSpec ()
       expected = 18898
     )
   )
-
-  private lazy val _calendar_1 = new Calendar .Builder ()
-    .setTimeZone (TimeZone .getTimeZone ("UTC"))
-    .setDate (2021 , 8 , 28)
-    .build
 
 }
 

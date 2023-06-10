@@ -1,4 +1,12 @@
 
+class MyPair [A] [B]
+
+  abstract
+    key : A
+    value : B
+
+end
+
 class ScalaReservedWordEscaping
 
   var = "var"
@@ -20,14 +28,6 @@ class ScalaReservedWordEscaping
     lambda x -->
       lambda y -->
         f (x) (y)
-
-end
-
-class MyPair [A] [B]
-
-  abstract
-    key : A
-    value : B
 
 end
 

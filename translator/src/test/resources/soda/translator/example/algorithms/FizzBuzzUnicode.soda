@@ -7,16 +7,16 @@
 
   range = soda.lib.Range_ ()
 
-  apply : Seq [String] =
-    range.apply (100)
-      .map (λ x ⟶ x + 1)
-      .map (get_term)
-
   get_term (n : Int) : String =
     match (n % 3 , n % 5)
       case (0 , 0) ⟹ fizz + buzz
       case (0 , x) ⟹ fizz
       case (x , 0) ⟹ buzz
       case otherwise ⟹ n .toString
+
+  apply : Seq [String] =
+    range.apply (100)
+      .map (λ x ⟶ x + 1)
+      .map (get_term)
 
 ⎿

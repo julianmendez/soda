@@ -16,10 +16,8 @@ trait FizzBuzz
 
   lazy val range = soda.lib.Range_ ()
 
-  lazy val apply : Seq [String] =
-    range .apply (100)
-      .map ( x => x + 1)
-      .map (get_term)
+  def is_div (n : Int) (k : Int) : Boolean =
+    n % k == 0
 
   def get_term (n : Int) : String =
     if ( is_div (n) (15) ) fizz + buzz
@@ -27,8 +25,10 @@ trait FizzBuzz
     else if ( is_div (n) (5) ) buzz
     else n .toString
 
-  def is_div (n : Int) (k : Int) : Boolean =
-    n % k == 0
+  lazy val apply : Seq [String] =
+    range .apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
 }
 
@@ -44,11 +44,6 @@ trait FizzBuzzPatternMatching
 
   lazy val range = soda.lib.Range_ ()
 
-  lazy val apply : Seq [String] =
-    range .apply (100)
-      .map ( x => x + 1)
-      .map (get_term)
-
   def get_term (n : Int) : String =
     (n % 3 , n % 5) match  {
       case (0 , 0) => fizz + buzz
@@ -56,6 +51,11 @@ trait FizzBuzzPatternMatching
       case (x , 0) => buzz
       case otherwise => n .toString
     }
+
+  lazy val apply : Seq [String] =
+    range .apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
 }
 
@@ -71,11 +71,6 @@ trait FizzBuzzPatternUnicode
 
   lazy val range = soda.lib.Range_ ()
 
-  lazy val apply : Seq [String] =
-    range.apply (100)
-      .map ( x => x + 1)
-      .map (get_term)
-
   def get_term (n : Int) : String =
     (n % 3 , n % 5) match  {
       case (0 , 0) => fizz + buzz
@@ -83,6 +78,11 @@ trait FizzBuzzPatternUnicode
       case (x , 0) => buzz
       case otherwise => n .toString
     }
+
+  lazy val apply : Seq [String] =
+    range.apply (100)
+      .map ( x => x + 1)
+      .map (get_term)
 
 }
 
@@ -104,38 +104,6 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-
-trait Parameter
-{
-
-  def   name : String
-
-}
-
-case class Parameter_ (name : String) extends Parameter
-
-trait PatternMatching
-{
-
-  def get_value (p : Parameter) : Int =
-    p match  {
-      case Singleton_ (x) => x
-      case Pair_ (x , y) => (x + y) / 2
-      case Triplet_ (x , y , z) => (x + y + z) / 3
-      case otherwise => 0
-    }
-
-  def get_type_name (p : Parameter) : String =
-    p match  {
-      case Singleton_ (x) => (Singleton_ (x) ) .name + " (x)"
-      case Pair_ (x , y) => (Pair_ (x , y) ) .name + " (x , y)"
-      case Triplet_ (x , y , z) => (Triplet_ (x , y , z) ) .name + " (x , y , z)"
-      case otherwise => ""
-    }
-
-}
-
-case class PatternMatching_ () extends PatternMatching
 
 trait Singleton
   extends
@@ -179,17 +147,41 @@ trait Triplet
 
 case class Triplet_ (x : Int, y : Int, z : Int) extends Triplet
 
+trait Parameter
+{
+
+  def   name : String
+
+}
+
+case class Parameter_ (name : String) extends Parameter
+
+trait PatternMatching
+{
+
+  def get_value (p : Parameter) : Int =
+    p match  {
+      case Singleton_ (x) => x
+      case Pair_ (x , y) => (x + y) / 2
+      case Triplet_ (x , y , z) => (x + y + z) / 3
+      case otherwise => 0
+    }
+
+  def get_type_name (p : Parameter) : String =
+    p match  {
+      case Singleton_ (x) => (Singleton_ (x) ) .name + " (x)"
+      case Pair_ (x , y) => (Pair_ (x , y) ) .name + " (x , y)"
+      case Triplet_ (x , y , z) => (Triplet_ (x , y , z) ) .name + " (x , y , z)"
+      case otherwise => ""
+    }
+
+}
+
+case class PatternMatching_ () extends PatternMatching
+
 
 trait SaladMaker
 {
-
-  def apply [Ingredient, Salad]
-    (list_of_ingredients : Seq [Ingredient] )
-    (initial_bowl : Salad)
-    (next_ingredient_function : Salad => Ingredient => Salad)
-    (condition_to_continue : Salad => Ingredient => Boolean)
-      : Salad =
-    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -203,10 +195,28 @@ trait SaladMaker
     ) salad_so_far
     else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
 
+  def apply [Ingredient, Salad]
+    (list_of_ingredients : Seq [Ingredient] )
+    (initial_bowl : Salad)
+    (next_ingredient_function : Salad => Ingredient => Salad)
+    (condition_to_continue : Salad => Ingredient => Boolean)
+      : Salad =
+    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
+
 }
 
 case class SaladMaker_ () extends SaladMaker
 
+
+trait MyPair [A, B]
+{
+
+  def   key : A
+  def   value : B
+
+}
+
+case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
 
 trait ScalaReservedWordEscaping
 {
@@ -235,16 +245,6 @@ trait ScalaReservedWordEscaping
 
 case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
 
-trait MyPair [A, B]
-{
-
-  def   key : A
-  def   value : B
-
-}
-
-case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
-
 
 trait SortExample
 {
@@ -260,14 +260,14 @@ trait SortExampleWithAt
     SortExample
 {
 
-  lazy val is_sorted : Seq [Int] => Boolean =
-     sequence => is_sorted_for (sequence)
-
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
       .filter ( index => index > 0)
       .forall ( index => sequence .apply (index - 1) <= sequence .apply (index) )
+
+  lazy val is_sorted : Seq [Int] => Boolean =
+     sequence => is_sorted_for (sequence)
 
 }
 
@@ -278,13 +278,13 @@ trait SortExampleWithZip
     SortExample
 {
 
-  lazy val is_sorted : Seq [Int] => Boolean =
-     sequence => is_sorted_for (sequence)
-
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .zip (sequence .tail)
       .forall ( pair => (pair ._1 <= pair ._2) )
+
+  lazy val is_sorted : Seq [Int] => Boolean =
+     sequence => is_sorted_for (sequence)
 
 }
 
@@ -308,18 +308,21 @@ trait SortAlgorithmExampleWithFold
 
   private lazy val _fold = Fold_ ()
 
-  lazy val sort : Seq [Int] => Seq [Int] =
-     sequence => sort_for (sequence)
+  private lazy val _initial_value = Seq [Int] ()
+
+  private def _next_value_function (current_sequence : Seq [Int] ) (elem : Int) : Seq [Int] =
+    insert_sorted (current_sequence) (elem)
 
   def sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if ( sequence .length < 2
     ) sequence
     else _fold .apply (sequence) (_initial_value) (_next_value_function)
 
-  private lazy val _initial_value = Seq [Int] ()
+  lazy val sort : Seq [Int] => Seq [Int] =
+     sequence => sort_for (sequence)
 
-  private def _next_value_function (current_sequence : Seq [Int] ) (elem : Int) : Seq [Int] =
-    insert_sorted (current_sequence) (elem)
+  def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
+    first_part .++ (middle .++ (last_part) )
 
   def insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
     concatenate (
@@ -327,9 +330,6 @@ trait SortAlgorithmExampleWithFold
       middle = Seq (element) ) (
       last_part = sequence .dropWhile ( x => x < element)
     )
-
-  def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
-    first_part .++ (middle .++ (last_part) )
 
 }
 
@@ -342,13 +342,13 @@ trait ConstrainedSortAlgorithm
   import   soda.lib.SomeSD_
   import   soda.lib.NoneSD_
 
-  def sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )
-
   def sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
     if ( SortExampleWithZip_ () .is_sorted (sorted_sequence)
     ) SomeSD_ (sorted_sequence)
     else NoneSD_ [Seq [Int] ] ()
+
+  def sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
+    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )
 
 }
 
@@ -372,11 +372,11 @@ trait EmptySortedSequence [A <: Comparable [A] ]
 
   lazy val sequence = Seq ()
 
-  lazy val add : A => SortedSequence [A] =
-     element => add_for (element)
-
   def add_for (element : A) : SortedSequence [A] =
     NonEmptySortedSequence_ (Seq (element) )
+
+  lazy val add : A => SortedSequence [A] =
+     element => add_for (element)
 
   lazy val invariant : Boolean = true
 
@@ -406,11 +406,11 @@ trait NonEmptySortedSequence [A <: Comparable [A] ]
 
   lazy val aux = NonEmptySortedSequenceAux_ [A] ()
 
-  lazy val add : A => SortedSequence [A] =
-     element => add_for (element)
-
   def add_for (element : A) : SortedSequence [A] =
     NonEmptySortedSequence_ (aux .insert_sorted (sequence) (element) )
+
+  lazy val add : A => SortedSequence [A] =
+     element => add_for (element)
 
   lazy val invariant : Boolean = aux .is_sorted (sequence)
 
@@ -429,15 +429,15 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
       .zip (other_sequence .tail)
       .forall ( pair => is_less_than (pair ._1) (pair ._2) )
 
+  def concatenate (first_part : Seq [A] ) (middle : Seq [A] ) (last_part : Seq [A] ) : Seq [A] =
+    first_part .++ (middle .++ (last_part) )
+
   def insert_sorted (original_sequence : Seq [A] ) (element : A) : Seq [A] =
     concatenate (
       first_part = original_sequence.takeWhile ( x => is_less_than (x) (element) ) ) (
       middle = Seq (element) ) (
       last_part = original_sequence.dropWhile ( x => is_less_than (x) (element) )
     )
-
-  def concatenate (first_part : Seq [A] ) (middle : Seq [A] ) (last_part : Seq [A] ) : Seq [A] =
-    first_part .++ (middle .++ (last_part) )
 
 }
 
@@ -450,13 +450,13 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 
   private lazy val _fold = Fold_ ()
 
-  def build (sequence : Seq [A] ) : SortedSequence [A] =
-    _fold .apply (sequence) (_initial_value) (_next_value_function)
-
   private lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 
   private def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
     sorted_sequence .add (element)
+
+  def build (sequence : Seq [A] ) : SortedSequence [A] =
+    _fold .apply (sequence) (_initial_value) (_next_value_function)
 
 }
 

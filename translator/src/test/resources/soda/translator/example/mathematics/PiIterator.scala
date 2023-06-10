@@ -15,11 +15,18 @@ trait Status
 
 case class Status_ (r : BigInt, n : Int, q : BigInt, t : BigInt, l : Int, k : Int) extends Status
 
-trait PiIterator
+trait IntAndStatus
 {
 
-  def apply (n : Int) : Seq [Int] =
-    _tailrec_take (n) (Seq () ) (_initial_status) (_get_next (_initial_status) )
+  def   digit : Int
+  def   new_status : Status
+
+}
+
+case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus
+
+trait PiIterator
+{
 
   private lazy val _initial_status =
     Status_ (r = 0 , n = 3 , q = 1 , t = 1 , l = 3 , k = 1)
@@ -51,9 +58,6 @@ trait PiIterator
     ) rev_seq .reverse
     else _tailrec_take (n - 1) (rev_seq .+: (t .digit) ) (t .new_status) (_get_next (t .new_status) )
 
-  private def _get_next (s : Status) : IntAndStatus =
-    _get_next_with_new_status (_compute_new_status (s) )
-
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
     IntAndStatus_ (
       s .n ,
@@ -67,16 +71,12 @@ trait PiIterator
       )
     )
 
+  private def _get_next (s : Status) : IntAndStatus =
+    _get_next_with_new_status (_compute_new_status (s) )
+
+  def apply (n : Int) : Seq [Int] =
+    _tailrec_take (n) (Seq () ) (_initial_status) (_get_next (_initial_status) )
+
 }
 
 case class PiIterator_ () extends PiIterator
-
-trait IntAndStatus
-{
-
-  def   digit : Int
-  def   new_status : Status
-
-}
-
-case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus

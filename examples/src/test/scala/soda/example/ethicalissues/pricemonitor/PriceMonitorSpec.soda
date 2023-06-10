@@ -3,14 +3,14 @@ class UnfairPricingAgent
   extends
     PricingAgent
 
+  get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
+    customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
+
   abs_get_price : Customer -> Flight -> Int -> Int =
     lambda customer -->
       lambda flight -->
         lambda date -->
           get_price_for (customer) (flight) (date)
-
-  get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
-    customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
 
 end
 
@@ -18,14 +18,14 @@ class FairPricingAgent
   extends
     PricingAgent
 
+  get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
+    100 * (flight .intermediate_airports .length + 1)
+
   abs_get_price : Customer -> Flight -> Int -> Int =
     lambda customer -->
       lambda flight -->
         lambda date -->
           get_price_for (customer) (flight) (date)
-
-  get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
-    100 * (flight .intermediate_airports .length + 1)
 
 end
 
@@ -100,6 +100,11 @@ class PriceMonitorSpec ()
     )
   )
 
+  _calendar_0 = @new Calendar .Builder ()
+    .setTimeZone (TimeZone .getTimeZone ("UTC"))
+    .setDate (1970 , 0 , 1)
+    .build
+
   test ("get number of days for 1970-01-01") (
     check (
       obtained := fair_pricing_agent .get_days_for (_calendar_0 .getTime)
@@ -108,9 +113,9 @@ class PriceMonitorSpec ()
     )
   )
 
-  _calendar_0 = @new Calendar .Builder ()
+  _calendar_1 = @new Calendar .Builder ()
     .setTimeZone (TimeZone .getTimeZone ("UTC"))
-    .setDate (1970 , 0 , 1)
+    .setDate (2021 , 8 , 28)
     .build
 
   test ("get number of days for 2021-09-28") (
@@ -120,11 +125,6 @@ class PriceMonitorSpec ()
       expected := 18898
     )
   )
-
-  _calendar_1 = @new Calendar .Builder ()
-    .setTimeZone (TimeZone .getTimeZone ("UTC"))
-    .setDate (2021 , 8 , 28)
-    .build
 
 end
 

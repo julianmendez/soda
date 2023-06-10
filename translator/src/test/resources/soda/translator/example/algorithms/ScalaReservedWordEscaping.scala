@@ -1,3 +1,13 @@
+trait MyPair [A, B]
+{
+
+  def   key : A
+  def   value : B
+
+}
+
+case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
+
 trait ScalaReservedWordEscaping
 {
 
@@ -24,13 +34,3 @@ trait ScalaReservedWordEscaping
 }
 
 case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
-
-trait MyPair [A, B]
-{
-
-  def   key : A
-  def   value : B
-
-}
-
-case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
