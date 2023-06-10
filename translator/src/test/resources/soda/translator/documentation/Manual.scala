@@ -272,15 +272,15 @@ case class Manual_ () extends Manual
 trait FactorialConcise
 {
 
-  def apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
     if ( n == 0
     ) product
     else _tailrec_get_factorial (n - 1) (n * product)
+
+  def apply (n : Int) : Int =
+    _tailrec_get_factorial (n) (1)
 
 }
 
@@ -289,15 +289,15 @@ case class FactorialConcise_ () extends FactorialConcise
 trait FoldWhile
 {
 
-  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence.isEmpty || (! condition (current_value) (sequence.head) )
     ) current_value
     else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
+
+  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
 }
 
@@ -306,15 +306,15 @@ case class FoldWhile_ () extends FoldWhile
 trait Range
 {
 
-  def apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+
+  def apply (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
 
 }
 

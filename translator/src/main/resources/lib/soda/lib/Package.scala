@@ -25,14 +25,6 @@ trait Package
 trait CartesianProduct
 {
 
-  def apply [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    if ( sequences .isEmpty
-    ) sequences
-    else _apply_recursion (sequences .reverse)
-
-  private def _apply_recursion [A] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
-
   private lazy val _fold = Fold_ ()
 
   private def _initial_value [A] (seq : Seq [A] ) : Seq [Seq [A] ] =
@@ -41,6 +33,14 @@ trait CartesianProduct
   private def _next_value [A] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
     seq_a .flatMap ( elem_a =>
       accum .map ( seq_b => seq_b .+: (elem_a) ) )
+
+  private def _apply_recursion [A] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
+
+  def apply [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+    if ( sequences .isEmpty
+    ) sequences
+    else _apply_recursion (sequences .reverse)
 
 }
 
@@ -238,6 +238,13 @@ case class OptionSDBuilder_ [A] () extends OptionSDBuilder [A]
 trait FoldWhile
 {
 
+  import scala.annotation.tailrec
+        @tailrec  final
+  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+    if ( sequence .isEmpty || (! condition (current_value) (sequence .head) )
+    ) current_value
+    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
+
   def apply [A, B]
     (sequence : Seq [A] )
     (initial_value : B)
@@ -246,26 +253,12 @@ trait FoldWhile
       : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence .isEmpty || (! condition (current_value) (sequence .head) )
-    ) current_value
-    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
-
 }
 
 case class FoldWhile_ () extends FoldWhile
 
 trait Fold
 {
-
-  def apply [A, B]
-    (sequence : Seq [A] )
-    (initial_value : B)
-    (next_value_function : B => A => B)
-      : B =
-    _tailrec_fold (sequence) (initial_value) (next_value_function)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -274,6 +267,13 @@ trait Fold
     ) current_value
     else _tailrec_fold (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function)
 
+  def apply [A, B]
+    (sequence : Seq [A] )
+    (initial_value : B)
+    (next_value_function : B => A => B)
+      : B =
+    _tailrec_fold (sequence) (initial_value) (next_value_function)
+
 }
 
 case class Fold_ () extends Fold
@@ -281,15 +281,15 @@ case class Fold_ () extends Fold
 trait Range
 {
 
-  def apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+
+  def apply (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
 
 }
 
