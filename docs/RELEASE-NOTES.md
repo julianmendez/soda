@@ -1,4 +1,8 @@
 ---
+- - version: v0.19.0
+  - date: 'not released'
+  - build: sbt '++ 3.3.0' clean compile test package assembly
+  - release: target/scala-3.3.0/soda-0.19.0.jar
 - - version: v0.18.0
   - date: '2023-06-01'
   - build: sbt '++ 3.3.0' clean compile test package assembly
@@ -25,7 +29,7 @@
     - includes a Bash script (`makeall.sh`) to build the project and create the binary file
   - deprecated_features:
     - the `end` reserved word for `match`-`case` is no longer used
-- version: v0.16.0
+- - version: v0.16.0
   - date: '2022-08-02'
   - new_features:
     - includes an extension to generate LaTeX files from source code
