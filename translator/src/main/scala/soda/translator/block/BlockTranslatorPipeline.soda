@@ -11,12 +11,12 @@ class BlockTranslatorPipeline
 
   _fold = Fold_ ()
 
+  _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
+    translator .translate (block)
+
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
       _fold .apply (pipeline) (block) (_next_value_function)
-
-  _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
-    translator .translate (block)
 
 end
 

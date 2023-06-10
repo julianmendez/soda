@@ -27,10 +27,6 @@ class MicroTranslatorToScala
   _definitions_and_declarations =
     _functions_and_tests .++ (_class_declarations)
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      _translation_pipeline .translate (block)
-
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
@@ -49,6 +45,10 @@ class MicroTranslatorToScala
         ClassConstructorBlockTranslator_ ()
       )
     )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
 
 end
 

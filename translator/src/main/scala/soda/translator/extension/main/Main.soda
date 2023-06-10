@@ -26,13 +26,6 @@ class Main
       ( "main", this )
     ).toMap
 
-  main (arguments : Array [String] ) : Unit =
-    execute (arguments.toSeq)
-
-  execute : Seq [String] -> Boolean =
-    lambda arguments -->
-      execute_for (arguments)
-
   execute_for (arguments : Seq [String] ) : Boolean =
     if arguments .length == 0
     then help .execute (arguments .toSeq)
@@ -40,6 +33,13 @@ class Main
       extensions
         .getOrElse (arguments .head, help)
         .execute (arguments .tail)
+
+  execute : Seq [String] -> Boolean =
+    lambda arguments -->
+      execute_for (arguments)
+
+  main (arguments : Array [String] ) : Unit =
+    execute (arguments.toSeq)
 
 end
 

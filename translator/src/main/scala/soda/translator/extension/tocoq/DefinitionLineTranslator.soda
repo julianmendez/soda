@@ -44,48 +44,12 @@ class DefinitionLineTranslator
 
   _trimmed_line = line .trim
 
-  translation =
-    find_definition (line) .opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position) .line)
+  get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line .indexOf (pattern, start) )
+      .filter (lambda position --> not  (position == -1) )
 
-  _is_class_definition =
-    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
-
-  _translation_of_class_definition =
-    if _condition_for_type_alias
-    then Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
-
-  _ends_with_equals = false
-
-  _ends_with_opening_brace = false
-
-  _contains_equals =
-    _trimmed_line .contains (_sc .function_definition_symbol)
-
-  _condition_for_type_alias =
-    _contains_equals and not (_ends_with_equals or _ends_with_opening_brace)
-
-  _translation_of_val_definition =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
-
-  _translation_of_def_definition =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
-
-  _try_found_definition (position : Int) : Replacement =
-    if _is_class_definition
-    then _translation_of_class_definition
-    else _decide_val_or_def_translation (position)
-
-  _decide_val_or_def_translation (position : Int) : Replacement =
-    if _is_val_definition (position)
-    then _translation_of_val_definition
-    else _translation_of_def_definition
-
-  _is_val_definition (initial_position : Int) =
-    _is_val_definition_case_1 or
-    _is_val_definition_case_2 (initial_position) or
-    _is_val_definition_case_3 or
-    _is_val_definition_case_4
+  get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
 
   _position_of_first_opening_parenthesis =
     get_index (line) (_sc .opening_parenthesis_symbol)
@@ -104,6 +68,46 @@ class DefinitionLineTranslator
   _is_val_definition_case_4 =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
+  _is_val_definition (initial_position : Int) =
+    _is_val_definition_case_1 or
+    _is_val_definition_case_2 (initial_position) or
+    _is_val_definition_case_3 or
+    _is_val_definition_case_4
+
+  _is_class_definition =
+    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
+
+  _ends_with_equals = false
+
+  _ends_with_opening_brace = false
+
+  _contains_equals =
+    _trimmed_line .contains (_sc .function_definition_symbol)
+
+  _condition_for_type_alias =
+    _contains_equals and not (_ends_with_equals or _ends_with_opening_brace)
+
+  _translation_of_class_definition =
+    if _condition_for_type_alias
+    then Replacement_ (line)
+    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
+
+  _translation_of_val_definition =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+
+  _translation_of_def_definition =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+
+  _decide_val_or_def_translation (position : Int) : Replacement =
+    if _is_val_definition (position)
+    then _translation_of_val_definition
+    else _translation_of_def_definition
+
+  _try_found_definition (position : Int) : Replacement =
+    if _is_class_definition
+    then _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
    * This function finds the first occurrence of the definition sign, if it is present.
@@ -117,12 +121,8 @@ class DefinitionLineTranslator
     then SomeSD_ (line .length - _sc .function_definition_symbol .length)
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
-  get_index (line : String) (pattern : String) : OptionSD [Int] =
-    get_index_from (line) (pattern) (0)
-
-  get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-      .filter (lambda position --> not  (position == -1) )
+  translation =
+    find_definition (line) .opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position) .line)
 
 end
 

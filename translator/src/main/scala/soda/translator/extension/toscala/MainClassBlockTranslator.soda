@@ -13,14 +13,20 @@ class MainClassBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+    match block
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case otherwise ==> None
 
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
-      case otherwise ==> annotated_block
+  _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+    references
+      .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
+      .headOption
+
+  _get_class_name (references : Seq [AnnotatedBlock] ) : String =
+    _get_class_beginning (references)
+      .map (lambda x --> x .class_name)
+      .getOrElse ("")
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if _get_class_name (block .references) == _tc .soda_main_class_name
@@ -37,20 +43,14 @@ class MainClassBlockTranslator
       )
     else block
 
-  _get_class_name (references : Seq [AnnotatedBlock] ) : String =
-    _get_class_beginning (references)
-      .map (lambda x --> x .class_name)
-      .getOrElse ("")
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
+      case otherwise ==> annotated_block
 
-  _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
-    references
-      .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
-      .headOption
-
-  _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
-    match block
-      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-      case otherwise ==> None
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

@@ -18,16 +18,16 @@ class MicroTranslatorToDoc
 
   functions_and_tests = Seq (_function_definition , _test_declaration)
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      _translation_pipeline .translate (block)
-
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         DocBlockTranslator_ ()
       )
     )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
 
 end
 

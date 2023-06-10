@@ -9,20 +9,6 @@ class AnnotationFactory
     soda.translator.block.Block
     soda.translator.block.BlockAnnotationEnum_
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
-
-  translate_for (block : AnnotatedBlock) : AnnotatedBlock =
-    if block .block_annotation == BlockAnnotationEnum_ () .undefined
-    then annotate (block)
-    else block
-
-  annotate (block : Block) : AnnotatedBlock =
-    match block
-      case AnnotatedBlock_ (annotated_lines, block_annotation) ==> AnnotatedBlock_ (annotated_lines , block_annotation)
-      case otherwise ==> _get_first_or_undefined (_find_candidates (block) ) (block)
-
   update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     match original_content
       case FunctionDefinitionAnnotation_ (b) ==> FunctionDefinitionAnnotation_ (new_content)
@@ -61,6 +47,20 @@ class AnnotationFactory
     if candidates .length == 1
     then candidates .head
     else AnnotatedBlock_ (block .annotated_lines , BlockAnnotationEnum_ () .undefined )
+
+  annotate (block : Block) : AnnotatedBlock =
+    match block
+      case AnnotatedBlock_ (annotated_lines, block_annotation) ==> AnnotatedBlock_ (annotated_lines , block_annotation)
+      case otherwise ==> _get_first_or_undefined (_find_candidates (block) ) (block)
+
+  translate_for (block : AnnotatedBlock) : AnnotatedBlock =
+    if block .block_annotation == BlockAnnotationEnum_ () .undefined
+    then annotate (block)
+    else block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

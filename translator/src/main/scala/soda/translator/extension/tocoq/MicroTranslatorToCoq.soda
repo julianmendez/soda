@@ -24,10 +24,6 @@ class MicroTranslatorToCoq
 
   functions_and_tests = Seq (_function_definition, _test_declaration)
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      _translation_pipeline .translate (block)
-
   try_definition : Token -> String =
     lambda token -->
       DefinitionLineTranslator_ (token .text) .translation
@@ -48,6 +44,10 @@ class MicroTranslatorToCoq
         ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ () .replace (_tc .function_symbols_translation) )
       )
     )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
 
 end
 

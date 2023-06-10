@@ -445,7 +445,7 @@ case class SeqSDSpec ()
 
   lazy val int_seq : Seq [Int] = Seq (2 , 7 , 1 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 4 , 5 , 9)
 
-  lazy val rev_int_seq : Seq [Int] = Seq (9 , 5 ,4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
+  lazy val rev_int_seq : Seq [Int] = Seq (9 , 5 , 4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
 
   test ("should detect an empty sequence") (
     check (
@@ -463,6 +463,10 @@ case class SeqSDSpec ()
     )
   )
 
+  lazy val empty_opt : OptionSD [Int] = NoneSD_ ()
+
+  lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =  sequence => SomeSD_ (max (sequence) )
+
   test ("should get the maximum") (
     check (
       obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_opt) (ifNonEmpty = non_empty_opt)
@@ -470,10 +474,6 @@ case class SeqSDSpec ()
       expected = SomeSD_ [Int] (9)
     )
   )
-
-  lazy val empty_opt : OptionSD [Int] = NoneSD_ ()
-
-  lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =  sequence => SomeSD_ (max (sequence) )
 
   private lazy val _fold = Fold_ ()
 
@@ -491,6 +491,10 @@ case class SeqSDSpec ()
     )
   )
 
+  lazy val empty_seq : SeqSD [Int] = EmptySeqSD_ ()
+
+  lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =  sequence => sequence .reverse
+
   test ("should reverse another sequence") (
     check (
       obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_seq) (ifNonEmpty = non_empty_seq)
@@ -498,10 +502,6 @@ case class SeqSDSpec ()
       expected = SeqSDBuilder_ () .build (rev_int_seq)
     )
   )
-
-  lazy val empty_seq : SeqSD [Int] = EmptySeqSD_ ()
-
-  lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =  sequence => sequence .reverse
 
 }
 

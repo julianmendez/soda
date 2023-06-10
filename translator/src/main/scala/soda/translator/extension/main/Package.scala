@@ -36,13 +36,6 @@ trait Main
       ( "main", this )
     ).toMap
 
-  def main (arguments : Array [String] ) : Unit =
-    execute (arguments.toSeq)
-
-  lazy val execute : Seq [String] => Boolean =
-     arguments =>
-      execute_for (arguments)
-
   def execute_for (arguments : Seq [String] ) : Boolean =
     if ( arguments .length == 0
     ) help .execute (arguments .toSeq)
@@ -50,6 +43,13 @@ trait Main
       extensions
         .getOrElse (arguments .head, help)
         .execute (arguments .tail)
+
+  lazy val execute : Seq [String] => Boolean =
+     arguments =>
+      execute_for (arguments)
+
+  def main (arguments : Array [String] ) : Unit =
+    execute (arguments.toSeq)
 
 }
 

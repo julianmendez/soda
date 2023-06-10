@@ -41,19 +41,12 @@ class FunctionDefinitionLineDetector
 
   def_detected = 2
 
-  detect : Int =
-    _find_definition (line) .opt (ifEmpty := undetected) (ifNonEmpty := lambda position --> _try_found_definition (position) )
+  _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line .indexOf (pattern, start) )
+       .filter (lambda position --> not (position == -1) )
 
-  _try_found_definition (position : Int) : Int =
-    if _is_val_definition (position)
-    then val_detected
-    else def_detected
-
-  _is_val_definition (initial_position : Int) =
-    _is_val_definition_case_1 or
-    _is_val_definition_case_2 (initial_position) or
-    _is_val_definition_case_3 or
-    _is_val_definition_case_4
+  _get_index (line : String) (pattern : String) : OptionSD [Int] =
+    _get_index_from (line) (pattern) (0)
 
   _position_of_first_opening_parenthesis =
     _get_index (line) (_sc .opening_parenthesis_symbol)
@@ -72,6 +65,17 @@ class FunctionDefinitionLineDetector
   _is_val_definition_case_4 =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
+  _is_val_definition (initial_position : Int) =
+    _is_val_definition_case_1 or
+    _is_val_definition_case_2 (initial_position) or
+    _is_val_definition_case_3 or
+    _is_val_definition_case_4
+
+  _try_found_definition (position : Int) : Int =
+    if _is_val_definition (position)
+    then val_detected
+    else def_detected
+
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign .
    * This function finds the first occurrence of the definition sign, if it is present.
@@ -79,17 +83,14 @@ class FunctionDefinitionLineDetector
    * @param line line
    * @return maybe the position of the definition sign
    */
+
   _find_definition (line : String) : OptionSD [Int] =
     if line .endsWith (_sc .space + _sc .function_definition_symbol)
     then SomeSD_ (line .length - _sc .function_definition_symbol .length)
     else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
-  _get_index (line : String) (pattern : String) : OptionSD [Int] =
-    _get_index_from (line) (pattern) (0)
-
-  _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-       .filter (lambda position --> not (position == -1) )
+  detect : Int =
+    _find_definition (line) .opt (ifEmpty := undetected) (ifNonEmpty := lambda position --> _try_found_definition (position) )
 
 end
 

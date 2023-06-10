@@ -103,18 +103,17 @@ class ClassConstructorBlockTranslatorSpec ()
     "\nend" +
     "\n"
 
+  _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        ClassConstructorBlockTranslator_ ()
+      )
+    )
 
   translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
         _translation_pipeline
-      )
-    )
-
-  _translation_pipeline =
-    BlockTranslatorPipeline_ (
-      Seq (
-        ClassConstructorBlockTranslator_ ()
       )
     )
 

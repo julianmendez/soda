@@ -14,28 +14,6 @@ class CoqClassEndBlockTranslator
 
   _tc = TranslationConstantToCoq_ ()
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
-
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
-      case otherwise ==> annotated_block
-
-  _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _translate_block_with (_get_class_beginning (block.references) ) (block)
-
-  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if maybe_beginning .isEmpty
-    then block
-    else _translate_block_with_beginning (maybe_beginning .get) (block)
-
-  _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
-    if beginning .is_concrete
-    then block
-    else _translate_block_with_abstract_beginning (beginning) (block)
-
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
@@ -48,6 +26,16 @@ class CoqClassEndBlockTranslator
       block .references
     )
 
+  _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if beginning .is_concrete
+    then block
+    else _translate_block_with_abstract_beginning (beginning) (block)
+
+  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
+    if maybe_beginning .isEmpty
+    then block
+    else _translate_block_with_beginning (maybe_beginning .get) (block)
+
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
       .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
@@ -57,6 +45,18 @@ class CoqClassEndBlockTranslator
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
       case otherwise ==> None
+
+  _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
+    _translate_block_with (_get_class_beginning (block.references) ) (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

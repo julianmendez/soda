@@ -27,8 +27,12 @@ case class DocFullTranslationSpec ()
 
   lazy val manual = "Manual"
 
-  def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = base + file_name + soda_suffix) (expected_file_name = base + file_name + doc_suffix)
+  def read_file (file_name : String) : String =
+    new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
@@ -37,12 +41,8 @@ case class DocFullTranslationSpec ()
       expected = read_file (expected_file_name)
     )
 
-  def read_file (file_name : String) : String =
-    new String (
-      Files .readAllBytes (
-        Paths .get (getClass .getResource (file_name) .toURI)
-      )
-    )
+  def test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name = base + file_name + soda_suffix) (expected_file_name = base + file_name + doc_suffix)
 
   test ("should translate the manual") (
     test_translation (manual)

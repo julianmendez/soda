@@ -12,14 +12,20 @@ class CoqProofBlockTranslator
 
   _tc = TranslationConstantToCoq_ ()
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      block .lines .:+ (suffix)
+    )
 
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ProofBlockAnnotation_ (block) ==> _translate_block (ProofBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
+  _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
+    if sequence .isEmpty
+    then sequence
+    else sequence .tail
+
+  _replace_first_line (first_line : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
+    )
 
   _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
     ProofBlockAnnotation_ (
@@ -29,20 +35,14 @@ class CoqProofBlockTranslator
       )
     )
 
-  _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ProofBlockAnnotation_ (block) ==> _translate_block (ProofBlockAnnotation_ (block) )
+      case otherwise ==> annotated_block
 
-  _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
-    )
-
-  _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if sequence .isEmpty
-    then sequence
-    else sequence .tail
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

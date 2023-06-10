@@ -22,17 +22,54 @@ class CoqClassDeclarationBlockTranslator
 
   scala_space : String = " "
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  get_first_line (block : Block) : String =
+    block .lines .headOption .getOrElse ("")
 
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ClassBeginningAnnotation_ (block) ==> _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case otherwise ==> annotated_block
+  get_initial_spaces_for (line : String) : String =
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
 
-  _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
-    ClassBeginningAnnotation_ (_translate_block (block) )
+  get_initial_spaces (block : Block) : String =
+    get_initial_spaces_for (get_first_line (block) )
+
+  _process_after_extends (block : Block) : Seq [String] =
+    if (get_first_line (block) .trim .nonEmpty)
+    then block .lines .map (lambda line --> _tc .coq_import_reserved_word + _tc .coq_space + line .trim + _tc .coq_space + _tc .coq_end_symbol)
+    else Seq [String] ()
+
+  _remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if lines .isEmpty
+    then lines
+    else lines .tail
+
+  remove_first_line (block : Block) : Block =
+    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
+
+  _process_if_extends (block : Block) : Seq [String] =
+    if (get_first_line (block) .trim == _sc .extends_reserved_word)
+    then Seq [String] (get_initial_spaces (block) ) .++ ( _process_after_extends (remove_first_line (block) ) )
+    else block .lines
+
+  _process_tail (block : Block) : Seq [String] =
+    _process_if_extends (remove_first_line (block) )
+
+  get_table_translator (line : String) : Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (_sc .class_reserved_word, _tc .coq_module_reserved_word ) )
+    )
+
+  _process_head_with (line : String) (block : Block) : Seq [String] =
+    Seq [String] (
+      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) + _tc .coq_space + _tc .coq_end_symbol
+    )
+
+  _process_head (block : Block) : Seq [String] =
+    _process_head_with (get_first_line (block) ) (block)
+
+  contains_equals (line : String) : Boolean =
+    line .trim .contains (_sc .function_definition_symbol)
+
+  has_condition_for_type_alias (line : String) : Boolean =
+    contains_equals (line)
 
   _translate_block (block : AnnotatedBlock) : Block =
     if (has_condition_for_type_alias (get_first_line (block) ) )
@@ -42,54 +79,17 @@ class CoqClassDeclarationBlockTranslator
         _process_head (block) ++ _process_tail (block)
       )
 
-  _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
+  _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
 
-  _process_head_with (line : String) (block : Block) : Seq [String] =
-    Seq [String] (
-      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) + _tc .coq_space + _tc .coq_end_symbol
-    )
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassBeginningAnnotation_ (block) ==> _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case otherwise ==> annotated_block
 
-  _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
-
-  _process_if_extends (block : Block) : Seq [String] =
-    if (get_first_line (block) .trim == _sc .extends_reserved_word)
-    then Seq [String] (get_initial_spaces (block) ) .++ ( _process_after_extends (remove_first_line (block) ) )
-    else block .lines
-
-  get_table_translator (line : String) : Translator =
-    TableTranslator_ (
-      Seq (Tuple2 (_sc .class_reserved_word, _tc .coq_module_reserved_word ) )
-    )
-
-  _process_after_extends (block : Block) : Seq [String] =
-    if (get_first_line (block) .trim .nonEmpty)
-    then block .lines .map (lambda line --> _tc .coq_import_reserved_word + _tc .coq_space + line .trim + _tc .coq_space + _tc .coq_end_symbol)
-    else Seq [String] ()
-
-  remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
-
-  _remove_first_line (lines : Seq [String] ) : Seq [String] =
-    if lines .isEmpty
-    then lines
-    else lines .tail
-
-  get_first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("")
-
-  get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
-
-  get_initial_spaces_for (line : String) : String =
-    line .takeWhile (lambda ch --> ch .isSpaceChar)
-
-  contains_equals (line : String) : Boolean =
-    line .trim .contains (_sc .function_definition_symbol)
-
-  has_condition_for_type_alias (line : String) : Boolean =
-    contains_equals (line)
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

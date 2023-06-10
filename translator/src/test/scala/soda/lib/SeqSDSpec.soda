@@ -8,7 +8,7 @@ class SeqSDSpec ()
 
   int_seq : Seq [Int] = Seq (2 , 7 , 1 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 4 , 5 , 9)
 
-  rev_int_seq : Seq [Int] = Seq (9 , 5 ,4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
+  rev_int_seq : Seq [Int] = Seq (9 , 5 , 4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
 
   test ("should detect an empty sequence") (
     check (
@@ -26,6 +26,10 @@ class SeqSDSpec ()
     )
   )
 
+  empty_opt : OptionSD [Int] = NoneSD_ ()
+
+  non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] = lambda sequence --> SomeSD_ (max (sequence) )
+
   test ("should get the maximum") (
     check (
       obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_opt) (ifNonEmpty := non_empty_opt)
@@ -33,10 +37,6 @@ class SeqSDSpec ()
       expected := SomeSD_ [Int] (9)
     )
   )
-
-  empty_opt : OptionSD [Int] = NoneSD_ ()
-
-  non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] = lambda sequence --> SomeSD_ (max (sequence) )
 
   _fold = Fold_ ()
 
@@ -54,6 +54,10 @@ class SeqSDSpec ()
     )
   )
 
+  empty_seq : SeqSD [Int] = EmptySeqSD_ ()
+
+  non_empty_seq : NonEmptySeqSD [Int] -> NonEmptySeqSD [Int] = lambda sequence --> sequence .reverse
+
   test ("should reverse another sequence") (
     check (
       obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_seq) (ifNonEmpty := non_empty_seq)
@@ -61,10 +65,6 @@ class SeqSDSpec ()
       expected := SeqSDBuilder_ () .build (rev_int_seq)
     )
   )
-
-  empty_seq : SeqSD [Int] = EmptySeqSD_ ()
-
-  non_empty_seq : NonEmptySeqSD [Int] -> NonEmptySeqSD [Int] = lambda sequence --> sequence .reverse
 
 end
 

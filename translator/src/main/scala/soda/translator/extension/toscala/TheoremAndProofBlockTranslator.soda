@@ -14,25 +14,6 @@ class TheoremAndProofBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
-
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case TheoremBlockAnnotation_ (block) ==> _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case ProofBlockAnnotation_ (block) ==> _translate_proof_block (ProofBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
-
-  _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
-    TheoremBlockAnnotation_ (_translate_block (block) )
-
-  _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
-    ProofBlockAnnotation_ (_translate_block (block) )
-
-  _translate_block (block : AnnotatedBlock) : Block =
-    _append (_tc .scala_comment_closing_symbol) (_prepend (_tc .scala_comment_opening_symbol) (block) )
-
   _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ () .build (
       Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
@@ -42,6 +23,25 @@ class TheoremAndProofBlockTranslator
     BlockBuilder_ () .build (
       block .lines .:+ (suffix)
     )
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    _append (_tc .scala_comment_closing_symbol) (_prepend (_tc .scala_comment_opening_symbol) (block) )
+
+  _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (_translate_block (block) )
+
+  _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
+    ProofBlockAnnotation_ (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case TheoremBlockAnnotation_ (block) ==> _translate_theorem_block (TheoremBlockAnnotation_ (block) )
+      case ProofBlockAnnotation_ (block) ==> _translate_proof_block (ProofBlockAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

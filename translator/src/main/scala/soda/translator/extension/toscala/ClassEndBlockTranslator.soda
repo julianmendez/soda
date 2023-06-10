@@ -11,14 +11,17 @@ class ClassEndBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  _get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
 
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
-      case otherwise ==> annotated_block
+  _get_initial_spaces_with (line : String) : String =
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
+
+  _get_initial_spaces (block : ClassEndAnnotation) : String =
+    _get_initial_spaces_with (_get_first_line (block) )
+
+  _get_translation (block : ClassEndAnnotation) : String =
+    _get_initial_spaces (block) + _tc .scala_class_end_symbol
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
@@ -30,17 +33,14 @@ class ClassEndBlockTranslator
       block .references
     )
 
-  _get_translation (block : ClassEndAnnotation) : String =
-    _get_initial_spaces (block) + _tc .scala_class_end_symbol
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
+      case otherwise ==> annotated_block
 
-  _get_initial_spaces (block : ClassEndAnnotation) : String =
-    _get_initial_spaces_with (_get_first_line (block) )
-
-  _get_initial_spaces_with (line : String) : String =
-    line .takeWhile (lambda ch --> ch .isSpaceChar)
-
-  _get_first_line (block : AnnotatedBlock) : String =
-    block .lines .headOption .getOrElse ("")
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

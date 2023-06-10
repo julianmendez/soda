@@ -22,35 +22,27 @@ class MatchCaseBlockTranslator
 
   _soda_match_pattern = _sc .match_reserved_word + " "
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
-
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
-
-  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
-
-  _translate_block (block : AnnotatedBlock) : Block =
-    if _is_a_match_case_structure (block)
-    then _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
-    else block
+  _is_a_match_line (line : String) : Boolean =
+    line .trim .startsWith (_soda_match_pattern)
 
   _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
     block .lines .exists (lambda line --> _is_a_match_line (line) )
 
-  _is_a_match_line (line : String) : Boolean =
-    line .trim .startsWith (_soda_match_pattern)
+  _append_with_after_match (line : String) : String =
+    if _is_a_match_line (line)
+    then line + _tc .coq_space + _tc .coq_with_reserved_word
+    else line
 
   _is_a_case_line (line : String) : Boolean =
     line .trim .startsWith (_soda_case_pattern)
+
+  _replace_case (line : String) : String =
+    if _is_a_case_line (line)
+    then ReplacementAux_ () . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
+    else line
+
+  _left_part (index : Int) (line : String) : String =
+    line .substring (0 , index)
 
   _get_tabulation_of_match (block : AnnotatedBlock) : String =
     block .lines
@@ -66,18 +58,26 @@ class MatchCaseBlockTranslator
         .++ ( Seq [String] ()  .+: (tabulation + _tc .coq_match_end_translation) )
     )
 
-  _append_with_after_match (line : String) : String =
-    if _is_a_match_line (line)
-    then line + _tc .coq_space + _tc .coq_with_reserved_word
-    else line
+  _translate_block (block : AnnotatedBlock) : Block =
+    if _is_a_match_case_structure (block)
+    then _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
 
-  _replace_case (line : String) : String =
-    if _is_a_case_line (line)
-    then ReplacementAux_ () . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
-    else line
+  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
 
-  _left_part (index : Int) (line : String) : String =
-    line .substring (0 , index)
+  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 
