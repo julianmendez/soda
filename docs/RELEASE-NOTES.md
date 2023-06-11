@@ -3,6 +3,8 @@
   - date: 'not released'
   - build: sbt '++ 3.3.0' clean compile test package assembly
   - release: target/scala-3.3.0/soda-0.19.0.jar
+  - new_features:
+    - accepts that class `end` could have a class name
 - - version: v0.18.0
   - date: '2023-06-01'
   - build: sbt '++ 3.3.0' clean compile test package assembly

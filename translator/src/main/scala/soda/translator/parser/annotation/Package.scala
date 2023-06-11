@@ -262,9 +262,17 @@ trait ClassEndAnnotation
 
   lazy val identifier = BlockAnnotationEnum_ () .class_end
 
+  private def _get_first_word_of_array (words : Array [String] ) : String =
+    if ( words .size == 0
+    ) ""
+    else words .apply (0)
+
+  private def _get_first_word (line : String) : String =
+    _get_first_word_of_array (line .split (" ") )
+
   lazy val applies : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .class_end_reserved_word)
+    (_get_first_word (block .readable_lines .head .line .trim) == SodaConstant_ () .class_end_reserved_word)
 
 }
 

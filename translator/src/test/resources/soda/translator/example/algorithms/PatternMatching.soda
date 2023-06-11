@@ -8,7 +8,7 @@ class Singleton
 
   name = "singleton"
 
-end
+end Singleton
 
 class Pair
   extends
@@ -20,7 +20,7 @@ class Pair
 
   name = "pair"
 
-end
+end Pair
 
 class Triplet
   extends
@@ -33,14 +33,14 @@ class Triplet
 
   name = "triplet"
 
-end
+end Triplet
 
 class Parameter
 
   abstract
     name : String
 
-end
+end Parameter
 
 class PatternMatching
 
@@ -58,4 +58,5 @@ class PatternMatching
       case Triplet_ (x , y , z) ==> (Triplet_ (x , y , z) ) .name + " (x , y , z)"
       case otherwise ==> ""
 
-end
+end PatternMatching
+
