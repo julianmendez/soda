@@ -1,7 +1,9 @@
 
 /**
  * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val' or 'def'.
+ * The definitions need to be identified as 'val' case, 'def' case, or 'def' reserved word.
+ *
+ * When the 'def' reserved word is not detected at the beginning of the line, the following cases need to be determined.
  *
  * 'val' is for value definition.
  * It is detected in three cases.
@@ -41,6 +43,8 @@ class FunctionDefinitionLineDetector
 
   def_detected = 2
 
+  def_reserved_word_detected = 3
+
   _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line .indexOf (pattern, start) )
        .filter (lambda position --> not (position == -1) )
@@ -71,10 +75,18 @@ class FunctionDefinitionLineDetector
     _is_val_definition_case_3 or
     _is_val_definition_case_4
 
-  _try_found_definition (position : Int) : Int =
+  _try_found_definition_without_def_reserved_word (position : Int) : Int =
     if _is_val_definition (position)
     then val_detected
     else def_detected
+
+  _starts_with_def_reserved_word (position : Int) : Boolean =
+    line .trim .startsWith (_sc .def_reserved_word + _sc .space)
+
+  _try_found_definition (position : Int) : Int =
+    if _starts_with_def_reserved_word (position)
+    then def_reserved_word_detected
+    else _try_found_definition_without_def_reserved_word (position)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign .

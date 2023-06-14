@@ -59,22 +59,23 @@ class FunctionDefinitionBlockTranslator
     )
 
   _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines .takeWhile (lambda annotated_line --> annotated_line .is_comment )
+    lines .takeWhile (lambda annotated_line --> annotated_line .is_comment)
 
   _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines .dropWhile (lambda annotated_line --> annotated_line .is_comment )
+    lines .dropWhile (lambda annotated_line --> annotated_line .is_comment)
 
   _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
     match detector .detect
       case detector .val_detected ==> _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_detected ==> _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
+      case detector .def_reserved_word_detected ==> block
       case otherwise ==> block
 
   _flatten_block (block : Block) : String =
     block .lines .mkString (_sc .space)
 
   _translate_main_block (block : Block) : Block =
-    _translate_main_block_with (block) ( FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+    _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
 
   _remove_first_line_if_possible (block : Block) : Block =
     if block .lines .isEmpty

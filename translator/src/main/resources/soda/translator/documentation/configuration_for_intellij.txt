@@ -33,6 +33,7 @@ abstract
 any
 case
 class
+def
 else
 end
 extends

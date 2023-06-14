@@ -298,6 +298,8 @@ trait SodaConstant
 
   lazy val lambda_unicode_symbol = "\u03BB"
 
+  lazy val def_reserved_word = "def"
+
   lazy val if_reserved_word = "if"
 
   lazy val if_proposed_unicode_symbol = "\u29E9"
@@ -426,6 +428,7 @@ trait SodaConstant
     Seq (
       lambda_reserved_word,
       any_reserved_word,
+      def_reserved_word,
       if_reserved_word,
       then_reserved_word,
       else_reserved_word,

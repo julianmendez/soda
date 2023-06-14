@@ -351,26 +351,33 @@ trait FunctionDefinitionAnnotation
     ( first_line_trimmed == sc .tail_recursion_annotation ||
       first_line_trimmed == sc .override_annotation )
 
-  private lazy val _starts_with_valid_annotation : Boolean =
+  lazy val starts_with_valid_annotation : Boolean =
     block .readable_lines .nonEmpty &&
     _starts_with_valid_annotation_with (block .readable_lines .head .line .trim)
+
+  private def _starts_with_def_reserved_word_with (first_line_trimmed : String) : Boolean =
+    first_line_trimmed .startsWith (sc .def_reserved_word + sc .space)
+
+  lazy val starts_with_def_reserved_word : Boolean =
+    block .readable_lines .nonEmpty &&
+    _starts_with_def_reserved_word_with (block .readable_lines .head .line .trim)
 
   lazy val is_a_class_declaration : Boolean =
     starts_with_prefix_and_space (sc .class_reserved_word)
 
   lazy val is_a_theorem : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .theorem_reserved_word)
+    (block .readable_lines .head .line .trim == sc .theorem_reserved_word)
 
   lazy val is_a_proof : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .proof_reserved_word)
+    (block .readable_lines .head .line .trim == sc .proof_reserved_word)
 
   lazy val applies : Boolean =
     ! is_a_theorem &&
     ! is_a_proof &&
     ! is_a_class_declaration &&
-    (contains_the_equals_symbol || _starts_with_valid_annotation)
+    (contains_the_equals_symbol || starts_with_valid_annotation || starts_with_def_reserved_word)
 
 }
 

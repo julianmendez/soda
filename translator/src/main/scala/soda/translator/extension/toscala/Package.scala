@@ -423,15 +423,16 @@ trait FunctionDefinitionBlockTranslator
     )
 
   private def _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines .takeWhile ( annotated_line => annotated_line .is_comment )
+    lines .takeWhile ( annotated_line => annotated_line .is_comment)
 
   private def _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
-    lines .dropWhile ( annotated_line => annotated_line .is_comment )
+    lines .dropWhile ( annotated_line => annotated_line .is_comment)
 
   private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
     detector .detect match  {
       case detector .val_detected => _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_detected => _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
+      case detector .def_reserved_word_detected => block
       case otherwise => block
     }
 
@@ -439,7 +440,7 @@ trait FunctionDefinitionBlockTranslator
     block .lines .mkString (_sc .space)
 
   private def _translate_main_block (block : Block) : Block =
-    _translate_main_block_with (block) ( FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+    _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
 
   private def _remove_first_line_if_possible (block : Block) : Block =
     if ( block .lines .isEmpty
@@ -476,7 +477,9 @@ case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlock
 
 /**
  * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val' or 'def'.
+ * The definitions need to be identified as 'val' case, 'def' case, or 'def' reserved word.
+ *
+ * When the 'def' reserved word is not detected at the beginning of the line, the following cases need to be determined.
  *
  * 'val' is for value definition.
  * It is detected in three cases.
@@ -515,6 +518,8 @@ trait FunctionDefinitionLineDetector
 
   lazy val def_detected = 2
 
+  lazy val def_reserved_word_detected = 3
+
   private def _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line .indexOf (pattern, start) )
        .filter ( position => ! (position == -1) )
@@ -545,10 +550,18 @@ trait FunctionDefinitionLineDetector
     _is_val_definition_case_3 ||
     _is_val_definition_case_4
 
-  private def _try_found_definition (position : Int) : Int =
+  private def _try_found_definition_without_def_reserved_word (position : Int) : Int =
     if ( _is_val_definition (position)
     ) val_detected
     else def_detected
+
+  private def _starts_with_def_reserved_word (position : Int) : Boolean =
+    line .trim .startsWith (_sc .def_reserved_word + _sc .space)
+
+  private def _try_found_definition (position : Int) : Int =
+    if ( _starts_with_def_reserved_word (position)
+    ) def_reserved_word_detected
+    else _try_found_definition_without_def_reserved_word (position)
 
   /**
    * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign .
