@@ -251,46 +251,60 @@ trait ClassDeclarationBlockTranslator
       Seq (Tuple2 (_sc .class_reserved_word, get_class_declaration_translation (line) ) )
     )
 
-  def get_first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("")
+  def get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
 
   def get_initial_spaces_for (line : String) : String =
     line .takeWhile ( ch => ch .isSpaceChar)
 
-  def get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
+  def get_initial_spaces (lines : Seq [String] ) : String =
+    get_initial_spaces_for (get_first_line (lines) )
 
-  def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build (
-      if ( block .lines .isEmpty
-      ) block .lines
-      else block .lines .tail
-    )
+  def remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if ( lines .isEmpty
+    ) lines
+    else lines .tail
 
-  private def _process_after_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim .nonEmpty)
-    ) Seq [String] (get_first_line (block) ) ++ remove_first_line (block) .lines .map ( line => get_initial_spaces_for (line) + _tc .scala_with_translation + _tc .scala_space + line .trim)
+  private def _process_after_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim .nonEmpty)
+    ) Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines) .map ( line => get_initial_spaces_for (line) + _tc .scala_with_translation + _tc .scala_space + line .trim)
     else Seq [String] ()
 
-  private def _process_head_with (line : String) (block : Block) : Seq [String] =
+  private def _process_head_with (line : String)  : Seq [String] =
     Seq [String] (Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) )
 
-  private def _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
+  private def _process_head (lines : Seq [String] ) : Seq [String] =
+    _process_head_with (get_first_line (lines) )
 
-  private def _process_if_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) + _tc .scala_extends_translation) ++ _process_after_extends (remove_first_line (block) )
-    else block .lines
+  private def _process_if_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim == _sc .extends_reserved_word)
+    ) Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) ++ _process_after_extends (remove_first_line (lines) )
+    else lines
 
-  private def _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
+  private def _process_tail (lines : Seq [String] ) : Seq [String] =
+    _process_if_extends (remove_first_line (lines) )
+
+  private def _translate_block_with (lines : Seq [String] ) : Seq [String] =
+    if ( (has_condition_for_type_alias (get_first_line (lines) ) )
+    ) _process_head (lines) ++ _process_tail (lines)
+    else _process_head (lines) ++ _process_tail (lines) ++ Seq [String] (get_initial_spaces (lines) + _tc .scala_class_begin_symbol)
+
+  private def _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
+    Seq [String] (
+      get_first_line (lines)
+        .replaceAll (_sc .main_type_membership_regex , "")
+    )
+
+  def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
+    _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
   private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ () .build (
-      if ( (has_condition_for_type_alias (get_first_line (block) ) )
-      ) _process_head (block) ++ _process_tail (block)
-      else _process_head (block) ++ _process_tail (block) ++ Seq [String] (get_initial_spaces (block) + _tc .scala_class_begin_symbol)
+      remove_type_annotation (
+        _translate_block_with (
+          block .lines
+        )
+      )
     )
 
   private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
@@ -399,18 +413,18 @@ trait FunctionDefinitionBlockTranslator
 
   private def _translate_val_definition (line : String) : String =
     Replacement_ (line)
-       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_value + _tc .scala_space)
-       .line
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_value + _tc .scala_space)
+      .line
 
   private def _translate_def_definition (line : String) : String =
     Replacement_ (line)
-       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_definition + _tc .scala_space)
-       .line
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_definition + _tc .scala_space)
+      .line
 
   private def _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String) : Seq [AnnotatedLine] =
     if ( lines .isEmpty
-    ) Seq [AnnotatedLine] () .+: ( AnnotatedLine_ (new_first_line , false) )
-    else lines .tail .+: ( AnnotatedLine_ (new_first_line , false) )
+    ) Seq [AnnotatedLine] () .+: (AnnotatedLine_ (new_first_line , false) )
+    else lines .tail .+: (AnnotatedLine_ (new_first_line , false) )
 
   private def _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (
@@ -428,6 +442,23 @@ trait FunctionDefinitionBlockTranslator
   private def _get_part_without_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
     lines .dropWhile ( annotated_line => annotated_line .is_comment)
 
+  def get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
+
+  def remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if ( lines .isEmpty
+    ) lines
+    else lines .tail
+
+  private def _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
+    Seq [String] (
+      get_first_line (lines)
+        .replaceAll (_sc .main_type_membership_regex , "")
+    )
+
+  def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
+    _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
+
   private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
     detector .detect match  {
       case detector .val_detected => _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
@@ -440,7 +471,12 @@ trait FunctionDefinitionBlockTranslator
     block .lines .mkString (_sc .space)
 
   private def _translate_main_block (block : Block) : Block =
-    _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+    BlockBuilder_ () .build (
+      remove_type_annotation (
+        _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+          .lines
+      )
+    )
 
   private def _remove_first_line_if_possible (block : Block) : Block =
     if ( block .lines .isEmpty
@@ -453,9 +489,9 @@ trait FunctionDefinitionBlockTranslator
     else _translate_main_block (block)
 
   private def _translate_block (block : Block) : Block =
-     if ( block .readable_lines .isEmpty
-     ) block
-     else _translate_block_with (block .readable_lines .head) (block)
+    if ( block .readable_lines .isEmpty
+    ) block
+    else _translate_block_with (block .readable_lines .head) (block)
 
   private def _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
@@ -485,7 +521,7 @@ case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlock
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 3: The first opening parenthesis or bracket is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
  * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
@@ -510,7 +546,7 @@ trait FunctionDefinitionLineDetector
 
   private lazy val _sc = SodaConstant_ ()
 
-  private lazy val _trimmed_line = line.trim
+  private lazy val _trimmed_line : String = line.trim
 
   lazy val undetected = 0
 
@@ -527,24 +563,44 @@ trait FunctionDefinitionLineDetector
   private def _get_index (line : String) (pattern : String) : OptionSD [Int] =
     _get_index_from (line) (pattern) (0)
 
-  private lazy val _position_of_first_opening_parenthesis =
+  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
     _get_index (line) (_sc .opening_parenthesis_symbol)
 
-  private lazy val _is_val_definition_case_1 =
+  private lazy val _position_of_first_opening_bracket : OptionSD [Int] =
+    _get_index (line) (_sc .opening_bracket_symbol)
+
+  private def _min (a : Int) (b : Int) : Int =
+    if ( a < b
+    ) a
+    else b
+
+  private def _position_of_first_opening_parenthesis_or_bracket_with (index1 : Int) : Int =
+    _position_of_first_opening_bracket match  {
+      case SomeSD_ (index2) => _min (index1) (index2)
+      case otherwise => index1
+    }
+
+  private lazy val _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
+    _position_of_first_opening_parenthesis match  {
+      case SomeSD_ (index1) => SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
+      case otherwise => _position_of_first_opening_bracket
+    }
+
+  private lazy val _is_val_definition_case_1 : Boolean =
     _position_of_first_opening_parenthesis .isEmpty
 
-  private def _is_val_definition_case_2 (initial_position : Int) =
+  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis .opt (false) ( position => position > initial_position)
 
-  private lazy val _is_val_definition_case_3 =
+  private lazy val _is_val_definition_case_3 : Boolean =
     (_get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-        _position_of_first_opening_parenthesis .opt (false) ( position => position > other_position)
+        _position_of_first_opening_parenthesis_or_bracket .opt (false) ( position => position > other_position)
     )
 
-  private lazy val _is_val_definition_case_4 =
+  private lazy val _is_val_definition_case_4 : Boolean =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
-  private def _is_val_definition (initial_position : Int) =
+  private def _is_val_definition (initial_position : Int) : Boolean =
     _is_val_definition_case_1 ||
     _is_val_definition_case_2 (initial_position) ||
     _is_val_definition_case_3 ||

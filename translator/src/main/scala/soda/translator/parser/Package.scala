@@ -424,6 +424,10 @@ trait SodaConstant
 
   lazy val union_type_symbol = "|"
 
+  lazy val main_type_name = "Type"
+
+  lazy val main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,

@@ -212,11 +212,23 @@ trait ClassBeginningAnnotation
   private lazy val _contains_an_opening_parenthesis : Boolean =
     first_readable_line .line .contains (sc .opening_parenthesis_symbol)
 
+  private def _remove_type_annotation_in_line (line : String) : String =
+    line .replaceAll (sc .main_type_membership_regex , "")
+
   private lazy val _class_name_and_type_parameters : String =
-    skip_first_word (first_readable_line .line)
+    skip_first_word (_remove_type_annotation_in_line (first_readable_line .line) )
 
   lazy val class_name : String =
     get_first_word (_class_name_and_type_parameters)
+
+  def remove_brackets_with (trimmed_text : String) : String =
+    if ( trimmed_text .startsWith (sc .opening_bracket_symbol) &&
+      trimmed_text .endsWith (sc .closing_bracket_symbol)
+    ) trimmed_text .substring (sc .opening_bracket_symbol .length, trimmed_text .length - sc .closing_bracket_symbol .length)
+    else trimmed_text
+
+  def remove_brackets (text : String) : String =
+    remove_brackets_with (text .trim)
 
   lazy val type_parameters_and_bounds : Seq [String] =
     remove_brackets (skip_first_word (_class_name_and_type_parameters) )
@@ -234,15 +246,6 @@ trait ClassBeginningAnnotation
   lazy val type_parameters : Seq [String] =
     type_parameters_and_bounds
        .map ( parameter => get_first_word (parameter) )
-
-  def remove_brackets_with (trimmed_text : String) : String =
-    if ( trimmed_text .startsWith (sc .opening_bracket_symbol) &&
-      trimmed_text .endsWith (sc .closing_bracket_symbol)
-    ) trimmed_text .substring (sc .opening_bracket_symbol .length, trimmed_text .length - sc .closing_bracket_symbol .length)
-    else trimmed_text
-
-  def remove_brackets (text : String) : String =
-    remove_brackets_with (text .trim)
 
 }
 

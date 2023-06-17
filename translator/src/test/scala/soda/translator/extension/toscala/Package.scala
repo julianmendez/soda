@@ -57,9 +57,9 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -80,13 +80,13 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String) extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -98,14 +98,14 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -120,18 +120,18 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value: Int, a_function: Int => Double => String) extends Example [A, B]" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int, a_function : Int => Double => String) extends Example [A, B]" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
@@ -461,7 +461,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass E [A]" +
+        "\nclass E [A : Type]" +
         "\n" +
         "\n  i (x : A) : A = x" +
         "\n" +
@@ -504,7 +504,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\ntrait E [A]" +
+        "\ntrait E [A ]" +
         "\n{" +
         "\n" +
         "\n  def i (x : A) : A = x" +
@@ -564,20 +564,20 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained = instance .translate ("class A [T] = B [T]" +
+      obtained = instance .translate ("class A [T : Type] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\nclass M = Map [Int, Seq [Int]]" +
+        "\nclass M = Map [Int] [Seq [Int] ]" +
         "\n"
       )
     ) (
       expected =
-        "type A [T] = B [T]" +
+        "type A [T ] = B [T]" +
         "\n" +
         "\ntype C = D" +
         "\n" +
-        "\ntype M = Map [Int, Seq [Int]]" +
+        "\ntype M = Map [Int, Seq [Int] ]" +
         "\n"
     )
   )

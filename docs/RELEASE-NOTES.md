@@ -6,6 +6,7 @@
   - new_features:
     - accepts that class `end` could have a class name
     - accepts `def` as an optional reserved word to define functions
+    - uses `Type` to define type membership of parametric types
 - - version: v0.18.0
   - date: '2023-06-01'
   - build: sbt '++ 3.3.0' clean compile test package assembly

@@ -80,7 +80,7 @@ class MicroTranslatorToScalaSpec ()
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass E [A]" +
+        "\nclass E [A : Type]" +
         "\n" +
         "\n  i (x : A) : A = x" +
         "\n" +
@@ -123,7 +123,7 @@ class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\ntrait E [A]" +
+        "\ntrait E [A ]" +
         "\n{" +
         "\n" +
         "\n  def i (x : A) : A = x" +
@@ -183,20 +183,20 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained := instance .translate ("class A [T] = B [T]" +
+      obtained := instance .translate ("class A [T : Type] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\nclass M = Map [Int, Seq [Int]]" +
+        "\nclass M = Map [Int] [Seq [Int] ]" +
         "\n"
       )
     ) (
       expected :=
-        "type A [T] = B [T]" +
+        "type A [T ] = B [T]" +
         "\n" +
         "\ntype C = D" +
         "\n" +
-        "\ntype M = Map [Int, Seq [Int]]" +
+        "\ntype M = Map [Int, Seq [Int] ]" +
         "\n"
     )
   )
