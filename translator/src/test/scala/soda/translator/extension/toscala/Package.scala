@@ -457,7 +457,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n    value : Int" +
         "\n" +
-        "\n  h (x : Int) : Int = 2 * x + 1" +
+        "\n  h [B : Type] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\nend" +
         "\n" +
@@ -500,7 +500,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n  def   value : Int" +
         "\n" +
-        "\n  def h (x : Int) : Int = 2 * x + 1" +
+        "\n  def h [B ] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\n}" +
         "\n" +
