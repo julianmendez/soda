@@ -1,5 +1,5 @@
 
-class Pair [A]
+class Pair [A : Type]
 
   abstract
     name : String

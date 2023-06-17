@@ -11,7 +11,7 @@ case class RecursionForCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)

@@ -37,7 +37,7 @@ class PriceMonitorSpec ()
     java.util.Calendar
     java.util.TimeZone
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   fair_pricing_agent = FairPricingAgent_ ()

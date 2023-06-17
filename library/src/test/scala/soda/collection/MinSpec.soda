@@ -8,7 +8,7 @@ class MinSpec ()
     soda.lib.Fold_
     soda.lib.SomeSD_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   empty : ESeq [Int] = ESeq_ [Int] ()

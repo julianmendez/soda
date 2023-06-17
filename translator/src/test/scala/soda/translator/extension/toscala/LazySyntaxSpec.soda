@@ -40,7 +40,7 @@ class LazySyntaxSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should show what happens when constants are defined in the wrong order") (

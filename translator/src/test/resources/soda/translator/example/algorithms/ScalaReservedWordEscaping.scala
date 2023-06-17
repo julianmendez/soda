@@ -1,4 +1,4 @@
-trait MyPair [A, B]
+trait MyPair [A , B ]
 {
 
   def   key : A
@@ -15,9 +15,9 @@ trait ScalaReservedWordEscaping
 
   private lazy val __soda__val = 1
 
-  def g [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
+  def g [A , B ] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
 
-  private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
+  private def __soda__while [A , B ] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
     seq .takeWhile (cond) .map (funct)
 
   private lazy val __soda__protected = "protected"

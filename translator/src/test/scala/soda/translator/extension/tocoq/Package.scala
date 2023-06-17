@@ -16,7 +16,7 @@ case class CoqFullTranslationSpec ()
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val Base = "/soda/translator/example/"
@@ -70,7 +70,7 @@ case class MicroTranslatorToCoqSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =

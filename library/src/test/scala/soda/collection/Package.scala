@@ -15,7 +15,7 @@ case class MinSpec ()
   import   soda.lib.Fold_
   import   soda.lib.SomeSD_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val empty : ESeq [Int] = ESeq_ [Int] ()

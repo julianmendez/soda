@@ -7,7 +7,7 @@ class FactorialForCoqSpec ()
     soda.example.forcoq.lib.IntNat_
     soda.example.forcoq.lib.nat
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   factorial_values : Seq [Tuple2 [Int] [Int] ] = Seq (

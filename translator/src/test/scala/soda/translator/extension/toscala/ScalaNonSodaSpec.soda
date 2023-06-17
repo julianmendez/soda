@@ -11,7 +11,7 @@ class ScalaNonSodaSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   bp =

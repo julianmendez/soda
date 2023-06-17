@@ -3,7 +3,7 @@ class CartesianProductSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   int_seq_a = Seq (10 , 20)

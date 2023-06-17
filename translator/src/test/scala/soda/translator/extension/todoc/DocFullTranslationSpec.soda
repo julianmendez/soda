@@ -10,7 +10,7 @@ class DocFullTranslationSpec ()
     java.nio.file.Files
     java.nio.file.Paths
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   base = "/soda/translator/documentation/"

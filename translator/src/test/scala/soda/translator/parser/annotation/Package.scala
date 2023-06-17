@@ -16,7 +16,7 @@ case class BlockAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_blocks =
@@ -173,7 +173,7 @@ case class ClassBeginningAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_blocks = ExampleProgram_ () .example_blocks

@@ -50,7 +50,7 @@ case class PriceMonitorSpec ()
   import   java.util.Calendar
   import   java.util.TimeZone
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val fair_pricing_agent = FairPricingAgent_ ()

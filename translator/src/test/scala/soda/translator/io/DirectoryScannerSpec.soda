@@ -6,7 +6,7 @@ class DirectoryScannerSpec ()
   import
     java.io.File
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   start = "translator/src/test/resources/soda/example"

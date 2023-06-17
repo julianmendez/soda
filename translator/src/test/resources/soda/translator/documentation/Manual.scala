@@ -244,14 +244,11 @@ trait Manual
   /* It is possible to use pattern matching with `match` and `case`.
    * The result of the matching case is put after a long double arrow `==>`. */
 
-  def if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
+  def if_then_else [A ] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
       case otherwise => if_false
     }
-
-  def sum (n : Int) =
-    _tailrec_ (n) (0)
 
   /* A tail recursive function cannot be declared inside another function, and its name could start with underscore.
    * Annotation `@tailrec` helps ensuring that the tail recursion is detected and optimized. */
@@ -262,6 +259,9 @@ trait Manual
     if ( n < 0
     ) accum
     else _tailrec_ (n - 1) (n + accum)
+
+  def sum (n : Int) =
+    _tailrec_ (n) (0)
 
 }
 
@@ -291,12 +291,12 @@ trait FoldWhile
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence.isEmpty || (! condition (current_value) (sequence.head) )
     ) current_value
     else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
-  def apply [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  def apply [A , B ] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
 }

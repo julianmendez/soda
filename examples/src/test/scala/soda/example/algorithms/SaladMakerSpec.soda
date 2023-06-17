@@ -28,7 +28,7 @@ class SaladMakerSpec ()
     org.scalatest.funsuite.AnyFunSuite
     SaladIngredientConstant
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =

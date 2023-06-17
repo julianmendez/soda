@@ -11,7 +11,7 @@ case class FizzBuzzSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val expected_result = Seq (
@@ -55,7 +55,7 @@ case class PatternMatchingSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = PatternMatching_ ()
@@ -146,7 +146,7 @@ case class SaladMakerSpec ()
     with SaladIngredientConstant
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
@@ -180,7 +180,7 @@ case class SortExampleSpec ()
 
   import   soda.lib.SomeSD_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val sorted_sequence = Seq (1 , 3 , 5 , 5 , 8 , 9)

@@ -391,13 +391,10 @@ It is possible to use pattern matching with `match` and `case`.The result of the
 \begin{lstlisting}
 
 
-  if_then_else [A] (condition : Boolean) (if_true : A) (if_false : A) : A =
+  if_then_else [A : Type] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
       case otherwise ==> if_false
-
-  sum (n : Int) =
-    _tailrec_ (n) (0)
 
 
 \end{lstlisting}
@@ -413,6 +410,9 @@ A tail recursive function cannot be declared inside another function, and its na
     if n < 0
     then accum
     else _tailrec_ (n - 1) (n + accum)
+
+  sum (n : Int) =
+    _tailrec_ (n) (0)
 
 end
 
@@ -441,12 +441,12 @@ end
 class FoldWhile
 
   @tailrec
-  _tailrec_fold_while [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  _tailrec_fold_while [A : Type] [B : Type] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     if sequence.isEmpty or (not condition (current_value) (sequence.head) )
     then current_value
     else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
-  apply [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  apply [A : Type] [B : Type] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
 
 end

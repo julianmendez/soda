@@ -6,7 +6,7 @@ class OptionSDSpec ()
   import
     scala.util.Try
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   result_if_empty : String = "It is empty."

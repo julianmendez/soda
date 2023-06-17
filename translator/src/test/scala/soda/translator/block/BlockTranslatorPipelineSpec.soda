@@ -67,7 +67,7 @@ class BlockTranslatorPipelineSpec ()
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance =

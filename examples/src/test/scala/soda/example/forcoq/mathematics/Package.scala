@@ -14,7 +14,7 @@ case class FactorialForCoqSpec ()
   import   soda.example.forcoq.lib.IntNat_
   import   soda.example.forcoq.lib.nat
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val factorial_values : Seq [Tuple2 [Int, Int] ] = Seq (
@@ -48,7 +48,7 @@ case class FiboExampleInSodaForCoqSpec ()
   import   soda.example.forcoq.lib.IntNat_
   import   soda.example.forcoq.lib.nat
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val fibonacci_values : Seq [Tuple2 [Int, Int] ] = Seq (
@@ -82,7 +82,7 @@ case class TriangularNumberForCoqSpec ()
   import   soda.example.forcoq.lib.IntNat_
   import   soda.example.forcoq.lib.nat
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val triangular_number_values : Seq [Tuple2 [Int, Int] ] = Seq (

@@ -1,18 +1,18 @@
 
 
-class MSeq [A]
+class MSeq [A : Type]
 
   abstract
     isEmpty : Boolean
 
-  opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
+  opt [B : Type] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
       case NESeq_ (head , tail) ==> ifNonEmpty (NESeq_ (head , tail) )
       case otherwise ==> ifEmpty
 
 end
 
-class ESeq [A]
+class ESeq [A : Type]
   extends
     MSeq [A]
 
@@ -20,7 +20,7 @@ class ESeq [A]
 
 end
 
-class NEMSeq [A]
+class NEMSeq [A : Type]
   extends
     MSeq [A]
 
@@ -32,7 +32,7 @@ class NEMSeq [A]
 
 end
 
-class NESeq [A]
+class NESeq [A : Type]
   extends
     NEMSeq [A]
 
@@ -46,10 +46,10 @@ class NESeq [A]
 
 end
 
-class MSeqRec [A]
+class MSeqRec [A : Type]
 
   @tailrec
-  _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  _tailrec_fold_while [B : Type] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
       case NESeq_ (head , tail) ==>
         if not condition (current_value) (head)
@@ -57,7 +57,7 @@ class MSeqRec [A]
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (next_value_function) (condition)
       case otherwise ==> current_value
 
-  fold_while [B] (sequence : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  fold_while [B : Type] (sequence : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value) (condition)
 
 end

@@ -1,4 +1,4 @@
-class IndexFoldTuple [A]
+class IndexFoldTuple [A : Type]
 
   abstract
     index : Int
@@ -7,7 +7,7 @@ class IndexFoldTuple [A]
 
 end
 
-class ContainsFoldTuple [A]
+class ContainsFoldTuple [A : Type]
 
   abstract
     contained : Boolean
@@ -15,7 +15,7 @@ class ContainsFoldTuple [A]
 
 end
 
-class AtFoldTuple [A]
+class AtFoldTuple [A : Type]
 
   abstract
     elem : A
@@ -24,7 +24,7 @@ class AtFoldTuple [A]
 
 end
 
-class TakeDropFoldTuple [A]
+class TakeDropFoldTuple [A : Type]
 
   abstract
     seq : MSeq [A]
@@ -33,7 +33,7 @@ class TakeDropFoldTuple [A]
 
 end
 
-class ForallExistsFoldTuple [A]
+class ForallExistsFoldTuple [A : Type]
 
   abstract
     status : Boolean
@@ -41,7 +41,7 @@ class ForallExistsFoldTuple [A]
 
 end
 
-class FindFoldTuple [A]
+class FindFoldTuple [A : Type]
 
   abstract
     maybe_element : soda.lib.OptionSD [A]
@@ -49,7 +49,7 @@ class FindFoldTuple [A]
 
 end
 
-class FilterFoldTuple [A]
+class FilterFoldTuple [A : Type]
 
   abstract
     sequence : MSeq [A]
@@ -57,7 +57,7 @@ class FilterFoldTuple [A]
 
 end
 
-class Map0FoldTuple [A]
+class Map0FoldTuple [A : Type]
 
   abstract
     sequence : MSeq [A]
@@ -65,7 +65,7 @@ class Map0FoldTuple [A]
 
 end
 
-class SpanRevFoldTuple [A]
+class SpanRevFoldTuple [A : Type]
 
   abstract
     left : MSeq [A]
@@ -75,15 +75,15 @@ class SpanRevFoldTuple [A]
 
 end
 
-class MSeqTranslator [A]
+class MSeqTranslator [A : Type]
 
   @tailrec
-  _tailrec_foldLeftSeq [B] (sequence : Seq [A] ) (current_value : B) (next_value : B -> A -> B) : B =
+  _tailrec_foldLeftSeq [B : Type] (sequence : Seq [A] ) (current_value : B) (next_value : B -> A -> B) : B =
     if sequence .isEmpty
     then current_value
     else _tailrec_foldLeftSeq (sequence .tail) (next_value (current_value) (sequence .head) ) (next_value)
 
-  foldLeftSeq [B] (sequence : Seq [A] ) (initial_value : B) (next_value : B -> A -> B) : B =
+  foldLeftSeq [B : Type] (sequence : Seq [A] ) (initial_value : B) (next_value : B -> A -> B) : B =
     _tailrec_foldLeftSeq (sequence) (initial_value) (next_value)
 
   _asMSeq_initial_value : MSeq [A] = Min_ () .empty
@@ -104,7 +104,7 @@ class MSeqTranslator [A]
 
 end
 
-class MSeqPair [A]
+class MSeqPair [A : Type]
 
   abstract
     left : MSeq [A]
@@ -112,7 +112,7 @@ class MSeqPair [A]
 
 end
 
-class Min [A]
+class Min [A : Type]
 
   import
     soda.lib.NoneSD_
@@ -138,10 +138,10 @@ class Min [A]
 
   /* */
 
-  foldLeftWhile [B] (s : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  foldLeftWhile [B : Type] (s : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
     MSeqRec_ [A] () .fold_while [B] (s) (initial_value) (next_value) (condition)
 
-  foldLeft [B] (s : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) : B =
+  foldLeft [B : Type] (s : MSeq [A] ) (initial_value : B) (next_value : B -> A -> B) : B =
     foldLeftWhile (s) (initial_value) (next_value) (lambda (acc : B) --> lambda (elem : A) --> true)
 
   _reverseNonEmpty_initial_value (s : NESeq [A] ) : NESeq [A] = prepended (empty) (s .head)

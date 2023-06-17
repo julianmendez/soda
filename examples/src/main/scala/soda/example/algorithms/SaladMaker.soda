@@ -2,7 +2,7 @@
 class SaladMaker
 
   @tailrec
-  _tailrec_prepare_salad [Ingredient] [Salad]
+  _tailrec_prepare_salad [Ingredient : Type] [Salad : Type]
     (ingredients_so_far : Seq [Ingredient] )
     (salad_so_far : Salad)
     (next_ingredient_function : Salad -> Ingredient -> Salad)
@@ -12,7 +12,7 @@ class SaladMaker
     then salad_so_far
     else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
 
-  apply [Ingredient] [Salad]
+  apply [Ingredient : Type] [Salad : Type]
     (list_of_ingredients : Seq [Ingredient] )
     (initial_bowl : Salad)
     (next_ingredient_function : Salad -> Ingredient -> Salad)

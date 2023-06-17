@@ -11,7 +11,7 @@ case class CartesianProductSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val int_seq_a = Seq (10 , 20)
@@ -130,7 +130,7 @@ case class EnumSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("the names of the elements in enumerations") (
@@ -151,7 +151,7 @@ case class OptionSDSpec ()
 
   import   scala.util.Try
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val result_if_empty : String = "It is empty."
@@ -368,7 +368,7 @@ case class RecursionSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)
@@ -440,7 +440,7 @@ case class SeqSDSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val int_seq : Seq [Int] = Seq (2 , 7 , 1 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 4 , 5 , 9)

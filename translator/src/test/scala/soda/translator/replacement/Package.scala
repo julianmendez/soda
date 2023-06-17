@@ -11,7 +11,7 @@ case class CharTypeSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should recognize quotation marks") (
@@ -66,7 +66,7 @@ case class ReplacementAuxSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = ReplacementAux_ ()
@@ -235,7 +235,7 @@ case class ReplacementSpec ()
 
   import   soda.translator.parser.SodaConstant_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = ReplacementAux_ ()
@@ -283,7 +283,7 @@ case class TokenizerSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should tokenize a small example") (

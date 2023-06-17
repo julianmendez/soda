@@ -11,7 +11,7 @@ case class ListExampleSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should test a") (

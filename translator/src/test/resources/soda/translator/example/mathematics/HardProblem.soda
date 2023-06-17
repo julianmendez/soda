@@ -1,5 +1,5 @@
 
-class InputPair [A] [B]
+class InputPair [A : Type] [B : Type]
 
   abstract
     value : A
@@ -7,7 +7,7 @@ class InputPair [A] [B]
 
 end
 
-class OutputPair [A] [B]
+class OutputPair [A : Type] [B : Type]
 
   abstract
     value : B
@@ -15,7 +15,7 @@ class OutputPair [A] [B]
 
 end
 
-class MemoizableFunction [A] [B]
+class MemoizableFunction [A : Type] [B : Type]
 
   abstract
     /** compute (input : InputPair [A] [B] ) : OutputPair [A] [B] */
@@ -26,14 +26,14 @@ class MemoizableFunction [A] [B]
 
 end
 
-class MainFunction [A] [B]
+class MainFunction [A : Type] [B : Type]
 
   abstract
     main_function : InputPair [A] [B] -> OutputPair [A] [B]
 
 end
 
-class Memoizer [A] [B]
+class Memoizer [A : Type] [B : Type]
   extends
     MemoizableFunction [A] [B]
     MainFunction [A] [B]

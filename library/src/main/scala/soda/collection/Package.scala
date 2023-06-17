@@ -10,12 +10,12 @@ trait Package
 
 
 
-trait MSeq [A]
+trait MSeq [A ]
 {
 
   def   isEmpty : Boolean
 
-  def opt [B] (ifEmpty : B) (ifNonEmpty : NESeq [A] => B) : B =
+  def opt [B ] (ifEmpty : B) (ifNonEmpty : NESeq [A] => B) : B =
     this match  {
       case NESeq_ (head , tail) => ifNonEmpty (NESeq_ (head , tail) )
       case otherwise => ifEmpty
@@ -25,7 +25,7 @@ trait MSeq [A]
 
 case class MSeq_ [A] (isEmpty : Boolean) extends MSeq [A]
 
-trait ESeq [A]
+trait ESeq [A ]
   extends
     MSeq [A]
 {
@@ -36,7 +36,7 @@ trait ESeq [A]
 
 case class ESeq_ [A] () extends ESeq [A]
 
-trait NEMSeq [A]
+trait NEMSeq [A ]
   extends
     MSeq [A]
 {
@@ -50,7 +50,7 @@ trait NEMSeq [A]
 
 case class NEMSeq_ [A] (head0 : A, tail0 : MSeq [A]) extends NEMSeq [A]
 
-trait NESeq [A]
+trait NESeq [A ]
   extends
     NEMSeq [A]
 {
@@ -66,12 +66,12 @@ trait NESeq [A]
 
 case class NESeq_ [A] (head0 : A, tail0 : MSeq [A]) extends NESeq [A]
 
-trait MSeqRec [A]
+trait MSeqRec [A ]
 {
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold_while [B] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold_while [B ] (sequence : MSeq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
       case NESeq_ (head , tail) =>
         if ( ! condition (current_value) (head)
@@ -80,7 +80,7 @@ trait MSeqRec [A]
       case otherwise => current_value
     }
 
-  def fold_while [B] (sequence : MSeq [A] ) (initial_value : B) (next_value : B => A => B) (condition : B => A => Boolean) : B =
+  def fold_while [B ] (sequence : MSeq [A] ) (initial_value : B) (next_value : B => A => B) (condition : B => A => Boolean) : B =
     _tailrec_fold_while (sequence) (initial_value) (next_value) (condition)
 
 }
@@ -88,7 +88,7 @@ trait MSeqRec [A]
 case class MSeqRec_ [A] () extends MSeqRec [A]
 
 
-trait IndexFoldTuple [A]
+trait IndexFoldTuple [A ]
 {
 
   def   index : Int
@@ -99,7 +99,7 @@ trait IndexFoldTuple [A]
 
 case class IndexFoldTuple_ [A] (index : Int, position : Int, element : A) extends IndexFoldTuple [A]
 
-trait ContainsFoldTuple [A]
+trait ContainsFoldTuple [A ]
 {
 
   def   contained : Boolean
@@ -109,7 +109,7 @@ trait ContainsFoldTuple [A]
 
 case class ContainsFoldTuple_ [A] (contained : Boolean, element : A) extends ContainsFoldTuple [A]
 
-trait AtFoldTuple [A]
+trait AtFoldTuple [A ]
 {
 
   def   elem : A
@@ -120,7 +120,7 @@ trait AtFoldTuple [A]
 
 case class AtFoldTuple_ [A] (elem : A, index : Int, position : Int) extends AtFoldTuple [A]
 
-trait TakeDropFoldTuple [A]
+trait TakeDropFoldTuple [A ]
 {
 
   def   seq : MSeq [A]
@@ -131,7 +131,7 @@ trait TakeDropFoldTuple [A]
 
 case class TakeDropFoldTuple_ [A] (seq : MSeq [A], index : Int, length : Int) extends TakeDropFoldTuple [A]
 
-trait ForallExistsFoldTuple [A]
+trait ForallExistsFoldTuple [A ]
 {
 
   def   status : Boolean
@@ -141,7 +141,7 @@ trait ForallExistsFoldTuple [A]
 
 case class ForallExistsFoldTuple_ [A] (status : Boolean, condition : A => Boolean) extends ForallExistsFoldTuple [A]
 
-trait FindFoldTuple [A]
+trait FindFoldTuple [A ]
 {
 
   def   maybe_element : soda.lib.OptionSD [A]
@@ -151,7 +151,7 @@ trait FindFoldTuple [A]
 
 case class FindFoldTuple_ [A] (maybe_element : soda.lib.OptionSD [A], condition : A => Boolean) extends FindFoldTuple [A]
 
-trait FilterFoldTuple [A]
+trait FilterFoldTuple [A ]
 {
 
   def   sequence : MSeq [A]
@@ -161,7 +161,7 @@ trait FilterFoldTuple [A]
 
 case class FilterFoldTuple_ [A] (sequence : MSeq [A], condition : A => Boolean) extends FilterFoldTuple [A]
 
-trait Map0FoldTuple [A]
+trait Map0FoldTuple [A ]
 {
 
   def   sequence : MSeq [A]
@@ -171,7 +171,7 @@ trait Map0FoldTuple [A]
 
 case class Map0FoldTuple_ [A] (sequence : MSeq [A], mapping : A => A) extends Map0FoldTuple [A]
 
-trait SpanRevFoldTuple [A]
+trait SpanRevFoldTuple [A ]
 {
 
   def   left : MSeq [A]
@@ -183,17 +183,17 @@ trait SpanRevFoldTuple [A]
 
 case class SpanRevFoldTuple_ [A] (left : MSeq [A], right : MSeq [A], taking : Boolean, condition : A => Boolean) extends SpanRevFoldTuple [A]
 
-trait MSeqTranslator [A]
+trait MSeqTranslator [A ]
 {
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_foldLeftSeq [B] (sequence : Seq [A] ) (current_value : B) (next_value : B => A => B) : B =
+  private def _tailrec_foldLeftSeq [B ] (sequence : Seq [A] ) (current_value : B) (next_value : B => A => B) : B =
     if ( sequence .isEmpty
     ) current_value
     else _tailrec_foldLeftSeq (sequence .tail) (next_value (current_value) (sequence .head) ) (next_value)
 
-  def foldLeftSeq [B] (sequence : Seq [A] ) (initial_value : B) (next_value : B => A => B) : B =
+  def foldLeftSeq [B ] (sequence : Seq [A] ) (initial_value : B) (next_value : B => A => B) : B =
     _tailrec_foldLeftSeq (sequence) (initial_value) (next_value)
 
   private lazy val _asMSeq_initial_value : MSeq [A] = Min_ () .empty
@@ -216,7 +216,7 @@ trait MSeqTranslator [A]
 
 case class MSeqTranslator_ [A] () extends MSeqTranslator [A]
 
-trait MSeqPair [A]
+trait MSeqPair [A ]
 {
 
   def   left : MSeq [A]
@@ -226,7 +226,7 @@ trait MSeqPair [A]
 
 case class MSeqPair_ [A] (left : MSeq [A], right : MSeq [A]) extends MSeqPair [A]
 
-trait Min [A]
+trait Min [A ]
 {
 
   import   soda.lib.NoneSD_
@@ -252,10 +252,10 @@ trait Min [A]
 
   /* */
 
-  def foldLeftWhile [B] (s : MSeq [A] ) (initial_value : B) (next_value : B => A => B) (condition : B => A => Boolean) : B =
+  def foldLeftWhile [B ] (s : MSeq [A] ) (initial_value : B) (next_value : B => A => B) (condition : B => A => Boolean) : B =
     MSeqRec_ [A] () .fold_while [B] (s) (initial_value) (next_value) (condition)
 
-  def foldLeft [B] (s : MSeq [A] ) (initial_value : B) (next_value : B => A => B) : B =
+  def foldLeft [B ] (s : MSeq [A] ) (initial_value : B) (next_value : B => A => B) : B =
     foldLeftWhile (s) (initial_value) (next_value) ( (acc : B) =>  (elem : A) => true)
 
   private def _reverseNonEmpty_initial_value (s : NESeq [A] ) : NESeq [A] = prepended (empty) (s .head)

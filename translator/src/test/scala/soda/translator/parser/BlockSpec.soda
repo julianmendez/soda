@@ -6,7 +6,7 @@ class BlockSpec ()
   import
     soda.translator.block.AnnotatedLine_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   input = ("\n" +

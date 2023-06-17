@@ -13,7 +13,7 @@ case class BlockSpec ()
 
   import   soda.translator.block.AnnotatedLine_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val input = ("\n" +
@@ -54,7 +54,7 @@ case class PreprocessorSequenceTranslatorSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.block.DefaultBlockTranslator_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_program =

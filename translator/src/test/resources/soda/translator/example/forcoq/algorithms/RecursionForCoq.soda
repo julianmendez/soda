@@ -6,7 +6,7 @@
 class RecursionForCoq
 
   @tailrec
-  _tailrec_fold4 [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  _tailrec_fold4 [A : Type] [B : Type] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
       case (head) :: (tail) ==>
          if (not (condition (current_value) (head) ) )
@@ -14,16 +14,16 @@ class RecursionForCoq
          else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
       case otherwise ==> current_value
 
-  fold4 [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
+  fold4 [A : Type] [B : Type] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
 
   @tailrec
-  _tailrec_fold3 [A] [B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) : B =
+  _tailrec_fold3 [A : Type] [B : Type] (sequence : Seq [A] ) (current_value : B) (next_value_function : B -> A -> B) : B =
     match sequence
       case (head) :: (tail) ==> _tailrec_fold3 (tail) (next_value_function (current_value) (head) ) (next_value_function)
       case otherwise ==> current_value
 
-  fold3 [A] [B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) : B =
+  fold3 [A : Type] [B : Type] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B -> A -> B) : B =
     _tailrec_fold3 (sequence) (initial_value) (next_value_function)
 
   @tailrec

@@ -6,7 +6,7 @@ package soda.collection.example
 
 trait Package
 
-trait Pair [A]
+trait Pair [A ]
 {
 
   def   name : String

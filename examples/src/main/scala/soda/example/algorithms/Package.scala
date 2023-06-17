@@ -185,7 +185,7 @@ trait SaladMaker
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_prepare_salad [Ingredient, Salad]
+  private def _tailrec_prepare_salad [Ingredient , Salad ]
     (ingredients_so_far : Seq [Ingredient] )
     (salad_so_far : Salad)
     (next_ingredient_function : Salad => Ingredient => Salad)
@@ -195,7 +195,7 @@ trait SaladMaker
     ) salad_so_far
     else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
 
-  def apply [Ingredient, Salad]
+  def apply [Ingredient , Salad ]
     (list_of_ingredients : Seq [Ingredient] )
     (initial_bowl : Salad)
     (next_ingredient_function : Salad => Ingredient => Salad)
@@ -208,7 +208,7 @@ trait SaladMaker
 case class SaladMaker_ () extends SaladMaker
 
 
-trait MyPair [A, B]
+trait MyPair [A , B ]
 {
 
   def   key : A
@@ -225,9 +225,9 @@ trait ScalaReservedWordEscaping
 
   private lazy val __soda__val = 1
 
-  def g [A, B] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
+  def g [A , B ] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
 
-  private def __soda__while [A, B] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
+  private def __soda__while [A , B ] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
     seq .takeWhile (cond) .map (funct)
 
   private lazy val __soda__protected = "protected"

@@ -3,7 +3,7 @@ class SeqSDSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   int_seq : Seq [Int] = Seq (2 , 7 , 1 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 4 , 5 , 9)

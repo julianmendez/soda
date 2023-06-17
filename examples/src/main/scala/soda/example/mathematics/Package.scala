@@ -97,7 +97,7 @@ trait FiboUnicodeExample
 case class FiboUnicodeExample_ () extends FiboUnicodeExample
 
 
-trait InputPair [A, B]
+trait InputPair [A , B ]
 {
 
   def   value : A
@@ -107,7 +107,7 @@ trait InputPair [A, B]
 
 case class InputPair_ [A, B] (value : A, memoized_values : Map [A, B]) extends InputPair [A, B]
 
-trait OutputPair [A, B]
+trait OutputPair [A , B ]
 {
 
   def   value : B
@@ -117,7 +117,7 @@ trait OutputPair [A, B]
 
 case class OutputPair_ [A, B] (value : B, memoized_values : Map [A, B]) extends OutputPair [A, B]
 
-trait MemoizableFunction [A, B]
+trait MemoizableFunction [A , B ]
 {
 
     /** compute (input : InputPair [A] [B] ) : OutputPair [A] [B] */
@@ -130,7 +130,7 @@ trait MemoizableFunction [A, B]
 
 case class MemoizableFunction_ [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) extends MemoizableFunction [A, B]
 
-trait MainFunction [A, B]
+trait MainFunction [A , B ]
 {
 
   def   main_function : InputPair [A, B] => OutputPair [A, B]
@@ -139,7 +139,7 @@ trait MainFunction [A, B]
 
 case class MainFunction_ [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) extends MainFunction [A, B]
 
-trait Memoizer [A, B]
+trait Memoizer [A , B ]
   extends
     MemoizableFunction [A, B]
     with MainFunction [A, B]
