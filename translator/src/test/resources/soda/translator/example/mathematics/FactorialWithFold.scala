@@ -8,7 +8,7 @@ trait FactorialWithFold
   def apply (n : Int) : Int =
     if ( n < 0
     ) 0
-    else _fold .apply (_range .apply (n) ) (1) ( product =>  k => (product * (k + 1) ) )
+    else _fold .apply (_range .apply (n) ) (1) ( accum =>  k => (accum * (k + 1) ) )
 
 }
 

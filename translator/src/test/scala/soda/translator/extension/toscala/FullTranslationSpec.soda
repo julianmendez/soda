@@ -25,7 +25,7 @@ class FullTranslationSpec ()
 
   FactorialConcise = "mathematics/FactorialConcise"
 
-  FactorialVerbose = "mathematics/FactorialVerbose"
+  FactorialWithFold = "mathematics/FactorialWithFold"
 
   Fairness = "ethicalissues/fairness/Fairness"
 
@@ -79,8 +79,8 @@ class FullTranslationSpec ()
     test_translation (FactorialConcise)
   )
 
-  test ("should translate the Factorial Verbose example") (
-    test_translation (FactorialVerbose)
+  test ("should translate the Factorial With Fold example") (
+    test_translation (FactorialWithFold)
   )
 
   test ("should translate the Fairness example") (

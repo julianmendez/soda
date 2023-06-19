@@ -8,7 +8,7 @@ class FactorialWithFold
   apply (n : Int) : Int =
     if n < 0
     then 0
-    else _fold .apply (_range .apply (n) ) (1) (any product --> any k --> (product * (k + 1) ) )
+    else _fold .apply (_range .apply (n) ) (1) (lambda accum --> lambda k --> (accum * (k + 1) ) )
 
 end
 

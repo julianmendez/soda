@@ -199,7 +199,7 @@ case class FullTranslationSpec ()
 
   lazy val FactorialConcise = "mathematics/FactorialConcise"
 
-  lazy val FactorialVerbose = "mathematics/FactorialVerbose"
+  lazy val FactorialWithFold = "mathematics/FactorialWithFold"
 
   lazy val Fairness = "ethicalissues/fairness/Fairness"
 
@@ -253,8 +253,8 @@ case class FullTranslationSpec ()
     test_translation (FactorialConcise)
   )
 
-  test ("should translate the Factorial Verbose example") (
-    test_translation (FactorialVerbose)
+  test ("should translate the Factorial With Fold example") (
+    test_translation (FactorialWithFold)
   )
 
   test ("should translate the Fairness example") (

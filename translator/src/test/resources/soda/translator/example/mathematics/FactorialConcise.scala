@@ -3,15 +3,15 @@ trait FactorialConcise
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
-    if ( n == 0
-    ) product
-    else _tailrec_get_factorial (n - 1) (n * product)
+  private def _tailrec_fact (n : Int) (accum : Int) : Int =
+    if ( n < 2
+    ) accum
+    else _tailrec_fact (n - 1) (n * accum)
 
   def apply (n : Int) : Int =
     if ( n < 0
     ) 0
-    else _tailrec_get_factorial (n) (1)
+    else _tailrec_fact (n) (1)
 
 }
 
