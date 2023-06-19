@@ -11,7 +11,7 @@ trait FactorialPatternMatching
 
   def apply (n : Int) : Int =
     if ( n < 0
-    ) 0
+    ) 1
     else _tailrec_fact (n) (1)
 
 }

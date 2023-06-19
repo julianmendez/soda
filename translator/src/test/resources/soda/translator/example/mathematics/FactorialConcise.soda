@@ -8,9 +8,7 @@ class FactorialConcise
     else _tailrec_fact (n - 1) (n * accum)
 
   apply (n : Int) : Int =
-    if n < 0
-    then 0
-    else _tailrec_fact (n) (1)
+    _tailrec_fact (n) (1)
 
 end
 

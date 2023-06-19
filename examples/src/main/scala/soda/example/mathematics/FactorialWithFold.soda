@@ -1,14 +1,12 @@
 
 class FactorialWithFold
 
-  _fold = soda.lib.Fold_ ()
+  fold = soda.lib.Fold_ ()
 
-  _range = soda.lib.Range_ ()
+  range = soda.lib.Range_ ()
 
   apply (n : Int) : Int =
-    if n < 0
-    then 0
-    else _fold .apply (_range .apply (n) ) (1) (lambda accum --> lambda k --> (accum * (k + 1) ) )
+    fold .apply (range .apply (n) ) (1) (lambda accum --> lambda k --> (accum * (k + 1) ) )
 
 end
 

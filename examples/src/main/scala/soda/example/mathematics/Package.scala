@@ -18,9 +18,7 @@ trait FactorialConcise
     else _tailrec_fact (n - 1) (n * accum)
 
   def apply (n : Int) : Int =
-    if ( n < 0
-    ) 0
-    else _tailrec_fact (n) (1)
+    _tailrec_fact (n) (1)
 
 }
 
@@ -40,7 +38,7 @@ trait FactorialPatternMatching
 
   def apply (n : Int) : Int =
     if ( n < 0
-    ) 0
+    ) 1
     else _tailrec_fact (n) (1)
 
 }
@@ -48,17 +46,28 @@ trait FactorialPatternMatching
 case class FactorialPatternMatching_ () extends FactorialPatternMatching
 
 
+trait FactorialSimple
+{
+
+  def apply (n : Int) : Int =
+    if ( n < 2
+    ) 1
+    else n * apply (n - 1)
+
+}
+
+case class FactorialSimple_ () extends FactorialSimple
+
+
 trait FactorialWithFold
 {
 
-  private lazy val _fold = soda.lib.Fold_ ()
+  lazy val fold = soda.lib.Fold_ ()
 
-  private lazy val _range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range_ ()
 
   def apply (n : Int) : Int =
-    if ( n < 0
-    ) 0
-    else _fold .apply (_range .apply (n) ) (1) ( accum =>  k => (accum * (k + 1) ) )
+    fold .apply (range .apply (n) ) (1) ( accum =>  k => (accum * (k + 1) ) )
 
 }
 
