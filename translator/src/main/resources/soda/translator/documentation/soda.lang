@@ -128,6 +128,7 @@
         </context>
 
         <context id="declaration" style-ref="keyword">
+            <keyword>def</keyword>
             <keyword>match</keyword>
             <keyword>case</keyword>
             <keyword>class</keyword>
