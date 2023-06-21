@@ -1,0 +1,57 @@
+
+class LeanFullTranslationSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    org.scalatest.Assertion
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+    java.nio.file.Files
+    java.nio.file.Paths
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  base = "/soda/translator/example/"
+
+  soda_suffix = ".soda"
+
+  lean_suffix = ".lean"
+
+  swap_example = "algorithms/SwapExample"
+
+  triangular_number = "forlean/mathematics/TriangularNumberForLean"
+
+  read_file (file_name : String) : String =
+    @new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
+
+  test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
+    check (
+      obtained :=
+        BlockProcessor_(
+          DefaultBlockSequenceTranslator_ (
+            MicroTranslatorToLean_()
+          )
+        ) .translate (read_file (input_file_name) )
+    ) (
+      expected := read_file (expected_file_name)
+    )
+
+  test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name := base + file_name + soda_suffix) (expected_file_name := base + file_name + lean_suffix)
+
+  test ("should translate the swap example") (
+    test_translation (swap_example)
+  )
+
+  test ("should translate the example of triangular numbers") (
+    test_translation (triangular_number)
+  )
+
+end
+

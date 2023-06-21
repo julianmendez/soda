@@ -1,0 +1,5 @@
+package soda.example.forlean.lib
+
+/*
+ * This package contains tests for helper classes that could be needed for a translation to Lean.
+ */

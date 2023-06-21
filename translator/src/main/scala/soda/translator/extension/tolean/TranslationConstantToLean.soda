@@ -1,0 +1,201 @@
+
+/**
+ * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Lean.
+ */
+
+class TranslationConstantToLean
+
+  import
+    soda.translator.parser.SodaConstant_
+
+  soda_constant = SodaConstant_ ()
+
+  lean_space = " "
+
+  lean_new_line = "\n"
+
+  lean_function_definition_symbol = ":="
+
+  lean_type_membership_symbol = ":"
+
+  lean_subtype_symbol = "<:"
+
+  lean_supertype_symbol = ">:"
+
+  lean_function_arrow_symbol = "->"
+
+  lean_empty_string = ""
+
+  lean_vertical_bar_symbol = "|"
+
+  lean_match_end_translation = ""
+
+  lean_opening_parenthesis = "("
+
+  lean_closing_parenthesis = ")"
+
+  lean_opening_comment = "(*"
+
+  lean_closing_comment = "*)"
+
+  lean_opening_documentation = "/--"
+
+  lean_closing_documentation = "-/"
+
+  lean_some_variable_name = "x"
+
+  lean_opening_brace = "{"
+
+  lean_closing_brace = "}"
+
+  lean_product_type_symbol = "*"
+
+  lean_lambda_reserved_word = "fun"
+
+  lean_lambda_arrow_symbol = "=>"
+
+  lean_case_arrow_symbol = "=>"
+
+  lean_case_translation = lean_vertical_bar_symbol + lean_space
+
+  lean_not_reserved_word = "notb"
+
+  lean_and_reserved_word = "&&"
+
+  lean_or_reserved_word = "||"
+
+  lean_end_symbol = ""
+
+  lean_definition_reserved_word : String = "def"
+
+  lean_inductive_reserved_word : String = "inductive"
+
+  lean_set_reserved_word : String = "set"
+
+  lean_type_reserved_word : String = "type"
+
+  lean_namespace_reserved_word : String = "namespace"
+
+  lean_namespace_end_reserved_word : String = "end"
+
+  lean_import_reserved_word : String = "import"
+
+  lean_recursive_definition_reserved_word : String = "def"
+
+  lean_inductive_end_symbol : String = lean_end_symbol
+
+  lean_definition_end_symbol : String = lean_end_symbol
+
+  lean_recursive_definition_end_symbol : String = lean_end_symbol
+
+  lean_with_reserved_word : String = "with"
+
+  lean_theorem_begin_reserved_word : String = "theorem"
+
+  lean_theorem_end_symbol : String = lean_end_symbol
+
+  lean_proof_begin_reserved_word : String = "begin"
+
+  lean_proof_end_reserved_word : String = "end"
+
+  lean_prelude : Seq [String] =
+    Seq (
+      ""
+    )
+
+  lean_recursive_function_prefixes : Seq [String] =
+    Seq (
+      "rec_",
+      "_rec_",
+      "tailrec_",
+      "_tailrec_",
+      "@tailrec"
+    )
+
+  non_definition_block_prefixes : Seq [String] =
+    Seq (
+      soda_constant .package_reserved_word ,
+      soda_constant .import_reserved_word ,
+      soda_constant .class_end_reserved_word ,
+      soda_constant .class_reserved_word ,
+      soda_constant .comment_opening_symbol
+    )
+
+  lean_reserved_words =
+    lean_1
+
+  lean_1 : Seq [String] =
+    Seq (
+      "by",
+      "def",
+      "deriving",
+      "do",
+      "else",
+      "end",
+      "example",
+      "fun",
+      "if",
+      "in",
+      "inductive",
+      "infix",
+      "instance",
+      "let",
+      "match",
+      "namespace",
+      "notation",
+      "open",
+      "structure",
+      "then",
+      "theorem",
+      "where",
+      "with",
+      "#check",
+      "#eval",
+      "#reduce"
+    )
+
+
+  type_symbols_translation : Seq [Tuple2 [String] [String] ] =
+    Seq (
+      Tuple2 (soda_constant .subtype_reserved_word, lean_subtype_symbol),
+      Tuple2 (soda_constant .supertype_reserved_word, lean_supertype_symbol),
+      Tuple2 (soda_constant .function_arrow_symbol, lean_function_arrow_symbol)
+    )
+
+  function_symbols_translation : Seq [Tuple2 [String] [String] ] =
+    Seq (
+      Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol),
+      Tuple2 (soda_constant .lambda_reserved_word , lean_lambda_reserved_word),
+      Tuple2 (soda_constant .any_reserved_word , lean_lambda_reserved_word),
+      Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol),
+      Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol),
+      Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word),
+      Tuple2 (soda_constant .and_reserved_word , lean_and_reserved_word),
+      Tuple2 (soda_constant .or_reserved_word , lean_or_reserved_word)
+    )
+
+  type_translation : Seq [ Tuple2 [String] [String]  ] =
+    Seq (
+        Tuple2 ("Boolean" , "Bool"),
+        Tuple2 ("Nat" , "Nat"),
+        Tuple2 ("Option" , "Option"),
+        Tuple2 ("List" , "List"),
+        Tuple2 ("String" , "String"),
+        Tuple2 ("Tuple2" , "Prod")
+    )
+
+  prefix_lean_non_soda : String = "__soda__"
+
+  lean_non_soda : Seq [Tuple2 [String] [String] ] =
+    lean_reserved_words
+      .filter (lambda x --> not soda_constant .soda_reserved_words  .contains (x))
+      .map (lambda x --> Tuple2 (x , prefix_lean_non_soda + x) )
+
+  is_lean_word (word : String) : Boolean =
+    lean_reserved_words  .contains (word)
+
+  is_soda_word (word : String) : Boolean =
+    soda_constant .soda_reserved_words .contains (word)
+
+end
+

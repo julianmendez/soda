@@ -1,0 +1,37 @@
+
+class MicroTranslatorToLeanSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.parser.BlockProcessor_
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  instance =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToLean_ ()
+      )
+    )
+
+  test ("Lean translation of a constant") (
+    check (
+      obtained := instance.translate ("x = 0")
+    ) (
+      expected := " def x := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of a function") (
+    check (
+      obtained := instance.translate ("f (a : Nat) = 0")
+    ) (
+      expected := " def f (a : Nat) := 0\n\n"
+    )
+  )
+
+end
+

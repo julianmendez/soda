@@ -26,6 +26,7 @@ trait Main
     Seq (
       ( ".", soda.translator.extension.toscala.TranslatorToScala_ () ),
       ( "scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
+      ( "lean", soda.translator.extension.tolean.TranslatorToLean_ () ),
       ( "coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ),
       ( "doc", soda.translator.extension.todoc.TranslatorToDoc_ () ),
       ( "manual", soda.translator.extension.help.Manual_ () ),
@@ -41,7 +42,7 @@ trait Main
     ) help .execute (arguments .toSeq)
     else
       extensions
-        .getOrElse (arguments .head, help)
+        .getOrElse (arguments .head , help)
         .execute (arguments .tail)
 
   lazy val execute : Seq [String] => Boolean =

@@ -1,0 +1,53 @@
+
+/**
+ * This class translates Soda snippets into Lean snippets.
+ */
+
+class MicroTranslatorToLean
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockTranslatorPipeline_
+    soda.translator.block.ConditionalBlockTranslator_
+    soda.translator.blocktr.TokenReplacement_
+    soda.translator.blocktr.TokenizedBlockTranslator_
+    soda.translator.replacement.Token
+
+  _tc = TranslationConstantToLean_ ()
+
+  _function_definition = BlockAnnotationEnum_ () .function_definition
+
+  _test_declaration = BlockAnnotationEnum_ () .test_declaration
+
+  functions_and_tests = Seq (_function_definition, _test_declaration)
+
+  try_definition : Token -> String =
+    lambda token -->
+      DefinitionLineTranslator_ (token .text) .translation
+
+  _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        MatchCaseBlockTranslator_ (),
+        LeanDefinitionBlockTranslator_ (),
+        LeanClassConstructorBlockTranslator_ (),
+        LeanClassDeclarationBlockTranslator_ (),
+        LeanPackageDeclarationBlockTranslator_ (),
+        LeanClassEndBlockTranslator_ (),
+        LeanImportDeclarationBlockTranslator_ (),
+        LeanTheoremBlockTranslator_ (),
+        LeanProofBlockTranslator_ (),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
+        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ () .replace (_tc .function_symbols_translation) )
+      )
+    )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
+
+end
+

@@ -1,0 +1,78 @@
+
+class FileNamePair
+
+  abstract
+    input_file_name : String
+    output_file_name : String
+
+end
+
+/**
+ * This translates Soda source code to Lean source code.
+ */
+
+class TranslatorToLean
+  extends
+    soda.translator.extension.common.Extension
+
+  import
+    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.io.DirectoryProcessor_
+    soda.translator.io.SimpleFileReader_
+    soda.translator.io.SimpleFileWriter_
+    soda.translator.parser.BlockProcessor_
+    java.io.File
+
+  _soda_extension : String = ".soda"
+
+  _lean_extension : String = ".lean"
+
+  _default_argument = "."
+
+  _translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        MicroTranslatorToLean_ ()
+      )
+    )
+
+  _process_soda_file_with (pair : FileNamePair) : Boolean =
+    _translate (pair .input_file_name) (pair .output_file_name)
+
+  _get_input_output_file_names (input_name : String) : FileNamePair =
+    if input_name .endsWith (_soda_extension)
+    then FileNamePair_ (input_name,
+      input_name .substring (0, input_name .length - _soda_extension .length) + _lean_extension)
+    else FileNamePair_ (input_name + _soda_extension, input_name + _lean_extension)
+
+  _process_soda_file (file : File) : Boolean =
+    _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
+
+  _process_directory (start : String) : Boolean =
+    DirectoryProcessor_ (start , _process_soda_file) .process ()
+
+  _translate_with_input (input : String) (output_file_name : String) : Boolean =
+    SimpleFileWriter_ () .write_file (
+      output_file_name) (
+      content := _translator .translate (input)
+    )
+
+  _translate (input_file_name : String) (output_file_name : String) : Boolean =
+    _translate_with_input (
+      SimpleFileReader_ () .read_file (input_file_name) ) (
+      output_file_name
+    )
+
+  execute_for (arguments : Seq [String] ) : Boolean =
+    match arguments.length
+      case 0 ==> _process_directory (_default_argument)
+      case 1 ==> _process_directory (arguments (0) )
+      case 2 ==> _translate (arguments (0) ) (arguments (1) )
+      case otherwise ==> false
+
+  execute : Seq [String] -> Boolean =
+    lambda arguments -->
+      execute_for (arguments)
+
+end
+

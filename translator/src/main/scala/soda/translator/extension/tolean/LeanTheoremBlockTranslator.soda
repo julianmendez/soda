@@ -1,0 +1,49 @@
+
+class LeanTheoremBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.TheoremBlockAnnotation
+    soda.translator.parser.annotation.TheoremBlockAnnotation_
+
+  _tc = TranslationConstantToLean_ ()
+
+  _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      Seq[String] (prefix + block .lines .head) .++ (block .lines .tail)
+    )
+
+  _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      block .lines .:+ (suffix)
+    )
+
+  _remove_first_line (block : Block) : Block =
+    if block .lines .isEmpty
+    then block
+    else BlockBuilder_ () .build (block .lines .tail)
+
+  _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
+    TheoremBlockAnnotation_ (
+      _append (
+        _tc .lean_theorem_end_symbol) (_prepend (
+          _tc .lean_theorem_begin_reserved_word) (_remove_first_line (block)
+        )
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case TheoremBlockAnnotation_ (block) ==> _translate_block (TheoremBlockAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

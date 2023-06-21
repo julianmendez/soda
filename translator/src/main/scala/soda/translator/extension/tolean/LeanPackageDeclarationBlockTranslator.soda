@@ -1,0 +1,37 @@
+
+class LeanPackageDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.PackageDeclarationAnnotation
+    soda.translator.parser.annotation.PackageDeclarationAnnotation_
+
+  _tc = TranslationConstantToLean_ ()
+
+  _comment_block (block : Block) : Block =
+    BlockBuilder_ () .build (
+      ( (Seq (_tc .lean_opening_comment) .++ (block .lines) ) .++ (Seq (_tc .lean_closing_comment) ) ) .++ (_tc .lean_prelude)
+    )
+
+  _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
+    PackageDeclarationAnnotation_ (
+      _comment_block (
+        block
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case PackageDeclarationAnnotation_ (block) ==> _translate_block (PackageDeclarationAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+
