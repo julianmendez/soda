@@ -1,6 +1,6 @@
 namespace PairExample
 
-structure PairExample where
+class PairExample where
   PairExample_ ::
     left : Int
     right : Int

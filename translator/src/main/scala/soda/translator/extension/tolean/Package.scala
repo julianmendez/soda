@@ -193,7 +193,7 @@ trait LeanClassConstructorBlockTranslator
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .lean_structure_reserved_word +
+    _tc .lean_class_reserved_word +
     _tc .lean_space +
     beginning .class_name +
     _tc .lean_space +
@@ -904,6 +904,8 @@ trait TranslationConstantToLean
 
   lazy val lean_calc_reserved_word : String = "calc"
 
+  lazy val lean_class_reserved_word : String = "class"
+
   lazy val lean_def_reserved_word : String = "def"
 
   lazy val lean_deriving_reserved_word : String = "deriving"
@@ -972,6 +974,7 @@ trait TranslationConstantToLean
     Seq (
       lean_by_reserved_word ,
       lean_calc_reserved_word ,
+      lean_class_reserved_word ,
       lean_def_reserved_word ,
       lean_deriving_reserved_word ,
       lean_do_reserved_word,

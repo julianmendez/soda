@@ -84,6 +84,8 @@ class TranslationConstantToLean
 
   lean_calc_reserved_word : String = "calc"
 
+  lean_class_reserved_word : String = "class"
+
   lean_def_reserved_word : String = "def"
 
   lean_deriving_reserved_word : String = "deriving"
@@ -152,6 +154,7 @@ class TranslationConstantToLean
     Seq (
       lean_by_reserved_word ,
       lean_calc_reserved_word ,
+      lean_class_reserved_word ,
       lean_def_reserved_word ,
       lean_deriving_reserved_word ,
       lean_do_reserved_word,

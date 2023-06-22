@@ -54,7 +54,7 @@ class LeanClassConstructorBlockTranslator
 
   _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .lean_structure_reserved_word +
+    _tc .lean_class_reserved_word +
     _tc .lean_space +
     beginning .class_name +
     _tc .lean_space +
