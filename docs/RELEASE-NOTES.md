@@ -4,10 +4,11 @@
   - build: sbt '++ 3.3.0' clean compile test package assembly
   - release: target/scala-3.3.0/soda-0.19.0.jar
   - new_features:
+    - includes creation of instances with individual parameters, e.g. `Pair_ (fst) (snd)` instead of `Pair_ (fst , snd)`
     - includes an experimental translator to Lean 4, which can translate some snippets
+    - uses `Type` to define type membership of parametric types
     - accepts that class `end` could have a class name
     - accepts `def` as an optional reserved word to define functions
-    - uses `Type` to define type membership of parametric types
 - - version: v0.18.0
   - date: '2023-06-01'
   - build: sbt '++ 3.3.0' clean compile test package assembly

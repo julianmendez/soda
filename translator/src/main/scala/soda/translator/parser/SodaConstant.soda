@@ -111,7 +111,9 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
-  parameter_separation_regex = "]\\s*\\["
+  type_parameter_separation_regex = "]\\s*\\["
+
+  class_parameter_separation_regex = "\\)\\s*\\("
 
   addition_symbol = "+"
 

@@ -312,5 +312,61 @@ class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a constructor with parameters 1") (
+    check (
+      obtained := instance .translate ("p = Constructor_ (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = Constructor_ (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 2") (
+    check (
+      obtained := instance .translate ("p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "def p (x : Int) : Constructor = Constructor_ [String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 3") (
+    check (
+      obtained := instance .translate ("p = Constructor_ [Int] [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = Constructor_ [Int, String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 4") (
+    check (
+      obtained := instance .translate ("p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = (Constructor_ [Int, String] (a, b, c) ) .process (d) (e)" +
+        "\n"
+    )
+  )
+
+
+  test ("should translate a constructor with parameters 5") (
+    check (
+      obtained := instance .translate ("p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+    )
+  )
+
 end
 

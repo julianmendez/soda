@@ -255,13 +255,13 @@ trait Manual
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_ (n : Int) (accum : Int) : Int =
+  private def _tailrec_sum (n : Int) (accum : Int) : Int =
     if ( n < 0
     ) accum
-    else _tailrec_ (n - 1) (n + accum)
+    else _tailrec_sum (n - 1) (n + accum)
 
   def sum (n : Int) =
-    _tailrec_ (n) (0)
+    _tailrec_sum (n) (0)
 
 }
 

@@ -1,0 +1,105 @@
+
+class AuxTuple
+
+  abstract
+    index : Int
+    last_index : Int
+    bracket_level : Int
+    par_level : Int
+    line : String
+    accum : String
+    expecting : Boolean
+
+end
+
+
+class ClassConstructorParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.block.Block_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
+    soda.translator.parser.annotation.ClassEndAnnotation
+    soda.translator.parser.annotation.ClassEndAnnotation_
+    soda.translator.parser.annotation.ClassAliasAnnotation_
+    soda.translator.parser.annotation.TestDeclarationAnnotation_
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.parser.annotation.TestDeclarationAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.replacement.Token
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  _update_opening_par (a : AuxTuple) : AuxTuple =
+    if (a .par_level == 0) and (a .expecting)
+    then AuxTuple_ (a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line , a .accum + _tc.scala_class_parameter_separator_symbol + _tc.scala_space , false)
+    else AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line , a .accum , a .expecting)
+
+  _update_closing_par (a : AuxTuple) :AuxTuple =
+    if (a .par_level == 1)
+    then AuxTuple_ (a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line , a .accum + a .line .substring (a .last_index, a .index) , true)
+    else AuxTuple_ (a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line , a .accum , a .expecting)
+
+  _update_opening_bracket (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line , a .accum , a .expecting)
+
+  _update_closing_bracket (a : AuxTuple) :AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line , a .accum , a .expecting)
+
+  _update_next_space (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line , a .accum + a .line .substring (a .last_index), a .expecting)
+
+  _update_default_step (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line , a .accum , a .expecting)
+
+  _translate_line_initial (line : String) (index : Int) : AuxTuple =
+    AuxTuple_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 , line := line , accum := line .substring (0 , index) , expecting := false)
+
+  _translate_line_next (a : AuxTuple , ch : Char) : AuxTuple =
+    if (a .index >= a .line .length)
+    then a
+    else if (a .line .charAt (a .index) == _sc .opening_parenthesis_symbol .head)
+    then _update_opening_par (a)
+    else if (a .line .charAt (a .index) == _sc .closing_parenthesis_symbol .head)
+    then _update_closing_par (a)
+    else if (a .line .charAt (a .index) == _sc .opening_bracket_symbol .head)
+    then _update_opening_bracket (a)
+    else if (a .line .charAt (a .index) == _sc .closing_bracket_symbol .head)
+    then _update_closing_bracket (a)
+    else if (a .bracket_level == 0) and (a .par_level == 0) and (not (a .line .charAt (a .index) == ' ') )
+    then _update_next_space (a)
+    else _update_default_step (a)
+
+  _translate_line_with_parentheses_with_tuple (a : AuxTuple) : String =
+    a .accum + a .line .substring (a .last_index)
+
+  _translate_line (line : String) (index : Int) : String =
+    _translate_line_with_parentheses_with_tuple (line .foldLeft (_translate_line_initial (line) (index) ) (_translate_line_next) )
+
+  _translate_line_with_parentheses_after_constructor (line : String) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space) + 1)
+
+  _contains_constructor_suffix  (line : String) : Boolean =
+    line .indexOf (_sc .constructor_suffix + _sc .space) >= 0
+
+  _replace_parentheses_by_comma (line : String) : String =
+    if (_contains_constructor_suffix (line) )
+    then _translate_line_with_parentheses_after_constructor (line)
+    else line
+
+  replace_token : Token -> String =
+    lambda token -->
+      _replace_parentheses_by_comma (token .text)
+
+end

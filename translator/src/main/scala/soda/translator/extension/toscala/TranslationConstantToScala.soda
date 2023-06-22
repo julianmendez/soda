@@ -20,7 +20,9 @@ class TranslationConstantToScala
 
   scala_comma = ","
 
-  scala_parameter_separator_symbol = ","
+  scala_type_parameter_separator_symbol = ","
+
+  scala_class_parameter_separator_symbol = ","
 
   scala_lambda_arrow_symbol = "=>"
 

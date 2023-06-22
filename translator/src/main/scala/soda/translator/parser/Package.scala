@@ -378,7 +378,9 @@ trait SodaConstant
 
   lazy val closing_bracket_symbol = "]"
 
-  lazy val parameter_separation_regex = "]\\s*\\["
+  lazy val type_parameter_separation_regex = "]\\s*\\["
+
+  lazy val class_parameter_separation_regex = "\\)\\s*\\("
 
   lazy val addition_symbol = "+"
 

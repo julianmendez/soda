@@ -31,7 +31,7 @@ trait AbstractDeclarationBlockTranslator
 
   private def _translate_type_parameters_in_line (line : String) : String =
     line
-      .replaceAll (_sc .parameter_separation_regex, _tc .scala_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .type_parameter_separation_regex, _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
 
   private def _translate_type_parameters (abstract_functions_with_comments : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
     abstract_functions_with_comments
@@ -115,7 +115,7 @@ trait ClassConstructorBlockTranslator
   private def _get_as_parameter_list (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
     ) ""
-    else _tc .scala_space + _tc .scala_opening_bracket + parameters .mkString (_tc .scala_parameter_separator_symbol + _tc .scala_space) + _tc .scala_closing_bracket
+    else _tc .scala_space + _tc .scala_opening_bracket + parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) + _tc .scala_closing_bracket
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
@@ -126,7 +126,7 @@ trait ClassConstructorBlockTranslator
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
     _tc .scala_space +
     _tc .scala_opening_parenthesis +
-    abstract_functions .mkString (_tc .scala_parameter_separator_symbol + _tc .scala_space) +
+    abstract_functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
     _tc .scala_closing_parenthesis +
     _tc .scala_space +
     _tc .scala_extends_translation +
@@ -136,7 +136,7 @@ trait ClassConstructorBlockTranslator
 
   private def _translate_type_symbols (line : String) : String =
     line
-      .replaceAll (_sc .parameter_separation_regex , _tc .scala_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .type_parameter_separation_regex , _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
       .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
       .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
       .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
@@ -203,6 +203,115 @@ trait ClassConstructorBlockTranslator
 }
 
 case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator
+
+
+trait AuxTuple
+{
+
+  def   index : Int
+  def   last_index : Int
+  def   bracket_level : Int
+  def   par_level : Int
+  def   line : String
+  def   accum : String
+  def   expecting : Boolean
+
+}
+
+case class AuxTuple_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends AuxTuple
+
+trait ClassConstructorParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.block.Block_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
+  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation
+  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
+  import   soda.translator.parser.annotation.ClassEndAnnotation
+  import   soda.translator.parser.annotation.ClassEndAnnotation_
+  import   soda.translator.parser.annotation.ClassAliasAnnotation_
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation
+  import   soda.translator.parser.annotation.ClassAliasAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  private def _update_opening_par (a : AuxTuple) : AuxTuple =
+    if ( (a .par_level == 0) && (a .expecting)
+    ) AuxTuple_ (a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line , a .accum + _tc.scala_class_parameter_separator_symbol + _tc.scala_space , false)
+    else AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line , a .accum , a .expecting)
+
+  private def _update_closing_par (a : AuxTuple) :AuxTuple =
+    if ( (a .par_level == 1)
+    ) AuxTuple_ (a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line , a .accum + a .line .substring (a .last_index, a .index) , true)
+    else AuxTuple_ (a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line , a .accum , a .expecting)
+
+  private def _update_opening_bracket (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line , a .accum , a .expecting)
+
+  private def _update_closing_bracket (a : AuxTuple) :AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line , a .accum , a .expecting)
+
+  private def _update_next_space (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line , a .accum + a .line .substring (a .last_index), a .expecting)
+
+  private def _update_default_step (a : AuxTuple) : AuxTuple =
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line , a .accum , a .expecting)
+
+  private def _translate_line_initial (line : String) (index : Int) : AuxTuple =
+    AuxTuple_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 , line = line , accum = line .substring (0 , index) , expecting = false)
+
+  private def _translate_line_next (a : AuxTuple , ch : Char) : AuxTuple =
+    if ( (a .index >= a .line .length)
+    ) a
+    else if ( (a .line .charAt (a .index) == _sc .opening_parenthesis_symbol .head)
+    ) _update_opening_par (a)
+    else if ( (a .line .charAt (a .index) == _sc .closing_parenthesis_symbol .head)
+    ) _update_closing_par (a)
+    else if ( (a .line .charAt (a .index) == _sc .opening_bracket_symbol .head)
+    ) _update_opening_bracket (a)
+    else if ( (a .line .charAt (a .index) == _sc .closing_bracket_symbol .head)
+    ) _update_closing_bracket (a)
+    else if ( (a .bracket_level == 0) && (a .par_level == 0) && (! (a .line .charAt (a .index) == ' ') )
+    ) _update_next_space (a)
+    else _update_default_step (a)
+
+  private def _translate_line_with_parentheses_with_tuple (a : AuxTuple) : String =
+    a .accum + a .line .substring (a .last_index)
+
+  private def _translate_line (line : String) (index : Int) : String =
+    _translate_line_with_parentheses_with_tuple (line .foldLeft (_translate_line_initial (line) (index) ) (_translate_line_next) )
+
+  private def _translate_line_with_parentheses_after_constructor (line : String) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space) + 1)
+
+  private def _contains_constructor_suffix  (line : String) : Boolean =
+    line .indexOf (_sc .constructor_suffix + _sc .space) >= 0
+
+  private def _replace_parentheses_by_comma (line : String) : String =
+    if ( (_contains_constructor_suffix (line) )
+    ) _translate_line_with_parentheses_after_constructor (line)
+    else line
+
+  lazy val replace_token : Token => String =
+     token =>
+      _replace_parentheses_by_comma (token .text)
+
+}
+
+case class ClassConstructorParameterBlockTranslator_ () extends ClassConstructorParameterBlockTranslator
 
 
 trait ClassDeclarationBlockTranslator
@@ -877,6 +986,7 @@ trait MicroTranslatorToScala
     BlockTranslatorPipeline_ (
       Seq (
         TypeParameterBlockTranslator_ () ,
+        ClassConstructorParameterBlockTranslator_ () ,
         MatchCaseBlockTranslator_ () ,
         ConditionalBlockTranslator_ (_definitions_and_declarations , TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
         ConditionalBlockTranslator_ (_functions_and_tests , FunctionDefinitionBlockTranslator_ () ) ,
@@ -972,7 +1082,9 @@ trait TranslationConstantToScala
 
   lazy val scala_comma = ","
 
-  lazy val scala_parameter_separator_symbol = ","
+  lazy val scala_type_parameter_separator_symbol = ","
+
+  lazy val scala_class_parameter_separator_symbol = ","
 
   lazy val scala_lambda_arrow_symbol = "=>"
 
@@ -1401,7 +1513,7 @@ trait TypeParameterBlockTranslator
      token =>
       token
         .text
-        .replaceAll (_sc .parameter_separation_regex, _tc .scala_parameter_separator_symbol + _tc .scala_space)
+        .replaceAll (_sc .type_parameter_separation_regex, _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
 
 }
 
