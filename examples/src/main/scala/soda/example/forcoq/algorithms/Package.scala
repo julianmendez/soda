@@ -43,10 +43,10 @@ trait RecursionForCoq
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1))
+    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
 
   def range (length : Int) : Seq [Int] =
-    _tailrec_range (length) ( Nil )
+    _tailrec_range (length) (Nil)
 
 }
 

@@ -182,11 +182,11 @@ trait CoqClassDeclarationBlockTranslator
     else lines .tail
 
   def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
+    BlockBuilder_ () .build (_remove_first_line (block .lines) )
 
   private def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) ) .++ ( _process_after_extends (remove_first_line (block) ) )
+    ) Seq [String] (get_initial_spaces (block) ) .++ (_process_after_extends (remove_first_line (block) ) )
     else block .lines
 
   private def _process_tail (block : Block) : Seq [String] =
@@ -754,7 +754,7 @@ trait MatchCaseBlockTranslator
       block .lines
         .map ( line => _append_with_after_match (line) )
         .map ( line => _replace_case (line) )
-        .++ ( Seq [String] ()  .+: (tabulation + _tc .coq_match_end_translation) )
+        .++ (Seq [String] () .+: (tabulation + _tc .coq_match_end_translation) )
     )
 
   private def _translate_block (block : AnnotatedBlock) : Block =

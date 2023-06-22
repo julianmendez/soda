@@ -42,7 +42,7 @@ class LeanClassDeclarationBlockTranslator
     else lines .tail
 
   remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
+    BlockBuilder_ () .build (_remove_first_line (block .lines) )
 
   _process_if_extends (block : Block) : Seq [String] =
     if (get_first_line (block) .trim == _sc .extends_reserved_word)

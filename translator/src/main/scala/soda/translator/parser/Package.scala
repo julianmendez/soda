@@ -114,7 +114,7 @@ trait BlockProcessor
       .map ( token => process_unicode_symbols_in_token (token) )
       .mkString
 
-  private def _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String , String] ) : String =
+  private def _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String, String] ) : String =
     Replacement_ (text)
       .replace_all (symbol_pair ._1) (symbol_pair ._2)
       .line

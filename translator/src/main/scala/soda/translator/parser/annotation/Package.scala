@@ -351,8 +351,8 @@ trait FunctionDefinitionAnnotation
       .exists ( annotated_line => _contains_the_equals_symbol_in_line (annotated_line .line) )
 
   private def _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
-    ( first_line_trimmed == sc .tail_recursion_annotation ||
-      first_line_trimmed == sc .override_annotation )
+    (first_line_trimmed == sc .tail_recursion_annotation ||
+    first_line_trimmed == sc .override_annotation )
 
   lazy val starts_with_valid_annotation : Boolean =
     block .readable_lines .nonEmpty &&

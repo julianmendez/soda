@@ -58,7 +58,7 @@ trait DocBlockTranslator
     else _prepend (_remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
 
   private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
-    ( _remove_last_delimiter_on_first_line (content .reverse) ) .reverse
+    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
 
   private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty

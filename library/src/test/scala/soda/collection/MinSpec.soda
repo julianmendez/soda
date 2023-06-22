@@ -17,7 +17,7 @@ class MinSpec ()
 
   revExampleSeq : Seq [Int] = exampleSeq.reverse
 
-  prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ () .prepended (list) (elem)
+  prepend_elem (list : MSeq [Int] ) (elem : Int) : NESeq [Int] = Min_ () .prepended (list) (elem)
 
   _fold = Fold_ ()
 

@@ -24,7 +24,7 @@ case class MinSpec ()
 
   lazy val revExampleSeq : Seq [Int] = exampleSeq.reverse
 
-  def prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ () .prepended (list) (elem)
+  def prepend_elem (list : MSeq [Int] ) (elem : Int) : NESeq [Int] = Min_ () .prepended (list) (elem)
 
   private lazy val _fold = Fold_ ()
 

@@ -14,7 +14,7 @@ class FiboExampleInSodaForCoq
       case otherwise ==> a
 
   fib (n : nat) =
-    _tailrec_fib (n) (O_ () ) ( S_ (O_ () ) )
+    _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
 
 end
 

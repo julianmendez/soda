@@ -17,12 +17,12 @@ trait FactorialForCoq
         @tailrec  final
   private def _tailrec_get_factorial (m : nat) (product : nat) : nat =
     m match  {
-      case S_ (k) => _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
+      case S_ (k) => _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
       case otherwise => product
     }
 
   def get_factorial (n : nat) : nat =
-    _tailrec_get_factorial (n) (S_ ( O_ () ) )
+    _tailrec_get_factorial (n) (S_ (O_ () ) )
 
 }
 
@@ -46,7 +46,7 @@ trait FiboExampleInSodaForCoq
     }
 
   def fib (n : nat) =
-    _tailrec_fib (n) (O_ () ) ( S_ (O_ () ) )
+    _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
 
 }
 
@@ -64,12 +64,12 @@ trait TriangularNumberForCoq
         @tailrec  final
   private def _tailrec_get_number (m : nat) (acc : nat) : nat =
     m match  {
-      case S_ (k) => _tailrec_get_number (k) (acc .add ( S_ (k) ) )
+      case S_ (k) => _tailrec_get_number (k) (acc .add (S_ (k) ) )
       case otherwise => acc
     }
 
   def get_number (n : nat) : nat =
-    _tailrec_get_number (n) ( O_ () )
+    _tailrec_get_number (n) (O_ () )
 
 }
 

@@ -17,7 +17,7 @@ trait FactorialForLean
         @tailrec  final
   private def _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     m match  {
-      case S_ (k) => _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
+      case S_ (k) => _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
       case otherwise => product
     }
 
@@ -46,7 +46,7 @@ trait FiboExampleInSodaForLean
     }
 
   def fib (n : Nat) =
-    _tailrec_fib (n) (O_ () ) ( S_ (O_ () ) )
+    _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
 
 }
 
@@ -64,12 +64,12 @@ trait TriangularNumberForLean
         @tailrec  final
   private def _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     m match  {
-      case S_ (k) => _tailrec_get_number (k) (acc .add ( S_ (k) ) )
+      case S_ (k) => _tailrec_get_number (k) (acc .add (S_ (k) ) )
       case otherwise => acc
     }
 
   def get_number (n : Nat) : Nat =
-    _tailrec_get_number (n) ( O_ () )
+    _tailrec_get_number (n) (O_ () )
 
 }
 

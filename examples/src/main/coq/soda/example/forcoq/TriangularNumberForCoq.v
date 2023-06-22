@@ -22,11 +22,11 @@ Module TriangularNumberForCoq.
   Fixpoint _tailrec_get_number (m : nat) (acc : nat) : nat :=
     match m with
       | O() => acc
-      | S (k) => _tailrec_get_number (k) (acc .add ( S (k) ))
+      | S (k) => _tailrec_get_number (k) (acc .add (S (k) ))
     end.
 
   Definition get_number (n : nat) : nat :=
-    _tailrec_get_number (n) ( O() ) .
+    _tailrec_get_number (n) (O() ) .
 
 End TriangularNumberForCoq.
 

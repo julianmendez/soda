@@ -9,11 +9,11 @@ class TriangularNumberForLean
   @tailrec
   _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     match m
-      case S_ (k) ==> _tailrec_get_number (k) (acc .add ( S_ (k) ) )
+      case S_ (k) ==> _tailrec_get_number (k) (acc .add (S_ (k) ) )
       case otherwise ==> acc
 
   get_number (n : Nat) : Nat =
-    _tailrec_get_number (n) ( O_ () )
+    _tailrec_get_number (n) (O_ () )
 
 end
 

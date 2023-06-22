@@ -51,7 +51,7 @@ class MatchCaseBlockTranslator
     BlockBuilder_ () .build (
       block .lines
         .map (lambda line --> _insert_match_before_brace_if_found (line) )
-        .++ ( Seq [String] () .+: (tabulation + _tc .scala_match_end_translation) )
+        .++ (Seq [String] () .+: (tabulation + _tc .scala_match_end_translation) )
     )
 
   _translate_block (block : AnnotatedBlock) : Block =

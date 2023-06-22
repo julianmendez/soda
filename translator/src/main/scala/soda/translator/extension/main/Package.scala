@@ -24,18 +24,18 @@ trait Main
 
   lazy val extensions : Map [String, Extension] =
     Seq (
-      ( ".", soda.translator.extension.toscala.TranslatorToScala_ () ),
-      ( "scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
-      ( "lean", soda.translator.extension.tolean.TranslatorToLean_ () ),
-      ( "coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ),
-      ( "doc", soda.translator.extension.todoc.TranslatorToDoc_ () ),
-      ( "manual", soda.translator.extension.help.Manual_ () ),
-      ( "license", soda.translator.extension.help.License_ () ),
-      ( "help", help ),
-      ( "-h", help ),
-      ( "--help", help ),
-      ( "main", this )
-    ).toMap
+      (".", soda.translator.extension.toscala.TranslatorToScala_ () ),
+      ("scala", soda.translator.extension.toscala.TranslatorToScala_ () ),
+      ("lean", soda.translator.extension.tolean.TranslatorToLean_ () ),
+      ("coq", soda.translator.extension.tocoq.TranslatorToCoq_ () ),
+      ("doc", soda.translator.extension.todoc.TranslatorToDoc_ () ),
+      ("manual", soda.translator.extension.help.Manual_ () ),
+      ("license", soda.translator.extension.help.License_ () ),
+      ("help", help ),
+      ("-h", help ),
+      ("--help", help ),
+      ("main", this )
+    ) .toMap
 
   def execute_for (arguments : Seq [String] ) : Boolean =
     if ( arguments .length == 0

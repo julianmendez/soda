@@ -311,7 +311,7 @@ trait LeanClassDeclarationBlockTranslator
     else lines .tail
 
   def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
+    BlockBuilder_ () .build (_remove_first_line (block .lines) )
 
   private def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
@@ -754,7 +754,7 @@ trait MatchCaseBlockTranslator
       block .lines
         .map ( line => _append_with_after_match (line) )
         .map ( line => _replace_case (line) )
-        .++ ( Seq [String] ()  .+: (tabulation + _tc .lean_match_end_translation) )
+        .++ (Seq [String] ()  .+: (tabulation + _tc .lean_match_end_translation) )
     )
 
   private def _translate_block (block : AnnotatedBlock) : Block =

@@ -42,11 +42,11 @@ class CoqClassDeclarationBlockTranslator
     else lines .tail
 
   remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build ( _remove_first_line (block .lines) )
+    BlockBuilder_ () .build (_remove_first_line (block .lines) )
 
   _process_if_extends (block : Block) : Seq [String] =
     if (get_first_line (block) .trim == _sc .extends_reserved_word)
-    then Seq [String] (get_initial_spaces (block) ) .++ ( _process_after_extends (remove_first_line (block) ) )
+    then Seq [String] (get_initial_spaces (block) ) .++ (_process_after_extends (remove_first_line (block) ) )
     else block .lines
 
   _process_tail (block : Block) : Seq [String] =

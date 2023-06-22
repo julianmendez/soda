@@ -40,7 +40,7 @@ class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple upper bounds") (
     check (
-      obtained := instance .translate (        "  class BlackBox()" +
+      obtained := instance .translate ("  class BlackBox()" +
         "\n    extends " +
         "\n      AbstractBlackBox[A subtype AbstractInput]" +
         "\n      AbstractDevice[B subtype AbstractDeviceInput]" +

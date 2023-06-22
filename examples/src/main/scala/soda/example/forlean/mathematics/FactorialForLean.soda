@@ -9,7 +9,7 @@ class FactorialForLean
   @tailrec
   _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     match m
-      case S_ (k) ==> _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
+      case S_ (k) ==> _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
       case otherwise ==> product
 
   get_factorial (n : Nat) : Nat =

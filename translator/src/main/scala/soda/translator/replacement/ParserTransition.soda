@@ -50,34 +50,34 @@ class ParserTransition
 
   ct = CharTypeEnum_ ()
 
-  transitions_that_change_states : Map [ Tuple2 [ParserState , CharType] , ParserState] =
+  transitions_that_change_states : Map [Tuple2 [ParserState] [CharType] ] [ParserState] =
     Map (
       /* */
-      Tuple2 ( Tuple2 (ps .quotes_state , ct .undefined_type) , ps .undefined_state),
-      Tuple2 ( Tuple2 (ps .quotes_state , ct .quotes_type) , ps .plain),
-      Tuple2 ( Tuple2 (ps .quotes_state , ct .backslash_type) , ps .quotes_backslash_state),
+      Tuple2 (Tuple2 (ps .quotes_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 (Tuple2 (ps .quotes_state , ct .quotes_type) , ps .plain),
+      Tuple2 (Tuple2 (ps .quotes_state , ct .backslash_type) , ps .quotes_backslash_state),
       /* */
-      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .undefined_type) , ps .undefined_state),
-      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .apostrophe_type) , ps .plain),
-      Tuple2 ( Tuple2 (ps .apostrophe_state , ct .backslash_type) , ps .apostrophe_backslash_state),
+      Tuple2 (Tuple2 (ps .apostrophe_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 (Tuple2 (ps .apostrophe_state , ct .apostrophe_type) , ps .plain),
+      Tuple2 (Tuple2 (ps .apostrophe_state , ct .backslash_type) , ps .apostrophe_backslash_state),
       /* */
-      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .undefined_type) , ps .undefined_state),
-      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .quotes_type) , ps .quotes_state),
-      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .apostrophe_type) , ps .quotes_state),
-      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .backslash_type) , ps .quotes_state),
-      Tuple2 ( Tuple2 (ps .quotes_backslash_state , ct .plain_type) , ps .quotes_state),
+      Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .quotes_type) , ps .quotes_state),
+      Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .apostrophe_type) , ps .quotes_state),
+      Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .backslash_type) , ps .quotes_state),
+      Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .plain_type) , ps .quotes_state),
       /* */
-      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .undefined_type) , ps .undefined_state),
-      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .quotes_type) , ps .apostrophe_state),
-      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .apostrophe_type) , ps .apostrophe_state),
-      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .backslash_type) , ps .apostrophe_state),
-      Tuple2 ( Tuple2 (ps .apostrophe_backslash_state , ct .plain_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .undefined_type) , ps .undefined_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .quotes_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .apostrophe_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .backslash_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .plain_type) , ps .apostrophe_state),
       /* */
-      Tuple2 ( Tuple2 (ps .plain , ct .undefined_type) , ps .undefined_state),
-      Tuple2 ( Tuple2 (ps .plain , ct .quotes_type) , ps .quotes_state),
-      Tuple2 ( Tuple2 (ps .plain , ct .apostrophe_type) , ps .apostrophe_state),
-      Tuple2 ( Tuple2 (ps .plain , ct .backslash_type) , ps .plain),
-      Tuple2 ( Tuple2 (ps .plain , ct .plain_type) , ps .plain)
+      Tuple2 (Tuple2 (ps .plain , ct .undefined_type) , ps .undefined_state),
+      Tuple2 (Tuple2 (ps .plain , ct .quotes_type) , ps .quotes_state),
+      Tuple2 (Tuple2 (ps .plain , ct .apostrophe_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .plain , ct .backslash_type) , ps .plain),
+      Tuple2 (Tuple2 (ps .plain , ct .plain_type) , ps .plain)
     )
 
   next_parser_state (parser_state : ParserState) (char_type : CharType) : ParserState =
