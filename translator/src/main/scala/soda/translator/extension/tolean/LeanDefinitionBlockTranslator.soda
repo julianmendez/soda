@@ -28,7 +28,7 @@ class LeanDefinitionBlockTranslator
 
   _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
     if is_a_definition (block)
-    then _append (_tc .lean_definition_end_symbol) (_prepend (_tc .lean_definition_reserved_word + _tc .lean_space) (block) )
+    then _append (_tc .lean_definition_end_symbol) (_prepend (_tc .lean_def_reserved_word + _tc .lean_space) (block) )
     else block
 
   first_line (block : Block) : String =

@@ -31,7 +31,7 @@ class LeanTheoremBlockTranslator
     TheoremBlockAnnotation_ (
       _append (
         _tc .lean_theorem_end_symbol) (_prepend (
-          _tc .lean_theorem_begin_reserved_word) (_remove_first_line (block)
+          _tc .lean_theorem_reserved_word) (_remove_first_line (block)
         )
       )
     )

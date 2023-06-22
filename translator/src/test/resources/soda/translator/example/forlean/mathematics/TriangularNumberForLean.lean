@@ -1,4 +1,4 @@
-namespace TriangularNumberForLean 
+namespace TriangularNumberForLean
 
   import   soda.example.forlean.lib.O_ 
   import   soda.example.forlean.lib.S_ 
@@ -16,6 +16,6 @@ def   @tailrec
     _tailrec_get_number (n) (O_ () )
 
 
-end TriangularNumberForLean 
+end TriangularNumberForLean
 
-import TriangularNumberForLean 
+open TriangularNumberForLean

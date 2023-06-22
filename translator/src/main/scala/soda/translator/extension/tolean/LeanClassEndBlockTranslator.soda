@@ -18,9 +18,9 @@ class LeanClassEndBlockTranslator
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         Seq [String] (
-          _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name + _tc .lean_space + _tc .lean_end_symbol,
+          _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",
-          _tc .lean_import_reserved_word + _tc .lean_space + beginning .class_name + _tc .lean_space + _tc .lean_end_symbol
+          _tc .lean_open_reserved_word + _tc .lean_space + beginning .class_name
         )
       ),
       block .references

@@ -59,7 +59,7 @@ class LeanClassDeclarationBlockTranslator
 
   _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (
-      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) + _tc .lean_space + _tc .lean_end_symbol
+      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length)
     )
 
   _process_head (block : Block) : Seq [String] =

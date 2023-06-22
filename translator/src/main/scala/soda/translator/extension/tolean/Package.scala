@@ -165,14 +165,6 @@ trait LeanClassConstructorBlockTranslator
        .flatMap ( block => _get_as_class_beginning_annotation (block) )
        .headOption
 
-  private def _remove_variable_with (line : String) (index : Int) : String =
-    if ( index < 0
-    ) line
-    else line .substring (index + _sc .type_membership_symbol .length) .trim
-
-  private def _remove_variable (line : String) : String =
-    _remove_variable_with (line) (line .indexOf (_sc .type_membership_symbol) )
-
   private def _translate_type_symbols (line : String) : String =
     line
       .replaceAll (_sc .subtype_reserved_word , _tc .lean_subtype_symbol)
@@ -182,7 +174,6 @@ trait LeanClassConstructorBlockTranslator
   private def _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
     block .abstract_functions
       .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
-      .map ( line => _remove_variable (line) )
 
   private def _get_first_line (block : AnnotatedBlock) : String =
     block .lines .headOption .getOrElse ("")
@@ -193,49 +184,38 @@ trait LeanClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
+  private def _get_default_constructor_name (beginning : ClassBeginningAnnotation) : String =
+    beginning .class_name + _sc .constructor_suffix
+
+  private lazy val _two_spaces : String = _tc .lean_space + _tc .lean_space
+
+  private lazy val _four_spaces : String = _two_spaces + _two_spaces
+
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .lean_inductive_reserved_word +
+    _tc .lean_structure_reserved_word +
     _tc .lean_space +
     beginning .class_name +
     _tc .lean_space +
-    _tc .lean_type_membership_symbol +
+    _tc .lean_where_reserved_word +
+    _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
+    _get_default_constructor_name (beginning) +
     _tc .lean_space +
-    _tc .lean_type_reserved_word +
-    _tc .lean_space +
-    _tc .lean_function_definition_symbol +
+    _tc .lean_constructor_symbol +
+    _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
+    abstract_functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
     _tc .lean_new_line +
-    _get_initial_spaces (beginning) +
-    _tc .lean_space +
-    _tc .lean_space +
-    _tc .lean_vertical_bar_symbol +
-    _tc .lean_space +
-    beginning .class_name +
-    _sc .constructor_suffix +
-    _tc .lean_space +
-    _tc .lean_opening_parenthesis +
-    _tc .lean_some_variable_name +
-    _tc .lean_space +
-    _tc .lean_type_membership_symbol +
-    _tc .lean_space +
-    abstract_functions .mkString (_tc .lean_space + _tc .lean_product_type_symbol + _tc .lean_space) +
-    _tc .lean_closing_parenthesis +
+    _get_initial_spaces (beginning) + _two_spaces +
+    _tc .lean_deriving_reserved_word + _tc .lean_space + _tc .lean_decidable_eq_type_name +
     _tc .lean_new_line +
-    _get_initial_spaces (beginning) +
-    _tc .lean_inductive_end_symbol
+    _tc .lean_new_line + _get_initial_spaces (beginning) +
+    _tc .lean_namespace_reserved_word + _tc .lean_space + beginning .class_name +
+    _tc .lean_new_line
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
-        Seq (_tc .lean_opening_comment) .++ (
-          block .lines .++ (
-            Seq [String] (
-              _tc .lean_closing_comment,
-              "",
-              _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
-            )
-          )
-        )
+        Seq [String] (_get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
       ),
       block .references
     )
@@ -328,7 +308,7 @@ trait LeanClassDeclarationBlockTranslator
 
   private def _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (
-      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) + _tc .lean_space + _tc .lean_end_symbol
+      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length)
     )
 
   private def _process_head (block : Block) : Seq [String] =
@@ -385,9 +365,9 @@ trait LeanClassEndBlockTranslator
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         Seq [String] (
-          _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name + _tc .lean_space + _tc .lean_end_symbol,
+          _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",
-          _tc .lean_import_reserved_word + _tc .lean_space + beginning .class_name + _tc .lean_space + _tc .lean_end_symbol
+          _tc .lean_open_reserved_word + _tc .lean_space + beginning .class_name
         )
       ),
       block .references
@@ -461,7 +441,7 @@ trait LeanDefinitionBlockTranslator
 
   private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_definition (block)
-    ) _append (_tc .lean_definition_end_symbol) (_prepend (_tc .lean_definition_reserved_word + _tc .lean_space) (block) )
+    ) _append (_tc .lean_definition_end_symbol) (_prepend (_tc .lean_def_reserved_word + _tc .lean_space) (block) )
     else block
 
   def first_line (block : Block) : String =
@@ -678,7 +658,7 @@ trait LeanTheoremBlockTranslator
     TheoremBlockAnnotation_ (
       _append (
         _tc .lean_theorem_end_symbol) (_prepend (
-          _tc .lean_theorem_begin_reserved_word) (_remove_first_line (block)
+          _tc .lean_theorem_reserved_word) (_remove_first_line (block)
         )
       )
     )
@@ -874,9 +854,9 @@ trait TranslationConstantToLean
 
   lazy val lean_closing_parenthesis = ")"
 
-  lazy val lean_opening_comment = "(*"
+  lazy val lean_opening_comment = "/-"
 
-  lazy val lean_closing_comment = "*)"
+  lazy val lean_closing_comment = "-/"
 
   lazy val lean_opening_documentation = "/--"
 
@@ -890,7 +870,7 @@ trait TranslationConstantToLean
 
   lazy val lean_product_type_symbol = "*"
 
-  lazy val lean_lambda_reserved_word = "fun"
+  lazy val lean_constructor_symbol = "::"
 
   lazy val lean_lambda_arrow_symbol = "=>"
 
@@ -900,27 +880,17 @@ trait TranslationConstantToLean
 
   lazy val lean_not_reserved_word = "notb"
 
-  lazy val lean_and_reserved_word = "&&"
+  lazy val lean_and_symbol = "&&"
 
-  lazy val lean_or_reserved_word = "||"
+  lazy val lean_or_symbol = "||"
 
   lazy val lean_end_symbol = ""
 
-  lazy val lean_definition_reserved_word : String = "def"
+  lazy val lean_set_reserved_word : String = "Set"
 
-  lazy val lean_inductive_reserved_word : String = "inductive"
+  lazy val lean_type_reserved_word : String = "Type"
 
-  lazy val lean_set_reserved_word : String = "set"
-
-  lazy val lean_type_reserved_word : String = "type"
-
-  lazy val lean_namespace_reserved_word : String = "namespace"
-
-  lazy val lean_namespace_end_reserved_word : String = "end"
-
-  lazy val lean_import_reserved_word : String = "import"
-
-  lazy val lean_recursive_definition_reserved_word : String = "def"
+  lazy val lean_decidable_eq_type_name : String = "DecidableEq"
 
   lazy val lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -928,15 +898,109 @@ trait TranslationConstantToLean
 
   lazy val lean_recursive_definition_end_symbol : String = lean_end_symbol
 
-  lazy val lean_with_reserved_word : String = "with"
-
-  lazy val lean_theorem_begin_reserved_word : String = "theorem"
-
   lazy val lean_theorem_end_symbol : String = lean_end_symbol
 
-  lazy val lean_proof_begin_reserved_word : String = "begin"
+  lazy val lean_by_reserved_word : String = "by"
 
-  lazy val lean_proof_end_reserved_word : String = "end"
+  lazy val lean_calc_reserved_word : String = "calc"
+
+  lazy val lean_def_reserved_word : String = "def"
+
+  lazy val lean_deriving_reserved_word : String = "deriving"
+
+  lazy val lean_do_reserved_word : String = "do"
+
+  lazy val lean_else_reserved_word : String = "else"
+
+  lazy val lean_end_reserved_word : String = "end"
+
+  lazy val lean_example_reserved_word : String = "example"
+
+  lazy val lean_fun_reserved_word = "fun"
+
+  lazy val lean_if_reserved_word : String = "if"
+
+  lazy val lean_import_reserved_word : String = "import"
+
+  lazy val lean_in_reserved_word : String = "in"
+
+  lazy val lean_inductive_reserved_word : String = "inductive"
+
+  lazy val lean_infix_reserved_word : String = "infix"
+
+  lazy val lean_instance_reserved_word : String = "instance"
+
+  lazy val lean_let_reserved_word : String = "let"
+
+  lazy val lean_match_reserved_word : String = "match"
+
+  lazy val lean_namespace_reserved_word : String = "namespace"
+
+  lazy val lean_notation_reserved_word : String = "notation"
+
+  lazy val lean_open_reserved_word : String = "open"
+
+  lazy val lean_set_option_reserved_word : String = "set_option"
+
+  lazy val lean_structure_reserved_word : String = "structure"
+
+  lazy val lean_then_reserved_word : String = "then"
+
+  lazy val lean_theorem_reserved_word : String = "theorem"
+
+  lazy val lean_where_reserved_word : String = "where"
+
+  lazy val lean_with_reserved_word : String = "with"
+
+  lazy val lean_hash_check_reserved_word : String = "#check"
+
+  lazy val lean_hash_eval_reserved_word : String = "#eval"
+
+  lazy val lean_hash_print_reserved_word : String = "#print"
+
+  lazy val lean_hash_reduce_reserved_word : String = "#reduce"
+
+  lazy val lean_recursive_definition_reserved_word : String = lean_def_reserved_word
+
+  lazy val lean_namespace_end_reserved_word : String = lean_end_reserved_word
+
+  lazy val lean_proof_begin_reserved_word : String = ""
+
+  lazy val lean_proof_end_reserved_word : String = lean_end_reserved_word
+
+  lazy val lean_reserved_words : Seq [String] =
+    Seq (
+      lean_by_reserved_word ,
+      lean_calc_reserved_word ,
+      lean_def_reserved_word ,
+      lean_deriving_reserved_word ,
+      lean_do_reserved_word,
+      lean_else_reserved_word ,
+      lean_end_reserved_word,
+      lean_example_reserved_word ,
+      lean_fun_reserved_word ,
+      lean_if_reserved_word ,
+      lean_import_reserved_word ,
+      lean_in_reserved_word ,
+      lean_inductive_reserved_word ,
+      lean_infix_reserved_word ,
+      lean_instance_reserved_word ,
+      lean_let_reserved_word ,
+      lean_match_reserved_word  ,
+      lean_namespace_reserved_word ,
+      lean_notation_reserved_word ,
+      lean_open_reserved_word ,
+      lean_set_option_reserved_word ,
+      lean_structure_reserved_word ,
+      lean_then_reserved_word ,
+      lean_theorem_reserved_word ,
+      lean_where_reserved_word ,
+      lean_with_reserved_word ,
+      lean_hash_check_reserved_word ,
+      lean_hash_eval_reserved_word ,
+      lean_hash_print_reserved_word ,
+      lean_hash_reduce_reserved_word
+    )
 
   lazy val lean_prelude : Seq [String] =
     Seq (
@@ -961,39 +1025,6 @@ trait TranslationConstantToLean
       soda_constant .comment_opening_symbol
     )
 
-  lazy val lean_reserved_words =
-    lean_1
-
-  lazy val lean_1 : Seq [String] =
-    Seq (
-      "by",
-      "def",
-      "deriving",
-      "do",
-      "else",
-      "end",
-      "example",
-      "fun",
-      "if",
-      "in",
-      "inductive",
-      "infix",
-      "instance",
-      "let",
-      "match",
-      "namespace",
-      "notation",
-      "open",
-      "structure",
-      "then",
-      "theorem",
-      "where",
-      "with",
-      "#check",
-      "#eval",
-      "#reduce"
-    )
-
   lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (soda_constant .subtype_reserved_word, lean_subtype_symbol),
@@ -1004,13 +1035,13 @@ trait TranslationConstantToLean
   lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
       Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol),
-      Tuple2 (soda_constant .lambda_reserved_word , lean_lambda_reserved_word),
-      Tuple2 (soda_constant .any_reserved_word , lean_lambda_reserved_word),
+      Tuple2 (soda_constant .lambda_reserved_word , lean_fun_reserved_word),
+      Tuple2 (soda_constant .any_reserved_word , lean_fun_reserved_word),
       Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol),
       Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol),
       Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word),
-      Tuple2 (soda_constant .and_reserved_word , lean_and_reserved_word),
-      Tuple2 (soda_constant .or_reserved_word , lean_or_reserved_word)
+      Tuple2 (soda_constant .and_reserved_word , lean_and_symbol),
+      Tuple2 (soda_constant .or_reserved_word , lean_or_symbol)
     )
 
   lazy val type_translation : Seq [ Tuple2 [String, String]  ] =

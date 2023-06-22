@@ -1,20 +1,19 @@
-namespace PairExample 
+namespace PairExample
 
-(*
-  abstract
+structure PairExample where
+  PairExample_ ::
     left : Int
     right : Int
-*)
+  deriving DecidableEq
 
-inductive PairExample : type :=
-  | PairExample_ (x : Int * Int)
+namespace PairExample
 
 
-end PairExample 
+end PairExample
 
-import PairExample 
+open PairExample
 
-namespace SwapExample 
+namespace SwapExample
 
  def   left (pair : PairExample) : Int :=
     match pair with
@@ -35,7 +34,7 @@ namespace SwapExample
 theorem    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair
 
 
-begin
+
     intros p.
     destruct p.
     compute.
@@ -43,6 +42,6 @@ begin
     apply eq_refl.
 end
 
-end SwapExample 
+end SwapExample
 
-import SwapExample 
+open SwapExample
