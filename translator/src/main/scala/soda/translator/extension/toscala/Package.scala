@@ -225,24 +225,14 @@ trait ClassConstructorParameterBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 {
 
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.block.Block_
-  import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
-  import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation
-  import   soda.translator.parser.annotation.ClassBeginningAnnotation_
-  import   soda.translator.parser.annotation.ClassEndAnnotation
-  import   soda.translator.parser.annotation.ClassEndAnnotation_
-  import   soda.translator.parser.annotation.ClassAliasAnnotation_
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation
-  import   soda.translator.parser.annotation.ClassAliasAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.replacement.Token
+
+  lazy val range = soda.lib.Range_ ()
+
+  lazy val fold = soda.lib.Fold_ ()
+
+  lazy val fold_while = soda.lib.FoldWhile_ ()
 
   private lazy val _sc = SodaConstant_ ()
 
@@ -273,16 +263,24 @@ trait ClassConstructorParameterBlockTranslator
   private def _translate_line_initial (line : String) (index : Int) : AuxTuple =
     AuxTuple_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 , line = line , accum = line .substring (0 , index) , expecting = false)
 
-  private def _translate_line_next (a : AuxTuple , ch : Char) : AuxTuple =
+  private lazy val _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+
+  private lazy val _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
+
+  private lazy val _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
+
+  private lazy val _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
+
+  private def _translate_line_next (a : AuxTuple) (ch : Char) : AuxTuple =
     if ( (a .index >= a .line .length)
     ) a
-    else if ( (a .line .charAt (a .index) == _sc .opening_parenthesis_symbol .head)
+    else if ( (a .line .charAt (a .index) == _opening_parenthesis_symbol_char)
     ) _update_opening_par (a)
-    else if ( (a .line .charAt (a .index) == _sc .closing_parenthesis_symbol .head)
+    else if ( (a .line .charAt (a .index) == _closing_parenthesis_symbol_char)
     ) _update_closing_par (a)
-    else if ( (a .line .charAt (a .index) == _sc .opening_bracket_symbol .head)
+    else if ( (a .line .charAt (a .index) == _opening_bracket_symbol_char)
     ) _update_opening_bracket (a)
-    else if ( (a .line .charAt (a .index) == _sc .closing_bracket_symbol .head)
+    else if ( (a .line .charAt (a .index) == _closing_bracket_symbol_char)
     ) _update_closing_bracket (a)
     else if ( (a .bracket_level == 0) && (a .par_level == 0) && (! (a .line .charAt (a .index) == ' ') )
     ) _update_next_space (a)
@@ -292,18 +290,41 @@ trait ClassConstructorParameterBlockTranslator
     a .accum + a .line .substring (a .last_index)
 
   private def _translate_line (line : String) (index : Int) : String =
-    _translate_line_with_parentheses_with_tuple (line .foldLeft (_translate_line_initial (line) (index) ) (_translate_line_next) )
+    _translate_line_with_parentheses_with_tuple (fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
 
-  private def _translate_line_with_parentheses_after_constructor (line : String) : String =
-    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space) + 1)
+  private def _translate_line_with_parentheses_after_constructor (line : String) (from_index : Int) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) + _sc .constructor_suffix .length)
 
-  private def _contains_constructor_suffix  (line : String) : Boolean =
-    line .indexOf (_sc .constructor_suffix + _sc .space) >= 0
+  private def _translate_line_with_parentheses_after_multiple_constructors (line :  String) (occurrences : Seq [Int] ) : String =
+    fold (occurrences) (line) (
+       accum =>
+         from_index =>
+          _translate_line_with_parentheses_after_constructor (accum) (from_index)
+    )
+
+  private def _replace_parentheses_by_comma_with (line : String) (occurrences : Seq [Int] ) : String =
+    if ( (occurrences .length >= 0)
+    ) _translate_line_with_parentheses_after_multiple_constructors (line) (occurrences)
+    else line
+
+  private def _get_next_position (line : String) (indices : Seq [Int] ) : Int =
+    if ( indices .isEmpty
+    ) line .indexOf (_sc .constructor_suffix + _sc .space)
+    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head + _sc .constructor_suffix .length)
+
+  private def _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
+    fold_while (range (line .length) ) (Seq [Int] () ) (
+       accum =>
+         index =>
+          accum .+: (_get_next_position (line) (accum) )
+    ) (
+       accum =>
+         index =>
+          _get_next_position (line) (accum) >= 0
+    )
 
   private def _replace_parentheses_by_comma (line : String) : String =
-    if ( (_contains_constructor_suffix (line) )
-    ) _translate_line_with_parentheses_after_constructor (line)
-    else line
+    _replace_parentheses_by_comma_with (line) (_find_occurrences_in_reverse_order (line) )
 
   lazy val replace_token : Token => String =
      token =>

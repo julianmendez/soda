@@ -18,24 +18,14 @@ class ClassConstructorParameterBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 
   import
-    soda.translator.block.AnnotatedBlock
-    soda.translator.block.Block
-    soda.translator.block.Block_
-    soda.translator.parser.BlockBuilder_
     soda.translator.parser.SodaConstant_
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation
-    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
-    soda.translator.parser.annotation.ClassBeginningAnnotation
-    soda.translator.parser.annotation.ClassBeginningAnnotation_
-    soda.translator.parser.annotation.ClassEndAnnotation
-    soda.translator.parser.annotation.ClassEndAnnotation_
-    soda.translator.parser.annotation.ClassAliasAnnotation_
-    soda.translator.parser.annotation.TestDeclarationAnnotation_
-    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-    soda.translator.parser.annotation.TestDeclarationAnnotation
-    soda.translator.parser.annotation.ClassAliasAnnotation
-    soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.replacement.Token
+
+  range = soda.lib.Range_ ()
+
+  fold = soda.lib.Fold_ ()
+
+  fold_while = soda.lib.FoldWhile_ ()
 
   _sc = SodaConstant_ ()
 
@@ -66,16 +56,24 @@ class ClassConstructorParameterBlockTranslator
   _translate_line_initial (line : String) (index : Int) : AuxTuple =
     AuxTuple_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 , line := line , accum := line .substring (0 , index) , expecting := false)
 
-  _translate_line_next (a : AuxTuple , ch : Char) : AuxTuple =
+  _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+
+  _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
+
+  _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
+
+  _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
+
+  _translate_line_next (a : AuxTuple) (ch : Char) : AuxTuple =
     if (a .index >= a .line .length)
     then a
-    else if (a .line .charAt (a .index) == _sc .opening_parenthesis_symbol .head)
+    else if (a .line .charAt (a .index) == _opening_parenthesis_symbol_char)
     then _update_opening_par (a)
-    else if (a .line .charAt (a .index) == _sc .closing_parenthesis_symbol .head)
+    else if (a .line .charAt (a .index) == _closing_parenthesis_symbol_char)
     then _update_closing_par (a)
-    else if (a .line .charAt (a .index) == _sc .opening_bracket_symbol .head)
+    else if (a .line .charAt (a .index) == _opening_bracket_symbol_char)
     then _update_opening_bracket (a)
-    else if (a .line .charAt (a .index) == _sc .closing_bracket_symbol .head)
+    else if (a .line .charAt (a .index) == _closing_bracket_symbol_char)
     then _update_closing_bracket (a)
     else if (a .bracket_level == 0) and (a .par_level == 0) and (not (a .line .charAt (a .index) == ' ') )
     then _update_next_space (a)
@@ -85,18 +83,41 @@ class ClassConstructorParameterBlockTranslator
     a .accum + a .line .substring (a .last_index)
 
   _translate_line (line : String) (index : Int) : String =
-    _translate_line_with_parentheses_with_tuple (line .foldLeft (_translate_line_initial (line) (index) ) (_translate_line_next) )
+    _translate_line_with_parentheses_with_tuple (fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
 
-  _translate_line_with_parentheses_after_constructor (line : String) : String =
-    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space) + 1)
+  _translate_line_with_parentheses_after_constructor (line : String) (from_index : Int) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) + _sc .constructor_suffix .length)
 
-  _contains_constructor_suffix  (line : String) : Boolean =
-    line .indexOf (_sc .constructor_suffix + _sc .space) >= 0
+  _translate_line_with_parentheses_after_multiple_constructors (line :  String) (occurrences : Seq [Int] ) : String =
+    fold (occurrences) (line) (
+      lambda accum -->
+        lambda from_index -->
+          _translate_line_with_parentheses_after_constructor (accum) (from_index)
+    )
+
+  _replace_parentheses_by_comma_with (line : String) (occurrences : Seq [Int] ) : String =
+    if (occurrences .length >= 0)
+    then _translate_line_with_parentheses_after_multiple_constructors (line) (occurrences)
+    else line
+
+  _get_next_position (line : String) (indices : Seq [Int] ) : Int =
+    if indices .isEmpty
+    then line .indexOf (_sc .constructor_suffix + _sc .space)
+    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head + _sc .constructor_suffix .length)
+
+  _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
+    fold_while (range (line .length) ) (Seq [Int] () ) (
+      lambda accum -->
+        lambda index -->
+          accum .+: (_get_next_position (line) (accum) )
+    ) (
+      lambda accum -->
+        lambda index -->
+          _get_next_position (line) (accum) >= 0
+    )
 
   _replace_parentheses_by_comma (line : String) : String =
-    if (_contains_constructor_suffix (line) )
-    then _translate_line_with_parentheses_after_constructor (line)
-    else line
+    _replace_parentheses_by_comma_with (line) (_find_occurrences_in_reverse_order (line) )
 
   replace_token : Token -> String =
     lambda token -->

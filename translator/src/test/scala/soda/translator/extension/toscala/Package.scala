@@ -748,6 +748,18 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a constructor with parameters 6") (
+    check (
+      obtained = instance .translate (
+        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "\n"
+      )
+    ) (
+      expected = "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "\n"
+    )
+  )
+
 }
 
 
