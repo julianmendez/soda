@@ -187,8 +187,8 @@ trait SegmentsForFlight
     }
 
   lazy val segments : Seq [Segment] =
-    rec_segments_multi (flight .start_airport) (flight .intermediate_airports)
-      (flight .end_airport)
+    rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (
+      flight .end_airport)
 
 }
 

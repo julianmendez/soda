@@ -50,7 +50,8 @@ Module PatternMatchingSpec.
   Import PatternMatching.
 
   Definition values : list (prod Param nat) :=
-    (pair (Singleton_ 5) 5) :: (pair (Pair_ 10 100) 55) :: (pair (Triplet_ 9 100 890) 333) :: nil.
+    (pair (Singleton_ 5) 5) :: (pair (Pair_ 10 100) 55) ::
+    (pair (Triplet_ 9 100 890) 333) :: nil.
 
   Example test_1 :
     map get_value (map fst values) = map snd values.

@@ -11,8 +11,8 @@ class SaladMaker
     if ingredients .isEmpty or
       (not condition (salad) (ingredients .head) )
     then salad
-    else _tailrec_prepare_salad (ingredients .tail)
-      (next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
+    else _tailrec_prepare_salad (ingredients .tail) (
+      next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
 
   apply [Ingredient : Type] [Salad : Type]
     (list_of_ingredients : Seq [Ingredient] )

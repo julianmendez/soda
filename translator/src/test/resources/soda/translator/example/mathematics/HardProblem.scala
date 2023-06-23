@@ -123,8 +123,8 @@ trait MemoizedFibonacci
 
   private def _compute_and_update_2 (first_value : Int) (second_tuple : OutputPair [Int, Int] ) (n : Int )
       : OutputPair [Int, Int] =
-    _compute_and_update_3 (_get_next_fibo (first_value) (second_tuple .value) )
-      (second_tuple .memoized_values) (n)
+    _compute_and_update_3 (_get_next_fibo (first_value) (second_tuple .value) ) (
+      second_tuple .memoized_values) (n)
 
   private def _compute_and_update_1 (first_tuple : OutputPair [Int, Int] ) (n : Int )
       : OutputPair [Int, Int] =

@@ -129,7 +129,8 @@ Module PiIterator.
     in let new_status := (Status.Status_ r n q t l k)
     in (BigIntAndStatus.BigIntAndStatus_ ret new_status).
 
-  Fixpoint _tailrec_take (n : nat) (rev_seq : list nat) (s : Status.type) : (prod (list nat) Status.type) :=
+  Fixpoint _tailrec_take (n : nat) (rev_seq : list nat)
+      (s : Status.type) : (prod (list nat) Status.type) :=
     match n with
       | O => (pair (rev rev_seq) s)
       | S m =>
@@ -146,7 +147,8 @@ Module PiIteratorSpec.
 
   Import PiIterator.
 
-  Definition piStart : list nat := 3 :: 1 :: 4 :: 1 :: 5 :: 9 :: 2 :: 6 :: 5 :: 3 :: 5 :: 8 :: nil.
+  Definition piStart : list nat :=
+    3 :: 1 :: 4 :: 1 :: 5 :: 9 :: 2 :: 6 :: 5 :: 3 :: 5 :: 8 :: nil.
 
   Definition piSequence : list nat := PiIterator.take 12.
 

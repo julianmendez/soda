@@ -34,7 +34,9 @@ Import TriangularNumberForCoq.
 
 
   Definition triangular_number_values : list (prod nat nat) :=
-    (pair 0 0) :: (pair 1 1) :: (pair 2 3) :: (pair 3 6) :: (pair 4 10) :: (pair 5 15) :: (pair 6 21) :: (pair 7 28) :: (pair 8 36) :: (pair 9 45) :: (pair 10 55) :: (pair 11 66) :: (pair 12 78) :: nil.
+    (pair 0 0) :: (pair 1 1) :: (pair 2 3) :: (pair 3 6) :: (pair 4 10) ::
+      (pair 5 15) :: (pair 6 21) :: (pair 7 28) :: (pair 8 36) :: (pair 9 45) ::
+      (pair 10 55) :: (pair 11 66) :: (pair 12 78) :: nil.
 
   Example test_1 :
     map get_number (map fst triangular_number_values) = map snd triangular_number_values.

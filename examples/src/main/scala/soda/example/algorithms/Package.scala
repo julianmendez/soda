@@ -194,8 +194,8 @@ trait SaladMaker
     if ( ingredients .isEmpty ||
       (! condition (salad) (ingredients .head) )
     ) salad
-    else _tailrec_prepare_salad (ingredients .tail)
-      (next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
+    else _tailrec_prepare_salad (ingredients .tail) (
+      next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
 
   def apply [Ingredient , Salad ]
     (list_of_ingredients : Seq [Ingredient] )

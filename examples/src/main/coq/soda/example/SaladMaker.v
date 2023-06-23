@@ -26,7 +26,8 @@ Module SaladMaker.
       | head :: tail =>
           if ( negb (condition_to_continue salad_so_far head) )
         then salad_so_far
-        else ( prepare_salad Ingredient Salad next_ingredient_function condition_to_continue tail (next_ingredient_function salad_so_far head) )
+        else ( prepare_salad Ingredient Salad next_ingredient_function
+          condition_to_continue tail (next_ingredient_function salad_so_far head) )
   end.
 
 End SaladMaker.
@@ -52,7 +53,8 @@ Import SaladMaker.
   Definition add_next_ingredient (salad_so_far : list SaladIngredient) (ingredient : SaladIngredient) : list SaladIngredient :=
     ingredient :: salad_so_far.
 
-  Definition has_salad_at_most_2_ingredients (salad_so_far : list SaladIngredient) (next_ingredient : SaladIngredient) : bool :=
+  Definition has_salad_at_most_2_ingredients (salad_so_far : list SaladIngredient)
+      (next_ingredient : SaladIngredient) : bool :=
     (length salad_so_far) <? 3.
 
   Definition ingredients := SaladIngredient_values.
