@@ -46,7 +46,8 @@ class DocBlockTranslator
   _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
     if content .isEmpty
     then content
-    else _prepend (_remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
+    else _prepend (
+      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
 
   _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
     (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse

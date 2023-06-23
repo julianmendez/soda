@@ -31,10 +31,12 @@ class SaladMakerSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
+  add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient)
+      : Seq [SaladIngredient] =
     salad_so_far .+: (ingredient)
 
-  has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
+  has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] )
+      (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
   _salad_maker = SaladMaker_ ()
@@ -44,8 +46,8 @@ class SaladMakerSpec ()
       obtained := _salad_maker .apply (
         list_of_ingredients := SaladIngredient_values) (
         initial_bowl := Seq [SaladIngredient] () ) (
-        next_ingredient_function := add_next_ingredient) (
-        condition_to_continue := has_salad_at_most_2_ingredients
+        next_ingredient := add_next_ingredient) (
+        condition := has_salad_at_most_2_ingredients
       )
     ) (
       expected := Seq (sunflower_seeds , lettuce , tomato)

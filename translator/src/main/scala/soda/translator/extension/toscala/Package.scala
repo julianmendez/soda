@@ -31,14 +31,17 @@ trait AbstractDeclarationBlockTranslator
 
   private def _translate_type_parameters_in_line (line : String) : String =
     line
-      .replaceAll (_sc .type_parameter_separation_regex, _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .type_parameter_separation_regex,
+         _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
 
-  private def _translate_type_parameters (abstract_functions_with_comments : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+  private def _translate_type_parameters (abstract_functions_with_comments : Seq [AnnotatedLine] )
+      : Seq [AnnotatedLine] =
     abstract_functions_with_comments
       .map ( annotated_line =>
         if ( annotated_line .is_comment
         ) annotated_line
-        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line .line) , annotated_line .is_comment)
+        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line .line) ,
+          annotated_line .is_comment)
       )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
@@ -49,14 +52,18 @@ trait AbstractDeclarationBlockTranslator
   def get_first_line (block : AnnotatedBlock) : String =
     block .lines .headOption .getOrElse ("")
 
-  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : AnnotatedLine =
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : AnnotatedLine =
     if ( annotated_line .is_comment
     ) annotated_line
-    else AnnotatedLine_ (annotated_line .line .substring (0, index) + prefix + annotated_line .line .substring (index) , annotated_line .is_comment)
+    else AnnotatedLine_ (annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index) , annotated_line .is_comment)
 
-  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      annotated_lines .map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines .map ( annotated_line =>
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   private def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -71,7 +78,8 @@ trait AbstractDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case AbstractDeclarationAnnotation_ (block, references) => _translate_block (AbstractDeclarationAnnotation_ (block, references) )
+      case AbstractDeclarationAnnotation_ (block, references) =>
+        _translate_block (AbstractDeclarationAnnotation_ (block, references) )
       case otherwise => annotated_block
     }
 
@@ -115,9 +123,12 @@ trait ClassConstructorBlockTranslator
   private def _get_as_parameter_list (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
     ) ""
-    else _tc .scala_space + _tc .scala_opening_bracket + parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) + _tc .scala_closing_bracket
+    else _tc .scala_space + _tc .scala_opening_bracket +
+      parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+       _tc .scala_closing_bracket
 
-  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
+  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
     _tc .class_declaration_translation_at_beginning_with_paren +
     _tc .scala_space +
@@ -126,7 +137,7 @@ trait ClassConstructorBlockTranslator
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
     _tc .scala_space +
     _tc .scala_opening_parenthesis +
-    abstract_functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
     _tc .scala_closing_parenthesis +
     _tc .scala_space +
     _tc .scala_extends_translation +
@@ -136,14 +147,17 @@ trait ClassConstructorBlockTranslator
 
   private def _translate_type_symbols (line : String) : String =
     line
-      .replaceAll (_sc .type_parameter_separation_regex , _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .type_parameter_separation_regex ,
+        _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
       .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
       .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
       .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
 
-  private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock) : Option [AbstractDeclarationAnnotation] =
+  private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock)
+      : Option [AbstractDeclarationAnnotation] =
     block match  {
-      case AbstractDeclarationAnnotation_ (b , references) => Some (AbstractDeclarationAnnotation_ (b , references) )
+      case AbstractDeclarationAnnotation_ (b , references) =>
+        Some (AbstractDeclarationAnnotation_ (b , references) )
       case otherwise => None
     }
 
@@ -153,36 +167,42 @@ trait ClassConstructorBlockTranslator
       .flatMap ( block => block .abstract_functions)
       .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
 
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         block .lines .++ (
           Seq [String] (
             "",
-            _get_constructor_declaration (beginning) (_get_abstract_functions (block .references) )
+            _get_constructor_declaration (beginning) (
+              _get_abstract_functions (block .references) )
           )
         )
       ),
       block .references
     )
 
-  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( beginning .is_concrete
     ) block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
-  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( maybe_beginning .isEmpty
     ) block
     else _translate_block_with_beginning (maybe_beginning .get) (block)
 
-  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
       case otherwise => None
     }
 
-  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
     references
       .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
@@ -192,7 +212,8 @@ trait ClassConstructorBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) => _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) =>
+        _translate_block (ClassEndAnnotation_ (block , references) )
       case otherwise => annotated_block
     }
 
@@ -240,28 +261,41 @@ trait ClassConstructorParameterBlockTranslator
 
   private def _update_opening_par (a : AuxTuple) : AuxTuple =
     if ( (a .par_level == 0) && (a .expecting)
-    ) AuxTuple_ (a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line , a .accum + _tc.scala_class_parameter_separator_symbol + _tc.scala_space , false)
-    else AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line , a .accum , a .expecting)
+    ) AuxTuple_ (
+      a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line ,
+      a .accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
+    else AuxTuple_ (
+      a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line ,
+      a .accum , a .expecting)
 
   private def _update_closing_par (a : AuxTuple) :AuxTuple =
     if ( (a .par_level == 1)
-    ) AuxTuple_ (a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line , a .accum + a .line .substring (a .last_index, a .index) , true)
-    else AuxTuple_ (a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line , a .accum , a .expecting)
+    ) AuxTuple_ (
+      a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line ,
+      a .accum + a .line .substring (a .last_index, a .index) , true)
+    else AuxTuple_ (
+      a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line ,
+      a .accum , a .expecting)
 
   private def _update_opening_bracket (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   private def _update_closing_bracket (a : AuxTuple) :AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   private def _update_next_space (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line , a .accum + a .line .substring (a .last_index), a .expecting)
+    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line ,
+      a .accum + a .line .substring (a .last_index), a .expecting)
 
   private def _update_default_step (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   private def _translate_line_initial (line : String) (index : Int) : AuxTuple =
-    AuxTuple_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 , line = line , accum = line .substring (0 , index) , expecting = false)
+    AuxTuple_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 ,
+      line = line , accum = line .substring (0 , index) , expecting = false)
 
   private lazy val _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
 
@@ -282,7 +316,8 @@ trait ClassConstructorParameterBlockTranslator
     ) _update_opening_bracket (a)
     else if ( (a .line .charAt (a .index) == _closing_bracket_symbol_char)
     ) _update_closing_bracket (a)
-    else if ( (a .bracket_level == 0) && (a .par_level == 0) && (! (a .line .charAt (a .index) == ' ') )
+    else if ( (a .bracket_level == 0) && (a .par_level == 0) && (
+      ! (a .line .charAt (a .index) == ' ') )
     ) _update_next_space (a)
     else _update_default_step (a)
 
@@ -290,16 +325,19 @@ trait ClassConstructorParameterBlockTranslator
     a .accum + a .line .substring (a .last_index)
 
   private def _translate_line (line : String) (index : Int) : String =
-    _translate_line_with_parentheses_with_tuple (fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
+    _translate_line_with_parentheses_with_tuple (
+      fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
 
-  private def _translate_line_with_parentheses_after_constructor (line : String) (from_index : Int) : String =
-    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) + _sc .constructor_suffix .length)
+  private def _translate_line_with_parentheses_after_constr (line : String) (from_index : Int) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) +
+       _sc .constructor_suffix .length)
 
-  private def _translate_line_with_parentheses_after_multiple_constructors (line :  String) (occurrences : Seq [Int] ) : String =
+  private def _translate_line_with_parentheses_after_multiple_constructors (line :  String)
+      (occurrences : Seq [Int] ) : String =
     fold (occurrences) (line) (
        accum =>
          from_index =>
-          _translate_line_with_parentheses_after_constructor (accum) (from_index)
+          _translate_line_with_parentheses_after_constr (accum) (from_index)
     )
 
   private def _replace_parentheses_by_comma_with (line : String) (occurrences : Seq [Int] ) : String =
@@ -310,7 +348,8 @@ trait ClassConstructorParameterBlockTranslator
   private def _get_next_position (line : String) (indices : Seq [Int] ) : Int =
     if ( indices .isEmpty
     ) line .indexOf (_sc .constructor_suffix + _sc .space)
-    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head + _sc .constructor_suffix .length)
+    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head +
+      _sc .constructor_suffix .length)
 
   private def _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
     fold_while (range (line .length) ) (Seq [Int] () ) (
@@ -397,18 +436,25 @@ trait ClassDeclarationBlockTranslator
 
   private def _process_after_extends (lines : Seq [String] ) : Seq [String] =
     if ( (get_first_line (lines) .trim .nonEmpty)
-    ) Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines) .map ( line => get_initial_spaces_for (line) + _tc .scala_with_translation + _tc .scala_space + line .trim)
+    ) Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines)
+      .map ( line => get_initial_spaces_for (line) + _tc .scala_with_translation +
+        _tc .scala_space + line .trim)
     else Seq [String] ()
 
   private def _process_head_with (line : String)  : Seq [String] =
-    Seq [String] (Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) )
+    Seq [String] (
+      Replacement_ (_sc .space + line)
+       .replace_at_beginning (0) (get_table_translator (line) )
+       .line .substring (_sc .space .length)
+    )
 
   private def _process_head (lines : Seq [String] ) : Seq [String] =
     _process_head_with (get_first_line (lines) )
 
   private def _process_if_extends (lines : Seq [String] ) : Seq [String] =
     if ( (get_first_line (lines) .trim == _sc .extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) ++ _process_after_extends (remove_first_line (lines) )
+    ) Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) .++ (
+      _process_after_extends (remove_first_line (lines) ) )
     else lines
 
   private def _process_tail (lines : Seq [String] ) : Seq [String] =
@@ -416,8 +462,9 @@ trait ClassDeclarationBlockTranslator
 
   private def _translate_block_with (lines : Seq [String] ) : Seq [String] =
     if ( (has_condition_for_type_alias (get_first_line (lines) ) )
-    ) _process_head (lines) ++ _process_tail (lines)
-    else _process_head (lines) ++ _process_tail (lines) ++ Seq [String] (get_initial_spaces (lines) + _tc .scala_class_begin_symbol)
+    ) _process_head (lines) .++ (_process_tail (lines) )
+    else _process_head (lines) .++ (_process_tail (lines) .++ (Seq [String] (
+      get_initial_spaces (lines) + _tc .scala_class_begin_symbol) ) )
 
   private def _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
     Seq [String] (
@@ -426,7 +473,7 @@ trait ClassDeclarationBlockTranslator
     )
 
   def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
-    _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
+    _remove_type_annotation_in_line (lines) .++ (remove_first_line (lines) )
 
   private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ () .build (
@@ -437,7 +484,8 @@ trait ClassDeclarationBlockTranslator
       )
     )
 
-  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+  private def _translate_class_beginning_block (block : ClassBeginningAnnotation)
+      : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
   private def _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
@@ -445,8 +493,10 @@ trait ClassDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case ClassAliasAnnotation_ (block) => _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+      case ClassBeginningAnnotation_ (block) =>
+        _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case ClassAliasAnnotation_ (block) =>
+        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -495,7 +545,8 @@ trait ClassEndBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) => _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) =>
+        _translate_block (ClassEndAnnotation_ (block , references) )
       case otherwise => annotated_block
     }
 
@@ -543,27 +594,34 @@ trait FunctionDefinitionBlockTranslator
 
   private def _translate_val_definition (line : String) : String =
     Replacement_ (line)
-      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_value + _tc .scala_space)
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
+        _tc .scala_value + _tc .scala_space)
       .line
 
   private def _translate_def_definition (line : String) : String =
     Replacement_ (line)
-      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_definition + _tc .scala_space)
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
+        _tc .scala_definition + _tc .scala_space)
       .line
 
-  private def _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String) : Seq [AnnotatedLine] =
+  private def _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String)
+      : Seq [AnnotatedLine] =
     if ( lines .isEmpty
     ) Seq [AnnotatedLine] () .+: (AnnotatedLine_ (new_first_line , false) )
     else lines .tail .+: (AnnotatedLine_ (new_first_line , false) )
 
-  private def _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+  private def _replace_on_val_block (initial_comments : Seq [AnnotatedLine] )
+      (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      initial_comments .++ (_replace_first_line (main_block) (_translate_val_definition (main_block .head .line) ) )
+      initial_comments .++ (_replace_first_line (main_block) (
+        _translate_val_definition (main_block .head .line) ) )
     )
 
-  private def _replace_on_def_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+  private def _replace_on_def_block (initial_comments : Seq [AnnotatedLine] )
+      (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      initial_comments .++ (_replace_first_line (main_block) (_translate_def_definition (main_block .head .line) ) )
+      initial_comments .++ (_replace_first_line (main_block) (
+        _translate_def_definition (main_block .head .line) ) )
     )
 
   private def _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
@@ -589,10 +647,15 @@ trait FunctionDefinitionBlockTranslator
   def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
+  private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
+      : Block =
     detector .detect match  {
-      case detector .val_detected => _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_detected => _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
+      case detector .val_detected =>
+        _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (
+          _get_part_without_initial_comment (block .annotated_lines) )
+      case detector .def_detected =>
+        _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
+          _get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_reserved_word_detected => block
       case otherwise => block
     }
@@ -603,7 +666,8 @@ trait FunctionDefinitionBlockTranslator
   private def _translate_main_block (block : Block) : Block =
     BlockBuilder_ () .build (
       remove_type_annotation (
-        _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+        _translate_main_block_with (block) (
+            FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
           .lines
       )
     )
@@ -615,7 +679,8 @@ trait FunctionDefinitionBlockTranslator
 
   private def _translate_block_with (first_line : AnnotatedLine) (block : Block) : Block =
     if ( _is_annotation (first_line .line)
-    ) _prepend_line (first_line .line) (_translate_main_block (_remove_first_line_if_possible (block) ) )
+    ) _prepend_line (first_line .line) (_translate_main_block (
+      _remove_first_line_if_possible (block) ) )
     else _translate_main_block (block)
 
   private def _translate_block (block : Block) : Block =
@@ -628,7 +693,8 @@ trait FunctionDefinitionBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_function_definition_block (block)
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_function_definition_block (block)
       case otherwise => annotated_block
     }
 
@@ -651,8 +717,10 @@ case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlock
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis or bracket is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
+ * Case 3: The first opening parenthesis or bracket is after a colon,
+ *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis,
+ *   e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -712,7 +780,8 @@ trait FunctionDefinitionLineDetector
 
   private lazy val _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
     _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (index1) => SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
+      case SomeSD_ (index1) =>
+        SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
       case otherwise => _position_of_first_opening_bracket
     }
 
@@ -720,11 +789,14 @@ trait FunctionDefinitionLineDetector
     _position_of_first_opening_parenthesis .isEmpty
 
   private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis .opt (false) ( position => position > initial_position)
+    _position_of_first_opening_parenthesis .opt (false) ( position =>
+      position > initial_position)
 
   private lazy val _is_val_definition_case_3 : Boolean =
-    (_get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-        _position_of_first_opening_parenthesis_or_bracket .opt (false) ( position => position > other_position)
+    (_get_index (line) (_sc .type_membership_symbol) )
+      .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
+        _position_of_first_opening_parenthesis_or_bracket .opt (false) ( position =>
+          position > other_position)
     )
 
   private lazy val _is_val_definition_case_4 : Boolean =
@@ -750,7 +822,8 @@ trait FunctionDefinitionLineDetector
     else _try_found_definition_without_def_reserved_word (position)
 
   /**
-   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign .
+   * A line is a definition when its main operator is "="  (the equals sign),
+   * which in this context is also called the definition sign .
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
@@ -763,7 +836,8 @@ trait FunctionDefinitionLineDetector
     else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   lazy val detect : Int =
-    _find_definition (line) .opt (ifEmpty = undetected) (ifNonEmpty =  position => _try_found_definition (position) )
+    _find_definition (line) .opt (ifEmpty = undetected) (ifNonEmpty =  position =>
+      _try_found_definition (position) )
 
 }
 
@@ -787,14 +861,18 @@ trait ImportDeclarationBlockTranslator
   lazy val scala_import_declaration_pattern =
     _tc.scala_import_declaration + _tc.scala_space
 
-  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : String =
     if ( annotated_line .is_comment
     ) annotated_line .line
-    else annotated_line .line .substring (0, index) + prefix + annotated_line .line .substring (index)
+    else annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index)
 
-  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ () .build (
-      annotated_lines .map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines .map ( annotated_line =>
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
@@ -816,7 +894,8 @@ trait ImportDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
+      case ImportDeclarationAnnotation_ (block) =>
+        _translate_block (ImportDeclarationAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -918,7 +997,8 @@ trait MatchCaseBlockTranslator
     line .substring (index + _soda_match_pattern .length , line .length)
 
   private def _assemble_parts (index : Int) (line : String) : String =
-    (_left_part (index) (line) ) + (_right_part (index) (line) ) + _tc .scala_match_translation + _tc .scala_space + _tc .scala_opening_brace
+    (_left_part (index) (line) ) + (_right_part (index) (line) ) +
+      _tc .scala_match_translation + _tc .scala_space + _tc .scala_opening_brace
 
   private def _is_a_match_line (line : String) : Boolean =
     line .trim .startsWith (_soda_match_pattern)
@@ -1009,10 +1089,14 @@ trait MicroTranslatorToScala
         TypeParameterBlockTranslator_ () ,
         ClassConstructorParameterBlockTranslator_ () ,
         MatchCaseBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (_definitions_and_declarations , TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests , FunctionDefinitionBlockTranslator_ () ) ,
-        ConditionalBlockTranslator_ (_class_declarations , TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests , TokenReplacement_ () .replace (_tc .all_translations) ) ,
+        ConditionalBlockTranslator_ (_definitions_and_declarations ,
+          TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          FunctionDefinitionBlockTranslator_ () ) ,
+        ConditionalBlockTranslator_ (_class_declarations ,
+          TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          TokenReplacement_ () .replace (_tc .all_translations) ) ,
         ClassDeclarationBlockTranslator_ () ,
         ImportDeclarationBlockTranslator_ () ,
         AbstractDeclarationBlockTranslator_ () ,
@@ -1058,7 +1142,8 @@ trait TheoremAndProofBlockTranslator
     )
 
   private def _translate_block (block : AnnotatedBlock) : Block =
-    _append (_tc .scala_comment_closing_symbol) (_prepend (_tc .scala_comment_opening_symbol) (block) )
+    _append (_tc .scala_comment_closing_symbol) (_prepend (
+      _tc .scala_comment_opening_symbol) (block) )
 
   private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
@@ -1068,8 +1153,10 @@ trait TheoremAndProofBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case TheoremBlockAnnotation_ (block) => _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case ProofBlockAnnotation_ (block) => _translate_proof_block (ProofBlockAnnotation_ (block) )
+      case TheoremBlockAnnotation_ (block) =>
+        _translate_theorem_block (TheoremBlockAnnotation_ (block) )
+      case ProofBlockAnnotation_ (block) =>
+        _translate_proof_block (ProofBlockAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -1083,7 +1170,8 @@ case class TheoremAndProofBlockTranslator_ () extends TheoremAndProofBlockTransl
 
 
 /**
- * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
+ * This class contains constants that are specific for the Soda translator,
+ * like reserved words for Soda and Scala.
  */
 
 trait TranslationConstantToScala
@@ -1163,7 +1251,8 @@ trait TranslationConstantToScala
 
   lazy val scala_or_symbol = "||"
 
-  lazy val scala_tail_recursion_annotation_translation = "import scala.annotation.tailrec\n        @tailrec  final"
+  lazy val scala_tail_recursion_annotation_translation =
+    "import scala.annotation.tailrec\n        @tailrec  final"
 
   lazy val scala_override_annotation_translation = "override"
 
@@ -1171,7 +1260,8 @@ trait TranslationConstantToScala
 
   lazy val soda_main_class_name = "Main"
 
-  lazy val scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
+  lazy val scala_entry_point =
+    "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   lazy val scala_private_reserved_word = "private"
 
@@ -1287,7 +1377,8 @@ trait TranslationConstantToScala
       Tuple2 (soda_constant .if_reserved_word , scala_if_translation) ,
       Tuple2 (soda_constant .then_reserved_word , scala_then_translation) ,
       Tuple2 (soda_constant .parameter_definition_symbol , scala_parameter_definition_symbol) ,
-      Tuple2 (soda_constant .tail_recursion_annotation , scala_tail_recursion_annotation_translation) ,
+      Tuple2 (soda_constant .tail_recursion_annotation ,
+        scala_tail_recursion_annotation_translation) ,
       Tuple2 (soda_constant .override_annotation , scala_override_annotation_translation) ,
       Tuple2 (soda_constant .new_annotation , scala_new_annotation_translation)
     )
@@ -1407,7 +1498,8 @@ trait IndividualProcessor
 
   def get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (tc .soda_extension)
-    ) FileNamePair_ (input_name, input_name .substring (0, input_name .length - tc .soda_extension .length) + tc .scala_extension)
+    ) FileNamePair_ (input_name, input_name .substring (0,
+      input_name .length - tc .soda_extension .length) + tc .scala_extension)
     else FileNamePair_ (input_name + tc .soda_extension, input_name + tc .scala_extension)
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
@@ -1441,11 +1533,13 @@ trait PackageProcessor
 
   def get_input_output_file_names (input_name : String) (parent_name : String) : FileNamePair =
     if ( input_name .endsWith (tc .soda_extension)
-    ) FileNamePair_ (input_name , parent_name + tc .file_separator + tc .package_scala_file_name )
+    ) FileNamePair_ (input_name , parent_name + tc .file_separator +
+      tc .package_scala_file_name )
     else FileNamePair_ (input_name + tc .soda_extension , input_name + tc .scala_extension)
 
   private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    writer .append_file (output_file_name) (content = tc .new_line + tc .translator .translate (input) + tc .new_line)
+    writer .append_file (output_file_name) (content = tc .new_line +
+      tc .translator .translate (input) + tc .new_line)
 
   def translate_append (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_append_with_input (reader .read_file (input_file_name) ) (output_file_name)
@@ -1454,7 +1548,8 @@ trait PackageProcessor
     translate_append (pair .input_file_name) (pair .output_file_name)
 
   def process_soda_file (file : File) : Boolean =
-    process_soda_file_with (get_input_output_file_names (file .getAbsolutePath) (file .getParent) )
+    process_soda_file_with (
+      get_input_output_file_names (file .getAbsolutePath) (file .getParent) )
 
 }
 
@@ -1534,7 +1629,8 @@ trait TypeParameterBlockTranslator
      token =>
       token
         .text
-        .replaceAll (_sc .type_parameter_separation_regex, _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+        .replaceAll (_sc .type_parameter_separation_regex ,
+          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
 
 }
 

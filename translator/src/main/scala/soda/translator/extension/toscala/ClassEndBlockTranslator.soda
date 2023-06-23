@@ -35,7 +35,8 @@ class ClassEndBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) ==>
+        _translate_block (ClassEndAnnotation_ (block , references) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

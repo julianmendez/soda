@@ -16,12 +16,14 @@ class LeanClassConstructorBlockTranslator
 
   _tc = TranslationConstantToLean_ ()
 
-  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
       case otherwise ==> None
 
-  _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+  _get_class_beginning (references : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
     references
        .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
        .headOption
@@ -52,7 +54,8 @@ class LeanClassConstructorBlockTranslator
 
   _four_spaces : String = _two_spaces + _two_spaces
 
-  _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
+  _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+     (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
     _tc .lean_class_reserved_word +
     _tc .lean_space +
@@ -64,7 +67,7 @@ class LeanClassConstructorBlockTranslator
     _tc .lean_space +
     _tc .lean_constructor_symbol +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
-    abstract_functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
+    functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
     _tc .lean_new_line +
     _get_initial_spaces (beginning) + _two_spaces +
     _tc .lean_deriving_reserved_word + _tc .lean_space + _tc .lean_decidable_eq_type_name +
@@ -73,20 +76,24 @@ class LeanClassConstructorBlockTranslator
     _tc .lean_namespace_reserved_word + _tc .lean_space + beginning .class_name +
     _tc .lean_new_line
 
-  _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
-        Seq [String] (_get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
+        Seq [String] (
+          _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
       ),
       block .references
     )
 
-  _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if beginning .is_concrete
     then block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
-  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if maybe_beginning .isEmpty
     then block
     else _translate_block_with_beginning (maybe_beginning .get) (block)
@@ -96,7 +103,8 @@ class LeanClassConstructorBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case AbstractDeclarationAnnotation_ (block , references) ==> _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+      case AbstractDeclarationAnnotation_ (block , references) ==>
+        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

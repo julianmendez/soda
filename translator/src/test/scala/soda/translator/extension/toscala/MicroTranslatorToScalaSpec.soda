@@ -36,17 +36,21 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained := instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained := instance .translate (
+        " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
-      expected := " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
+      expected :=
+        " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
   )
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained := instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained := instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
-      expected := " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+      expected := " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
   )
 
@@ -325,7 +329,8 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 2") (
     check (
-      obtained := instance .translate ("p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
+      obtained := instance .translate (
+        "p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
         "\n"
       )
     ) (
@@ -347,7 +352,8 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 4") (
     check (
-      obtained := instance .translate ("p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
+      obtained := instance .translate (
+        "p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
         "\n"
       )
     ) (
@@ -358,11 +364,13 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 5") (
     check (
-      obtained := instance .translate ("p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+      obtained := instance .translate (
+        "p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
         "\n"
       )
     ) (
-      expected := "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+      expected :=
+        "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
         "\n"
     )
   )
@@ -370,11 +378,13 @@ class MicroTranslatorToScalaSpec ()
   test ("should translate a constructor with parameters 6") (
     check (
       obtained := instance .translate (
-        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
         "\n"
       )
     ) (
-      expected := "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+      expected := "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
         "\n"
     )
   )

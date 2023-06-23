@@ -18,7 +18,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .a_example
     ) (
-      expected = Pair_ ("a" , List ('A' , 'B' , 'C' , 'D' , 'E' , 'F'))
+      expected = Pair_ ("a" , List ('A' , 'B' , 'C' , 'D' , 'E' , 'F') )
     )
   )
 
@@ -26,7 +26,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .b_example
     ) (
-      expected = Pair_ ("b" , List (10 , 20 , 30 , 40 , 50 , 60))
+      expected = Pair_ ("b" , List (10 , 20 , 30 , 40 , 50 , 60) )
     )
   )
 
@@ -34,7 +34,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .take_example
     ) (
-      expected = Pair_ ("a .take (3)" , List ('A' , 'B' , 'C'))
+      expected = Pair_ ("a .take (3)" , List ('A' , 'B' , 'C') )
     )
   )
 
@@ -42,7 +42,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .takeRight_example
     ) (
-      expected = Pair_ ("a .takeRight (3)" , List ('D' , 'E' , 'F'))
+      expected = Pair_ ("a .takeRight (3)" , List ('D' , 'E' , 'F') )
     )
   )
 
@@ -50,7 +50,8 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .takeWhile_example
     ) (
-      expected = Pair_ ("a .takeWhile (lambda x --> not (x == 'E') )" , List ('A' , 'B' , 'C' , 'D'))
+      expected = Pair_ ("a .takeWhile (lambda x --> not (x == 'E') )" ,
+        List ('A' , 'B' , 'C' , 'D') )
     )
   )
 
@@ -58,7 +59,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .drop_example
     ) (
-      expected = Pair_ ("a .drop (2)" , List ('C' , 'D' , 'E' , 'F'))
+      expected = Pair_ ("a .drop (2)" , List ('C' , 'D' , 'E' , 'F') )
     )
   )
 
@@ -66,7 +67,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .dropRight_example
     ) (
-     expected = Pair_ ("a .dropRight (2)" , List ('A' , 'B' , 'C' , 'D'))
+     expected = Pair_ ("a .dropRight (2)" , List ('A' , 'B' , 'C' , 'D') )
     )
   )
 
@@ -74,7 +75,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .dropWhile_example
     ) (
-      expected = Pair_ ("a .dropWhile (lambda x --> not (x == 'E'))" , List ('E' , 'F'))
+      expected = Pair_ ("a .dropWhile (lambda x --> not (x == 'E'))" , List ('E' , 'F') )
     )
   )
 
@@ -82,7 +83,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .splitAt_example
     ) (
-      expected = Pair_ ("a .splitAt (3)" , (List ('A' , 'B' , 'C') , List ('D' , 'E' , 'F')))
+      expected = Pair_ ("a .splitAt (3)" , (List ('A' , 'B' , 'C') , List ('D' , 'E' , 'F') ) )
     )
   )
 
@@ -90,7 +91,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .indices_example
     ) (
-      expected = Pair_ ("a .indices" , Range(0 , 6))
+      expected = Pair_ ("a .indices" , Range(0 , 6) )
     )
   )
 
@@ -98,7 +99,8 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .zipWithIndex_example
     ) (
-      expected = Pair_ ("a .zipWithIndex" , List (('A',0) , ('B',1) , ('C',2) , ('D',3) , ('E',4) , ('F',5)))
+      expected = Pair_ ("a .zipWithIndex" , List (('A' , 0) , ('B' , 1) , ('C' , 2) ,
+       ('D' , 3) , ('E' , 4) , ('F', 5) ) )
     )
   )
 
@@ -106,7 +108,8 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .zip_example
     ) (
-      expected = Pair_ ("a .zip (b)" , List (('A' , 10) , ('B' , 20) , ('C' , 30) , ('D' , 40) , ('E' , 50) , ('F' , 60)))
+      expected = Pair_ ("a .zip (b)" , List (('A' , 10) , ('B' , 20) , ('C' , 30) ,
+        ('D' , 40) , ('E' , 50) , ('F' , 60) ) )
     )
   )
 
@@ -114,7 +117,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .reverse_example
     ) (
-      expected = Pair_ ("a .reverse" , List ('F' , 'E' , 'D' , 'C' , 'B' , 'A'))
+      expected = Pair_ ("a .reverse" , List ('F' , 'E' , 'D' , 'C' , 'B' , 'A') )
     )
   )
 
@@ -122,7 +125,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .prepended_example
     ) (
-      expected = Pair_ ("a .+: ('X')" , List ('X' , 'A' , 'B' , 'C' , 'D' , 'E' , 'F'))
+      expected = Pair_ ("a .+: ('X')" , List ('X' , 'A' , 'B' , 'C' , 'D' , 'E' , 'F') )
     )
   )
 
@@ -130,7 +133,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .appended_example
     ) (
-      expected = Pair_ ("a .:+ ('X')" , List ('A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'X'))
+      expected = Pair_ ("a .:+ ('X')" , List ('A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'X') )
     )
   )
 
@@ -138,7 +141,8 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .concat_example
     ) (
-      expected = Pair_ ("a .map (lambda x --> x .toInt) .++ (b)" , List (65 , 66 , 67 , 68 , 69 , 70 , 10 , 20 , 30 , 40 , 50 , 60))
+      expected = Pair_ ("a .map (lambda x --> x .toInt) .++ (b)" ,
+        List (65 , 66 , 67 , 68 , 69 , 70 , 10 , 20 , 30 , 40 , 50 , 60) )
     )
   )
 
@@ -146,7 +150,8 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .span_example
     ) (
-      expected = Pair_ ("a .span (lambda x --> not (x == 'D') )" , (List ('A' , 'B' , 'C') , List ('D' , 'E' , 'F')))
+      expected = Pair_ ("a .span (lambda x --> not (x == 'D') )" , (List ('A' , 'B' , 'C') ,
+      List ('D' , 'E' , 'F') ) )
     )
   )
 
@@ -154,7 +159,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .map_example
     ) (
-      expected = Pair_ ("a .map (lambda x --> x .toInt)" , List (65 , 66 , 67 , 68 , 69 , 70))
+      expected = Pair_ ("a .map (lambda x --> x .toInt)" , List (65 , 66 , 67 , 68 , 69 , 70) )
     )
   )
 
@@ -162,7 +167,7 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .filter_example
     ) (
-      expected = Pair_ ("a .filter (lambda x --> x .toInt % 2 == 0)" , List ('B' , 'D' , 'F'))
+      expected = Pair_ ("a .filter (lambda x --> x .toInt % 2 == 0)" , List ('B' , 'D' , 'F') )
     )
   )
 
@@ -178,7 +183,9 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .foldLeft_example
     ) (
-      expected = Pair_ ("a .foldLeft (Seq ('*') ) (lambda (list , elem) --> \"(\" + list + \" :+ \" + elem + \")\")" , "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)".toCharArray.toSeq)
+      expected = Pair_ ("a .foldLeft (Seq ('*') ) (lambda (list , elem) -->" +
+        " \"(\" + list + \" :+ \" + elem + \")\")" ,
+        "((((((List(*) :+ A) :+ B) :+ C) :+ D) :+ E) :+ F)" .toCharArray .toSeq)
     )
   )
 
@@ -186,7 +193,9 @@ case class ListExampleSpec ()
     check (
       obtained = ListExample_ () .foldRight_example
     ) (
-      expected = Pair_ ("a .foldRight (Seq ('*') ) (lambda (elem , list) --> \"(\" + elem + \" +: \" + list + \")\")" , "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))".toCharArray.toSeq)
+      expected = Pair_ ("a .foldRight (Seq ('*') ) (lambda (elem , list) -->" +
+        " \"(\" + elem + \" +: \" + list + \")\")" ,
+        "(A +: (B +: (C +: (D +: (E +: (F +: List(*)))))))" .toCharArray .toSeq)
     )
   )
 

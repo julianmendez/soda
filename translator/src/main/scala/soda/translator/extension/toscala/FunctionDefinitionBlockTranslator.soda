@@ -34,28 +34,35 @@ class FunctionDefinitionBlockTranslator
 
   _translate_val_definition (line : String) : String =
     Replacement_ (line)
-      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_value + _tc .scala_space)
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
+        _tc .scala_value + _tc .scala_space)
       .line
 
   _translate_def_definition (line : String) : String =
     Replacement_ (line)
-      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) + _tc .scala_definition + _tc .scala_space)
+      .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
+        _tc .scala_definition + _tc .scala_space)
       .line
 
-  _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String) : Seq [AnnotatedLine] =
+  _replace_first_line (lines : Seq [AnnotatedLine] ) (new_first_line : String)
+      : Seq [AnnotatedLine] =
     if lines .isEmpty
     then Seq [AnnotatedLine] () .+: (AnnotatedLine_ (new_first_line , false) )
     else lines .tail .+: (AnnotatedLine_ (new_first_line , false) )
 
 
-  _replace_on_val_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+  _replace_on_val_block (initial_comments : Seq [AnnotatedLine] )
+      (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      initial_comments .++ (_replace_first_line (main_block) (_translate_val_definition (main_block .head .line) ) )
+      initial_comments .++ (_replace_first_line (main_block) (
+        _translate_val_definition (main_block .head .line) ) )
     )
 
-  _replace_on_def_block (initial_comments : Seq [AnnotatedLine] ) (main_block : Seq [AnnotatedLine] ) : Block =
+  _replace_on_def_block (initial_comments : Seq [AnnotatedLine] )
+      (main_block : Seq [AnnotatedLine] ) : Block =
     Block_ (
-      initial_comments .++ (_replace_first_line (main_block) (_translate_def_definition (main_block .head .line) ) )
+      initial_comments .++ (_replace_first_line (main_block) (
+        _translate_def_definition (main_block .head .line) ) )
     )
 
   _get_initial_comment (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
@@ -81,10 +88,15 @@ class FunctionDefinitionBlockTranslator
   remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector) : Block =
+  _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
+      : Block =
     match detector .detect
-      case detector .val_detected ==> _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_detected ==> _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (_get_part_without_initial_comment (block .annotated_lines) )
+      case detector .val_detected ==>
+        _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (
+          _get_part_without_initial_comment (block .annotated_lines) )
+      case detector .def_detected ==>
+        _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
+          _get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_reserved_word_detected ==> block
       case otherwise ==> block
 
@@ -94,7 +106,8 @@ class FunctionDefinitionBlockTranslator
   _translate_main_block (block : Block) : Block =
     BlockBuilder_ () .build (
       remove_type_annotation (
-        _translate_main_block_with (block) (FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+        _translate_main_block_with (block) (
+            FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
           .lines
       )
     )
@@ -106,7 +119,8 @@ class FunctionDefinitionBlockTranslator
 
   _translate_block_with (first_line : AnnotatedLine) (block : Block) : Block =
     if _is_annotation (first_line .line)
-    then _prepend_line (first_line .line) (_translate_main_block (_remove_first_line_if_possible (block) ) )
+    then _prepend_line (first_line .line) (_translate_main_block (
+      _remove_first_line_if_possible (block) ) )
     else _translate_main_block (block)
 
   _translate_block (block : Block) : Block =
@@ -119,7 +133,8 @@ class FunctionDefinitionBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_definition_block (block)
+      case FunctionDefinitionAnnotation_ (block) ==>
+        _translate_function_definition_block (block)
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

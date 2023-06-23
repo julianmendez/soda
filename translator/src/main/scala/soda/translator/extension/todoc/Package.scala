@@ -55,7 +55,8 @@ trait DocBlockTranslator
   private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
     ) content
-    else _prepend (_remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
+    else _prepend (
+      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
 
   private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
     (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
@@ -206,7 +207,8 @@ trait TranslationConstantToDoc
   lazy val doc_end_lstlisting = "\\end{lstlisting}"
 
   lazy val soda_reserved_words_csv =
-    (soda_constant .soda_reserved_words_words_only .++ (soda_constant .soda_reserved_words_annotations_only) ) .mkString (", ")
+    (soda_constant .soda_reserved_words_words_only .++ (
+      soda_constant .soda_reserved_words_annotations_only) ) .mkString (", ")
 
   lazy val doc_packages : Seq [String] =
     Seq (
@@ -224,7 +226,8 @@ trait TranslationConstantToDoc
       "\\lstdefinelanguage{Soda}{",
       "    morekeywords={" + soda_reserved_words_csv + "},",
       "    sensitive=true,",
-      "    morecomment=[s]{" + soda_constant .comment_opening_symbol + "}{" + soda_constant .comment_closing_symbol + "},",
+      "    morecomment=[s]{" + soda_constant .comment_opening_symbol + "}{" +
+        soda_constant .comment_closing_symbol + "},",
       "   morestring=[b]\"",
       "}",
       "",

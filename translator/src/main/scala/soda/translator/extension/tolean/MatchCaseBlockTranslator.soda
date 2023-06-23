@@ -38,7 +38,9 @@ class MatchCaseBlockTranslator
 
   _replace_case (line : String) : String =
     if _is_a_case_line (line)
-    then ReplacementAux_ () . replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
+    then
+      ReplacementAux_ ()
+        .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
     else line
 
   _left_part (index : Int) (line : String) : String =
@@ -71,8 +73,10 @@ class MatchCaseBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) ==> _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) ==>
+        _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) ==>
+        _translate_test_block (TestDeclarationAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

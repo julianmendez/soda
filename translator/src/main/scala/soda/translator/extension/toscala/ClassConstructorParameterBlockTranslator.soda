@@ -33,28 +33,41 @@ class ClassConstructorParameterBlockTranslator
 
   _update_opening_par (a : AuxTuple) : AuxTuple =
     if (a .par_level == 0) and (a .expecting)
-    then AuxTuple_ (a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line , a .accum + _tc.scala_class_parameter_separator_symbol + _tc.scala_space , false)
-    else AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line , a .accum , a .expecting)
+    then AuxTuple_ (
+      a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line ,
+      a .accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
+    else AuxTuple_ (
+      a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line ,
+      a .accum , a .expecting)
 
   _update_closing_par (a : AuxTuple) :AuxTuple =
     if (a .par_level == 1)
-    then AuxTuple_ (a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line , a .accum + a .line .substring (a .last_index, a .index) , true)
-    else AuxTuple_ (a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line , a .accum , a .expecting)
+    then AuxTuple_ (
+      a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line ,
+      a .accum + a .line .substring (a .last_index, a .index) , true)
+    else AuxTuple_ (
+      a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line ,
+      a .accum , a .expecting)
 
   _update_opening_bracket (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   _update_closing_bracket (a : AuxTuple) :AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   _update_next_space (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line , a .accum + a .line .substring (a .last_index), a .expecting)
+    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line ,
+      a .accum + a .line .substring (a .last_index), a .expecting)
 
   _update_default_step (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line , a .accum , a .expecting)
+    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line ,
+      a .accum , a .expecting)
 
   _translate_line_initial (line : String) (index : Int) : AuxTuple =
-    AuxTuple_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 , line := line , accum := line .substring (0 , index) , expecting := false)
+    AuxTuple_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 ,
+      line := line , accum := line .substring (0 , index) , expecting := false)
 
   _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
 
@@ -75,7 +88,8 @@ class ClassConstructorParameterBlockTranslator
     then _update_opening_bracket (a)
     else if (a .line .charAt (a .index) == _closing_bracket_symbol_char)
     then _update_closing_bracket (a)
-    else if (a .bracket_level == 0) and (a .par_level == 0) and (not (a .line .charAt (a .index) == ' ') )
+    else if (a .bracket_level == 0) and (a .par_level == 0) and (
+      not (a .line .charAt (a .index) == ' ') )
     then _update_next_space (a)
     else _update_default_step (a)
 
@@ -83,16 +97,19 @@ class ClassConstructorParameterBlockTranslator
     a .accum + a .line .substring (a .last_index)
 
   _translate_line (line : String) (index : Int) : String =
-    _translate_line_with_parentheses_with_tuple (fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
+    _translate_line_with_parentheses_with_tuple (
+      fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
 
-  _translate_line_with_parentheses_after_constructor (line : String) (from_index : Int) : String =
-    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) + _sc .constructor_suffix .length)
+  _translate_line_with_parentheses_after_constr (line : String) (from_index : Int) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) +
+       _sc .constructor_suffix .length)
 
-  _translate_line_with_parentheses_after_multiple_constructors (line :  String) (occurrences : Seq [Int] ) : String =
+  _translate_line_with_parentheses_after_multiple_constructors (line :  String)
+      (occurrences : Seq [Int] ) : String =
     fold (occurrences) (line) (
       lambda accum -->
         lambda from_index -->
-          _translate_line_with_parentheses_after_constructor (accum) (from_index)
+          _translate_line_with_parentheses_after_constr (accum) (from_index)
     )
 
   _replace_parentheses_by_comma_with (line : String) (occurrences : Seq [Int] ) : String =
@@ -103,7 +120,8 @@ class ClassConstructorParameterBlockTranslator
   _get_next_position (line : String) (indices : Seq [Int] ) : Int =
     if indices .isEmpty
     then line .indexOf (_sc .constructor_suffix + _sc .space)
-    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head + _sc .constructor_suffix .length)
+    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head +
+      _sc .constructor_suffix .length)
 
   _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
     fold_while (range (line .length) ) (Seq [Int] () ) (

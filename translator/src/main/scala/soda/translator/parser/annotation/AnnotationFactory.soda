@@ -13,8 +13,10 @@ class AnnotationFactory
     match original_content
       case FunctionDefinitionAnnotation_ (b) ==> FunctionDefinitionAnnotation_ (new_content)
       case ClassBeginningAnnotation_ (b) ==> ClassBeginningAnnotation_ (new_content)
-      case ClassEndAnnotation_ (b , references) ==> ClassEndAnnotation_ (new_content , references)
-      case AbstractDeclarationAnnotation_ (b , references) ==> AbstractDeclarationAnnotation_ (new_content , references)
+      case ClassEndAnnotation_ (b , references) ==>
+        ClassEndAnnotation_ (new_content , references)
+      case AbstractDeclarationAnnotation_ (b , references) ==>
+        AbstractDeclarationAnnotation_ (new_content , references)
       case ImportDeclarationAnnotation_ (b) ==> ImportDeclarationAnnotation_ (new_content)
       case PackageDeclarationAnnotation_ (b) ==> PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) ==> ClassAliasAnnotation_ (new_content)
@@ -22,7 +24,8 @@ class AnnotationFactory
       case ProofBlockAnnotation_ (b) ==> ProofBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) ==> CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) ==> TestDeclarationAnnotation_ (new_content)
-      case otherwise ==> AnnotatedBlock_ (new_content .annotated_lines , original_content .block_annotation)
+      case otherwise ==> AnnotatedBlock_ (
+        new_content .annotated_lines , original_content .block_annotation)
 
   _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
@@ -43,14 +46,16 @@ class AnnotationFactory
     _detectors (block)
       .filter (lambda detector --> detector .applies)
 
-  _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
+  _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block)
+      : AnnotatedBlock =
     if candidates .length == 1
     then candidates .head
     else AnnotatedBlock_ (block .annotated_lines , BlockAnnotationEnum_ () .undefined )
 
   annotate (block : Block) : AnnotatedBlock =
     match block
-      case AnnotatedBlock_ (annotated_lines, block_annotation) ==> AnnotatedBlock_ (annotated_lines , block_annotation)
+      case AnnotatedBlock_ (annotated_lines, block_annotation) ==>
+        AnnotatedBlock_ (annotated_lines , block_annotation)
       case otherwise ==> _get_first_or_undefined (_find_candidates (block) ) (block)
 
   translate_for (block : AnnotatedBlock) : AnnotatedBlock =

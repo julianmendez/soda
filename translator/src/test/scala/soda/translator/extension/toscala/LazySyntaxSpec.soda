@@ -33,7 +33,7 @@ end
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
- * These tests detect and test this problem, and test work-arounds.
+ * These tests detect and test this problem, and test workarounds.
  */
 
 class LazySyntaxSpec ()

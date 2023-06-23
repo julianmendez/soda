@@ -17,14 +17,18 @@ class LeanImportDeclarationBlockTranslator
   lean_import_declaration_pattern =
     _tc .lean_import_reserved_word + _tc .lean_space
 
-  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : String =
     if annotated_line .is_comment
     then annotated_line .line
-    else annotated_line .line .substring (0, index) + prefix + annotated_line .line .substring (index)
+    else annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index)
 
-  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ () .build (
-      annotated_lines .map (lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines .map (lambda annotated_line -->
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   get_number_of_spaces_at_beginning (line : String) : Int =
@@ -42,13 +46,15 @@ class LeanImportDeclarationBlockTranslator
         lean_import_declaration_pattern) (
         block .imported_items
           .filter(lambda annotated_line --> not annotated_line .is_comment)
-          .map (lambda annotated_line --> AnnotatedLine_ (annotated_line .line + _tc .lean_space + _tc .lean_end_symbol, false) )
+          .map (lambda annotated_line --> AnnotatedLine_ (
+            annotated_line .line + _tc .lean_space + _tc .lean_end_symbol, false) )
       )
     )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ImportDeclarationAnnotation_ (block) ==> _translate_block (ImportDeclarationAnnotation_ (block) )
+      case ImportDeclarationAnnotation_ (block) ==>
+        _translate_block (ImportDeclarationAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

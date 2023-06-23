@@ -3,22 +3,24 @@ class SaladMaker
 
   @tailrec
   _tailrec_prepare_salad [Ingredient : Type] [Salad : Type]
-    (ingredients_so_far : Seq [Ingredient] )
-    (salad_so_far : Salad)
-    (next_ingredient_function : Salad -> Ingredient -> Salad)
-    (condition_to_continue : Salad -> Ingredient -> Boolean)
+    (ingredients : Seq [Ingredient] )
+    (salad : Salad)
+    (next_ingredient : Salad -> Ingredient -> Salad)
+    (condition : Salad -> Ingredient -> Boolean)
       : Salad =
-    if ingredients_so_far .isEmpty or (not condition_to_continue (salad_so_far) (ingredients_so_far .head) )
-    then salad_so_far
-    else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
+    if ingredients .isEmpty or
+      (not condition (salad) (ingredients .head) )
+    then salad
+    else _tailrec_prepare_salad (ingredients .tail)
+      (next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
 
   apply [Ingredient : Type] [Salad : Type]
     (list_of_ingredients : Seq [Ingredient] )
     (initial_bowl : Salad)
-    (next_ingredient_function : Salad -> Ingredient -> Salad)
-    (condition_to_continue : Salad -> Ingredient -> Boolean)
+    (next_ingredient : Salad -> Ingredient -> Salad)
+    (condition : Salad -> Ingredient -> Boolean)
       : Salad =
-    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
+    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient) (condition)
 
 end
 

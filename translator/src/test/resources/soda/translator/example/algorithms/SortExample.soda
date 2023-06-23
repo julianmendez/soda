@@ -64,7 +64,8 @@ class SortAlgorithmExampleWithFold
   sort : Seq [Int] -> Seq [Int] =
     lambda sequence --> sort_for (sequence)
 
-  concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
+  concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] )
+      : Seq [Int] =
     first_part .++ (middle .++ (last_part) )
 
   insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
@@ -179,7 +180,8 @@ class SortedSequenceBuilder [A subtype Comparable [A] ]
 
   _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 
-  _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
+  _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A)
+      : SortedSequence [A] =
     sorted_sequence .add (element)
 
   build (sequence : Seq [A] ) : SortedSequence [A] =

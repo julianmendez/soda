@@ -61,18 +61,25 @@ class ClassDeclarationBlockTranslator
 
   _process_after_extends (lines : Seq [String] ) : Seq [String] =
     if (get_first_line (lines) .trim .nonEmpty)
-    then Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines) .map (lambda line --> get_initial_spaces_for (line) + _tc .scala_with_translation + _tc .scala_space + line .trim)
+    then Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines)
+      .map (lambda line --> get_initial_spaces_for (line) + _tc .scala_with_translation +
+        _tc .scala_space + line .trim)
     else Seq [String] ()
 
   _process_head_with (line : String)  : Seq [String] =
-    Seq [String] (Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) )
+    Seq [String] (
+      Replacement_ (_sc .space + line)
+       .replace_at_beginning (0) (get_table_translator (line) )
+       .line .substring (_sc .space .length)
+    )
 
   _process_head (lines : Seq [String] ) : Seq [String] =
     _process_head_with (get_first_line (lines) )
 
   _process_if_extends (lines : Seq [String] ) : Seq [String] =
     if (get_first_line (lines) .trim == _sc .extends_reserved_word)
-    then Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) ++ _process_after_extends (remove_first_line (lines) )
+    then Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) .++ (
+      _process_after_extends (remove_first_line (lines) ) )
     else lines
 
   _process_tail (lines : Seq [String] ) : Seq [String] =
@@ -80,8 +87,9 @@ class ClassDeclarationBlockTranslator
 
   _translate_block_with (lines : Seq [String] ) : Seq [String] =
     if (has_condition_for_type_alias (get_first_line (lines) ) )
-    then _process_head (lines) ++ _process_tail (lines)
-    else _process_head (lines) ++ _process_tail (lines) ++ Seq [String] (get_initial_spaces (lines) + _tc .scala_class_begin_symbol)
+    then _process_head (lines) .++ (_process_tail (lines) )
+    else _process_head (lines) .++ (_process_tail (lines) .++ (Seq [String] (
+      get_initial_spaces (lines) + _tc .scala_class_begin_symbol) ) )
 
   _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
     Seq [String] (
@@ -90,7 +98,7 @@ class ClassDeclarationBlockTranslator
     )
 
   remove_type_annotation (lines : Seq [String] ) : Seq [String] =
-    _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
+    _remove_type_annotation_in_line (lines) .++ (remove_first_line (lines) )
 
   _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ () .build (
@@ -101,7 +109,8 @@ class ClassDeclarationBlockTranslator
       )
     )
 
-  _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+  _translate_class_beginning_block (block : ClassBeginningAnnotation)
+      : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
   _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
@@ -109,8 +118,10 @@ class ClassDeclarationBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ClassBeginningAnnotation_ (block) ==> _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case ClassAliasAnnotation_ (block) ==> _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+      case ClassBeginningAnnotation_ (block) ==>
+        _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case ClassAliasAnnotation_ (block) ==>
+        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

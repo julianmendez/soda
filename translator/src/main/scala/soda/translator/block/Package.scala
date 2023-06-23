@@ -172,12 +172,12 @@ trait BlockTranslatorPipeline
 
   private lazy val _fold = Fold_ ()
 
-  private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
+  private def _next_value (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator .translate (block)
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      _fold .apply (pipeline) (block) (_next_value_function)
+      _fold .apply (pipeline) (block) (_next_value)
 
 }
 

@@ -159,7 +159,8 @@ trait Memoizer [A , B ]
   private def _add_element (output : OutputPair [A, B], new_pair : Tuple2 [A, B] ) : OutputPair [A, B] =
     OutputPair_ (output .value, output .memoized_values + new_pair)
 
-  private def _compute_and_update_with (input_value : A) (output : OutputPair [A, B] ) : OutputPair [A, B] =
+  private def _compute_and_update_with (input_value : A) (output : OutputPair [A, B] )
+      : OutputPair [A, B] =
     _add_element (output, Tuple2 (input_value, output .value) )
 
   def compute_and_update (input : InputPair [A, B] ) : OutputPair [A, B] =
@@ -224,19 +225,25 @@ trait MemoizedFibonacci
   private def _get_next_fibo (a : Int) (b : Int) : Int =
     a + b
 
-  private def _compute_and_update_3 (res : Int) (second_map : Map [Int, Int] ) (n : Int) : OutputPair [Int, Int] =
+  private def _compute_and_update_3 (res : Int) (second_map : Map [Int, Int] ) (n : Int)
+      : OutputPair [Int, Int] =
     OutputPair_ (res, second_map + Tuple2 (n, res) )
 
-  private def _compute_and_update_2 (first_value : Int) (second_tuple : OutputPair [Int, Int] ) (n : Int ) : OutputPair [Int, Int] =
-    _compute_and_update_3 (_get_next_fibo (first_value) (second_tuple .value) ) (second_tuple .memoized_values) (n)
+  private def _compute_and_update_2 (first_value : Int) (second_tuple : OutputPair [Int, Int] ) (n : Int )
+      : OutputPair [Int, Int] =
+    _compute_and_update_3 (_get_next_fibo (first_value) (second_tuple .value) )
+      (second_tuple .memoized_values) (n)
 
-  private def _compute_and_update_1 (first_tuple : OutputPair [Int, Int] ) (n : Int ) : OutputPair [Int, Int] =
-    _compute_and_update_2 (first_tuple .value) (compute (InputPair_ (n - 1, first_tuple .memoized_values) ) ) (n)
+  private def _compute_and_update_1 (first_tuple : OutputPair [Int, Int] ) (n : Int )
+      : OutputPair [Int, Int] =
+    _compute_and_update_2 (first_tuple .value) (compute (
+      InputPair_ (n - 1, first_tuple .memoized_values) ) ) (n)
 
   def main_function_for (input : InputPair [Int, Int] ): OutputPair [Int, Int] =
     if ( (input .value == 0) || (input .value == 1)
     ) OutputPair_ (input .value, input .memoized_values )
-    else _compute_and_update_1 (compute (InputPair_ (input .value - 2, input .memoized_values ) ) ) (input .value)
+    else _compute_and_update_1 (compute (
+      InputPair_ (input .value - 2, input .memoized_values ) ) ) (input .value)
 
   lazy val main_function : InputPair [Int, Int] => OutputPair [Int, Int] =
      input =>
@@ -314,7 +321,8 @@ trait PiIterator
   private def _tailrec_take (n : Int) (rev_seq : Seq [Int] ) (s : Status) (t : IntAndStatus) : Seq [Int] =
     if ( n == 0
     ) rev_seq .reverse
-    else _tailrec_take (n - 1) (rev_seq .+: (t .digit) ) (t .new_status) (_get_next (t .new_status) )
+    else _tailrec_take (n - 1) (rev_seq .+: (t .digit) ) (t .new_status) (
+      _get_next (t .new_status) )
 
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
     IntAndStatus_ (

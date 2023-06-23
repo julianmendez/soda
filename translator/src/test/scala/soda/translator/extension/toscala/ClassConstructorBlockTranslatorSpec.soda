@@ -49,7 +49,8 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
+    " extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -94,7 +95,8 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value : Int, a_function : Int => Double => String) extends Example [A, B]" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
+    " a_function : Int => Double => String) extends Example [A, B]" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +

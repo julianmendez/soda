@@ -16,13 +16,15 @@ class CoqClassConstructorBlockTranslator
 
   _tc = TranslationConstantToCoq_ ()
 
-  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
       case otherwise ==> None
 
-  _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
-    references
+  _get_class_beginning (referencess : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
+    referencess
        .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
        .headOption
 
@@ -54,7 +56,8 @@ class CoqClassConstructorBlockTranslator
   _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
+  _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
     _tc .coq_inductive_reserved_word +
     _tc .coq_space +
@@ -79,21 +82,22 @@ class CoqClassConstructorBlockTranslator
     _tc .coq_space +
     _tc .coq_type_membership_symbol +
     _tc .coq_space +
-    abstract_functions .mkString (_tc .coq_space + _tc .coq_product_type_symbol + _tc .coq_space) +
+    functions .mkString (_tc .coq_space + _tc .coq_product_type_symbol + _tc .coq_space) +
     _tc .coq_closing_parenthesis +
     _tc .coq_new_line +
     _get_initial_spaces (beginning) +
     _tc .coq_inductive_end_symbol
 
-  _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
         Seq (_tc .coq_opening_comment) .++ (
           block .lines .++ (
             Seq [String] (
-              _tc .coq_closing_comment,
-              "",
-              _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
+            _tc .coq_closing_comment,
+            "",
+            _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
             )
           )
         )
@@ -101,12 +105,14 @@ class CoqClassConstructorBlockTranslator
       block .references
     )
 
-  _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if beginning .is_concrete
     then block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
-  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if maybe_beginning .isEmpty
     then block
     else _translate_block_with_beginning (maybe_beginning .get) (block)
@@ -116,7 +122,8 @@ class CoqClassConstructorBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case AbstractDeclarationAnnotation_ (block , references) ==> _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+      case AbstractDeclarationAnnotation_ (block , references) ==>
+        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

@@ -40,8 +40,11 @@ class MicroTranslatorToLean
         LeanImportDeclarationBlockTranslator_ (),
         LeanTheoremBlockTranslator_ (),
         LeanProofBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ () .replace (_tc .function_symbols_translation) )
+        ConditionalBlockTranslator_ (functions_and_tests,
+          TokenizedBlockTranslator_ (try_definition) ),
+        ConditionalBlockTranslator_ (functions_and_tests,
+          TokenReplacement_ () .replace (_tc .function_symbols_translation)
+        )
       )
     )
 

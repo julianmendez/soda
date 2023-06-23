@@ -67,7 +67,9 @@ case class PriceMonitorSpec ()
 
   test ("unfair pricing agent - requirement_monitor 1") (
     check (
-      obtained = Requirement1Monitor_ (unfair_pricing_agent) .get_report (customer_1) (customer_2) (flight_1) (date_1)
+      obtained =
+        Requirement1Monitor_ (unfair_pricing_agent)
+          .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
       expected = Report1_ (false , 897 , 1495 , 0.6)
     )
@@ -75,7 +77,9 @@ case class PriceMonitorSpec ()
 
   test ("unfair pricing agent - requirement_monitor 2") (
     check (
-      obtained = Requirement2Monitor_ (unfair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+      obtained =
+        Requirement2Monitor_ (unfair_pricing_agent)
+          .get_report (customer_1) (flight_1) (date_1)
     ) (
       expected = Report2_ (false , 702 , 897)
     )
@@ -83,7 +87,9 @@ case class PriceMonitorSpec ()
 
   test ("unfair pricing agent - requirement_monitor 3") (
     check (
-      obtained = Requirement3Monitor_ (unfair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+      obtained =
+        Requirement3Monitor_ (unfair_pricing_agent)
+          .get_report (customer_1) (flight_1) (date_1)
     ) (
       expected = Report3_ (false , 897 , 891)
     )
@@ -91,7 +97,9 @@ case class PriceMonitorSpec ()
 
   test ("fair pricing agent - requirement_monitor 1") (
     check (
-      obtained = Requirement1Monitor_ (fair_pricing_agent) .get_report (customer_1) (customer_2) (flight_1) (date_1)
+      obtained =
+        Requirement1Monitor_ (fair_pricing_agent)
+          .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
       expected = Report1_ (true , 300 , 300 , 1.0)
     )
@@ -99,7 +107,8 @@ case class PriceMonitorSpec ()
 
   test ("fair pricing agent - requirement_monitor 2") (
     check (
-      obtained = Requirement2Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+      obtained =
+        Requirement2Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
       expected = Report2_ (true , 300 , 300)
     )
@@ -107,7 +116,8 @@ case class PriceMonitorSpec ()
 
   test ("fair pricing agent - requirement_monitor 3") (
     check (
-      obtained = Requirement3Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+      obtained =
+        Requirement3Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
       expected = Report3_ (true , 300 , 300)
     )

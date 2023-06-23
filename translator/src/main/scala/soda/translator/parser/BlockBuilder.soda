@@ -28,26 +28,35 @@ class BlockBuilder
 
   _fold = Fold_ ()
 
-  _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
+  _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean)
+      : CurrentAndNewCommentState =
     if line .trim .startsWith (_sc .comment_opening_symbol)
-    then CurrentAndNewCommentState_ (true , not line .trim .endsWith (_sc .comment_closing_symbol) )
+    then CurrentAndNewCommentState_ (true , not line .trim .endsWith (
+      _sc .comment_closing_symbol) )
     else CurrentAndNewCommentState_ (false , false)
 
   _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if comment_state
-    then CurrentAndNewCommentState_ (true , not line .trim .endsWith (_sc .comment_closing_symbol) )
+    then CurrentAndNewCommentState_ (true , not line .trim
+      .endsWith (_sc .comment_closing_symbol) )
     else _annotate_this_line_considering_opening_symbol (line) (comment_state)
 
-  _get_annotated_lines_initial_value  : PreprocessorFoldTuple = PreprocessorFoldTuple_ (false , Seq () )
+  _get_annotated_lines_initial_value  : PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (false , Seq () )
 
-  _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState) (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (t .new_comment_state , pair .annotated_lines_rev .+: (AnnotatedLine_ (line , t .current_state) ) )
+  _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState)
+      (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (t .new_comment_state , pair .annotated_lines_rev .+: (
+      AnnotatedLine_ (line , t .current_state) ) )
 
-  _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    _get_annotated_lines_next_value_function_with (_annotate_this_line (line) (pair .comment_state) ) (pair) (line)
+  _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String)
+      : PreprocessorFoldTuple =
+    _get_annotated_lines_next_value_function_with (
+      _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply (lines) (_get_annotated_lines_initial_value) (_get_annotated_lines_next_value_function)
+    _fold.apply (lines) (_get_annotated_lines_initial_value) (
+        _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
 

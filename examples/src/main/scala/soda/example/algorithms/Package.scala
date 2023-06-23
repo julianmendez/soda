@@ -186,22 +186,24 @@ trait SaladMaker
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_prepare_salad [Ingredient , Salad ]
-    (ingredients_so_far : Seq [Ingredient] )
-    (salad_so_far : Salad)
-    (next_ingredient_function : Salad => Ingredient => Salad)
-    (condition_to_continue : Salad => Ingredient => Boolean)
+    (ingredients : Seq [Ingredient] )
+    (salad : Salad)
+    (next_ingredient : Salad => Ingredient => Salad)
+    (condition : Salad => Ingredient => Boolean)
       : Salad =
-    if ( ingredients_so_far .isEmpty || (! condition_to_continue (salad_so_far) (ingredients_so_far .head) )
-    ) salad_so_far
-    else _tailrec_prepare_salad (ingredients_so_far .tail) (next_ingredient_function (salad_so_far) (ingredients_so_far .head) ) (next_ingredient_function) (condition_to_continue)
+    if ( ingredients .isEmpty ||
+      (! condition (salad) (ingredients .head) )
+    ) salad
+    else _tailrec_prepare_salad (ingredients .tail)
+      (next_ingredient (salad) (ingredients .head) ) (next_ingredient) (condition)
 
   def apply [Ingredient , Salad ]
     (list_of_ingredients : Seq [Ingredient] )
     (initial_bowl : Salad)
-    (next_ingredient_function : Salad => Ingredient => Salad)
-    (condition_to_continue : Salad => Ingredient => Boolean)
+    (next_ingredient : Salad => Ingredient => Salad)
+    (condition : Salad => Ingredient => Boolean)
       : Salad =
-    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient_function) (condition_to_continue)
+    _tailrec_prepare_salad (list_of_ingredients) (initial_bowl) (next_ingredient) (condition)
 
 }
 
@@ -227,8 +229,8 @@ trait ScalaReservedWordEscaping
 
   def g [A , B ] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
 
-  private def __soda__while [A , B ] (seq : Seq [A] ) (cond : A => Boolean) (funct : A => B) : Seq [B] =
-    seq .takeWhile (cond) .map (funct)
+  private def __soda__while [A , B ] (seq : Seq [A] ) (cond : A => Boolean) (func : A => B) : Seq [B] =
+    seq .takeWhile (cond) .map (func)
 
   private lazy val __soda__protected = "protected"
 
@@ -321,7 +323,8 @@ trait SortAlgorithmExampleWithFold
   lazy val sort : Seq [Int] => Seq [Int] =
      sequence => sort_for (sequence)
 
-  def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] ) : Seq [Int] =
+  def concatenate (first_part : Seq [Int] ) (middle : Seq [Int] ) (last_part : Seq [Int] )
+      : Seq [Int] =
     first_part .++ (middle .++ (last_part) )
 
   def insert_sorted (sequence : Seq [Int] ) (element : Int) : Seq [Int] =
@@ -452,7 +455,8 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 
   private lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 
-  private def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A) : SortedSequence [A] =
+  private def _next_value_function (sorted_sequence : SortedSequence [A] ) (element : A)
+      : SortedSequence [A] =
     sorted_sequence .add (element)
 
   def build (sequence : Seq [A] ) : SortedSequence [A] =

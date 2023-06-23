@@ -10,8 +10,10 @@
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
+ * Case 3: The first opening parenthesis is after a colon,
+ *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis,
+ *   e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -58,11 +60,13 @@ class DefinitionLineTranslator
     _position_of_first_opening_parenthesis .isEmpty
 
   _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis .opt (false) (lambda position --> (position > initial_position) )
+    _position_of_first_opening_parenthesis .opt (false) (lambda position -->
+      (position > initial_position) )
 
   _is_val_definition_case_3 =
     (get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty := false) (ifNonEmpty := lambda other_position -->
-      _position_of_first_opening_parenthesis .opt (false) (lambda position --> (position > other_position) )
+      _position_of_first_opening_parenthesis .opt (false) (lambda position -->
+        (position > other_position) )
     )
 
   _is_val_definition_case_4 =
@@ -109,7 +113,8 @@ class DefinitionLineTranslator
     else _decide_val_or_def_translation (position)
 
   /**
-   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
+   * A line is a definition when its main operator is "="  (the equals sign),
+   * which in this context is also called the definition sign.
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
@@ -122,7 +127,8 @@ class DefinitionLineTranslator
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   translation =
-    find_definition (line) .opt (ifEmpty := line) (ifNonEmpty := lambda position --> _try_found_definition (position) .line)
+    find_definition (line) .opt (ifEmpty := line) (ifNonEmpty := lambda position -->
+      _try_found_definition (position) .line)
 
 end
 

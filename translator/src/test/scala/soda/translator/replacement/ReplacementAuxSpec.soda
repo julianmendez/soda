@@ -118,13 +118,15 @@ class ReplacementAuxSpec ()
     check (
       obtained := instance .add_spaces_to_symbols (line_2) ( (Seq [Char] (',') ) .toSet)
     ) (
-      expected := " false , true , not , and , or , package , import , theorem , proof , is , lambda"
+      expected :=
+        " false , true , not , and , or , package , import , theorem , proof , is , lambda"
     )
   )
 
   test ("add_spaces_to_symbols 3") (
     check (
-      obtained := instance .add_spaces_to_symbols (line_1) ( (Seq [Char] ('a', 'e', 'i', 'o', 'u') ) .toSet)
+      obtained := instance .add_spaces_to_symbols (line_1) ( (Seq [Char] (
+        'a', 'e', 'i', 'o', 'u') ) .toSet)
     ) (
       expected := "cl a ss h a s e xt e nds w i th th i s s u btyp e s u p e rtyp e "
     )

@@ -24,30 +24,36 @@ class LeanDefinitionBlockTranslator
 
   is_a_definition (block : Block) : Boolean =
     not is_a_recursive_definition (block) and
-    not _tc .non_definition_block_prefixes .exists (lambda prefix --> block .contents .trim .startsWith (prefix) )
+    not _tc .non_definition_block_prefixes .exists (lambda prefix -->
+      block .contents .trim .startsWith (prefix) )
 
   _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
     if is_a_definition (block)
-    then _append (_tc .lean_definition_end_symbol) (_prepend (_tc .lean_def_reserved_word + _tc .lean_space) (block) )
+    then _append (_tc .lean_definition_end_symbol) (_prepend (
+      _tc .lean_def_reserved_word + _tc .lean_space) (block) )
     else block
 
   first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("") .trim
 
   is_a_recursive_definition (block : Block) : Boolean =
-    _tc .lean_recursive_function_prefixes .exists (lambda prefix --> first_line (block) .startsWith (prefix) )
+    _tc .lean_recursive_function_prefixes .exists (lambda prefix -->
+      first_line (block) .startsWith (prefix) )
 
   _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
-    then _append (_tc .lean_recursive_definition_end_symbol) (_prepend (_tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
+    then _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
+      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
     else _translate_non_recursive_definition (block)
 
-  _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+  _translate_definition_block (block : FunctionDefinitionAnnotation)
+      : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case FunctionDefinitionAnnotation_ (block) ==> _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) ==>
+        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

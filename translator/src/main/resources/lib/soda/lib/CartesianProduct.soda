@@ -9,7 +9,7 @@
 
 class CartesianProduct
 
-  _fold = Fold_ ()
+  fold = Fold_ ()
 
   _initial_value [A : Type] (seq : Seq [A] ) : Seq [Seq [A] ] =
     seq .map (lambda elem --> Seq [A] (elem) )
@@ -19,7 +19,7 @@ class CartesianProduct
       accum .map (lambda seq_b --> seq_b .+: (elem_a) ) )
 
   _apply_recursion [A : Type] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
+    fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
 
   apply [A : Type] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if sequences .isEmpty

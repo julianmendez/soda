@@ -49,7 +49,8 @@ case class CoqFullTranslationSpec ()
     )
 
   def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (expected_file_name = Base + file_name + CoqSuffix)
+    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (
+      expected_file_name = Base + file_name + CoqSuffix)
 
   test ("should translate the swap example") (
     test_translation (SwapExample)

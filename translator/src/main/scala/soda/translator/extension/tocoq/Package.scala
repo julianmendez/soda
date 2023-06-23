@@ -1,7 +1,8 @@
 package soda.translator.extension.tocoq
 
 /*
- * This package contains classes for the translation to Gallina, the specification language used by Coq.
+ * This package contains classes for the translation to Gallina,
+ * the specification language used by Coq.
  */
 
 
@@ -25,14 +26,16 @@ trait CoqClassConstructorBlockTranslator
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
-  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
       case otherwise => None
     }
 
-  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
-    references
+  private def _get_class_beginning (referencess : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
+    referencess
        .flatMap ( block => _get_as_class_beginning_annotation (block) )
        .headOption
 
@@ -64,7 +67,8 @@ trait CoqClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation) (abstract_functions : Seq [String] ) : String =
+  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
     _tc .coq_inductive_reserved_word +
     _tc .coq_space +
@@ -89,21 +93,22 @@ trait CoqClassConstructorBlockTranslator
     _tc .coq_space +
     _tc .coq_type_membership_symbol +
     _tc .coq_space +
-    abstract_functions .mkString (_tc .coq_space + _tc .coq_product_type_symbol + _tc .coq_space) +
+    functions .mkString (_tc .coq_space + _tc .coq_product_type_symbol + _tc .coq_space) +
     _tc .coq_closing_parenthesis +
     _tc .coq_new_line +
     _get_initial_spaces (beginning) +
     _tc .coq_inductive_end_symbol
 
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
         Seq (_tc .coq_opening_comment) .++ (
           block .lines .++ (
             Seq [String] (
-              _tc .coq_closing_comment,
-              "",
-              _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
+            _tc .coq_closing_comment,
+            "",
+            _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
             )
           )
         )
@@ -111,12 +116,14 @@ trait CoqClassConstructorBlockTranslator
       block .references
     )
 
-  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if ( beginning .is_concrete
     ) block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
-  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     if ( maybe_beginning .isEmpty
     ) block
     else _translate_block_with_beginning (maybe_beginning .get) (block)
@@ -126,7 +133,8 @@ trait CoqClassConstructorBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case AbstractDeclarationAnnotation_ (block , references) => _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+      case AbstractDeclarationAnnotation_ (block , references) =>
+        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
       case otherwise => annotated_block
     }
 
@@ -173,7 +181,9 @@ trait CoqClassDeclarationBlockTranslator
 
   private def _process_after_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block) .trim .nonEmpty)
-    ) block .lines .map ( line => _tc .coq_import_reserved_word + _tc .coq_space + line .trim + _tc .coq_space + _tc .coq_end_symbol)
+    ) block .lines .map ( line =>
+       _tc .coq_import_reserved_word + _tc .coq_space + line .trim +
+       _tc .coq_space + _tc .coq_end_symbol)
     else Seq [String] ()
 
   private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
@@ -186,7 +196,8 @@ trait CoqClassDeclarationBlockTranslator
 
   private def _process_if_extends (block : Block) : Seq [String] =
     if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) ) .++ (_process_after_extends (remove_first_line (block) ) )
+    ) Seq [String] (
+      get_initial_spaces (block) ) .++ (_process_after_extends (remove_first_line (block) ) )
     else block .lines
 
   private def _process_tail (block : Block) : Seq [String] =
@@ -199,7 +210,9 @@ trait CoqClassDeclarationBlockTranslator
 
   private def _process_head_with (line : String) (block : Block) : Seq [String] =
     Seq [String] (
-      Replacement_ (_sc .space + line) .replace_at_beginning (0) (get_table_translator (line) ) .line .substring (_sc .space .length) + _tc .coq_space + _tc .coq_end_symbol
+      Replacement_ (_sc .space + line)
+        .replace_at_beginning (0) (get_table_translator (line) )
+        .line .substring (_sc .space .length) + _tc .coq_space + _tc .coq_end_symbol
     )
 
   private def _process_head (block : Block) : Seq [String] =
@@ -219,12 +232,14 @@ trait CoqClassDeclarationBlockTranslator
         _process_head (block) ++ _process_tail (block)
       )
 
-  private def _translate_class_beginning_block (block : ClassBeginningAnnotation) : ClassBeginningAnnotation =
+  private def _translate_class_beginning_block (block : ClassBeginningAnnotation)
+      : ClassBeginningAnnotation =
     ClassBeginningAnnotation_ (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassBeginningAnnotation_ (block) => _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case ClassBeginningAnnotation_ (block) =>
+        _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -252,34 +267,41 @@ trait CoqClassEndBlockTranslator
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         Seq [String] (
-          _tc .coq_module_end_reserved_word + _tc .coq_space + beginning .class_name + _tc .coq_space + _tc .coq_end_symbol,
+          _tc .coq_module_end_reserved_word + _tc .coq_space + beginning .class_name +
+          _tc .coq_space + _tc .coq_end_symbol ,
           "",
-          _tc .coq_import_reserved_word + _tc .coq_space + beginning .class_name + _tc .coq_space + _tc .coq_end_symbol
+          _tc .coq_import_reserved_word + _tc .coq_space + beginning .class_name +
+          _tc .coq_space + _tc .coq_end_symbol
         )
       ),
       block .references
     )
 
-  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( beginning .is_concrete
     ) block
     else _translate_block_with_abstract_beginning (beginning) (block)
 
-  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] ) (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( maybe_beginning .isEmpty
     ) block
     else _translate_block_with_beginning (maybe_beginning .get) (block)
 
-  private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
     references
       .flatMap ( block => _get_as_class_beginning_annotation (block) )
       .headOption
 
-  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
+  private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
       case otherwise => None
@@ -290,7 +312,8 @@ trait CoqClassEndBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) => _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block , references) =>
+        _translate_block (ClassEndAnnotation_ (block , references) )
       case otherwise => annotated_block
     }
 
@@ -328,30 +351,38 @@ trait CoqDefinitionBlockTranslator
 
   def is_a_definition (block : Block) : Boolean =
     ! is_a_recursive_definition (block) &&
-    ! _tc .non_definition_block_prefixes .exists ( prefix => block .contents .trim .startsWith (prefix) )
+    ! _tc .non_definition_block_prefixes .exists (
+       prefix => block .contents .trim .startsWith (prefix)
+    )
 
   private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_definition (block)
-    ) _append (_tc .coq_definition_end_symbol) (_prepend (_tc .coq_definition_reserved_word + _tc .coq_space) (block) )
+    ) _append (_tc .coq_definition_end_symbol) (_prepend (_tc .coq_definition_reserved_word +
+       _tc .coq_space) (block) )
     else block
 
   def first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("") .trim
 
   def is_a_recursive_definition (block : Block) : Boolean =
-    _tc .coq_recursive_function_prefixes .exists ( prefix => first_line (block) .startsWith (prefix) )
+    _tc .coq_recursive_function_prefixes .exists (
+       prefix => first_line (block) .startsWith (prefix)
+    )
 
   private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_recursive_definition (block)
-    ) _append (_tc .coq_recursive_definition_end_symbol) (_prepend (_tc .coq_recursive_definition_reserved_word + _tc .coq_space) (block) )
+    ) _append (_tc .coq_recursive_definition_end_symbol) (
+      _prepend (_tc .coq_recursive_definition_reserved_word + _tc .coq_space) (block) )
     else _translate_non_recursive_definition (block)
 
-  private def _translate_definition_block (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
+      : FunctionDefinitionAnnotation =
     FunctionDefinitionAnnotation_ (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -382,14 +413,18 @@ trait CoqImportDeclarationBlockTranslator
   lazy val coq_import_declaration_pattern =
     _tc .coq_import_reserved_word + _tc .coq_space
 
-  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : String =
     if ( annotated_line .is_comment
     ) annotated_line .line
-    else annotated_line .line .substring (0, index) + prefix + annotated_line .line .substring (index)
+    else annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index)
 
-  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
     BlockBuilder_ () .build (
-      annotated_lines .map ( annotated_line => prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+      annotated_lines .map ( annotated_line =>
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
@@ -407,13 +442,16 @@ trait CoqImportDeclarationBlockTranslator
         coq_import_declaration_pattern) (
         block .imported_items
           .filter( annotated_line => ! annotated_line .is_comment)
-          .map ( annotated_line => AnnotatedLine_ (annotated_line .line + _tc .coq_space + _tc .coq_end_symbol, false) )
+          .map ( annotated_line => AnnotatedLine_ (annotated_line .line +
+             _tc .coq_space + _tc .coq_end_symbol, false)
+          )
       )
     )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ImportDeclarationAnnotation_ (block) => _translate_block (ImportDeclarationAnnotation_ (block) )
+      case ImportDeclarationAnnotation_ (block) =>
+        _translate_block (ImportDeclarationAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -441,7 +479,8 @@ trait CoqPackageDeclarationBlockTranslator
 
   private def _comment_block (block : Block) : Block =
     BlockBuilder_ () .build (
-      ( (Seq (_tc .coq_opening_comment) .++ (block .lines) ) .++ (Seq (_tc .coq_closing_comment) ) ) .++ (_tc .coq_prelude)
+      ( (Seq (_tc .coq_opening_comment) .++ (block .lines) ) .++ (
+        Seq (_tc .coq_closing_comment) ) ) .++ (_tc .coq_prelude)
     )
 
   private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
@@ -453,7 +492,8 @@ trait CoqPackageDeclarationBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case PackageDeclarationAnnotation_ (block) => _translate_block (PackageDeclarationAnnotation_ (block) )
+      case PackageDeclarationAnnotation_ (block) =>
+        _translate_block (PackageDeclarationAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -556,7 +596,8 @@ trait CoqTheoremBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case TheoremBlockAnnotation_ (block) => _translate_block (TheoremBlockAnnotation_ (block) )
+      case TheoremBlockAnnotation_ (block) =>
+        _translate_block (TheoremBlockAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -580,8 +621,10 @@ case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator
  * It is detected in three cases.
  * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon, e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis, e.g. `(x, y) = (0, 1)`
+ * Case 3: The first opening parenthesis is after a colon,
+ *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis,
+ *   e.g. `(x, y) = (0, 1)`
  *
  * 'def' is for function definition.
  * If it does not fit in any of the 'val' cases.
@@ -627,11 +670,13 @@ trait DefinitionLineTranslator
     _position_of_first_opening_parenthesis .isEmpty
 
   private def _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis .opt (false) ( position => (position > initial_position) )
+    _position_of_first_opening_parenthesis .opt (false) ( position =>
+      (position > initial_position) )
 
   private lazy val _is_val_definition_case_3 =
     (get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-      _position_of_first_opening_parenthesis .opt (false) ( position => (position > other_position) )
+      _position_of_first_opening_parenthesis .opt (false) ( position =>
+        (position > other_position) )
     )
 
   private lazy val _is_val_definition_case_4 =
@@ -678,7 +723,8 @@ trait DefinitionLineTranslator
     else _decide_val_or_def_translation (position)
 
   /**
-   * A line is a definition when its main operator is "="  (the equals sign), which in this context is also called the definition sign.
+   * A line is a definition when its main operator is "="  (the equals sign),
+   * which in this context is also called the definition sign.
    * This function finds the first occurrence of the definition sign, if it is present.
    *
    * @param line line
@@ -691,7 +737,8 @@ trait DefinitionLineTranslator
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   lazy val translation =
-    find_definition (line) .opt (ifEmpty = line) (ifNonEmpty =  position => _try_found_definition (position) .line)
+    find_definition (line) .opt (ifEmpty = line) (ifNonEmpty =  position =>
+      _try_found_definition (position) .line)
 
 }
 
@@ -737,7 +784,9 @@ trait MatchCaseBlockTranslator
 
   private def _replace_case (line : String) : String =
     if ( _is_a_case_line (line)
-    ) ReplacementAux_ () . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
+    )
+      ReplacementAux_ ()
+        . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
     else line
 
   private def _left_part (index : Int) (line : String) : String =
@@ -770,8 +819,10 @@ trait MatchCaseBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) => _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) => _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) =>
+        _translate_test_block (TestDeclarationAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -825,8 +876,10 @@ trait MicroTranslatorToCoq
         CoqImportDeclarationBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
         CoqProofBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ () .replace (_tc .function_symbols_translation) )
+        ConditionalBlockTranslator_ (functions_and_tests,
+          TokenizedBlockTranslator_ (try_definition) ),
+        ConditionalBlockTranslator_ (functions_and_tests,
+          TokenReplacement_ () .replace (_tc .function_symbols_translation) )
       )
     )
 
@@ -840,7 +893,8 @@ case class MicroTranslatorToCoq_ () extends MicroTranslatorToCoq
 
 
 /**
- * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
+ * This class contains constants that are specific for the Soda translator,
+ * like reserved words for Soda and Coq.
  */
 
 trait TranslationConstantToCoq

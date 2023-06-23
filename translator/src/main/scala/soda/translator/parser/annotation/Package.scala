@@ -50,8 +50,10 @@ trait AnnotationFactory
     original_content match  {
       case FunctionDefinitionAnnotation_ (b) => FunctionDefinitionAnnotation_ (new_content)
       case ClassBeginningAnnotation_ (b) => ClassBeginningAnnotation_ (new_content)
-      case ClassEndAnnotation_ (b , references) => ClassEndAnnotation_ (new_content , references)
-      case AbstractDeclarationAnnotation_ (b , references) => AbstractDeclarationAnnotation_ (new_content , references)
+      case ClassEndAnnotation_ (b , references) =>
+        ClassEndAnnotation_ (new_content , references)
+      case AbstractDeclarationAnnotation_ (b , references) =>
+        AbstractDeclarationAnnotation_ (new_content , references)
       case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation_ (new_content)
       case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) => ClassAliasAnnotation_ (new_content)
@@ -59,7 +61,8 @@ trait AnnotationFactory
       case ProofBlockAnnotation_ (b) => ProofBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
-      case otherwise => AnnotatedBlock_ (new_content .annotated_lines , original_content .block_annotation)
+      case otherwise => AnnotatedBlock_ (
+        new_content .annotated_lines , original_content .block_annotation)
     }
 
   private def _detectors (block : Block) : Seq [BlockAnnotationParser] =
@@ -81,14 +84,16 @@ trait AnnotationFactory
     _detectors (block)
       .filter ( detector => detector .applies)
 
-  private def _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block) : AnnotatedBlock =
+  private def _get_first_or_undefined (candidates : Seq [BlockAnnotationParser] ) (block : Block)
+      : AnnotatedBlock =
     if ( candidates .length == 1
     ) candidates .head
     else AnnotatedBlock_ (block .annotated_lines , BlockAnnotationEnum_ () .undefined )
 
   def annotate (block : Block) : AnnotatedBlock =
     block match  {
-      case AnnotatedBlock_ (annotated_lines, block_annotation) => AnnotatedBlock_ (annotated_lines , block_annotation)
+      case AnnotatedBlock_ (annotated_lines, block_annotation) =>
+        AnnotatedBlock_ (annotated_lines , block_annotation)
       case otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
     }
 
@@ -224,7 +229,8 @@ trait ClassBeginningAnnotation
   def remove_brackets_with (trimmed_text : String) : String =
     if ( trimmed_text .startsWith (sc .opening_bracket_symbol) &&
       trimmed_text .endsWith (sc .closing_bracket_symbol)
-    ) trimmed_text .substring (sc .opening_bracket_symbol .length, trimmed_text .length - sc .closing_bracket_symbol .length)
+    ) trimmed_text .substring (sc .opening_bracket_symbol .length,
+      trimmed_text .length - sc .closing_bracket_symbol .length)
     else trimmed_text
 
   def remove_brackets (text : String) : String =
@@ -265,6 +271,8 @@ trait ClassEndAnnotation
 
   lazy val identifier = BlockAnnotationEnum_ () .class_end
 
+  private lazy val _sc = SodaConstant_ ()
+
   private def _get_first_word_of_array (words : Array [String] ) : String =
     if ( words .size == 0
     ) ""
@@ -275,7 +283,7 @@ trait ClassEndAnnotation
 
   lazy val applies : Boolean =
     block .readable_lines .nonEmpty &&
-    (_get_first_word (block .readable_lines .head .line .trim) == SodaConstant_ () .class_end_reserved_word)
+    (_get_first_word (block .readable_lines .head .line .trim) == _sc .class_end_reserved_word)
 
 }
 
@@ -348,7 +356,8 @@ trait FunctionDefinitionAnnotation
     block .readable_lines .nonEmpty &&
     block .readable_lines
       .filter ( annotated_line => ! annotated_line .is_comment)
-      .exists ( annotated_line => _contains_the_equals_symbol_in_line (annotated_line .line) )
+      .exists ( annotated_line =>
+        _contains_the_equals_symbol_in_line (annotated_line .line) )
 
   private def _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
     (first_line_trimmed == sc .tail_recursion_annotation ||
@@ -380,7 +389,8 @@ trait FunctionDefinitionAnnotation
     ! is_a_theorem &&
     ! is_a_proof &&
     ! is_a_class_declaration &&
-    (contains_the_equals_symbol || starts_with_valid_annotation || starts_with_def_reserved_word)
+    (contains_the_equals_symbol || starts_with_valid_annotation ||
+      starts_with_def_reserved_word)
 
 }
 

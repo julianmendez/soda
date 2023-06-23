@@ -44,10 +44,12 @@ class CharTypeEnum
   last_standard_symbol : Char = 0x7F
 
   symbol_chars : Seq [Char] =
-    Seq ('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , ',' , '-' , '.' , '/' , ':' , ';' , '<' , '=' , '>' , '?' , '@' , '[' , ']' , '^' , '`' , '{' , '|' , '}' , '~')
+    Seq ('!' , '#' , '$' , '%' , '&' , '(' , ')' , '*' , '+' , ',' , '-' , '.' , '/' , ':' ,
+      ';' , '<' , '=' , '>' , '?' , '@' , '[' , ']' , '^' , '`' , '{' , '|' , '}' , '~')
 
   _is_plain (ch : Char) : Boolean =
-    _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch) or _is_extended_character (ch)
+    _is_whitespace (ch) or _is_letter_or_digit_or_underscore (ch) or _is_symbol (ch) or
+      _is_extended_character (ch)
 
   _is_whitespace (ch : Char) : Boolean =
     ch.isWhitespace

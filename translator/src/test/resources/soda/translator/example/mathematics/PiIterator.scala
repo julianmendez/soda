@@ -56,7 +56,8 @@ trait PiIterator
   private def _tailrec_take (n : Int) (rev_seq : Seq [Int] ) (s : Status) (t : IntAndStatus) : Seq [Int] =
     if ( n == 0
     ) rev_seq .reverse
-    else _tailrec_take (n - 1) (rev_seq .+: (t .digit) ) (t .new_status) (_get_next (t .new_status) )
+    else _tailrec_take (n - 1) (rev_seq .+: (t .digit) ) (t .new_status) (
+      _get_next (t .new_status) )
 
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
     IntAndStatus_ (

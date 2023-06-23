@@ -42,7 +42,8 @@ case class DocFullTranslationSpec ()
     )
 
   def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = base + file_name + soda_suffix) (expected_file_name = base + file_name + doc_suffix)
+    test_translation_with (input_file_name = base + file_name + soda_suffix) (
+      expected_file_name = base + file_name + doc_suffix)
 
   test ("should translate the manual") (
     test_translation (manual)

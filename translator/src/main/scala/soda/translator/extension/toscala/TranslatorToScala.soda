@@ -83,7 +83,8 @@ class IndividualProcessor
 
   get_input_output_file_names (input_name : String) : FileNamePair =
     if input_name .endsWith (tc .soda_extension)
-    then FileNamePair_ (input_name, input_name .substring (0, input_name .length - tc .soda_extension .length) + tc .scala_extension)
+    then FileNamePair_ (input_name, input_name .substring (0,
+      input_name .length - tc .soda_extension .length) + tc .scala_extension)
     else FileNamePair_ (input_name + tc .soda_extension, input_name + tc .scala_extension)
 
   _translate_with_input (input : String) (output_file_name : String) : Boolean =
@@ -115,11 +116,13 @@ class PackageProcessor
 
   get_input_output_file_names (input_name : String) (parent_name : String) : FileNamePair =
     if input_name .endsWith (tc .soda_extension)
-    then FileNamePair_ (input_name , parent_name + tc .file_separator + tc .package_scala_file_name )
+    then FileNamePair_ (input_name , parent_name + tc .file_separator +
+      tc .package_scala_file_name )
     else FileNamePair_ (input_name + tc .soda_extension , input_name + tc .scala_extension)
 
   _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
-    writer .append_file (output_file_name) (content := tc .new_line + tc .translator .translate (input) + tc .new_line)
+    writer .append_file (output_file_name) (content := tc .new_line +
+      tc .translator .translate (input) + tc .new_line)
 
   translate_append (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_append_with_input (reader .read_file (input_file_name) ) (output_file_name)
@@ -128,7 +131,8 @@ class PackageProcessor
     translate_append (pair .input_file_name) (pair .output_file_name)
 
   process_soda_file (file : File) : Boolean =
-    process_soda_file_with (get_input_output_file_names (file .getAbsolutePath) (file .getParent) )
+    process_soda_file_with (
+      get_input_output_file_names (file .getAbsolutePath) (file .getParent) )
 
 end
 

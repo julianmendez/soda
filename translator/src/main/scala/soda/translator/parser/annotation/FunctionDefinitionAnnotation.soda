@@ -45,7 +45,8 @@ class FunctionDefinitionAnnotation
     block .readable_lines .nonEmpty and
     block .readable_lines
       .filter (lambda annotated_line --> not annotated_line .is_comment)
-      .exists (lambda annotated_line --> _contains_the_equals_symbol_in_line (annotated_line .line) )
+      .exists (lambda annotated_line -->
+        _contains_the_equals_symbol_in_line (annotated_line .line) )
 
   _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
     (first_line_trimmed == sc .tail_recursion_annotation or
@@ -77,7 +78,8 @@ class FunctionDefinitionAnnotation
     not is_a_theorem and
     not is_a_proof and
     not is_a_class_declaration and
-    (contains_the_equals_symbol or starts_with_valid_annotation or starts_with_def_reserved_word)
+    (contains_the_equals_symbol or starts_with_valid_annotation or
+      starts_with_def_reserved_word)
 
 end
 

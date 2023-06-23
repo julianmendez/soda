@@ -14,7 +14,8 @@ class LeanPackageDeclarationBlockTranslator
 
   _comment_block (block : Block) : Block =
     BlockBuilder_ () .build (
-      ( (Seq (_tc .lean_opening_comment) .++ (block .lines) ) .++ (Seq (_tc .lean_closing_comment) ) ) .++ (_tc .lean_prelude)
+      ( (Seq (_tc .lean_opening_comment) .++ (block .lines) ) .++ (
+        Seq (_tc .lean_closing_comment) ) ) .++ (_tc .lean_prelude)
     )
 
   _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
@@ -26,7 +27,8 @@ class LeanPackageDeclarationBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case PackageDeclarationAnnotation_ (block) ==> _translate_block (PackageDeclarationAnnotation_ (block) )
+      case PackageDeclarationAnnotation_ (block) ==>
+        _translate_block (PackageDeclarationAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

@@ -62,7 +62,8 @@ class TranslationConstantToDoc
   doc_end_lstlisting = "\\end{lstlisting}"
 
   soda_reserved_words_csv =
-    (soda_constant .soda_reserved_words_words_only .++ (soda_constant .soda_reserved_words_annotations_only) ) .mkString (", ")
+    (soda_constant .soda_reserved_words_words_only .++ (
+      soda_constant .soda_reserved_words_annotations_only) ) .mkString (", ")
 
   doc_packages : Seq [String] =
     Seq (
@@ -80,7 +81,8 @@ class TranslationConstantToDoc
       "\\lstdefinelanguage{Soda}{",
       "    morekeywords={" + soda_reserved_words_csv + "},",
       "    sensitive=true,",
-      "    morecomment=[s]{" + soda_constant .comment_opening_symbol + "}{" + soda_constant .comment_closing_symbol + "},",
+      "    morecomment=[s]{" + soda_constant .comment_opening_symbol + "}{" +
+        soda_constant .comment_closing_symbol + "},",
       "   morestring=[b]\"",
       "}",
       "",

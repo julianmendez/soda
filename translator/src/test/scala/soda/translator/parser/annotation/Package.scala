@@ -44,7 +44,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (0) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , true , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , true , false , false , false , false , false)
     )
   )
 
@@ -52,7 +53,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (1) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , true , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , false , true , false)
     )
   )
 
@@ -60,7 +62,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (2) )
     ) (
-      expected = Seq [Boolean] (false , true , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , true , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -68,7 +71,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (3) )
     ) (
-      expected = Seq [Boolean] (false , false , false , true , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , true , false , false , false , false , false , false , false)
     )
   )
 
@@ -76,7 +80,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (4) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , true , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , true , false , false , false , false , false , false)
     )
   )
 
@@ -84,7 +89,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (5) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -92,7 +98,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (6) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -100,7 +107,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (7) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -108,7 +116,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (8) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , false , true)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , false , false , true)
     )
   )
 
@@ -116,7 +125,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (9) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , true , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , true , false , false , false)
     )
   )
 
@@ -124,7 +134,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (10) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , true , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , true , false , false)
     )
   )
 
@@ -132,7 +143,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (11) )
     ) (
-      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , true , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -140,7 +152,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (12) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , true , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , true , false , false , false , false)
     )
   )
 
@@ -154,7 +167,8 @@ case class BlockAnnotationSpec ()
 
   test ("should be ordered by the identifier ordinal") (
     check (
-      obtained = detectors (example_blocks (0) ) .map ( detector => detector .identifier .ordinal)
+      obtained = detectors (example_blocks (0) ) .map ( detector =>
+        detector .identifier .ordinal)
     ) (
       expected = Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11)
     )
@@ -231,7 +245,8 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = example_blocks .map ( block => ClassBeginningAnnotation_ (block) .applies )
     ) (
-      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (false , false , true , false , false , false , false ,
+        false , false , false , false , false , false)
     )
   )
 

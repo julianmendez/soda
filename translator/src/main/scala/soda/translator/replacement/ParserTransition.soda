@@ -33,7 +33,8 @@ class ParserStateEnum
 
   plain = ParserState_ (5 , "plain")
 
-  values = Seq (undefined_state , quotes_state , apostrophe_state , quotes_backslash_state , apostrophe_backslash_state , plain)
+  values = Seq (undefined_state , quotes_state , apostrophe_state , quotes_backslash_state ,
+    apostrophe_backslash_state , plain)
 
   _is_like (x : ParserState) (y : ParserState) : Boolean =
      (x == quotes_state and y == quotes_backslash_state) or
@@ -59,7 +60,8 @@ class ParserTransition
       /* */
       Tuple2 (Tuple2 (ps .apostrophe_state , ct .undefined_type) , ps .undefined_state),
       Tuple2 (Tuple2 (ps .apostrophe_state , ct .apostrophe_type) , ps .plain),
-      Tuple2 (Tuple2 (ps .apostrophe_state , ct .backslash_type) , ps .apostrophe_backslash_state),
+      Tuple2 (Tuple2 (ps .apostrophe_state , ct .backslash_type) ,
+        ps .apostrophe_backslash_state),
       /* */
       Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .undefined_type) , ps .undefined_state),
       Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .quotes_type) , ps .quotes_state),
@@ -67,11 +69,16 @@ class ParserTransition
       Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .backslash_type) , ps .quotes_state),
       Tuple2 (Tuple2 (ps .quotes_backslash_state , ct .plain_type) , ps .quotes_state),
       /* */
-      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .undefined_type) , ps .undefined_state),
-      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .quotes_type) , ps .apostrophe_state),
-      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .apostrophe_type) , ps .apostrophe_state),
-      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .backslash_type) , ps .apostrophe_state),
-      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .plain_type) , ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .undefined_type) ,
+        ps .undefined_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .quotes_type) ,
+        ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .apostrophe_type) ,
+        ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .backslash_type) ,
+        ps .apostrophe_state),
+      Tuple2 (Tuple2 (ps .apostrophe_backslash_state , ct .plain_type) ,
+        ps .apostrophe_state),
       /* */
       Tuple2 (Tuple2 (ps .plain , ct .undefined_type) , ps .undefined_state),
       Tuple2 (Tuple2 (ps .plain , ct .quotes_type) , ps .quotes_state),

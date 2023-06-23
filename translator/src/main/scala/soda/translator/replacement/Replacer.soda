@@ -35,7 +35,8 @@ class Replacer
 
   initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq () , 0 )
 
-  _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int) : ReplacerFoldTuple =
+  _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int)
+      : ReplacerFoldTuple =
     if pos == -1
     then ReplacerFoldTuple_ (replaced_text_rev .+: (line .substring (start_index) ) , pos )
     else
@@ -58,7 +59,8 @@ class Replacer
     tuple .replaced_text_rev .reverse .mkString ("")
 
   replaced_text =
-    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (next_value_function) (should_continue) )
+    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (
+      next_value_function) (should_continue) )
 
 end
 

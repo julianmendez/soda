@@ -49,7 +49,8 @@ case class LeanFullTranslationSpec ()
     )
 
   def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = base + file_name + soda_suffix) (expected_file_name = base + file_name + lean_suffix)
+    test_translation_with (input_file_name = base + file_name + soda_suffix) (
+      expected_file_name = base + file_name + lean_suffix)
 
   test ("should translate the swap example") (
     test_translation (swap_example)

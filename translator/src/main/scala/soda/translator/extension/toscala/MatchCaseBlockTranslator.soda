@@ -28,7 +28,8 @@ class MatchCaseBlockTranslator
     line .substring (index + _soda_match_pattern .length , line .length)
 
   _assemble_parts (index : Int) (line : String) : String =
-    (_left_part (index) (line) ) + (_right_part (index) (line) ) + _tc .scala_match_translation + _tc .scala_space + _tc .scala_opening_brace
+    (_left_part (index) (line) ) + (_right_part (index) (line) ) +
+      _tc .scala_match_translation + _tc .scala_space + _tc .scala_opening_brace
 
   _is_a_match_line (line : String) : Boolean =
     line .trim .startsWith (_soda_match_pattern)

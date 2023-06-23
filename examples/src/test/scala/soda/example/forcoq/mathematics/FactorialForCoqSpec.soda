@@ -17,7 +17,8 @@ class FactorialForCoqSpec ()
   factorial_values_with_nat : Seq [ Tuple2 [nat] [nat] ] =
     factorial_values
       .map (lambda pair -->
-        Tuple2 (IntNat_ () .from_non_negative (pair ._1), IntNat_ () .from_non_negative (pair ._2) )
+        Tuple2 (IntNat_ () .from_non_negative (pair ._1),
+          IntNat_ () .from_non_negative (pair ._2) )
       )
 
   test ("should test the factorial function for Coq") (

@@ -149,10 +149,12 @@ case class SaladMakerSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
+  def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient)
+      : Seq [SaladIngredient] =
     salad_so_far .+: (ingredient)
 
-  def has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
+  def has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] )
+      (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
   private lazy val _salad_maker = SaladMaker_ ()
@@ -162,8 +164,8 @@ case class SaladMakerSpec ()
       obtained = _salad_maker .apply (
         list_of_ingredients = SaladIngredient_values) (
         initial_bowl = Seq [SaladIngredient] () ) (
-        next_ingredient_function = add_next_ingredient) (
-        condition_to_continue = has_salad_at_most_2_ingredients
+        next_ingredient = add_next_ingredient) (
+        condition = has_salad_at_most_2_ingredients
       )
     ) (
       expected = Seq (sunflower_seeds , lettuce , tomato)
@@ -221,7 +223,8 @@ case class SortExampleSpec ()
 
   test ("insert sorted simple") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
+      obtained = SortAlgorithmExampleWithFold_ ()
+        .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 6 , 8 , 9)
     )
@@ -229,7 +232,8 @@ case class SortExampleSpec ()
 
   test ("insert sorted with repetition") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
+      obtained = SortAlgorithmExampleWithFold_ ()
+        .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 5 , 6 , 8 , 9)
     )

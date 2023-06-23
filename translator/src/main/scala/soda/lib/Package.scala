@@ -23,7 +23,7 @@ trait Package
 trait CartesianProduct
 {
 
-  private lazy val _fold = Fold_ ()
+  lazy val fold = Fold_ ()
 
   private def _initial_value [A ] (seq : Seq [A] ) : Seq [Seq [A] ] =
     seq .map ( elem => Seq [A] (elem) )
@@ -33,7 +33,7 @@ trait CartesianProduct
       accum .map ( seq_b => seq_b .+: (elem_a) ) )
 
   private def _apply_recursion [A ] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
+    fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
 
   def apply [A ] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if ( sequences .isEmpty
@@ -238,10 +238,12 @@ trait FoldWhile
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current_value : B)
+      (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence .isEmpty || (! condition (current_value) (sequence .head) )
     ) current_value
-    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
+    else _tailrec_fold_while (sequence .tail) (
+      next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
 
   def apply [A , B ]
     (sequence : Seq [A] )
@@ -260,10 +262,12 @@ trait Fold
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold [A , B ] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) : B =
+  private def _tailrec_fold [A , B ] (sequence : Seq [A] ) (current_value : B)
+      (next_value_function : B => A => B) : B =
     if ( sequence .isEmpty
     ) current_value
-    else _tailrec_fold (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function)
+    else _tailrec_fold (sequence .tail) (
+      next_value_function (current_value) (sequence .head) ) (next_value_function)
 
   def apply [A , B ]
     (sequence : Seq [A] )
@@ -302,10 +306,12 @@ trait Recursion
 
   private lazy val _range = Range_ ()
 
-  def fold_while [A , B ] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  def fold_while [A , B ] (sequence : Seq [A] ) (initial_value : B)
+      (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
     _fold_while .apply (sequence) (initial_value) (next_value_function) (condition)
 
-  def fold [A , B ] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) : B =
+  def fold [A , B ] (sequence : Seq [A] ) (initial_value : B)
+      (next_value_function : B => A => B) : B =
     _fold .apply (sequence) (initial_value) (next_value_function)
 
   def range (length : Int) : Seq [Int] =

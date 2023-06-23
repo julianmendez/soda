@@ -26,7 +26,10 @@ case class RecursionForCoqSpec ()
 
   test ("fold left while with Seq") (
     check (
-      obtained = RecursionForCoq_ () .fold4 (example_seq) (_fold_left_while_initial_value) (_fold_left_while_next_value_function) (_fold_left_while_condition)
+      obtained =
+        RecursionForCoq_ ()
+          .fold4 (example_seq) (_fold_left_while_initial_value) (
+            _fold_left_while_next_value_function) (_fold_left_while_condition)
     ) (
       expected = Seq ("103" , "102" , "101" , "101" , "100")
     )
@@ -39,7 +42,9 @@ case class RecursionForCoqSpec ()
 
   test ("fold left with Seq") (
     check (
-      obtained = RecursionForCoq_ () .fold3 (example_seq) (_fold_left_initial_value) (_fold_left_next_value_function)
+      obtained =
+        RecursionForCoq_ ()
+          .fold3 (example_seq) (_fold_left_initial_value) (_fold_left_next_value_function)
     ) (
       expected = Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )

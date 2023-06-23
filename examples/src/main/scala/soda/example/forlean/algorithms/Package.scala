@@ -15,28 +15,33 @@ trait RecursionForLean
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold4 [A , B ] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
+  private def _tailrec_fold4 [A , B ] (sequence : Seq [A] ) (current : B)
+      (next_value : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
       case (head) :: (tail) =>
-         if ( (! (condition (current_value) (head) ) )
-         ) current_value
-         else _tailrec_fold4 (tail) (next_value_function (current_value) (head) ) (next_value_function) (condition)
-      case otherwise => current_value
+         if ( (! (condition (current) (head) ) )
+         ) current
+         else _tailrec_fold4 (tail) (next_value (current) (head) ) (next_value) (condition)
+      case otherwise => current
     }
 
-  def fold4 [A , B ] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition)
+  def fold4 [A , B ] (sequence : Seq [A] ) (initial_value : B)
+      (next_value : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold4 (sequence) (initial_value) (next_value) (condition)
 
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold3 [A , B ] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) : B =
+  private def _tailrec_fold3 [A , B ] (sequence : Seq [A] ) (current : B)
+      (next_value : B => A => B) : B =
     sequence match  {
-      case (head) :: (tail) => _tailrec_fold3 (tail) (next_value_function (current_value) (head) ) (next_value_function)
-      case otherwise => current_value
+      case (head) :: (tail) =>
+        _tailrec_fold3 (tail) (next_value (current) (head) ) (next_value)
+      case otherwise => current
     }
 
-  def fold3 [A , B ] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) : B =
-    _tailrec_fold3 (sequence) (initial_value) (next_value_function)
+  def fold3 [A , B ] (sequence : Seq [A] ) (initial_value : B)
+      (next_value : B => A => B) : B =
+    _tailrec_fold3 (sequence) (initial_value) (next_value)
 
   import scala.annotation.tailrec
         @tailrec  final

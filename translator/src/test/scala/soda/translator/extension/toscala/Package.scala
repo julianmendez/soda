@@ -86,7 +86,8 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
+    " extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -131,7 +132,8 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value : Int, a_function : Int => Double => String) extends Example [A, B]" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
+    " a_function : Int => Double => String) extends Example [A, B]" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
@@ -239,7 +241,8 @@ case class FullTranslationSpec ()
     )
 
   def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (expected_file_name = Base + file_name + ScalaSuffix)
+    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (
+      expected_file_name = Base + file_name + ScalaSuffix)
 
   test ("should translate the swap example") (
     test_translation (SwapExample)
@@ -273,7 +276,7 @@ case class FullTranslationSpec ()
     test_translation (FizzBuzzUnicode)
   )
 
-  test ("should translated Soda code that uses Scala reserved words as variables and functions") (
+  test ("should translate Soda code that uses Scala reserved words") (
     test_translation (ScalaReservedWordEscaping)
   )
 
@@ -334,7 +337,7 @@ case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmpt
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
- * These tests detect and test this problem, and test work-arounds.
+ * These tests detect and test this problem, and test workarounds.
  */
 
 case class LazySyntaxSpec ()
@@ -417,17 +420,21 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained = instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained = instance .translate (
+        " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
-      expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
+      expected =
+        " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
   )
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained = instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained = instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
-      expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+      expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
   )
 
@@ -706,7 +713,8 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 2") (
     check (
-      obtained = instance .translate ("p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
+      obtained = instance .translate (
+        "p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
         "\n"
       )
     ) (
@@ -728,7 +736,8 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 4") (
     check (
-      obtained = instance .translate ("p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
+      obtained = instance .translate (
+        "p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
         "\n"
       )
     ) (
@@ -739,11 +748,13 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate a constructor with parameters 5") (
     check (
-      obtained = instance .translate ("p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+      obtained = instance .translate (
+        "p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
         "\n"
       )
     ) (
-      expected = "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+      expected =
+        "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
         "\n"
     )
   )
@@ -751,11 +762,13 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate a constructor with parameters 6") (
     check (
       obtained = instance .translate (
-        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
         "\n"
       )
     ) (
-      expected = "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) ) .get (x) (y) (z) + \" (x) (y) (z)\"" +
+      expected = "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
         "\n"
     )
   )
@@ -1072,7 +1085,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate mixed upper and lower bounds") (
     check (
-      obtained = instance .translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
+      obtained = instance .translate (
+        "  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
         "\n  extends " +
         "\n    AbstractBlackBox[A][B]" +
         "\n    AbstractDevice [A]   [B] " +
@@ -1089,7 +1103,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] () extends BlackBox [A, B]" +
+        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] ()" +
+        " extends BlackBox [A, B]" +
         "\n"
     )
   )
