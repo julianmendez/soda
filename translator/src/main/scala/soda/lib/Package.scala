@@ -216,9 +216,10 @@ trait OptionSDBuilder [A ]
 {
 
   def build (option : Option [A] ) : OptionSD [A] =
-    if ( option .isEmpty
-    ) NoneSD_ [A] ()
-    else SomeSD_ [A] (option .get)
+    option match  {
+      case Some (content) => SomeSD_ [A] (content)
+      case otherwise => NoneSD_ [A] ()
+    }
 
 }
 
