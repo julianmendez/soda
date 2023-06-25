@@ -108,9 +108,9 @@ end
 class OptionSDBuilder [A : Type]
 
   build (option : Option [A] ) : OptionSD [A] =
-    if option .isEmpty
-    then NoneSD_ [A] ()
-    else SomeSD_ [A] (option .get)
+    match option
+      case Some (content) ==> SomeSD_ [A] (content)
+      case otherwise ==> NoneSD_ [A] ()
 
 end
 

@@ -654,7 +654,7 @@ trait DefinitionLineTranslator
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
-  private lazy val _trimmed_line = line .trim
+  private lazy val _trimmed_line : String = line .trim
 
   def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
     SomeSD_ (line .indexOf (pattern, start) )
@@ -663,53 +663,55 @@ trait DefinitionLineTranslator
   def get_index (line : String) (pattern : String) : OptionSD [Int] =
     get_index_from (line) (pattern) (0)
 
-  private lazy val _position_of_first_opening_parenthesis =
+  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
     get_index (line) (_sc .opening_parenthesis_symbol)
 
-  private lazy val _is_val_definition_case_1 =
+  private lazy val _is_val_definition_case_1 : Boolean =
     _position_of_first_opening_parenthesis .isEmpty
 
-  private def _is_val_definition_case_2 (initial_position : Int) =
-    _position_of_first_opening_parenthesis .opt (false) ( position =>
-      (position > initial_position) )
+  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
+    _position_of_first_opening_parenthesis match  {
+      case SomeSD_ (position) => (position > initial_position)
+      case otherwise => false
+    }
 
-  private lazy val _is_val_definition_case_3 =
-    (get_index (line) (_sc .type_membership_symbol) ) .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-      _position_of_first_opening_parenthesis .opt (false) ( position =>
-        (position > other_position) )
-    )
+  private lazy val _is_val_definition_case_3 : Boolean =
+    (get_index (line) (_sc .type_membership_symbol) ) match  {
+      case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
+      case otherwise => false
+    }
 
-  private lazy val _is_val_definition_case_4 =
+  private lazy val _is_val_definition_case_4 : Boolean =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
 
-  private def _is_val_definition (initial_position : Int) =
+  private def _is_val_definition (initial_position : Int) : Boolean =
     _is_val_definition_case_1 ||
     _is_val_definition_case_2 (initial_position) ||
     _is_val_definition_case_3 ||
     _is_val_definition_case_4
 
-  private lazy val _is_class_definition =
+  private lazy val _is_class_definition : Boolean =
     get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
 
   private lazy val _ends_with_equals = false
 
   private lazy val _ends_with_opening_brace = false
 
-  private lazy val _contains_equals =
+  private lazy val _contains_equals : Boolean =
     _trimmed_line .contains (_sc .function_definition_symbol)
 
-  private lazy val _condition_for_type_alias =
+  private lazy val _condition_for_type_alias : Boolean =
     _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
 
-  private lazy val _translation_of_class_definition =
+  private lazy val _translation_of_class_definition : Replacement =
     if ( _condition_for_type_alias
     ) Replacement_ (line)
     else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
 
-  private lazy val _translation_of_val_definition =
+  private lazy val _translation_of_val_definition : Replacement =
     Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
-  private lazy val _translation_of_def_definition =
+  private lazy val _translation_of_def_definition : Replacement =
     Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   private def _decide_val_or_def_translation (position : Int) : Replacement =
@@ -736,9 +738,11 @@ trait DefinitionLineTranslator
     ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
-  lazy val translation =
-    find_definition (line) .opt (ifEmpty = line) (ifNonEmpty =  position =>
-      _try_found_definition (position) .line)
+  lazy val translation : String =
+    find_definition (line) match  {
+      case SomeSD_ (position) => _try_found_definition (position) .line
+      case otherwise => line
+    }
 
 }
 

@@ -275,10 +275,10 @@ trait Min [A ]
     foldLeft (s .tail) (_reverseNonEmpty_initial_value (s) ) (_reverseNonEmpty_next_value)
 
   def reverse (s : MSeq [A] ) : MSeq [A] =
-    s .opt [MSeq [A] ] (
-      ifEmpty = empty) (
-      ifNonEmpty =  neseq => reverseNonEmpty (neseq)
-    )
+    s match  {
+      case NESeq_ (head , tail) => reverseNonEmpty (NESeq_ (head , tail) )
+      case otherwise => empty
+    }
 
   private lazy val _length_initial_value : Int = 0
 
@@ -342,10 +342,10 @@ trait Min [A ]
      else SomeSD_ [A] (_atNonEmpty (xs) (n) )
 
   def at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
-    s .opt [OptionSD [A] ] (
-      ifEmpty = NoneSD_ [A] () ) (
-      ifNonEmpty = ( neseq => _retrieve_if_in_range (neseq) (n) )
-    )
+    s match  {
+      case NESeq_ (head , tail) => _retrieve_if_in_range (NESeq_ (head , tail) ) (n)
+      case otherwise => NoneSD_ [A] ()
+    }
 
   /* */
 
@@ -366,11 +366,10 @@ trait Min [A ]
     TakeDropFoldTuple_ [A] (s , 0 , length)
 
   private def _drop_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
-    tuple .seq .opt (
-      ifEmpty = TakeDropFoldTuple_ [A] (tuple .seq , tuple .index + 1 , tuple .length) ) (
-      ifNonEmpty =  neseq =>
-        TakeDropFoldTuple_ [A] (neseq .tail , tuple .index + 1 , tuple .length)
-    )
+    (tuple .seq) match  {
+      case NESeq_ (head , tail) => TakeDropFoldTuple_ [A] (tail , tuple .index + 1 , tuple .length)
+      case otherwise => TakeDropFoldTuple_ [A] (tuple .seq , tuple .index + 1 , tuple .length)
+    }
 
   private def _drop_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
     tuple .index < tuple .length
@@ -395,11 +394,10 @@ trait Min [A ]
     _aux_next_value_for (tuple) (neleft) (tuple .condition (neleft .head) )
 
   private def _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
-    tuple .left .opt [SpanRevFoldTuple [A] ] (
-      ifEmpty = SpanRevFoldTuple_ [A] (
-        tuple .left , tuple .right , false , tuple .condition) ) (
-      ifNonEmpty =  neleft => _aux_next_value (tuple) (neleft)
-    )
+    (tuple .left) match  {
+      case NESeq_ (head , tail) => _aux_next_value (tuple) (NESeq_ (head , tail) )
+      case otherwise => SpanRevFoldTuple_ [A] (tuple .left , tuple .right , false , tuple .condition)
+    }
 
   private def _spanRevRec_condition (tuple : SpanRevFoldTuple [A] ) (elem : A) : Boolean =
     tuple .taking

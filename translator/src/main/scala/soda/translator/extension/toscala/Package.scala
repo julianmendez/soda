@@ -789,15 +789,22 @@ trait FunctionDefinitionLineDetector
     _position_of_first_opening_parenthesis .isEmpty
 
   private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis .opt (false) ( position =>
-      position > initial_position)
+    _position_of_first_opening_parenthesis match  {
+      case SomeSD_ (position) => (position > initial_position)
+      case otherwise => false
+    }
+
+  private def _is_val_definition_case_2_b (initial_position : Int) : Boolean =
+    _position_of_first_opening_parenthesis_or_bracket match  {
+      case SomeSD_ (position) => (position > initial_position)
+      case otherwise => false
+    }
 
   private lazy val _is_val_definition_case_3 : Boolean =
-    (_get_index (line) (_sc .type_membership_symbol) )
-      .opt (ifEmpty = false) (ifNonEmpty =  other_position =>
-        _position_of_first_opening_parenthesis_or_bracket .opt (false) ( position =>
-          position > other_position)
-    )
+    (_get_index (line) (_sc .type_membership_symbol) ) match  {
+      case SomeSD_ (other_position) => _is_val_definition_case_2_b (other_position)
+      case otherwise => false
+    }
 
   private lazy val _is_val_definition_case_4 : Boolean =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
@@ -836,8 +843,10 @@ trait FunctionDefinitionLineDetector
     else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   lazy val detect : Int =
-    _find_definition (line) .opt (ifEmpty = undetected) (ifNonEmpty =  position =>
-      _try_found_definition (position) )
+    _find_definition (line) match  {
+      case SomeSD_ (position) => _try_found_definition (position)
+      case otherwise => undetected
+    }
 
 }
 
