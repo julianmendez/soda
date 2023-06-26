@@ -938,12 +938,6 @@ trait TranslationConstantToLean
 
   lazy val lean_end_symbol = ""
 
-  lazy val lean_set_reserved_word : String = "Set"
-
-  lazy val lean_type_reserved_word : String = "Type"
-
-  lazy val lean_decidable_eq_type_name : String = "DecidableEq"
-
   lazy val lean_inductive_end_symbol : String = lean_end_symbol
 
   lazy val lean_definition_end_symbol : String = lean_end_symbol
@@ -952,17 +946,37 @@ trait TranslationConstantToLean
 
   lazy val lean_theorem_end_symbol : String = lean_end_symbol
 
+  lazy val lean_abbrev_reserved_word : String = "abbrev"
+
+  lazy val lean_add_decl_doc_reserved_word : String = "add_decl_doc"
+
+  lazy val lean_attribute_reserved_word : String = "attribute"
+
+  lazy val lean_admit_reserved_word : String = "admit"
+
+  lazy val lean_axiom_reserved_word : String = "axiom"
+
+  lazy val lean_builtin_initialize_reserved_word : String = "builtin_initialize"
+
   lazy val lean_by_reserved_word : String = "by"
 
   lazy val lean_calc_reserved_word : String = "calc"
 
   lazy val lean_class_reserved_word : String = "class"
 
+  lazy val lean_declare_simp_like_tactic_reserved_word : String = "declare_simp_like_tactic"
+
+  lazy val lean_declare_syntax_cat_reserved_word : String = "declare_syntax_cat"
+
   lazy val lean_def_reserved_word : String = "def"
 
   lazy val lean_deriving_reserved_word : String = "deriving"
 
   lazy val lean_do_reserved_word : String = "do"
+
+  lazy val lean_elab_reserved_word : String = "elab"
+
+  lazy val lean_elab_rules_reserved_word : String = "elab_rules"
 
   lazy val lean_else_reserved_word : String = "else"
 
@@ -982,25 +996,59 @@ trait TranslationConstantToLean
 
   lazy val lean_infix_reserved_word : String = "infix"
 
+  lazy val lean_initialize_reserved_word : String = "initialize"
+
   lazy val lean_instance_reserved_word : String = "instance"
 
+  lazy val lean_lemma_reserved_word : String = "lemma"
+
   lazy val lean_let_reserved_word : String = "let"
+
+  lazy val lean_local_reserved_word : String = "local"
+
+  lazy val lean_macro_reserved_word : String = "macro"
+
+  lazy val lean_macro_rules_reserved_word : String = "macro_rules"
 
   lazy val lean_match_reserved_word : String = "match"
 
   lazy val lean_namespace_reserved_word : String = "namespace"
 
+  lazy val lean_noncomputable_reserved_word : String = "noncomputable"
+
   lazy val lean_notation_reserved_word : String = "notation"
+
+  lazy val lean_opaque_reserved_word : String = "opaque"
 
   lazy val lean_open_reserved_word : String = "open"
 
+  lazy val lean_private_reserved_word : String = "private"
+
+  lazy val lean_rec_reserved_word : String = "rec"
+
+  lazy val lean_scoped_reserved_word : String = "scoped"
+
+  lazy val lean_section_reserved_word : String = "section"
+
   lazy val lean_set_option_reserved_word : String = "set_option"
 
+  lazy val lean_sorry_reserved_word : String = "sorry"
+
   lazy val lean_structure_reserved_word : String = "structure"
+
+  lazy val lean_syntax_reserved_word : String = "syntax"
 
   lazy val lean_then_reserved_word : String = "then"
 
   lazy val lean_theorem_reserved_word : String = "theorem"
+
+  lazy val lean_unfold_reserved_word : String = "unfold"
+
+  lazy val lean_unif_hint_reserved_word : String = "unif_hint"
+
+  lazy val lean_universe_reserved_word : String = "universe"
+
+  lazy val lean_variable_reserved_word : String = "variable"
 
   lazy val lean_where_reserved_word : String = "where"
 
@@ -1014,6 +1062,84 @@ trait TranslationConstantToLean
 
   lazy val lean_hash_reduce_reserved_word : String = "#reduce"
 
+  lazy val lean_all_goals_proof_reserved_word : String = "all_goals"
+
+  lazy val lean_any_goals_proof_reserved_word : String = "any_goals"
+
+  lazy val lean_apply_proof_reserved_word : String = "apply"
+
+  lazy val lean_assumption_proof_reserved_word : String = "assumption"
+
+  lazy val lean_at_proof_reserved_word : String = "at"
+
+  lazy val lean_arg_proof_reserved_word : String = "arg"
+
+  lazy val lean_case_proof_reserved_word : String = "case"
+
+  lazy val lean_cases_proof_reserved_word : String = "cases"
+
+  lazy val lean_constructor_proof_reserved_word : String = "constructor"
+
+  lazy val lean_contradiction_proof_reserved_word : String = "contradiction"
+
+  lazy val lean_conv_proof_reserved_word : String = "conv"
+
+  lazy val lean_congr_proof_reserved_word : String = "congr"
+
+  lazy val lean_exact_proof_reserved_word : String = "exact"
+
+  lazy val lean_exists_proof_reserved_word : String = "exists"
+
+  lazy val lean_first_proof_reserved_word : String = "first"
+
+  lazy val lean_focus_proof_reserved_word : String = "focus"
+
+  lazy val lean_from_proof_reserved_word : String = "from"
+
+  lazy val lean_funext_proof_reserved_word : String = "funext"
+
+  lazy val lean_generalize_proof_reserved_word : String = "generalize"
+
+  lazy val lean_have_proof_reserved_word : String = "have"
+
+  lazy val lean_intro_proof_reserved_word : String = "intro"
+
+  lazy val lean_intros_proof_reserved_word : String = "intros"
+
+  lazy val lean_lhs_proof_reserved_word : String = "lhs"
+
+  lazy val lean_pattern_proof_reserved_word : String = "pattern"
+
+  lazy val lean_propext_proof_reserved_word : String = "propext"
+
+  lazy val lean_rename_i_proof_reserved_word : String = "rename_i"
+
+  lazy val lean_repeat_proof_reserved_word : String = "repeat"
+
+  lazy val lean_revert_proof_reserved_word : String = "revert"
+
+  lazy val lean_rfl_proof_reserved_word : String = "rfl"
+
+  lazy val lean_rhs_proof_reserved_word : String = "rhs"
+
+  lazy val lean_rw_proof_reserved_word : String = "rw"
+
+  lazy val lean_show_proof_reserved_word : String = "show"
+
+  lazy val lean_simp_proof_reserved_word : String = "simp"
+
+  lazy val lean_skip_proof_reserved_word : String = "skip"
+
+  lazy val lean_tactic_proof_reserved_word : String = "tactic"
+
+  lazy val lean_prop_type_name : String = "Prop"
+
+  lazy val lean_set_type_name : String = "Set"
+
+  lazy val lean_type_type_name : String = "Type"
+
+  lazy val lean_decidable_eq_type_name : String = "DecidableEq"
+
   lazy val lean_recursive_definition_reserved_word : String = lean_def_reserved_word
 
   lazy val lean_namespace_end_reserved_word : String = lean_end_reserved_word
@@ -1022,14 +1148,24 @@ trait TranslationConstantToLean
 
   lazy val lean_proof_end_reserved_word : String = lean_end_reserved_word
 
-  lazy val lean_reserved_words : Seq [String] =
+  lazy val lean_main_reserved_words : Seq [String] =
     Seq (
+      lean_abbrev_reserved_word ,
+      lean_attribute_reserved_word ,
+      lean_add_decl_doc_reserved_word ,
+      lean_admit_reserved_word ,
+      lean_axiom_reserved_word ,
+      lean_builtin_initialize_reserved_word ,
       lean_by_reserved_word ,
       lean_calc_reserved_word ,
       lean_class_reserved_word ,
+      lean_declare_simp_like_tactic_reserved_word ,
+      lean_declare_syntax_cat_reserved_word ,
       lean_def_reserved_word ,
       lean_deriving_reserved_word ,
       lean_do_reserved_word,
+      lean_elab_reserved_word ,
+      lean_elab_rules_reserved_word ,
       lean_else_reserved_word ,
       lean_end_reserved_word,
       lean_example_reserved_word ,
@@ -1039,23 +1175,97 @@ trait TranslationConstantToLean
       lean_in_reserved_word ,
       lean_inductive_reserved_word ,
       lean_infix_reserved_word ,
+      lean_initialize_reserved_word ,
       lean_instance_reserved_word ,
+      lean_lemma_reserved_word ,
       lean_let_reserved_word ,
+      lean_local_reserved_word ,
+      lean_macro_reserved_word ,
+      lean_macro_rules_reserved_word ,
       lean_match_reserved_word  ,
       lean_namespace_reserved_word ,
+      lean_noncomputable_reserved_word ,
       lean_notation_reserved_word ,
+      lean_opaque_reserved_word ,
       lean_open_reserved_word ,
+      lean_private_reserved_word ,
+      lean_rec_reserved_word ,
+      lean_scoped_reserved_word ,
+      lean_section_reserved_word ,
       lean_set_option_reserved_word ,
+      lean_sorry_reserved_word ,
       lean_structure_reserved_word ,
+      lean_syntax_reserved_word ,
       lean_then_reserved_word ,
       lean_theorem_reserved_word ,
+      lean_unfold_reserved_word ,
+      lean_unif_hint_reserved_word ,
+      lean_universe_reserved_word ,
+      lean_variable_reserved_word ,
       lean_where_reserved_word ,
-      lean_with_reserved_word ,
+      lean_with_reserved_word
+    )
+
+  lazy val lean_hash_reserved_words : Seq [String] =
+    Seq (
       lean_hash_check_reserved_word ,
       lean_hash_eval_reserved_word ,
       lean_hash_print_reserved_word ,
       lean_hash_reduce_reserved_word
     )
+
+  lazy val lean_proof_reserved_words : Seq [String] =
+    Seq (
+      lean_all_goals_proof_reserved_word ,
+      lean_any_goals_proof_reserved_word ,
+      lean_apply_proof_reserved_word ,
+      lean_arg_proof_reserved_word ,
+      lean_assumption_proof_reserved_word ,
+      lean_at_proof_reserved_word ,
+      lean_case_proof_reserved_word ,
+      lean_cases_proof_reserved_word ,
+      lean_constructor_proof_reserved_word ,
+      lean_contradiction_proof_reserved_word ,
+      lean_conv_proof_reserved_word ,
+      lean_congr_proof_reserved_word ,
+      lean_exact_proof_reserved_word ,
+      lean_exists_proof_reserved_word ,
+      lean_first_proof_reserved_word ,
+      lean_focus_proof_reserved_word ,
+      lean_from_proof_reserved_word ,
+      lean_funext_proof_reserved_word ,
+      lean_generalize_proof_reserved_word ,
+      lean_have_proof_reserved_word ,
+      lean_intro_proof_reserved_word ,
+      lean_intros_proof_reserved_word ,
+      lean_lhs_proof_reserved_word ,
+      lean_pattern_proof_reserved_word ,
+      lean_propext_proof_reserved_word ,
+      lean_rename_i_proof_reserved_word ,
+      lean_repeat_proof_reserved_word ,
+      lean_revert_proof_reserved_word ,
+      lean_rfl_proof_reserved_word ,
+      lean_rhs_proof_reserved_word ,
+      lean_rw_proof_reserved_word ,
+      lean_show_proof_reserved_word ,
+      lean_simp_proof_reserved_word ,
+      lean_skip_proof_reserved_word ,
+      lean_tactic_proof_reserved_word
+    )
+
+  lazy val lean_type_reserved_words : Seq [String] =
+    Seq (
+      lean_prop_type_name ,
+      lean_set_type_name ,
+      lean_type_type_name ,
+      lean_decidable_eq_type_name
+    )
+
+  lazy val lean_reserved_words : Seq [String] =
+    lean_main_reserved_words .++ (
+    lean_hash_reserved_words .++ (
+    lean_proof_reserved_words .++ (
+    lean_type_reserved_words) ) )
 
   lazy val lean_prelude : Seq [String] =
     Seq (

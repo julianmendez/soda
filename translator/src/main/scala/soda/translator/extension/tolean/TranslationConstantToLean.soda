@@ -66,12 +66,6 @@ class TranslationConstantToLean
 
   lean_end_symbol = ""
 
-  lean_set_reserved_word : String = "Set"
-
-  lean_type_reserved_word : String = "Type"
-
-  lean_decidable_eq_type_name : String = "DecidableEq"
-
   lean_inductive_end_symbol : String = lean_end_symbol
 
   lean_definition_end_symbol : String = lean_end_symbol
@@ -80,17 +74,37 @@ class TranslationConstantToLean
 
   lean_theorem_end_symbol : String = lean_end_symbol
 
+  lean_abbrev_reserved_word : String = "abbrev"
+
+  lean_add_decl_doc_reserved_word : String = "add_decl_doc"
+
+  lean_attribute_reserved_word : String = "attribute"
+
+  lean_admit_reserved_word : String = "admit"
+
+  lean_axiom_reserved_word : String = "axiom"
+
+  lean_builtin_initialize_reserved_word : String = "builtin_initialize"
+
   lean_by_reserved_word : String = "by"
 
   lean_calc_reserved_word : String = "calc"
 
   lean_class_reserved_word : String = "class"
 
+  lean_declare_simp_like_tactic_reserved_word : String = "declare_simp_like_tactic"
+
+  lean_declare_syntax_cat_reserved_word : String = "declare_syntax_cat"
+
   lean_def_reserved_word : String = "def"
 
   lean_deriving_reserved_word : String = "deriving"
 
   lean_do_reserved_word : String = "do"
+
+  lean_elab_reserved_word : String = "elab"
+
+  lean_elab_rules_reserved_word : String = "elab_rules"
 
   lean_else_reserved_word : String = "else"
 
@@ -110,25 +124,59 @@ class TranslationConstantToLean
 
   lean_infix_reserved_word : String = "infix"
 
+  lean_initialize_reserved_word : String = "initialize"
+
   lean_instance_reserved_word : String = "instance"
 
+  lean_lemma_reserved_word : String = "lemma"
+
   lean_let_reserved_word : String = "let"
+
+  lean_local_reserved_word : String = "local"
+
+  lean_macro_reserved_word : String = "macro"
+
+  lean_macro_rules_reserved_word : String = "macro_rules"
 
   lean_match_reserved_word : String = "match"
 
   lean_namespace_reserved_word : String = "namespace"
 
+  lean_noncomputable_reserved_word : String = "noncomputable"
+
   lean_notation_reserved_word : String = "notation"
+
+  lean_opaque_reserved_word : String = "opaque"
 
   lean_open_reserved_word : String = "open"
 
+  lean_private_reserved_word : String = "private"
+
+  lean_rec_reserved_word : String = "rec"
+
+  lean_scoped_reserved_word : String = "scoped"
+
+  lean_section_reserved_word : String = "section"
+
   lean_set_option_reserved_word : String = "set_option"
 
+  lean_sorry_reserved_word : String = "sorry"
+
   lean_structure_reserved_word : String = "structure"
+
+  lean_syntax_reserved_word : String = "syntax"
 
   lean_then_reserved_word : String = "then"
 
   lean_theorem_reserved_word : String = "theorem"
+
+  lean_unfold_reserved_word : String = "unfold"
+
+  lean_unif_hint_reserved_word : String = "unif_hint"
+
+  lean_universe_reserved_word : String = "universe"
+
+  lean_variable_reserved_word : String = "variable"
 
   lean_where_reserved_word : String = "where"
 
@@ -142,6 +190,84 @@ class TranslationConstantToLean
 
   lean_hash_reduce_reserved_word : String = "#reduce"
 
+  lean_all_goals_proof_reserved_word : String = "all_goals"
+
+  lean_any_goals_proof_reserved_word : String = "any_goals"
+
+  lean_apply_proof_reserved_word : String = "apply"
+
+  lean_assumption_proof_reserved_word : String = "assumption"
+
+  lean_at_proof_reserved_word : String = "at"
+
+  lean_arg_proof_reserved_word : String = "arg"
+
+  lean_case_proof_reserved_word : String = "case"
+
+  lean_cases_proof_reserved_word : String = "cases"
+
+  lean_constructor_proof_reserved_word : String = "constructor"
+
+  lean_contradiction_proof_reserved_word : String = "contradiction"
+
+  lean_conv_proof_reserved_word : String = "conv"
+
+  lean_congr_proof_reserved_word : String = "congr"
+
+  lean_exact_proof_reserved_word : String = "exact"
+
+  lean_exists_proof_reserved_word : String = "exists"
+
+  lean_first_proof_reserved_word : String = "first"
+
+  lean_focus_proof_reserved_word : String = "focus"
+
+  lean_from_proof_reserved_word : String = "from"
+
+  lean_funext_proof_reserved_word : String = "funext"
+
+  lean_generalize_proof_reserved_word : String = "generalize"
+
+  lean_have_proof_reserved_word : String = "have"
+
+  lean_intro_proof_reserved_word : String = "intro"
+
+  lean_intros_proof_reserved_word : String = "intros"
+
+  lean_lhs_proof_reserved_word : String = "lhs"
+
+  lean_pattern_proof_reserved_word : String = "pattern"
+
+  lean_propext_proof_reserved_word : String = "propext"
+
+  lean_rename_i_proof_reserved_word : String = "rename_i"
+
+  lean_repeat_proof_reserved_word : String = "repeat"
+
+  lean_revert_proof_reserved_word : String = "revert"
+
+  lean_rfl_proof_reserved_word : String = "rfl"
+
+  lean_rhs_proof_reserved_word : String = "rhs"
+
+  lean_rw_proof_reserved_word : String = "rw"
+
+  lean_show_proof_reserved_word : String = "show"
+
+  lean_simp_proof_reserved_word : String = "simp"
+
+  lean_skip_proof_reserved_word : String = "skip"
+
+  lean_tactic_proof_reserved_word : String = "tactic"
+
+  lean_prop_type_name : String = "Prop"
+
+  lean_set_type_name : String = "Set"
+
+  lean_type_type_name : String = "Type"
+
+  lean_decidable_eq_type_name : String = "DecidableEq"
+
   lean_recursive_definition_reserved_word : String = lean_def_reserved_word
 
   lean_namespace_end_reserved_word : String = lean_end_reserved_word
@@ -150,14 +276,24 @@ class TranslationConstantToLean
 
   lean_proof_end_reserved_word : String = lean_end_reserved_word
 
-  lean_reserved_words : Seq [String] =
+  lean_main_reserved_words : Seq [String] =
     Seq (
+      lean_abbrev_reserved_word ,
+      lean_attribute_reserved_word ,
+      lean_add_decl_doc_reserved_word ,
+      lean_admit_reserved_word ,
+      lean_axiom_reserved_word ,
+      lean_builtin_initialize_reserved_word ,
       lean_by_reserved_word ,
       lean_calc_reserved_word ,
       lean_class_reserved_word ,
+      lean_declare_simp_like_tactic_reserved_word ,
+      lean_declare_syntax_cat_reserved_word ,
       lean_def_reserved_word ,
       lean_deriving_reserved_word ,
       lean_do_reserved_word,
+      lean_elab_reserved_word ,
+      lean_elab_rules_reserved_word ,
       lean_else_reserved_word ,
       lean_end_reserved_word,
       lean_example_reserved_word ,
@@ -167,23 +303,97 @@ class TranslationConstantToLean
       lean_in_reserved_word ,
       lean_inductive_reserved_word ,
       lean_infix_reserved_word ,
+      lean_initialize_reserved_word ,
       lean_instance_reserved_word ,
+      lean_lemma_reserved_word ,
       lean_let_reserved_word ,
+      lean_local_reserved_word ,
+      lean_macro_reserved_word ,
+      lean_macro_rules_reserved_word ,
       lean_match_reserved_word  ,
       lean_namespace_reserved_word ,
+      lean_noncomputable_reserved_word ,
       lean_notation_reserved_word ,
+      lean_opaque_reserved_word ,
       lean_open_reserved_word ,
+      lean_private_reserved_word ,
+      lean_rec_reserved_word ,
+      lean_scoped_reserved_word ,
+      lean_section_reserved_word ,
       lean_set_option_reserved_word ,
+      lean_sorry_reserved_word ,
       lean_structure_reserved_word ,
+      lean_syntax_reserved_word ,
       lean_then_reserved_word ,
       lean_theorem_reserved_word ,
+      lean_unfold_reserved_word ,
+      lean_unif_hint_reserved_word ,
+      lean_universe_reserved_word ,
+      lean_variable_reserved_word ,
       lean_where_reserved_word ,
-      lean_with_reserved_word ,
+      lean_with_reserved_word
+    )
+
+  lean_hash_reserved_words : Seq [String] =
+    Seq (
       lean_hash_check_reserved_word ,
       lean_hash_eval_reserved_word ,
       lean_hash_print_reserved_word ,
       lean_hash_reduce_reserved_word
     )
+
+  lean_proof_reserved_words : Seq [String] =
+    Seq (
+      lean_all_goals_proof_reserved_word ,
+      lean_any_goals_proof_reserved_word ,
+      lean_apply_proof_reserved_word ,
+      lean_arg_proof_reserved_word ,
+      lean_assumption_proof_reserved_word ,
+      lean_at_proof_reserved_word ,
+      lean_case_proof_reserved_word ,
+      lean_cases_proof_reserved_word ,
+      lean_constructor_proof_reserved_word ,
+      lean_contradiction_proof_reserved_word ,
+      lean_conv_proof_reserved_word ,
+      lean_congr_proof_reserved_word ,
+      lean_exact_proof_reserved_word ,
+      lean_exists_proof_reserved_word ,
+      lean_first_proof_reserved_word ,
+      lean_focus_proof_reserved_word ,
+      lean_from_proof_reserved_word ,
+      lean_funext_proof_reserved_word ,
+      lean_generalize_proof_reserved_word ,
+      lean_have_proof_reserved_word ,
+      lean_intro_proof_reserved_word ,
+      lean_intros_proof_reserved_word ,
+      lean_lhs_proof_reserved_word ,
+      lean_pattern_proof_reserved_word ,
+      lean_propext_proof_reserved_word ,
+      lean_rename_i_proof_reserved_word ,
+      lean_repeat_proof_reserved_word ,
+      lean_revert_proof_reserved_word ,
+      lean_rfl_proof_reserved_word ,
+      lean_rhs_proof_reserved_word ,
+      lean_rw_proof_reserved_word ,
+      lean_show_proof_reserved_word ,
+      lean_simp_proof_reserved_word ,
+      lean_skip_proof_reserved_word ,
+      lean_tactic_proof_reserved_word
+    )
+
+  lean_type_reserved_words : Seq [String] =
+    Seq (
+      lean_prop_type_name ,
+      lean_set_type_name ,
+      lean_type_type_name ,
+      lean_decidable_eq_type_name
+    )
+
+  lean_reserved_words : Seq [String] =
+    lean_main_reserved_words .++ (
+    lean_hash_reserved_words .++ (
+    lean_proof_reserved_words .++ (
+    lean_type_reserved_words) ) )
 
   lean_prelude : Seq [String] =
     Seq (
