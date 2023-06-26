@@ -66,6 +66,8 @@ class TranslationConstantToLean
 
   lean_end_symbol = ""
 
+  lean_dot_notation_symbol = "."
+
   lean_inductive_end_symbol : String = lean_end_symbol
 
   lean_definition_end_symbol : String = lean_end_symbol
@@ -397,6 +399,9 @@ class TranslationConstantToLean
 
   lean_prelude : Seq [String] =
     Seq (
+      "notation:max \"Zero_ ()\" => Nat.zero" ,
+      "" ,
+      "notation:max \"Succ_\" => Nat.succ" ,
       ""
     )
 

@@ -147,6 +147,29 @@ trait DefinitionLineTranslator
 case class DefinitionLineTranslator_ (line : String) extends DefinitionLineTranslator
 
 
+trait DotNotationBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  lazy val replace_token : Token => String =
+     token =>
+      token
+        .text
+        .replaceAll (_sc .dot_notation_regex , _tc .lean_dot_notation_symbol)
+
+}
+
+case class DotNotationBlockTranslator_ () extends DotNotationBlockTranslator
+
+
 trait LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -685,7 +708,7 @@ trait LeanTheoremBlockTranslator
 
   private def _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder_ () .build (
-      Seq[String] (prefix + block .lines .head) .++ (block .lines .tail)
+      Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   private def _append (suffix : String) (block : Block) : Block =
@@ -845,18 +868,19 @@ trait MicroTranslatorToLean
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ (),
-        LeanDefinitionBlockTranslator_ (),
-        LeanClassConstructorBlockTranslator_ (),
-        LeanClassDeclarationBlockTranslator_ (),
-        LeanPackageDeclarationBlockTranslator_ (),
-        LeanClassEndBlockTranslator_ (),
-        LeanImportDeclarationBlockTranslator_ (),
-        LeanTheoremBlockTranslator_ (),
-        LeanProofBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests,
-          TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests,
+        DotNotationBlockTranslator_ () ,
+        MatchCaseBlockTranslator_ () ,
+        LeanDefinitionBlockTranslator_ () ,
+        LeanClassConstructorBlockTranslator_ () ,
+        LeanClassDeclarationBlockTranslator_ () ,
+        LeanPackageDeclarationBlockTranslator_ () ,
+        LeanClassEndBlockTranslator_ () ,
+        LeanImportDeclarationBlockTranslator_ () ,
+        LeanTheoremBlockTranslator_ () ,
+        LeanProofBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
+          TokenizedBlockTranslator_ (try_definition) ) ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
           TokenReplacement_ () .replace (_tc .function_symbols_translation)
         )
       )
@@ -937,6 +961,8 @@ trait TranslationConstantToLean
   lazy val lean_or_symbol = "||"
 
   lazy val lean_end_symbol = ""
+
+  lazy val lean_dot_notation_symbol = "."
 
   lazy val lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -1269,6 +1295,9 @@ trait TranslationConstantToLean
 
   lazy val lean_prelude : Seq [String] =
     Seq (
+      "notation:max \"Zero_ ()\" => Nat.zero" ,
+      "" ,
+      "notation:max \"Succ_\" => Nat.succ" ,
       ""
     )
 

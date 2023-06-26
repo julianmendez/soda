@@ -7,7 +7,7 @@ namespace TriangularNumberForLean
 def   @tailrec
    _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
-      | S_ (k) => _tailrec_get_number (k) (acc .add (S_ (k) ) )
+      | S_ (k) => _tailrec_get_number (k) (acc.add (S_ (k) ) )
       | otherwise => acc
     
 

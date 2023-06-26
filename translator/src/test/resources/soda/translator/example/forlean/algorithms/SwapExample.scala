@@ -12,7 +12,7 @@ trait SwapExample
 {
 
   def swap (pair : PairExample) : PairExample =
-    PairExample_ (pair.right, pair.left)
+    PairExample_ (pair .right, pair .left)
 
 /*  theorem
     swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=

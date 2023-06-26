@@ -138,11 +138,6 @@ trait IntNat
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
 
-  def from_Int (a : Int) : OptionSD [Nat] =
-    if ( a < 0
-    ) NoneSD_ [Nat] ()
-    else SomeSD_ [Nat] (from_non_negative (a) )
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_from_non_negative (a : Int) (b : Nat) : Nat =
@@ -152,6 +147,11 @@ trait IntNat
 
   def from_non_negative (a : Int) : Nat =
     _tailrec_from_non_negative (a) (O_ () )
+
+  def from_Int (a : Int) : OptionSD [Nat] =
+    if ( a < 0
+    ) NoneSD_ [Nat] ()
+    else SomeSD_ [Nat] (from_non_negative (a) )
 
   def to_Int (a : Nat) : Int =
     a match  {
