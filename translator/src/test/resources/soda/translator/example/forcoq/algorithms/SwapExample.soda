@@ -2,18 +2,18 @@
 class PairExample
 
   abstract
-    left : Int
-    right : Int
+    left : nat
+    right : nat
 
 end
 
 class SwapExample
 
-  left (pair : PairExample) : Int =
+  left (pair : PairExample) : nat =
     match pair
       case (PairExample_ (x , y) ) ==> x
 
-  right (pair : PairExample) : Int =
+  right (pair : PairExample) : nat =
     match pair
       case (PairExample_ (x , y) ) ==> y
 

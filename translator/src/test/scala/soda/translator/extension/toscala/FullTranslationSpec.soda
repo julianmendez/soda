@@ -19,7 +19,7 @@ class FullTranslationSpec ()
 
   ScalaSuffix = ".scala"
 
-  SwapExample = "algorithms/SwapExample"
+  SwapExample = "forlean/algorithms/SwapExample"
 
   FiboExample = "mathematics/FiboExample"
 

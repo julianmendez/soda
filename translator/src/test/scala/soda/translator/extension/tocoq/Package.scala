@@ -25,7 +25,7 @@ case class CoqFullTranslationSpec ()
 
   lazy val CoqSuffix = ".v"
 
-  lazy val SwapExample = "algorithms/SwapExample"
+  lazy val SwapExample = "forcoq/algorithms/SwapExample"
 
   lazy val TriangularNumber = "forcoq/mathematics/TriangularNumberForCoq"
 

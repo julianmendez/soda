@@ -3,3 +3,7 @@ package soda.example.forcoq.algorithms
 /*
  * This package contains examples using recursion for Coq.
  */
+
+import
+  soda.example.forcoq.lib.nat
+

@@ -195,7 +195,7 @@ case class FullTranslationSpec ()
 
   lazy val ScalaSuffix = ".scala"
 
-  lazy val SwapExample = "algorithms/SwapExample"
+  lazy val SwapExample = "forlean/algorithms/SwapExample"
 
   lazy val FiboExample = "mathematics/FiboExample"
 

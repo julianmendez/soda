@@ -1,22 +1,22 @@
 trait PairExample
 {
 
-  def   left : Int
-  def   right : Int
+  def   left : nat
+  def   right : nat
 
 }
 
-case class PairExample_ (left : Int, right : Int) extends PairExample
+case class PairExample_ (left : nat, right : nat) extends PairExample
 
 trait SwapExample
 {
 
-  def left (pair : PairExample) : Int =
+  def left (pair : PairExample) : nat =
     pair match  {
       case (PairExample_ (x , y) ) => x
     }
 
-  def right (pair : PairExample) : Int =
+  def right (pair : PairExample) : nat =
     pair match  {
       case (PairExample_ (x , y) ) => y
     }

@@ -19,7 +19,7 @@ class CoqFullTranslationSpec ()
 
   CoqSuffix = ".v"
 
-  SwapExample = "algorithms/SwapExample"
+  SwapExample = "forcoq/algorithms/SwapExample"
 
   TriangularNumber = "forcoq/mathematics/TriangularNumberForCoq"
 

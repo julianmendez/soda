@@ -19,7 +19,7 @@ class LeanFullTranslationSpec ()
 
   lean_suffix = ".lean"
 
-  swap_example = "algorithms/SwapExample"
+  swap_example = "forlean/algorithms/SwapExample"
 
   triangular_number = "forlean/mathematics/TriangularNumberForLean"
 

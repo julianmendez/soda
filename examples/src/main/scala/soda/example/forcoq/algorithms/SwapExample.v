@@ -2,12 +2,12 @@ Module PairExample .
 
 (*
   abstract
-    left : Int
-    right : Int
+    left : nat
+    right : nat
 *)
 
 Inductive PairExample : Type :=
-  | PairExample_ (x : Int * Int)
+  | PairExample_ (x : nat * nat)
 .
 
 End PairExample .
@@ -16,13 +16,13 @@ Import PairExample .
 
 Module SwapExample .
 
- Definition   left (pair : PairExample) : Int :=
+ Definition   left (pair : PairExample) : nat :=
     match pair with
       | (PairExample_ (x , y) ) => x
     end
 .
 
- Definition   right (pair : PairExample) : Int :=
+ Definition   right (pair : PairExample) : nat :=
     match pair with
       | (PairExample_ (x , y) ) => y
     end

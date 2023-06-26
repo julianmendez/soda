@@ -25,7 +25,7 @@ case class LeanFullTranslationSpec ()
 
   lazy val lean_suffix = ".lean"
 
-  lazy val swap_example = "algorithms/SwapExample"
+  lazy val swap_example = "forlean/algorithms/SwapExample"
 
   lazy val triangular_number = "forlean/mathematics/TriangularNumberForLean"
 
