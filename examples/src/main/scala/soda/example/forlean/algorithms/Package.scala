@@ -74,7 +74,9 @@ trait SwapExample
   def swap (pair : PairExample) : PairExample =
     PairExample_ (pair .right, pair .left)
 
-/*  theorem
+/*
+  directive lean
+  theorem
     swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
       by
         constructor

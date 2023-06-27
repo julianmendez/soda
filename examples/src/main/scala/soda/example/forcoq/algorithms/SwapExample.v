@@ -32,16 +32,15 @@ Module SwapExample .
     PairExample_ (right (pair) , left (pair) )
 .
 
-Theorem    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair
-  .
+  Theorem
+    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair .
   Proof.
     intros p.
     destruct p.
     compute.
     destruct x.
     apply eq_refl.
-  Qed
-.
+  Qed.
 
 End SwapExample .
 

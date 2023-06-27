@@ -19,10 +19,10 @@ namespace SwapExample
     PairExample_ (pair.right) (pair.left)
 
 
-theorem    swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x) (y) ) ) ) = PairExample_ (x) (y) :=
+  theorem
+    swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x) (y) ) ) ) = PairExample_ (x) (y) :=
       by
         constructor
-
 
 end SwapExample
 

@@ -419,13 +419,16 @@ trait ExampleProgram
     "\n    )" +
     "\n" +
     "\n  theorem" +
-    "\n    True" +
+    "\n    True = True" +
     "\n  ." +
     "\n  Proof." +
     "\n    auto." +
     "\n  Qed" +
     "\n" +
     "\n  directive" +
+    "\n    theorem" +
+    "\n      value = value" +
+    "\n      := by auto" +
     "\n" +
     "\nend" +
     "\n" +

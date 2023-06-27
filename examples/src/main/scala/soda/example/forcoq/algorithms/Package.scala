@@ -85,16 +85,17 @@ trait SwapExample
   def swap (pair : PairExample) : PairExample =
     PairExample_ (right (pair) , left (pair) )
 
-/*  theorem
-    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair
-  .
+/*
+  directive coq
+  Theorem
+    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair .
   Proof.
     intros p.
     destruct p.
     compute.
     destruct x.
     apply eq_refl.
-  Qed
+  Qed.
 */
 
 }
