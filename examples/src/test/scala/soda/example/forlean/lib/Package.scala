@@ -47,13 +47,13 @@ case class NatSpec ()
     check (
       obtained = IntNat_ () .from_non_negative (8)
     ) (
-      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
     )
   )
 
   test ("IntNat to Int") (
     check (
-      obtained = IntNat_ () .to_Int (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) )
+      obtained = IntNat_ () .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
     ) (
       expected = 5
     )
@@ -61,17 +61,17 @@ case class NatSpec ()
 
   test ("Nat add") (
     check (
-      obtained =  S_ (S_ (S_ (O_ () ) ) ) .add (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) )
+      obtained =  Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
     ) (
-      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
     )
   )
 
   test ("Nat mul") (
     check (
-      obtained = S_ (S_ (S_ (O_ () ) ) ) .mul (S_ (S_ (S_ (S_ (O_ () ) ) ) ) )
+      obtained = Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) )
     ) (
-      expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) ) ) ) ) )
     )
   )
 

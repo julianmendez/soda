@@ -1,19 +1,14 @@
 
 class FactorialForLean
 
-  import
-    soda.example.forlean.lib.O_
-    soda.example.forlean.lib.S_
-    soda.example.forlean.lib.Nat
-
   @tailrec
   _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     match m
-      case S_ (k) ==> _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
+      case Succ_ (k) ==> _tailrec_get_factorial (k) (product .mul (Succ_ (k) ) )
       case otherwise ==> product
 
   get_factorial (n : Nat) : Nat =
-    _tailrec_get_factorial (n) (S_ ( O_ () ) )
+    _tailrec_get_factorial (n) (Succ_ ( Zero_ () ) )
 
 end
 

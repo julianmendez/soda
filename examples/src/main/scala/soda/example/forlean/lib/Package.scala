@@ -85,7 +85,7 @@ trait Nat
 
 case class Nat_ (add : Nat => Nat, mul : Nat => Nat) extends Nat
 
-trait O
+trait Zero
   extends
     Nat
 {
@@ -104,9 +104,9 @@ trait O
 
 }
 
-case class O_ () extends O
+case class Zero_ () extends Zero
 
-trait S
+trait Succ
   extends
     Nat
 {
@@ -129,7 +129,7 @@ trait S
 
 }
 
-case class S_ (k : Nat) extends S
+case class Succ_ (k : Nat) extends Succ
 
 trait IntNat
 {
@@ -143,10 +143,10 @@ trait IntNat
   private def _tailrec_from_non_negative (a : Int) (b : Nat) : Nat =
     if ( a <= 0
     ) b
-    else _tailrec_from_non_negative (a - 1) (S_ (b) )
+    else _tailrec_from_non_negative (a - 1) (Succ_ (b) )
 
   def from_non_negative (a : Int) : Nat =
-    _tailrec_from_non_negative (a) (O_ () )
+    _tailrec_from_non_negative (a) (Zero_ () )
 
   def from_Int (a : Int) : OptionSD [Nat] =
     if ( a < 0
@@ -155,7 +155,7 @@ trait IntNat
 
   def to_Int (a : Nat) : Int =
     a match  {
-      case S_ (k) => 1 + to_Int (k)
+      case Succ_ (k) => 1 + to_Int (k)
       case otherwise => 0
     }
 

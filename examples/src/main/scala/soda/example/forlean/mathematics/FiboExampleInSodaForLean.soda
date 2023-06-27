@@ -1,20 +1,15 @@
 
 class FiboExampleInSodaForLean
 
-  import
-    soda.example.forlean.lib.O_
-    soda.example.forlean.lib.S_
-    soda.example.forlean.lib.Nat
-
   @tailrec
   _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
     match m
-      case S_ (O_ () ) ==> b
-      case S_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
+      case Succ_ (Zero_ () ) ==> b
+      case Succ_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
       case otherwise ==> a
 
   fib (n : Nat) =
-    _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
+    _tailrec_fib (n) (Zero_ () ) (Succ_ (Zero_ () ) )
 
 end
 

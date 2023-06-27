@@ -7,7 +7,7 @@ class Nat
 
 end
 
-class O
+class Zero
   extends
     Nat
 
@@ -25,7 +25,7 @@ class O
 
 end
 
-class S
+class Succ
   extends
     Nat
 
@@ -59,10 +59,10 @@ class IntNat
   _tailrec_from_non_negative (a : Int) (b : Nat) : Nat =
     if a <= 0
     then b
-    else _tailrec_from_non_negative (a - 1) (S_ (b) )
+    else _tailrec_from_non_negative (a - 1) (Succ_ (b) )
 
   from_non_negative (a : Int) : Nat =
-    _tailrec_from_non_negative (a) (O_ () )
+    _tailrec_from_non_negative (a) (Zero_ () )
 
   from_Int (a : Int) : OptionSD [Nat] =
     if a < 0
@@ -71,7 +71,7 @@ class IntNat
 
   to_Int (a : Nat) : Int =
     match a
-      case S_ (k) ==> 1 + to_Int (k)
+      case Succ_ (k) ==> 1 + to_Int (k)
       case otherwise ==> 0
 
 end
