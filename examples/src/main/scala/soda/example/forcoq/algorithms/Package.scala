@@ -72,15 +72,19 @@ case class PairExample_ (left : nat, right : nat) extends PairExample
 trait SwapExample
 {
 
-  def left (pair : PairExample) : nat =
-    pair match  {
-      case (PairExample_ (x , y) ) => x
-    }
+/*
+  directive coq
+  Definition left (pair : PairExample) : nat := pair .(left) .
+*/
 
-  def right (pair : PairExample) : nat =
-    pair match  {
-      case (PairExample_ (x , y) ) => y
-    }
+/*
+  directive coq
+  Definition right (pair : PairExample) : nat := pair .(right) .
+*/
+
+  def left (pair : PairExample) : nat = pair .left
+
+  def right (pair : PairExample) : nat = pair .right
 
   def swap (pair : PairExample) : PairExample =
     PairExample_ (right (pair) , left (pair) )
@@ -88,13 +92,10 @@ trait SwapExample
 /*
   directive coq
   Theorem
-    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair .
+    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x, y) ) ) ) =
+    PairExample_ (x, y) .
   Proof.
-    intros p.
-    destruct p.
-    compute.
-    destruct x.
-    apply eq_refl.
+    auto.
   Qed.
 */
 

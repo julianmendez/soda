@@ -39,14 +39,6 @@ trait CoqClassConstructorBlockTranslator
        .flatMap ( block => _get_as_class_beginning_annotation (block) )
        .headOption
 
-  private def _remove_variable_with (line : String) (index : Int) : String =
-    if ( index < 0
-    ) line
-    else line .substring (index + _sc .type_membership_symbol .length) .trim
-
-  private def _remove_variable (line : String) : String =
-    _remove_variable_with (line) (line .indexOf (_sc .type_membership_symbol) )
-
   private def _translate_type_symbols (line : String) : String =
     line
       .replaceAll (_sc .subtype_reserved_word , _tc .coq_subtype_symbol)
@@ -55,8 +47,7 @@ trait CoqClassConstructorBlockTranslator
 
   private def _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
     block .abstract_functions
-      .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
-      .map ( line => _remove_variable (line) )
+      .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim)
 
   private def _get_first_line (block : AnnotatedBlock) : String =
     block .lines .headOption .getOrElse ("")
@@ -67,10 +58,14 @@ trait CoqClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
+  private lazy val _two_spaces : String = _tc .coq_space + _tc .coq_space
+
+  private lazy val _four_spaces : String = _two_spaces + _two_spaces
+
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
       (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .coq_inductive_reserved_word +
+    _tc .coq_class_reserved_word +
     _tc .coq_space +
     beginning .class_name +
     _tc .coq_space +
@@ -81,37 +76,25 @@ trait CoqClassConstructorBlockTranslator
     _tc .coq_function_definition_symbol +
     _tc .coq_new_line +
     _get_initial_spaces (beginning) +
-    _tc .coq_space +
-    _tc .coq_space +
-    _tc .coq_vertical_bar_symbol +
-    _tc .coq_space +
+    _two_spaces +
     beginning .class_name +
     _sc .constructor_suffix +
     _tc .coq_space +
-    _tc .coq_opening_parenthesis +
-    _tc .coq_some_variable_name +
-    _tc .coq_space +
-    _tc .coq_type_membership_symbol +
-    _tc .coq_space +
-    functions .mkString (_tc .coq_space + _tc .coq_product_type_symbol + _tc .coq_space) +
-    _tc .coq_closing_parenthesis +
+    _tc .coq_opening_brace +
     _tc .coq_new_line +
-    _get_initial_spaces (beginning) +
-    _tc .coq_inductive_end_symbol
+    _four_spaces +
+    functions .mkString (_tc .coq_space + _tc .coq_semicolon_symbol + _tc .coq_new_line +
+      _get_initial_spaces (beginning) + _four_spaces) +
+    _tc .coq_new_line +
+    _tc .coq_closing_brace +
+    _tc .coq_end_symbol
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
-        Seq (_tc .coq_comment_opening_symbol) .++ (
-          block .lines .++ (
-            Seq [String] (
-            _tc .coq_comment_closing_symbol,
-            "",
-            _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
-            )
-          )
-        )
+        Seq [String] (
+          _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
       ),
       block .references
     )
@@ -913,6 +896,8 @@ trait TranslationConstantToCoq
 
   lazy val coq_closing_brace = "}"
 
+  lazy val coq_semicolon_symbol = ";"
+
   lazy val coq_product_type_symbol = "*"
 
   lazy val coq_lambda_reserved_word = "fun"
@@ -930,6 +915,8 @@ trait TranslationConstantToCoq
   lazy val coq_or_reserved_word = "orb"
 
   lazy val coq_end_symbol = "."
+
+  lazy val coq_class_reserved_word : String = "Class"
 
   lazy val coq_definition_reserved_word : String = "Definition"
 

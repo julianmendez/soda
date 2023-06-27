@@ -49,6 +49,8 @@ class TranslationConstantToCoq
 
   coq_closing_brace = "}"
 
+  coq_semicolon_symbol = ";"
+
   coq_product_type_symbol = "*"
 
   coq_lambda_reserved_word = "fun"
@@ -66,6 +68,8 @@ class TranslationConstantToCoq
   coq_or_reserved_word = "orb"
 
   coq_end_symbol = "."
+
+  coq_class_reserved_word : String = "Class"
 
   coq_definition_reserved_word : String = "Definition"
 

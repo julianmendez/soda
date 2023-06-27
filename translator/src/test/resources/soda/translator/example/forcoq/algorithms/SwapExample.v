@@ -1,14 +1,10 @@
 Module PairExample .
 
-(*
-  abstract
-    left : nat
+Class PairExample : Type :=
+  PairExample_ {
+    left : nat ;
     right : nat
-*)
-
-Inductive PairExample : Type :=
-  | PairExample_ (x : nat * nat)
-.
+}.
 
 End PairExample .
 
@@ -16,30 +12,29 @@ Import PairExample .
 
 Module SwapExample .
 
- Definition   left (pair : PairExample) : nat :=
-    match pair with
-      | (PairExample_ (x , y) ) => x
-    end
-.
+  Definition left (pair : PairExample) : nat := pair .(left) .
 
- Definition   right (pair : PairExample) : nat :=
-    match pair with
-      | (PairExample_ (x , y) ) => y
-    end
-.
+  Definition right (pair : PairExample) : nat := pair .(right) .
+
+(*
+  directive scala
+  def left (pair : PairExample) : nat = pair .left
+*)
+
+(*
+  directive scala
+  def right (pair : PairExample) : nat = pair .right
+*)
 
  Definition   swap (pair : PairExample) : PairExample :=
-    PairExample_ (right (pair) , left (pair) )
+    PairExample_ (right (pair) ) (left (pair) )
 .
 
   Theorem
-    swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair .
+    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x) (y) ) ) ) =
+    PairExample_ (x) (y) .
   Proof.
-    intros p.
-    destruct p.
-    compute.
-    destruct x.
-    apply eq_refl.
+    auto.
   Qed.
 
 End SwapExample .
