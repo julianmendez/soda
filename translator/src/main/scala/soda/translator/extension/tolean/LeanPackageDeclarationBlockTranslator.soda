@@ -14,8 +14,8 @@ class LeanPackageDeclarationBlockTranslator
 
   _comment_block (block : Block) : Block =
     BlockBuilder_ () .build (
-      ( (Seq (_tc .lean_opening_comment) .++ (block .lines) ) .++ (
-        Seq (_tc .lean_closing_comment) ) ) .++ (_tc .lean_prelude)
+      ( (Seq (_tc .lean_comment_opening_symbol) .++ (block .lines) ) .++ (
+        Seq (_tc .lean_comment_closing_symbol) ) ) .++ (_tc .lean_prelude)
     )
 
   _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =

@@ -534,49 +534,16 @@ case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslat
 
 trait LeanDirectiveBlockTranslator
   extends
-    soda.translator.block.BlockTranslator
+    soda.translator.blocktr.DirectiveBlockTranslator
 {
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
 
   private lazy val _tc = TranslationConstantToLean_ ()
 
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
+  lazy val identifier : String = _tc .lean_directive_identifier
 
-  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if ( sequence .isEmpty
-    ) sequence
-    else sequence .tail
+  lazy val opening_comment : String = _tc .lean_comment_opening_symbol
 
-  private def _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
-    )
-
-  private def _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (
-      _append (
-        _tc .lean_directive_end_reserved_word) (
-          _replace_first_line (_tc .lean_directive_begin_reserved_word) (block)
-      )
-    )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
+  lazy val closing_comment : String = _tc .lean_comment_closing_symbol
 
 }
 
@@ -666,8 +633,8 @@ trait LeanPackageDeclarationBlockTranslator
 
   private def _comment_block (block : Block) : Block =
     BlockBuilder_ () .build (
-      ( (Seq (_tc .lean_opening_comment) .++ (block .lines) ) .++ (
-        Seq (_tc .lean_closing_comment) ) ) .++ (_tc .lean_prelude)
+      ( (Seq (_tc .lean_comment_opening_symbol) .++ (block .lines) ) .++ (
+        Seq (_tc .lean_comment_closing_symbol) ) ) .++ (_tc .lean_prelude)
     )
 
   private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
@@ -930,9 +897,9 @@ trait TranslationConstantToLean
 
   lazy val lean_closing_parenthesis = ")"
 
-  lazy val lean_opening_comment = "/-"
+  lazy val lean_comment_opening_symbol = "/-"
 
-  lazy val lean_closing_comment = "-/"
+  lazy val lean_comment_closing_symbol = "-/"
 
   lazy val lean_opening_documentation = "/--"
 
@@ -1170,9 +1137,7 @@ trait TranslationConstantToLean
 
   lazy val lean_namespace_end_reserved_word : String = lean_end_reserved_word
 
-  lazy val lean_directive_begin_reserved_word : String = ""
-
-  lazy val lean_directive_end_reserved_word : String = lean_end_reserved_word
+  lazy val lean_directive_identifier : String = "lean"
 
   lazy val lean_main_reserved_words : Seq [String] =
     Seq (
@@ -1338,7 +1303,7 @@ trait TranslationConstantToLean
       Tuple2 (soda_constant .or_reserved_word , lean_or_symbol)
     )
 
-  lazy val type_translation : Seq [ Tuple2 [String, String]  ] =
+  lazy val type_translation : Seq [Tuple2 [String, String]  ] =
     Seq (
         Tuple2 ("Boolean" , "Bool"),
         Tuple2 ("Nat" , "Nat"),
@@ -1356,7 +1321,7 @@ trait TranslationConstantToLean
       .map ( x => Tuple2 (x , prefix_lean_non_soda + x) )
 
   def is_lean_word (word : String) : Boolean =
-    lean_reserved_words  .contains (word)
+    lean_reserved_words .contains (word)
 
   def is_soda_word (word : String) : Boolean =
     soda_constant .soda_reserved_words .contains (word)

@@ -107,5 +107,7 @@ class TranslationConstantToDoc
   doc_language_definitions_text : String =
     doc_language_definitions .mkString ("\n")
 
+  doc_directive_identifier : String = "latex"
+
 end
 

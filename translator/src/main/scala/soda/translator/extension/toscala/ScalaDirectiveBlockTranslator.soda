@@ -1,0 +1,15 @@
+
+class ScalaDirectiveBlockTranslator
+  extends
+    soda.translator.blocktr.DirectiveBlockTranslator
+
+  _tc = TranslationConstantToScala_ ()
+
+  identifier : String = _tc .scala_directive_identifier
+
+  opening_comment : String = _tc .scala_comment_opening_symbol
+
+  closing_comment : String = _tc .scala_comment_closing_symbol
+
+end
+

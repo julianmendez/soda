@@ -1,9 +1,5 @@
 Module TriangularNumberForCoq .
 
-  Import   soda.example.forcoq.lib.O_ .
-  Import   soda.example.forcoq.lib.S_ .
-  Import   soda.example.forcoq.lib.nat .
-
 Fixpoint   @tailrec
    _tailrec_get_number (m : nat) (acc : nat) : nat :=
     match m with

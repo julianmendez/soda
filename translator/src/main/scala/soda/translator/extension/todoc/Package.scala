@@ -252,6 +252,8 @@ trait TranslationConstantToDoc
   lazy val doc_language_definitions_text : String =
     doc_language_definitions .mkString ("\n")
 
+  lazy val doc_directive_identifier : String = "latex"
+
 }
 
 case class TranslationConstantToDoc_ () extends TranslationConstantToDoc

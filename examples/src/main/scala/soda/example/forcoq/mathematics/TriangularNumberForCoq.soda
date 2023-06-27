@@ -1,11 +1,6 @@
 
 class TriangularNumberForCoq
 
-  import
-    soda.example.forcoq.lib.O_
-    soda.example.forcoq.lib.S_
-    soda.example.forcoq.lib.nat
-
   @tailrec
   _tailrec_get_number (m : nat) (acc : nat) : nat =
     match m

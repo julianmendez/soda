@@ -103,10 +103,10 @@ trait CoqClassConstructorBlockTranslator
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
     AbstractDeclarationAnnotation_ (
       BlockBuilder_ () .build (
-        Seq (_tc .coq_opening_comment) .++ (
+        Seq (_tc .coq_comment_opening_symbol) .++ (
           block .lines .++ (
             Seq [String] (
-            _tc .coq_closing_comment,
+            _tc .coq_comment_closing_symbol,
             "",
             _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) )
             )
@@ -397,49 +397,16 @@ case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
 
 trait CoqDirectiveBlockTranslator
   extends
-    soda.translator.block.BlockTranslator
+    soda.translator.blocktr.DirectiveBlockTranslator
 {
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
+  lazy val identifier : String = _tc .coq_directive_identifier
 
-  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if ( sequence .isEmpty
-    ) sequence
-    else sequence .tail
+  lazy val opening_comment : String = _tc .coq_comment_opening_symbol
 
-  private def _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
-    )
-
-  private def _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (
-      _append (
-        _tc .coq_directive_end_reserved_word) (
-          _replace_first_line (_tc .coq_directive_begin_reserved_word) (block)
-      )
-    )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
+  lazy val closing_comment : String = _tc .coq_comment_closing_symbol
 
 }
 
@@ -530,8 +497,8 @@ trait CoqPackageDeclarationBlockTranslator
 
   private def _comment_block (block : Block) : Block =
     BlockBuilder_ () .build (
-      ( (Seq (_tc .coq_opening_comment) .++ (block .lines) ) .++ (
-        Seq (_tc .coq_closing_comment) ) ) .++ (_tc .coq_prelude)
+      ( (Seq (_tc .coq_comment_opening_symbol) .++ (block .lines) ) .++ (
+        Seq (_tc .coq_comment_closing_symbol) ) ) .++ (_tc .coq_prelude)
     )
 
   private def _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
@@ -871,18 +838,18 @@ trait MicroTranslatorToCoq
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ (),
-        CoqDefinitionBlockTranslator_ (),
-        CoqClassConstructorBlockTranslator_ (),
-        CoqClassDeclarationBlockTranslator_ (),
-        CoqPackageDeclarationBlockTranslator_ (),
-        CoqClassEndBlockTranslator_ (),
-        CoqImportDeclarationBlockTranslator_ (),
-        CoqTheoremBlockTranslator_ (),
-        CoqDirectiveBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests,
-          TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests,
+        MatchCaseBlockTranslator_ () ,
+        CoqDefinitionBlockTranslator_ () ,
+        CoqClassConstructorBlockTranslator_ () ,
+        CoqClassDeclarationBlockTranslator_ () ,
+        CoqPackageDeclarationBlockTranslator_ () ,
+        CoqClassEndBlockTranslator_ () ,
+        CoqImportDeclarationBlockTranslator_ () ,
+        CoqTheoremBlockTranslator_ () ,
+        CoqDirectiveBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
+          TokenizedBlockTranslator_ (try_definition) ) ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
           TokenReplacement_ () .replace (_tc .function_symbols_translation) )
       )
     )
@@ -932,9 +899,9 @@ trait TranslationConstantToCoq
 
   lazy val coq_closing_parenthesis = ")"
 
-  lazy val coq_opening_comment = "(*"
+  lazy val coq_comment_opening_symbol = "(*"
 
-  lazy val coq_closing_comment = "*)"
+  lazy val coq_comment_closing_symbol = "*)"
 
   lazy val coq_opening_documentation = "(**"
 
@@ -992,9 +959,7 @@ trait TranslationConstantToCoq
 
   lazy val coq_theorem_end_symbol : String = coq_end_symbol
 
-  lazy val coq_directive_begin_reserved_word : String = ""
-
-  lazy val coq_directive_end_reserved_word : String = ""
+  lazy val coq_directive_identifier : String = "coq"
 
   lazy val coq_prelude : Seq [String] =
     Seq (

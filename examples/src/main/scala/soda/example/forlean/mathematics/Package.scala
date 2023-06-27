@@ -10,11 +10,19 @@ import   soda.example.forlean.lib.Nat
 
 trait Package
 
+/*
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+*/
+
+/*
+directive lean
+notation:max "Succ_" => Nat.succ
+*/
+
 trait FactorialForLean
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
   private def _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     m match  {
       case Succ_ (k) => _tailrec_get_factorial (k) (product .mul (Succ_ (k) ) )
@@ -29,11 +37,19 @@ trait FactorialForLean
 case class FactorialForLean_ () extends FactorialForLean
 
 
+/*
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+*/
+
+/*
+directive lean
+notation:max "Succ_" => Nat.succ
+*/
+
 trait FiboExampleInSodaForLean
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
   private def _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
     m match  {
       case Succ_ (Zero_ () ) => b
@@ -49,11 +65,19 @@ trait FiboExampleInSodaForLean
 case class FiboExampleInSodaForLean_ () extends FiboExampleInSodaForLean
 
 
+/*
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+*/
+
+/*
+directive lean
+notation:max "Succ_" => Nat.succ
+*/
+
 trait TriangularNumberForLean
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
   private def _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     m match  {
       case Succ_ (k) => _tailrec_get_number (k) (acc .add (Succ_ (k) ) )

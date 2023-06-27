@@ -1,0 +1,59 @@
+
+class DirectiveBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+    identifier : String
+    opening_comment : String
+    closing_comment : String
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.annotation.DirectiveBlockAnnotation
+    soda.translator.parser.annotation.DirectiveBlockAnnotation_
+
+  _get_first_or_empty (sequence : Seq [String] ) : String =
+    match sequence
+      case x :: xs ==> x
+      case otherwise ==> ""
+
+  _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
+    match sequence
+      case x :: xs ==> xs
+      case otherwise ==> sequence
+
+  _comment_block_out (lines : Seq [String] ) : Seq [String] =
+    Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )
+
+  _line_contains (line : String) (pattern : String) : Boolean =
+    line .indexOf (pattern) >= 0
+
+  _directive_applies (lines : Seq [String] ) : Boolean =
+    (_get_first_or_empty (lines) ) .contains (identifier)
+
+  _translate_lines (lines : Seq [String] ) : Seq [String] =
+    if _directive_applies (lines)
+    then _remove_first_if_possible (lines)
+    else _comment_block_out (lines)
+
+  _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
+    DirectiveBlockAnnotation_ (
+      BlockBuilder_ () .build (
+        _translate_lines (block .lines)
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case DirectiveBlockAnnotation_ (block) ==> _translate_block (DirectiveBlockAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

@@ -1,5 +1,5 @@
 
-class TheoremAndDirectiveBlockTranslator
+class TheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -31,15 +31,10 @@ class TheoremAndDirectiveBlockTranslator
   _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
 
-  _translate_directive_block (block : AnnotatedBlock) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (_translate_block (block) )
-
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case TheoremBlockAnnotation_ (block) ==>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case DirectiveBlockAnnotation_ (block) ==>
-        _translate_directive_block (DirectiveBlockAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

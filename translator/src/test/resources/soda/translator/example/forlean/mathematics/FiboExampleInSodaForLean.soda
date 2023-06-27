@@ -1,7 +1,12 @@
 
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+
+directive lean
+notation:max "Succ_" => Nat.succ
+
 class FiboExampleInSodaForLean
 
-  @tailrec
   _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
     match m
       case Succ_ (Zero_ () ) ==> b

@@ -1109,7 +1109,8 @@ trait MicroTranslatorToScala
         ClassDeclarationBlockTranslator_ () ,
         ImportDeclarationBlockTranslator_ () ,
         AbstractDeclarationBlockTranslator_ () ,
-        TheoremAndDirectiveBlockTranslator_ () ,
+        TheoremBlockTranslator_ () ,
+        ScalaDirectiveBlockTranslator_ () ,
         ClassEndBlockTranslator_ () ,
         MainClassBlockTranslator_ () ,
         ClassConstructorBlockTranslator_ ()
@@ -1125,7 +1126,25 @@ trait MicroTranslatorToScala
 case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
 
 
-trait TheoremAndDirectiveBlockTranslator
+trait ScalaDirectiveBlockTranslator
+  extends
+    soda.translator.blocktr.DirectiveBlockTranslator
+{
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val identifier : String = _tc .scala_directive_identifier
+
+  lazy val opening_comment : String = _tc .scala_comment_opening_symbol
+
+  lazy val closing_comment : String = _tc .scala_comment_closing_symbol
+
+}
+
+case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
+
+
+trait TheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -1157,15 +1176,10 @@ trait TheoremAndDirectiveBlockTranslator
   private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
 
-  private def _translate_directive_block (block : AnnotatedBlock) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (_translate_block (block) )
-
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case DirectiveBlockAnnotation_ (block) =>
-        _translate_directive_block (DirectiveBlockAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -1175,7 +1189,7 @@ trait TheoremAndDirectiveBlockTranslator
 
 }
 
-case class TheoremAndDirectiveBlockTranslator_ () extends TheoremAndDirectiveBlockTranslator
+case class TheoremBlockTranslator_ () extends TheoremBlockTranslator
 
 
 /**
@@ -1273,6 +1287,8 @@ trait TranslationConstantToScala
     "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   lazy val scala_private_reserved_word = "private"
+
+  lazy val scala_directive_identifier = "scala"
 
   /**
    * Scala 3 keywords:

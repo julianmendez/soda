@@ -1,48 +1,15 @@
 
 class LeanDirectiveBlockTranslator
   extends
-    soda.translator.block.BlockTranslator
-
-  import
-    soda.translator.block.AnnotatedBlock
-    soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.DirectiveBlockAnnotation
-    soda.translator.parser.annotation.DirectiveBlockAnnotation_
+    soda.translator.blocktr.DirectiveBlockTranslator
 
   _tc = TranslationConstantToLean_ ()
 
-  _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
+  identifier : String = _tc .lean_directive_identifier
 
-  _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if sequence .isEmpty
-    then sequence
-    else sequence .tail
+  opening_comment : String = _tc .lean_comment_opening_symbol
 
-  _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
-    )
-
-  _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (
-      _append (
-        _tc .lean_directive_end_reserved_word) (
-          _replace_first_line (_tc .lean_directive_begin_reserved_word) (block)
-      )
-    )
-
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case DirectiveBlockAnnotation_ (block) ==> _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
-
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  closing_comment : String = _tc .lean_comment_closing_symbol
 
 end
 

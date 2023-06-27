@@ -44,7 +44,8 @@ class MicroTranslatorToScala
         ClassDeclarationBlockTranslator_ () ,
         ImportDeclarationBlockTranslator_ () ,
         AbstractDeclarationBlockTranslator_ () ,
-        TheoremAndDirectiveBlockTranslator_ () ,
+        TheoremBlockTranslator_ () ,
+        ScalaDirectiveBlockTranslator_ () ,
         ClassEndBlockTranslator_ () ,
         MainClassBlockTranslator_ () ,
         ClassConstructorBlockTranslator_ ()

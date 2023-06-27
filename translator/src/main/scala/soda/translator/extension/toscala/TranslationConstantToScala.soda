@@ -95,6 +95,8 @@ class TranslationConstantToScala
 
   scala_private_reserved_word = "private"
 
+  scala_directive_identifier = "scala"
+
   /**
    * Scala 3 keywords:
    *   https://dotty.epfl.ch/docs/internals/syntax.html

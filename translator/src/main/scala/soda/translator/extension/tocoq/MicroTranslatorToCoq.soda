@@ -31,18 +31,18 @@ class MicroTranslatorToCoq
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ (),
-        CoqDefinitionBlockTranslator_ (),
-        CoqClassConstructorBlockTranslator_ (),
-        CoqClassDeclarationBlockTranslator_ (),
-        CoqPackageDeclarationBlockTranslator_ (),
-        CoqClassEndBlockTranslator_ (),
-        CoqImportDeclarationBlockTranslator_ (),
-        CoqTheoremBlockTranslator_ (),
-        CoqDirectiveBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests,
-          TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests,
+        MatchCaseBlockTranslator_ () ,
+        CoqDefinitionBlockTranslator_ () ,
+        CoqClassConstructorBlockTranslator_ () ,
+        CoqClassDeclarationBlockTranslator_ () ,
+        CoqPackageDeclarationBlockTranslator_ () ,
+        CoqClassEndBlockTranslator_ () ,
+        CoqImportDeclarationBlockTranslator_ () ,
+        CoqTheoremBlockTranslator_ () ,
+        CoqDirectiveBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
+          TokenizedBlockTranslator_ (try_definition) ) ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
           TokenReplacement_ () .replace (_tc .function_symbols_translation) )
       )
     )

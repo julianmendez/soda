@@ -10,6 +10,69 @@ package soda.translator.blocktr
 
 trait Package
 
+trait DirectiveBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  def   identifier : String
+  def   opening_comment : String
+  def   closing_comment : String
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
+
+  private def _get_first_or_empty (sequence : Seq [String] ) : String =
+    sequence match  {
+      case x :: xs => x
+      case otherwise => ""
+    }
+
+  private def _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
+    sequence match  {
+      case x :: xs => xs
+      case otherwise => sequence
+    }
+
+  private def _comment_block_out (lines : Seq [String] ) : Seq [String] =
+    Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )
+
+  private def _line_contains (line : String) (pattern : String) : Boolean =
+    line .indexOf (pattern) >= 0
+
+  private def _directive_applies (lines : Seq [String] ) : Boolean =
+    (_get_first_or_empty (lines) ) .contains (identifier)
+
+  private def _translate_lines (lines : Seq [String] ) : Seq [String] =
+    if ( _directive_applies (lines)
+    ) _remove_first_if_possible (lines)
+    else _comment_block_out (lines)
+
+  private def _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
+    DirectiveBlockAnnotation_ (
+      BlockBuilder_ () .build (
+        _translate_lines (block .lines)
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class DirectiveBlockTranslator_ (identifier : String, opening_comment : String, closing_comment : String) extends DirectiveBlockTranslator
+
+
 trait Table
 {
 

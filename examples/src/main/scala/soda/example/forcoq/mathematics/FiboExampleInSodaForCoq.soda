@@ -1,11 +1,6 @@
 
 class FiboExampleInSodaForCoq
 
-  import
-    soda.example.forcoq.lib.O_
-    soda.example.forcoq.lib.S_
-    soda.example.forcoq.lib.nat
-
   @tailrec
   _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     match m

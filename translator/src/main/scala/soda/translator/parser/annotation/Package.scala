@@ -318,14 +318,23 @@ trait DirectiveBlockAnnotation
 
   def   block : soda.translator.block.Block
 
+  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.parser.SodaConstant_
 
   lazy val identifier = BlockAnnotationEnum_ () .directive_block
 
+  private lazy val _sc = SodaConstant_ ()
+
+  private def _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
+    annotated_lines match  {
+      case x :: xs => x .line
+      case otherwise => ""
+    }
+
   lazy val applies : Boolean =
-    block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .directive_reserved_word)
+    (_get_first_line_or_empty (block .readable_lines) .trim + _sc .space)
+      .startsWith (_sc .directive_reserved_word + _sc .space)
 
 }
 

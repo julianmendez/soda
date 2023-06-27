@@ -34,9 +34,9 @@ class TranslationConstantToLean
 
   lean_closing_parenthesis = ")"
 
-  lean_opening_comment = "/-"
+  lean_comment_opening_symbol = "/-"
 
-  lean_closing_comment = "-/"
+  lean_comment_closing_symbol = "-/"
 
   lean_opening_documentation = "/--"
 
@@ -274,9 +274,7 @@ class TranslationConstantToLean
 
   lean_namespace_end_reserved_word : String = lean_end_reserved_word
 
-  lean_directive_begin_reserved_word : String = ""
-
-  lean_directive_end_reserved_word : String = lean_end_reserved_word
+  lean_directive_identifier : String = "lean"
 
   lean_main_reserved_words : Seq [String] =
     Seq (
@@ -442,7 +440,7 @@ class TranslationConstantToLean
       Tuple2 (soda_constant .or_reserved_word , lean_or_symbol)
     )
 
-  type_translation : Seq [ Tuple2 [String] [String]  ] =
+  type_translation : Seq [Tuple2 [String] [String]  ] =
     Seq (
         Tuple2 ("Boolean" , "Bool"),
         Tuple2 ("Nat" , "Nat"),
@@ -460,7 +458,7 @@ class TranslationConstantToLean
       .map (lambda x --> Tuple2 (x , prefix_lean_non_soda + x) )
 
   is_lean_word (word : String) : Boolean =
-    lean_reserved_words  .contains (word)
+    lean_reserved_words .contains (word)
 
   is_soda_word (word : String) : Boolean =
     soda_constant .soda_reserved_words .contains (word)

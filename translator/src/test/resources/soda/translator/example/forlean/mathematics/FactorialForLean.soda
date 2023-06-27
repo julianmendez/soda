@@ -1,7 +1,12 @@
 
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+
+directive lean
+notation:max "Succ_" => Nat.succ
+
 class FactorialForLean
 
-  @tailrec
   _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     match m
       case Succ_ (k) ==> _tailrec_get_factorial (k) (product .mul (Succ_ (k) ) )

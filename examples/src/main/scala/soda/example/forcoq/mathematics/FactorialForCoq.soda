@@ -1,11 +1,6 @@
 
 class FactorialForCoq
 
-  import
-    soda.example.forcoq.lib.O_
-    soda.example.forcoq.lib.S_
-    soda.example.forcoq.lib.nat
-
   @tailrec
   _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m

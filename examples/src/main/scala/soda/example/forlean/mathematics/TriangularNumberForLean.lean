@@ -1,7 +1,10 @@
+notation:max "Zero_ ()" => Nat.zero
+
+notation:max "Succ_" => Nat.succ
+
 namespace TriangularNumberForLean
 
-def   @tailrec
-   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
+ def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
       | Succ_ (k) => _tailrec_get_number (k) (acc.add (Succ_ (k) ) )
       | otherwise => acc
