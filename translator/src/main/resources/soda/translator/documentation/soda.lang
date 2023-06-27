@@ -139,7 +139,7 @@
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>
             <keyword>theorem</keyword>
-            <keyword>proof</keyword>
+            <keyword>directive</keyword>
         </context>
 
         <context id="condition" style-ref="keyword">

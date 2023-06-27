@@ -34,6 +34,7 @@ any
 case
 class
 def
+directive
 else
 end
 extends
@@ -42,7 +43,6 @@ import
 lambda
 match
 package
-proof
 subtype
 supertype
 then
