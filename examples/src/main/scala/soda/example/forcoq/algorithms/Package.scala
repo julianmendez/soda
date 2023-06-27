@@ -87,14 +87,14 @@ trait SwapExample
 
 /*  theorem
     swap_of_swap : forall (pair : PairExample) , (swap (swap (pair) ) ) = pair
-*/
-
-/*  proof
+  .
+  Proof.
     intros p.
     destruct p.
     compute.
     destruct x.
     apply eq_refl.
+  Qed
 */
 
 }

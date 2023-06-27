@@ -1,5 +1,5 @@
 
-class LeanProofBlockTranslator
+class LeanDirectiveBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -7,8 +7,8 @@ class LeanProofBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.ProofBlockAnnotation
-    soda.translator.parser.annotation.ProofBlockAnnotation_
+    soda.translator.parser.annotation.DirectiveBlockAnnotation
+    soda.translator.parser.annotation.DirectiveBlockAnnotation_
 
   _tc = TranslationConstantToLean_ ()
 
@@ -27,17 +27,17 @@ class LeanProofBlockTranslator
       Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
     )
 
-  _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
-    ProofBlockAnnotation_ (
+  _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
+    DirectiveBlockAnnotation_ (
       _append (
-        _tc .lean_proof_end_reserved_word) (
-          _replace_first_line (_tc .lean_proof_begin_reserved_word) (block)
+        _tc .lean_directive_end_reserved_word) (
+          _replace_first_line (_tc .lean_directive_begin_reserved_word) (block)
       )
     )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ProofBlockAnnotation_ (block) ==> _translate_block (ProofBlockAnnotation_ (block) )
+      case DirectiveBlockAnnotation_ (block) ==> _translate_block (DirectiveBlockAnnotation_ (block) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

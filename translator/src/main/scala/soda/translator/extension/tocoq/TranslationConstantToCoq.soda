@@ -95,9 +95,9 @@ class TranslationConstantToCoq
 
   coq_theorem_end_symbol : String = coq_end_symbol
 
-  coq_proof_begin_reserved_word : String = "Proof."
+  coq_directive_begin_reserved_word : String = ""
 
-  coq_proof_end_reserved_word : String = "Qed."
+  coq_directive_end_reserved_word : String = ""
 
   coq_prelude : Seq [String] =
     Seq (

@@ -86,7 +86,7 @@ trait BlockAnnotationEnum
 
   lazy val theorem_block = BlockAnnotationId_ (8 , "theorem_block")
 
-  lazy val proof_block = BlockAnnotationId_ (9 , "proof_block")
+  lazy val directive_block = BlockAnnotationId_ (9 , "directive_block")
 
   lazy val comment = BlockAnnotationId_ (10 , "comment")
 
@@ -103,7 +103,7 @@ trait BlockAnnotationEnum
       package_declaration,
       class_alias,
       theorem_block,
-      proof_block,
+      directive_block,
       comment,
       test_declaration
     )

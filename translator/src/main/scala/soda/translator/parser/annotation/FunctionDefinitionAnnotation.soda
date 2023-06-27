@@ -70,13 +70,13 @@ class FunctionDefinitionAnnotation
     block .readable_lines .nonEmpty and
     (block .readable_lines .head .line .trim == sc .theorem_reserved_word)
 
-  is_a_proof : Boolean =
+  is_a_directive : Boolean =
     block .readable_lines .nonEmpty and
-    (block .readable_lines .head .line .trim == sc .proof_reserved_word)
+    (block .readable_lines .head .line .trim == sc .directive_reserved_word)
 
   applies : Boolean =
     not is_a_theorem and
-    not is_a_proof and
+    not is_a_directive and
     not is_a_class_declaration and
     (contains_the_equals_symbol or starts_with_valid_annotation or
       starts_with_def_reserved_word)

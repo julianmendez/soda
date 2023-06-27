@@ -532,6 +532,57 @@ trait LeanDefinitionBlockTranslator
 case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslator
 
 
+trait LeanDirectiveBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      block .lines .:+ (suffix)
+    )
+
+  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
+    if ( sequence .isEmpty
+    ) sequence
+    else sequence .tail
+
+  private def _replace_first_line (first_line : String) (block : Block) : Block =
+    BlockBuilder_ () .build (
+      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
+    )
+
+  private def _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
+    DirectiveBlockAnnotation_ (
+      _append (
+        _tc .lean_directive_end_reserved_word) (
+          _replace_first_line (_tc .lean_directive_begin_reserved_word) (block)
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanDirectiveBlockTranslator_ () extends LeanDirectiveBlockTranslator
+
+
 trait LeanImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -640,57 +691,6 @@ trait LeanPackageDeclarationBlockTranslator
 }
 
 case class LeanPackageDeclarationBlockTranslator_ () extends LeanPackageDeclarationBlockTranslator
-
-
-trait LeanProofBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.ProofBlockAnnotation
-  import   soda.translator.parser.annotation.ProofBlockAnnotation_
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
-
-  private def _get_tail_or_empty (sequence : Seq [String] ) : Seq [String] =
-    if ( sequence .isEmpty
-    ) sequence
-    else sequence .tail
-
-  private def _replace_first_line (first_line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq (first_line)  .++ (_get_tail_or_empty (block .lines) )
-    )
-
-  private def _translate_block (block : ProofBlockAnnotation) : ProofBlockAnnotation =
-    ProofBlockAnnotation_ (
-      _append (
-        _tc .lean_proof_end_reserved_word) (
-          _replace_first_line (_tc .lean_proof_begin_reserved_word) (block)
-      )
-    )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case ProofBlockAnnotation_ (block) => _translate_block (ProofBlockAnnotation_ (block) )
-      case otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-}
-
-case class LeanProofBlockTranslator_ () extends LeanProofBlockTranslator
 
 
 trait LeanTheoremBlockTranslator
@@ -877,7 +877,7 @@ trait MicroTranslatorToLean
         LeanClassEndBlockTranslator_ () ,
         LeanImportDeclarationBlockTranslator_ () ,
         LeanTheoremBlockTranslator_ () ,
-        LeanProofBlockTranslator_ () ,
+        LeanDirectiveBlockTranslator_ () ,
         ConditionalBlockTranslator_ (functions_and_tests ,
           TokenizedBlockTranslator_ (try_definition) ) ,
         ConditionalBlockTranslator_ (functions_and_tests ,
@@ -1170,9 +1170,9 @@ trait TranslationConstantToLean
 
   lazy val lean_namespace_end_reserved_word : String = lean_end_reserved_word
 
-  lazy val lean_proof_begin_reserved_word : String = ""
+  lazy val lean_directive_begin_reserved_word : String = ""
 
-  lazy val lean_proof_end_reserved_word : String = lean_end_reserved_word
+  lazy val lean_directive_end_reserved_word : String = lean_end_reserved_word
 
   lazy val lean_main_reserved_words : Seq [String] =
     Seq (

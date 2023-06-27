@@ -46,9 +46,12 @@ class ExampleProgram
     "\n" +
     "\n  theorem" +
     "\n    True" +
-    "\n" +
-    "\n  proof" +
+    "\n  ." +
+    "\n  Proof." +
     "\n    auto." +
+    "\n  Qed" +
+    "\n" +
+    "\n  directive" +
     "\n" +
     "\nend" +
     "\n" +

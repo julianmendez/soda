@@ -93,7 +93,7 @@ class SodaConstant
 
   theorem_reserved_word = "theorem"
 
-  proof_reserved_word = "proof"
+  directive_reserved_word = "directive"
 
   constructor_suffix = "_"
 
@@ -190,7 +190,7 @@ class SodaConstant
       package_reserved_word,
       import_reserved_word,
       theorem_reserved_word,
-      proof_reserved_word
+      directive_reserved_word
     )
 
   soda_reserved_words_symbols_only : Seq [String] =

@@ -384,7 +384,7 @@ trait SodaConstant
 
   lazy val theorem_reserved_word = "theorem"
 
-  lazy val proof_reserved_word = "proof"
+  lazy val directive_reserved_word = "directive"
 
   lazy val constructor_suffix = "_"
 
@@ -481,7 +481,7 @@ trait SodaConstant
       package_reserved_word,
       import_reserved_word,
       theorem_reserved_word,
-      proof_reserved_word
+      directive_reserved_word
     )
 
   lazy val soda_reserved_words_symbols_only : Seq [String] =

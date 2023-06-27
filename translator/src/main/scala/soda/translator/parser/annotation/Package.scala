@@ -58,7 +58,7 @@ trait AnnotationFactory
       case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) => ClassAliasAnnotation_ (new_content)
       case TheoremBlockAnnotation_ (b) => TheoremBlockAnnotation_ (new_content)
-      case ProofBlockAnnotation_ (b) => ProofBlockAnnotation_ (new_content)
+      case DirectiveBlockAnnotation_ (b) => DirectiveBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
       case otherwise => AnnotatedBlock_ (
@@ -75,7 +75,7 @@ trait AnnotationFactory
       PackageDeclarationAnnotation_ (block),
       ClassAliasAnnotation_ (block),
       TheoremBlockAnnotation_ (block),
-      ProofBlockAnnotation_ (block),
+      DirectiveBlockAnnotation_ (block),
       CommentAnnotation_ (block),
       TestDeclarationAnnotation_ (block)
     )
@@ -311,6 +311,27 @@ trait CommentAnnotation
 case class CommentAnnotation_ (block : soda.translator.block.Block) extends CommentAnnotation
 
 
+trait DirectiveBlockAnnotation
+  extends
+    BlockAnnotationParser
+{
+
+  def   block : soda.translator.block.Block
+
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.parser.SodaConstant_
+
+  lazy val identifier = BlockAnnotationEnum_ () .directive_block
+
+  lazy val applies : Boolean =
+    block .readable_lines .nonEmpty &&
+    (block .readable_lines .head .line .trim == SodaConstant_ () .directive_reserved_word)
+
+}
+
+case class DirectiveBlockAnnotation_ (block : soda.translator.block.Block) extends DirectiveBlockAnnotation
+
+
 trait FunctionDefinitionAnnotation
   extends
     BlockAnnotationParser
@@ -381,13 +402,13 @@ trait FunctionDefinitionAnnotation
     block .readable_lines .nonEmpty &&
     (block .readable_lines .head .line .trim == sc .theorem_reserved_word)
 
-  lazy val is_a_proof : Boolean =
+  lazy val is_a_directive : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == sc .proof_reserved_word)
+    (block .readable_lines .head .line .trim == sc .directive_reserved_word)
 
   lazy val applies : Boolean =
     ! is_a_theorem &&
-    ! is_a_proof &&
+    ! is_a_directive &&
     ! is_a_class_declaration &&
     (contains_the_equals_symbol || starts_with_valid_annotation ||
       starts_with_def_reserved_word)
@@ -440,27 +461,6 @@ trait PackageDeclarationAnnotation
 }
 
 case class PackageDeclarationAnnotation_ (block : soda.translator.block.Block) extends PackageDeclarationAnnotation
-
-
-trait ProofBlockAnnotation
-  extends
-    BlockAnnotationParser
-{
-
-  def   block : soda.translator.block.Block
-
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
-
-  lazy val identifier = BlockAnnotationEnum_ () .proof_block
-
-  lazy val applies : Boolean =
-    block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .proof_reserved_word)
-
-}
-
-case class ProofBlockAnnotation_ (block : soda.translator.block.Block) extends ProofBlockAnnotation
 
 
 trait TestDeclarationAnnotation

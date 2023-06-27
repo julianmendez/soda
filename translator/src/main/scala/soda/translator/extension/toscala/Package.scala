@@ -1109,7 +1109,7 @@ trait MicroTranslatorToScala
         ClassDeclarationBlockTranslator_ () ,
         ImportDeclarationBlockTranslator_ () ,
         AbstractDeclarationBlockTranslator_ () ,
-        TheoremAndProofBlockTranslator_ () ,
+        TheoremAndDirectiveBlockTranslator_ () ,
         ClassEndBlockTranslator_ () ,
         MainClassBlockTranslator_ () ,
         ClassConstructorBlockTranslator_ ()
@@ -1125,7 +1125,7 @@ trait MicroTranslatorToScala
 case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
 
 
-trait TheoremAndProofBlockTranslator
+trait TheoremAndDirectiveBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -1133,8 +1133,8 @@ trait TheoremAndProofBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.ProofBlockAnnotation
-  import   soda.translator.parser.annotation.ProofBlockAnnotation_
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
+  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
@@ -1157,15 +1157,15 @@ trait TheoremAndProofBlockTranslator
   private def _translate_theorem_block (block : AnnotatedBlock) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (_translate_block (block) )
 
-  private def _translate_proof_block (block : AnnotatedBlock) : ProofBlockAnnotation =
-    ProofBlockAnnotation_ (_translate_block (block) )
+  private def _translate_directive_block (block : AnnotatedBlock) : DirectiveBlockAnnotation =
+    DirectiveBlockAnnotation_ (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case ProofBlockAnnotation_ (block) =>
-        _translate_proof_block (ProofBlockAnnotation_ (block) )
+      case DirectiveBlockAnnotation_ (block) =>
+        _translate_directive_block (DirectiveBlockAnnotation_ (block) )
       case otherwise => annotated_block
     }
 
@@ -1175,7 +1175,7 @@ trait TheoremAndProofBlockTranslator
 
 }
 
-case class TheoremAndProofBlockTranslator_ () extends TheoremAndProofBlockTranslator
+case class TheoremAndDirectiveBlockTranslator_ () extends TheoremAndDirectiveBlockTranslator
 
 
 /**

@@ -31,7 +31,7 @@ class BlockAnnotationEnum
 
   theorem_block = BlockAnnotationId_ (8 , "theorem_block")
 
-  proof_block = BlockAnnotationId_ (9 , "proof_block")
+  directive_block = BlockAnnotationId_ (9 , "directive_block")
 
   comment = BlockAnnotationId_ (10 , "comment")
 
@@ -48,7 +48,7 @@ class BlockAnnotationEnum
       package_declaration,
       class_alias,
       theorem_block,
-      proof_block,
+      directive_block,
       comment,
       test_declaration
     )

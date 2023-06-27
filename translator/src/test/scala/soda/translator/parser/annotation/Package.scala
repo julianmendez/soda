@@ -32,7 +32,7 @@ case class BlockAnnotationSpec ()
       PackageDeclarationAnnotation_ (block) ,
       ClassAliasAnnotation_ (block) ,
       TheoremBlockAnnotation_ (block) ,
-      ProofBlockAnnotation_ (block) ,
+      DirectiveBlockAnnotation_ (block) ,
       CommentAnnotation_ (block) ,
       TestDeclarationAnnotation_ (block)
     )
@@ -130,7 +130,7 @@ case class BlockAnnotationSpec ()
     )
   )
 
-  test ("should detect a proof block") (
+  test ("should detect a directive block") (
     check (
       obtained = apply_detectors (example_blocks (10) )
     ) (
@@ -420,9 +420,12 @@ trait ExampleProgram
     "\n" +
     "\n  theorem" +
     "\n    True" +
-    "\n" +
-    "\n  proof" +
+    "\n  ." +
+    "\n  Proof." +
     "\n    auto." +
+    "\n  Qed" +
+    "\n" +
+    "\n  directive" +
     "\n" +
     "\nend" +
     "\n" +

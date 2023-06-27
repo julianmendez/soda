@@ -21,7 +21,7 @@ class AnnotationFactory
       case PackageDeclarationAnnotation_ (b) ==> PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) ==> ClassAliasAnnotation_ (new_content)
       case TheoremBlockAnnotation_ (b) ==> TheoremBlockAnnotation_ (new_content)
-      case ProofBlockAnnotation_ (b) ==> ProofBlockAnnotation_ (new_content)
+      case DirectiveBlockAnnotation_ (b) ==> DirectiveBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) ==> CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) ==> TestDeclarationAnnotation_ (new_content)
       case otherwise ==> AnnotatedBlock_ (
@@ -37,7 +37,7 @@ class AnnotationFactory
       PackageDeclarationAnnotation_ (block),
       ClassAliasAnnotation_ (block),
       TheoremBlockAnnotation_ (block),
-      ProofBlockAnnotation_ (block),
+      DirectiveBlockAnnotation_ (block),
       CommentAnnotation_ (block),
       TestDeclarationAnnotation_ (block)
     )

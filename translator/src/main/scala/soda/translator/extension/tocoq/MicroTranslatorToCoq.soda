@@ -39,7 +39,7 @@ class MicroTranslatorToCoq
         CoqClassEndBlockTranslator_ (),
         CoqImportDeclarationBlockTranslator_ (),
         CoqTheoremBlockTranslator_ (),
-        CoqProofBlockTranslator_ (),
+        CoqDirectiveBlockTranslator_ (),
         ConditionalBlockTranslator_ (functions_and_tests,
           TokenizedBlockTranslator_ (try_definition) ),
         ConditionalBlockTranslator_ (functions_and_tests,

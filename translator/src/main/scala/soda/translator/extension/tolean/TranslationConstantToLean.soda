@@ -274,9 +274,9 @@ class TranslationConstantToLean
 
   lean_namespace_end_reserved_word : String = lean_end_reserved_word
 
-  lean_proof_begin_reserved_word : String = ""
+  lean_directive_begin_reserved_word : String = ""
 
-  lean_proof_end_reserved_word : String = lean_end_reserved_word
+  lean_directive_end_reserved_word : String = lean_end_reserved_word
 
   lean_main_reserved_words : Seq [String] =
     Seq (
