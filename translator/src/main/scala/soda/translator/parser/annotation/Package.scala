@@ -408,12 +408,10 @@ trait FunctionDefinitionAnnotation
     starts_with_prefix_and_space (sc .class_reserved_word)
 
   lazy val is_a_theorem : Boolean =
-    block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == sc .theorem_reserved_word)
+    TheoremBlockAnnotation_ (block) .applies
 
   lazy val is_a_directive : Boolean =
-    block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == sc .directive_reserved_word)
+    DirectiveBlockAnnotation_ (block) .applies
 
   lazy val applies : Boolean =
     ! is_a_theorem &&
