@@ -26,13 +26,13 @@ class MicroTranslatorToLean
 
   try_definition : Token -> String =
     lambda token -->
-      DefinitionLineTranslator_ (token .text) .translation
+      LeanDefinitionLineTranslator_ (token .text) .translation
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        DotNotationBlockTranslator_ () ,
-        MatchCaseBlockTranslator_ () ,
+        LeanDotNotationBlockTranslator_ () ,
+        LeanMatchCaseBlockTranslator_ () ,
         LeanDefinitionBlockTranslator_ () ,
         LeanClassConstructorBlockTranslator_ () ,
         LeanClassDeclarationBlockTranslator_ () ,

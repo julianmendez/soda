@@ -26,7 +26,7 @@
  *
  */
 
-class DefinitionLineTranslator
+class CoqDefinitionLineTranslator
   extends
     soda.translator.block.LineTranslator
 

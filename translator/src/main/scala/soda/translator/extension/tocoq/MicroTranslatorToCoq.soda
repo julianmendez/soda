@@ -26,12 +26,12 @@ class MicroTranslatorToCoq
 
   try_definition : Token -> String =
     lambda token -->
-      DefinitionLineTranslator_ (token .text) .translation
+      CoqDefinitionLineTranslator_ (token .text) .translation
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ () ,
+        CoqMatchCaseBlockTranslator_ () ,
         CoqDefinitionBlockTranslator_ () ,
         CoqClassConstructorBlockTranslator_ () ,
         CoqClassDeclarationBlockTranslator_ () ,

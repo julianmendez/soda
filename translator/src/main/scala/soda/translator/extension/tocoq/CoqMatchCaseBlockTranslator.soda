@@ -1,5 +1,5 @@
 
-class MatchCaseBlockTranslator
+class CoqMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -18,7 +18,7 @@ class MatchCaseBlockTranslator
 
   _soda_case_pattern = _sc .case_reserved_word + _sc .space
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToCoq_ ()
 
   _soda_match_pattern = _sc .match_reserved_word + " "
 
@@ -30,7 +30,7 @@ class MatchCaseBlockTranslator
 
   _append_with_after_match (line : String) : String =
     if _is_a_match_line (line)
-    then line + _tc .lean_space + _tc .lean_with_reserved_word
+    then line + _tc .coq_space + _tc .coq_with_reserved_word
     else line
 
   _is_a_case_line (line : String) : Boolean =
@@ -40,7 +40,7 @@ class MatchCaseBlockTranslator
     if _is_a_case_line (line)
     then
       ReplacementAux_ ()
-        .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
+        . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
     else line
 
   _left_part (index : Int) (line : String) : String =
@@ -50,14 +50,14 @@ class MatchCaseBlockTranslator
     block .lines
       .find (lambda line --> _is_a_match_line (line) )
       .map (lambda line --> _left_part (line .indexOf (_soda_match_pattern) ) (line) )
-      .getOrElse (_tc .lean_space)
+      .getOrElse (_tc .coq_space)
 
   _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
     BlockBuilder_ () .build (
       block .lines
         .map (lambda line --> _append_with_after_match (line) )
         .map (lambda line --> _replace_case (line) )
-        .++ (Seq [String] ()  .+: (tabulation + _tc .lean_match_end_translation) )
+        .++ (Seq [String] () .+: (tabulation + _tc .coq_match_end_translation) )
     )
 
   _translate_block (block : AnnotatedBlock) : Block =

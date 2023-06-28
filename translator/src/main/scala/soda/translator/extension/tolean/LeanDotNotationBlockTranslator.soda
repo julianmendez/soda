@@ -1,5 +1,5 @@
 
-class DotNotationBlockTranslator
+class LeanDotNotationBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 

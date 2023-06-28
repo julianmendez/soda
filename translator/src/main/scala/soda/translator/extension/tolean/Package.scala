@@ -8,168 +8,6 @@ package soda.translator.extension.tolean
 
 trait Package
 
-/**
- * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
- *
- * 'val' is for value definition.
- * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon,
- *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis,
- *   e.g. `(x, y) = (0, 1)`
- *
- * 'def' is for function definition.
- * If it does not fit in any of the 'val' cases.
- *
- * Formerly there was another case for 'val'.
- * Deprecated Case:
- * This was implemented simply as:
- * `line.trim.startsWith (soda_opening_parenthesis)`
- * This is no longer supported.
- *
- */
-
-trait DefinitionLineTranslator
-  extends
-    soda.translator.block.LineTranslator
-{
-
-  def   line : String
-
-  import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Replacement
-  import   soda.translator.replacement.Replacement_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  private lazy val _trimmed_line : String = line .trim
-
-  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-      .filter ( position => !  (position == -1) )
-
-  def get_index (line : String) (pattern : String) : OptionSD [Int] =
-    get_index_from (line) (pattern) (0)
-
-  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
-    get_index (line) (_sc .opening_parenthesis_symbol)
-
-  private lazy val _is_val_definition_case_1 : Boolean =
-    _position_of_first_opening_parenthesis .isEmpty
-
-  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_3 : Boolean =
-    (get_index (line) (_sc .type_membership_symbol) ) match  {
-      case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
-      case otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_4 : Boolean =
-    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
-
-  private def _is_val_definition (initial_position : Int) : Boolean =
-    _is_val_definition_case_1 ||
-    _is_val_definition_case_2 (initial_position) ||
-    _is_val_definition_case_3 ||
-    _is_val_definition_case_4
-
-  private lazy val _is_class_definition : Boolean =
-    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
-
-  private lazy val _ends_with_equals = false
-
-  private lazy val _ends_with_opening_brace = false
-
-  private lazy val _contains_equals : Boolean =
-    _trimmed_line .contains (_sc .function_definition_symbol)
-
-  private lazy val _condition_for_type_alias : Boolean =
-    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
-
-  private lazy val _translation_of_class_definition : Replacement =
-    if ( _condition_for_type_alias
-    ) Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
-
-  private lazy val _translation_of_val_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private lazy val _translation_of_def_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private def _decide_val_or_def_translation (position : Int) : Replacement =
-    if ( _is_val_definition (position)
-    ) _translation_of_val_definition
-    else _translation_of_def_definition
-
-  private def _try_found_definition (position : Int) : Replacement =
-    if ( _is_class_definition
-    ) _translation_of_class_definition
-    else _decide_val_or_def_translation (position)
-
-  /**
-   * A line is a definition when its main operator is "="  (the equals sign),
-   * which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-
-  def find_definition (line : String) : OptionSD [Int] =
-    if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
-    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
-    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
-
-  lazy val translation : String =
-    find_definition (line) match  {
-      case SomeSD_ (position) => _try_found_definition (position) .line
-      case otherwise => line
-    }
-
-}
-
-case class DefinitionLineTranslator_ (line : String) extends DefinitionLineTranslator
-
-
-trait DotNotationBlockTranslator
-  extends
-    soda.translator.blocktr.TokenizedBlockTranslator
-{
-
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Token
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  lazy val replace_token : Token => String =
-     token =>
-      token
-        .text
-        .replaceAll (_sc .dot_notation_regex , _tc .lean_dot_notation_symbol)
-
-}
-
-case class DotNotationBlockTranslator_ () extends DotNotationBlockTranslator
-
-
 trait LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -532,6 +370,145 @@ trait LeanDefinitionBlockTranslator
 case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslator
 
 
+/**
+ * A line containing the definition sign will be classified as a definition.
+ * The definitions need to be identified as 'val', 'def', or 'class'.
+ *
+ * 'class' is for class definition.
+ * It is detected if the 'class' reserved word is also in the same line.
+ *
+ * 'val' is for value definition.
+ * It is detected in three cases.
+ * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon,
+ *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis,
+ *   e.g. `(x, y) = (0, 1)`
+ *
+ * 'def' is for function definition.
+ * If it does not fit in any of the 'val' cases.
+ *
+ * Formerly there was another case for 'val'.
+ * Deprecated Case:
+ * This was implemented simply as:
+ * `line.trim.startsWith (soda_opening_parenthesis)`
+ * This is no longer supported.
+ *
+ */
+
+trait LeanDefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
+{
+
+  def   line : String
+
+  import   soda.lib.OptionSD
+  import   soda.lib.SomeSD_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Replacement
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  private lazy val _trimmed_line : String = line .trim
+
+  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line .indexOf (pattern, start) )
+      .filter ( position => !  (position == -1) )
+
+  def get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
+
+  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
+    get_index (line) (_sc .opening_parenthesis_symbol)
+
+  private lazy val _is_val_definition_case_1 : Boolean =
+    _position_of_first_opening_parenthesis .isEmpty
+
+  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
+    _position_of_first_opening_parenthesis match  {
+      case SomeSD_ (position) => (position > initial_position)
+      case otherwise => false
+    }
+
+  private lazy val _is_val_definition_case_3 : Boolean =
+    (get_index (line) (_sc .type_membership_symbol) ) match  {
+      case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
+      case otherwise => false
+    }
+
+  private lazy val _is_val_definition_case_4 : Boolean =
+    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
+
+  private def _is_val_definition (initial_position : Int) : Boolean =
+    _is_val_definition_case_1 ||
+    _is_val_definition_case_2 (initial_position) ||
+    _is_val_definition_case_3 ||
+    _is_val_definition_case_4
+
+  private lazy val _is_class_definition : Boolean =
+    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
+
+  private lazy val _ends_with_equals = false
+
+  private lazy val _ends_with_opening_brace = false
+
+  private lazy val _contains_equals : Boolean =
+    _trimmed_line .contains (_sc .function_definition_symbol)
+
+  private lazy val _condition_for_type_alias : Boolean =
+    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
+
+  private lazy val _translation_of_class_definition : Replacement =
+    if ( _condition_for_type_alias
+    ) Replacement_ (line)
+    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
+
+  private lazy val _translation_of_val_definition : Replacement =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
+
+  private lazy val _translation_of_def_definition : Replacement =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
+
+  private def _decide_val_or_def_translation (position : Int) : Replacement =
+    if ( _is_val_definition (position)
+    ) _translation_of_val_definition
+    else _translation_of_def_definition
+
+  private def _try_found_definition (position : Int) : Replacement =
+    if ( _is_class_definition
+    ) _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
+  /**
+   * A line is a definition when its main operator is "="  (the equals sign),
+   * which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+
+  def find_definition (line : String) : OptionSD [Int] =
+    if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
+    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
+
+  lazy val translation : String =
+    find_definition (line) match  {
+      case SomeSD_ (position) => _try_found_definition (position) .line
+      case otherwise => line
+    }
+
+}
+
+case class LeanDefinitionLineTranslator_ (line : String) extends LeanDefinitionLineTranslator
+
+
 trait LeanDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
@@ -548,6 +525,29 @@ trait LeanDirectiveBlockTranslator
 }
 
 case class LeanDirectiveBlockTranslator_ () extends LeanDirectiveBlockTranslator
+
+
+trait LeanDotNotationBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  lazy val replace_token : Token => String =
+     token =>
+      token
+        .text
+        .replaceAll (_sc .dot_notation_regex , _tc .lean_dot_notation_symbol)
+
+}
+
+case class LeanDotNotationBlockTranslator_ () extends LeanDotNotationBlockTranslator
 
 
 trait LeanImportDeclarationBlockTranslator
@@ -616,6 +616,96 @@ trait LeanImportDeclarationBlockTranslator
 }
 
 case class LeanImportDeclarationBlockTranslator_ () extends LeanImportDeclarationBlockTranslator
+
+
+trait LeanMatchCaseBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation
+  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
+  import   soda.translator.replacement.ReplacementAux_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _soda_case_pattern = _sc .case_reserved_word + _sc .space
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  private lazy val _soda_match_pattern = _sc .match_reserved_word + " "
+
+  private def _is_a_match_line (line : String) : Boolean =
+    line .trim .startsWith (_soda_match_pattern)
+
+  private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block .lines .exists ( line => _is_a_match_line (line) )
+
+  private def _append_with_after_match (line : String) : String =
+    if ( _is_a_match_line (line)
+    ) line + _tc .lean_space + _tc .lean_with_reserved_word
+    else line
+
+  private def _is_a_case_line (line : String) : Boolean =
+    line .trim .startsWith (_soda_case_pattern)
+
+  private def _replace_case (line : String) : String =
+    if ( _is_a_case_line (line)
+    )
+      ReplacementAux_ ()
+        .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
+    else line
+
+  private def _left_part (index : Int) (line : String) : String =
+    line .substring (0 , index)
+
+  private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block .lines
+      .find ( line => _is_a_match_line (line) )
+      .map ( line => _left_part (line .indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc .lean_space)
+
+  private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
+    BlockBuilder_ () .build (
+      block .lines
+        .map ( line => _append_with_after_match (line) )
+        .map ( line => _replace_case (line) )
+        .++ (Seq [String] ()  .+: (tabulation + _tc .lean_match_end_translation) )
+    )
+
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    if ( _is_a_match_case_structure (block)
+    ) _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) =>
+        _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanMatchCaseBlockTranslator_ () extends LeanMatchCaseBlockTranslator
 
 
 trait LeanPackageDeclarationBlockTranslator
@@ -713,96 +803,6 @@ trait LeanTheoremBlockTranslator
 case class LeanTheoremBlockTranslator_ () extends LeanTheoremBlockTranslator
 
 
-trait MatchCaseBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation
-  import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.replacement.ReplacementAux_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _soda_case_pattern = _sc .case_reserved_word + _sc .space
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  private lazy val _soda_match_pattern = _sc .match_reserved_word + " "
-
-  private def _is_a_match_line (line : String) : Boolean =
-    line .trim .startsWith (_soda_match_pattern)
-
-  private def _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
-    block .lines .exists ( line => _is_a_match_line (line) )
-
-  private def _append_with_after_match (line : String) : String =
-    if ( _is_a_match_line (line)
-    ) line + _tc .lean_space + _tc .lean_with_reserved_word
-    else line
-
-  private def _is_a_case_line (line : String) : Boolean =
-    line .trim .startsWith (_soda_case_pattern)
-
-  private def _replace_case (line : String) : String =
-    if ( _is_a_case_line (line)
-    )
-      ReplacementAux_ ()
-        .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
-    else line
-
-  private def _left_part (index : Int) (line : String) : String =
-    line .substring (0 , index)
-
-  private def _get_tabulation_of_match (block : AnnotatedBlock) : String =
-    block .lines
-      .find ( line => _is_a_match_line (line) )
-      .map ( line => _left_part (line .indexOf (_soda_match_pattern) ) (line) )
-      .getOrElse (_tc .lean_space)
-
-  private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ () .build (
-      block .lines
-        .map ( line => _append_with_after_match (line) )
-        .map ( line => _replace_case (line) )
-        .++ (Seq [String] ()  .+: (tabulation + _tc .lean_match_end_translation) )
-    )
-
-  private def _translate_block (block : AnnotatedBlock) : Block =
-    if ( _is_a_match_case_structure (block)
-    ) _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
-    else block
-
-  private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) =>
-        _translate_function_block (FunctionDefinitionAnnotation_ (block) )
-      case TestDeclarationAnnotation_ (block) =>
-        _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-}
-
-case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
-
-
 /**
  * This class translates Soda snippets into Lean snippets.
  */
@@ -830,13 +830,13 @@ trait MicroTranslatorToLean
 
   lazy val try_definition : Token => String =
      token =>
-      DefinitionLineTranslator_ (token .text) .translation
+      LeanDefinitionLineTranslator_ (token .text) .translation
 
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        DotNotationBlockTranslator_ () ,
-        MatchCaseBlockTranslator_ () ,
+        LeanDotNotationBlockTranslator_ () ,
+        LeanMatchCaseBlockTranslator_ () ,
         LeanDefinitionBlockTranslator_ () ,
         LeanClassConstructorBlockTranslator_ () ,
         LeanClassDeclarationBlockTranslator_ () ,
