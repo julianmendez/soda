@@ -78,7 +78,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 1") (
     check (
-      obtained = instance .get_value (Pair_ (10 , 100) )
+      obtained = instance .get_value (Pair_ (10, 100) )
     ) (
       expected = 55
     )
@@ -86,15 +86,15 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 2") (
     check (
-      obtained = instance .get_type_name (Pair_ (10 , 100) )
+      obtained = instance .get_type_name (Pair_ (10, 100) )
     ) (
-      expected = "pair (x , y)"
+      expected = "pair (x) (y)"
     )
   )
 
   test ("get value and name of triplet - 1") (
     check (
-      obtained = instance .get_value (Triplet_ (9 , 100 , 890) )
+      obtained = instance .get_value (Triplet_ (9, 100, 890) )
     ) (
       expected = 333
     )
@@ -102,9 +102,9 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 2") (
     check (
-      obtained = instance .get_type_name (Triplet_ (9 , 100 , 890) )
+      obtained = instance .get_type_name (Triplet_ (9, 100, 890) )
     ) (
-      expected = "triplet (x , y , z)"
+      expected = "triplet (x) (y) (z)"
     )
   )
 
