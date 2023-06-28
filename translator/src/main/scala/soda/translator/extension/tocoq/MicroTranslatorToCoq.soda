@@ -31,6 +31,7 @@ class MicroTranslatorToCoq
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        CoqDotNotationBlockTranslator_ () ,
         CoqMatchCaseBlockTranslator_ () ,
         CoqDefinitionBlockTranslator_ () ,
         CoqClassConstructorBlockTranslator_ () ,

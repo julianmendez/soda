@@ -535,6 +535,50 @@ trait CoqDirectiveBlockTranslator
 case class CoqDirectiveBlockTranslator_ () extends CoqDirectiveBlockTranslator
 
 
+trait CoqDotNotationBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  lazy val fold_while = soda.lib.FoldWhile_ ()
+
+  private def _applies_dot_notation (word : String) : Boolean =
+    word .startsWith (_sc .dot_notation_symbol) &&
+      word .length > _sc .dot_notation_symbol .length
+
+  private def _translate_dot_notation (word : String) : String =
+    _tc .coq_dot_notation_symbol +
+    _tc .coq_opening_parenthesis +
+    word .substring (_sc .dot_notation_symbol .length) +
+    _tc .coq_closing_parenthesis
+
+  private def _add_parentheses_if_necessary (word : String) : String =
+    if ( _applies_dot_notation (word)
+    ) _translate_dot_notation (word)
+    else word
+
+  private def _add_parentheses_to_dotted_words (line : String) : String =
+    line
+      .split (_sc .space)
+      .map ( word => _add_parentheses_if_necessary (word) )
+      .mkString (_sc .space)
+
+  lazy val replace_token : Token => String =
+     token =>
+      _add_parentheses_to_dotted_words (token .text)
+
+}
+
+case class CoqDotNotationBlockTranslator_ () extends CoqDotNotationBlockTranslator
+
+
 trait CoqImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -821,6 +865,7 @@ trait MicroTranslatorToCoq
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        CoqDotNotationBlockTranslator_ () ,
         CoqMatchCaseBlockTranslator_ () ,
         CoqDefinitionBlockTranslator_ () ,
         CoqClassConstructorBlockTranslator_ () ,
@@ -897,6 +942,8 @@ trait TranslationConstantToCoq
   lazy val coq_closing_brace = "}"
 
   lazy val coq_semicolon_symbol = ";"
+
+  lazy val coq_dot_notation_symbol = "."
 
   lazy val coq_product_type_symbol = "*"
 

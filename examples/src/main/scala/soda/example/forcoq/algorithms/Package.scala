@@ -72,22 +72,8 @@ case class PairExample_ (left : nat, right : nat) extends PairExample
 trait SwapExample
 {
 
-/*
-  directive coq
-  Definition left (pair : PairExample) : nat := pair .(left) .
-*/
-
-/*
-  directive coq
-  Definition right (pair : PairExample) : nat := pair .(right) .
-*/
-
-  def left (pair : PairExample) : nat = pair .left
-
-  def right (pair : PairExample) : nat = pair .right
-
   def swap (pair : PairExample) : PairExample =
-    PairExample_ (right (pair) , left (pair) )
+    PairExample_ (pair .right , pair .left )
 
 /*
   directive coq

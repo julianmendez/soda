@@ -406,6 +406,8 @@ trait SodaConstant
 
   lazy val class_parameter_separation_regex = "\\)\\s*\\("
 
+  lazy val dot_notation_symbol = "."
+
   lazy val dot_notation_regex = "\\s*\\."
 
   lazy val addition_symbol = "+"

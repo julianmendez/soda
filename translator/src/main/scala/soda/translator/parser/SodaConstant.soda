@@ -115,6 +115,8 @@ class SodaConstant
 
   class_parameter_separation_regex = "\\)\\s*\\("
 
+  dot_notation_symbol = "."
+
   dot_notation_regex = "\\s*\\."
 
   addition_symbol = "+"

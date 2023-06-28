@@ -9,20 +9,8 @@ end
 
 class SwapExample
 
-  directive coq
-  Definition left (pair : PairExample) : nat := pair .(left) .
-
-  directive coq
-  Definition right (pair : PairExample) : nat := pair .(right) .
-
-  directive scala
-  def left (pair : PairExample) : nat = pair .left
-
-  directive scala
-  def right (pair : PairExample) : nat = pair .right
-
   swap (pair : PairExample) : PairExample =
-    PairExample_ (right (pair) ) (left (pair) )
+    PairExample_ (pair .right ) (pair .left )
 
   directive coq
   Theorem

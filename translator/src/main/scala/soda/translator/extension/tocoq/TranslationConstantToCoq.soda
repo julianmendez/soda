@@ -51,6 +51,8 @@ class TranslationConstantToCoq
 
   coq_semicolon_symbol = ";"
 
+  coq_dot_notation_symbol = "."
+
   coq_product_type_symbol = "*"
 
   coq_lambda_reserved_word = "fun"

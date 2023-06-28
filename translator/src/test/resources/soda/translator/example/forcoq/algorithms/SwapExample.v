@@ -12,22 +12,8 @@ Import PairExample .
 
 Module SwapExample .
 
-  Definition left (pair : PairExample) : nat := pair .(left) .
-
-  Definition right (pair : PairExample) : nat := pair .(right) .
-
-(*
-  directive scala
-  def left (pair : PairExample) : nat = pair .left
-*)
-
-(*
-  directive scala
-  def right (pair : PairExample) : nat = pair .right
-*)
-
  Definition   swap (pair : PairExample) : PairExample :=
-    PairExample_ (right (pair) ) (left (pair) )
+    PairExample_ (pair .(right) ) (pair .(left) )
 .
 
   Theorem
