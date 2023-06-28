@@ -226,7 +226,7 @@ trait ClassConstructorBlockTranslator
 case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator
 
 
-trait AuxTuple
+trait State
 {
 
   def   index : Int
@@ -237,9 +237,68 @@ trait AuxTuple
   def   accum : String
   def   expecting : Boolean
 
+  import   soda.translator.parser.SodaConstant_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  private lazy val _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+
+  private lazy val _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
+
+  private lazy val _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
+
+  private lazy val _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
+
+  private lazy val _update_opening_par : State =
+    if ( (par_level == 0) && (expecting)
+    ) State_ (
+      index + 1 , index + 1 , bracket_level , par_level + 1 , line ,
+      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
+    else State_ (
+      index + 1 , last_index , bracket_level , par_level + 1 , line , accum , expecting)
+
+  private lazy val _update_closing_par : State =
+    if ( (par_level == 1)
+    ) State_ (
+      index + 1 , index , bracket_level , par_level - 1 , line ,
+      accum + line .substring (last_index, index) , true)
+    else State_ (
+      index + 1 , last_index , bracket_level , par_level - 1 , line , accum , expecting)
+
+  private lazy val _update_opening_bracket : State =
+    State_ (index + 1 , last_index , bracket_level + 1 , par_level , line , accum , expecting)
+
+  private lazy val _update_closing_bracket : State =
+    State_ (index + 1 , last_index , bracket_level - 1 , par_level , line , accum , expecting)
+
+  private lazy val _update_next_space : State =
+    State_ (line .length , line .length , bracket_level , par_level , line ,
+      accum + line .substring (last_index), expecting)
+
+  private lazy val _update_default_step : State =
+    State_ (index + 1 , last_index , bracket_level , par_level , line , accum , expecting)
+
+  lazy val compute_next : State =
+    if ( (index >= line .length)
+    ) this
+    else if ( (line .charAt (index) == _opening_parenthesis_symbol_char)
+    ) _update_opening_par
+    else if ( (line .charAt (index) == _closing_parenthesis_symbol_char)
+    ) _update_closing_par
+    else if ( (line .charAt (index) == _opening_bracket_symbol_char)
+    ) _update_opening_bracket
+    else if ( (line .charAt (index) == _closing_bracket_symbol_char)
+    ) _update_closing_bracket
+    else if ( (bracket_level == 0) && (par_level == 0) && (
+      ! (line .charAt (index) == _sc .space .head) )
+    ) _update_next_space
+    else _update_default_step
+
 }
 
-case class AuxTuple_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends AuxTuple
+case class State_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends State
 
 trait ClassConstructorParameterBlockTranslator
   extends
@@ -259,69 +318,14 @@ trait ClassConstructorParameterBlockTranslator
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
-  private def _update_opening_par (a : AuxTuple) : AuxTuple =
-    if ( (a .par_level == 0) && (a .expecting)
-    ) AuxTuple_ (
-      a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line ,
-      a .accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
-    else AuxTuple_ (
-      a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line ,
-      a .accum , a .expecting)
-
-  private def _update_closing_par (a : AuxTuple) :AuxTuple =
-    if ( (a .par_level == 1)
-    ) AuxTuple_ (
-      a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line ,
-      a .accum + a .line .substring (a .last_index, a .index) , true)
-    else AuxTuple_ (
-      a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line ,
-      a .accum , a .expecting)
-
-  private def _update_opening_bracket (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  private def _update_closing_bracket (a : AuxTuple) :AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  private def _update_next_space (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line ,
-      a .accum + a .line .substring (a .last_index), a .expecting)
-
-  private def _update_default_step (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  private def _translate_line_initial (line : String) (index : Int) : AuxTuple =
-    AuxTuple_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 ,
+  private def _translate_line_initial (line : String) (index : Int) : State =
+    State_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 ,
       line = line , accum = line .substring (0 , index) , expecting = false)
 
-  private lazy val _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+  private def _translate_line_next (a : State) (ch : Char) : State =
+    a .compute_next
 
-  private lazy val _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
-
-  private lazy val _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
-
-  private lazy val _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
-
-  private def _translate_line_next (a : AuxTuple) (ch : Char) : AuxTuple =
-    if ( (a .index >= a .line .length)
-    ) a
-    else if ( (a .line .charAt (a .index) == _opening_parenthesis_symbol_char)
-    ) _update_opening_par (a)
-    else if ( (a .line .charAt (a .index) == _closing_parenthesis_symbol_char)
-    ) _update_closing_par (a)
-    else if ( (a .line .charAt (a .index) == _opening_bracket_symbol_char)
-    ) _update_opening_bracket (a)
-    else if ( (a .line .charAt (a .index) == _closing_bracket_symbol_char)
-    ) _update_closing_bracket (a)
-    else if ( (a .bracket_level == 0) && (a .par_level == 0) && (
-      ! (a .line .charAt (a .index) == ' ') )
-    ) _update_next_space (a)
-    else _update_default_step (a)
-
-  private def _translate_line_with_parentheses_with_tuple (a : AuxTuple) : String =
+  private def _translate_line_with_parentheses_with_tuple (a : State) : String =
     a .accum + a .line .substring (a .last_index)
 
   private def _translate_line (line : String) (index : Int) : String =

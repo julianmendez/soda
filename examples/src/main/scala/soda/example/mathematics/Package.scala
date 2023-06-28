@@ -156,12 +156,13 @@ trait Memoizer [A , B ]
 
   def   main_function : InputPair [A, B] => OutputPair [A, B]
 
-  private def _add_element (output : OutputPair [A, B], new_pair : Tuple2 [A, B] ) : OutputPair [A, B] =
+  private def _add_element (output : OutputPair [A, B] ) (new_pair : Tuple2 [A, B] )
+      : OutputPair [A, B] =
     OutputPair_ (output .value, output .memoized_values + new_pair)
 
   private def _compute_and_update_with (input_value : A) (output : OutputPair [A, B] )
       : OutputPair [A, B] =
-    _add_element (output, Tuple2 (input_value, output .value) )
+    _add_element (output) (Tuple2 (input_value, output .value) )
 
   def compute_and_update (input : InputPair [A, B] ) : OutputPair [A, B] =
     _compute_and_update_with (input .value) (main_function (input) )

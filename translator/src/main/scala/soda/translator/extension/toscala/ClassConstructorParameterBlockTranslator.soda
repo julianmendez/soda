@@ -1,5 +1,5 @@
 
-class AuxTuple
+class State
 
   abstract
     index : Int
@@ -10,8 +10,67 @@ class AuxTuple
     accum : String
     expecting : Boolean
 
-end
+  import
+    soda.translator.parser.SodaConstant_
 
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+
+  _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
+
+  _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
+
+  _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
+
+  _update_opening_par : State =
+    if (par_level == 0) and (expecting)
+    then State_ (
+      index + 1 , index + 1 , bracket_level , par_level + 1 , line ,
+      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
+    else State_ (
+      index + 1 , last_index , bracket_level , par_level + 1 , line , accum , expecting)
+
+  _update_closing_par : State =
+    if (par_level == 1)
+    then State_ (
+      index + 1 , index , bracket_level , par_level - 1 , line ,
+      accum + line .substring (last_index, index) , true)
+    else State_ (
+      index + 1 , last_index , bracket_level , par_level - 1 , line , accum , expecting)
+
+  _update_opening_bracket : State =
+    State_ (index + 1 , last_index , bracket_level + 1 , par_level , line , accum , expecting)
+
+  _update_closing_bracket : State =
+    State_ (index + 1 , last_index , bracket_level - 1 , par_level , line , accum , expecting)
+
+  _update_next_space : State =
+    State_ (line .length , line .length , bracket_level , par_level , line ,
+      accum + line .substring (last_index), expecting)
+
+  _update_default_step : State =
+    State_ (index + 1 , last_index , bracket_level , par_level , line , accum , expecting)
+
+  compute_next : State =
+    if (index >= line .length)
+    then this
+    else if (line .charAt (index) == _opening_parenthesis_symbol_char)
+    then _update_opening_par
+    else if (line .charAt (index) == _closing_parenthesis_symbol_char)
+    then _update_closing_par
+    else if (line .charAt (index) == _opening_bracket_symbol_char)
+    then _update_opening_bracket
+    else if (line .charAt (index) == _closing_bracket_symbol_char)
+    then _update_closing_bracket
+    else if (bracket_level == 0) and (par_level == 0) and (
+      not (line .charAt (index) == _sc .space .head) )
+    then _update_next_space
+    else _update_default_step
+
+end
 
 class ClassConstructorParameterBlockTranslator
   extends
@@ -31,69 +90,15 @@ class ClassConstructorParameterBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-  _update_opening_par (a : AuxTuple) : AuxTuple =
-    if (a .par_level == 0) and (a .expecting)
-    then AuxTuple_ (
-      a .index + 1 , a .index + 1 , a .bracket_level , a .par_level + 1 , a .line ,
-      a .accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
-    else AuxTuple_ (
-      a .index + 1 , a .last_index , a .bracket_level , a .par_level + 1 , a .line ,
-      a .accum , a .expecting)
 
-  _update_closing_par (a : AuxTuple) :AuxTuple =
-    if (a .par_level == 1)
-    then AuxTuple_ (
-      a.index + 1 , a .index , a .bracket_level , a .par_level - 1 , a .line ,
-      a .accum + a .line .substring (a .last_index, a .index) , true)
-    else AuxTuple_ (
-      a.index + 1 , a .last_index , a .bracket_level , a .par_level - 1 , a .line ,
-      a .accum , a .expecting)
-
-  _update_opening_bracket (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level + 1 , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  _update_closing_bracket (a : AuxTuple) :AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level - 1 , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  _update_next_space (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .line .length , a .line .length , a .bracket_level , a .par_level , a .line ,
-      a .accum + a .line .substring (a .last_index), a .expecting)
-
-  _update_default_step (a : AuxTuple) : AuxTuple =
-    AuxTuple_ (a .index + 1 , a .last_index , a .bracket_level , a .par_level , a .line ,
-      a .accum , a .expecting)
-
-  _translate_line_initial (line : String) (index : Int) : AuxTuple =
-    AuxTuple_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 ,
+  _translate_line_initial (line : String) (index : Int) : State =
+    State_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 ,
       line := line , accum := line .substring (0 , index) , expecting := false)
 
-  _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+  _translate_line_next (a : State) (ch : Char) : State =
+    a .compute_next
 
-  _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
-
-  _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
-
-  _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
-
-  _translate_line_next (a : AuxTuple) (ch : Char) : AuxTuple =
-    if (a .index >= a .line .length)
-    then a
-    else if (a .line .charAt (a .index) == _opening_parenthesis_symbol_char)
-    then _update_opening_par (a)
-    else if (a .line .charAt (a .index) == _closing_parenthesis_symbol_char)
-    then _update_closing_par (a)
-    else if (a .line .charAt (a .index) == _opening_bracket_symbol_char)
-    then _update_opening_bracket (a)
-    else if (a .line .charAt (a .index) == _closing_bracket_symbol_char)
-    then _update_closing_bracket (a)
-    else if (a .bracket_level == 0) and (a .par_level == 0) and (
-      not (a .line .charAt (a .index) == ' ') )
-    then _update_next_space (a)
-    else _update_default_step (a)
-
-  _translate_line_with_parentheses_with_tuple (a : AuxTuple) : String =
+  _translate_line_with_parentheses_with_tuple (a : State) : String =
     a .accum + a .line .substring (a .last_index)
 
   _translate_line (line : String) (index : Int) : String =
@@ -142,3 +147,4 @@ class ClassConstructorParameterBlockTranslator
       _replace_parentheses_by_comma (token .text)
 
 end
+
