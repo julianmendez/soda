@@ -11,13 +11,16 @@ end
 
 class SaladIngredientConstant
 
-  tomato = SaladIngredient_ (1 , "tomato")
+  _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
+    SaladIngredient_ (ordinal) (name)
 
-  lettuce = SaladIngredient_ (2 , "lettuce")
+  tomato = _mk_SaladIngredient (1) ("tomato")
 
-  sunflower_seeds = SaladIngredient_ (3 , "sunflower seeds")
+  lettuce = _mk_SaladIngredient (2) ("lettuce")
 
-  olive_oil = SaladIngredient_ (4 , "olive_oil")
+  sunflower_seeds = _mk_SaladIngredient (3) ("sunflower seeds")
+
+  olive_oil = _mk_SaladIngredient (4) ("olive_oil")
 
   SaladIngredient_values = Seq (tomato , lettuce , sunflower_seeds , olive_oil)
 

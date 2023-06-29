@@ -16,6 +16,9 @@ case class BlockSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
+  private def _mk_AnnotatedLine (line : String) (is_comment : Boolean) : AnnotatedLine_ =
+    AnnotatedLine_ (line, is_comment)
+
   lazy val input = ("\n" +
     "\n/** This is an example */" +
     "\n* Example () {" +
@@ -32,13 +35,13 @@ case class BlockSpec ()
       obtained = BlockBuilder_ () .build (input) .annotated_lines
     ) (
       expected = Seq (
-        AnnotatedLine_ ("" , is_comment = false),
-        AnnotatedLine_ ("" , is_comment = false),
-        AnnotatedLine_ ("/** This is an example */" , is_comment = true),
-        AnnotatedLine_ ("* Example () {" , is_comment = false),
-        AnnotatedLine_ ("  /* This is a comment */" , is_comment = true),
-        AnnotatedLine_ ("  a = \"/** this is not a comment */\"" , is_comment = false),
-        AnnotatedLine_ ("}" , is_comment = false)
+        _mk_AnnotatedLine ("") (is_comment = false) ,
+        _mk_AnnotatedLine ("") (is_comment = false) ,
+        _mk_AnnotatedLine ("/** This is an example */") (is_comment = true) ,
+        _mk_AnnotatedLine ("* Example () {") (is_comment = false) ,
+        _mk_AnnotatedLine ("  /* This is a comment */") (is_comment = true) ,
+        _mk_AnnotatedLine ("  a = \"/** this is not a comment */\"") (is_comment = false) ,
+        _mk_AnnotatedLine ("}") (is_comment = false)
       )
     )
   )

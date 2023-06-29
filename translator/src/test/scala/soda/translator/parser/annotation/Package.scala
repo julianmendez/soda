@@ -26,8 +26,8 @@ case class BlockAnnotationSpec ()
     Seq (
       FunctionDefinitionAnnotation_ (block) ,
       ClassBeginningAnnotation_ (block) ,
-      ClassEndAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
-      AbstractDeclarationAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
       ImportDeclarationAnnotation_ (block) ,
       PackageDeclarationAnnotation_ (block) ,
       ClassAliasAnnotation_ (block) ,
@@ -252,7 +252,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).class_name
+      obtained = ClassBeginningAnnotation_ (example_0) .class_name
     ) (
       expected = "Example"
     )
@@ -260,7 +260,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 0") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_0) .type_parameters_and_bounds
     ) (
       expected = Seq [String] ()
     )
@@ -268,7 +268,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 0") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_0) .type_parameters
     ) (
       expected = Seq [String] ()
     )
@@ -276,7 +276,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).class_name
+      obtained = ClassBeginningAnnotation_ (example_1) .class_name
     ) (
       expected = "Example"
     )
@@ -284,7 +284,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_1) .type_parameters_and_bounds
     ) (
       expected = Seq ("A")
     )
@@ -292,7 +292,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_1) .type_parameters
     ) (
       expected = Seq ("A")
     )
@@ -300,7 +300,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).class_name
+      obtained = ClassBeginningAnnotation_ (example_2) .class_name
     ) (
       expected = "Example"
     )
@@ -308,7 +308,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_2) .type_parameters_and_bounds
     ) (
       expected = Seq ("A" , "B")
     )
@@ -316,7 +316,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_2) .type_parameters
     ) (
       expected = Seq ("A" , "B")
     )
@@ -324,7 +324,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).class_name
+      obtained = ClassBeginningAnnotation_ (example_3) .class_name
     ) (
       expected = "Example"
     )
@@ -332,7 +332,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_3) .type_parameters_and_bounds
     ) (
       expected = Seq ("A subtype SuperTypeExample")
     )
@@ -340,7 +340,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_3) .type_parameters
     ) (
       expected = Seq ("A")
     )
@@ -348,7 +348,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).class_name
+      obtained = ClassBeginningAnnotation_ (example_4) .class_name
     ) (
       expected = "Example"
     )
@@ -356,7 +356,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_4) .type_parameters_and_bounds
     ) (
       expected = Seq ("A supertype SubTypeExample" , "B subtype SuperTypeExample")
     )
@@ -364,7 +364,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_4) .type_parameters
     ) (
       expected = Seq ("A" , "B")
     )

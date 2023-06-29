@@ -126,13 +126,16 @@ case class SaladIngredient_ (ordinal : Int, name : String) extends SaladIngredie
 trait SaladIngredientConstant
 {
 
-  lazy val tomato = SaladIngredient_ (1 , "tomato")
+  private def _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
+    SaladIngredient_ (ordinal, name)
 
-  lazy val lettuce = SaladIngredient_ (2 , "lettuce")
+  lazy val tomato = _mk_SaladIngredient (1) ("tomato")
 
-  lazy val sunflower_seeds = SaladIngredient_ (3 , "sunflower seeds")
+  lazy val lettuce = _mk_SaladIngredient (2) ("lettuce")
 
-  lazy val olive_oil = SaladIngredient_ (4 , "olive_oil")
+  lazy val sunflower_seeds = _mk_SaladIngredient (3) ("sunflower seeds")
+
+  lazy val olive_oil = _mk_SaladIngredient (4) ("olive_oil")
 
   lazy val SaladIngredient_values = Seq (tomato , lettuce , sunflower_seeds , olive_oil)
 

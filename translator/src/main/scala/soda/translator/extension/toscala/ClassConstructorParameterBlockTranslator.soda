@@ -13,6 +13,10 @@ class State
   import
     soda.translator.parser.SodaConstant_
 
+  _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+
   _sc = SodaConstant_ ()
 
   _tc = TranslationConstantToScala_ ()
@@ -27,32 +31,36 @@ class State
 
   _update_opening_par : State =
     if (par_level == 0) and (expecting)
-    then State_ (
-      index + 1 , index + 1 , bracket_level , par_level + 1 , line ,
-      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
-    else State_ (
-      index + 1 , last_index , bracket_level , par_level + 1 , line , accum , expecting)
+    then
+      _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line)
+        (accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
+    else
+      _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum)
+        (expecting)
 
   _update_closing_par : State =
     if (par_level == 1)
-    then State_ (
-      index + 1 , index , bracket_level , par_level - 1 , line ,
-      accum + line .substring (last_index, index) , true)
-    else State_ (
-      index + 1 , last_index , bracket_level , par_level - 1 , line , accum , expecting)
+    then
+      _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line)
+        (accum + line .substring (last_index , index)) (true)
+    else
+      _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum)
+        (expecting)
 
   _update_opening_bracket : State =
-    State_ (index + 1 , last_index , bracket_level + 1 , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum)
+      (expecting)
 
   _update_closing_bracket : State =
-    State_ (index + 1 , last_index , bracket_level - 1 , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum)
+      (expecting)
 
   _update_next_space : State =
-    State_ (line .length , line .length , bracket_level , par_level , line ,
-      accum + line .substring (last_index), expecting)
+    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line)
+       (accum + line .substring (last_index) ) (expecting)
 
   _update_default_step : State =
-    State_ (index + 1 , last_index , bracket_level , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
 
   compute_next : State =
     if (index >= line .length)
@@ -80,6 +88,11 @@ class ClassConstructorParameterBlockTranslator
     soda.translator.parser.SodaConstant_
     soda.translator.replacement.Token
 
+
+  _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+
   range = soda.lib.Range_ ()
 
   fold = soda.lib.Fold_ ()
@@ -90,10 +103,9 @@ class ClassConstructorParameterBlockTranslator
 
   _tc = TranslationConstantToScala_ ()
 
-
   _translate_line_initial (line : String) (index : Int) : State =
-    State_ (index := index , last_index := index , bracket_level := 0 , par_level := 0 ,
-      line := line , accum := line .substring (0 , index) , expecting := false)
+    _mk_State (index := index) (last_index := index) (bracket_level := 0) (par_level := 0)
+      (line := line) (accum := line .substring (0 , index) ) (expecting := false)
 
   _translate_line_next (a : State) (ch : Char) : State =
     a .compute_next

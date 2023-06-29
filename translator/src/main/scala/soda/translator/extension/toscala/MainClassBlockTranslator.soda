@@ -5,11 +5,16 @@ class MainClassBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
+
+  _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
+      : ClassEndAnnotation =
+    ClassEndAnnotation_ (block) (references)
 
   _tc = TranslationConstantToScala_ ()
 
@@ -31,21 +36,22 @@ class MainClassBlockTranslator
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if _get_class_name (block .references) == _tc .soda_main_class_name
     then
-      ClassEndAnnotation_ (
+      _mk_ClassEndAnnotation (
         BlockBuilder_ () .build (
           Seq [String] (
             _tc .scala_class_end_symbol,
             "",
             _tc .scala_entry_point
           )
-        ),
+        ) ) (
         block .references
       )
     else block
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case ClassEndAnnotation_ (block , references) ==> _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block) (references) ==>
+        _translate_block (_mk_ClassEndAnnotation (block) (references) )
       case otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

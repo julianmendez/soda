@@ -8,10 +8,10 @@
   range = soda.lib.Range_ ()
 
   get_term (n : Int) : String =
-    match (n % 3 , n % 5)
-      case (0 , 0) ⟹ fizz + buzz
-      case (0 , x) ⟹ fizz
-      case (x , 0) ⟹ buzz
+    match Tuple2 (n % 3 , n % 5)
+      case Tuple2 (0 , 0) ⟹ fizz + buzz
+      case Tuple2 (0 , x) ⟹ fizz
+      case Tuple2 (x , 0) ⟹ buzz
       case otherwise ⟹ n .toString
 
   apply : Seq [String] =

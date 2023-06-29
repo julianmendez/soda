@@ -34,15 +34,18 @@ trait CharTypeEnum
     soda.lib.Enum [CharType]
 {
 
-  lazy val undefined_type = CharType_ (0 , "undefined_type")
+  private def _mk_CharType (ordinal : Int) (name : String) : CharType =
+    CharType_ (ordinal, name)
 
-  lazy val quotes_type = CharType_ (1 , "quotes_type")
+  lazy val undefined_type = _mk_CharType (0) ("undefined_type")
 
-  lazy val apostrophe_type = CharType_ (2 , "apostrophe_type")
+  lazy val quotes_type = _mk_CharType (1) ("quotes_type")
 
-  lazy val backslash_type = CharType_ (3 , "backslash_type")
+  lazy val apostrophe_type = _mk_CharType (2) ("apostrophe_type")
 
-  lazy val plain_type = CharType_ (4 , "plain_type")
+  lazy val backslash_type = _mk_CharType (3) ("backslash_type")
+
+  lazy val plain_type = _mk_CharType (4) ("plain_type")
 
   lazy val values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 
@@ -487,6 +490,13 @@ trait Tokenizer
   import   soda.lib.Fold_
   import   soda.lib.Range_
 
+  private def _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
+    Token_ (text, parser_state, index)
+
+  private def _mk_TokenizerFoldTuple (last_index : Int) (parser_state : ParserState)
+      (rev_tokens : Seq [Token] ) : TokenizerFoldTuple =
+    TokenizerFoldTuple_ (last_index, parser_state, rev_tokens)
+
   private lazy val _fold = Fold_ ()
 
   private lazy val _range = Range_ ()
@@ -507,11 +517,11 @@ trait Tokenizer
   private def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple)
       (current_index : Int) (new_parser_state : ParserState) (index : Int)
       : TokenizerFoldTuple =
-    TokenizerFoldTuple_ (index , new_parser_state ,
+    _mk_TokenizerFoldTuple (index) (new_parser_state) (
       tuple .rev_tokens .+: (
-        Token_ (
-          line .substring (tuple .last_index, index) ,
-          tuple .parser_state ,
+        _mk_Token (
+          line .substring (tuple .last_index, index) ) (
+          tuple .parser_state ) (
           tuple .last_index
         )
       )
@@ -519,17 +529,14 @@ trait Tokenizer
 
   private def _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int)
       (new_parser_state : ParserState) : TokenizerFoldTuple =
-    _next_value_function_of_different_class_with (
-      tuple) (
-      current_index) (
-      new_parser_state) (
+    _next_value_function_of_different_class_with (tuple) (current_index) (new_parser_state) (
       _get_new_current_index (tuple) (current_index)
     )
 
   private def _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int)
       (new_parser_state : ParserState) : TokenizerFoldTuple =
     if ( ParserStateEnum_ () .is_same_class (new_parser_state) (tuple .parser_state)
-    ) TokenizerFoldTuple_ (tuple .last_index, new_parser_state, tuple .rev_tokens)
+    ) _mk_TokenizerFoldTuple (tuple .last_index) (new_parser_state) (tuple .rev_tokens)
     else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
   private def _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
@@ -542,7 +549,7 @@ trait Tokenizer
       .reverse
 
   private lazy val _initial_value  : TokenizerFoldTuple =
-    TokenizerFoldTuple_ (0 , ParserStateEnum_ () .plain , Seq () )
+    _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
 
   lazy val tokens : Seq [Token] =
     _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (

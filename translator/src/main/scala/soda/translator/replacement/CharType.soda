@@ -21,15 +21,18 @@ class CharTypeEnum
   extends
     soda.lib.Enum [CharType]
 
-  undefined_type = CharType_ (0 , "undefined_type")
+  _mk_CharType (ordinal : Int) (name : String) : CharType =
+    CharType_ (ordinal) (name)
 
-  quotes_type = CharType_ (1 , "quotes_type")
+  undefined_type = _mk_CharType (0) ("undefined_type")
 
-  apostrophe_type = CharType_ (2 , "apostrophe_type")
+  quotes_type = _mk_CharType (1) ("quotes_type")
 
-  backslash_type = CharType_ (3 , "backslash_type")
+  apostrophe_type = _mk_CharType (2) ("apostrophe_type")
 
-  plain_type = CharType_ (4 , "plain_type")
+  backslash_type = _mk_CharType (3) ("backslash_type")
+
+  plain_type = _mk_CharType (4) ("plain_type")
 
   values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 

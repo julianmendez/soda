@@ -11,19 +11,22 @@ end
 
 class DayOfTheWeekConstant
 
-  sunday = DayOfTheWeek_ (0 , "Sunday")
+  _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
+    DayOfTheWeek_ (ordinal) (name)
 
-  monday = DayOfTheWeek_ (1 , "Monday")
+  sunday = _mk_DayOfTheWeek (0) ("Sunday")
 
-  tuesday = DayOfTheWeek_ (2 , "Tuesday")
+  monday = _mk_DayOfTheWeek (1) ("Monday")
 
-  wednesday = DayOfTheWeek_ (3 , "Wednesday")
+  tuesday = _mk_DayOfTheWeek (2) ("Tuesday")
 
-  thursday = DayOfTheWeek_ (4 , "Thursday")
+  wednesday = _mk_DayOfTheWeek (3) ("Wednesday")
 
-  friday = DayOfTheWeek_ (5 , "Friday")
+  thursday = _mk_DayOfTheWeek (4) ("Thursday")
 
-  saturday = DayOfTheWeek_ (6 , "Saturday")
+  friday = _mk_DayOfTheWeek (5) ("Friday")
+
+  saturday = _mk_DayOfTheWeek (6) ("Saturday")
 
   DayOfTheWeek_values = Seq (sunday , monday , tuesday , wednesday , thursday , friday , saturday)
 
@@ -46,9 +49,11 @@ class EnumSpec ()
 
   test ("the names of the elements in enumerations") (
     check (
-      obtained := DayOfTheWeekEnum_ ().values.map (lambda x --> x .toString)
+      obtained := DayOfTheWeekEnum_ () .values .map (lambda x --> x .toString)
     ) (
-      expected := Seq ("DayOfTheWeek_(0,Sunday)" , "DayOfTheWeek_(1,Monday)" , "DayOfTheWeek_(2,Tuesday)" , "DayOfTheWeek_(3,Wednesday)" , "DayOfTheWeek_(4,Thursday)" , "DayOfTheWeek_(5,Friday)" , "DayOfTheWeek_(6,Saturday)")
+      expected := Seq ("DayOfTheWeek_(0,Sunday)" , "DayOfTheWeek_(1,Monday)" ,
+        "DayOfTheWeek_(2,Tuesday)" , "DayOfTheWeek_(3,Wednesday)" ,
+        "DayOfTheWeek_(4,Thursday)" , "DayOfTheWeek_(5,Friday)" , "DayOfTheWeek_(6,Saturday)" )
     )
   )
 

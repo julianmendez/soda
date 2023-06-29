@@ -7,7 +7,7 @@ class MSeq [A : Type]
 
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
-      case NESeq_ (head , tail) ==> ifNonEmpty (NESeq_ (head , tail) )
+      case NESeq_ (head) (tail) ==> ifNonEmpty (NESeq_ (head) (tail) )
       case otherwise ==> ifEmpty
 
 end
@@ -52,7 +52,7 @@ class MSeqRec [A : Type]
   _tailrec_fold_while [B : Type] (sequence : MSeq [A] ) (current_value : B)
       (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
-      case NESeq_ (head , tail) ==>
+      case NESeq_ (head) (tail) ==>
         if not condition (current_value) (head)
         then current_value
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (

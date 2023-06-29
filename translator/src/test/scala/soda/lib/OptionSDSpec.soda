@@ -64,7 +64,8 @@ class OptionSDSpec ()
 
   test ("should open an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ) .opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+      obtained := (NoneSD_ [String] () ) .opt (ifEmpty := result_if_empty) (
+        ifNonEmpty := result_if_non_empty)
     ) (
       expected := "It is empty."
     )
@@ -72,7 +73,8 @@ class OptionSDSpec ()
 
   test ("should open an non empty option") (
     check (
-      obtained := (SomeSD_ [String] ("0") ) .opt (ifEmpty := result_if_empty) (ifNonEmpty := result_if_non_empty)
+      obtained := (SomeSD_ [String] ("0") ) .opt (ifEmpty := result_if_empty) (
+        ifNonEmpty := result_if_non_empty)
     ) (
       expected := "Its value is 0."
     )
@@ -80,7 +82,8 @@ class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ) .fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+      obtained := (NoneSD_ [String] () ) .fold (ifEmpty := result_if_empty) (
+        f := result_if_non_empty)
     ) (
       expected := "It is empty."
     )
@@ -88,7 +91,8 @@ class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained := (SomeSD_ [String] ("0") ) .fold (ifEmpty := result_if_empty) (f := result_if_non_empty)
+      obtained := (SomeSD_ [String] ("0") ) .fold (ifEmpty := result_if_empty) (
+        f := result_if_non_empty)
     ) (
       expected := "Its value is 0."
     )

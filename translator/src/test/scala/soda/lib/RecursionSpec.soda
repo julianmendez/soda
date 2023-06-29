@@ -16,7 +16,8 @@ class RecursionSpec ()
 
   test ("fold left while with Seq") (
     check (
-      obtained := _fold_while .apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
+      obtained := _fold_while .apply (example_seq) (_fold0_initial_value) (
+        _fold0_next_value_function) (_fold0_condition)
     ) (
       expected := Seq ("103" , "102" , "101" , "101" , "100")
     )
@@ -32,7 +33,8 @@ class RecursionSpec ()
 
   test ("fold left with Seq") (
     check (
-      obtained := _fold .apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
+      obtained := _fold .apply (example_seq) (_fold1_initial_value) (
+        _fold1_next_value_function)
     ) (
       expected := Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )

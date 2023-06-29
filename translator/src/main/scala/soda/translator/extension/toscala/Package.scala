@@ -239,6 +239,10 @@ trait State
 
   import   soda.translator.parser.SodaConstant_
 
+  private def _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index, last_index, bracket_level, par_level, line, accum, expecting)
+
   private lazy val _sc = SodaConstant_ ()
 
   private lazy val _tc = TranslationConstantToScala_ ()
@@ -253,32 +257,36 @@ trait State
 
   private lazy val _update_opening_par : State =
     if ( (par_level == 0) && (expecting)
-    ) State_ (
-      index + 1 , index + 1 , bracket_level , par_level + 1 , line ,
-      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space , false)
-    else State_ (
-      index + 1 , last_index , bracket_level , par_level + 1 , line , accum , expecting)
+    )
+      _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line)
+        (accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
+    else
+      _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum)
+        (expecting)
 
   private lazy val _update_closing_par : State =
     if ( (par_level == 1)
-    ) State_ (
-      index + 1 , index , bracket_level , par_level - 1 , line ,
-      accum + line .substring (last_index, index) , true)
-    else State_ (
-      index + 1 , last_index , bracket_level , par_level - 1 , line , accum , expecting)
+    )
+      _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line)
+        (accum + line .substring (last_index , index)) (true)
+    else
+      _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum)
+        (expecting)
 
   private lazy val _update_opening_bracket : State =
-    State_ (index + 1 , last_index , bracket_level + 1 , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum)
+      (expecting)
 
   private lazy val _update_closing_bracket : State =
-    State_ (index + 1 , last_index , bracket_level - 1 , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum)
+      (expecting)
 
   private lazy val _update_next_space : State =
-    State_ (line .length , line .length , bracket_level , par_level , line ,
-      accum + line .substring (last_index), expecting)
+    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line)
+       (accum + line .substring (last_index) ) (expecting)
 
   private lazy val _update_default_step : State =
-    State_ (index + 1 , last_index , bracket_level , par_level , line , accum , expecting)
+    _mk_State (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
 
   lazy val compute_next : State =
     if ( (index >= line .length)
@@ -308,6 +316,10 @@ trait ClassConstructorParameterBlockTranslator
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.replacement.Token
 
+  private def _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index, last_index, bracket_level, par_level, line, accum, expecting)
+
   lazy val range = soda.lib.Range_ ()
 
   lazy val fold = soda.lib.Fold_ ()
@@ -319,8 +331,8 @@ trait ClassConstructorParameterBlockTranslator
   private lazy val _tc = TranslationConstantToScala_ ()
 
   private def _translate_line_initial (line : String) (index : Int) : State =
-    State_ (index = index , last_index = index , bracket_level = 0 , par_level = 0 ,
-      line = line , accum = line .substring (0 , index) , expecting = false)
+    _mk_State (index = index) (last_index = index) (bracket_level = 0) (par_level = 0)
+      (line = line) (accum = line .substring (0 , index) ) (expecting = false)
 
   private def _translate_line_next (a : State) (ch : Char) : State =
     a .compute_next
@@ -519,9 +531,14 @@ trait ClassEndBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
+
+  private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
+      : ClassEndAnnotation =
+    ClassEndAnnotation_ (block, references)
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
@@ -538,19 +555,19 @@ trait ClassEndBlockTranslator
     _get_initial_spaces (block) + _tc .scala_class_end_symbol
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (
+    _mk_ClassEndAnnotation (
       BlockBuilder_ () .build (
         Seq [String] (
           _get_translation (block)
         )
-      ),
+      ) ) (
       block .references
     )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) =>
-        _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block, references) =>
+        _translate_block (_mk_ClassEndAnnotation (block) (references) )
       case otherwise => annotated_block
     }
 
@@ -927,11 +944,16 @@ trait MainClassBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
+
+  private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
+      : ClassEndAnnotation =
+    ClassEndAnnotation_ (block, references)
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
@@ -954,21 +976,22 @@ trait MainClassBlockTranslator
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     if ( _get_class_name (block .references) == _tc .soda_main_class_name
     )
-      ClassEndAnnotation_ (
+      _mk_ClassEndAnnotation (
         BlockBuilder_ () .build (
           Seq [String] (
             _tc .scala_class_end_symbol,
             "",
             _tc .scala_entry_point
           )
-        ),
+        ) ) (
         block .references
       )
     else block
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) => _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block, references) =>
+        _translate_block (_mk_ClassEndAnnotation (block) (references) )
       case otherwise => annotated_block
     }
 
@@ -1506,6 +1529,9 @@ trait IndividualProcessor
 
   lazy val writer = SimpleFileWriter_ ()
 
+  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
+
   private def _is_a_prelude_file (input_file_name : String) : Boolean =
     tc .package_file_name == ( ( new File (input_file_name) )  .getName)
 
@@ -1527,9 +1553,9 @@ trait IndividualProcessor
 
   def get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (tc .soda_extension)
-    ) FileNamePair_ (input_name, input_name .substring (0,
+    ) _mk_FileNamePair (input_name) (input_name .substring (0 ,
       input_name .length - tc .soda_extension .length) + tc .scala_extension)
-    else FileNamePair_ (input_name + tc .soda_extension, input_name + tc .scala_extension)
+    else _mk_FileNamePair (input_name + tc .soda_extension) (input_name + tc .scala_extension)
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
     writer .write_file (output_file_name) (content = tc .translator .translate (input) )
@@ -1554,6 +1580,9 @@ trait PackageProcessor
   import   soda.translator.io.SimpleFileWriter_
   import   java.io.File
 
+  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
+
   lazy val tc = TranslatorToScalaConstant_ ()
 
   lazy val reader = SimpleFileReader_ ()
@@ -1562,9 +1591,9 @@ trait PackageProcessor
 
   def get_input_output_file_names (input_name : String) (parent_name : String) : FileNamePair =
     if ( input_name .endsWith (tc .soda_extension)
-    ) FileNamePair_ (input_name , parent_name + tc .file_separator +
+    ) _mk_FileNamePair (input_name) (parent_name + tc .file_separator +
       tc .package_scala_file_name )
-    else FileNamePair_ (input_name + tc .soda_extension , input_name + tc .scala_extension)
+    else _mk_FileNamePair (input_name + tc .soda_extension) (input_name + tc .scala_extension)
 
   private def _translate_append_with_input (input : String) (output_file_name : String) : Boolean =
     writer .append_file (output_file_name) (content = tc .new_line +

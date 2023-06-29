@@ -43,17 +43,23 @@ trait AnnotationFactory
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
+  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.Block
+  import   soda.translator.block.BlockAnnotationId
   import   soda.translator.block.BlockAnnotationEnum_
+
+  private def _mk_AnnotatedBlock (annotated_lines : Seq [AnnotatedLine] )
+      (block_annotation : BlockAnnotationId) : AnnotatedBlock =
+    AnnotatedBlock_ (annotated_lines, block_annotation)
 
   def update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     original_content match  {
       case FunctionDefinitionAnnotation_ (b) => FunctionDefinitionAnnotation_ (new_content)
       case ClassBeginningAnnotation_ (b) => ClassBeginningAnnotation_ (new_content)
-      case ClassEndAnnotation_ (b , references) =>
-        ClassEndAnnotation_ (new_content , references)
-      case AbstractDeclarationAnnotation_ (b , references) =>
-        AbstractDeclarationAnnotation_ (new_content , references)
+      case ClassEndAnnotation_ (b, references) =>
+        ClassEndAnnotation_ (new_content, references)
+      case AbstractDeclarationAnnotation_ (b, references) =>
+        AbstractDeclarationAnnotation_ (new_content, references)
       case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation_ (new_content)
       case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation_ (new_content)
       case ClassAliasAnnotation_ (b) => ClassAliasAnnotation_ (new_content)
@@ -61,16 +67,16 @@ trait AnnotationFactory
       case DirectiveBlockAnnotation_ (b) => DirectiveBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
-      case otherwise => AnnotatedBlock_ (
-        new_content .annotated_lines , original_content .block_annotation)
+      case otherwise =>
+        _mk_AnnotatedBlock (new_content .annotated_lines) (original_content .block_annotation)
     }
 
   private def _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
       FunctionDefinitionAnnotation_ (block),
       ClassBeginningAnnotation_ (block),
-      ClassEndAnnotation_ (block , Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block , Seq [BlockAnnotationParser] () ),
+      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
+      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
       ImportDeclarationAnnotation_ (block),
       PackageDeclarationAnnotation_ (block),
       ClassAliasAnnotation_ (block),
@@ -88,12 +94,12 @@ trait AnnotationFactory
       : AnnotatedBlock =
     if ( candidates .length == 1
     ) candidates .head
-    else AnnotatedBlock_ (block .annotated_lines , BlockAnnotationEnum_ () .undefined )
+    else _mk_AnnotatedBlock (block .annotated_lines) (BlockAnnotationEnum_ () .undefined )
 
   def annotate (block : Block) : AnnotatedBlock =
     block match  {
       case AnnotatedBlock_ (annotated_lines, block_annotation) =>
-        AnnotatedBlock_ (annotated_lines , block_annotation)
+        _mk_AnnotatedBlock (annotated_lines) (block_annotation)
       case otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
     }
 

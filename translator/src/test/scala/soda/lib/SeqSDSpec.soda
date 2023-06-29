@@ -12,7 +12,8 @@ class SeqSDSpec ()
 
   test ("should detect an empty sequence") (
     check (
-      obtained := SeqSDBuilder_ () .build (Seq [Int] () ) .opt (ifEmpty := true) (ifNonEmpty := lambda nonEmpty --> false)
+      obtained := SeqSDBuilder_ () .build (Seq [Int] () ) .opt (ifEmpty := true) (
+        ifNonEmpty := lambda nonEmpty --> false)
     ) (
       expected := true
     )
@@ -20,7 +21,8 @@ class SeqSDSpec ()
 
   test ("should detect an non empty sequence") (
     check (
-      obtained := SeqSDBuilder_ () .build (Seq [Int] (1) ) .opt (ifEmpty := false) (ifNonEmpty := lambda nonEmpty --> true)
+      obtained := SeqSDBuilder_ () .build (Seq [Int] (1) ) .opt (ifEmpty := false) (
+        ifNonEmpty := lambda nonEmpty --> true)
     ) (
       expected := true
     )
@@ -28,11 +30,13 @@ class SeqSDSpec ()
 
   empty_opt : OptionSD [Int] = NoneSD_ ()
 
-  non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] = lambda sequence --> SomeSD_ (max (sequence) )
+  non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] =
+    lambda sequence --> SomeSD_ (max (sequence) )
 
   test ("should get the maximum") (
     check (
-      obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_opt) (ifNonEmpty := non_empty_opt)
+      obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_opt) (
+        ifNonEmpty := non_empty_opt)
     ) (
       expected := SomeSD_ [Int] (9)
     )
@@ -56,11 +60,13 @@ class SeqSDSpec ()
 
   empty_seq : SeqSD [Int] = EmptySeqSD_ ()
 
-  non_empty_seq : NonEmptySeqSD [Int] -> NonEmptySeqSD [Int] = lambda sequence --> sequence .reverse
+  non_empty_seq : NonEmptySeqSD [Int] -> NonEmptySeqSD [Int] =
+    lambda sequence --> sequence .reverse
 
   test ("should reverse another sequence") (
     check (
-      obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_seq) (ifNonEmpty := non_empty_seq)
+      obtained := SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty := empty_seq) (
+        ifNonEmpty := non_empty_seq)
     ) (
       expected := SeqSDBuilder_ () .build (rev_int_seq)
     )

@@ -53,15 +53,22 @@ case class PriceMonitorSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
+  private def _mk_Flight (start_airport : String) (intermediate_airports : Seq [String] )
+      (end_airport : String) : Flight =
+    Flight_ (start_airport, intermediate_airports, end_airport)
+
+  private def _mk_Customer (name : String) (ip_address : String) : Customer =
+   Customer_ (name, ip_address)
+
   lazy val fair_pricing_agent = FairPricingAgent_ ()
 
   lazy val unfair_pricing_agent = UnfairPricingAgent_ ()
 
-  lazy val customer_1 = Customer_ (name = "Jon" , ip_address = "127.0.0.1")
+  lazy val customer_1 = _mk_Customer (name = "Jon") (ip_address = "127.0.0.1")
 
-  lazy val customer_2 = Customer_ (name = "Maria" , ip_address = "192.168.1.1")
+  lazy val customer_2 = _mk_Customer (name = "Maria") (ip_address = "192.168.1.1")
 
-  lazy val flight_1 = Flight_ ("BER" , Seq ("FRA" , "ARN") , "UMU")
+  lazy val flight_1 = _mk_Flight ("BER") (Seq ("FRA" , "ARN") ) ("UMU")
 
   lazy val date_1 = 18898
 
@@ -71,7 +78,7 @@ case class PriceMonitorSpec ()
         Requirement1Monitor_ (unfair_pricing_agent)
           .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
-      expected = Report1_ (false , 897 , 1495 , 0.6)
+      expected = Report1_ (false, 897, 1495, 0.6)
     )
   )
 
@@ -81,7 +88,7 @@ case class PriceMonitorSpec ()
         Requirement2Monitor_ (unfair_pricing_agent)
           .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report2_ (false , 702 , 897)
+      expected = Report2_ (false, 702, 897)
     )
   )
 
@@ -91,7 +98,7 @@ case class PriceMonitorSpec ()
         Requirement3Monitor_ (unfair_pricing_agent)
           .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report3_ (false , 897 , 891)
+      expected = Report3_ (false, 897, 891)
     )
   )
 
@@ -101,7 +108,7 @@ case class PriceMonitorSpec ()
         Requirement1Monitor_ (fair_pricing_agent)
           .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
-      expected = Report1_ (true , 300 , 300 , 1.0)
+      expected = Report1_ (true, 300, 300, 1.0)
     )
   )
 
@@ -110,7 +117,7 @@ case class PriceMonitorSpec ()
       obtained =
         Requirement2Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report2_ (true , 300 , 300)
+      expected = Report2_ (true, 300, 300)
     )
   )
 
@@ -119,7 +126,7 @@ case class PriceMonitorSpec ()
       obtained =
         Requirement3Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report3_ (true , 300 , 300)
+      expected = Report3_ (true, 300, 300)
     )
   )
 

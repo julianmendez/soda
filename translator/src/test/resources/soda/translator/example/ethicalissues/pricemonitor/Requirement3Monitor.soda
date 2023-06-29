@@ -45,9 +45,8 @@ class Requirement3Monitor
   abstract
     pricing_agent : PricingAgent
 
-  get_report_with (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
-    Report3_ (price_of_flight <= price_of_flight_by_segments , price_of_flight ,
-      price_of_flight_by_segments)
+  get_report_with (price : Int) (price_by_segments : Int) : Report3 =
+    Report3_ (price <= price_by_segments) (price) (price_by_segments)
 
   sum_prices (prices : Seq [Int] ) : Int =
     prices .sum

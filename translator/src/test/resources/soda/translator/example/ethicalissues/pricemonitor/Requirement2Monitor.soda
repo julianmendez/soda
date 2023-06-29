@@ -21,7 +21,7 @@ class Requirement2Monitor
     date_in_days - 365
 
   get_report_with (old_price : Int) (new_price : Int) : Report2 =
-    Report2_ (new_price <= old_price * acceptable_increase , old_price , new_price)
+    Report2_ (new_price <= old_price * acceptable_increase) (old_price) (new_price)
 
   get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report2 =
     get_report_with (

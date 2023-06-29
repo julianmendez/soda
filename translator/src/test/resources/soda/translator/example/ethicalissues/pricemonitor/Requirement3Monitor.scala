@@ -51,9 +51,8 @@ trait Requirement3Monitor
 
   def   pricing_agent : PricingAgent
 
-  def get_report_with (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
-    Report3_ (price_of_flight <= price_of_flight_by_segments , price_of_flight ,
-      price_of_flight_by_segments)
+  def get_report_with (price : Int) (price_by_segments : Int) : Report3 =
+    Report3_ (price <= price_by_segments, price, price_by_segments)
 
   def sum_prices (prices : Seq [Int] ) : Int =
     prices .sum

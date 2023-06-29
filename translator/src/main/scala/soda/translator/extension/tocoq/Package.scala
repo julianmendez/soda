@@ -241,6 +241,7 @@ trait CoqClassEndBlockTranslator
 {
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
@@ -248,11 +249,15 @@ trait CoqClassEndBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
+  private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
+      : ClassEndAnnotation =
+    ClassEndAnnotation_ (block, references)
+
   private lazy val _tc = TranslationConstantToCoq_ ()
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
-    ClassEndAnnotation_ (
+    _mk_ClassEndAnnotation (
       BlockBuilder_ () .build (
         Seq [String] (
           _tc .coq_module_end_reserved_word + _tc .coq_space + beginning .class_name +
@@ -261,7 +266,7 @@ trait CoqClassEndBlockTranslator
           _tc .coq_import_reserved_word + _tc .coq_space + beginning .class_name +
           _tc .coq_space + _tc .coq_end_symbol
         )
-      ),
+      ) ) (
       block .references
     )
 
@@ -295,8 +300,8 @@ trait CoqClassEndBlockTranslator
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case ClassEndAnnotation_ (block , references) =>
-        _translate_block (ClassEndAnnotation_ (block , references) )
+      case ClassEndAnnotation_ (block, references) =>
+        _translate_block (_mk_ClassEndAnnotation (block) (references) )
       case otherwise => annotated_block
     }
 
@@ -1188,6 +1193,9 @@ trait TranslatorToCoq
 
   private lazy val _default_argument = "."
 
+  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
+
   private lazy val _translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
@@ -1200,9 +1208,9 @@ trait TranslatorToCoq
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (_soda_extension)
-    ) FileNamePair_ (input_name,
+    ) _mk_FileNamePair (input_name) (
       input_name .substring (0, input_name .length - _soda_extension .length) + _coq_extension)
-    else FileNamePair_ (input_name + _soda_extension, input_name + _coq_extension)
+    else _mk_FileNamePair (input_name + _soda_extension) (input_name + _coq_extension)
 
   private def _process_soda_file (file : File) : Boolean =
     _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )

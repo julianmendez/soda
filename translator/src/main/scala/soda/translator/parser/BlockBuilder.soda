@@ -24,6 +24,14 @@ class BlockBuilder
     soda.translator.block.Block
     soda.translator.block.Block_
 
+  _mk_PreprocessorFoldTuple (comment_state : Boolean)
+      (annotated_lines_rev : Seq [AnnotatedLine] ) : PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (comment_state) (annotated_lines_rev)
+
+  _mk_CurrentAndNewCommentState (current_state : Boolean) (new_comment_state : Boolean)
+      : CurrentAndNewCommentState =
+    CurrentAndNewCommentState_ (current_state) (new_comment_state)
+
   _sc = SodaConstant_ ()
 
   _fold = Fold_ ()
@@ -31,23 +39,23 @@ class BlockBuilder
   _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean)
       : CurrentAndNewCommentState =
     if line .trim .startsWith (_sc .comment_opening_symbol)
-    then CurrentAndNewCommentState_ (true , not line .trim .endsWith (
-      _sc .comment_closing_symbol) )
-    else CurrentAndNewCommentState_ (false , false)
+    then _mk_CurrentAndNewCommentState (true) (
+      not line .trim .endsWith (_sc .comment_closing_symbol) )
+    else _mk_CurrentAndNewCommentState (false) (false)
 
   _annotate_this_line (line : String) (comment_state : Boolean) : CurrentAndNewCommentState =
     if comment_state
-    then CurrentAndNewCommentState_ (true , not line .trim
-      .endsWith (_sc .comment_closing_symbol) )
+    then _mk_CurrentAndNewCommentState (true) (
+      not line .trim .endsWith (_sc .comment_closing_symbol) )
     else _annotate_this_line_considering_opening_symbol (line) (comment_state)
 
   _get_annotated_lines_initial_value  : PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (false , Seq () )
+    _mk_PreprocessorFoldTuple (false) (Seq [AnnotatedLine] () )
 
   _get_annotated_lines_next_value_function_with (t : CurrentAndNewCommentState)
       (pair : PreprocessorFoldTuple) (line : String) : PreprocessorFoldTuple =
-    PreprocessorFoldTuple_ (t .new_comment_state , pair .annotated_lines_rev .+: (
-      AnnotatedLine_ (line , t .current_state) ) )
+    _mk_PreprocessorFoldTuple (t .new_comment_state) (
+      pair .annotated_lines_rev .+: (AnnotatedLine_ (line) (t .current_state) ) )
 
   _get_annotated_lines_next_value_function (pair : PreprocessorFoldTuple) (line : String)
       : PreprocessorFoldTuple =

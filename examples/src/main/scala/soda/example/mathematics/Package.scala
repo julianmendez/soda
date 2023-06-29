@@ -135,6 +135,12 @@ trait MemoizableFunction [A , B ]
   def compute (input : InputPair [A, B] ) : OutputPair [A, B] =
     abs_compute (input)
 
+  def mk_InputPair (value : A) (memoized_values : Map [A, B] ) : InputPair [A, B] =
+    InputPair_ (value, memoized_values)
+
+  def mk_OutputPair (value : B) (memoized_values : Map [A, B] ) : OutputPair [A, B] =
+    OutputPair_ (value, memoized_values)
+
 }
 
 case class MemoizableFunction_ [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) extends MemoizableFunction [A, B]
@@ -158,7 +164,7 @@ trait Memoizer [A , B ]
 
   private def _add_element (output : OutputPair [A, B] ) (new_pair : Tuple2 [A, B] )
       : OutputPair [A, B] =
-    OutputPair_ (output .value, output .memoized_values + new_pair)
+    mk_OutputPair (output .value) (output .memoized_values + new_pair)
 
   private def _compute_and_update_with (input_value : A) (output : OutputPair [A, B] )
       : OutputPair [A, B] =
@@ -170,7 +176,7 @@ trait Memoizer [A , B ]
   private def _compute_with (maybe_res : Option [B] ) (input : InputPair [A, B] ) : OutputPair [A, B] =
     if ( maybe_res .isEmpty
     ) compute_and_update (input)
-    else OutputPair_ (maybe_res .get, input .memoized_values)
+    else mk_OutputPair (maybe_res .get) (input .memoized_values)
 
   def compute_for (input : InputPair [A, B] ) : OutputPair [A, B] =
     _compute_with (input .memoized_values .get (input .value) ) (input)
@@ -197,13 +203,14 @@ trait HardProblem
     else 3 * n + 1
 
   private def _plus_one (pair : OutputPair [Int, Int] ) : OutputPair [Int, Int] =
-    OutputPair_ (1 + pair .value, pair .memoized_values)
+    mk_OutputPair (1 + pair .value) (pair .memoized_values)
 
   lazy val main_function : InputPair [Int, Int] => OutputPair [Int, Int] =
      input =>
       if ( input .value == 1
-      ) OutputPair_ (0, input .memoized_values)
-      else _plus_one (compute (InputPair_ (one_step (input .value), input .memoized_values) ) )
+      ) mk_OutputPair (0) (input .memoized_values)
+      else _plus_one (compute (
+        mk_InputPair (one_step (input .value) ) (input .memoized_values) ) )
 
   lazy val memoizer = Memoizer_ [Int, Int] (main_function)
 
@@ -228,7 +235,7 @@ trait MemoizedFibonacci
 
   private def _compute_and_update_3 (res : Int) (second_map : Map [Int, Int] ) (n : Int)
       : OutputPair [Int, Int] =
-    OutputPair_ (res, second_map + Tuple2 (n, res) )
+    mk_OutputPair (res) (second_map + Tuple2 (n, res) )
 
   private def _compute_and_update_2 (first_value : Int) (second_tuple : OutputPair [Int, Int] ) (n : Int )
       : OutputPair [Int, Int] =
@@ -238,13 +245,13 @@ trait MemoizedFibonacci
   private def _compute_and_update_1 (first_tuple : OutputPair [Int, Int] ) (n : Int )
       : OutputPair [Int, Int] =
     _compute_and_update_2 (first_tuple .value) (compute (
-      InputPair_ (n - 1, first_tuple .memoized_values) ) ) (n)
+      mk_InputPair (n - 1) (first_tuple .memoized_values) ) ) (n)
 
   def main_function_for (input : InputPair [Int, Int] ): OutputPair [Int, Int] =
     if ( (input .value == 0) || (input .value == 1)
-    ) OutputPair_ (input .value, input .memoized_values )
+    ) mk_OutputPair (input .value) (input .memoized_values )
     else _compute_and_update_1 (compute (
-      InputPair_ (input .value - 2, input .memoized_values ) ) ) (input .value)
+      mk_InputPair (input .value - 2) (input .memoized_values ) ) ) (input .value)
 
   lazy val main_function : InputPair [Int, Int] => OutputPair [Int, Int] =
      input =>
@@ -294,8 +301,14 @@ case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus
 trait PiIterator
 {
 
+  private def _mk_Status (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
+    Status_ (r, n, q, t, l, k)
+
+  private def _mk_IntAndStatus (digit : Int) (new_status : Status) : IntAndStatus =
+    IntAndStatus_ (digit, new_status)
+
   private lazy val _initial_status =
-    Status_ (r = 0 , n = 3 , q = 1 , t = 1 , l = 3 , k = 1)
+    _mk_Status (r = 0) (n = 3) (q = 1) (t = 1) (l = 3) (k = 1)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -304,12 +317,12 @@ trait PiIterator
     ) s
     else
       _tailrec_compute_new_status (
-        Status_ (
-          r = (2 * s .q + s .r) * s .l ,
-          n = ( (s .q * (7 * s .k) + 2 + (s .r * s .l) ) / (s .t * s .l) ) .toInt ,
-          q = s .q * s .k ,
-          t = s .t * s .l ,
-          l = s .l + 2 ,
+        _mk_Status (
+          r = (2 * s .q + s .r) * s .l) (
+          n = ( (s .q * (7 * s .k) + 2 + (s .r * s .l) ) / (s .t * s .l) ) .toInt) (
+          q = s .q * s .k) (
+          t = s .t * s .l) (
+          l = s .l + 2) (
           k = s .k + 1
         )
       )
@@ -326,14 +339,13 @@ trait PiIterator
       _get_next (t .new_status) )
 
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
-    IntAndStatus_ (
-      s .n ,
-      Status_ (
-        r = 10 * (s .r - s .n * s .t) ,
-        n = ( ( (10 * (3 * s .q + s .r) ) / s .t) - (10 * s .n) ) .toInt ,
-        q = s .q * 10 ,
-        t = s .t ,
-        l = s .l ,
+    _mk_IntAndStatus (s .n) (
+      _mk_Status (
+        r = 10 * (s .r - s .n * s .t)) (
+        n = ( ( (10 * (3 * s .q + s .r) ) / s .t) - (10 * s .n) ) .toInt) (
+        q = s .q * 10) (
+        t = s .t) (
+        l = s .l) (
         k = s .k
       )
     )
