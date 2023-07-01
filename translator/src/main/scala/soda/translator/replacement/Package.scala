@@ -320,8 +320,7 @@ trait ReplacementWithTranslator
     )
 
   def replace (line : String) : String =
-    _fold .apply (translator .keys) (initial_value = line) (
-      next_value_function = _next_replace)
+    _fold .apply (translator .keys) (line) (_next_replace)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (
@@ -329,8 +328,7 @@ trait ReplacementWithTranslator
         translator .translate (reserved_word) + scala_space)
 
   private def _replace_only_beginning (line : String) : String =
-    _fold .apply (translator .keys) (initial_value = line) (
-      next_value_function = _next_replace_only_beginning)
+    _fold .apply (translator .keys) (line) (_next_replace_only_beginning)
 
   def replace_at_beginning (line : String) (index : Int) : String =
     if ( index == 0
