@@ -1,6 +1,6 @@
 ---
 - - version: v0.19.0
-  - date: 'not released'
+  - date: '2023-07-01'
   - build: sbt '++ 3.3.0' clean compile test package assembly
   - release: target/scala-3.3.0/soda-0.19.0.jar
   - new_features:
@@ -10,6 +10,8 @@
     - uses `Type` to define type membership of parametric types
     - accepts that class `end` could have a class name
     - accepts `def` as an optional reserved word to define functions
+    - includes the reserved word `directive` to include specific pieces of code depending
+      on the translator, especially for the translators to Lean and to Coq
   - deprecated_features:
     - the `proof` reserved word is no longer used, and a `theorem` block should include the
       proof after stating the theorem
