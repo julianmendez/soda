@@ -361,8 +361,8 @@ trait Min [A ]
     _mk_TakeDropFoldTuple [A] (empty) (0) (length)
 
   private def _take_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
-    _mk_TakeDropFoldTuple [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1)
-      (tuple .length)
+    _mk_TakeDropFoldTuple [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1) (
+      tuple .length)
 
   private def _take_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
     tuple .index < tuple .length
@@ -401,8 +401,8 @@ trait Min [A ]
   private def _aux_next_value_for (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] )
       (new_taking : Boolean) : SpanRevFoldTuple [A] =
     if ( new_taking
-    ) _mk_SpanRevFoldTuple [A] (neleft .tail) (prepended (tuple .right) (neleft .head) )
-           (new_taking) (tuple .condition)
+    ) _mk_SpanRevFoldTuple [A] (neleft .tail) (prepended (tuple .right) (neleft .head) ) (
+      new_taking) (tuple .condition)
     else _mk_SpanRevFoldTuple [A] (neleft) (tuple .right) (new_taking) (tuple .condition)
 
   private def _aux_next_value (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) : SpanRevFoldTuple [A] =

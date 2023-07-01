@@ -257,33 +257,29 @@ trait State
 
   private lazy val _update_opening_par : State =
     if ( (par_level == 0) && (expecting)
-    )
-      _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line)
-        (accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
-    else
-      _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum)
-        (expecting)
+    ) _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line) (
+      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
+    else _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum) (
+      expecting)
 
   private lazy val _update_closing_par : State =
     if ( (par_level == 1)
-    )
-      _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line)
-        (accum + line .substring (last_index , index)) (true)
-    else
-      _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum)
-        (expecting)
+    ) _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line) (
+      accum + line .substring (last_index , index)) (true)
+    else _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum) (
+      expecting)
 
   private lazy val _update_opening_bracket : State =
-    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum)
-      (expecting)
+    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum) (
+      expecting)
 
   private lazy val _update_closing_bracket : State =
-    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum)
-      (expecting)
+    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum) (
+      expecting)
 
   private lazy val _update_next_space : State =
-    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line)
-       (accum + line .substring (last_index) ) (expecting)
+    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line) (
+      accum + line .substring (last_index) ) (expecting)
 
   private lazy val _update_default_step : State =
     _mk_State (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
@@ -331,8 +327,8 @@ trait ClassConstructorParameterBlockTranslator
   private lazy val _tc = TranslationConstantToScala_ ()
 
   private def _translate_line_initial (line : String) (index : Int) : State =
-    _mk_State (index = index) (last_index = index) (bracket_level = 0) (par_level = 0)
-      (line = line) (accum = line .substring (0 , index) ) (expecting = false)
+    _mk_State (index = index) (last_index = index) (bracket_level = 0) (par_level = 0) (
+      line = line) (accum = line .substring (0 , index) ) (expecting = false)
 
   private def _translate_line_next (a : State) (ch : Char) : State =
     a .compute_next

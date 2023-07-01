@@ -242,8 +242,8 @@ class Min [A : Type]
     _mk_TakeDropFoldTuple [A] (empty) (0) (length)
 
   _take_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
-    _mk_TakeDropFoldTuple [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1)
-      (tuple .length)
+    _mk_TakeDropFoldTuple [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1) (
+      tuple .length)
 
   _take_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
     tuple .index < tuple .length
@@ -281,8 +281,8 @@ class Min [A : Type]
   _aux_next_value_for (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] )
       (new_taking : Boolean) : SpanRevFoldTuple [A] =
     if new_taking
-    then _mk_SpanRevFoldTuple [A] (neleft .tail) (prepended (tuple .right) (neleft .head) )
-           (new_taking) (tuple .condition)
+    then _mk_SpanRevFoldTuple [A] (neleft .tail) (prepended (tuple .right) (neleft .head) ) (
+      new_taking) (tuple .condition)
     else _mk_SpanRevFoldTuple [A] (neleft) (tuple .right) (new_taking) (tuple .condition)
 
   _aux_next_value (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) : SpanRevFoldTuple [A] =
