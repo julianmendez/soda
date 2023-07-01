@@ -16,7 +16,7 @@ case class DocFullTranslationSpec ()
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val base = "/soda/translator/documentation/"
@@ -27,8 +27,12 @@ case class DocFullTranslationSpec ()
 
   lazy val manual = "Manual"
 
-  def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = base + file_name + soda_suffix) (expected_file_name = base + file_name + doc_suffix)
+  def read_file (file_name : String) : String =
+    new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
@@ -37,12 +41,9 @@ case class DocFullTranslationSpec ()
       expected = read_file (expected_file_name)
     )
 
-  def read_file (file_name : String) : String =
-    new String (
-      Files .readAllBytes (
-        Paths .get (getClass .getResource (file_name) .toURI)
-      )
-    )
+  def test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name = base + file_name + soda_suffix) (
+      expected_file_name = base + file_name + doc_suffix)
 
   test ("should translate the manual") (
     test_translation (manual)
@@ -59,7 +60,7 @@ case class MicroTranslatorToDocSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =

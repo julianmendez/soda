@@ -3,11 +3,12 @@ class FiboExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   fibonacci_values = Seq (
-   (0 , 0) , (1 , 1) , (2 , 1) , (3 , 2) , (4 , 3) , (5 , 5) , (6 , 8) , (7 , 13) , (8 , 21) , (9 , 34) , (10 , 55)
+   (0 , 0) , (1 , 1) , (2 , 1) , (3 , 2) , (4 , 3) , (5 , 5) , (6 , 8) , (7 , 13) , (8 , 21) ,
+   (9 , 34) , (10 , 55)
   )
 
   _fibo_example_in_soda = FiboExampleInSoda_ ()

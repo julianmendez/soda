@@ -1,0 +1,28 @@
+
+class DirectiveBlockAnnotation
+  extends
+    BlockAnnotationParser
+
+  abstract
+    block : soda.translator.block.Block
+
+  import
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.parser.SodaConstant_
+
+  identifier = BlockAnnotationEnum_ () .directive_block
+
+  _sc = SodaConstant_ ()
+
+  _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
+    match annotated_lines
+      case x :: xs ==> x .line
+      case otherwise ==> ""
+
+  applies : Boolean =
+    (_get_first_line_or_empty (block .readable_lines) .trim + _sc .space)
+      .startsWith (_sc .directive_reserved_word + _sc .space)
+
+end
+

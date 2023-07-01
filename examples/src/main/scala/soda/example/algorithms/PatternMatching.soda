@@ -1,29 +1,4 @@
 
-class Parameter
-
-  abstract
-    name : String
-
-end
-
-class PatternMatching
-
-  get_value (p : Parameter) : Int =
-    match p
-      case Singleton_ (x) ==> x
-      case Pair_ (x , y) ==> (x + y) / 2
-      case Triplet_ (x , y , z) ==> (x + y + z) / 3
-      case otherwise ==> 0
-
-  get_type_name (p : Parameter) : String =
-    match p
-      case Singleton_ (x) ==> (Singleton_ (x) ) .name + " (x)"
-      case Pair_ (x , y) ==> (Pair_ (x , y) ) .name + " (x , y)"
-      case Triplet_ (x , y , z) ==> (Triplet_ (x , y , z) ) .name + " (x , y , z)"
-      case otherwise ==> ""
-
-end
-
 class Singleton
   extends
     Parameter
@@ -33,7 +8,7 @@ class Singleton
 
   name = "singleton"
 
-end
+end Singleton
 
 class Pair
   extends
@@ -45,7 +20,7 @@ class Pair
 
   name = "pair"
 
-end
+end Pair
 
 class Triplet
   extends
@@ -58,5 +33,30 @@ class Triplet
 
   name = "triplet"
 
-end
+end Triplet
+
+class Parameter
+
+  abstract
+    name : String
+
+end Parameter
+
+class PatternMatching
+
+  get_value (p : Parameter) : Int =
+    match p
+      case Singleton_ (x) ==> x
+      case Pair_ (x) (y) ==> (x + y) / 2
+      case Triplet_ (x) (y) (z) ==> (x + y + z) / 3
+      case otherwise ==> 0
+
+  get_type_name (p : Parameter) : String =
+    match p
+      case Singleton_ (x) ==> (Singleton_ (x) ) .name + " (x)"
+      case Pair_ (x) (y) ==> (Pair_ (x) (y) ) .name + " (x) (y)"
+      case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) ) .name + " (x) (y) (z)"
+      case otherwise ==> ""
+
+end PatternMatching
 

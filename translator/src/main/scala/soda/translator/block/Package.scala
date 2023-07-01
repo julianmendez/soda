@@ -68,29 +68,32 @@ trait BlockAnnotationEnum
     soda.lib.Enum [BlockAnnotationId]
 {
 
-  lazy val undefined = BlockAnnotationId_ (0, "undefined")
+  private def _mk_BlockAnnotationId (ordinal : Int) (name : String) : BlockAnnotationId =
+    BlockAnnotationId_ (ordinal, name)
 
-  lazy val function_definition = BlockAnnotationId_ (1, "function_definition")
+  lazy val undefined = _mk_BlockAnnotationId (0) ("undefined")
 
-  lazy val class_beginning = BlockAnnotationId_ (2, "class_beginning")
+  lazy val function_definition = _mk_BlockAnnotationId (1) ("function_definition")
 
-  lazy val class_end = BlockAnnotationId_ (3, "class_end")
+  lazy val class_beginning = _mk_BlockAnnotationId (2) ("class_beginning")
 
-  lazy val abstract_declaration = BlockAnnotationId_ (4, "abstract_declaration")
+  lazy val class_end = _mk_BlockAnnotationId (3) ("class_end")
 
-  lazy val import_declaration = BlockAnnotationId_ (5, "import_declaration")
+  lazy val abstract_declaration = _mk_BlockAnnotationId (4) ("abstract_declaration")
 
-  lazy val package_declaration = BlockAnnotationId_ (6, "package_declaration")
+  lazy val import_declaration = _mk_BlockAnnotationId (5) ("import_declaration")
 
-  lazy val class_alias = BlockAnnotationId_ (7, "class_alias")
+  lazy val package_declaration = _mk_BlockAnnotationId (6) ("package_declaration")
 
-  lazy val theorem_block = BlockAnnotationId_ (8, "theorem_block")
+  lazy val class_alias = _mk_BlockAnnotationId (7) ("class_alias")
 
-  lazy val proof_block = BlockAnnotationId_ (9, "proof_block")
+  lazy val theorem_block = _mk_BlockAnnotationId (8) ("theorem_block")
 
-  lazy val comment = BlockAnnotationId_ (10, "comment")
+  lazy val directive_block = _mk_BlockAnnotationId (9) ("directive_block")
 
-  lazy val test_declaration = BlockAnnotationId_ (11, "test_declaration")
+  lazy val comment = _mk_BlockAnnotationId (10) ("comment")
+
+  lazy val test_declaration = _mk_BlockAnnotationId (11) ("test_declaration")
 
   lazy val values =
     Seq (
@@ -103,7 +106,7 @@ trait BlockAnnotationEnum
       package_declaration,
       class_alias,
       theorem_block,
-      proof_block,
+      directive_block,
       comment,
       test_declaration
     )
@@ -172,12 +175,12 @@ trait BlockTranslatorPipeline
 
   private lazy val _fold = Fold_ ()
 
+  private def _next_value (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
+    translator .translate (block)
+
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      _fold .apply (pipeline) (block) (_next_value_function)
-
-  private def _next_value_function (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
-    translator .translate (block)
+      _fold .apply (pipeline) (block) (_next_value)
 
 }
 
@@ -192,14 +195,14 @@ trait ConditionalBlockTranslator
   def   accepted_annotations : Seq [BlockAnnotationId]
   def   translator : BlockTranslator
 
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
   def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
     if ( accepted_annotations.contains (block .block_annotation)
     ) translator .translate (block)
     else block
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
 
 }
 

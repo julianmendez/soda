@@ -7,7 +7,7 @@
  * This is an Option implemented without exceptions.
  */
 
-class OptionSD [A]
+class OptionSD [A : Type]
 
   abstract
     toOption : Option [A]
@@ -16,12 +16,12 @@ class OptionSD [A]
     isNonEmpty : Boolean
     toSeq : Seq [A]
 
-  opt [B] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
+  opt [B : Type] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
     match this
       case SomeSD_ (element) ==> ifNonEmpty (element)
       case otherwise ==> ifEmpty
 
-  map [B] (mapping : A -> B) : OptionSD [B] =
+  map [B : Type] (mapping : A -> B) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
       case otherwise ==> NoneSD_ [B] ()
@@ -31,17 +31,17 @@ class OptionSD [A]
       case SomeSD_ (element) ==> element
       case otherwise ==> default
 
-  fold [B] (ifEmpty : B) (f : A -> B) : B =
+  fold [B : Type] (ifEmpty : B) (f : A -> B) : B =
     match this
       case SomeSD_ (element) ==> f (element)
       case otherwise ==> ifEmpty
 
-  flatMap [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
+  flatMap [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
       case otherwise ==> NoneSD_ ()
 
-  bind [B] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
+  bind [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
 
   filter (predicate : A -> Boolean) : OptionSD [A] =
@@ -54,7 +54,7 @@ class OptionSD [A]
 
 end
 
-class NoneSD [A]
+class NoneSD [A : Type]
   extends
     OptionSD [A]
 
@@ -70,7 +70,7 @@ class NoneSD [A]
 
 end
 
-class OptionSDWithElement [A]
+class OptionSDWithElement [A : Type]
   extends
     OptionSD [A]
 
@@ -84,7 +84,7 @@ class OptionSDWithElement [A]
 
 end
 
-class SomeSD [A]
+class SomeSD [A : Type]
   extends
     OptionSDWithElement [A]
 
@@ -105,11 +105,11 @@ class SomeSD [A]
 
 end
 
-class OptionSDBuilder [A]
+class OptionSDBuilder [A : Type]
 
   build (option : Option [A] ) : OptionSD [A] =
-    if option .isEmpty
-    then NoneSD_ [A] ()
-    else SomeSD_ [A] (option .get)
+    match option
+      case Some (content) ==> SomeSD_ [A] (content)
+      case otherwise ==> NoneSD_ [A] ()
 
 end

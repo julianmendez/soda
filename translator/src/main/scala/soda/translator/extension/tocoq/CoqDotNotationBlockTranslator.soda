@@ -1,0 +1,42 @@
+
+class CoqDotNotationBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+
+  import
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Token
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToCoq_ ()
+
+  fold_while = soda.lib.FoldWhile_ ()
+
+  _applies_dot_notation (word : String) : Boolean =
+    word .startsWith (_sc .dot_notation_symbol) and
+      word .length > _sc .dot_notation_symbol .length
+
+  _translate_dot_notation (word : String) : String =
+    _tc .coq_dot_notation_symbol +
+    _tc .coq_opening_parenthesis +
+    word .substring (_sc .dot_notation_symbol .length) +
+    _tc .coq_closing_parenthesis
+
+  _add_parentheses_if_necessary (word : String) : String =
+    if _applies_dot_notation (word)
+    then _translate_dot_notation (word)
+    else word
+
+  _add_parentheses_to_dotted_words (line : String) : String =
+    line
+      .split (_sc .space)
+      .map (lambda word --> _add_parentheses_if_necessary (word) )
+      .mkString (_sc .space)
+
+  replace_token : Token -> String =
+    lambda token -->
+      _add_parentheses_to_dotted_words (token .text)
+
+end
+

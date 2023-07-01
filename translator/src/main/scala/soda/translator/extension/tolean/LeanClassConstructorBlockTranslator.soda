@@ -1,0 +1,115 @@
+
+class LeanClassConstructorBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation
+    soda.translator.parser.annotation.AbstractDeclarationAnnotation_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToLean_ ()
+
+  _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
+      : Option [ClassBeginningAnnotation] =
+    match annotated_block
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case otherwise ==> None
+
+  _get_class_beginning (references : Seq [AnnotatedBlock] )
+      : Option [ClassBeginningAnnotation] =
+    references
+       .flatMap (lambda block --> _get_as_class_beginning_annotation (block) )
+       .headOption
+
+  _translate_type_symbols (line : String) : String =
+    line
+      .replaceAll (_sc .subtype_reserved_word , _tc .lean_subtype_symbol)
+      .replaceAll (_sc .supertype_reserved_word , _tc .lean_supertype_symbol)
+      .replaceAll (_sc .function_arrow_symbol , _tc .lean_function_arrow_symbol)
+
+  _get_types_of_abstract_functions (block : AbstractDeclarationAnnotation) : Seq [String] =
+    block .abstract_functions
+      .map (lambda annotated_line --> _translate_type_symbols (annotated_line .line) .trim )
+
+  _get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  _get_initial_spaces_with (line : String) : String =
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
+
+  _get_initial_spaces (block : AnnotatedBlock) : String =
+    _get_initial_spaces_with (_get_first_line (block) )
+
+  _get_default_constructor_name (beginning : ClassBeginningAnnotation) : String =
+    beginning .class_name + _sc .constructor_suffix
+
+  _two_spaces : String = _tc .lean_space + _tc .lean_space
+
+  _four_spaces : String = _two_spaces + _two_spaces
+
+  _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+     (functions : Seq [String] ) : String =
+    _get_initial_spaces (beginning) +
+    _tc .lean_class_reserved_word +
+    _tc .lean_space +
+    beginning .class_name +
+    _tc .lean_space +
+    _tc .lean_where_reserved_word +
+    _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
+    _get_default_constructor_name (beginning) +
+    _tc .lean_space +
+    _tc .lean_constructor_symbol +
+    _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
+    functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
+    _tc .lean_new_line +
+    _get_initial_spaces (beginning) + _two_spaces +
+    _tc .lean_deriving_reserved_word + _tc .lean_space + _tc .lean_decidable_eq_type_name +
+    _tc .lean_new_line +
+    _tc .lean_new_line + _get_initial_spaces (beginning) +
+    _tc .lean_namespace_reserved_word + _tc .lean_space + beginning .class_name +
+    _tc .lean_new_line
+
+  _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    AbstractDeclarationAnnotation_ (
+      BlockBuilder_ () .build (
+        Seq [String] (
+          _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
+      ),
+      block .references
+    )
+
+  _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    if beginning .is_concrete
+    then block
+    else _translate_block_with_abstract_beginning (beginning) (block)
+
+  _translate_block_with (maybe_beginning : Option [ClassBeginningAnnotation] )
+      (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    if maybe_beginning .isEmpty
+    then block
+    else _translate_block_with_beginning (maybe_beginning .get) (block)
+
+  _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
+    _translate_block_with (_get_class_beginning (block .references) ) (block)
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case AbstractDeclarationAnnotation_ (block , references) ==>
+        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

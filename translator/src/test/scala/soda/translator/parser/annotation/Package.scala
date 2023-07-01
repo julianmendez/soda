@@ -16,7 +16,7 @@ case class BlockAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_blocks =
@@ -26,13 +26,13 @@ case class BlockAnnotationSpec ()
     Seq (
       FunctionDefinitionAnnotation_ (block) ,
       ClassBeginningAnnotation_ (block) ,
-      ClassEndAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
-      AbstractDeclarationAnnotation_ (block , Seq [BlockAnnotationParser] () ) ,
+      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
       ImportDeclarationAnnotation_ (block) ,
       PackageDeclarationAnnotation_ (block) ,
       ClassAliasAnnotation_ (block) ,
       TheoremBlockAnnotation_ (block) ,
-      ProofBlockAnnotation_ (block) ,
+      DirectiveBlockAnnotation_ (block) ,
       CommentAnnotation_ (block) ,
       TestDeclarationAnnotation_ (block)
     )
@@ -44,7 +44,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (0) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , true , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , true , false , false , false , false , false)
     )
   )
 
@@ -52,7 +53,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (1) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , true , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , false , true , false)
     )
   )
 
@@ -60,7 +62,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (2) )
     ) (
-      expected = Seq [Boolean] (false , true , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , true , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -68,7 +71,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (3) )
     ) (
-      expected = Seq [Boolean] (false , false , false , true , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , true , false , false , false , false , false , false , false)
     )
   )
 
@@ -76,7 +80,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (4) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , true , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , true , false , false , false , false , false , false)
     )
   )
 
@@ -84,7 +89,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (5) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -92,7 +98,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (6) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -100,7 +107,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (7) )
     ) (
-      expected = Seq [Boolean] (true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        true , false , false , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -108,7 +116,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (8) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , false , false , true)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , false , false , true)
     )
   )
 
@@ -116,15 +125,17 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (9) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , true , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , true , false , false , false)
     )
   )
 
-  test ("should detect a proof block") (
+  test ("should detect a directive block") (
     check (
       obtained = apply_detectors (example_blocks (10) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , false , false , true , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , false , false , true , false , false)
     )
   )
 
@@ -132,7 +143,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (11) )
     ) (
-      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , true , false , false , false , false , false , false , false , false)
     )
   )
 
@@ -140,7 +152,8 @@ case class BlockAnnotationSpec ()
     check (
       obtained = apply_detectors (example_blocks (12) )
     ) (
-      expected = Seq [Boolean] (false , false , false , false , false , false , true , false , false , false , false)
+      expected = Seq [Boolean] (
+        false , false , false , false , false , false , true , false , false , false , false)
     )
   )
 
@@ -154,7 +167,8 @@ case class BlockAnnotationSpec ()
 
   test ("should be ordered by the identifier ordinal") (
     check (
-      obtained = detectors (example_blocks (0) ) .map ( detector => detector .identifier .ordinal)
+      obtained = detectors (example_blocks (0) ) .map ( detector =>
+        detector .identifier .ordinal)
     ) (
       expected = Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11)
     )
@@ -173,7 +187,7 @@ case class ClassBeginningAnnotationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_blocks = ExampleProgram_ () .example_blocks
@@ -231,13 +245,14 @@ case class ClassBeginningAnnotationSpec ()
     check (
       obtained = example_blocks .map ( block => ClassBeginningAnnotation_ (block) .applies )
     ) (
-      expected = Seq [Boolean] (false , false , true , false , false , false , false , false , false , false , false , false , false)
+      expected = Seq [Boolean] (false , false , true , false , false , false , false ,
+        false , false , false , false , false , false)
     )
   )
 
   test ("should extract the class name") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).class_name
+      obtained = ClassBeginningAnnotation_ (example_0) .class_name
     ) (
       expected = "Example"
     )
@@ -245,7 +260,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 0") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_0) .type_parameters_and_bounds
     ) (
       expected = Seq [String] ()
     )
@@ -253,7 +268,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 0") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_0).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_0) .type_parameters
     ) (
       expected = Seq [String] ()
     )
@@ -261,7 +276,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).class_name
+      obtained = ClassBeginningAnnotation_ (example_1) .class_name
     ) (
       expected = "Example"
     )
@@ -269,7 +284,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_1) .type_parameters_and_bounds
     ) (
       expected = Seq ("A")
     )
@@ -277,7 +292,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 1") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_1).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_1) .type_parameters
     ) (
       expected = Seq ("A")
     )
@@ -285,7 +300,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).class_name
+      obtained = ClassBeginningAnnotation_ (example_2) .class_name
     ) (
       expected = "Example"
     )
@@ -293,7 +308,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_2) .type_parameters_and_bounds
     ) (
       expected = Seq ("A" , "B")
     )
@@ -301,7 +316,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 2") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_2).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_2) .type_parameters
     ) (
       expected = Seq ("A" , "B")
     )
@@ -309,7 +324,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).class_name
+      obtained = ClassBeginningAnnotation_ (example_3) .class_name
     ) (
       expected = "Example"
     )
@@ -317,7 +332,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_3) .type_parameters_and_bounds
     ) (
       expected = Seq ("A subtype SuperTypeExample")
     )
@@ -325,7 +340,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 3") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_3).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_3) .type_parameters
     ) (
       expected = Seq ("A")
     )
@@ -333,7 +348,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the class name in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).class_name
+      obtained = ClassBeginningAnnotation_ (example_4) .class_name
     ) (
       expected = "Example"
     )
@@ -341,7 +356,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters and bounds in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).type_parameters_and_bounds
+      obtained = ClassBeginningAnnotation_ (example_4) .type_parameters_and_bounds
     ) (
       expected = Seq ("A supertype SubTypeExample" , "B subtype SuperTypeExample")
     )
@@ -349,7 +364,7 @@ case class ClassBeginningAnnotationSpec ()
 
   test ("should extract the type parameters in example 4") (
     check (
-      obtained = ClassBeginningAnnotation_ (example_4).type_parameters
+      obtained = ClassBeginningAnnotation_ (example_4) .type_parameters
     ) (
       expected = Seq ("A" , "B")
     )
@@ -404,10 +419,16 @@ trait ExampleProgram
     "\n    )" +
     "\n" +
     "\n  theorem" +
-    "\n    True" +
-    "\n" +
-    "\n  proof" +
+    "\n    True = True" +
+    "\n  ." +
+    "\n  Proof." +
     "\n    auto." +
+    "\n  Qed" +
+    "\n" +
+    "\n  directive" +
+    "\n    theorem" +
+    "\n      value = value" +
+    "\n      := by auto" +
     "\n" +
     "\nend" +
     "\n" +

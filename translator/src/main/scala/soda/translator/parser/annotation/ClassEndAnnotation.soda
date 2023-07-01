@@ -13,9 +13,19 @@ class ClassEndAnnotation
 
   identifier = BlockAnnotationEnum_ () .class_end
 
+  _sc = SodaConstant_ ()
+
+  _get_first_word_of_array (words : Array [String] ) : String =
+    if words .size == 0
+    then ""
+    else words .apply (0)
+
+  _get_first_word (line : String) : String =
+    _get_first_word_of_array (line .split (" ") )
+
   applies : Boolean =
     block .readable_lines .nonEmpty and
-    (block .readable_lines .head .line .trim == SodaConstant_ () .class_end_reserved_word)
+    (_get_first_word (block .readable_lines .head .line .trim) == _sc .class_end_reserved_word)
 
 end
 

@@ -7,10 +7,8 @@ class FizzBuzz
 
   range = soda.lib.Range_ ()
 
-  apply : Seq [String] =
-    range .apply (100)
-      .map (lambda x --> x + 1)
-      .map (get_term)
+  is_div (n : Int) (k : Int) : Boolean =
+    n % k == 0
 
   get_term (n : Int) : String =
     if is_div (n) (15) then fizz + buzz
@@ -18,7 +16,9 @@ class FizzBuzz
     else if is_div (n) (5) then buzz
     else n .toString
 
-  is_div (n : Int) (k : Int) : Boolean =
-    n % k == 0
+  apply : Seq [String] =
+    range .apply (100)
+      .map (lambda x --> x + 1)
+      .map (get_term)
 
 end

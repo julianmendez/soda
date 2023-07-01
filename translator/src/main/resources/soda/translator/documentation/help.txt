@@ -4,7 +4,7 @@ Copyright 2020--2023 Julian Alfredo Mendez
 
 https://github.com/julianmendez/soda
 
-Soda is an object-oriented purely-functional language for descriptions.
+Soda is an object-oriented functional language to describe, analyze, and model human-centered problems.
 
 Usage:
 
@@ -12,22 +12,27 @@ Usage:
 
 where EXTENSION can be:
 
-  scala       call the Soda-to-Scala translator
+  scala       call the Soda-to-Scala extension
 
-  coq         call the Soda-to-Coq translator  (only for snippets)
+  lean        call the Soda-to-Lean extension (experimental, only for snippets)
 
-  doc         create LaTeX documents based on Soda files
+  coq         call the Soda-to-Coq extension (experimental, only for snippets)
 
-  manual      output the manual, which is written in Soda
+  doc         create LaTeX documents based on Soda files (experimental)
+
+  manual      output a mini-manual, which is written in Soda
 
   license     output the license
 
   help        show this help
 
-  .           call the Soda-to-Scala translator
+  .           call the Soda-to-Scala extension
 
 ---
-Soda-to-Scala translator
+Soda-to-Scala extension
+
+  This extension translates Soda source code into Scala 3 source code.
+  More information about Scala is available at https://scala-lang.org .
 
 Usage:
   soda scala [OPTION] SODA_SCALA_INPUT
@@ -54,7 +59,35 @@ OPTION:
 
 
 ---
-Soda-to-Coq translator
+Soda-to-Lean extension
+
+  This extension translates Soda source code into Lean 4 source code.
+  More information about Lean is available at https://leanprover.github.io .
+
+
+Usage:
+  soda lean SODA_LEAN_INPUT
+or
+  soda lean SODA_INPUT LEAN_OUTPUT
+
+where
+
+  SODA_LEAN_INPUT is used for the Soda input file and Lean output file.
+If it is a directory, it scans recursively the directory to translate Soda files.
+If the extension is .soda, the output file has extension .lean .
+
+
+  SODA_INPUT is the input file containing Soda snippets
+
+  LEAN_OUTPUT is the output file for Lean snippets
+
+
+---
+Soda-to-Coq extension
+
+  This extension translates Soda source code into Coq source code.
+  At the moment, this only works for very small snippets.
+  More information about Coq is available at https://coq.inria.fr .
 
 Usage:
   soda coq SODA_COQ_INPUT

@@ -13,7 +13,7 @@ case class BeautifierSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val original = "  beautify_this  (  original  : String   )   :  String   =  \n" +
@@ -45,7 +45,7 @@ case class ClassConstructorBlockTranslatorSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_program_0 =
@@ -57,9 +57,9 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -80,13 +80,14 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
+    " extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -98,14 +99,14 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -120,18 +121,19 @@ case class ClassConstructorBlockTranslatorSpec ()
   lazy val expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value: Int, a_function: Int => Double => String) extends Example [A, B]" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
+    " a_function : Int => Double => String) extends Example [A, B]" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
@@ -140,17 +142,17 @@ case class ClassConstructorBlockTranslatorSpec ()
     "\nend" +
     "\n"
 
-  lazy val translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        _translation_pipeline
-      )
-    )
-
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         ClassConstructorBlockTranslator_ ()
+      )
+    )
+
+  lazy val translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        _translation_pipeline
       )
     )
 
@@ -184,7 +186,7 @@ case class FullTranslationSpec ()
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val Base = "/soda/translator/example/"
@@ -193,13 +195,13 @@ case class FullTranslationSpec ()
 
   lazy val ScalaSuffix = ".scala"
 
-  lazy val SwapExample = "algorithms/SwapExample"
+  lazy val SwapExample = "forlean/algorithms/SwapExample"
 
   lazy val FiboExample = "mathematics/FiboExample"
 
   lazy val FactorialConcise = "mathematics/FactorialConcise"
 
-  lazy val FactorialVerbose = "mathematics/FactorialVerbose"
+  lazy val FactorialWithFold = "mathematics/FactorialWithFold"
 
   lazy val Fairness = "ethicalissues/fairness/Fairness"
 
@@ -219,8 +221,12 @@ case class FullTranslationSpec ()
 
   lazy val ManualExpected = "/soda/translator/documentation/Manual.scala"
 
-  def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (expected_file_name = Base + file_name + ScalaSuffix)
+  def read_file (file_name : String) : String =
+    new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
@@ -234,12 +240,9 @@ case class FullTranslationSpec ()
       expected = read_file (expected_file_name)
     )
 
-  def read_file (file_name : String) : String =
-    new String (
-      Files .readAllBytes (
-        Paths .get (getClass .getResource (file_name) .toURI)
-      )
-    )
+  def test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (
+      expected_file_name = Base + file_name + ScalaSuffix)
 
   test ("should translate the swap example") (
     test_translation (SwapExample)
@@ -253,8 +256,8 @@ case class FullTranslationSpec ()
     test_translation (FactorialConcise)
   )
 
-  test ("should translate the Factorial Verbose example") (
-    test_translation (FactorialVerbose)
+  test ("should translate the Factorial With Fold example") (
+    test_translation (FactorialWithFold)
   )
 
   test ("should translate the Fairness example") (
@@ -273,7 +276,7 @@ case class FullTranslationSpec ()
     test_translation (FizzBuzzUnicode)
   )
 
-  test ("should translated Soda code that uses Scala reserved words as variables and functions") (
+  test ("should translate Soda code that uses Scala reserved words") (
     test_translation (ScalaReservedWordEscaping)
   )
 
@@ -334,7 +337,7 @@ case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmpt
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
- * These tests detect and test this problem, and test work-arounds.
+ * These tests detect and test this problem, and test workarounds.
  */
 
 case class LazySyntaxSpec ()
@@ -342,7 +345,7 @@ case class LazySyntaxSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should show what happens when constants are defined in the wrong order") (
@@ -388,7 +391,7 @@ case class MicroTranslatorToScalaSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
@@ -415,19 +418,42 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a creation of instance with parameters") (
+    check (
+      obtained = instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
+        "\n      MinMaxPair_ (" +
+        "        min := MaxAndMin_ () .min (a) (b) ) (" +
+        "        max := MaxAndMin_ () .max (a) (b)" +
+        "      )" +
+        "\n"
+      )
+    ) (
+      expected = "    def min_max (a : Int) (b : Int) : MinMaxPair =" +
+        "\n      MinMaxPair_ (" +
+        "        min = MaxAndMin_ () .min (a) (b) , " +
+        "        max = MaxAndMin_ () .max (a) (b)" +
+        "      )" +
+        "\n"
+    )
+  )
+
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained = instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained = instance .translate (
+        " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
-      expected = " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
+      expected =
+        " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
   )
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained = instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained = instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
-      expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+      expected = " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
   )
 
@@ -457,11 +483,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n    value : Int" +
         "\n" +
-        "\n  h (x : Int) : Int = 2 * x + 1" +
+        "\n  h [B : Type] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass E [A]" +
+        "\nclass E [A : Type]" +
         "\n" +
         "\n  i (x : A) : A = x" +
         "\n" +
@@ -500,11 +526,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n  def   value : Int" +
         "\n" +
-        "\n  def h (x : Int) : Int = 2 * x + 1" +
+        "\n  def h [B ] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ntrait E [A]" +
+        "\ntrait E [A ]" +
         "\n{" +
         "\n" +
         "\n  def i (x : A) : A = x" +
@@ -564,20 +590,20 @@ case class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained = instance .translate ("class A [T] = B [T]" +
+      obtained = instance .translate ("class A [T : Type] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\nclass M = Map [Int, Seq [Int]]" +
+        "\nclass M = Map [Int] [Seq [Int] ]" +
         "\n"
       )
     ) (
       expected =
-        "type A [T] = B [T]" +
+        "type A [T ] = B [T]" +
         "\n" +
         "\ntype C = D" +
         "\n" +
-        "\ntype M = Map [Int, Seq [Int]]" +
+        "\ntype M = Map [Int, Seq [Int] ]" +
         "\n"
     )
   )
@@ -693,6 +719,79 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a constructor with parameters 1") (
+    check (
+      obtained = instance .translate ("p = Constructor_ (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected = "lazy val p = Constructor_ (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 2") (
+    check (
+      obtained = instance .translate (
+        "p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected = "def p (x : Int) : Constructor = Constructor_ [String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 3") (
+    check (
+      obtained = instance .translate ("p = Constructor_ [Int] [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected = "lazy val p = Constructor_ [Int, String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 4") (
+    check (
+      obtained = instance .translate (
+        "p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
+        "\n"
+      )
+    ) (
+      expected = "lazy val p = (Constructor_ [Int, String] (a, b, c) ) .process (d) (e)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 5") (
+    check (
+      obtained = instance .translate (
+        "p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+      )
+    ) (
+      expected =
+        "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 6") (
+    check (
+      obtained = instance .translate (
+        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "\n"
+      )
+    ) (
+      expected = "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "\n"
+    )
+  )
+
 }
 
 
@@ -709,7 +808,7 @@ case class MultiLineSpec ()
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val bp =
@@ -791,7 +890,7 @@ case class ScalaNonSodaSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val bp =
@@ -878,14 +977,17 @@ case class MainSpec ()
 
   lazy val instance = IndividualProcessor_ ()
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
+
+  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
 
   test ("should get the input and output file names without path") (
     check (
       obtained = instance .get_input_output_file_names("my_file.soda")
     ) (
-      expected = FileNamePair_("my_file.soda", "my_file.scala")
+      expected = _mk_FileNamePair ("my_file.soda") ("my_file.scala")
     )
   )
 
@@ -893,7 +995,7 @@ case class MainSpec ()
     check (
       obtained = instance .get_input_output_file_names("/path/to/file.soda")
     ) (
-      expected = FileNamePair_("/path/to/file.soda", "/path/to/file.scala")
+      expected = _mk_FileNamePair ("/path/to/file.soda") ("/path/to/file.scala")
     )
   )
 
@@ -908,7 +1010,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
@@ -941,7 +1043,7 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate multiple upper bounds") (
     check (
-      obtained = instance .translate (        "  class BlackBox()" +
+      obtained = instance .translate ("  class BlackBox()" +
         "\n    extends " +
         "\n      AbstractBlackBox[A subtype AbstractInput]" +
         "\n      AbstractDevice[B subtype AbstractDeviceInput]" +
@@ -1005,7 +1107,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
 
   test ("should translate mixed upper and lower bounds") (
     check (
-      obtained = instance .translate ("  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
+      obtained = instance .translate (
+        "  class BlackBox [A subtype AbstractModel] [B subtype AbstractParameter]" +
         "\n  extends " +
         "\n    AbstractBlackBox[A][B]" +
         "\n    AbstractDevice [A]   [B] " +
@@ -1022,7 +1125,8 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n}" +
         "\n" +
-        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] () extends BlackBox [A, B]" +
+        "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] ()" +
+        " extends BlackBox [A, B]" +
         "\n"
     )
   )

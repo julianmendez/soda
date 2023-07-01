@@ -1,6 +1,7 @@
 
 /**
- * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Coq.
+ * This class contains constants that are specific for the Soda translator,
+ * like reserved words for Soda and Coq.
  */
 
 class TranslationConstantToCoq
@@ -34,9 +35,9 @@ class TranslationConstantToCoq
 
   coq_closing_parenthesis = ")"
 
-  coq_opening_comment = "(*"
+  coq_comment_opening_symbol = "(*"
 
-  coq_closing_comment = "*)"
+  coq_comment_closing_symbol = "*)"
 
   coq_opening_documentation = "(**"
 
@@ -47,6 +48,10 @@ class TranslationConstantToCoq
   coq_opening_brace = "{"
 
   coq_closing_brace = "}"
+
+  coq_semicolon_symbol = ";"
+
+  coq_dot_notation_symbol = "."
 
   coq_product_type_symbol = "*"
 
@@ -65,6 +70,8 @@ class TranslationConstantToCoq
   coq_or_reserved_word = "orb"
 
   coq_end_symbol = "."
+
+  coq_class_reserved_word : String = "Class"
 
   coq_definition_reserved_word : String = "Definition"
 
@@ -94,9 +101,7 @@ class TranslationConstantToCoq
 
   coq_theorem_end_symbol : String = coq_end_symbol
 
-  coq_proof_begin_reserved_word : String = "Proof."
-
-  coq_proof_end_reserved_word : String = "Qed."
+  coq_directive_identifier : String = "coq"
 
   coq_prelude : Seq [String] =
     Seq (
@@ -221,24 +226,24 @@ class TranslationConstantToCoq
 
   function_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant.function_definition_symbol, coq_function_definition_symbol),
-      Tuple2 (soda_constant.lambda_reserved_word, coq_lambda_reserved_word),
-      Tuple2 (soda_constant.any_reserved_word, coq_lambda_reserved_word),
-      Tuple2 (soda_constant.lambda_arrow_symbol, coq_lambda_arrow_symbol),
-      Tuple2 (soda_constant.case_arrow_symbol, coq_case_arrow_symbol),
-      Tuple2 (soda_constant.not_reserved_word, coq_not_reserved_word ),
-      Tuple2 (soda_constant.and_reserved_word, coq_and_reserved_word ),
-      Tuple2 (soda_constant.or_reserved_word, coq_or_reserved_word )
+      Tuple2 (soda_constant.function_definition_symbol , coq_function_definition_symbol),
+      Tuple2 (soda_constant.lambda_reserved_word , coq_lambda_reserved_word),
+      Tuple2 (soda_constant.any_reserved_word , coq_lambda_reserved_word),
+      Tuple2 (soda_constant.lambda_arrow_symbol , coq_lambda_arrow_symbol),
+      Tuple2 (soda_constant.case_arrow_symbol , coq_case_arrow_symbol),
+      Tuple2 (soda_constant.not_reserved_word , coq_not_reserved_word),
+      Tuple2 (soda_constant.and_reserved_word , coq_and_reserved_word),
+      Tuple2 (soda_constant.or_reserved_word , coq_or_reserved_word)
     )
 
   type_translation : Seq [ Tuple2 [String] [String]  ] =
     Seq (
-        Tuple2 ("Boolean", "bool"),
-        Tuple2 ("Nat", "nat"),
-        Tuple2 ("Option", "option"),
-        Tuple2 ("List", "list"),
-        Tuple2 ("String", "string"),
-        Tuple2 ("BigInt", "Z")
+        Tuple2 ("Boolean" , "bool"),
+        Tuple2 ("Nat" , "nat"),
+        Tuple2 ("Option" , "option"),
+        Tuple2 ("List" , "list"),
+        Tuple2 ("String" , "string"),
+        Tuple2 ("BigInt" , "Z")
     )
 
   prefix_coq_non_soda : String = "__soda__"

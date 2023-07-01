@@ -16,6 +16,17 @@ trait Customer
 
 case class Customer_ (name : String, ip_address : String) extends Customer
 
+trait Flight
+{
+
+  def   start_airport : String
+  def   intermediate_airports : Seq [String]
+  def   end_airport : String
+
+}
+
+case class Flight_ (start_airport : String, intermediate_airports : Seq [String], end_airport : String) extends Flight
+
 trait PricingAgent
 {
 
@@ -35,17 +46,6 @@ trait PricingAgent
 }
 
 case class PricingAgent_ (abs_get_price : Customer => Flight => Int => Int) extends PricingAgent
-
-trait Flight
-{
-
-  def   start_airport : String
-  def   intermediate_airports : Seq [String]
-  def   end_airport : String
-
-}
-
-case class Flight_ (start_airport : String, intermediate_airports : Seq [String], end_airport : String) extends Flight
 
 trait RequirementMonitor
 {
@@ -81,21 +81,6 @@ trait Requirement1Monitor
 
   lazy val minimum_similarity = 0.95
 
-  def get_report (c1 : Customer) (c2 : Customer) (flight : Flight) (date : Int) : Report1 =
-    get_report_with (
-      price1 = get_price (c1) (flight) (date) ) (
-      price2 = get_price (c2) (flight) (date)
-    )
-
-  def get_report_with (price1 : Int) (price2 : Int) : Report1 =
-    get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
-
-  def get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
-    Report1_ (minimum_similarity <= similarity , price1 , price2 , similarity)
-
-  def get_similarity (x : Int) (y : Int) : Double =
-    1.0 * (min (x) (y) ) / (max (x) (y) )
-
   def min (x : Int) (y : Int) : Int =
     if ( x < y
     ) x
@@ -105,6 +90,21 @@ trait Requirement1Monitor
     if ( x < y
     ) y
     else x
+
+  def get_similarity (x : Int) (y : Int) : Double =
+    1.0 * (min (x) (y) ) / (max (x) (y) )
+
+  def get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
+    Report1_ (minimum_similarity <= similarity, price1, price2, similarity)
+
+  def get_report_with (price1 : Int) (price2 : Int) : Report1 =
+    get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
+
+  def get_report (c1 : Customer) (c2 : Customer) (flight : Flight) (date : Int) : Report1 =
+    get_report_with (
+      price1 = get_price (c1) (flight) (date) ) (
+      price2 = get_price (c2) (flight) (date)
+    )
 
 }
 
@@ -131,17 +131,17 @@ trait Requirement2Monitor
 
   lazy val acceptable_increase = 1.25
 
+  def get_a_year_before (date_in_days : Int) : Int =
+    date_in_days - 365
+
+  def get_report_with (old_price : Int) (new_price : Int) : Report2 =
+    Report2_ (new_price <= old_price * acceptable_increase, old_price, new_price)
+
   def get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report2 =
     get_report_with (
       old_price = get_price (customer) (flight) (get_a_year_before (date_in_days) ) ) (
       new_price = get_price (customer) (flight) (date_in_days)
     )
-
-  def get_report_with (old_price : Int) (new_price : Int) : Report2 =
-    Report2_ (new_price <= old_price * acceptable_increase , old_price , new_price)
-
-  def get_a_year_before (date_in_days : Int) : Int =
-    date_in_days - 365
 
 }
 
@@ -158,35 +158,6 @@ trait Report3
 }
 
 case class Report3_ (compliant : Boolean, price_of_flight : Int, price_of_flight_by_segments : Int) extends Report3
-
-trait Requirement3Monitor
-  extends
-    RequirementMonitor
-{
-
-  def   pricing_agent : PricingAgent
-
-  def get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report3 =
-    get_report_with (
-      get_price (customer) (flight) (date_in_days) ) (
-      get_price_of_flight_by_segments (customer) (flight) (date_in_days)
-    )
-
-  def get_report_with (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
-    Report3_ (price_of_flight <= price_of_flight_by_segments , price_of_flight , price_of_flight_by_segments)
-
-  def get_price_of_flight_by_segments (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
-    sum_prices (get_prices_of_segments (customer) (SegmentsForFlight_ (flight) .segments) (date_in_days) )
-
-  def get_prices_of_segments (customer : Customer) (segments : Seq [Segment] ) (date_in_days : Int) : Seq [Int] =
-    segments .map ( segment => get_price (customer) (segment) (date_in_days) )
-
-  def sum_prices (prices : Seq [Int] ) : Int =
-    prices .sum
-
-}
-
-case class Requirement3Monitor_ (pricing_agent : PricingAgent) extends Requirement3Monitor
 
 trait Segment
   extends
@@ -207,16 +178,51 @@ trait SegmentsForFlight
 
   def   flight : Flight
 
-  lazy val segments : Seq [Segment] =
-    rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (flight .end_airport)
-
-  def rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] ) (last_airport : String) : Seq [Segment] =
+  def rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] )
+      (last_airport : String) : Seq [Segment] =
     intermediate_stops match  {
-      case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (Segment_ (first_airport , head) )
+      case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (
+        Segment_ (first_airport , head) )
       case otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
     }
+
+  lazy val segments : Seq [Segment] =
+    rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (
+      flight .end_airport)
 
 }
 
 case class SegmentsForFlight_ (flight : Flight) extends SegmentsForFlight
+
+trait Requirement3Monitor
+  extends
+    RequirementMonitor
+{
+
+  def   pricing_agent : PricingAgent
+
+  def get_report_with (price : Int) (price_by_segments : Int) : Report3 =
+    Report3_ (price <= price_by_segments, price, price_by_segments)
+
+  def sum_prices (prices : Seq [Int] ) : Int =
+    prices .sum
+
+  def get_prices_of_segments (customer : Customer) (segments : Seq [Segment] ) (date_in_days : Int)
+      : Seq [Int] =
+    segments .map ( segment => get_price (customer) (segment) (date_in_days) )
+
+  def get_price_of_flight_by_segments (customer : Customer) (flight : Flight) (date_in_days : Int)
+      : Int =
+    sum_prices (
+      get_prices_of_segments (customer) (SegmentsForFlight_ (flight) .segments) (date_in_days) )
+
+  def get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report3 =
+    get_report_with (
+      get_price (customer) (flight) (date_in_days) ) (
+      get_price_of_flight_by_segments (customer) (flight) (date_in_days)
+    )
+
+}
+
+case class Requirement3Monitor_ (pricing_agent : PricingAgent) extends Requirement3Monitor
 

@@ -1,0 +1,21 @@
+
+class LeanDotNotationBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+
+  import
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Token
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToLean_ ()
+
+  replace_token : Token -> String =
+    lambda token -->
+      token
+        .text
+        .replaceAll (_sc .dot_notation_regex , _tc .lean_dot_notation_symbol)
+
+end
+

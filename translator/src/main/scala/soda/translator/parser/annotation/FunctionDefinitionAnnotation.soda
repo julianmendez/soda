@@ -27,17 +27,11 @@ class FunctionDefinitionAnnotation
 
   _plain_state = ParserStateEnum_ () .plain
 
-  applies : Boolean =
-    not is_a_theorem and
-    not is_a_proof and
-    not is_a_class_declaration and
-    (contains_the_equals_symbol or _starts_with_valid_annotation)
-
-  contains_the_equals_symbol : Boolean =
-    block .readable_lines .nonEmpty and
-    block .readable_lines
-      .filter (lambda annotated_line --> not annotated_line .is_comment)
-      .exists (lambda annotated_line --> _contains_the_equals_symbol_in_line (annotated_line .line) )
+  _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
+    (
+      (token_text .contains (_symbol_in_the_middle) ) or
+      (token_text .endsWith (_symbol_at_the_end) )
+    )
 
   _contains_the_equals_symbol_in_line (line : String) : Boolean =
     Tokenizer_ (line)
@@ -47,30 +41,43 @@ class FunctionDefinitionAnnotation
         _contains_the_equals_symbol_in_token (token .text)
       )
 
-  _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
-    (
-      (token_text .contains (_symbol_in_the_middle) ) or
-      (token_text .endsWith (_symbol_at_the_end) )
-    )
+  contains_the_equals_symbol : Boolean =
+    block .readable_lines .nonEmpty and
+    block .readable_lines
+      .filter (lambda annotated_line --> not annotated_line .is_comment)
+      .exists (lambda annotated_line -->
+        _contains_the_equals_symbol_in_line (annotated_line .line) )
 
-  _starts_with_valid_annotation : Boolean =
+  _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
+    (first_line_trimmed == sc .tail_recursion_annotation or
+    first_line_trimmed == sc .override_annotation )
+
+  starts_with_valid_annotation : Boolean =
     block .readable_lines .nonEmpty and
     _starts_with_valid_annotation_with (block .readable_lines .head .line .trim)
 
-  _starts_with_valid_annotation_with (first_line_trimmed : String) : Boolean =
-    ( first_line_trimmed == sc .tail_recursion_annotation or
-      first_line_trimmed == sc .override_annotation )
+  _starts_with_def_reserved_word_with (first_line_trimmed : String) : Boolean =
+    first_line_trimmed .startsWith (sc .def_reserved_word + sc .space)
+
+  starts_with_def_reserved_word : Boolean =
+    block .readable_lines .nonEmpty and
+    _starts_with_def_reserved_word_with (block .readable_lines .head .line .trim)
 
   is_a_class_declaration : Boolean =
     starts_with_prefix_and_space (sc .class_reserved_word)
 
   is_a_theorem : Boolean =
-    block .readable_lines .nonEmpty and
-    (block .readable_lines .head .line .trim == SodaConstant_ () .theorem_reserved_word)
+    TheoremBlockAnnotation_ (block) .applies
 
-  is_a_proof : Boolean =
-    block .readable_lines .nonEmpty and
-    (block .readable_lines .head .line .trim == SodaConstant_ () .proof_reserved_word)
+  is_a_directive : Boolean =
+    DirectiveBlockAnnotation_ (block) .applies
+
+  applies : Boolean =
+    not is_a_theorem and
+    not is_a_directive and
+    not is_a_class_declaration and
+    (contains_the_equals_symbol or starts_with_valid_annotation or
+      starts_with_def_reserved_word)
 
 end
 

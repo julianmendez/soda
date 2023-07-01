@@ -18,21 +18,6 @@ class Requirement1Monitor
 
   minimum_similarity = 0.95
 
-  get_report (c1 : Customer) (c2 : Customer) (flight : Flight) (date : Int) : Report1 =
-    get_report_with (
-      price1 := get_price (c1) (flight) (date) ) (
-      price2 := get_price (c2) (flight) (date)
-    )
-
-  get_report_with (price1 : Int) (price2 : Int) : Report1 =
-    get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
-
-  get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
-    Report1_ (minimum_similarity <= similarity , price1 , price2 , similarity)
-
-  get_similarity (x : Int) (y : Int) : Double =
-    1.0 * (min (x) (y) ) / (max (x) (y) )
-
   min (x : Int) (y : Int) : Int =
     if x < y
     then x
@@ -42,6 +27,21 @@ class Requirement1Monitor
     if x < y
     then y
     else x
+
+  get_similarity (x : Int) (y : Int) : Double =
+    1.0 * (min (x) (y) ) / (max (x) (y) )
+
+  get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
+    Report1_ (minimum_similarity <= similarity) (price1) (price2) (similarity)
+
+  get_report_with (price1 : Int) (price2 : Int) : Report1 =
+    get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
+
+  get_report (c1 : Customer) (c2 : Customer) (flight : Flight) (date : Int) : Report1 =
+    get_report_with (
+      price1 := get_price (c1) (flight) (date) ) (
+      price2 := get_price (c2) (flight) (date)
+    )
 
 end
 

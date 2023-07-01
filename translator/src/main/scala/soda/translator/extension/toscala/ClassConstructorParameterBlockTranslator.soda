@@ -1,0 +1,158 @@
+
+class State
+
+  abstract
+    index : Int
+    last_index : Int
+    bracket_level : Int
+    par_level : Int
+    line : String
+    accum : String
+    expecting : Boolean
+
+  import
+    soda.translator.parser.SodaConstant_
+
+  _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
+
+  _closing_parenthesis_symbol_char = _sc .closing_parenthesis_symbol .head
+
+  _opening_bracket_symbol_char = _sc .opening_bracket_symbol .head
+
+  _closing_bracket_symbol_char = _sc .closing_bracket_symbol .head
+
+  _update_opening_par : State =
+    if (par_level == 0) and (expecting)
+    then _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line) (
+      accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
+    else _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum) (
+      expecting)
+
+  _update_closing_par : State =
+    if (par_level == 1)
+    then _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line) (
+      accum + line .substring (last_index , index)) (true)
+    else _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum) (
+      expecting)
+
+  _update_opening_bracket : State =
+    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum) (
+      expecting)
+
+  _update_closing_bracket : State =
+    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum) (
+      expecting)
+
+  _update_next_space : State =
+    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line) (
+      accum + line .substring (last_index) ) (expecting)
+
+  _update_default_step : State =
+    _mk_State (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+
+  compute_next : State =
+    if (index >= line .length)
+    then this
+    else if (line .charAt (index) == _opening_parenthesis_symbol_char)
+    then _update_opening_par
+    else if (line .charAt (index) == _closing_parenthesis_symbol_char)
+    then _update_closing_par
+    else if (line .charAt (index) == _opening_bracket_symbol_char)
+    then _update_opening_bracket
+    else if (line .charAt (index) == _closing_bracket_symbol_char)
+    then _update_closing_bracket
+    else if (bracket_level == 0) and (par_level == 0) and (
+      not (line .charAt (index) == _sc .space .head) )
+    then _update_next_space
+    else _update_default_step
+
+end
+
+class ClassConstructorParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+
+  import
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Token
+
+
+  _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
+      (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+
+  range = soda.lib.Range_ ()
+
+  fold = soda.lib.Fold_ ()
+
+  fold_while = soda.lib.FoldWhile_ ()
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  _translate_line_initial (line : String) (index : Int) : State =
+    _mk_State (index := index) (last_index := index) (bracket_level := 0) (par_level := 0) (
+      line := line) (accum := line .substring (0 , index) ) (expecting := false)
+
+  _translate_line_next (a : State) (ch : Char) : State =
+    a .compute_next
+
+  _translate_line_with_parentheses_with_tuple (a : State) : String =
+    a .accum + a .line .substring (a .last_index)
+
+  _translate_line (line : String) (index : Int) : String =
+    _translate_line_with_parentheses_with_tuple (
+      fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
+
+  _translate_line_with_parentheses_after_constr (line : String) (from_index : Int) : String =
+    _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) +
+       _sc .constructor_suffix .length)
+
+  _translate_line_with_parentheses_after_multiple_constructors (line :  String)
+      (occurrences : Seq [Int] ) : String =
+    fold (occurrences) (line) (
+      lambda accum -->
+        lambda from_index -->
+          _translate_line_with_parentheses_after_constr (accum) (from_index)
+    )
+
+  _replace_parentheses_by_comma_with (line : String) (occurrences : Seq [Int] ) : String =
+    if (occurrences .length >= 0)
+    then _translate_line_with_parentheses_after_multiple_constructors (line) (occurrences)
+    else line
+
+  _get_next_position (line : String) (indices : Seq [Int] ) : Int =
+    if indices .isEmpty
+    then line .indexOf (_sc .constructor_suffix + _sc .space)
+    else line .indexOf (_sc .constructor_suffix + _sc .space , indices .head +
+      _sc .constructor_suffix .length)
+
+  _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
+    fold_while (range (line .length) ) (Seq [Int] () ) (
+      lambda accum -->
+        lambda index -->
+          accum .+: (_get_next_position (line) (accum) )
+    ) (
+      lambda accum -->
+        lambda index -->
+          _get_next_position (line) (accum) >= 0
+    )
+
+  _replace_parentheses_by_comma (line : String) : String =
+    _replace_parentheses_by_comma_with (line) (_find_occurrences_in_reverse_order (line) )
+
+  replace_token : Token -> String =
+    lambda token -->
+      _replace_parentheses_by_comma (token .text)
+
+end
+

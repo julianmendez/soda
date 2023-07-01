@@ -1,0 +1,24 @@
+
+class PairExample
+
+  abstract
+    left : nat
+    right : nat
+
+end
+
+class SwapExample
+
+  swap (pair : PairExample) : PairExample =
+    PairExample_ (pair .right ) (pair .left )
+
+  directive coq
+  Theorem
+    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x) (y) ) ) ) =
+    PairExample_ (x) (y) .
+  Proof.
+    auto.
+  Qed.
+
+end
+

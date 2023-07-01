@@ -1,7 +1,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, any, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
+    morekeywords={lambda, any, def, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
     sensitive=true,
     morecomment=[s]{/*}{*/},
     morestring=[b]"
@@ -40,7 +40,7 @@
 \newcommand{\reservedWordSoda}[1]{{\color{sodablue}\srccode{#1}}\xspace}
 \newcommand{\sodaType}[1]{\basicType{{#1}}}
 
-\newcommand{\sodadef}{\srccode{=}\xspace}
+\newcommand{\sodadefequal}{\srccode{=}\xspace}
 \newcommand{\sodacolon}{\srccode{:}\xspace}
 \newcommand{\sodaarrow}{{-\textgreater}\xspace}
 \newcommand{\sodaimplies}{{==\textgreater}\xspace}
@@ -51,6 +51,7 @@
 \newcommand{\sodalambda}{\reservedWordSoda{lambda}}
 \newcommand{\sodaany}{\reservedWordSoda{any}}
 
+\newcommand{\sodadef}{\reservedWordSoda{def}}
 \newcommand{\sodaif}{\reservedWordSoda{if}}
 \newcommand{\sodathen}{\reservedWordSoda{then}}
 \newcommand{\sodaelse}{\reservedWordSoda{else}}

@@ -11,7 +11,7 @@ case class CartesianProductSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val int_seq_a = Seq (10 , 20)
@@ -66,12 +66,18 @@ case class CartesianProductSpec ()
       obtained = instance .apply (Seq (str_seq_a , str_seq_b , str_seq_c) )
     ) (
       expected = Seq (
-        Seq ("A" , "0" , "a") , Seq ("A" , "0" , "b") , Seq ("A" , "0" , "c") , Seq ("A" , "0" , "d"),
-        Seq ("A" , "1" , "a") , Seq ("A" , "1" , "b") , Seq ("A" , "1" , "c") , Seq ("A" , "1" , "d"),
-        Seq ("A" , "2" , "a") , Seq ("A" , "2" , "b") , Seq ("A" , "2" , "c") , Seq ("A" , "2" , "d"),
-        Seq ("B" , "0" , "a") , Seq ("B" , "0" , "b") , Seq ("B" , "0" , "c") , Seq ("B" , "0" , "d"),
-        Seq ("B" , "1" , "a") , Seq ("B" , "1" , "b") , Seq ("B" , "1" , "c") , Seq ("B" , "1" , "d"),
-        Seq ("B" , "2" , "a") , Seq ("B" , "2" , "b") , Seq ("B" , "2" , "c") , Seq ("B" , "2" , "d")
+        Seq ("A" , "0" , "a") , Seq ("A" , "0" , "b") , Seq ("A" , "0" , "c") ,
+        Seq ("A" , "0" , "d") ,
+        Seq ("A" , "1" , "a") , Seq ("A" , "1" , "b") , Seq ("A" , "1" , "c") ,
+        Seq ("A" , "1" , "d") ,
+        Seq ("A" , "2" , "a") , Seq ("A" , "2" , "b") , Seq ("A" , "2" , "c") ,
+        Seq ("A" , "2" , "d") ,
+        Seq ("B" , "0" , "a") , Seq ("B" , "0" , "b") , Seq ("B" , "0" , "c") ,
+        Seq ("B" , "0" , "d") ,
+        Seq ("B" , "1" , "a") , Seq ("B" , "1" , "b") , Seq ("B" , "1" , "c") ,
+        Seq ("B" , "1" , "d") ,
+        Seq ("B" , "2" , "a") , Seq ("B" , "2" , "b") , Seq ("B" , "2" , "c") ,
+        Seq ("B" , "2" , "d")
       )
     )
   )
@@ -94,19 +100,22 @@ case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
 trait DayOfTheWeekConstant
 {
 
-  lazy val sunday = DayOfTheWeek_ (0 , "Sunday")
+  private def _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
+    DayOfTheWeek_ (ordinal, name)
 
-  lazy val monday = DayOfTheWeek_ (1 , "Monday")
+  lazy val sunday = _mk_DayOfTheWeek (0) ("Sunday")
 
-  lazy val tuesday = DayOfTheWeek_ (2 , "Tuesday")
+  lazy val monday = _mk_DayOfTheWeek (1) ("Monday")
 
-  lazy val wednesday = DayOfTheWeek_ (3 , "Wednesday")
+  lazy val tuesday = _mk_DayOfTheWeek (2) ("Tuesday")
 
-  lazy val thursday = DayOfTheWeek_ (4 , "Thursday")
+  lazy val wednesday = _mk_DayOfTheWeek (3) ("Wednesday")
 
-  lazy val friday = DayOfTheWeek_ (5 , "Friday")
+  lazy val thursday = _mk_DayOfTheWeek (4) ("Thursday")
 
-  lazy val saturday = DayOfTheWeek_ (6 , "Saturday")
+  lazy val friday = _mk_DayOfTheWeek (5) ("Friday")
+
+  lazy val saturday = _mk_DayOfTheWeek (6) ("Saturday")
 
   lazy val DayOfTheWeek_values = Seq (sunday , monday , tuesday , wednesday , thursday , friday , saturday)
 
@@ -130,14 +139,16 @@ case class EnumSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("the names of the elements in enumerations") (
     check (
-      obtained = DayOfTheWeekEnum_ ().values.map ( x => x .toString)
+      obtained = DayOfTheWeekEnum_ () .values .map ( x => x .toString)
     ) (
-      expected = Seq ("DayOfTheWeek_(0,Sunday)" , "DayOfTheWeek_(1,Monday)" , "DayOfTheWeek_(2,Tuesday)" , "DayOfTheWeek_(3,Wednesday)" , "DayOfTheWeek_(4,Thursday)" , "DayOfTheWeek_(5,Friday)" , "DayOfTheWeek_(6,Saturday)")
+      expected = Seq ("DayOfTheWeek_(0,Sunday)" , "DayOfTheWeek_(1,Monday)" ,
+        "DayOfTheWeek_(2,Tuesday)" , "DayOfTheWeek_(3,Wednesday)" ,
+        "DayOfTheWeek_(4,Thursday)" , "DayOfTheWeek_(5,Friday)" , "DayOfTheWeek_(6,Saturday)" )
     )
   )
 
@@ -151,7 +162,7 @@ case class OptionSDSpec ()
 
   import   scala.util.Try
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val result_if_empty : String = "It is empty."
@@ -209,7 +220,8 @@ case class OptionSDSpec ()
 
   test ("should open an empty option") (
     check (
-      obtained = (NoneSD_ [String] () ) .opt (ifEmpty = result_if_empty) (ifNonEmpty = result_if_non_empty)
+      obtained = (NoneSD_ [String] () ) .opt (ifEmpty = result_if_empty) (
+        ifNonEmpty = result_if_non_empty)
     ) (
       expected = "It is empty."
     )
@@ -217,7 +229,8 @@ case class OptionSDSpec ()
 
   test ("should open an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .opt (ifEmpty = result_if_empty) (ifNonEmpty = result_if_non_empty)
+      obtained = (SomeSD_ [String] ("0") ) .opt (ifEmpty = result_if_empty) (
+        ifNonEmpty = result_if_non_empty)
     ) (
       expected = "Its value is 0."
     )
@@ -225,7 +238,8 @@ case class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained = (NoneSD_ [String] () ) .fold (ifEmpty = result_if_empty) (f = result_if_non_empty)
+      obtained = (NoneSD_ [String] () ) .fold (ifEmpty = result_if_empty) (
+        f = result_if_non_empty)
     ) (
       expected = "It is empty."
     )
@@ -233,7 +247,8 @@ case class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .fold (ifEmpty = result_if_empty) (f = result_if_non_empty)
+      obtained = (SomeSD_ [String] ("0") ) .fold (ifEmpty = result_if_empty) (
+        f = result_if_non_empty)
     ) (
       expected = "Its value is 0."
     )
@@ -368,7 +383,7 @@ case class RecursionSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)
@@ -381,7 +396,8 @@ case class RecursionSpec ()
 
   test ("fold left while with Seq") (
     check (
-      obtained = _fold_while .apply (example_seq) (_fold0_initial_value) (_fold0_next_value_function) (_fold0_condition)
+      obtained = _fold_while .apply (example_seq) (_fold0_initial_value) (
+        _fold0_next_value_function) (_fold0_condition)
     ) (
       expected = Seq ("103" , "102" , "101" , "101" , "100")
     )
@@ -397,7 +413,8 @@ case class RecursionSpec ()
 
   test ("fold left with Seq") (
     check (
-      obtained = _fold .apply (example_seq) (_fold1_initial_value) (_fold1_next_value_function)
+      obtained = _fold .apply (example_seq) (_fold1_initial_value) (
+        _fold1_next_value_function)
     ) (
       expected = Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )
@@ -440,16 +457,17 @@ case class SeqSDSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val int_seq : Seq [Int] = Seq (2 , 7 , 1 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 4 , 5 , 9)
 
-  lazy val rev_int_seq : Seq [Int] = Seq (9 , 5 ,4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
+  lazy val rev_int_seq : Seq [Int] = Seq (9 , 5 , 4 , 8 , 2 , 8 , 1 , 8 , 2 , 8 , 1 , 7 , 2)
 
   test ("should detect an empty sequence") (
     check (
-      obtained = SeqSDBuilder_ () .build (Seq [Int] () ) .opt (ifEmpty = true) (ifNonEmpty =  nonEmpty => false)
+      obtained = SeqSDBuilder_ () .build (Seq [Int] () ) .opt (ifEmpty = true) (
+        ifNonEmpty =  nonEmpty => false)
     ) (
       expected = true
     )
@@ -457,30 +475,33 @@ case class SeqSDSpec ()
 
   test ("should detect an non empty sequence") (
     check (
-      obtained = SeqSDBuilder_ () .build (Seq [Int] (1) ) .opt (ifEmpty = false) (ifNonEmpty =  nonEmpty => true)
+      obtained = SeqSDBuilder_ () .build (Seq [Int] (1) ) .opt (ifEmpty = false) (
+        ifNonEmpty =  nonEmpty => true)
     ) (
       expected = true
     )
   )
 
+  lazy val empty_opt : OptionSD [Int] = NoneSD_ ()
+
+  lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =
+     sequence => SomeSD_ (max (sequence) )
+
   test ("should get the maximum") (
     check (
-      obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_opt) (ifNonEmpty = non_empty_opt)
+      obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_opt) (
+        ifNonEmpty = non_empty_opt)
     ) (
       expected = SomeSD_ [Int] (9)
     )
   )
-
-  lazy val empty_opt : OptionSD [Int] = NoneSD_ ()
-
-  lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =  sequence => SomeSD_ (max (sequence) )
 
   private lazy val _fold = Fold_ ()
 
   def max_of_2 (a : Int) (b : Int) : Int =
     if ( a > b ) a else b
 
-  def max (s : NonEmptySeqSD [Int]) : Int =
+  def max (s : NonEmptySeqSD [Int] ) : Int =
     _fold .apply (s .tail .toSeq) (s .head) (max_of_2)
 
   test ("should reverse a sequence") (
@@ -491,17 +512,19 @@ case class SeqSDSpec ()
     )
   )
 
+  lazy val empty_seq : SeqSD [Int] = EmptySeqSD_ ()
+
+  lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =
+     sequence => sequence .reverse
+
   test ("should reverse another sequence") (
     check (
-      obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_seq) (ifNonEmpty = non_empty_seq)
+      obtained = SeqSDBuilder_ () .build (int_seq) .opt (ifEmpty = empty_seq) (
+        ifNonEmpty = non_empty_seq)
     ) (
       expected = SeqSDBuilder_ () .build (rev_int_seq)
     )
   )
-
-  lazy val empty_seq : SeqSD [Int] = EmptySeqSD_ ()
-
-  lazy val non_empty_seq : NonEmptySeqSD [Int] => NonEmptySeqSD [Int] =  sequence => sequence .reverse
 
 }
 

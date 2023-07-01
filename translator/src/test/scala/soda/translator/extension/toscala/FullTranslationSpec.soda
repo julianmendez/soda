@@ -10,7 +10,7 @@ class FullTranslationSpec ()
     java.nio.file.Files
     java.nio.file.Paths
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   Base = "/soda/translator/example/"
@@ -19,13 +19,13 @@ class FullTranslationSpec ()
 
   ScalaSuffix = ".scala"
 
-  SwapExample = "algorithms/SwapExample"
+  SwapExample = "forlean/algorithms/SwapExample"
 
   FiboExample = "mathematics/FiboExample"
 
   FactorialConcise = "mathematics/FactorialConcise"
 
-  FactorialVerbose = "mathematics/FactorialVerbose"
+  FactorialWithFold = "mathematics/FactorialWithFold"
 
   Fairness = "ethicalissues/fairness/Fairness"
 
@@ -45,8 +45,12 @@ class FullTranslationSpec ()
 
   ManualExpected = "/soda/translator/documentation/Manual.scala"
 
-  test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name := Base + file_name + SodaSuffix) (expected_file_name := Base + file_name + ScalaSuffix)
+  read_file (file_name : String) : String =
+    @new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
 
   test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
@@ -60,12 +64,9 @@ class FullTranslationSpec ()
       expected := read_file (expected_file_name)
     )
 
-  read_file (file_name : String) : String =
-    @new String (
-      Files .readAllBytes (
-        Paths .get (getClass .getResource (file_name) .toURI)
-      )
-    )
+  test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name := Base + file_name + SodaSuffix) (
+      expected_file_name := Base + file_name + ScalaSuffix)
 
   test ("should translate the swap example") (
     test_translation (SwapExample)
@@ -79,8 +80,8 @@ class FullTranslationSpec ()
     test_translation (FactorialConcise)
   )
 
-  test ("should translate the Factorial Verbose example") (
-    test_translation (FactorialVerbose)
+  test ("should translate the Factorial With Fold example") (
+    test_translation (FactorialWithFold)
   )
 
   test ("should translate the Fairness example") (
@@ -100,7 +101,7 @@ class FullTranslationSpec ()
   )
 
 
-  test ("should translated Soda code that uses Scala reserved words as variables and functions") (
+  test ("should translate Soda code that uses Scala reserved words") (
     test_translation (ScalaReservedWordEscaping)
   )
 

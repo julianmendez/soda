@@ -1,7 +1,7 @@
 # Soda
 
-*Soda* (Symbolic Objective Descriptive Analysis) is an object-oriented functional language to describe, analyze, and
-model human-centered problems.
+*Soda* (Symbolic Objective Descriptive Analysis) is an object-oriented functional language to
+describe, analyze, and model human-centered problems.
 Due to its readability, it can be applied to model ethical problems.
 
 This project includes a translator to [Scala](https://scala-lang.org).
@@ -22,7 +22,7 @@ The reserved words are:
 - `this`, `subtype`, `supertype`
 - `false`, `true` , `not`, `and`, `or`
 - `package`, `import`
-- `theorem`, `proof`
+- `directive`
 
 
 ## Other Symbols
@@ -56,7 +56,8 @@ Special names:
 In Soda, variables cannot change their value. Thus, it is not possible to write `x = x + 1`.
 Loops can be managed with `range` and `fold` functions and tail recursion.
 
-The language does not provide `throw`, `try`, and `catch`, because those commands do not follow the functional style.
+The language does not provide `throw`, `try`, and `catch`, because those commands do not follow
+the functional style.
 
 
 ## Static Typing
@@ -70,7 +71,8 @@ This constructor is implemented with a *concrete class* (like a *case class* in 
 
 Soda is designed to be integrated via the Java Virtual Machine.
 It is possible to define packages and to declare imports.
-This can be done in a separate file `Package.soda`, which is in the same directory as the source code.
+This can be done in a separate file `Package.soda`, which is in the same directory as the source
+code.
 
 
 ## Syntax Highlighting

@@ -79,7 +79,7 @@ case class BlockTranslatorPipelineSpec ()
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =

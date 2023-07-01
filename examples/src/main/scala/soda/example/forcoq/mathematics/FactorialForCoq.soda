@@ -1,19 +1,14 @@
 
 class FactorialForCoq
 
-  import
-    soda.example.forcoq.lib.O_
-    soda.example.forcoq.lib.S_
-    soda.example.forcoq.lib.nat
-
   @tailrec
   _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m
-      case S_ (k) ==> _tailrec_get_factorial (k) (product .mul ( S_ (k) ) )
+      case S_ (k) ==> _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
       case otherwise ==> product
 
   get_factorial (n : nat) : nat =
-    _tailrec_get_factorial (n) (S_ ( O_ () ) )
+    _tailrec_get_factorial (n) (S_ (O_ () ) )
 
 end
 

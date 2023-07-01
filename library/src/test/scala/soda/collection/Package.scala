@@ -15,7 +15,7 @@ case class MinSpec ()
   import   soda.lib.Fold_
   import   soda.lib.SomeSD_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val empty : ESeq [Int] = ESeq_ [Int] ()
@@ -24,7 +24,8 @@ case class MinSpec ()
 
   lazy val revExampleSeq : Seq [Int] = exampleSeq.reverse
 
-  def prepend_elem (list : MSeq [Int]) (elem : Int) : NESeq [Int] = Min_ () .prepended (list) (elem)
+  def prepend_elem (list : MSeq [Int] ) (elem : Int) : NESeq [Int] =
+    Min_ () .prepended (list) (elem)
 
   private lazy val _fold = Fold_ ()
 
@@ -255,7 +256,8 @@ case class MinSpec ()
     check (
       obtained = Min_ () .splitAt (example) (3)
     ) (
-      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1) ) , MSeqTranslator_ () .asMSeq (Seq (2 , 3 , 5 , 8) ) )
+      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1) ) ,
+        MSeqTranslator_ () .asMSeq (Seq (2 , 3 , 5 , 8) ) )
     )
   )
 
@@ -271,7 +273,8 @@ case class MinSpec ()
     check (
       obtained = Min_ () .span (example) ( (x : Int) => ! (x == 5) )
     ) (
-      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3) ) , MSeqTranslator_ () .asMSeq (Seq (5 , 8) ) )
+      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3) ) ,
+        MSeqTranslator_ () .asMSeq (Seq (5 , 8) ) )
     )
   )
 
@@ -293,9 +296,11 @@ case class MinSpec ()
 
   test ("concat") (
     check (
-      obtained = Min_ () .concat (example) (MSeqTranslator_ () .asMSeq (Seq (13 , 21 , 34 , 55) ) )
+      obtained = Min_ () .concat (example) (MSeqTranslator_ ()
+        .asMSeq (Seq (13 , 21 , 34 , 55) ) )
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3 , 5 , 8 , 13 , 21 , 34 , 55) )
+      expected = MSeqTranslator_ ()
+        .asMSeq (Seq (0 , 1 , 1 , 2 , 3 , 5 , 8 , 13 , 21 , 34 , 55) )
     )
   )
 
@@ -413,7 +418,7 @@ case class MinSpec ()
 
   test ("forall with Seq 2") (
     check (
-      obtained = Seq () .forall ( x => x == 7)
+      obtained = Seq [Int] () .forall ( x => x == 7)
     ) (
       expected = true
     )
@@ -461,7 +466,7 @@ case class MinSpec ()
 
   test ("exists with Seq 2") (
     check (
-      obtained = Seq () .exists ( x => x == 7)
+      obtained = Seq [Int] () .exists ( x => x == 7)
     ) (
       expected = false
     )
@@ -573,7 +578,8 @@ case class MinSpec ()
 
   test ("foldLeft with Seq") (
     check (
-      obtained = exampleSeq .foldLeft (Seq [Int] () ) ( (s : Seq [Int] , e : Int) => s .+: ( (e + 100) ) )
+      obtained = exampleSeq .foldLeft (Seq [Int] () ) ( (s : Seq [Int] , e : Int) =>
+        s .+: ( (e + 100) ) )
     ) (
       expected = Seq (108 , 105 , 103 , 102 , 101 , 101 , 100)
     )

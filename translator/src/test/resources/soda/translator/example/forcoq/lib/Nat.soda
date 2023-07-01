@@ -55,11 +55,6 @@ class IntNat
     soda.lib.OptionSD
     soda.lib.SomeSD_
 
-  from_Int (a : Int) : OptionSD [nat] =
-    if a < 0
-    then NoneSD_ [nat] ()
-    else SomeSD_ [nat] (from_non_negative (a) )
-
   @tailrec
   _tailrec_from_non_negative (a : Int) (b : nat) : nat =
     if a <= 0
@@ -68,6 +63,11 @@ class IntNat
 
   from_non_negative (a : Int) : nat =
     _tailrec_from_non_negative (a) (O_ () )
+
+  from_Int (a : Int) : OptionSD [nat] =
+    if a < 0
+    then NoneSD_ [nat] ()
+    else SomeSD_ [nat] (from_non_negative (a) )
 
   to_Int (a : nat) : Int =
     match a

@@ -1,0 +1,20 @@
+
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+
+directive lean
+notation:max "Succ_" => Nat.succ
+
+class FiboExampleInSodaForLean
+
+  _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
+    match m
+      case Succ_ (Zero_ () ) ==> b
+      case Succ_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
+      case otherwise ==> a
+
+  fib (n : Nat) =
+    _tailrec_fib (n) (Zero_ () ) (Succ_ (Zero_ () ) )
+
+end
+

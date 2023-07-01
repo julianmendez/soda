@@ -7,7 +7,7 @@ class PreprocessorSequenceTranslatorSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.block.DefaultBlockTranslator_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   example_program =

@@ -6,7 +6,7 @@
  * This class models an exception in Soda.
  */
 
-class SodaException [A]
+class SodaException [A : Type]
   extends
     java.lang.Throwable
 

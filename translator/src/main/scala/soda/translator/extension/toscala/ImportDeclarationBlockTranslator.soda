@@ -16,14 +16,27 @@ class ImportDeclarationBlockTranslator
   scala_import_declaration_pattern =
     _tc.scala_import_declaration + _tc.scala_space
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      translate_for (block)
+  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : String =
+    if annotated_line .is_comment
+    then annotated_line .line
+    else annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index)
 
-  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    match annotated_block
-      case ImportDeclarationAnnotation_ (block) ==> _translate_block (ImportDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
+  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
+    BlockBuilder_ () .build (
+      annotated_lines .map (lambda annotated_line -->
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+    )
+
+  get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (lambda ch --> ch .isSpaceChar)
+      .length
+
+  get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
 
   _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (
@@ -34,23 +47,15 @@ class ImportDeclarationBlockTranslator
       )
     )
 
-  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String) (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    BlockBuilder_ () .build (
-      annotated_lines .map (lambda annotated_line --> prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
-    )
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ImportDeclarationAnnotation_ (block) ==>
+        _translate_block (ImportDeclarationAnnotation_ (block) )
+      case otherwise ==> annotated_block
 
-  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine) : String =
-    if annotated_line .is_comment
-    then annotated_line .line
-    else annotated_line .line .substring (0, index) + prefix + annotated_line .line .substring (index)
-
-  get_number_of_spaces_at_beginning (line : String) : Int =
-    line
-      .takeWhile (lambda ch --> ch .isSpaceChar)
-      .length
-
-  get_first_line (block : AnnotatedBlock) : String =
-    block .lines .headOption .getOrElse ("")
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
 
 end
 

@@ -31,6 +31,8 @@ class SodaConstant
 
   lambda_unicode_symbol = "\u03BB"
 
+  def_reserved_word = "def"
+
   if_reserved_word = "if"
 
   if_proposed_unicode_symbol = "\u29E9"
@@ -91,7 +93,7 @@ class SodaConstant
 
   theorem_reserved_word = "theorem"
 
-  proof_reserved_word = "proof"
+  directive_reserved_word = "directive"
 
   constructor_suffix = "_"
 
@@ -109,7 +111,13 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
-  parameter_separation_regex = "]\\s*\\["
+  type_parameter_separation_regex = "]\\s*\\["
+
+  class_parameter_separation_regex = "\\)\\s*\\("
+
+  dot_notation_symbol = "."
+
+  dot_notation_regex = "\\s*\\."
 
   addition_symbol = "+"
 
@@ -155,10 +163,15 @@ class SodaConstant
 
   union_type_symbol = "|"
 
+  main_type_name = "Type"
+
+  main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+
   soda_reserved_words_words_only : Seq [String] =
     Seq (
       lambda_reserved_word,
       any_reserved_word,
+      def_reserved_word,
       if_reserved_word,
       then_reserved_word,
       else_reserved_word,
@@ -179,7 +192,7 @@ class SodaConstant
       package_reserved_word,
       import_reserved_word,
       theorem_reserved_word,
-      proof_reserved_word
+      directive_reserved_word
     )
 
   soda_reserved_words_symbols_only : Seq [String] =
@@ -213,7 +226,8 @@ class SodaConstant
     )
 
   soda_reserved_words : Seq [String] =
-    soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (soda_reserved_words_annotations_only) )
+    soda_reserved_words_words_only .++ (soda_reserved_words_symbols_only .++ (
+      soda_reserved_words_annotations_only) )
 
   soda_unicode_symbols : Seq [Tuple2 [String] [String] ] =
     Seq (

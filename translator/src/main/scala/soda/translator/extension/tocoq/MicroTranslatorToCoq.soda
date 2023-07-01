@@ -24,30 +24,33 @@ class MicroTranslatorToCoq
 
   functions_and_tests = Seq (_function_definition, _test_declaration)
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      _translation_pipeline .translate (block)
-
   try_definition : Token -> String =
     lambda token -->
-      DefinitionLineTranslator_ (token .text) .translation
+      CoqDefinitionLineTranslator_ (token .text) .translation
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        MatchCaseBlockTranslator_ (),
-        CoqDefinitionBlockTranslator_ (),
-        CoqClassConstructorBlockTranslator_ (),
-        CoqClassDeclarationBlockTranslator_ (),
-        CoqPackageDeclarationBlockTranslator_ (),
-        CoqClassEndBlockTranslator_ (),
-        CoqImportDeclarationBlockTranslator_ (),
-        CoqTheoremBlockTranslator_ (),
-        CoqProofBlockTranslator_ (),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenizedBlockTranslator_ (try_definition) ),
-        ConditionalBlockTranslator_ (functions_and_tests, TokenReplacement_ () .replace (_tc .function_symbols_translation) )
+        CoqDotNotationBlockTranslator_ () ,
+        CoqMatchCaseBlockTranslator_ () ,
+        CoqDefinitionBlockTranslator_ () ,
+        CoqClassConstructorBlockTranslator_ () ,
+        CoqClassDeclarationBlockTranslator_ () ,
+        CoqPackageDeclarationBlockTranslator_ () ,
+        CoqClassEndBlockTranslator_ () ,
+        CoqImportDeclarationBlockTranslator_ () ,
+        CoqTheoremBlockTranslator_ () ,
+        CoqDirectiveBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
+          TokenizedBlockTranslator_ (try_definition) ) ,
+        ConditionalBlockTranslator_ (functions_and_tests ,
+          TokenReplacement_ () .replace (_tc .function_symbols_translation) )
       )
     )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
 
 end
 

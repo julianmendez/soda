@@ -1,0 +1,42 @@
+
+class NatSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  test ("IntNat from non negative") (
+    check (
+      obtained := IntNat_ () .from_non_negative (8)
+    ) (
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+    )
+  )
+
+  test ("IntNat to Int") (
+    check (
+      obtained := IntNat_ () .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+    ) (
+      expected := 5
+    )
+  )
+
+  test ("Nat add") (
+    check (
+      obtained :=  Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+    ) (
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+    )
+  )
+
+  test ("Nat mul") (
+    check (
+      obtained := Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) )
+    ) (
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) ) ) ) ) )
+    )
+  )
+
+end
+

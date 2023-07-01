@@ -11,7 +11,7 @@ case class FizzBuzzSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val expected_result = Seq (
@@ -55,7 +55,7 @@ case class PatternMatchingSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = PatternMatching_ ()
@@ -78,7 +78,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 1") (
     check (
-      obtained = instance .get_value (Pair_ (10 , 100) )
+      obtained = instance .get_value (Pair_ (10, 100) )
     ) (
       expected = 55
     )
@@ -86,15 +86,15 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 2") (
     check (
-      obtained = instance .get_type_name (Pair_ (10 , 100) )
+      obtained = instance .get_type_name (Pair_ (10, 100) )
     ) (
-      expected = "pair (x , y)"
+      expected = "pair (x) (y)"
     )
   )
 
   test ("get value and name of triplet - 1") (
     check (
-      obtained = instance .get_value (Triplet_ (9 , 100 , 890) )
+      obtained = instance .get_value (Triplet_ (9, 100, 890) )
     ) (
       expected = 333
     )
@@ -102,9 +102,9 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 2") (
     check (
-      obtained = instance .get_type_name (Triplet_ (9 , 100 , 890) )
+      obtained = instance .get_type_name (Triplet_ (9, 100, 890) )
     ) (
-      expected = "triplet (x , y , z)"
+      expected = "triplet (x) (y) (z)"
     )
   )
 
@@ -126,13 +126,16 @@ case class SaladIngredient_ (ordinal : Int, name : String) extends SaladIngredie
 trait SaladIngredientConstant
 {
 
-  lazy val tomato = SaladIngredient_ (1 , "tomato")
+  private def _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
+    SaladIngredient_ (ordinal, name)
 
-  lazy val lettuce = SaladIngredient_ (2 , "lettuce")
+  lazy val tomato = _mk_SaladIngredient (1) ("tomato")
 
-  lazy val sunflower_seeds = SaladIngredient_ (3 , "sunflower seeds")
+  lazy val lettuce = _mk_SaladIngredient (2) ("lettuce")
 
-  lazy val olive_oil = SaladIngredient_ (4 , "olive_oil")
+  lazy val sunflower_seeds = _mk_SaladIngredient (3) ("sunflower seeds")
+
+  lazy val olive_oil = _mk_SaladIngredient (4) ("olive_oil")
 
   lazy val SaladIngredient_values = Seq (tomato , lettuce , sunflower_seeds , olive_oil)
 
@@ -146,13 +149,15 @@ case class SaladMakerSpec ()
     with SaladIngredientConstant
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
+  def add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient)
+      : Seq [SaladIngredient] =
     salad_so_far .+: (ingredient)
 
-  def has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
+  def has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] )
+      (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
   private lazy val _salad_maker = SaladMaker_ ()
@@ -162,8 +167,8 @@ case class SaladMakerSpec ()
       obtained = _salad_maker .apply (
         list_of_ingredients = SaladIngredient_values) (
         initial_bowl = Seq [SaladIngredient] () ) (
-        next_ingredient_function = add_next_ingredient) (
-        condition_to_continue = has_salad_at_most_2_ingredients
+        next_ingredient = add_next_ingredient) (
+        condition = has_salad_at_most_2_ingredients
       )
     ) (
       expected = Seq (sunflower_seeds , lettuce , tomato)
@@ -180,7 +185,7 @@ case class SortExampleSpec ()
 
   import   soda.lib.SomeSD_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val sorted_sequence = Seq (1 , 3 , 5 , 5 , 8 , 9)
@@ -221,7 +226,8 @@ case class SortExampleSpec ()
 
   test ("insert sorted simple") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
+      obtained = SortAlgorithmExampleWithFold_ ()
+        .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 6 , 8 , 9)
     )
@@ -229,7 +235,8 @@ case class SortExampleSpec ()
 
   test ("insert sorted with repetition") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ () .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
+      obtained = SortAlgorithmExampleWithFold_ ()
+        .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 5 , 6 , 8 , 9)
     )

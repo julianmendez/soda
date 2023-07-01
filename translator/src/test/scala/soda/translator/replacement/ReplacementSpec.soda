@@ -6,7 +6,7 @@ class ReplacementSpec ()
   import
     soda.translator.parser.SodaConstant_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance = ReplacementAux_ ()

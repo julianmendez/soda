@@ -4,7 +4,7 @@ class TokenReplacement
   import
     soda.translator.replacement.ReplacementWithTranslator_
 
-  replace (table : Seq [ Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+  replace (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token -->
         ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace (token .text)

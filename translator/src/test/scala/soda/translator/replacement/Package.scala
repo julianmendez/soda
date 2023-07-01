@@ -11,7 +11,7 @@ case class CharTypeSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   test ("should recognize quotation marks") (
@@ -66,7 +66,7 @@ case class ReplacementAuxSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = ReplacementAux_ ()
@@ -181,13 +181,15 @@ case class ReplacementAuxSpec ()
     check (
       obtained = instance .add_spaces_to_symbols (line_2) ( (Seq [Char] (',') ) .toSet)
     ) (
-      expected = " false , true , not , and , or , package , import , theorem , proof , is , lambda"
+      expected =
+        " false , true , not , and , or , package , import , theorem , proof , is , lambda"
     )
   )
 
   test ("add_spaces_to_symbols 3") (
     check (
-      obtained = instance .add_spaces_to_symbols (line_1) ( (Seq [Char] ('a', 'e', 'i', 'o', 'u') ) .toSet)
+      obtained = instance .add_spaces_to_symbols (line_1) ( (Seq [Char] (
+        'a', 'e', 'i', 'o', 'u') ) .toSet)
     ) (
       expected = "cl a ss h a s e xt e nds w i th th i s s u btyp e s u p e rtyp e "
     )
@@ -235,7 +237,7 @@ case class ReplacementSpec ()
 
   import   soda.translator.parser.SodaConstant_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance = ReplacementAux_ ()
@@ -283,17 +285,20 @@ case class TokenizerSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
+
+  private def _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
+    Token_ (text, parser_state, index)
 
   test ("should tokenize a small example") (
     check (
       obtained = Tokenizer_ ("    val Constant = \"my text\"") .tokens
     ) (
       expected = Seq (
-        Token_ ("    val Constant = " , ParserStateEnum_ () .plain , 0),
-        Token_ ("\"my text\"" , ParserStateEnum_ () .quotes_state , 19),
-        Token_ ("" , ParserStateEnum_ () .plain , 28)
+        _mk_Token ("    val Constant = ") (ParserStateEnum_ () .plain) (0),
+        _mk_Token ("\"my text\"") (ParserStateEnum_ () .quotes_state) (19),
+        _mk_Token ("") (ParserStateEnum_ () .plain) (28)
       )
     )
   )
@@ -303,9 +308,9 @@ case class TokenizerSpec ()
       obtained = Tokenizer_ ("  x = \"abc\tde\"") .tokens
     ) (
       expected = Seq (
-        Token_ ("  x = " , ParserStateEnum_ () .plain , 0),
-        Token_ ("\"abc\tde\"" , ParserStateEnum_ () .quotes_state , 6),
-        Token_ ("" , ParserStateEnum_ () .plain , 14)
+        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
+        _mk_Token ("\"abc\tde\"") (ParserStateEnum_ () .quotes_state) (6),
+        _mk_Token ("") (ParserStateEnum_ () .plain) (14)
       )
     )
   )
@@ -315,9 +320,9 @@ case class TokenizerSpec ()
       obtained = Tokenizer_ ("  x = \"abc\\tde\"") .tokens
     ) (
       expected = Seq (
-        Token_ ("  x = " , ParserStateEnum_ () .plain , 0),
-        Token_ ("\"abc\\tde\"" , ParserStateEnum_ () .quotes_state , 6),
-        Token_ ("" , ParserStateEnum_ () .plain , 15)
+        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
+        _mk_Token ("\"abc\\tde\"") (ParserStateEnum_ () .quotes_state) (6),
+        _mk_Token ("") (ParserStateEnum_ () .plain) (15)
       )
     )
   )
@@ -327,7 +332,7 @@ case class TokenizerSpec ()
       obtained = Tokenizer_ ("def f (x: Int): Int = x") .tokens
     ) (
       expected = Seq (
-        Token_ ("def f (x: Int): Int = x" , ParserStateEnum_ () .plain , 0)
+        _mk_Token ("def f (x: Int): Int = x") (ParserStateEnum_ () .plain) (0)
       )
     )
   )
@@ -337,7 +342,7 @@ case class TokenizerSpec ()
       obtained = Tokenizer_ ("\tas_digits (5 * number)") .tokens
     ) (
       expected = Seq (
-        Token_ ("\tas_digits (5 * number)" , ParserStateEnum_ () .plain , 0)
+        _mk_Token ("\tas_digits (5 * number)") (ParserStateEnum_ () .plain) (0)
       )
     )
   )

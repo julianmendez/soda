@@ -23,22 +23,22 @@ trait Package
 trait CartesianProduct
 {
 
-  def apply [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+  lazy val fold = Fold_ ()
+
+  private def _initial_value [A ] (seq : Seq [A] ) : Seq [Seq [A] ] =
+    seq .map ( elem => Seq [A] (elem) )
+
+  private def _next_value [A ] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
+    seq_a .flatMap ( elem_a =>
+      accum .map ( seq_b => seq_b .+: (elem_a) ) )
+
+  private def _apply_recursion [A ] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+    fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
+
+  def apply [A ] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if ( sequences .isEmpty
     ) sequences
     else _apply_recursion (sequences .reverse)
-
-  private def _apply_recursion [A] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
-
-  private lazy val _fold = Fold_ ()
-
-  private def _initial_value [A] (seq : Seq [A] ) : Seq [Seq [A] ] =
-    seq .map ( elem => Seq [A] (elem) )
-
-  private def _next_value [A] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
-    seq_a .flatMap ( elem_a =>
-      accum .map ( seq_b => seq_b .+: (elem_a) ) )
 
 }
 
@@ -99,7 +99,7 @@ case class Enum_ [A <: EnumConstant] (values : Seq [A]) extends Enum [A]
  * This is an Option implemented without exceptions.
  */
 
-trait OptionSD [A]
+trait OptionSD [A ]
 {
 
   def   toOption : Option [A]
@@ -108,13 +108,13 @@ trait OptionSD [A]
   def   isNonEmpty : Boolean
   def   toSeq : Seq [A]
 
-  def opt [B] (ifEmpty : B) (ifNonEmpty : A => B) : B =
+  def opt [B ] (ifEmpty : B) (ifNonEmpty : A => B) : B =
     this match  {
       case SomeSD_ (element) => ifNonEmpty (element)
       case otherwise => ifEmpty
     }
 
-  def map [B] (mapping : A => B) : OptionSD [B] =
+  def map [B ] (mapping : A => B) : OptionSD [B] =
     this match  {
       case SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
       case otherwise => NoneSD_ [B] ()
@@ -126,19 +126,19 @@ trait OptionSD [A]
       case otherwise => default
     }
 
-  def fold [B] (ifEmpty : B) (f : A => B) : B =
+  def fold [B ] (ifEmpty : B) (f : A => B) : B =
     this match  {
       case SomeSD_ (element) => f (element)
       case otherwise => ifEmpty
     }
 
-  def flatMap [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
+  def flatMap [B ] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     this match  {
       case SomeSD_ (element) => mapping (element)
       case otherwise => NoneSD_ ()
     }
 
-  def bind [B] (mapping : A => OptionSD [B] ) : OptionSD [B] =
+  def bind [B ] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
 
   def filter (predicate : A => Boolean) : OptionSD [A] =
@@ -154,7 +154,7 @@ trait OptionSD [A]
 
 case class OptionSD_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A]) extends OptionSD [A]
 
-trait NoneSD [A]
+trait NoneSD [A ]
   extends
     OptionSD [A]
 {
@@ -173,7 +173,7 @@ trait NoneSD [A]
 
 case class NoneSD_ [A] () extends NoneSD [A]
 
-trait OptionSDWithElement [A]
+trait OptionSDWithElement [A ]
   extends
     OptionSD [A]
 {
@@ -189,7 +189,7 @@ trait OptionSDWithElement [A]
 
 case class OptionSDWithElement_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A], element : A) extends OptionSDWithElement [A]
 
-trait SomeSD [A]
+trait SomeSD [A ]
   extends
     OptionSDWithElement [A]
 {
@@ -212,13 +212,14 @@ trait SomeSD [A]
 
 case class SomeSD_ [A] (element : A) extends SomeSD [A]
 
-trait OptionSDBuilder [A]
+trait OptionSDBuilder [A ]
 {
 
   def build (option : Option [A] ) : OptionSD [A] =
-    if ( option .isEmpty
-    ) NoneSD_ [A] ()
-    else SomeSD_ [A] (option .get)
+    option match  {
+      case Some (content) => SomeSD_ [A] (content)
+      case otherwise => NoneSD_ [A] ()
+    }
 
 }
 
@@ -236,20 +237,19 @@ case class OptionSDBuilder_ [A] () extends OptionSDBuilder [A]
 trait FoldWhile
 {
 
-  def apply [A, B]
-    (sequence : Seq [A] )
-    (initial_value : B)
-    (next_value_function : B => A => B)
-    (condition : B => A => Boolean)
-      : B =
-    _tailrec_fold_while (sequence) (initial_value) (next_value_function) (condition)
-
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold_while [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence .isEmpty || (! condition (current_value) (sequence .head) )
-    ) current_value
-    else _tailrec_fold_while (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function) (condition)
+  private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    if ( sequence .isEmpty || (! condition (current) (sequence .head) )
+    ) current
+    else _tailrec_fold_while (sequence .tail) (next (current) (sequence .head) ) (next) (
+      condition)
+
+  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
+    (condition : B => A => Boolean)
+      : B =
+    _tailrec_fold_while (sequence) (initial) (next) (condition)
 
 }
 
@@ -258,19 +258,16 @@ case class FoldWhile_ () extends FoldWhile
 trait Fold
 {
 
-  def apply [A, B]
-    (sequence : Seq [A] )
-    (initial_value : B)
-    (next_value_function : B => A => B)
-      : B =
-    _tailrec_fold (sequence) (initial_value) (next_value_function)
-
   import scala.annotation.tailrec
         @tailrec  final
-  private def _tailrec_fold [A, B] (sequence : Seq [A] ) (current_value : B) (next_value_function : B => A => B) : B =
+  private def _tailrec_fold [A , B ] (sequence : Seq [A] ) (current : B) (next : B => A => B)
+      : B =
     if ( sequence .isEmpty
-    ) current_value
-    else _tailrec_fold (sequence .tail) (next_value_function (current_value) (sequence .head) ) (next_value_function)
+    ) current
+    else _tailrec_fold (sequence .tail) (next (current) (sequence .head) ) (next)
+
+  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
+    _tailrec_fold (sequence) (initial) (next)
 
 }
 
@@ -279,15 +276,15 @@ case class Fold_ () extends Fold
 trait Range
 {
 
-  def apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
-
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if ( n <= 0
     ) sequence
     else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+
+  def apply (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Seq [Int] () )
 
 }
 
@@ -302,11 +299,12 @@ trait Recursion
 
   private lazy val _range = Range_ ()
 
-  def fold_while [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) (condition : B => A => Boolean) : B =
-    _fold_while .apply (sequence) (initial_value) (next_value_function) (condition)
+  def fold_while [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
+      (condition : B => A => Boolean) : B =
+    _fold_while .apply (sequence) (initial) (next) (condition)
 
-  def fold [A, B] (sequence : Seq [A] ) (initial_value : B) (next_value_function : B => A => B) : B =
-    _fold .apply (sequence) (initial_value) (next_value_function)
+  def fold [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
+    _fold .apply (sequence) (initial) (next)
 
   def range (length : Int) : Seq [Int] =
     _range .apply (length)
@@ -324,13 +322,13 @@ case class Recursion_ () extends Recursion
  * This is a Seq implemented without exceptions.
  */
 
-trait SeqSD [A]
+trait SeqSD [A ]
 {
 
   def   toSeq : Seq [A]
   def   reverse : SeqSD [A]
 
-  def opt [B] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
+  def opt [B ] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
     this match  {
       case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ (toSeq) )
       case otherwise => ifEmpty
@@ -340,7 +338,7 @@ trait SeqSD [A]
 
 case class SeqSD_ [A] (toSeq : Seq [A], reverse : SeqSD [A]) extends SeqSD [A]
 
-trait EmptySeqSD [A]
+trait EmptySeqSD [A ]
   extends
     SeqSD [A]
 {
@@ -353,7 +351,7 @@ trait EmptySeqSD [A]
 
 case class EmptySeqSD_ [A] () extends EmptySeqSD [A]
 
-trait NonEmptySeqSD [A]
+trait NonEmptySeqSD [A ]
   extends
     SeqSD [A]
 {
@@ -370,7 +368,7 @@ trait NonEmptySeqSD [A]
 
 case class NonEmptySeqSD_ [A] (toSeq : Seq [A]) extends NonEmptySeqSD [A]
 
-trait SeqSDBuilder [A]
+trait SeqSDBuilder [A ]
 {
 
   def build (seq : Seq [A] ) : SeqSD [A] =
@@ -391,7 +389,7 @@ case class SeqSDBuilder_ [A] () extends SeqSDBuilder [A]
  * This class models an exception in Soda.
  */
 
-trait SodaException [A]
+trait SodaException [A ]
   extends
     java.lang.Throwable
 {

@@ -14,19 +14,20 @@ class LibraryDeployer
       .split ("\n")
       .toSeq
 
-  expand_library (lib_files : Seq [File] ) : Boolean =
-    lib_files
-      .map (lambda lib_file --> lib_file .getParent)
-      .map (lambda parent_directory --> _expand_files (parent_directory) )
-      .forall (lambda x --> x)
-
   _expand_files (parent_directory : String) : Boolean =
     _library_content_files
       .map (lambda lib_file_name -->
         SimpleFileWriter_ () .write_file_with (
           file := SimpleFileWriter_ () .create_file (parent_directory) (lib_file_name) ) (
-          content := SimpleFileReader_ () .read_resource (_library_directory_in_jar + lib_file_name)
+          content := SimpleFileReader_ () .read_resource (
+            _library_directory_in_jar + lib_file_name)
         ) )
+      .forall (lambda x --> x)
+
+  expand_library (lib_files : Seq [File] ) : Boolean =
+    lib_files
+      .map (lambda lib_file --> lib_file .getParent)
+      .map (lambda parent_directory --> _expand_files (parent_directory) )
       .forall (lambda x --> x)
 
 end

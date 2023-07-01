@@ -1,0 +1,101 @@
+
+class LeanClassDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.block.Translator
+    soda.translator.blocktr.TableTranslator_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
+    soda.translator.replacement.Replacement_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToLean_ ()
+
+  soda_space : String = _sc .space
+
+  scala_space : String = " "
+
+  get_first_line (block : Block) : String =
+    block .lines .headOption .getOrElse ("")
+
+  get_initial_spaces_for (line : String) : String =
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
+
+  get_initial_spaces (block : Block) : String =
+    get_initial_spaces_for (get_first_line (block) )
+
+  _process_after_extends (block : Block) : Seq [String] =
+    if (get_first_line (block) .trim .nonEmpty)
+    then block .lines .map (lambda line --> _tc .lean_import_reserved_word + _tc .lean_space +
+      line .trim + _tc .lean_space + _tc .lean_end_symbol)
+    else Seq [String] ()
+
+  _remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if lines .isEmpty
+    then lines
+    else lines .tail
+
+  remove_first_line (block : Block) : Block =
+    BlockBuilder_ () .build (_remove_first_line (block .lines) )
+
+  _process_if_extends (block : Block) : Seq [String] =
+    if (get_first_line (block) .trim == _sc .extends_reserved_word)
+    then Seq [String] (get_initial_spaces (block) ) .++ (
+      _process_after_extends (remove_first_line (block) ) )
+    else block .lines
+
+  _process_tail (block : Block) : Seq [String] =
+    _process_if_extends (remove_first_line (block) )
+
+  get_table_translator (line : String) : Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_namespace_reserved_word ) )
+    )
+
+  _process_head_with (line : String) (block : Block) : Seq [String] =
+    Seq [String] (
+      Replacement_ (_sc .space + line)
+        .replace_at_beginning (0) (get_table_translator (line) )
+        .line .substring (_sc .space .length)
+    )
+
+  _process_head (block : Block) : Seq [String] =
+    _process_head_with (get_first_line (block) ) (block)
+
+  contains_equals (line : String) : Boolean =
+    line .trim .contains (_sc .function_definition_symbol)
+
+  has_condition_for_type_alias (line : String) : Boolean =
+    contains_equals (line)
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    if (has_condition_for_type_alias (get_first_line (block) ) )
+    then block
+    else
+      BlockBuilder_ () .build (
+        _process_head (block) ++ _process_tail (block)
+      )
+
+  _translate_class_beginning_block (block : ClassBeginningAnnotation)
+      : ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassBeginningAnnotation_ (block) ==>
+        _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

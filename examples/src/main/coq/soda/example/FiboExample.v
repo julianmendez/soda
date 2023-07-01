@@ -27,7 +27,9 @@ Module FiboExampleSpec.
   Import FiboExample.
 
   Definition fibonacci_values : list (prod nat nat) :=
-    (pair 0 0) :: (pair 1 1) :: (pair 2 1) :: (pair 3 2) :: (pair 4 3) :: (pair 5 5) :: (pair 6 8) :: (pair 7 13) :: (pair 8 21) :: (pair 9 34) :: (pair 10 55) :: (pair 11 89) :: (pair 12 144) :: nil.
+    (pair 0 0) :: (pair 1 1) :: (pair 2 1) :: (pair 3 2) :: (pair 4 3) :: (pair 5 5) ::
+    (pair 6 8) :: (pair 7 13) :: (pair 8 21) :: (pair 9 34) :: (pair 10 55) :: (pair 11 89) ::
+    (pair 12 144) :: nil.
 
   Example test_1 :
     map fib (map fst fibonacci_values) = map snd fibonacci_values.

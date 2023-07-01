@@ -1,6 +1,7 @@
 
 /**
- * This class contains constants that are specific for the Soda translator, like reserved words for Soda and Scala.
+ * This class contains constants that are specific for the Soda translator,
+ * like reserved words for Soda and Scala.
  */
 
 class TranslationConstantToScala
@@ -20,7 +21,9 @@ class TranslationConstantToScala
 
   scala_comma = ","
 
-  scala_parameter_separator_symbol = ","
+  scala_type_parameter_separator_symbol = ","
+
+  scala_class_parameter_separator_symbol = ","
 
   scala_lambda_arrow_symbol = "=>"
 
@@ -78,7 +81,8 @@ class TranslationConstantToScala
 
   scala_or_symbol = "||"
 
-  scala_tail_recursion_annotation_translation = "import scala.annotation.tailrec\n        @tailrec  final"
+  scala_tail_recursion_annotation_translation =
+    "import scala.annotation.tailrec\n        @tailrec  final"
 
   scala_override_annotation_translation = "override"
 
@@ -86,9 +90,12 @@ class TranslationConstantToScala
 
   soda_main_class_name = "Main"
 
-  scala_entry_point = "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
+  scala_entry_point =
+    "object EntryPoint {\n  def main (args: Array [String]): Unit = Main_ ().main (args)\n}\n"
 
   scala_private_reserved_word = "private"
+
+  scala_directive_identifier = "scala"
 
   /**
    * Scala 3 keywords:
@@ -202,7 +209,8 @@ class TranslationConstantToScala
       Tuple2 (soda_constant .if_reserved_word , scala_if_translation) ,
       Tuple2 (soda_constant .then_reserved_word , scala_then_translation) ,
       Tuple2 (soda_constant .parameter_definition_symbol , scala_parameter_definition_symbol) ,
-      Tuple2 (soda_constant .tail_recursion_annotation , scala_tail_recursion_annotation_translation) ,
+      Tuple2 (soda_constant .tail_recursion_annotation ,
+        scala_tail_recursion_annotation_translation) ,
       Tuple2 (soda_constant .override_annotation , scala_override_annotation_translation) ,
       Tuple2 (soda_constant .new_annotation , scala_new_annotation_translation)
     )

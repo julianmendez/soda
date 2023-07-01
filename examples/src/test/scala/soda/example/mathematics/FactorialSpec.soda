@@ -3,14 +3,17 @@ class FactorialSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   factorial_values = Seq (
-    (-1 , 0) , (0 , 1) , (1 , 1) , (2 , 2) , (3 , 6) , (4 , 24) , (5 , 120) , (6 , 720) , (7 , 5040) , (8 , 40320) , (9 , 362880) , (10 , 3628800)
+    (-1 , 1) , (0 , 1) , (1 , 1) , (2 , 2) , (3 , 6) , (4 , 24) , (5 , 120) , (6 , 720) ,
+    (7 , 5040) , (8 , 40320) , (9 , 362880) , (10 , 3628800)
   )
 
   _factorial_concise = FactorialConcise_ ()
+
+  _factorial_simple = FactorialSimple_ ()
 
   _factorial_patten_matching = FactorialPatternMatching_ ()
 
@@ -21,6 +24,16 @@ class FactorialSpec ()
       obtained := factorial_values
         .map (lambda pair --> pair ._1)
         .map (lambda n --> Tuple2 (n , _factorial_concise .apply (n) ) )
+    ) (
+      expected := factorial_values
+    )
+  )
+
+  test ("should test the factorial - simple version") (
+    check (
+      obtained := factorial_values
+        .map (lambda pair --> pair ._1)
+        .map (lambda n --> Tuple2 (n , _factorial_simple .apply (n) ) )
     ) (
       expected := factorial_values
     )

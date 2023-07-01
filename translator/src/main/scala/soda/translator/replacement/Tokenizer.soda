@@ -12,6 +12,15 @@ class Token
 
 end
 
+class TokenizerFoldTuple
+
+  abstract
+    last_index : Int
+    parser_state : ParserState
+    rev_tokens : Seq [Token]
+
+end
+
 /**
  * This class processes a line to divide it into tokens.
  */
@@ -27,26 +36,16 @@ class Tokenizer
     soda.lib.Fold_
     soda.lib.Range_
 
+  _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
+    Token_ (text) (parser_state) (index)
+
+  _mk_TokenizerFoldTuple (last_index : Int) (parser_state : ParserState)
+      (rev_tokens : Seq [Token] ) : TokenizerFoldTuple =
+    TokenizerFoldTuple_ (last_index) (parser_state) (rev_tokens)
+
   _fold = Fold_ ()
 
   _range = Range_ ()
-
-  tokens : Seq [Token] =
-    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (_next_value_function) )
-
-  _initial_value  : TokenizerFoldTuple = TokenizerFoldTuple_ (0, ParserStateEnum_ () .plain, Seq () )
-
-  _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
-    (tuple .rev_tokens .+: (Token_ (line .substring (tuple .last_index), tuple .parser_state, tuple .last_index) ) )
-      .reverse
-
-  _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
-    _new_value_function_with (tuple) (current_index) (_new_parser_state (tuple) (current_index) )
-
-  _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
-    if ParserStateEnum_ () .is_same_class (new_parser_state) (tuple .parser_state)
-    then TokenizerFoldTuple_ (tuple .last_index, new_parser_state, tuple .rev_tokens)
-    else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
   _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
     ParserTransition_ ()
@@ -55,39 +54,52 @@ class Tokenizer
         CharTypeEnum_ () .get_char_type (line .charAt (current_index) )
       )
 
-  _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) : TokenizerFoldTuple =
-    _next_value_function_of_different_class_with (
-      tuple) (
-      current_index) (
-      new_parser_state) (
-      _get_new_current_index (tuple) (current_index)
-    )
-
   _get_new_current_index (tuple : TokenizerFoldTuple) (current_index : Int) : Int =
     if tuple .parser_state == ParserStateEnum_ () .quotes_state or
      tuple .parser_state == ParserStateEnum_ () .apostrophe_state
     then current_index + 1
     else current_index
 
-  _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple) (current_index : Int) (new_parser_state : ParserState) (index : Int) : TokenizerFoldTuple =
-    TokenizerFoldTuple_ (index, new_parser_state,
+  _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple)
+      (current_index : Int) (new_parser_state : ParserState) (index : Int)
+      : TokenizerFoldTuple =
+    _mk_TokenizerFoldTuple (index) (new_parser_state) (
       tuple .rev_tokens .+: (
-        Token_ (
-          line .substring (tuple .last_index, index),
-          tuple .parser_state,
+        _mk_Token (
+          line .substring (tuple .last_index, index) ) (
+          tuple .parser_state ) (
           tuple .last_index
         )
       )
     )
 
-end
+  _next_value_function_of_different_class (tuple : TokenizerFoldTuple) (current_index : Int)
+      (new_parser_state : ParserState) : TokenizerFoldTuple =
+    _next_value_function_of_different_class_with (tuple) (current_index) (new_parser_state) (
+      _get_new_current_index (tuple) (current_index)
+    )
 
-class TokenizerFoldTuple
+  _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int)
+      (new_parser_state : ParserState) : TokenizerFoldTuple =
+    if ParserStateEnum_ () .is_same_class (new_parser_state) (tuple .parser_state)
+    then _mk_TokenizerFoldTuple (tuple .last_index) (new_parser_state) (tuple .rev_tokens)
+    else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
-  abstract
-    last_index : Int
-    parser_state : ParserState
-    rev_tokens : Seq [Token]
+  _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
+    _new_value_function_with (tuple) (current_index) (
+      _new_parser_state (tuple) (current_index) )
+
+  _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
+    (tuple .rev_tokens .+: (Token_ (line .substring (tuple .last_index) , tuple .parser_state ,
+        tuple .last_index) ) )
+      .reverse
+
+  _initial_value  : TokenizerFoldTuple =
+    _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
+
+  tokens : Seq [Token] =
+    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (
+      _next_value_function) )
 
 end
 

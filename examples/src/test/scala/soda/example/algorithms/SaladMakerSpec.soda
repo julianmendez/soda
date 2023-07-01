@@ -11,13 +11,16 @@ end
 
 class SaladIngredientConstant
 
-  tomato = SaladIngredient_ (1 , "tomato")
+  _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
+    SaladIngredient_ (ordinal) (name)
 
-  lettuce = SaladIngredient_ (2 , "lettuce")
+  tomato = _mk_SaladIngredient (1) ("tomato")
 
-  sunflower_seeds = SaladIngredient_ (3 , "sunflower seeds")
+  lettuce = _mk_SaladIngredient (2) ("lettuce")
 
-  olive_oil = SaladIngredient_ (4 , "olive_oil")
+  sunflower_seeds = _mk_SaladIngredient (3) ("sunflower seeds")
+
+  olive_oil = _mk_SaladIngredient (4) ("olive_oil")
 
   SaladIngredient_values = Seq (tomato , lettuce , sunflower_seeds , olive_oil)
 
@@ -28,13 +31,15 @@ class SaladMakerSpec ()
     org.scalatest.funsuite.AnyFunSuite
     SaladIngredientConstant
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient) : Seq [SaladIngredient] =
+  add_next_ingredient (salad_so_far : Seq [SaladIngredient] ) (ingredient : SaladIngredient)
+      : Seq [SaladIngredient] =
     salad_so_far .+: (ingredient)
 
-  has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] ) (next_ingredient : SaladIngredient) : Boolean =
+  has_salad_at_most_2_ingredients (salad_so_far : Seq [SaladIngredient] )
+      (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
   _salad_maker = SaladMaker_ ()
@@ -44,8 +49,8 @@ class SaladMakerSpec ()
       obtained := _salad_maker .apply (
         list_of_ingredients := SaladIngredient_values) (
         initial_bowl := Seq [SaladIngredient] () ) (
-        next_ingredient_function := add_next_ingredient) (
-        condition_to_continue := has_salad_at_most_2_ingredients
+        next_ingredient := add_next_ingredient) (
+        condition := has_salad_at_most_2_ingredients
       )
     ) (
       expected := Seq (sunflower_seeds , lettuce , tomato)

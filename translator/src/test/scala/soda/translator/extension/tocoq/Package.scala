@@ -16,7 +16,7 @@ case class CoqFullTranslationSpec ()
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val Base = "/soda/translator/example/"
@@ -25,12 +25,16 @@ case class CoqFullTranslationSpec ()
 
   lazy val CoqSuffix = ".v"
 
-  lazy val SwapExample = "algorithms/SwapExample"
+  lazy val SwapExample = "forcoq/algorithms/SwapExample"
 
   lazy val TriangularNumber = "forcoq/mathematics/TriangularNumberForCoq"
 
-  def test_translation (file_name : String) : Assertion =
-    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (expected_file_name = Base + file_name + CoqSuffix)
+  def read_file (file_name : String) : String =
+    new String (
+      Files .readAllBytes (
+        Paths .get (getClass .getResource (file_name) .toURI)
+      )
+    )
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
@@ -44,12 +48,9 @@ case class CoqFullTranslationSpec ()
       expected = read_file (expected_file_name)
     )
 
-  def read_file (file_name : String) : String =
-    new String (
-      Files .readAllBytes (
-        Paths .get (getClass .getResource (file_name) .toURI)
-      )
-    )
+  def test_translation (file_name : String) : Assertion =
+    test_translation_with (input_file_name = Base + file_name + SodaSuffix) (
+      expected_file_name = Base + file_name + CoqSuffix)
 
   test ("should translate the swap example") (
     test_translation (SwapExample)
@@ -70,7 +71,7 @@ case class MicroTranslatorToCoqSpec ()
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.parser.BlockProcessor_
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =

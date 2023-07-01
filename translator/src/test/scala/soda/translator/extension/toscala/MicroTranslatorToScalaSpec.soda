@@ -7,7 +7,7 @@ class MicroTranslatorToScalaSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance =
@@ -34,19 +34,42 @@ class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a creation of instance with parameters") (
+    check (
+      obtained := instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
+        "\n      MinMaxPair_ (" +
+        "        min := MaxAndMin_ () .min (a) (b) ) (" +
+        "        max := MaxAndMin_ () .max (a) (b)" +
+        "      )" +
+        "\n"
+      )
+    ) (
+      expected := "    def min_max (a : Int) (b : Int) : MinMaxPair =" +
+        "\n      MinMaxPair_ (" +
+        "        min = MaxAndMin_ () .min (a) (b) , " +
+        "        max = MaxAndMin_ () .max (a) (b)" +
+        "      )" +
+        "\n"
+    )
+  )
+
   test ("should leave content of apostrophes unchanged") (
     check (
-      obtained := instance .translate (" a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
+      obtained := instance .translate (
+        " a = Seq ('\\'', \'', '\\\"', ' or ', \'or\', '0x00', '->', '/*', '*/')\n")
     ) (
-      expected := " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
+      expected :=
+        " lazy val a = Seq ('\\'', '', '\\\"', ' or ', 'or', '0x00', '->', '/*', '*/')\n"
     )
   )
 
   test ("should leave content of quotation marks unchanged") (
     check (
-      obtained := instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
+      obtained := instance .translate (" a = Seq (\"\\\"\", \"\", \"\\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n" )
     ) (
-      expected := " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \" or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
+      expected := " lazy val a = Seq (\"\\\"\", \"\", \"\\'\", \"" +
+        " or \", \"or\", \"0x00\", \"->\", \"/*\", \"*/\")\n"
     )
   )
 
@@ -76,11 +99,11 @@ class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n    value : Int" +
         "\n" +
-        "\n  h (x : Int) : Int = 2 * x + 1" +
+        "\n  h [B : Type] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\nend" +
         "\n" +
-        "\nclass E [A]" +
+        "\nclass E [A : Type]" +
         "\n" +
         "\n  i (x : A) : A = x" +
         "\n" +
@@ -119,11 +142,11 @@ class MicroTranslatorToScalaSpec ()
         "\n     */" +
         "\n  def   value : Int" +
         "\n" +
-        "\n  def h (x : Int) : Int = 2 * x + 1" +
+        "\n  def h [B ] (x : Int) : Int = 2 * x + 1" +
         "\n" +
         "\n}" +
         "\n" +
-        "\ntrait E [A]" +
+        "\ntrait E [A ]" +
         "\n{" +
         "\n" +
         "\n  def i (x : A) : A = x" +
@@ -183,20 +206,20 @@ class MicroTranslatorToScalaSpec ()
 
   test ("should translate type aliases") (
     check (
-      obtained := instance .translate ("class A [T] = B [T]" +
+      obtained := instance .translate ("class A [T : Type] = B [T]" +
         "\n" +
         "\nclass C = D" +
         "\n" +
-        "\nclass M = Map [Int, Seq [Int]]" +
+        "\nclass M = Map [Int] [Seq [Int] ]" +
         "\n"
       )
     ) (
       expected :=
-        "type A [T] = B [T]" +
+        "type A [T ] = B [T]" +
         "\n" +
         "\ntype C = D" +
         "\n" +
-        "\ntype M = Map [Int, Seq [Int]]" +
+        "\ntype M = Map [Int, Seq [Int] ]" +
         "\n"
     )
   )
@@ -308,6 +331,79 @@ class MicroTranslatorToScalaSpec ()
     ) (
       expected := "def plus_1 (s : Seq [Int] ) : Seq [Int] =" +
         "\n  s .map ( x => x + 1)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 1") (
+    check (
+      obtained := instance .translate ("p = Constructor_ (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = Constructor_ (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 2") (
+    check (
+      obtained := instance .translate (
+        "p (x : Int) : Constructor = Constructor_ [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "def p (x : Int) : Constructor = Constructor_ [String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 3") (
+    check (
+      obtained := instance .translate ("p = Constructor_ [Int] [String] (a) (b) (c)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = Constructor_ [Int, String] (a, b, c)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 4") (
+    check (
+      obtained := instance .translate (
+        "p = (Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)" +
+        "\n"
+      )
+    ) (
+      expected := "lazy val p = (Constructor_ [Int, String] (a, b, c) ) .process (d) (e)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 5") (
+    check (
+      obtained := instance .translate (
+        "p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+      )
+    ) (
+      expected :=
+        "lazy val p = \"(Constructor_ [Int] [String] (a) (b) (c) ) .process (d) (e)\"" +
+        "\n"
+    )
+  )
+
+  test ("should translate a constructor with parameters 6") (
+    check (
+      obtained := instance .translate (
+        "  case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
+        "\n"
+      )
+    ) (
+      expected := "  case Triplet_ (x, y, z) ==> (Triplet_ (x, y, z) )" +
+        " .get (x) (y) (z) + \" (x) (y) (z)\"" +
         "\n"
     )
   )

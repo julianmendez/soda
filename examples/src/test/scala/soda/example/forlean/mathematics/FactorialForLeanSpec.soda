@@ -1,0 +1,35 @@
+
+class FactorialForLeanSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  import
+    soda.example.forlean.lib.IntNat_
+    soda.example.forlean.lib.Nat
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  factorial_values : Seq [Tuple2 [Int] [Int] ] = Seq (
+    (0 , 1) , (1 , 1) , (2 , 2) , (3 , 6) , (4 , 24) , (5 , 120) , (6 , 720)
+  )
+
+  factorial_values_with_nat : Seq [ Tuple2 [Nat] [Nat] ] =
+    factorial_values
+      .map (lambda pair -->
+        Tuple2 (IntNat_ () .from_non_negative (pair ._1),
+          IntNat_ () .from_non_negative (pair ._2) )
+      )
+
+  test ("should test the factorial function for Coq") (
+    check (
+      obtained := factorial_values_with_nat
+        .map (lambda pair --> pair ._1)
+        .map (lambda n --> Tuple2 (n , FactorialForLean_ () .get_factorial (n) ) )
+    ) (
+      expected := factorial_values_with_nat
+    )
+  )
+
+end
+

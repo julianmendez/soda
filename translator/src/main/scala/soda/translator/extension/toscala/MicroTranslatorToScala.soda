@@ -27,28 +27,34 @@ class MicroTranslatorToScala
   _definitions_and_declarations =
     _functions_and_tests .++ (_class_declarations)
 
-  translate : AnnotatedBlock -> AnnotatedBlock =
-    lambda block -->
-      _translation_pipeline .translate (block)
-
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
         TypeParameterBlockTranslator_ () ,
+        ClassConstructorParameterBlockTranslator_ () ,
         MatchCaseBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (_definitions_and_declarations , TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests , FunctionDefinitionBlockTranslator_ () ) ,
-        ConditionalBlockTranslator_ (_class_declarations , TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests , TokenReplacement_ () .replace (_tc .all_translations) ) ,
+        ConditionalBlockTranslator_ (_definitions_and_declarations ,
+          TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          FunctionDefinitionBlockTranslator_ () ) ,
+        ConditionalBlockTranslator_ (_class_declarations ,
+          TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          TokenReplacement_ () .replace (_tc .all_translations) ) ,
         ClassDeclarationBlockTranslator_ () ,
         ImportDeclarationBlockTranslator_ () ,
         AbstractDeclarationBlockTranslator_ () ,
-        TheoremAndProofBlockTranslator_ () ,
+        TheoremBlockTranslator_ () ,
+        ScalaDirectiveBlockTranslator_ () ,
         ClassEndBlockTranslator_ () ,
         MainClassBlockTranslator_ () ,
         ClassConstructorBlockTranslator_ ()
       )
     )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
 
 end
 

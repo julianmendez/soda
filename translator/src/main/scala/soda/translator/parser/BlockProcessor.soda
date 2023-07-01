@@ -24,6 +24,50 @@ class BlockProcessor
 
   double_new_line = new_line + new_line
 
+  split_blocks (program : String) : Seq [String] =
+    program
+      .split (double_new_line)
+      .toIndexedSeq
+
+  process_unicode_symbols_in_token (token : Token) : String =
+    if (token .parser_state == ParserStateEnum_ () .plain)
+    then replace_unicode_symbols_in_string (token .text)
+    else token .text
+
+  process_unicode_symbols_in_block (block : String) : String =
+    Tokenizer_ (block)
+      .tokens
+      .map (lambda token --> process_unicode_symbols_in_token (token) )
+      .mkString
+
+  _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String] [String] )
+      : String =
+    Replacement_ (text)
+      .replace_all (symbol_pair ._1) (symbol_pair ._2)
+      .line
+
+  replace_unicode_symbols_in_string (text : String) : String =
+    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+
+  remove_empty_lines (lines : Seq [String] ) : Seq [String] =
+    lines
+      .filter (lambda line --> line .trim .nonEmpty)
+
+  make_block (paragraph : String) : AnnotatedBlock =
+    AnnotationFactory_ () .annotate (
+      BlockBuilder_ () .build (
+        remove_empty_lines (paragraph .split (new_line) .toIndexedSeq)
+      )
+    )
+
+  make_blocks (blocks: Seq [String] ) : Seq[AnnotatedBlock] =
+      blocks .map (lambda paragraph --> make_block (paragraph) )
+
+  join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
+    blocks
+      .map (lambda x --> x .contents)
+      .mkString (double_new_line) + new_line
+
   translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
 
   translate (program : String) : String =
@@ -34,49 +78,6 @@ class BlockProcessor
           .map (lambda block --> make_block (block) )
       )
     )
-
-  split_blocks (program : String) : Seq [String] =
-    program
-      .split (double_new_line)
-      .toIndexedSeq
-
-  process_unicode_symbols_in_block (block : String) : String =
-    Tokenizer_ (block)
-      .tokens
-      .map (lambda token --> process_unicode_symbols_in_token (token) )
-      .mkString
-
-  process_unicode_symbols_in_token (token : Token) : String =
-    if (token .parser_state == ParserStateEnum_ () .plain)
-    then replace_unicode_symbols_in_string (token .text)
-    else token .text
-
-  replace_unicode_symbols_in_string (text : String) : String =
-    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
-
-  _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String , String] ) : String =
-    Replacement_ (text)
-      .replace_all (symbol_pair ._1) (symbol_pair ._2)
-      .line
-
-  make_blocks (blocks: Seq [String] ) : Seq[AnnotatedBlock] =
-      blocks .map (lambda paragraph --> make_block (paragraph) )
-
-  make_block (paragraph : String) : AnnotatedBlock =
-    AnnotationFactory_ () .annotate (
-      BlockBuilder_ () .build (
-        remove_empty_lines (paragraph .split (new_line) .toIndexedSeq)
-      )
-    )
-
-  join_translated_blocks (blocks : Seq [AnnotatedBlock] ) : String =
-    blocks
-      .map (lambda x --> x .contents)
-      .mkString (double_new_line) + new_line
-
-  remove_empty_lines (lines : Seq [String] ) : Seq [String] =
-    lines
-      .filter (lambda line --> line .trim .nonEmpty)
 
 end
 

@@ -2,16 +2,16 @@ import sbt.Keys.scalacOptions
 
 lazy val scala2_11 = "2.11.12"
 
-lazy val scala2_12 = "2.12.17"
+lazy val scala2_12 = "2.12.18"
 
-lazy val scala2_13 = "2.13.10"
+lazy val scala2_13 = "2.13.11"
 
 lazy val scala3_3 = "3.3.0"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.18.0",
+    version := "0.19.0",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
     homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),

@@ -9,21 +9,21 @@
 
 class CartesianProduct
 
-  apply [A] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+  fold = Fold_ ()
+
+  _initial_value [A : Type] (seq : Seq [A] ) : Seq [Seq [A] ] =
+    seq .map (lambda elem --> Seq [A] (elem) )
+
+  _next_value [A : Type] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
+    seq_a .flatMap (lambda elem_a -->
+      accum .map (lambda seq_b --> seq_b .+: (elem_a) ) )
+
+  _apply_recursion [A : Type] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
+    fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
+
+  apply [A : Type] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if sequences .isEmpty
     then sequences
     else _apply_recursion (sequences .reverse)
-
-  _apply_recursion [A] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    _fold .apply (rev_sequences .tail) (_initial_value (rev_sequences .head) ) (_next_value [A] )
-
-  _fold = Fold_ ()
-
-  _initial_value [A] (seq : Seq [A] ) : Seq [Seq [A] ] =
-    seq .map (lambda elem --> Seq [A] (elem) )
-
-  _next_value [A] (accum : Seq [Seq [A] ] ) (seq_a : Seq [A] ) : Seq [Seq [A] ] =
-    seq_a .flatMap (lambda elem_a -->
-      accum .map (lambda seq_b --> seq_b .+: (elem_a) ) )
 
 end

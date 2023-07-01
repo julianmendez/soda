@@ -16,25 +16,31 @@ Module soda_example_forcoq.
 
 Module RecursionForCoq.
 
-  Fixpoint _tailrec_fold4 {A B : Type} (sequence : Seq (A)) (current_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B :=
+  Fixpoint _tailrec_fold4 {A B : Type} (sequence : Seq (A)) (current_value : B)
+      (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B :=
     match sequence with
       | nil => current_value
       | (head) :: (tail) =>
         if (negb (condition (current_value) (head) ) )
         then current_value
-        else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (next_value_function) (condition)
+        else _tailrec_fold4 (tail) (next_value_function (current_value) (head)) (
+          next_value_function) (condition)
     end .
 
-  Definition fold4 {A B : Type} (sequence : Seq (A)) (initial_value : B) (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B :=
+  Definition fold4 {A B : Type} (sequence : Seq (A)) (initial_value : B)
+      (next_value_function : B -> A -> B) (condition : B -> A -> Boolean) : B :=
     _tailrec_fold4 (sequence) (initial_value) (next_value_function) (condition) .
 
-  Fixpoint _rec_fold3 {A B : Type} (sequence : Seq (A)) (current_value : B) (next_value_function : B -> A -> B) : B :=
+  Fixpoint _rec_fold3 {A B : Type} (sequence : Seq (A)) (current_value : B)
+      (next_value_function : B -> A -> B) : B :=
     match sequence with
       | nil => current_value
-      | (head) :: (tail) => _rec_fold3 (tail) (next_value_function (current_value) (head)) (next_value_function)
+      | (head) :: (tail) => _rec_fold3 (tail) (next_value_function (current_value) (head)) (
+        next_value_function)
     end .
 
-  Definition fold3 {A B : Type} (sequence : Seq (A)) (initial_value : B) (next_value_function : B -> A -> B) : B :=
+  Definition fold3 {A B : Type} (sequence : Seq (A)) (initial_value : B)
+      (next_value_function : B -> A -> B) : B :=
     _rec_fold3 (sequence) (initial_value) (next_value_function) .
 
   Fixpoint _rec_range (n : nat) (sequence : Seq (nat) ) : Seq (nat) :=

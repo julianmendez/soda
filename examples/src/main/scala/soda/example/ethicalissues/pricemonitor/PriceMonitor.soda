@@ -7,6 +7,15 @@ class Customer
 
 end
 
+class Flight
+
+  abstract
+    start_airport : String
+    intermediate_airports : Seq [String]
+    end_airport : String
+
+end
+
 class PricingAgent
 
   import
@@ -23,15 +32,6 @@ class PricingAgent
 
   get_days_for (date : Date) : Int =
     (date .getTime / milliseconds_per_day) .toInt
-
-end
-
-class Flight
-
-  abstract
-    start_airport : String
-    intermediate_airports : Seq [String]
-    end_airport : String
 
 end
 

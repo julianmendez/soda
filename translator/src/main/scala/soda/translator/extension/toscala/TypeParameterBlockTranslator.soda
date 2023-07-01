@@ -15,7 +15,8 @@ class TypeParameterBlockTranslator
     lambda token -->
       token
         .text
-        .replaceAll (_sc .parameter_separation_regex, _tc .scala_parameter_separator_symbol + _tc .scala_space)
+        .replaceAll (_sc .type_parameter_separation_regex ,
+          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
 
 end
 

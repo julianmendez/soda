@@ -13,7 +13,7 @@ case class DirectoryScannerSpec ()
 
   import   java.io.File
 
-  def check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val start = "translator/src/test/resources/soda/example"

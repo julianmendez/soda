@@ -120,10 +120,15 @@ trait DirectoryScanner
 
   import   java.io.File
 
-  def get_all_files (start : File) : Seq [File] =
-    if ( start .isFile
-    ) Seq (start)
-    else _scan (Seq () ) (start .listFiles () .toSeq)
+  private def _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
+    if ( to_scan_head .isDirectory
+    ) to_scan_tail .++ (_list_files (to_scan_head) )
+    else to_scan_tail
+
+  private def _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
+    if ( to_scan .isEmpty
+    ) to_scan
+    else _get_files_to_scan_with (to_scan .head) (to_scan .tail)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -135,24 +140,19 @@ trait DirectoryScanner
   private def _scan (found : Seq [File] ) (to_scan : Seq [File] ) : Seq [File] =
     _tailrec_scan (found) (to_scan)
 
-  private def _get_files_to_scan (to_scan : Seq [File] ) : Seq [File] =
-    if ( to_scan .isEmpty
-    ) to_scan
-    else _get_files_to_scan_with (to_scan .head) (to_scan .tail)
-
-  private def _get_files_to_scan_with (to_scan_head : File) (to_scan_tail : Seq [File] ) : Seq [File] =
-    if ( to_scan_head .isDirectory
-    ) to_scan_tail .++ (_list_files (to_scan_head) )
-    else to_scan_tail
-
-  private def _list_files (to_scan_head : File) : Seq [File] =
-    _list_files_with (Option (to_scan_head .listFiles) )
-
   private def _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
     files match  {
       case Some (array) => array .toSeq
       case otherwise => Seq ()
     }
+
+  private def _list_files (to_scan_head : File) : Seq [File] =
+    _list_files_with (Option (to_scan_head .listFiles) )
+
+  def get_all_files (start : File) : Seq [File] =
+    if ( start .isFile
+    ) Seq (start)
+    else _scan (Seq () ) (start .listFiles () .toSeq)
 
 }
 
@@ -174,19 +174,20 @@ trait LibraryDeployer
       .split ("\n")
       .toSeq
 
-  def expand_library (lib_files : Seq [File] ) : Boolean =
-    lib_files
-      .map ( lib_file => lib_file .getParent)
-      .map ( parent_directory => _expand_files (parent_directory) )
-      .forall ( x => x)
-
   private def _expand_files (parent_directory : String) : Boolean =
     _library_content_files
       .map ( lib_file_name =>
         SimpleFileWriter_ () .write_file_with (
           file = SimpleFileWriter_ () .create_file (parent_directory) (lib_file_name) ) (
-          content = SimpleFileReader_ () .read_resource (_library_directory_in_jar + lib_file_name)
+          content = SimpleFileReader_ () .read_resource (
+            _library_directory_in_jar + lib_file_name)
         ) )
+      .forall ( x => x)
+
+  def expand_library (lib_files : Seq [File] ) : Boolean =
+    lib_files
+      .map ( lib_file => lib_file .getParent)
+      .map ( parent_directory => _expand_files (parent_directory) )
       .forall ( x => x)
 
 }
@@ -238,18 +239,6 @@ trait SimpleFileWriter
   import   java.io.FileWriter
   import   java.io.Writer
 
-  def write_file (file_name : String) (content : String) : Boolean =
-    write_file_with (new File (file_name) ) (content)
-
-  def write_file_with (file : File) (content : String) : Boolean =
-    _write_content (new FileWriter (file , false) ) (content)
-
-  def append_file (file_name : String) (content : String) : Boolean =
-    append_file_with (new File (file_name) ) (content)
-
-  def append_file_with (file : File) (content : String) : Boolean =
-    _write_content (new FileWriter (file , true) ) (content)
-
   private def _write_content (writer : Writer) (content : String) : Boolean =
     SomeSD_ (true)
       .map ( x => writer .write (content) )
@@ -258,8 +247,20 @@ trait SimpleFileWriter
       .map ( x => true)
       .getOrElse (false)
 
+  def write_file_with (file : File) (content : String) : Boolean =
+    _write_content (new FileWriter (file , false) ) (content)
+
+  def write_file (file_name : String) (content : String) : Boolean =
+    write_file_with (new File (file_name) ) (content)
+
   def create_file (parent_directory : String) (file_name : String) : File =
     new File (parent_directory , file_name)
+
+  def append_file_with (file : File) (content : String) : Boolean =
+    _write_content (new FileWriter (file , true) ) (content)
+
+  def append_file (file_name : String) (content : String) : Boolean =
+    append_file_with (new File (file_name) ) (content)
 
 }
 

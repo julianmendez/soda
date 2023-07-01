@@ -8,7 +8,7 @@ class ClassConstructorBlockTranslatorSpec ()
     soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.parser.BlockProcessor_
 
-  check [A] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   example_program_0 =
@@ -20,9 +20,9 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -43,13 +43,14 @@ class ClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\n  abstract" +
     "\n    /** this value is an example */" +
-    "\n    map: Map [Int] [Int]" +
+    "\n    map : Map [Int] [Int]" +
     "\n    /** this function is also an example */" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example0_ (map: Map [Int, Int], a_function: Int => Double => String) extends Example0" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
+    " extends Example0" +
     "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
@@ -61,14 +62,14 @@ class ClassConstructorBlockTranslatorSpec ()
   example_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
@@ -83,18 +84,19 @@ class ClassConstructorBlockTranslatorSpec ()
   expected_program_1 =
     "package soda.example.mytest" +
     "\n" +
-    "\nclass Example [A] [B subtype SuperType]" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
     "\n  extends" +
     "\n    SuperClassExample" +
     "\n    AnotherSuperClassExample [A]" +
     "\n" +
     "\n  abstract" +
-    "\n    value: Int" +
-    "\n    a_function: Int -> Double -> String" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
     "\n" +
     "\nend" +
     "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value: Int, a_function: Int => Double => String) extends Example [A, B]" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
+    " a_function : Int => Double => String) extends Example [A, B]" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
@@ -103,18 +105,17 @@ class ClassConstructorBlockTranslatorSpec ()
     "\nend" +
     "\n"
 
+  _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        ClassConstructorBlockTranslator_ ()
+      )
+    )
 
   translator =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
         _translation_pipeline
-      )
-    )
-
-  _translation_pipeline =
-    BlockTranslatorPipeline_ (
-      Seq (
-        ClassConstructorBlockTranslator_ ()
       )
     )
 

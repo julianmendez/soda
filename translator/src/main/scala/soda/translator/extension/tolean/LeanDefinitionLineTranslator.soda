@@ -1,0 +1,135 @@
+
+/**
+ * A line containing the definition sign will be classified as a definition.
+ * The definitions need to be identified as 'val', 'def', or 'class'.
+ *
+ * 'class' is for class definition.
+ * It is detected if the 'class' reserved word is also in the same line.
+ *
+ * 'val' is for value definition.
+ * It is detected in three cases.
+ * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+ * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
+ * Case 3: The first opening parenthesis is after a colon,
+ *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
+ * Case 4: The first non-blank character of a line is an opening parenthesis,
+ *   e.g. `(x, y) = (0, 1)`
+ *
+ * 'def' is for function definition.
+ * If it does not fit in any of the 'val' cases.
+ *
+ * Formerly there was another case for 'val'.
+ * Deprecated Case:
+ * This was implemented simply as:
+ * `line.trim.startsWith (soda_opening_parenthesis)`
+ * This is no longer supported.
+ *
+ */
+
+class LeanDefinitionLineTranslator
+  extends
+    soda.translator.block.LineTranslator
+
+  abstract
+    line : String
+
+  import
+    soda.lib.OptionSD
+    soda.lib.SomeSD_
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Replacement
+    soda.translator.replacement.Replacement_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToLean_ ()
+
+  _trimmed_line : String = line .trim
+
+  get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
+    SomeSD_ (line .indexOf (pattern, start) )
+      .filter (lambda position --> not  (position == -1) )
+
+  get_index (line : String) (pattern : String) : OptionSD [Int] =
+    get_index_from (line) (pattern) (0)
+
+  _position_of_first_opening_parenthesis : OptionSD [Int] =
+    get_index (line) (_sc .opening_parenthesis_symbol)
+
+  _is_val_definition_case_1 : Boolean =
+    _position_of_first_opening_parenthesis .isEmpty
+
+  _is_val_definition_case_2 (initial_position : Int) : Boolean =
+    match _position_of_first_opening_parenthesis
+      case SomeSD_ (position) ==> (position > initial_position)
+      case otherwise ==> false
+
+  _is_val_definition_case_3 : Boolean =
+    match (get_index (line) (_sc .type_membership_symbol) )
+      case SomeSD_ (other_position) ==> _is_val_definition_case_2 (other_position)
+      case otherwise ==> false
+
+  _is_val_definition_case_4 : Boolean =
+    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
+
+  _is_val_definition (initial_position : Int) : Boolean =
+    _is_val_definition_case_1 or
+    _is_val_definition_case_2 (initial_position) or
+    _is_val_definition_case_3 or
+    _is_val_definition_case_4
+
+  _is_class_definition : Boolean =
+    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
+
+  _ends_with_equals = false
+
+  _ends_with_opening_brace = false
+
+  _contains_equals : Boolean =
+    _trimmed_line .contains (_sc .function_definition_symbol)
+
+  _condition_for_type_alias : Boolean =
+    _contains_equals and not (_ends_with_equals or _ends_with_opening_brace)
+
+  _translation_of_class_definition : Replacement =
+    if _condition_for_type_alias
+    then Replacement_ (line)
+    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
+
+  _translation_of_val_definition : Replacement =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
+
+  _translation_of_def_definition : Replacement =
+    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
+
+  _decide_val_or_def_translation (position : Int) : Replacement =
+    if _is_val_definition (position)
+    then _translation_of_val_definition
+    else _translation_of_def_definition
+
+  _try_found_definition (position : Int) : Replacement =
+    if _is_class_definition
+    then _translation_of_class_definition
+    else _decide_val_or_def_translation (position)
+
+  /**
+   * A line is a definition when its main operator is "="  (the equals sign),
+   * which in this context is also called the definition sign.
+   * This function finds the first occurrence of the definition sign, if it is present.
+   *
+   * @param line line
+   * @return maybe the position of the definition sign
+   */
+
+  find_definition (line : String) : OptionSD [Int] =
+    if line .endsWith (_sc .space + _sc .function_definition_symbol)
+    then SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
+
+  translation : String =
+    match find_definition (line)
+      case SomeSD_ (position) ==> _try_found_definition (position) .line
+      case otherwise ==> line
+
+end
+
