@@ -22,7 +22,7 @@ The reserved words are:
 - `this`, `subtype`, `supertype`
 - `false`, `true` , `not`, `and`, `or`
 - `package`, `import`
-- `theorem`
+- `directive`
 
 
 ## Other Symbols
