@@ -1,0 +1,81 @@
+
+class Actor
+  extends
+    Comparable [Actor]
+
+  abstract
+    id : String
+
+  compareTo (other : Actor) : Int =
+    id .compareTo (other .id)
+
+end
+
+
+class Resource
+  extends
+    Comparable [Resource]
+
+  abstract
+    id : String
+
+  compareTo (other : Resource) : Int =
+    id .compareTo (other .id)
+
+end
+
+
+class Measure
+  extends
+    Comparable [Measure]
+
+  abstract
+    value : Int
+
+  minus_infinity = Int .MinValue
+
+  plus_infinity = Int .MaxValue
+
+  compareTo (other : Measure) : Int =
+    value .compareTo (other .value)
+
+end
+
+
+class MeasureZero
+  extends
+    Measure
+
+  value : Int = 0
+
+end
+
+
+class Assignment
+  extends
+    Comparable [Assignment]
+
+  abstract
+    actor : Actor
+    resource : Resource
+
+  compareTo (other : Assignment) : Int =
+    if actor == other .actor
+    then resource .compareTo (other .resource)
+    else actor .compareTo (other .actor)
+
+end
+
+
+class Outcome
+
+  abstract
+    assignments : Seq [Assignment]
+
+end
+
+
+class Context
+
+end
+

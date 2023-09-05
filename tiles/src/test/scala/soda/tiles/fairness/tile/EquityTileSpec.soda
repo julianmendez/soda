@@ -1,0 +1,47 @@
+
+class EquityTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example = ScenarioExample_ ()
+
+  equity_tile =
+    EquityTile_ (example .measure_sum , example .actor_need , example .resource_height)
+
+  test ("equity on outcome 0") (
+    check (
+      obtained := equity_tile .apply (example .initial0) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("equity on outcome 1") (
+    check (
+      obtained := equity_tile .apply (example .initial1) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("equity on outcome 2") (
+    check (
+      obtained := equity_tile .apply (example .initial2) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("equity on outcome 3") (
+    check (
+      obtained := equity_tile .apply (example .initial3) .contents
+    ) (
+      expected := true
+    )
+  )
+
+end
+

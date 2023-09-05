@@ -1,0 +1,43 @@
+
+class EquityTile
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+    p0_need : Actor -> Measure
+    p1_utility : Resource -> Measure
+
+  at_least_tile = AtLeastTile_ ()
+
+  received_sigma_p_tile = ReceivedSigmaPTile_ (sigma , p1_utility)
+
+  needed_p_tile = NeededPTile_ (p0_need)
+
+  all_actor2_tile = AllActor2Tile_ ()
+
+  unzip_fst_tile = UnzipFstTile_ ()
+
+  unzip_snd_tile = UnzipSndTile_ ()
+
+  zip_tile = ZipTile_ ()
+
+  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    needed_p_tile .apply (unzip_snd_tile .apply (message) )
+
+  zip_branches (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [TilePair [Measure] [Measure] ] ] =
+    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    at_least_tile.apply (
+      zip_branches (
+        all_actor2_tile .apply (message)
+      )
+    )
+
+end
+

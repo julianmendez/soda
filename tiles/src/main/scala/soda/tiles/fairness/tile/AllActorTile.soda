@@ -1,0 +1,13 @@
+
+class AllActorTile
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .actor)
+        .distinct
+        .sorted
+    )
+
+end
+

@@ -1,0 +1,46 @@
+
+class EqualityTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example = ScenarioExample_ ()
+
+  equality_tile = EqualityTile_ (example .measure_sum , example .resource_height)
+
+  test ("equality on outcome 0") (
+    check (
+      obtained := equality_tile .apply (example .initial0) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("equality on outcome 1") (
+    check (
+      obtained := equality_tile .apply (example .initial1) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("equality on outcome 2") (
+    check (
+      obtained := equality_tile .apply (example .initial2) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("equality on outcome 3") (
+    check (
+      obtained := equality_tile .apply (example .initial3) .contents
+    ) (
+      expected := true
+    )
+  )
+
+end
+
