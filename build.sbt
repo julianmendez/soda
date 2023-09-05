@@ -11,7 +11,7 @@ lazy val scala3_3 = "3.3.0"
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.19.0",
+    version := "0.20.0-SNAPSHOT",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
     homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),
@@ -61,6 +61,15 @@ lazy val translator =
       assembly / assemblyJarName := "translator-" + version.value + ".jar"
     )
 
+lazy val tiles =
+  project
+    .withId("tiles")
+    .in(file("tiles"))
+    .settings(
+      commonSettings,
+      assembly / assemblyJarName := "tiles-" + version.value + ".jar"
+    )
+
 lazy val library =
   project
     .withId("library")
@@ -87,8 +96,8 @@ lazy val root =
   project
     .withId("soda")
     .in(file("."))
-    .aggregate(documentation, translator, library, examples)
-    .dependsOn(documentation, translator, library, examples)
+    .aggregate(documentation, translator, tiles, library, examples)
+    .dependsOn(documentation, translator, tiles, library, examples)
     .settings(
       commonSettings,
       assembly / mainClass := Some("soda.translator.extension.main.EntryPoint"),
