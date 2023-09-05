@@ -4,6 +4,11 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Lean.
  */
 
+import   soda.example.forlean.lib.Succ_
+import   soda.example.forlean.lib.Zero_
+
+
+
 trait Package
 
 case class RecursionForLeanSpec ()
@@ -72,6 +77,45 @@ case class RecursionForLeanSpec ()
       obtained = RecursionForLean_ () .range (-1)
     ) (
       expected = Seq [Int] ()
+    )
+  )
+
+}
+
+
+case class SwapExampleSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val zero = Zero_ ()
+
+  lazy val three = Succ_ (Succ_ (Succ_ (zero) ) )
+
+  lazy val five = Succ_ (Succ_ (three) )
+
+  lazy val pair_1 = PairExample_ (three, five)
+
+  lazy val pair_2 = PairExample_ (five, three)
+
+  lazy val instance = SwapExample_ ()
+
+  test ("one swap") (
+    check (
+      obtained = instance .swap (pair_1)
+    ) (
+      expected = pair_2
+    )
+  )
+
+  test ("two swaps") (
+    check (
+      obtained = instance .swap (instance .swap (pair_1) )
+    ) (
+      expected = pair_1
     )
   )
 

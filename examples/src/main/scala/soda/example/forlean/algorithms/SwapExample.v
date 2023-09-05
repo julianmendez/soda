@@ -1,27 +1,31 @@
-
-directive coq
 Definition Nat : Type := nat .
 
-class PairExample
+Module PairExample .
 
-  abstract
-    left : Nat
+Class PairExample : Type :=
+  PairExample_ {
+    left : Nat ;
     right : Nat
+}.
 
-end
+End PairExample .
 
-class SwapExample
+Import PairExample .
 
-  swap (pair : PairExample) : PairExample =
-    PairExample_ (pair .right) (pair .left)
+Module SwapExample .
 
+ Definition   swap (pair : PairExample) : PairExample :=
+    PairExample_ (pair .(right)) (pair .(left))
+.
+
+(*
   directive lean
   theorem
     swap_of_swap (x : Nat) (y : Nat) : (swap (swap (PairExample_ (x) (y) ) ) ) = PairExample_ (x) (y) :=
       by
         constructor
+*)
 
-  directive coq
   Theorem
     swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x) (y) ) ) ) =
     PairExample_ (x) (y) .
@@ -29,5 +33,6 @@ class SwapExample
     auto.
   Qed.
 
-end
+End SwapExample .
 
+Import SwapExample .

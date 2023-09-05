@@ -265,7 +265,7 @@ trait State
   private lazy val _update_closing_par : State =
     if ( (par_level == 1)
     ) _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line) (
-      accum + line .substring (last_index , index)) (true)
+      accum + line .substring (last_index , index) ) (true)
     else _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum) (
       expecting)
 

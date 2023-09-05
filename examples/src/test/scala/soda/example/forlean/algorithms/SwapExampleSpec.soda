@@ -1,0 +1,38 @@
+
+class SwapExampleSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  zero = Zero_ ()
+
+  three = Succ_ (Succ_ (Succ_ (zero) ) )
+
+  five = Succ_ (Succ_ (three) )
+
+  pair_1 = PairExample_ (three) (five)
+
+  pair_2 = PairExample_ (five) (three)
+
+  instance = SwapExample_ ()
+
+  test ("one swap") (
+    check (
+      obtained := instance .swap (pair_1)
+    ) (
+      expected := pair_2
+    )
+  )
+
+  test ("two swaps") (
+    check (
+      obtained := instance .swap (instance .swap (pair_1) )
+    ) (
+      expected := pair_1
+    )
+  )
+
+end
+
