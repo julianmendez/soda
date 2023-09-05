@@ -4,6 +4,8 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Coq.
  */
 
+import   soda.example.forlean.lib.Nat
+
 trait Package
 
 /**
@@ -58,15 +60,20 @@ trait RecursionForLean
 case class RecursionForLean_ () extends RecursionForLean
 
 
+/*
+directive coq
+Definition Nat : Type := nat .
+*/
+
 trait PairExample
 {
 
-  def   left : Int
-  def   right : Int
+  def   left : Nat
+  def   right : Nat
 
 }
 
-case class PairExample_ (left : Int, right : Int) extends PairExample
+case class PairExample_ (left : Nat, right : Nat) extends PairExample
 
 trait SwapExample
 {
@@ -77,9 +84,19 @@ trait SwapExample
 /*
   directive lean
   theorem
-    swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
+    swap_of_swap (x : Nat) (y : Nat) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
       by
         constructor
+*/
+
+/*
+  directive coq
+  Theorem
+    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x, y) ) ) ) =
+    PairExample_ (x, y) .
+  Proof.
+    auto.
+  Qed.
 */
 
 }
