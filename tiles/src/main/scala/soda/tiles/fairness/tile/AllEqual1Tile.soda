@@ -1,0 +1,10 @@
+
+class AllEqual1Tile
+
+  apply (message : TileMessage [Seq [Measure] ] ) (list : Seq [Measure] ) : Boolean =
+    match list
+      case Nil ==> true
+      case (x :: xs) ==> xs .forall (lambda e --> x == e)
+
+end
+

@@ -1,0 +1,21 @@
+
+class EqualityTile
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+    p_utility : Resource -> Measure
+
+  all_equal_tile = AllEqualTile_ ()
+
+  received_sigma_p_tile = ReceivedSigmaPTile_ (sigma , p_utility)
+
+  all_actor_tile = AllActorTile_ ()
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    all_equal_tile .apply (
+      received_sigma_p_tile .apply (
+        all_actor_tile .apply (message)
+      )
+    )
+
+end

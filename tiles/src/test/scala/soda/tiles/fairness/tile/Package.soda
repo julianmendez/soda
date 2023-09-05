@@ -1,0 +1,43 @@
+package soda.tiles.fairness.tile
+
+/*
+ * This package contains tests for the classes to model a resource allocation scenario.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tile.AllActor2Tile
+  soda.tiles.fairness.tile.AllActorTile
+  soda.tiles.fairness.tile.AllEqual1Tile
+  soda.tiles.fairness.tile.AllEqualTile
+  soda.tiles.fairness.tile.AtLeastTile
+  soda.tiles.fairness.tile.EqualityTile
+  soda.tiles.fairness.tile.EqualityTile_
+  soda.tiles.fairness.tile.EquityTile
+  soda.tiles.fairness.tile.EquityTile_
+  soda.tiles.fairness.tile.NeededPTile
+  soda.tiles.fairness.tile.ReceivedSigmaPTile
+  soda.tiles.fairness.tile.UnzipFstTile
+  soda.tiles.fairness.tile.UnzipSndTile
+  soda.tiles.fairness.tile.ZipTile
+  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Actor_
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Assignment_
+  soda.tiles.fairness.tool.Context
+  soda.tiles.fairness.tool.Context_
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Measure_
+  soda.tiles.fairness.tool.MeasureZero
+  soda.tiles.fairness.tool.MeasureZero_
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Outcome_
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.Resource_
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessage_
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TileMessageBuilder_
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.tool.TilePair_
+

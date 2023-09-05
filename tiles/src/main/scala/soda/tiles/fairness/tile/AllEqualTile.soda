@@ -1,0 +1,12 @@
+
+class AllEqualTile
+
+  all_equal_1_tile = AllEqual1Tile_ ()
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      all_equal_1_tile .apply (message) (message .contents)
+    )
+
+end
+

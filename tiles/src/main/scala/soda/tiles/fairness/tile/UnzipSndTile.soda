@@ -1,0 +1,14 @@
+
+class UnzipSndTile
+
+  unzip_snd_list [A : Type] [B : Type] (list : Seq [TilePair [A] [B] ] ) : Seq [B] =
+    list .map (lambda pair --> pair .snd)
+
+  apply [A : Type] [B : Type] (message : TileMessage [Seq [TilePair [A] [B] ] ] )
+      : TileMessage [Seq [B] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_snd_list (message .contents)
+    )
+
+end
+

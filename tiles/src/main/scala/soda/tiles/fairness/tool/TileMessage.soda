@@ -1,0 +1,37 @@
+
+class TilePair [A : Type] [B : Type]
+
+  abstract
+    fst : A
+    snd : B
+
+end
+
+
+class TileTriple [A : Type] [B : Type] [C : Type]
+
+  abstract
+    fst : A
+    snd : B
+    trd : C
+
+end
+
+
+class TileMessage [A : Type]
+
+  abstract
+    context : Context
+    outcome : Outcome
+    contents : A
+
+end
+
+
+class TileMessageBuilder
+
+  build [A : Type] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
+    TileMessage_ (context) (outcome) (contents)
+
+end
+

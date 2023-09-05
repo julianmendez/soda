@@ -1,0 +1,91 @@
+
+class ScenarioExample
+
+  _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
+    Assignment_ (actor) (resource)
+
+  measure_sum (a : Measure) (b : Measure) : Measure =
+    Measure_ (a .value + b .value)
+
+  resource0 = Resource_ ("no box - 0 m")
+
+  resource1 = Resource_ ("one box - 0.3 m")
+
+  resource2 = Resource_ ("two boxes - 0.6 m")
+
+  actor0 = Actor_ ("Anna A")
+
+  actor1 = Actor_ ("Bob B")
+
+  actor2 = Actor_ ("Charlie C")
+
+  actor_need_map : Map [Actor] [Measure] = Seq (
+    Tuple2 [Actor] [Measure] (actor0 , Measure_ (30) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Measure_ (10) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Measure_ (0) )
+  ) .toMap
+
+  resource_height_map : Map [Resource] [Measure] = Seq (
+    Tuple2 [Resource] [Measure] (resource0 , Measure_ (10) ) ,
+    Tuple2 [Resource] [Measure] (resource1 , Measure_ (20) ) ,
+    Tuple2 [Resource] [Measure] (resource2 , Measure_ (30) )
+  ) .toMap
+
+  actor_need (actor : Actor) : Measure =
+    actor_need_map .getOrElse (actor , Measure_ (-1) )
+
+  resource_height (resource : Resource) : Measure =
+    resource_height_map .getOrElse (resource , Measure_ (-1) )
+
+  context = Context_ ()
+
+  outcome0 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        _mk_Assignment (actor0) (resource2) ,
+        _mk_Assignment (actor1) (resource1) ,
+        _mk_Assignment (actor2) (resource0)
+      )
+    )
+
+  outcome1 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        _mk_Assignment (actor0) (resource0) ,
+        _mk_Assignment (actor1) (resource0) ,
+        _mk_Assignment (actor2) (resource0)
+      )
+    )
+
+  outcome2 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        _mk_Assignment (actor0) (resource1) ,
+        _mk_Assignment (actor1) (resource1) ,
+        _mk_Assignment (actor2) (resource1)
+      )
+    )
+
+  outcome3 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        _mk_Assignment (actor0) (resource2) ,
+        _mk_Assignment (actor1) (resource2) ,
+        _mk_Assignment (actor2) (resource2)
+      )
+    )
+
+  initial0 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome0) (true)
+
+  initial1 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome1) (true)
+
+  initial2 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome2) (true)
+
+  initial3 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome3) (true)
+
+end
+

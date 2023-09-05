@@ -1,0 +1,18 @@
+package soda.tiles.fairness.tile
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureZero_
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder_
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.tool.TilePair_
+
