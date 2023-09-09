@@ -50,7 +50,7 @@ case class EqualityTileSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example = ScenarioExample_ ()
+  lazy val example = ResourceAllocationScenarioExample_ ()
 
   lazy val equality_tile = EqualityTile_ (example .measure_sum , example .resource_height)
 
@@ -97,7 +97,7 @@ case class EquityTileSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example = ScenarioExample_ ()
+  lazy val example = ResourceAllocationScenarioExample_ ()
 
   lazy val equity_tile =
     EquityTile_ (example .measure_sum , example .actor_need , example .resource_height)
@@ -137,7 +137,7 @@ case class EquityTileSpec ()
 }
 
 
-trait ScenarioExample
+trait ResourceAllocationScenarioExample
 {
 
   private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
@@ -146,11 +146,11 @@ trait ScenarioExample
   def measure_sum (a : Measure) (b : Measure) : Measure =
     Measure_ (a .value + b .value)
 
-  lazy val resource0 = Resource_ ("no box - 0 m")
+  lazy val resource0 = Resource_ ("small box - 0.1 m")
 
-  lazy val resource1 = Resource_ ("one box - 0.3 m")
+  lazy val resource1 = Resource_ ("medium box - 0.2 m")
 
-  lazy val resource2 = Resource_ ("two boxes - 0.6 m")
+  lazy val resource2 = Resource_ ("large box - 0.3 m")
 
   lazy val actor0 = Actor_ ("Anna A")
 
@@ -228,5 +228,13 @@ trait ScenarioExample
 
 }
 
-case class ScenarioExample_ () extends ScenarioExample
+case class ResourceAllocationScenarioExample_ () extends ResourceAllocationScenarioExample
+
+
+trait ScoringScenarioExample
+{
+
+}
+
+case class ScoringScenarioExample_ () extends ScoringScenarioExample
 
