@@ -97,6 +97,108 @@ trait Context
 case class Context_ () extends Context
 
 
+/**
+ *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
+ *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
+ *  \bar{y})^{2}}}
+ */
+
+trait MathTool
+{
+
+  def squared (x : Double) : Double =
+    x * x
+
+  private lazy val _sum_init : Double = 0
+
+  private def _sum_next (accum : Double , elem : Double) : Double =
+    accum + elem
+
+  def sum (seq : Seq [Double] ) : Double =
+    seq .foldLeft (_sum_init) (_sum_next)
+
+  def average (seq : Seq [Double] ) : Double =
+    sum (seq) / seq .length .toDouble
+
+}
+
+case class MathTool_ () extends MathTool
+
+trait Pearson
+{
+
+  def   xlist : Seq [Double]
+  def   ylist : Seq [Double]
+
+  private lazy val _mt : MathTool = MathTool_ ()
+
+  private def _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
+    _mt .sum (seq .map ( x_i => _mt .squared (x_i - x_average) ) )
+
+  def sum_squared_diff (seq : Seq [Double] ) : Double =
+    _sum_squared_diff_with (seq) (_mt .average (seq) )
+
+  private def _sqrt_sum_squared_diff (seq : Seq [Double] ) : Double =
+    Math.sqrt (sum_squared_diff (seq) )
+
+  private lazy val _denominator : Double =
+    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+
+  private def _multip (x_i : Double) (y_i : Double) (x_average : Double) (y_average : Double) : Double =
+    (x_i - x_average) * (y_i - y_average)
+
+  private def _numerator_with (pair_list : Seq [Tuple2 [Double, Double] ] ) (x_average : Double)
+      (y_average : Double) : Double =
+    _mt .sum (pair_list .map ( pair =>
+      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+
+  private lazy val _x_y_together : Seq [Tuple2 [Double, Double] ] =
+    xlist .zip (ylist)
+
+  private lazy val _numerator : Double =
+    _numerator_with (_x_y_together) (_mt .average (xlist) ) (_mt .average (ylist) )
+
+  lazy val coefficient : Double =
+    _numerator / _denominator
+
+}
+
+case class Pearson_ (xlist : Seq [Double], ylist : Seq [Double]) extends Pearson
+
+trait ScoringCategory
+{
+
+  lazy val undefined_correlation : Int = 0
+
+  lazy val no_correlation : Int = 1
+
+  lazy val weak_positive_correlation : Int = 2
+
+  lazy val weak_negative_correlation : Int = 3
+
+  lazy val moderate_positive_correlation : Int = 4
+
+  lazy val moderate_negative_correlation : Int = 5
+
+  lazy val strong_positive_correlation : Int = 6
+
+  lazy val strong_negative_correlation : Int = 7
+
+  def categorize (x : Double) : Int =
+    if ( (x > 0.5) && (x <= 1.0) ) strong_positive_correlation
+    else if ( (x > 0.3) && (x <= 0.5) ) moderate_positive_correlation
+    else if ( (x > 0) && (x <= 0.3) ) weak_positive_correlation
+    else if ( (x == 0) ) no_correlation
+    else if ( (x < 0) && (x >= -0.3) ) weak_negative_correlation
+    else if ( (x < -0.3) && (x >= -0.5) ) moderate_negative_correlation
+    else if ( (x < -0.5) && (x >= -1.0) ) strong_negative_correlation
+    else undefined_correlation
+
+}
+
+case class ScoringCategory_ () extends ScoringCategory
+
+
 trait TilePair [A , B ]
 {
 
