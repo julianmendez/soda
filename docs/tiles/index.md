@@ -6,6 +6,8 @@
 **Tiles** is a framework to create formal configurations of constraints.
 
 The fairness tiles are defined in [package tile](https://github.com/julianmendez/soda/tree/master/tiles/src/main/scala/soda/tiles/fairness/tile).
+The translation to [Scala](https://scala-lang.org) of this package is the
+file [Package.scala](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/Package.scala).
 
 Some of the implemented fairness tiles are:
 
@@ -18,7 +20,6 @@ Some of the implemented fairness tiles are:
 | <sub>*(m0, m1)*</sub> at-least <sub>*b*</sub>        | [AtLeastTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/AtLeastTile.soda)        |
 | equality <sub>*b*</sub>                              | [EqualityTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/EqualityTile.soda)       |
 | equity <sub>*b*</sub>                                | [EquityTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/EquityTile.soda)         |
-
 
 A specific scenario is given as an example in [ScenarioExample](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/ScenarioExample.soda).
 This scenario is used to test the equality tile with [EqualityTileSpec](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/EqualityTileSpec.soda) and the equity tile with [EquityTileSpec](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/EquityTileSpec.soda).
