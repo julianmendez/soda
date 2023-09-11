@@ -1,0 +1,96 @@
+
+/**
+ *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
+ *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
+ *  \bar{y})^{2}}}
+ */
+
+class MathTool
+
+  squared (x : Double) : Double =
+    x * x
+
+  _sum_init : Double = 0
+
+  _sum_next (accum : Double , elem : Double) : Double =
+    accum + elem
+
+  sum (seq : Seq [Double] ) : Double =
+    seq .foldLeft (_sum_init) (_sum_next)
+
+  average (seq : Seq [Double] ) : Double =
+    sum (seq) / seq .length .toDouble
+
+end
+
+
+class Pearson
+
+  abstract
+    xlist : Seq [Double]
+    ylist : Seq [Double]
+
+  _mt : MathTool = MathTool_ ()
+
+  _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
+    _mt .sum (seq .map (lambda x_i --> _mt .squared (x_i - x_average) ) )
+
+  sum_squared_diff (seq : Seq [Double] ) : Double =
+    _sum_squared_diff_with (seq) (_mt .average (seq) )
+
+  _sqrt_sum_squared_diff (seq : Seq [Double] ) : Double =
+    Math.sqrt (sum_squared_diff (seq) )
+
+  _denominator : Double =
+    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+
+  _multip (x_i : Double) (y_i : Double) (x_average : Double) (y_average : Double) : Double =
+    (x_i - x_average) * (y_i - y_average)
+
+  _numerator_with (pair_list : Seq [Tuple2 [Double] [Double] ] ) (x_average : Double)
+      (y_average : Double) : Double =
+    _mt .sum (pair_list .map (lambda pair -->
+      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+
+  _x_y_together : Seq [Tuple2 [Double] [Double] ] =
+    xlist .zip (ylist)
+
+  _numerator : Double =
+    _numerator_with (_x_y_together) (_mt .average (xlist) ) (_mt .average (ylist) )
+
+  coefficient : Double =
+    _numerator / _denominator
+
+end
+
+
+class ScoringCategory
+
+  undefined_correlation : Int = 0
+
+  no_correlation : Int = 1
+
+  weak_positive_correlation : Int = 2
+
+  weak_negative_correlation : Int = 3
+
+  moderate_positive_correlation : Int = 4
+
+  moderate_negative_correlation : Int = 5
+
+  strong_positive_correlation : Int = 6
+
+  strong_negative_correlation : Int = 7
+
+  categorize (x : Double) : Int =
+    if (x > 0.5) and (x <= 1.0) then strong_positive_correlation
+    else if (x > 0.3) and (x <= 0.5) then moderate_positive_correlation
+    else if (x > 0) and (x <= 0.3) then weak_positive_correlation
+    else if (x == 0) then no_correlation
+    else if (x < 0) and (x >= -0.3) then weak_negative_correlation
+    else if (x < -0.3) and (x >= -0.5) then moderate_negative_correlation
+    else if (x < -0.5) and (x >= -1.0) then strong_negative_correlation
+    else undefined_correlation
+
+end
+

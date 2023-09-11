@@ -1,5 +1,5 @@
 
-class NeededPTile
+class WithPTile
 
   abstract
     p : Actor -> Measure

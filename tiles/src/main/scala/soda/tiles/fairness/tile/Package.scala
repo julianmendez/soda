@@ -7,17 +7,21 @@ package soda.tiles.fairness.tile
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.MeasureZero_
+import   soda.tiles.fairness.tool.Measure_
 import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Pearson
+import   soda.tiles.fairness.tool.Pearson_
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder_
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TilePair_
+import   soda.tiles.fairness.tool.TileTriple
+import   soda.tiles.fairness.tool.TileTriple_
 
 trait Package
 
-trait AllActor2Tile
+trait AllActorPairTile
 {
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
@@ -26,12 +30,12 @@ trait AllActor2Tile
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
-        .map ( actor => TilePair_ (actor, actor) )
+        .map ( actor => TilePair_ (actor , actor) )
     )
 
 }
 
-case class AllActor2Tile_ () extends AllActor2Tile
+case class AllActorPairTile_ () extends AllActorPairTile
 
 
 trait AllActorTile
@@ -48,6 +52,24 @@ trait AllActorTile
 }
 
 case class AllActorTile_ () extends AllActorTile
+
+
+trait AllActorTripleTile
+{
+
+  def apply (message : TileMessage [Boolean] )
+      : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      ( (message .outcome) .assignments)
+        .map ( assignment => assignment .actor)
+        .distinct
+        .sorted
+        .map ( actor => TileTriple_ (actor , actor , actor) )
+    )
+
+}
+
+case class AllActorTripleTile_ () extends AllActorTripleTile
 
 
 trait AllEqual1Tile
@@ -96,6 +118,78 @@ trait AtLeastTile
 case class AtLeastTile_ () extends AtLeastTile
 
 
+trait AttributePTile
+{
+
+  def   p : Actor => Measure
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map ( actor => p (actor) ) )
+    )
+
+}
+
+case class AttributePTile_ (p : Actor => Measure) extends AttributePTile
+
+
+trait CorrelationTile
+{
+
+  private lazy val _measure_zero = Measure_ (0)
+
+  private lazy val _percentage_constant : Double = 100.0
+
+  def get_coefficient (xlist : Seq [Double] ) (ylist : Seq [Double] ) : Double =
+    Pearson_ (xlist, ylist) .coefficient
+
+  def to_double (m : Measure) : Double =
+    if ( (m == _measure_zero)
+    ) 0.0
+    else 1.0
+
+  def to_measure (d : Double) : Measure =
+    Measure_ ( (d * _percentage_constant) .intValue)
+
+  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
+    lists .map ( pair => to_double (pair .fst) )
+
+  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
+    lists .map ( pair => to_double (pair .snd) )
+
+  def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =
+    to_measure (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
+
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+    : TileMessage [Measure] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      process_tuples (message .contents)
+    )
+
+}
+
+case class CorrelationTile_ () extends CorrelationTile
+
+
+trait DecisionTile
+{
+
+  def   maximum_acceptable_bias_percentage : Measure
+
+  def to_boolean (m : Measure) : Boolean =
+    m .value <= maximum_acceptable_bias_percentage .value
+
+  def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      to_boolean (message .contents)
+    )
+
+}
+
+case class DecisionTile_ (maximum_acceptable_bias_percentage : Measure) extends DecisionTile
+
+
 trait EqualityTile
 {
 
@@ -133,11 +227,11 @@ trait EquityTile
 
   lazy val needed_p_tile = NeededPTile_ (p0_need)
 
-  lazy val all_actor2_tile = AllActor2Tile_ ()
+  lazy val all_actor_pair_tile = AllActorPairTile_ ()
 
-  lazy val unzip_fst_tile = UnzipFstTile_ ()
+  lazy val unzip_fst_tile = UnzipPairFstTile_ ()
 
-  lazy val unzip_snd_tile = UnzipSndTile_ ()
+  lazy val unzip_snd_tile = UnzipPairSndTile_ ()
 
   lazy val zip_tile = ZipTile_ ()
 
@@ -154,9 +248,9 @@ trait EquityTile
     zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    at_least_tile.apply (
+    at_least_tile .apply (
       zip_branches (
-        all_actor2_tile .apply (message)
+        all_actor_pair_tile .apply (message)
       )
     )
 
@@ -165,20 +259,58 @@ trait EquityTile
 case class EquityTile_ (sigma : Measure => Measure => Measure, p0_need : Actor => Measure, p1_utility : Resource => Measure) extends EquityTile
 
 
+trait FalsePosTile
+{
+
+  private lazy val _measure_zero = Measure_ (0)
+
+  private lazy val _measure_one = Measure_ (1)
+
+  def sigma (m0 : Measure) (m1 : Measure) : Measure =
+    if ( (m0 == _measure_one) && (m1 == _measure_zero)
+    ) _measure_one
+    else _measure_zero
+
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    SigmaTile_ (sigma) .apply (message)
+
+}
+
+case class FalsePosTile_ () extends FalsePosTile
+
+
 trait NeededPTile
 {
 
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( actor => p (actor) ) )
-    )
+    AttributePTile_ (p) .apply (message)
 
 }
 
 case class NeededPTile_ (p : Actor => Measure) extends NeededPTile
+
+
+trait PredictionPTile
+{
+
+  def   p : Resource => Measure
+
+  private lazy val _measure_zero : Measure = Measure_ (0)
+
+  def measure_or (m0 : Measure) (m1 : Measure) : Measure =
+    if ( (m0 == _measure_zero)
+    ) m1
+    else m0
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    ReceivedSigmaPTile_ (measure_or , p) .apply (message)
+
+}
+
+case class PredictionPTile_ (p : Resource => Measure) extends PredictionPTile
 
 
 trait ReceivedSigmaPTile
@@ -190,7 +322,7 @@ trait ReceivedSigmaPTile
   private def _sigma2 (m0 : Measure , m1 : Measure) : Measure =
     sigma (m0) (m1)
 
-  private lazy val _measure_zero : Measure = MeasureZero_ ()
+  private lazy val _measure_zero : Measure = Measure_ (0)
 
   def get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
     assignments . find ( assignment => (assignment .actor) == a)
@@ -211,7 +343,105 @@ trait ReceivedSigmaPTile
 case class ReceivedSigmaPTile_ (sigma : Measure => Measure => Measure, p : Resource => Measure) extends ReceivedSigmaPTile
 
 
-trait UnzipFstTile
+trait ResultPTile
+{
+
+  def   p : Actor => Measure
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    AttributePTile_ (p) .apply (message)
+
+}
+
+case class ResultPTile_ (p : Actor => Measure) extends ResultPTile
+
+
+trait SigmaTile
+{
+
+  def   sigma : Measure => Measure => Measure
+
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+    : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      (message .contents)
+        .map ( pair => sigma (pair .fst) (pair .snd) )
+    )
+
+}
+
+case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
+
+
+trait UnbiasednessTile
+{
+
+  def   p0_evaluation : Resource => Measure
+  def   p1_result : Actor => Measure
+  def   p2_with_p : Actor => Measure
+  def   p3_acceptable_bias : Measure
+
+  lazy val all_actor_triple_tile = AllActorTripleTile_ ()
+
+  lazy val unzip_fst_tile = UnzipTripleFstTile_ ()
+
+  lazy val unzip_snd_tile = UnzipTripleSndTile_ ()
+
+  lazy val unzip_trd_tile = UnzipTripleTrdTile_ ()
+
+  lazy val zip_tile = ZipTile_ ()
+
+  lazy val prediction_p_tile = PredictionPTile_ (p0_evaluation)
+
+  lazy val result_p_tile = ResultPTile_ (p1_result)
+
+  lazy val with_p_tile = WithPTile_ (p2_with_p)
+
+  lazy val false_pos_tile = FalsePosTile_ ()
+
+  lazy val correlation_tile = CorrelationTile_ ()
+
+  lazy val decision_tile = DecisionTile_ (p3_acceptable_bias)
+
+  def get_prediction (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    prediction_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  def get_result (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    result_p_tile .apply (unzip_snd_tile .apply (message) )
+
+  def get_with_p (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    with_p_tile .apply (unzip_trd_tile .apply (message) )
+
+  def get_false_pos (prediction : TileMessage [Seq [Measure] ] ) (
+      result : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    false_pos_tile .apply (zip_tile .apply (prediction) (result) )
+
+  def get_correlation (false_pos : TileMessage [Seq [Measure] ] ) (
+      with_p : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    correlation_tile .apply (zip_tile .apply (false_pos) (with_p) )
+
+  def get_correlation_plumbing (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
+      : TileMessage [Measure] =
+    get_correlation (
+      get_false_pos (get_prediction (message) ) (get_result (message) )
+    ) (get_with_p (message) )
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    decision_tile .apply (
+      get_correlation_plumbing (
+        all_actor_triple_tile .apply (message)
+      )
+    )
+
+}
+
+case class UnbiasednessTile_ (p0_evaluation : Resource => Measure, p1_result : Actor => Measure, p2_with_p : Actor => Measure, p3_acceptable_bias : Measure) extends UnbiasednessTile
+
+
+trait UnzipPairFstTile
 {
 
   def unzip_fst_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [A] =
@@ -225,10 +455,9 @@ trait UnzipFstTile
 
 }
 
-case class UnzipFstTile_ () extends UnzipFstTile
+case class UnzipPairFstTile_ () extends UnzipPairFstTile
 
-
-trait UnzipSndTile
+trait UnzipPairSndTile
 {
 
   def unzip_snd_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [B] =
@@ -242,7 +471,72 @@ trait UnzipSndTile
 
 }
 
-case class UnzipSndTile_ () extends UnzipSndTile
+case class UnzipPairSndTile_ () extends UnzipPairSndTile
+
+
+trait UnzipTripleFstTile
+{
+
+  def unzip_fst_list [A , B , C ] (
+      list : Seq [TileTriple [A, B, C] ] ) : Seq [A] =
+    list .map ( triple => triple .fst)
+
+  def apply [A , B , C ] (
+      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_fst_list (message .contents)
+    )
+
+}
+
+case class UnzipTripleFstTile_ () extends UnzipTripleFstTile
+
+trait UnzipTripleSndTile
+{
+
+  def unzip_snd_list [A , B , C ] (
+      list : Seq [TileTriple [A, B, C] ] ) : Seq [B] =
+    list .map ( triple => triple .snd)
+
+  def apply [A , B , C ] (
+      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_snd_list (message .contents)
+    )
+
+}
+
+case class UnzipTripleSndTile_ () extends UnzipTripleSndTile
+
+trait UnzipTripleTrdTile
+{
+
+  def unzip_trd_list [A , B , C ] (
+      list : Seq [TileTriple [A, B, C] ] ) : Seq [C] =
+    list .map ( triple => triple .trd)
+
+  def apply [A , B , C ] (
+      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_trd_list (message .contents)
+    )
+
+}
+
+case class UnzipTripleTrdTile_ () extends UnzipTripleTrdTile
+
+
+trait WithPTile
+{
+
+  def   p : Actor => Measure
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    AttributePTile_ (p) .apply (message)
+
+}
+
+case class WithPTile_ (p : Actor => Measure) extends WithPTile
 
 
 trait ZipTile
@@ -250,12 +544,9 @@ trait ZipTile
 
   def zip_lists [A , B ] (list0 : Seq [A] ) (list1 : Seq [B] )
       : Seq [TilePair [A, B] ] =
-    Tuple2 (list0 , list1) match  {
-      case Tuple2 (Nil , x) => Nil
-      case Tuple2 ( (x :: xs) , Nil) => Nil
-      case Tuple2 ( (x :: xs) , (y :: ys) ) =>
-        Seq (TilePair_ (x, y) ) .++ (zip_lists (xs) (ys) )
-    }
+    list0
+      .zip (list1)
+      .map ( pair => TilePair_ [A, B] (pair ._1 , pair._2) )
 
   def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =

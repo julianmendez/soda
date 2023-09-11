@@ -3,11 +3,9 @@ class ZipTile
 
   zip_lists [A : Type] [B : Type] (list0 : Seq [A] ) (list1 : Seq [B] )
       : Seq [TilePair [A] [B] ] =
-    match Tuple2 (list0 , list1)
-      case Tuple2 (Nil , x) ==> Nil
-      case Tuple2 ( (x :: xs) , Nil) ==> Nil
-      case Tuple2 ( (x :: xs) , (y :: ys) ) ==>
-        Seq (TilePair_ (x) (y) ) .++ (zip_lists (xs) (ys) )
+    list0
+      .zip (list1)
+      .map (lambda pair --> TilePair_ [A] [B] (pair ._1 , pair._2) )
 
   apply [A : Type] [B : Type] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A] [B] ] ] =

@@ -1,0 +1,58 @@
+
+class UnbiasednessTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  ex = ScoringScenarioExample_ ()
+
+  unbiasedness_tile =
+    UnbiasednessTile_ (
+      ex .evaluation ,
+      ex .result_function ,
+      ex .protected_attribute_function,
+      ex .maximum_acceptable_bias_percentage
+    )
+
+  get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
+    unbiasedness_tile .get_correlation_plumbing (
+      unbiasedness_tile .all_actor_triple_tile .apply (message)
+    )
+
+
+  test ("unbiasedness on unbiased sample") (
+    check (
+      obtained := unbiasedness_tile .apply (ex .initial_unbiased) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("unbiasedness on biased sample") (
+    check (
+      obtained := unbiasedness_tile .apply (ex .initial_biased) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("coefficient of unbiased sample") (
+    check (
+      obtained := get_coefficient (ex .initial_unbiased) .contents
+    ) (
+      expected := Measure_ (0)
+    )
+  )
+
+  test ("coefficient of biased sample") (
+    check (
+      obtained := get_coefficient (ex .initial_biased) .contents
+    ) (
+      expected := Measure_ (42)
+    )
+  )
+
+end
+

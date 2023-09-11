@@ -1,5 +1,5 @@
 
-class ScenarioExample
+class ResourceAllocationScenarioExample
 
   _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor) (resource)
@@ -7,11 +7,11 @@ class ScenarioExample
   measure_sum (a : Measure) (b : Measure) : Measure =
     Measure_ (a .value + b .value)
 
-  resource0 = Resource_ ("no box - 0 m")
+  resource0 = Resource_ ("small box - 0.1 m")
 
-  resource1 = Resource_ ("one box - 0.3 m")
+  resource1 = Resource_ ("medium box - 0.2 m")
 
-  resource2 = Resource_ ("two boxes - 0.6 m")
+  resource2 = Resource_ ("large box - 0.3 m")
 
   actor0 = Actor_ ("Anna A")
 

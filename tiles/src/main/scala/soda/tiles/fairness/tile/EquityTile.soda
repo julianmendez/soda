@@ -12,11 +12,11 @@ class EquityTile
 
   needed_p_tile = NeededPTile_ (p0_need)
 
-  all_actor2_tile = AllActor2Tile_ ()
+  all_actor_pair_tile = AllActorPairTile_ ()
 
-  unzip_fst_tile = UnzipFstTile_ ()
+  unzip_fst_tile = UnzipPairFstTile_ ()
 
-  unzip_snd_tile = UnzipSndTile_ ()
+  unzip_snd_tile = UnzipPairSndTile_ ()
 
   zip_tile = ZipTile_ ()
 
@@ -33,9 +33,9 @@ class EquityTile
     zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    at_least_tile.apply (
+    at_least_tile .apply (
       zip_branches (
-        all_actor2_tile .apply (message)
+        all_actor_pair_tile .apply (message)
       )
     )
 

@@ -1,5 +1,5 @@
 
-class NeededPTile
+class ResultPTile
 
   abstract
     p : Actor -> Measure
@@ -8,4 +8,3 @@ class NeededPTile
     AttributePTile_ (p) .apply (message)
 
 end
-

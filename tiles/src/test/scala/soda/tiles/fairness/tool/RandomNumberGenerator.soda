@@ -1,0 +1,55 @@
+
+class RandomNumberGenerator
+
+  abstract
+    get_next_long : Long -> Long
+    get_next_seq : Long -> Int -> Seq [Long]
+
+end
+
+class LinearCongruentialGenerator
+  extends
+    RandomNumberGenerator
+
+  abstract
+    modulus : Long
+    multiplier : Long
+    increment : Long
+
+  get_next_long : Long -> Long =
+    lambda seed -->
+      (multiplier * seed + increment) % modulus
+
+  _get_next_seq_initial_value (seed : Long) : Seq [Long] =
+    Seq (seed)
+
+  _get_next_seq_next_value_function (list : Seq [Long] ) (x : Int) : Seq [Long] =
+    list .+: (get_next_long (list .head) )
+
+  get_next_seq : Long -> Int -> Seq [Long] =
+    lambda seed -->
+      lambda length -->
+        Recursion_ ()
+          .fold (Recursion_ () .range (length - 1) .map (lambda x --> x + 1) ) (
+            _get_next_seq_initial_value (seed) ) (_get_next_seq_next_value_function)
+          .reverse
+
+end
+
+class Random
+  extends
+    RandomNumberGenerator
+
+  generator = LinearCongruentialGenerator_ (0x1000000000000L , 0x5DEECE66DL , 0x0BL)
+
+  get_next_long : Long -> Long =
+    lambda seed -->
+      generator .get_next_long (seed)
+
+  get_next_seq : Long -> Int -> Seq [Long] =
+    lambda seed -->
+      lambda length -->
+        generator .get_next_seq (seed) (length)
+
+end
+

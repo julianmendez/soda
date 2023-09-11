@@ -8,7 +8,7 @@ class ReceivedSigmaPTile
   _sigma2 (m0 : Measure , m1 : Measure) : Measure =
     sigma (m0) (m1)
 
-  _measure_zero : Measure = MeasureZero_ ()
+  _measure_zero : Measure = Measure_ (0)
 
   get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
     assignments . find (lambda assignment --> (assignment .actor) == a)

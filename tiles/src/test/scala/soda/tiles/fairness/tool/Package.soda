@@ -1,0 +1,9 @@
+package soda.tiles.fairness.tool
+
+/*
+ * This package contains test for the classes to model a fairness scenario.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+
