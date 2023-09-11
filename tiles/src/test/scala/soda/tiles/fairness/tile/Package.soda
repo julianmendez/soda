@@ -14,8 +14,6 @@ import
   soda.tiles.fairness.tool.Context_
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Measure_
-  soda.tiles.fairness.tool.MeasureZero
-  soda.tiles.fairness.tool.MeasureZero_
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.Outcome_
   soda.tiles.fairness.tool.Resource
@@ -26,4 +24,5 @@ import
   soda.tiles.fairness.tool.TileMessageBuilder_
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TilePair_
-
+  soda.tiles.fairness.tool.Random
+  soda.tiles.fairness.tool.Random_
