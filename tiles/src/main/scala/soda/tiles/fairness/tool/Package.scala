@@ -16,6 +16,10 @@ trait Actor
   def compareTo (other : Actor) : Int =
     id .compareTo (other .id)
 
+  override
+  lazy val toString : String =
+    id
+
 }
 
 case class Actor_ (id : String) extends Actor
@@ -29,6 +33,10 @@ trait Resource
 
   def compareTo (other : Resource) : Int =
     id .compareTo (other .id)
+
+  override
+  lazy val toString : String =
+    id
 
 }
 
@@ -48,31 +56,13 @@ trait Measure
   def compareTo (other : Measure) : Int =
     value .compareTo (other .value)
 
+  override
+  lazy val toString : String =
+    value .toString
+
 }
 
 case class Measure_ (value : Int) extends Measure
-
-trait MeasureZero
-  extends
-    Measure
-{
-
-  lazy val value : Int = 0
-
-}
-
-case class MeasureZero_ () extends MeasureZero
-
-trait MeasureOne
-  extends
-    Measure
-{
-
-  lazy val value : Int = 1
-
-}
-
-case class MeasureOne_ () extends MeasureOne
 
 trait Assignment
   extends
@@ -87,6 +77,10 @@ trait Assignment
     ) resource .compareTo (other .resource)
     else actor .compareTo (other .actor)
 
+  override
+  lazy val toString : String =
+    "\u27E8" + actor + ", " + resource + "\u27E9"
+
 }
 
 case class Assignment_ (actor : Actor, resource : Resource) extends Assignment
@@ -95,6 +89,10 @@ trait Outcome
 {
 
   def   assignments : Seq [Assignment]
+
+  override
+  lazy val toString : String =
+    assignments .mkString (",")
 
 }
 

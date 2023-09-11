@@ -9,6 +9,10 @@ class Actor
   compareTo (other : Actor) : Int =
     id .compareTo (other .id)
 
+  @override
+  toString : String =
+    id
+
 end
 
 
@@ -21,6 +25,10 @@ class Resource
 
   compareTo (other : Resource) : Int =
     id .compareTo (other .id)
+
+  @override
+  toString : String =
+    id
 
 end
 
@@ -39,23 +47,9 @@ class Measure
   compareTo (other : Measure) : Int =
     value .compareTo (other .value)
 
-end
-
-
-class MeasureZero
-  extends
-    Measure
-
-  value : Int = 0
-
-end
-
-
-class MeasureOne
-  extends
-    Measure
-
-  value : Int = 1
+  @override
+  toString : String =
+    value .toString
 
 end
 
@@ -73,6 +67,10 @@ class Assignment
     then resource .compareTo (other .resource)
     else actor .compareTo (other .actor)
 
+  @override
+  toString : String =
+    "\u27E8" + actor + ", " + resource + "\u27E9"
+
 end
 
 
@@ -80,6 +78,10 @@ class Outcome
 
   abstract
     assignments : Seq [Assignment]
+
+  @override
+  toString : String =
+    assignments .mkString (",")
 
 end
 
