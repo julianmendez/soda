@@ -1,0 +1,66 @@
+
+class UnbiasednessTile
+
+  abstract
+    p0_evaluation : Resource -> Measure
+    p1_result : Actor -> Measure
+    p2_with_p : Actor -> Measure
+    p3_acceptable_bias : Measure
+
+  all_actor_triple_tile = AllActorTripleTile_ ()
+
+  unzip_fst_tile = UnzipTripleFstTile_ ()
+
+  unzip_snd_tile = UnzipTripleSndTile_ ()
+
+  unzip_trd_tile = UnzipTripleTrdTile_ ()
+
+  zip_tile = ZipTile_ ()
+
+  prediction_p_tile = PredictionPTile_ (p0_evaluation)
+
+  result_p_tile = ResultPTile_ (p1_result)
+
+  with_p_tile = WithPTile_ (p2_with_p)
+
+  false_pos_tile = FalsePosTile_ ()
+
+  correlation_tile = CorrelationTile_ ()
+
+  decision_tile = DecisionTile_ (p3_acceptable_bias)
+
+  get_prediction (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    prediction_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  get_result (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    result_p_tile .apply (unzip_snd_tile .apply (message) )
+
+  get_with_p (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    with_p_tile .apply (unzip_trd_tile .apply (message) )
+
+  get_false_pos (prediction : TileMessage [Seq [Measure] ] ) (
+      result : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    false_pos_tile .apply (zip_tile .apply (prediction) (result) )
+
+  get_correlation (false_pos : TileMessage [Seq [Measure] ] ) (
+      with_p : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    correlation_tile .apply (zip_tile .apply (false_pos) (with_p) )
+
+  get_correlation_plumbing (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
+      : TileMessage [Measure] =
+    get_correlation (
+      get_false_pos (get_prediction (message) ) (get_result (message) )
+    ) (get_with_p (message) )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    decision_tile .apply (
+      get_correlation_plumbing (
+        all_actor_triple_tile .apply (message)
+      )
+    )
+
+end
+

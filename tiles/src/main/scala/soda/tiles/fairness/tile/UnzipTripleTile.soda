@@ -1,0 +1,45 @@
+
+class UnzipTripleFstTile
+
+  unzip_fst_list [A : Type] [B : Type] [C : Type] (
+      list : Seq [TileTriple [A] [B] [C] ] ) : Seq [A] =
+    list .map (lambda triple --> triple .fst)
+
+  apply [A : Type] [B : Type] [C : Type] (
+      message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [A] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_fst_list (message .contents)
+    )
+
+end
+
+
+class UnzipTripleSndTile
+
+  unzip_snd_list [A : Type] [B : Type] [C : Type] (
+      list : Seq [TileTriple [A] [B] [C] ] ) : Seq [B] =
+    list .map (lambda triple --> triple .snd)
+
+  apply [A : Type] [B : Type] [C : Type] (
+      message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_snd_list (message .contents)
+    )
+
+end
+
+
+class UnzipTripleTrdTile
+
+  unzip_trd_list [A : Type] [B : Type] [C : Type] (
+      list : Seq [TileTriple [A] [B] [C] ] ) : Seq [C] =
+    list .map (lambda triple --> triple .trd)
+
+  apply [A : Type] [B : Type] [C : Type] (
+      message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [C] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      unzip_trd_list (message .contents)
+    )
+
+end
+
