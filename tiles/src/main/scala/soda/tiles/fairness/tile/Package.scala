@@ -17,7 +17,7 @@ import   soda.tiles.fairness.tool.TilePair_
 
 trait Package
 
-trait AllActor2Tile
+trait AllActorPairTile
 {
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
@@ -26,12 +26,12 @@ trait AllActor2Tile
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
-        .map ( actor => TilePair_ (actor, actor) )
+        .map ( actor => TilePair_ (actor , actor) )
     )
 
 }
 
-case class AllActor2Tile_ () extends AllActor2Tile
+case class AllActorPairTile_ () extends AllActorPairTile
 
 
 trait AllActorTile
@@ -96,6 +96,22 @@ trait AtLeastTile
 case class AtLeastTile_ () extends AtLeastTile
 
 
+trait AttributePTile
+{
+
+  def   p : Actor => Measure
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map ( actor => p (actor) ) )
+    )
+
+}
+
+case class AttributePTile_ (p : Actor => Measure) extends AttributePTile
+
+
 trait EqualityTile
 {
 
@@ -133,11 +149,11 @@ trait EquityTile
 
   lazy val needed_p_tile = NeededPTile_ (p0_need)
 
-  lazy val all_actor2_tile = AllActor2Tile_ ()
+  lazy val all_actor_pair_tile = AllActorPairTile_ ()
 
-  lazy val unzip_fst_tile = UnzipFstTile_ ()
+  lazy val unzip_fst_tile = UnzipPairFstTile_ ()
 
-  lazy val unzip_snd_tile = UnzipSndTile_ ()
+  lazy val unzip_snd_tile = UnzipPairSndTile_ ()
 
   lazy val zip_tile = ZipTile_ ()
 
@@ -154,9 +170,9 @@ trait EquityTile
     zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    at_least_tile.apply (
+    at_least_tile .apply (
       zip_branches (
-        all_actor2_tile .apply (message)
+        all_actor_pair_tile .apply (message)
       )
     )
 
@@ -171,10 +187,7 @@ trait NeededPTile
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( actor => p (actor) ) )
-    )
+    AttributePTile_ (p) .apply (message)
 
 }
 
@@ -211,7 +224,7 @@ trait ReceivedSigmaPTile
 case class ReceivedSigmaPTile_ (sigma : Measure => Measure => Measure, p : Resource => Measure) extends ReceivedSigmaPTile
 
 
-trait UnzipFstTile
+trait UnzipPairFstTile
 {
 
   def unzip_fst_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [A] =
@@ -225,10 +238,9 @@ trait UnzipFstTile
 
 }
 
-case class UnzipFstTile_ () extends UnzipFstTile
+case class UnzipPairFstTile_ () extends UnzipPairFstTile
 
-
-trait UnzipSndTile
+trait UnzipPairSndTile
 {
 
   def unzip_snd_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [B] =
@@ -242,7 +254,7 @@ trait UnzipSndTile
 
 }
 
-case class UnzipSndTile_ () extends UnzipSndTile
+case class UnzipPairSndTile_ () extends UnzipPairSndTile
 
 
 trait ZipTile

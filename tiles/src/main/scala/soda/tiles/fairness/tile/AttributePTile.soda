@@ -1,0 +1,14 @@
+
+class AttributePTile
+
+  abstract
+    p : Actor -> Measure
+
+  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map (lambda actor --> p (actor) ) )
+    )
+
+end
+

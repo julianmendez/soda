@@ -1,5 +1,5 @@
 
-class AllActor2Tile
+class AllActorPairTile
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor] [Actor] ] ] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
@@ -7,7 +7,7 @@ class AllActor2Tile
         .map (lambda assignment --> assignment .actor)
         .distinct
         .sorted
-        .map (lambda actor --> TilePair_ (actor, actor) )
+        .map (lambda actor --> TilePair_ (actor , actor) )
     )
 
 end

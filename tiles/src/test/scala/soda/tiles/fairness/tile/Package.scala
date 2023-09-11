@@ -5,20 +5,6 @@ package soda.tiles.fairness.tile
  */
 
 import   org.scalatest.funsuite.AnyFunSuite
-import   soda.tiles.fairness.tile.AllActor2Tile
-import   soda.tiles.fairness.tile.AllActorTile
-import   soda.tiles.fairness.tile.AllEqual1Tile
-import   soda.tiles.fairness.tile.AllEqualTile
-import   soda.tiles.fairness.tile.AtLeastTile
-import   soda.tiles.fairness.tile.EqualityTile
-import   soda.tiles.fairness.tile.EqualityTile_
-import   soda.tiles.fairness.tile.EquityTile
-import   soda.tiles.fairness.tile.EquityTile_
-import   soda.tiles.fairness.tile.NeededPTile
-import   soda.tiles.fairness.tile.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.UnzipFstTile
-import   soda.tiles.fairness.tile.UnzipSndTile
-import   soda.tiles.fairness.tile.ZipTile
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Actor_
 import   soda.tiles.fairness.tool.Assignment
@@ -229,12 +215,4 @@ trait ResourceAllocationScenarioExample
 }
 
 case class ResourceAllocationScenarioExample_ () extends ResourceAllocationScenarioExample
-
-
-trait ScoringScenarioExample
-{
-
-}
-
-case class ScoringScenarioExample_ () extends ScoringScenarioExample
 

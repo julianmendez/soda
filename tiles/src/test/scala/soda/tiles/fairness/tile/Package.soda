@@ -6,20 +6,6 @@ package soda.tiles.fairness.tile
 
 import
   org.scalatest.funsuite.AnyFunSuite
-  soda.tiles.fairness.tile.AllActor2Tile
-  soda.tiles.fairness.tile.AllActorTile
-  soda.tiles.fairness.tile.AllEqual1Tile
-  soda.tiles.fairness.tile.AllEqualTile
-  soda.tiles.fairness.tile.AtLeastTile
-  soda.tiles.fairness.tile.EqualityTile
-  soda.tiles.fairness.tile.EqualityTile_
-  soda.tiles.fairness.tile.EquityTile
-  soda.tiles.fairness.tile.EquityTile_
-  soda.tiles.fairness.tile.NeededPTile
-  soda.tiles.fairness.tile.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.UnzipFstTile
-  soda.tiles.fairness.tile.UnzipSndTile
-  soda.tiles.fairness.tile.ZipTile
   soda.tiles.fairness.tool.Actor
   soda.tiles.fairness.tool.Actor_
   soda.tiles.fairness.tool.Assignment

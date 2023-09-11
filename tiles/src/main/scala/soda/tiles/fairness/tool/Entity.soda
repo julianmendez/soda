@@ -51,6 +51,15 @@ class MeasureZero
 end
 
 
+class MeasureOne
+  extends
+    Measure
+
+  value : Int = 1
+
+end
+
+
 class Assignment
   extends
     Comparable [Assignment]

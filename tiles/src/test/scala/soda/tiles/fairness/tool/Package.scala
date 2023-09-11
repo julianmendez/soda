@@ -8,7 +8,7 @@ import   org.scalatest.funsuite.AnyFunSuite
 
 trait Package
 
-case class ScoringTileSpec ()
+case class ScoringToolSpec ()
   extends
     AnyFunSuite
 {

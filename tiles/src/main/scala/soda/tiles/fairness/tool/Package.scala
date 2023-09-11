@@ -63,6 +63,17 @@ trait MeasureZero
 
 case class MeasureZero_ () extends MeasureZero
 
+trait MeasureOne
+  extends
+    Measure
+{
+
+  lazy val value : Int = 1
+
+}
+
+case class MeasureOne_ () extends MeasureOne
+
 trait Assignment
   extends
     Comparable [Assignment]
