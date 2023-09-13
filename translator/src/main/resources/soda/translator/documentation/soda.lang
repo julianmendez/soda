@@ -4,7 +4,7 @@
  This file is part of GtkSourceView
 
  Authors: Julian Alfredo Mendez
-   Copyright 2020--2023 Julian Alfredo Mendez <julian.mendez@gmail.com>
+   Copyright 2020-2023 Julian Alfredo Mendez <julian.mendez@gmail.com>
 
  GtkSourceView is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -138,7 +138,6 @@
             <keyword>this</keyword>
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>
-            <keyword>theorem</keyword>
             <keyword>directive</keyword>
         </context>
 
