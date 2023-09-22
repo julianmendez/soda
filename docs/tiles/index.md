@@ -38,6 +38,26 @@ A specific scenario is given as an example in [ResourceAllocationScenarioExample
 This scenario is used to test the equality tile with [EqualityTileSpec](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/EqualityTileSpec.soda) and the equity tile with [EquityTileSpec](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/EquityTileSpec.soda).
 
 
+#### Equality
+
+```mermaid
+graph LR;
+    all-actor --- received-Σ-p;
+    received-Σ-p --- all-equal;
+```
+
+
+#### Equity
+
+```mermaid
+graph LR;
+    all-actor --- received-Σ-p;
+    all-actor --- needed-p;
+    received-Σ-p --- at-least;
+    needed-p ---  at-least;
+```
+
+
 ### Scoring Scenarios
 
 These are some of the implemented fairness tiles for scoring scenarios:
@@ -54,8 +74,23 @@ These are some of the implemented fairness tiles for scoring scenarios:
 | unbiasedness <sub>*b*</sub>                      | [UnbiasednessTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/UnbiasednessTile.soda)     |
 
 A specific scenario is given as an example in [ScoringScenarioExample](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/ScoringScenarioExample.soda).
-This scenario is used to test the scoring scenario tile (unbiasedness) with
+This scenario is used to test the scoring scenario tile (unbiasedness with respect to false positives) with
 [UnbiasednessTileSpec](https://github.com/julianmendez/soda/blob/master/tiles/src/test/scala/soda/tiles/fairness/tile/UnbiasednessTileSpec.soda).
+
+
+#### Unbiasedness
+
+```mermaid
+graph LR;
+    all-actor --- prediction-p;
+    all-actor --- result-p;
+    all-actor --- with-p;
+    prediction-p --- false-pos;
+    result-p --- false-pos;
+    with-p --- correlation;
+    false-pos --- correlation;
+    correlation --- decision;
+```
 
 
 ### Auxiliary Tiles
