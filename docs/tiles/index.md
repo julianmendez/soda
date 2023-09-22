@@ -42,8 +42,8 @@ This scenario is used to test the equality tile with [EqualityTileSpec](https://
 
 ```mermaid
 graph LR;
-    all-actor --- received-Σ-p;
-    received-Σ-p --- all-equal;
+all-actor --- received-Σ-p;
+received-Σ-p --- all-equal;
 ```
 
 
@@ -51,10 +51,10 @@ graph LR;
 
 ```mermaid
 graph LR;
-    all-actor --- received-Σ-p;
-    all-actor --- needed-p;
-    received-Σ-p --- at-least;
-    needed-p ---  at-least;
+all-actor --- received-Σ-p;
+all-actor --- needed-p;
+received-Σ-p --- at-least;
+needed-p ---  at-least;
 ```
 
 
@@ -82,14 +82,14 @@ This scenario is used to test the scoring scenario tile (unbiasedness with respe
 
 ```mermaid
 graph LR;
-    all-actor --- prediction-p;
-    all-actor --- result-p;
-    all-actor --- with-p;
-    prediction-p --- false-pos;
-    result-p --- false-pos;
-    with-p --- correlation;
-    false-pos --- correlation;
-    correlation --- decision;
+all-actor --- prediction-p;
+all-actor --- result-p;
+all-actor --- with-p;
+prediction-p --- false-pos;
+result-p --- false-pos;
+with-p --- correlation;
+false-pos --- correlation;
+correlation --- decision;
 ```
 
 
