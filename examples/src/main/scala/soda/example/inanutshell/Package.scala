@@ -53,11 +53,27 @@ trait MaxAndMin
 
 case class MaxAndMin_ () extends MaxAndMin
 
+trait Pair [A , B ]
+{
+
+  def   fst : A
+  def   snd : B
+
+}
+
+case class Pair_ [A, B] (fst : A, snd : B) extends Pair [A, B]
+
 trait MinMaxPair
+  extends
+    Pair [Int, Int]
 {
 
   def   min : Int
   def   max : Int
+
+  lazy val fst : Int = min
+
+  lazy val snd : Int = max
 
 }
 
@@ -79,10 +95,7 @@ trait Example
   def   index : Int
 
   def min_max (a : Int) (b : Int) : MinMaxPair =
-    MinMaxPair_ (
-      min = MaxAndMin_ () .min (a) (b),
-      max = MaxAndMin_ () .max (a) (b)
-    )
+    MinMaxPair_ (min = MaxAndMin_ () .min (a) (b) , max = MaxAndMin_ () .max (a) (b) )
 
 }
 

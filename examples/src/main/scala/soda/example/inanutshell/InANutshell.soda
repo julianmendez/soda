@@ -40,11 +40,25 @@ class MaxAndMin
 
 end
 
+class Pair [A : Type] [B : Type]
+
+  abstract
+    fst : A
+    snd : B
+
+end
+
 class MinMaxPair
+  extends
+    Pair [Int] [Int]
 
   abstract
     min : Int
     max : Int
+
+  fst : Int = min
+
+  snd : Int = max
 
 end
 
@@ -62,10 +76,7 @@ class Example
     index : Int
 
   min_max (a : Int) (b : Int) : MinMaxPair =
-    MinMaxPair_ (
-      min := MaxAndMin_ () .min (a) (b),
-      max := MaxAndMin_ () .max (a) (b)
-    )
+    MinMaxPair_ (min := MaxAndMin_ () .min (a) (b) ) (max := MaxAndMin_ () .max (a) (b) )
 
 end
 
