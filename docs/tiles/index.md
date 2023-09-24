@@ -1,4 +1,7 @@
 
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js"> </script>
+</head>
 
 
 ## Tiles
@@ -105,5 +108,9 @@ are:
 | <sub>*(&alpha;0) (&alpha;1)*</sub> zip <sub>*(&alpha;0, &alpha;1)*</sub> | [ZipTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/ZipTile.soda)                |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>        | [UnzipPairFstTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/UnzipPairTile.soda) |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>        | [UnzipPairSndTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/UnzipPairTile.soda) |
+
+<script>
+  window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
 
 
