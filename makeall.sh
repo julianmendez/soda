@@ -7,7 +7,7 @@
 
 sbt scalaVersion sbtVersion version clean compile test package assembly
 
-scalaVersion="3.3.0"
+scalaVersion="3.3.1"
 binaryFile="soda"
 executableStub="exec java -jar \$0 \"\$@\" ; exit"
 jarFile="target/scala-${scalaVersion}/${binaryFile}-*.jar"

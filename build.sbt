@@ -4,9 +4,9 @@ lazy val scala2_11 = "2.11.12"
 
 lazy val scala2_12 = "2.12.18"
 
-lazy val scala2_13 = "2.13.11"
+lazy val scala2_13 = "2.13.12"
 
-lazy val scala3_3 = "3.3.0"
+lazy val scala3_3 = "3.3.1"
 
 lazy val commonSettings =
   Seq(
@@ -36,7 +36,7 @@ lazy val commonSettings =
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.16" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,
