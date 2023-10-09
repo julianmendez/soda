@@ -4,9 +4,9 @@ lazy val scala2_11 = "2.11.12"
 
 lazy val scala2_12 = "2.12.18"
 
-lazy val scala2_13 = "2.13.11"
+lazy val scala2_13 = "2.13.12"
 
-lazy val scala3_3 = "3.3.0"
+lazy val scala3_3 = "3.3.1"
 
 lazy val commonSettings =
   Seq(
