@@ -14,8 +14,9 @@ jobs:
     strategy:
       matrix:
         java:
-        - 11
-        - 17
+        - 11.0.21
+        - 17.0.9
+        - 21.0.1
         scala:
         - 2.11.12
         - 2.12.18
@@ -23,12 +24,12 @@ jobs:
         - 3.3.1
     steps:
     - name: Check out
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
         java-version: ${{ matrix.java }}
-        distribution: zulu
+        distribution: temurin
     - name: Build with sbt
       run: sbt '++ ${{ matrix.scala }}' scalaVersion sbtVersion version clean compile test package assembly
 
