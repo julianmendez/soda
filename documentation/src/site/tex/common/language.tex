@@ -1,7 +1,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, any, def, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, proof, @new, @tailrec, @override},
+    morekeywords={lambda, any, def, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, directive, @new, @tailrec, @override},
     sensitive=true,
     morecomment=[s]{/*}{*/},
     morestring=[b]"
@@ -76,8 +76,7 @@
 \newcommand{\sodapackage}{\reservedWordSoda{package}}
 \newcommand{\sodaimport}{\reservedWordSoda{import}}
 
-\newcommand{\sodatheorem}{\reservedWordSoda{theorem}}
-\newcommand{\sodaproof}{\reservedWordSoda{proof}}
+\newcommand{\sodadirective}{\reservedWordSoda{directive}}
 
 \newcommand{\sodanew}{\annotation{@new}}
 \newcommand{\sodatailrec}{\annotation{@tailrec}}
@@ -87,57 +86,4 @@
 
 \newcommand{\sodalessthancolon}{\reservedWordSoda{<:}}
 \newcommand{\sodagreaterthancolon}{\reservedWordSoda{>:}}
-
-%
-% Scala reserved words
-%
-
-\definecolor{scalablue}{rgb}{0.20, 0.00, 0.65}
-\newcommand{\reservedWordScala}[1]{{\color{scalablue}\srccode{#1}}\xspace}
-\newcommand{\scalaType}[1]{\basicType{{#1}}}
-
-\newcommand{\scalacase}{\reservedWordScala{case}}
-\newcommand{\scalaclass}{\reservedWordScala{class}}
-\newcommand{\scaladef}{\reservedWordScala{def}}
-\newcommand{\scalalazy}{\reservedWordScala{lazy}}
-\newcommand{\scalasealed}{\reservedWordScala{sealed}}
-\newcommand{\scalasuper}{\reservedWordScala{super}}
-\newcommand{\scalatrait}{\reservedWordScala{trait}}
-\newcommand{\scalaval}{\reservedWordScala{val}}
-\newcommand{\scalavar}{\reservedWordScala{var}}
-\newcommand{\scalawhile}{\reservedWordScala{while}}
-
-
-%
-% Coq reserved words
-%
-
-\definecolor{coqblue}{rgb}{0.05, 0.15, 0.65}
-\newcommand{\reservedWordCoq}[1]{{\color{coqblue}\srccode{#1}}\xspace}
-\newcommand{\coqType}[1]{\basicType{{#1}}}
-
-\newcommand{\coqif}{\reservedWordCoq{if}}
-\newcommand{\coqthen}{\reservedWordCoq{then}}
-\newcommand{\coqelse}{\reservedWordCoq{else}}
-
-\newcommand{\coqlet}{\reservedWordCoq{let}}
-\newcommand{\coqin}{\reservedWordCoq{in}}
-
-\newcommand{\coqmatch}{\reservedWordCoq{match}}
-\newcommand{\coqwith}{\reservedWordCoq{with}}
-\newcommand{\coqcasebar}{\reservedWordCoq{|}}
-\newcommand{\coqcasearrow}{\ensuremath{\Rightarrow}\xspace}
-\newcommand{\coqendmatch}{\reservedWordCoq{end}}
-
-\newcommand{\coqDefinition}{\reservedWordCoq{Definition}}
-\newcommand{\coqNotation}{\reservedWordCoq{Notation}}
-\newcommand{\coqInductive}{\reservedWordCoq{Inductive}}
-\newcommand{\coqFixpoint}{\reservedWordCoq{Fixpoint}}
-\newcommand{\coqRequire}{\reservedWordCoq{Require}}
-\newcommand{\coqImport}{\reservedWordCoq{Import}}
-\newcommand{\coqModule}{\reservedWordCoq{Module}}
-\newcommand{\coqEnd}{\reservedWordCoq{End}}
-\newcommand{\coqTheorem}{\reservedWordCoq{Theorem}}
-\newcommand{\coqProof}{\reservedWordCoq{Proof}}
-\newcommand{\coqQed}{\reservedWordCoq{Qed}}
 
