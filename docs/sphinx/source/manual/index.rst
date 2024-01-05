@@ -33,7 +33,7 @@ It is possible to use ``if``-``then``-``else`` structures
 
 ::
 
-  max (x : Int) (y : Int) : Float =
+  max (x : Int) (y : Int) : Int =
     if x > y
     then x
     else y
@@ -42,7 +42,7 @@ Soda accepts lambda expressions, like
 
 ::
 
-  plus : Float -> Float -> Float =
+  plus : Int -> Int -> Int =
     lambda x -->
       lambda y -->
         x + y
