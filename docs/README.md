@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)][license]
 [![build](https://github.com/julianmendez/soda/workflows/Scala%20CI/badge.svg)][build-status]
+[![Documentation Status](https://readthedocs.org/projects/soda-lang/badge/?version=latest)][doc-status]
 
 *Soda* (Symbolic Objective Descriptive Analysis) is an object-oriented functional language to
 describe, analyze, and model human-centered problems.
@@ -106,6 +107,7 @@ A Linux binary can be created with the script `makeall.sh`.
 [author]: https://julianmendez.github.io
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [build-status]: https://github.com/julianmendez/soda/actions
+[doc-status]: https://soda-lang.readthedocs.io/en/latest/?badge=latest
 [manual]: https://soda-lang.readthedocs.io/en/latest/
 [scala]: https://scala-lang.org
 [sbt]: https://www.scala-sbt.org
