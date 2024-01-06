@@ -50,7 +50,7 @@ trait Main
       execute_for (arguments)
 
   def main (arguments : Array [String] ) : Unit =
-    execute (arguments.toSeq)
+    execute (arguments .toSeq)
 
 }
 

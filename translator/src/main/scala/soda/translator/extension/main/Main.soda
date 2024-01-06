@@ -40,7 +40,7 @@ class Main
       execute_for (arguments)
 
   main (arguments : Array [String] ) : Unit =
-    execute (arguments.toSeq)
+    execute (arguments .toSeq)
 
 end
 
