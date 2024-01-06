@@ -16,8 +16,8 @@ lazy val commonSettings =
     homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),
     licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
-    organizationName := "Responsible Artificial Intelligence - Umea University",
-    organizationHomepage := Some(url("https://www.umu.se/en/research/groups/responsible-artificial-intelligence")),
+    organizationName := "Umea University",
+    organizationHomepage := Some(url("https://www.umu.se/en/department-of-computing-science/")),
     developers := List(
       Developer("julianmendez", "Julian Alfredo Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
     ),
