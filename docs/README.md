@@ -1,13 +1,13 @@
 # [Soda](https://julianmendez.github.io/soda/)
 
-[![build](https://github.com/julianmendez/soda/workflows/Scala%20CI/badge.svg)](https://github.com/julianmendez/soda/actions)
-[![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)][license]
+[![build](https://github.com/julianmendez/soda/workflows/Scala%20CI/badge.svg)][build-status]
 
 *Soda* (Symbolic Objective Descriptive Analysis) is an object-oriented functional language to
 describe, analyze, and model human-centered problems.
 Due to its readability, it can be applied to model ethical problems.
 
-This project includes a translator to [Scala](https://scala-lang.org).
+This project includes a translator to [Scala][scala].
 
 
 ## Reserved words
@@ -88,12 +88,12 @@ The following tools can be configured to have syntax highlighting:
 
 ## Documentation
 
-- [User manual](https://soda-lang.readthedocs.io/en/latest/)
+- [User manual][manual]
 
 
 ## Build
 
-The project can be built with [sbt](https://www.scala-sbt.org/) with
+The project can be built with [sbt][sbt] with
 `sbt clean compile test package assembly`
 
 A Linux binary can be created with the script `makeall.sh`.
@@ -101,6 +101,13 @@ A Linux binary can be created with the script `makeall.sh`.
 
 ## Author
 
-[Julian Alfredo Mendez](https://julianmendez.github.io)
+[Julian Alfredo Mendez][author]
+
+[author]: https://julianmendez.github.io
+[license]: https://www.apache.org/licenses/LICENSE-2.0.txt
+[build-status]: https://github.com/julianmendez/soda/actions
+[manual]: https://soda-lang.readthedocs.io/en/latest/
+[scala]: https://scala-lang.org
+[sbt]: https://www.scala-sbt.org
 
 
