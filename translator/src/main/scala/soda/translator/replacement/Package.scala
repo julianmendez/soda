@@ -314,13 +314,19 @@ trait ReplacementWithTranslator
       previous_character + reserved_word + soda_space) (previous_character +
         translator .translate (reserved_word) + scala_space)
 
-  private def _next_replace (line : String) (reserved_word : String) : String =
+  private def _next_replace_words (line : String) (reserved_word : String) : String =
     _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
       _replace_if_found (soda_space) (reserved_word) (line)
     )
 
-  def replace (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace)
+  def replace_words (line : String) : String =
+    _fold .apply (translator .keys) (line) (_next_replace_words)
+
+  private def _next_replace_symbols (line : String) (reserved_word : String) : String =
+    aux .replace_if_found (line) (reserved_word) (translator .translate (reserved_word) )
+
+  def replace_symbols (line : String) : String =
+    _fold .apply (translator .keys) (line) (_next_replace_symbols)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (

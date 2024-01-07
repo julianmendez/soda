@@ -423,9 +423,11 @@ class TranslationConstantToLean
 
   type_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant .subtype_reserved_word, lean_subtype_symbol),
-      Tuple2 (soda_constant .supertype_reserved_word, lean_supertype_symbol),
-      Tuple2 (soda_constant .function_arrow_symbol, lean_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , lean_subtype_symbol),
+      Tuple2 (soda_constant .supertype_reserved_word , lean_supertype_symbol),
+      Tuple2 (soda_constant .function_arrow_symbol , lean_function_arrow_symbol),
+      Tuple2 (soda_constant .opening_bracket_symbol, lean_opening_parenthesis + lean_space),
+      Tuple2 (soda_constant .closing_bracket_symbol , lean_space + lean_closing_parenthesis)
     )
 
   function_symbols_translation : Seq [Tuple2 [String] [String] ] =

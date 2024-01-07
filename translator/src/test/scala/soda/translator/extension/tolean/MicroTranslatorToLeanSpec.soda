@@ -19,7 +19,7 @@ class MicroTranslatorToLeanSpec ()
 
   test ("Lean translation of a constant") (
     check (
-      obtained := instance.translate ("x = 0")
+      obtained := instance .translate ("x = 0")
     ) (
       expected := " def x := 0\n\n"
     )
@@ -27,9 +27,36 @@ class MicroTranslatorToLeanSpec ()
 
   test ("Lean translation of a function") (
     check (
-      obtained := instance.translate ("f (a : Nat) = 0")
+      obtained := instance .translate ("f (a : Nat) = 0")
     ) (
       expected := " def f (a : Nat) := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of type parameters") (
+    check (
+      obtained := instance .translate (
+      "identity (x : List [Boolean] ) : List [Boolean] = x\n")
+    ) (
+      expected := " def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
+    )
+  )
+
+
+  test ("Lean translation of abstract parameters") (
+    check (
+      obtained := instance .translate (
+        "\n  abstract" +
+        "\n    list0 : List [Tuple2 [Boolean] [Boolean] ]" +
+        "\n    list1 : List [List [Int] ]" +
+        "\n"
+      )
+    ) (
+      expected := "" +
+        "  abstract" +
+        "\n    list0 : List ( Prod ( Bool ) ( Bool )  )" +
+        "\n    list1 : List ( List ( Int )  )" +
+        "\n"
     )
   )
 

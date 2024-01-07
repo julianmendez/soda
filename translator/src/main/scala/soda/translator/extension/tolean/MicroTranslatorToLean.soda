@@ -10,6 +10,7 @@ class MicroTranslatorToLean
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationId
     soda.translator.block.BlockTranslatorPipeline_
     soda.translator.block.ConditionalBlockTranslator_
     soda.translator.blocktr.TokenReplacement_
@@ -20,9 +21,22 @@ class MicroTranslatorToLean
 
   _function_definition = BlockAnnotationEnum_ () .function_definition
 
+  _class_beginning = BlockAnnotationEnum_ () .class_beginning
+
+  _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+
+  _class_alias = BlockAnnotationEnum_ () .class_alias
+
   _test_declaration = BlockAnnotationEnum_ () .test_declaration
 
-  functions_and_tests = Seq (_function_definition, _test_declaration)
+  functions_and_tests : Seq [BlockAnnotationId] =
+    Seq (_function_definition, _test_declaration)
+
+  declarations : Seq [BlockAnnotationId] =
+    Seq (
+      _function_definition , _class_beginning , _abstract_declaration , _class_alias ,
+      _test_declaration
+    )
 
   try_definition : Token -> String =
     lambda token -->
@@ -44,8 +58,11 @@ class MicroTranslatorToLean
         ConditionalBlockTranslator_ (functions_and_tests ,
           TokenizedBlockTranslator_ (try_definition) ) ,
         ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace (_tc .function_symbols_translation)
-        )
+          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_words (_tc .type_translation) )
       )
     )
 

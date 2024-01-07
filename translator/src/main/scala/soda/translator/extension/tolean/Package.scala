@@ -819,6 +819,7 @@ trait MicroTranslatorToLean
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationId
   import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.ConditionalBlockTranslator_
   import   soda.translator.blocktr.TokenReplacement_
@@ -829,9 +830,22 @@ trait MicroTranslatorToLean
 
   private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
 
+  private lazy val _class_beginning = BlockAnnotationEnum_ () .class_beginning
+
+  private lazy val _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+
+  private lazy val _class_alias = BlockAnnotationEnum_ () .class_alias
+
   private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
 
-  lazy val functions_and_tests = Seq (_function_definition, _test_declaration)
+  lazy val functions_and_tests : Seq [BlockAnnotationId] =
+    Seq (_function_definition, _test_declaration)
+
+  lazy val declarations : Seq [BlockAnnotationId] =
+    Seq (
+      _function_definition , _class_beginning , _abstract_declaration , _class_alias ,
+      _test_declaration
+    )
 
   lazy val try_definition : Token => String =
      token =>
@@ -853,8 +867,11 @@ trait MicroTranslatorToLean
         ConditionalBlockTranslator_ (functions_and_tests ,
           TokenizedBlockTranslator_ (try_definition) ) ,
         ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace (_tc .function_symbols_translation)
-        )
+          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_words (_tc .type_translation) )
       )
     )
 
@@ -1291,9 +1308,11 @@ trait TranslationConstantToLean
 
   lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant .subtype_reserved_word, lean_subtype_symbol),
-      Tuple2 (soda_constant .supertype_reserved_word, lean_supertype_symbol),
-      Tuple2 (soda_constant .function_arrow_symbol, lean_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , lean_subtype_symbol),
+      Tuple2 (soda_constant .supertype_reserved_word , lean_supertype_symbol),
+      Tuple2 (soda_constant .function_arrow_symbol , lean_function_arrow_symbol),
+      Tuple2 (soda_constant .opening_bracket_symbol, lean_opening_parenthesis + lean_space),
+      Tuple2 (soda_constant .closing_bracket_symbol , lean_space + lean_closing_parenthesis)
     )
 
   lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =

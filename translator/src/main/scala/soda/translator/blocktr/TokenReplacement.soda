@@ -4,10 +4,16 @@ class TokenReplacement
   import
     soda.translator.replacement.ReplacementWithTranslator_
 
-  replace (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
+  replace_words (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
       lambda token -->
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace (token .text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_words (token .text)
+    )
+
+  replace_symbols (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+      lambda token -->
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_symbols (token .text)
     )
 
 end

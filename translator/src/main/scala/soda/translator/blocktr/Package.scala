@@ -109,10 +109,16 @@ trait TokenReplacement
 
   import   soda.translator.replacement.ReplacementWithTranslator_
 
-  def replace (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+  def replace_words (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace (token .text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_words (token .text)
+    )
+
+  def replace_symbols (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+       token =>
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_symbols (token .text)
     )
 
 }
