@@ -792,6 +792,52 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("Translation of comments") (
+    check (
+      obtained = instance .translate (
+        "\n/*" +
+        "\n * This is commented text" +
+        "\n * " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/*" +
+        "\n * This is commented text" +
+        "\n * " +
+        "\n   f (x) = 0" +
+        "\n */" +
+        "\n"
+    )
+  )
+
+  test ("Translation of documentation") (
+    check (
+      obtained = instance .translate (
+        "\n/**" +
+        "\n * This is nicely " +
+        "\n * written documentation  " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/**" +
+        "\n * This is nicely " +
+        "\n * written documentation  " +
+        "\n   f (x) = 0" +
+        "\n */" +
+        "\n"
+    )
+  )
+
 }
 
 
