@@ -838,6 +838,19 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("Translation of class alias") (
+    check (
+      obtained = instance .translate (
+        "class Money = Int" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "type Money = Int" +
+        "\n"
+    )
+  )
+
 }
 
 

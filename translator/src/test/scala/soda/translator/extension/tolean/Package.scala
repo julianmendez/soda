@@ -173,5 +173,18 @@ case class MicroTranslatorToLeanSpec ()
     )
   )
 
+  test ("Lean translation of class alias") (
+    check (
+      obtained = instance .translate (
+        "class Money = Int" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "notation:max \"Money\" => Int" +
+        "\n"
+    )
+  )
+
 }
 

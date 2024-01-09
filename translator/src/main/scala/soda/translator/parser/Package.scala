@@ -366,6 +366,10 @@ trait SodaConstant
 
   lazy val class_reserved_word = "class"
 
+  lazy val class_alias_reserved_word = class_reserved_word
+
+  lazy val class_alias_definition_symbol = "="
+
   lazy val class_proposed_unicode_symbol = "\u23BE"
 
   lazy val extends_reserved_word = "extends"

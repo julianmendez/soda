@@ -51,6 +51,10 @@ class SodaConstant
 
   class_reserved_word = "class"
 
+  class_alias_reserved_word = class_reserved_word
+
+  class_alias_definition_symbol = "="
+
   class_proposed_unicode_symbol = "\u23BE"
 
   extends_reserved_word = "extends"

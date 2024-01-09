@@ -8,6 +8,61 @@ package soda.translator.extension.tolean
 
 trait Package
 
+trait LeanClassAliasBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.block.Translator
+  import   soda.translator.blocktr.TableTranslator_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.ClassAliasAnnotation
+  import   soda.translator.parser.annotation.ClassAliasAnnotation_
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  def get_first_line (block : Block) : String =
+    block .lines .headOption .getOrElse ("")
+
+  private def _process_class_alias (line : String) : String =
+    line
+      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .lean_notation_max_prefix)
+      .replace (_sc .space + _sc .class_alias_definition_symbol + _sc .space ,
+         _tc .lean_notation_max_infix)
+
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder_ () .build (
+      Seq [String] (
+        _process_class_alias (get_first_line (block) )
+      )
+    )
+
+  private def _translate_class_alias_block (block : ClassAliasAnnotation)
+      : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ClassAliasAnnotation_ (block) =>
+        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanClassAliasBlockTranslator_ () extends LeanClassAliasBlockTranslator
+
+
 trait LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -971,6 +1026,7 @@ trait MicroTranslatorToLean
         LeanClassDeclarationBlockTranslator_ () ,
         LeanPackageDeclarationBlockTranslator_ () ,
         LeanClassEndBlockTranslator_ () ,
+        LeanClassAliasBlockTranslator_ () ,
         LeanImportDeclarationBlockTranslator_ () ,
         LeanTheoremBlockTranslator_ () ,
         LeanDirectiveBlockTranslator_ () ,
@@ -1270,6 +1326,10 @@ trait TranslationConstantToLean
   lazy val lean_namespace_end_reserved_word : String = lean_end_reserved_word
 
   lazy val lean_directive_identifier : String = "lean"
+
+  lazy val lean_notation_max_prefix : String = lean_notation_reserved_word + ":max \""
+
+  lazy val lean_notation_max_infix : String = "\" => "
 
   lazy val lean_main_reserved_words : Seq [String] =
     Seq (

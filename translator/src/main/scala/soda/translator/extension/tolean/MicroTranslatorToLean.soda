@@ -53,6 +53,7 @@ class MicroTranslatorToLean
         LeanClassDeclarationBlockTranslator_ () ,
         LeanPackageDeclarationBlockTranslator_ () ,
         LeanClassEndBlockTranslator_ () ,
+        LeanClassAliasBlockTranslator_ () ,
         LeanImportDeclarationBlockTranslator_ () ,
         LeanTheoremBlockTranslator_ () ,
         LeanDirectiveBlockTranslator_ () ,
