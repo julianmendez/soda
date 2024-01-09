@@ -532,6 +532,115 @@ trait LeanDirectiveBlockTranslator
 case class LeanDirectiveBlockTranslator_ () extends LeanDirectiveBlockTranslator
 
 
+trait LeanDocumentationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.CommentAnnotation
+  import   soda.translator.parser.annotation.CommentAnnotation_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToLean_ ()
+
+  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
+
+  private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) Seq [String] (prefix)
+    else Seq [String] (prefix + content .head) .++ (content .tail)
+
+  private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
+    content .:+ (suffix)
+
+  private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
+    if ( index >= 0
+    ) line .substring (index + prefix .length)
+    else line
+
+  private def _remove_prefix_in_line (prefix : String) (line : String) : String =
+    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
+
+  private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
+    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
+
+  private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
+    if ( index >= 0
+    ) line .substring (0, index)
+    else line
+
+  private def _remove_suffix_in_line (suffix : String) (line : String) : String =
+    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
+
+  private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) content
+    else _prepend (
+      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
+
+  private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
+    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
+
+  private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) content
+    else _prepend (
+      _remove_prefix_in_line (_sc .comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
+     )
+    ) (content .tail)
+
+  private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
+    _remove_last_delimiter (
+      _remove_first_delimiter (content)
+    )
+
+  private def _translate_with_symbol (opening_symbol : String) (lines : Seq [String] ) : Seq [String] =
+    _append (
+      _tc .lean_comment_closing_symbol) (
+      _prepend (opening_symbol) (
+        _remove_comment_delimiter (
+          _remove_comment_line_prefix (lines)
+        )
+      )
+    )
+
+  private def _get_opening_symbol (line : String) : String =
+    if ( (line .trim .startsWith (_sc .documentation_comment_opening_symbol) )
+    ) _tc .lean_opening_documentation
+    else _tc .lean_comment_opening_symbol
+
+  private def _translate_lines (lines : Seq [String] ) : Seq [String] =
+    if ( (lines .isEmpty)
+    ) lines
+    else _translate_with_symbol (_get_opening_symbol (lines .head) ) (lines)
+
+  private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
+    CommentAnnotation_ (
+      BlockBuilder_ () .build (
+        _translate_lines (block .lines)
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanDocumentationBlockTranslator_ () extends LeanDocumentationBlockTranslator
+
+
 trait LeanDotNotationBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
@@ -854,6 +963,7 @@ trait MicroTranslatorToLean
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        LeanDocumentationBlockTranslator_ () ,
         LeanDotNotationBlockTranslator_ () ,
         LeanMatchCaseBlockTranslator_ () ,
         LeanDefinitionBlockTranslator_ () ,

@@ -28,7 +28,7 @@ trait DocBlockTranslator
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
     ) Seq [String] (prefix)
-    else Seq[String] (prefix + content .head) .++ (content .tail)
+    else Seq [String] (prefix + content .head) .++ (content .tail)
 
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
@@ -65,8 +65,8 @@ trait DocBlockTranslator
     if ( content .isEmpty
     ) content
     else _prepend (
-      _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .comment_opening_symbol) (content .head)
+      _remove_prefix_in_line (_sc .comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
      )
     ) (content .tail)
 

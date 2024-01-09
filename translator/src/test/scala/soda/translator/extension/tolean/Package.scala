@@ -123,5 +123,55 @@ case class MicroTranslatorToLeanSpec ()
     )
   )
 
+  test ("Lean translation of comments") (
+    check (
+      obtained = instance .translate (
+        "\n/*" +
+        "\n * This is a nicely " +
+        "\n * written comment" +
+        "\n * " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/-" +
+        "This is a nicely " +
+        "\nwritten comment" +
+        "\n" +
+        "\n    f (x) = 0" +
+        "\n-/" +
+        "\n"
+    )
+  )
+
+  test ("Lean translation of documentation") (
+    check (
+      obtained = instance .translate (
+        "\n/**" +
+        "\n * This is a nicely " +
+        "\n * written documentation" +
+        "\n * " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/--" +
+        "This is a nicely " +
+        "\nwritten documentation" +
+        "\n" +
+        "\n    f (x) = 0" +
+        "\n-/" +
+        "\n"
+    )
+  )
+
 }
 
