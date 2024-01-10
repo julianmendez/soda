@@ -1,43 +1,54 @@
 
-/**
+directive lean
+notation:max "Nil" => List.nil
+
+directive lean
+notation:max "Boolean" => Bool
+
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+
+directive lean
+notation:max "Succ_" => Nat.succ
+
+
+/*
  * This class contains tail recursive auxiliary functions.
  */
 
 class RecursionForLean
 
-  @tailrec
-  _tailrec_fold4 [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+  _tailrec_fold4 [A : Type] [B : Type] (sequence : List [A] ) (current : B)
       (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
       case (head) :: (tail) ==>
          if (not (condition (current) (head) ) )
          then current
-         else _tailrec_fold4 (tail) (next_value (current) (head) ) (next_value) (condition)
+         else
+           _tailrec_fold4 [A] [B] (tail) (next_value (current) (head) ) (next_value) (condition)
       case otherwise ==> current
 
-  fold4 [A : Type] [B : Type] (sequence : Seq [A] ) (initial_value : B)
+  fold4 [A : Type] [B : Type] (sequence : List [A] ) (initial_value : B)
       (next_value : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value) (condition)
+    _tailrec_fold4 [A] [B] (sequence) (initial_value) (next_value) (condition)
 
-  @tailrec
-  _tailrec_fold3 [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+  _tailrec_fold3 [A : Type] [B : Type] (sequence : List [A] ) (current : B)
       (next_value : B -> A -> B) : B =
     match sequence
       case (head) :: (tail) ==>
-        _tailrec_fold3 (tail) (next_value (current) (head) ) (next_value)
+        _tailrec_fold3 [A] [B] (tail) (next_value (current) (head) ) (next_value)
       case otherwise ==> current
 
-  fold3 [A : Type] [B : Type] (sequence : Seq [A] ) (initial_value : B)
+  fold3 [A : Type] [B : Type] (sequence : List [A] ) (initial_value : B)
       (next_value : B -> A -> B) : B =
-    _tailrec_fold3 (sequence) (initial_value) (next_value)
+    _tailrec_fold3 [A] [B] (sequence) (initial_value) (next_value)
 
-  @tailrec
-  _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if n <= 0
-    then sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+  _tailrec_range (n : Nat) (sequence : List [Nat] ) : List [Nat] =
+    match n
+      case Zero_ () ==> sequence
+      case Succ_ (k) ==> _tailrec_range (k) (k :: sequence)
 
-  range (length : Int) : Seq [Int] =
+  range (length : Nat) : List [Nat] =
     _tailrec_range (length) (Nil)
 
 end

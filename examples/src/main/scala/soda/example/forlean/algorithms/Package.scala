@@ -5,54 +5,72 @@ package soda.example.forlean.algorithms
  */
 
 import   soda.example.forlean.lib.Nat
+import   soda.example.forlean.lib.Succ_
+import   soda.example.forlean.lib.Zero_
 
 trait Package
 
-/**
+/*
+directive lean
+notation:max "Nil" => List.nil
+*/
+
+/*
+directive lean
+notation:max "Boolean" => Bool
+*/
+
+/*
+directive lean
+notation:max "Zero_ ()" => Nat.zero
+*/
+
+/*
+directive lean
+notation:max "Succ_" => Nat.succ
+*/
+
+/*
  * This class contains tail recursive auxiliary functions.
  */
 
 trait RecursionForLean
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold4 [A , B ] (sequence : Seq [A] ) (current : B)
+  private def _tailrec_fold4 [A , B ] (sequence : List [A] ) (current : B)
       (next_value : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
       case (head) :: (tail) =>
          if ( (! (condition (current) (head) ) )
          ) current
-         else _tailrec_fold4 (tail) (next_value (current) (head) ) (next_value) (condition)
+         else
+           _tailrec_fold4 [A, B] (tail) (next_value (current) (head) ) (next_value) (condition)
       case otherwise => current
     }
 
-  def fold4 [A , B ] (sequence : Seq [A] ) (initial_value : B)
+  def fold4 [A , B ] (sequence : List [A] ) (initial_value : B)
       (next_value : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value) (condition)
+    _tailrec_fold4 [A, B] (sequence) (initial_value) (next_value) (condition)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold3 [A , B ] (sequence : Seq [A] ) (current : B)
+  private def _tailrec_fold3 [A , B ] (sequence : List [A] ) (current : B)
       (next_value : B => A => B) : B =
     sequence match  {
       case (head) :: (tail) =>
-        _tailrec_fold3 (tail) (next_value (current) (head) ) (next_value)
+        _tailrec_fold3 [A, B] (tail) (next_value (current) (head) ) (next_value)
       case otherwise => current
     }
 
-  def fold3 [A , B ] (sequence : Seq [A] ) (initial_value : B)
+  def fold3 [A , B ] (sequence : List [A] ) (initial_value : B)
       (next_value : B => A => B) : B =
-    _tailrec_fold3 (sequence) (initial_value) (next_value)
+    _tailrec_fold3 [A, B] (sequence) (initial_value) (next_value)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if ( n <= 0
-    ) sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+  private def _tailrec_range (n : Nat) (sequence : List [Nat] ) : List [Nat] =
+    n match  {
+      case Zero_ () => sequence
+      case Succ_ (k) => _tailrec_range (k) (k :: sequence)
+    }
 
-  def range (length : Int) : Seq [Int] =
+  def range (length : Nat) : List [Nat] =
     _tailrec_range (length) (Nil)
 
 }

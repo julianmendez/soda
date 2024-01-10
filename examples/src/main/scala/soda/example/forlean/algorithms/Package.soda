@@ -6,4 +6,6 @@ package soda.example.forlean.algorithms
 
 import
   soda.example.forlean.lib.Nat
+  soda.example.forlean.lib.Succ_
+  soda.example.forlean.lib.Zero_
 
