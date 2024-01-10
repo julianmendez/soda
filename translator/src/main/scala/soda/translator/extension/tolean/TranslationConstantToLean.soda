@@ -58,7 +58,7 @@ class TranslationConstantToLean
 
   lean_case_translation = lean_vertical_bar_symbol + lean_space
 
-  lean_not_reserved_word = "notb"
+  lean_not_reserved_word = "not"
 
   lean_and_symbol = "&&"
 

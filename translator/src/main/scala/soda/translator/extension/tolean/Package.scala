@@ -1109,7 +1109,7 @@ trait TranslationConstantToLean
 
   lazy val lean_case_translation = lean_vertical_bar_symbol + lean_space
 
-  lazy val lean_not_reserved_word = "notb"
+  lazy val lean_not_reserved_word = "not"
 
   lazy val lean_and_symbol = "&&"
 
