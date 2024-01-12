@@ -1502,7 +1502,10 @@ trait TranslationConstantToLean
         Tuple2 ("Boolean" , "Bool"),
         Tuple2 ("Nat" , "Nat"),
         Tuple2 ("Option" , "Option"),
+        Tuple2 ("None" , "none"),
+        Tuple2 ("Some" , "some"),
         Tuple2 ("List" , "List"),
+        Tuple2 ("Nil" , "[]"),
         Tuple2 ("String" , "String"),
         Tuple2 ("Tuple2" , "Prod")
     )
