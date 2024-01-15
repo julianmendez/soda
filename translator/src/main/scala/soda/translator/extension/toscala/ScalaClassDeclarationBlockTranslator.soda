@@ -1,5 +1,5 @@
 
-class ClassDeclarationBlockTranslator
+class ScalaClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 

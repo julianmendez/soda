@@ -1,5 +1,5 @@
 
-class TheoremBlockTranslator
+class ScalaTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 

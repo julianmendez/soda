@@ -1,5 +1,5 @@
 
-class TypeParameterBlockTranslator
+class ScalaTypeParameterBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 

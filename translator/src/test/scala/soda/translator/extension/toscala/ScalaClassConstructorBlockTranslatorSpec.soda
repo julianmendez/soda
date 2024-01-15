@@ -1,5 +1,5 @@
 
-class ClassConstructorBlockTranslatorSpec ()
+class ScalaClassConstructorBlockTranslatorSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
@@ -108,7 +108,7 @@ class ClassConstructorBlockTranslatorSpec ()
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        ClassConstructorBlockTranslator_ ()
+        ScalaClassConstructorBlockTranslator_ ()
       )
     )
 

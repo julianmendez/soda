@@ -76,7 +76,7 @@ class State
 
 end
 
-class ClassConstructorParameterBlockTranslator
+class ScalaClassConstructorParameterBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 

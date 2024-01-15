@@ -1,5 +1,5 @@
 
-class FunctionDefinitionBlockTranslator
+class ScalaFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -88,7 +88,7 @@ class FunctionDefinitionBlockTranslator
   remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
+  _translate_main_block_with (block : Block) (detector : ScalaFunctionDefinitionLineDetector)
       : Block =
     match detector .detect
       case detector .val_detected ==>
@@ -107,7 +107,7 @@ class FunctionDefinitionBlockTranslator
     BlockBuilder_ () .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
-            FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+            ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
           .lines
       )
     )

@@ -8,7 +8,69 @@ package soda.translator.extension.toscala
 
 trait Package
 
-trait AbstractDeclarationBlockTranslator
+/**
+ * This class translates Soda source code into Scala source code.
+ */
+
+trait MicroTranslatorToScala
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.ConditionalBlockTranslator_
+  import   soda.translator.blocktr.TokenReplacement_
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  private lazy val _ba = BlockAnnotationEnum_ ()
+
+  private lazy val _functions_and_tests =
+    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
+
+  private lazy val _class_declarations =
+    Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
+
+  private lazy val _definitions_and_declarations =
+    _functions_and_tests .++ (_class_declarations)
+
+  private lazy val _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        ScalaTypeParameterBlockTranslator_ () ,
+        ScalaClassConstructorParameterBlockTranslator_ () ,
+        ScalaMatchCaseBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (_definitions_and_declarations ,
+          TokenReplacement_ () .replace_words (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          ScalaFunctionDefinitionBlockTranslator_ () ) ,
+        ConditionalBlockTranslator_ (_class_declarations ,
+          TokenReplacement_ () .replace_words (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          TokenReplacement_ () .replace_words (_tc .all_translations) ) ,
+        ScalaClassDeclarationBlockTranslator_ () ,
+        ScalaImportDeclarationBlockTranslator_ () ,
+        ScalaAbstractDeclarationBlockTranslator_ () ,
+        ScalaTheoremBlockTranslator_ () ,
+        ScalaDirectiveBlockTranslator_ () ,
+        ScalaClassEndBlockTranslator_ () ,
+        ScalaMainClassBlockTranslator_ () ,
+        ScalaClassConstructorBlockTranslator_ ()
+      )
+    )
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      _translation_pipeline .translate (block)
+
+}
+
+case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
+
+
+trait ScalaAbstractDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -89,10 +151,10 @@ trait AbstractDeclarationBlockTranslator
 
 }
 
-case class AbstractDeclarationBlockTranslator_ () extends AbstractDeclarationBlockTranslator
+case class ScalaAbstractDeclarationBlockTranslator_ () extends ScalaAbstractDeclarationBlockTranslator
 
 
-trait ClassConstructorBlockTranslator
+trait ScalaClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -223,7 +285,7 @@ trait ClassConstructorBlockTranslator
 
 }
 
-case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator
+case class ScalaClassConstructorBlockTranslator_ () extends ScalaClassConstructorBlockTranslator
 
 
 trait State
@@ -304,7 +366,7 @@ trait State
 
 case class State_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends State
 
-trait ClassConstructorParameterBlockTranslator
+trait ScalaClassConstructorParameterBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 {
@@ -383,10 +445,10 @@ trait ClassConstructorParameterBlockTranslator
 
 }
 
-case class ClassConstructorParameterBlockTranslator_ () extends ClassConstructorParameterBlockTranslator
+case class ScalaClassConstructorParameterBlockTranslator_ () extends ScalaClassConstructorParameterBlockTranslator
 
 
-trait ClassDeclarationBlockTranslator
+trait ScalaClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -518,10 +580,10 @@ trait ClassDeclarationBlockTranslator
 
 }
 
-case class ClassDeclarationBlockTranslator_ () extends ClassDeclarationBlockTranslator
+case class ScalaClassDeclarationBlockTranslator_ () extends ScalaClassDeclarationBlockTranslator
 
 
-trait ClassEndBlockTranslator
+trait ScalaClassEndBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -573,10 +635,28 @@ trait ClassEndBlockTranslator
 
 }
 
-case class ClassEndBlockTranslator_ () extends ClassEndBlockTranslator
+case class ScalaClassEndBlockTranslator_ () extends ScalaClassEndBlockTranslator
 
 
-trait FunctionDefinitionBlockTranslator
+trait ScalaDirectiveBlockTranslator
+  extends
+    soda.translator.blocktr.DirectiveBlockTranslator
+{
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val identifier : String = _tc .scala_directive_identifier
+
+  lazy val opening_comment : String = _tc .scala_comment_opening_symbol
+
+  lazy val closing_comment : String = _tc .scala_comment_closing_symbol
+
+}
+
+case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
+
+
+trait ScalaFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -664,7 +744,7 @@ trait FunctionDefinitionBlockTranslator
   def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
+  private def _translate_main_block_with (block : Block) (detector : ScalaFunctionDefinitionLineDetector)
       : Block =
     detector .detect match  {
       case detector .val_detected =>
@@ -684,7 +764,7 @@ trait FunctionDefinitionBlockTranslator
     BlockBuilder_ () .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
-            FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+            ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
           .lines
       )
     )
@@ -721,7 +801,7 @@ trait FunctionDefinitionBlockTranslator
 
 }
 
-case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlockTranslator
+case class ScalaFunctionDefinitionBlockTranslator_ () extends ScalaFunctionDefinitionBlockTranslator
 
 
 /**
@@ -750,7 +830,7 @@ case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlock
  *
  */
 
-trait FunctionDefinitionLineDetector
+trait ScalaFunctionDefinitionLineDetector
 {
 
   def   line : String
@@ -867,10 +947,10 @@ trait FunctionDefinitionLineDetector
 
 }
 
-case class FunctionDefinitionLineDetector_ (line : String) extends FunctionDefinitionLineDetector
+case class ScalaFunctionDefinitionLineDetector_ (line : String) extends ScalaFunctionDefinitionLineDetector
 
 
-trait ImportDeclarationBlockTranslator
+trait ScalaImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -931,10 +1011,10 @@ trait ImportDeclarationBlockTranslator
 
 }
 
-case class ImportDeclarationBlockTranslator_ () extends ImportDeclarationBlockTranslator
+case class ScalaImportDeclarationBlockTranslator_ () extends ScalaImportDeclarationBlockTranslator
 
 
-trait MainClassBlockTranslator
+trait ScalaMainClassBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -997,10 +1077,10 @@ trait MainClassBlockTranslator
 
 }
 
-case class MainClassBlockTranslator_ () extends MainClassBlockTranslator
+case class ScalaMainClassBlockTranslator_ () extends ScalaMainClassBlockTranslator
 
 
-trait MatchCaseBlockTranslator
+trait ScalaMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -1084,90 +1164,10 @@ trait MatchCaseBlockTranslator
 
 }
 
-case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
+case class ScalaMatchCaseBlockTranslator_ () extends ScalaMatchCaseBlockTranslator
 
 
-/**
- * This class translates Soda source code into Scala source code.
- */
-
-trait MicroTranslatorToScala
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.ConditionalBlockTranslator_
-  import   soda.translator.blocktr.TokenReplacement_
-
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  private lazy val _ba = BlockAnnotationEnum_ ()
-
-  private lazy val _functions_and_tests =
-    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
-
-  private lazy val _class_declarations =
-    Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
-
-  private lazy val _definitions_and_declarations =
-    _functions_and_tests .++ (_class_declarations)
-
-  private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
-      Seq (
-        TypeParameterBlockTranslator_ () ,
-        ClassConstructorParameterBlockTranslator_ () ,
-        MatchCaseBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (_definitions_and_declarations ,
-          TokenReplacement_ () .replace_words (_tc .scala_non_soda) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          FunctionDefinitionBlockTranslator_ () ) ,
-        ConditionalBlockTranslator_ (_class_declarations ,
-          TokenReplacement_ () .replace_words (_tc .type_symbol_translation) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .all_translations) ) ,
-        ClassDeclarationBlockTranslator_ () ,
-        ImportDeclarationBlockTranslator_ () ,
-        AbstractDeclarationBlockTranslator_ () ,
-        TheoremBlockTranslator_ () ,
-        ScalaDirectiveBlockTranslator_ () ,
-        ClassEndBlockTranslator_ () ,
-        MainClassBlockTranslator_ () ,
-        ClassConstructorBlockTranslator_ ()
-      )
-    )
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      _translation_pipeline .translate (block)
-
-}
-
-case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
-
-
-trait ScalaDirectiveBlockTranslator
-  extends
-    soda.translator.blocktr.DirectiveBlockTranslator
-{
-
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  lazy val identifier : String = _tc .scala_directive_identifier
-
-  lazy val opening_comment : String = _tc .scala_comment_opening_symbol
-
-  lazy val closing_comment : String = _tc .scala_comment_closing_symbol
-
-}
-
-case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
-
-
-trait TheoremBlockTranslator
+trait ScalaTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
@@ -1212,7 +1212,31 @@ trait TheoremBlockTranslator
 
 }
 
-case class TheoremBlockTranslator_ () extends TheoremBlockTranslator
+case class ScalaTheoremBlockTranslator_ () extends ScalaTheoremBlockTranslator
+
+
+trait ScalaTypeParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val replace_token : Token => String =
+     token =>
+      token
+        .text
+        .replaceAll (_sc .type_parameter_separation_regex ,
+          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+
+}
+
+case class ScalaTypeParameterBlockTranslator_ () extends ScalaTypeParameterBlockTranslator
 
 
 /**
@@ -1665,28 +1689,4 @@ trait TranslatorToScala
 }
 
 case class TranslatorToScala_ () extends TranslatorToScala
-
-
-trait TypeParameterBlockTranslator
-  extends
-    soda.translator.blocktr.TokenizedBlockTranslator
-{
-
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Token
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  lazy val replace_token : Token => String =
-     token =>
-      token
-        .text
-        .replaceAll (_sc .type_parameter_separation_regex ,
-          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
-
-}
-
-case class TypeParameterBlockTranslator_ () extends TypeParameterBlockTranslator
 
