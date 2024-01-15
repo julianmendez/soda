@@ -371,8 +371,11 @@ trait LeanDefinitionBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+
+  private lazy val _sc = SodaConstant_ ()
 
   private lazy val _tc = TranslationConstantToLean_ ()
 
@@ -391,14 +394,29 @@ trait LeanDefinitionBlockTranslator
     ! _tc .non_definition_block_prefixes .exists ( prefix =>
       block .contents .trim .startsWith (prefix) )
 
-  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_definition (block)
-    ) _append (_tc .lean_definition_end_symbol) (_prepend (
-      _tc .lean_def_reserved_word + _tc .lean_space) (block) )
-    else block
-
   def first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("") .trim
+
+  def is_private (block :  FunctionDefinitionAnnotation) : Boolean =
+    first_line (block) .trim .startsWith (_sc .private_function_prefix)
+
+  private def _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
+    if ( is_private (block)
+    ) _tc .lean_private_reserved_word + _tc .lean_space
+    else ""
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc .lean_definition_end_symbol) (
+      _prepend (
+        _private_prefix_if_necessary (block) +
+        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
+    else block
+
+  private def _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
+      _private_prefix_if_necessary (block) +
+      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
 
   def is_a_recursive_definition (block : Block) : Boolean =
     _tc .lean_recursive_function_prefixes .exists ( prefix =>
@@ -406,8 +424,7 @@ trait LeanDefinitionBlockTranslator
 
   private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if ( is_a_recursive_definition (block)
-    ) _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
-      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
+    ) _translate_recursive_definition (block)
     else _translate_non_recursive_definition (block)
 
   private def _translate_definition_block (block : FunctionDefinitionAnnotation)

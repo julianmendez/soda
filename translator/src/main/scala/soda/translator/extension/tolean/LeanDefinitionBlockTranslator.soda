@@ -7,8 +7,11 @@ class LeanDefinitionBlockTranslator
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
     soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+
+  _sc = SodaConstant_ ()
 
   _tc = TranslationConstantToLean_ ()
 
@@ -27,14 +30,29 @@ class LeanDefinitionBlockTranslator
     not _tc .non_definition_block_prefixes .exists (lambda prefix -->
       block .contents .trim .startsWith (prefix) )
 
-  _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if is_a_definition (block)
-    then _append (_tc .lean_definition_end_symbol) (_prepend (
-      _tc .lean_def_reserved_word + _tc .lean_space) (block) )
-    else block
-
   first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("") .trim
+
+  is_private (block :  FunctionDefinitionAnnotation) : Boolean =
+    first_line (block) .trim .startsWith (_sc .private_function_prefix)
+
+  _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
+    if is_private (block)
+    then _tc .lean_private_reserved_word + _tc .lean_space
+    else ""
+
+  _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if is_a_definition (block)
+    then _append (_tc .lean_definition_end_symbol) (
+      _prepend (
+        _private_prefix_if_necessary (block) +
+        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
+    else block
+
+  _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
+      _private_prefix_if_necessary (block) +
+      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
 
   is_a_recursive_definition (block : Block) : Boolean =
     _tc .lean_recursive_function_prefixes .exists (lambda prefix -->
@@ -42,8 +60,7 @@ class LeanDefinitionBlockTranslator
 
   _translate_block (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
-    then _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
-      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
+    then _translate_recursive_definition (block)
     else _translate_non_recursive_definition (block)
 
   _translate_definition_block (block : FunctionDefinitionAnnotation)

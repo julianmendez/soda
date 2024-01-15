@@ -4,7 +4,7 @@ notation:max "Succ_" => Nat.succ
 
 namespace TriangularNumberForLean
 
- def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
+ private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
       | Succ_ (k) => _tailrec_get_number (k) (acc.add (Succ_ (k) ) )
       | otherwise => acc

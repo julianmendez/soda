@@ -4,6 +4,8 @@
   - date: not released
   - build: $ `sbt '++ 3.3.1' clean compile test package assembly`
   - release: target/scala-3.3.1/soda-0.20.0.jar
+  - new_features:
+    - includes translation of private functions to Lean
   - deprecated_features:
     - the `theorem` reserved word is no longer used, and its functionality is replaced
       by `directive`
