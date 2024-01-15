@@ -22,6 +22,7 @@ Syntax Highlighting
 
 Keywords
 
+
 1
 -->
 ->
@@ -48,6 +49,7 @@ supertype
 then
 this
 
+
 2
 %
 *
@@ -65,11 +67,13 @@ not
 or
 true
 
+
 3
 (
 )
 [
 ]
+
 
 4
 @new
