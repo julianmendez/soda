@@ -2,7 +2,7 @@ notation:max "Zero_ ()" => Nat.zero
 
 notation:max "Succ_" => Nat.succ
 
-namespace TriangularNumberForLean
+class TriangularNumberForLean
 
  private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with

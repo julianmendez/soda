@@ -1,0 +1,52 @@
+
+class PairParam [A : Type] [B : Type]
+
+  abstract
+    fst : A
+    snd : B
+
+end
+
+class PairParamMod
+
+  abstract
+
+  get_first [A : Type] [B : Type] (self : PairParam [A] [B] ) : A =
+    self .fst
+
+  get_second [A : Type] [B : Type] (self : PairParam [A] [B] ) : B =
+    self .snd
+
+  swap [A : Type] [B : Type] (self : PairParam [A] [B] ) : PairParam [B] [A] =
+    PairParam_ (get_second [A] [B] (self) ) (get_first [A] [B] (self) )
+
+end
+
+class TripleIntStringInt
+  extends
+    PairParam [Int] [String]
+
+  abstract
+    fst : Int
+    snd : String
+    trd : Int
+
+end
+
+class TripleIntStringIntMod
+
+  abstract
+
+  get_first (self : TripleIntStringInt) : Int =
+    self .fst
+
+  get_second (self : TripleIntStringInt) : String =
+    self .snd
+
+  get_third (self : TripleIntStringInt) : Int =
+    self .trd
+
+  get_pair_param (self : TripleIntStringInt) : PairParam [Int] [String] =
+    PairParam_ (get_first (self) ) (get_second (self) )
+
+end

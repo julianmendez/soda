@@ -25,7 +25,11 @@ case class LeanFullTranslationSpec ()
 
   lazy val lean_suffix = ".lean"
 
+  lazy val pair_example = "forlean/algorithms/PairParam"
+
   lazy val swap_example = "forlean/algorithms/SwapExample"
+
+  lazy val recursion_example = "forlean/algorithms/RecursionForLean"
 
   lazy val triangular_number = "forlean/mathematics/TriangularNumberForLean"
 
@@ -58,6 +62,14 @@ case class LeanFullTranslationSpec ()
 
   test ("should translate the example of triangular numbers") (
     test_translation (triangular_number)
+  )
+
+  test ("should translate the parameterized pair example") (
+    test_translation (pair_example)
+  )
+
+  test ("should translate the recursion example") (
+    test_translation (recursion_example)
   )
 
 }
@@ -182,6 +194,70 @@ case class MicroTranslatorToLeanSpec ()
     ) (
       expected = "" +
         "notation:max \"Money\" => Int" +
+        "\n"
+    )
+  )
+
+  test ("Lean translation of class Pair") (
+    check (
+      obtained = instance .translate (
+        "\nclass Pair" +
+        "\n" +
+        "\n  abstract" +
+        "\n    first : Int" +
+        "\n    second : Int" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "class Pair" +
+        "\n" +
+        "\nwhere" +
+        "\n  Pair_ ::" +
+        "\n    first : Int" +
+        "\n    second : Int" +
+        "\n  deriving DecidableEq" +
+        "\n" +
+        "\nnamespace Pair" +
+        "\n" +
+        "\n" +
+        "\nend Pair" +
+        "\n" +
+        "\nopen Pair" +
+        "\n"
+    )
+  )
+
+  test ("Lean translation of class Pair with type parameters") (
+    check (
+      obtained = instance .translate (
+        "\nclass Pair [A : Type] [B : Type]" +
+        "\n" +
+        "\n  abstract" +
+        "\n    first : A" +
+        "\n    second : B" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "class Pair ( A : Type ) ( B : Type )" +
+        "\n" +
+        "\nwhere" +
+        "\n  Pair_ ::" +
+        "\n    first : A" +
+        "\n    second : B" +
+        "\n  deriving DecidableEq" +
+        "\n" +
+        "\nnamespace Pair" +
+        "\n" +
+        "\n" +
+        "\nend Pair" +
+        "\n" +
+        "\nopen Pair" +
         "\n"
     )
   )

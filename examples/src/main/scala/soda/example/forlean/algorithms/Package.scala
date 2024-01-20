@@ -10,6 +10,69 @@ import   soda.example.forlean.lib.Zero_
 
 trait Package
 
+trait PairParam [A , B ]
+{
+
+  def   fst : A
+  def   snd : B
+
+}
+
+case class PairParam_ [A, B] (fst : A, snd : B) extends PairParam [A, B]
+
+trait PairParamMod
+{
+
+
+
+  def get_first [A , B ] (self : PairParam [A, B] ) : A =
+    self .fst
+
+  def get_second [A , B ] (self : PairParam [A, B] ) : B =
+    self .snd
+
+  def swap [A , B ] (self : PairParam [A, B] ) : PairParam [B, A] =
+    PairParam_ (get_second [A, B] (self) , get_first [A, B] (self) )
+
+}
+
+case class PairParamMod_ () extends PairParamMod
+
+trait TripleIntStringInt
+  extends
+    PairParam [Int, String]
+{
+
+  def   fst : Int
+  def   snd : String
+  def   trd : Int
+
+}
+
+case class TripleIntStringInt_ (fst : Int, snd : String, trd : Int) extends TripleIntStringInt
+
+trait TripleIntStringIntMod
+{
+
+
+
+  def get_first (self : TripleIntStringInt) : Int =
+    self .fst
+
+  def get_second (self : TripleIntStringInt) : String =
+    self .snd
+
+  def get_third (self : TripleIntStringInt) : Int =
+    self .trd
+
+  def get_pair_param (self : TripleIntStringInt) : PairParam [Int, String] =
+    PairParam_ (get_first (self) , get_second (self) )
+
+}
+
+case class TripleIntStringIntMod_ () extends TripleIntStringIntMod
+
+
 /*
 directive lean
 notation:max "Nil" => List.nil

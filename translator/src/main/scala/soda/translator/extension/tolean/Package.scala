@@ -119,13 +119,12 @@ trait LeanClassConstructorBlockTranslator
 
   private lazy val _four_spaces : String = _two_spaces + _two_spaces
 
+  private def _get_type_parameters_of_class (beginning : ClassBeginningAnnotation) : String =
+    ""
+
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .lean_class_reserved_word +
-    _tc .lean_space +
-    beginning .class_name +
-    _tc .lean_space +
     _tc .lean_where_reserved_word +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
     _get_default_constructor_name (beginning) +
@@ -205,52 +204,50 @@ trait LeanClassDeclarationBlockTranslator
 
   lazy val scala_space : String = " "
 
-  def get_first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("")
+  def get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
 
   def get_initial_spaces_for (line : String) : String =
     line .takeWhile ( ch => ch .isSpaceChar)
 
-  def get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
+  def get_initial_spaces (lines : Seq [String] ) : String =
+    get_initial_spaces_for (get_first_line (lines) )
 
-  private def _process_after_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim .nonEmpty)
-    ) block .lines .map ( line => _tc .lean_import_reserved_word + _tc .lean_space +
-      line .trim + _tc .lean_space + _tc .lean_end_symbol)
+  private def _process_after_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim .nonEmpty)
+    ) (Seq [String] () .:+ (_tc .lean_line_comment + _tc .lean_space +
+      _tc .lean_extends_reserved_word + _tc .lean_space +
+      lines .mkString (_tc .lean_comma_symbol) ) )
     else Seq [String] ()
 
-  private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
+  def remove_first_line (lines : Seq [String] ) : Seq [String] =
     if ( lines .isEmpty
     ) lines
     else lines .tail
 
-  def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build (_remove_first_line (block .lines) )
+  private def _process_if_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim == _sc .extends_reserved_word)
+    ) Seq [String] (get_initial_spaces (lines) ) .++ (
+      _process_after_extends (remove_first_line (lines) ) )
+    else lines
 
-  private def _process_if_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
-    ) Seq [String] (get_initial_spaces (block) ) .++ (
-      _process_after_extends (remove_first_line (block) ) )
-    else block .lines
-
-  private def _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
+  private def _process_tail (lines : Seq [String] ) : Seq [String] =
+    _process_if_extends (remove_first_line (lines) )
 
   def get_table_translator (line : String) : Translator =
     TableTranslator_ (
-      Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_namespace_reserved_word ) )
+      Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_class_reserved_word) )
     )
 
-  private def _process_head_with (line : String) (block : Block) : Seq [String] =
+  private def _process_head_with (line : String) : Seq [String] =
     Seq [String] (
       Replacement_ (_sc .space + line)
         .replace_at_beginning (0) (get_table_translator (line) )
         .line .substring (_sc .space .length)
     )
 
-  private def _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
+  private def _process_head (lines : Seq [String] ) : Seq [String] =
+    _process_head_with (get_first_line (lines) )
 
   def contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)
@@ -259,11 +256,11 @@ trait LeanClassDeclarationBlockTranslator
     contains_equals (line)
 
   private def _translate_block (block : AnnotatedBlock) : Block =
-    if ( (has_condition_for_type_alias (get_first_line (block) ) )
+    if ( (has_condition_for_type_alias (get_first_line (block . lines) ) )
     ) block
     else
       BlockBuilder_ () .build (
-        _process_head (block) ++ _process_tail (block)
+        _process_head (block .lines) .++ (_process_tail (block .lines) )
       )
 
   private def _translate_class_beginning_block (block : ClassBeginningAnnotation)
@@ -1110,6 +1107,8 @@ trait TranslationConstantToLean
 
   lazy val lean_closing_documentation = "-/"
 
+  lazy val lean_line_comment = "--"
+
   lazy val lean_some_variable_name = "x"
 
   lazy val lean_opening_brace = "{"
@@ -1135,6 +1134,8 @@ trait TranslationConstantToLean
   lazy val lean_end_symbol = ""
 
   lazy val lean_dot_notation_symbol = "."
+
+  lazy val lean_comma_symbol = ","
 
   lazy val lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -1181,6 +1182,8 @@ trait TranslationConstantToLean
   lazy val lean_end_reserved_word : String = "end"
 
   lazy val lean_example_reserved_word : String = "example"
+
+  lazy val lean_extends_reserved_word : String = "extends"
 
   lazy val lean_fun_reserved_word = "fun"
 

@@ -42,6 +42,8 @@ class TranslationConstantToLean
 
   lean_closing_documentation = "-/"
 
+  lean_line_comment = "--"
+
   lean_some_variable_name = "x"
 
   lean_opening_brace = "{"
@@ -67,6 +69,8 @@ class TranslationConstantToLean
   lean_end_symbol = ""
 
   lean_dot_notation_symbol = "."
+
+  lean_comma_symbol = ","
 
   lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -113,6 +117,8 @@ class TranslationConstantToLean
   lean_end_reserved_word : String = "end"
 
   lean_example_reserved_word : String = "example"
+
+  lean_extends_reserved_word : String = "extends"
 
   lean_fun_reserved_word = "fun"
 

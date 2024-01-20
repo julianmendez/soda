@@ -122,5 +122,71 @@ class MicroTranslatorToLeanSpec ()
     )
   )
 
+
+  test ("Lean translation of class Pair") (
+    check (
+      obtained := instance .translate (
+        "\nclass Pair" +
+        "\n" +
+        "\n  abstract" +
+        "\n    first : Int" +
+        "\n    second : Int" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected := "" +
+        "class Pair" +
+        "\n" +
+        "\nwhere" +
+        "\n  Pair_ ::" +
+        "\n    first : Int" +
+        "\n    second : Int" +
+        "\n  deriving DecidableEq" +
+        "\n" +
+        "\nnamespace Pair" +
+        "\n" +
+        "\n" +
+        "\nend Pair" +
+        "\n" +
+        "\nopen Pair" +
+        "\n"
+    )
+  )
+
+
+  test ("Lean translation of class Pair with type parameters") (
+    check (
+      obtained := instance .translate (
+        "\nclass Pair [A : Type] [B : Type]" +
+        "\n" +
+        "\n  abstract" +
+        "\n    first : A" +
+        "\n    second : B" +
+        "\n" +
+        "\nend" +
+        "\n"
+      )
+    ) (
+      expected := "" +
+        "class Pair ( A : Type ) ( B : Type )" +
+        "\n" +
+        "\nwhere" +
+        "\n  Pair_ ::" +
+        "\n    first : A" +
+        "\n    second : B" +
+        "\n  deriving DecidableEq" +
+        "\n" +
+        "\nnamespace Pair" +
+        "\n" +
+        "\n" +
+        "\nend Pair" +
+        "\n" +
+        "\nopen Pair" +
+        "\n"
+    )
+  )
+
 end
 

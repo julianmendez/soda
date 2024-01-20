@@ -1,6 +1,6 @@
-namespace PairExample
+class PairExample
 
-class PairExample where
+where
   PairExample_ ::
     left : Int
     right : Int
@@ -13,7 +13,15 @@ end PairExample
 
 open PairExample
 
+class SwapExample
+
+where
+  SwapExample_ ::
+    
+  deriving DecidableEq
+
 namespace SwapExample
+
 
  def   swap (pair : PairExample) : PairExample :=
     PairExample_ (pair.right) (pair.left)
