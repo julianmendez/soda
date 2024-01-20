@@ -7,6 +7,8 @@ notation:max "Succ_" => Nat.succ
 
 class FiboExampleInSodaForLean
 
+  abstract
+
   _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
     match m
       case Succ_ (Zero_ () ) ==> b

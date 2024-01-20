@@ -23,6 +23,8 @@ notation:max "Succ_" => Nat.succ
 trait FactorialForLean
 {
 
+
+
   private def _tailrec_get_factorial (m : Nat) (product : Nat) : Nat =
     m match  {
       case Succ_ (k) => _tailrec_get_factorial (k) (product .mul (Succ_ (k) ) )
@@ -49,6 +51,8 @@ notation:max "Succ_" => Nat.succ
 
 trait FiboExampleInSodaForLean
 {
+
+
 
   private def _tailrec_fib (m : Nat) (a : Nat) (b : Nat) : Nat =
     m match  {
@@ -77,6 +81,8 @@ notation:max "Succ_" => Nat.succ
 
 trait TriangularNumberForLean
 {
+
+
 
   private def _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     m match  {

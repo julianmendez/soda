@@ -89,11 +89,11 @@ case class SwapExampleSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val zero = Zero_ ()
+  lazy val zero = 0
 
-  lazy val three = Succ_ (Succ_ (Succ_ (zero) ) )
+  lazy val three = 3
 
-  lazy val five = Succ_ (Succ_ (three) )
+  lazy val five = 5
 
   lazy val pair_1 = PairExample_ (three, five)
 

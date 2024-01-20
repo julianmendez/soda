@@ -6,11 +6,11 @@ class SwapExampleSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  zero = Zero_ ()
+  zero = 0
 
-  three = Succ_ (Succ_ (Succ_ (zero) ) )
+  three = 3
 
-  five = Succ_ (Succ_ (three) )
+  five = 5
 
   pair_1 = PairExample_ (three) (five)
 

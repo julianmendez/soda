@@ -7,6 +7,8 @@ notation:max "Succ_" => Nat.succ
 
 class TriangularNumberForLean
 
+  abstract
+
   _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     match m
       case Succ_ (k) ==> _tailrec_get_number (k) (acc .add (Succ_ (k) ) )

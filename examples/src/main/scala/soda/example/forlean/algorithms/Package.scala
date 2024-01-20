@@ -76,61 +76,51 @@ case class TripleIntStringIntMod_ () extends TripleIntStringIntMod
 /*
 directive lean
 notation:max "Nil" => List.nil
-*/
-
-/*
-directive lean
 notation:max "Boolean" => Bool
-*/
-
-/*
-directive lean
 notation:max "Zero_ ()" => Nat.zero
-*/
-
-/*
-directive lean
 notation:max "Succ_" => Nat.succ
 */
 
-/*
+/**
  * This class contains tail recursive auxiliary functions.
  */
 
 trait RecursionForLean
 {
 
-  private def _tailrec_fold4 [A , B ] (sequence : List [A] ) (current : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
-    sequence match  {
+
+
+  private def _tailrec_fold4 [A , B ] (list : List [A] ) (current : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    list match  {
+      case Nil => current
       case (head) :: (tail) =>
-         if ( (! (condition (current) (head) ) )
-         ) current
-         else
-           _tailrec_fold4 [A, B] (tail) (next_value (current) (head) ) (next_value) (condition)
-      case otherwise => current
+        if ( (! (condition (current) (head) ) )
+        ) current
+        else _tailrec_fold4 [A, B] (tail) (next (current) (head) ) (next) (condition)
     }
 
-  def fold4 [A , B ] (sequence : List [A] ) (initial_value : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 [A, B] (sequence) (initial_value) (next_value) (condition)
+  def fold4 [A , B ] (list : List [A] ) (initial_value : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_fold4 [A, B] (list) (initial_value) (next) (condition)
 
-  private def _tailrec_fold3 [A , B ] (sequence : List [A] ) (current : B)
-      (next_value : B => A => B) : B =
-    sequence match  {
+  private def _tailrec_fold3 [A , B ] (list : List [A] ) (current : B)
+      (next : B => A => B) : B =
+    list match  {
+      case Nil => current
       case (head) :: (tail) =>
-        _tailrec_fold3 [A, B] (tail) (next_value (current) (head) ) (next_value)
-      case otherwise => current
+        _tailrec_fold3 [A, B] (tail) (next (current) (head) ) (next)
     }
 
-  def fold3 [A , B ] (sequence : List [A] ) (initial_value : B)
-      (next_value : B => A => B) : B =
-    _tailrec_fold3 [A, B] (sequence) (initial_value) (next_value)
+  def fold3 [A , B ] (list : List [A] ) (initial_value : B)
+      (next : B => A => B) : B =
+    _tailrec_fold3 [A, B] (list) (initial_value) (next)
 
-  private def _tailrec_range (n : Nat) (sequence : List [Nat] ) : List [Nat] =
+  private def _tailrec_range (n : Nat) (list : List [Nat] ) : List [Nat] =
     n match  {
-      case Zero_ () => sequence
-      case Succ_ (k) => _tailrec_range (k) (k :: sequence)
+      case Zero_ () => list
+      case Succ_ (k) =>
+        _tailrec_range (k) ( (k) :: (list) )
     }
 
   def range (length : Nat) : List [Nat] =
@@ -141,23 +131,20 @@ trait RecursionForLean
 case class RecursionForLean_ () extends RecursionForLean
 
 
-/*
-directive coq
-Definition Nat : Type := nat .
-*/
-
 trait PairExample
 {
 
-  def   left : Nat
-  def   right : Nat
+  def   left : Int
+  def   right : Int
 
 }
 
-case class PairExample_ (left : Nat, right : Nat) extends PairExample
+case class PairExample_ (left : Int, right : Int) extends PairExample
 
 trait SwapExample
 {
+
+
 
   def swap (pair : PairExample) : PairExample =
     PairExample_ (pair .right, pair .left)
@@ -165,19 +152,9 @@ trait SwapExample
 /*
   directive lean
   theorem
-    swap_of_swap (x : Nat) (y : Nat) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
+    swap_of_swap (x : Int) (y : Int) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
       by
         constructor
-*/
-
-/*
-  directive coq
-  Theorem
-    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x, y) ) ) ) =
-    PairExample_ (x, y) .
-  Proof.
-    auto.
-  Qed.
 */
 
 }
