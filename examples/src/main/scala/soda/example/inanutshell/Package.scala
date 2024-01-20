@@ -9,6 +9,8 @@ trait Package
 trait InANutshell
 {
 
+  /* (empty) */
+
   def f (x : Int) : Int = x + 16
 
   lazy val value = f (numbers)
@@ -38,6 +40,8 @@ case class InANutshell_ () extends InANutshell
 
 trait MaxAndMin
 {
+
+  /* (empty) */
 
   def max (a : Int) (b : Int) : Int =
     if ( a > b
@@ -113,6 +117,8 @@ case class Comparable_ (is_greater_than : Comparable => Boolean) extends Compara
 trait ComparableMax [A <: Comparable]
 {
 
+  /* (empty) */
+
   def max (a : A) (b : A) : A =
     if ( a .is_greater_than (b)
     ) a
@@ -149,6 +155,8 @@ case class MyClass_ (instance_parameter : Int) extends MyClass
 trait TimeOfToday
 {
 
+  /* (empty) */
+
   import   java.util.Date
 
   lazy val get_time : Date = new Date ()
@@ -159,6 +167,8 @@ case class TimeOfToday_ () extends TimeOfToday
 
 trait Main
 {
+
+  /* (empty) */
 
   def main (arguments : Array [String] ) : Unit =
     println ("Hello world!")

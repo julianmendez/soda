@@ -4,6 +4,14 @@ notation:max "Succ_" => Nat.succ
 
 class TriangularNumberForLean
 
+where
+  TriangularNumberForLean_ ::
+    
+  deriving DecidableEq
+
+namespace TriangularNumberForLean
+
+
  private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
       | Succ_ (k) => _tailrec_get_number (k) (acc.add (Succ_ (k) ) )

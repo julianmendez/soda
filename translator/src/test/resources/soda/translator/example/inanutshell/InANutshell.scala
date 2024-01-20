@@ -1,6 +1,8 @@
 trait InANutshell
 {
 
+  /* (empty) */
+
   def f (x : Int) : Int = x + 16
 
   lazy val value = f (numbers)
@@ -31,6 +33,8 @@ case class InANutshell_ () extends InANutshell
 trait MaxAndMin
 {
 
+  /* (empty) */
+
   def max (a : Int) (b : Int) : Int =
     if ( a > b
     ) a
@@ -45,11 +49,27 @@ trait MaxAndMin
 
 case class MaxAndMin_ () extends MaxAndMin
 
+trait Pair [A , B ]
+{
+
+  def   fst : A
+  def   snd : B
+
+}
+
+case class Pair_ [A, B] (fst : A, snd : B) extends Pair [A, B]
+
 trait MinMaxPair
+  extends
+    Pair [Int, Int]
 {
 
   def   min : Int
   def   max : Int
+
+  lazy val fst : Int = min
+
+  lazy val snd : Int = max
 
 }
 
@@ -71,10 +91,7 @@ trait Example
   def   index : Int
 
   def min_max (a : Int) (b : Int) : MinMaxPair =
-    MinMaxPair_ (
-      min = MaxAndMin_ () .min (a) (b),
-      max = MaxAndMin_ () .max (a) (b)
-    )
+    MinMaxPair_ (min = MaxAndMin_ () .min (a) (b) , max = MaxAndMin_ () .max (a) (b) )
 
 }
 
@@ -91,6 +108,8 @@ case class Comparable_ (is_greater_than : Comparable => Boolean) extends Compara
 
 trait ComparableMax [A <: Comparable]
 {
+
+  /* (empty) */
 
   def max (a : A) (b : A) : A =
     if ( a .is_greater_than (b)
@@ -128,6 +147,8 @@ case class MyClass_ (instance_parameter : Int) extends MyClass
 trait TimeOfToday
 {
 
+  /* (empty) */
+
   import   java.util.Date
 
   lazy val get_time : Date = new Date ()
@@ -138,6 +159,8 @@ case class TimeOfToday_ () extends TimeOfToday
 
 trait Main
 {
+
+  /* (empty) */
 
   def main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
