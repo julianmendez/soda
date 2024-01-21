@@ -23,9 +23,9 @@ class LeanClassAliasBlockTranslator
 
   _process_class_alias (line : String) : String =
     line
-      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .lean_notation_max_prefix)
+      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .lean_notation_prefix)
       .replace (_sc .space + _sc .class_alias_definition_symbol + _sc .space ,
-         _tc .lean_notation_max_infix)
+         _tc .lean_notation_infix)
 
   _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ () .build (

@@ -193,7 +193,7 @@ case class MicroTranslatorToLeanSpec ()
       )
     ) (
       expected = "" +
-        "notation:max \"Money\" => Int" +
+        "notation \"Money\" => Int" +
         "\n"
     )
   )

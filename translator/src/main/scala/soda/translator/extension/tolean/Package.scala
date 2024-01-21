@@ -32,9 +32,9 @@ trait LeanClassAliasBlockTranslator
 
   private def _process_class_alias (line : String) : String =
     line
-      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .lean_notation_max_prefix)
+      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .lean_notation_prefix)
       .replace (_sc .space + _sc .class_alias_definition_symbol + _sc .space ,
-         _tc .lean_notation_max_infix)
+         _tc .lean_notation_infix)
 
   private def _translate_block (block : AnnotatedBlock) : Block =
     BlockBuilder_ () .build (
@@ -1365,10 +1365,10 @@ trait TranslationConstantToLean
 
   lazy val lean_directive_identifier : String = "lean"
 
-  lazy val lean_notation_max_prefix : String =
-    lean_notation_reserved_word + lean_colon_symbol + "max" + lean_space + lean_quotes_symbol
+  lazy val lean_notation_prefix : String =
+    lean_notation_reserved_word + lean_space + lean_quotes_symbol
 
-  lazy val lean_notation_max_infix : String =
+  lazy val lean_notation_infix : String =
     lean_quotes_symbol + lean_space + lean_notation_arrow_symbol + lean_space
 
   lazy val lean_main_reserved_words : Seq [String] =

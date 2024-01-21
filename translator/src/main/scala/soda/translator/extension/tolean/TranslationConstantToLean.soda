@@ -288,10 +288,10 @@ class TranslationConstantToLean
 
   lean_directive_identifier : String = "lean"
 
-  lean_notation_max_prefix : String =
-    lean_notation_reserved_word + lean_colon_symbol + "max" + lean_space + lean_quotes_symbol
+  lean_notation_prefix : String =
+    lean_notation_reserved_word + lean_space + lean_quotes_symbol
 
-  lean_notation_max_infix : String =
+  lean_notation_infix : String =
     lean_quotes_symbol + lean_space + lean_notation_arrow_symbol + lean_space
 
   lean_main_reserved_words : Seq [String] =
