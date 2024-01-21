@@ -11,7 +11,7 @@ namespace PairExample
 
 end PairExample
 
-open PairExample
+notation "PairExample_" => PairExample.PairExample_
 
 class SwapExample
 
@@ -34,4 +34,4 @@ namespace SwapExample
 
 end SwapExample
 
-open SwapExample
+notation "SwapExample_" => SwapExample.SwapExample_

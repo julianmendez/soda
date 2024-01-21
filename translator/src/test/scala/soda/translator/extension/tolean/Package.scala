@@ -225,7 +225,7 @@ case class MicroTranslatorToLeanSpec ()
         "\n" +
         "\nend Pair" +
         "\n" +
-        "\nopen Pair" +
+        "\nnotation \"Pair_\" => Pair.Pair_" +
         "\n"
     )
   )
@@ -257,7 +257,7 @@ case class MicroTranslatorToLeanSpec ()
         "\n" +
         "\nend Pair" +
         "\n" +
-        "\nopen Pair" +
+        "\nnotation \"Pair_\" => Pair.Pair_" +
         "\n"
     )
   )

@@ -11,7 +11,7 @@ namespace PairParam
 
 end PairParam
 
-open PairParam
+notation "PairParam_" => PairParam.PairParam_
 
 class PairParamMod
 
@@ -37,7 +37,7 @@ namespace PairParamMod
 
 end PairParamMod
 
-open PairParamMod
+notation "PairParamMod_" => PairParamMod.PairParamMod_
 
 class TripleIntStringInt
   
@@ -55,7 +55,7 @@ namespace TripleIntStringInt
 
 end TripleIntStringInt
 
-open TripleIntStringInt
+notation "TripleIntStringInt_" => TripleIntStringInt.TripleIntStringInt_
 
 class TripleIntStringIntMod
 
@@ -85,4 +85,4 @@ namespace TripleIntStringIntMod
 
 end TripleIntStringIntMod
 
-open TripleIntStringIntMod
+notation "TripleIntStringIntMod_" => TripleIntStringIntMod.TripleIntStringIntMod_

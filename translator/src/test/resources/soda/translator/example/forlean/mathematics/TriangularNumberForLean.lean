@@ -25,4 +25,4 @@ namespace TriangularNumberForLean
 
 end TriangularNumberForLean
 
-open TriangularNumberForLean
+notation "TriangularNumberForLean_" => TriangularNumberForLean.TriangularNumberForLean_

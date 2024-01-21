@@ -18,6 +18,8 @@ class TranslationConstantToLean
 
   lean_type_membership_symbol = ":"
 
+  lean_colon_symbol = ":"
+
   lean_subtype_symbol = "<:"
 
   lean_supertype_symbol = ">:"
@@ -58,6 +60,8 @@ class TranslationConstantToLean
 
   lean_case_arrow_symbol = "=>"
 
+  lean_notation_arrow_symbol = "=>"
+
   lean_case_translation = lean_vertical_bar_symbol + lean_space
 
   lean_not_reserved_word = "not"
@@ -71,6 +75,8 @@ class TranslationConstantToLean
   lean_dot_notation_symbol = "."
 
   lean_comma_symbol = ","
+
+  lean_quotes_symbol = "\""
 
   lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -282,9 +288,11 @@ class TranslationConstantToLean
 
   lean_directive_identifier : String = "lean"
 
-  lean_notation_max_prefix : String = lean_notation_reserved_word + ":max \""
+  lean_notation_max_prefix : String =
+    lean_notation_reserved_word + lean_colon_symbol + "max" + lean_space + lean_quotes_symbol
 
-  lean_notation_max_infix : String = "\" => "
+  lean_notation_max_infix : String =
+    lean_quotes_symbol + lean_space + lean_notation_arrow_symbol + lean_space
 
   lean_main_reserved_words : Seq [String] =
     Seq (

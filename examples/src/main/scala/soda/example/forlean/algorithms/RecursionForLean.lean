@@ -60,4 +60,4 @@ def   fold3 ( A : Type ) ( B : Type ) (list : List ( A ) ) (initial_value : B)
 
 end RecursionForLean
 
-open RecursionForLean
+notation "RecursionForLean_" => RecursionForLean.RecursionForLean_

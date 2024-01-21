@@ -297,11 +297,19 @@ trait LeanClassEndBlockTranslator
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
+  private lazy val _sc = SodaConstant_ ()
+
   private lazy val _tc = TranslationConstantToLean_ ()
 
   private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
       : ClassEndAnnotation =
     ClassEndAnnotation_ (block, references)
+
+  private def _get_between_quotes (text : String) : String =
+     _tc .lean_quotes_symbol + text + _tc .lean_quotes_symbol
+
+  private def _constructor_name (class_name : String) : String =
+    class_name + _sc .constructor_suffix
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -310,7 +318,11 @@ trait LeanClassEndBlockTranslator
         Seq [String] (
           _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",
-          _tc .lean_open_reserved_word + _tc .lean_space + beginning .class_name
+          _tc .lean_notation_reserved_word + _tc .lean_space +
+          _get_between_quotes (_constructor_name (beginning .class_name) ) +
+          _tc .lean_space + _tc .lean_notation_arrow_symbol + _tc .lean_space +
+          beginning .class_name + _tc .lean_dot_notation_symbol +
+          _constructor_name (beginning .class_name)
         )
       ) ) (
       block .references
@@ -1083,6 +1095,8 @@ trait TranslationConstantToLean
 
   lazy val lean_type_membership_symbol = ":"
 
+  lazy val lean_colon_symbol = ":"
+
   lazy val lean_subtype_symbol = "<:"
 
   lazy val lean_supertype_symbol = ">:"
@@ -1123,6 +1137,8 @@ trait TranslationConstantToLean
 
   lazy val lean_case_arrow_symbol = "=>"
 
+  lazy val lean_notation_arrow_symbol = "=>"
+
   lazy val lean_case_translation = lean_vertical_bar_symbol + lean_space
 
   lazy val lean_not_reserved_word = "not"
@@ -1136,6 +1152,8 @@ trait TranslationConstantToLean
   lazy val lean_dot_notation_symbol = "."
 
   lazy val lean_comma_symbol = ","
+
+  lazy val lean_quotes_symbol = "\""
 
   lazy val lean_inductive_end_symbol : String = lean_end_symbol
 
@@ -1347,9 +1365,11 @@ trait TranslationConstantToLean
 
   lazy val lean_directive_identifier : String = "lean"
 
-  lazy val lean_notation_max_prefix : String = lean_notation_reserved_word + ":max \""
+  lazy val lean_notation_max_prefix : String =
+    lean_notation_reserved_word + lean_colon_symbol + "max" + lean_space + lean_quotes_symbol
 
-  lazy val lean_notation_max_infix : String = "\" => "
+  lazy val lean_notation_max_infix : String =
+    lean_quotes_symbol + lean_space + lean_notation_arrow_symbol + lean_space
 
   lazy val lean_main_reserved_words : Seq [String] =
     Seq (
