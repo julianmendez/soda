@@ -31,6 +31,8 @@ case class LeanFullTranslationSpec ()
 
   lazy val recursion_example = "forlean/algorithms/RecursionForLean"
 
+  lazy val list_example = "forlean/algorithms/MyList"
+
   lazy val triangular_number = "forlean/mathematics/TriangularNumberForLean"
 
   def read_file (file_name : String) : String =
@@ -70,6 +72,9 @@ case class LeanFullTranslationSpec ()
 
   test ("should translate the recursion example") (
     test_translation (recursion_example)
+  )
+  test ("should translate the list example") (
+    test_translation (list_example)
   )
 
 }

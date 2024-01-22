@@ -25,6 +25,8 @@ class LeanFullTranslationSpec ()
 
   recursion_example = "forlean/algorithms/RecursionForLean"
 
+  list_example = "forlean/algorithms/MyList"
+
   triangular_number = "forlean/mathematics/TriangularNumberForLean"
 
   read_file (file_name : String) : String =
@@ -64,6 +66,9 @@ class LeanFullTranslationSpec ()
 
   test ("should translate the recursion example") (
     test_translation (recursion_example)
+  )
+  test ("should translate the list example") (
+    test_translation (list_example)
   )
 
 end

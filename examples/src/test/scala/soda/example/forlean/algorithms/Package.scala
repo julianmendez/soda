@@ -13,6 +13,46 @@ import   soda.example.forlean.lib.Zero_
 
 trait Package
 
+case class MyListSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  def toNat (n : Int) : Nat =
+    IntNat_ () .from_non_negative (n)
+
+  lazy val example_list : List [Int] = List (0 , 1 , 1 , 2 , 3 , 5 , 8)
+
+  private lazy val _fold_left_initial_value = List [String] ()
+
+  private lazy val _fold_left_next_value_function : List [String] => Int => List [String] =
+     (s : List [String]) =>  (e : Int) => s .+: ("" + (e + 100))
+
+  test ("fold left with List") (
+    check (
+      obtained =
+        MyList_ ()
+          .foldl (example_list) (_fold_left_initial_value) (
+            _fold_left_next_value_function)
+    ) (
+      expected = List ("108" , "105" , "103" , "102" , "101" , "101" , "100")
+    )
+  )
+
+  test ("length of a list") (
+    check (
+      obtained = MyList_ () .length (example_list)
+    ) (
+      expected = toNat (7)
+    )
+  )
+
+}
+
+
 case class RecursionForLeanSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
