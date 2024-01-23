@@ -54,16 +54,16 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
       induction list with
       | nil =>
         intro n
-        rewrite [_tailrec_foldl, _tailrec_foldl]
-        simp
+        rewrite [_tailrec_foldl, _tailrec_foldl, Nat.zero_add]
+        rfl
       | cons head tail ih =>
         intro n
         rewrite [_tailrec_foldl, _tailrec_foldl]
-        have h1 := by exact ih (1)
-        have h2 := by exact ih (n + 1)
-        rewrite [h1]
-        rewrite [h2]
-        simp [Nat.add_assoc, Nat.add_comm]
+        rewrite [ih (1)]
+        rewrite [ih (n + 1)]
+        rewrite [Nat.add_assoc]
+        rewrite [Nat.add_comm 1]
+        rfl
 
  private def   _tailrec_length ( A : Type ) (list : List ( A ) ) (accum : Nat) : Nat :=
     match list with
@@ -85,11 +85,11 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
       | cons head tail ih =>
         intro n
         rewrite [_tailrec_length, _tailrec_length]
-        have h1 := by exact ih (1)
-        have h2 := by exact ih (n + 1)
-        rewrite [h1]
-        rewrite [h2]
-        simp [Nat.add_assoc, Nat.add_comm]
+        rewrite [ih (1)]
+        rewrite [ih (n + 1)]
+        rewrite [Nat.add_assoc]
+        rewrite [Nat.add_comm 1]
+        rfl
 
  def   length_tr ( A : Type ) (list : List ( A ) ) : Nat :=
     _tailrec_length ( A ) (list) (Zero_ () )
@@ -102,7 +102,8 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
     
 
 
-theorem    len_fl_eq_len_def (A : Type) (list : List (A))
+  theorem
+    len_fl_eq_len_def (A : Type) (list : List (A))
       : length_fl (A) (list) = length_def (A) (list) := by
     rewrite [length_fl, foldl]
     induction list with
@@ -113,8 +114,7 @@ theorem    len_fl_eq_len_def (A : Type) (list : List (A))
       rewrite [_tailrec_foldl, len_fl_accum]
       rewrite [ih]
       rewrite [length_def]
-      simp
-
+      rfl
 
   theorem
     len_tr_eq_len_def
@@ -128,10 +128,81 @@ theorem    len_fl_eq_len_def (A : Type) (list : List (A))
       rewrite [_tailrec_length, len_tr_accum]
       rewrite [ih]
       rewrite [length_def]
-      simp
+      rfl
 
  def   length ( A : Type ) (list : List ( A ) ) : Nat :=
     length_fl ( A ) (list)
+
+
+/- reverse
+-/
+
+ private def   _tailrec_reverse ( A : Type ) (list : List ( A ) ) (accum : List ( A ) ) : List ( A ) :=
+    match list with
+      | [] => accum
+      | (head) :: (tail) => _tailrec_reverse ( A ) (tail) ( (head) :: (accum) )
+    
+
+
+ def   reverse_tr ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+    _tailrec_reverse ( A ) (list) (Nil)
+
+
+ def   reverse_fl ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+    foldl ( A ) ( List ( A )  ) (list) (Nil) (
+      fun (accum : List ( A ) ) =>
+        fun (elem : A) =>
+          (elem) :: (accum)
+    )
+
+
+  theorem
+    rev_fl_accum (A : Type) (list : List (A))
+      : forall (current: List (A) ),
+        _tailrec_foldl (A) (List (A) ) (list) (current)
+          (fun (accum : List (A) ) =>
+            fun (elem : A) =>
+               (elem) :: (accum)
+          ) = _tailrec_reverse (A) (list) (current) := by
+      induction list with
+      | nil =>
+        intro other
+        rewrite [_tailrec_foldl,_tailrec_reverse]
+        rfl
+      | cons head tail ih =>
+        intro other
+        rewrite [_tailrec_foldl,_tailrec_reverse]
+        rewrite [ih ((head) :: (other))]
+        rfl
+
+  theorem
+    rev_tr_eq_rev_fl
+      (A : Type) (list : List (A) )
+        : reverse_fl (A) (list) = reverse_tr (A) (list) := by
+    rewrite [reverse_fl, reverse_tr, foldl, rev_fl_accum]
+    rfl
+
+  theorem
+    len_rev_accum (A : Type) (list : List (A))
+      : forall (accum : List (A) ),
+        length_def (A) (_tailrec_reverse (A) (list) (accum)) =
+            length_def (A) (_tailrec_reverse (A) (list) ([])) + length_def (A) (accum) := by
+      induction list with
+      | nil =>
+        intro other
+        rewrite [_tailrec_reverse, _tailrec_reverse, length_def, Nat.zero_add]
+        rfl
+      | cons head tail ih =>
+        intro other
+        rewrite [_tailrec_reverse, _tailrec_reverse]
+        rewrite [ih ((head) :: ([]))]
+        rewrite [ih ((head) :: (other))]
+        rewrite [length_def, length_def, length_def]
+        rewrite [Nat.add_assoc, Nat.add_comm 1]
+        rfl
+
+ def   reverse ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+    reverse_fl ( A ) (list)
 
 
 end MyList
