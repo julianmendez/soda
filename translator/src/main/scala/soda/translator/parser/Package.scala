@@ -416,6 +416,8 @@ trait SodaConstant
 
   lazy val constructor_suffix = "_"
 
+  lazy val default_constructor_function = "mk"
+
   lazy val test_special_function = "test"
 
   lazy val subtype_abbreviation = "<:"
@@ -437,6 +439,8 @@ trait SodaConstant
   lazy val dot_notation_symbol = "."
 
   lazy val dot_notation_regex = "\\s*\\."
+
+  lazy val type_declaration_colon_regex = ":.*"
 
   lazy val addition_symbol = "+"
 

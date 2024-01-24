@@ -17,3 +17,5 @@ trait FactorialPatternMatching
 }
 
 case class FactorialPatternMatching_ () extends FactorialPatternMatching
+
+object FactorialPatternMatching { def mk   : FactorialPatternMatching  = FactorialPatternMatching_  () }

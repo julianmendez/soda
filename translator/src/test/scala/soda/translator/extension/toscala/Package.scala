@@ -366,6 +366,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\ncase class D_ () extends D" +
         "\n" +
+        "\nobject D { def mk   : D  = D_  () }" +
+        "\n" +
         "\ntrait E" +
         "\n{" +
         "\n" +
@@ -374,6 +376,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ () extends E" +
+        "\n" +
+        "\nobject E { def mk   : E  = E_  () }" +
         "\n" +
         "\ncase class F ()" +
         "\n  extends" +
@@ -399,6 +403,8 @@ case class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ [A] () extends E [A]" +
+        "\n" +
+        "\nobject E { def mk  [A]  : E  [A] = E_  [A] () }" +
         "\n"
     )
   )
@@ -440,11 +446,15 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  case class E_ () extends E" +
         "\n" +
+        "\n  object E { def mk   : E  = E_  () }" +
+        "\n" +
         "\n  type F = E" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class D_ () extends D" +
+        "\n" +
+        "\nobject D { def mk   : D  = D_  () }" +
         "\n"
     )
   )
@@ -851,6 +861,9 @@ case class ScalaClassConstructorBlockTranslatorSpec ()
     "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
     " extends Example0" +
     "\n" +
+    "\nobject Example0 { def mk  (map : Map [Int, Int]) (a_function : Int => Double => "+
+    "String) : Example0  = Example0_  (map, a_function) }" +
+    "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
     "\n    org.scalatest.funsuite.AnyFunSuite" +
@@ -896,6 +909,9 @@ case class ScalaClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\ncase class Example_ [A, B <: SuperType] (value : Int," +
     " a_function : Int => Double => String) extends Example [A, B]" +
+    "\n" +
+    "\nobject Example { def mk  [A, B <: SuperType] (value : Int) (a_function : Int => " +
+    "Double => String) : Example  [A, B] = Example_  [A, B] (value, a_function) }" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
@@ -1002,12 +1018,16 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class A0_ [B0 <: C0] () extends A0 [B0]" +
         "\n" +
+        "\nobject A0 { def mk  [B0 <: C0]  : A0  [B0] = A0_  [B0] () }" +
+        "\n" +
         "\ntrait C0 [D0 >: E0]" +
         "\n{" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class C0_ [D0 >: E0] () extends C0 [D0]" +
+        "\n" +
+        "\nobject C0 { def mk  [D0 >: E0]  : C0  [D0] = C0_  [D0] () }" +
         "\n" +
         "\ntrait A1 [B1 <: C1]" +
         "\n{" +
@@ -1016,12 +1036,16 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class A1_ [B1 <: C1] () extends A1 [B1]" +
         "\n" +
+        "\nobject A1 { def mk  [B1 <: C1]  : A1  [B1] = A1_  [B1] () }" +
+        "\n" +
         "\ntrait C1 [D1 >: E1]" +
         "\n{" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
+        "\n" +
+        "\nobject C1 { def mk  [D1 >: E1]  : C1  [D1] = C1_  [D1] () }" +
         "\n"
     )
   )
@@ -1186,6 +1210,9 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] ()" +
         " extends BlackBox [A, B]" +
+        "\n" +
+        "\n  object BlackBox { def mk  [A <: AbstractModel, B <: AbstractParameter]  : " +
+        "BlackBox  [A, B] = BlackBox_  [A, B] () }" +
         "\n"
     )
   )

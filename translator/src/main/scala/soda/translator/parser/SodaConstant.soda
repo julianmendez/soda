@@ -101,6 +101,8 @@ class SodaConstant
 
   constructor_suffix = "_"
 
+  default_constructor_function = "mk"
+
   test_special_function = "test"
 
   subtype_abbreviation = "<:"
@@ -122,6 +124,8 @@ class SodaConstant
   dot_notation_symbol = "."
 
   dot_notation_regex = "\\s*\\."
+
+  type_declaration_colon_regex = ":.*"
 
   addition_symbol = "+"
 

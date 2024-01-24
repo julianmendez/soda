@@ -8,6 +8,8 @@ trait MyPair [A , B ]
 
 case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
 
+object MyPair { def mk  [A, B] (key : A) (value : B) : MyPair  [A, B] = MyPair_  [A, B] (key, value) }
+
 trait ScalaReservedWordEscaping
 {
 
@@ -34,3 +36,5 @@ trait ScalaReservedWordEscaping
 }
 
 case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
+
+object ScalaReservedWordEscaping { def mk   : ScalaReservedWordEscaping  = ScalaReservedWordEscaping_  () }

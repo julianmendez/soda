@@ -121,6 +121,8 @@ class MicroTranslatorToScalaSpec ()
         "\n" +
         "\ncase class D_ () extends D" +
         "\n" +
+        "\nobject D { def mk   : D  = D_  () }" +
+        "\n" +
         "\ntrait E" +
         "\n{" +
         "\n" +
@@ -129,6 +131,8 @@ class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ () extends E" +
+        "\n" +
+        "\nobject E { def mk   : E  = E_  () }" +
         "\n" +
         "\ncase class F ()" +
         "\n  extends" +
@@ -154,6 +158,8 @@ class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ [A] () extends E [A]" +
+        "\n" +
+        "\nobject E { def mk  [A]  : E  [A] = E_  [A] () }" +
         "\n"
     )
   )
@@ -195,11 +201,15 @@ class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  case class E_ () extends E" +
         "\n" +
+        "\n  object E { def mk   : E  = E_  () }" +
+        "\n" +
         "\n  type F = E" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class D_ () extends D" +
+        "\n" +
+        "\nobject D { def mk   : D  = D_  () }" +
         "\n"
     )
   )

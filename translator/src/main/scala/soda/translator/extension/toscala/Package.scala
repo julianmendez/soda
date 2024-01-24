@@ -182,12 +182,58 @@ trait ScalaClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
+  private def _translate_type_symbols (line : String) : String =
+    line
+      .replaceAll (_sc .type_parameter_separation_regex ,
+        _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+      .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
+      .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
+      .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
+
+  private def _translate_to_apply (line : String) : String =
+    line
+      .replaceAll (_sc .type_declaration_colon_regex , "")
+
   private def _get_as_parameter_list (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
     ) ""
     else _tc .scala_space + _tc .scala_opening_bracket +
       parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
        _tc .scala_closing_bracket
+
+  private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
+    references
+      .flatMap ( block => _get_as_abstract_declaration_annotation (block) )
+      .flatMap ( block => block .abstract_functions)
+      .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
+
+  private def _get_abstract_functions_to_apply (abstract_functions : Seq [String] ) : Seq [String] =
+     abstract_functions
+      .map ( line => _translate_to_apply (line) .trim )
+
+  private def _get_constructor_params (beginning : ClassBeginningAnnotation)
+    (functions : Seq [String] ) : String =
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _tc .scala_space +
+    _tc .scala_opening_parenthesis +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    _tc .scala_closing_parenthesis
+
+  private def _get_constructor_params_to_apply (beginning : ClassBeginningAnnotation)
+    (functions : Seq [String] ) : String =
+    _tc .scala_opening_parenthesis +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    _tc .scala_closing_parenthesis
+
+  private def _get_params_if_non_empty (functions : Seq [String] ) : String =
+    if ( (functions .nonEmpty)
+    )
+      _tc .scala_opening_parenthesis +
+      functions .mkString (
+        _tc .scala_closing_parenthesis + _tc .scala_space + _tc .scala_opening_parenthesis
+      ) +
+      _tc .scala_closing_parenthesis
+    else ""
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
       (functions : Seq [String] ) : String =
@@ -196,24 +242,37 @@ trait ScalaClassConstructorBlockTranslator
     _tc .scala_space +
     beginning .class_name +
     _sc .constructor_suffix +
-    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
-    _tc .scala_space +
-    _tc .scala_opening_parenthesis +
-    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
-    _tc .scala_closing_parenthesis +
+    _get_constructor_params (beginning) (functions) +
     _tc .scala_space +
     _tc .scala_extends_translation +
     _tc .scala_space +
     beginning .class_name +
     _get_as_parameter_list (beginning .type_parameters)
 
-  private def _translate_type_symbols (line : String) : String =
-    line
-      .replaceAll (_sc .type_parameter_separation_regex ,
-        _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
-      .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
-      .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
-      .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
+  private def _get_default_constructor_function (beginning : ClassBeginningAnnotation)
+       (functions : Seq [String] ) : String =
+    _get_initial_spaces (beginning) +
+    _tc .scala_object_reserved_word +
+    _tc .scala_space +
+    beginning .class_name +
+    _tc .scala_space + _tc .scala_opening_brace + _tc .scala_space +
+    _tc .scala_def_reserved_word + _tc .scala_space +
+    _sc .default_constructor_function + _tc .scala_space +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _tc .scala_space +
+    _get_params_if_non_empty (functions) +
+    _tc .scala_space + _tc .scala_colon_symbol + _tc .scala_space + beginning .class_name +
+    _tc .scala_space +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) +
+     _tc .scala_space + _tc .scala_equals_symbol + _tc .scala_space +
+    beginning .class_name +
+    _sc .constructor_suffix +
+    _tc .scala_space +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) +
+    _tc .scala_space +
+    _get_constructor_params_to_apply (beginning) (
+      _get_abstract_functions_to_apply (functions) ) +
+    _tc .scala_space + _tc .scala_closing_brace
 
   private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock)
       : Option [AbstractDeclarationAnnotation] =
@@ -223,26 +282,26 @@ trait ScalaClassConstructorBlockTranslator
       case otherwise => None
     }
 
-  private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
-    references
-      .flatMap ( block => _get_as_abstract_declaration_annotation (block) )
-      .flatMap ( block => block .abstract_functions)
-      .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
-
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
-      (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _translate_block_with_abstract_beginning_and_fun (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) (abstract_functions : Seq [String] ) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         block .lines .++ (
           Seq [String] (
-            "",
-            _get_constructor_declaration (beginning) (
-              _get_abstract_functions (block .references) )
+            "" ,
+            _get_constructor_declaration (beginning) (abstract_functions) ,
+            "" ,
+            _get_default_constructor_function (beginning) (abstract_functions)
           )
         )
       ),
       block .references
     )
+
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
+    _translate_block_with_abstract_beginning_and_fun (beginning) (block) (
+      _get_abstract_functions (block .references) )
 
   private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -1251,7 +1310,9 @@ trait TranslationConstantToScala
 
   lazy val soda_constant = SodaConstant_ ()
 
-  lazy val scala_3_class_definition = ":"
+  lazy val scala_colon_symbol = ":"
+
+  lazy val scala_3_class_definition = scala_colon_symbol
 
   lazy val scala_match_translation = " match "
 
@@ -1297,9 +1358,11 @@ trait TranslationConstantToScala
 
   lazy val scala_then_translation = ")"
 
-  lazy val scala_abstract_function_declaration = "def"
+  lazy val scala_def_reserved_word = "def"
 
-  lazy val scala_definition = "def"
+  lazy val scala_abstract_function_declaration = scala_def_reserved_word
+
+  lazy val scala_definition = scala_def_reserved_word
 
   lazy val scala_value = "lazy val"
 
@@ -1308,6 +1371,10 @@ trait TranslationConstantToScala
   lazy val scala_with_translation = "with"
 
   lazy val scala_extends_translation = "extends"
+
+  lazy val scala_object_reserved_word = "object"
+
+  lazy val scala_equals_symbol = "="
 
   lazy val scala_function_arrow_symbol = "=>"
 

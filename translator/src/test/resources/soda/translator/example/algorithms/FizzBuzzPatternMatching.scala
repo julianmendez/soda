@@ -23,3 +23,5 @@ trait FizzBuzzPatternMatching
 }
 
 case class FizzBuzzPatternMatching_ () extends FizzBuzzPatternMatching
+
+object FizzBuzzPatternMatching { def mk   : FizzBuzzPatternMatching  = FizzBuzzPatternMatching_  () }

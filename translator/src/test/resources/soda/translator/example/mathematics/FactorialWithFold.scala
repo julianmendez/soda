@@ -11,3 +11,5 @@ trait FactorialWithFold
 }
 
 case class FactorialWithFold_ () extends FactorialWithFold
+
+object FactorialWithFold { def mk   : FactorialWithFold  = FactorialWithFold_  () }

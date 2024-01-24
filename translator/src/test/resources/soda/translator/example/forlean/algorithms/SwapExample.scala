@@ -8,6 +8,8 @@ trait PairExample
 
 case class PairExample_ (left : Int, right : Int) extends PairExample
 
+object PairExample { def mk  (left : Int) (right : Int) : PairExample  = PairExample_  (left, right) }
+
 trait SwapExample
 {
 
@@ -31,3 +33,5 @@ trait SwapExample
 }
 
 case class SwapExample_ () extends SwapExample
+
+object SwapExample { def mk   : SwapExample  = SwapExample_  () }

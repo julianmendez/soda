@@ -14,3 +14,5 @@ trait FactorialConcise
 }
 
 case class FactorialConcise_ () extends FactorialConcise
+
+object FactorialConcise { def mk   : FactorialConcise  = FactorialConcise_  () }

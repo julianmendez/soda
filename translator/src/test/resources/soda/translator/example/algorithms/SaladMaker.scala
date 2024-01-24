@@ -26,3 +26,5 @@ trait SaladMaker
 }
 
 case class SaladMaker_ () extends SaladMaker
+
+object SaladMaker { def mk   : SaladMaker  = SaladMaker_  () }

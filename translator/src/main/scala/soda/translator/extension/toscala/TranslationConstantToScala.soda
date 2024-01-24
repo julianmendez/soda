@@ -11,7 +11,9 @@ class TranslationConstantToScala
 
   soda_constant = SodaConstant_ ()
 
-  scala_3_class_definition = ":"
+  scala_colon_symbol = ":"
+
+  scala_3_class_definition = scala_colon_symbol
 
   scala_match_translation = " match "
 
@@ -57,9 +59,11 @@ class TranslationConstantToScala
 
   scala_then_translation = ")"
 
-  scala_abstract_function_declaration = "def"
+  scala_def_reserved_word = "def"
 
-  scala_definition = "def"
+  scala_abstract_function_declaration = scala_def_reserved_word
+
+  scala_definition = scala_def_reserved_word
 
   scala_value = "lazy val"
 
@@ -68,6 +72,10 @@ class TranslationConstantToScala
   scala_with_translation = "with"
 
   scala_extends_translation = "extends"
+
+  scala_object_reserved_word = "object"
+
+  scala_equals_symbol = "="
 
   scala_function_arrow_symbol = "=>"
 

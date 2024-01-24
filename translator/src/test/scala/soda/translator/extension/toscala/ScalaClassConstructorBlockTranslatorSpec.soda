@@ -52,6 +52,9 @@ class ScalaClassConstructorBlockTranslatorSpec ()
     "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
     " extends Example0" +
     "\n" +
+    "\nobject Example0 { def mk  (map : Map [Int, Int]) (a_function : Int => Double => "+
+    "String) : Example0  = Example0_  (map, a_function) }" +
+    "\n" +
     "\nclass Example0Spec ()" +
     "\n  extends" +
     "\n    org.scalatest.funsuite.AnyFunSuite" +
@@ -97,6 +100,9 @@ class ScalaClassConstructorBlockTranslatorSpec ()
     "\n" +
     "\ncase class Example_ [A, B <: SuperType] (value : Int," +
     " a_function : Int => Double => String) extends Example [A, B]" +
+    "\n" +
+    "\nobject Example { def mk  [A, B <: SuperType] (value : Int) (a_function : Int => " +
+    "Double => String) : Example  [A, B] = Example_  [A, B] (value, a_function) }" +
     "\n" +
     "\nclass ExampleSpec ()" +
     "\n  extends" +
