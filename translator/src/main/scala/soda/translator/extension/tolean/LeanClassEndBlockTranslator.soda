@@ -39,7 +39,7 @@ class LeanClassEndBlockTranslator
           _get_between_quotes (_constructor_name (beginning .class_name) ) +
           _tc .lean_space + _tc .lean_notation_arrow_symbol + _tc .lean_space +
           beginning .class_name + _tc .lean_dot_notation_symbol +
-          _constructor_name (beginning .class_name)
+          _tc .lean_default_constructor_name
         )
       ) ) (
       block .references

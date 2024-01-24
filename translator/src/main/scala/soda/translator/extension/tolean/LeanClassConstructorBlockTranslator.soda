@@ -47,9 +47,6 @@ class LeanClassConstructorBlockTranslator
   _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  _get_default_constructor_name (beginning : ClassBeginningAnnotation) : String =
-    beginning .class_name + _sc .constructor_suffix
-
   _two_spaces : String = _tc .lean_space + _tc .lean_space
 
   _four_spaces : String = _two_spaces + _two_spaces
@@ -62,7 +59,7 @@ class LeanClassConstructorBlockTranslator
     _get_initial_spaces (beginning) +
     _tc .lean_where_reserved_word +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
-    _get_default_constructor_name (beginning) +
+    _tc .lean_default_constructor_name +
     _tc .lean_space +
     _tc .lean_constructor_symbol +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +

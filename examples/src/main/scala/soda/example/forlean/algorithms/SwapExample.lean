@@ -1,7 +1,7 @@
 class PairExample
 
 where
-  PairExample_ ::
+  mk ::
     left : Int
     right : Int
   deriving DecidableEq
@@ -11,12 +11,12 @@ namespace PairExample
 
 end PairExample
 
-notation "PairExample_" => PairExample.PairExample_
+notation "PairExample_" => PairExample.mk
 
 class SwapExample
 
 where
-  SwapExample_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -34,4 +34,4 @@ namespace SwapExample
 
 end SwapExample
 
-notation "SwapExample_" => SwapExample.SwapExample_
+notation "SwapExample_" => SwapExample.mk

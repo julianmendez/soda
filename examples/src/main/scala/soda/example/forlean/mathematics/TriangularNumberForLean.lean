@@ -5,7 +5,7 @@ notation:max "Succ_" => Nat.succ
 class TriangularNumberForLean
 
 where
-  TriangularNumberForLean_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -25,4 +25,4 @@ namespace TriangularNumberForLean
 
 end TriangularNumberForLean
 
-notation "TriangularNumberForLean_" => TriangularNumberForLean.TriangularNumberForLean_
+notation "TriangularNumberForLean_" => TriangularNumberForLean.mk

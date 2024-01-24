@@ -1,7 +1,7 @@
 class PairParam ( A : Type ) ( B : Type )
 
 where
-  PairParam_ ::
+  mk ::
     fst : A
     snd : B
   deriving DecidableEq
@@ -11,12 +11,12 @@ namespace PairParam
 
 end PairParam
 
-notation "PairParam_" => PairParam.PairParam_
+notation "PairParam_" => PairParam.mk
 
 class PairParamMod
 
 where
-  PairParamMod_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -37,14 +37,14 @@ namespace PairParamMod
 
 end PairParamMod
 
-notation "PairParamMod_" => PairParamMod.PairParamMod_
+notation "PairParamMod_" => PairParamMod.mk
 
 class TripleIntStringInt
   
 -- extends     PairParam ( Int ) ( String )
 
 where
-  TripleIntStringInt_ ::
+  mk ::
     fst : Int
     snd : String
     trd : Int
@@ -55,12 +55,12 @@ namespace TripleIntStringInt
 
 end TripleIntStringInt
 
-notation "TripleIntStringInt_" => TripleIntStringInt.TripleIntStringInt_
+notation "TripleIntStringInt_" => TripleIntStringInt.mk
 
 class TripleIntStringIntMod
 
 where
-  TripleIntStringIntMod_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -85,4 +85,4 @@ namespace TripleIntStringIntMod
 
 end TripleIntStringIntMod
 
-notation "TripleIntStringIntMod_" => TripleIntStringIntMod.TripleIntStringIntMod_
+notation "TripleIntStringIntMod_" => TripleIntStringIntMod.mk

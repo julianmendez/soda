@@ -9,7 +9,7 @@ notation:max "Succ_" => Nat.succ
 class RecursionForLean
 
 where
-  RecursionForLean_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -60,4 +60,4 @@ def   fold3 ( A : Type ) ( B : Type ) (list : List ( A ) ) (initial_value : B)
 
 end RecursionForLean
 
-notation "RecursionForLean_" => RecursionForLean.RecursionForLean_
+notation "RecursionForLean_" => RecursionForLean.mk

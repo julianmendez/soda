@@ -86,6 +86,8 @@ class TranslationConstantToLean
 
   lean_theorem_end_symbol : String = lean_end_symbol
 
+  lean_default_constructor_name : String = "mk"
+
   lean_abbrev_reserved_word : String = "abbrev"
 
   lean_add_decl_doc_reserved_word : String = "add_decl_doc"

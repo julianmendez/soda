@@ -9,7 +9,7 @@ notation "Succ_ " =>  Nat.succ
 class MyList
 
 where
-  MyList_ ::
+  mk ::
     
   deriving DecidableEq
 
@@ -207,4 +207,4 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
 
 end MyList
 
-notation "MyList_" => MyList.MyList_
+notation "MyList_" => MyList.mk

@@ -112,9 +112,6 @@ trait LeanClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  private def _get_default_constructor_name (beginning : ClassBeginningAnnotation) : String =
-    beginning .class_name + _sc .constructor_suffix
-
   private lazy val _two_spaces : String = _tc .lean_space + _tc .lean_space
 
   private lazy val _four_spaces : String = _two_spaces + _two_spaces
@@ -127,7 +124,7 @@ trait LeanClassConstructorBlockTranslator
     _get_initial_spaces (beginning) +
     _tc .lean_where_reserved_word +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
-    _get_default_constructor_name (beginning) +
+    _tc .lean_default_constructor_name +
     _tc .lean_space +
     _tc .lean_constructor_symbol +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
@@ -322,7 +319,7 @@ trait LeanClassEndBlockTranslator
           _get_between_quotes (_constructor_name (beginning .class_name) ) +
           _tc .lean_space + _tc .lean_notation_arrow_symbol + _tc .lean_space +
           beginning .class_name + _tc .lean_dot_notation_symbol +
-          _constructor_name (beginning .class_name)
+          _tc .lean_default_constructor_name
         )
       ) ) (
       block .references
@@ -1162,6 +1159,8 @@ trait TranslationConstantToLean
   lazy val lean_recursive_definition_end_symbol : String = lean_end_symbol
 
   lazy val lean_theorem_end_symbol : String = lean_end_symbol
+
+  lazy val lean_default_constructor_name : String = "mk"
 
   lazy val lean_abbrev_reserved_word : String = "abbrev"
 

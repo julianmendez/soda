@@ -220,7 +220,7 @@ case class MicroTranslatorToLeanSpec ()
         "class Pair" +
         "\n" +
         "\nwhere" +
-        "\n  Pair_ ::" +
+        "\n  mk ::" +
         "\n    first : Int" +
         "\n    second : Int" +
         "\n  deriving DecidableEq" +
@@ -230,7 +230,7 @@ case class MicroTranslatorToLeanSpec ()
         "\n" +
         "\nend Pair" +
         "\n" +
-        "\nnotation \"Pair_\" => Pair.Pair_" +
+        "\nnotation \"Pair_\" => Pair.mk" +
         "\n"
     )
   )
@@ -252,7 +252,7 @@ case class MicroTranslatorToLeanSpec ()
         "class Pair ( A : Type ) ( B : Type )" +
         "\n" +
         "\nwhere" +
-        "\n  Pair_ ::" +
+        "\n  mk ::" +
         "\n    first : A" +
         "\n    second : B" +
         "\n  deriving DecidableEq" +
@@ -262,7 +262,7 @@ case class MicroTranslatorToLeanSpec ()
         "\n" +
         "\nend Pair" +
         "\n" +
-        "\nnotation \"Pair_\" => Pair.Pair_" +
+        "\nnotation \"Pair_\" => Pair.mk" +
         "\n"
     )
   )
