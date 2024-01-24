@@ -197,7 +197,7 @@ case class ReplacementAuxSpec ()
 
   test ("remove_space_from_scala_line") (
     check (
-      obtained = instance .remove_space_from_scala_line (line_3)
+      obtained = instance .remove_space_from_translated_line (line_3)
     ) (
       expected = " @new, @tailrec, @override"
     )

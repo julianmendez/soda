@@ -268,7 +268,7 @@ trait ReplacementAux
     ) line .substring (0 , line .length - 1)
     else line
 
-  def remove_space_from_scala_line (line : String) : String =
+  def remove_space_from_translated_line (line : String) : String =
     _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
   private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String)
@@ -302,30 +302,30 @@ trait ReplacementWithTranslator
 
   lazy val scala_space = aux .scala_space
 
-  lazy val soda_opening_parenthesis_symbol = "("
+  lazy val opening_parenthesis_symbol = "("
 
-  lazy val soda_closing_parenthesis_symbol = ")"
+  lazy val closing_parenthesis_symbol = ")"
+
+  lazy val new_line = "\n"
 
   lazy val scala_opening_parenthesis_symbol = "("
 
   private lazy val _fold = Fold_ ()
 
-  private def _replace_if_found  (previous_character : String) (reserved_word : String)
-     (next_character : String) (line : String) : String =
-    aux .replace_if_found (line) (
-      previous_character + reserved_word + next_character) (previous_character +
-        translator .translate (reserved_word)  + next_character)
+  private def _next_replace_words_with (line : String) (reserved_word : String) (translation : String)
+      : String =
+    Replacement_ (line)
+      .replace_if_found (soda_space) (reserved_word) (soda_space) (translation)
+      .replace_if_found (soda_space) (reserved_word) (closing_parenthesis_symbol) (translation)
+      .replace_if_found (soda_space) (reserved_word) (new_line) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (soda_space) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (
+        closing_parenthesis_symbol) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (new_line) (translation)
+      .line
 
   private def _next_replace_words (line : String) (reserved_word : String) : String =
-    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (soda_space) (
-      _replace_if_found (soda_space) (reserved_word) (soda_space) (
-        _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
-            soda_closing_parenthesis_symbol) (
-          _replace_if_found (soda_space) (reserved_word) (soda_closing_parenthesis_symbol) (
-            line)
-          )
-        )
-      )
+    _next_replace_words_with (line) (reserved_word) (translator .translate (reserved_word) )
 
   def replace_words (line : String) : String =
     _fold .apply (translator .keys) (line) (_next_replace_words)
@@ -380,11 +380,19 @@ trait Replacement
   def add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
-  def remove_space_from_scala_line () : Replacement =
-    Replacement_ (aux .remove_space_from_scala_line (line) )
+  def remove_space_from_translated_line () : Replacement =
+    Replacement_ (aux .remove_space_from_translated_line (line) )
 
   def add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
     Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+
+  def replace_if_found  (previous_character : String) (text : String)  (next_character : String)
+     (replacement : String) : Replacement =
+    Replacement_ (
+      aux .replace_if_found (line) (
+        previous_character + text + next_character) (
+        previous_character + replacement + next_character)
+    )
 
 }
 

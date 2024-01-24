@@ -164,7 +164,7 @@ trait TokenizedBlockTranslator
         .map ( x => Tokenizer_ (x) .tokens)
         .map ( x => _translate_line (x) )
         .map ( x => _join_tokens (x) )
-        .map ( x => Replacement_ (x) .remove_space_from_scala_line () .line)
+        .map ( x => Replacement_ (x) .remove_space_from_translated_line () .line)
         .getOrElse ("")
 
   private def _translate_if_not_a_comment (annotated_line : AnnotatedLine) : String =
