@@ -62,6 +62,8 @@ trait LeanClassAliasBlockTranslator
 
 case class LeanClassAliasBlockTranslator_ () extends LeanClassAliasBlockTranslator
 
+object LeanClassAliasBlockTranslator { def mk   : LeanClassAliasBlockTranslator  = LeanClassAliasBlockTranslator_  () }
+
 
 trait LeanClassConstructorBlockTranslator
   extends
@@ -177,6 +179,8 @@ trait LeanClassConstructorBlockTranslator
 
 case class LeanClassConstructorBlockTranslator_ () extends LeanClassConstructorBlockTranslator
 
+object LeanClassConstructorBlockTranslator { def mk   : LeanClassConstructorBlockTranslator  = LeanClassConstructorBlockTranslator_  () }
+
 
 trait LeanClassDeclarationBlockTranslator
   extends
@@ -279,6 +283,8 @@ trait LeanClassDeclarationBlockTranslator
 
 case class LeanClassDeclarationBlockTranslator_ () extends LeanClassDeclarationBlockTranslator
 
+object LeanClassDeclarationBlockTranslator { def mk   : LeanClassDeclarationBlockTranslator  = LeanClassDeclarationBlockTranslator_  () }
+
 
 trait LeanClassEndBlockTranslator
   extends
@@ -368,6 +374,8 @@ trait LeanClassEndBlockTranslator
 
 case class LeanClassEndBlockTranslator_ () extends LeanClassEndBlockTranslator
 
+object LeanClassEndBlockTranslator { def mk   : LeanClassEndBlockTranslator  = LeanClassEndBlockTranslator_  () }
+
 
 trait LeanDefinitionBlockTranslator
   extends
@@ -451,6 +459,8 @@ trait LeanDefinitionBlockTranslator
 }
 
 case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslator
+
+object LeanDefinitionBlockTranslator { def mk   : LeanDefinitionBlockTranslator  = LeanDefinitionBlockTranslator_  () }
 
 
 /**
@@ -591,6 +601,8 @@ trait LeanDefinitionLineTranslator
 
 case class LeanDefinitionLineTranslator_ (line : String) extends LeanDefinitionLineTranslator
 
+object LeanDefinitionLineTranslator { def mk  (line : String) : LeanDefinitionLineTranslator  = LeanDefinitionLineTranslator_  (line) }
+
 
 trait LeanDirectiveBlockTranslator
   extends
@@ -608,6 +620,8 @@ trait LeanDirectiveBlockTranslator
 }
 
 case class LeanDirectiveBlockTranslator_ () extends LeanDirectiveBlockTranslator
+
+object LeanDirectiveBlockTranslator { def mk   : LeanDirectiveBlockTranslator  = LeanDirectiveBlockTranslator_  () }
 
 
 trait LeanDocumentationBlockTranslator
@@ -718,6 +732,8 @@ trait LeanDocumentationBlockTranslator
 
 case class LeanDocumentationBlockTranslator_ () extends LeanDocumentationBlockTranslator
 
+object LeanDocumentationBlockTranslator { def mk   : LeanDocumentationBlockTranslator  = LeanDocumentationBlockTranslator_  () }
+
 
 trait LeanDotNotationBlockTranslator
   extends
@@ -740,6 +756,8 @@ trait LeanDotNotationBlockTranslator
 }
 
 case class LeanDotNotationBlockTranslator_ () extends LeanDotNotationBlockTranslator
+
+object LeanDotNotationBlockTranslator { def mk   : LeanDotNotationBlockTranslator  = LeanDotNotationBlockTranslator_  () }
 
 
 trait LeanImportDeclarationBlockTranslator
@@ -808,6 +826,8 @@ trait LeanImportDeclarationBlockTranslator
 }
 
 case class LeanImportDeclarationBlockTranslator_ () extends LeanImportDeclarationBlockTranslator
+
+object LeanImportDeclarationBlockTranslator { def mk   : LeanImportDeclarationBlockTranslator  = LeanImportDeclarationBlockTranslator_  () }
 
 
 trait LeanMatchCaseBlockTranslator
@@ -899,6 +919,8 @@ trait LeanMatchCaseBlockTranslator
 
 case class LeanMatchCaseBlockTranslator_ () extends LeanMatchCaseBlockTranslator
 
+object LeanMatchCaseBlockTranslator { def mk   : LeanMatchCaseBlockTranslator  = LeanMatchCaseBlockTranslator_  () }
+
 
 trait LeanPackageDeclarationBlockTranslator
   extends
@@ -940,6 +962,8 @@ trait LeanPackageDeclarationBlockTranslator
 }
 
 case class LeanPackageDeclarationBlockTranslator_ () extends LeanPackageDeclarationBlockTranslator
+
+object LeanPackageDeclarationBlockTranslator { def mk   : LeanPackageDeclarationBlockTranslator  = LeanPackageDeclarationBlockTranslator_  () }
 
 
 trait LeanTheoremBlockTranslator
@@ -993,6 +1017,8 @@ trait LeanTheoremBlockTranslator
 }
 
 case class LeanTheoremBlockTranslator_ () extends LeanTheoremBlockTranslator
+
+object LeanTheoremBlockTranslator { def mk   : LeanTheoremBlockTranslator  = LeanTheoremBlockTranslator_  () }
 
 
 /**
@@ -1071,6 +1097,8 @@ trait MicroTranslatorToLean
 }
 
 case class MicroTranslatorToLean_ () extends MicroTranslatorToLean
+
+object MicroTranslatorToLean { def mk   : MicroTranslatorToLean  = MicroTranslatorToLean_  () }
 
 
 /**
@@ -1562,6 +1590,8 @@ trait TranslationConstantToLean
 
 case class TranslationConstantToLean_ () extends TranslationConstantToLean
 
+object TranslationConstantToLean { def mk   : TranslationConstantToLean  = TranslationConstantToLean_  () }
+
 
 trait FileNamePair
 {
@@ -1572,6 +1602,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+object FileNamePair { def mk  (input_file_name : String) (output_file_name : String) : FileNamePair  = FileNamePair_  (input_file_name, output_file_name) }
 
 /**
  * This translates Soda source code to Lean source code.
@@ -1647,4 +1679,6 @@ trait TranslatorToLean
 }
 
 case class TranslatorToLean_ () extends TranslatorToLean
+
+object TranslatorToLean { def mk   : TranslatorToLean  = TranslatorToLean_  () }
 

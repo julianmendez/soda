@@ -41,6 +41,8 @@ trait AbstractHelp
 
 case class AbstractHelp_ (execute : Seq [String] => Boolean) extends AbstractHelp
 
+object AbstractHelp { def mk  (execute : Seq [String] => Boolean) : AbstractHelp  = AbstractHelp_  (execute) }
+
 trait Help
   extends
     AbstractHelp
@@ -55,6 +57,8 @@ trait Help
 }
 
 case class Help_ () extends Help
+
+object Help { def mk   : Help  = Help_  () }
 
 trait Manual
   extends
@@ -71,6 +75,8 @@ trait Manual
 
 case class Manual_ () extends Manual
 
+object Manual { def mk   : Manual  = Manual_  () }
+
 trait License
   extends
     AbstractHelp
@@ -85,4 +91,6 @@ trait License
 }
 
 case class License_ () extends License
+
+object License { def mk   : License  = License_  () }
 

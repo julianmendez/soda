@@ -35,6 +35,8 @@ trait AbstractDeclarationAnnotation
 
 case class AbstractDeclarationAnnotation_ (block : soda.translator.block.Block, references : Seq [soda.translator.block.AnnotatedBlock]) extends AbstractDeclarationAnnotation
 
+object AbstractDeclarationAnnotation { def mk  (block : soda.translator.block.Block) (references : Seq [soda.translator.block.AnnotatedBlock]) : AbstractDeclarationAnnotation  = AbstractDeclarationAnnotation_  (block, references) }
+
 
 trait AnnotationFactory
   extends
@@ -116,6 +118,8 @@ trait AnnotationFactory
 
 case class AnnotationFactory_ () extends AnnotationFactory
 
+object AnnotationFactory { def mk   : AnnotationFactory  = AnnotationFactory_  () }
+
 
 trait BlockAnnotationParser
   extends
@@ -176,6 +180,8 @@ trait BlockAnnotationParser
 
 case class BlockAnnotationParser_ (block : soda.translator.block.Block, applies : Boolean, identifier : soda.translator.block.BlockAnnotationId) extends BlockAnnotationParser
 
+object BlockAnnotationParser { def mk  (block : soda.translator.block.Block) (applies : Boolean) (identifier : soda.translator.block.BlockAnnotationId) : BlockAnnotationParser  = BlockAnnotationParser_  (block, applies, identifier) }
+
 
 trait ClassAliasAnnotation
   extends
@@ -201,6 +207,8 @@ trait ClassAliasAnnotation
 }
 
 case class ClassAliasAnnotation_ (block : soda.translator.block.Block) extends ClassAliasAnnotation
+
+object ClassAliasAnnotation { def mk  (block : soda.translator.block.Block) : ClassAliasAnnotation  = ClassAliasAnnotation_  (block) }
 
 
 trait ClassBeginningAnnotation
@@ -263,6 +271,8 @@ trait ClassBeginningAnnotation
 
 case class ClassBeginningAnnotation_ (block : soda.translator.block.Block) extends ClassBeginningAnnotation
 
+object ClassBeginningAnnotation { def mk  (block : soda.translator.block.Block) : ClassBeginningAnnotation  = ClassBeginningAnnotation_  (block) }
+
 
 trait ClassEndAnnotation
   extends
@@ -295,6 +305,8 @@ trait ClassEndAnnotation
 
 case class ClassEndAnnotation_ (block : soda.translator.block.Block, references : Seq [soda.translator.block.AnnotatedBlock]) extends ClassEndAnnotation
 
+object ClassEndAnnotation { def mk  (block : soda.translator.block.Block) (references : Seq [soda.translator.block.AnnotatedBlock]) : ClassEndAnnotation  = ClassEndAnnotation_  (block, references) }
+
 
 trait CommentAnnotation
   extends
@@ -315,6 +327,8 @@ trait CommentAnnotation
 }
 
 case class CommentAnnotation_ (block : soda.translator.block.Block) extends CommentAnnotation
+
+object CommentAnnotation { def mk  (block : soda.translator.block.Block) : CommentAnnotation  = CommentAnnotation_  (block) }
 
 
 trait DirectiveBlockAnnotation
@@ -345,6 +359,8 @@ trait DirectiveBlockAnnotation
 }
 
 case class DirectiveBlockAnnotation_ (block : soda.translator.block.Block) extends DirectiveBlockAnnotation
+
+object DirectiveBlockAnnotation { def mk  (block : soda.translator.block.Block) : DirectiveBlockAnnotation  = DirectiveBlockAnnotation_  (block) }
 
 
 trait FunctionDefinitionAnnotation
@@ -430,6 +446,8 @@ trait FunctionDefinitionAnnotation
 
 case class FunctionDefinitionAnnotation_ (block : soda.translator.block.Block) extends FunctionDefinitionAnnotation
 
+object FunctionDefinitionAnnotation { def mk  (block : soda.translator.block.Block) : FunctionDefinitionAnnotation  = FunctionDefinitionAnnotation_  (block) }
+
 
 trait ImportDeclarationAnnotation
   extends
@@ -455,6 +473,8 @@ trait ImportDeclarationAnnotation
 
 case class ImportDeclarationAnnotation_ (block : soda.translator.block.Block) extends ImportDeclarationAnnotation
 
+object ImportDeclarationAnnotation { def mk  (block : soda.translator.block.Block) : ImportDeclarationAnnotation  = ImportDeclarationAnnotation_  (block) }
+
 
 trait PackageDeclarationAnnotation
   extends
@@ -474,6 +494,8 @@ trait PackageDeclarationAnnotation
 }
 
 case class PackageDeclarationAnnotation_ (block : soda.translator.block.Block) extends PackageDeclarationAnnotation
+
+object PackageDeclarationAnnotation { def mk  (block : soda.translator.block.Block) : PackageDeclarationAnnotation  = PackageDeclarationAnnotation_  (block) }
 
 
 trait TestDeclarationAnnotation
@@ -495,6 +517,8 @@ trait TestDeclarationAnnotation
 
 case class TestDeclarationAnnotation_ (block : soda.translator.block.Block) extends TestDeclarationAnnotation
 
+object TestDeclarationAnnotation { def mk  (block : soda.translator.block.Block) : TestDeclarationAnnotation  = TestDeclarationAnnotation_  (block) }
+
 
 trait TheoremBlockAnnotation
   extends
@@ -515,4 +539,6 @@ trait TheoremBlockAnnotation
 }
 
 case class TheoremBlockAnnotation_ (block : soda.translator.block.Block) extends TheoremBlockAnnotation
+
+object TheoremBlockAnnotation { def mk  (block : soda.translator.block.Block) : TheoremBlockAnnotation  = TheoremBlockAnnotation_  (block) }
 

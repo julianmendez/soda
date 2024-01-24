@@ -18,6 +18,8 @@ trait PreprocessorFoldTuple
 
 case class PreprocessorFoldTuple_ (comment_state : Boolean, annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]) extends PreprocessorFoldTuple
 
+object PreprocessorFoldTuple { def mk  (comment_state : Boolean) (annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]) : PreprocessorFoldTuple  = PreprocessorFoldTuple_  (comment_state, annotated_lines_rev) }
+
 trait CurrentAndNewCommentState
 {
 
@@ -27,6 +29,8 @@ trait CurrentAndNewCommentState
 }
 
 case class CurrentAndNewCommentState_ (current_state : Boolean, new_comment_state : Boolean) extends CurrentAndNewCommentState
+
+object CurrentAndNewCommentState { def mk  (current_state : Boolean) (new_comment_state : Boolean) : CurrentAndNewCommentState  = CurrentAndNewCommentState_  (current_state, new_comment_state) }
 
 trait BlockBuilder
 {
@@ -89,6 +93,8 @@ trait BlockBuilder
 }
 
 case class BlockBuilder_ () extends BlockBuilder
+
+object BlockBuilder { def mk   : BlockBuilder  = BlockBuilder_  () }
 
 
 /**
@@ -174,6 +180,8 @@ trait BlockProcessor
 
 case class BlockProcessor_ (translator : soda.translator.block.BlockSequenceTranslator) extends BlockProcessor
 
+object BlockProcessor { def mk  (translator : soda.translator.block.BlockSequenceTranslator) : BlockProcessor  = BlockProcessor_  (translator) }
+
 
 trait AuxiliaryTuple
 {
@@ -185,6 +193,8 @@ trait AuxiliaryTuple
 }
 
 case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple
+
+object AuxiliaryTuple { def mk  (block_sequence : Seq [soda.translator.block.AnnotatedBlock]) (accumulated : Seq [soda.translator.block.AnnotatedBlock]) (references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) : AuxiliaryTuple  = AuxiliaryTuple_  (block_sequence, accumulated, references) }
 
 trait PreprocessorSequenceTranslator
   extends
@@ -311,6 +321,8 @@ trait PreprocessorSequenceTranslator
 }
 
 case class PreprocessorSequenceTranslator_ (translator : soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
+
+object PreprocessorSequenceTranslator { def mk  (translator : soda.translator.block.BlockSequenceTranslator) : PreprocessorSequenceTranslator  = PreprocessorSequenceTranslator_  (translator) }
 
 
 trait SodaConstant
@@ -576,4 +588,6 @@ trait SodaConstant
 }
 
 case class SodaConstant_ () extends SodaConstant
+
+object SodaConstant { def mk   : SodaConstant  = SodaConstant_  () }
 

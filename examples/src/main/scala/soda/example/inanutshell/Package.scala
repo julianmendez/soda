@@ -38,6 +38,8 @@ trait InANutshell
 
 case class InANutshell_ () extends InANutshell
 
+object InANutshell { def mk   : InANutshell  = InANutshell_  () }
+
 trait MaxAndMin
 {
 
@@ -57,6 +59,8 @@ trait MaxAndMin
 
 case class MaxAndMin_ () extends MaxAndMin
 
+object MaxAndMin { def mk   : MaxAndMin  = MaxAndMin_  () }
+
 trait Pair [A , B ]
 {
 
@@ -66,6 +70,8 @@ trait Pair [A , B ]
 }
 
 case class Pair_ [A, B] (fst : A, snd : B) extends Pair [A, B]
+
+object Pair { def mk  [A, B] (fst : A) (snd : B) : Pair  [A, B] = Pair_  [A, B] (fst, snd) }
 
 trait MinMaxPair
   extends
@@ -83,6 +89,8 @@ trait MinMaxPair
 
 case class MinMaxPair_ (min : Int, max : Int) extends MinMaxPair
 
+object MinMaxPair { def mk  (min : Int) (max : Int) : MinMaxPair  = MinMaxPair_  (min, max) }
+
 trait Indexable
 {
 
@@ -91,6 +99,8 @@ trait Indexable
 }
 
 case class Indexable_ (index : Int) extends Indexable
+
+object Indexable { def mk  (index : Int) : Indexable  = Indexable_  (index) }
 
 trait Example
   extends Indexable
@@ -105,6 +115,8 @@ trait Example
 
 case class Example_ (index : Int) extends Example
 
+object Example { def mk  (index : Int) : Example  = Example_  (index) }
+
 trait Comparable
 {
 
@@ -113,6 +125,8 @@ trait Comparable
 }
 
 case class Comparable_ (is_greater_than : Comparable => Boolean) extends Comparable
+
+object Comparable { def mk  (is_greater_than : Comparable => Boolean) : Comparable  = Comparable_  (is_greater_than) }
 
 trait ComparableMax [A <: Comparable]
 {
@@ -128,6 +142,8 @@ trait ComparableMax [A <: Comparable]
 
 case class ComparableMax_ [A <: Comparable] () extends ComparableMax [A]
 
+object ComparableMax { def mk  [A <: Comparable]  : ComparableMax  [A] = ComparableMax_  [A] () }
+
 trait WithInstance
 {
 
@@ -136,6 +152,8 @@ trait WithInstance
 }
 
 case class WithInstance_ (instance_parameter : Int) extends WithInstance
+
+object WithInstance { def mk  (instance_parameter : Int) : WithInstance  = WithInstance_  (instance_parameter) }
 
 trait MyClass
   extends
@@ -152,6 +170,8 @@ trait MyClass
 
 case class MyClass_ (instance_parameter : Int) extends MyClass
 
+object MyClass { def mk  (instance_parameter : Int) : MyClass  = MyClass_  (instance_parameter) }
+
 trait TimeOfToday
 {
 
@@ -164,6 +184,8 @@ trait TimeOfToday
 }
 
 case class TimeOfToday_ () extends TimeOfToday
+
+object TimeOfToday { def mk   : TimeOfToday  = TimeOfToday_  () }
 
 trait Main
 {
@@ -182,6 +204,8 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
+object Main { def mk   : Main  = Main_  () }
+
 trait PersonName
 {
 
@@ -193,4 +217,6 @@ trait PersonName
 }
 
 case class PersonName_ (name : String) extends PersonName
+
+object PersonName { def mk  (name : String) : PersonName  = PersonName_  (name) }
 

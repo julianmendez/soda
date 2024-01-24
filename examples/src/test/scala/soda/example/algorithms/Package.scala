@@ -123,6 +123,8 @@ trait SaladIngredient
 
 case class SaladIngredient_ (ordinal : Int, name : String) extends SaladIngredient
 
+object SaladIngredient { def mk  (ordinal : Int) (name : String) : SaladIngredient  = SaladIngredient_  (ordinal, name) }
+
 trait SaladIngredientConstant
 {
 
@@ -142,6 +144,8 @@ trait SaladIngredientConstant
 }
 
 case class SaladIngredientConstant_ () extends SaladIngredientConstant
+
+object SaladIngredientConstant { def mk   : SaladIngredientConstant  = SaladIngredientConstant_  () }
 
 case class SaladMakerSpec ()
   extends

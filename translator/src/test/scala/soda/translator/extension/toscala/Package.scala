@@ -163,6 +163,8 @@ trait ExampleWithWrongOrder
 
 case class ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
 
+object ExampleWithWrongOrder { def mk   : ExampleWithWrongOrder  = ExampleWithWrongOrder_  () }
+
 trait ExampleWithRightOrder
 {
 
@@ -173,6 +175,8 @@ trait ExampleWithRightOrder
 }
 
 case class ExampleWithRightOrder_ () extends ExampleWithRightOrder
+
+object ExampleWithRightOrder { def mk   : ExampleWithRightOrder  = ExampleWithRightOrder_  () }
 
 trait ExampleWithEmptyParentheses
 {
@@ -185,6 +189,8 @@ trait ExampleWithEmptyParentheses
 
 case class ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
 
+object ExampleWithEmptyParentheses { def mk   : ExampleWithEmptyParentheses  = ExampleWithEmptyParentheses_  () }
+
 trait AnotherExampleWithEmptyParentheses
 {
 
@@ -195,6 +201,8 @@ trait AnotherExampleWithEmptyParentheses
 }
 
 case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
+
+object AnotherExampleWithEmptyParentheses { def mk   : AnotherExampleWithEmptyParentheses  = AnotherExampleWithEmptyParentheses_  () }
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.

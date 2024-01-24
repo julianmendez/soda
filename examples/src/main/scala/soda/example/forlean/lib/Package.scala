@@ -13,6 +13,8 @@ trait List [A ]
 
 case class List_ [A] () extends List [A]
 
+object List { def mk  [A]  : List  [A] = List_  [A] () }
+
 trait nil [A ]
   extends
     List [A]
@@ -21,6 +23,8 @@ trait nil [A ]
 }
 
 case class nil_ [A] () extends nil [A]
+
+object nil { def mk  [A]  : nil  [A] = nil_  [A] () }
 
 trait cons [A ]
   extends
@@ -33,6 +37,8 @@ trait cons [A ]
 }
 
 case class cons_ [A] (e : A, s : List [A]) extends cons [A]
+
+object cons { def mk  [A] (e : A) (s : List [A]) : cons  [A] = cons_  [A] (e, s) }
 
 trait SeqList
 {
@@ -74,6 +80,8 @@ trait SeqList
 
 case class SeqList_ () extends SeqList
 
+object SeqList { def mk   : SeqList  = SeqList_  () }
+
 
 trait Nat
 {
@@ -84,6 +92,8 @@ trait Nat
 }
 
 case class Nat_ (add : Nat => Nat, mul : Nat => Nat) extends Nat
+
+object Nat { def mk  (add : Nat => Nat) (mul : Nat => Nat) : Nat  = Nat_  (add, mul) }
 
 trait Zero
   extends
@@ -105,6 +115,8 @@ trait Zero
 }
 
 case class Zero_ () extends Zero
+
+object Zero { def mk   : Zero  = Zero_  () }
 
 trait Succ
   extends
@@ -130,6 +142,8 @@ trait Succ
 }
 
 case class Succ_ (k : Nat) extends Succ
+
+object Succ { def mk  (k : Nat) : Succ  = Succ_  (k) }
 
 trait IntNat
 {
@@ -162,4 +176,6 @@ trait IntNat
 }
 
 case class IntNat_ () extends IntNat
+
+object IntNat { def mk   : IntNat  = IntNat_  () }
 

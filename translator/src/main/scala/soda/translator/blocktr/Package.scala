@@ -72,6 +72,8 @@ trait DirectiveBlockTranslator
 
 case class DirectiveBlockTranslator_ (identifier : String, opening_comment : String, closing_comment : String) extends DirectiveBlockTranslator
 
+object DirectiveBlockTranslator { def mk  (identifier : String) (opening_comment : String) (closing_comment : String) : DirectiveBlockTranslator  = DirectiveBlockTranslator_  (identifier, opening_comment, closing_comment) }
+
 
 trait Table
 {
@@ -81,6 +83,8 @@ trait Table
 }
 
 case class Table_ (table : Seq [Tuple2 [String, String] ]) extends Table
+
+object Table { def mk  (table : Seq [Tuple2 [String, String] ]) : Table  = Table_  (table) }
 
 trait TableTranslator
   extends
@@ -103,6 +107,8 @@ trait TableTranslator
 
 case class TableTranslator_ (table : Seq [Tuple2 [String, String] ]) extends TableTranslator
 
+object TableTranslator { def mk  (table : Seq [Tuple2 [String, String] ]) : TableTranslator  = TableTranslator_  (table) }
+
 
 trait TokenReplacement
 {
@@ -124,6 +130,8 @@ trait TokenReplacement
 }
 
 case class TokenReplacement_ () extends TokenReplacement
+
+object TokenReplacement { def mk   : TokenReplacement  = TokenReplacement_  () }
 
 
 trait TokenizedBlockTranslator
@@ -189,4 +197,6 @@ trait TokenizedBlockTranslator
 }
 
 case class TokenizedBlockTranslator_ (replace_token : soda.translator.replacement.Token => String) extends TokenizedBlockTranslator
+
+object TokenizedBlockTranslator { def mk  (replace_token : soda.translator.replacement.Token => String) : TokenizedBlockTranslator  = TokenizedBlockTranslator_  (replace_token) }
 

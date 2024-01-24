@@ -69,6 +69,8 @@ trait MicroTranslatorToScala
 
 case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
 
+object MicroTranslatorToScala { def mk   : MicroTranslatorToScala  = MicroTranslatorToScala_  () }
+
 
 trait ScalaAbstractDeclarationBlockTranslator
   extends
@@ -152,6 +154,8 @@ trait ScalaAbstractDeclarationBlockTranslator
 }
 
 case class ScalaAbstractDeclarationBlockTranslator_ () extends ScalaAbstractDeclarationBlockTranslator
+
+object ScalaAbstractDeclarationBlockTranslator { def mk   : ScalaAbstractDeclarationBlockTranslator  = ScalaAbstractDeclarationBlockTranslator_  () }
 
 
 trait ScalaClassConstructorBlockTranslator
@@ -346,6 +350,8 @@ trait ScalaClassConstructorBlockTranslator
 
 case class ScalaClassConstructorBlockTranslator_ () extends ScalaClassConstructorBlockTranslator
 
+object ScalaClassConstructorBlockTranslator { def mk   : ScalaClassConstructorBlockTranslator  = ScalaClassConstructorBlockTranslator_  () }
+
 
 trait State
 {
@@ -424,6 +430,8 @@ trait State
 }
 
 case class State_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends State
+
+object State { def mk  (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int) (line : String) (accum : String) (expecting : Boolean) : State  = State_  (index, last_index, bracket_level, par_level, line, accum, expecting) }
 
 trait ScalaClassConstructorParameterBlockTranslator
   extends
@@ -505,6 +513,8 @@ trait ScalaClassConstructorParameterBlockTranslator
 }
 
 case class ScalaClassConstructorParameterBlockTranslator_ () extends ScalaClassConstructorParameterBlockTranslator
+
+object ScalaClassConstructorParameterBlockTranslator { def mk   : ScalaClassConstructorParameterBlockTranslator  = ScalaClassConstructorParameterBlockTranslator_  () }
 
 
 trait ScalaClassDeclarationBlockTranslator
@@ -641,6 +651,8 @@ trait ScalaClassDeclarationBlockTranslator
 
 case class ScalaClassDeclarationBlockTranslator_ () extends ScalaClassDeclarationBlockTranslator
 
+object ScalaClassDeclarationBlockTranslator { def mk   : ScalaClassDeclarationBlockTranslator  = ScalaClassDeclarationBlockTranslator_  () }
+
 
 trait ScalaClassEndBlockTranslator
   extends
@@ -696,6 +708,8 @@ trait ScalaClassEndBlockTranslator
 
 case class ScalaClassEndBlockTranslator_ () extends ScalaClassEndBlockTranslator
 
+object ScalaClassEndBlockTranslator { def mk   : ScalaClassEndBlockTranslator  = ScalaClassEndBlockTranslator_  () }
+
 
 trait ScalaDirectiveBlockTranslator
   extends
@@ -713,6 +727,8 @@ trait ScalaDirectiveBlockTranslator
 }
 
 case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
+
+object ScalaDirectiveBlockTranslator { def mk   : ScalaDirectiveBlockTranslator  = ScalaDirectiveBlockTranslator_  () }
 
 
 trait ScalaFunctionDefinitionBlockTranslator
@@ -862,6 +878,8 @@ trait ScalaFunctionDefinitionBlockTranslator
 
 case class ScalaFunctionDefinitionBlockTranslator_ () extends ScalaFunctionDefinitionBlockTranslator
 
+object ScalaFunctionDefinitionBlockTranslator { def mk   : ScalaFunctionDefinitionBlockTranslator  = ScalaFunctionDefinitionBlockTranslator_  () }
+
 
 /**
  * A line containing the definition sign will be classified as a definition.
@@ -1008,6 +1026,8 @@ trait ScalaFunctionDefinitionLineDetector
 
 case class ScalaFunctionDefinitionLineDetector_ (line : String) extends ScalaFunctionDefinitionLineDetector
 
+object ScalaFunctionDefinitionLineDetector { def mk  (line : String) : ScalaFunctionDefinitionLineDetector  = ScalaFunctionDefinitionLineDetector_  (line) }
+
 
 trait ScalaImportDeclarationBlockTranslator
   extends
@@ -1071,6 +1091,8 @@ trait ScalaImportDeclarationBlockTranslator
 }
 
 case class ScalaImportDeclarationBlockTranslator_ () extends ScalaImportDeclarationBlockTranslator
+
+object ScalaImportDeclarationBlockTranslator { def mk   : ScalaImportDeclarationBlockTranslator  = ScalaImportDeclarationBlockTranslator_  () }
 
 
 trait ScalaMainClassBlockTranslator
@@ -1137,6 +1159,8 @@ trait ScalaMainClassBlockTranslator
 }
 
 case class ScalaMainClassBlockTranslator_ () extends ScalaMainClassBlockTranslator
+
+object ScalaMainClassBlockTranslator { def mk   : ScalaMainClassBlockTranslator  = ScalaMainClassBlockTranslator_  () }
 
 
 trait ScalaMatchCaseBlockTranslator
@@ -1225,6 +1249,8 @@ trait ScalaMatchCaseBlockTranslator
 
 case class ScalaMatchCaseBlockTranslator_ () extends ScalaMatchCaseBlockTranslator
 
+object ScalaMatchCaseBlockTranslator { def mk   : ScalaMatchCaseBlockTranslator  = ScalaMatchCaseBlockTranslator_  () }
+
 
 trait ScalaTheoremBlockTranslator
   extends
@@ -1273,6 +1299,8 @@ trait ScalaTheoremBlockTranslator
 
 case class ScalaTheoremBlockTranslator_ () extends ScalaTheoremBlockTranslator
 
+object ScalaTheoremBlockTranslator { def mk   : ScalaTheoremBlockTranslator  = ScalaTheoremBlockTranslator_  () }
+
 
 trait ScalaTypeParameterBlockTranslator
   extends
@@ -1296,6 +1324,8 @@ trait ScalaTypeParameterBlockTranslator
 }
 
 case class ScalaTypeParameterBlockTranslator_ () extends ScalaTypeParameterBlockTranslator
+
+object ScalaTypeParameterBlockTranslator { def mk   : ScalaTypeParameterBlockTranslator  = ScalaTypeParameterBlockTranslator_  () }
 
 
 /**
@@ -1548,6 +1578,8 @@ trait TranslationConstantToScala
 
 case class TranslationConstantToScala_ () extends TranslationConstantToScala
 
+object TranslationConstantToScala { def mk   : TranslationConstantToScala  = TranslationConstantToScala_  () }
+
 
 trait TranslatorToScalaConstant
 {
@@ -1593,6 +1625,8 @@ trait TranslatorToScalaConstant
 
 case class TranslatorToScalaConstant_ () extends TranslatorToScalaConstant
 
+object TranslatorToScalaConstant { def mk   : TranslatorToScalaConstant  = TranslatorToScalaConstant_  () }
+
 trait FileNamePair
 {
 
@@ -1602,6 +1636,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+object FileNamePair { def mk  (input_file_name : String) (output_file_name : String) : FileNamePair  = FileNamePair_  (input_file_name, output_file_name) }
 
 trait IndividualProcessor
 {
@@ -1660,6 +1696,8 @@ trait IndividualProcessor
 
 case class IndividualProcessor_ () extends IndividualProcessor
 
+object IndividualProcessor { def mk   : IndividualProcessor  = IndividualProcessor_  () }
+
 trait PackageProcessor
 {
 
@@ -1699,6 +1737,8 @@ trait PackageProcessor
 }
 
 case class PackageProcessor_ () extends PackageProcessor
+
+object PackageProcessor { def mk   : PackageProcessor  = PackageProcessor_  () }
 
 /**
  * This translates Soda source code to Scala source code.
@@ -1756,4 +1796,6 @@ trait TranslatorToScala
 }
 
 case class TranslatorToScala_ () extends TranslatorToScala
+
+object TranslatorToScala { def mk   : TranslatorToScala  = TranslatorToScala_  () }
 

@@ -16,6 +16,8 @@ trait Pair [A ]
 
 case class Pair_ [A] (name : String, result : A) extends Pair [A]
 
+object Pair { def mk  [A] (name : String) (result : A) : Pair  [A] = Pair_  [A] (name, result) }
+
 trait ListExample
 {
 
@@ -111,6 +113,8 @@ trait ListExample
 
 case class ListExample_ () extends ListExample
 
+object ListExample { def mk   : ListExample  = ListExample_  () }
+
 
 trait Main
 {
@@ -156,4 +160,6 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+object Main { def mk   : Main  = Main_  () }
 

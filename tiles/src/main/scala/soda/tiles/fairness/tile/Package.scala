@@ -37,6 +37,8 @@ trait AllActorPairTile
 
 case class AllActorPairTile_ () extends AllActorPairTile
 
+object AllActorPairTile { def mk   : AllActorPairTile  = AllActorPairTile_  () }
+
 
 trait AllActorTile
 {
@@ -52,6 +54,8 @@ trait AllActorTile
 }
 
 case class AllActorTile_ () extends AllActorTile
+
+object AllActorTile { def mk   : AllActorTile  = AllActorTile_  () }
 
 
 trait AllActorTripleTile
@@ -71,6 +75,8 @@ trait AllActorTripleTile
 
 case class AllActorTripleTile_ () extends AllActorTripleTile
 
+object AllActorTripleTile { def mk   : AllActorTripleTile  = AllActorTripleTile_  () }
+
 
 trait AllEqual1Tile
 {
@@ -84,6 +90,8 @@ trait AllEqual1Tile
 }
 
 case class AllEqual1Tile_ () extends AllEqual1Tile
+
+object AllEqual1Tile { def mk   : AllEqual1Tile  = AllEqual1Tile_  () }
 
 
 trait AllEqualTile
@@ -99,6 +107,8 @@ trait AllEqualTile
 }
 
 case class AllEqualTile_ () extends AllEqualTile
+
+object AllEqualTile { def mk   : AllEqualTile  = AllEqualTile_  () }
 
 
 trait AtLeastTile
@@ -117,6 +127,8 @@ trait AtLeastTile
 
 case class AtLeastTile_ () extends AtLeastTile
 
+object AtLeastTile { def mk   : AtLeastTile  = AtLeastTile_  () }
+
 
 trait AttributePTile
 {
@@ -132,6 +144,8 @@ trait AttributePTile
 }
 
 case class AttributePTile_ (p : Actor => Measure) extends AttributePTile
+
+object AttributePTile { def mk  (p : Actor => Measure) : AttributePTile  = AttributePTile_  (p) }
 
 
 trait CorrelationTile
@@ -171,6 +185,8 @@ trait CorrelationTile
 
 case class CorrelationTile_ () extends CorrelationTile
 
+object CorrelationTile { def mk   : CorrelationTile  = CorrelationTile_  () }
+
 
 trait DecisionTile
 {
@@ -188,6 +204,8 @@ trait DecisionTile
 }
 
 case class DecisionTile_ (maximum_acceptable_bias_percentage : Measure) extends DecisionTile
+
+object DecisionTile { def mk  (maximum_acceptable_bias_percentage : Measure) : DecisionTile  = DecisionTile_  (maximum_acceptable_bias_percentage) }
 
 
 trait EqualityTile
@@ -212,6 +230,8 @@ trait EqualityTile
 }
 
 case class EqualityTile_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends EqualityTile
+
+object EqualityTile { def mk  (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : EqualityTile  = EqualityTile_  (sigma, p_utility) }
 
 
 trait EquityTile
@@ -258,6 +278,8 @@ trait EquityTile
 
 case class EquityTile_ (sigma : Measure => Measure => Measure, p0_need : Actor => Measure, p1_utility : Resource => Measure) extends EquityTile
 
+object EquityTile { def mk  (sigma : Measure => Measure => Measure) (p0_need : Actor => Measure) (p1_utility : Resource => Measure) : EquityTile  = EquityTile_  (sigma, p0_need, p1_utility) }
+
 
 trait FalsePosTile
 {
@@ -279,6 +301,8 @@ trait FalsePosTile
 
 case class FalsePosTile_ () extends FalsePosTile
 
+object FalsePosTile { def mk   : FalsePosTile  = FalsePosTile_  () }
+
 
 trait NeededPTile
 {
@@ -291,6 +315,8 @@ trait NeededPTile
 }
 
 case class NeededPTile_ (p : Actor => Measure) extends NeededPTile
+
+object NeededPTile { def mk  (p : Actor => Measure) : NeededPTile  = NeededPTile_  (p) }
 
 
 trait PredictionPTile
@@ -311,6 +337,8 @@ trait PredictionPTile
 }
 
 case class PredictionPTile_ (p : Resource => Measure) extends PredictionPTile
+
+object PredictionPTile { def mk  (p : Resource => Measure) : PredictionPTile  = PredictionPTile_  (p) }
 
 
 trait ReceivedSigmaPTile
@@ -342,6 +370,8 @@ trait ReceivedSigmaPTile
 
 case class ReceivedSigmaPTile_ (sigma : Measure => Measure => Measure, p : Resource => Measure) extends ReceivedSigmaPTile
 
+object ReceivedSigmaPTile { def mk  (sigma : Measure => Measure => Measure) (p : Resource => Measure) : ReceivedSigmaPTile  = ReceivedSigmaPTile_  (sigma, p) }
+
 
 trait ResultPTile
 {
@@ -354,6 +384,8 @@ trait ResultPTile
 }
 
 case class ResultPTile_ (p : Actor => Measure) extends ResultPTile
+
+object ResultPTile { def mk  (p : Actor => Measure) : ResultPTile  = ResultPTile_  (p) }
 
 
 trait SigmaTile
@@ -371,6 +403,8 @@ trait SigmaTile
 }
 
 case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
+
+object SigmaTile { def mk  (sigma : Measure => Measure => Measure) : SigmaTile  = SigmaTile_  (sigma) }
 
 
 trait UnbiasednessTile
@@ -440,6 +474,8 @@ trait UnbiasednessTile
 
 case class UnbiasednessTile_ (p0_evaluation : Resource => Measure, p1_result : Actor => Measure, p2_with_p : Actor => Measure, p3_acceptable_bias : Measure) extends UnbiasednessTile
 
+object UnbiasednessTile { def mk  (p0_evaluation : Resource => Measure) (p1_result : Actor => Measure) (p2_with_p : Actor => Measure) (p3_acceptable_bias : Measure) : UnbiasednessTile  = UnbiasednessTile_  (p0_evaluation, p1_result, p2_with_p, p3_acceptable_bias) }
+
 
 trait UnzipPairFstTile
 {
@@ -457,6 +493,8 @@ trait UnzipPairFstTile
 
 case class UnzipPairFstTile_ () extends UnzipPairFstTile
 
+object UnzipPairFstTile { def mk   : UnzipPairFstTile  = UnzipPairFstTile_  () }
+
 trait UnzipPairSndTile
 {
 
@@ -472,6 +510,8 @@ trait UnzipPairSndTile
 }
 
 case class UnzipPairSndTile_ () extends UnzipPairSndTile
+
+object UnzipPairSndTile { def mk   : UnzipPairSndTile  = UnzipPairSndTile_  () }
 
 
 trait UnzipTripleFstTile
@@ -491,6 +531,8 @@ trait UnzipTripleFstTile
 
 case class UnzipTripleFstTile_ () extends UnzipTripleFstTile
 
+object UnzipTripleFstTile { def mk   : UnzipTripleFstTile  = UnzipTripleFstTile_  () }
+
 trait UnzipTripleSndTile
 {
 
@@ -507,6 +549,8 @@ trait UnzipTripleSndTile
 }
 
 case class UnzipTripleSndTile_ () extends UnzipTripleSndTile
+
+object UnzipTripleSndTile { def mk   : UnzipTripleSndTile  = UnzipTripleSndTile_  () }
 
 trait UnzipTripleTrdTile
 {
@@ -525,6 +569,8 @@ trait UnzipTripleTrdTile
 
 case class UnzipTripleTrdTile_ () extends UnzipTripleTrdTile
 
+object UnzipTripleTrdTile { def mk   : UnzipTripleTrdTile  = UnzipTripleTrdTile_  () }
+
 
 trait WithPTile
 {
@@ -537,6 +583,8 @@ trait WithPTile
 }
 
 case class WithPTile_ (p : Actor => Measure) extends WithPTile
+
+object WithPTile { def mk  (p : Actor => Measure) : WithPTile  = WithPTile_  (p) }
 
 
 trait ZipTile
@@ -557,4 +605,6 @@ trait ZipTile
 }
 
 case class ZipTile_ () extends ZipTile
+
+object ZipTile { def mk   : ZipTile  = ZipTile_  () }
 

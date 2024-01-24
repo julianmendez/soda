@@ -108,6 +108,8 @@ trait DocBlockTranslator
 
 case class DocBlockTranslator_ () extends DocBlockTranslator
 
+object DocBlockTranslator { def mk   : DocBlockTranslator  = DocBlockTranslator_  () }
+
 
 /**
  * This class generates documentation from Soda snippets.
@@ -142,6 +144,8 @@ trait MicroTranslatorToDoc
 }
 
 case class MicroTranslatorToDoc_ () extends MicroTranslatorToDoc
+
+object MicroTranslatorToDoc { def mk   : MicroTranslatorToDoc  = MicroTranslatorToDoc_  () }
 
 
 /**
@@ -258,6 +262,8 @@ trait TranslationConstantToDoc
 
 case class TranslationConstantToDoc_ () extends TranslationConstantToDoc
 
+object TranslationConstantToDoc { def mk   : TranslationConstantToDoc  = TranslationConstantToDoc_  () }
+
 
 trait FileNamePair
 {
@@ -268,6 +274,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+object FileNamePair { def mk  (input_file_name : String) (output_file_name : String) : FileNamePair  = FileNamePair_  (input_file_name, output_file_name) }
 
 /**
  * This generates documentation from Soda source code.
@@ -348,4 +356,6 @@ trait TranslatorToDoc
 }
 
 case class TranslatorToDoc_ () extends TranslatorToDoc
+
+object TranslatorToDoc { def mk   : TranslatorToDoc  = TranslatorToDoc_  () }
 

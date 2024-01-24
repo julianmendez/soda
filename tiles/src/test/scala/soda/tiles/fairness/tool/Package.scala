@@ -18,6 +18,8 @@ trait RandomNumberGenerator
 
 case class RandomNumberGenerator_ (get_next_long : Long => Long, get_next_seq : Long => Int => Seq [Long]) extends RandomNumberGenerator
 
+object RandomNumberGenerator { def mk  (get_next_long : Long => Long) (get_next_seq : Long => Int => Seq [Long]) : RandomNumberGenerator  = RandomNumberGenerator_  (get_next_long, get_next_seq) }
+
 trait LinearCongruentialGenerator
   extends
     RandomNumberGenerator
@@ -49,6 +51,8 @@ trait LinearCongruentialGenerator
 
 case class LinearCongruentialGenerator_ (modulus : Long, multiplier : Long, increment : Long) extends LinearCongruentialGenerator
 
+object LinearCongruentialGenerator { def mk  (modulus : Long) (multiplier : Long) (increment : Long) : LinearCongruentialGenerator  = LinearCongruentialGenerator_  (modulus, multiplier, increment) }
+
 trait Random
   extends
     RandomNumberGenerator
@@ -68,6 +72,8 @@ trait Random
 }
 
 case class Random_ () extends Random
+
+object Random { def mk   : Random  = Random_  () }
 
 
 /*
@@ -99,6 +105,8 @@ trait FoldWhile
 
 case class FoldWhile_ () extends FoldWhile
 
+object FoldWhile { def mk   : FoldWhile  = FoldWhile_  () }
+
 trait Fold
 {
 
@@ -117,6 +125,8 @@ trait Fold
 
 case class Fold_ () extends Fold
 
+object Fold { def mk   : Fold  = Fold_  () }
+
 trait Range
 {
 
@@ -133,6 +143,8 @@ trait Range
 }
 
 case class Range_ () extends Range
+
+object Range { def mk   : Range  = Range_  () }
 
 trait Recursion
 {
@@ -156,6 +168,8 @@ trait Recursion
 }
 
 case class Recursion_ () extends Recursion
+
+object Recursion { def mk   : Recursion  = Recursion_  () }
 
 
 case class ScoringToolSpec ()

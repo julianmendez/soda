@@ -24,6 +24,8 @@ trait FactorialConcise
 
 case class FactorialConcise_ () extends FactorialConcise
 
+object FactorialConcise { def mk   : FactorialConcise  = FactorialConcise_  () }
+
 
 trait FactorialPatternMatching
 {
@@ -45,6 +47,8 @@ trait FactorialPatternMatching
 
 case class FactorialPatternMatching_ () extends FactorialPatternMatching
 
+object FactorialPatternMatching { def mk   : FactorialPatternMatching  = FactorialPatternMatching_  () }
+
 
 trait FactorialSimple
 {
@@ -57,6 +61,8 @@ trait FactorialSimple
 }
 
 case class FactorialSimple_ () extends FactorialSimple
+
+object FactorialSimple { def mk   : FactorialSimple  = FactorialSimple_  () }
 
 
 trait FactorialWithFold
@@ -72,6 +78,8 @@ trait FactorialWithFold
 }
 
 case class FactorialWithFold_ () extends FactorialWithFold
+
+object FactorialWithFold { def mk   : FactorialWithFold  = FactorialWithFold_  () }
 
 
 trait FiboExampleInSoda
@@ -89,6 +97,8 @@ trait FiboExampleInSoda
 
 case class FiboExampleInSoda_ () extends FiboExampleInSoda
 
+object FiboExampleInSoda { def mk   : FiboExampleInSoda  = FiboExampleInSoda_  () }
+
 
 trait FiboUnicodeExample
 {
@@ -105,6 +115,8 @@ trait FiboUnicodeExample
 
 case class FiboUnicodeExample_ () extends FiboUnicodeExample
 
+object FiboUnicodeExample { def mk   : FiboUnicodeExample  = FiboUnicodeExample_  () }
+
 
 trait InputPair [A , B ]
 {
@@ -116,6 +128,8 @@ trait InputPair [A , B ]
 
 case class InputPair_ [A, B] (value : A, memoized_values : Map [A, B]) extends InputPair [A, B]
 
+object InputPair { def mk  [A, B] (value : A) (memoized_values : Map [A, B]) : InputPair  [A, B] = InputPair_  [A, B] (value, memoized_values) }
+
 trait OutputPair [A , B ]
 {
 
@@ -125,6 +139,8 @@ trait OutputPair [A , B ]
 }
 
 case class OutputPair_ [A, B] (value : B, memoized_values : Map [A, B]) extends OutputPair [A, B]
+
+object OutputPair { def mk  [A, B] (value : B) (memoized_values : Map [A, B]) : OutputPair  [A, B] = OutputPair_  [A, B] (value, memoized_values) }
 
 trait MemoizableFunction [A , B ]
 {
@@ -145,6 +161,8 @@ trait MemoizableFunction [A , B ]
 
 case class MemoizableFunction_ [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) extends MemoizableFunction [A, B]
 
+object MemoizableFunction { def mk  [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) : MemoizableFunction  [A, B] = MemoizableFunction_  [A, B] (abs_compute) }
+
 trait MainFunction [A , B ]
 {
 
@@ -153,6 +171,8 @@ trait MainFunction [A , B ]
 }
 
 case class MainFunction_ [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) extends MainFunction [A, B]
+
+object MainFunction { def mk  [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : MainFunction  [A, B] = MainFunction_  [A, B] (main_function) }
 
 trait Memoizer [A , B ]
   extends
@@ -189,6 +209,8 @@ trait Memoizer [A , B ]
 
 case class Memoizer_ [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) extends Memoizer [A, B]
 
+object Memoizer { def mk  [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : Memoizer  [A, B] = Memoizer_  [A, B] (main_function) }
+
 trait HardProblem
   extends
     MemoizableFunction [Int, Int]
@@ -224,6 +246,8 @@ trait HardProblem
 }
 
 case class HardProblem_ () extends HardProblem
+
+object HardProblem { def mk   : HardProblem  = HardProblem_  () }
 
 trait MemoizedFibonacci
   extends
@@ -270,6 +294,8 @@ trait MemoizedFibonacci
 
 case class MemoizedFibonacci_ () extends MemoizedFibonacci
 
+object MemoizedFibonacci { def mk   : MemoizedFibonacci  = MemoizedFibonacci_  () }
+
 
 trait Status
 {
@@ -288,6 +314,8 @@ trait Status
 
 case class Status_ (r : BigInt, n : Int, q : BigInt, t : BigInt, l : Int, k : Int) extends Status
 
+object Status { def mk  (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status  = Status_  (r, n, q, t, l, k) }
+
 trait IntAndStatus
 {
 
@@ -297,6 +325,8 @@ trait IntAndStatus
 }
 
 case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus
+
+object IntAndStatus { def mk  (digit : Int) (new_status : Status) : IntAndStatus  = IntAndStatus_  (digit, new_status) }
 
 trait PiIterator
 {
@@ -359,4 +389,6 @@ trait PiIterator
 }
 
 case class PiIterator_ () extends PiIterator
+
+object PiIterator { def mk   : PiIterator  = PiIterator_  () }
 

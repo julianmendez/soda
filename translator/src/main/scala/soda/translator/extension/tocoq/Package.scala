@@ -129,6 +129,8 @@ trait CoqClassConstructorBlockTranslator
 
 case class CoqClassConstructorBlockTranslator_ () extends CoqClassConstructorBlockTranslator
 
+object CoqClassConstructorBlockTranslator { def mk   : CoqClassConstructorBlockTranslator  = CoqClassConstructorBlockTranslator_  () }
+
 
 trait CoqClassDeclarationBlockTranslator
   extends
@@ -234,6 +236,8 @@ trait CoqClassDeclarationBlockTranslator
 
 case class CoqClassDeclarationBlockTranslator_ () extends CoqClassDeclarationBlockTranslator
 
+object CoqClassDeclarationBlockTranslator { def mk   : CoqClassDeclarationBlockTranslator  = CoqClassDeclarationBlockTranslator_  () }
+
 
 trait CoqClassEndBlockTranslator
   extends
@@ -313,6 +317,8 @@ trait CoqClassEndBlockTranslator
 
 case class CoqClassEndBlockTranslator_ () extends CoqClassEndBlockTranslator
 
+object CoqClassEndBlockTranslator { def mk   : CoqClassEndBlockTranslator  = CoqClassEndBlockTranslator_  () }
+
 
 trait CoqDefinitionBlockTranslator
   extends
@@ -381,6 +387,8 @@ trait CoqDefinitionBlockTranslator
 }
 
 case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
+
+object CoqDefinitionBlockTranslator { def mk   : CoqDefinitionBlockTranslator  = CoqDefinitionBlockTranslator_  () }
 
 
 /**
@@ -521,6 +529,8 @@ trait CoqDefinitionLineTranslator
 
 case class CoqDefinitionLineTranslator_ (line : String) extends CoqDefinitionLineTranslator
 
+object CoqDefinitionLineTranslator { def mk  (line : String) : CoqDefinitionLineTranslator  = CoqDefinitionLineTranslator_  (line) }
+
 
 trait CoqDirectiveBlockTranslator
   extends
@@ -538,6 +548,8 @@ trait CoqDirectiveBlockTranslator
 }
 
 case class CoqDirectiveBlockTranslator_ () extends CoqDirectiveBlockTranslator
+
+object CoqDirectiveBlockTranslator { def mk   : CoqDirectiveBlockTranslator  = CoqDirectiveBlockTranslator_  () }
 
 
 trait CoqDotNotationBlockTranslator
@@ -582,6 +594,8 @@ trait CoqDotNotationBlockTranslator
 }
 
 case class CoqDotNotationBlockTranslator_ () extends CoqDotNotationBlockTranslator
+
+object CoqDotNotationBlockTranslator { def mk   : CoqDotNotationBlockTranslator  = CoqDotNotationBlockTranslator_  () }
 
 
 trait CoqImportDeclarationBlockTranslator
@@ -651,6 +665,8 @@ trait CoqImportDeclarationBlockTranslator
 }
 
 case class CoqImportDeclarationBlockTranslator_ () extends CoqImportDeclarationBlockTranslator
+
+object CoqImportDeclarationBlockTranslator { def mk   : CoqImportDeclarationBlockTranslator  = CoqImportDeclarationBlockTranslator_  () }
 
 
 trait CoqMatchCaseBlockTranslator
@@ -742,6 +758,8 @@ trait CoqMatchCaseBlockTranslator
 
 case class CoqMatchCaseBlockTranslator_ () extends CoqMatchCaseBlockTranslator
 
+object CoqMatchCaseBlockTranslator { def mk   : CoqMatchCaseBlockTranslator  = CoqMatchCaseBlockTranslator_  () }
+
 
 trait CoqPackageDeclarationBlockTranslator
   extends
@@ -783,6 +801,8 @@ trait CoqPackageDeclarationBlockTranslator
 }
 
 case class CoqPackageDeclarationBlockTranslator_ () extends CoqPackageDeclarationBlockTranslator
+
+object CoqPackageDeclarationBlockTranslator { def mk   : CoqPackageDeclarationBlockTranslator  = CoqPackageDeclarationBlockTranslator_  () }
 
 
 trait CoqTheoremBlockTranslator
@@ -836,6 +856,8 @@ trait CoqTheoremBlockTranslator
 }
 
 case class CoqTheoremBlockTranslator_ () extends CoqTheoremBlockTranslator
+
+object CoqTheoremBlockTranslator { def mk   : CoqTheoremBlockTranslator  = CoqTheoremBlockTranslator_  () }
 
 
 /**
@@ -894,6 +916,8 @@ trait MicroTranslatorToCoq
 }
 
 case class MicroTranslatorToCoq_ () extends MicroTranslatorToCoq
+
+object MicroTranslatorToCoq { def mk   : MicroTranslatorToCoq  = MicroTranslatorToCoq_  () }
 
 
 /**
@@ -1160,6 +1184,8 @@ trait TranslationConstantToCoq
 
 case class TranslationConstantToCoq_ () extends TranslationConstantToCoq
 
+object TranslationConstantToCoq { def mk   : TranslationConstantToCoq  = TranslationConstantToCoq_  () }
+
 
 trait FileNamePair
 {
@@ -1170,6 +1196,8 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+object FileNamePair { def mk  (input_file_name : String) (output_file_name : String) : FileNamePair  = FileNamePair_  (input_file_name, output_file_name) }
 
 /**
  * This translates Soda source code to Coq source code.
@@ -1245,4 +1273,6 @@ trait TranslatorToCoq
 }
 
 case class TranslatorToCoq_ () extends TranslatorToCoq
+
+object TranslatorToCoq { def mk   : TranslatorToCoq  = TranslatorToCoq_  () }
 

@@ -24,6 +24,8 @@ trait UnfairPricingAgent
 
 case class UnfairPricingAgent_ () extends UnfairPricingAgent
 
+object UnfairPricingAgent { def mk   : UnfairPricingAgent  = UnfairPricingAgent_  () }
+
 trait FairPricingAgent
   extends
     PricingAgent
@@ -41,6 +43,8 @@ trait FairPricingAgent
 }
 
 case class FairPricingAgent_ () extends FairPricingAgent
+
+object FairPricingAgent { def mk   : FairPricingAgent  = FairPricingAgent_  () }
 
 case class PriceMonitorSpec ()
   extends

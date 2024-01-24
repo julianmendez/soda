@@ -216,6 +216,8 @@ trait ResourceAllocationScenarioExample
 
 case class ResourceAllocationScenarioExample_ () extends ResourceAllocationScenarioExample
 
+object ResourceAllocationScenarioExample { def mk   : ResourceAllocationScenarioExample  = ResourceAllocationScenarioExample_  () }
+
 
 trait ScoringScenarioExample
 {
@@ -361,6 +363,8 @@ trait ScoringScenarioExample
 }
 
 case class ScoringScenarioExample_ () extends ScoringScenarioExample
+
+object ScoringScenarioExample { def mk   : ScoringScenarioExample  = ScoringScenarioExample_  () }
 
 
 case class UnbiasednessTileSpec ()

@@ -19,6 +19,8 @@ trait AbstractDirectoryProcessor
 
 case class AbstractDirectoryProcessor_ (start : String, process_soda_file : java.io.File => Boolean) extends AbstractDirectoryProcessor
 
+object AbstractDirectoryProcessor { def mk  (start : String) (process_soda_file : java.io.File => Boolean) : AbstractDirectoryProcessor  = AbstractDirectoryProcessor_  (start, process_soda_file) }
+
 trait DirectoryProcessor
   extends
     AbstractDirectoryProcessor
@@ -110,6 +112,8 @@ trait DirectoryProcessor
 
 case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File => Boolean) extends DirectoryProcessor
 
+object DirectoryProcessor { def mk  (start : String) (process_soda_file : java.io.File => Boolean) : DirectoryProcessor  = DirectoryProcessor_  (start, process_soda_file) }
+
 
 /**
  * This class is used to scan files in a given directory.
@@ -158,6 +162,8 @@ trait DirectoryScanner
 
 case class DirectoryScanner_ () extends DirectoryScanner
 
+object DirectoryScanner { def mk   : DirectoryScanner  = DirectoryScanner_  () }
+
 
 trait LibraryDeployer
 {
@@ -194,6 +200,8 @@ trait LibraryDeployer
 
 case class LibraryDeployer_ () extends LibraryDeployer
 
+object LibraryDeployer { def mk   : LibraryDeployer  = LibraryDeployer_  () }
+
 
 /**
  * This is an auxiliary class to read small files.
@@ -226,6 +234,8 @@ trait SimpleFileReader
 }
 
 case class SimpleFileReader_ () extends SimpleFileReader
+
+object SimpleFileReader { def mk   : SimpleFileReader  = SimpleFileReader_  () }
 
 /**
  * This is an auxiliary class to write small files.
@@ -265,4 +275,6 @@ trait SimpleFileWriter
 }
 
 case class SimpleFileWriter_ () extends SimpleFileWriter
+
+object SimpleFileWriter { def mk   : SimpleFileWriter  = SimpleFileWriter_  () }
 
