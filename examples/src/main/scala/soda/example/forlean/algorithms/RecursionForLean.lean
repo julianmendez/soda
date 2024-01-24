@@ -1,7 +1,5 @@
-notation:max "Nil" => List.nil
-notation:max "Boolean" => Bool
-notation:max "Zero_ ()" => Nat.zero
-notation:max "Succ_" => Nat.succ
+notation "Zero_ ()" => Nat.zero
+notation "Succ_" => Nat.succ
 
 /-- This class contains tail recursive auxiliary functions.
 -/
@@ -17,9 +15,9 @@ namespace RecursionForLean
 
 
 private def   _tailrec_fold4 ( A : Type ) ( B : Type ) (list : List ( A ) ) (current : B)
-       (next : B -> A -> B) (condition : B -> A -> Boolean) : B :=
+       (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     match list with
-      | [] => current
+      | List.nil => current
       | (head) :: (tail) =>
         if (not (condition (current) (head) ) )
         then current
@@ -28,14 +26,14 @@ private def   _tailrec_fold4 ( A : Type ) ( B : Type ) (list : List ( A ) ) (cur
 
 
 def   fold4 ( A : Type ) ( B : Type ) (list : List ( A ) ) (initial_value : B)
-       (next : B -> A -> B) (condition : B -> A -> Boolean) : B :=
+       (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     _tailrec_fold4 ( A ) ( B ) (list) (initial_value) (next) (condition)
 
 
 private def   _tailrec_fold3 ( A : Type ) ( B : Type ) (list : List ( A ) ) (current : B)
        (next : B -> A -> B) : B :=
     match list with
-      | [] => current
+      | List.nil => current
       | (head) :: (tail) =>
         _tailrec_fold3 ( A ) ( B ) (tail) (next (current) (head) ) (next)
     
@@ -55,7 +53,7 @@ def   fold3 ( A : Type ) ( B : Type ) (list : List ( A ) ) (initial_value : B)
 
 
  def   range (length : Nat) : List ( Nat ) :=
-    _tailrec_range (length) (Nil)
+    _tailrec_range (length) (List.nil)
 
 
 end RecursionForLean

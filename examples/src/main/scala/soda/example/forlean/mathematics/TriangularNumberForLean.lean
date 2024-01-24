@@ -1,6 +1,5 @@
-notation:max "Zero_ ()" => Nat.zero
-
-notation:max "Succ_" => Nat.succ
+notation "Zero_ ()" => Nat.zero
+notation "Succ_" => Nat.succ
 
 class TriangularNumberForLean
 

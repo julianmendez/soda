@@ -1,12 +1,8 @@
 
 directive lean
 /- Prelude for Soda types. -/
-notation "Boolean" => Bool
-notation "None" => Option.none
-notation "Some" => Option.some
-notation "Nil" => List.nil
 notation "Zero_ ()" => Nat.zero
-notation "Succ_ " =>  Nat.succ
+notation "Succ_" => Nat.succ
 
 class MyList
 

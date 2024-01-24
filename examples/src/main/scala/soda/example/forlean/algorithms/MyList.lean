@@ -1,10 +1,6 @@
 /- Prelude for Soda types. -/
-notation "Boolean" => Bool
-notation "None" => Option.none
-notation "Some" => Option.some
-notation "Nil" => List.nil
 notation "Zero_ ()" => Nat.zero
-notation "Succ_ " =>  Nat.succ
+notation "Succ_" => Nat.succ
 
 class MyList
 
@@ -23,7 +19,7 @@ namespace MyList
 private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
        (next_value : B -> A -> B) : B :=
     match sequence with
-      | [] => current
+      | List.nil => current
       | (head) :: (tail) =>
         _tailrec_foldl ( A ) ( B ) (tail) (next_value (current) (head) ) (next_value)
     
@@ -67,7 +63,7 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
 
  private def   _tailrec_length ( A : Type ) (list : List ( A ) ) (accum : Nat) : Nat :=
     match list with
-      | [] => accum
+      | List.nil => accum
       | (head) :: (tail) =>
         _tailrec_length ( A ) (tail) (Succ_ (accum) )
     
@@ -97,7 +93,7 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
 
  def   length_def ( A : Type ) (list : List ( A ) ) : Nat :=
     match list with
-      | [] => Zero_ ()
+      | List.nil => Zero_ ()
       | (head) :: (tail) => Succ_ (length_def ( A ) (tail) )
     
 
@@ -139,17 +135,17 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
 
  private def   _tailrec_reverse ( A : Type ) (list : List ( A ) ) (accum : List ( A ) ) : List ( A ) :=
     match list with
-      | [] => accum
+      | List.nil => accum
       | (head) :: (tail) => _tailrec_reverse ( A ) (tail) ( (head) :: (accum) )
     
 
 
  def   reverse_tr ( A : Type ) (list : List ( A ) ) : List ( A ) :=
-    _tailrec_reverse ( A ) (list) (Nil)
+    _tailrec_reverse ( A ) (list) (List.nil)
 
 
  def   reverse_fl ( A : Type ) (list : List ( A ) ) : List ( A ) :=
-    foldl ( A ) ( List ( A )  ) (list) (Nil) (
+    foldl ( A ) ( List ( A )  ) (list) (List.nil) (
       fun (accum : List ( A ) ) =>
         fun (elem : A) =>
           (elem) :: (accum)

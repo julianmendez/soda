@@ -1489,14 +1489,6 @@ trait TranslationConstantToLean
     lean_proof_reserved_words .++ (
     lean_type_reserved_words) ) )
 
-  lazy val lean_prelude : Seq [String] =
-    Seq (
-      "notation:max \"Zero_ ()\" => Nat.zero" ,
-      "" ,
-      "notation:max \"Succ_\" => Nat.succ" ,
-      ""
-    )
-
   lazy val lean_recursive_function_prefixes : Seq [String] =
     Seq (
       "rec_",
@@ -1539,15 +1531,19 @@ trait TranslationConstantToLean
   lazy val type_translation : Seq [Tuple2 [String, String]  ] =
     Seq (
         Tuple2 ("Boolean" , "Bool"),
-        Tuple2 ("Nat" , "Nat"),
-        Tuple2 ("Option" , "Option"),
-        Tuple2 ("None" , "none"),
-        Tuple2 ("Some" , "some"),
-        Tuple2 ("List" , "List"),
-        Tuple2 ("Nil" , "[]"),
-        Tuple2 ("String" , "String"),
+        Tuple2 ("None" , "Option.none"),
+        Tuple2 ("Some" , "Option.some"),
+        Tuple2 ("Seq" , "List"),
+        Tuple2 ("Nil" , "List.nil"),
         Tuple2 ("Tuple2" , "Prod")
     )
+
+  lazy val lean_prelude : Seq [String] =
+    type_translation
+      .map (
+         pair =>
+          lean_notation_prefix + pair ._1 + lean_notation_infix + pair ._2
+      )
 
   lazy val prefix_lean_non_soda : String = "__soda__"
 

@@ -304,20 +304,28 @@ trait ReplacementWithTranslator
 
   lazy val soda_opening_parenthesis_symbol = "("
 
+  lazy val soda_closing_parenthesis_symbol = ")"
+
   lazy val scala_opening_parenthesis_symbol = "("
 
   private lazy val _fold = Fold_ ()
 
-  private def _replace_if_found (previous_character : String) (reserved_word : String) (line : String)
-      : String =
+  private def _replace_if_found  (previous_character : String) (reserved_word : String)
+     (next_character : String) (line : String) : String =
     aux .replace_if_found (line) (
-      previous_character + reserved_word + soda_space) (previous_character +
-        translator .translate (reserved_word) + scala_space)
+      previous_character + reserved_word + next_character) (previous_character +
+        translator .translate (reserved_word)  + next_character)
 
   private def _next_replace_words (line : String) (reserved_word : String) : String =
-    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
-      _replace_if_found (soda_space) (reserved_word) (line)
-    )
+    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (soda_space) (
+      _replace_if_found (soda_space) (reserved_word) (soda_space) (
+        _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
+            soda_closing_parenthesis_symbol) (
+          _replace_if_found (soda_space) (reserved_word) (soda_closing_parenthesis_symbol) (
+            line)
+          )
+        )
+      )
 
   def replace_words (line : String) : String =
     _fold .apply (translator .keys) (line) (_next_replace_words)

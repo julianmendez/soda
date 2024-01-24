@@ -188,5 +188,42 @@ class MicroTranslatorToLeanSpec ()
     )
   )
 
+  test ("Lean translation of package") (
+    check (
+      obtained := instance .translate (
+        "package soda.forlean" +
+        "\n"
+      )
+    ) (
+      expected := "" +
+        "/-" +
+        "\npackage soda.forlean" +
+        "\n-/" +
+        "\nnotation \"Boolean\" => Bool" +
+        "\nnotation \"None\" => Option.none" +
+        "\nnotation \"Some\" => Option.some" +
+        "\nnotation \"Seq\" => List" +
+        "\nnotation \"Nil\" => List.nil" +
+        "\nnotation \"Tuple2\" => Prod" +
+        "\n"
+    )
+  )
+
+  test ("Lean translation of types") (
+    check (
+      obtained := instance .translate (
+        "as_list (a : Boolean) : List [Boolean] =" +
+        "\n  (a) :: (Nil)" +
+        "\n"
+      )
+    ) (
+      expected := "" +
+        " def as_list (a : Bool) : List ( Bool ) :=" +
+        "\n  (a) :: (List.nil)" +
+        "\n" +
+        "\n"
+    )
+  )
+
 end
 

@@ -71,12 +71,8 @@ case class FiboExampleInSodaForLean_ () extends FiboExampleInSodaForLean
 
 /*
 directive lean
-notation:max "Zero_ ()" => Nat.zero
-*/
-
-/*
-directive lean
-notation:max "Succ_" => Nat.succ
+notation "Zero_ ()" => Nat.zero
+notation "Succ_" => Nat.succ
 */
 
 trait TriangularNumberForLean

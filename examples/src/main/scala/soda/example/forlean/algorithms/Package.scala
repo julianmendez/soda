@@ -13,12 +13,8 @@ trait Package
 /*
 directive lean
 /- Prelude for Soda types. -/
-notation "Boolean" => Bool
-notation "None" => Option.none
-notation "Some" => Option.some
-notation "Nil" => List.nil
 notation "Zero_ ()" => Nat.zero
-notation "Succ_ " =>  Nat.succ
+notation "Succ_" => Nat.succ
 */
 
 trait MyList
@@ -298,10 +294,8 @@ case class TripleIntStringIntMod_ () extends TripleIntStringIntMod
 
 /*
 directive lean
-notation:max "Nil" => List.nil
-notation:max "Boolean" => Bool
-notation:max "Zero_ ()" => Nat.zero
-notation:max "Succ_" => Nat.succ
+notation "Zero_ ()" => Nat.zero
+notation "Succ_" => Nat.succ
 */
 
 /**
