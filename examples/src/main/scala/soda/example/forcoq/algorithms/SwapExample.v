@@ -1,10 +1,12 @@
 Module PairExample .
 
 Class PairExample : Type :=
-  PairExample_ {
+  mk {
     left : nat ;
     right : nat
 }.
+
+Notation "'PairExample_'" := PairExample.mk (at level 99) .
 
 End PairExample .
 

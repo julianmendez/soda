@@ -61,6 +61,10 @@ class TranslationConstantToCoq
 
   coq_case_arrow_symbol = "=>"
 
+  coq_quotes_symbol = "\""
+
+  coq_apostrophe_symbol = "'"
+
   coq_case_translation = coq_vertical_bar_symbol + coq_space
 
   coq_not_reserved_word = "notb"
@@ -87,6 +91,8 @@ class TranslationConstantToCoq
 
   coq_import_reserved_word : String = "Import"
 
+  coq_notation_reserved_word : String = "Notation"
+
   coq_recursive_definition_reserved_word : String = "Fixpoint"
 
   coq_inductive_end_symbol : String = coq_end_symbol
@@ -102,6 +108,8 @@ class TranslationConstantToCoq
   coq_theorem_end_symbol : String = coq_end_symbol
 
   coq_directive_identifier : String = "coq"
+
+  coq_notation_at_level_99 : String = "(at level 99)"
 
   coq_prelude : Seq [String] =
     Seq (

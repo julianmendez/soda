@@ -26,6 +26,8 @@ trait CoqClassConstructorBlockTranslator
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
+  private lazy val _sp : String = _tc .coq_space
+
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
@@ -58,7 +60,7 @@ trait CoqClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  private lazy val _two_spaces : String = _tc .coq_space + _tc .coq_space
+  private lazy val _two_spaces : String = _sp + _sp
 
   private lazy val _four_spaces : String = _two_spaces + _two_spaces
 
@@ -66,28 +68,33 @@ trait CoqClassConstructorBlockTranslator
       (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
     _tc .coq_class_reserved_word +
-    _tc .coq_space +
-    beginning .class_name +
-    _tc .coq_space +
+    _sp +
+    beginning .class_name + _sp +
     _tc .coq_type_membership_symbol +
-    _tc .coq_space +
+    _sp +
     _tc .coq_type_reserved_word +
-    _tc .coq_space +
+    _sp +
     _tc .coq_function_definition_symbol +
     _tc .coq_new_line +
-    _get_initial_spaces (beginning) +
-    _two_spaces +
-    beginning .class_name +
-    _sc .constructor_suffix +
-    _tc .coq_space +
+    _get_initial_spaces (beginning) + _two_spaces +
+    _sc .default_constructor_function +
+    _sp +
     _tc .coq_opening_brace +
     _tc .coq_new_line +
-    _four_spaces +
-    functions .mkString (_tc .coq_space + _tc .coq_semicolon_symbol + _tc .coq_new_line +
+    _get_initial_spaces (beginning) + _four_spaces +
+    functions .mkString (_sp + _tc .coq_semicolon_symbol + _tc .coq_new_line +
       _get_initial_spaces (beginning) + _four_spaces) +
     _tc .coq_new_line +
-    _tc .coq_closing_brace +
-    _tc .coq_end_symbol
+    _tc .coq_closing_brace + _tc .coq_end_symbol + _tc .coq_new_line +
+    _tc .coq_new_line +
+    _tc .coq_notation_reserved_word + _sp +
+    _tc .coq_quotes_symbol + _tc .coq_apostrophe_symbol +
+    beginning .class_name + _sc .constructor_suffix +
+    _tc .coq_apostrophe_symbol + _tc .coq_quotes_symbol +
+    _sp + _tc .coq_function_definition_symbol + _sp +
+    beginning .class_name + _tc .coq_dot_notation_symbol +
+    _sc .default_constructor_function + _sp +
+    _tc .coq_notation_at_level_99 + _sp + _tc .coq_end_symbol
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -1018,6 +1025,10 @@ trait TranslationConstantToCoq
 
   lazy val coq_case_arrow_symbol = "=>"
 
+  lazy val coq_quotes_symbol = "\""
+
+  lazy val coq_apostrophe_symbol = "'"
+
   lazy val coq_case_translation = coq_vertical_bar_symbol + coq_space
 
   lazy val coq_not_reserved_word = "notb"
@@ -1044,6 +1055,8 @@ trait TranslationConstantToCoq
 
   lazy val coq_import_reserved_word : String = "Import"
 
+  lazy val coq_notation_reserved_word : String = "Notation"
+
   lazy val coq_recursive_definition_reserved_word : String = "Fixpoint"
 
   lazy val coq_inductive_end_symbol : String = coq_end_symbol
@@ -1059,6 +1072,8 @@ trait TranslationConstantToCoq
   lazy val coq_theorem_end_symbol : String = coq_end_symbol
 
   lazy val coq_directive_identifier : String = "coq"
+
+  lazy val coq_notation_at_level_99 : String = "(at level 99)"
 
   lazy val coq_prelude : Seq [String] =
     Seq (
