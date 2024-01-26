@@ -1,5 +1,7 @@
 Module TriangularNumberForCoq .
 
+Class TriangularNumberForCoq : Type :=
+
 Fixpoint   @tailrec
    _tailrec_get_number (m : nat) (acc : nat) : nat :=
     match m with

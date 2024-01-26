@@ -9,6 +9,67 @@ package soda.translator.extension.tocoq
 
 trait Package
 
+trait CoqClassAliasBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.block.Translator
+  import   soda.translator.blocktr.TableTranslator_
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.ClassAliasAnnotation
+  import   soda.translator.parser.annotation.ClassAliasAnnotation_
+  import   soda.translator.replacement.Replacement_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  def get_first_line (block : Block) : String =
+    block .lines .headOption .getOrElse ("")
+
+  private def _process_class_alias (line : String) : String =
+    line
+      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .coq_notation_prefix)
+      .replace (_sc .space + _sc .class_alias_definition_symbol + _sc .space ,
+         _tc .coq_notation_infix) +
+      _tc .coq_notation_suffix
+
+  private def _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder_ () .build (
+      Seq [String] (
+        _process_class_alias (get_first_line (block) )
+      )
+    )
+
+  private def _translate_class_alias_block (block : ClassAliasAnnotation)
+      : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case ClassAliasAnnotation_ (block) =>
+        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class CoqClassAliasBlockTranslator_ () extends CoqClassAliasBlockTranslator
+
+object CoqClassAliasBlockTranslator {
+  def mk : CoqClassAliasBlockTranslator =
+    CoqClassAliasBlockTranslator_ ()
+}
+
+
 trait CoqClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -35,9 +96,9 @@ trait CoqClassConstructorBlockTranslator
       case otherwise => None
     }
 
-  private def _get_class_beginning (referencess : Seq [AnnotatedBlock] )
+  private def _get_class_beginning (references : Seq [AnnotatedBlock] )
       : Option [ClassBeginningAnnotation] =
-    referencess
+    references
        .flatMap ( block => _get_as_class_beginning_annotation (block) )
        .headOption
 
@@ -66,16 +127,6 @@ trait CoqClassConstructorBlockTranslator
 
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
       (functions : Seq [String] ) : String =
-    _get_initial_spaces (beginning) +
-    _tc .coq_class_reserved_word +
-    _sp +
-    beginning .class_name + _sp +
-    _tc .coq_type_membership_symbol +
-    _sp +
-    _tc .coq_type_reserved_word +
-    _sp +
-    _tc .coq_function_definition_symbol +
-    _tc .coq_new_line +
     _get_initial_spaces (beginning) + _two_spaces +
     _sc .default_constructor_function +
     _sp +
@@ -85,16 +136,13 @@ trait CoqClassConstructorBlockTranslator
     functions .mkString (_sp + _tc .coq_semicolon_symbol + _tc .coq_new_line +
       _get_initial_spaces (beginning) + _four_spaces) +
     _tc .coq_new_line +
-    _tc .coq_closing_brace + _tc .coq_end_symbol + _tc .coq_new_line +
+    _tc .coq_closing_brace + _sp + _tc .coq_end_symbol + _tc .coq_new_line +
     _tc .coq_new_line +
-    _tc .coq_notation_reserved_word + _sp +
-    _tc .coq_quotes_symbol + _tc .coq_apostrophe_symbol +
+    _tc .coq_notation_prefix +
     beginning .class_name + _sc .constructor_suffix +
-    _tc .coq_apostrophe_symbol + _tc .coq_quotes_symbol +
-    _sp + _tc .coq_function_definition_symbol + _sp +
+    _tc .coq_notation_infix +
     beginning .class_name + _tc .coq_dot_notation_symbol +
-    _sc .default_constructor_function + _sp +
-    _tc .coq_notation_at_level_99 + _sp + _tc .coq_end_symbol
+    _sc .default_constructor_function + _tc .coq_notation_suffix
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -165,53 +213,58 @@ trait CoqClassDeclarationBlockTranslator
 
   lazy val scala_space : String = " "
 
-  def get_first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("")
+  def get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
 
   def get_initial_spaces_for (line : String) : String =
     line .takeWhile ( ch => ch .isSpaceChar)
 
-  def get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
+  def get_initial_spaces (lines : Seq [String] ) : String =
+    get_initial_spaces_for (get_first_line (lines) )
 
-  private def _process_after_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim .nonEmpty)
-    ) block .lines .map ( line =>
+  private def _process_after_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim .nonEmpty)
+    ) lines .map ( line =>
        _tc .coq_import_reserved_word + _tc .coq_space + line .trim +
        _tc .coq_space + _tc .coq_end_symbol)
     else Seq [String] ()
 
-  private def _remove_first_line (lines : Seq [String] ) : Seq [String] =
+  def remove_first_line (lines : Seq [String] ) : Seq [String] =
     if ( lines .isEmpty
     ) lines
     else lines .tail
 
   def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build (_remove_first_line (block .lines) )
+    BlockBuilder_ () .build (remove_first_line (block .lines) )
 
-  private def _process_if_extends (block : Block) : Seq [String] =
-    if ( (get_first_line (block) .trim == _sc .extends_reserved_word)
+  private def _process_if_extends (lines : Seq [String] ) : Seq [String] =
+    if ( (get_first_line (lines) .trim == _sc .extends_reserved_word)
     ) Seq [String] (
-      get_initial_spaces (block) ) .++ (_process_after_extends (remove_first_line (block) ) )
-    else block .lines
+      get_initial_spaces (lines) ) .++ (_process_after_extends (remove_first_line (lines) ) )
+    else lines
 
-  private def _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
+  private def _process_tail (lines : Seq [String] ) : Seq [String] =
+    _process_if_extends (remove_first_line (lines) )
 
   def get_table_translator (line : String) : Translator =
     TableTranslator_ (
-      Seq (Tuple2 (_sc .class_reserved_word, _tc .coq_module_reserved_word ) )
+      Seq (Tuple2 (_sc .class_reserved_word, _tc .coq_class_reserved_word ) )
     )
 
-  private def _process_head_with (line : String) (block : Block) : Seq [String] =
+  private def _process_head_with (class_name : String) (line : String) (lines : Seq [String] )
+      : Seq [String] =
     Seq [String] (
+      _tc .coq_module_reserved_word + _tc .coq_space + class_name + _tc .coq_space +
+      _tc .coq_end_symbol + _tc .coq_new_line + _tc .coq_new_line +
       Replacement_ (_sc .space + line)
         .replace_at_beginning (0) (get_table_translator (line) )
-        .line .substring (_sc .space .length) + _tc .coq_space + _tc .coq_end_symbol
+        .line .substring (_sc .space .length) +
+      _tc .coq_space + _tc .coq_type_membership_symbol + _tc .coq_space +
+      _tc .coq_type_reserved_word + _tc .coq_space + _tc .coq_function_definition_symbol
     )
 
-  private def _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
+  private def _process_head (class_name : String) (lines : Seq [String] ) : Seq [String] =
+    _process_head_with (class_name) (get_first_line (lines) ) (lines)
 
   def contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)
@@ -219,12 +272,12 @@ trait CoqClassDeclarationBlockTranslator
   def has_condition_for_type_alias (line : String) : Boolean =
     contains_equals (line)
 
-  private def _translate_block (block : AnnotatedBlock) : Block =
-    if ( (has_condition_for_type_alias (get_first_line (block) ) )
+  private def _translate_block (block : ClassBeginningAnnotation) : Block =
+    if ( (has_condition_for_type_alias (get_first_line (block .lines) ) )
     ) block
     else
       BlockBuilder_ () .build (
-        _process_head (block) ++ _process_tail (block)
+        _process_head (block .class_name) (block .lines) ++ _process_tail (block .lines)
       )
 
   private def _translate_class_beginning_block (block : ClassBeginningAnnotation)
@@ -577,6 +630,120 @@ object CoqDirectiveBlockTranslator {
 }
 
 
+trait CoqDocumentationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.annotation.CommentAnnotation
+  import   soda.translator.parser.annotation.CommentAnnotation_
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToCoq_ ()
+
+  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
+
+  private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) Seq [String] (prefix)
+    else Seq [String] (prefix + content .head) .++ (content .tail)
+
+  private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
+    content .:+ (suffix)
+
+  private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
+    if ( index >= 0
+    ) line .substring (index + prefix .length)
+    else line
+
+  private def _remove_prefix_in_line (prefix : String) (line : String) : String =
+    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
+
+  private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
+    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
+
+  private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
+    if ( index >= 0
+    ) line .substring (0, index)
+    else line
+
+  private def _remove_suffix_in_line (suffix : String) (line : String) : String =
+    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
+
+  private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) content
+    else _prepend (
+      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
+
+  private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
+    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
+
+  private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
+    if ( content .isEmpty
+    ) content
+    else _prepend (
+      _remove_prefix_in_line (_sc .comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
+     )
+    ) (content .tail)
+
+  private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
+    _remove_last_delimiter (
+      _remove_first_delimiter (content)
+    )
+
+  private def _translate_with_symbol (opening_symbol : String) (lines : Seq [String] ) : Seq [String] =
+    _append (
+      _tc .coq_comment_closing_symbol) (
+      _prepend (opening_symbol) (
+        _remove_comment_delimiter (
+          _remove_comment_line_prefix (lines)
+        )
+      )
+    )
+
+  private def _get_opening_symbol (line : String) : String =
+    if ( (line .trim .startsWith (_sc .documentation_comment_opening_symbol) )
+    ) _tc .coq_opening_documentation
+    else _tc .coq_comment_opening_symbol
+
+  private def _translate_lines (lines : Seq [String] ) : Seq [String] =
+    if ( (lines .isEmpty)
+    ) lines
+    else _translate_with_symbol (_get_opening_symbol (lines .head) ) (lines)
+
+  private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
+    CommentAnnotation_ (
+      BlockBuilder_ () .build (
+        _translate_lines (block .lines)
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
+      case otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class CoqDocumentationBlockTranslator_ () extends CoqDocumentationBlockTranslator
+
+object CoqDocumentationBlockTranslator {
+  def mk : CoqDocumentationBlockTranslator =
+    CoqDocumentationBlockTranslator_ ()
+}
+
+
 trait CoqDotNotationBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
@@ -911,6 +1078,7 @@ trait MicroTranslatorToCoq
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationId
   import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.ConditionalBlockTranslator_
   import   soda.translator.blocktr.TokenReplacement_
@@ -921,9 +1089,22 @@ trait MicroTranslatorToCoq
 
   private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
 
+  private lazy val _class_beginning = BlockAnnotationEnum_ () .class_beginning
+
+  private lazy val _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+
+  private lazy val _class_alias = BlockAnnotationEnum_ () .class_alias
+
   private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
 
-  lazy val functions_and_tests = Seq (_function_definition, _test_declaration)
+  lazy val functions_and_tests : Seq [BlockAnnotationId] =
+    Seq (_function_definition, _test_declaration)
+
+  lazy val declarations : Seq [BlockAnnotationId] =
+    Seq (
+      _function_definition , _class_beginning , _abstract_declaration , _class_alias ,
+      _test_declaration
+    )
 
   lazy val try_definition : Token => String =
      token =>
@@ -932,6 +1113,7 @@ trait MicroTranslatorToCoq
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
+        CoqDocumentationBlockTranslator_ () ,
         CoqDotNotationBlockTranslator_ () ,
         CoqMatchCaseBlockTranslator_ () ,
         CoqDefinitionBlockTranslator_ () ,
@@ -939,13 +1121,18 @@ trait MicroTranslatorToCoq
         CoqClassDeclarationBlockTranslator_ () ,
         CoqPackageDeclarationBlockTranslator_ () ,
         CoqClassEndBlockTranslator_ () ,
+        CoqClassAliasBlockTranslator_ () ,
         CoqImportDeclarationBlockTranslator_ () ,
         CoqTheoremBlockTranslator_ () ,
         CoqDirectiveBlockTranslator_ () ,
         ConditionalBlockTranslator_ (functions_and_tests ,
           TokenizedBlockTranslator_ (try_definition) ) ,
         ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) )
+          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator_ (declarations ,
+          TokenReplacement_ () .replace_words (_tc .type_translation) )
       )
     )
 
@@ -1029,9 +1216,15 @@ trait TranslationConstantToCoq
 
   lazy val coq_apostrophe_symbol = "'"
 
+  lazy val coq_equals_symbol = "=?"
+
+  lazy val coq_less_than_symbol = "<?"
+
+  lazy val coq_less_than_or_equal_to_symbol = "<=?"
+
   lazy val coq_case_translation = coq_vertical_bar_symbol + coq_space
 
-  lazy val coq_not_reserved_word = "notb"
+  lazy val coq_not_reserved_word = "negb"
 
   lazy val coq_and_reserved_word = "andb"
 
@@ -1075,6 +1268,16 @@ trait TranslationConstantToCoq
 
   lazy val coq_notation_at_level_99 : String = "(at level 99)"
 
+  lazy val coq_notation_prefix : String =
+    coq_notation_reserved_word + coq_space + coq_quotes_symbol + coq_apostrophe_symbol
+
+  lazy val coq_notation_infix : String =
+     coq_apostrophe_symbol + coq_quotes_symbol + coq_space + coq_function_definition_symbol +
+     coq_space
+
+  lazy val coq_notation_suffix : String =
+    coq_space + coq_notation_at_level_99 + coq_space + coq_end_symbol
+
   lazy val coq_prelude : Seq [String] =
     Seq (
       "",
@@ -1107,7 +1310,7 @@ trait TranslationConstantToCoq
     )
 
   lazy val coq_reserved_words =
-    coq_1 ++ coq_2 ++ coq_3 ++ coq_4
+    coq_1 .++ (coq_2 .++ (coq_3 .++ (coq_4) ) )
 
   lazy val coq_1 : Seq [String] =
     Seq (
@@ -1191,31 +1394,41 @@ trait TranslationConstantToCoq
 
   lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant.subtype_reserved_word, coq_subtype_symbol),
-      Tuple2 (soda_constant.supertype_reserved_word, coq_supertype_symbol),
-      Tuple2 (soda_constant.function_arrow_symbol, coq_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , coq_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , coq_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , coq_function_arrow_symbol) ,
+      Tuple2 (soda_constant .opening_bracket_symbol , coq_opening_parenthesis + coq_space) ,
+      Tuple2 (soda_constant .closing_bracket_symbol , coq_space + coq_closing_parenthesis)
     )
 
   lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant.function_definition_symbol , coq_function_definition_symbol),
-      Tuple2 (soda_constant.lambda_reserved_word , coq_lambda_reserved_word),
-      Tuple2 (soda_constant.any_reserved_word , coq_lambda_reserved_word),
-      Tuple2 (soda_constant.lambda_arrow_symbol , coq_lambda_arrow_symbol),
-      Tuple2 (soda_constant.case_arrow_symbol , coq_case_arrow_symbol),
-      Tuple2 (soda_constant.not_reserved_word , coq_not_reserved_word),
-      Tuple2 (soda_constant.and_reserved_word , coq_and_reserved_word),
-      Tuple2 (soda_constant.or_reserved_word , coq_or_reserved_word)
+      Tuple2 (soda_constant .function_definition_symbol , coq_function_definition_symbol) ,
+      Tuple2 (soda_constant .lambda_reserved_word , coq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .any_reserved_word , coq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , coq_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , coq_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , coq_not_reserved_word) ,
+      Tuple2 (soda_constant .and_reserved_word , coq_and_reserved_word) ,
+      Tuple2 (soda_constant .or_reserved_word , coq_or_reserved_word) ,
+      Tuple2 (soda_constant .equals_symbol , coq_equals_symbol) ,
+      Tuple2 (soda_constant .less_than_symbol , coq_less_than_symbol) ,
+      Tuple2 (soda_constant .less_than_or_equal_to_symbol , coq_less_than_or_equal_to_symbol),
+      Tuple2 (soda_constant .less_than_or_equal_to_unicode_symbol ,
+        coq_less_than_or_equal_to_symbol)
     )
 
-  lazy val type_translation : Seq [ Tuple2 [String, String]  ] =
+  lazy val type_translation : Seq [Tuple2 [String, String] ] =
     Seq (
         Tuple2 ("Boolean" , "bool"),
         Tuple2 ("Nat" , "nat"),
         Tuple2 ("Option" , "option"),
         Tuple2 ("List" , "list"),
+        Tuple2 ("Nil" , "nil"),
+        Tuple2 ("Seq" , "list"),
         Tuple2 ("String" , "string"),
-        Tuple2 ("BigInt" , "Z")
+        Tuple2 ("BigInt" , "Z"),
+        Tuple2 ("Tuple2" , "prod")
     )
 
   lazy val prefix_coq_non_soda : String = "__soda__"

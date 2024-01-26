@@ -9,6 +9,8 @@ end
 
 class SwapExample
 
+  abstract
+
   swap (pair : PairExample) : PairExample =
     PairExample_ (pair .right ) (pair .left )
 
