@@ -779,9 +779,16 @@ trait CoqDotNotationBlockTranslator
       .map ( word => _add_parentheses_if_necessary (word) )
       .mkString (_sc .space)
 
+  private def _add_space_if_necessary (original : String ) (text : String) : String =
+    if ( (original .endsWith (_sc .space) )
+    ) text + _sc .space
+    else text
+
   lazy val replace_token : Token => String =
      token =>
-      _add_parentheses_to_dotted_words (token .text)
+      _add_space_if_necessary (token .text) (
+        _add_parentheses_to_dotted_words (token .text)
+      )
 
 }
 
