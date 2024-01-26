@@ -13,6 +13,8 @@ class TranslationConstantToScala
 
   scala_colon_symbol = ":"
 
+  scala_type_membership_symbol = scala_colon_symbol
+
   scala_3_class_definition = scala_colon_symbol
 
   scala_match_translation = " match "

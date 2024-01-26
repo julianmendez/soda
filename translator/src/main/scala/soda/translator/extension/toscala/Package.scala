@@ -267,7 +267,7 @@ trait ScalaClassConstructorBlockTranslator
         (functions : Seq [String] ) : String =
     _tc .scala_def_reserved_word + _sp + _sc .default_constructor_function + _sp +
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
-    _sp + _get_params_if_non_empty (functions) + _sp + _tc .scala_colon_symbol + _sp +
+    _sp + _get_params_if_non_empty (functions) + _sp + _tc .scala_type_membership_symbol + _sp +
     beginning .class_name + _sp +
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
     _tc .scala_equals_symbol
@@ -1393,6 +1393,8 @@ trait TranslationConstantToScala
   lazy val soda_constant = SodaConstant_ ()
 
   lazy val scala_colon_symbol = ":"
+
+  lazy val scala_type_membership_symbol = scala_colon_symbol
 
   lazy val scala_3_class_definition = scala_colon_symbol
 
