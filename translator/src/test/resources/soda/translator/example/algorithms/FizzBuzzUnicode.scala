@@ -24,4 +24,7 @@ trait FizzBuzzPatternUnicode
 
 case class FizzBuzzPatternUnicode_ () extends FizzBuzzPatternUnicode
 
-object FizzBuzzPatternUnicode { def mk   : FizzBuzzPatternUnicode  = FizzBuzzPatternUnicode_  () }
+object FizzBuzzPatternUnicode {
+  def mk : FizzBuzzPatternUnicode =
+    FizzBuzzPatternUnicode_ ()
+}

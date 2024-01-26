@@ -8,7 +8,10 @@ trait Customer
 
 case class Customer_ (name : String, ip_address : String) extends Customer
 
-object Customer { def mk  (name : String) (ip_address : String) : Customer  = Customer_  (name, ip_address) }
+object Customer {
+  def mk (name : String) (ip_address : String) : Customer =
+    Customer_ (name, ip_address)
+}
 
 trait Flight
 {
@@ -21,7 +24,10 @@ trait Flight
 
 case class Flight_ (start_airport : String, intermediate_airports : Seq [String], end_airport : String) extends Flight
 
-object Flight { def mk  (start_airport : String) (intermediate_airports : Seq [String]) (end_airport : String) : Flight  = Flight_  (start_airport, intermediate_airports, end_airport) }
+object Flight {
+  def mk (start_airport : String) (intermediate_airports : Seq [String]) (end_airport : String) : Flight =
+    Flight_ (start_airport, intermediate_airports, end_airport)
+}
 
 trait PricingAgent
 {
@@ -43,7 +49,10 @@ trait PricingAgent
 
 case class PricingAgent_ (abs_get_price : Customer => Flight => Int => Int) extends PricingAgent
 
-object PricingAgent { def mk  (abs_get_price : Customer => Flight => Int => Int) : PricingAgent  = PricingAgent_  (abs_get_price) }
+object PricingAgent {
+  def mk (abs_get_price : Customer => Flight => Int => Int) : PricingAgent =
+    PricingAgent_ (abs_get_price)
+}
 
 trait RequirementMonitor
 {
@@ -57,4 +66,7 @@ trait RequirementMonitor
 
 case class RequirementMonitor_ (pricing_agent : PricingAgent) extends RequirementMonitor
 
-object RequirementMonitor { def mk  (pricing_agent : PricingAgent) : RequirementMonitor  = RequirementMonitor_  (pricing_agent) }
+object RequirementMonitor {
+  def mk (pricing_agent : PricingAgent) : RequirementMonitor =
+    RequirementMonitor_ (pricing_agent)
+}

@@ -11,7 +11,10 @@ trait Singleton
 
 case class Singleton_ (x : Int) extends Singleton
 
-object Singleton { def mk  (x : Int) : Singleton  = Singleton_  (x) }
+object Singleton {
+  def mk (x : Int) : Singleton =
+    Singleton_ (x)
+}
 
 trait Pair
   extends
@@ -27,7 +30,10 @@ trait Pair
 
 case class Pair_ (x : Int, y : Int) extends Pair
 
-object Pair { def mk  (x : Int) (y : Int) : Pair  = Pair_  (x, y) }
+object Pair {
+  def mk (x : Int) (y : Int) : Pair =
+    Pair_ (x, y)
+}
 
 trait Triplet
   extends
@@ -44,7 +50,10 @@ trait Triplet
 
 case class Triplet_ (x : Int, y : Int, z : Int) extends Triplet
 
-object Triplet { def mk  (x : Int) (y : Int) (z : Int) : Triplet  = Triplet_  (x, y, z) }
+object Triplet {
+  def mk (x : Int) (y : Int) (z : Int) : Triplet =
+    Triplet_ (x, y, z)
+}
 
 trait Parameter
 {
@@ -55,7 +64,10 @@ trait Parameter
 
 case class Parameter_ (name : String) extends Parameter
 
-object Parameter { def mk  (name : String) : Parameter  = Parameter_  (name) }
+object Parameter {
+  def mk (name : String) : Parameter =
+    Parameter_ (name)
+}
 
 trait PatternMatching
 {
@@ -80,4 +92,7 @@ trait PatternMatching
 
 case class PatternMatching_ () extends PatternMatching
 
-object PatternMatching { def mk   : PatternMatching  = PatternMatching_  () }
+object PatternMatching {
+  def mk : PatternMatching =
+    PatternMatching_ ()
+}

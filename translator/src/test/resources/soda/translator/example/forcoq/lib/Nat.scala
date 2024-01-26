@@ -8,7 +8,10 @@ trait nat
 
 case class nat_ (add : nat => nat, mul : nat => nat) extends nat
 
-object nat { def mk  (add : nat => nat) (mul : nat => nat) : nat  = nat_  (add, mul) }
+object nat {
+  def mk (add : nat => nat) (mul : nat => nat) : nat =
+    nat_ (add, mul)
+}
 
 trait O
   extends
@@ -31,7 +34,10 @@ trait O
 
 case class O_ () extends O
 
-object O { def mk   : O  = O_  () }
+object O {
+  def mk : O =
+    O_ ()
+}
 
 trait S
   extends
@@ -58,7 +64,10 @@ trait S
 
 case class S_ (k : nat) extends S
 
-object S { def mk  (k : nat) : S  = S_  (k) }
+object S {
+  def mk (k : nat) : S =
+    S_ (k)
+}
 
 trait IntNat
 {
@@ -92,4 +101,7 @@ trait IntNat
 
 case class IntNat_ () extends IntNat
 
-object IntNat { def mk   : IntNat  = IntNat_  () }
+object IntNat {
+  def mk : IntNat =
+    IntNat_ ()
+}

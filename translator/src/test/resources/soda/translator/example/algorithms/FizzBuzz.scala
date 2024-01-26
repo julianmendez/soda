@@ -25,4 +25,7 @@ trait FizzBuzz
 
 case class FizzBuzz_ () extends FizzBuzz
 
-object FizzBuzz { def mk   : FizzBuzz  = FizzBuzz_  () }
+object FizzBuzz {
+  def mk : FizzBuzz =
+    FizzBuzz_ ()
+}

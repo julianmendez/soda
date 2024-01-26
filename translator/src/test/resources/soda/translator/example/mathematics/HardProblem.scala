@@ -8,7 +8,10 @@ trait InputPair [A , B ]
 
 case class InputPair_ [A, B] (value : A, memoized_values : Map [A, B]) extends InputPair [A, B]
 
-object InputPair { def mk  [A, B] (value : A) (memoized_values : Map [A, B]) : InputPair  [A, B] = InputPair_  [A, B] (value, memoized_values) }
+object InputPair {
+  def mk [A, B] (value : A) (memoized_values : Map [A, B]) : InputPair [A, B] =
+    InputPair_ [A, B] (value, memoized_values)
+}
 
 trait OutputPair [A , B ]
 {
@@ -20,7 +23,10 @@ trait OutputPair [A , B ]
 
 case class OutputPair_ [A, B] (value : B, memoized_values : Map [A, B]) extends OutputPair [A, B]
 
-object OutputPair { def mk  [A, B] (value : B) (memoized_values : Map [A, B]) : OutputPair  [A, B] = OutputPair_  [A, B] (value, memoized_values) }
+object OutputPair {
+  def mk [A, B] (value : B) (memoized_values : Map [A, B]) : OutputPair [A, B] =
+    OutputPair_ [A, B] (value, memoized_values)
+}
 
 trait MemoizableFunction [A , B ]
 {
@@ -41,7 +47,10 @@ trait MemoizableFunction [A , B ]
 
 case class MemoizableFunction_ [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) extends MemoizableFunction [A, B]
 
-object MemoizableFunction { def mk  [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) : MemoizableFunction  [A, B] = MemoizableFunction_  [A, B] (abs_compute) }
+object MemoizableFunction {
+  def mk [A, B] (abs_compute : InputPair [A, B] => OutputPair [A, B]) : MemoizableFunction [A, B] =
+    MemoizableFunction_ [A, B] (abs_compute)
+}
 
 trait MainFunction [A , B ]
 {
@@ -52,7 +61,10 @@ trait MainFunction [A , B ]
 
 case class MainFunction_ [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) extends MainFunction [A, B]
 
-object MainFunction { def mk  [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : MainFunction  [A, B] = MainFunction_  [A, B] (main_function) }
+object MainFunction {
+  def mk [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : MainFunction [A, B] =
+    MainFunction_ [A, B] (main_function)
+}
 
 trait Memoizer [A , B ]
   extends
@@ -89,7 +101,10 @@ trait Memoizer [A , B ]
 
 case class Memoizer_ [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) extends Memoizer [A, B]
 
-object Memoizer { def mk  [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : Memoizer  [A, B] = Memoizer_  [A, B] (main_function) }
+object Memoizer {
+  def mk [A, B] (main_function : InputPair [A, B] => OutputPair [A, B]) : Memoizer [A, B] =
+    Memoizer_ [A, B] (main_function)
+}
 
 trait HardProblem
   extends
@@ -127,7 +142,10 @@ trait HardProblem
 
 case class HardProblem_ () extends HardProblem
 
-object HardProblem { def mk   : HardProblem  = HardProblem_  () }
+object HardProblem {
+  def mk : HardProblem =
+    HardProblem_ ()
+}
 
 trait MemoizedFibonacci
   extends
@@ -174,4 +192,7 @@ trait MemoizedFibonacci
 
 case class MemoizedFibonacci_ () extends MemoizedFibonacci
 
-object MemoizedFibonacci { def mk   : MemoizedFibonacci  = MemoizedFibonacci_  () }
+object MemoizedFibonacci {
+  def mk : MemoizedFibonacci =
+    MemoizedFibonacci_ ()
+}

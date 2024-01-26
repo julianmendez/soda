@@ -7,7 +7,10 @@ trait SortExample
 
 case class SortExample_ (is_sorted : Seq [Int] => Boolean) extends SortExample
 
-object SortExample { def mk  (is_sorted : Seq [Int] => Boolean) : SortExample  = SortExample_  (is_sorted) }
+object SortExample {
+  def mk (is_sorted : Seq [Int] => Boolean) : SortExample =
+    SortExample_ (is_sorted)
+}
 
 trait SortExampleWithAt
   extends
@@ -27,7 +30,10 @@ trait SortExampleWithAt
 
 case class SortExampleWithAt_ () extends SortExampleWithAt
 
-object SortExampleWithAt { def mk   : SortExampleWithAt  = SortExampleWithAt_  () }
+object SortExampleWithAt {
+  def mk : SortExampleWithAt =
+    SortExampleWithAt_ ()
+}
 
 trait SortExampleWithZip
   extends
@@ -46,7 +52,10 @@ trait SortExampleWithZip
 
 case class SortExampleWithZip_ () extends SortExampleWithZip
 
-object SortExampleWithZip { def mk   : SortExampleWithZip  = SortExampleWithZip_  () }
+object SortExampleWithZip {
+  def mk : SortExampleWithZip =
+    SortExampleWithZip_ ()
+}
 
 trait SortAlgorithmExample
 {
@@ -57,7 +66,10 @@ trait SortAlgorithmExample
 
 case class SortAlgorithmExample_ (sort : Seq [Int] => Seq [Int]) extends SortAlgorithmExample
 
-object SortAlgorithmExample { def mk  (sort : Seq [Int] => Seq [Int]) : SortAlgorithmExample  = SortAlgorithmExample_  (sort) }
+object SortAlgorithmExample {
+  def mk (sort : Seq [Int] => Seq [Int]) : SortAlgorithmExample =
+    SortAlgorithmExample_ (sort)
+}
 
 trait SortAlgorithmExampleWithFold
   extends
@@ -96,7 +108,10 @@ trait SortAlgorithmExampleWithFold
 
 case class SortAlgorithmExampleWithFold_ () extends SortAlgorithmExampleWithFold
 
-object SortAlgorithmExampleWithFold { def mk   : SortAlgorithmExampleWithFold  = SortAlgorithmExampleWithFold_  () }
+object SortAlgorithmExampleWithFold {
+  def mk : SortAlgorithmExampleWithFold =
+    SortAlgorithmExampleWithFold_ ()
+}
 
 trait ConstrainedSortAlgorithm
 {
@@ -117,7 +132,10 @@ trait ConstrainedSortAlgorithm
 
 case class ConstrainedSortAlgorithm_ () extends ConstrainedSortAlgorithm
 
-object ConstrainedSortAlgorithm { def mk   : ConstrainedSortAlgorithm  = ConstrainedSortAlgorithm_  () }
+object ConstrainedSortAlgorithm {
+  def mk : ConstrainedSortAlgorithm =
+    ConstrainedSortAlgorithm_ ()
+}
 
 trait SortedSequence [A <: Comparable [A] ]
 {
@@ -130,7 +148,10 @@ trait SortedSequence [A <: Comparable [A] ]
 
 case class SortedSequence_ [A <: Comparable [A]] (sequence : Seq [A], add : A => SortedSequence [A], invariant : Boolean) extends SortedSequence [A]
 
-object SortedSequence { def mk  [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequence  [A] = SortedSequence_  [A] (sequence, add, invariant) }
+object SortedSequence {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequence [A] =
+    SortedSequence_ [A] (sequence, add, invariant)
+}
 
 trait EmptySortedSequence [A <: Comparable [A] ]
   extends
@@ -151,7 +172,10 @@ trait EmptySortedSequence [A <: Comparable [A] ]
 
 case class EmptySortedSequence_ [A <: Comparable [A]] () extends EmptySortedSequence [A]
 
-object EmptySortedSequence { def mk  [A <: Comparable [A]]  : EmptySortedSequence  [A] = EmptySortedSequence_  [A] () }
+object EmptySortedSequence {
+  def mk [A <: Comparable [A]] : EmptySortedSequence [A] =
+    EmptySortedSequence_ [A] ()
+}
 
 trait SortedSequenceWithElements [A <: Comparable [A] ]
   extends
@@ -166,7 +190,10 @@ trait SortedSequenceWithElements [A <: Comparable [A] ]
 
 case class SortedSequenceWithElements_ [A <: Comparable [A]] (sequence : Seq [A], add : A => SortedSequence [A], invariant : Boolean) extends SortedSequenceWithElements [A]
 
-object SortedSequenceWithElements { def mk  [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequenceWithElements  [A] = SortedSequenceWithElements_  [A] (sequence, add, invariant) }
+object SortedSequenceWithElements {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequenceWithElements [A] =
+    SortedSequenceWithElements_ [A] (sequence, add, invariant)
+}
 
 trait NonEmptySortedSequence [A <: Comparable [A] ]
   extends
@@ -189,7 +216,10 @@ trait NonEmptySortedSequence [A <: Comparable [A] ]
 
 case class NonEmptySortedSequence_ [A <: Comparable [A]] (sequence : Seq [A]) extends NonEmptySortedSequence [A]
 
-object NonEmptySortedSequence { def mk  [A <: Comparable [A]] (sequence : Seq [A]) : NonEmptySortedSequence  [A] = NonEmptySortedSequence_  [A] (sequence) }
+object NonEmptySortedSequence {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) : NonEmptySortedSequence [A] =
+    NonEmptySortedSequence_ [A] (sequence)
+}
 
 trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 {
@@ -216,7 +246,10 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 
 case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] () extends NonEmptySortedSequenceAux [A]
 
-object NonEmptySortedSequenceAux { def mk  [A <: Comparable [A]]  : NonEmptySortedSequenceAux  [A] = NonEmptySortedSequenceAux_  [A] () }
+object NonEmptySortedSequenceAux {
+  def mk [A <: Comparable [A]] : NonEmptySortedSequenceAux [A] =
+    NonEmptySortedSequenceAux_ [A] ()
+}
 
 trait SortedSequenceBuilder [A <: Comparable [A] ]
 {
@@ -238,4 +271,7 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 
 case class SortedSequenceBuilder_ [A <: Comparable [A]] () extends SortedSequenceBuilder [A]
 
-object SortedSequenceBuilder { def mk  [A <: Comparable [A]]  : SortedSequenceBuilder  [A] = SortedSequenceBuilder_  [A] () }
+object SortedSequenceBuilder {
+  def mk [A <: Comparable [A]] : SortedSequenceBuilder [A] =
+    SortedSequenceBuilder_ [A] ()
+}

@@ -37,7 +37,10 @@ trait Shape
 
 case class Shape_ () extends Shape
 
-object Shape { def mk   : Shape  = Shape_  () }
+object Shape {
+  def mk : Shape =
+    Shape_ ()
+}
 
 /* The reserved word `class` declares a type, a namespace, and a default constructor.
  * The default constructor is the name of the class with an underscore as suffix.
@@ -50,7 +53,10 @@ trait Movable
 
 case class Movable_ () extends Movable
 
-object Movable { def mk   : Movable  = Movable_  () }
+object Movable {
+  def mk : Movable =
+    Movable_ ()
+}
 
 /* It is recommended to indent the constants and functions declared inside. */
 
@@ -81,7 +87,10 @@ trait EqualsExample
 
 case class EqualsExample_ () extends EqualsExample
 
-object EqualsExample { def mk   : EqualsExample  = EqualsExample_  () }
+object EqualsExample {
+  def mk : EqualsExample =
+    EqualsExample_ ()
+}
 
 /* A class can extend another one by using `extends`.
  * Abstract classes cannot be instantiated but can be extended.
@@ -116,7 +125,10 @@ trait RegisteredPerson
 
 case class RegisteredPerson_ (first_name : String, last_name : String) extends RegisteredPerson
 
-object RegisteredPerson { def mk  (first_name : String) (last_name : String) : RegisteredPerson  = RegisteredPerson_  (first_name, last_name) }
+object RegisteredPerson {
+  def mk (first_name : String) (last_name : String) : RegisteredPerson =
+    RegisteredPerson_ (first_name, last_name)
+}
 
 trait Agent
 {
@@ -127,7 +139,10 @@ trait Agent
 
 case class Agent_ (identifier : String) extends Agent
 
-object Agent { def mk  (identifier : String) : Agent  = Agent_  (identifier) }
+object Agent {
+  def mk (identifier : String) : Agent =
+    Agent_ (identifier)
+}
 
 /* A concrete class needs as parameters all the constants and functions that have not been
  * defined in its super classes. */
@@ -146,7 +161,10 @@ trait RegisteredPersonAgent
 
 case class RegisteredPersonAgent_ (identifier : String, first_name : String, last_name : String) extends RegisteredPersonAgent
 
-object RegisteredPersonAgent { def mk  (identifier : String) (first_name : String) (last_name : String) : RegisteredPersonAgent  = RegisteredPersonAgent_  (identifier, first_name, last_name) }
+object RegisteredPersonAgent {
+  def mk (identifier : String) (first_name : String) (last_name : String) : RegisteredPersonAgent =
+    RegisteredPersonAgent_ (identifier, first_name, last_name)
+}
 
 trait Element
 {
@@ -157,7 +175,10 @@ trait Element
 
 case class Element_ (accept : Visitor => Boolean) extends Element
 
-object Element { def mk  (accept : Visitor => Boolean) : Element  = Element_  (accept) }
+object Element {
+  def mk (accept : Visitor => Boolean) : Element =
+    Element_ (accept)
+}
 
 trait Visitor
 {
@@ -168,7 +189,10 @@ trait Visitor
 
 case class Visitor_ (visit : Element => Boolean) extends Visitor
 
-object Visitor { def mk  (visit : Element => Boolean) : Visitor  = Visitor_  (visit) }
+object Visitor {
+  def mk (visit : Element => Boolean) : Visitor =
+    Visitor_ (visit)
+}
 
 trait Item
   extends Element
@@ -188,7 +212,10 @@ trait Item
 
 case class Item_ (identifier : Int) extends Item
 
-object Item { def mk  (identifier : Int) : Item  = Item_  (identifier) }
+object Item {
+  def mk (identifier : Int) : Item =
+    Item_ (identifier)
+}
 
 trait PersonName
 {
@@ -206,7 +233,10 @@ trait PersonName
 
 case class PersonName_ (name : String) extends PersonName
 
-object PersonName { def mk  (name : String) : PersonName  = PersonName_  (name) }
+object PersonName {
+  def mk (name : String) : PersonName =
+    PersonName_ (name)
+}
 
 /* A class can be parameterized using square brackets ('[' and ']').
  * The parameter needs to be of type Type. */
@@ -218,7 +248,10 @@ trait MyList [A ]
 
 case class MyList_ [A] () extends MyList [A]
 
-object MyList { def mk  [A]  : MyList  [A] = MyList_  [A] () }
+object MyList {
+  def mk [A] : MyList [A] =
+    MyList_ [A] ()
+}
 
 /* It is possible to have multiple type parameters. */
 
@@ -232,7 +265,10 @@ trait MyPair [A , B ]
 
 case class MyPair_ [A, B] (fst : A, snd : A) extends MyPair [A, B]
 
-object MyPair { def mk  [A, B] (fst : A) (snd : A) : MyPair  [A, B] = MyPair_  [A, B] (fst, snd) }
+object MyPair {
+  def mk [A, B] (fst : A) (snd : A) : MyPair [A, B] =
+    MyPair_ [A, B] (fst, snd)
+}
 
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.
@@ -245,7 +281,10 @@ trait ShapePainter [A <: Shape]
 
 case class ShapePainter_ [A <: Shape] () extends ShapePainter [A]
 
-object ShapePainter { def mk  [A <: Shape]  : ShapePainter  [A] = ShapePainter_  [A] () }
+object ShapePainter {
+  def mk [A <: Shape] : ShapePainter [A] =
+    ShapePainter_ [A] ()
+}
 
 /**
   * This contains the examples shown in the manual.
@@ -344,7 +383,10 @@ trait Manual
 
 case class Manual_ () extends Manual
 
-object Manual { def mk   : Manual  = Manual_  () }
+object Manual {
+  def mk : Manual =
+    Manual_ ()
+}
 
 /* The function used to compare equality is a long equals (`==`). */
 
@@ -367,7 +409,10 @@ trait FactorialConcise
 
 case class FactorialConcise_ () extends FactorialConcise
 
-object FactorialConcise { def mk   : FactorialConcise  = FactorialConcise_  () }
+object FactorialConcise {
+  def mk : FactorialConcise =
+    FactorialConcise_ ()
+}
 
 /* FoldWhile captures the idea of a bounded loop. It starts in an initial state (`initial`) and
  * processes (`next`) a finite sequence (`sequence`) while a condition holds (`condition`). */
@@ -393,7 +438,10 @@ trait FoldWhile
 
 case class FoldWhile_ () extends FoldWhile
 
-object FoldWhile { def mk   : FoldWhile  = FoldWhile_  () }
+object FoldWhile {
+  def mk : FoldWhile =
+    FoldWhile_ ()
+}
 
 /* Range generates a sequence of length `n` of consecutive natural numbers starting
  * from 0. */
@@ -415,7 +463,10 @@ trait Range
 
 case class Range_ () extends Range
 
-object Range { def mk   : Range  = Range_  () }
+object Range {
+  def mk : Range =
+    Range_ ()
+}
 
 /* The main class has to be named `Main` and requires a `main` function that receives an
  * `Array [String]` and returns a `Unit`. Only one main class per package is allowed. */
@@ -438,6 +489,9 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-object Main { def mk   : Main  = Main_  () }
+object Main {
+  def mk : Main =
+    Main_ ()
+}
 
 /* The main class has an extending concrete class. */

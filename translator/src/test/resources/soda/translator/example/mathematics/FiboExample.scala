@@ -13,4 +13,7 @@ trait FiboExampleInSoda
 
 case class FiboExampleInSoda_ () extends FiboExampleInSoda
 
-object FiboExampleInSoda { def mk   : FiboExampleInSoda  = FiboExampleInSoda_  () }
+object FiboExampleInSoda {
+  def mk : FiboExampleInSoda =
+    FiboExampleInSoda_ ()
+}

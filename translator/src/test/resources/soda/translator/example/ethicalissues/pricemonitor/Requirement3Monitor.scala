@@ -9,7 +9,10 @@ trait Report3
 
 case class Report3_ (compliant : Boolean, price_of_flight : Int, price_of_flight_by_segments : Int) extends Report3
 
-object Report3 { def mk  (compliant : Boolean) (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3  = Report3_  (compliant, price_of_flight, price_of_flight_by_segments) }
+object Report3 {
+  def mk (compliant : Boolean) (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
+    Report3_ (compliant, price_of_flight, price_of_flight_by_segments)
+}
 
 trait Segment
   extends
@@ -25,7 +28,10 @@ trait Segment
 
 case class Segment_ (start_airport : String, end_airport : String) extends Segment
 
-object Segment { def mk  (start_airport : String) (end_airport : String) : Segment  = Segment_  (start_airport, end_airport) }
+object Segment {
+  def mk (start_airport : String) (end_airport : String) : Segment =
+    Segment_ (start_airport, end_airport)
+}
 
 trait SegmentsForFlight
 {
@@ -48,7 +54,10 @@ trait SegmentsForFlight
 
 case class SegmentsForFlight_ (flight : Flight) extends SegmentsForFlight
 
-object SegmentsForFlight { def mk  (flight : Flight) : SegmentsForFlight  = SegmentsForFlight_  (flight) }
+object SegmentsForFlight {
+  def mk (flight : Flight) : SegmentsForFlight =
+    SegmentsForFlight_ (flight)
+}
 
 trait Requirement3Monitor
   extends
@@ -82,4 +91,7 @@ trait Requirement3Monitor
 
 case class Requirement3Monitor_ (pricing_agent : PricingAgent) extends Requirement3Monitor
 
-object Requirement3Monitor { def mk  (pricing_agent : PricingAgent) : Requirement3Monitor  = Requirement3Monitor_  (pricing_agent) }
+object Requirement3Monitor {
+  def mk (pricing_agent : PricingAgent) : Requirement3Monitor =
+    Requirement3Monitor_ (pricing_agent)
+}

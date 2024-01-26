@@ -10,4 +10,7 @@ trait FactorialSimple
 
 case class FactorialSimple_ () extends FactorialSimple
 
-object FactorialSimple { def mk   : FactorialSimple  = FactorialSimple_  () }
+object FactorialSimple {
+  def mk : FactorialSimple =
+    FactorialSimple_ ()
+}

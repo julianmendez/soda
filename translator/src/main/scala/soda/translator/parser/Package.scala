@@ -444,13 +444,17 @@ trait SodaConstant
 
   lazy val closing_bracket_symbol = "]"
 
-  lazy val type_parameter_separation_regex = "]\\s*\\["
+  lazy val only_blanks_regex = "\\s*"
 
-  lazy val class_parameter_separation_regex = "\\)\\s*\\("
+  lazy val some_blanks_regex = "\\s+"
+
+  lazy val type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+
+  lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
   lazy val dot_notation_symbol = "."
 
-  lazy val dot_notation_regex = "\\s*\\."
+  lazy val dot_notation_regex = only_blanks_regex + "\\."
 
   lazy val type_declaration_colon_regex = ":.*"
 
@@ -500,7 +504,7 @@ trait SodaConstant
 
   lazy val main_type_name = "Type"
 
-  lazy val main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+  lazy val main_type_membership_regex = type_membership_symbol + only_blanks_regex + main_type_name
 
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (

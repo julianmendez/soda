@@ -5,7 +5,10 @@ trait list [A ]
 
 case class list_ [A] () extends list [A]
 
-object list { def mk  [A]  : list  [A] = list_  [A] () }
+object list {
+  def mk [A] : list [A] =
+    list_ [A] ()
+}
 
 trait nil [A ]
   extends
@@ -16,7 +19,10 @@ trait nil [A ]
 
 case class nil_ [A] () extends nil [A]
 
-object nil { def mk  [A]  : nil  [A] = nil_  [A] () }
+object nil {
+  def mk [A] : nil [A] =
+    nil_ [A] ()
+}
 
 trait cons [A ]
   extends
@@ -30,7 +36,10 @@ trait cons [A ]
 
 case class cons_ [A] (e : A, s : list [A]) extends cons [A]
 
-object cons { def mk  [A] (e : A) (s : list [A]) : cons  [A] = cons_  [A] (e, s) }
+object cons {
+  def mk [A] (e : A) (s : list [A]) : cons [A] =
+    cons_ [A] (e, s)
+}
 
 trait SeqList
 {
@@ -72,4 +81,7 @@ trait SeqList
 
 case class SeqList_ () extends SeqList
 
-object SeqList { def mk   : SeqList  = SeqList_  () }
+object SeqList {
+  def mk : SeqList =
+    SeqList_ ()
+}

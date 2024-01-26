@@ -117,13 +117,17 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
-  type_parameter_separation_regex = "]\\s*\\["
+  only_blanks_regex = "\\s*"
 
-  class_parameter_separation_regex = "\\)\\s*\\("
+  some_blanks_regex = "\\s+"
+
+  type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+
+  class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
   dot_notation_symbol = "."
 
-  dot_notation_regex = "\\s*\\."
+  dot_notation_regex = only_blanks_regex + "\\."
 
   type_declaration_colon_regex = ":.*"
 
@@ -173,7 +177,7 @@ class SodaConstant
 
   main_type_name = "Type"
 
-  main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+  main_type_membership_regex = type_membership_symbol + only_blanks_regex + main_type_name
 
   soda_reserved_words_words_only : Seq [String] =
     Seq (

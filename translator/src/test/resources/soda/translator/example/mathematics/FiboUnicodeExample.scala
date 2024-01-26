@@ -13,4 +13,7 @@ trait FiboUnicodeExample
 
 case class FiboUnicodeExample_ () extends FiboUnicodeExample
 
-object FiboUnicodeExample { def mk   : FiboUnicodeExample  = FiboUnicodeExample_  () }
+object FiboUnicodeExample {
+  def mk : FiboUnicodeExample =
+    FiboUnicodeExample_ ()
+}

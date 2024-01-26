@@ -177,6 +177,8 @@ trait ScalaClassConstructorBlockTranslator
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
+  private lazy val _sp : String = _tc .scala_space
+
   private def _get_initial_spaces_with (line : String) : String =
     line .takeWhile ( ch => ch .isSpaceChar)
 
@@ -189,7 +191,7 @@ trait ScalaClassConstructorBlockTranslator
   private def _translate_type_symbols (line : String) : String =
     line
       .replaceAll (_sc .type_parameter_separation_regex ,
-        _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+        _tc .scala_type_parameter_separator_symbol + _sp)
       .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
       .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
       .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
@@ -201,8 +203,8 @@ trait ScalaClassConstructorBlockTranslator
   private def _get_as_parameter_list (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
     ) ""
-    else _tc .scala_space + _tc .scala_opening_bracket +
-      parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    else _sp + _tc .scala_opening_bracket +
+      parameters .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
        _tc .scala_closing_bracket
 
   private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
@@ -218,15 +220,15 @@ trait ScalaClassConstructorBlockTranslator
   private def _get_constructor_params (beginning : ClassBeginningAnnotation)
     (functions : Seq [String] ) : String =
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
-    _tc .scala_space +
+    _sp +
     _tc .scala_opening_parenthesis +
-    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
 
   private def _get_constructor_params_to_apply (beginning : ClassBeginningAnnotation)
     (functions : Seq [String] ) : String =
     _tc .scala_opening_parenthesis +
-    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
 
   private def _get_params_if_non_empty (functions : Seq [String] ) : String =
@@ -234,7 +236,7 @@ trait ScalaClassConstructorBlockTranslator
     )
       _tc .scala_opening_parenthesis +
       functions .mkString (
-        _tc .scala_closing_parenthesis + _tc .scala_space + _tc .scala_opening_parenthesis
+        _tc .scala_closing_parenthesis + _sp + _tc .scala_opening_parenthesis
       ) +
       _tc .scala_closing_parenthesis
     else ""
@@ -242,41 +244,46 @@ trait ScalaClassConstructorBlockTranslator
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
       (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .class_declaration_translation_at_beginning_with_paren +
-    _tc .scala_space +
-    beginning .class_name +
-    _sc .constructor_suffix +
-    _get_constructor_params (beginning) (functions) +
-    _tc .scala_space +
-    _tc .scala_extends_translation +
-    _tc .scala_space +
-    beginning .class_name +
-    _get_as_parameter_list (beginning .type_parameters)
+    _tc .class_declaration_translation_at_beginning_with_paren + _sp +
+    beginning .class_name + _sc .constructor_suffix +
+    _get_constructor_params (beginning) (functions) + _sp +
+    _tc .scala_extends_translation + _sp +
+    beginning .class_name + _get_as_parameter_list (beginning .type_parameters)
+
+  private def _remove_unnecessary_spaces (line : String) : String =
+    line .replaceAll (_sc .some_blanks_regex , _sp)
+
+  private def _get_default_constructor_object_line (beginning : ClassBeginningAnnotation) : String =
+    _tc .scala_object_reserved_word + _sp +
+    beginning .class_name + _sp + _tc .scala_opening_brace
+
+  private def _get_default_constructor_def_line (beginning : ClassBeginningAnnotation)
+        (functions : Seq [String] ) : String =
+    _tc .scala_def_reserved_word + _sp + _sc .default_constructor_function + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _sp + _get_params_if_non_empty (functions) + _sp + _tc .scala_colon_symbol + _sp +
+    beginning .class_name + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
+    _tc .scala_equals_symbol
+
+  private def _get_default_constructor_body_line (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String  =
+    beginning .class_name + _sc .constructor_suffix + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
+    _get_constructor_params_to_apply (beginning) (_get_abstract_functions_to_apply (functions) )
 
   private def _get_default_constructor_function (beginning : ClassBeginningAnnotation)
        (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .scala_object_reserved_word +
-    _tc .scala_space +
-    beginning .class_name +
-    _tc .scala_space + _tc .scala_opening_brace + _tc .scala_space +
-    _tc .scala_def_reserved_word + _tc .scala_space +
-    _sc .default_constructor_function + _tc .scala_space +
-    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
-    _tc .scala_space +
-    _get_params_if_non_empty (functions) +
-    _tc .scala_space + _tc .scala_colon_symbol + _tc .scala_space + beginning .class_name +
-    _tc .scala_space +
-    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) +
-     _tc .scala_space + _tc .scala_equals_symbol + _tc .scala_space +
-    beginning .class_name +
-    _sc .constructor_suffix +
-    _tc .scala_space +
-    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) +
-    _tc .scala_space +
-    _get_constructor_params_to_apply (beginning) (
-      _get_abstract_functions_to_apply (functions) ) +
-    _tc .scala_space + _tc .scala_closing_brace
+    _get_default_constructor_object_line (beginning) +
+    _tc .scala_new_line + _get_initial_spaces (beginning) + _sp + _sp +
+    _remove_unnecessary_spaces (
+      _get_default_constructor_def_line (beginning) (functions) ) +
+    _tc .scala_new_line + _get_initial_spaces (beginning) + _sp + _sp + _sp + _sp +
+    _remove_unnecessary_spaces (
+      _get_default_constructor_body_line (beginning) (functions) ) +
+    _tc .scala_new_line +
+    _get_initial_spaces (beginning) + _tc .scala_closing_brace
 
   private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock)
       : Option [AbstractDeclarationAnnotation] =
@@ -1347,6 +1354,8 @@ trait TranslationConstantToScala
   lazy val scala_match_translation = " match "
 
   lazy val scala_space = " "
+
+  lazy val scala_new_line = "\n"
 
   lazy val scala_empty_string = ""
 

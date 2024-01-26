@@ -19,6 +19,8 @@ class TranslationConstantToScala
 
   scala_space = " "
 
+  scala_new_line = "\n"
+
   scala_empty_string = ""
 
   scala_comma = ","

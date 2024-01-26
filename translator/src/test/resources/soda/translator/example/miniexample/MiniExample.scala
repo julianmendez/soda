@@ -13,7 +13,10 @@ trait MiniExample
 
 case class MiniExample_ () extends MiniExample
 
-object MiniExample { def mk   : MiniExample  = MiniExample_  () }
+object MiniExample {
+  def mk : MiniExample =
+    MiniExample_ ()
+}
 
 trait Main
 {
@@ -30,4 +33,7 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-object Main { def mk   : Main  = Main_  () }
+object Main {
+  def mk : Main =
+    Main_ ()
+}

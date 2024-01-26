@@ -48,4 +48,7 @@ trait RecursionForCoq
 
 case class RecursionForCoq_ () extends RecursionForCoq
 
-object RecursionForCoq { def mk   : RecursionForCoq  = RecursionForCoq_  () }
+object RecursionForCoq {
+  def mk : RecursionForCoq =
+    RecursionForCoq_ ()
+}
