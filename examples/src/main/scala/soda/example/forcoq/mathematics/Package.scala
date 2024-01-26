@@ -28,7 +28,10 @@ trait FactorialForCoq
 
 case class FactorialForCoq_ () extends FactorialForCoq
 
-object FactorialForCoq { def mk   : FactorialForCoq  = FactorialForCoq_  () }
+object FactorialForCoq {
+  def mk : FactorialForCoq =
+    FactorialForCoq_ ()
+}
 
 
 trait FiboExampleInSodaForCoq
@@ -50,7 +53,10 @@ trait FiboExampleInSodaForCoq
 
 case class FiboExampleInSodaForCoq_ () extends FiboExampleInSodaForCoq
 
-object FiboExampleInSodaForCoq { def mk   : FiboExampleInSodaForCoq  = FiboExampleInSodaForCoq_  () }
+object FiboExampleInSodaForCoq {
+  def mk : FiboExampleInSodaForCoq =
+    FiboExampleInSodaForCoq_ ()
+}
 
 
 trait TriangularNumberForCoq
@@ -71,5 +77,8 @@ trait TriangularNumberForCoq
 
 case class TriangularNumberForCoq_ () extends TriangularNumberForCoq
 
-object TriangularNumberForCoq { def mk   : TriangularNumberForCoq  = TriangularNumberForCoq_  () }
+object TriangularNumberForCoq {
+  def mk : TriangularNumberForCoq =
+    TriangularNumberForCoq_ ()
+}
 

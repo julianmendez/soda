@@ -44,7 +44,10 @@ trait CartesianProduct
 
 case class CartesianProduct_ () extends CartesianProduct
 
-object CartesianProduct { def mk   : CartesianProduct  = CartesianProduct_  () }
+object CartesianProduct {
+  def mk : CartesianProduct =
+    CartesianProduct_ ()
+}
 
 
 /*
@@ -64,7 +67,10 @@ trait Doc
 
 case class Doc_ (doc : String) extends Doc
 
-object Doc { def mk  (doc : String) : Doc  = Doc_  (doc) }
+object Doc {
+  def mk (doc : String) : Doc =
+    Doc_ (doc)
+}
 
 
 /*
@@ -85,7 +91,10 @@ trait EnumConstant
 
 case class EnumConstant_ (ordinal : Int, name : String) extends EnumConstant
 
-object EnumConstant { def mk  (ordinal : Int) (name : String) : EnumConstant  = EnumConstant_  (ordinal, name) }
+object EnumConstant {
+  def mk (ordinal : Int) (name : String) : EnumConstant =
+    EnumConstant_ (ordinal, name)
+}
 
 trait Enum [A <: EnumConstant]
 {
@@ -96,7 +105,10 @@ trait Enum [A <: EnumConstant]
 
 case class Enum_ [A <: EnumConstant] (values : Seq [A]) extends Enum [A]
 
-object Enum { def mk  [A <: EnumConstant] (values : Seq [A]) : Enum  [A] = Enum_  [A] (values) }
+object Enum {
+  def mk [A <: EnumConstant] (values : Seq [A]) : Enum [A] =
+    Enum_ [A] (values)
+}
 
 
 /*
@@ -162,7 +174,10 @@ trait OptionSD [A ]
 
 case class OptionSD_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A]) extends OptionSD [A]
 
-object OptionSD { def mk  [A] (toOption : Option [A]) (isEmpty : Boolean) (isDefined : Boolean) (isNonEmpty : Boolean) (toSeq : Seq [A]) : OptionSD  [A] = OptionSD_  [A] (toOption, isEmpty, isDefined, isNonEmpty, toSeq) }
+object OptionSD {
+  def mk [A] (toOption : Option [A]) (isEmpty : Boolean) (isDefined : Boolean) (isNonEmpty : Boolean) (toSeq : Seq [A]) : OptionSD [A] =
+    OptionSD_ [A] (toOption, isEmpty, isDefined, isNonEmpty, toSeq)
+}
 
 trait NoneSD [A ]
   extends
@@ -183,7 +198,10 @@ trait NoneSD [A ]
 
 case class NoneSD_ [A] () extends NoneSD [A]
 
-object NoneSD { def mk  [A]  : NoneSD  [A] = NoneSD_  [A] () }
+object NoneSD {
+  def mk [A] : NoneSD [A] =
+    NoneSD_ [A] ()
+}
 
 trait OptionSDWithElement [A ]
   extends
@@ -201,7 +219,10 @@ trait OptionSDWithElement [A ]
 
 case class OptionSDWithElement_ [A] (toOption : Option [A], isEmpty : Boolean, isDefined : Boolean, isNonEmpty : Boolean, toSeq : Seq [A], element : A) extends OptionSDWithElement [A]
 
-object OptionSDWithElement { def mk  [A] (toOption : Option [A]) (isEmpty : Boolean) (isDefined : Boolean) (isNonEmpty : Boolean) (toSeq : Seq [A]) (element : A) : OptionSDWithElement  [A] = OptionSDWithElement_  [A] (toOption, isEmpty, isDefined, isNonEmpty, toSeq, element) }
+object OptionSDWithElement {
+  def mk [A] (toOption : Option [A]) (isEmpty : Boolean) (isDefined : Boolean) (isNonEmpty : Boolean) (toSeq : Seq [A]) (element : A) : OptionSDWithElement [A] =
+    OptionSDWithElement_ [A] (toOption, isEmpty, isDefined, isNonEmpty, toSeq, element)
+}
 
 trait SomeSD [A ]
   extends
@@ -226,7 +247,10 @@ trait SomeSD [A ]
 
 case class SomeSD_ [A] (element : A) extends SomeSD [A]
 
-object SomeSD { def mk  [A] (element : A) : SomeSD  [A] = SomeSD_  [A] (element) }
+object SomeSD {
+  def mk [A] (element : A) : SomeSD [A] =
+    SomeSD_ [A] (element)
+}
 
 trait OptionSDBuilder [A ]
 {
@@ -241,7 +265,10 @@ trait OptionSDBuilder [A ]
 
 case class OptionSDBuilder_ [A] () extends OptionSDBuilder [A]
 
-object OptionSDBuilder { def mk  [A]  : OptionSDBuilder  [A] = OptionSDBuilder_  [A] () }
+object OptionSDBuilder {
+  def mk [A] : OptionSDBuilder [A] =
+    OptionSDBuilder_ [A] ()
+}
 
 
 /*
@@ -273,7 +300,10 @@ trait FoldWhile
 
 case class FoldWhile_ () extends FoldWhile
 
-object FoldWhile { def mk   : FoldWhile  = FoldWhile_  () }
+object FoldWhile {
+  def mk : FoldWhile =
+    FoldWhile_ ()
+}
 
 trait Fold
 {
@@ -293,7 +323,10 @@ trait Fold
 
 case class Fold_ () extends Fold
 
-object Fold { def mk   : Fold  = Fold_  () }
+object Fold {
+  def mk : Fold =
+    Fold_ ()
+}
 
 trait Range
 {
@@ -312,7 +345,10 @@ trait Range
 
 case class Range_ () extends Range
 
-object Range { def mk   : Range  = Range_  () }
+object Range {
+  def mk : Range =
+    Range_ ()
+}
 
 trait Recursion
 {
@@ -337,7 +373,10 @@ trait Recursion
 
 case class Recursion_ () extends Recursion
 
-object Recursion { def mk   : Recursion  = Recursion_  () }
+object Recursion {
+  def mk : Recursion =
+    Recursion_ ()
+}
 
 
 /*
@@ -364,7 +403,10 @@ trait SeqSD [A ]
 
 case class SeqSD_ [A] (toSeq : Seq [A], reverse : SeqSD [A]) extends SeqSD [A]
 
-object SeqSD { def mk  [A] (toSeq : Seq [A]) (reverse : SeqSD [A]) : SeqSD  [A] = SeqSD_  [A] (toSeq, reverse) }
+object SeqSD {
+  def mk [A] (toSeq : Seq [A]) (reverse : SeqSD [A]) : SeqSD [A] =
+    SeqSD_ [A] (toSeq, reverse)
+}
 
 trait EmptySeqSD [A ]
   extends
@@ -379,7 +421,10 @@ trait EmptySeqSD [A ]
 
 case class EmptySeqSD_ [A] () extends EmptySeqSD [A]
 
-object EmptySeqSD { def mk  [A]  : EmptySeqSD  [A] = EmptySeqSD_  [A] () }
+object EmptySeqSD {
+  def mk [A] : EmptySeqSD [A] =
+    EmptySeqSD_ [A] ()
+}
 
 trait NonEmptySeqSD [A ]
   extends
@@ -398,7 +443,10 @@ trait NonEmptySeqSD [A ]
 
 case class NonEmptySeqSD_ [A] (toSeq : Seq [A]) extends NonEmptySeqSD [A]
 
-object NonEmptySeqSD { def mk  [A] (toSeq : Seq [A]) : NonEmptySeqSD  [A] = NonEmptySeqSD_  [A] (toSeq) }
+object NonEmptySeqSD {
+  def mk [A] (toSeq : Seq [A]) : NonEmptySeqSD [A] =
+    NonEmptySeqSD_ [A] (toSeq)
+}
 
 trait SeqSDBuilder [A ]
 {
@@ -412,7 +460,10 @@ trait SeqSDBuilder [A ]
 
 case class SeqSDBuilder_ [A] () extends SeqSDBuilder [A]
 
-object SeqSDBuilder { def mk  [A]  : SeqSDBuilder  [A] = SeqSDBuilder_  [A] () }
+object SeqSDBuilder {
+  def mk [A] : SeqSDBuilder [A] =
+    SeqSDBuilder_ [A] ()
+}
 
 
 /*
@@ -435,7 +486,10 @@ trait SodaException [A ]
 
 case class SodaException_ [A] (message : String, cause : A) extends SodaException [A]
 
-object SodaException { def mk  [A] (message : String) (cause : A) : SodaException  [A] = SodaException_  [A] (message, cause) }
+object SodaException {
+  def mk [A] (message : String) (cause : A) : SodaException [A] =
+    SodaException_ [A] (message, cause)
+}
 
 
 /* Soda library */

@@ -25,7 +25,10 @@ trait MSeq [A ]
 
 case class MSeq_ [A] (isEmpty : Boolean) extends MSeq [A]
 
-object MSeq { def mk  [A] (isEmpty : Boolean) : MSeq  [A] = MSeq_  [A] (isEmpty) }
+object MSeq {
+  def mk [A] (isEmpty : Boolean) : MSeq [A] =
+    MSeq_ [A] (isEmpty)
+}
 
 trait ESeq [A ]
   extends
@@ -38,7 +41,10 @@ trait ESeq [A ]
 
 case class ESeq_ [A] () extends ESeq [A]
 
-object ESeq { def mk  [A]  : ESeq  [A] = ESeq_  [A] () }
+object ESeq {
+  def mk [A] : ESeq [A] =
+    ESeq_ [A] ()
+}
 
 trait NEMSeq [A ]
   extends
@@ -54,7 +60,10 @@ trait NEMSeq [A ]
 
 case class NEMSeq_ [A] (head0 : A, tail0 : MSeq [A]) extends NEMSeq [A]
 
-object NEMSeq { def mk  [A] (head0 : A) (tail0 : MSeq [A]) : NEMSeq  [A] = NEMSeq_  [A] (head0, tail0) }
+object NEMSeq {
+  def mk [A] (head0 : A) (tail0 : MSeq [A]) : NEMSeq [A] =
+    NEMSeq_ [A] (head0, tail0)
+}
 
 trait NESeq [A ]
   extends
@@ -72,7 +81,10 @@ trait NESeq [A ]
 
 case class NESeq_ [A] (head0 : A, tail0 : MSeq [A]) extends NESeq [A]
 
-object NESeq { def mk  [A] (head0 : A) (tail0 : MSeq [A]) : NESeq  [A] = NESeq_  [A] (head0, tail0) }
+object NESeq {
+  def mk [A] (head0 : A) (tail0 : MSeq [A]) : NESeq [A] =
+    NESeq_ [A] (head0, tail0)
+}
 
 trait MSeqRec [A ]
 {
@@ -98,7 +110,10 @@ trait MSeqRec [A ]
 
 case class MSeqRec_ [A] () extends MSeqRec [A]
 
-object MSeqRec { def mk  [A]  : MSeqRec  [A] = MSeqRec_  [A] () }
+object MSeqRec {
+  def mk [A] : MSeqRec [A] =
+    MSeqRec_ [A] ()
+}
 
 
 trait IndexFoldTuple [A ]
@@ -112,7 +127,10 @@ trait IndexFoldTuple [A ]
 
 case class IndexFoldTuple_ [A] (index : Int, position : Int, element : A) extends IndexFoldTuple [A]
 
-object IndexFoldTuple { def mk  [A] (index : Int) (position : Int) (element : A) : IndexFoldTuple  [A] = IndexFoldTuple_  [A] (index, position, element) }
+object IndexFoldTuple {
+  def mk [A] (index : Int) (position : Int) (element : A) : IndexFoldTuple [A] =
+    IndexFoldTuple_ [A] (index, position, element)
+}
 
 trait ContainsFoldTuple [A ]
 {
@@ -124,7 +142,10 @@ trait ContainsFoldTuple [A ]
 
 case class ContainsFoldTuple_ [A] (contained : Boolean, element : A) extends ContainsFoldTuple [A]
 
-object ContainsFoldTuple { def mk  [A] (contained : Boolean) (element : A) : ContainsFoldTuple  [A] = ContainsFoldTuple_  [A] (contained, element) }
+object ContainsFoldTuple {
+  def mk [A] (contained : Boolean) (element : A) : ContainsFoldTuple [A] =
+    ContainsFoldTuple_ [A] (contained, element)
+}
 
 trait AtFoldTuple [A ]
 {
@@ -137,7 +158,10 @@ trait AtFoldTuple [A ]
 
 case class AtFoldTuple_ [A] (elem : A, index : Int, position : Int) extends AtFoldTuple [A]
 
-object AtFoldTuple { def mk  [A] (elem : A) (index : Int) (position : Int) : AtFoldTuple  [A] = AtFoldTuple_  [A] (elem, index, position) }
+object AtFoldTuple {
+  def mk [A] (elem : A) (index : Int) (position : Int) : AtFoldTuple [A] =
+    AtFoldTuple_ [A] (elem, index, position)
+}
 
 trait TakeDropFoldTuple [A ]
 {
@@ -150,7 +174,10 @@ trait TakeDropFoldTuple [A ]
 
 case class TakeDropFoldTuple_ [A] (seq : MSeq [A], index : Int, length : Int) extends TakeDropFoldTuple [A]
 
-object TakeDropFoldTuple { def mk  [A] (seq : MSeq [A]) (index : Int) (length : Int) : TakeDropFoldTuple  [A] = TakeDropFoldTuple_  [A] (seq, index, length) }
+object TakeDropFoldTuple {
+  def mk [A] (seq : MSeq [A]) (index : Int) (length : Int) : TakeDropFoldTuple [A] =
+    TakeDropFoldTuple_ [A] (seq, index, length)
+}
 
 trait ForallExistsFoldTuple [A ]
 {
@@ -162,7 +189,10 @@ trait ForallExistsFoldTuple [A ]
 
 case class ForallExistsFoldTuple_ [A] (status : Boolean, condition : A => Boolean) extends ForallExistsFoldTuple [A]
 
-object ForallExistsFoldTuple { def mk  [A] (status : Boolean) (condition : A => Boolean) : ForallExistsFoldTuple  [A] = ForallExistsFoldTuple_  [A] (status, condition) }
+object ForallExistsFoldTuple {
+  def mk [A] (status : Boolean) (condition : A => Boolean) : ForallExistsFoldTuple [A] =
+    ForallExistsFoldTuple_ [A] (status, condition)
+}
 
 trait FindFoldTuple [A ]
 {
@@ -174,7 +204,10 @@ trait FindFoldTuple [A ]
 
 case class FindFoldTuple_ [A] (maybe_element : soda.lib.OptionSD [A], condition : A => Boolean) extends FindFoldTuple [A]
 
-object FindFoldTuple { def mk  [A] (maybe_element : soda.lib.OptionSD [A]) (condition : A => Boolean) : FindFoldTuple  [A] = FindFoldTuple_  [A] (maybe_element, condition) }
+object FindFoldTuple {
+  def mk [A] (maybe_element : soda.lib.OptionSD [A]) (condition : A => Boolean) : FindFoldTuple [A] =
+    FindFoldTuple_ [A] (maybe_element, condition)
+}
 
 trait FilterFoldTuple [A ]
 {
@@ -186,7 +219,10 @@ trait FilterFoldTuple [A ]
 
 case class FilterFoldTuple_ [A] (sequence : MSeq [A], condition : A => Boolean) extends FilterFoldTuple [A]
 
-object FilterFoldTuple { def mk  [A] (sequence : MSeq [A]) (condition : A => Boolean) : FilterFoldTuple  [A] = FilterFoldTuple_  [A] (sequence, condition) }
+object FilterFoldTuple {
+  def mk [A] (sequence : MSeq [A]) (condition : A => Boolean) : FilterFoldTuple [A] =
+    FilterFoldTuple_ [A] (sequence, condition)
+}
 
 trait Map0FoldTuple [A ]
 {
@@ -198,7 +234,10 @@ trait Map0FoldTuple [A ]
 
 case class Map0FoldTuple_ [A] (sequence : MSeq [A], mapping : A => A) extends Map0FoldTuple [A]
 
-object Map0FoldTuple { def mk  [A] (sequence : MSeq [A]) (mapping : A => A) : Map0FoldTuple  [A] = Map0FoldTuple_  [A] (sequence, mapping) }
+object Map0FoldTuple {
+  def mk [A] (sequence : MSeq [A]) (mapping : A => A) : Map0FoldTuple [A] =
+    Map0FoldTuple_ [A] (sequence, mapping)
+}
 
 trait SpanRevFoldTuple [A ]
 {
@@ -212,7 +251,10 @@ trait SpanRevFoldTuple [A ]
 
 case class SpanRevFoldTuple_ [A] (left : MSeq [A], right : MSeq [A], taking : Boolean, condition : A => Boolean) extends SpanRevFoldTuple [A]
 
-object SpanRevFoldTuple { def mk  [A] (left : MSeq [A]) (right : MSeq [A]) (taking : Boolean) (condition : A => Boolean) : SpanRevFoldTuple  [A] = SpanRevFoldTuple_  [A] (left, right, taking, condition) }
+object SpanRevFoldTuple {
+  def mk [A] (left : MSeq [A]) (right : MSeq [A]) (taking : Boolean) (condition : A => Boolean) : SpanRevFoldTuple [A] =
+    SpanRevFoldTuple_ [A] (left, right, taking, condition)
+}
 
 trait MSeqTranslator [A ]
 {
@@ -251,7 +293,10 @@ trait MSeqTranslator [A ]
 
 case class MSeqTranslator_ [A] () extends MSeqTranslator [A]
 
-object MSeqTranslator { def mk  [A]  : MSeqTranslator  [A] = MSeqTranslator_  [A] () }
+object MSeqTranslator {
+  def mk [A] : MSeqTranslator [A] =
+    MSeqTranslator_ [A] ()
+}
 
 trait MSeqPair [A ]
 {
@@ -263,7 +308,10 @@ trait MSeqPair [A ]
 
 case class MSeqPair_ [A] (left : MSeq [A], right : MSeq [A]) extends MSeqPair [A]
 
-object MSeqPair { def mk  [A] (left : MSeq [A]) (right : MSeq [A]) : MSeqPair  [A] = MSeqPair_  [A] (left, right) }
+object MSeqPair {
+  def mk [A] (left : MSeq [A]) (right : MSeq [A]) : MSeqPair [A] =
+    MSeqPair_ [A] (left, right)
+}
 
 trait Min [A ]
 {
@@ -587,5 +635,8 @@ trait Min [A ]
 
 case class Min_ [A] () extends Min [A]
 
-object Min { def mk  [A]  : Min  [A] = Min_  [A] () }
+object Min {
+  def mk [A] : Min [A] =
+    Min_ [A] ()
+}
 

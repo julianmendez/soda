@@ -38,7 +38,10 @@ trait FactorialForLean
 
 case class FactorialForLean_ () extends FactorialForLean
 
-object FactorialForLean { def mk   : FactorialForLean  = FactorialForLean_  () }
+object FactorialForLean {
+  def mk : FactorialForLean =
+    FactorialForLean_ ()
+}
 
 
 /*
@@ -70,7 +73,10 @@ trait FiboExampleInSodaForLean
 
 case class FiboExampleInSodaForLean_ () extends FiboExampleInSodaForLean
 
-object FiboExampleInSodaForLean { def mk   : FiboExampleInSodaForLean  = FiboExampleInSodaForLean_  () }
+object FiboExampleInSodaForLean {
+  def mk : FiboExampleInSodaForLean =
+    FiboExampleInSodaForLean_ ()
+}
 
 
 /*
@@ -97,5 +103,8 @@ trait TriangularNumberForLean
 
 case class TriangularNumberForLean_ () extends TriangularNumberForLean
 
-object TriangularNumberForLean { def mk   : TriangularNumberForLean  = TriangularNumberForLean_  () }
+object TriangularNumberForLean {
+  def mk : TriangularNumberForLean =
+    TriangularNumberForLean_ ()
+}
 

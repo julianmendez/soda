@@ -17,5 +17,8 @@ trait Extension
 
 case class Extension_ (execute : Seq [String] => Boolean) extends Extension
 
-object Extension { def mk  (execute : Seq [String] => Boolean) : Extension  = Extension_  (execute) }
+object Extension {
+  def mk (execute : Seq [String] => Boolean) : Extension =
+    Extension_ (execute)
+}
 

@@ -61,5 +61,8 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-object Main { def mk   : Main  = Main_  () }
+object Main {
+  def mk : Main =
+    Main_ ()
+}
 

@@ -58,7 +58,10 @@ trait RecursionForCoq
 
 case class RecursionForCoq_ () extends RecursionForCoq
 
-object RecursionForCoq { def mk   : RecursionForCoq  = RecursionForCoq_  () }
+object RecursionForCoq {
+  def mk : RecursionForCoq =
+    RecursionForCoq_ ()
+}
 
 
 trait PairExample
@@ -71,7 +74,10 @@ trait PairExample
 
 case class PairExample_ (left : nat, right : nat) extends PairExample
 
-object PairExample { def mk  (left : nat) (right : nat) : PairExample  = PairExample_  (left, right) }
+object PairExample {
+  def mk (left : nat) (right : nat) : PairExample =
+    PairExample_ (left, right)
+}
 
 trait SwapExample
 {
@@ -93,5 +99,8 @@ trait SwapExample
 
 case class SwapExample_ () extends SwapExample
 
-object SwapExample { def mk   : SwapExample  = SwapExample_  () }
+object SwapExample {
+  def mk : SwapExample =
+    SwapExample_ ()
+}
 

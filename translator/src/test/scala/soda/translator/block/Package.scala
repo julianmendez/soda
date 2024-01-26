@@ -27,7 +27,10 @@ trait BlockTranslator00
 
 case class BlockTranslator00_ () extends BlockTranslator00
 
-object BlockTranslator00 { def mk   : BlockTranslator00  = BlockTranslator00_  () }
+object BlockTranslator00 {
+  def mk : BlockTranslator00 =
+    BlockTranslator00_ ()
+}
 
 trait BlockTranslator01
   extends
@@ -51,7 +54,10 @@ trait BlockTranslator01
 
 case class BlockTranslator01_ () extends BlockTranslator01
 
-object BlockTranslator01 { def mk   : BlockTranslator01  = BlockTranslator01_  () }
+object BlockTranslator01 {
+  def mk : BlockTranslator01 =
+    BlockTranslator01_ ()
+}
 
 trait BlockTranslator02
   extends
@@ -75,7 +81,10 @@ trait BlockTranslator02
 
 case class BlockTranslator02_ () extends BlockTranslator02
 
-object BlockTranslator02 { def mk   : BlockTranslator02  = BlockTranslator02_  () }
+object BlockTranslator02 {
+  def mk : BlockTranslator02 =
+    BlockTranslator02_ ()
+}
 
 case class BlockTranslatorPipelineSpec ()
   extends

@@ -452,5 +452,8 @@ trait ExampleProgram
 
 case class ExampleProgram_ () extends ExampleProgram
 
-object ExampleProgram { def mk   : ExampleProgram  = ExampleProgram_  () }
+object ExampleProgram {
+  def mk : ExampleProgram =
+    ExampleProgram_ ()
+}
 

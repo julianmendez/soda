@@ -97,7 +97,10 @@ trait DayOfTheWeek
 
 case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
 
-object DayOfTheWeek { def mk  (ordinal : Int) (name : String) : DayOfTheWeek  = DayOfTheWeek_  (ordinal, name) }
+object DayOfTheWeek {
+  def mk (ordinal : Int) (name : String) : DayOfTheWeek =
+    DayOfTheWeek_ (ordinal, name)
+}
 
 trait DayOfTheWeekConstant
 {
@@ -125,7 +128,10 @@ trait DayOfTheWeekConstant
 
 case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
 
-object DayOfTheWeekConstant { def mk   : DayOfTheWeekConstant  = DayOfTheWeekConstant_  () }
+object DayOfTheWeekConstant {
+  def mk : DayOfTheWeekConstant =
+    DayOfTheWeekConstant_ ()
+}
 
 trait DayOfTheWeekEnum
   extends
@@ -138,7 +144,10 @@ trait DayOfTheWeekEnum
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
 
-object DayOfTheWeekEnum { def mk   : DayOfTheWeekEnum  = DayOfTheWeekEnum_  () }
+object DayOfTheWeekEnum {
+  def mk : DayOfTheWeekEnum =
+    DayOfTheWeekEnum_ ()
+}
 
 case class EnumSpec ()
   extends

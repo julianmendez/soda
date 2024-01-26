@@ -20,7 +20,10 @@ trait AnnotatedBlock
 
 case class AnnotatedBlock_ (annotated_lines : Seq [AnnotatedLine], block_annotation : BlockAnnotationId) extends AnnotatedBlock
 
-object AnnotatedBlock { def mk  (annotated_lines : Seq [AnnotatedLine]) (block_annotation : BlockAnnotationId) : AnnotatedBlock  = AnnotatedBlock_  (annotated_lines, block_annotation) }
+object AnnotatedBlock {
+  def mk (annotated_lines : Seq [AnnotatedLine]) (block_annotation : BlockAnnotationId) : AnnotatedBlock =
+    AnnotatedBlock_ (annotated_lines, block_annotation)
+}
 
 
 trait AnnotatedLine
@@ -33,7 +36,10 @@ trait AnnotatedLine
 
 case class AnnotatedLine_ (line : String, is_comment : Boolean) extends AnnotatedLine
 
-object AnnotatedLine { def mk  (line : String) (is_comment : Boolean) : AnnotatedLine  = AnnotatedLine_  (line, is_comment) }
+object AnnotatedLine {
+  def mk (line : String) (is_comment : Boolean) : AnnotatedLine =
+    AnnotatedLine_ (line, is_comment)
+}
 
 trait Block
   extends
@@ -54,7 +60,10 @@ trait Block
 
 case class Block_ (annotated_lines : Seq [AnnotatedLine]) extends Block
 
-object Block { def mk  (annotated_lines : Seq [AnnotatedLine]) : Block  = Block_  (annotated_lines) }
+object Block {
+  def mk (annotated_lines : Seq [AnnotatedLine]) : Block =
+    Block_ (annotated_lines)
+}
 
 
 trait BlockAnnotationId
@@ -69,7 +78,10 @@ trait BlockAnnotationId
 
 case class BlockAnnotationId_ (ordinal : Int, name : String) extends BlockAnnotationId
 
-object BlockAnnotationId { def mk  (ordinal : Int) (name : String) : BlockAnnotationId  = BlockAnnotationId_  (ordinal, name) }
+object BlockAnnotationId {
+  def mk (ordinal : Int) (name : String) : BlockAnnotationId =
+    BlockAnnotationId_ (ordinal, name)
+}
 
 trait BlockAnnotationEnum
   extends
@@ -123,7 +135,10 @@ trait BlockAnnotationEnum
 
 case class BlockAnnotationEnum_ () extends BlockAnnotationEnum
 
-object BlockAnnotationEnum { def mk   : BlockAnnotationEnum  = BlockAnnotationEnum_  () }
+object BlockAnnotationEnum {
+  def mk : BlockAnnotationEnum =
+    BlockAnnotationEnum_ ()
+}
 
 
 trait BlockSequenceTranslator
@@ -135,7 +150,10 @@ trait BlockSequenceTranslator
 
 case class BlockSequenceTranslator_ (translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) extends BlockSequenceTranslator
 
-object BlockSequenceTranslator { def mk  (translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) : BlockSequenceTranslator  = BlockSequenceTranslator_  (translate) }
+object BlockSequenceTranslator {
+  def mk (translate : Seq [AnnotatedBlock] => Seq [AnnotatedBlock]) : BlockSequenceTranslator =
+    BlockSequenceTranslator_ (translate)
+}
 
 trait DefaultBlockSequenceTranslator
   extends
@@ -152,7 +170,10 @@ trait DefaultBlockSequenceTranslator
 
 case class DefaultBlockSequenceTranslator_ (translator : BlockTranslator) extends DefaultBlockSequenceTranslator
 
-object DefaultBlockSequenceTranslator { def mk  (translator : BlockTranslator) : DefaultBlockSequenceTranslator  = DefaultBlockSequenceTranslator_  (translator) }
+object DefaultBlockSequenceTranslator {
+  def mk (translator : BlockTranslator) : DefaultBlockSequenceTranslator =
+    DefaultBlockSequenceTranslator_ (translator)
+}
 
 
 trait BlockTranslator
@@ -164,7 +185,10 @@ trait BlockTranslator
 
 case class BlockTranslator_ (translate : AnnotatedBlock => AnnotatedBlock) extends BlockTranslator
 
-object BlockTranslator { def mk  (translate : AnnotatedBlock => AnnotatedBlock) : BlockTranslator  = BlockTranslator_  (translate) }
+object BlockTranslator {
+  def mk (translate : AnnotatedBlock => AnnotatedBlock) : BlockTranslator =
+    BlockTranslator_ (translate)
+}
 
 trait DefaultBlockTranslator
   extends
@@ -179,7 +203,10 @@ trait DefaultBlockTranslator
 
 case class DefaultBlockTranslator_ () extends DefaultBlockTranslator
 
-object DefaultBlockTranslator { def mk   : DefaultBlockTranslator  = DefaultBlockTranslator_  () }
+object DefaultBlockTranslator {
+  def mk : DefaultBlockTranslator =
+    DefaultBlockTranslator_ ()
+}
 
 
 trait BlockTranslatorPipeline
@@ -204,7 +231,10 @@ trait BlockTranslatorPipeline
 
 case class BlockTranslatorPipeline_ (pipeline : Seq [BlockTranslator]) extends BlockTranslatorPipeline
 
-object BlockTranslatorPipeline { def mk  (pipeline : Seq [BlockTranslator]) : BlockTranslatorPipeline  = BlockTranslatorPipeline_  (pipeline) }
+object BlockTranslatorPipeline {
+  def mk (pipeline : Seq [BlockTranslator]) : BlockTranslatorPipeline =
+    BlockTranslatorPipeline_ (pipeline)
+}
 
 
 trait ConditionalBlockTranslator
@@ -228,7 +258,10 @@ trait ConditionalBlockTranslator
 
 case class ConditionalBlockTranslator_ (accepted_annotations : Seq [BlockAnnotationId], translator : BlockTranslator) extends ConditionalBlockTranslator
 
-object ConditionalBlockTranslator { def mk  (accepted_annotations : Seq [BlockAnnotationId]) (translator : BlockTranslator) : ConditionalBlockTranslator  = ConditionalBlockTranslator_  (accepted_annotations, translator) }
+object ConditionalBlockTranslator {
+  def mk (accepted_annotations : Seq [BlockAnnotationId]) (translator : BlockTranslator) : ConditionalBlockTranslator =
+    ConditionalBlockTranslator_ (accepted_annotations, translator)
+}
 
 
 trait SingleLineProcessor
@@ -240,7 +273,10 @@ trait SingleLineProcessor
 
 case class SingleLineProcessor_ (line : String) extends SingleLineProcessor
 
-object SingleLineProcessor { def mk  (line : String) : SingleLineProcessor  = SingleLineProcessor_  (line) }
+object SingleLineProcessor {
+  def mk (line : String) : SingleLineProcessor =
+    SingleLineProcessor_ (line)
+}
 
 
 trait LineTranslator
@@ -252,7 +288,10 @@ trait LineTranslator
 
 case class LineTranslator_ (line : String) extends LineTranslator
 
-object LineTranslator { def mk  (line : String) : LineTranslator  = LineTranslator_  (line) }
+object LineTranslator {
+  def mk (line : String) : LineTranslator =
+    LineTranslator_ (line)
+}
 
 
 trait PlainBlock
@@ -269,7 +308,10 @@ trait PlainBlock
 
 case class PlainBlock_ (lines : Seq [String]) extends PlainBlock
 
-object PlainBlock { def mk  (lines : Seq [String]) : PlainBlock  = PlainBlock_  (lines) }
+object PlainBlock {
+  def mk (lines : Seq [String]) : PlainBlock =
+    PlainBlock_ (lines)
+}
 
 
 /**
@@ -286,5 +328,8 @@ trait Translator
 
 case class Translator_ (translate : String => String, keys : Seq [String]) extends Translator
 
-object Translator { def mk  (translate : String => String) (keys : Seq [String]) : Translator  = Translator_  (translate, keys) }
+object Translator {
+  def mk (translate : String => String) (keys : Seq [String]) : Translator =
+    Translator_ (translate, keys)
+}
 

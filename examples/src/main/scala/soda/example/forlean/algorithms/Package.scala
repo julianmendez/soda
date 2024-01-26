@@ -228,7 +228,10 @@ trait MyList
 
 case class MyList_ () extends MyList
 
-object MyList { def mk   : MyList  = MyList_  () }
+object MyList {
+  def mk : MyList =
+    MyList_ ()
+}
 
 
 trait PairParam [A , B ]
@@ -241,7 +244,10 @@ trait PairParam [A , B ]
 
 case class PairParam_ [A, B] (fst : A, snd : B) extends PairParam [A, B]
 
-object PairParam { def mk  [A, B] (fst : A) (snd : B) : PairParam  [A, B] = PairParam_  [A, B] (fst, snd) }
+object PairParam {
+  def mk [A, B] (fst : A) (snd : B) : PairParam [A, B] =
+    PairParam_ [A, B] (fst, snd)
+}
 
 trait PairParamMod
 {
@@ -261,7 +267,10 @@ trait PairParamMod
 
 case class PairParamMod_ () extends PairParamMod
 
-object PairParamMod { def mk   : PairParamMod  = PairParamMod_  () }
+object PairParamMod {
+  def mk : PairParamMod =
+    PairParamMod_ ()
+}
 
 trait TripleIntStringInt
   extends
@@ -276,7 +285,10 @@ trait TripleIntStringInt
 
 case class TripleIntStringInt_ (fst : Int, snd : String, trd : Int) extends TripleIntStringInt
 
-object TripleIntStringInt { def mk  (fst : Int) (snd : String) (trd : Int) : TripleIntStringInt  = TripleIntStringInt_  (fst, snd, trd) }
+object TripleIntStringInt {
+  def mk (fst : Int) (snd : String) (trd : Int) : TripleIntStringInt =
+    TripleIntStringInt_ (fst, snd, trd)
+}
 
 trait TripleIntStringIntMod
 {
@@ -299,7 +311,10 @@ trait TripleIntStringIntMod
 
 case class TripleIntStringIntMod_ () extends TripleIntStringIntMod
 
-object TripleIntStringIntMod { def mk   : TripleIntStringIntMod  = TripleIntStringIntMod_  () }
+object TripleIntStringIntMod {
+  def mk : TripleIntStringIntMod =
+    TripleIntStringIntMod_ ()
+}
 
 
 /*
@@ -357,7 +372,10 @@ trait RecursionForLean
 
 case class RecursionForLean_ () extends RecursionForLean
 
-object RecursionForLean { def mk   : RecursionForLean  = RecursionForLean_  () }
+object RecursionForLean {
+  def mk : RecursionForLean =
+    RecursionForLean_ ()
+}
 
 
 trait PairExample
@@ -370,7 +388,10 @@ trait PairExample
 
 case class PairExample_ (left : Int, right : Int) extends PairExample
 
-object PairExample { def mk  (left : Int) (right : Int) : PairExample  = PairExample_  (left, right) }
+object PairExample {
+  def mk (left : Int) (right : Int) : PairExample =
+    PairExample_ (left, right)
+}
 
 trait SwapExample
 {
@@ -396,5 +417,8 @@ trait SwapExample
 
 case class SwapExample_ () extends SwapExample
 
-object SwapExample { def mk   : SwapExample  = SwapExample_  () }
+object SwapExample {
+  def mk : SwapExample =
+    SwapExample_ ()
+}
 

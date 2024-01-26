@@ -25,7 +25,10 @@ trait CharType
 
 case class CharType_ (ordinal : Int, name : String) extends CharType
 
-object CharType { def mk  (ordinal : Int) (name : String) : CharType  = CharType_  (ordinal, name) }
+object CharType {
+  def mk (ordinal : Int) (name : String) : CharType =
+    CharType_ (ordinal, name)
+}
 
 /**
  * This is an enumeration for all types of characters.
@@ -101,7 +104,10 @@ trait CharTypeEnum
 
 case class CharTypeEnum_ () extends CharTypeEnum
 
-object CharTypeEnum { def mk   : CharTypeEnum  = CharTypeEnum_  () }
+object CharTypeEnum {
+  def mk : CharTypeEnum =
+    CharTypeEnum_ ()
+}
 
 
 /**
@@ -120,7 +126,10 @@ trait ParserState
 
 case class ParserState_ (ordinal : Int, name : String) extends ParserState
 
-object ParserState { def mk  (ordinal : Int) (name : String) : ParserState  = ParserState_  (ordinal, name) }
+object ParserState {
+  def mk (ordinal : Int) (name : String) : ParserState =
+    ParserState_ (ordinal, name)
+}
 
 /**
  * This is an enumeration of all the parser states.
@@ -157,7 +166,10 @@ trait ParserStateEnum
 
 case class ParserStateEnum_ () extends ParserStateEnum
 
-object ParserStateEnum { def mk   : ParserStateEnum  = ParserStateEnum_  () }
+object ParserStateEnum {
+  def mk : ParserStateEnum =
+    ParserStateEnum_ ()
+}
 
 trait ParserTransition
 {
@@ -209,7 +221,10 @@ trait ParserTransition
 
 case class ParserTransition_ () extends ParserTransition
 
-object ParserTransition { def mk   : ParserTransition  = ParserTransition_  () }
+object ParserTransition {
+  def mk : ParserTransition =
+    ParserTransition_ ()
+}
 
 
 trait ReplacementAux
@@ -299,7 +314,10 @@ trait ReplacementAux
 
 case class ReplacementAux_ () extends ReplacementAux
 
-object ReplacementAux { def mk   : ReplacementAux  = ReplacementAux_  () }
+object ReplacementAux {
+  def mk : ReplacementAux =
+    ReplacementAux_ ()
+}
 
 trait ReplacementWithTranslator
 {
@@ -365,7 +383,10 @@ trait ReplacementWithTranslator
 
 case class ReplacementWithTranslator_ (translator : soda.translator.block.Translator) extends ReplacementWithTranslator
 
-object ReplacementWithTranslator { def mk  (translator : soda.translator.block.Translator) : ReplacementWithTranslator  = ReplacementWithTranslator_  (translator) }
+object ReplacementWithTranslator {
+  def mk (translator : soda.translator.block.Translator) : ReplacementWithTranslator =
+    ReplacementWithTranslator_ (translator)
+}
 
 /**
  * This models a collection of replacement functions.
@@ -412,7 +433,10 @@ trait Replacement
 
 case class Replacement_ (line : String) extends Replacement
 
-object Replacement { def mk  (line : String) : Replacement  = Replacement_  (line) }
+object Replacement {
+  def mk (line : String) : Replacement =
+    Replacement_ (line)
+}
 
 
 trait ReplacerFoldTuple
@@ -425,7 +449,10 @@ trait ReplacerFoldTuple
 
 case class ReplacerFoldTuple_ (replaced_text_rev : Seq [String], start_index : Int) extends ReplacerFoldTuple
 
-object ReplacerFoldTuple { def mk  (replaced_text_rev : Seq [String]) (start_index : Int) : ReplacerFoldTuple  = ReplacerFoldTuple_  (replaced_text_rev, start_index) }
+object ReplacerFoldTuple {
+  def mk (replaced_text_rev : Seq [String]) (start_index : Int) : ReplacerFoldTuple =
+    ReplacerFoldTuple_ (replaced_text_rev, start_index)
+}
 
 trait LinePatternProcessor
 {
@@ -438,7 +465,10 @@ trait LinePatternProcessor
 
 case class LinePatternProcessor_ (line : String, pattern : String, replacement : String) extends LinePatternProcessor
 
-object LinePatternProcessor { def mk  (line : String) (pattern : String) (replacement : String) : LinePatternProcessor  = LinePatternProcessor_  (line, pattern, replacement) }
+object LinePatternProcessor {
+  def mk (line : String) (pattern : String) (replacement : String) : LinePatternProcessor =
+    LinePatternProcessor_ (line, pattern, replacement)
+}
 
 trait Replacer
   extends
@@ -489,7 +519,10 @@ trait Replacer
 
 case class Replacer_ (line : String, pattern : String, replacement : String) extends Replacer
 
-object Replacer { def mk  (line : String) (pattern : String) (replacement : String) : Replacer  = Replacer_  (line, pattern, replacement) }
+object Replacer {
+  def mk (line : String) (pattern : String) (replacement : String) : Replacer =
+    Replacer_ (line, pattern, replacement)
+}
 
 
 /**
@@ -507,7 +540,10 @@ trait Token
 
 case class Token_ (text : String, parser_state : ParserState, index : Int) extends Token
 
-object Token { def mk  (text : String) (parser_state : ParserState) (index : Int) : Token  = Token_  (text, parser_state, index) }
+object Token {
+  def mk (text : String) (parser_state : ParserState) (index : Int) : Token =
+    Token_ (text, parser_state, index)
+}
 
 trait TokenizerFoldTuple
 {
@@ -520,7 +556,10 @@ trait TokenizerFoldTuple
 
 case class TokenizerFoldTuple_ (last_index : Int, parser_state : ParserState, rev_tokens : Seq [Token]) extends TokenizerFoldTuple
 
-object TokenizerFoldTuple { def mk  (last_index : Int) (parser_state : ParserState) (rev_tokens : Seq [Token]) : TokenizerFoldTuple  = TokenizerFoldTuple_  (last_index, parser_state, rev_tokens) }
+object TokenizerFoldTuple {
+  def mk (last_index : Int) (parser_state : ParserState) (rev_tokens : Seq [Token]) : TokenizerFoldTuple =
+    TokenizerFoldTuple_ (last_index, parser_state, rev_tokens)
+}
 
 /**
  * This class processes a line to divide it into tokens.
@@ -605,5 +644,8 @@ trait Tokenizer
 
 case class Tokenizer_ (line : String) extends Tokenizer
 
-object Tokenizer { def mk  (line : String) : Tokenizer  = Tokenizer_  (line) }
+object Tokenizer {
+  def mk (line : String) : Tokenizer =
+    Tokenizer_ (line)
+}
 

@@ -24,7 +24,10 @@ trait Actor
 
 case class Actor_ (id : String) extends Actor
 
-object Actor { def mk  (id : String) : Actor  = Actor_  (id) }
+object Actor {
+  def mk (id : String) : Actor =
+    Actor_ (id)
+}
 
 trait Resource
   extends
@@ -44,7 +47,10 @@ trait Resource
 
 case class Resource_ (id : String) extends Resource
 
-object Resource { def mk  (id : String) : Resource  = Resource_  (id) }
+object Resource {
+  def mk (id : String) : Resource =
+    Resource_ (id)
+}
 
 trait Measure
   extends
@@ -68,7 +74,10 @@ trait Measure
 
 case class Measure_ (value : Int) extends Measure
 
-object Measure { def mk  (value : Int) : Measure  = Measure_  (value) }
+object Measure {
+  def mk (value : Int) : Measure =
+    Measure_ (value)
+}
 
 trait Assignment
   extends
@@ -91,7 +100,10 @@ trait Assignment
 
 case class Assignment_ (actor : Actor, resource : Resource) extends Assignment
 
-object Assignment { def mk  (actor : Actor) (resource : Resource) : Assignment  = Assignment_  (actor, resource) }
+object Assignment {
+  def mk (actor : Actor) (resource : Resource) : Assignment =
+    Assignment_ (actor, resource)
+}
 
 trait Outcome
 {
@@ -106,7 +118,10 @@ trait Outcome
 
 case class Outcome_ (assignments : Seq [Assignment]) extends Outcome
 
-object Outcome { def mk  (assignments : Seq [Assignment]) : Outcome  = Outcome_  (assignments) }
+object Outcome {
+  def mk (assignments : Seq [Assignment]) : Outcome =
+    Outcome_ (assignments)
+}
 
 trait Context
 {
@@ -115,7 +130,10 @@ trait Context
 
 case class Context_ () extends Context
 
-object Context { def mk   : Context  = Context_  () }
+object Context {
+  def mk : Context =
+    Context_ ()
+}
 
 
 /**
@@ -145,7 +163,10 @@ trait MathTool
 
 case class MathTool_ () extends MathTool
 
-object MathTool { def mk   : MathTool  = MathTool_  () }
+object MathTool {
+  def mk : MathTool =
+    MathTool_ ()
+}
 
 trait Pearson
 {
@@ -188,7 +209,10 @@ trait Pearson
 
 case class Pearson_ (xlist : Seq [Double], ylist : Seq [Double]) extends Pearson
 
-object Pearson { def mk  (xlist : Seq [Double]) (ylist : Seq [Double]) : Pearson  = Pearson_  (xlist, ylist) }
+object Pearson {
+  def mk (xlist : Seq [Double]) (ylist : Seq [Double]) : Pearson =
+    Pearson_ (xlist, ylist)
+}
 
 trait ScoringCategory
 {
@@ -223,7 +247,10 @@ trait ScoringCategory
 
 case class ScoringCategory_ () extends ScoringCategory
 
-object ScoringCategory { def mk   : ScoringCategory  = ScoringCategory_  () }
+object ScoringCategory {
+  def mk : ScoringCategory =
+    ScoringCategory_ ()
+}
 
 
 trait TilePair [A , B ]
@@ -236,7 +263,10 @@ trait TilePair [A , B ]
 
 case class TilePair_ [A, B] (fst : A, snd : B) extends TilePair [A, B]
 
-object TilePair { def mk  [A, B] (fst : A) (snd : B) : TilePair  [A, B] = TilePair_  [A, B] (fst, snd) }
+object TilePair {
+  def mk [A, B] (fst : A) (snd : B) : TilePair [A, B] =
+    TilePair_ [A, B] (fst, snd)
+}
 
 trait TileTriple [A , B , C ]
 {
@@ -249,7 +279,10 @@ trait TileTriple [A , B , C ]
 
 case class TileTriple_ [A, B, C] (fst : A, snd : B, trd : C) extends TileTriple [A, B, C]
 
-object TileTriple { def mk  [A, B, C] (fst : A) (snd : B) (trd : C) : TileTriple  [A, B, C] = TileTriple_  [A, B, C] (fst, snd, trd) }
+object TileTriple {
+  def mk [A, B, C] (fst : A) (snd : B) (trd : C) : TileTriple [A, B, C] =
+    TileTriple_ [A, B, C] (fst, snd, trd)
+}
 
 trait TileMessage [A ]
 {
@@ -262,7 +295,10 @@ trait TileMessage [A ]
 
 case class TileMessage_ [A] (context : Context, outcome : Outcome, contents : A) extends TileMessage [A]
 
-object TileMessage { def mk  [A] (context : Context) (outcome : Outcome) (contents : A) : TileMessage  [A] = TileMessage_  [A] (context, outcome, contents) }
+object TileMessage {
+  def mk [A] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
+    TileMessage_ [A] (context, outcome, contents)
+}
 
 trait TileMessageBuilder
 {
@@ -274,5 +310,8 @@ trait TileMessageBuilder
 
 case class TileMessageBuilder_ () extends TileMessageBuilder
 
-object TileMessageBuilder { def mk   : TileMessageBuilder  = TileMessageBuilder_  () }
+object TileMessageBuilder {
+  def mk : TileMessageBuilder =
+    TileMessageBuilder_ ()
+}
 
