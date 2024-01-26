@@ -29,9 +29,9 @@ case class LeanFullTranslationSpec ()
 
   lazy val swap_example = "forlean/algorithms/SwapExample"
 
-  lazy val recursion_example = "forlean/algorithms/RecursionForLean"
+  lazy val recursion_example = "forlean/algorithms/Recursion"
 
-  lazy val list_example = "forlean/algorithms/MyList"
+  lazy val list_example = "forlean/lib/MyList"
 
   lazy val triangular_number = "forlean/mathematics/TriangularNumberForLean"
 

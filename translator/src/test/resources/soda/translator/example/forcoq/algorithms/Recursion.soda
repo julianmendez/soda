@@ -1,0 +1,76 @@
+
+directive scala
+object Succ_ {
+  def unapply (n : Int) : Option [Int] =
+    if (n <= 0) None else Some (n - 1)
+}
+
+directive lean
+notation head "+:" tail => (head) :: (tail)
+notation "Succ_" => Nat.succ
+notation "Int" => Nat
+
+directive coq
+Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
+Notation "'Succ_'" := S (at level 99) .
+Notation "'Int'" := nat (at level 99) .
+Require Import Coq.Init.Nat .
+
+/**
+ * This class contains tail recursive auxiliary functions.
+ */
+
+class FoldWhile
+
+  abstract
+
+  _tailrec_foldl_while [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        if (not (condition (current) (head) ) )
+        then current
+        else _tailrec_foldl_while [A] [B] (tail) (next (current) (head) ) (next) (condition)
+
+  apply [A : Type] [B : Type] (list : Seq [A] ) (initial : B)
+      (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    _tailrec_foldl_while [A] [B] (list) (initial) (next) (condition)
+
+end
+
+
+class Fold
+
+  abstract
+
+  _tailrec_foldl [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
+
+  apply [A : Type] [B : Type] (sequence : Seq [A] ) (initial : B) (next : B -> A -> B) : B =
+    _tailrec_foldl [A] [B] (sequence) (initial) (next)
+
+end
+
+
+class Range
+
+  abstract
+
+  _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    match non_negative_number
+      case 0 ==> sequence
+      case Succ_ (k) ==>
+        _tailrec_range (k) ( (k) +: (sequence) )
+
+  apply (length : Int) : Seq [Int] =
+    if length < 0
+    then Nil
+    else _tailrec_range (length) (Nil)
+
+end
+

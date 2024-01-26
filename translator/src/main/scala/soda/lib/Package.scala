@@ -501,3 +501,6 @@ object SodaException {
     SodaException_ [A] (message, cause)
 }
 
+
+/* Soda library */
+

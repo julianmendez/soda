@@ -23,9 +23,9 @@ class LeanFullTranslationSpec ()
 
   swap_example = "forlean/algorithms/SwapExample"
 
-  recursion_example = "forlean/algorithms/RecursionForLean"
+  recursion_example = "forlean/algorithms/Recursion"
 
-  list_example = "forlean/algorithms/MyList"
+  list_example = "forlean/lib/MyList"
 
   triangular_number = "forlean/mathematics/TriangularNumberForLean"
 

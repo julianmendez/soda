@@ -4,10 +4,5 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Lean.
  */
 
-import
-  soda.example.forlean.lib.IntNat_
-  soda.example.forlean.lib.Nat
-  soda.example.forlean.lib.Succ_
-  soda.example.forlean.lib.Zero_
 
 

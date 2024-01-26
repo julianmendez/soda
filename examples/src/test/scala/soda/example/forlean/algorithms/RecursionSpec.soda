@@ -6,9 +6,6 @@ class RecursionForLeanSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  toNat (n : Int) : Nat =
-    IntNat_ () .from_non_negative (n)
-
   example_seq : List [Int] = List (0 , 1 , 1 , 2 , 3 , 5 , 8)
 
   _fold_left_while_initial_value = List [String] ()
@@ -19,11 +16,17 @@ class RecursionForLeanSpec ()
   _fold_left_while_condition : List [String] -> Int -> Boolean =
     lambda (s : List [String] ) --> lambda (e : Int) --> e < 5
 
+  _fold_while = FoldWhile_ ()
+
+  _fold = Fold_ ()
+
+  _range = Range_ ()
+
   test ("fold left while with Seq") (
     check (
       obtained :=
-        RecursionForLean_ ()
-          .fold4 (example_seq) (_fold_left_while_initial_value) (
+        _fold_while
+          .apply (example_seq) (_fold_left_while_initial_value) (
             _fold_left_while_next_value_function) (_fold_left_while_condition)
     ) (
       expected := List ("103" , "102" , "101" , "101" , "100")
@@ -38,8 +41,8 @@ class RecursionForLeanSpec ()
   test ("fold left with Seq") (
     check (
       obtained :=
-        RecursionForLean_ ()
-          .fold3 (example_seq) (_fold_left_initial_value) (
+        _fold
+          .apply (example_seq) (_fold_left_initial_value) (
             _fold_left_next_value_function)
     ) (
       expected := List ("108" , "105" , "103" , "102" , "101" , "101" , "100")
@@ -48,18 +51,17 @@ class RecursionForLeanSpec ()
 
   test ("range with positive number") (
     check (
-      obtained := RecursionForLean_ () .range (toNat (8) )
+      obtained := _range .apply ((8) )
     ) (
-      expected := List [Nat] (toNat (0) , toNat (1) , toNat (2) , toNat (3) ,
-       toNat (4) , toNat (5) , toNat (6) , toNat(7) )
+      expected := List [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
   )
 
   test ("range with zero size") (
     check (
-      obtained := RecursionForLean_ () .range (toNat (0) )
+      obtained := _range .apply (0)
     ) (
-      expected := List [Nat] ()
+      expected := List [Int] ()
     )
   )
 

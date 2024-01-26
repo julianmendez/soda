@@ -1,5 +1,5 @@
 
-class RecursionForCoqSpec ()
+class RecursionSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
@@ -16,11 +16,17 @@ class RecursionForCoqSpec ()
   _fold_left_while_condition : Seq [String] -> Int -> Boolean =
     lambda (s : Seq [String] ) --> lambda (e : Int) --> e < 5
 
+  _fold_while = FoldWhile_ ()
+
+  _fold = Fold_ ()
+
+  _range = Range_ ()
+
   test ("fold left while with Seq") (
     check (
       obtained :=
-        RecursionForCoq_ ()
-          .fold4 (example_seq) (_fold_left_while_initial_value) (
+        _fold_while
+          .apply (example_seq) (_fold_left_while_initial_value) (
             _fold_left_while_next_value_function) (_fold_left_while_condition)
     ) (
       expected := Seq ("103" , "102" , "101" , "101" , "100")
@@ -35,8 +41,8 @@ class RecursionForCoqSpec ()
   test ("fold left with Seq") (
     check (
       obtained :=
-        RecursionForCoq_ ()
-          .fold3 (example_seq) (_fold_left_initial_value) (_fold_left_next_value_function)
+        _fold
+          .apply (example_seq) (_fold_left_initial_value) (_fold_left_next_value_function)
     ) (
       expected := Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )
@@ -44,7 +50,7 @@ class RecursionForCoqSpec ()
 
   test ("range with positive number") (
     check (
-      obtained := RecursionForCoq_ () .range (8)
+      obtained := _range .apply  (8)
     ) (
       expected := Seq [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
@@ -52,7 +58,7 @@ class RecursionForCoqSpec ()
 
   test ("range with zero size") (
     check (
-      obtained := RecursionForCoq_ () .range (-1)
+      obtained := _range .apply  (-1)
     ) (
       expected := Seq [Int] ()
     )
@@ -60,7 +66,7 @@ class RecursionForCoqSpec ()
 
   test ("range with negative number") (
     check (
-      obtained := RecursionForCoq_ () .range (-1)
+      obtained := _range .apply (-1)
     ) (
       expected := Seq [Int] ()
     )

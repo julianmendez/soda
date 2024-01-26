@@ -29,6 +29,8 @@ case class CoqFullTranslationSpec ()
 
   lazy val TriangularNumber = "forcoq/mathematics/TriangularNumberForCoq"
 
+  lazy val Recursion = "forcoq/algorithms/Recursion"
+
   def read_file (file_name : String) : String =
     new String (
       Files .readAllBytes (
@@ -58,6 +60,10 @@ case class CoqFullTranslationSpec ()
 
   test ("should translate the example of triangular numbers") (
     test_translation (TriangularNumber)
+  )
+
+  test ("should translate the example of recursion") (
+    test_translation (Recursion)
   )
 
 }

@@ -1,5 +1,5 @@
 
-class ListSpec ()
+class SimpleListSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
 
