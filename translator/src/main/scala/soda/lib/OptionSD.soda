@@ -39,7 +39,7 @@ class OptionSD [A : Type]
   flatMap [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
-      case otherwise ==> NoneSD_ ()
+      case otherwise ==> NoneSD_ [B] ()
 
   bind [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
@@ -50,13 +50,15 @@ class OptionSD [A : Type]
         if predicate (element)
         then this
         else NoneSD_ [A] ()
-      case otherwise ==> NoneSD_ ()
+      case otherwise ==> NoneSD_ [A] ()
 
 end
 
 class NoneSD [A : Type]
   extends
     OptionSD [A]
+
+  abstract
 
   toOption : None .type = None
 
@@ -66,7 +68,7 @@ class NoneSD [A : Type]
 
   isNonEmpty : Boolean = not isEmpty
 
-  toSeq : Seq [A] = Seq ()
+  toSeq : Seq [A] = Seq [A] ()
 
 end
 
@@ -101,11 +103,13 @@ class SomeSD [A : Type]
 
   isNonEmpty : Boolean = not isEmpty
 
-  toSeq : Seq [A] = Seq (element)
+  toSeq : Seq [A] = Seq [A] (element)
 
 end
 
 class OptionSDBuilder [A : Type]
+
+  abstract
 
   build (option : Option [A] ) : OptionSD [A] =
     match option

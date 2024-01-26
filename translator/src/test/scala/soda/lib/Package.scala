@@ -444,7 +444,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (8)
     ) (
-      expected = Seq (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
+      expected = Seq [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
   )
 
@@ -452,7 +452,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (-1)
     ) (
-      expected = Seq ()
+      expected = Seq [Int] ()
     )
   )
 
@@ -460,7 +460,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (-1)
     ) (
-      expected = Seq ()
+      expected = Seq [Int] ()
     )
   )
 
