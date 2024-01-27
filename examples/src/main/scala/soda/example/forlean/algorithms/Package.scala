@@ -106,7 +106,6 @@ directive coq
 Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
 Notation "'Succ_'" := S (at level 99) .
 Notation "'Int'" := nat (at level 99) .
-Require Import Coq.Init.Nat .
 */
 
 /**
@@ -121,11 +120,11 @@ trait FoldWhile
   private def _tailrec_foldl_while [A , B ] (sequence : Seq [A] ) (current : B)
       (next : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
-      case Nil => current
       case (head) +: (tail) =>
         if ( (! (condition (current) (head) ) )
         ) current
         else _tailrec_foldl_while [A, B] (tail) (next (current) (head) ) (next) (condition)
+      case _otherwise => current
     }
 
   def apply [A , B ] (list : Seq [A] ) (initial : B)
@@ -149,9 +148,9 @@ trait Fold
   private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
       (next : B => A => B) : B =
     sequence match  {
-      case Nil => current
       case (head) +: (tail) =>
         _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
+      case _otherwise => current
     }
 
   def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
@@ -173,15 +172,13 @@ trait Range
 
   private def _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
     non_negative_number match  {
-      case 0 => sequence
       case Succ_ (k) =>
         _tailrec_range (k) ( (k) +: (sequence) )
+      case _otherwise => sequence
     }
 
   def apply (length : Int) : Seq [Int] =
-    if ( length < 0
-    ) Nil
-    else _tailrec_range (length) (Nil)
+    _tailrec_range (length) (Nil)
 
 }
 
