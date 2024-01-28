@@ -181,6 +181,39 @@ case class HardProblemSpec ()
 }
 
 
+case class NatSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val zero = Zero_
+
+  lazy val one = Succ_ (zero)
+
+  lazy val two = Succ_ (one)
+
+  test ("should create number one") (
+    check (
+      obtained = one
+    ) (
+      expected = _Nat_ (1)
+    )
+  )
+
+  test ("should create number two") (
+    check (
+      obtained = two
+    ) (
+      expected = _Nat_ (2)
+    )
+  )
+
+}
+
+
 case class PiIteratorSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

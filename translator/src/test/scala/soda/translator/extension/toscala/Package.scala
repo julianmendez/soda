@@ -74,6 +74,8 @@ case class FullTranslationSpec ()
 
   lazy val FiboUnicodeExample = "mathematics/FiboUnicodeExample"
 
+  lazy val NatExample = "mathematics/Nat"
+
   lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"
@@ -139,6 +141,10 @@ case class FullTranslationSpec ()
 
   test ("should translate Soda code that uses Scala reserved words") (
     test_translation (ScalaReservedWordEscaping)
+  )
+
+  test ("should translate the Nat example") (
+    test_translation (NatExample)
   )
 
   test ("should translate the manual In A Nutshell") (

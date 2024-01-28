@@ -1,0 +1,32 @@
+
+class NatSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  zero = Zero_
+
+  one = Succ_ (zero)
+
+  two = Succ_ (one)
+
+  test ("should create number one") (
+    check (
+      obtained := one
+    ) (
+      expected := _Nat_ (1)
+    )
+  )
+
+  test ("should create number two") (
+    check (
+      obtained := two
+    ) (
+      expected := _Nat_ (2)
+    )
+  )
+
+end
+
