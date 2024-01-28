@@ -1,51 +1,51 @@
 
-class List [A : Type]
+class SimpleList [A : Type]
 
 end
 
 class nil [A : Type]
   extends
-    List [A]
+    SimpleList [A]
 
 end
 
 class cons [A : Type]
   extends
-    List [A]
+    SimpleList [A]
 
   abstract
     e : A
-    s : List [A]
+    s : SimpleList [A]
 
 end
 
 class SeqList
 
   @tailrec
-  _tailrec_reverse [A : Type] (a : List [A] ) (b : List [A] ) : List [A] =
+  _tailrec_reverse [A : Type] (a : SimpleList [A] ) (b : SimpleList [A] ) : SimpleList [A] =
     match a
       case cons_ (e , s) ==> _tailrec_reverse (s) (cons_ (e , b) )
       case otherwise ==> b
 
-  reverse [A : Type] (s : List [A] ) : List [A] =
+  reverse [A : Type] (s : SimpleList [A] ) : SimpleList [A] =
     _tailrec_reverse [A] (s) (nil_ [A] () )
 
   @tailrec
-  _tailrec_from_Seq [A : Type] (a : Seq [A] ) (b : List [A] ) : List [A] =
+  _tailrec_from_Seq [A : Type] (a : Seq [A] ) (b : SimpleList [A] ) : SimpleList [A] =
     match a
       case (e) :: (s) ==> _tailrec_from_Seq (s) (cons_ (e , b) )
       case otherwise ==> b
 
-  from_Seq [A : Type] (a : Seq [A] ) : List [A] =
+  from_Seq [A : Type] (a : Seq [A] ) : SimpleList [A] =
     reverse (_tailrec_from_Seq (a) (nil_ [A] () ) )
 
   @tailrec
-  _tailrec_to_Seq [A : Type] (a : List [A] ) (b : Seq [A] ) : Seq [A] =
+  _tailrec_to_Seq [A : Type] (a : SimpleList [A] ) (b : Seq [A] ) : Seq [A] =
     match a
       case cons_ (e , s) ==> _tailrec_to_Seq (s) (b .+: (e) )
       case otherwise ==> b
 
-  to_Seq [A : Type] (a : List [A] ) : Seq [A] =
+  to_Seq [A : Type] (a : SimpleList [A] ) : Seq [A] =
     (_tailrec_to_Seq (a) (Seq [A] () ) ) .reverse
 
 end

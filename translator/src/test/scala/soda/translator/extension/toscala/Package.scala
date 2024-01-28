@@ -76,6 +76,8 @@ case class FullTranslationSpec ()
 
   lazy val NatExample = "mathematics/Nat"
 
+  lazy val SimpleListExample = "forlean/lib/SimpleList"
+
   lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   lazy val InANutshell = "inanutshell/InANutshell"
@@ -145,6 +147,10 @@ case class FullTranslationSpec ()
 
   test ("should translate the Nat example") (
     test_translation (NatExample)
+  )
+
+  test ("should translate the example of a simple list") (
+    test_translation (SimpleListExample)
   )
 
   test ("should translate the manual In A Nutshell") (

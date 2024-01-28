@@ -39,6 +39,8 @@ class FullTranslationSpec ()
 
   NatExample = "mathematics/Nat"
 
+  SimpleListExample = "forlean/lib/SimpleList"
+
   ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"
@@ -108,6 +110,10 @@ class FullTranslationSpec ()
 
   test ("should translate the Nat example") (
     test_translation (NatExample)
+  )
+
+  test ("should translate the example of a simple list") (
+    test_translation (SimpleListExample)
   )
 
   test ("should translate the manual In A Nutshell") (
