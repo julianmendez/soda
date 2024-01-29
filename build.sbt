@@ -70,23 +70,12 @@ lazy val tiles =
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
     )
 
-lazy val library =
-  project
-    .withId("library")
-    .in(file("library"))
-    .aggregate(translator)
-    .dependsOn(translator)
-    .settings(
-      commonSettings,
-      assembly / assemblyJarName := "library-" + version.value + ".jar"
-    )
-
 lazy val examples =
   project
     .withId("examples")
     .in(file("examples"))
-    .aggregate(translator, library)
-    .dependsOn(translator, library)
+    .aggregate(translator)
+    .dependsOn(translator)
     .settings(
       commonSettings,
       assembly / assemblyJarName := "examples-" + version.value + ".jar"
@@ -96,8 +85,8 @@ lazy val root =
   project
     .withId("soda")
     .in(file("."))
-    .aggregate(documentation, translator, tiles, library, examples)
-    .dependsOn(documentation, translator, tiles, library, examples)
+    .aggregate(documentation, translator, tiles, examples)
+    .dependsOn(documentation, translator, tiles, examples)
     .settings(
       commonSettings,
       assembly / mainClass := Some("soda.translator.extension.main.EntryPoint"),
