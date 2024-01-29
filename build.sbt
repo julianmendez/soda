@@ -45,10 +45,10 @@ lazy val commonSettings =
     scalacOptions ++= Seq("-deprecation", "-feature")
   )
 
-lazy val documentation =
+lazy val docs =
   project
-    .withId("documentation")
-    .in(file("documentation"))
+    .withId("docs")
+    .in(file("docs"))
     .settings(commonSettings)
 
 lazy val translator =
@@ -85,8 +85,8 @@ lazy val root =
   project
     .withId("soda")
     .in(file("."))
-    .aggregate(documentation, translator, tiles, examples)
-    .dependsOn(documentation, translator, tiles, examples)
+    .aggregate(docs, translator, tiles, examples)
+    .dependsOn(docs, translator, tiles, examples)
     .settings(
       commonSettings,
       assembly / mainClass := Some("soda.translator.extension.main.EntryPoint"),
