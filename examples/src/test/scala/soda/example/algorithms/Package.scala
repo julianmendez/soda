@@ -131,6 +131,8 @@ object SaladIngredient {
 trait SaladIngredientConstant
 {
 
+
+
   private def _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
     SaladIngredient_ (ordinal, name)
 

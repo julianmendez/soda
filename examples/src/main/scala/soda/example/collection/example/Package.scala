@@ -24,6 +24,8 @@ object Pair {
 trait ListExample
 {
 
+
+
   private def _mk_Pair [A ] (name : String) (result : A) : Pair [A] =
     Pair_ (name, result)
 
@@ -124,6 +126,8 @@ object ListExample {
 
 trait Main
 {
+
+
 
   lazy val e = ListExample_ ()
 

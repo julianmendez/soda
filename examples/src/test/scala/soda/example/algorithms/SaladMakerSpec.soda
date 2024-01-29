@@ -11,6 +11,8 @@ end
 
 class SaladIngredientConstant
 
+  abstract
+
   _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
     SaladIngredient_ (ordinal) (name)
 

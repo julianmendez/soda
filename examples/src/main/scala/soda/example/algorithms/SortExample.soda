@@ -10,6 +10,8 @@ class SortExampleWithAt
   extends
     SortExample
 
+  abstract
+
   is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
@@ -24,6 +26,8 @@ end
 class SortExampleWithZip
   extends
     SortExample
+
+  abstract
 
   is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
@@ -45,6 +49,8 @@ end
 class SortAlgorithmExampleWithFold
   extends
     SortAlgorithmExample
+
+  abstract
 
   import
     soda.lib.Fold_
@@ -79,6 +85,8 @@ end
 
 class ConstrainedSortAlgorithm
 
+  abstract
+
   import
     soda.lib.OptionSD
     soda.lib.SomeSD_
@@ -106,6 +114,8 @@ end
 class EmptySortedSequence [A subtype Comparable [A] ]
   extends
     SortedSequence [A]
+
+  abstract
 
   sequence = Seq ()
 
@@ -151,6 +161,8 @@ end
 
 class NonEmptySortedSequenceAux [A subtype Comparable [A] ]
 
+  abstract
+
   is_less_than (x : A) (y : A) : Boolean =
     x .compareTo (y) < 0
 
@@ -172,6 +184,8 @@ class NonEmptySortedSequenceAux [A subtype Comparable [A] ]
 end
 
 class SortedSequenceBuilder [A subtype Comparable [A] ]
+
+  abstract
 
   import
     soda.lib.Fold_

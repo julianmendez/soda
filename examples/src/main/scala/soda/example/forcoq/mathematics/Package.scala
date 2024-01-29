@@ -13,6 +13,8 @@ trait Package
 trait FactorialForCoq
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_get_factorial (m : nat) (product : nat) : nat =
@@ -36,6 +38,8 @@ object FactorialForCoq {
 
 trait FiboExampleInSodaForCoq
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -61,6 +65,8 @@ object FiboExampleInSodaForCoq {
 
 trait TriangularNumberForCoq
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final

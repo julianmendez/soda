@@ -1,6 +1,8 @@
 
 class Main
 
+  abstract
+
   main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
 

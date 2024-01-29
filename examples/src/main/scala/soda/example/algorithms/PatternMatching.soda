@@ -44,6 +44,8 @@ end Parameter
 
 class PatternMatching
 
+  abstract
+
   get_value (p : Parameter) : Int =
     match p
       case Singleton_ (x) ==> x

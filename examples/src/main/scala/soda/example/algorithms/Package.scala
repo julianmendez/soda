@@ -10,6 +10,8 @@ trait Package
 trait FizzBuzz
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"
@@ -43,6 +45,8 @@ object FizzBuzz {
 trait FizzBuzzPatternMatching
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"
@@ -75,6 +79,8 @@ object FizzBuzzPatternMatching {
 trait FizzBuzzPatternUnicode
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"
@@ -106,6 +112,8 @@ object FizzBuzzPatternUnicode {
 
 trait Main
 {
+
+
 
   def main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
@@ -199,6 +207,8 @@ object Parameter {
 trait PatternMatching
 {
 
+
+
   def get_value (p : Parameter) : Int =
     p match  {
       case Singleton_ (x) => x
@@ -227,6 +237,8 @@ object PatternMatching {
 
 trait SaladMaker
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -278,6 +290,8 @@ object MyPair {
 trait ScalaReservedWordEscaping
 {
 
+
+
   private lazy val __soda__var = "var"
 
   private lazy val __soda__val = 1
@@ -327,6 +341,8 @@ trait SortExampleWithAt
     SortExample
 {
 
+
+
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
@@ -349,6 +365,8 @@ trait SortExampleWithZip
   extends
     SortExample
 {
+
+
 
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
@@ -385,6 +403,8 @@ trait SortAlgorithmExampleWithFold
   extends
     SortAlgorithmExample
 {
+
+
 
   import   soda.lib.Fold_
 
@@ -425,6 +445,8 @@ object SortAlgorithmExampleWithFold {
 
 trait ConstrainedSortAlgorithm
 {
+
+
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -467,6 +489,8 @@ trait EmptySortedSequence [A <: Comparable [A] ]
   extends
     SortedSequence [A]
 {
+
+
 
   lazy val sequence = Seq ()
 
@@ -534,6 +558,8 @@ object NonEmptySortedSequence {
 trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 {
 
+
+
   def is_less_than (x : A) (y : A) : Boolean =
     x .compareTo (y) < 0
 
@@ -563,6 +589,8 @@ object NonEmptySortedSequenceAux {
 
 trait SortedSequenceBuilder [A <: Comparable [A] ]
 {
+
+
 
   import   soda.lib.Fold_
 

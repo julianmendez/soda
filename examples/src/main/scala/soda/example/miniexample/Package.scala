@@ -9,6 +9,8 @@ trait Package
 trait MiniExample
 {
 
+
+
   import   soda.lib.Range_
 
   private lazy val _range = Range_ ()
@@ -28,6 +30,8 @@ object MiniExample {
 
 trait Main
 {
+
+
 
   def main (arguments : Array [String] ) : Unit =
     MiniExample_ () .run ()

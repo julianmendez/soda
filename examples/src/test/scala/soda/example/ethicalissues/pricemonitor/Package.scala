@@ -11,6 +11,8 @@ trait UnfairPricingAgent
     PricingAgent
 {
 
+
+
   def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
     customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
 
@@ -33,6 +35,8 @@ trait FairPricingAgent
   extends
     PricingAgent
 {
+
+
 
   def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
     100 * (flight .intermediate_airports .length + 1)

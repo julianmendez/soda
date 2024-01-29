@@ -1,6 +1,8 @@
 
 class Main
 
+  abstract
+
   e = ListExample_ ()
 
   all_examples =

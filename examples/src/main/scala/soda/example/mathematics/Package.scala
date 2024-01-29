@@ -10,6 +10,8 @@ trait Package
 trait FactorialConcise
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fact (n : Int) (accum : Int) : Int =
@@ -32,6 +34,8 @@ object FactorialConcise {
 
 trait FactorialPatternMatching
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -59,6 +63,8 @@ object FactorialPatternMatching {
 trait FactorialSimple
 {
 
+
+
   def apply (n : Int) : Int =
     if ( n < 2
     ) 1
@@ -76,6 +82,8 @@ object FactorialSimple {
 
 trait FactorialWithFold
 {
+
+
 
   lazy val fold = soda.lib.Fold_ ()
 
@@ -97,6 +105,8 @@ object FactorialWithFold {
 trait FiboExampleInSoda
 {
 
+
+
   private def _rec (m : Int) (a : Int) (b : Int) : Int =
     if ( m == 0 ) a
     else if ( m == 1 ) b
@@ -117,6 +127,8 @@ object FiboExampleInSoda {
 
 trait FiboUnicodeExample
 {
+
+
 
   private def _rec (m : Int) (a : Int) (b : Int) : Int =
     if ( m == 0 ) a
@@ -249,6 +261,8 @@ trait HardProblem
     MemoizableFunction [Int, Int]
 {
 
+
+
   def is_even (n : Int) : Boolean =
     n % 2 == 0
 
@@ -289,6 +303,8 @@ trait MemoizedFibonacci
   extends
     MemoizableFunction [Int, Int]
 {
+
+
 
   private def _get_next_fibo (a : Int) (b : Int) : Int =
     a + b
@@ -399,6 +415,8 @@ object IntAndStatus {
 
 trait PiIterator
 {
+
+
 
   private def _mk_Status (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
     Status_ (r, n, q, t, l, k)

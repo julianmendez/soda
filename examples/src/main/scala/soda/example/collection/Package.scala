@@ -35,6 +35,8 @@ trait ESeq [A ]
     MSeq [A]
 {
 
+
+
   lazy val isEmpty = true
 
 }
@@ -88,6 +90,8 @@ object NESeq {
 
 trait MSeqRec [A ]
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -259,6 +263,8 @@ object SpanRevFoldTuple {
 trait MSeqTranslator [A ]
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_foldLeftSeq [B ] (sequence : Seq [A] ) (current_value : B)
@@ -315,6 +321,8 @@ object MSeqPair {
 
 trait Min [A ]
 {
+
+
 
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD

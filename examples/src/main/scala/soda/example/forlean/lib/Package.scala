@@ -250,6 +250,8 @@ trait Zero
     Nat
 {
 
+
+
   lazy val add : Nat => Nat =
      a => add_for (a)
 
@@ -304,6 +306,8 @@ object Succ {
 trait IntNat
 {
 
+
+
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -342,6 +346,8 @@ object IntNat {
 trait SimpleList [A ]
 {
 
+
+
 }
 
 case class SimpleList_ [A] () extends SimpleList [A]
@@ -355,6 +361,8 @@ trait nil [A ]
   extends
     SimpleList [A]
 {
+
+
 
 }
 
@@ -384,6 +392,8 @@ object cons {
 
 trait SeqList
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final

@@ -76,6 +76,8 @@ class HardProblem
   extends
     MemoizableFunction [Int] [Int]
 
+  abstract
+
   is_even (n : Int) : Boolean =
     n % 2 == 0
 
@@ -108,6 +110,8 @@ end
 class MemoizedFibonacci
   extends
     MemoizableFunction [Int] [Int]
+
+  abstract
 
   _get_next_fibo (a : Int) (b : Int) : Int =
     a + b

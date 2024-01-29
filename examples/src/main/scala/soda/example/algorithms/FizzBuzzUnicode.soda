@@ -1,6 +1,8 @@
 
 ⎾ FizzBuzzPatternUnicode
 
+  abstract
+
   fizz = "Fizz"
 
   buzz = "Buzz"

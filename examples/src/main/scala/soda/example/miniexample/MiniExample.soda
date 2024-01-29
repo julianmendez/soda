@@ -1,6 +1,8 @@
 
 class MiniExample
 
+  abstract
+
   import
     soda.lib.Range_
 
@@ -13,6 +15,8 @@ class MiniExample
 end
 
 class Main
+
+  abstract
 
   main (arguments : Array [String] ) : Unit =
     MiniExample_ () .run ()

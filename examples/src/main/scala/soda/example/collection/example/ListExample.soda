@@ -9,6 +9,8 @@ end
 
 class ListExample
 
+  abstract
+
   _mk_Pair [A : Type] (name : String) (result : A) : Pair [A] =
     Pair_ (name) (result)
 

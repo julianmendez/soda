@@ -40,10 +40,10 @@ object Flight {
 trait PricingAgent
 {
 
-  import   java.util.Date
-
     /** get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int */
   def   abs_get_price : Customer => Flight => Int => Int
+
+  import   java.util.Date
 
   def get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
     abs_get_price (customer) (flight) (date_in_days)

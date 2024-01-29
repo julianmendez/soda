@@ -1,11 +1,15 @@
 
 class list [A : Type]
 
+  abstract
+
 end
 
 class nil [A : Type]
   extends
     list [A]
+
+  abstract
 
 end
 
@@ -20,6 +24,8 @@ class cons [A : Type]
 end
 
 class SeqList
+
+  abstract
 
   @tailrec
   _tailrec_reverse [A : Type] (a : list [A] ) (b : list [A] ) : list [A] =

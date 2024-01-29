@@ -9,6 +9,8 @@ trait Package
 trait list [A ]
 {
 
+
+
 }
 
 case class list_ [A] () extends list [A]
@@ -22,6 +24,8 @@ trait nil [A ]
   extends
     list [A]
 {
+
+
 
 }
 
@@ -51,6 +55,8 @@ object cons {
 
 trait SeqList
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -115,6 +121,8 @@ trait O
     nat
 {
 
+
+
   lazy val add : nat => nat =
      a => add_for (a)
 
@@ -168,6 +176,8 @@ object S {
 
 trait IntNat
 {
+
+
 
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD
