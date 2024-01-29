@@ -330,7 +330,7 @@ trait IntNat
   def to_Int (a : Nat) : Int =
     a match  {
       case Succ_ (k) => 1 + to_Int (k)
-      case otherwise => 0
+      case _otherwise => 0
     }
 
 }
@@ -400,7 +400,7 @@ trait SeqList
   private def _tailrec_reverse [A ] (a : SimpleList [A] ) (b : SimpleList [A] ) : SimpleList [A] =
     a match  {
       case cons_ (e , s) => _tailrec_reverse (s) (cons_ (e , b) )
-      case otherwise => b
+      case _otherwise => b
     }
 
   def reverse [A ] (s : SimpleList [A] ) : SimpleList [A] =
@@ -411,7 +411,7 @@ trait SeqList
   private def _tailrec_from_Seq [A ] (a : Seq [A] ) (b : SimpleList [A] ) : SimpleList [A] =
     a match  {
       case (e) :: (s) => _tailrec_from_Seq (s) (cons_ (e , b) )
-      case otherwise => b
+      case _otherwise => b
     }
 
   def from_Seq [A ] (a : Seq [A] ) : SimpleList [A] =
@@ -422,7 +422,7 @@ trait SeqList
   private def _tailrec_to_Seq [A ] (a : SimpleList [A] ) (b : Seq [A] ) : Seq [A] =
     a match  {
       case cons_ (e , s) => _tailrec_to_Seq (s) (b .+: (e) )
-      case otherwise => b
+      case _otherwise => b
     }
 
   def to_Seq [A ] (a : SimpleList [A] ) : Seq [A] =

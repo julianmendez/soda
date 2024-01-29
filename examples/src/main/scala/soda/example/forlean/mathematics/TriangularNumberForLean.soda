@@ -10,7 +10,7 @@ class TriangularNumberForLean
   _tailrec_get_number (m : Nat) (acc : Nat) : Nat =
     match m
       case Succ_ (k) ==> _tailrec_get_number (k) (acc .add (Succ_ (k) ) )
-      case otherwise ==> acc
+      case _otherwise ==> acc
 
   get_number (n : Nat) : Nat =
     _tailrec_get_number (n) (Zero_ () )

@@ -7,7 +7,7 @@ class FactorialForCoq
   _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m
       case S_ (k) ==> _tailrec_get_factorial (k) (product .mul (S_ (k) ) )
-      case otherwise ==> product
+      case _otherwise ==> product
 
   get_factorial (n : nat) : nat =
     _tailrec_get_factorial (n) (S_ (O_ () ) )

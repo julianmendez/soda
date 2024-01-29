@@ -18,7 +18,7 @@ trait MSeq [A ]
   def opt [B ] (ifEmpty : B) (ifNonEmpty : NESeq [A] => B) : B =
     this match  {
       case NESeq_ (head, tail) => ifNonEmpty (NESeq_ (head, tail) )
-      case otherwise => ifEmpty
+      case _otherwise => ifEmpty
     }
 
 }
@@ -103,7 +103,7 @@ trait MSeqRec [A ]
         ) current_value
         else _tailrec_fold_while (tail) (next_value_function (current_value) (head) ) (
           next_value_function) (condition)
-      case otherwise => current_value
+      case _otherwise => current_value
     }
 
   def fold_while [B ] (sequence : MSeq [A] ) (initial_value : B) (next_value : B => A => B)
@@ -365,7 +365,7 @@ trait Min [A ]
   def reverse (s : MSeq [A] ) : MSeq [A] =
     s match  {
       case NESeq_ (head, tail) => reverseNonEmpty (NESeq_ (head, tail) )
-      case otherwise => empty
+      case _otherwise => empty
     }
 
   private lazy val _length_initial_value : Int = 0
@@ -436,7 +436,7 @@ trait Min [A ]
   def at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     s match  {
       case NESeq_ (head, tail) => _retrieve_if_in_range (NESeq_ (head, tail) ) (n)
-      case otherwise => NoneSD_ [A] ()
+      case _otherwise => NoneSD_ [A] ()
     }
 
   /* */
@@ -466,7 +466,7 @@ trait Min [A ]
     (tuple .seq) match  {
       case NESeq_ (head, tail) => _mk_TakeDropFoldTuple [A] (tail) (tuple .index + 1) (
         tuple .length)
-      case otherwise => _mk_TakeDropFoldTuple [A] (tuple .seq) (tuple .index + 1) (
+      case _otherwise => _mk_TakeDropFoldTuple [A] (tuple .seq) (tuple .index + 1) (
         tuple .length)
     }
 
@@ -499,7 +499,7 @@ trait Min [A ]
   private def _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
     (tuple .left) match  {
       case NESeq_ (head, tail) => _aux_next_value (tuple) (NESeq_ (head, tail) )
-      case otherwise =>
+      case _otherwise =>
         _mk_SpanRevFoldTuple [A] (tuple .left) (tuple .right) (false) (tuple .condition)
     }
 

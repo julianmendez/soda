@@ -8,7 +8,7 @@ class FiboExampleInSodaForCoq
     match m
       case S_ (O_ () ) ==> b
       case S_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
-      case otherwise ==> a
+      case _otherwise ==> a
 
   fib (n : nat) =
     _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
