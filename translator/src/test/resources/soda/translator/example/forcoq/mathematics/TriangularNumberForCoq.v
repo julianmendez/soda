@@ -6,7 +6,7 @@ Fixpoint   @tailrec
    _tailrec_get_number (m : nat) (acc : nat) : nat :=
     match m with
       | S_ (k) => _tailrec_get_number (k) (acc .(add) (S_ (k) ) )
-      | otherwise => acc
+      | _otherwise => acc
     end
 .
 

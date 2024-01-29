@@ -24,7 +24,7 @@ class CoqClassConstructorBlockTranslator
       : Option [ClassBeginningAnnotation] =
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-      case otherwise ==> None
+      case _otherwise ==> None
 
   _get_class_beginning (references : Seq [AnnotatedBlock] )
       : Option [ClassBeginningAnnotation] =
@@ -103,7 +103,7 @@ class CoqClassConstructorBlockTranslator
     match annotated_block
       case AbstractDeclarationAnnotation_ (block , references) ==>
         _translate_block (AbstractDeclarationAnnotation_ (block , references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

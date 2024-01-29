@@ -99,7 +99,7 @@ trait DocBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
-      case otherwise => _translate_source_code (annotated_block)
+      case _otherwise => _translate_source_code (annotated_block)
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -366,7 +366,7 @@ trait TranslatorToDoc
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case otherwise => false
+      case _otherwise => false
     }
 
   lazy val execute : Seq [String] => Boolean =

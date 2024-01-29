@@ -73,7 +73,7 @@ class ScalaAbstractDeclarationBlockTranslator
     match annotated_block
       case AbstractDeclarationAnnotation_ (block, references) ==>
         _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

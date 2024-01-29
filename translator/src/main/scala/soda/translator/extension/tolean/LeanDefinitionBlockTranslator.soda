@@ -73,7 +73,7 @@ class LeanDefinitionBlockTranslator
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==>
         _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

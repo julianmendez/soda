@@ -271,7 +271,7 @@ trait PreprocessorSequenceTranslator
           AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) =>
         _get_class_end_updated_block (current) (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => current .block_sequence .apply (index)
+      case _otherwise => current .block_sequence .apply (index)
     }
 
   private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
@@ -301,7 +301,7 @@ trait PreprocessorSequenceTranslator
         _update_first_element (current .references) (
           AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) => _tail_non_empty (current .references)
-      case otherwise => current .references
+      case _otherwise => current .references
     }
 
   private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock )

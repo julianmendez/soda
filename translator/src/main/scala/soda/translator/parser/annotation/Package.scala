@@ -74,7 +74,7 @@ trait AnnotationFactory
       case DirectiveBlockAnnotation_ (b) => DirectiveBlockAnnotation_ (new_content)
       case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
       case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
-      case otherwise =>
+      case _otherwise =>
         _mk_AnnotatedBlock (new_content .annotated_lines) (original_content .block_annotation)
     }
 
@@ -107,7 +107,7 @@ trait AnnotationFactory
     block match  {
       case AnnotatedBlock_ (annotated_lines, block_annotation) =>
         _mk_AnnotatedBlock (annotated_lines) (block_annotation)
-      case otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
+      case _otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
     }
 
   def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
@@ -372,7 +372,7 @@ trait DirectiveBlockAnnotation
   private def _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
     annotated_lines match  {
       case x :: xs => x .line
-      case otherwise => ""
+      case _otherwise => ""
     }
 
   lazy val applies : Boolean =

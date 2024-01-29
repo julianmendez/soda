@@ -68,13 +68,13 @@ class ScalaFunctionDefinitionLineDetector
   _position_of_first_opening_parenthesis_or_bracket_with (index1 : Int) : Int =
     match _position_of_first_opening_bracket
       case SomeSD_ (index2) ==> _min (index1) (index2)
-      case otherwise ==> index1
+      case _otherwise ==> index1
 
   _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
     match _position_of_first_opening_parenthesis
       case SomeSD_ (index1) ==>
         SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
-      case otherwise ==> _position_of_first_opening_bracket
+      case _otherwise ==> _position_of_first_opening_bracket
 
   _is_val_definition_case_1 : Boolean =
     _position_of_first_opening_parenthesis .isEmpty
@@ -82,17 +82,17 @@ class ScalaFunctionDefinitionLineDetector
   _is_val_definition_case_2 (initial_position : Int) : Boolean =
     match _position_of_first_opening_parenthesis
       case SomeSD_ (position) ==> (position > initial_position)
-      case otherwise ==> false
+      case _otherwise ==> false
 
   _is_val_definition_case_2_b (initial_position : Int) : Boolean =
     match _position_of_first_opening_parenthesis_or_bracket
       case SomeSD_ (position) ==> (position > initial_position)
-      case otherwise ==> false
+      case _otherwise ==> false
 
   _is_val_definition_case_3 : Boolean =
     match (_get_index (line) (_sc .type_membership_symbol) )
       case SomeSD_ (other_position) ==> _is_val_definition_case_2_b (other_position)
-      case otherwise ==> false
+      case _otherwise ==> false
 
   _is_val_definition_case_4 : Boolean =
     _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
@@ -133,7 +133,7 @@ class ScalaFunctionDefinitionLineDetector
   detect : Int =
     match _find_definition (line)
       case SomeSD_ (position) ==> _try_found_definition (position)
-      case otherwise ==> undetected
+      case _otherwise ==> undetected
 
 end
 

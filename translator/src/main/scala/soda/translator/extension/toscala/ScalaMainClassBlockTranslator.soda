@@ -23,7 +23,7 @@ class ScalaMainClassBlockTranslator
   _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     match block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-      case otherwise ==> None
+      case _otherwise ==> None
 
   _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
     references
@@ -54,7 +54,7 @@ class ScalaMainClassBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block) (references) ==>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

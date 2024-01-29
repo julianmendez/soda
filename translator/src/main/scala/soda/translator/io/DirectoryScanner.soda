@@ -32,7 +32,7 @@ class DirectoryScanner
   _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
     match files
       case Some (array) ==> array .toSeq
-      case otherwise ==> Seq ()
+      case _otherwise ==> Seq ()
 
   _list_files (to_scan_head : File) : Seq [File] =
     _list_files_with (Option (to_scan_head .listFiles) )

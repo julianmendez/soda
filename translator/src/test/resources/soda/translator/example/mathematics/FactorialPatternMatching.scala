@@ -6,7 +6,7 @@ trait FactorialPatternMatching
   private def _tailrec_fact (n : Int) (accum : Int) : Int =
     n match  {
       case 0 => accum
-      case otherwise => _tailrec_fact (n - 1) (n * accum)
+      case _otherwise => _tailrec_fact (n - 1) (n * accum)
     }
 
   def apply (n : Int) : Int =

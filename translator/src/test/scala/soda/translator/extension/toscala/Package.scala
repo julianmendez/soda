@@ -557,7 +557,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  match n" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -565,7 +565,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -577,7 +577,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  match n" +
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
-        "\n    case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -585,7 +585,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n    case 0 => 1 " +
         "\n    case 1 => 1 " +
-        "\n    case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -597,7 +597,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -605,7 +605,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
     )
   )

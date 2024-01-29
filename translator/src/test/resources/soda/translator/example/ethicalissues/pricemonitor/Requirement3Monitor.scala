@@ -43,7 +43,7 @@ trait SegmentsForFlight
     intermediate_stops match  {
       case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (
         Segment_ (first_airport , head) )
-      case otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
+      case _otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
     }
 
   lazy val segments : Seq [Segment] =

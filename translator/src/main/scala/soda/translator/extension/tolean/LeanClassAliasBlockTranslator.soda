@@ -44,7 +44,7 @@ class LeanClassAliasBlockTranslator
     match annotated_block
       case ClassAliasAnnotation_ (block) ==>
         _translate_class_alias_block (ClassAliasAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

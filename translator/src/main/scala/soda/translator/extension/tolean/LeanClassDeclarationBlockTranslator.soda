@@ -91,7 +91,7 @@ class LeanClassDeclarationBlockTranslator
     match annotated_block
       case ClassBeginningAnnotation_ (block) ==>
         _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

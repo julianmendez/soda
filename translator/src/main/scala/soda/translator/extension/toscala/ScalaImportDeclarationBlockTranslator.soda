@@ -53,7 +53,7 @@ class ScalaImportDeclarationBlockTranslator
     match annotated_block
       case ImportDeclarationAnnotation_ (block) ==>
         _translate_block (ImportDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

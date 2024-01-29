@@ -98,7 +98,7 @@ class CoqDocumentationBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case CommentAnnotation_ (block) ==> _translate_comment (CommentAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

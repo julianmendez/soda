@@ -79,7 +79,7 @@ class LeanMatchCaseBlockTranslator
         _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) ==>
         _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

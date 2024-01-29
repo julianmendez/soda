@@ -37,7 +37,7 @@ class ScalaTheoremBlockTranslator
     match annotated_block
       case TheoremBlockAnnotation_ (block) ==>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

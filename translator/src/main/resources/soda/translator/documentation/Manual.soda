@@ -260,7 +260,7 @@ class Manual
   if_then_else [A : Type] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
-      case otherwise ==> if_false
+      case _otherwise ==> if_false
 
   /* A constant or function name starting with underscore indicates that the constant or
    * function is private, and therefore is not visible outside the class. */

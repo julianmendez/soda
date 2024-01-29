@@ -16,7 +16,7 @@ class SeqSD [A : Type]
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] -> B) : B =
     match this
       case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD_ [A] (toSeq) )
-      case otherwise ==> ifEmpty
+      case _otherwise ==> ifEmpty
 
 end
 

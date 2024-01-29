@@ -31,7 +31,7 @@ class LeanPackageDeclarationBlockTranslator
     match annotated_block
       case PackageDeclarationAnnotation_ (block) ==>
         _translate_block (PackageDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

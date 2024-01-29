@@ -151,7 +151,7 @@ trait ScalaAbstractDeclarationBlockTranslator
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block, references) =>
         _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -302,7 +302,7 @@ trait ScalaClassConstructorBlockTranslator
     block match  {
       case AbstractDeclarationAnnotation_ (b , references) =>
         Some (AbstractDeclarationAnnotation_ (b , references) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _translate_block_with_abstract_beginning_and_fun (beginning : ClassBeginningAnnotation)
@@ -342,7 +342,7 @@ trait ScalaClassConstructorBlockTranslator
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] )
@@ -358,7 +358,7 @@ trait ScalaClassConstructorBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block , references) =>
         _translate_block (ClassEndAnnotation_ (block , references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -670,7 +670,7 @@ trait ScalaClassDeclarationBlockTranslator
         _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
       case ClassAliasAnnotation_ (block) =>
         _translate_class_alias_block (ClassAliasAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -732,7 +732,7 @@ trait ScalaClassEndBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -874,7 +874,7 @@ trait ScalaFunctionDefinitionBlockTranslator
         _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_reserved_word_detected => block
-      case otherwise => block
+      case _otherwise => block
     }
 
   private def _flatten_block (block : Block) : String =
@@ -912,7 +912,7 @@ trait ScalaFunctionDefinitionBlockTranslator
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) =>
         _translate_function_definition_block (block)
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -997,14 +997,14 @@ trait ScalaFunctionDefinitionLineDetector
   private def _position_of_first_opening_parenthesis_or_bracket_with (index1 : Int) : Int =
     _position_of_first_opening_bracket match  {
       case SomeSD_ (index2) => _min (index1) (index2)
-      case otherwise => index1
+      case _otherwise => index1
     }
 
   private lazy val _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
     _position_of_first_opening_parenthesis match  {
       case SomeSD_ (index1) =>
         SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
-      case otherwise => _position_of_first_opening_bracket
+      case _otherwise => _position_of_first_opening_bracket
     }
 
   private lazy val _is_val_definition_case_1 : Boolean =
@@ -1013,19 +1013,19 @@ trait ScalaFunctionDefinitionLineDetector
   private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis match  {
       case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private def _is_val_definition_case_2_b (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis_or_bracket match  {
       case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_3 : Boolean =
     (_get_index (line) (_sc .type_membership_symbol) ) match  {
       case SomeSD_ (other_position) => _is_val_definition_case_2_b (other_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_4 : Boolean =
@@ -1067,7 +1067,7 @@ trait ScalaFunctionDefinitionLineDetector
   lazy val detect : Int =
     _find_definition (line) match  {
       case SomeSD_ (position) => _try_found_definition (position)
-      case otherwise => undetected
+      case _otherwise => undetected
     }
 
 }
@@ -1134,7 +1134,7 @@ trait ScalaImportDeclarationBlockTranslator
     annotated_block match  {
       case ImportDeclarationAnnotation_ (block) =>
         _translate_block (ImportDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1175,7 +1175,7 @@ trait ScalaMainClassBlockTranslator
   private def _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
@@ -1207,7 +1207,7 @@ trait ScalaMainClassBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1301,7 +1301,7 @@ trait ScalaMatchCaseBlockTranslator
       case FunctionDefinitionAnnotation_ (block) => _translate_function_block (annotated_block)
       case ClassAliasAnnotation_ (block) => _translate_class_alias_block (annotated_block)
       case TestDeclarationAnnotation_ (block) => _translate_test_block (annotated_block)
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
@@ -1356,7 +1356,7 @@ trait ScalaTheoremBlockTranslator
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1885,7 +1885,7 @@ trait TranslatorToScala
         if ( _is_single_files_option (arguments .apply (0) )
         ) IndividualProcessor_ () .translate (arguments .apply (1) ) (arguments .apply (2) )
         else false
-      case otherwise => false
+      case _otherwise => false
     }
 
   lazy val execute : Seq [String] => Boolean =

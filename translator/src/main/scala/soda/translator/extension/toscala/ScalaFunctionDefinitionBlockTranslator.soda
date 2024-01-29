@@ -100,7 +100,7 @@ class ScalaFunctionDefinitionBlockTranslator
         _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_reserved_word_detected ==> block
-      case otherwise ==> block
+      case _otherwise ==> block
 
   _flatten_block (block : Block) : String =
     block .lines .mkString (_sc .space)
@@ -137,7 +137,7 @@ class ScalaFunctionDefinitionBlockTranslator
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==>
         _translate_function_definition_block (block)
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

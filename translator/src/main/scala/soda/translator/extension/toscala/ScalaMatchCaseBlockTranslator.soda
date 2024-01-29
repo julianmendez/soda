@@ -76,7 +76,7 @@ class ScalaMatchCaseBlockTranslator
       case FunctionDefinitionAnnotation_ (block) ==> _translate_function_block (annotated_block)
       case ClassAliasAnnotation_ (block) ==> _translate_class_alias_block (annotated_block)
       case TestDeclarationAnnotation_ (block) ==> _translate_test_block (annotated_block)
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate: AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

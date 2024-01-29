@@ -470,7 +470,7 @@ The order matters, so the remaining cases are capture by the last variable. It i
   if_then_else [A : Type] (condition : Boolean) (if_true : A) (if_false : A) : A =
     match condition
       case true ==> if_true
-      case otherwise ==> if_false
+      case _otherwise ==> if_false
 
 
 \end{lstlisting}

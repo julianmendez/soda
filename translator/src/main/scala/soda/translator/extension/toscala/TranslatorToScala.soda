@@ -190,7 +190,7 @@ class TranslatorToScala
         if _is_single_files_option (arguments .apply (0) )
         then IndividualProcessor_ () .translate (arguments .apply (1) ) (arguments .apply (2) )
         else false
-      case otherwise ==> false
+      case _otherwise ==> false
 
   execute : Seq [String] -> Boolean =
     lambda arguments -->

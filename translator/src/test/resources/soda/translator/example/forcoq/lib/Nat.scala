@@ -94,7 +94,7 @@ trait IntNat
   def to_Int (a : nat) : Int =
     a match  {
       case S_ (k) => 1 + to_Int (k)
-      case otherwise => 0
+      case _otherwise => 0
     }
 
 }

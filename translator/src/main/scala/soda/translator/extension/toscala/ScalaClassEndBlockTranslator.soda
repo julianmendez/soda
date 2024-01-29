@@ -44,7 +44,7 @@ class ScalaClassEndBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block) (references) ==>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

@@ -72,6 +72,6 @@ class IntNat
   to_Int (a : Nat) : Int =
     match a
       case Succ_ (k) ==> 1 + to_Int (k)
-      case otherwise ==> 0
+      case _otherwise ==> 0
 
 end

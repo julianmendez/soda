@@ -155,7 +155,7 @@ trait DirectoryScanner
   private def _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
     files match  {
       case Some (array) => array .toSeq
-      case otherwise => Seq ()
+      case _otherwise => Seq ()
     }
 
   private def _list_files (to_scan_head : File) : Seq [File] =

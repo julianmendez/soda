@@ -53,7 +53,7 @@ trait LeanClassAliasBlockTranslator
     annotated_block match  {
       case ClassAliasAnnotation_ (block) =>
         _translate_class_alias_block (ClassAliasAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -93,7 +93,7 @@ trait LeanClassConstructorBlockTranslator
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] )
@@ -175,7 +175,7 @@ trait LeanClassConstructorBlockTranslator
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block , references) =>
         _translate_block (AbstractDeclarationAnnotation_ (block , references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -284,7 +284,7 @@ trait LeanClassDeclarationBlockTranslator
     annotated_block match  {
       case ClassBeginningAnnotation_ (block) =>
         _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -370,7 +370,7 @@ trait LeanClassEndBlockTranslator
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -380,7 +380,7 @@ trait LeanClassEndBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -471,7 +471,7 @@ trait LeanDefinitionBlockTranslator
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) =>
         _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -550,13 +550,13 @@ trait LeanDefinitionLineTranslator
   private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis match  {
       case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_3 : Boolean =
     (get_index (line) (_sc .type_membership_symbol) ) match  {
       case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_4 : Boolean =
@@ -619,7 +619,7 @@ trait LeanDefinitionLineTranslator
   lazy val translation : String =
     find_definition (line) match  {
       case SomeSD_ (position) => _try_found_definition (position) .line
-      case otherwise => line
+      case _otherwise => line
     }
 
 }
@@ -756,7 +756,7 @@ trait LeanDocumentationBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -861,7 +861,7 @@ trait LeanImportDeclarationBlockTranslator
     annotated_block match  {
       case ImportDeclarationAnnotation_ (block) =>
         _translate_block (ImportDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -958,7 +958,7 @@ trait LeanMatchCaseBlockTranslator
         _translate_function_block (FunctionDefinitionAnnotation_ (block) )
       case TestDeclarationAnnotation_ (block) =>
         _translate_test_block (TestDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1007,7 +1007,7 @@ trait LeanPackageDeclarationBlockTranslator
     annotated_block match  {
       case PackageDeclarationAnnotation_ (block) =>
         _translate_block (PackageDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1067,7 +1067,7 @@ trait LeanTheoremBlockTranslator
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
         _translate_block (TheoremBlockAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1747,7 +1747,7 @@ trait TranslatorToLean
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case otherwise => false
+      case _otherwise => false
     }
 
   lazy val execute : Seq [String] => Boolean =

@@ -78,7 +78,7 @@ class TranslatorToDoc
       case 0 ==> _process_directory (_default_argument)
       case 1 ==> _process_directory (arguments (0) )
       case 2 ==> _translate (arguments (0) ) (arguments (1) )
-      case otherwise ==> false
+      case _otherwise ==> false
 
   execute : Seq [String] -> Boolean =
     lambda arguments -->

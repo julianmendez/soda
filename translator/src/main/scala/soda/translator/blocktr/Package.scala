@@ -28,13 +28,13 @@ trait DirectiveBlockTranslator
   private def _get_first_or_empty (sequence : Seq [String] ) : String =
     sequence match  {
       case x :: xs => x
-      case otherwise => ""
+      case _otherwise => ""
     }
 
   private def _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
     sequence match  {
       case x :: xs => xs
-      case otherwise => sequence
+      case _otherwise => sequence
     }
 
   private def _comment_block_out (lines : Seq [String] ) : Seq [String] =
@@ -61,7 +61,7 @@ trait DirectiveBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =

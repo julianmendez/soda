@@ -160,7 +160,7 @@ class Min [A : Type]
   reverse (s : MSeq [A] ) : MSeq [A] =
     match s
       case NESeq_ (head) (tail) ==> reverseNonEmpty (NESeq_ (head) (tail) )
-      case otherwise ==> empty
+      case _otherwise ==> empty
 
   _length_initial_value : Int = 0
 
@@ -230,7 +230,7 @@ class Min [A : Type]
   at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     match s
       case NESeq_ (head) (tail) ==> _retrieve_if_in_range (NESeq_ (head) (tail) ) (n)
-      case otherwise ==> NoneSD_ [A] ()
+      case _otherwise ==> NoneSD_ [A] ()
 
   /* */
 
@@ -259,7 +259,7 @@ class Min [A : Type]
     match (tuple .seq)
       case NESeq_ (head) (tail) ==> _mk_TakeDropFoldTuple [A] (tail) (tuple .index + 1) (
         tuple .length)
-      case otherwise ==> _mk_TakeDropFoldTuple [A] (tuple .seq) (tuple .index + 1) (
+      case _otherwise ==> _mk_TakeDropFoldTuple [A] (tuple .seq) (tuple .index + 1) (
         tuple .length)
 
   _drop_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
@@ -291,7 +291,7 @@ class Min [A : Type]
   _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
     match (tuple .left)
       case NESeq_ (head) (tail) ==> _aux_next_value (tuple) (NESeq_ (head) (tail) )
-      case otherwise ==>
+      case _otherwise ==>
         _mk_SpanRevFoldTuple [A] (tuple .left) (tuple .right) (false) (tuple .condition)
 
   _spanRevRec_condition (tuple : SpanRevFoldTuple [A] ) (elem : A) : Boolean =
