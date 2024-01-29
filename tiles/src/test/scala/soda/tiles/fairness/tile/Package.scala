@@ -126,6 +126,8 @@ case class EquityTileSpec ()
 trait ResourceAllocationScenarioExample
 {
 
+
+
   private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor, resource)
 
@@ -224,6 +226,8 @@ object ResourceAllocationScenarioExample {
 
 trait ScoringScenarioExample
 {
+
+
 
   lazy val actors : Seq [Actor] =
     Seq (

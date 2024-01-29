@@ -9,6 +9,8 @@
 
 class FoldWhile
 
+  abstract
+
   @tailrec
   _tailrec_fold_while [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
       (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
@@ -26,6 +28,8 @@ end
 
 class Fold
 
+  abstract
+
   @tailrec
   _tailrec_fold [A : Type] [B : Type] (sequence : Seq [A] ) (current : B) (next : B -> A -> B)
       : B =
@@ -40,6 +44,8 @@ end
 
 class Range
 
+  abstract
+
   @tailrec
   _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
     if n <= 0
@@ -52,6 +58,8 @@ class Range
 end
 
 class Recursion
+
+  abstract
 
   _fold_while = FoldWhile_ ()
 

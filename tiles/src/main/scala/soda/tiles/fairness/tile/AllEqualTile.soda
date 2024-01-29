@@ -1,6 +1,8 @@
 
 class AllEqualTile
 
+  abstract
+
   all_equal_1_tile = AllEqual1Tile_ ()
 
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =

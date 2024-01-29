@@ -1,6 +1,8 @@
 
 class UnzipPairFstTile
 
+  abstract
+
   unzip_fst_list [A : Type] [B : Type] (list : Seq [TilePair [A] [B] ] ) : Seq [A] =
     list .map (lambda pair --> pair .fst)
 
@@ -14,6 +16,8 @@ end
 
 
 class UnzipPairSndTile
+
+  abstract
 
   unzip_snd_list [A : Type] [B : Type] (list : Seq [TilePair [A] [B] ] ) : Seq [B] =
     list .map (lambda pair --> pair .snd)

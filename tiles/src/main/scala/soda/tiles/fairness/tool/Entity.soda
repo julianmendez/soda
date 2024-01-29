@@ -88,5 +88,7 @@ end
 
 class Context
 
+  abstract
+
 end
 

@@ -1,6 +1,8 @@
 
 class UnzipTripleFstTile
 
+  abstract
+
   unzip_fst_list [A : Type] [B : Type] [C : Type] (
       list : Seq [TileTriple [A] [B] [C] ] ) : Seq [A] =
     list .map (lambda triple --> triple .fst)
@@ -16,6 +18,8 @@ end
 
 class UnzipTripleSndTile
 
+  abstract
+
   unzip_snd_list [A : Type] [B : Type] [C : Type] (
       list : Seq [TileTriple [A] [B] [C] ] ) : Seq [B] =
     list .map (lambda triple --> triple .snd)
@@ -30,6 +34,8 @@ end
 
 
 class UnzipTripleTrdTile
+
+  abstract
 
   unzip_trd_list [A : Type] [B : Type] [C : Type] (
       list : Seq [TileTriple [A] [B] [C] ] ) : Seq [C] =

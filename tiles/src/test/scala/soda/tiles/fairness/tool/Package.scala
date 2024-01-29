@@ -64,6 +64,8 @@ trait Random
     RandomNumberGenerator
 {
 
+
+
   lazy val generator = LinearCongruentialGenerator_ (0x1000000000000L , 0x5DEECE66DL , 0x0BL)
 
   lazy val get_next_long : Long => Long =
@@ -96,6 +98,8 @@ object Random {
 trait FoldWhile
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current : B)
@@ -122,6 +126,8 @@ object FoldWhile {
 trait Fold
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fold [A , B ] (sequence : Seq [A] ) (current : B) (next : B => A => B)
@@ -145,6 +151,8 @@ object Fold {
 trait Range
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
@@ -166,6 +174,8 @@ object Range {
 
 trait Recursion
 {
+
+
 
   private lazy val _fold_while = FoldWhile_ ()
 

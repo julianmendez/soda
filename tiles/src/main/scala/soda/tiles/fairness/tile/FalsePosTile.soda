@@ -1,6 +1,8 @@
 
 class FalsePosTile
 
+  abstract
+
   _measure_zero = Measure_ (0)
 
   _measure_one = Measure_ (1)

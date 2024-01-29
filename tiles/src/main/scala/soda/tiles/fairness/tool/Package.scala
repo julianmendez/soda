@@ -126,6 +126,8 @@ object Outcome {
 trait Context
 {
 
+
+
 }
 
 case class Context_ () extends Context
@@ -144,6 +146,8 @@ object Context {
 
 trait MathTool
 {
+
+
 
   def squared (x : Double) : Double =
     x * x
@@ -216,6 +220,8 @@ object Pearson {
 
 trait ScoringCategory
 {
+
+
 
   lazy val undefined_correlation : Int = 0
 
@@ -302,6 +308,8 @@ object TileMessage {
 
 trait TileMessageBuilder
 {
+
+
 
   def build [A ] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
     TileMessage_ (context, outcome, contents)

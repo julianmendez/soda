@@ -1,6 +1,8 @@
 
 class ScoringScenarioExample
 
+  abstract
+
   actors : Seq [Actor] =
     Seq (
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",

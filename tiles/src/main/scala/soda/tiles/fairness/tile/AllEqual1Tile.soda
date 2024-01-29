@@ -1,6 +1,8 @@
 
 class AllEqual1Tile
 
+  abstract
+
   apply (message : TileMessage [Seq [Measure] ] ) (list : Seq [Measure] ) : Boolean =
     match list
       case Nil ==> true

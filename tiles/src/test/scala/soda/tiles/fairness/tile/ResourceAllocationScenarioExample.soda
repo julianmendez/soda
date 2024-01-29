@@ -1,6 +1,8 @@
 
 class ResourceAllocationScenarioExample
 
+  abstract
+
   _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor) (resource)
 

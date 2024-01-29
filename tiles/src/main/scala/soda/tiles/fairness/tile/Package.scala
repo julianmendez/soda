@@ -24,6 +24,8 @@ trait Package
 trait AllActorPairTile
 {
 
+
+
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
@@ -46,6 +48,8 @@ object AllActorPairTile {
 trait AllActorTile
 {
 
+
+
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
@@ -66,6 +70,8 @@ object AllActorTile {
 
 trait AllActorTripleTile
 {
+
+
 
   def apply (message : TileMessage [Boolean] )
       : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] =
@@ -90,6 +96,8 @@ object AllActorTripleTile {
 trait AllEqual1Tile
 {
 
+
+
   def apply (message : TileMessage [Seq [Measure] ] ) (list : Seq [Measure] ) : Boolean =
     list match  {
       case Nil => true
@@ -108,6 +116,8 @@ object AllEqual1Tile {
 
 trait AllEqualTile
 {
+
+
 
   lazy val all_equal_1_tile = AllEqual1Tile_ ()
 
@@ -128,6 +138,8 @@ object AllEqualTile {
 
 trait AtLeastTile
 {
+
+
 
   def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Boolean] =
@@ -171,6 +183,8 @@ object AttributePTile {
 
 trait CorrelationTile
 {
+
+
 
   private lazy val _measure_zero = Measure_ (0)
 
@@ -316,6 +330,8 @@ object EquityTile {
 
 trait FalsePosTile
 {
+
+
 
   private lazy val _measure_zero = Measure_ (0)
 
@@ -534,6 +550,8 @@ object UnbiasednessTile {
 trait UnzipPairFstTile
 {
 
+
+
   def unzip_fst_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [A] =
     list .map ( pair => pair .fst)
 
@@ -554,6 +572,8 @@ object UnzipPairFstTile {
 
 trait UnzipPairSndTile
 {
+
+
 
   def unzip_snd_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [B] =
     list .map ( pair => pair .snd)
@@ -577,6 +597,8 @@ object UnzipPairSndTile {
 trait UnzipTripleFstTile
 {
 
+
+
   def unzip_fst_list [A , B , C ] (
       list : Seq [TileTriple [A, B, C] ] ) : Seq [A] =
     list .map ( triple => triple .fst)
@@ -599,6 +621,8 @@ object UnzipTripleFstTile {
 trait UnzipTripleSndTile
 {
 
+
+
   def unzip_snd_list [A , B , C ] (
       list : Seq [TileTriple [A, B, C] ] ) : Seq [B] =
     list .map ( triple => triple .snd)
@@ -620,6 +644,8 @@ object UnzipTripleSndTile {
 
 trait UnzipTripleTrdTile
 {
+
+
 
   def unzip_trd_list [A , B , C ] (
       list : Seq [TileTriple [A, B, C] ] ) : Seq [C] =
@@ -661,6 +687,8 @@ object WithPTile {
 
 trait ZipTile
 {
+
+
 
   def zip_lists [A , B ] (list0 : Seq [A] ) (list1 : Seq [B] )
       : Seq [TilePair [A, B] ] =
