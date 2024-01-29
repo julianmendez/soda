@@ -39,6 +39,8 @@ trait CharTypeEnum
     soda.lib.Enum [CharType]
 {
 
+
+
   private def _mk_CharType (ordinal : Int) (name : String) : CharType =
     CharType_ (ordinal, name)
 
@@ -140,6 +142,8 @@ trait ParserStateEnum
     soda.lib.Enum [ParserState]
 {
 
+
+
   lazy val undefined_state = ParserState_ (0 , "undefined_state")
 
   lazy val quotes_state = ParserState_ (1 , "quotes_state")
@@ -173,6 +177,8 @@ object ParserStateEnum {
 
 trait ParserTransition
 {
+
+
 
   lazy val ps = ParserStateEnum_ ()
 
@@ -229,6 +235,8 @@ object ParserTransition {
 
 trait ReplacementAux
 {
+
+
 
   lazy val soda_space = " "
 

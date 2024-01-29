@@ -1,6 +1,8 @@
 
 class LibraryDeployer
 
+  abstract
+
   import
     java.io.File
 

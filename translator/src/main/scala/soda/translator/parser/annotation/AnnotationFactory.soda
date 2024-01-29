@@ -3,6 +3,8 @@ class AnnotationFactory
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedBlock_

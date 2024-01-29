@@ -376,6 +376,8 @@ case class ClassBeginningAnnotationSpec ()
 trait ExampleProgram
 {
 
+
+
   import   soda.translator.block.Block
   import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_

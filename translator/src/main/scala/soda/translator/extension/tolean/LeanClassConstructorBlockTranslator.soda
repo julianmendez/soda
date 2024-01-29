@@ -3,6 +3,8 @@ class LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_

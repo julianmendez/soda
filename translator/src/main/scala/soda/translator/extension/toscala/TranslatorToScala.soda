@@ -1,6 +1,8 @@
 
 class TranslatorToScalaConstant
 
+  abstract
+
   import
     soda.translator.parser.BlockProcessor_
     soda.translator.block.DefaultBlockSequenceTranslator_

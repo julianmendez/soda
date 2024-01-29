@@ -10,6 +10,8 @@ class Main
   import
     soda.translator.extension.common.Extension
 
+  abstract
+
   help = soda.translator.extension.help.Help_ ()
 
   extensions : Map [String] [Extension] =

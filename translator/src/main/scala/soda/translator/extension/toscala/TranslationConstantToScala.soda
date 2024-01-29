@@ -6,6 +6,8 @@
 
 class TranslationConstantToScala
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 

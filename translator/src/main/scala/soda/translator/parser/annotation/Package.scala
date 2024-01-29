@@ -46,6 +46,8 @@ trait AnnotationFactory
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
   import   soda.translator.block.AnnotatedLine

@@ -167,6 +167,8 @@ case class FullTranslationSpec ()
 trait ExampleWithWrongOrder
 {
 
+
+
   lazy val this_is_null_but = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
@@ -182,6 +184,8 @@ object ExampleWithWrongOrder {
 
 trait ExampleWithRightOrder
 {
+
+
 
   lazy val constant_defined_before = "Success!"
 
@@ -199,6 +203,8 @@ object ExampleWithRightOrder {
 trait ExampleWithEmptyParentheses
 {
 
+
+
   def this_is_not_null  () = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
@@ -214,6 +220,8 @@ object ExampleWithEmptyParentheses {
 
 trait AnotherExampleWithEmptyParentheses
 {
+
+
 
   lazy val this_is_not_null = constant_function_defined_later  ()
 

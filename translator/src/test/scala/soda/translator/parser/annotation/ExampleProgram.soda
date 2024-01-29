@@ -1,6 +1,8 @@
 
 class ExampleProgram
 
+  abstract
+
   import
     soda.translator.block.Block
     soda.translator.block.DefaultBlockTranslator_

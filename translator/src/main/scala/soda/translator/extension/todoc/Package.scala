@@ -13,6 +13,8 @@ trait DocBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.SodaConstant_
@@ -123,6 +125,8 @@ trait MicroTranslatorToDoc
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockTranslatorPipeline_
@@ -160,6 +164,8 @@ object MicroTranslatorToDoc {
 
 trait TranslationConstantToDoc
 {
+
+
 
   import   soda.translator.parser.SodaConstant_
 
@@ -297,6 +303,8 @@ trait TranslatorToDoc
   extends
     soda.translator.extension.common.Extension
 {
+
+
 
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_

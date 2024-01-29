@@ -3,6 +3,8 @@ class LeanDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
 
+  abstract
+
   _tc = TranslationConstantToLean_ ()
 
   identifier : String = _tc .lean_directive_identifier

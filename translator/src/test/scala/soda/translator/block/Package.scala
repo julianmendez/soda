@@ -10,6 +10,8 @@ trait BlockTranslator00
     BlockTranslator
 {
 
+
+
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
@@ -37,6 +39,8 @@ trait BlockTranslator01
     BlockTranslator
 {
 
+
+
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_
 
@@ -63,6 +67,8 @@ trait BlockTranslator02
   extends
     BlockTranslator
 {
+
+
 
   import   soda.translator.parser.BlockBuilder_
   import   soda.translator.parser.annotation.AnnotationFactory_

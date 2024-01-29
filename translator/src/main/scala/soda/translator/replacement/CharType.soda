@@ -21,6 +21,8 @@ class CharTypeEnum
   extends
     soda.lib.Enum [CharType]
 
+  abstract
+
   _mk_CharType (ordinal : Int) (name : String) : CharType =
     CharType_ (ordinal) (name)
 

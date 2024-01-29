@@ -10,6 +10,8 @@ class DefaultBlockTranslator
   extends
     BlockTranslator
 
+  abstract
+
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
       block

@@ -5,6 +5,8 @@
 
 class DirectoryScanner
 
+  abstract
+
   import
     java.io.File
 

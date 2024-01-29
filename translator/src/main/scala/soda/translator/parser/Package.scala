@@ -346,6 +346,8 @@ object PreprocessorSequenceTranslator {
 trait SodaConstant
 {
 
+
+
   lazy val space = " "
 
   lazy val new_line = "\n"

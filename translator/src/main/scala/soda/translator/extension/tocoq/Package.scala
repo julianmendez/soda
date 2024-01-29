@@ -14,6 +14,8 @@ trait CoqClassAliasBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
@@ -74,6 +76,8 @@ trait CoqClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -195,6 +199,8 @@ trait CoqClassDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
@@ -310,6 +316,8 @@ trait CoqClassEndBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -393,6 +401,8 @@ trait CoqDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -503,6 +513,8 @@ trait CoqDefinitionLineTranslator
   import   soda.translator.replacement.Replacement
   import   soda.translator.replacement.Replacement_
 
+
+
   private lazy val _sc = SodaConstant_ ()
 
   private lazy val _tc = TranslationConstantToCoq_ ()
@@ -612,6 +624,8 @@ trait CoqDirectiveBlockTranslator
     soda.translator.blocktr.DirectiveBlockTranslator
 {
 
+
+
   private lazy val _tc = TranslationConstantToCoq_ ()
 
   lazy val identifier : String = _tc .coq_directive_identifier
@@ -634,6 +648,8 @@ trait CoqDocumentationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -749,6 +765,8 @@ trait CoqDotNotationBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 {
 
+
+
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.replacement.Token
 
@@ -804,6 +822,8 @@ trait CoqImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -878,6 +898,8 @@ trait CoqMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -974,6 +996,8 @@ trait CoqPackageDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -1020,6 +1044,8 @@ trait CoqTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1082,6 +1108,8 @@ trait MicroTranslatorToCoq
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -1164,6 +1192,8 @@ object MicroTranslatorToCoq {
 
 trait TranslationConstantToCoq
 {
+
+
 
   import   soda.translator.parser.SodaConstant_
 
@@ -1484,6 +1514,8 @@ trait TranslatorToCoq
   extends
     soda.translator.extension.common.Extension
 {
+
+
 
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_

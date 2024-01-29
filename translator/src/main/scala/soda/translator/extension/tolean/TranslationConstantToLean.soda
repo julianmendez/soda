@@ -5,6 +5,8 @@
 
 class TranslationConstantToLean
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 

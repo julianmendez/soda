@@ -40,6 +40,8 @@ class CoqDefinitionLineTranslator
     soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
 
+  abstract
+
   _sc = SodaConstant_ ()
 
   _tc = TranslationConstantToCoq_ ()

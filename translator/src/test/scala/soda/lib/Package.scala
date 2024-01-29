@@ -105,6 +105,8 @@ object DayOfTheWeek {
 trait DayOfTheWeekConstant
 {
 
+
+
   private def _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
     DayOfTheWeek_ (ordinal, name)
 
@@ -137,6 +139,8 @@ trait DayOfTheWeekEnum
   extends
     DayOfTheWeekConstant
 {
+
+
 
   lazy val values = DayOfTheWeek_values
 

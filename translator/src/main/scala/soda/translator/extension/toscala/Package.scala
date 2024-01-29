@@ -17,6 +17,8 @@ trait MicroTranslatorToScala
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.BlockAnnotationEnum_
@@ -79,6 +81,8 @@ trait ScalaAbstractDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -168,6 +172,8 @@ trait ScalaClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -544,6 +550,8 @@ trait ScalaClassDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
@@ -684,6 +692,8 @@ trait ScalaClassEndBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -744,6 +754,8 @@ trait ScalaDirectiveBlockTranslator
     soda.translator.blocktr.DirectiveBlockTranslator
 {
 
+
+
   private lazy val _tc = TranslationConstantToScala_ ()
 
   lazy val identifier : String = _tc .scala_directive_identifier
@@ -766,6 +778,8 @@ trait ScalaFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -1071,6 +1085,8 @@ trait ScalaImportDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.Block
@@ -1139,6 +1155,8 @@ trait ScalaMainClassBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1210,6 +1228,8 @@ trait ScalaMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1303,6 +1323,8 @@ trait ScalaTheoremBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -1356,6 +1378,8 @@ trait ScalaTypeParameterBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 {
 
+
+
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.replacement.Token
 
@@ -1387,6 +1411,8 @@ object ScalaTypeParameterBlockTranslator {
 
 trait TranslationConstantToScala
 {
+
+
 
   import   soda.translator.parser.SodaConstant_
 
@@ -1642,6 +1668,8 @@ object TranslationConstantToScala {
 
 trait TranslatorToScalaConstant
 {
+
+
 
   import   soda.translator.parser.BlockProcessor_
   import   soda.translator.block.DefaultBlockSequenceTranslator_

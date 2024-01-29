@@ -88,6 +88,8 @@ trait BlockAnnotationEnum
     soda.lib.Enum [BlockAnnotationId]
 {
 
+
+
   private def _mk_BlockAnnotationId (ordinal : Int) (name : String) : BlockAnnotationId =
     BlockAnnotationId_ (ordinal, name)
 
@@ -194,6 +196,8 @@ trait DefaultBlockTranslator
   extends
     BlockTranslator
 {
+
+
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>

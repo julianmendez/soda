@@ -1,6 +1,8 @@
 
 class ReplacementAux
 
+  abstract
+
   soda_space = " "
 
   scala_space = " "

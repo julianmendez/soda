@@ -13,6 +13,8 @@ trait LeanClassAliasBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
@@ -72,6 +74,8 @@ trait LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -193,6 +197,8 @@ trait LeanClassDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
@@ -300,6 +306,8 @@ trait LeanClassEndBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -393,6 +401,8 @@ trait LeanDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -627,6 +637,8 @@ trait LeanDirectiveBlockTranslator
     soda.translator.blocktr.DirectiveBlockTranslator
 {
 
+
+
   private lazy val _tc = TranslationConstantToLean_ ()
 
   lazy val identifier : String = _tc .lean_directive_identifier
@@ -649,6 +661,8 @@ trait LeanDocumentationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -764,6 +778,8 @@ trait LeanDotNotationBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 {
 
+
+
   import   soda.translator.parser.SodaConstant_
   import   soda.translator.replacement.Token
 
@@ -791,6 +807,8 @@ trait LeanImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -864,6 +882,8 @@ trait LeanMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -960,6 +980,8 @@ trait LeanPackageDeclarationBlockTranslator
     soda.translator.block.BlockTranslator
 {
 
+
+
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder_
@@ -1006,6 +1028,8 @@ trait LeanTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1068,6 +1092,8 @@ trait MicroTranslatorToLean
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -1149,6 +1175,8 @@ object MicroTranslatorToLean {
 
 trait TranslationConstantToLean
 {
+
+
 
   import   soda.translator.parser.SodaConstant_
 
@@ -1661,6 +1689,8 @@ trait TranslatorToLean
   extends
     soda.translator.extension.common.Extension
 {
+
+
 
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_

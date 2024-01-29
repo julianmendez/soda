@@ -5,6 +5,8 @@
 
 class TranslationConstantToDoc
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 

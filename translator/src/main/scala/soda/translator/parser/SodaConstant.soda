@@ -1,6 +1,8 @@
 
 class SodaConstant
 
+  abstract
+
   space = " "
 
   new_line = "\n"
