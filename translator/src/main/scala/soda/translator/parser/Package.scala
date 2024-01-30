@@ -355,6 +355,8 @@ trait SodaConstant
 
   lazy val function_definition_symbol = "="
 
+  lazy val function_definition_proposed_unicode_symbol = "\u225D"
+
   lazy val type_membership_symbol = ":"
 
   lazy val function_arrow_symbol = "->"
@@ -410,6 +412,8 @@ trait SodaConstant
   lazy val extends_reserved_word = "extends"
 
   lazy val abstract_reserved_word = "abstract"
+
+  lazy val abstract_proposed_unicode_symbol = "\u27D0"
 
   lazy val class_end_reserved_word = "end"
 
@@ -504,6 +508,12 @@ trait SodaConstant
   lazy val greater_than_or_equal_to_symbol = ">="
 
   lazy val greater_than_or_equal_to_unicode_symbol = "\u2265"
+
+  lazy val empty_list_symbol = "[]"
+
+  lazy val list_constructor_symbol = "::"
+
+  lazy val list_constructor_unicode_symbol = "\u2237"
 
   lazy val documentation_comment_opening_symbol = "/**"
 
@@ -605,8 +615,11 @@ trait SodaConstant
       Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol) ,
       Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol) ,
       Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol) ,
+      Tuple2 (list_constructor_unicode_symbol , list_constructor_symbol) ,
+      Tuple2 (function_definition_proposed_unicode_symbol , function_definition_symbol) ,
       Tuple2 (class_proposed_unicode_symbol , class_reserved_word) ,
       Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word) ,
+      Tuple2 (abstract_proposed_unicode_symbol , abstract_reserved_word) ,
       Tuple2 (if_proposed_unicode_symbol , if_reserved_word) ,
       Tuple2 (then_proposed_unicode_symbol , then_reserved_word) ,
       Tuple2 (else_proposed_unicode_symbol , else_reserved_word)
