@@ -4,7 +4,7 @@
  This file is part of GtkSourceView
 
  Authors: Julian Alfredo Mendez
-   Copyright 2020-2023 Julian Alfredo Mendez <julian.mendez@gmail.com>
+   Copyright 2020-2024 Julian Alfredo Mendez <julian.mendez@gmail.com>
 
  GtkSourceView is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -150,6 +150,7 @@
         <context id="synonym" style-ref="keyword">
             <keyword>lambda</keyword>
             <keyword>any</keyword>
+            <keyword>fun</keyword>
         </context>
 
         <context id="special" style-ref="special">
@@ -158,6 +159,23 @@
             <keyword>not</keyword>
             <keyword>and</keyword>
             <keyword>or</keyword>
+        </context>
+
+        <context id="tactic" style-ref="tactic">
+            <keyword>apply</keyword>
+            <keyword>by</keyword>
+            <keyword>cases</keyword>
+            <keyword>constructor</keyword>
+            <keyword>exact</keyword>
+            <keyword>funext</keyword>
+            <keyword>have</keyword>
+            <keyword>induction</keyword>
+            <keyword>intro</keyword>
+            <keyword>rewrite</keyword>
+            <keyword>rfl</keyword>
+            <keyword>rw</keyword>
+            <keyword>simp</keyword>
+            <keyword>with</keyword>
         </context>
 
         <context id="primitive-type" style-ref="type">

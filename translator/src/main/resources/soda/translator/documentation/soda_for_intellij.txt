@@ -39,6 +39,7 @@ directive
 else
 end
 extends
+fun
 if
 import
 lambda
@@ -69,15 +70,24 @@ true
 
 
 3
-(
-)
-[
-]
-
+apply
+by
+cases
+constructor
+exact
+funext
+have
+induction
+intro
+rewrite
+rfl
+rw
+simp
+with
 
 4
 @new
 @override
 @tailrec
-
+sorry
 
