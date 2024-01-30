@@ -11,6 +11,8 @@ class Zero
   extends
     Nat
 
+  abstract
+
   add : Nat -> Nat =
     lambda a --> add_for (a)
 
@@ -49,6 +51,8 @@ class Succ
 end
 
 class IntNat
+
+  abstract
 
   import
     soda.lib.NoneSD_

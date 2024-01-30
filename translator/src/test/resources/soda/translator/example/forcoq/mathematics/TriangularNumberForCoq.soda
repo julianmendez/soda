@@ -1,6 +1,8 @@
 
 class TriangularNumberForCoq
 
+  abstract
+
   @tailrec
   _tailrec_get_number (m : nat) (acc : nat) : nat =
     match m

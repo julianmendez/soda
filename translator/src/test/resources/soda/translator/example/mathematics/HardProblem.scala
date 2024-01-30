@@ -111,6 +111,8 @@ trait HardProblem
     MemoizableFunction [Int, Int]
 {
 
+
+
   def is_even (n : Int) : Boolean =
     n % 2 == 0
 
@@ -151,6 +153,8 @@ trait MemoizedFibonacci
   extends
     MemoizableFunction [Int, Int]
 {
+
+
 
   private def _get_next_fibo (a : Int) (b : Int) : Int =
     a + b

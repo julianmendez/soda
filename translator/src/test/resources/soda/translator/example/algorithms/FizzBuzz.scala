@@ -1,6 +1,8 @@
 trait FizzBuzz
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"

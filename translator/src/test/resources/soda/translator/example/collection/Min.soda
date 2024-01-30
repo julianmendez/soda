@@ -77,6 +77,8 @@ end
 
 class MSeqTranslator [A : Type]
 
+  abstract
+
   @tailrec
   _tailrec_foldLeftSeq [B : Type] (sequence : Seq [A] ) (current_value : B)
       (next_value : B -> A -> B) : B =
@@ -117,6 +119,8 @@ class MSeqPair [A : Type]
 end
 
 class Min [A : Type]
+
+  abstract
 
   import
     soda.lib.NoneSD_

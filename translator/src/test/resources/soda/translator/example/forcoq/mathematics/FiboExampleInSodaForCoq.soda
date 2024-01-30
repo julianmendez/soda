@@ -1,6 +1,8 @@
 
 class FiboExampleInSodaForCoq
 
+  abstract
+
   @tailrec
   _tailrec_fib (m : nat) (a : nat) (b : nat) : nat =
     match m

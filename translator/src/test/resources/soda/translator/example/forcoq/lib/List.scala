@@ -1,6 +1,8 @@
 trait list [A ]
 {
 
+
+
 }
 
 case class list_ [A] () extends list [A]
@@ -14,6 +16,8 @@ trait nil [A ]
   extends
     list [A]
 {
+
+
 
 }
 
@@ -43,6 +47,8 @@ object cons {
 
 trait SeqList
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final

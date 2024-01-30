@@ -1,6 +1,8 @@
 
 class FizzBuzz
 
+  abstract
+
   fizz = "Fizz"
 
   buzz = "Buzz"

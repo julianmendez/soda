@@ -2,6 +2,12 @@ Module TriangularNumberForCoq .
 
 Class TriangularNumberForCoq : Type :=
 
+  mk {
+    
+} .
+
+Notation "'TriangularNumberForCoq_'" := TriangularNumberForCoq.mk (at level 99) .
+
 Fixpoint   @tailrec
    _tailrec_get_number (m : nat) (acc : nat) : nat :=
     match m with

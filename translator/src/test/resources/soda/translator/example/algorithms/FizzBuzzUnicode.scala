@@ -1,6 +1,8 @@
 trait FizzBuzzPatternUnicode
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"

@@ -1,6 +1,8 @@
 trait FactorialSimple
 {
 
+
+
   def apply (n : Int) : Int =
     if ( n < 2
     ) 1

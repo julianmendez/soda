@@ -1,6 +1,8 @@
 
 class FactorialForCoq
 
+  abstract
+
   @tailrec
   _tailrec_get_factorial (m : nat) (product : nat) : nat =
     match m

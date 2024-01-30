@@ -1,6 +1,8 @@
 trait SaladMaker
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_prepare_salad [Ingredient , Salad ]

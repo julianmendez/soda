@@ -16,6 +16,8 @@ class ESeq [A : Type]
   extends
     MSeq [A]
 
+  abstract
+
   isEmpty = true
 
 end
@@ -47,6 +49,8 @@ class NESeq [A : Type]
 end
 
 class MSeqRec [A : Type]
+
+  abstract
 
   @tailrec
   _tailrec_fold_while [B : Type] (sequence : MSeq [A] ) (current_value : B)

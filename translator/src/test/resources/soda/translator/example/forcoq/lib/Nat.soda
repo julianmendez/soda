@@ -11,6 +11,8 @@ class O
   extends
     nat
 
+  abstract
+
   add : nat -> nat =
     lambda a --> add_for (a)
 
@@ -49,6 +51,8 @@ class S
 end
 
 class IntNat
+
+  abstract
 
   import
     soda.lib.NoneSD_

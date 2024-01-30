@@ -1,6 +1,8 @@
 trait FactorialWithFold
 {
 
+
+
   lazy val fold = soda.lib.Fold_ ()
 
   lazy val range = soda.lib.Range_ ()

@@ -16,6 +16,8 @@ object MyPair {
 trait ScalaReservedWordEscaping
 {
 
+
+
   private lazy val __soda__var = "var"
 
   private lazy val __soda__val = 1

@@ -72,6 +72,8 @@ object Parameter {
 trait PatternMatching
 {
 
+
+
   def get_value (p : Parameter) : Int =
     p match  {
       case Singleton_ (x) => x

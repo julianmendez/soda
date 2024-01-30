@@ -18,6 +18,8 @@ trait O
     nat
 {
 
+
+
   lazy val add : nat => nat =
      a => add_for (a)
 
@@ -71,6 +73,8 @@ object S {
 
 trait IntNat
 {
+
+
 
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD

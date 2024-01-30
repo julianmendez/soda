@@ -16,6 +16,8 @@ object PairExample {
 trait SwapExample
 {
 
+
+
   def swap (pair : PairExample) : PairExample =
     PairExample_ (pair .right , pair .left )
 

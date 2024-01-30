@@ -17,6 +17,8 @@ trait SortExampleWithAt
     SortExample
 {
 
+
+
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
       .indices
@@ -39,6 +41,8 @@ trait SortExampleWithZip
   extends
     SortExample
 {
+
+
 
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
@@ -75,6 +79,8 @@ trait SortAlgorithmExampleWithFold
   extends
     SortAlgorithmExample
 {
+
+
 
   import   soda.lib.Fold_
 
@@ -115,6 +121,8 @@ object SortAlgorithmExampleWithFold {
 
 trait ConstrainedSortAlgorithm
 {
+
+
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -157,6 +165,8 @@ trait EmptySortedSequence [A <: Comparable [A] ]
   extends
     SortedSequence [A]
 {
+
+
 
   lazy val sequence = Seq ()
 
@@ -224,6 +234,8 @@ object NonEmptySortedSequence {
 trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 {
 
+
+
   def is_less_than (x : A) (y : A) : Boolean =
     x .compareTo (y) < 0
 
@@ -253,6 +265,8 @@ object NonEmptySortedSequenceAux {
 
 trait SortedSequenceBuilder [A <: Comparable [A] ]
 {
+
+
 
   import   soda.lib.Fold_
 
