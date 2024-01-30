@@ -1450,9 +1450,11 @@ trait TranslationConstantToCoq
       Tuple2 (soda_constant .or_reserved_word , coq_or_reserved_word) ,
       Tuple2 (soda_constant .equals_symbol , coq_equals_symbol) ,
       Tuple2 (soda_constant .less_than_symbol , coq_less_than_symbol) ,
-      Tuple2 (soda_constant .less_than_or_equal_to_symbol , coq_less_than_or_equal_to_symbol),
-      Tuple2 (soda_constant .less_than_or_equal_to_unicode_symbol ,
-        coq_less_than_or_equal_to_symbol)
+      Tuple2 (soda_constant .less_than_or_equal_to_symbol , coq_less_than_or_equal_to_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , coq_empty_string) ,
+      Tuple2 (soda_constant .override_annotation , coq_empty_string) ,
+      Tuple2 (soda_constant .new_annotation , coq_empty_string)
+
     )
 
   lazy val type_translation : Seq [Tuple2 [String, String] ] =

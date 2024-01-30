@@ -1607,23 +1607,27 @@ trait TranslationConstantToLean
 
   lazy val type_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant .subtype_reserved_word , lean_subtype_symbol),
-      Tuple2 (soda_constant .supertype_reserved_word , lean_supertype_symbol),
-      Tuple2 (soda_constant .function_arrow_symbol , lean_function_arrow_symbol),
-      Tuple2 (soda_constant .opening_bracket_symbol, lean_opening_parenthesis + lean_space),
+      Tuple2 (soda_constant .subtype_reserved_word , lean_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , lean_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , lean_function_arrow_symbol) ,
+      Tuple2 (soda_constant .opening_bracket_symbol, lean_opening_parenthesis + lean_space) ,
       Tuple2 (soda_constant .closing_bracket_symbol , lean_space + lean_closing_parenthesis)
     )
 
   lazy val function_symbols_translation : Seq [Tuple2 [String, String] ] =
     Seq (
-      Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol),
-      Tuple2 (soda_constant .lambda_reserved_word , lean_fun_reserved_word),
-      Tuple2 (soda_constant .any_reserved_word , lean_fun_reserved_word),
-      Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol),
-      Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol),
-      Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word),
-      Tuple2 (soda_constant .and_reserved_word , lean_and_symbol),
-      Tuple2 (soda_constant .or_reserved_word , lean_or_symbol)
+      Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol) ,
+      Tuple2 (soda_constant .lambda_reserved_word , lean_fun_reserved_word) ,
+      Tuple2 (soda_constant .any_reserved_word , lean_fun_reserved_word) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word) ,
+      Tuple2 (soda_constant .and_reserved_word , lean_and_symbol) ,
+      Tuple2 (soda_constant .or_reserved_word , lean_or_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .override_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .new_annotation , lean_empty_string)
+
     )
 
   lazy val type_translation : Seq [Tuple2 [String, String]  ] =
