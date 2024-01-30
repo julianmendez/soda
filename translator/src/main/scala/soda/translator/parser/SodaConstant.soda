@@ -31,6 +31,8 @@ class SodaConstant
 
   lambda_reserved_word = "lambda"
 
+  fun_reserved_word = "fun"
+
   lambda_unicode_symbol = "\u03BB"
 
   def_reserved_word = "def"

@@ -10,6 +10,7 @@
       in a "static" fashion, e.g. `Pair_ (fst) (snd)` can be created with 
       `Pair .mk (fst) (snd)`, and if there are no parameters, the parentheses are not needed
     - includes more advanced examples for the integration of theorems proved in Lean
+    - accepts `fun` as a synonym of `lambda`
   - deprecated:
     - the `theorem` reserved word is no longer used, and its functionality is replaced
       by `directive`

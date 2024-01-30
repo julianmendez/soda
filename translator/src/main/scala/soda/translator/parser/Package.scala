@@ -377,6 +377,8 @@ trait SodaConstant
 
   lazy val lambda_reserved_word = "lambda"
 
+  lazy val fun_reserved_word = "fun"
+
   lazy val lambda_unicode_symbol = "\u03BB"
 
   lazy val def_reserved_word = "def"

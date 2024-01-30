@@ -777,6 +777,21 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("Translation of lambda synonyms") (
+    check (
+      obtained = instance .translate (
+        "f : Int -> Int -> Int -> Int =" +
+        "\n  lambda x --> any y --> fun z --> (x + y + z)" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "lazy val f : Int => Int => Int => Int =" +
+         "\n   x =>  y =>  z => (x + y + z)" +
+         "\n"
+    )
+  )
+
 }
 
 

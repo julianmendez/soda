@@ -1621,6 +1621,7 @@ trait TranslationConstantToScala
     Seq (
       Tuple2 (soda_constant .lambda_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .any_reserved_word , scala_empty_string) ,
+      Tuple2 (soda_constant .fun_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .lambda_arrow_symbol , scala_lambda_arrow_symbol) ,
       Tuple2 (soda_constant .case_arrow_symbol , scala_case_arrow_symbol) ,
       Tuple2 (soda_constant .not_reserved_word , scala_not_symbol) ,
