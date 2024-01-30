@@ -98,8 +98,8 @@ class Tokenizer
     _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
 
   tokens : Seq [Token] =
-    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (
-      _next_value_function) )
+    _postprocess (_fold .apply [Int] [TokenizerFoldTuple] (
+      _range .apply (line .length) ) (_initial_value) (_next_value_function) )
 
 end
 

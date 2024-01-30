@@ -125,13 +125,13 @@ class ReplacementWithTranslator
     _next_replace_words_with (line) (reserved_word) (translator .translate (reserved_word) )
 
   replace_words (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_words)
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_words)
 
   _next_replace_symbols (line : String) (reserved_word : String) : String =
     aux .replace_if_found (line) (reserved_word) (translator .translate (reserved_word) )
 
   replace_symbols (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_symbols)
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_symbols)
 
   _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (
@@ -139,7 +139,7 @@ class ReplacementWithTranslator
         translator .translate (reserved_word) + scala_space)
 
   _replace_only_beginning (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_only_beginning)
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_only_beginning)
 
   replace_at_beginning (line : String) (index : Int) : String =
     if index == 0

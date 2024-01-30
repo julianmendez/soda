@@ -47,7 +47,8 @@ class BlockProcessor
       .line
 
   replace_unicode_symbols_in_string (text : String) : String =
-    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+    fold [Tuple2 [String] [String] ] [String] (_sc .soda_unicode_symbols) (text) (
+      _replace_one_unicode_symbol)
 
   remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines

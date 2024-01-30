@@ -366,13 +366,13 @@ trait ReplacementWithTranslator
     _next_replace_words_with (line) (reserved_word) (translator .translate (reserved_word) )
 
   def replace_words (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_words)
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_words)
 
   private def _next_replace_symbols (line : String) (reserved_word : String) : String =
     aux .replace_if_found (line) (reserved_word) (translator .translate (reserved_word) )
 
   def replace_symbols (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_symbols)
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_symbols)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (
@@ -380,7 +380,7 @@ trait ReplacementWithTranslator
         translator .translate (reserved_word) + scala_space)
 
   private def _replace_only_beginning (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_only_beginning)
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_only_beginning)
 
   def replace_at_beginning (line : String) (index : Int) : String =
     if ( index == 0
@@ -520,8 +520,8 @@ trait Replacer
     tuple .replaced_text_rev .reverse .mkString ("")
 
   lazy val replaced_text =
-    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (
-      next_value_function) (should_continue) )
+    postprocess (_fold_while .apply [Int, ReplacerFoldTuple] (
+      _range .apply (line .length) ) (initial_value) (next_value_function) (should_continue) )
 
 }
 
@@ -645,8 +645,8 @@ trait Tokenizer
     _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
 
   lazy val tokens : Seq [Token] =
-    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (
-      _next_value_function) )
+    _postprocess (_fold .apply [Int, TokenizerFoldTuple] (
+      _range .apply (line .length) ) (_initial_value) (_next_value_function) )
 
 }
 

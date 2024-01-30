@@ -35,7 +35,8 @@ trait CartesianProduct
       accum .map ( seq_b => (elem) +: (seq_b) ) )
 
   private def _apply_recursion [A ] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    fold (rev_sequences .tail) (_initial [A] (rev_sequences .head) ) (_next [A] )
+    fold [Seq [A] , Seq [Seq [A] ] ] (rev_sequences .tail) (
+      _initial [A] (rev_sequences .head) ) (_next)
 
   def apply [A ] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if ( sequences .isEmpty

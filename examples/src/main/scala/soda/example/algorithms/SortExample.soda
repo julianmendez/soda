@@ -65,7 +65,7 @@ class SortAlgorithmExampleWithFold
   sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if sequence .length < 2
     then sequence
-    else _fold .apply (sequence) (_initial_value) (_next_value_function)
+    else _fold .apply [Int] [Seq [Int] ] (sequence) (_initial_value) (_next_value_function)
 
   sort : Seq [Int] -> Seq [Int] =
     lambda sequence --> sort_for (sequence)
@@ -199,7 +199,7 @@ class SortedSequenceBuilder [A subtype Comparable [A] ]
     sorted_sequence .add (element)
 
   build (sequence : Seq [A] ) : SortedSequence [A] =
-    _fold .apply (sequence) (_initial_value) (_next_value_function)
+    _fold .apply [A] [SortedSequence [A] ] (sequence) (_initial_value) (_next_value_function)
 
 end
 

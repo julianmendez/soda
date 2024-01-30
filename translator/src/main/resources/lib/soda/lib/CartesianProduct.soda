@@ -20,7 +20,8 @@ class CartesianProduct
       accum .map (lambda seq_b --> (elem) +: (seq_b) ) )
 
   _apply_recursion [A : Type] (rev_sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
-    fold (rev_sequences .tail) (_initial [A] (rev_sequences .head) ) (_next [A] )
+    fold [Seq [A] ] [Seq [Seq [A] ] ] (rev_sequences .tail) (
+      _initial [A] (rev_sequences .head) ) (_next)
 
   apply [A : Type] (sequences : Seq [Seq [A] ] ) : Seq [Seq [A] ] =
     if sequences .isEmpty

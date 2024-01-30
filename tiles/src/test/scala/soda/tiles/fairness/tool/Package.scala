@@ -46,7 +46,7 @@ trait LinearCongruentialGenerator
      seed =>
        length =>
         Recursion_ ()
-          .fold (Recursion_ () .range (length - 1) .map ( x => x + 1) ) (
+          .fold [Int, Seq [Long] ] (Recursion_ () .range (length - 1) .map ( x => x + 1) ) (
             _get_next_seq_initial_value (seed) ) (_get_next_seq_next_value_function)
           .reverse
 
@@ -106,13 +106,13 @@ trait FoldWhile
       (next : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence .isEmpty || (! condition (current) (sequence .head) )
     ) current
-    else _tailrec_fold_while (sequence .tail) (next (current) (sequence .head) ) (next) (
-      condition)
+    else _tailrec_fold_while [A, B] (sequence .tail) (next (current) (sequence .head) ) (
+      next) (condition)
 
   def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
     (condition : B => A => Boolean)
       : B =
-    _tailrec_fold_while (sequence) (initial) (next) (condition)
+    _tailrec_fold_while [A, B] (sequence) (initial) (next) (condition)
 
 }
 
@@ -134,10 +134,10 @@ trait Fold
       : B =
     if ( sequence .isEmpty
     ) current
-    else _tailrec_fold (sequence .tail) (next (current) (sequence .head) ) (next)
+    else _tailrec_fold [A, B] (sequence .tail) (next (current) (sequence .head) ) (next)
 
   def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
-    _tailrec_fold (sequence) (initial) (next)
+    _tailrec_fold [A, B] (sequence) (initial) (next)
 
 }
 
@@ -185,10 +185,10 @@ trait Recursion
 
   def fold_while [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
       (condition : B => A => Boolean) : B =
-    _fold_while .apply (sequence) (initial) (next) (condition)
+    _fold_while .apply [A, B] (sequence) (initial) (next) (condition)
 
   def fold [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
-    _fold .apply (sequence) (initial) (next)
+    _fold .apply [A, B] (sequence) (initial) (next)
 
   def range (length : Int) : Seq [Int] =
     _range .apply (length)

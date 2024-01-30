@@ -257,7 +257,7 @@ case class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained = (NoneSD_ [String] () ) .fold (ifEmpty = result_if_empty) (
+      obtained = (NoneSD_ [String] () ) .fold [String] (ifEmpty = result_if_empty) (
         f = result_if_non_empty)
     ) (
       expected = "It is empty."
@@ -266,7 +266,7 @@ case class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .fold (ifEmpty = result_if_empty) (
+      obtained = (SomeSD_ [String] ("0") ) .fold [String] (ifEmpty = result_if_empty) (
         f = result_if_non_empty)
     ) (
       expected = "Its value is 0."
@@ -521,7 +521,7 @@ case class SeqSDSpec ()
     if ( a > b ) a else b
 
   def max (s : NonEmptySeqSD [Int] ) : Int =
-    _fold .apply (s .tail .toSeq) (s .head) (max_of_2)
+    _fold .apply [Int, Int] (s .tail .toSeq) (s .head) (max_of_2)
 
   test ("should reverse a sequence") (
     check (

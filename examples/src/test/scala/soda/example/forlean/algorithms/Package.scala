@@ -36,7 +36,7 @@ case class RecursionForLeanSpec ()
     check (
       obtained =
         _fold_while
-          .apply (example_seq) (_fold_left_while_initial_value) (
+          .apply [Int, List [String] ] (example_seq) (_fold_left_while_initial_value) (
             _fold_left_while_next_value_function) (_fold_left_while_condition)
     ) (
       expected = List ("103" , "102" , "101" , "101" , "100")

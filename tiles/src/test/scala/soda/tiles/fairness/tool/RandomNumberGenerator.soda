@@ -30,7 +30,7 @@ class LinearCongruentialGenerator
     lambda seed -->
       lambda length -->
         Recursion_ ()
-          .fold (Recursion_ () .range (length - 1) .map (lambda x --> x + 1) ) (
+          .fold [Int] [Seq [Long] ] (Recursion_ () .range (length - 1) .map (lambda x --> x + 1) ) (
             _get_next_seq_initial_value (seed) ) (_get_next_seq_next_value_function)
           .reverse
 

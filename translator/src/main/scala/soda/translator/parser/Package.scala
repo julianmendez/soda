@@ -86,7 +86,7 @@ trait BlockBuilder
       _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply (lines) (_get_annotated_lines_initial_value) (
+    _fold.apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
         _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
@@ -153,7 +153,8 @@ trait BlockProcessor
       .line
 
   def replace_unicode_symbols_in_string (text : String) : String =
-    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+    fold [Tuple2 [String, String] , String] (_sc .soda_unicode_symbols) (text) (
+      _replace_one_unicode_symbol)
 
   def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
@@ -317,10 +318,10 @@ trait PreprocessorSequenceTranslator
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold .apply (block_sequence .indices) (_get_second_pass_initial_value (block_sequence) ) (
-        _get_second_pass_next_value_function)
-      .accumulated
-      .reverse
+    _fold .apply [Int, AuxiliaryTuple] (block_sequence .indices) (
+      _get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+        .accumulated
+        .reverse
 
   def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     translator .translate (

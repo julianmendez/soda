@@ -114,10 +114,10 @@ class PreprocessorSequenceTranslator
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold .apply (block_sequence .indices) (_get_second_pass_initial_value (block_sequence) ) (
-        _get_second_pass_next_value_function)
-      .accumulated
-      .reverse
+    _fold .apply [Int] [AuxiliaryTuple] (block_sequence .indices) (
+      _get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+        .accumulated
+        .reverse
 
   translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     translator .translate (

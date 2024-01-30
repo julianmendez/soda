@@ -426,13 +426,13 @@ trait FoldWhile
       (next : B => A => B) (condition : B => A => Boolean) : B =
     if ( sequence .isEmpty || (! condition (current) (sequence .head) )
     ) current
-    else _tailrec_fold_while (sequence .tail) (next (current) (sequence .head) ) (next) (
-      condition)
+    else _tailrec_fold_while [A, B] (sequence .tail) (next (current) (sequence .head) ) (
+      next) (condition)
 
   def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
     (condition : B => A => Boolean)
       : B =
-    _tailrec_fold_while (sequence) (initial) (next) (condition)
+    _tailrec_fold_while [A, B] (sequence) (initial) (next) (condition)
 
 }
 

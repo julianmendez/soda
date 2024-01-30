@@ -229,7 +229,7 @@ trait BlockTranslatorPipeline
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
      block =>
-      _fold .apply (pipeline) (block) (_next_value)
+      _fold .apply [BlockTranslator, AnnotatedBlock] (pipeline) (block) (_next_value)
 
 }
 

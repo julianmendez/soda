@@ -16,7 +16,7 @@ class BlockTranslatorPipeline
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      _fold .apply (pipeline) (block) (_next_value)
+      _fold .apply [BlockTranslator] [AnnotatedBlock] (pipeline) (block) (_next_value)
 
 end
 

@@ -492,7 +492,8 @@ trait ScalaClassConstructorParameterBlockTranslator
 
   private def _translate_line (line : String) (index : Int) : String =
     _translate_line_with_parentheses_with_tuple (
-      fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
+      fold [Char, State] (line) (_translate_line_initial (line) (index) ) (
+        _translate_line_next) )
 
   private def _translate_line_with_parentheses_after_constr (line : String) (from_index : Int) : String =
     _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) +
@@ -500,7 +501,7 @@ trait ScalaClassConstructorParameterBlockTranslator
 
   private def _translate_line_with_parentheses_after_multiple_constructors (line :  String)
       (occurrences : Seq [Int] ) : String =
-    fold (occurrences) (line) (
+    fold [Int, String] (occurrences) (line) (
        accum =>
          from_index =>
           _translate_line_with_parentheses_after_constr (accum) (from_index)

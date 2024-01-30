@@ -418,7 +418,7 @@ trait SortAlgorithmExampleWithFold
   def sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if ( sequence .length < 2
     ) sequence
-    else _fold .apply (sequence) (_initial_value) (_next_value_function)
+    else _fold .apply [Int, Seq [Int] ] (sequence) (_initial_value) (_next_value_function)
 
   lazy val sort : Seq [Int] => Seq [Int] =
      sequence => sort_for (sequence)
@@ -603,7 +603,7 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
     sorted_sequence .add (element)
 
   def build (sequence : Seq [A] ) : SortedSequence [A] =
-    _fold .apply (sequence) (_initial_value) (_next_value_function)
+    _fold .apply [A, SortedSequence [A] ] (sequence) (_initial_value) (_next_value_function)
 
 }
 
