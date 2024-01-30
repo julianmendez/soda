@@ -18,7 +18,7 @@ trait FizzBuzzPatternUnicode
     }
 
   lazy val apply : Seq [String] =
-    range.apply (100)
+    range .apply (100)
       .map ( x => x + 1)
       .map (get_term)
 
