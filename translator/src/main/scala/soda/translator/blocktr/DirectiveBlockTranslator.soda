@@ -17,13 +17,13 @@ class DirectiveBlockTranslator
 
   _get_first_or_empty (sequence : Seq [String] ) : String =
     match sequence
-      case x :: xs ==> x
-      case _otherwise ==> ""
+      case x +: xs ==> x
+      case Nil ==> ""
 
   _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
     match sequence
-      case x :: xs ==> xs
-      case _otherwise ==> sequence
+      case x +: xs ==> xs
+      case Nil ==> sequence
 
   _comment_block_out (lines : Seq [String] ) : Seq [String] =
     Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )

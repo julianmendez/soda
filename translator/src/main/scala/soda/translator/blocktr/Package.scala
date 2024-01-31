@@ -27,14 +27,14 @@ trait DirectiveBlockTranslator
 
   private def _get_first_or_empty (sequence : Seq [String] ) : String =
     sequence match  {
-      case x :: xs => x
-      case _otherwise => ""
+      case x +: xs => x
+      case Nil => ""
     }
 
   private def _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
     sequence match  {
-      case x :: xs => xs
-      case _otherwise => sequence
+      case x +: xs => xs
+      case Nil => sequence
     }
 
   private def _comment_block_out (lines : Seq [String] ) : Seq [String] =

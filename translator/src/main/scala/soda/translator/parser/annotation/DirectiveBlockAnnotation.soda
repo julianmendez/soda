@@ -17,8 +17,8 @@ class DirectiveBlockAnnotation
 
   _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
     match annotated_lines
-      case x :: xs ==> x .line
-      case _otherwise ==> ""
+      case x +: xs ==> x .line
+      case Nil ==> ""
 
   applies : Boolean =
     (_get_first_line_or_empty (block .readable_lines) .trim + _sc .space)

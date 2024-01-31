@@ -73,8 +73,8 @@ trait SeqList
         @tailrec  final
   private def _tailrec_from_Seq [A ] (a : Seq [A] ) (b : list [A] ) : list [A] =
     a match  {
+      case Nil => b
       case (e) :: (s) => _tailrec_from_Seq (s) (cons_ (e , b) )
-      case _otherwise => b
     }
 
   def from_Seq [A ] (a : Seq [A] ) : list [A] =

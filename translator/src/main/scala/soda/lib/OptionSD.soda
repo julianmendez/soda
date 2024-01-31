@@ -114,6 +114,6 @@ class OptionSDBuilder [A : Type]
   build (option : Option [A] ) : OptionSD [A] =
     match option
       case Some (content) ==> SomeSD_ [A] (content)
-      case _otherwise ==> NoneSD_ [A] ()
+      case None ==> NoneSD_ [A] ()
 
 end

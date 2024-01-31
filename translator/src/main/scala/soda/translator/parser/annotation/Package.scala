@@ -371,8 +371,8 @@ trait DirectiveBlockAnnotation
 
   private def _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
     annotated_lines match  {
-      case x :: xs => x .line
-      case _otherwise => ""
+      case x +: xs => x .line
+      case Nil => ""
     }
 
   lazy val applies : Boolean =

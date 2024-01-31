@@ -265,7 +265,7 @@ trait OptionSDBuilder [A ]
   def build (option : Option [A] ) : OptionSD [A] =
     option match  {
       case Some (content) => SomeSD_ [A] (content)
-      case _otherwise => NoneSD_ [A] ()
+      case None => NoneSD_ [A] ()
     }
 
 }

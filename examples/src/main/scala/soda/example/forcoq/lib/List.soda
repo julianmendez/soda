@@ -39,8 +39,8 @@ class SeqList
   @tailrec
   _tailrec_from_Seq [A : Type] (a : Seq [A] ) (b : list [A] ) : list [A] =
     match a
+      case Nil ==> b
       case (e) :: (s) ==> _tailrec_from_Seq (s) (cons_ (e , b) )
-      case _otherwise ==> b
 
   from_Seq [A : Type] (a : Seq [A] ) : list [A] =
     reverse (_tailrec_from_Seq (a) (nil_ [A] () ) )

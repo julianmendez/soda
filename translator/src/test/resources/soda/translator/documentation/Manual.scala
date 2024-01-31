@@ -356,7 +356,7 @@ trait Manual
   def if_then_else [A ] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case _otherwise => if_false
+      case false => if_false
     }
 
   /* A constant or function name starting with underscore indicates that the constant or
