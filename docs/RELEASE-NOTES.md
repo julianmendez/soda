@@ -1,13 +1,13 @@
 ## Release Notes
 ---
 - - version: v0.20.0
-  - date: not released
+  - date: '2024-02-01'
   - build: $ `sbt '++ 3.3.1' clean compile test package assembly`
   - release: target/scala-3.3.1/soda-0.20.0.jar
   - features:
     - includes translation of private functions to Lean
     - includes a default function `mk` to construct a type, which is invoked with the type name
-      in a "static" fashion, e.g. `Pair_ (fst) (snd)` can be created with 
+      in a "static" fashion, e.g. `Pair_ (fst) (snd)` can be created with
       `Pair .mk (fst) (snd)`, and if there are no parameters, the parentheses are not needed
     - includes more advanced examples for the integration of theorems proved in Lean
     - accepts `fun` as a synonym of `lambda`
