@@ -34,7 +34,7 @@ private def   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : List ( 
        (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     match sequence with
       | List.nil => current
-      | (head) +: (tail) =>
+      | (head) :: (tail) =>
         if (not (condition (current) (head) ) )
         then current
         else _tailrec_foldl_while ( A ) ( B ) (tail) (next (current) (head) ) (next) (condition)
@@ -64,7 +64,7 @@ private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) 
        (next : B -> A -> B) : B :=
     match sequence with
       | List.nil => current
-      | (head) +: (tail) =>
+      | (head) :: (tail) =>
         _tailrec_foldl ( A ) ( B ) (tail) (next (current) (head) ) (next)
     
 
@@ -90,7 +90,7 @@ namespace Range
  private def   _tailrec_range (non_negative_number : Int) (sequence : List ( Int ) ) : List ( Int ) :=
     match non_negative_number with
       | Succ_ (k) =>
-        _tailrec_range (k) ( (k) +: (sequence) )
+        _tailrec_range (k) ( (k) :: (sequence) )
       | _otherwise => sequence
     
 

@@ -169,6 +169,8 @@ class SodaConstant
 
   list_constructor_unicode_symbol = "\u2237"
 
+  seq_constructor_symbol = "+:"
+
   documentation_comment_opening_symbol = "/**"
 
   comment_opening_symbol = "/*"

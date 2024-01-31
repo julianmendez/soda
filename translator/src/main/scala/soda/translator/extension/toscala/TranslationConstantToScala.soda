@@ -95,6 +95,8 @@ class TranslationConstantToScala
 
   scala_or_symbol = "||"
 
+  scala_empty_list_reserved_word = "Nil"
+
   scala_tail_recursion_annotation_translation =
     "import scala.annotation.tailrec\n        @tailrec  final"
 

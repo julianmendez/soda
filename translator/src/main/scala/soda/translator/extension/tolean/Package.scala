@@ -135,7 +135,7 @@ trait LeanClassConstructorBlockTranslator
     _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
     _tc .lean_default_constructor_name +
     _tc .lean_space +
-    _tc .lean_constructor_symbol +
+    _tc .lean_list_constructor_symbol +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
     functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
     _tc .lean_new_line +
@@ -1226,7 +1226,7 @@ trait TranslationConstantToLean
 
   lazy val lean_product_type_symbol = "*"
 
-  lazy val lean_constructor_symbol = "::"
+  lazy val lean_list_constructor_symbol = "::"
 
   lazy val lean_lambda_arrow_symbol = "=>"
 
@@ -1626,8 +1626,8 @@ trait TranslationConstantToLean
       Tuple2 (soda_constant .or_reserved_word , lean_or_symbol) ,
       Tuple2 (soda_constant .tail_recursion_annotation , lean_empty_string) ,
       Tuple2 (soda_constant .override_annotation , lean_empty_string) ,
-      Tuple2 (soda_constant .new_annotation , lean_empty_string)
-
+      Tuple2 (soda_constant .new_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .seq_constructor_symbol , lean_list_constructor_symbol)
     )
 
   lazy val type_translation : Seq [Tuple2 [String, String]  ] =

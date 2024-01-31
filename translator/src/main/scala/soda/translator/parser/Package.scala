@@ -515,6 +515,8 @@ trait SodaConstant
 
   lazy val list_constructor_unicode_symbol = "\u2237"
 
+  lazy val seq_constructor_symbol = "+:"
+
   lazy val documentation_comment_opening_symbol = "/**"
 
   lazy val comment_opening_symbol = "/*"

@@ -1501,6 +1501,8 @@ trait TranslationConstantToScala
 
   lazy val scala_or_symbol = "||"
 
+  lazy val scala_empty_list_reserved_word = "Nil"
+
   lazy val scala_tail_recursion_annotation_translation =
     "import scala.annotation.tailrec\n        @tailrec  final"
 

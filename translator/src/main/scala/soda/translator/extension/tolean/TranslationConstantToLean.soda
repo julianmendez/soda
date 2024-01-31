@@ -56,7 +56,7 @@ class TranslationConstantToLean
 
   lean_product_type_symbol = "*"
 
-  lean_constructor_symbol = "::"
+  lean_list_constructor_symbol = "::"
 
   lean_lambda_arrow_symbol = "=>"
 
@@ -456,8 +456,8 @@ class TranslationConstantToLean
       Tuple2 (soda_constant .or_reserved_word , lean_or_symbol) ,
       Tuple2 (soda_constant .tail_recursion_annotation , lean_empty_string) ,
       Tuple2 (soda_constant .override_annotation , lean_empty_string) ,
-      Tuple2 (soda_constant .new_annotation , lean_empty_string)
-
+      Tuple2 (soda_constant .new_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .seq_constructor_symbol , lean_list_constructor_symbol)
     )
 
   type_translation : Seq [Tuple2 [String] [String]  ] =

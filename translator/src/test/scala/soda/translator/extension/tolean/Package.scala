@@ -292,19 +292,35 @@ case class MicroTranslatorToLeanSpec ()
     check (
       obtained = instance .translate (
         "as_list (a : Boolean) : List [Boolean] =" +
-        "\n  (a) :: (Nil)" +
+        "\n  a :: Nil" +
         "\n"
       )
     ) (
       expected = "" +
         " def as_list (a : Bool) : List ( Bool ) :=" +
-        "\n  (a) :: (List.nil)" +
+        "\n  a :: List.nil" +
         "\n" +
         "\n"
     )
   )
 
   test ("Lean translation of types 2") (
+    check (
+      obtained = instance .translate (
+        "as_seq (a : Boolean) : Seq [Boolean] =" +
+        "\n  (a) +: (Nil)" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        " def as_seq (a : Bool) : List ( Bool ) :=" +
+        "\n  (a) :: (List.nil)" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("Lean translation of types 3") (
     check (
       obtained = instance .translate (
         "class Example" +
