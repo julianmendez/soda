@@ -27,7 +27,8 @@ Functions receive one or multiple parameters:
 
   plus (n : Int) (m : Int) : Int = n + m
 
-The types ``Boolean``, ``Int``, ``Float``, and ``String`` are already available with the standard basic operations.
+The types ``Boolean``, ``Int``, ``Float``, and ``String`` are already available with the
+standard basic operations.
 
 It is possible to use ``if``-``then``-``else`` structures
 
