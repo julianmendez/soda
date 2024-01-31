@@ -16,6 +16,10 @@ class LinearCongruentialGenerator
     multiplier : Long
     increment : Long
 
+  fold = Fold_ ()
+
+  range = Range_ ()
+
   get_next_long : Long -> Long =
     lambda seed -->
       (multiplier * seed + increment) % modulus
@@ -29,8 +33,9 @@ class LinearCongruentialGenerator
   get_next_seq : Long -> Int -> Seq [Long] =
     lambda seed -->
       lambda length -->
-        Recursion_ ()
-          .fold [Int] [Seq [Long] ] (Recursion_ () .range (length - 1) .map (lambda x --> x + 1) ) (
+        fold
+          .apply [Int] [Seq [Long] ] (range .apply (length - 1) .map (lambda x --> x +
+          1) ) (
             _get_next_seq_initial_value (seed) ) (_get_next_seq_next_value_function)
           .reverse
 

@@ -29,11 +29,11 @@ trait FoldWhile
   private def _tailrec_foldl_while [A , B ] (sequence : Seq [A] ) (current : B)
       (next : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
+      case Nil => current
       case (head) +: (tail) =>
         if ( (! (condition (current) (head) ) )
         ) current
         else _tailrec_foldl_while [A, B] (tail) (next (current) (head) ) (next) (condition)
-      case _otherwise => current
     }
 
   def apply [A , B ] (list : Seq [A] ) (initial : B)
@@ -57,9 +57,9 @@ trait Fold
   private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
       (next : B => A => B) : B =
     sequence match  {
+      case Nil => current
       case (head) +: (tail) =>
         _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
-      case _otherwise => current
     }
 
   def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =

@@ -26,11 +26,11 @@ class FoldWhile
   _tailrec_foldl_while [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
       (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
     match sequence
+      case Nil ==> current
       case (head) +: (tail) ==>
         if (not (condition (current) (head) ) )
         then current
         else _tailrec_foldl_while [A] [B] (tail) (next (current) (head) ) (next) (condition)
-      case _otherwise ==> current
 
   apply [A : Type] [B : Type] (list : Seq [A] ) (initial : B)
       (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
@@ -46,9 +46,9 @@ class Fold
   _tailrec_foldl [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
       (next : B -> A -> B) : B =
     match sequence
+      case Nil ==> current
       case (head) +: (tail) ==>
         _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
-      case _otherwise ==> current
 
   apply [A : Type] [B : Type] (sequence : Seq [A] ) (initial : B) (next : B -> A -> B) : B =
     _tailrec_foldl [A] [B] (sequence) (initial) (next)

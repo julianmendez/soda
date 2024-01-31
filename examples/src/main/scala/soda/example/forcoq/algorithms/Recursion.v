@@ -33,11 +33,11 @@ Notation "'FoldWhile_'" := FoldWhile.mk (at level 99) .
 Fixpoint   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (current : B)
        (next : B -> A -> B) (condition : B -> A -> bool) : B :=
     match sequence with
+      | nil => current
       | (head) +: (tail) =>
         if (negb (condition (current) (head) ) )
         then current
         else _tailrec_foldl_while ( A ) ( B ) (tail) (next (current) (head) ) (next) (condition)
-      | _otherwise => current
     end
 .
 
@@ -63,9 +63,9 @@ Notation "'Fold_'" := Fold.mk (at level 99) .
 Fixpoint   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (current : B)
        (next : B -> A -> B) : B :=
     match sequence with
+      | nil => current
       | (head) +: (tail) =>
         _tailrec_foldl ( A ) ( B ) (tail) (next (current) (head) ) (next)
-      | _otherwise => current
     end
 .
 

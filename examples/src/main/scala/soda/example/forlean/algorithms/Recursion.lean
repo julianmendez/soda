@@ -33,11 +33,11 @@ namespace FoldWhile
 private def   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
        (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     match sequence with
+      | List.nil => current
       | (head) +: (tail) =>
         if (not (condition (current) (head) ) )
         then current
         else _tailrec_foldl_while ( A ) ( B ) (tail) (next (current) (head) ) (next) (condition)
-      | _otherwise => current
     
 
 
@@ -63,9 +63,9 @@ namespace Fold
 private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
        (next : B -> A -> B) : B :=
     match sequence with
+      | List.nil => current
       | (head) +: (tail) =>
         _tailrec_foldl ( A ) ( B ) (tail) (next (current) (head) ) (next)
-      | _otherwise => current
     
 
 
