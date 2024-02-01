@@ -32,14 +32,14 @@
 \begin{document}
 
 \begin{lstlisting}
-package soda.translator.documentation
+package soda.manual
 
 
 \end{lstlisting}
 
 This is a Soda tutorial written in Soda.
-Copyright 2020--2023 Julian Alfredo Mendez
- Version: 2023-07-01
+Copyright 2020--2024 Julian Alfredo Mendez
+ Version: 2024-02-01
 
 
 \begin{lstlisting}
@@ -48,7 +48,7 @@ Copyright 2020--2023 Julian Alfredo Mendez
 
 \end{lstlisting}
 
- This tutorial is itself a "Hello world!" program.The example snippet can be found at the end.
+This tutorial is itself a "Hello world!" program.The piece of code that prints the message is at the end of the file. 
 
 
 \begin{lstlisting}
@@ -57,7 +57,7 @@ Copyright 2020--2023 Julian Alfredo Mendez
 
 \end{lstlisting}
 
-Source code written in Soda is intended to be descriptive and very readable.It is usually written in different files, and each file has `blocks`.
+Source code written in Soda is intended to be descriptive and readable.It is usually written in different files, and each file has `blocks`.
 These blocks are pieces of code that have some meaning.
 A block should be short, maybe less than 10 lines.
 However, it is more important to make things clear than concise.
@@ -68,8 +68,7 @@ These are examples of blocks:
 4. a block declaration of abstract constants and functions
 5. a block of imports
 6. a package declaration
-7. a class alias
- 8. a comment
+8. a comment 7. a class alias
 
 
 \begin{lstlisting}
@@ -78,7 +77,10 @@ These are examples of blocks:
 
 \end{lstlisting}
 
-The name could be a noun or an adjective, but it should not be a verb. To declare a class, just add `class` before a class name, and end it with `end`.It is recommended to use camel case style starting with a capital letter.
+To declare a class, just add `class` before a class name, and end it with `end`. It is a goodpractice to include `abstract` in the class, to explicitly state whether constants and
+functions are required to instantiate a class. In the example below, no constants or
+functions ar required.
+The name could be a noun or an adjective, but it should not be a verb. For the class name, it is recommended to use camel case style starting with a capital letter.
 
 
 \begin{lstlisting}
@@ -86,18 +88,25 @@ The name could be a noun or an adjective, but it should not be a verb. To declar
 
 class Shape
 
+  abstract
+
 end
 
 
 \end{lstlisting}
 
-For example, the constructor name for `Shape` is `Shape_`. The reserved word `class` declares a type, a namespace, and a default constructor.The default constructor is the name of the class with an underscore as suffix.
+The reserved word `class` declares a type, a namespace, and a default constructor.The default constructor is the name of the class with an underscore as suffix.
+For example, the constructor name for `Shape` is `Shape_`.
+In addition, it is possible to use a function `mk` to instantiate a class. The notation looks
+parentheses. as a static function of the type. For example,  for `Shape` is `Shape .mk` without
 
 
 \begin{lstlisting}
 
 
 class Movable
+
+  abstract
 
 end
 
@@ -115,7 +124,18 @@ class EqualsExample
 
 \end{lstlisting}
 
-The constant name should be a noun. A constant does not have parameters and it is declared with the equals sign (`=`).It is recommended to use snake case and start in lowercase.
+Note that `abstract` does not contain any constants or functions in this example, and thedeclared constants and functions are in a different block. 
+
+
+\begin{lstlisting}
+
+
+  abstract
+
+
+\end{lstlisting}
+
+The constant name should be a noun. A constant does not have parameters and it is declared with the equals sign (`=`).For the constant name, it is recommended to use snake case and start in lowercase.
 
 
 \begin{lstlisting}
@@ -126,7 +146,8 @@ The constant name should be a noun. A constant does not have parameters and it i
 
 \end{lstlisting}
 
-A function has parameters and a type.Functions, even with empty parameters, are evaluated every time they are invoked. 
+A function has parameters and a type. Functions, even with empty parameters, are evaluatedevery time they are invoked. The standard way of declaring and invoking a function
+example, use `f (x) (y)` instead of `f(x, y)`. with multiple parameters is with parameters separated by spaces and not by commas. For
 
 
 \begin{lstlisting}
@@ -161,20 +182,10 @@ end
 
 \end{lstlisting}
 
-A class can extend another one by using `extends`.Abstract classes cannot be instantiated but can be extended.
+A class can extend other classes by using `extends`.Abstract classes cannot be instantiated but can be extended.
 Conversely, concrete classes cannot be extended but can be instantiated.
 Concrete classes are declared with parentheses `(` and `)`.
-It is recommended that concrete classes do not have a body, because this cannot be reused.
-an underscore. Concrete classes extending only one class could be named as its superclass, but ending with
-
-
-\begin{lstlisting}
-
-
-
-\end{lstlisting}
-
-A class does not need to define all its constants and functions. 
+A class does not need to define all its constants and functions. It is recommended that concrete classes do not have a body, because this cannot be extended.
 
 
 \begin{lstlisting}
@@ -185,7 +196,7 @@ class RegisteredPerson
 
 \end{lstlisting}
 
-lines between the declared attributes. A block starting with `abstract` denotes a constant or function that needs to be defined inextending classes. Only one `abstract` block should be defined per class, without leaving
+leaving lines between the declared attributes. The block starting with `abstract` denotes a constant or function that needs to be definedin extending classes. Only one `abstract` block should be defined per class, without
 
 
 \begin{lstlisting}
@@ -229,7 +240,7 @@ end
 
 \end{lstlisting}
 
-A concrete class needs as parameters all the constants and functions that have not beendefined in its super classes. 
+`class`, which need to be in a different block from `abstract`. A concrete class needs as parameters all the constants and functions that have not beendefined in its super classes. Please, note that `extends` has to be in the same block as
 
 
 \begin{lstlisting}
@@ -249,12 +260,30 @@ end
 
 class Element
 
+
+\end{lstlisting}
+
+In this class, `accept` is a function that takes an object of type `Visitor` and returnsan object of type `Boolean`. This is indicated with the type arrow `->`. 
+
+
+\begin{lstlisting}
+
+
   abstract
     accept : Visitor -> Boolean
 
 end
 
 class Visitor
+
+
+\end{lstlisting}
+
+In this class, `visit` is a function define from `Element` to `Boolean`. 
+
+
+\begin{lstlisting}
+
 
   abstract
     visit : Element -> Boolean
@@ -270,7 +299,10 @@ class Item
 
 \end{lstlisting}
 
-object. The space before the dot is to improve readability. It is possible to refer to an object instance by using `this`.The dot (`.`) notation is the standard way of accessing attributes and methods of an
+It is possible to refer to an object instance by using `this`.The dot (`.`) notation is the standard way of accessing attributes and methods of an
+object. The space before the dot is to improve readability, but it is not necessary.
+Lambda functions are declared with `lambda` and a long right arrow (`-->`).
+   Please, notice the difference between the type arrow (`->`) and the lambda arrow (`-->`).
 
 
 \begin{lstlisting}
@@ -312,6 +344,8 @@ A class can be parameterized using square brackets ('[' and ']').The parameter n
 
 class MyList [A : Type]
 
+  abstract
+
 end
 
 
@@ -342,12 +376,14 @@ For example, `A subtype B` means that `A` is a subtype of `B`. The parameter typ
 
 class ShapePainter [A subtype Shape]
 
+  abstract
+
 end
 
 
 \end{lstlisting}
 
-  This contains the examples shown in the manual.
+ This contains the examples shown in the manual.
 
 
 \begin{lstlisting}
@@ -355,10 +391,23 @@ end
 
 class Manual
 
+  abstract
+
 
 \end{lstlisting}
 
-It is possible to import classes by listing them under an `import` reserved word. 
+The first line in this file is the package declaration. It contains the reserved word`package` followed by the package name. The recommended package naming convention is to
+The package declaration usually goes in a separate file called `Package.soda`. start with `soda.`, to avoid name conflicts when it is translated to Scala.
+
+
+\begin{lstlisting}
+
+
+
+\end{lstlisting}
+
+It is possible to import classes by listing them under the `import` reserved word.Imported classes can also be declared in the `Package.soda` file, when they are global
+may be used to produce side effects. for the whole package. The list of imported classes can be used to control which classes
 
 
 \begin{lstlisting}
@@ -401,7 +450,7 @@ A piecewise function can be defined using an `if`-`then`-`else` structure. The c
 
 \end{lstlisting}
 
-Scala sequences (`Seq`) can be used, as well as other basic Scala classes.Lambda functions are declared with `lambda` and a long right arrow (`-->`). 
+Scala sequences (`Seq`) can be used, as well as other basic Scala classes. 
 
 
 \begin{lstlisting}
@@ -461,7 +510,9 @@ Boolean values have the standard `not`-`and`-`or` functions.
 
 \end{lstlisting}
 
-The order matters, so the remaining cases are capture by the last variable. It is possible to use pattern matching with `match` and `case`.The result of the matching case is put after a long double arrow `==>`.
+It is possible to use pattern matching with `match` and `case`.The result of the matching case is put after a long double arrow `==>`.
+The order matters, so the remaining cases are capture by the last variable.
+the type arrow (`->`). Please notice the difference between the case arrow (`==>`), the lambda arrow (`-->`), and
 
 
 \begin{lstlisting}
@@ -487,7 +538,7 @@ A constant or function name starting with underscore indicates that the constant
 
 \end{lstlisting}
 
-detected and optimized. A tail recursive function cannot be declared inside another function, and its name shouldstart with underscore. The annotation `@tailrec` helps ensuring that the tail recursion is
+detected and optimized when it is translated to Scala. A tail recursive function cannot be declared inside another function, and its name shouldstart with underscore. The annotation `@tailrec` helps ensuring that the tail recursion is
 
 
 \begin{lstlisting}
@@ -507,64 +558,67 @@ end
 
 \end{lstlisting}
 
-The function used to compare equality is a long equals (`==`). 
+The class `Fold` shows a 'left fold', which is a functional approach to iterations. Startingwith an initial value (`initial`), it traverses a sequence (`sequence`) applying a function
+computation. (`next`) using the current element in the sequence and the result of the previous
 
 
 \begin{lstlisting}
 
 
-class FactorialConcise
+class Fold
 
-  @tailrec
-  _tailrec_get_factorial (n : Int) (product : Int) : Int =
-    if n == 0
-    then product
-    else _tailrec_get_factorial (n - 1) (n * product)
+  abstract
 
 
 \end{lstlisting}
 
-Ideally, each object should do exactly one thing. That thing is what `apply` defines. 
+Note that the type parameters need to specified in the function call:`_tailrec_foldl [A] [B]`... The sequence constructor `+:` is defined by `Seq`.
+`List`. `Nil` is the constructor for an empty `Seq`. This is equivalent to the more common constructor `::`, when it is used for instances of
 
 
 \begin{lstlisting}
 
 
-  apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
+  _tailrec_foldl [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
+
+
+\end{lstlisting}
+
+Ideally, each object should have one responsibility or purpose. The function `apply`defines the main responsibility of an object. 
+
+
+\begin{lstlisting}
+
+
+  apply [A : Type] [B : Type] (sequence : Seq [A] ) (initial : B) (next : B -> A -> B) : B =
+    _tailrec_foldl [A] [B] (sequence) (initial) (next)
 
 end
 
 
 \end{lstlisting}
 
-FoldWhile captures the idea of a bounded loop. It starts in an initial state (`initial`) andprocesses (`next`) a finite sequence (`sequence`) while a condition holds (`condition`). 
+translation to Scala. A piece of code of the destination language can be included with the reserved word`directive`. In this example, we can define the concept of successor for integers for the
 
 
 \begin{lstlisting}
 
 
-class FoldWhile
-
-  @tailrec
-  _tailrec_fold_while [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
-      (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
-    if sequence .isEmpty or (not condition (current) (sequence .head) )
-    then current
-    else _tailrec_fold_while [A] [B] (sequence .tail) (next (current) (sequence .head) ) (
-      next) (condition)
-
-  apply [A : Type] [B : Type] (sequence : Seq [A] ) (initial : B) (next : B -> A -> B)
-    (condition : B -> A -> Boolean)
-      : B =
-    _tailrec_fold_while [A] [B] (sequence) (initial) (next) (condition)
-
-end
+directive scala
+object Succ_ {
+  def unapply (n : Int) : Option [Int] =
+    if (n <= 0) None else Some (n - 1)
+}
 
 
 \end{lstlisting}
 
-Range generates a sequence of length `n` of consecutive natural numbers startingfrom 0. 
+The class `Range` generates a sequence of length `n` of consecutive natural numbers startingfrom 0. 
 
 
 \begin{lstlisting}
@@ -572,14 +626,49 @@ Range generates a sequence of length `n` of consecutive natural numbers starting
 
 class Range
 
-  @tailrec
-  _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if n <= 0
-    then sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+  abstract
+
+
+\end{lstlisting}
+
+Note that `Range` processes any negative number as 0. This is done by `Succ_`, which onlyreturns values for positive values of `n`. 
+
+
+\begin{lstlisting}
+
+
+  _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    match non_negative_number
+      case Succ_ (k) ==>
+        _tailrec_range (k) ( (k) +: (sequence) )
+      case _otherwise ==> sequence
 
   apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
+    _tailrec_range (length) (Nil)
+
+end
+
+
+\end{lstlisting}
+
+`Factorial` shows an example of how to compute the function factorial using a left fold. 
+
+
+\begin{lstlisting}
+
+
+class Factorial
+
+  abstract
+
+  fold = Fold_ ()
+
+  range = Range_ ()
+
+  apply (n : Int) : Int =
+    fold .apply [Int] [Int] (range .apply (n) ) (1) (
+      lambda accum -->
+        lambda k --> (accum * (k + 1) ) )
 
 end
 
@@ -611,7 +700,7 @@ end
 
 \end{lstlisting}
 
-The main class has an extending concrete class. 
+The main class has an extending concrete class. The class that needs to be invoked in atranslation to Scala is `EntryPoint`. 
 
 
 \begin{lstlisting}
