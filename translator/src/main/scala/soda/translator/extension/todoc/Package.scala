@@ -6,7 +6,9 @@ package soda.translator.extension.todoc
 
 
 
-trait Package
+
+
+
 
 trait DocBlockTranslator
   extends

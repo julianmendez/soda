@@ -4,8 +4,6 @@ package soda.collection.example
  * This package contains tests for examples for Soda.
  */
 
-trait Package
-
 case class ListExampleSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

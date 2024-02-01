@@ -5,10 +5,6 @@ package soda.translator.replacement
  * especially related to replacement.
  */
 
-
-
-trait Package
-
 /**
  * This is to classify characters.
  */

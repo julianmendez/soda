@@ -4,8 +4,6 @@ package soda.example.algorithms
  * This package contains tests for examples of simple algorithms.
  */
 
-trait Package
-
 case class FizzBuzzSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

@@ -4,8 +4,6 @@ package soda.translator.replacement
  * This package contains tests for replacement helper functions.
  */
 
-trait Package
-
 case class CharTypeSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

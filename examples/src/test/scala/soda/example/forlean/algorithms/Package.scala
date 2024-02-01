@@ -6,7 +6,9 @@ package soda.example.forlean.algorithms
 
 
 
-trait Package
+
+
+
 
 case class RecursionForLeanSpec ()
   extends

@@ -6,7 +6,9 @@ package soda.translator.extension.tolean
 
 
 
-trait Package
+
+
+
 
 trait LeanClassAliasBlockTranslator
   extends

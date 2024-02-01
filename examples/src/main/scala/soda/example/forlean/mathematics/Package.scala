@@ -8,7 +8,9 @@ import   soda.example.forlean.lib.Zero_
 import   soda.example.forlean.lib.Succ_
 import   soda.example.forlean.lib.Nat
 
-trait Package
+
+
+
 
 /*
 directive lean

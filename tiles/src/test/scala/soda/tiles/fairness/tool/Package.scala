@@ -6,7 +6,9 @@ package soda.tiles.fairness.tool
 
 import   org.scalatest.funsuite.AnyFunSuite
 
-trait Package
+
+
+
 
 trait RandomNumberGenerator
 {

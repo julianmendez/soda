@@ -6,7 +6,9 @@ package soda.example.forcoq.algorithms
 
 import   soda.example.forcoq.lib.nat
 
-trait Package
+
+
+
 
 object Succ_ {
   def unapply (n : Int) : Option [Int] =

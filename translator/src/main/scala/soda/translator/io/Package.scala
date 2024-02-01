@@ -5,10 +5,6 @@ package soda.translator.io
  * It is also the entry point for the translator.
  */
 
-
-
-trait Package
-
 trait AbstractDirectoryProcessor
 {
 

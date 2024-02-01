@@ -19,7 +19,9 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
 
-trait Package
+
+
+
 
 trait AllActorPairTile
 {

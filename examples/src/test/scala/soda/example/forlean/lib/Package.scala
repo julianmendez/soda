@@ -4,8 +4,6 @@ package soda.example.forlean.lib
  * This package contains tests for helper classes for a translation to Lean.
  */
 
-trait Package
-
 case class MyListSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

@@ -6,8 +6,6 @@ package soda.collection
  * to show possible implementations of functions for list manipulation.
  */
 
-trait Package
-
 
 
 trait MSeq [A ]

@@ -7,7 +7,9 @@ package soda.translator.extension.tocoq
 
 
 
-trait Package
+
+
+
 
 trait CoqClassAliasBlockTranslator
   extends

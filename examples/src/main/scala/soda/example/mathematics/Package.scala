@@ -5,8 +5,6 @@ package soda.example.mathematics
  * These examples use mathematical properties.
  */
 
-trait Package
-
 trait FactorialConcise
 {
 

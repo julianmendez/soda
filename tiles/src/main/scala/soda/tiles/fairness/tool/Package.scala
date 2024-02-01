@@ -4,7 +4,9 @@ package soda.tiles.fairness.tool
  * This package contains classes to model a fairness scenario.
  */
 
-trait Package
+
+
+
 
 trait Actor
   extends

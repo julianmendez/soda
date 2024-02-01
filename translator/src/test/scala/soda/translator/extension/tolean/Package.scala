@@ -3,7 +3,8 @@ package soda.translator.extension.tolean
 /*
  * This package contains test for the translator to Lean.
  */
-trait Package
+
+
 
 case class LeanFullTranslationSpec ()
   extends

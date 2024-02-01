@@ -4,8 +4,6 @@ package soda.lib
  * This package contains tests for the Soda library.
  */
 
-trait Package
-
 case class CartesianProductSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

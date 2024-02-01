@@ -26,8 +26,6 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.Random
 import   soda.tiles.fairness.tool.Random_
 
-trait Package
-
 case class EqualityTileSpec ()
   extends
     AnyFunSuite

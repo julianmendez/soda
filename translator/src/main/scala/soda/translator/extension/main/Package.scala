@@ -5,10 +5,6 @@ package soda.translator.extension.main
  * This is the entry point when the application is executed from a terminal.
  */
 
-
-
-trait Package
-
 /**
  * This is the main entry point.
  */

@@ -8,7 +8,9 @@ import   soda.example.forcoq.lib.O_
 import   soda.example.forcoq.lib.S_
 import   soda.example.forcoq.lib.nat
 
-trait Package
+
+
+
 
 trait FactorialForCoq
 {

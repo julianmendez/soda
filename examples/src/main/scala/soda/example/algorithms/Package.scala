@@ -5,8 +5,6 @@ package soda.example.algorithms
  * These examples focus on simple algorithms.
  */
 
-trait Package
-
 trait FizzBuzz
 {
 

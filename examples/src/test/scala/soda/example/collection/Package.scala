@@ -4,8 +4,6 @@ package soda.collection
  * This package contains tests for examples for Soda.
  */
 
-trait Package
-
 case class MinSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

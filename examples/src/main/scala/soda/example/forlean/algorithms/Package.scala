@@ -4,7 +4,9 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Coq.
  */
 
-trait Package
+
+
+
 
 trait PairParam [A , B ]
 {

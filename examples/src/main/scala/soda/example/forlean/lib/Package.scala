@@ -4,8 +4,6 @@ package soda.example.forlean.lib
  * This package contains helper classes that could be needed for a translation to Coq.
  */
 
-trait Package
-
 /*
 directive lean
 /- Prelude for Soda types. -/

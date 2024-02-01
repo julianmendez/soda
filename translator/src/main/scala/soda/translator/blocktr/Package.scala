@@ -6,10 +6,6 @@ package soda.translator.blocktr
  * @see soda.translator.block.BlockTranslator
  */
 
-
-
-trait Package
-
 trait DirectiveBlockTranslator
   extends
     soda.translator.block.BlockTranslator

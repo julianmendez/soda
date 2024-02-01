@@ -4,8 +4,6 @@ package soda.example.mathematics
  * This package contains tests for examples in Soda that use mathematical properties.
  */
 
-trait Package
-
 case class FactorialSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
