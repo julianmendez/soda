@@ -28,7 +28,7 @@ class TranslatorToScalaConstant
 
   append_separation : String = new_line + new_line
 
-  prelude_file_body : String = new_line + "trait Package" + append_separation
+  prelude_file_body : String = new_line + append_separation
 
   single_files_option_1 = "-s"
 

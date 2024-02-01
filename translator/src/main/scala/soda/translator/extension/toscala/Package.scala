@@ -1699,7 +1699,7 @@ trait TranslatorToScalaConstant
 
   lazy val append_separation : String = new_line + new_line
 
-  lazy val prelude_file_body : String = new_line + "trait Package" + append_separation
+  lazy val prelude_file_body : String = new_line + append_separation
 
   lazy val single_files_option_1 = "-s"
 
