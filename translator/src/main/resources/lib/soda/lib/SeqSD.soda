@@ -15,14 +15,16 @@ class SeqSD [A : Type]
 
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] -> B) : B =
     match this
-      case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD_ (toSeq) )
-      case otherwise ==> ifEmpty
+      case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD_ [A] (toSeq) )
+      case _otherwise ==> ifEmpty
 
 end
 
 class EmptySeqSD [A : Type]
   extends
     SeqSD [A]
+
+  abstract
 
   toSeq : Seq [A] = Seq [A] ()
 
@@ -41,11 +43,13 @@ class NonEmptySeqSD [A : Type]
 
   tail : SeqSD [A] = SeqSDBuilder_ [A] () .build (toSeq .tail)
 
-  reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ (toSeq .reverse)
+  reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ [A] (toSeq .reverse)
 
 end
 
 class SeqSDBuilder [A : Type]
+
+  abstract
 
   build (seq : Seq [A] ) : SeqSD [A] =
     if seq .isEmpty

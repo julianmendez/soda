@@ -3,6 +3,8 @@ class ScalaDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
 
+  abstract
+
   _tc = TranslationConstantToScala_ ()
 
   identifier : String = _tc .scala_directive_identifier

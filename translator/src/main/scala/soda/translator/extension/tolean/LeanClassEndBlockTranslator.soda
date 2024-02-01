@@ -3,6 +3,8 @@ class LeanClassEndBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
@@ -13,11 +15,20 @@ class LeanClassEndBlockTranslator
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
+  _sc = SodaConstant_ ()
+
   _tc = TranslationConstantToLean_ ()
 
   _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
       : ClassEndAnnotation =
     ClassEndAnnotation_ (block) (references)
+
+
+  _get_between_quotes (text : String) : String =
+     _tc .lean_quotes_symbol + text + _tc .lean_quotes_symbol
+
+  _constructor_name (class_name : String) : String =
+    class_name + _sc .constructor_suffix
 
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -26,7 +37,11 @@ class LeanClassEndBlockTranslator
         Seq [String] (
           _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",
-          _tc .lean_open_reserved_word + _tc .lean_space + beginning .class_name
+          _tc .lean_notation_reserved_word + _tc .lean_space +
+          _get_between_quotes (_constructor_name (beginning .class_name) ) +
+          _tc .lean_space + _tc .lean_notation_arrow_symbol + _tc .lean_space +
+          beginning .class_name + _tc .lean_dot_notation_symbol +
+          _tc .lean_default_constructor_name
         )
       ) ) (
       block .references
@@ -54,7 +69,7 @@ class LeanClassEndBlockTranslator
       : Option [ClassBeginningAnnotation] =
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-      case otherwise ==> None
+      case _otherwise ==> None
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     _translate_block_with (_get_class_beginning (block.references) ) (block)
@@ -63,7 +78,7 @@ class LeanClassEndBlockTranslator
     match annotated_block
       case ClassEndAnnotation_ (block) (references) ==>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

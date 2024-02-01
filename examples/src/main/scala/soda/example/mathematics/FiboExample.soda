@@ -1,6 +1,8 @@
 
 class FiboExampleInSoda
 
+  abstract
+
   _rec (m : Int) (a : Int) (b : Int) : Int =
     if m == 0 then a
     else if m == 1 then b

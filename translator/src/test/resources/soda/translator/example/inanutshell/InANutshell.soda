@@ -1,6 +1,9 @@
 
 class InANutshell
 
+  abstract
+  /* (empty) */
+
   f (x : Int) : Int = x + 16
 
   value = f (numbers)
@@ -28,6 +31,9 @@ end
 
 class MaxAndMin
 
+  abstract
+  /* (empty) */
+
   max (a : Int) (b : Int) : Int =
     if a > b
     then a
@@ -40,11 +46,25 @@ class MaxAndMin
 
 end
 
+class Pair [A : Type] [B : Type]
+
+  abstract
+    fst : A
+    snd : B
+
+end
+
 class MinMaxPair
+  extends
+    Pair [Int] [Int]
 
   abstract
     min : Int
     max : Int
+
+  fst : Int = min
+
+  snd : Int = max
 
 end
 
@@ -62,10 +82,7 @@ class Example
     index : Int
 
   min_max (a : Int) (b : Int) : MinMaxPair =
-    MinMaxPair_ (
-      min := MaxAndMin_ () .min (a) (b),
-      max := MaxAndMin_ () .max (a) (b)
-    )
+    MinMaxPair_ (min := MaxAndMin_ () .min (a) (b) ) (max := MaxAndMin_ () .max (a) (b) )
 
 end
 
@@ -77,6 +94,9 @@ class Comparable
 end
 
 class ComparableMax [A subtype Comparable]
+
+  abstract
+  /* (empty) */
 
   max (a : A) (b : A) : A =
     if a .is_greater_than (b)
@@ -107,6 +127,9 @@ end
 
 class TimeOfToday
 
+  abstract
+  /* (empty) */
+
   import
     java.util.Date
 
@@ -115,6 +138,9 @@ class TimeOfToday
 end
 
 class Main
+
+  abstract
+  /* (empty) */
 
   main (arguments : Array [String] ) : Unit =
     println ("Hello world!")

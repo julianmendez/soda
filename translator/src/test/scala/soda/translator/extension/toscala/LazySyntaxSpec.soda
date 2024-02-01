@@ -1,6 +1,8 @@
 
 class ExampleWithWrongOrder
 
+  abstract
+
   this_is_null_but = constant_defined_later
 
   constant_defined_later = "Success!"
@@ -8,6 +10,8 @@ class ExampleWithWrongOrder
 end
 
 class ExampleWithRightOrder
+
+  abstract
 
   constant_defined_before = "Success!"
 
@@ -17,6 +21,8 @@ end
 
 class ExampleWithEmptyParentheses
 
+  abstract
+
   this_is_not_null  () = constant_defined_later
 
   constant_defined_later = "Success!"
@@ -24,6 +30,8 @@ class ExampleWithEmptyParentheses
 end
 
 class AnotherExampleWithEmptyParentheses
+
+  abstract
 
   this_is_not_null = constant_function_defined_later  ()
 

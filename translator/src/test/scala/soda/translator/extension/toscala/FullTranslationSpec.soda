@@ -37,6 +37,10 @@ class FullTranslationSpec ()
 
   FiboUnicodeExample = "mathematics/FiboUnicodeExample"
 
+  NatExample = "mathematics/Nat"
+
+  SimpleListExample = "forlean/lib/SimpleList"
+
   ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
   InANutshell = "inanutshell/InANutshell"
@@ -100,9 +104,16 @@ class FullTranslationSpec ()
     test_translation (FizzBuzzUnicode)
   )
 
-
   test ("should translate Soda code that uses Scala reserved words") (
     test_translation (ScalaReservedWordEscaping)
+  )
+
+  test ("should translate the Nat example") (
+    test_translation (NatExample)
+  )
+
+  test ("should translate the example of a simple list") (
+    test_translation (SimpleListExample)
   )
 
   test ("should translate the manual In A Nutshell") (

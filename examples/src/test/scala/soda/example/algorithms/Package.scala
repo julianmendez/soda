@@ -4,8 +4,6 @@ package soda.example.algorithms
  * This package contains tests for examples of simple algorithms.
  */
 
-trait Package
-
 case class FizzBuzzSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -123,8 +121,15 @@ trait SaladIngredient
 
 case class SaladIngredient_ (ordinal : Int, name : String) extends SaladIngredient
 
+object SaladIngredient {
+  def mk (ordinal : Int) (name : String) : SaladIngredient =
+    SaladIngredient_ (ordinal, name)
+}
+
 trait SaladIngredientConstant
 {
+
+
 
   private def _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
     SaladIngredient_ (ordinal, name)
@@ -142,6 +147,11 @@ trait SaladIngredientConstant
 }
 
 case class SaladIngredientConstant_ () extends SaladIngredientConstant
+
+object SaladIngredientConstant {
+  def mk : SaladIngredientConstant =
+    SaladIngredientConstant_ ()
+}
 
 case class SaladMakerSpec ()
   extends

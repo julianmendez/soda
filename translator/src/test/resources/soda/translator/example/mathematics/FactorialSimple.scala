@@ -1,14 +1,7 @@
-package soda.example.mathematics
-
-/*
- * This package contains examples in Soda.
- * These examples use mathematical properties.
- */
-
-
-
 trait FactorialSimple
 {
+
+
 
   def apply (n : Int) : Int =
     if ( n < 2
@@ -18,3 +11,8 @@ trait FactorialSimple
 }
 
 case class FactorialSimple_ () extends FactorialSimple
+
+object FactorialSimple {
+  def mk : FactorialSimple =
+    FactorialSimple_ ()
+}

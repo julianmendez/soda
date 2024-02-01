@@ -11,7 +11,7 @@ lazy val scala3_3 = "3.3.1"
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.20.0-SNAPSHOT",
+    version := "0.20.0",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
     homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),
@@ -45,10 +45,10 @@ lazy val commonSettings =
     scalacOptions ++= Seq("-deprecation", "-feature")
   )
 
-lazy val documentation =
+lazy val docs =
   project
-    .withId("documentation")
-    .in(file("documentation"))
+    .withId("docs")
+    .in(file("docs"))
     .settings(commonSettings)
 
 lazy val translator =
@@ -70,23 +70,12 @@ lazy val tiles =
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
     )
 
-lazy val library =
-  project
-    .withId("library")
-    .in(file("library"))
-    .aggregate(translator)
-    .dependsOn(translator)
-    .settings(
-      commonSettings,
-      assembly / assemblyJarName := "library-" + version.value + ".jar"
-    )
-
 lazy val examples =
   project
     .withId("examples")
     .in(file("examples"))
-    .aggregate(translator, library)
-    .dependsOn(translator, library)
+    .aggregate(translator)
+    .dependsOn(translator)
     .settings(
       commonSettings,
       assembly / assemblyJarName := "examples-" + version.value + ".jar"
@@ -96,8 +85,8 @@ lazy val root =
   project
     .withId("soda")
     .in(file("."))
-    .aggregate(documentation, translator, tiles, library, examples)
-    .dependsOn(documentation, translator, tiles, library, examples)
+    .aggregate(docs, translator, tiles, examples)
+    .dependsOn(docs, translator, tiles, examples)
     .settings(
       commonSettings,
       assembly / mainClass := Some("soda.translator.extension.main.EntryPoint"),

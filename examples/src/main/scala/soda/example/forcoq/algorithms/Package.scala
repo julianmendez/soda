@@ -6,57 +6,109 @@ package soda.example.forcoq.algorithms
 
 import   soda.example.forcoq.lib.nat
 
-trait Package
+
+
+
+
+object Succ_ {
+  def unapply (n : Int) : Option [Int] =
+    if (n <= 0) None else Some (n - 1)
+}
+
+/*
+directive lean
+notation head "+:" tail => (head) :: (tail)
+notation "Succ_" => Nat.succ
+notation "Int" => Nat
+*/
+
+/*
+directive coq
+Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
+Notation "'Succ_'" := S (at level 99) .
+Notation "'Int'" := nat (at level 99) .
+*/
 
 /**
  * This class contains tail recursive auxiliary functions.
  */
 
-trait RecursionForCoq
+trait FoldWhile
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold4 [A , B ] (sequence : Seq [A] ) (current : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
+
+
+  private def _tailrec_foldl_while [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
-      case (head) :: (tail) =>
-         if ( (! (condition (current) (head) ) )
-         ) current
-         else _tailrec_fold4 (tail) (next_value (current) (head)) (next_value) (condition)
-      case otherwise => current
+      case Nil => current
+      case (head) +: (tail) =>
+        if ( (! (condition (current) (head) ) )
+        ) current
+        else _tailrec_foldl_while [A, B] (tail) (next (current) (head) ) (next) (condition)
     }
 
-  def fold4 [A , B ] (sequence : Seq [A] ) (initial_value : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value) (condition)
+  def apply [A , B ] (list : Seq [A] ) (initial : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_foldl_while [A, B] (list) (initial) (next) (condition)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold3 [A , B ] (sequence : Seq [A] ) (current : B)
-      (next_value : B => A => B) : B =
+}
+
+case class FoldWhile_ () extends FoldWhile
+
+object FoldWhile {
+  def mk : FoldWhile =
+    FoldWhile_ ()
+}
+
+trait Fold
+{
+
+
+
+  private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) : B =
     sequence match  {
-      case (head) :: (tail) => _tailrec_fold3 (tail) (next_value (current) (head) ) (next_value)
-      case otherwise => current
+      case Nil => current
+      case (head) +: (tail) =>
+        _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
     }
 
-  def fold3 [A , B ] (sequence : Seq [A] ) (initial_value : B)
-      (next_value : B => A => B) : B =
-    _tailrec_fold3 (sequence) (initial_value) (next_value)
+  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
+    _tailrec_foldl [A, B] (sequence) (initial) (next)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if ( n <= 0
-    ) sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+}
 
-  def range (length : Int) : Seq [Int] =
+case class Fold_ () extends Fold
+
+object Fold {
+  def mk : Fold =
+    Fold_ ()
+}
+
+trait Range
+{
+
+
+
+  private def _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    non_negative_number match  {
+      case Succ_ (k) =>
+        _tailrec_range (k) ( (k) +: (sequence) )
+      case _otherwise => sequence
+    }
+
+  def apply (length : Int) : Seq [Int] =
     _tailrec_range (length) (Nil)
 
 }
 
-case class RecursionForCoq_ () extends RecursionForCoq
+case class Range_ () extends Range
+
+object Range {
+  def mk : Range =
+    Range_ ()
+}
 
 
 trait PairExample
@@ -69,8 +121,15 @@ trait PairExample
 
 case class PairExample_ (left : nat, right : nat) extends PairExample
 
+object PairExample {
+  def mk (left : nat) (right : nat) : PairExample =
+    PairExample_ (left, right)
+}
+
 trait SwapExample
 {
+
+
 
   def swap (pair : PairExample) : PairExample =
     PairExample_ (pair .right , pair .left )
@@ -88,4 +147,9 @@ trait SwapExample
 }
 
 case class SwapExample_ () extends SwapExample
+
+object SwapExample {
+  def mk : SwapExample =
+    SwapExample_ ()
+}
 

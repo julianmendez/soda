@@ -4,102 +4,235 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Coq.
  */
 
-import   soda.example.forlean.lib.Nat
 
-trait Package
+
+
+
+trait PairParam [A , B ]
+{
+
+  def   fst : A
+  def   snd : B
+
+}
+
+case class PairParam_ [A, B] (fst : A, snd : B) extends PairParam [A, B]
+
+object PairParam {
+  def mk [A, B] (fst : A) (snd : B) : PairParam [A, B] =
+    PairParam_ [A, B] (fst, snd)
+}
+
+trait PairParamMod
+{
+
+
+
+  def get_first [A , B ] (self : PairParam [A, B] ) : A =
+    self .fst
+
+  def get_second [A , B ] (self : PairParam [A, B] ) : B =
+    self .snd
+
+  def swap [A , B ] (self : PairParam [A, B] ) : PairParam [B, A] =
+    PairParam_ (get_second [A, B] (self) , get_first [A, B] (self) )
+
+}
+
+case class PairParamMod_ () extends PairParamMod
+
+object PairParamMod {
+  def mk : PairParamMod =
+    PairParamMod_ ()
+}
+
+trait TripleIntStringInt
+  extends
+    PairParam [Int, String]
+{
+
+  def   fst : Int
+  def   snd : String
+  def   trd : Int
+
+}
+
+case class TripleIntStringInt_ (fst : Int, snd : String, trd : Int) extends TripleIntStringInt
+
+object TripleIntStringInt {
+  def mk (fst : Int) (snd : String) (trd : Int) : TripleIntStringInt =
+    TripleIntStringInt_ (fst, snd, trd)
+}
+
+trait TripleIntStringIntMod
+{
+
+
+
+  def get_first (self : TripleIntStringInt) : Int =
+    self .fst
+
+  def get_second (self : TripleIntStringInt) : String =
+    self .snd
+
+  def get_third (self : TripleIntStringInt) : Int =
+    self .trd
+
+  def get_pair_param (self : TripleIntStringInt) : PairParam [Int, String] =
+    PairParam_ (get_first (self) , get_second (self) )
+
+}
+
+case class TripleIntStringIntMod_ () extends TripleIntStringIntMod
+
+object TripleIntStringIntMod {
+  def mk : TripleIntStringIntMod =
+    TripleIntStringIntMod_ ()
+}
+
+
+object Succ_ {
+  def unapply (n : Int) : Option [Int] =
+    if (n <= 0) None else Some (n - 1)
+}
+
+/*
+directive lean
+notation head "+:" tail => (head) :: (tail)
+notation "Succ_" => Nat.succ
+notation "Int" => Nat
+*/
+
+/*
+directive coq
+Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
+Notation "'Succ_'" := S (at level 99) .
+Notation "'Int'" := nat (at level 99) .
+*/
 
 /**
  * This class contains tail recursive auxiliary functions.
  */
 
-trait RecursionForLean
+trait FoldWhile
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold4 [A , B ] (sequence : Seq [A] ) (current : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
+
+
+  private def _tailrec_foldl_while [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
     sequence match  {
-      case (head) :: (tail) =>
-         if ( (! (condition (current) (head) ) )
-         ) current
-         else _tailrec_fold4 (tail) (next_value (current) (head) ) (next_value) (condition)
-      case otherwise => current
+      case Nil => current
+      case (head) +: (tail) =>
+        if ( (! (condition (current) (head) ) )
+        ) current
+        else _tailrec_foldl_while [A, B] (tail) (next (current) (head) ) (next) (condition)
     }
 
-  def fold4 [A , B ] (sequence : Seq [A] ) (initial_value : B)
-      (next_value : B => A => B) (condition : B => A => Boolean) : B =
-    _tailrec_fold4 (sequence) (initial_value) (next_value) (condition)
+  def apply [A , B ] (list : Seq [A] ) (initial : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    _tailrec_foldl_while [A, B] (list) (initial) (next) (condition)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold3 [A , B ] (sequence : Seq [A] ) (current : B)
-      (next_value : B => A => B) : B =
+}
+
+case class FoldWhile_ () extends FoldWhile
+
+object FoldWhile {
+  def mk : FoldWhile =
+    FoldWhile_ ()
+}
+
+trait Fold
+{
+
+
+
+  private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) : B =
     sequence match  {
-      case (head) :: (tail) =>
-        _tailrec_fold3 (tail) (next_value (current) (head) ) (next_value)
-      case otherwise => current
+      case Nil => current
+      case (head) +: (tail) =>
+        _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
     }
 
-  def fold3 [A , B ] (sequence : Seq [A] ) (initial_value : B)
-      (next_value : B => A => B) : B =
-    _tailrec_fold3 (sequence) (initial_value) (next_value)
+  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
+    _tailrec_foldl [A, B] (sequence) (initial) (next)
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if ( n <= 0
-    ) sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+}
 
-  def range (length : Int) : Seq [Int] =
+case class Fold_ () extends Fold
+
+object Fold {
+  def mk : Fold =
+    Fold_ ()
+}
+
+trait Range
+{
+
+
+
+  private def _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    non_negative_number match  {
+      case Succ_ (k) =>
+        _tailrec_range (k) ( (k) +: (sequence) )
+      case _otherwise => sequence
+    }
+
+  def apply (length : Int) : Seq [Int] =
     _tailrec_range (length) (Nil)
 
 }
 
-case class RecursionForLean_ () extends RecursionForLean
+case class Range_ () extends Range
 
+object Range {
+  def mk : Range =
+    Range_ ()
+}
 
-/*
-directive coq
-Definition Nat : Type := nat .
-*/
 
 trait PairExample
 {
 
-  def   left : Nat
-  def   right : Nat
+  def   left : Int
+  def   right : Int
 
 }
 
-case class PairExample_ (left : Nat, right : Nat) extends PairExample
+case class PairExample_ (left : Int, right : Int) extends PairExample
+
+object PairExample {
+  def mk (left : Int) (right : Int) : PairExample =
+    PairExample_ (left, right)
+}
 
 trait SwapExample
 {
 
+
+
   def swap (pair : PairExample) : PairExample =
-    PairExample_ (pair .right, pair .left)
+    pair match  {
+      case PairExample_ (a, b) =>
+        PairExample_ (b, a)
+    }
 
 /*
   directive lean
   theorem
-    swap_of_swap (x : Nat) (y : Nat) : (swap (swap (PairExample_ (x, y) ) ) ) = PairExample_ (x, y) :=
-      by
-        constructor
-*/
-
-/*
-  directive coq
-  Theorem
-    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x, y) ) ) ) =
-    PairExample_ (x, y) .
-  Proof.
-    auto.
-  Qed.
+    swap_of_swap (pair : PairExample)
+      : (swap (swap (pair) ) ) = pair := by
+    rewrite [swap, swap]
+    simp
 */
 
 }
 
 case class SwapExample_ () extends SwapExample
+
+object SwapExample {
+  def mk : SwapExample =
+    SwapExample_ ()
+}
 

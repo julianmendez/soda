@@ -15,6 +15,11 @@ trait Status
 
 case class Status_ (r : BigInt, n : Int, q : BigInt, t : BigInt, l : Int, k : Int) extends Status
 
+object Status {
+  def mk (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
+    Status_ (r, n, q, t, l, k)
+}
+
 trait IntAndStatus
 {
 
@@ -25,8 +30,15 @@ trait IntAndStatus
 
 case class IntAndStatus_ (digit : Int, new_status : Status) extends IntAndStatus
 
+object IntAndStatus {
+  def mk (digit : Int) (new_status : Status) : IntAndStatus =
+    IntAndStatus_ (digit, new_status)
+}
+
 trait PiIterator
 {
+
+
 
   private def _mk_Status (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
     Status_ (r, n, q, t, l, k)
@@ -86,3 +98,8 @@ trait PiIterator
 }
 
 case class PiIterator_ () extends PiIterator
+
+object PiIterator {
+  def mk : PiIterator =
+    PiIterator_ ()
+}

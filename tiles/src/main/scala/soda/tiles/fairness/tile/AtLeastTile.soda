@@ -1,6 +1,8 @@
 
 class AtLeastTile
 
+  abstract
+
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (

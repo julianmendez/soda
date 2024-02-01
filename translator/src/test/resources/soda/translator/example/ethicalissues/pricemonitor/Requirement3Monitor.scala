@@ -9,6 +9,11 @@ trait Report3
 
 case class Report3_ (compliant : Boolean, price_of_flight : Int, price_of_flight_by_segments : Int) extends Report3
 
+object Report3 {
+  def mk (compliant : Boolean) (price_of_flight : Int) (price_of_flight_by_segments : Int) : Report3 =
+    Report3_ (compliant, price_of_flight, price_of_flight_by_segments)
+}
+
 trait Segment
   extends
     Flight
@@ -23,6 +28,11 @@ trait Segment
 
 case class Segment_ (start_airport : String, end_airport : String) extends Segment
 
+object Segment {
+  def mk (start_airport : String) (end_airport : String) : Segment =
+    Segment_ (start_airport, end_airport)
+}
+
 trait SegmentsForFlight
 {
 
@@ -33,7 +43,7 @@ trait SegmentsForFlight
     intermediate_stops match  {
       case head :: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (
         Segment_ (first_airport , head) )
-      case otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
+      case _otherwise => Nil .+: (Segment_ (first_airport , last_airport) )
     }
 
   lazy val segments : Seq [Segment] =
@@ -43,6 +53,11 @@ trait SegmentsForFlight
 }
 
 case class SegmentsForFlight_ (flight : Flight) extends SegmentsForFlight
+
+object SegmentsForFlight {
+  def mk (flight : Flight) : SegmentsForFlight =
+    SegmentsForFlight_ (flight)
+}
 
 trait Requirement3Monitor
   extends
@@ -75,3 +90,8 @@ trait Requirement3Monitor
 }
 
 case class Requirement3Monitor_ (pricing_agent : PricingAgent) extends Requirement3Monitor
+
+object Requirement3Monitor {
+  def mk (pricing_agent : PricingAgent) : Requirement3Monitor =
+    Requirement3Monitor_ (pricing_agent)
+}

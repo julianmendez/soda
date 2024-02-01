@@ -24,6 +24,8 @@ end
 
 class PiIterator
 
+  abstract
+
   _mk_Status (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
     Status_ (r) (n) (q) (t) (l) (k)
 

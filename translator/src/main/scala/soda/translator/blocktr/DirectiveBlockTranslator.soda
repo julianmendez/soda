@@ -17,13 +17,13 @@ class DirectiveBlockTranslator
 
   _get_first_or_empty (sequence : Seq [String] ) : String =
     match sequence
-      case x :: xs ==> x
-      case otherwise ==> ""
+      case x +: xs ==> x
+      case Nil ==> ""
 
   _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
     match sequence
-      case x :: xs ==> xs
-      case otherwise ==> sequence
+      case x +: xs ==> xs
+      case Nil ==> sequence
 
   _comment_block_out (lines : Seq [String] ) : Seq [String] =
     Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )
@@ -49,7 +49,7 @@ class DirectiveBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case DirectiveBlockAnnotation_ (block) ==> _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

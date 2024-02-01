@@ -3,6 +3,8 @@ class CoqTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
@@ -40,7 +42,7 @@ class CoqTheoremBlockTranslator
     match annotated_block
       case TheoremBlockAnnotation_ (block) ==>
         _translate_block (TheoremBlockAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

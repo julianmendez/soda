@@ -5,10 +5,6 @@ package soda.translator.replacement
  * especially related to replacement.
  */
 
-
-
-trait Package
-
 /**
  * This is to classify characters.
  */
@@ -25,6 +21,11 @@ trait CharType
 
 case class CharType_ (ordinal : Int, name : String) extends CharType
 
+object CharType {
+  def mk (ordinal : Int) (name : String) : CharType =
+    CharType_ (ordinal, name)
+}
+
 /**
  * This is an enumeration for all types of characters.
  */
@@ -33,6 +34,8 @@ trait CharTypeEnum
   extends
     soda.lib.Enum [CharType]
 {
+
+
 
   private def _mk_CharType (ordinal : Int) (name : String) : CharType =
     CharType_ (ordinal, name)
@@ -99,6 +102,11 @@ trait CharTypeEnum
 
 case class CharTypeEnum_ () extends CharTypeEnum
 
+object CharTypeEnum {
+  def mk : CharTypeEnum =
+    CharTypeEnum_ ()
+}
+
 
 /**
  * This models all the possible states that the parser can be.
@@ -116,6 +124,11 @@ trait ParserState
 
 case class ParserState_ (ordinal : Int, name : String) extends ParserState
 
+object ParserState {
+  def mk (ordinal : Int) (name : String) : ParserState =
+    ParserState_ (ordinal, name)
+}
+
 /**
  * This is an enumeration of all the parser states.
  */
@@ -124,6 +137,8 @@ trait ParserStateEnum
   extends
     soda.lib.Enum [ParserState]
 {
+
+
 
   lazy val undefined_state = ParserState_ (0 , "undefined_state")
 
@@ -151,8 +166,15 @@ trait ParserStateEnum
 
 case class ParserStateEnum_ () extends ParserStateEnum
 
+object ParserStateEnum {
+  def mk : ParserStateEnum =
+    ParserStateEnum_ ()
+}
+
 trait ParserTransition
 {
+
+
 
   lazy val ps = ParserStateEnum_ ()
 
@@ -201,9 +223,16 @@ trait ParserTransition
 
 case class ParserTransition_ () extends ParserTransition
 
+object ParserTransition {
+  def mk : ParserTransition =
+    ParserTransition_ ()
+}
+
 
 trait ReplacementAux
 {
+
+
 
   lazy val soda_space = " "
 
@@ -268,7 +297,7 @@ trait ReplacementAux
     ) line .substring (0 , line .length - 1)
     else line
 
-  def remove_space_from_scala_line (line : String) : String =
+  def remove_space_from_translated_line (line : String) : String =
     _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
   private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String)
@@ -289,6 +318,11 @@ trait ReplacementAux
 
 case class ReplacementAux_ () extends ReplacementAux
 
+object ReplacementAux {
+  def mk : ReplacementAux =
+    ReplacementAux_ ()
+}
+
 trait ReplacementWithTranslator
 {
 
@@ -302,25 +336,39 @@ trait ReplacementWithTranslator
 
   lazy val scala_space = aux .scala_space
 
-  lazy val soda_opening_parenthesis_symbol = "("
+  lazy val opening_parenthesis_symbol = "("
+
+  lazy val closing_parenthesis_symbol = ")"
+
+  lazy val new_line = "\n"
 
   lazy val scala_opening_parenthesis_symbol = "("
 
   private lazy val _fold = Fold_ ()
 
-  private def _replace_if_found (previous_character : String) (reserved_word : String) (line : String)
+  private def _next_replace_words_with (line : String) (reserved_word : String) (translation : String)
       : String =
-    aux .replace_if_found (line) (
-      previous_character + reserved_word + soda_space) (previous_character +
-        translator .translate (reserved_word) + scala_space)
+    Replacement_ (line)
+      .replace_if_found (soda_space) (reserved_word) (soda_space) (translation)
+      .replace_if_found (soda_space) (reserved_word) (closing_parenthesis_symbol) (translation)
+      .replace_if_found (soda_space) (reserved_word) (new_line) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (soda_space) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (
+        closing_parenthesis_symbol) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (new_line) (translation)
+      .line
 
-  private def _next_replace (line : String) (reserved_word : String) : String =
-    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
-      _replace_if_found (soda_space) (reserved_word) (line)
-    )
+  private def _next_replace_words (line : String) (reserved_word : String) : String =
+    _next_replace_words_with (line) (reserved_word) (translator .translate (reserved_word) )
 
-  def replace (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace)
+  def replace_words (line : String) : String =
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_words)
+
+  private def _next_replace_symbols (line : String) (reserved_word : String) : String =
+    aux .replace_if_found (line) (reserved_word) (translator .translate (reserved_word) )
+
+  def replace_symbols (line : String) : String =
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_symbols)
 
   private def _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (
@@ -328,7 +376,7 @@ trait ReplacementWithTranslator
         translator .translate (reserved_word) + scala_space)
 
   private def _replace_only_beginning (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_only_beginning)
+    _fold .apply [String, String] (translator .keys) (line) (_next_replace_only_beginning)
 
   def replace_at_beginning (line : String) (index : Int) : String =
     if ( index == 0
@@ -338,6 +386,11 @@ trait ReplacementWithTranslator
 }
 
 case class ReplacementWithTranslator_ (translator : soda.translator.block.Translator) extends ReplacementWithTranslator
+
+object ReplacementWithTranslator {
+  def mk (translator : soda.translator.block.Translator) : ReplacementWithTranslator =
+    ReplacementWithTranslator_ (translator)
+}
 
 /**
  * This models a collection of replacement functions.
@@ -366,15 +419,28 @@ trait Replacement
   def add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
-  def remove_space_from_scala_line () : Replacement =
-    Replacement_ (aux .remove_space_from_scala_line (line) )
+  def remove_space_from_translated_line () : Replacement =
+    Replacement_ (aux .remove_space_from_translated_line (line) )
 
   def add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
     Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
+  def replace_if_found  (previous_character : String) (text : String)  (next_character : String)
+     (replacement : String) : Replacement =
+    Replacement_ (
+      aux .replace_if_found (line) (
+        previous_character + text + next_character) (
+        previous_character + replacement + next_character)
+    )
+
 }
 
 case class Replacement_ (line : String) extends Replacement
+
+object Replacement {
+  def mk (line : String) : Replacement =
+    Replacement_ (line)
+}
 
 
 trait ReplacerFoldTuple
@@ -387,6 +453,11 @@ trait ReplacerFoldTuple
 
 case class ReplacerFoldTuple_ (replaced_text_rev : Seq [String], start_index : Int) extends ReplacerFoldTuple
 
+object ReplacerFoldTuple {
+  def mk (replaced_text_rev : Seq [String]) (start_index : Int) : ReplacerFoldTuple =
+    ReplacerFoldTuple_ (replaced_text_rev, start_index)
+}
+
 trait LinePatternProcessor
 {
 
@@ -397,6 +468,11 @@ trait LinePatternProcessor
 }
 
 case class LinePatternProcessor_ (line : String, pattern : String, replacement : String) extends LinePatternProcessor
+
+object LinePatternProcessor {
+  def mk (line : String) (pattern : String) (replacement : String) : LinePatternProcessor =
+    LinePatternProcessor_ (line, pattern, replacement)
+}
 
 trait Replacer
   extends
@@ -440,12 +516,17 @@ trait Replacer
     tuple .replaced_text_rev .reverse .mkString ("")
 
   lazy val replaced_text =
-    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (
-      next_value_function) (should_continue) )
+    postprocess (_fold_while .apply [Int, ReplacerFoldTuple] (
+      _range .apply (line .length) ) (initial_value) (next_value_function) (should_continue) )
 
 }
 
 case class Replacer_ (line : String, pattern : String, replacement : String) extends Replacer
+
+object Replacer {
+  def mk (line : String) (pattern : String) (replacement : String) : Replacer =
+    Replacer_ (line, pattern, replacement)
+}
 
 
 /**
@@ -463,6 +544,11 @@ trait Token
 
 case class Token_ (text : String, parser_state : ParserState, index : Int) extends Token
 
+object Token {
+  def mk (text : String) (parser_state : ParserState) (index : Int) : Token =
+    Token_ (text, parser_state, index)
+}
+
 trait TokenizerFoldTuple
 {
 
@@ -473,6 +559,11 @@ trait TokenizerFoldTuple
 }
 
 case class TokenizerFoldTuple_ (last_index : Int, parser_state : ParserState, rev_tokens : Seq [Token]) extends TokenizerFoldTuple
+
+object TokenizerFoldTuple {
+  def mk (last_index : Int) (parser_state : ParserState) (rev_tokens : Seq [Token]) : TokenizerFoldTuple =
+    TokenizerFoldTuple_ (last_index, parser_state, rev_tokens)
+}
 
 /**
  * This class processes a line to divide it into tokens.
@@ -550,10 +641,15 @@ trait Tokenizer
     _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
 
   lazy val tokens : Seq [Token] =
-    _postprocess (_fold .apply (_range .apply (line .length) ) (_initial_value) (
-      _next_value_function) )
+    _postprocess (_fold .apply [Int, TokenizerFoldTuple] (
+      _range .apply (line .length) ) (_initial_value) (_next_value_function) )
 
 }
 
 case class Tokenizer_ (line : String) extends Tokenizer
+
+object Tokenizer {
+  def mk (line : String) : Tokenizer =
+    Tokenizer_ (line)
+}
 

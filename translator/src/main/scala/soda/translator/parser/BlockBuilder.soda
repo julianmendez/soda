@@ -63,7 +63,7 @@ class BlockBuilder
       _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply (lines) (_get_annotated_lines_initial_value) (
+    _fold.apply [String] [PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
         _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse

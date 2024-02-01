@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Soda'
-copyright = '2020--2023, Julian Alfredo Mendez'
+copyright = '2020--2024, Julian Alfredo Mendez'
 author = 'Julian Alfredo Mendez'
-release = '0.18.0'
+release = '0.20.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

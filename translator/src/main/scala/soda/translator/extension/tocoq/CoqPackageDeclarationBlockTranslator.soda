@@ -3,6 +3,8 @@ class CoqPackageDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
@@ -29,7 +31,7 @@ class CoqPackageDeclarationBlockTranslator
     match annotated_block
       case PackageDeclarationAnnotation_ (block) ==>
         _translate_block (PackageDeclarationAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

@@ -3,7 +3,8 @@ package soda.translator.extension.toscala
 /*
  * This package contains tests for the translator to Scala.
  */
-trait Package
+
+
 
 case class BeautifierSpec ()
   extends
@@ -30,145 +31,6 @@ case class BeautifierSpec ()
     ) (
       expected = "  def beautify_this  (  original  : String   )   :  String   =  \n" +
         "    original .  replaceAll(\"  \" ,  \" \")   \n"
-    )
-  )
-
-}
-
-
-case class ClassConstructorBlockTranslatorSpec ()
-  extends
-    org.scalatest.funsuite.AnyFunSuite
-{
-
-  import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
-
-  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val example_program_0 =
-    "package soda.example.mytest" +
-    "\n" +
-    "\nclass Example0" +
-    "\n  extends" +
-    "\n    SuperClassExample" +
-    "\n" +
-    "\n  abstract" +
-    "\n    /** this value is an example */" +
-    "\n    map : Map [Int] [Int]" +
-    "\n    /** this function is also an example */" +
-    "\n    a_function : Int -> Double -> String" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\nclass Example0Spec ()" +
-    "\n  extends" +
-    "\n    org.scalatest.funsuite.AnyFunSuite" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\n"
-
-  lazy val expected_program_0 =
-    "package soda.example.mytest" +
-    "\n" +
-    "\nclass Example0" +
-    "\n  extends" +
-    "\n    SuperClassExample" +
-    "\n" +
-    "\n  abstract" +
-    "\n    /** this value is an example */" +
-    "\n    map : Map [Int] [Int]" +
-    "\n    /** this function is also an example */" +
-    "\n    a_function : Int -> Double -> String" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
-    " extends Example0" +
-    "\n" +
-    "\nclass Example0Spec ()" +
-    "\n  extends" +
-    "\n    org.scalatest.funsuite.AnyFunSuite" +
-    "\n" +
-    "\nend" +
-    "\n"
-
-  lazy val example_program_1 =
-    "package soda.example.mytest" +
-    "\n" +
-    "\nclass Example [A : Type] [B subtype SuperType]" +
-    "\n  extends" +
-    "\n    SuperClassExample" +
-    "\n    AnotherSuperClassExample [A]" +
-    "\n" +
-    "\n  abstract" +
-    "\n    value : Int" +
-    "\n    a_function : Int -> Double -> String" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\nclass ExampleSpec ()" +
-    "\n  extends" +
-    "\n    org.scalatest.funsuite.AnyFunSuite" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\n"
-
-  lazy val expected_program_1 =
-    "package soda.example.mytest" +
-    "\n" +
-    "\nclass Example [A : Type] [B subtype SuperType]" +
-    "\n  extends" +
-    "\n    SuperClassExample" +
-    "\n    AnotherSuperClassExample [A]" +
-    "\n" +
-    "\n  abstract" +
-    "\n    value : Int" +
-    "\n    a_function : Int -> Double -> String" +
-    "\n" +
-    "\nend" +
-    "\n" +
-    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
-    " a_function : Int => Double => String) extends Example [A, B]" +
-    "\n" +
-    "\nclass ExampleSpec ()" +
-    "\n  extends" +
-    "\n    org.scalatest.funsuite.AnyFunSuite" +
-    "\n" +
-    "\nend" +
-    "\n"
-
-  private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
-      Seq (
-        ClassConstructorBlockTranslator_ ()
-      )
-    )
-
-  lazy val translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        _translation_pipeline
-      )
-    )
-
-  test ("should produce the constructors for a simple class") (
-    check (
-      obtained = translator .translate (example_program_0)
-    ) (
-      expected = expected_program_0
-    )
-  )
-
-  test ("should produce the constructors for a class with type parameters") (
-    check (
-      obtained = translator .translate (example_program_1)
-    ) (
-      expected = expected_program_1
     )
   )
 
@@ -212,6 +74,10 @@ case class FullTranslationSpec ()
   lazy val FizzBuzzUnicode = "algorithms/FizzBuzzUnicode"
 
   lazy val FiboUnicodeExample = "mathematics/FiboUnicodeExample"
+
+  lazy val NatExample = "mathematics/Nat"
+
+  lazy val SimpleListExample = "forlean/lib/SimpleList"
 
   lazy val ScalaReservedWordEscaping = "algorithms/ScalaReservedWordEscaping"
 
@@ -280,6 +146,14 @@ case class FullTranslationSpec ()
     test_translation (ScalaReservedWordEscaping)
   )
 
+  test ("should translate the Nat example") (
+    test_translation (NatExample)
+  )
+
+  test ("should translate the example of a simple list") (
+    test_translation (SimpleListExample)
+  )
+
   test ("should translate the manual In A Nutshell") (
     test_translation (InANutshell)
   )
@@ -294,6 +168,8 @@ case class FullTranslationSpec ()
 trait ExampleWithWrongOrder
 {
 
+
+
   lazy val this_is_null_but = constant_defined_later
 
   lazy val constant_defined_later = "Success!"
@@ -302,8 +178,15 @@ trait ExampleWithWrongOrder
 
 case class ExampleWithWrongOrder_ () extends ExampleWithWrongOrder
 
+object ExampleWithWrongOrder {
+  def mk : ExampleWithWrongOrder =
+    ExampleWithWrongOrder_ ()
+}
+
 trait ExampleWithRightOrder
 {
+
+
 
   lazy val constant_defined_before = "Success!"
 
@@ -313,8 +196,15 @@ trait ExampleWithRightOrder
 
 case class ExampleWithRightOrder_ () extends ExampleWithRightOrder
 
+object ExampleWithRightOrder {
+  def mk : ExampleWithRightOrder =
+    ExampleWithRightOrder_ ()
+}
+
 trait ExampleWithEmptyParentheses
 {
+
+
 
   def this_is_not_null  () = constant_defined_later
 
@@ -324,8 +214,15 @@ trait ExampleWithEmptyParentheses
 
 case class ExampleWithEmptyParentheses_ () extends ExampleWithEmptyParentheses
 
+object ExampleWithEmptyParentheses {
+  def mk : ExampleWithEmptyParentheses =
+    ExampleWithEmptyParentheses_ ()
+}
+
 trait AnotherExampleWithEmptyParentheses
 {
+
+
 
   lazy val this_is_not_null = constant_function_defined_later  ()
 
@@ -334,6 +231,11 @@ trait AnotherExampleWithEmptyParentheses
 }
 
 case class AnotherExampleWithEmptyParentheses_ () extends AnotherExampleWithEmptyParentheses
+
+object AnotherExampleWithEmptyParentheses {
+  def mk : AnotherExampleWithEmptyParentheses =
+    AnotherExampleWithEmptyParentheses_ ()
+}
 
 /**
  * In Soda constants cannot be defined as 'lazy val'.
@@ -505,6 +407,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\ncase class D_ () extends D" +
         "\n" +
+        "\nobject D {" +
+        "\n  def mk : D =" +
+        "\n    D_ ()" +
+        "\n}" +
+        "\n" +
         "\ntrait E" +
         "\n{" +
         "\n" +
@@ -513,6 +420,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ () extends E" +
+        "\n" +
+        "\nobject E {" +
+        "\n  def mk : E =" +
+        "\n    E_ ()" +
+        "\n}" +
         "\n" +
         "\ncase class F ()" +
         "\n  extends" +
@@ -538,6 +450,11 @@ case class MicroTranslatorToScalaSpec ()
         "\n}" +
         "\n" +
         "\ncase class E_ [A] () extends E [A]" +
+        "\n" +
+        "\nobject E {" +
+        "\n  def mk [A] : E [A] =" +
+        "\n    E_ [A] ()" +
+        "\n}" +
         "\n"
     )
   )
@@ -579,11 +496,21 @@ case class MicroTranslatorToScalaSpec ()
         "\n" +
         "\n  case class E_ () extends E" +
         "\n" +
+        "\n  object E {" +
+        "\n    def mk : E =" +
+        "\n      E_ ()" +
+        "\n  }" +
+        "\n" +
         "\n  type F = E" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class D_ () extends D" +
+        "\n" +
+        "\nobject D {" +
+        "\n  def mk : D =" +
+        "\n    D_ ()" +
+        "\n}" +
         "\n"
     )
   )
@@ -631,7 +558,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  match n" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -639,7 +566,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -651,7 +578,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  match n" +
         "\n    case 0 ==> 1 " +
         "\n    case 1 ==> 1 " +
-        "\n    case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -659,7 +586,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match  {" +
         "\n    case 0 => 1 " +
         "\n    case 1 => 1 " +
-        "\n    case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n    case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n  }" +
         "\n"
     )
@@ -671,7 +598,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 ==> 1 " +
         "\n  case 1 ==> 1 " +
-        "\n  case otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise ==> if x > 0 then fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
       )
     ) (
@@ -679,7 +606,7 @@ case class MicroTranslatorToScalaSpec ()
         "\n  n match" +
         "\n  case 0 => 1 " +
         "\n  case 1 => 1 " +
-        "\n  case otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
+        "\n  case _otherwise => if ( x > 0 ) fibo (x - 1) + fibo (x - 2) else 0" +
         "\n"
     )
   )
@@ -792,6 +719,80 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("Translation of comments") (
+    check (
+      obtained = instance .translate (
+        "\n/*" +
+        "\n * This is commented text" +
+        "\n * " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/*" +
+        "\n * This is commented text" +
+        "\n * " +
+        "\n   f (x) = 0" +
+        "\n */" +
+        "\n"
+    )
+  )
+
+  test ("Translation of documentation") (
+    check (
+      obtained = instance .translate (
+        "\n/**" +
+        "\n * This is nicely " +
+        "\n * written documentation  " +
+        "\n   " +
+        "\n   f (x) = 0" +
+        "\n   " +
+        "\n */" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "/**" +
+        "\n * This is nicely " +
+        "\n * written documentation  " +
+        "\n   f (x) = 0" +
+        "\n */" +
+        "\n"
+    )
+  )
+
+  test ("Translation of class alias") (
+    check (
+      obtained = instance .translate (
+        "class Money = Int" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "type Money = Int" +
+        "\n"
+    )
+  )
+
+  test ("Translation of lambda synonyms") (
+    check (
+      obtained = instance .translate (
+        "f : Int -> Int -> Int -> Int =" +
+        "\n  lambda x --> any y --> fun z --> (x + y + z)" +
+        "\n"
+      )
+    ) (
+      expected = "" +
+        "lazy val f : Int => Int => Int => Int =" +
+         "\n   x =>  y =>  z => (x + y + z)" +
+         "\n"
+    )
+  )
+
 }
 
 
@@ -878,6 +879,157 @@ case class MultiLineSpec ()
 }
 
 
+case class ScalaClassConstructorBlockTranslatorSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.parser.BlockProcessor_
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val example_program_0 =
+    "package soda.example.mytest" +
+    "\n" +
+    "\nclass Example0" +
+    "\n  extends" +
+    "\n    SuperClassExample" +
+    "\n" +
+    "\n  abstract" +
+    "\n    /** this value is an example */" +
+    "\n    map : Map [Int] [Int]" +
+    "\n    /** this function is also an example */" +
+    "\n    a_function : Int -> Double -> String" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\nclass Example0Spec ()" +
+    "\n  extends" +
+    "\n    org.scalatest.funsuite.AnyFunSuite" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\n"
+
+  lazy val expected_program_0 =
+    "package soda.example.mytest" +
+    "\n" +
+    "\nclass Example0" +
+    "\n  extends" +
+    "\n    SuperClassExample" +
+    "\n" +
+    "\n  abstract" +
+    "\n    /** this value is an example */" +
+    "\n    map : Map [Int] [Int]" +
+    "\n    /** this function is also an example */" +
+    "\n    a_function : Int -> Double -> String" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\ncase class Example0_ (map : Map [Int, Int], a_function : Int => Double => String)" +
+    " extends Example0" +
+    "\n" +
+    "\nobject Example0 {" +
+    "\n  def mk (map : Map [Int, Int]) (a_function : Int => Double => " +
+    "String) : Example0 =" +
+    "\n    Example0_ (map, a_function)" +
+    "\n}" +
+    "\n" +
+    "\nclass Example0Spec ()" +
+    "\n  extends" +
+    "\n    org.scalatest.funsuite.AnyFunSuite" +
+    "\n" +
+    "\nend" +
+    "\n"
+
+  lazy val example_program_1 =
+    "package soda.example.mytest" +
+    "\n" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
+    "\n  extends" +
+    "\n    SuperClassExample" +
+    "\n    AnotherSuperClassExample [A]" +
+    "\n" +
+    "\n  abstract" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\nclass ExampleSpec ()" +
+    "\n  extends" +
+    "\n    org.scalatest.funsuite.AnyFunSuite" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\n"
+
+  lazy val expected_program_1 =
+    "package soda.example.mytest" +
+    "\n" +
+    "\nclass Example [A : Type] [B subtype SuperType]" +
+    "\n  extends" +
+    "\n    SuperClassExample" +
+    "\n    AnotherSuperClassExample [A]" +
+    "\n" +
+    "\n  abstract" +
+    "\n    value : Int" +
+    "\n    a_function : Int -> Double -> String" +
+    "\n" +
+    "\nend" +
+    "\n" +
+    "\ncase class Example_ [A, B <: SuperType] (value : Int," +
+    " a_function : Int => Double => String) extends Example [A, B]" +
+    "\n" +
+    "\nobject Example {" +
+    "\n  def mk [A, B <: SuperType] (value : Int) (a_function : Int => " +
+    "Double => String) : Example [A, B] =" +
+    "\n    Example_ [A, B] (value, a_function)" +
+    "\n}" +
+    "\n" +
+    "\nclass ExampleSpec ()" +
+    "\n  extends" +
+    "\n    org.scalatest.funsuite.AnyFunSuite" +
+    "\n" +
+    "\nend" +
+    "\n"
+
+  private lazy val _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        ScalaClassConstructorBlockTranslator_ ()
+      )
+    )
+
+  lazy val translator =
+    BlockProcessor_ (
+      DefaultBlockSequenceTranslator_ (
+        _translation_pipeline
+      )
+    )
+
+  test ("should produce the constructors for a simple class") (
+    check (
+      obtained = translator .translate (example_program_0)
+    ) (
+      expected = expected_program_0
+    )
+  )
+
+  test ("should produce the constructors for a class with type parameters") (
+    check (
+      obtained = translator .translate (example_program_1)
+    ) (
+      expected = expected_program_1
+    )
+  )
+
+}
+
+
 /**
  * This tests how translation is done for Scala reserved words that are not Soda reserved words.
  */
@@ -943,12 +1095,22 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class A0_ [B0 <: C0] () extends A0 [B0]" +
         "\n" +
+        "\nobject A0 {" +
+        "\n  def mk [B0 <: C0] : A0 [B0] =" +
+        "\n    A0_ [B0] ()" +
+        "\n}" +
+        "\n" +
         "\ntrait C0 [D0 >: E0]" +
         "\n{" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class C0_ [D0 >: E0] () extends C0 [D0]" +
+        "\n" +
+        "\nobject C0 {" +
+        "\n  def mk [D0 >: E0] : C0 [D0] =" +
+        "\n    C0_ [D0] ()" +
+        "\n}" +
         "\n" +
         "\ntrait A1 [B1 <: C1]" +
         "\n{" +
@@ -957,12 +1119,22 @@ case class ScalaNonSodaSpec ()
         "\n" +
         "\ncase class A1_ [B1 <: C1] () extends A1 [B1]" +
         "\n" +
+        "\nobject A1 {" +
+        "\n  def mk [B1 <: C1] : A1 [B1] =" +
+        "\n    A1_ [B1] ()" +
+        "\n}" +
+        "\n" +
         "\ntrait C1 [D1 >: E1]" +
         "\n{" +
         "\n" +
         "\n}" +
         "\n" +
         "\ncase class C1_ [D1 >: E1] () extends C1 [D1]" +
+        "\n" +
+        "\nobject C1 {" +
+        "\n  def mk [D1 >: E1] : C1 [D1] =" +
+        "\n    C1_ [D1] ()" +
+        "\n}" +
         "\n"
     )
   )
@@ -1127,6 +1299,12 @@ case class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] ()" +
         " extends BlackBox [A, B]" +
+        "\n" +
+        "\n  object BlackBox {" +
+        "\n    def mk [A <: AbstractModel, B <: AbstractParameter] : " +
+        "BlackBox [A, B] =" +
+        "\n      BlackBox_ [A, B] ()" +
+        "\n  }" +
         "\n"
     )
   )

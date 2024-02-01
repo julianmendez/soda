@@ -19,7 +19,13 @@ class LeanFullTranslationSpec ()
 
   lean_suffix = ".lean"
 
+  pair_example = "forlean/algorithms/PairParam"
+
   swap_example = "forlean/algorithms/SwapExample"
+
+  recursion_example = "forlean/algorithms/Recursion"
+
+  list_example = "forlean/lib/MyList"
 
   triangular_number = "forlean/mathematics/TriangularNumberForLean"
 
@@ -52,6 +58,17 @@ class LeanFullTranslationSpec ()
 
   test ("should translate the example of triangular numbers") (
     test_translation (triangular_number)
+  )
+
+  test ("should translate the parameterized pair example") (
+    test_translation (pair_example)
+  )
+
+  test ("should translate the recursion example") (
+    test_translation (recursion_example)
+  )
+  test ("should translate the list example") (
+    test_translation (list_example)
   )
 
 end

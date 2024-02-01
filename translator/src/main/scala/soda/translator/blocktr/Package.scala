@@ -6,10 +6,6 @@ package soda.translator.blocktr
  * @see soda.translator.block.BlockTranslator
  */
 
-
-
-trait Package
-
 trait DirectiveBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -27,14 +23,14 @@ trait DirectiveBlockTranslator
 
   private def _get_first_or_empty (sequence : Seq [String] ) : String =
     sequence match  {
-      case x :: xs => x
-      case otherwise => ""
+      case x +: xs => x
+      case Nil => ""
     }
 
   private def _remove_first_if_possible (sequence : Seq [String] ) : Seq [String] =
     sequence match  {
-      case x :: xs => xs
-      case otherwise => sequence
+      case x +: xs => xs
+      case Nil => sequence
     }
 
   private def _comment_block_out (lines : Seq [String] ) : Seq [String] =
@@ -61,7 +57,7 @@ trait DirectiveBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -72,6 +68,11 @@ trait DirectiveBlockTranslator
 
 case class DirectiveBlockTranslator_ (identifier : String, opening_comment : String, closing_comment : String) extends DirectiveBlockTranslator
 
+object DirectiveBlockTranslator {
+  def mk (identifier : String) (opening_comment : String) (closing_comment : String) : DirectiveBlockTranslator =
+    DirectiveBlockTranslator_ (identifier, opening_comment, closing_comment)
+}
+
 
 trait Table
 {
@@ -81,6 +82,11 @@ trait Table
 }
 
 case class Table_ (table : Seq [Tuple2 [String, String] ]) extends Table
+
+object Table {
+  def mk (table : Seq [Tuple2 [String, String] ]) : Table =
+    Table_ (table)
+}
 
 trait TableTranslator
   extends
@@ -103,21 +109,39 @@ trait TableTranslator
 
 case class TableTranslator_ (table : Seq [Tuple2 [String, String] ]) extends TableTranslator
 
+object TableTranslator {
+  def mk (table : Seq [Tuple2 [String, String] ]) : TableTranslator =
+    TableTranslator_ (table)
+}
+
 
 trait TokenReplacement
 {
 
   import   soda.translator.replacement.ReplacementWithTranslator_
 
-  def replace (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+
+
+  def replace_words (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
     TokenizedBlockTranslator_ (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace (token .text)
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_words (token .text)
+    )
+
+  def replace_symbols (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (
+       token =>
+        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_symbols (token .text)
     )
 
 }
 
 case class TokenReplacement_ () extends TokenReplacement
+
+object TokenReplacement {
+  def mk : TokenReplacement =
+    TokenReplacement_ ()
+}
 
 
 trait TokenizedBlockTranslator
@@ -158,7 +182,7 @@ trait TokenizedBlockTranslator
         .map ( x => Tokenizer_ (x) .tokens)
         .map ( x => _translate_line (x) )
         .map ( x => _join_tokens (x) )
-        .map ( x => Replacement_ (x) .remove_space_from_scala_line () .line)
+        .map ( x => Replacement_ (x) .remove_space_from_translated_line () .line)
         .getOrElse ("")
 
   private def _translate_if_not_a_comment (annotated_line : AnnotatedLine) : String =
@@ -183,4 +207,9 @@ trait TokenizedBlockTranslator
 }
 
 case class TokenizedBlockTranslator_ (replace_token : soda.translator.replacement.Token => String) extends TokenizedBlockTranslator
+
+object TokenizedBlockTranslator {
+  def mk (replace_token : soda.translator.replacement.Token => String) : TokenizedBlockTranslator =
+    TokenizedBlockTranslator_ (replace_token)
+}
 

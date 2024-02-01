@@ -28,9 +28,9 @@ class SegmentsForFlight
   rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] )
       (last_airport : String) : Seq [Segment] =
     match intermediate_stops
-      case head :: tail ==> (rec_segments_multi (head) (tail) (last_airport) ) .+: (
+      case Nil ==> Nil .+: (Segment_ (first_airport , last_airport) )
+      case head +: tail ==> (rec_segments_multi (head) (tail) (last_airport) ) .+: (
         Segment_ (first_airport , head) )
-      case otherwise ==> Nil .+: (Segment_ (first_airport , last_airport) )
 
   segments : Seq [Segment] =
     rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (

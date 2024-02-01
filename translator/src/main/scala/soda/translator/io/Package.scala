@@ -5,10 +5,6 @@ package soda.translator.io
  * It is also the entry point for the translator.
  */
 
-
-
-trait Package
-
 trait AbstractDirectoryProcessor
 {
 
@@ -18,6 +14,11 @@ trait AbstractDirectoryProcessor
 }
 
 case class AbstractDirectoryProcessor_ (start : String, process_soda_file : java.io.File => Boolean) extends AbstractDirectoryProcessor
+
+object AbstractDirectoryProcessor {
+  def mk (start : String) (process_soda_file : java.io.File => Boolean) : AbstractDirectoryProcessor =
+    AbstractDirectoryProcessor_ (start, process_soda_file)
+}
 
 trait DirectoryProcessor
   extends
@@ -110,6 +111,11 @@ trait DirectoryProcessor
 
 case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File => Boolean) extends DirectoryProcessor
 
+object DirectoryProcessor {
+  def mk (start : String) (process_soda_file : java.io.File => Boolean) : DirectoryProcessor =
+    DirectoryProcessor_ (start, process_soda_file)
+}
+
 
 /**
  * This class is used to scan files in a given directory.
@@ -117,6 +123,8 @@ case class DirectoryProcessor_ (start : String, process_soda_file : java.io.File
 
 trait DirectoryScanner
 {
+
+
 
   import   java.io.File
 
@@ -143,7 +151,7 @@ trait DirectoryScanner
   private def _list_files_with (files : Option [Array [File] ] ) : Seq [File] =
     files match  {
       case Some (array) => array .toSeq
-      case otherwise => Seq ()
+      case None => Seq ()
     }
 
   private def _list_files (to_scan_head : File) : Seq [File] =
@@ -158,9 +166,16 @@ trait DirectoryScanner
 
 case class DirectoryScanner_ () extends DirectoryScanner
 
+object DirectoryScanner {
+  def mk : DirectoryScanner =
+    DirectoryScanner_ ()
+}
+
 
 trait LibraryDeployer
 {
+
+
 
   import   java.io.File
 
@@ -194,6 +209,11 @@ trait LibraryDeployer
 
 case class LibraryDeployer_ () extends LibraryDeployer
 
+object LibraryDeployer {
+  def mk : LibraryDeployer =
+    LibraryDeployer_ ()
+}
+
 
 /**
  * This is an auxiliary class to read small files.
@@ -201,6 +221,8 @@ case class LibraryDeployer_ () extends LibraryDeployer
 
 trait SimpleFileReader
 {
+
+
 
   import   java.io.BufferedReader
   import   java.io.InputStream
@@ -227,12 +249,19 @@ trait SimpleFileReader
 
 case class SimpleFileReader_ () extends SimpleFileReader
 
+object SimpleFileReader {
+  def mk : SimpleFileReader =
+    SimpleFileReader_ ()
+}
+
 /**
  * This is an auxiliary class to write small files.
  */
 
 trait SimpleFileWriter
 {
+
+
 
   import   soda.lib.SomeSD_
   import   java.io.File
@@ -265,4 +294,9 @@ trait SimpleFileWriter
 }
 
 case class SimpleFileWriter_ () extends SimpleFileWriter
+
+object SimpleFileWriter {
+  def mk : SimpleFileWriter =
+    SimpleFileWriter_ ()
+}
 

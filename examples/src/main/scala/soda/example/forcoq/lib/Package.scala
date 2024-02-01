@@ -4,23 +4,35 @@ package soda.example.forcoq.lib
  * This package contains helper classes that could be needed for a translation to Coq.
  */
 
-trait Package
-
 trait list [A ]
 {
+
+
 
 }
 
 case class list_ [A] () extends list [A]
+
+object list {
+  def mk [A] : list [A] =
+    list_ [A] ()
+}
 
 trait nil [A ]
   extends
     list [A]
 {
 
+
+
 }
 
 case class nil_ [A] () extends nil [A]
+
+object nil {
+  def mk [A] : nil [A] =
+    nil_ [A] ()
+}
 
 trait cons [A ]
   extends
@@ -34,15 +46,22 @@ trait cons [A ]
 
 case class cons_ [A] (e : A, s : list [A]) extends cons [A]
 
+object cons {
+  def mk [A] (e : A) (s : list [A]) : cons [A] =
+    cons_ [A] (e, s)
+}
+
 trait SeqList
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_reverse [A ] (a : list [A] ) (b : list [A] ) : list [A] =
     a match  {
       case cons_ (e , s) => _tailrec_reverse (s) (cons_ (e , b) )
-      case otherwise => b
+      case _otherwise => b
     }
 
   def reverse [A ] (s : list [A] ) : list [A] =
@@ -52,8 +71,8 @@ trait SeqList
         @tailrec  final
   private def _tailrec_from_Seq [A ] (a : Seq [A] ) (b : list [A] ) : list [A] =
     a match  {
+      case Nil => b
       case (e) :: (s) => _tailrec_from_Seq (s) (cons_ (e , b) )
-      case otherwise => b
     }
 
   def from_Seq [A ] (a : Seq [A] ) : list [A] =
@@ -64,7 +83,7 @@ trait SeqList
   private def _tailrec_to_Seq [A ] (a : list [A] ) (b : Seq [A] ) : Seq [A] =
     a match  {
       case cons_ (e , s) => _tailrec_to_Seq (s) (b .+: (e) )
-      case otherwise => b
+      case _otherwise => b
     }
 
   def to_Seq [A ] (a : list [A] ) : Seq [A] =
@@ -73,6 +92,11 @@ trait SeqList
 }
 
 case class SeqList_ () extends SeqList
+
+object SeqList {
+  def mk : SeqList =
+    SeqList_ ()
+}
 
 
 trait nat
@@ -85,10 +109,17 @@ trait nat
 
 case class nat_ (add : nat => nat, mul : nat => nat) extends nat
 
+object nat {
+  def mk (add : nat => nat) (mul : nat => nat) : nat =
+    nat_ (add, mul)
+}
+
 trait O
   extends
     nat
 {
+
+
 
   lazy val add : nat => nat =
      a => add_for (a)
@@ -105,6 +136,11 @@ trait O
 }
 
 case class O_ () extends O
+
+object O {
+  def mk : O =
+    O_ ()
+}
 
 trait S
   extends
@@ -131,8 +167,15 @@ trait S
 
 case class S_ (k : nat) extends S
 
+object S {
+  def mk (k : nat) : S =
+    S_ (k)
+}
+
 trait IntNat
 {
+
+
 
   import   soda.lib.NoneSD_
   import   soda.lib.OptionSD
@@ -156,10 +199,15 @@ trait IntNat
   def to_Int (a : nat) : Int =
     a match  {
       case S_ (k) => 1 + to_Int (k)
-      case otherwise => 0
+      case _otherwise => 0
     }
 
 }
 
 case class IntNat_ () extends IntNat
+
+object IntNat {
+  def mk : IntNat =
+    IntNat_ ()
+}
 

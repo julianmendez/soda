@@ -4,14 +4,81 @@ package soda.translator.extension.toscala
  * This package contains classes for the translation to Scala.
  */
 
+/**
+ * This class translates Soda source code into Scala source code.
+ */
 
-
-trait Package
-
-trait AbstractDeclarationBlockTranslator
+trait MicroTranslatorToScala
   extends
     soda.translator.block.BlockTranslator
 {
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.ConditionalBlockTranslator_
+  import   soda.translator.blocktr.TokenReplacement_
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  private lazy val _ba = BlockAnnotationEnum_ ()
+
+  private lazy val _functions_and_tests =
+    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
+
+  private lazy val _class_declarations =
+    Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
+
+  private lazy val _definitions_and_declarations =
+    _functions_and_tests .++ (_class_declarations)
+
+  private lazy val _translation_pipeline =
+    BlockTranslatorPipeline_ (
+      Seq (
+        ScalaTypeParameterBlockTranslator_ () ,
+        ScalaClassConstructorParameterBlockTranslator_ () ,
+        ScalaMatchCaseBlockTranslator_ () ,
+        ConditionalBlockTranslator_ (_definitions_and_declarations ,
+          TokenReplacement_ () .replace_words (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          ScalaFunctionDefinitionBlockTranslator_ () ) ,
+        ConditionalBlockTranslator_ (_class_declarations ,
+          TokenReplacement_ () .replace_words (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator_ (_functions_and_tests ,
+          TokenReplacement_ () .replace_words (_tc .all_translations) ) ,
+        ScalaClassDeclarationBlockTranslator_ () ,
+        ScalaImportDeclarationBlockTranslator_ () ,
+        ScalaAbstractDeclarationBlockTranslator_ () ,
+        ScalaTheoremBlockTranslator_ () ,
+        ScalaDirectiveBlockTranslator_ () ,
+        ScalaClassEndBlockTranslator_ () ,
+        ScalaMainClassBlockTranslator_ () ,
+        ScalaClassConstructorBlockTranslator_ ()
+      )
+    )
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      _translation_pipeline .translate (block)
+
+}
+
+case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
+
+object MicroTranslatorToScala {
+  def mk : MicroTranslatorToScala =
+    MicroTranslatorToScala_ ()
+}
+
+
+trait ScalaAbstractDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -80,7 +147,7 @@ trait AbstractDeclarationBlockTranslator
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block, references) =>
         _translate_block (AbstractDeclarationAnnotation_ (block, references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -89,13 +156,20 @@ trait AbstractDeclarationBlockTranslator
 
 }
 
-case class AbstractDeclarationBlockTranslator_ () extends AbstractDeclarationBlockTranslator
+case class ScalaAbstractDeclarationBlockTranslator_ () extends ScalaAbstractDeclarationBlockTranslator
+
+object ScalaAbstractDeclarationBlockTranslator {
+  def mk : ScalaAbstractDeclarationBlockTranslator =
+    ScalaAbstractDeclarationBlockTranslator_ ()
+}
 
 
-trait ClassConstructorBlockTranslator
+trait ScalaClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -111,6 +185,8 @@ trait ClassConstructorBlockTranslator
 
   private lazy val _tc = TranslationConstantToScala_ ()
 
+  private lazy val _sp : String = _tc .scala_space
+
   private def _get_initial_spaces_with (line : String) : String =
     line .takeWhile ( ch => ch .isSpaceChar)
 
@@ -120,46 +196,24 @@ trait ClassConstructorBlockTranslator
   private def _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  private def _get_as_parameter_list (parameters : Seq [String] ) : String =
-    if ( parameters .isEmpty
-    ) ""
-    else _tc .scala_space + _tc .scala_opening_bracket +
-      parameters .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
-       _tc .scala_closing_bracket
-
-  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
-      (functions : Seq [String] ) : String =
-    _get_initial_spaces (beginning) +
-    _tc .class_declaration_translation_at_beginning_with_paren +
-    _tc .scala_space +
-    beginning .class_name +
-    _sc .constructor_suffix +
-    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
-    _tc .scala_space +
-    _tc .scala_opening_parenthesis +
-    functions .mkString (_tc .scala_type_parameter_separator_symbol + _tc .scala_space) +
-    _tc .scala_closing_parenthesis +
-    _tc .scala_space +
-    _tc .scala_extends_translation +
-    _tc .scala_space +
-    beginning .class_name +
-    _get_as_parameter_list (beginning .type_parameters)
-
   private def _translate_type_symbols (line : String) : String =
     line
       .replaceAll (_sc .type_parameter_separation_regex ,
-        _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+        _tc .scala_type_parameter_separator_symbol + _sp)
       .replaceAll (_sc .subtype_reserved_word , _tc .scala_subtype_symbol)
       .replaceAll (_sc .supertype_reserved_word , _tc .scala_supertype_symbol)
       .replaceAll (_sc .function_arrow_symbol , _tc .scala_function_arrow_symbol)
 
-  private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock)
-      : Option [AbstractDeclarationAnnotation] =
-    block match  {
-      case AbstractDeclarationAnnotation_ (b , references) =>
-        Some (AbstractDeclarationAnnotation_ (b , references) )
-      case otherwise => None
-    }
+  private def _translate_to_apply (line : String) : String =
+    line
+      .replaceAll (_sc .type_declaration_colon_regex , "")
+
+  private def _get_as_parameter_list (parameters : Seq [String] ) : String =
+    if ( parameters .isEmpty
+    ) ""
+    else _sp + _tc .scala_opening_bracket +
+      parameters .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
+       _tc .scala_closing_bracket
 
   private def _get_abstract_functions (references : Seq [AnnotatedBlock] ) : Seq [String] =
     references
@@ -167,20 +221,106 @@ trait ClassConstructorBlockTranslator
       .flatMap ( block => block .abstract_functions)
       .map ( annotated_line => _translate_type_symbols (annotated_line .line) .trim )
 
-  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
-      (block : ClassEndAnnotation) : ClassEndAnnotation =
+  private def _get_abstract_functions_to_apply (abstract_functions : Seq [String] ) : Seq [String] =
+     abstract_functions
+      .map ( line => _translate_to_apply (line) .trim )
+
+  private def _get_constructor_params (beginning : ClassBeginningAnnotation)
+    (functions : Seq [String] ) : String =
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _sp +
+    _tc .scala_opening_parenthesis +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
+    _tc .scala_closing_parenthesis
+
+  private def _get_constructor_params_to_apply (beginning : ClassBeginningAnnotation)
+    (functions : Seq [String] ) : String =
+    _tc .scala_opening_parenthesis +
+    functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
+    _tc .scala_closing_parenthesis
+
+  private def _get_params_if_non_empty (functions : Seq [String] ) : String =
+    if ( (functions .nonEmpty)
+    )
+      _tc .scala_opening_parenthesis +
+      functions .mkString (
+        _tc .scala_closing_parenthesis + _sp + _tc .scala_opening_parenthesis
+      ) +
+      _tc .scala_closing_parenthesis
+    else ""
+
+  private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String =
+    _get_initial_spaces (beginning) +
+    _tc .class_declaration_translation_at_beginning_with_paren + _sp +
+    beginning .class_name + _sc .constructor_suffix +
+    _get_constructor_params (beginning) (functions) + _sp +
+    _tc .scala_extends_translation + _sp +
+    beginning .class_name + _get_as_parameter_list (beginning .type_parameters)
+
+  private def _remove_unnecessary_spaces (line : String) : String =
+    line .replaceAll (_sc .some_blanks_regex , _sp)
+
+  private def _get_default_constructor_object_line (beginning : ClassBeginningAnnotation) : String =
+    _tc .scala_object_reserved_word + _sp +
+    beginning .class_name + _sp + _tc .scala_opening_brace
+
+  private def _get_default_constructor_def_line (beginning : ClassBeginningAnnotation)
+        (functions : Seq [String] ) : String =
+    _tc .scala_def_reserved_word + _sp + _sc .default_constructor_function + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters_and_bounds) ) +
+    _sp + _get_params_if_non_empty (functions) + _sp + _tc .scala_type_membership_symbol + _sp +
+    beginning .class_name + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
+    _tc .scala_equals_symbol
+
+  private def _get_default_constructor_body_line (beginning : ClassBeginningAnnotation)
+      (functions : Seq [String] ) : String  =
+    beginning .class_name + _sc .constructor_suffix + _sp +
+    _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
+    _get_constructor_params_to_apply (beginning) (_get_abstract_functions_to_apply (functions) )
+
+  private def _get_default_constructor_function (beginning : ClassBeginningAnnotation)
+       (functions : Seq [String] ) : String =
+    _get_initial_spaces (beginning) +
+    _get_default_constructor_object_line (beginning) +
+    _tc .scala_new_line + _get_initial_spaces (beginning) + _sp + _sp +
+    _remove_unnecessary_spaces (
+      _get_default_constructor_def_line (beginning) (functions) ) +
+    _tc .scala_new_line + _get_initial_spaces (beginning) + _sp + _sp + _sp + _sp +
+    _remove_unnecessary_spaces (
+      _get_default_constructor_body_line (beginning) (functions) ) +
+    _tc .scala_new_line +
+    _get_initial_spaces (beginning) + _tc .scala_closing_brace
+
+  private def _get_as_abstract_declaration_annotation (block : AnnotatedBlock)
+      : Option [AbstractDeclarationAnnotation] =
+    block match  {
+      case AbstractDeclarationAnnotation_ (b , references) =>
+        Some (AbstractDeclarationAnnotation_ (b , references) )
+      case _otherwise => None
+    }
+
+  private def _translate_block_with_abstract_beginning_and_fun (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) (abstract_functions : Seq [String] ) : ClassEndAnnotation =
     ClassEndAnnotation_ (
       BlockBuilder_ () .build (
         block .lines .++ (
           Seq [String] (
-            "",
-            _get_constructor_declaration (beginning) (
-              _get_abstract_functions (block .references) )
+            "" ,
+            _get_constructor_declaration (beginning) (abstract_functions) ,
+            "" ,
+            _get_default_constructor_function (beginning) (abstract_functions)
           )
         )
       ),
       block .references
     )
+
+  private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
+      (block : ClassEndAnnotation) : ClassEndAnnotation =
+    _translate_block_with_abstract_beginning_and_fun (beginning) (block) (
+      _get_abstract_functions (block .references) )
 
   private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
@@ -198,7 +338,7 @@ trait ClassConstructorBlockTranslator
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] )
@@ -214,7 +354,7 @@ trait ClassConstructorBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block , references) =>
         _translate_block (ClassEndAnnotation_ (block , references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -223,7 +363,12 @@ trait ClassConstructorBlockTranslator
 
 }
 
-case class ClassConstructorBlockTranslator_ () extends ClassConstructorBlockTranslator
+case class ScalaClassConstructorBlockTranslator_ () extends ScalaClassConstructorBlockTranslator
+
+object ScalaClassConstructorBlockTranslator {
+  def mk : ScalaClassConstructorBlockTranslator =
+    ScalaClassConstructorBlockTranslator_ ()
+}
 
 
 trait State
@@ -304,7 +449,12 @@ trait State
 
 case class State_ (index : Int, last_index : Int, bracket_level : Int, par_level : Int, line : String, accum : String, expecting : Boolean) extends State
 
-trait ClassConstructorParameterBlockTranslator
+object State {
+  def mk (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int) (line : String) (accum : String) (expecting : Boolean) : State =
+    State_ (index, last_index, bracket_level, par_level, line, accum, expecting)
+}
+
+trait ScalaClassConstructorParameterBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 {
@@ -338,7 +488,8 @@ trait ClassConstructorParameterBlockTranslator
 
   private def _translate_line (line : String) (index : Int) : String =
     _translate_line_with_parentheses_with_tuple (
-      fold (line) (_translate_line_initial (line) (index) ) (_translate_line_next) )
+      fold [Char, State] (line) (_translate_line_initial (line) (index) ) (
+        _translate_line_next) )
 
   private def _translate_line_with_parentheses_after_constr (line : String) (from_index : Int) : String =
     _translate_line (line) (line .indexOf (_sc .constructor_suffix + _sc .space , from_index) +
@@ -346,7 +497,7 @@ trait ClassConstructorParameterBlockTranslator
 
   private def _translate_line_with_parentheses_after_multiple_constructors (line :  String)
       (occurrences : Seq [Int] ) : String =
-    fold (occurrences) (line) (
+    fold [Int, String] (occurrences) (line) (
        accum =>
          from_index =>
           _translate_line_with_parentheses_after_constr (accum) (from_index)
@@ -383,13 +534,20 @@ trait ClassConstructorParameterBlockTranslator
 
 }
 
-case class ClassConstructorParameterBlockTranslator_ () extends ClassConstructorParameterBlockTranslator
+case class ScalaClassConstructorParameterBlockTranslator_ () extends ScalaClassConstructorParameterBlockTranslator
+
+object ScalaClassConstructorParameterBlockTranslator {
+  def mk : ScalaClassConstructorParameterBlockTranslator =
+    ScalaClassConstructorParameterBlockTranslator_ ()
+}
 
 
-trait ClassDeclarationBlockTranslator
+trait ScalaClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -509,7 +667,7 @@ trait ClassDeclarationBlockTranslator
         _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
       case ClassAliasAnnotation_ (block) =>
         _translate_class_alias_block (ClassAliasAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -518,13 +676,20 @@ trait ClassDeclarationBlockTranslator
 
 }
 
-case class ClassDeclarationBlockTranslator_ () extends ClassDeclarationBlockTranslator
+case class ScalaClassDeclarationBlockTranslator_ () extends ScalaClassDeclarationBlockTranslator
+
+object ScalaClassDeclarationBlockTranslator {
+  def mk : ScalaClassDeclarationBlockTranslator =
+    ScalaClassDeclarationBlockTranslator_ ()
+}
 
 
-trait ClassEndBlockTranslator
+trait ScalaClassEndBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -564,7 +729,7 @@ trait ClassEndBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -573,13 +738,45 @@ trait ClassEndBlockTranslator
 
 }
 
-case class ClassEndBlockTranslator_ () extends ClassEndBlockTranslator
+case class ScalaClassEndBlockTranslator_ () extends ScalaClassEndBlockTranslator
+
+object ScalaClassEndBlockTranslator {
+  def mk : ScalaClassEndBlockTranslator =
+    ScalaClassEndBlockTranslator_ ()
+}
 
 
-trait FunctionDefinitionBlockTranslator
+trait ScalaDirectiveBlockTranslator
+  extends
+    soda.translator.blocktr.DirectiveBlockTranslator
+{
+
+
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val identifier : String = _tc .scala_directive_identifier
+
+  lazy val opening_comment : String = _tc .scala_comment_opening_symbol
+
+  lazy val closing_comment : String = _tc .scala_comment_closing_symbol
+
+}
+
+case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
+
+object ScalaDirectiveBlockTranslator {
+  def mk : ScalaDirectiveBlockTranslator =
+    ScalaDirectiveBlockTranslator_ ()
+}
+
+
+trait ScalaFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -664,7 +861,7 @@ trait FunctionDefinitionBlockTranslator
   def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
+  private def _translate_main_block_with (block : Block) (detector : ScalaFunctionDefinitionLineDetector)
       : Block =
     detector .detect match  {
       case detector .val_detected =>
@@ -674,7 +871,7 @@ trait FunctionDefinitionBlockTranslator
         _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
       case detector .def_reserved_word_detected => block
-      case otherwise => block
+      case _otherwise => block
     }
 
   private def _flatten_block (block : Block) : String =
@@ -684,7 +881,7 @@ trait FunctionDefinitionBlockTranslator
     BlockBuilder_ () .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
-            FunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+            ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
           .lines
       )
     )
@@ -712,7 +909,7 @@ trait FunctionDefinitionBlockTranslator
     annotated_block match  {
       case FunctionDefinitionAnnotation_ (block) =>
         _translate_function_definition_block (block)
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -721,7 +918,12 @@ trait FunctionDefinitionBlockTranslator
 
 }
 
-case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlockTranslator
+case class ScalaFunctionDefinitionBlockTranslator_ () extends ScalaFunctionDefinitionBlockTranslator
+
+object ScalaFunctionDefinitionBlockTranslator {
+  def mk : ScalaFunctionDefinitionBlockTranslator =
+    ScalaFunctionDefinitionBlockTranslator_ ()
+}
 
 
 /**
@@ -750,7 +952,7 @@ case class FunctionDefinitionBlockTranslator_ () extends FunctionDefinitionBlock
  *
  */
 
-trait FunctionDefinitionLineDetector
+trait ScalaFunctionDefinitionLineDetector
 {
 
   def   line : String
@@ -792,14 +994,14 @@ trait FunctionDefinitionLineDetector
   private def _position_of_first_opening_parenthesis_or_bracket_with (index1 : Int) : Int =
     _position_of_first_opening_bracket match  {
       case SomeSD_ (index2) => _min (index1) (index2)
-      case otherwise => index1
+      case _otherwise => index1
     }
 
   private lazy val _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
     _position_of_first_opening_parenthesis match  {
       case SomeSD_ (index1) =>
         SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
-      case otherwise => _position_of_first_opening_bracket
+      case _otherwise => _position_of_first_opening_bracket
     }
 
   private lazy val _is_val_definition_case_1 : Boolean =
@@ -808,19 +1010,19 @@ trait FunctionDefinitionLineDetector
   private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis match  {
       case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private def _is_val_definition_case_2_b (initial_position : Int) : Boolean =
     _position_of_first_opening_parenthesis_or_bracket match  {
       case SomeSD_ (position) => (position > initial_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_3 : Boolean =
     (_get_index (line) (_sc .type_membership_symbol) ) match  {
       case SomeSD_ (other_position) => _is_val_definition_case_2_b (other_position)
-      case otherwise => false
+      case _otherwise => false
     }
 
   private lazy val _is_val_definition_case_4 : Boolean =
@@ -862,18 +1064,25 @@ trait FunctionDefinitionLineDetector
   lazy val detect : Int =
     _find_definition (line) match  {
       case SomeSD_ (position) => _try_found_definition (position)
-      case otherwise => undetected
+      case _otherwise => undetected
     }
 
 }
 
-case class FunctionDefinitionLineDetector_ (line : String) extends FunctionDefinitionLineDetector
+case class ScalaFunctionDefinitionLineDetector_ (line : String) extends ScalaFunctionDefinitionLineDetector
+
+object ScalaFunctionDefinitionLineDetector {
+  def mk (line : String) : ScalaFunctionDefinitionLineDetector =
+    ScalaFunctionDefinitionLineDetector_ (line)
+}
 
 
-trait ImportDeclarationBlockTranslator
+trait ScalaImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
@@ -922,7 +1131,7 @@ trait ImportDeclarationBlockTranslator
     annotated_block match  {
       case ImportDeclarationAnnotation_ (block) =>
         _translate_block (ImportDeclarationAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -931,13 +1140,20 @@ trait ImportDeclarationBlockTranslator
 
 }
 
-case class ImportDeclarationBlockTranslator_ () extends ImportDeclarationBlockTranslator
+case class ScalaImportDeclarationBlockTranslator_ () extends ScalaImportDeclarationBlockTranslator
+
+object ScalaImportDeclarationBlockTranslator {
+  def mk : ScalaImportDeclarationBlockTranslator =
+    ScalaImportDeclarationBlockTranslator_ ()
+}
 
 
-trait MainClassBlockTranslator
+trait ScalaMainClassBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -956,7 +1172,7 @@ trait MainClassBlockTranslator
   private def _get_as_class_beginning_annotation (block : AnnotatedBlock) : Option [ClassBeginningAnnotation] =
     block match  {
       case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
-      case otherwise => None
+      case _otherwise => None
     }
 
   private def _get_class_beginning (references : Seq [AnnotatedBlock] ) : Option [ClassBeginningAnnotation] =
@@ -988,7 +1204,7 @@ trait MainClassBlockTranslator
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
         _translate_block (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -997,13 +1213,20 @@ trait MainClassBlockTranslator
 
 }
 
-case class MainClassBlockTranslator_ () extends MainClassBlockTranslator
+case class ScalaMainClassBlockTranslator_ () extends ScalaMainClassBlockTranslator
+
+object ScalaMainClassBlockTranslator {
+  def mk : ScalaMainClassBlockTranslator =
+    ScalaMainClassBlockTranslator_ ()
+}
 
 
-trait MatchCaseBlockTranslator
+trait ScalaMatchCaseBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1075,7 +1298,7 @@ trait MatchCaseBlockTranslator
       case FunctionDefinitionAnnotation_ (block) => _translate_function_block (annotated_block)
       case ClassAliasAnnotation_ (block) => _translate_class_alias_block (annotated_block)
       case TestDeclarationAnnotation_ (block) => _translate_test_block (annotated_block)
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate: AnnotatedBlock => AnnotatedBlock =
@@ -1084,93 +1307,20 @@ trait MatchCaseBlockTranslator
 
 }
 
-case class MatchCaseBlockTranslator_ () extends MatchCaseBlockTranslator
+case class ScalaMatchCaseBlockTranslator_ () extends ScalaMatchCaseBlockTranslator
+
+object ScalaMatchCaseBlockTranslator {
+  def mk : ScalaMatchCaseBlockTranslator =
+    ScalaMatchCaseBlockTranslator_ ()
+}
 
 
-/**
- * This class translates Soda source code into Scala source code.
- */
-
-trait MicroTranslatorToScala
+trait ScalaTheoremBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
 
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.ConditionalBlockTranslator_
-  import   soda.translator.blocktr.TokenReplacement_
 
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  private lazy val _ba = BlockAnnotationEnum_ ()
-
-  private lazy val _functions_and_tests =
-    Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
-
-  private lazy val _class_declarations =
-    Seq (_ba .class_alias , _ba .class_beginning , _ba .abstract_declaration)
-
-  private lazy val _definitions_and_declarations =
-    _functions_and_tests .++ (_class_declarations)
-
-  private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
-      Seq (
-        TypeParameterBlockTranslator_ () ,
-        ClassConstructorParameterBlockTranslator_ () ,
-        MatchCaseBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (_definitions_and_declarations ,
-          TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          FunctionDefinitionBlockTranslator_ () ) ,
-        ConditionalBlockTranslator_ (_class_declarations ,
-          TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          TokenReplacement_ () .replace (_tc .all_translations) ) ,
-        ClassDeclarationBlockTranslator_ () ,
-        ImportDeclarationBlockTranslator_ () ,
-        AbstractDeclarationBlockTranslator_ () ,
-        TheoremBlockTranslator_ () ,
-        ScalaDirectiveBlockTranslator_ () ,
-        ClassEndBlockTranslator_ () ,
-        MainClassBlockTranslator_ () ,
-        ClassConstructorBlockTranslator_ ()
-      )
-    )
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      _translation_pipeline .translate (block)
-
-}
-
-case class MicroTranslatorToScala_ () extends MicroTranslatorToScala
-
-
-trait ScalaDirectiveBlockTranslator
-  extends
-    soda.translator.blocktr.DirectiveBlockTranslator
-{
-
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  lazy val identifier : String = _tc .scala_directive_identifier
-
-  lazy val opening_comment : String = _tc .scala_comment_opening_symbol
-
-  lazy val closing_comment : String = _tc .scala_comment_closing_symbol
-
-}
-
-case class ScalaDirectiveBlockTranslator_ () extends ScalaDirectiveBlockTranslator
-
-
-trait TheoremBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
@@ -1203,7 +1353,7 @@ trait TheoremBlockTranslator
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
         _translate_theorem_block (TheoremBlockAnnotation_ (block) )
-      case otherwise => annotated_block
+      case _otherwise => annotated_block
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -1212,7 +1362,43 @@ trait TheoremBlockTranslator
 
 }
 
-case class TheoremBlockTranslator_ () extends TheoremBlockTranslator
+case class ScalaTheoremBlockTranslator_ () extends ScalaTheoremBlockTranslator
+
+object ScalaTheoremBlockTranslator {
+  def mk : ScalaTheoremBlockTranslator =
+    ScalaTheoremBlockTranslator_ ()
+}
+
+
+trait ScalaTypeParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+{
+
+
+
+  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.replacement.Token
+
+  private lazy val _sc = SodaConstant_ ()
+
+  private lazy val _tc = TranslationConstantToScala_ ()
+
+  lazy val replace_token : Token => String =
+     token =>
+      token
+        .text
+        .replaceAll (_sc .type_parameter_separation_regex ,
+          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+
+}
+
+case class ScalaTypeParameterBlockTranslator_ () extends ScalaTypeParameterBlockTranslator
+
+object ScalaTypeParameterBlockTranslator {
+  def mk : ScalaTypeParameterBlockTranslator =
+    ScalaTypeParameterBlockTranslator_ ()
+}
 
 
 /**
@@ -1223,15 +1409,23 @@ case class TheoremBlockTranslator_ () extends TheoremBlockTranslator
 trait TranslationConstantToScala
 {
 
+
+
   import   soda.translator.parser.SodaConstant_
 
   lazy val soda_constant = SodaConstant_ ()
 
-  lazy val scala_3_class_definition = ":"
+  lazy val scala_colon_symbol = ":"
+
+  lazy val scala_type_membership_symbol = scala_colon_symbol
+
+  lazy val scala_3_class_definition = scala_colon_symbol
 
   lazy val scala_match_translation = " match "
 
   lazy val scala_space = " "
+
+  lazy val scala_new_line = "\n"
 
   lazy val scala_empty_string = ""
 
@@ -1273,9 +1467,11 @@ trait TranslationConstantToScala
 
   lazy val scala_then_translation = ")"
 
-  lazy val scala_abstract_function_declaration = "def"
+  lazy val scala_def_reserved_word = "def"
 
-  lazy val scala_definition = "def"
+  lazy val scala_abstract_function_declaration = scala_def_reserved_word
+
+  lazy val scala_definition = scala_def_reserved_word
 
   lazy val scala_value = "lazy val"
 
@@ -1284,6 +1480,10 @@ trait TranslationConstantToScala
   lazy val scala_with_translation = "with"
 
   lazy val scala_extends_translation = "extends"
+
+  lazy val scala_object_reserved_word = "object"
+
+  lazy val scala_equals_symbol = "="
 
   lazy val scala_function_arrow_symbol = "=>"
 
@@ -1296,6 +1496,8 @@ trait TranslationConstantToScala
   lazy val scala_and_symbol = "&&"
 
   lazy val scala_or_symbol = "||"
+
+  lazy val scala_empty_list_reserved_word = "Nil"
 
   lazy val scala_tail_recursion_annotation_translation =
     "import scala.annotation.tailrec\n        @tailrec  final"
@@ -1417,6 +1619,7 @@ trait TranslationConstantToScala
     Seq (
       Tuple2 (soda_constant .lambda_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .any_reserved_word , scala_empty_string) ,
+      Tuple2 (soda_constant .fun_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .lambda_arrow_symbol , scala_lambda_arrow_symbol) ,
       Tuple2 (soda_constant .case_arrow_symbol , scala_case_arrow_symbol) ,
       Tuple2 (soda_constant .not_reserved_word , scala_not_symbol) ,
@@ -1457,9 +1660,16 @@ trait TranslationConstantToScala
 
 case class TranslationConstantToScala_ () extends TranslationConstantToScala
 
+object TranslationConstantToScala {
+  def mk : TranslationConstantToScala =
+    TranslationConstantToScala_ ()
+}
+
 
 trait TranslatorToScalaConstant
 {
+
+
 
   import   soda.translator.parser.BlockProcessor_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
@@ -1485,7 +1695,7 @@ trait TranslatorToScalaConstant
 
   lazy val append_separation : String = new_line + new_line
 
-  lazy val prelude_file_body : String = new_line + "trait Package" + append_separation
+  lazy val prelude_file_body : String = new_line + append_separation
 
   lazy val single_files_option_1 = "-s"
 
@@ -1502,6 +1712,11 @@ trait TranslatorToScalaConstant
 
 case class TranslatorToScalaConstant_ () extends TranslatorToScalaConstant
 
+object TranslatorToScalaConstant {
+  def mk : TranslatorToScalaConstant =
+    TranslatorToScalaConstant_ ()
+}
+
 trait FileNamePair
 {
 
@@ -1511,6 +1726,11 @@ trait FileNamePair
 }
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
+
+object FileNamePair {
+  def mk (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
+}
 
 trait IndividualProcessor
 {
@@ -1569,6 +1789,11 @@ trait IndividualProcessor
 
 case class IndividualProcessor_ () extends IndividualProcessor
 
+object IndividualProcessor {
+  def mk : IndividualProcessor =
+    IndividualProcessor_ ()
+}
+
 trait PackageProcessor
 {
 
@@ -1608,6 +1833,11 @@ trait PackageProcessor
 }
 
 case class PackageProcessor_ () extends PackageProcessor
+
+object PackageProcessor {
+  def mk : PackageProcessor =
+    PackageProcessor_ ()
+}
 
 /**
  * This translates Soda source code to Scala source code.
@@ -1655,7 +1885,7 @@ trait TranslatorToScala
         if ( _is_single_files_option (arguments .apply (0) )
         ) IndividualProcessor_ () .translate (arguments .apply (1) ) (arguments .apply (2) )
         else false
-      case otherwise => false
+      case _otherwise => false
     }
 
   lazy val execute : Seq [String] => Boolean =
@@ -1666,27 +1896,8 @@ trait TranslatorToScala
 
 case class TranslatorToScala_ () extends TranslatorToScala
 
-
-trait TypeParameterBlockTranslator
-  extends
-    soda.translator.blocktr.TokenizedBlockTranslator
-{
-
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Token
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToScala_ ()
-
-  lazy val replace_token : Token => String =
-     token =>
-      token
-        .text
-        .replaceAll (_sc .type_parameter_separation_regex ,
-          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
-
+object TranslatorToScala {
+  def mk : TranslatorToScala =
+    TranslatorToScala_ ()
 }
-
-case class TypeParameterBlockTranslator_ () extends TypeParameterBlockTranslator
 

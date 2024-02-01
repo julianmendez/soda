@@ -7,6 +7,8 @@ class MicroTranslatorToScala
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.BlockTranslatorPipeline_
@@ -30,25 +32,25 @@ class MicroTranslatorToScala
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        TypeParameterBlockTranslator_ () ,
-        ClassConstructorParameterBlockTranslator_ () ,
-        MatchCaseBlockTranslator_ () ,
+        ScalaTypeParameterBlockTranslator_ () ,
+        ScalaClassConstructorParameterBlockTranslator_ () ,
+        ScalaMatchCaseBlockTranslator_ () ,
         ConditionalBlockTranslator_ (_definitions_and_declarations ,
-          TokenReplacement_ () .replace (_tc .scala_non_soda) ) ,
+          TokenReplacement_ () .replace_words (_tc .scala_non_soda) ) ,
         ConditionalBlockTranslator_ (_functions_and_tests ,
-          FunctionDefinitionBlockTranslator_ () ) ,
+          ScalaFunctionDefinitionBlockTranslator_ () ) ,
         ConditionalBlockTranslator_ (_class_declarations ,
-          TokenReplacement_ () .replace (_tc .type_symbol_translation) ) ,
+          TokenReplacement_ () .replace_words (_tc .type_symbol_translation) ) ,
         ConditionalBlockTranslator_ (_functions_and_tests ,
-          TokenReplacement_ () .replace (_tc .all_translations) ) ,
-        ClassDeclarationBlockTranslator_ () ,
-        ImportDeclarationBlockTranslator_ () ,
-        AbstractDeclarationBlockTranslator_ () ,
-        TheoremBlockTranslator_ () ,
+          TokenReplacement_ () .replace_words (_tc .all_translations) ) ,
+        ScalaClassDeclarationBlockTranslator_ () ,
+        ScalaImportDeclarationBlockTranslator_ () ,
+        ScalaAbstractDeclarationBlockTranslator_ () ,
+        ScalaTheoremBlockTranslator_ () ,
         ScalaDirectiveBlockTranslator_ () ,
-        ClassEndBlockTranslator_ () ,
-        MainClassBlockTranslator_ () ,
-        ClassConstructorBlockTranslator_ ()
+        ScalaClassEndBlockTranslator_ () ,
+        ScalaMainClassBlockTranslator_ () ,
+        ScalaClassConstructorBlockTranslator_ ()
       )
     )
 

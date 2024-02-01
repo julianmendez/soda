@@ -9,6 +9,11 @@ trait Report2
 
 case class Report2_ (compliant : Boolean, old_price : Int, new_price : Int) extends Report2
 
+object Report2 {
+  def mk (compliant : Boolean) (old_price : Int) (new_price : Int) : Report2 =
+    Report2_ (compliant, old_price, new_price)
+}
+
 trait Requirement2Monitor
   extends
     RequirementMonitor
@@ -33,3 +38,8 @@ trait Requirement2Monitor
 }
 
 case class Requirement2Monitor_ (pricing_agent : PricingAgent) extends Requirement2Monitor
+
+object Requirement2Monitor {
+  def mk (pricing_agent : PricingAgent) : Requirement2Monitor =
+    Requirement2Monitor_ (pricing_agent)
+}

@@ -1,6 +1,8 @@
 trait FactorialConcise
 {
 
+
+
   import scala.annotation.tailrec
         @tailrec  final
   private def _tailrec_fact (n : Int) (accum : Int) : Int =
@@ -14,3 +16,8 @@ trait FactorialConcise
 }
 
 case class FactorialConcise_ () extends FactorialConcise
+
+object FactorialConcise {
+  def mk : FactorialConcise =
+    FactorialConcise_ ()
+}

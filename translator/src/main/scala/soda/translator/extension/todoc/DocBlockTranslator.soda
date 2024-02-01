@@ -3,6 +3,8 @@ class DocBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
@@ -19,7 +21,7 @@ class DocBlockTranslator
   _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if content .isEmpty
     then Seq [String] (prefix)
-    else Seq[String] (prefix + content .head) .++ (content .tail)
+    else Seq [String] (prefix + content .head) .++ (content .tail)
 
   _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
@@ -56,8 +58,8 @@ class DocBlockTranslator
     if content .isEmpty
     then content
     else _prepend (
-      _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .comment_opening_symbol) (content .head)
+      _remove_prefix_in_line (_sc .comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
      )
     ) (content .tail)
 
@@ -88,7 +90,7 @@ class DocBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case CommentAnnotation_ (block) ==> _translate_comment (CommentAnnotation_ (block) )
-      case otherwise ==> _translate_source_code (annotated_block)
+      case _otherwise ==> _translate_source_code (annotated_block)
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

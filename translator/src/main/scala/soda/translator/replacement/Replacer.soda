@@ -59,8 +59,8 @@ class Replacer
     tuple .replaced_text_rev .reverse .mkString ("")
 
   replaced_text =
-    postprocess (_fold_while.apply (_range .apply (line .length) ) (initial_value) (
-      next_value_function) (should_continue) )
+    postprocess (_fold_while .apply [Int] [ReplacerFoldTuple] (
+      _range .apply (line .length) ) (initial_value) (next_value_function) (should_continue) )
 
 end
 

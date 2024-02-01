@@ -5,6 +5,8 @@
 
 class SimpleFileReader
 
+  abstract
+
   import
     java.io.BufferedReader
     java.io.InputStream
@@ -34,6 +36,8 @@ end
  */
 
 class SimpleFileWriter
+
+  abstract
 
   import
     soda.lib.SomeSD_

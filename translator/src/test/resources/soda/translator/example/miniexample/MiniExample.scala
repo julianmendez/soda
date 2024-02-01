@@ -1,6 +1,8 @@
 trait MiniExample
 {
 
+
+
   import   soda.lib.Range_
 
   private lazy val _range = Range_ ()
@@ -13,8 +15,15 @@ trait MiniExample
 
 case class MiniExample_ () extends MiniExample
 
+object MiniExample {
+  def mk : MiniExample =
+    MiniExample_ ()
+}
+
 trait Main
 {
+
+
 
   def main (arguments : Array [String] ) : Unit =
     MiniExample_ () .run ()
@@ -27,3 +36,8 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+object Main {
+  def mk : Main =
+    Main_ ()
+}

@@ -4,12 +4,11 @@ package soda.example.forlean.algorithms
  * This package contains examples using recursion for Lean.
  */
 
-import   soda.example.forlean.lib.Succ_
-import   soda.example.forlean.lib.Zero_
 
 
 
-trait Package
+
+
 
 case class RecursionForLeanSpec ()
   extends
@@ -19,64 +18,62 @@ case class RecursionForLeanSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)
+  lazy val example_seq : List [Int] = List (0 , 1 , 1 , 2 , 3 , 5 , 8)
 
-  private lazy val _fold_left_while_initial_value = Seq [String] ()
+  private lazy val _fold_left_while_initial_value = List [String] ()
 
-  private lazy val _fold_left_while_next_value_function : Seq [String] => Int => Seq [String] =
-     (s : Seq [String] ) =>  (e : Int) => s  .+: ("" +  (e + 100))
+  private lazy val _fold_left_while_next_value_function : List [String] => Int => List [String] =
+     (s : List [String] ) =>  (e : Int) => s  .+: ("" +  (e + 100))
 
-  private lazy val _fold_left_while_condition : Seq [String] => Int => Boolean =
-     (s : Seq [String] ) =>  (e : Int) => e < 5
+  private lazy val _fold_left_while_condition : List [String] => Int => Boolean =
+     (s : List [String] ) =>  (e : Int) => e < 5
+
+  private lazy val _fold_while = FoldWhile_ ()
+
+  private lazy val _fold = Fold_ ()
+
+  private lazy val _range = Range_ ()
 
   test ("fold left while with Seq") (
     check (
       obtained =
-        RecursionForLean_ ()
-          .fold4 (example_seq) (_fold_left_while_initial_value) (
+        _fold_while
+          .apply [Int, List [String] ] (example_seq) (_fold_left_while_initial_value) (
             _fold_left_while_next_value_function) (_fold_left_while_condition)
     ) (
-      expected = Seq ("103" , "102" , "101" , "101" , "100")
+      expected = List ("103" , "102" , "101" , "101" , "100")
     )
   )
 
-  private lazy val _fold_left_initial_value = Seq [String] ()
+  private lazy val _fold_left_initial_value = List [String] ()
 
-  private lazy val _fold_left_next_value_function : Seq [String] => Int => Seq [String] =
-     (s : Seq [String]) =>  (e : Int) => s .+: ("" + (e + 100))
+  private lazy val _fold_left_next_value_function : List [String] => Int => List [String] =
+     (s : List [String]) =>  (e : Int) => s .+: ("" + (e + 100))
 
   test ("fold left with Seq") (
     check (
       obtained =
-        RecursionForLean_ ()
-          .fold3 (example_seq) (_fold_left_initial_value) (
+        _fold
+          .apply (example_seq) (_fold_left_initial_value) (
             _fold_left_next_value_function)
     ) (
-      expected = Seq ("108" , "105" , "103" , "102" , "101" , "101" , "100")
+      expected = List ("108" , "105" , "103" , "102" , "101" , "101" , "100")
     )
   )
 
   test ("range with positive number") (
     check (
-      obtained = RecursionForLean_ () .range (8)
+      obtained = _range .apply ((8) )
     ) (
-      expected = Seq [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
+      expected = List [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
   )
 
   test ("range with zero size") (
     check (
-      obtained = RecursionForLean_ () .range (-1)
+      obtained = _range .apply (0)
     ) (
-      expected = Seq [Int] ()
-    )
-  )
-
-  test ("range with negative number") (
-    check (
-      obtained = RecursionForLean_ () .range (-1)
-    ) (
-      expected = Seq [Int] ()
+      expected = List [Int] ()
     )
   )
 
@@ -91,11 +88,11 @@ case class SwapExampleSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val zero = Zero_ ()
+  lazy val zero = 0
 
-  lazy val three = Succ_ (Succ_ (Succ_ (zero) ) )
+  lazy val three = 3
 
-  lazy val five = Succ_ (Succ_ (three) )
+  lazy val five = 5
 
   lazy val pair_1 = PairExample_ (three, five)
 

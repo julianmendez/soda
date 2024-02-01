@@ -1,6 +1,9 @@
 
 class InANutshell
 
+  abstract
+  /* (empty) */
+
   f (x : Int) : Int = x + 16
 
   value = f (numbers)
@@ -27,6 +30,9 @@ class InANutshell
 end
 
 class MaxAndMin
+
+  abstract
+  /* (empty) */
 
   max (a : Int) (b : Int) : Int =
     if a > b
@@ -89,6 +95,9 @@ end
 
 class ComparableMax [A subtype Comparable]
 
+  abstract
+  /* (empty) */
+
   max (a : A) (b : A) : A =
     if a .is_greater_than (b)
     then a
@@ -118,6 +127,9 @@ end
 
 class TimeOfToday
 
+  abstract
+  /* (empty) */
+
   import
     java.util.Date
 
@@ -126,6 +138,9 @@ class TimeOfToday
 end
 
 class Main
+
+  abstract
+  /* (empty) */
 
   main (arguments : Array [String] ) : Unit =
     println ("Hello world!")

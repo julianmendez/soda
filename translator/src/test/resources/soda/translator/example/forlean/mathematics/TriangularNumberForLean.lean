@@ -1,13 +1,20 @@
-notation:max "Zero_ ()" => Nat.zero
+notation "Zero_ ()" => Nat.zero
+notation "Succ_" => Nat.succ
 
-notation:max "Succ_" => Nat.succ
+class TriangularNumberForLean
+
+where
+  mk ::
+    
+  deriving DecidableEq
 
 namespace TriangularNumberForLean
 
- def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
+
+ private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
       | Succ_ (k) => _tailrec_get_number (k) (acc.add (Succ_ (k) ) )
-      | otherwise => acc
+      | _otherwise => acc
     
 
 
@@ -17,4 +24,4 @@ namespace TriangularNumberForLean
 
 end TriangularNumberForLean
 
-open TriangularNumberForLean
+notation "TriangularNumberForLean_" => TriangularNumberForLean.mk

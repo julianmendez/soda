@@ -1,0 +1,134 @@
+
+class ScalaClassDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.block.Translator
+    soda.translator.blocktr.TableTranslator_
+    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.SodaConstant_
+    soda.translator.parser.annotation.ClassBeginningAnnotation
+    soda.translator.parser.annotation.ClassBeginningAnnotation_
+    soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation_
+    soda.translator.replacement.Replacement_
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  soda_space : String = _sc .space
+
+  ends_with_equals (line : String) : Boolean = false
+
+  ends_with_opening_brace (line : String) : Boolean = false
+
+  contains_equals (line : String) : Boolean =
+    line .trim .contains (_sc .function_definition_symbol)
+
+  has_condition_for_type_alias (line : String) : Boolean =
+    contains_equals (line)
+
+  get_class_declaration_translation (line : String) : String =
+    if line .contains (_sc .opening_parenthesis_symbol)
+    then _tc .class_declaration_translation_at_beginning_with_paren
+    else
+      if has_condition_for_type_alias (line)
+      then _tc .class_declaration_translation_at_beginning_without_paren_for_type_alias
+      else _tc .class_declaration_translation_at_beginning_without_paren
+
+  get_table_translator (line : String) : Translator =
+    TableTranslator_ (
+      Seq (Tuple2 (_sc .class_reserved_word, get_class_declaration_translation (line) ) )
+    )
+
+  get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
+
+  get_initial_spaces_for (line : String) : String =
+    line .takeWhile (lambda ch --> ch .isSpaceChar)
+
+  get_initial_spaces (lines : Seq [String] ) : String =
+    get_initial_spaces_for (get_first_line (lines) )
+
+  remove_first_line (lines : Seq [String] ) : Seq [String] =
+    if lines .isEmpty
+    then lines
+    else lines .tail
+
+  _process_after_extends (lines : Seq [String] ) : Seq [String] =
+    if (get_first_line (lines) .trim .nonEmpty)
+    then Seq [String] (get_first_line (lines) ) ++ remove_first_line (lines)
+      .map (lambda line --> get_initial_spaces_for (line) + _tc .scala_with_translation +
+        _tc .scala_space + line .trim)
+    else Seq [String] ()
+
+  _process_head_with (line : String)  : Seq [String] =
+    Seq [String] (
+      Replacement_ (_sc .space + line)
+       .replace_at_beginning (0) (get_table_translator (line) )
+       .line .substring (_sc .space .length)
+    )
+
+  _process_head (lines : Seq [String] ) : Seq [String] =
+    _process_head_with (get_first_line (lines) )
+
+  _process_if_extends (lines : Seq [String] ) : Seq [String] =
+    if (get_first_line (lines) .trim == _sc .extends_reserved_word)
+    then Seq [String] (get_initial_spaces (lines) + _tc .scala_extends_translation) .++ (
+      _process_after_extends (remove_first_line (lines) ) )
+    else lines
+
+  _process_tail (lines : Seq [String] ) : Seq [String] =
+    _process_if_extends (remove_first_line (lines) )
+
+  _translate_block_with (lines : Seq [String] ) : Seq [String] =
+    if (has_condition_for_type_alias (get_first_line (lines) ) )
+    then _process_head (lines) .++ (_process_tail (lines) )
+    else _process_head (lines) .++ (_process_tail (lines) .++ (Seq [String] (
+      get_initial_spaces (lines) + _tc .scala_class_begin_symbol) ) )
+
+  _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
+    Seq [String] (
+      get_first_line (lines)
+        .replaceAll (_sc .main_type_membership_regex , "")
+    )
+
+  remove_type_annotation (lines : Seq [String] ) : Seq [String] =
+    _remove_type_annotation_in_line (lines) .++ (remove_first_line (lines) )
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder_ () .build (
+      remove_type_annotation (
+        _translate_block_with (
+          block .lines
+        )
+      )
+    )
+
+  _translate_class_beginning_block (block : ClassBeginningAnnotation)
+      : ClassBeginningAnnotation =
+    ClassBeginningAnnotation_ (_translate_block (block) )
+
+  _translate_class_alias_block (block : ClassAliasAnnotation) : ClassAliasAnnotation =
+    ClassAliasAnnotation_ (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassBeginningAnnotation_ (block) ==>
+        _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
+      case ClassAliasAnnotation_ (block) ==>
+        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

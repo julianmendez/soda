@@ -1,14 +1,9 @@
-/-
-directive coq
-Definition Nat : Type := nat.
--/
+class PairExample
 
-namespace PairExample
-
-class PairExample where
-  PairExample_ ::
-    left : Nat
-    right : Nat
+where
+  mk ::
+    left : Int
+    right : Int
   deriving DecidableEq
 
 namespace PairExample
@@ -16,29 +11,31 @@ namespace PairExample
 
 end PairExample
 
-open PairExample
+notation "PairExample_" => PairExample.mk
+
+class SwapExample
+
+where
+  mk ::
+    
+  deriving DecidableEq
 
 namespace SwapExample
 
+
  def   swap (pair : PairExample) : PairExample :=
-    PairExample_ (pair.right) (pair.left)
+    match pair with
+      | PairExample_ (a) (b) =>
+        PairExample_ (b) (a)
+    
 
 
   theorem
-    swap_of_swap (x : Nat) (y : Nat) : (swap (swap (PairExample_ (x) (y) ) ) ) = PairExample_ (x) (y) :=
-      by
-        constructor
-
-/-
-  directive coq
-  Theorem
-    swap_of_swap : forall (x : nat) (y : nat) , (swap (swap (PairExample_ (x) (y) ) ) ) =
-    PairExample_ (x) (y).
-  Proof.
-    auto.
-  Qed.
--/
+    swap_of_swap (pair : PairExample)
+      : (swap (swap (pair) ) ) = pair := by
+    rewrite [swap, swap]
+    simp
 
 end SwapExample
 
-open SwapExample
+notation "SwapExample_" => SwapExample.mk

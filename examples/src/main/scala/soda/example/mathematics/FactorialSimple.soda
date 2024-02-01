@@ -1,6 +1,8 @@
 
 class FactorialSimple
 
+  abstract
+
   apply (n : Int) : Int =
     if n < 2
     then 1

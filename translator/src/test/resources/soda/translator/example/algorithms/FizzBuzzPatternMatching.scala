@@ -1,6 +1,8 @@
 trait FizzBuzzPatternMatching
 {
 
+
+
   lazy val fizz = "Fizz"
 
   lazy val buzz = "Buzz"
@@ -12,7 +14,7 @@ trait FizzBuzzPatternMatching
       case Tuple2 (0 , 0) => fizz + buzz
       case Tuple2 (0 , x) => fizz
       case Tuple2 (x , 0) => buzz
-      case otherwise => n .toString
+      case _otherwise => n .toString
     }
 
   lazy val apply : Seq [String] =
@@ -23,3 +25,8 @@ trait FizzBuzzPatternMatching
 }
 
 case class FizzBuzzPatternMatching_ () extends FizzBuzzPatternMatching
+
+object FizzBuzzPatternMatching {
+  def mk : FizzBuzzPatternMatching =
+    FizzBuzzPatternMatching_ ()
+}

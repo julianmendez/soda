@@ -1,11 +1,15 @@
 
 class SodaConstant
 
+  abstract
+
   space = " "
 
   new_line = "\n"
 
   function_definition_symbol = "="
+
+  function_definition_proposed_unicode_symbol = "\u225D"
 
   type_membership_symbol = ":"
 
@@ -29,6 +33,8 @@ class SodaConstant
 
   lambda_reserved_word = "lambda"
 
+  fun_reserved_word = "fun"
+
   lambda_unicode_symbol = "\u03BB"
 
   def_reserved_word = "def"
@@ -51,11 +57,17 @@ class SodaConstant
 
   class_reserved_word = "class"
 
+  class_alias_reserved_word = class_reserved_word
+
+  class_alias_definition_symbol = "="
+
   class_proposed_unicode_symbol = "\u23BE"
 
   extends_reserved_word = "extends"
 
   abstract_reserved_word = "abstract"
+
+  abstract_proposed_unicode_symbol = "\u27D0"
 
   class_end_reserved_word = "end"
 
@@ -97,6 +109,8 @@ class SodaConstant
 
   constructor_suffix = "_"
 
+  default_constructor_function = "mk"
+
   test_special_function = "test"
 
   subtype_abbreviation = "<:"
@@ -111,13 +125,19 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
-  type_parameter_separation_regex = "]\\s*\\["
+  only_blanks_regex = "\\s*"
 
-  class_parameter_separation_regex = "\\)\\s*\\("
+  some_blanks_regex = "\\s+"
+
+  type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+
+  class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
   dot_notation_symbol = "."
 
-  dot_notation_regex = "\\s*\\."
+  dot_notation_regex = only_blanks_regex + "\\."
+
+  type_declaration_colon_regex = ":.*"
 
   addition_symbol = "+"
 
@@ -143,6 +163,14 @@ class SodaConstant
 
   greater_than_or_equal_to_unicode_symbol = "\u2265"
 
+  empty_list_symbol = "[]"
+
+  list_constructor_symbol = "::"
+
+  list_constructor_unicode_symbol = "\u2237"
+
+  seq_constructor_symbol = "+:"
+
   documentation_comment_opening_symbol = "/**"
 
   comment_opening_symbol = "/*"
@@ -165,7 +193,7 @@ class SodaConstant
 
   main_type_name = "Type"
 
-  main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+  main_type_membership_regex = type_membership_symbol + only_blanks_regex + main_type_name
 
   soda_reserved_words_words_only : Seq [String] =
     Seq (
@@ -243,8 +271,11 @@ class SodaConstant
       Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol) ,
       Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol) ,
       Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol) ,
+      Tuple2 (list_constructor_unicode_symbol , list_constructor_symbol) ,
+      Tuple2 (function_definition_proposed_unicode_symbol , function_definition_symbol) ,
       Tuple2 (class_proposed_unicode_symbol , class_reserved_word) ,
       Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word) ,
+      Tuple2 (abstract_proposed_unicode_symbol , abstract_reserved_word) ,
       Tuple2 (if_proposed_unicode_symbol , if_reserved_word) ,
       Tuple2 (then_proposed_unicode_symbol , then_reserved_word) ,
       Tuple2 (else_proposed_unicode_symbol , else_reserved_word)

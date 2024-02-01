@@ -3,6 +3,8 @@ class LeanClassConstructorBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder_
@@ -20,7 +22,7 @@ class LeanClassConstructorBlockTranslator
       : Option [ClassBeginningAnnotation] =
     match annotated_block
       case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
-      case otherwise ==> None
+      case _otherwise ==> None
 
   _get_class_beginning (references : Seq [AnnotatedBlock] )
       : Option [ClassBeginningAnnotation] =
@@ -47,25 +49,21 @@ class LeanClassConstructorBlockTranslator
   _get_initial_spaces (block : AnnotatedBlock) : String =
     _get_initial_spaces_with (_get_first_line (block) )
 
-  _get_default_constructor_name (beginning : ClassBeginningAnnotation) : String =
-    beginning .class_name + _sc .constructor_suffix
-
   _two_spaces : String = _tc .lean_space + _tc .lean_space
 
   _four_spaces : String = _two_spaces + _two_spaces
 
+  _get_type_parameters_of_class (beginning : ClassBeginningAnnotation) : String =
+    ""
+
   _get_constructor_declaration (beginning : ClassBeginningAnnotation)
      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
-    _tc .lean_class_reserved_word +
-    _tc .lean_space +
-    beginning .class_name +
-    _tc .lean_space +
     _tc .lean_where_reserved_word +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _two_spaces +
-    _get_default_constructor_name (beginning) +
+    _tc .lean_default_constructor_name +
     _tc .lean_space +
-    _tc .lean_constructor_symbol +
+    _tc .lean_list_constructor_symbol +
     _tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces +
     functions .mkString (_tc .lean_new_line + _get_initial_spaces (beginning) + _four_spaces) +
     _tc .lean_new_line +
@@ -105,7 +103,7 @@ class LeanClassConstructorBlockTranslator
     match annotated_block
       case AbstractDeclarationAnnotation_ (block , references) ==>
         _translate_block (AbstractDeclarationAnnotation_ (block , references) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

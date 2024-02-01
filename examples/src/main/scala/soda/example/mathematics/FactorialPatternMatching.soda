@@ -1,11 +1,13 @@
 
 class FactorialPatternMatching
 
+  abstract
+
   @tailrec
   _tailrec_fact (n : Int) (accum : Int) : Int =
     match n
       case 0 ==> accum
-      case otherwise ==> _tailrec_fact (n - 1) (n * accum)
+      case _otherwise ==> _tailrec_fact (n - 1) (n * accum)
 
   apply (n : Int) : Int =
     if n < 0

@@ -10,6 +10,11 @@ trait Report1
 
 case class Report1_ (compliant : Boolean, price1 : Int, price2 : Int, similarity : Double) extends Report1
 
+object Report1 {
+  def mk (compliant : Boolean) (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
+    Report1_ (compliant, price1, price2, similarity)
+}
+
 trait Requirement1Monitor
   extends
     RequirementMonitor
@@ -47,3 +52,8 @@ trait Requirement1Monitor
 }
 
 case class Requirement1Monitor_ (pricing_agent : PricingAgent) extends Requirement1Monitor
+
+object Requirement1Monitor {
+  def mk (pricing_agent : PricingAgent) : Requirement1Monitor =
+    Requirement1Monitor_ (pricing_agent)
+}

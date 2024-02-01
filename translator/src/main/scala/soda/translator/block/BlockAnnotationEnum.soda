@@ -13,6 +13,8 @@ class BlockAnnotationEnum
   extends
     soda.lib.Enum [BlockAnnotationId]
 
+  abstract
+
   _mk_BlockAnnotationId (ordinal : Int) (name : String) : BlockAnnotationId =
     BlockAnnotationId_ (ordinal) (name)
 

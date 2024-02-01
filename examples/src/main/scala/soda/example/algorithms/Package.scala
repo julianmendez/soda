@@ -5,10 +5,10 @@ package soda.example.algorithms
  * These examples focus on simple algorithms.
  */
 
-trait Package
-
 trait FizzBuzz
 {
+
+
 
   lazy val fizz = "Fizz"
 
@@ -34,9 +34,16 @@ trait FizzBuzz
 
 case class FizzBuzz_ () extends FizzBuzz
 
+object FizzBuzz {
+  def mk : FizzBuzz =
+    FizzBuzz_ ()
+}
+
 
 trait FizzBuzzPatternMatching
 {
+
+
 
   lazy val fizz = "Fizz"
 
@@ -49,7 +56,7 @@ trait FizzBuzzPatternMatching
       case Tuple2 (0 , 0) => fizz + buzz
       case Tuple2 (0 , x) => fizz
       case Tuple2 (x , 0) => buzz
-      case otherwise => n .toString
+      case _otherwise => n .toString
     }
 
   lazy val apply : Seq [String] =
@@ -61,9 +68,16 @@ trait FizzBuzzPatternMatching
 
 case class FizzBuzzPatternMatching_ () extends FizzBuzzPatternMatching
 
+object FizzBuzzPatternMatching {
+  def mk : FizzBuzzPatternMatching =
+    FizzBuzzPatternMatching_ ()
+}
+
 
 trait FizzBuzzPatternUnicode
 {
+
+
 
   lazy val fizz = "Fizz"
 
@@ -76,11 +90,11 @@ trait FizzBuzzPatternUnicode
       case Tuple2 (0 , 0) => fizz + buzz
       case Tuple2 (0 , x) => fizz
       case Tuple2 (x , 0) => buzz
-      case otherwise => n .toString
+      case _otherwise => n .toString
     }
 
   lazy val apply : Seq [String] =
-    range.apply (100)
+    range .apply (100)
       .map ( x => x + 1)
       .map (get_term)
 
@@ -88,9 +102,16 @@ trait FizzBuzzPatternUnicode
 
 case class FizzBuzzPatternUnicode_ () extends FizzBuzzPatternUnicode
 
+object FizzBuzzPatternUnicode {
+  def mk : FizzBuzzPatternUnicode =
+    FizzBuzzPatternUnicode_ ()
+}
+
 
 trait Main
 {
+
+
 
   def main (arguments : Array [String] ) : Unit =
     println ("Hello world!")
@@ -103,6 +124,11 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+object Main {
+  def mk : Main =
+    Main_ ()
+}
 
 
 trait Singleton
@@ -118,6 +144,11 @@ trait Singleton
 
 case class Singleton_ (x : Int) extends Singleton
 
+object Singleton {
+  def mk (x : Int) : Singleton =
+    Singleton_ (x)
+}
+
 trait Pair
   extends
     Parameter
@@ -131,6 +162,11 @@ trait Pair
 }
 
 case class Pair_ (x : Int, y : Int) extends Pair
+
+object Pair {
+  def mk (x : Int) (y : Int) : Pair =
+    Pair_ (x, y)
+}
 
 trait Triplet
   extends
@@ -147,6 +183,11 @@ trait Triplet
 
 case class Triplet_ (x : Int, y : Int, z : Int) extends Triplet
 
+object Triplet {
+  def mk (x : Int) (y : Int) (z : Int) : Triplet =
+    Triplet_ (x, y, z)
+}
+
 trait Parameter
 {
 
@@ -156,15 +197,22 @@ trait Parameter
 
 case class Parameter_ (name : String) extends Parameter
 
+object Parameter {
+  def mk (name : String) : Parameter =
+    Parameter_ (name)
+}
+
 trait PatternMatching
 {
+
+
 
   def get_value (p : Parameter) : Int =
     p match  {
       case Singleton_ (x) => x
       case Pair_ (x, y) => (x + y) / 2
       case Triplet_ (x, y, z) => (x + y + z) / 3
-      case otherwise => 0
+      case _otherwise => 0
     }
 
   def get_type_name (p : Parameter) : String =
@@ -172,16 +220,23 @@ trait PatternMatching
       case Singleton_ (x) => (Singleton_ (x) ) .name + " (x)"
       case Pair_ (x, y) => (Pair_ (x, y) ) .name + " (x) (y)"
       case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ) .name + " (x) (y) (z)"
-      case otherwise => ""
+      case _otherwise => ""
     }
 
 }
 
 case class PatternMatching_ () extends PatternMatching
 
+object PatternMatching {
+  def mk : PatternMatching =
+    PatternMatching_ ()
+}
+
 
 trait SaladMaker
 {
+
+
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -209,6 +264,11 @@ trait SaladMaker
 
 case class SaladMaker_ () extends SaladMaker
 
+object SaladMaker {
+  def mk : SaladMaker =
+    SaladMaker_ ()
+}
+
 
 trait MyPair [A , B ]
 {
@@ -220,8 +280,15 @@ trait MyPair [A , B ]
 
 case class MyPair_ [A, B] (key : A, value : B) extends MyPair [A, B]
 
+object MyPair {
+  def mk [A, B] (key : A) (value : B) : MyPair [A, B] =
+    MyPair_ [A, B] (key, value)
+}
+
 trait ScalaReservedWordEscaping
 {
+
+
 
   private lazy val __soda__var = "var"
 
@@ -247,6 +314,11 @@ trait ScalaReservedWordEscaping
 
 case class ScalaReservedWordEscaping_ () extends ScalaReservedWordEscaping
 
+object ScalaReservedWordEscaping {
+  def mk : ScalaReservedWordEscaping =
+    ScalaReservedWordEscaping_ ()
+}
+
 
 trait SortExample
 {
@@ -257,10 +329,17 @@ trait SortExample
 
 case class SortExample_ (is_sorted : Seq [Int] => Boolean) extends SortExample
 
+object SortExample {
+  def mk (is_sorted : Seq [Int] => Boolean) : SortExample =
+    SortExample_ (is_sorted)
+}
+
 trait SortExampleWithAt
   extends
     SortExample
 {
+
+
 
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
@@ -275,10 +354,17 @@ trait SortExampleWithAt
 
 case class SortExampleWithAt_ () extends SortExampleWithAt
 
+object SortExampleWithAt {
+  def mk : SortExampleWithAt =
+    SortExampleWithAt_ ()
+}
+
 trait SortExampleWithZip
   extends
     SortExample
 {
+
+
 
   def is_sorted_for (sequence : Seq [Int] ) : Boolean =
     sequence
@@ -292,6 +378,11 @@ trait SortExampleWithZip
 
 case class SortExampleWithZip_ () extends SortExampleWithZip
 
+object SortExampleWithZip {
+  def mk : SortExampleWithZip =
+    SortExampleWithZip_ ()
+}
+
 trait SortAlgorithmExample
 {
 
@@ -301,10 +392,17 @@ trait SortAlgorithmExample
 
 case class SortAlgorithmExample_ (sort : Seq [Int] => Seq [Int]) extends SortAlgorithmExample
 
+object SortAlgorithmExample {
+  def mk (sort : Seq [Int] => Seq [Int]) : SortAlgorithmExample =
+    SortAlgorithmExample_ (sort)
+}
+
 trait SortAlgorithmExampleWithFold
   extends
     SortAlgorithmExample
 {
+
+
 
   import   soda.lib.Fold_
 
@@ -318,7 +416,7 @@ trait SortAlgorithmExampleWithFold
   def sort_for (sequence : Seq [Int] ) : Seq [Int] =
     if ( sequence .length < 2
     ) sequence
-    else _fold .apply (sequence) (_initial_value) (_next_value_function)
+    else _fold .apply [Int, Seq [Int] ] (sequence) (_initial_value) (_next_value_function)
 
   lazy val sort : Seq [Int] => Seq [Int] =
      sequence => sort_for (sequence)
@@ -338,8 +436,15 @@ trait SortAlgorithmExampleWithFold
 
 case class SortAlgorithmExampleWithFold_ () extends SortAlgorithmExampleWithFold
 
+object SortAlgorithmExampleWithFold {
+  def mk : SortAlgorithmExampleWithFold =
+    SortAlgorithmExampleWithFold_ ()
+}
+
 trait ConstrainedSortAlgorithm
 {
+
+
 
   import   soda.lib.OptionSD
   import   soda.lib.SomeSD_
@@ -357,6 +462,11 @@ trait ConstrainedSortAlgorithm
 
 case class ConstrainedSortAlgorithm_ () extends ConstrainedSortAlgorithm
 
+object ConstrainedSortAlgorithm {
+  def mk : ConstrainedSortAlgorithm =
+    ConstrainedSortAlgorithm_ ()
+}
+
 trait SortedSequence [A <: Comparable [A] ]
 {
 
@@ -368,10 +478,17 @@ trait SortedSequence [A <: Comparable [A] ]
 
 case class SortedSequence_ [A <: Comparable [A]] (sequence : Seq [A], add : A => SortedSequence [A], invariant : Boolean) extends SortedSequence [A]
 
+object SortedSequence {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequence [A] =
+    SortedSequence_ [A] (sequence, add, invariant)
+}
+
 trait EmptySortedSequence [A <: Comparable [A] ]
   extends
     SortedSequence [A]
 {
+
+
 
   lazy val sequence = Seq ()
 
@@ -387,6 +504,11 @@ trait EmptySortedSequence [A <: Comparable [A] ]
 
 case class EmptySortedSequence_ [A <: Comparable [A]] () extends EmptySortedSequence [A]
 
+object EmptySortedSequence {
+  def mk [A <: Comparable [A]] : EmptySortedSequence [A] =
+    EmptySortedSequence_ [A] ()
+}
+
 trait SortedSequenceWithElements [A <: Comparable [A] ]
   extends
     SortedSequence [A]
@@ -399,6 +521,11 @@ trait SortedSequenceWithElements [A <: Comparable [A] ]
 }
 
 case class SortedSequenceWithElements_ [A <: Comparable [A]] (sequence : Seq [A], add : A => SortedSequence [A], invariant : Boolean) extends SortedSequenceWithElements [A]
+
+object SortedSequenceWithElements {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) (add : A => SortedSequence [A]) (invariant : Boolean) : SortedSequenceWithElements [A] =
+    SortedSequenceWithElements_ [A] (sequence, add, invariant)
+}
 
 trait NonEmptySortedSequence [A <: Comparable [A] ]
   extends
@@ -421,8 +548,15 @@ trait NonEmptySortedSequence [A <: Comparable [A] ]
 
 case class NonEmptySortedSequence_ [A <: Comparable [A]] (sequence : Seq [A]) extends NonEmptySortedSequence [A]
 
+object NonEmptySortedSequence {
+  def mk [A <: Comparable [A]] (sequence : Seq [A]) : NonEmptySortedSequence [A] =
+    NonEmptySortedSequence_ [A] (sequence)
+}
+
 trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 {
+
+
 
   def is_less_than (x : A) (y : A) : Boolean =
     x .compareTo (y) < 0
@@ -446,8 +580,15 @@ trait NonEmptySortedSequenceAux [A <: Comparable [A] ]
 
 case class NonEmptySortedSequenceAux_ [A <: Comparable [A]] () extends NonEmptySortedSequenceAux [A]
 
+object NonEmptySortedSequenceAux {
+  def mk [A <: Comparable [A]] : NonEmptySortedSequenceAux [A] =
+    NonEmptySortedSequenceAux_ [A] ()
+}
+
 trait SortedSequenceBuilder [A <: Comparable [A] ]
 {
+
+
 
   import   soda.lib.Fold_
 
@@ -460,9 +601,14 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
     sorted_sequence .add (element)
 
   def build (sequence : Seq [A] ) : SortedSequence [A] =
-    _fold .apply (sequence) (_initial_value) (_next_value_function)
+    _fold .apply [A, SortedSequence [A] ] (sequence) (_initial_value) (_next_value_function)
 
 }
 
 case class SortedSequenceBuilder_ [A <: Comparable [A]] () extends SortedSequenceBuilder [A]
+
+object SortedSequenceBuilder {
+  def mk [A <: Comparable [A]] : SortedSequenceBuilder [A] =
+    SortedSequenceBuilder_ [A] ()
+}
 

@@ -6,12 +6,16 @@ package soda.translator.extension.todoc
 
 
 
-trait Package
+
+
+
 
 trait DocBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder_
@@ -28,7 +32,7 @@ trait DocBlockTranslator
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
     ) Seq [String] (prefix)
-    else Seq[String] (prefix + content .head) .++ (content .tail)
+    else Seq [String] (prefix + content .head) .++ (content .tail)
 
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
@@ -65,8 +69,8 @@ trait DocBlockTranslator
     if ( content .isEmpty
     ) content
     else _prepend (
-      _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .comment_opening_symbol) (content .head)
+      _remove_prefix_in_line (_sc .comment_opening_symbol) (
+        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
      )
     ) (content .tail)
 
@@ -97,7 +101,7 @@ trait DocBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case CommentAnnotation_ (block) => _translate_comment (CommentAnnotation_ (block) )
-      case otherwise => _translate_source_code (annotated_block)
+      case _otherwise => _translate_source_code (annotated_block)
     }
 
   lazy val translate : AnnotatedBlock => AnnotatedBlock =
@@ -108,6 +112,11 @@ trait DocBlockTranslator
 
 case class DocBlockTranslator_ () extends DocBlockTranslator
 
+object DocBlockTranslator {
+  def mk : DocBlockTranslator =
+    DocBlockTranslator_ ()
+}
+
 
 /**
  * This class generates documentation from Soda snippets.
@@ -117,6 +126,8 @@ trait MicroTranslatorToDoc
   extends
     soda.translator.block.BlockTranslator
 {
+
+
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum_
@@ -143,6 +154,11 @@ trait MicroTranslatorToDoc
 
 case class MicroTranslatorToDoc_ () extends MicroTranslatorToDoc
 
+object MicroTranslatorToDoc {
+  def mk : MicroTranslatorToDoc =
+    MicroTranslatorToDoc_ ()
+}
+
 
 /**
  * This class contains constants that are specific for the documentation generation.
@@ -150,6 +166,8 @@ case class MicroTranslatorToDoc_ () extends MicroTranslatorToDoc
 
 trait TranslationConstantToDoc
 {
+
+
 
   import   soda.translator.parser.SodaConstant_
 
@@ -258,6 +276,11 @@ trait TranslationConstantToDoc
 
 case class TranslationConstantToDoc_ () extends TranslationConstantToDoc
 
+object TranslationConstantToDoc {
+  def mk : TranslationConstantToDoc =
+    TranslationConstantToDoc_ ()
+}
+
 
 trait FileNamePair
 {
@@ -269,6 +292,11 @@ trait FileNamePair
 
 case class FileNamePair_ (input_file_name : String, output_file_name : String) extends FileNamePair
 
+object FileNamePair {
+  def mk (input_file_name : String) (output_file_name : String) : FileNamePair =
+    FileNamePair_ (input_file_name, output_file_name)
+}
+
 /**
  * This generates documentation from Soda source code.
  */
@@ -277,6 +305,8 @@ trait TranslatorToDoc
   extends
     soda.translator.extension.common.Extension
 {
+
+
 
   import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor_
@@ -338,7 +368,7 @@ trait TranslatorToDoc
       case 0 => _process_directory (_default_argument)
       case 1 => _process_directory (arguments (0) )
       case 2 => _translate (arguments (0) ) (arguments (1) )
-      case otherwise => false
+      case _otherwise => false
     }
 
   lazy val execute : Seq [String] => Boolean =
@@ -348,4 +378,9 @@ trait TranslatorToDoc
 }
 
 case class TranslatorToDoc_ () extends TranslatorToDoc
+
+object TranslatorToDoc {
+  def mk : TranslatorToDoc =
+    TranslatorToDoc_ ()
+}
 

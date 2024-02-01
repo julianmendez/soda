@@ -1,6 +1,8 @@
 
 class CorrelationTile
 
+  abstract
+
   _measure_zero = Measure_ (0)
 
   _percentage_constant : Double = 100.0

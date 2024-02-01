@@ -48,7 +48,7 @@ class SeqSDSpec ()
     if a > b then a else b
 
   max (s : NonEmptySeqSD [Int] ) : Int =
-    _fold .apply (s .tail .toSeq) (s .head) (max_of_2)
+    _fold .apply [Int] [Int] (s .tail .toSeq) (s .head) (max_of_2)
 
   test ("should reverse a sequence") (
     check (

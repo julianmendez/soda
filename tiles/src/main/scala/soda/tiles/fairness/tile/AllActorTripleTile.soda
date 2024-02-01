@@ -1,6 +1,8 @@
 
 class AllActorTripleTile
 
+  abstract
+
   apply (message : TileMessage [Boolean] )
       : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (

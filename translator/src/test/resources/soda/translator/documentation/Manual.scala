@@ -1,16 +1,15 @@
-package soda.translator.documentation
+package soda.manual
 
 /*
  * This is a Soda tutorial written in Soda.
- * Copyright 2020--2023 Julian Alfredo Mendez
- * Version: 2023-07-01
+ * Copyright 2020--2024 Julian Alfredo Mendez
+ * Version: 2024-02-01
  */
 
 /* This tutorial is itself a "Hello world!" program.
- * The example snippet can be found at the end.
- */
+ * The piece of code that prints the message is at the end of the file. */
 
-/* Source code written in Soda is intended to be descriptive and very readable.
+/* Source code written in Soda is intended to be descriptive and readable.
  * It is usually written in different files, and each file has `blocks`.
  * These blocks are pieces of code that have some meaning.
  * A block should be short, maybe less than 10 lines.
@@ -23,44 +22,70 @@ package soda.translator.documentation
  * 5. a block of imports
  * 6. a package declaration
  * 7. a class alias
- * 8. a comment
- */
+ * 8. a comment */
 
-/* To declare a class, just add `class` before a class name, and end it with `end`.
- * It is recommended to use camel case style starting with a capital letter.
+/* To declare a class, just add `class` before a class name, and end it with `end`. It is a good
+ * practice to include `abstract` in the class, to explicitly state whether constants and
+ * functions are required to instantiate a class. In the example below, no constants or
+ * functions ar required.
+ * For the class name, it is recommended to use camel case style starting with a capital letter.
  * The name could be a noun or an adjective, but it should not be a verb. */
 
 trait Shape
 {
 
+
+
 }
 
 case class Shape_ () extends Shape
 
+object Shape {
+  def mk : Shape =
+    Shape_ ()
+}
+
 /* The reserved word `class` declares a type, a namespace, and a default constructor.
  * The default constructor is the name of the class with an underscore as suffix.
- * For example, the constructor name for `Shape` is `Shape_`. */
+ * For example, the constructor name for `Shape` is `Shape_`.
+ * In addition, it is possible to use a function `mk` to instantiate a class. The notation looks
+ * as a static function of the type. For example,  for `Shape` is `Shape .mk` without
+ * parentheses. */
 
 trait Movable
 {
 
+
+
 }
 
 case class Movable_ () extends Movable
+
+object Movable {
+  def mk : Movable =
+    Movable_ ()
+}
 
 /* It is recommended to indent the constants and functions declared inside. */
 
 trait EqualsExample
 {
 
+  /* Note that `abstract` does not contain any constants or functions in this example, and the
+   * declared constants and functions are in a different block. */
+
+
+
   /* A constant does not have parameters and it is declared with the equals sign (`=`).
-   * It is recommended to use snake case and start in lowercase.
+   * For the constant name, it is recommended to use snake case and start in lowercase.
    * The constant name should be a noun. */
 
   lazy val my_number : Int = 2
 
-  /* A function has parameters and a type.
-   * Functions, even with empty parameters, are evaluated every time they are invoked. */
+  /* A function has parameters and a type. Functions, even with empty parameters, are evaluated
+   * every time they are invoked. The standard way of declaring and invoking a function
+   * with multiple parameters is with parameters separated by spaces and not by commas. For
+   * example, use `f (x) (y)` instead of `f(x, y)`. */
 
   def f (x : Int) (y : Int) : Int = 2 * x + y
 
@@ -77,22 +102,24 @@ trait EqualsExample
 
 case class EqualsExample_ () extends EqualsExample
 
-/* A class can extend another one by using `extends`.
+object EqualsExample {
+  def mk : EqualsExample =
+    EqualsExample_ ()
+}
+
+/* A class can extend other classes by using `extends`.
  * Abstract classes cannot be instantiated but can be extended.
  * Conversely, concrete classes cannot be extended but can be instantiated.
  * Concrete classes are declared with parentheses `(` and `)`.
- * It is recommended that concrete classes do not have a body, because this cannot be reused.
- * Concrete classes extending only one class could be named as its superclass, but ending with
- * an underscore. */
-
-/* A class does not need to define all its constants and functions. */
+ * It is recommended that concrete classes do not have a body, because this cannot be extended.
+ * A class does not need to define all its constants and functions. */
 
 trait RegisteredPerson
 {
 
-  /* A block starting with `abstract` denotes a constant or function that needs to be defined in
-   * extending classes. Only one `abstract` block should be defined per class, without leaving
-   * lines between the declared attributes. */
+  /* The block starting with `abstract` denotes a constant or function that needs to be defined
+   * in extending classes. Only one `abstract` block should be defined per class, without
+   * leaving lines between the declared attributes. */
 
   def   first_name : String
   def   last_name : String
@@ -110,6 +137,11 @@ trait RegisteredPerson
 
 case class RegisteredPerson_ (first_name : String, last_name : String) extends RegisteredPerson
 
+object RegisteredPerson {
+  def mk (first_name : String) (last_name : String) : RegisteredPerson =
+    RegisteredPerson_ (first_name, last_name)
+}
+
 trait Agent
 {
 
@@ -119,8 +151,14 @@ trait Agent
 
 case class Agent_ (identifier : String) extends Agent
 
+object Agent {
+  def mk (identifier : String) : Agent =
+    Agent_ (identifier)
+}
+
 /* A concrete class needs as parameters all the constants and functions that have not been
- * defined in its super classes. */
+ * defined in its super classes. Please, note that `extends` has to be in the same block as
+ * `class`, which need to be in a different block from `abstract`. */
 
 trait RegisteredPersonAgent
   extends
@@ -136,8 +174,16 @@ trait RegisteredPersonAgent
 
 case class RegisteredPersonAgent_ (identifier : String, first_name : String, last_name : String) extends RegisteredPersonAgent
 
+object RegisteredPersonAgent {
+  def mk (identifier : String) (first_name : String) (last_name : String) : RegisteredPersonAgent =
+    RegisteredPersonAgent_ (identifier, first_name, last_name)
+}
+
 trait Element
 {
+
+  /* In this class, `accept` is a function that takes an object of type `Visitor` and returns
+   * an object of type `Boolean`. This is indicated with the type arrow `->`. */
 
   def   accept : Visitor => Boolean
 
@@ -145,14 +191,26 @@ trait Element
 
 case class Element_ (accept : Visitor => Boolean) extends Element
 
+object Element {
+  def mk (accept : Visitor => Boolean) : Element =
+    Element_ (accept)
+}
+
 trait Visitor
 {
+
+  /* In this class, `visit` is a function define from `Element` to `Boolean`. */
 
   def   visit : Element => Boolean
 
 }
 
 case class Visitor_ (visit : Element => Boolean) extends Visitor
+
+object Visitor {
+  def mk (visit : Element => Boolean) : Visitor =
+    Visitor_ (visit)
+}
 
 trait Item
   extends Element
@@ -162,7 +220,10 @@ trait Item
 
   /* It is possible to refer to an object instance by using `this`.
    * The dot (`.`) notation is the standard way of accessing attributes and methods of an
-   * object. The space before the dot is to improve readability. */
+   * object. The space before the dot is to improve readability, but it is not necessary.
+   * Lambda functions are declared with `lambda` and a long right arrow (`-->`).
+   * Please, notice the difference between the type arrow (`->`) and the lambda arrow (`-->`).
+   */
 
   lazy val accept : Visitor => Boolean =
      visitor =>
@@ -171,6 +232,11 @@ trait Item
 }
 
 case class Item_ (identifier : Int) extends Item
+
+object Item {
+  def mk (identifier : Int) : Item =
+    Item_ (identifier)
+}
 
 trait PersonName
 {
@@ -188,15 +254,27 @@ trait PersonName
 
 case class PersonName_ (name : String) extends PersonName
 
+object PersonName {
+  def mk (name : String) : PersonName =
+    PersonName_ (name)
+}
+
 /* A class can be parameterized using square brackets ('[' and ']').
  * The parameter needs to be of type Type. */
 
 trait MyList [A ]
 {
 
+
+
 }
 
 case class MyList_ [A] () extends MyList [A]
+
+object MyList {
+  def mk [A] : MyList [A] =
+    MyList_ [A] ()
+}
 
 /* It is possible to have multiple type parameters. */
 
@@ -210,6 +288,11 @@ trait MyPair [A , B ]
 
 case class MyPair_ [A, B] (fst : A, snd : A) extends MyPair [A, B]
 
+object MyPair {
+  def mk [A, B] (fst : A) (snd : A) : MyPair [A, B] =
+    MyPair_ [A, B] (fst, snd)
+}
+
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.
  * For example, `A subtype B` means that `A` is a subtype of `B`. */
@@ -217,18 +300,35 @@ case class MyPair_ [A, B] (fst : A, snd : A) extends MyPair [A, B]
 trait ShapePainter [A <: Shape]
 {
 
+
+
 }
 
 case class ShapePainter_ [A <: Shape] () extends ShapePainter [A]
 
-/**
-  * This contains the examples shown in the manual.
-  */
+object ShapePainter {
+  def mk [A <: Shape] : ShapePainter [A] =
+    ShapePainter_ [A] ()
+}
+
+/*
+ * This contains the examples shown in the manual.
+ */
 
 trait Manual
 {
 
-/* It is possible to import classes by listing them under an `import` reserved word. */
+
+
+  /* The first line in this file is the package declaration. It contains the reserved word
+   * `package` followed by the package name. The recommended package naming convention is to
+   * start with `soda.`, to avoid name conflicts when it is translated to Scala.
+   * The package declaration usually goes in a separate file called `Package.soda`. */
+
+  /* It is possible to import classes by listing them under the `import` reserved word.
+   * Imported classes can also be declared in the `Package.soda` file, when they are global
+   * for the whole package. The list of imported classes can be used to control which classes
+   * may be used to produce side effects. */
 
   import   java.util.Date
 
@@ -251,8 +351,7 @@ trait Manual
     ) x
     else y
 
-  /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
-   * Lambda functions are declared with `lambda` and a long right arrow (`-->`). */
+  /* Scala sequences (`Seq`) can be used, as well as other basic Scala classes. */
 
   def plus_one (sequence : Seq [Int] ) : Seq [Int] =
     sequence .map ( element => element + 1)
@@ -286,12 +385,14 @@ trait Manual
 
   /* It is possible to use pattern matching with `match` and `case`.
    * The result of the matching case is put after a long double arrow `==>`.
-   * The order matters, so the remaining cases are capture by the last variable. */
+   * The order matters, so the remaining cases are capture by the last variable.
+   * Please notice the difference between the case arrow (`==>`), the lambda arrow (`-->`), and
+   * the type arrow (`->`). */
 
   def if_then_else [A ] (condition : Boolean) (if_true : A) (if_false : A) : A =
     condition match  {
       case true => if_true
-      case otherwise => if_false
+      case false => if_false
     }
 
   /* A constant or function name starting with underscore indicates that the constant or
@@ -302,7 +403,7 @@ trait Manual
 
   /* A tail recursive function cannot be declared inside another function, and its name should
    * start with underscore. The annotation `@tailrec` helps ensuring that the tail recursion is
-   * detected and optimized. */
+   * detected and optimized when it is translated to Scala. */
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -318,70 +419,112 @@ trait Manual
 
 case class Manual_ () extends Manual
 
-/* The function used to compare equality is a long equals (`==`). */
+object Manual {
+  def mk : Manual =
+    Manual_ ()
+}
 
-trait FactorialConcise
+/* The class `Fold` shows a 'left fold', which is a functional approach to iterations. Starting
+ * with an initial value (`initial`), it traverses a sequence (`sequence`) applying a function
+ * (`next`) using the current element in the sequence and the result of the previous
+ * computation. */
+
+trait Fold
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_get_factorial (n : Int) (product : Int) : Int =
-    if ( n == 0
-    ) product
-    else _tailrec_get_factorial (n - 1) (n * product)
 
-  /* Ideally, each object should do exactly one thing. That thing is what `apply` defines. */
 
-  def apply (n : Int) : Int =
-    _tailrec_get_factorial (n) (1)
+  /* Note that the type parameters need to specified in the function call:
+   * `_tailrec_foldl [A] [B]`... The sequence constructor `+:` is defined by `Seq`.
+   * This is equivalent to the more common constructor `::`, when it is used for instances of
+   * `List`. `Nil` is the constructor for an empty `Seq`. */
+
+  private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) : B =
+    sequence match  {
+      case Nil => current
+      case (head) +: (tail) =>
+        _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
+    }
+
+  /* Ideally, each object should have one responsibility or purpose. The function `apply`
+   * defines the main responsibility of an object. */
+
+  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
+    _tailrec_foldl [A, B] (sequence) (initial) (next)
 
 }
 
-case class FactorialConcise_ () extends FactorialConcise
+case class Fold_ () extends Fold
 
-/* FoldWhile captures the idea of a bounded loop. It starts in an initial state (`initial`) and
- * processes (`next`) a finite sequence (`sequence`) while a condition holds (`condition`). */
-
-trait FoldWhile
-{
-
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_fold_while [A , B ] (sequence : Seq [A] ) (current : B)
-      (next : B => A => B) (condition : B => A => Boolean) : B =
-    if ( sequence .isEmpty || (! condition (current) (sequence .head) )
-    ) current
-    else _tailrec_fold_while (sequence .tail) (next (current) (sequence .head) ) (next) (
-      condition)
-
-  def apply [A , B ] (sequence : Seq [A] ) (initial : B) (next : B => A => B)
-    (condition : B => A => Boolean)
-      : B =
-    _tailrec_fold_while (sequence) (initial) (next) (condition)
-
+object Fold {
+  def mk : Fold =
+    Fold_ ()
 }
 
-case class FoldWhile_ () extends FoldWhile
+/* A piece of code of the destination language can be included with the reserved word
+ * `directive`. In this example, we can define the concept of successor for integers for the
+ * translation to Scala. */
 
-/* Range generates a sequence of length `n` of consecutive natural numbers starting
+object Succ_ {
+  def unapply (n : Int) : Option [Int] =
+    if (n <= 0) None else Some (n - 1)
+}
+
+/* The class `Range` generates a sequence of length `n` of consecutive natural numbers starting
  * from 0. */
 
 trait Range
 {
 
-  import scala.annotation.tailrec
-        @tailrec  final
-  private def _tailrec_range (n : Int) (sequence : Seq [Int] ) : Seq [Int] =
-    if ( n <= 0
-    ) sequence
-    else _tailrec_range (n - 1) (sequence .+: (n - 1) )
+
+
+  /* Note that `Range` processes any negative number as 0. This is done by `Succ_`, which only
+  * returns values for positive values of `n`. */
+
+  private def _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
+    non_negative_number match  {
+      case Succ_ (k) =>
+        _tailrec_range (k) ( (k) +: (sequence) )
+      case _otherwise => sequence
+    }
 
   def apply (length : Int) : Seq [Int] =
-    _tailrec_range (length) (Seq [Int] () )
+    _tailrec_range (length) (Nil)
 
 }
 
 case class Range_ () extends Range
+
+object Range {
+  def mk : Range =
+    Range_ ()
+}
+
+/* `Factorial` shows an example of how to compute the function factorial using a left fold. */
+
+trait Factorial
+{
+
+
+
+  lazy val fold = Fold_ ()
+
+  lazy val range = Range_ ()
+
+  def apply (n : Int) : Int =
+    fold .apply [Int, Int] (range .apply (n) ) (1) (
+       accum =>
+         k => (accum * (k + 1) ) )
+
+}
+
+case class Factorial_ () extends Factorial
+
+object Factorial {
+  def mk : Factorial =
+    Factorial_ ()
+}
 
 /* The main class has to be named `Main` and requires a `main` function that receives an
  * `Array [String]` and returns a `Unit`. Only one main class per package is allowed. */
@@ -404,4 +547,10 @@ object EntryPoint {
 
 case class Main_ () extends Main
 
-/* The main class has an extending concrete class. */
+object Main {
+  def mk : Main =
+    Main_ ()
+}
+
+/* The main class has an extending concrete class. The class that needs to be invoked in a
+ * translation to Scala is `EntryPoint`. */

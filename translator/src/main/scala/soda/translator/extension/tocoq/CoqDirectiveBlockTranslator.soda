@@ -3,6 +3,8 @@ class CoqDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
 
+  abstract
+
   _tc = TranslationConstantToCoq_ ()
 
   identifier : String = _tc .coq_directive_identifier

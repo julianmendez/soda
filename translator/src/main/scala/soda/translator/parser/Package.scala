@@ -4,10 +4,6 @@ package soda.translator.parser
  * This package contains common classes used to describe and parse the Soda language.
  */
 
-
-
-trait Package
-
 trait PreprocessorFoldTuple
 {
 
@@ -18,6 +14,11 @@ trait PreprocessorFoldTuple
 
 case class PreprocessorFoldTuple_ (comment_state : Boolean, annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]) extends PreprocessorFoldTuple
 
+object PreprocessorFoldTuple {
+  def mk (comment_state : Boolean) (annotated_lines_rev : Seq [soda.translator.block.AnnotatedLine]) : PreprocessorFoldTuple =
+    PreprocessorFoldTuple_ (comment_state, annotated_lines_rev)
+}
+
 trait CurrentAndNewCommentState
 {
 
@@ -27,6 +28,11 @@ trait CurrentAndNewCommentState
 }
 
 case class CurrentAndNewCommentState_ (current_state : Boolean, new_comment_state : Boolean) extends CurrentAndNewCommentState
+
+object CurrentAndNewCommentState {
+  def mk (current_state : Boolean) (new_comment_state : Boolean) : CurrentAndNewCommentState =
+    CurrentAndNewCommentState_ (current_state, new_comment_state)
+}
 
 trait BlockBuilder
 {
@@ -76,7 +82,7 @@ trait BlockBuilder
       _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply (lines) (_get_annotated_lines_initial_value) (
+    _fold.apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
         _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
@@ -89,6 +95,11 @@ trait BlockBuilder
 }
 
 case class BlockBuilder_ () extends BlockBuilder
+
+object BlockBuilder {
+  def mk : BlockBuilder =
+    BlockBuilder_ ()
+}
 
 
 /**
@@ -138,7 +149,8 @@ trait BlockProcessor
       .line
 
   def replace_unicode_symbols_in_string (text : String) : String =
-    fold (_sc .soda_unicode_symbols) (text) (_replace_one_unicode_symbol)
+    fold [Tuple2 [String, String] , String] (_sc .soda_unicode_symbols) (text) (
+      _replace_one_unicode_symbol)
 
   def remove_empty_lines (lines : Seq [String] ) : Seq [String] =
     lines
@@ -174,6 +186,11 @@ trait BlockProcessor
 
 case class BlockProcessor_ (translator : soda.translator.block.BlockSequenceTranslator) extends BlockProcessor
 
+object BlockProcessor {
+  def mk (translator : soda.translator.block.BlockSequenceTranslator) : BlockProcessor =
+    BlockProcessor_ (translator)
+}
+
 
 trait AuxiliaryTuple
 {
@@ -185,6 +202,11 @@ trait AuxiliaryTuple
 }
 
 case class AuxiliaryTuple_ (block_sequence : Seq [soda.translator.block.AnnotatedBlock], accumulated : Seq [soda.translator.block.AnnotatedBlock], references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) extends AuxiliaryTuple
+
+object AuxiliaryTuple {
+  def mk (block_sequence : Seq [soda.translator.block.AnnotatedBlock]) (accumulated : Seq [soda.translator.block.AnnotatedBlock]) (references : Seq [ Seq [soda.translator.block.AnnotatedBlock] ]) : AuxiliaryTuple =
+    AuxiliaryTuple_ (block_sequence, accumulated, references)
+}
 
 trait PreprocessorSequenceTranslator
   extends
@@ -246,7 +268,7 @@ trait PreprocessorSequenceTranslator
           AbstractDeclarationAnnotation_ (block, references) )
       case ClassEndAnnotation_ (block, references) =>
         _get_class_end_updated_block (current) (_mk_ClassEndAnnotation (block) (references) )
-      case otherwise => current .block_sequence .apply (index)
+      case _otherwise => current .block_sequence .apply (index)
     }
 
   private def _get_first_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
@@ -276,7 +298,7 @@ trait PreprocessorSequenceTranslator
         _update_first_element (current .references) (
           AbstractDeclarationAnnotation_ (b, references) )
       case ClassEndAnnotation_ (b, references) => _tail_non_empty (current .references)
-      case otherwise => current .references
+      case _otherwise => current .references
     }
 
   private def _pass_next_step (current : AuxiliaryTuple) (index : Int) (updated_block : AnnotatedBlock )
@@ -292,10 +314,10 @@ trait PreprocessorSequenceTranslator
     _pass_next_step (current) (index) (_get_additional_information (current) (index) )
 
   private def _get_second_pass (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
-    _fold .apply (block_sequence .indices) (_get_second_pass_initial_value (block_sequence) ) (
-        _get_second_pass_next_value_function)
-      .accumulated
-      .reverse
+    _fold .apply [Int, AuxiliaryTuple] (block_sequence .indices) (
+      _get_second_pass_initial_value (block_sequence) ) (_get_second_pass_next_value_function)
+        .accumulated
+        .reverse
 
   def translate_for (block_sequence : Seq [AnnotatedBlock] ) : Seq [AnnotatedBlock] =
     translator .translate (
@@ -312,15 +334,24 @@ trait PreprocessorSequenceTranslator
 
 case class PreprocessorSequenceTranslator_ (translator : soda.translator.block.BlockSequenceTranslator) extends PreprocessorSequenceTranslator
 
+object PreprocessorSequenceTranslator {
+  def mk (translator : soda.translator.block.BlockSequenceTranslator) : PreprocessorSequenceTranslator =
+    PreprocessorSequenceTranslator_ (translator)
+}
+
 
 trait SodaConstant
 {
+
+
 
   lazy val space = " "
 
   lazy val new_line = "\n"
 
   lazy val function_definition_symbol = "="
+
+  lazy val function_definition_proposed_unicode_symbol = "\u225D"
 
   lazy val type_membership_symbol = ":"
 
@@ -344,6 +375,8 @@ trait SodaConstant
 
   lazy val lambda_reserved_word = "lambda"
 
+  lazy val fun_reserved_word = "fun"
+
   lazy val lambda_unicode_symbol = "\u03BB"
 
   lazy val def_reserved_word = "def"
@@ -366,11 +399,17 @@ trait SodaConstant
 
   lazy val class_reserved_word = "class"
 
+  lazy val class_alias_reserved_word = class_reserved_word
+
+  lazy val class_alias_definition_symbol = "="
+
   lazy val class_proposed_unicode_symbol = "\u23BE"
 
   lazy val extends_reserved_word = "extends"
 
   lazy val abstract_reserved_word = "abstract"
+
+  lazy val abstract_proposed_unicode_symbol = "\u27D0"
 
   lazy val class_end_reserved_word = "end"
 
@@ -412,6 +451,8 @@ trait SodaConstant
 
   lazy val constructor_suffix = "_"
 
+  lazy val default_constructor_function = "mk"
+
   lazy val test_special_function = "test"
 
   lazy val subtype_abbreviation = "<:"
@@ -426,13 +467,19 @@ trait SodaConstant
 
   lazy val closing_bracket_symbol = "]"
 
-  lazy val type_parameter_separation_regex = "]\\s*\\["
+  lazy val only_blanks_regex = "\\s*"
 
-  lazy val class_parameter_separation_regex = "\\)\\s*\\("
+  lazy val some_blanks_regex = "\\s+"
+
+  lazy val type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+
+  lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
   lazy val dot_notation_symbol = "."
 
-  lazy val dot_notation_regex = "\\s*\\."
+  lazy val dot_notation_regex = only_blanks_regex + "\\."
+
+  lazy val type_declaration_colon_regex = ":.*"
 
   lazy val addition_symbol = "+"
 
@@ -458,6 +505,14 @@ trait SodaConstant
 
   lazy val greater_than_or_equal_to_unicode_symbol = "\u2265"
 
+  lazy val empty_list_symbol = "[]"
+
+  lazy val list_constructor_symbol = "::"
+
+  lazy val list_constructor_unicode_symbol = "\u2237"
+
+  lazy val seq_constructor_symbol = "+:"
+
   lazy val documentation_comment_opening_symbol = "/**"
 
   lazy val comment_opening_symbol = "/*"
@@ -480,7 +535,7 @@ trait SodaConstant
 
   lazy val main_type_name = "Type"
 
-  lazy val main_type_membership_regex = type_membership_symbol + "\\s*" + main_type_name
+  lazy val main_type_membership_regex = type_membership_symbol + only_blanks_regex + main_type_name
 
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
@@ -558,8 +613,11 @@ trait SodaConstant
       Tuple2 (less_than_or_equal_to_unicode_symbol , less_than_or_equal_to_symbol) ,
       Tuple2 (greater_than_or_equal_to_unicode_symbol , greater_than_or_equal_to_symbol) ,
       Tuple2 (parameter_definition_unicode_symbol , parameter_definition_symbol) ,
+      Tuple2 (list_constructor_unicode_symbol , list_constructor_symbol) ,
+      Tuple2 (function_definition_proposed_unicode_symbol , function_definition_symbol) ,
       Tuple2 (class_proposed_unicode_symbol , class_reserved_word) ,
       Tuple2 (class_end_proposed_unicode_symbol , class_end_reserved_word) ,
+      Tuple2 (abstract_proposed_unicode_symbol , abstract_reserved_word) ,
       Tuple2 (if_proposed_unicode_symbol , if_reserved_word) ,
       Tuple2 (then_proposed_unicode_symbol , then_reserved_word) ,
       Tuple2 (else_proposed_unicode_symbol , else_reserved_word)
@@ -568,4 +626,9 @@ trait SodaConstant
 }
 
 case class SodaConstant_ () extends SodaConstant
+
+object SodaConstant {
+  def mk : SodaConstant =
+    SodaConstant_ ()
+}
 

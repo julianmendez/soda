@@ -1,21 +1,23 @@
 
 ⎾ FizzBuzzPatternUnicode
 
+  ⟐
+
   fizz = "Fizz"
 
   buzz = "Buzz"
 
   range = soda.lib.Range_ ()
 
-  get_term (n : Int) : String =
+  get_term (n : Int) : String ≝
     match Tuple2 (n % 3 , n % 5)
       case Tuple2 (0 , 0) ⟹ fizz + buzz
       case Tuple2 (0 , x) ⟹ fizz
       case Tuple2 (x , 0) ⟹ buzz
-      case otherwise ⟹ n .toString
+      case _otherwise ⟹ n .toString
 
-  apply : Seq [String] =
-    range.apply (100)
+  apply : Seq [String] ≝
+    range .apply (100)
       .map (λ x ⟶ x + 1)
       .map (get_term)
 

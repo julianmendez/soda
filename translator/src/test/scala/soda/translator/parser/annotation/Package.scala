@@ -4,8 +4,6 @@ package soda.translator.parser.annotation
  * This package contains tests for block annotations.
  */
 
-trait Package
-
 case class BlockAnnotationSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -376,6 +374,8 @@ case class ClassBeginningAnnotationSpec ()
 trait ExampleProgram
 {
 
+
+
   import   soda.translator.block.Block
   import   soda.translator.block.DefaultBlockTranslator_
   import   soda.translator.block.DefaultBlockSequenceTranslator_
@@ -451,4 +451,9 @@ trait ExampleProgram
 }
 
 case class ExampleProgram_ () extends ExampleProgram
+
+object ExampleProgram {
+  def mk : ExampleProgram =
+    ExampleProgram_ ()
+}
 

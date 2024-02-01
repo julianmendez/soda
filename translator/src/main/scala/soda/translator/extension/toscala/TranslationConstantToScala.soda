@@ -6,16 +6,24 @@
 
 class TranslationConstantToScala
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 
   soda_constant = SodaConstant_ ()
 
-  scala_3_class_definition = ":"
+  scala_colon_symbol = ":"
+
+  scala_type_membership_symbol = scala_colon_symbol
+
+  scala_3_class_definition = scala_colon_symbol
 
   scala_match_translation = " match "
 
   scala_space = " "
+
+  scala_new_line = "\n"
 
   scala_empty_string = ""
 
@@ -57,9 +65,11 @@ class TranslationConstantToScala
 
   scala_then_translation = ")"
 
-  scala_abstract_function_declaration = "def"
+  scala_def_reserved_word = "def"
 
-  scala_definition = "def"
+  scala_abstract_function_declaration = scala_def_reserved_word
+
+  scala_definition = scala_def_reserved_word
 
   scala_value = "lazy val"
 
@@ -68,6 +78,10 @@ class TranslationConstantToScala
   scala_with_translation = "with"
 
   scala_extends_translation = "extends"
+
+  scala_object_reserved_word = "object"
+
+  scala_equals_symbol = "="
 
   scala_function_arrow_symbol = "=>"
 
@@ -80,6 +94,8 @@ class TranslationConstantToScala
   scala_and_symbol = "&&"
 
   scala_or_symbol = "||"
+
+  scala_empty_list_reserved_word = "Nil"
 
   scala_tail_recursion_annotation_translation =
     "import scala.annotation.tailrec\n        @tailrec  final"
@@ -201,6 +217,7 @@ class TranslationConstantToScala
     Seq (
       Tuple2 (soda_constant .lambda_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .any_reserved_word , scala_empty_string) ,
+      Tuple2 (soda_constant .fun_reserved_word , scala_empty_string) ,
       Tuple2 (soda_constant .lambda_arrow_symbol , scala_lambda_arrow_symbol) ,
       Tuple2 (soda_constant .case_arrow_symbol , scala_case_arrow_symbol) ,
       Tuple2 (soda_constant .not_reserved_word , scala_not_symbol) ,

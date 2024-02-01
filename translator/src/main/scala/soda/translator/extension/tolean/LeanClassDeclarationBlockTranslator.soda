@@ -3,6 +3,8 @@ class LeanClassDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
+  abstract
+
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
@@ -22,52 +24,50 @@ class LeanClassDeclarationBlockTranslator
 
   scala_space : String = " "
 
-  get_first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("")
+  get_first_line (lines : Seq [String] ) : String =
+    lines .headOption .getOrElse ("")
 
   get_initial_spaces_for (line : String) : String =
     line .takeWhile (lambda ch --> ch .isSpaceChar)
 
-  get_initial_spaces (block : Block) : String =
-    get_initial_spaces_for (get_first_line (block) )
+  get_initial_spaces (lines : Seq [String] ) : String =
+    get_initial_spaces_for (get_first_line (lines) )
 
-  _process_after_extends (block : Block) : Seq [String] =
-    if (get_first_line (block) .trim .nonEmpty)
-    then block .lines .map (lambda line --> _tc .lean_import_reserved_word + _tc .lean_space +
-      line .trim + _tc .lean_space + _tc .lean_end_symbol)
+  _process_after_extends (lines : Seq [String] ) : Seq [String] =
+    if (get_first_line (lines) .trim .nonEmpty)
+    then (Seq [String] () .:+ (_tc .lean_line_comment + _tc .lean_space +
+      _tc .lean_extends_reserved_word + _tc .lean_space +
+      lines .mkString (_tc .lean_comma_symbol) ) )
     else Seq [String] ()
 
-  _remove_first_line (lines : Seq [String] ) : Seq [String] =
+  remove_first_line (lines : Seq [String] ) : Seq [String] =
     if lines .isEmpty
     then lines
     else lines .tail
 
-  remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build (_remove_first_line (block .lines) )
+  _process_if_extends (lines : Seq [String] ) : Seq [String] =
+    if (get_first_line (lines) .trim == _sc .extends_reserved_word)
+    then Seq [String] (get_initial_spaces (lines) ) .++ (
+      _process_after_extends (remove_first_line (lines) ) )
+    else lines
 
-  _process_if_extends (block : Block) : Seq [String] =
-    if (get_first_line (block) .trim == _sc .extends_reserved_word)
-    then Seq [String] (get_initial_spaces (block) ) .++ (
-      _process_after_extends (remove_first_line (block) ) )
-    else block .lines
-
-  _process_tail (block : Block) : Seq [String] =
-    _process_if_extends (remove_first_line (block) )
+  _process_tail (lines : Seq [String] ) : Seq [String] =
+    _process_if_extends (remove_first_line (lines) )
 
   get_table_translator (line : String) : Translator =
     TableTranslator_ (
-      Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_namespace_reserved_word ) )
+      Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_class_reserved_word) )
     )
 
-  _process_head_with (line : String) (block : Block) : Seq [String] =
+  _process_head_with (line : String) : Seq [String] =
     Seq [String] (
       Replacement_ (_sc .space + line)
         .replace_at_beginning (0) (get_table_translator (line) )
         .line .substring (_sc .space .length)
     )
 
-  _process_head (block : Block) : Seq [String] =
-    _process_head_with (get_first_line (block) ) (block)
+  _process_head (lines : Seq [String] ) : Seq [String] =
+    _process_head_with (get_first_line (lines) )
 
   contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)
@@ -76,11 +76,11 @@ class LeanClassDeclarationBlockTranslator
     contains_equals (line)
 
   _translate_block (block : AnnotatedBlock) : Block =
-    if (has_condition_for_type_alias (get_first_line (block) ) )
+    if (has_condition_for_type_alias (get_first_line (block . lines) ) )
     then block
     else
       BlockBuilder_ () .build (
-        _process_head (block) ++ _process_tail (block)
+        _process_head (block .lines) .++ (_process_tail (block .lines) )
       )
 
   _translate_class_beginning_block (block : ClassBeginningAnnotation)
@@ -91,7 +91,7 @@ class LeanClassDeclarationBlockTranslator
     match annotated_block
       case ClassBeginningAnnotation_ (block) ==>
         _translate_class_beginning_block (ClassBeginningAnnotation_ (block) )
-      case otherwise ==> annotated_block
+      case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->

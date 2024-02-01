@@ -4,12 +4,12 @@ package soda.example.ethicalissues.pricemonitor
  * This package contains tests for example classes for a price monitor.
  */
 
-trait Package
-
 trait UnfairPricingAgent
   extends
     PricingAgent
 {
+
+
 
   def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
     customer .name .length * (date % 100 + 100 * flight .intermediate_airports .length + 1)
@@ -24,10 +24,17 @@ trait UnfairPricingAgent
 
 case class UnfairPricingAgent_ () extends UnfairPricingAgent
 
+object UnfairPricingAgent {
+  def mk : UnfairPricingAgent =
+    UnfairPricingAgent_ ()
+}
+
 trait FairPricingAgent
   extends
     PricingAgent
 {
+
+
 
   def get_price_for (customer : Customer) (flight : Flight) (date : Int) : Int =
     100 * (flight .intermediate_airports .length + 1)
@@ -41,6 +48,11 @@ trait FairPricingAgent
 }
 
 case class FairPricingAgent_ () extends FairPricingAgent
+
+object FairPricingAgent {
+  def mk : FairPricingAgent =
+    FairPricingAgent_ ()
+}
 
 case class PriceMonitorSpec ()
   extends

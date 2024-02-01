@@ -4,8 +4,6 @@ package soda.example.forlean.mathematics
  * This package contains tests for examples of some mathematical functions that can be translated to Lean.
  */
 
-trait Package
-
 case class FactorialForLeanSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite

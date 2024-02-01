@@ -1,6 +1,8 @@
 
 class ReplacementAux
 
+  abstract
+
   soda_space = " "
 
   scala_space = " "
@@ -64,7 +66,7 @@ class ReplacementAux
     then line .substring (0 , line .length - 1)
     else line
 
-  remove_space_from_scala_line (line : String) : String =
+  remove_space_from_translated_line (line : String) : String =
     _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
   _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String)
@@ -97,25 +99,39 @@ class ReplacementWithTranslator
 
   scala_space = aux .scala_space
 
-  soda_opening_parenthesis_symbol = "("
+  opening_parenthesis_symbol = "("
+
+  closing_parenthesis_symbol = ")"
+
+  new_line = "\n"
 
   scala_opening_parenthesis_symbol = "("
 
   _fold = Fold_ ()
 
-  _replace_if_found (previous_character : String) (reserved_word : String) (line : String)
+  _next_replace_words_with (line : String) (reserved_word : String) (translation : String)
       : String =
-    aux .replace_if_found (line) (
-      previous_character + reserved_word + soda_space) (previous_character +
-        translator .translate (reserved_word) + scala_space)
+    Replacement_ (line)
+      .replace_if_found (soda_space) (reserved_word) (soda_space) (translation)
+      .replace_if_found (soda_space) (reserved_word) (closing_parenthesis_symbol) (translation)
+      .replace_if_found (soda_space) (reserved_word) (new_line) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (soda_space) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (
+        closing_parenthesis_symbol) (translation)
+      .replace_if_found (opening_parenthesis_symbol) (reserved_word) (new_line) (translation)
+      .line
 
-  _next_replace (line : String) (reserved_word : String) : String =
-    _replace_if_found (soda_opening_parenthesis_symbol) (reserved_word) (
-      _replace_if_found (soda_space) (reserved_word) (line)
-    )
+  _next_replace_words (line : String) (reserved_word : String) : String =
+    _next_replace_words_with (line) (reserved_word) (translator .translate (reserved_word) )
 
-  replace (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace)
+  replace_words (line : String) : String =
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_words)
+
+  _next_replace_symbols (line : String) (reserved_word : String) : String =
+    aux .replace_if_found (line) (reserved_word) (translator .translate (reserved_word) )
+
+  replace_symbols (line : String) : String =
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_symbols)
 
   _next_replace_only_beginning (line : String) (reserved_word : String) : String =
     aux .replace_if_found_at_beginning (line) (
@@ -123,7 +139,7 @@ class ReplacementWithTranslator
         translator .translate (reserved_word) + scala_space)
 
   _replace_only_beginning (line : String) : String =
-    _fold .apply (translator .keys) (line) (_next_replace_only_beginning)
+    _fold .apply [String] [String] (translator .keys) (line) (_next_replace_only_beginning)
 
   replace_at_beginning (line : String) (index : Int) : String =
     if index == 0
@@ -160,11 +176,19 @@ class Replacement
   add_space_to_soda_line () : Replacement =
     Replacement_ (soda_space + line + soda_space)
 
-  remove_space_from_scala_line () : Replacement =
-    Replacement_ (aux .remove_space_from_scala_line (line) )
+  remove_space_from_translated_line () : Replacement =
+    Replacement_ (aux .remove_space_from_translated_line (line) )
 
   add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
     Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+
+  replace_if_found  (previous_character : String) (text : String)  (next_character : String)
+     (replacement : String) : Replacement =
+    Replacement_ (
+      aux .replace_if_found (line) (
+        previous_character + text + next_character) (
+        previous_character + replacement + next_character)
+    )
 
 end
 

@@ -4,8 +4,6 @@ package soda.lib
  * This package contains tests for the Soda library.
  */
 
-trait Package
-
 case class CartesianProductSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -97,8 +95,15 @@ trait DayOfTheWeek
 
 case class DayOfTheWeek_ (ordinal : Int, name : String) extends DayOfTheWeek
 
+object DayOfTheWeek {
+  def mk (ordinal : Int) (name : String) : DayOfTheWeek =
+    DayOfTheWeek_ (ordinal, name)
+}
+
 trait DayOfTheWeekConstant
 {
+
+
 
   private def _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
     DayOfTheWeek_ (ordinal, name)
@@ -123,16 +128,28 @@ trait DayOfTheWeekConstant
 
 case class DayOfTheWeekConstant_ () extends DayOfTheWeekConstant
 
+object DayOfTheWeekConstant {
+  def mk : DayOfTheWeekConstant =
+    DayOfTheWeekConstant_ ()
+}
+
 trait DayOfTheWeekEnum
   extends
     DayOfTheWeekConstant
 {
+
+
 
   lazy val values = DayOfTheWeek_values
 
 }
 
 case class DayOfTheWeekEnum_ () extends DayOfTheWeekEnum
+
+object DayOfTheWeekEnum {
+  def mk : DayOfTheWeekEnum =
+    DayOfTheWeekEnum_ ()
+}
 
 case class EnumSpec ()
   extends
@@ -238,7 +255,7 @@ case class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained = (NoneSD_ [String] () ) .fold (ifEmpty = result_if_empty) (
+      obtained = (NoneSD_ [String] () ) .fold [String] (ifEmpty = result_if_empty) (
         f = result_if_non_empty)
     ) (
       expected = "It is empty."
@@ -247,7 +264,7 @@ case class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .fold (ifEmpty = result_if_empty) (
+      obtained = (SomeSD_ [String] ("0") ) .fold [String] (ifEmpty = result_if_empty) (
         f = result_if_non_empty)
     ) (
       expected = "Its value is 0."
@@ -429,7 +446,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (8)
     ) (
-      expected = Seq (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
+      expected = Seq [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
     )
   )
 
@@ -437,7 +454,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (-1)
     ) (
-      expected = Seq ()
+      expected = Seq [Int] ()
     )
   )
 
@@ -445,7 +462,7 @@ case class RecursionSpec ()
     check (
       obtained = _range .apply (-1)
     ) (
-      expected = Seq ()
+      expected = Seq [Int] ()
     )
   )
 
@@ -502,7 +519,7 @@ case class SeqSDSpec ()
     if ( a > b ) a else b
 
   def max (s : NonEmptySeqSD [Int] ) : Int =
-    _fold .apply (s .tail .toSeq) (s .head) (max_of_2)
+    _fold .apply [Int, Int] (s .tail .toSeq) (s .head) (max_of_2)
 
   test ("should reverse a sequence") (
     check (

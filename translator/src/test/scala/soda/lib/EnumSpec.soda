@@ -11,6 +11,8 @@ end
 
 class DayOfTheWeekConstant
 
+  abstract
+
   _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
     DayOfTheWeek_ (ordinal) (name)
 
@@ -35,6 +37,8 @@ end
 class DayOfTheWeekEnum
   extends
     DayOfTheWeekConstant
+
+  abstract
 
   values = DayOfTheWeek_values
 

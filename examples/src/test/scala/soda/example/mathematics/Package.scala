@@ -4,8 +4,6 @@ package soda.example.mathematics
  * This package contains tests for examples in Soda that use mathematical properties.
  */
 
-trait Package
-
 case class FactorialSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -175,6 +173,39 @@ case class HardProblemSpec ()
         (17 , 1597) , (16 , 987) , (15 , 610) , (14 , 377) ,
         (13 , 233) , (12 , 144) , (11 , 89) , (10 , 55) , (9 , 34) , (8 , 21) , (7 , 13),
         (6 , 8) , (5 , 5) , (4 , 3) , (3 , 2) , (2 , 1) , (1 , 1) , (0 , 0) ) .toMap)
+    )
+  )
+
+}
+
+
+case class NatSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val zero = Zero_
+
+  lazy val one = Succ_ (zero)
+
+  lazy val two = Succ_ (one)
+
+  test ("should create number one") (
+    check (
+      obtained = one
+    ) (
+      expected = _Nat_ (1)
+    )
+  )
+
+  test ("should create number two") (
+    check (
+      obtained = two
+    ) (
+      expected = _Nat_ (2)
     )
   )
 

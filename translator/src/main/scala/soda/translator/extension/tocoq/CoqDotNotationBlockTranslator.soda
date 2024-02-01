@@ -3,6 +3,8 @@ class CoqDotNotationBlockTranslator
   extends
     soda.translator.blocktr.TokenizedBlockTranslator
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
     soda.translator.replacement.Token
@@ -34,9 +36,16 @@ class CoqDotNotationBlockTranslator
       .map (lambda word --> _add_parentheses_if_necessary (word) )
       .mkString (_sc .space)
 
+  _add_space_if_necessary (original : String ) (text : String) : String =
+    if (original .endsWith (_sc .space) )
+    then text + _sc .space
+    else text
+
   replace_token : Token -> String =
     lambda token -->
-      _add_parentheses_to_dotted_words (token .text)
+      _add_space_if_necessary (token .text) (
+        _add_parentheses_to_dotted_words (token .text)
+      )
 
 end
 

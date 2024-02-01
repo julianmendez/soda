@@ -6,6 +6,8 @@
 
 class TranslationConstantToCoq
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 
@@ -61,9 +63,19 @@ class TranslationConstantToCoq
 
   coq_case_arrow_symbol = "=>"
 
+  coq_quotes_symbol = "\""
+
+  coq_apostrophe_symbol = "'"
+
+  coq_equals_symbol = "=?"
+
+  coq_less_than_symbol = "<?"
+
+  coq_less_than_or_equal_to_symbol = "<=?"
+
   coq_case_translation = coq_vertical_bar_symbol + coq_space
 
-  coq_not_reserved_word = "notb"
+  coq_not_reserved_word = "negb"
 
   coq_and_reserved_word = "andb"
 
@@ -87,6 +99,8 @@ class TranslationConstantToCoq
 
   coq_import_reserved_word : String = "Import"
 
+  coq_notation_reserved_word : String = "Notation"
+
   coq_recursive_definition_reserved_word : String = "Fixpoint"
 
   coq_inductive_end_symbol : String = coq_end_symbol
@@ -102,6 +116,18 @@ class TranslationConstantToCoq
   coq_theorem_end_symbol : String = coq_end_symbol
 
   coq_directive_identifier : String = "coq"
+
+  coq_notation_at_level_99 : String = "(at level 99)"
+
+  coq_notation_prefix : String =
+    coq_notation_reserved_word + coq_space + coq_quotes_symbol + coq_apostrophe_symbol
+
+  coq_notation_infix : String =
+     coq_apostrophe_symbol + coq_quotes_symbol + coq_space + coq_function_definition_symbol +
+     coq_space
+
+  coq_notation_suffix : String =
+    coq_space + coq_notation_at_level_99 + coq_space + coq_end_symbol
 
   coq_prelude : Seq [String] =
     Seq (
@@ -135,7 +161,7 @@ class TranslationConstantToCoq
     )
 
   coq_reserved_words =
-    coq_1 ++ coq_2 ++ coq_3 ++ coq_4
+    coq_1 .++ (coq_2 .++ (coq_3 .++ (coq_4) ) )
 
   coq_1 : Seq [String] =
     Seq (
@@ -219,31 +245,43 @@ class TranslationConstantToCoq
 
   type_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant.subtype_reserved_word, coq_subtype_symbol),
-      Tuple2 (soda_constant.supertype_reserved_word, coq_supertype_symbol),
-      Tuple2 (soda_constant.function_arrow_symbol, coq_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , coq_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , coq_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , coq_function_arrow_symbol) ,
+      Tuple2 (soda_constant .opening_bracket_symbol , coq_opening_parenthesis + coq_space) ,
+      Tuple2 (soda_constant .closing_bracket_symbol , coq_space + coq_closing_parenthesis)
     )
 
   function_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant.function_definition_symbol , coq_function_definition_symbol),
-      Tuple2 (soda_constant.lambda_reserved_word , coq_lambda_reserved_word),
-      Tuple2 (soda_constant.any_reserved_word , coq_lambda_reserved_word),
-      Tuple2 (soda_constant.lambda_arrow_symbol , coq_lambda_arrow_symbol),
-      Tuple2 (soda_constant.case_arrow_symbol , coq_case_arrow_symbol),
-      Tuple2 (soda_constant.not_reserved_word , coq_not_reserved_word),
-      Tuple2 (soda_constant.and_reserved_word , coq_and_reserved_word),
-      Tuple2 (soda_constant.or_reserved_word , coq_or_reserved_word)
+      Tuple2 (soda_constant .function_definition_symbol , coq_function_definition_symbol) ,
+      Tuple2 (soda_constant .lambda_reserved_word , coq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .any_reserved_word , coq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , coq_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , coq_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , coq_not_reserved_word) ,
+      Tuple2 (soda_constant .and_reserved_word , coq_and_reserved_word) ,
+      Tuple2 (soda_constant .or_reserved_word , coq_or_reserved_word) ,
+      Tuple2 (soda_constant .equals_symbol , coq_equals_symbol) ,
+      Tuple2 (soda_constant .less_than_symbol , coq_less_than_symbol) ,
+      Tuple2 (soda_constant .less_than_or_equal_to_symbol , coq_less_than_or_equal_to_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , coq_empty_string) ,
+      Tuple2 (soda_constant .override_annotation , coq_empty_string) ,
+      Tuple2 (soda_constant .new_annotation , coq_empty_string)
+
     )
 
-  type_translation : Seq [ Tuple2 [String] [String]  ] =
+  type_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
         Tuple2 ("Boolean" , "bool"),
         Tuple2 ("Nat" , "nat"),
         Tuple2 ("Option" , "option"),
         Tuple2 ("List" , "list"),
+        Tuple2 ("Nil" , "nil"),
+        Tuple2 ("Seq" , "list"),
         Tuple2 ("String" , "string"),
-        Tuple2 ("BigInt" , "Z")
+        Tuple2 ("BigInt" , "Z"),
+        Tuple2 ("Tuple2" , "prod")
     )
 
   prefix_coq_non_soda : String = "__soda__"

@@ -5,10 +5,6 @@ package soda.translator.extension.main
  * This is the entry point when the application is executed from a terminal.
  */
 
-
-
-trait Package
-
 /**
  * This is the main entry point.
  */
@@ -19,6 +15,8 @@ trait Main
 {
 
   import   soda.translator.extension.common.Extension
+
+
 
   lazy val help = soda.translator.extension.help.Help_ ()
 
@@ -60,4 +58,9 @@ object EntryPoint {
 
 
 case class Main_ () extends Main
+
+object Main {
+  def mk : Main =
+    Main_ ()
+}
 

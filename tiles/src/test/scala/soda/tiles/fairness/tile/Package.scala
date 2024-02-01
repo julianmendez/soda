@@ -26,8 +26,6 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.Random
 import   soda.tiles.fairness.tool.Random_
 
-trait Package
-
 case class EqualityTileSpec ()
   extends
     AnyFunSuite
@@ -126,6 +124,8 @@ case class EquityTileSpec ()
 trait ResourceAllocationScenarioExample
 {
 
+
+
   private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor, resource)
 
@@ -216,9 +216,16 @@ trait ResourceAllocationScenarioExample
 
 case class ResourceAllocationScenarioExample_ () extends ResourceAllocationScenarioExample
 
+object ResourceAllocationScenarioExample {
+  def mk : ResourceAllocationScenarioExample =
+    ResourceAllocationScenarioExample_ ()
+}
+
 
 trait ScoringScenarioExample
 {
+
+
 
   lazy val actors : Seq [Actor] =
     Seq (
@@ -361,6 +368,11 @@ trait ScoringScenarioExample
 }
 
 case class ScoringScenarioExample_ () extends ScoringScenarioExample
+
+object ScoringScenarioExample {
+  def mk : ScoringScenarioExample =
+    ScoringScenarioExample_ ()
+}
 
 
 case class UnbiasednessTileSpec ()

@@ -124,6 +124,12 @@ class UpperAndLowerBoundDeclarationSpec ()
         "\n" +
         "\n  case class BlackBox_ [A <: AbstractModel, B <: AbstractParameter] ()" +
         " extends BlackBox [A, B]" +
+        "\n" +
+        "\n  object BlackBox {" +
+        "\n    def mk [A <: AbstractModel, B <: AbstractParameter] : " +
+        "BlackBox [A, B] =" +
+        "\n      BlackBox_ [A, B] ()" +
+        "\n  }" +
         "\n"
     )
   )

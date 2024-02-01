@@ -5,6 +5,8 @@
 
 class TranslationConstantToLean
 
+  abstract
+
   import
     soda.translator.parser.SodaConstant_
 
@@ -17,6 +19,8 @@ class TranslationConstantToLean
   lean_function_definition_symbol = ":="
 
   lean_type_membership_symbol = ":"
+
+  lean_colon_symbol = ":"
 
   lean_subtype_symbol = "<:"
 
@@ -42,6 +46,8 @@ class TranslationConstantToLean
 
   lean_closing_documentation = "-/"
 
+  lean_line_comment = "--"
+
   lean_some_variable_name = "x"
 
   lean_opening_brace = "{"
@@ -50,15 +56,17 @@ class TranslationConstantToLean
 
   lean_product_type_symbol = "*"
 
-  lean_constructor_symbol = "::"
+  lean_list_constructor_symbol = "::"
 
   lean_lambda_arrow_symbol = "=>"
 
   lean_case_arrow_symbol = "=>"
 
+  lean_notation_arrow_symbol = "=>"
+
   lean_case_translation = lean_vertical_bar_symbol + lean_space
 
-  lean_not_reserved_word = "notb"
+  lean_not_reserved_word = "not"
 
   lean_and_symbol = "&&"
 
@@ -68,6 +76,10 @@ class TranslationConstantToLean
 
   lean_dot_notation_symbol = "."
 
+  lean_comma_symbol = ","
+
+  lean_quotes_symbol = "\""
+
   lean_inductive_end_symbol : String = lean_end_symbol
 
   lean_definition_end_symbol : String = lean_end_symbol
@@ -75,6 +87,8 @@ class TranslationConstantToLean
   lean_recursive_definition_end_symbol : String = lean_end_symbol
 
   lean_theorem_end_symbol : String = lean_end_symbol
+
+  lean_default_constructor_name : String = "mk"
 
   lean_abbrev_reserved_word : String = "abbrev"
 
@@ -113,6 +127,8 @@ class TranslationConstantToLean
   lean_end_reserved_word : String = "end"
 
   lean_example_reserved_word : String = "example"
+
+  lean_extends_reserved_word : String = "extends"
 
   lean_fun_reserved_word = "fun"
 
@@ -276,6 +292,12 @@ class TranslationConstantToLean
 
   lean_directive_identifier : String = "lean"
 
+  lean_notation_prefix : String =
+    lean_notation_reserved_word + lean_space + lean_quotes_symbol
+
+  lean_notation_infix : String =
+    lean_quotes_symbol + lean_space + lean_notation_arrow_symbol + lean_space
+
   lean_main_reserved_words : Seq [String] =
     Seq (
       lean_abbrev_reserved_word ,
@@ -395,14 +417,6 @@ class TranslationConstantToLean
     lean_proof_reserved_words .++ (
     lean_type_reserved_words) ) )
 
-  lean_prelude : Seq [String] =
-    Seq (
-      "notation:max \"Zero_ ()\" => Nat.zero" ,
-      "" ,
-      "notation:max \"Succ_\" => Nat.succ" ,
-      ""
-    )
-
   lean_recursive_function_prefixes : Seq [String] =
     Seq (
       "rec_",
@@ -423,32 +437,45 @@ class TranslationConstantToLean
 
   type_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant .subtype_reserved_word, lean_subtype_symbol),
-      Tuple2 (soda_constant .supertype_reserved_word, lean_supertype_symbol),
-      Tuple2 (soda_constant .function_arrow_symbol, lean_function_arrow_symbol)
+      Tuple2 (soda_constant .subtype_reserved_word , lean_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , lean_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , lean_function_arrow_symbol) ,
+      Tuple2 (soda_constant .opening_bracket_symbol, lean_opening_parenthesis + lean_space) ,
+      Tuple2 (soda_constant .closing_bracket_symbol , lean_space + lean_closing_parenthesis)
     )
 
   function_symbols_translation : Seq [Tuple2 [String] [String] ] =
     Seq (
-      Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol),
-      Tuple2 (soda_constant .lambda_reserved_word , lean_fun_reserved_word),
-      Tuple2 (soda_constant .any_reserved_word , lean_fun_reserved_word),
-      Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol),
-      Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol),
-      Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word),
-      Tuple2 (soda_constant .and_reserved_word , lean_and_symbol),
-      Tuple2 (soda_constant .or_reserved_word , lean_or_symbol)
+      Tuple2 (soda_constant .function_definition_symbol , lean_function_definition_symbol) ,
+      Tuple2 (soda_constant .lambda_reserved_word , lean_fun_reserved_word) ,
+      Tuple2 (soda_constant .any_reserved_word , lean_fun_reserved_word) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , lean_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , lean_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , lean_not_reserved_word) ,
+      Tuple2 (soda_constant .and_reserved_word , lean_and_symbol) ,
+      Tuple2 (soda_constant .or_reserved_word , lean_or_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .override_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .new_annotation , lean_empty_string) ,
+      Tuple2 (soda_constant .seq_constructor_symbol , lean_list_constructor_symbol)
     )
 
   type_translation : Seq [Tuple2 [String] [String]  ] =
     Seq (
         Tuple2 ("Boolean" , "Bool"),
-        Tuple2 ("Nat" , "Nat"),
-        Tuple2 ("Option" , "Option"),
-        Tuple2 ("List" , "List"),
-        Tuple2 ("String" , "String"),
+        Tuple2 ("None" , "Option.none"),
+        Tuple2 ("Some" , "Option.some"),
+        Tuple2 ("Seq" , "List"),
+        Tuple2 ("Nil" , "List.nil"),
         Tuple2 ("Tuple2" , "Prod")
     )
+
+  lean_prelude : Seq [String] =
+    type_translation
+      .map (
+        lambda pair -->
+          lean_notation_prefix + pair ._1 + lean_notation_infix + pair ._2
+      )
 
   prefix_lean_non_soda : String = "__soda__"
 

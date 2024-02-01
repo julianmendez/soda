@@ -1,6 +1,8 @@
 
 class SaladMaker
 
+  abstract
+
   @tailrec
   _tailrec_prepare_salad [Ingredient : Type] [Salad : Type]
     (ingredients : Seq [Ingredient] )

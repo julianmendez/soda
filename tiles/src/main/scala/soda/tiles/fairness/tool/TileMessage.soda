@@ -30,6 +30,8 @@ end
 
 class TileMessageBuilder
 
+  abstract
+
   build [A : Type] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
     TileMessage_ (context) (outcome) (contents)
 

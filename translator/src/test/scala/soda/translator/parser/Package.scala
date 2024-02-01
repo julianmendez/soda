@@ -4,8 +4,6 @@ package soda.translator.parser
  * This package contains tests for the Soda parser.
  */
 
-trait Package
-
 case class BlockSpec ()
   extends
     org.scalatest.funsuite.AnyFunSuite
@@ -74,19 +72,19 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n    soda.lib.Fold_" +
     "\n    soda.lib.Enum" +
     "\n" +
-    "\n  abstract" +
+    "\n  \u27D0" +
     "\n    number : Int" +
     "\n    name : String" +
     "\n" +
     "\n  my_constant : Int = 0" +
     "\n" +
-    "\n  my_function (x : Int) (y : Int) : Int =" +
+    "\n  my_function (x : Int) (y : Int) : Int \u225D" +
     "\n    x + y" +
     "\n" +
     "\n  another_function (f : Int \u2192 Int) (x : Int) : Int =" +
     "\n    f (x)" +
     "\n" +
-    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n  process (sequence : Seq [Int] ) : Seq [Int] =" +
     "\n    sequence" +
     "\n      .map (\u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
     "\n      .map ( \u03BB elem \u27F6 my_function (x \u2254 elem) (y \u2254 my_constant) )" +
@@ -106,6 +104,11 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n    \u29E9 x < y" +
     "\n     \u25B6 x"  +
     "\n     \u25B7 y"  +
+    "\n" +
+    "\n  length [A : Type] (list : Seq [A] ) : Int =" +
+    "\n    match list" +
+    "\n      case Nil ==> 0"  +
+    "\n      case (head) \u2237 (tail) ==> length [A] (tail) + 1" +
     "\n" +
     "\n\u23BF" +
     "\n" +
@@ -137,7 +140,7 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n  another_function (f : Int -> Int) (x : Int) : Int =" +
     "\n    f (x)" +
     "\n" +
-    "\n  process (sequence : Seq [Int]) : Seq [Int] =" +
+    "\n  process (sequence : Seq [Int] ) : Seq [Int] =" +
     "\n    sequence" +
     "\n      .map (lambda elem --> my_function (x := elem) (y := my_constant) )" +
     "\n      .map ( lambda elem --> my_function (x := elem) (y := my_constant) )" +
@@ -157,6 +160,11 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n    if x < y" +
     "\n     then x"  +
     "\n     else y"  +
+    "\n" +
+    "\n  length [A : Type] (list : Seq [A] ) : Int =" +
+    "\n    match list" +
+    "\n      case Nil ==> 0"  +
+    "\n      case (head) :: (tail) ==> length [A] (tail) + 1" +
     "\n" +
     "\nend" +
     "\n")

@@ -21,6 +21,8 @@ class ParserStateEnum
   extends
     soda.lib.Enum [ParserState]
 
+  abstract
+
   undefined_state = ParserState_ (0 , "undefined_state")
 
   quotes_state = ParserState_ (1 , "quotes_state")
@@ -46,6 +48,8 @@ class ParserStateEnum
 end
 
 class ParserTransition
+
+  abstract
 
   ps = ParserStateEnum_ ()
 

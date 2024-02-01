@@ -1,0 +1,69 @@
+
+class RecursionForLeanSpec ()
+  extends
+    org.scalatest.funsuite.AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example_seq : List [Int] = List (0 , 1 , 1 , 2 , 3 , 5 , 8)
+
+  _fold_left_while_initial_value = List [String] ()
+
+  _fold_left_while_next_value_function : List [String] -> Int -> List [String] =
+    lambda (s : List [String] ) --> lambda (e : Int) --> s  .+: ("" +  (e + 100))
+
+  _fold_left_while_condition : List [String] -> Int -> Boolean =
+    lambda (s : List [String] ) --> lambda (e : Int) --> e < 5
+
+  _fold_while = FoldWhile_ ()
+
+  _fold = Fold_ ()
+
+  _range = Range_ ()
+
+  test ("fold left while with Seq") (
+    check (
+      obtained :=
+        _fold_while
+          .apply [Int] [List [String] ] (example_seq) (_fold_left_while_initial_value) (
+            _fold_left_while_next_value_function) (_fold_left_while_condition)
+    ) (
+      expected := List ("103" , "102" , "101" , "101" , "100")
+    )
+  )
+
+  _fold_left_initial_value = List [String] ()
+
+  _fold_left_next_value_function : List [String] -> Int -> List [String] =
+    lambda (s : List [String]) --> lambda (e : Int) --> s .+: ("" + (e + 100))
+
+  test ("fold left with Seq") (
+    check (
+      obtained :=
+        _fold
+          .apply (example_seq) (_fold_left_initial_value) (
+            _fold_left_next_value_function)
+    ) (
+      expected := List ("108" , "105" , "103" , "102" , "101" , "101" , "100")
+    )
+  )
+
+  test ("range with positive number") (
+    check (
+      obtained := _range .apply ((8) )
+    ) (
+      expected := List [Int] (0 , 1 , 2 , 3 , 4 , 5 , 6 , 7)
+    )
+  )
+
+  test ("range with zero size") (
+    check (
+      obtained := _range .apply (0)
+    ) (
+      expected := List [Int] ()
+    )
+  )
+
+end
+

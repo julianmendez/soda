@@ -7,6 +7,11 @@ trait Applicant
 
 case class Applicant_ (background_score : Double) extends Applicant
 
+object Applicant {
+  def mk (background_score : Double) : Applicant =
+    Applicant_ (background_score)
+}
+
 trait Fairness
 {
 
@@ -31,3 +36,8 @@ trait Fairness
 }
 
 case class Fairness_ (score_difference_tolerance : Double, ranking_difference_tolerance : Double, rank : Applicant => Double) extends Fairness
+
+object Fairness {
+  def mk (score_difference_tolerance : Double) (ranking_difference_tolerance : Double) (rank : Applicant => Double) : Fairness =
+    Fairness_ (score_difference_tolerance, ranking_difference_tolerance, rank)
+}

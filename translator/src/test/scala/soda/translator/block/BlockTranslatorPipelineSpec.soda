@@ -3,6 +3,8 @@ class BlockTranslator00
   extends
     BlockTranslator
 
+  abstract
+
   import
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
@@ -23,6 +25,8 @@ class BlockTranslator01
   extends
     BlockTranslator
 
+  abstract
+
   import
     soda.translator.parser.BlockBuilder_
     soda.translator.parser.annotation.AnnotationFactory_
@@ -42,6 +46,8 @@ end
 class BlockTranslator02
   extends
     BlockTranslator
+
+  abstract
 
   import
     soda.translator.parser.BlockBuilder_

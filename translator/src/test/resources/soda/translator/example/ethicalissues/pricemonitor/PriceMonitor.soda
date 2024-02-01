@@ -18,12 +18,12 @@ end
 
 class PricingAgent
 
-  import
-    java.util.Date
-
   abstract
     /** get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int */
     abs_get_price : Customer -> Flight -> Int -> Int
+
+  import
+    java.util.Date
 
   get_price (customer : Customer) (flight : Flight) (date_in_days : Int) : Int =
     abs_get_price (customer) (flight) (date_in_days)

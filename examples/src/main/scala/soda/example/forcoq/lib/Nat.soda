@@ -11,6 +11,8 @@ class O
   extends
     nat
 
+  abstract
+
   add : nat -> nat =
     lambda a --> add_for (a)
 
@@ -50,6 +52,8 @@ end
 
 class IntNat
 
+  abstract
+
   import
     soda.lib.NoneSD_
     soda.lib.OptionSD
@@ -72,6 +76,6 @@ class IntNat
   to_Int (a : nat) : Int =
     match a
       case S_ (k) ==> 1 + to_Int (k)
-      case otherwise ==> 0
+      case _otherwise ==> 0
 
 end

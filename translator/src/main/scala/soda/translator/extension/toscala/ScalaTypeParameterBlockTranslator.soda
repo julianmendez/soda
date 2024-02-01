@@ -1,0 +1,24 @@
+
+class ScalaTypeParameterBlockTranslator
+  extends
+    soda.translator.blocktr.TokenizedBlockTranslator
+
+  abstract
+
+  import
+    soda.translator.parser.SodaConstant_
+    soda.translator.replacement.Token
+
+  _sc = SodaConstant_ ()
+
+  _tc = TranslationConstantToScala_ ()
+
+  replace_token : Token -> String =
+    lambda token -->
+      token
+        .text
+        .replaceAll (_sc .type_parameter_separation_regex ,
+          _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+
+end
+

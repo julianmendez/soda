@@ -19,27 +19,27 @@ class OptionSD [A : Type]
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : A -> B) : B =
     match this
       case SomeSD_ (element) ==> ifNonEmpty (element)
-      case otherwise ==> ifEmpty
+      case _otherwise ==> ifEmpty
 
   map [B : Type] (mapping : A -> B) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
-      case otherwise ==> NoneSD_ [B] ()
+      case _otherwise ==> NoneSD_ [B] ()
 
   getOrElse (default : A) : A =
     match this
       case SomeSD_ (element) ==> element
-      case otherwise ==> default
+      case _otherwise ==> default
 
   fold [B : Type] (ifEmpty : B) (f : A -> B) : B =
     match this
       case SomeSD_ (element) ==> f (element)
-      case otherwise ==> ifEmpty
+      case _otherwise ==> ifEmpty
 
   flatMap [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
-      case otherwise ==> NoneSD_ ()
+      case _otherwise ==> NoneSD_ [B] ()
 
   bind [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
@@ -50,13 +50,15 @@ class OptionSD [A : Type]
         if predicate (element)
         then this
         else NoneSD_ [A] ()
-      case otherwise ==> NoneSD_ ()
+      case _otherwise ==> NoneSD_ [A] ()
 
 end
 
 class NoneSD [A : Type]
   extends
     OptionSD [A]
+
+  abstract
 
   toOption : None .type = None
 
@@ -66,7 +68,7 @@ class NoneSD [A : Type]
 
   isNonEmpty : Boolean = not isEmpty
 
-  toSeq : Seq [A] = Seq ()
+  toSeq : Seq [A] = Seq [A] ()
 
 end
 
@@ -101,16 +103,18 @@ class SomeSD [A : Type]
 
   isNonEmpty : Boolean = not isEmpty
 
-  toSeq : Seq [A] = Seq (element)
+  toSeq : Seq [A] = Seq [A] (element)
 
 end
 
 class OptionSDBuilder [A : Type]
 
+  abstract
+
   build (option : Option [A] ) : OptionSD [A] =
     match option
       case Some (content) ==> SomeSD_ [A] (content)
-      case otherwise ==> NoneSD_ [A] ()
+      case None ==> NoneSD_ [A] ()
 
 end
 
