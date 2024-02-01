@@ -46,11 +46,10 @@ Steps to run a "Hello world!" example in Soda:
    you get the manual.
 4. Once `Manual.soda` has been created, run `soda .`. This will create two files:
    `Package.soda` and `Package.scala`.
-5. Once `Package.scala` has been created, if the first line says `trait Package`, remove it.
-6. Run `scalac Package.scala`, which will compile sources and put the result in the 
+5. Run `scalac Package.scala`, which will compile sources and put the result in the 
    directory
-   `soda/translator/documentation`.
-7. Run `scala soda.translator.documentation.EntryPoint`, which will show you `Hello world!`.
+   `soda/manual`.
+6. Run `scala soda.manual.EntryPoint`, which will show you `Hello world!`.
 
 
 ## How to learn Soda
