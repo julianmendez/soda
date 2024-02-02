@@ -12,11 +12,12 @@ This project includes a translator (or transpiler) to [Scala 3][scala], experime
 translators to [Lean 4][lean] and [Coq 8][coq], and a [LaTeX][latex] documentation
 extraction tool.
 
-Related publications:
 
-  Julian Alfredo Mendez.
-  **Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**,
-  arXiv DOI:[10.48550/arXiv.2310.01961](https://doi.org/10.48550/arXiv.2310.01961)
+## Publications
+
+* Julian Alfredo Mendez.
+**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**,
+arXiv DOI:[10.48550/arXiv.2310.01961](https://doi.org/10.48550/arXiv.2310.01961)
 
 
 ## Online manual
@@ -32,7 +33,7 @@ Steps to run a "Hello world!" example in Soda:
    - b. [sbt][sbt] (if you need to build the binaries)
    - c. [Java][java] (to execute JAR files)
 2. Get the translator binary by either doing the following:
-   - a. download the Linux binary from GitHub
+   - a. download the Linux binary from [releases][soda-releases]
    - b. **or** clone the [GitHub repository][soda-repo] and compile it, by either:
       - i. run the `makeall.sh`, from a Linux compatible environment
       - ii. **or** run `sbt` to get an executable JAR file as indicated in the
@@ -46,7 +47,7 @@ Steps to run a "Hello world!" example in Soda:
    you get the manual.
 4. Once `Manual.soda` has been created, run `soda .`. This will create two files:
    `Package.soda` and `Package.scala`.
-5. Run `scalac Package.scala`, which will compile sources and put the result in the 
+5. Run `scalac Package.scala`, which will compile sources and put the result in the
    directory
    `soda/manual`.
 6. Run `scala soda.manual.EntryPoint`, which will show you `Hello world!`.
@@ -170,6 +171,7 @@ More detailed information can be found in the [release notes][release-notes].
 [manual]: https://soda-lang.readthedocs.io/en/latest/
 [release-notes]: https://julianmendez.github.io/soda/RELEASE-NOTES.html
 [soda-repo]: https://github.com/julianmendez/soda
+[soda-releases]: https://github.com/julianmendez/soda/releases
 [examples-test]: https://github.com/julianmendez/soda/tree/master/examples/src/test/scala/soda/example
 [lean-game-server]: https://adam.math.hhu.de
 [sbt]: https://www.scala-sbt.org
