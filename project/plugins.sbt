@@ -4,7 +4,7 @@
  * [[https://github.com/sbt/sbt-assembly]]
  * [[https://repo1.maven.org/maven2/com/eed3si9n/sbt-assembly_2.12_1.0/]]
  */
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.3")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.5")
 
 /**
  * scalastyle-sbt-plugin
