@@ -6,7 +6,7 @@ lazy val scala2_12 = "2.12.18"
 
 lazy val scala2_13 = "2.13.12"
 
-lazy val scala3_3 = "3.3.1"
+lazy val scala3_4 = "3.4.0"
 
 lazy val commonSettings =
   Seq(
@@ -28,15 +28,15 @@ lazy val commonSettings =
      * [[https://repo1.maven.org/maven2/org/scala-lang/scalap/]]
      * [[https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/]]
      */
-    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_3),
-    scalaVersion := scala3_3,
+    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_4),
+    scalaVersion := scala3_4,
     /**
      * ScalaTest
      * [[https://www.scalatest.org]]
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,
