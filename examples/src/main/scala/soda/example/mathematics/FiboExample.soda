@@ -1,14 +1,44 @@
 
+
+class NonNegative
+
+  abstract
+    v : Int
+
+  invariant : Boolean =
+    v >= 0
+
+  check : Option [NonNegative] =
+    if invariant
+    then Some (this)
+    else None
+
+end
+
+
 class FiboExampleInSoda
 
   abstract
 
-  _rec (m : Int) (a : Int) (b : Int) : Int =
-    if m == 0 then a
-    else if m == 1 then b
-    else _rec (m - 1) (b) (a + b)
+  _plus (a : NonNegative) (b : NonNegative) : NonNegative =
+    NonNegative .mk (a .v + b .v)
+
+ _monus1 (a : NonNegative) : NonNegative =
+   if a .v > 0
+   then NonNegative .mk (a .v - 1)
+   else a
+
+  _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
+    if m .v == 0 then a
+    else if m .v == 1 then b
+    else _rec (_monus1 (m) ) (b) (_plus (a) (b) )
+
+  _apply (n : NonNegative) : NonNegative =
+    _rec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
 
   apply (n : Int) : Int =
-    _rec (n) (0) (1)
+    match NonNegative .mk (n) .check
+      case Some (non_negative) ==> (_apply (non_negative) ) .v
+      case None ==> -1
 
 end

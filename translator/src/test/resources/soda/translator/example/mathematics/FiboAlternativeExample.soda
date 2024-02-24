@@ -1,0 +1,58 @@
+
+class NonNegativeMod
+
+  invariant (v : Int) : Boolean =
+    v >= 0
+
+  mko (v : Int) : Option [Int] =
+    if invariant (v)
+    then Some (v)
+    else None
+
+  _plus (v : Int) (b : Option [Int] ) : Option [Int] =
+    match b
+      case Some (w) ==> mko (v + w)
+      case None ==> None
+
+  plus (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+    match a
+      case Some (v) ==> _plus (v) (b)
+      case None ==> None
+
+  _minus1 (v : Int) : Option [Int] =
+    if v > 0
+    then Option [Int] (v - 1)
+    else None
+
+  minus1 (a : Option [Int]) : Option [Int] =
+    match a
+      case Some (v) ==> _minus1 (v)
+      case None ==> None
+
+end
+
+
+class FiboAlternativeExampleInSoda
+
+  abstract
+
+  _mm = NonNegativeMod .mk
+
+  _zero = _mm .mko (0)
+
+  _one = _mm .mko (1)
+
+  _rec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+    if m == _zero then a
+    else if m == _one then b
+    else _rec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
+
+  _apply (n : Option [Int] ) : Option [Int] =
+    _rec (n) (_zero) (_one)
+
+  apply (n : Int) : Int =
+    match _apply (_mm .mko (n) )
+      case Some (v) ==> v
+      case None ==> -1
+
+end
