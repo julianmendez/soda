@@ -23,10 +23,10 @@ class FiboExampleInSoda
   _plus (a : NonNegative) (b : NonNegative) : NonNegative =
     NonNegative .mk (a .v + b .v)
 
- _monus1 (a : NonNegative) : NonNegative =
-   if a .v > 0
-   then NonNegative .mk (a .v - 1)
-   else a
+  _monus1 (a : NonNegative) : NonNegative =
+    if a .v > 0
+    then NonNegative .mk (a .v - 1)
+    else a
 
   _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
     if m .v == 0 then a
