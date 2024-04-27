@@ -39,7 +39,6 @@ directive
 else
 end
 extends
-fun
 if
 import
 lambda
@@ -57,11 +56,11 @@ this
 +
 -
 /
-==
-<=
->=
 <
+<=
+==
 >
+>=
 and
 false
 not
@@ -75,15 +74,20 @@ by
 cases
 constructor
 exact
+forall
+fun
 funext
 have
 induction
 intro
+notation
 rewrite
 rfl
 rw
 simp
+theorem
 with
+
 
 4
 @new
