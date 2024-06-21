@@ -15,9 +15,15 @@ extraction tool.
 
 ## Publications
 
-* Julian Alfredo Mendez.
-**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**,
-arXiv DOI:[10.48550/arXiv.2310.01961](https://doi.org/10.48550/arXiv.2310.01961)
+* <a id="Me2023"></a>
+Julian Alfredo Mendez.
+**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
+arXiv
+ &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
+ &nbsp; [Abstract][soda-abstract]
+ &nbsp; [BibTeX][soda-bibtex]
+ &nbsp; [PDF][soda-pdf]
+ &nbsp; [Implementation][soda-impl]
 
 
 ## Online manual
@@ -164,6 +170,11 @@ More detailed information can be found in the [release notes][release-notes].
 
 [Julian Alfredo Mendez][author]
 
+[soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
+[soda-abstract]: https://arxiv.org/abs/2310.01961
+[soda-bibtex]: https://julianmendez.github.io/soda/bibtex-2023.html
+[soda-pdf]: https://arxiv.org/pdf/2310.01961
+[soda-impl]: https://github.com/julianmendez/soda
 [author]: https://julianmendez.github.io
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [build-status]: https://github.com/julianmendez/soda/actions
