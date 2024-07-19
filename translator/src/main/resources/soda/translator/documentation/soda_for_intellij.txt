@@ -4,7 +4,7 @@ Settings / Editor / File Types / Recognized File Types:
 
 Name: Soda
 
-Description: Soda
+Description: Soda (syntax highlighting only)
 
 Syntax Highlighting
 
@@ -39,6 +39,7 @@ directive
 else
 end
 extends
+fun
 if
 import
 lambda
@@ -75,7 +76,6 @@ cases
 constructor
 exact
 forall
-fun
 funext
 have
 induction
@@ -94,4 +94,8 @@ with
 @override
 @tailrec
 sorry
+
+
+[ ] Ignore case
+
 
