@@ -21,7 +21,7 @@ lazy val commonSettings =
     organizationName := "Umea University",
     organizationHomepage := Some(url("https://www.umu.se/en/department-of-computing-science/")),
     developers := List(
-      Developer("julianmendez", "Julian Alfredo Mendez", "julian.mendez@gmail.com", new URL("https://julianmendez.github.io"))
+      Developer("julianmendez", "Julian Alfredo Mendez", "julian.mendez@gmail.com", url("https://julianmendez.github.io"))
     ),
     /**
      * Scala
