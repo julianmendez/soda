@@ -2,8 +2,8 @@
 ---
 - - version: v0.21.0
   - date: '(not released)'
-  - build: $ `sbt '++ 3.4.0' clean compile test package assembly`
-  - release: target/scala-3.4.0/soda-0.21.0.jar
+  - build: $ `sbt '++ 3.3.4' clean compile test package assembly`
+  - release: target/scala-3.3.4/soda-0.21.0.jar
 - - version: v0.20.0
   - date: '2024-02-01'
   - build: $ `sbt '++ 3.3.1' clean compile test package assembly`
