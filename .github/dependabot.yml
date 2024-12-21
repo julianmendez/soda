@@ -1,0 +1,15 @@
+---
+# Configuration file for Dependabot
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+# https://github.com/dependabot/dependabot-core
+
+version: 2
+
+updates:
+
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+
+
