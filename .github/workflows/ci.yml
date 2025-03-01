@@ -30,6 +30,10 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: temurin
+    - name: Setup Scala with sbt
+      uses: coursier/setup-action@v1
+      with:
+        apps: sbt
     - name: Build with sbt
       run: sbt '++ ${{ matrix.scala }}' scalaVersion sbtVersion version clean compile test package assembly
 
