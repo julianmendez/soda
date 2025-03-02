@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 #
 # This script builds the binary file.
@@ -7,7 +7,7 @@
 
 sbt scalaVersion sbtVersion version clean compile test package assembly
 
-scalaVersion="3.3.1"
+scalaVersion="3.3.5"
 binaryFile="soda"
 executableStub="exec java -jar \$0 \"\$@\" ; exit"
 jarFile="target/scala-${scalaVersion}/${binaryFile}-*.jar"

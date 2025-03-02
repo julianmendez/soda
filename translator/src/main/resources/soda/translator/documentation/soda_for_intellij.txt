@@ -4,7 +4,7 @@ Settings / Editor / File Types / Recognized File Types:
 
 Name: Soda
 
-Description: Soda
+Description: Soda (syntax highlighting only)
 
 Syntax Highlighting
 
@@ -57,11 +57,11 @@ this
 +
 -
 /
-==
-<=
->=
 <
+<=
+==
 >
+>=
 and
 false
 not
@@ -75,19 +75,27 @@ by
 cases
 constructor
 exact
+forall
 funext
 have
 induction
 intro
+notation
 rewrite
 rfl
 rw
 simp
+theorem
 with
+
 
 4
 @new
 @override
 @tailrec
 sorry
+
+
+[ ] Ignore case
+
 

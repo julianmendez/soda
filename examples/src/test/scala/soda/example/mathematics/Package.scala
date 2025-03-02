@@ -93,6 +93,18 @@ case class FiboExampleSpec ()
     )
   )
 
+  private lazy val _fibo_alternative_example_in_soda = FiboAlternativeExampleInSoda_ ()
+
+  test ("should test an alternative implementation of the fibonacci function") (
+    check (
+      obtained = fibonacci_values
+        .map ( pair => pair ._1)
+        .map ( n => Tuple2 (n , _fibo_alternative_example_in_soda .apply (n) ) )
+    ) (
+      expected = fibonacci_values
+    )
+  )
+
 }
 
 

@@ -102,18 +102,134 @@ object FactorialWithFold {
 }
 
 
+trait NonNegativeMod
+{
+
+  def invariant (v : Int) : Boolean =
+    v >= 0
+
+  def mko (v : Int) : Option [Int] =
+    if ( invariant (v)
+    ) Some (v)
+    else None
+
+  private def _plus (v : Int) (b : Option [Int] ) : Option [Int] =
+    b match  {
+      case Some (w) => mko (v + w)
+      case None => None
+    }
+
+  def plus (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+    a match  {
+      case Some (v) => _plus (v) (b)
+      case None => None
+    }
+
+  private def _minus1 (v : Int) : Option [Int] =
+    if ( v > 0
+    ) Option [Int] (v - 1)
+    else None
+
+  def minus1 (a : Option [Int]) : Option [Int] =
+    a match  {
+      case Some (v) => _minus1 (v)
+      case None => None
+    }
+
+}
+
+case class NonNegativeMod_ () extends NonNegativeMod
+
+object NonNegativeMod {
+  def mk : NonNegativeMod =
+    NonNegativeMod_ ()
+}
+
+trait FiboAlternativeExampleInSoda
+{
+
+
+
+  private lazy val _mm = NonNegativeMod .mk
+
+  private lazy val _zero = _mm .mko (0)
+
+  private lazy val _one = _mm .mko (1)
+
+  private def _rec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+    if ( m == _zero ) a
+    else if ( m == _one ) b
+    else _rec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
+
+  private def _apply (n : Option [Int] ) : Option [Int] =
+    _rec (n) (_zero) (_one)
+
+  def apply (n : Int) : Int =
+    _apply (_mm .mko (n) ) match  {
+      case Some (v) => v
+      case None => -1
+    }
+
+}
+
+case class FiboAlternativeExampleInSoda_ () extends FiboAlternativeExampleInSoda
+
+object FiboAlternativeExampleInSoda {
+  def mk : FiboAlternativeExampleInSoda =
+    FiboAlternativeExampleInSoda_ ()
+}
+
+
+
+
+trait NonNegative
+{
+
+  def   v : Int
+
+  lazy val invariant : Boolean =
+    v >= 0
+
+  lazy val check : Option [NonNegative] =
+    if ( invariant
+    ) Some (this)
+    else None
+
+}
+
+case class NonNegative_ (v : Int) extends NonNegative
+
+object NonNegative {
+  def mk (v : Int) : NonNegative =
+    NonNegative_ (v)
+}
+
 trait FiboExampleInSoda
 {
 
 
 
-  private def _rec (m : Int) (a : Int) (b : Int) : Int =
-    if ( m == 0 ) a
-    else if ( m == 1 ) b
-    else _rec (m - 1) (b) (a + b)
+  private def _plus (a : NonNegative) (b : NonNegative) : NonNegative =
+    NonNegative .mk (a .v + b .v)
+
+  private def _monus1 (a : NonNegative) : NonNegative =
+    if ( a .v > 0
+    ) NonNegative .mk (a .v - 1)
+    else a
+
+  private def _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
+    if ( m .v == 0 ) a
+    else if ( m .v == 1 ) b
+    else _rec (_monus1 (m) ) (b) (_plus (a) (b) )
+
+  private def _apply (n : NonNegative) : NonNegative =
+    _rec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
 
   def apply (n : Int) : Int =
-    _rec (n) (0) (1)
+    NonNegative .mk (n) .check match  {
+      case Some (non_negative) => (_apply (non_negative) ) .v
+      case None => -1
+    }
 
 }
 

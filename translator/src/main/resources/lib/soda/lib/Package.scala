@@ -285,6 +285,7 @@ object OptionSDBuilder {
  */
 
 object Succ_ {
+  def apply (n : Int) : Int = n + 1
   def unapply (n : Int) : Option [Int] =
     if (n <= 0) None else Some (n - 1)
 }
