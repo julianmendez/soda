@@ -16,9 +16,9 @@ class LinearCongruentialGenerator
     multiplier : Long
     increment : Long
 
-  fold = Fold_ ()
+  fold = Fold .mk
 
-  range = Range_ ()
+  range = Range .mk
 
   get_next_long : Long -> Long =
     lambda seed -->
@@ -47,7 +47,7 @@ class Random
 
   abstract
 
-  generator = LinearCongruentialGenerator_ (0x1000000000000L , 0x5DEECE66DL , 0x0BL)
+  generator = LinearCongruentialGenerator .mk (0x1000000000000L) (0x5DEECE66DL) (0x0BL)
 
   get_next_long : Long -> Long =
     lambda seed -->

@@ -3,9 +3,9 @@ class FalsePosTile
 
   abstract
 
-  _measure_zero = Measure_ (0)
+  _measure_zero = Measure .mk (0)
 
-  _measure_one = Measure_ (1)
+  _measure_one = Measure .mk (1)
 
   sigma (m0 : Measure) (m1 : Measure) : Measure =
     if (m0 == _measure_one) and (m1 == _measure_zero)
@@ -14,7 +14,7 @@ class FalsePosTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile_ (sigma) .apply (message)
+    SigmaTile .mk (sigma) .apply (message)
 
 end
 

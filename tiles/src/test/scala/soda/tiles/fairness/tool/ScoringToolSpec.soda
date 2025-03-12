@@ -10,11 +10,11 @@ class ScoringToolSpec ()
 
   example_ylist_1 : Seq [Double] = Seq (1 , 3 , 5 , 8)
 
-  instance_1 : Pearson = Pearson_ (example_xlist_1) (example_ylist_1)
+  instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
 
-  _mt : MathTool = MathTool_ ()
+  _mt : MathTool = MathTool .mk
 
-  _mc : ScoringCategory = ScoringCategory_ ()
+  _mc : ScoringCategory = ScoringCategory .mk
 
 
   test ("sum") (
@@ -45,7 +45,7 @@ class ScoringToolSpec ()
 
   example_ylist_2 : Seq [Double] = Seq (99 , 65 , 79 , 75 , 87 , 81)
 
-  instance_2 : Pearson = Pearson_ (example_xlist_2) (example_ylist_2)
+  instance_2 : Pearson = Pearson .mk (example_xlist_2) (example_ylist_2)
 
   test ("coefficient") (
     check (

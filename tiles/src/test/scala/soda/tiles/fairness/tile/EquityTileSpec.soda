@@ -6,10 +6,10 @@ class EquityTileSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  example = ResourceAllocationScenarioExample_ ()
+  example = ResourceAllocationScenarioExample .mk
 
   equity_tile =
-    EquityTile_ (example .measure_sum , example .actor_need , example .resource_height)
+    EquityTile .mk (example .measure_sum) (example .actor_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (

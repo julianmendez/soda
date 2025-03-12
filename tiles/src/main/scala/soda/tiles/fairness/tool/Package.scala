@@ -180,7 +180,7 @@ trait Pearson
   def   xlist : Seq [Double]
   def   ylist : Seq [Double]
 
-  private lazy val _mt : MathTool = MathTool_ ()
+  private lazy val _mt : MathTool = MathTool .mk
 
   private def _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
     _mt .sum (seq .map ( x_i => _mt .squared (x_i - x_average) ) )
@@ -314,7 +314,7 @@ trait TileMessageBuilder
 
 
   def build [A ] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
-    TileMessage_ (context, outcome, contents)
+    TileMessage .mk (context) (outcome) (contents)
 
 }
 

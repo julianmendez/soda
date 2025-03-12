@@ -9,7 +9,7 @@ class UnzipTripleFstTile
 
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_fst_list (message .contents)
     )
 
@@ -26,7 +26,7 @@ class UnzipTripleSndTile
 
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [B] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_snd_list (message .contents)
     )
 
@@ -43,7 +43,7 @@ class UnzipTripleTrdTile
 
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [C] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_trd_list (message .contents)
     )
 

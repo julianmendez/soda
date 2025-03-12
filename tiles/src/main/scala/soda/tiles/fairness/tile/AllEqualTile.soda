@@ -3,10 +3,10 @@ class AllEqualTile
 
   abstract
 
-  all_equal_1_tile = AllEqual1Tile_ ()
+  all_equal_1_tile = AllEqual1Tile .mk
 
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       all_equal_1_tile .apply (message) (message .contents)
     )
 

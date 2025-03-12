@@ -5,6 +5,6 @@ class ResultPTile
     p : Actor -> Measure
 
   apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile_ (p) .apply (message)
+    AttributePTile .mk (p) .apply (message)
 
 end

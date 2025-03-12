@@ -4,7 +4,7 @@ class PredictionPTile
   abstract
     p : Resource -> Measure
 
-  _measure_zero : Measure = Measure_ (0)
+  _measure_zero : Measure = Measure .mk (0)
 
   measure_or (m0 : Measure) (m1 : Measure) : Measure =
     if (m0 == _measure_zero)
@@ -12,7 +12,7 @@ class PredictionPTile
     else m0
 
   apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    ReceivedSigmaPTile_ (measure_or , p) .apply (message)
+    ReceivedSigmaPTile .mk (measure_or) (p) .apply (message)
 
 end
 

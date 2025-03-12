@@ -6,19 +6,19 @@ class EquityTile
     p0_need : Actor -> Measure
     p1_utility : Resource -> Measure
 
-  at_least_tile = AtLeastTile_ ()
+  at_least_tile = AtLeastTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile_ (sigma , p1_utility)
+  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
 
-  needed_p_tile = NeededPTile_ (p0_need)
+  needed_p_tile = NeededPTile .mk (p0_need)
 
-  all_actor_pair_tile = AllActorPairTile_ ()
+  all_actor_pair_tile = AllActorPairTile .mk
 
-  unzip_fst_tile = UnzipPairFstTile_ ()
+  unzip_fst_tile = UnzipPairFstTile .mk
 
-  unzip_snd_tile = UnzipPairSndTile_ ()
+  unzip_snd_tile = UnzipPairSndTile .mk
 
-  zip_tile = ZipTile_ ()
+  zip_tile = ZipTile .mk
 
   get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
       : TileMessage [Seq [Measure] ] =
