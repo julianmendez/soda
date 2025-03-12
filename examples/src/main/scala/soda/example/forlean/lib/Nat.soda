@@ -34,7 +34,7 @@ class Succ
   abstract
     k : Nat
 
-  t = IntNat_ ()
+  t = IntNat .mk
 
   add : Nat -> Nat =
     lambda a --> add_for (a)
@@ -55,9 +55,9 @@ class IntNat
   abstract
 
   import
-    soda.lib.NoneSD_
+    soda.lib.NoneSD
     soda.lib.OptionSD
-    soda.lib.SomeSD_
+    soda.lib.SomeSD
 
   @tailrec
   _tailrec_from_non_negative (a : Int) (b : Nat) : Nat =
@@ -70,8 +70,8 @@ class IntNat
 
   from_Int (a : Int) : OptionSD [Nat] =
     if a < 0
-    then NoneSD_ [Nat] ()
-    else SomeSD_ [Nat] (from_non_negative (a) )
+    then NoneSD .mk [Nat]
+    else SomeSD .mk [Nat] (from_non_negative (a) )
 
   to_Int (a : Nat) : Int =
     match a

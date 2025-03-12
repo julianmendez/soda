@@ -9,9 +9,9 @@ case class MinSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.lib.NoneSD_
-  import   soda.lib.Fold_
-  import   soda.lib.SomeSD_
+  import   soda.lib.NoneSD
+  import   soda.lib.Fold
+  import   soda.lib.SomeSD
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -23,9 +23,9 @@ case class MinSpec ()
   lazy val revExampleSeq : Seq [Int] = exampleSeq.reverse
 
   def prepend_elem (list : MSeq [Int] ) (elem : Int) : NESeq [Int] =
-    Min_ () .prepended (list) (elem)
+    Min .mk .prepended (list) (elem)
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
   private lazy val _initial_value : NESeq [Int] = NESeq_ [Int] (revExampleSeq .head , ESeq_ [Int] () )
 
@@ -36,15 +36,15 @@ case class MinSpec ()
     check (
       obtained = _prepended_sequence
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq [Int] (1 , 0 , 1 , 1 , 2 , 3 , 5 , 8) )
+      expected = MSeqTranslator .mk .asMSeq (Seq [Int] (1 , 0 , 1 , 1 , 2 , 3 , 5 , 8) )
     )
   )
 
-  private lazy val _prepended_sequence : MSeq [Int] = Min_ () .prepended (example) (1)
+  private lazy val _prepended_sequence : MSeq [Int] = Min .mk .prepended (example) (1)
 
   test ("head") (
     check (
-      obtained = Min_ () .head (example)
+      obtained = Min .mk .head (example)
     ) (
       expected = 0
     )
@@ -52,23 +52,23 @@ case class MinSpec ()
 
   test ("tail") (
     check (
-      obtained = Min_ () .tail (example)
+      obtained = Min .mk .tail (example)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (1 , 1 , 2 , 3 , 5 , 8) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (1 , 1 , 2 , 3 , 5 , 8) )
     )
   )
 
   test ("reverse") (
     check (
-      obtained = Min_ () .reverse (example)
+      obtained = Min .mk .reverse (example)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (8 , 5 , 3 , 2 , 1 , 1 , 0) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (8 , 5 , 3 , 2 , 1 , 1 , 0) )
     )
   )
 
   test ("length") (
     check (
-      obtained = Min_ () .length (example)
+      obtained = Min .mk .length (example)
     ) (
       expected = 7
     )
@@ -76,7 +76,7 @@ case class MinSpec ()
 
   test ("indexOf something found") (
     check (
-      obtained = Min_ () .indexOf (example) (8)
+      obtained = Min .mk .indexOf (example) (8)
     ) (
       expected = 6
     )
@@ -84,7 +84,7 @@ case class MinSpec ()
 
   test ("indexOf something not found") (
     check (
-      obtained = Min_ () .indexOf (example) (7)
+      obtained = Min .mk .indexOf (example) (7)
     ) (
       expected = -1
     )
@@ -92,7 +92,7 @@ case class MinSpec ()
 
   test ("contains something found") (
     check (
-      obtained = Min_ () .contains (example) (8)
+      obtained = Min .mk .contains (example) (8)
     ) (
       expected = true
     )
@@ -100,7 +100,7 @@ case class MinSpec ()
 
   test ("contains something not found") (
     check (
-      obtained = Min_ () .contains (example) (7)
+      obtained = Min .mk .contains (example) (7)
     ) (
       expected = false
     )
@@ -108,9 +108,9 @@ case class MinSpec ()
 
   test ("at") (
     check (
-      obtained = Min_ () .at (example) (4)
+      obtained = Min .mk .at (example) (4)
     ) (
-      expected = SomeSD_ (3)
+      expected = SomeSD .mk [Int] (3)
     )
   )
 
@@ -140,15 +140,15 @@ case class MinSpec ()
 
   test ("take 0") (
     check (
-      obtained = Min_ () .take (example) (5)
+      obtained = Min .mk .take (example) (5)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (0 , 1 , 1 , 2 , 3) )
     )
   )
 
   test ("take 1") (
     check (
-      obtained = Min_ () .take (example) (-100)
+      obtained = Min .mk .take (example) (-100)
     ) (
       expected = empty
     )
@@ -156,7 +156,7 @@ case class MinSpec ()
 
   test ("take 2") (
     check (
-      obtained = Min_ () .take (example) (100)
+      obtained = Min .mk .take (example) (100)
     ) (
       expected = example
     )
@@ -188,15 +188,15 @@ case class MinSpec ()
 
   test ("drop 0") (
     check (
-      obtained = Min_ () .drop (example) (3)
+      obtained = Min .mk .drop (example) (3)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (2 , 3 , 5 , 8) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (2 , 3 , 5 , 8) )
     )
   )
 
   test ("drop 1") (
     check (
-      obtained = Min_ () .drop (example) (-100)
+      obtained = Min .mk .drop (example) (-100)
     ) (
       expected = example
     )
@@ -204,7 +204,7 @@ case class MinSpec ()
 
   test ("drop 2") (
     check (
-      obtained = Min_ () .drop (example) (100)
+      obtained = Min .mk .drop (example) (100)
     ) (
       expected = empty
     )
@@ -220,9 +220,9 @@ case class MinSpec ()
 
   test ("takeWhile") (
     check (
-      obtained = Min_ () .takeWhile (example) ( e => ! (e == 3) )
+      obtained = Min .mk .takeWhile (example) ( e => ! (e == 3) )
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (0 , 1 , 1 , 2) )
     )
   )
 
@@ -236,9 +236,9 @@ case class MinSpec ()
 
   test ("dropWhile") (
     check (
-      obtained = Min_ () .dropWhile (example) ( e => ! (e == 3) )
+      obtained = Min .mk .dropWhile (example) ( e => ! (e == 3) )
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (3 , 5 , 8) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (3 , 5 , 8) )
     )
   )
 
@@ -252,10 +252,10 @@ case class MinSpec ()
 
   test ("splitAt") (
     check (
-      obtained = Min_ () .splitAt (example) (3)
+      obtained = Min .mk .splitAt (example) (3)
     ) (
-      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1) ) ,
-        MSeqTranslator_ () .asMSeq (Seq (2 , 3 , 5 , 8) ) )
+      expected = MSeqPair .mk (MSeqTranslator .mk .asMSeq (Seq (0 , 1 , 1) ) ) (
+        MSeqTranslator .mk .asMSeq (Seq (2 , 3 , 5 , 8) ) )
     )
   )
 
@@ -269,24 +269,24 @@ case class MinSpec ()
 
   test ("span") (
     check (
-      obtained = Min_ () .span (example) ( (x : Int) => ! (x == 5) )
+      obtained = Min .mk .span (example) ( (x : Int) => ! (x == 5) )
     ) (
-      expected = MSeqPair_ (MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3) ) ,
-        MSeqTranslator_ () .asMSeq (Seq (5 , 8) ) )
+      expected = MSeqPair .mk (MSeqTranslator .mk .asMSeq (Seq (0 , 1 , 1 , 2 , 3) ) ) (
+        MSeqTranslator .mk .asMSeq (Seq (5 , 8) ) )
     )
   )
 
   test ("append") (
     check (
-      obtained = Min_ () .appended (example) (13)
+      obtained = Min .mk .appended (example) (13)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (0 , 1 , 1 , 2 , 3 , 5 , 8 , 13) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (0 , 1 , 1 , 2 , 3 , 5 , 8 , 13) )
     )
   )
 
   test ("last") (
     check (
-      obtained = Min_ () .last (example)
+      obtained = Min .mk .last (example)
     ) (
       expected = 8
     )
@@ -294,10 +294,10 @@ case class MinSpec ()
 
   test ("concat") (
     check (
-      obtained = Min_ () .concat (example) (MSeqTranslator_ ()
+      obtained = Min .mk .concat (example) (MSeqTranslator .mk
         .asMSeq (Seq (13 , 21 , 34 , 55) ) )
     ) (
-      expected = MSeqTranslator_ ()
+      expected = MSeqTranslator .mk
         .asMSeq (Seq (0 , 1 , 1 , 2 , 3 , 5 , 8 , 13 , 21 , 34 , 55) )
     )
   )
@@ -352,15 +352,15 @@ case class MinSpec ()
 
   test ("slice 0") (
     check (
-      obtained = Min_ () .slice (example) (2) (5)
+      obtained = Min .mk .slice (example) (2) (5)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (1 , 2 , 3) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (1 , 2 , 3) )
     )
   )
 
   test ("slice 1") (
     check (
-      obtained = Min_ () .slice (example) (5) (2)
+      obtained = Min .mk .slice (example) (5) (2)
     ) (
       expected = empty
     )
@@ -368,7 +368,7 @@ case class MinSpec ()
 
   test ("slice 2") (
     check (
-      obtained = Min_ () .slice (example) (3) (3)
+      obtained = Min .mk .slice (example) (3) (3)
     ) (
       expected = empty
     )
@@ -376,7 +376,7 @@ case class MinSpec ()
 
   test ("slice 3") (
     check (
-      obtained = Min_ () .slice (example) (100) (5)
+      obtained = Min .mk .slice (example) (100) (5)
     ) (
       expected = empty
     )
@@ -384,7 +384,7 @@ case class MinSpec ()
 
   test ("slice 4") (
     check (
-      obtained = Min_ () .slice (example) (100) (200)
+      obtained = Min .mk .slice (example) (100) (200)
     ) (
       expected = empty
     )
@@ -392,7 +392,7 @@ case class MinSpec ()
 
   test ("slice 5") (
     check (
-      obtained = Min_ () .slice (example) (-100) (200)
+      obtained = Min .mk .slice (example) (-100) (200)
     ) (
       expected = example
     )
@@ -424,7 +424,7 @@ case class MinSpec ()
 
   test ("forall 0") (
     check (
-      obtained = Min_ () .forall (example) ( x => ! (x == 7) )
+      obtained = Min .mk .forall (example) ( x => ! (x == 7) )
     ) (
       expected = true
     )
@@ -432,7 +432,7 @@ case class MinSpec ()
 
   test ("forall 1") (
     check (
-      obtained = Min_ () .forall (example) ( x => x < 7)
+      obtained = Min .mk .forall (example) ( x => x < 7)
     ) (
       expected = false
     )
@@ -440,7 +440,7 @@ case class MinSpec ()
 
   test ("forall 2") (
     check (
-      obtained = Min_ () .forall (empty) ( x => x == 7)
+      obtained = Min .mk .forall (empty) ( x => x == 7)
     ) (
       expected = true
     )
@@ -472,7 +472,7 @@ case class MinSpec ()
 
   test ("exists 0") (
     check (
-      obtained = Min_ () .exists (example) ( x => x == 8)
+      obtained = Min .mk .exists (example) ( x => x == 8)
     ) (
       expected = true
     )
@@ -480,7 +480,7 @@ case class MinSpec ()
 
   test ("exists 1") (
     check (
-      obtained = Min_ () .exists (example) ( x => x == 7)
+      obtained = Min .mk .exists (example) ( x => x == 7)
     ) (
       expected = false
     )
@@ -488,7 +488,7 @@ case class MinSpec ()
 
   test ("exists 2") (
     check (
-      obtained = Min_ () .exists (empty) ( x => x == 7)
+      obtained = Min .mk .exists (empty) ( x => x == 7)
     ) (
       expected = false
     )
@@ -520,25 +520,25 @@ case class MinSpec ()
 
   test ("find 0") (
     check (
-      obtained = Min_ () .find (example) ( x => ! (x == 7) )
+      obtained = Min .mk .find (example) ( x => ! (x == 7) )
     ) (
-      expected = SomeSD_ (0)
+      expected = SomeSD .mk [Int] (0)
     )
   )
 
   test ("find 1") (
     check (
-      obtained = Min_ () .find (example) ( x => x == 8)
+      obtained = Min .mk .find (example) ( x => x == 8)
     ) (
-      expected = SomeSD_ (8)
+      expected = SomeSD .mk [Int] (8)
     )
   )
 
   test ("find 2") (
     check (
-      obtained = Min_ () .find (empty) ( x => x == 7)
+      obtained = Min .mk .find (empty) ( x => x == 7)
     ) (
-      expected = NoneSD_ ()
+      expected = NoneSD .mk
     )
   )
 
@@ -552,9 +552,9 @@ case class MinSpec ()
 
   test ("filter") (
     check (
-      obtained = Min_ () .filter (example) ( x => x % 3 == 0)
+      obtained = Min .mk .filter (example) ( x => x % 3 == 0)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (0 , 3) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (0 , 3) )
     )
   )
 
@@ -568,9 +568,9 @@ case class MinSpec ()
 
   test ("map in the same type") (
     check (
-      obtained = Min_ () .map0 (example) ( x => x + 100)
+      obtained = Min .mk .map0 (example) ( x => x + 100)
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (100 , 101 , 101 , 102 , 103 , 105 , 108) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (100 , 101 , 101 , 102 , 103 , 105 , 108) )
     )
   )
 
@@ -585,11 +585,11 @@ case class MinSpec ()
 
   test ("foldLeft in the same type") (
     check (
-      obtained = Min_ () .foldLeft0 (example) (Min_ () .empty) (
-          (s : MSeq [Int] ) =>  (e : Int) => Min_ () .prepended (s) (e + 100)
+      obtained = Min .mk .foldLeft0 (example) (Min .mk .empty) (
+          (s : MSeq [Int] ) =>  (e : Int) => Min .mk .prepended (s) (e + 100)
       )
     ) (
-      expected = MSeqTranslator_ () .asMSeq (Seq (108 , 105 , 103 , 102 , 101 , 101 , 100) )
+      expected = MSeqTranslator .mk .asMSeq (Seq (108 , 105 , 103 , 102 , 101 , 101 , 100) )
     )
   )
 

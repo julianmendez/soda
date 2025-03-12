@@ -91,13 +91,13 @@ class MSeqTranslator [A : Type]
       (next_value : B -> A -> B) : B =
     _tailrec_foldLeftSeq (sequence) (initial_value) (next_value)
 
-  _asMSeq_initial_value : MSeq [A] = Min_ () .empty
+  _asMSeq_initial_value : MSeq [A] = Min .mk .empty
 
   _asMSeq_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] =
-    Min_ () .prepended (acc) (elem)
+    Min .mk .prepended (acc) (elem)
 
   asMSeq (seq : Seq [A] ) : MSeq [A] =
-    Min_ () .reverse (
+    Min .mk .reverse (
       foldLeftSeq [MSeq [A] ] (seq) (_asMSeq_initial_value) (_asMSeq_next_value) )
 
   _asSeq_initial_value : Seq [A] = Seq ()
@@ -106,7 +106,7 @@ class MSeqTranslator [A : Type]
     acc .+: (elem)
 
   asSeq (mseq : MSeq [A] ) : Seq [A] =
-    (Min_ () .foldLeft (mseq) (_asSeq_initial_value) (_asSeq_next_value) ) .reverse
+    (Min .mk .foldLeft (mseq) (_asSeq_initial_value) (_asSeq_next_value) ) .reverse
 
 end
 
@@ -123,14 +123,14 @@ class Min [A : Type]
   abstract
 
   import
-    soda.lib.NoneSD_
+    soda.lib.NoneSD
     soda.lib.OptionSD
-    soda.lib.SomeSD_
+    soda.lib.SomeSD
 
-  empty : ESeq [A] = ESeq_ ()
+  empty : ESeq [A] = ESeq .mk
 
   prepended (s : MSeq [A] ) (e : A) : NESeq [A] =
-    NESeq_ (e , s)
+    NESeq .mk (e) (s)
 
   head (s : NESeq [A] ) : A =
     s .head
@@ -163,7 +163,7 @@ class Min [A : Type]
 
   reverse (s : MSeq [A] ) : MSeq [A] =
     match s
-      case NESeq_ (head) (tail) ==> reverseNonEmpty (NESeq_ (head) (tail) )
+      case NESeq_ (head) (tail) ==> reverseNonEmpty (NESeq .mk (head) (tail) )
       case _otherwise ==> empty
 
   _length_initial_value : Int = 0
@@ -174,12 +174,8 @@ class Min [A : Type]
   length (s : MSeq [A] ) : Int =
     foldLeft (s) (_length_initial_value) (_length_next_value)
 
-  _mk_IndexFoldTuple [A : Type] (index : Int) (position : Int) (element : A)
-      : IndexFoldTuple [A] =
-    IndexFoldTuple_ (index) (position) (element)
-
   _indexOf_initial_value (element : A) : IndexFoldTuple [A] =
-    _mk_IndexFoldTuple (0) (-1) (element)
+    IndexFoldTuple .mk (0) (-1) (element)
 
   _get_index_if_element_found (tuple : IndexFoldTuple [A] ) (current_element : A) : Int =
     if current_element == tuple .element
@@ -187,7 +183,7 @@ class Min [A : Type]
     else tuple .position
 
   _indexOf_next_value (tuple : IndexFoldTuple [A] ) (current_element : A) : IndexFoldTuple [A] =
-    _mk_IndexFoldTuple (
+    IndexFoldTuple .mk (
       tuple .index + 1) (
       _get_index_if_element_found (tuple) (current_element) ) (
       tuple .element
@@ -201,10 +197,10 @@ class Min [A : Type]
       _indexOf_condition) ) .position
 
   _contains_initial_value (element : A) : ContainsFoldTuple [A] =
-    ContainsFoldTuple_ (false) (element)
+    ContainsFoldTuple .mk (false) (element)
 
   _contains_next_value (tuple : ContainsFoldTuple [A] ) (elem : A) : ContainsFoldTuple [A] =
-    ContainsFoldTuple_ (elem == tuple .element) (tuple .element)
+    ContainsFoldTuple .mk (elem == tuple .element) (tuple .element)
 
   _contains_condition (tuple : ContainsFoldTuple [A] ) (elem : A) : Boolean =
     not tuple .contained
@@ -228,25 +224,21 @@ class Min [A : Type]
 
    _retrieve_if_in_range (xs : NESeq [A] ) (n : Int) : OptionSD [A] =
      if n < 0 or n >= length (xs)
-     then NoneSD_ [A] ()
-     else SomeSD_ [A] (_atNonEmpty (xs) (n) )
+     then NoneSD .mk [A]
+     else SomeSD .mk [A] (_atNonEmpty (xs) (n) )
 
   at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     match s
-      case NESeq_ (head) (tail) ==> _retrieve_if_in_range (NESeq_ (head) (tail) ) (n)
-      case _otherwise ==> NoneSD_ [A] ()
+      case NESeq_ (head) (tail) ==> _retrieve_if_in_range (NESeq .mk (head) (tail) ) (n)
+      case _otherwise ==> NoneSD .mk [A]
 
   /* */
 
-  _mk_TakeDropFoldTuple [A : Type] (seq : MSeq [A] ) (index : Int) (length : Int)
-      : TakeDropFoldTuple [A] =
-    TakeDropFoldTuple_ (seq) (index) (length)
-
   _take_initial_value (length : Int ) : TakeDropFoldTuple [A] =
-    _mk_TakeDropFoldTuple [A] (empty) (0) (length)
+    TakeDropFoldTuple .mk [A] (empty) (0) (length)
 
   _take_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
-    _mk_TakeDropFoldTuple [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1) (
+    TakeDropFoldTuple .mk [A] (prepended (tuple .seq) (elem) ) (tuple .index + 1) (
       tuple .length)
 
   _take_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
@@ -257,13 +249,13 @@ class Min [A : Type]
       _take_next_value) (_take_condition) ) .seq )
 
   _drop_initial_value (s : MSeq [A] ) (length : Int) : TakeDropFoldTuple [A] =
-    _mk_TakeDropFoldTuple [A] (s) (0) (length)
+    TakeDropFoldTuple .mk [A] (s) (0) (length)
 
   _drop_next_value (tuple : TakeDropFoldTuple [A] ) (elem : A) : TakeDropFoldTuple [A] =
     match (tuple .seq)
-      case NESeq_ (head) (tail) ==> _mk_TakeDropFoldTuple [A] (tail) (tuple .index + 1) (
+      case NESeq_ (head) (tail) ==> TakeDropFoldTuple .mk [A] (tail) (tuple .index + 1) (
         tuple .length)
-      case _otherwise ==> _mk_TakeDropFoldTuple [A] (tuple .seq) (tuple .index + 1) (
+      case _otherwise ==> TakeDropFoldTuple .mk [A] (tuple .seq) (tuple .index + 1) (
         tuple .length)
 
   _drop_condition (tuple : TakeDropFoldTuple [A] ) (elem : A) : Boolean =
@@ -275,19 +267,15 @@ class Min [A : Type]
 
   /* */
 
-  _mk_SpanRevFoldTuple [A : Type] (left : MSeq [A] ) (right : MSeq [A] ) (taking : Boolean)
-      (condition : A -> Boolean) : SpanRevFoldTuple [A] =
-    SpanRevFoldTuple_ (left) (right) (taking) (condition)
-
   _spanRevRec_initial_value (s0 : MSeq [A] ) (condition : A -> Boolean) : SpanRevFoldTuple [A] =
-    _mk_SpanRevFoldTuple [A] (s0) (empty) (true) (condition)
+    SpanRevFoldTuple .mk [A] (s0) (empty) (true) (condition)
 
   _aux_next_value_for (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] )
       (new_taking : Boolean) : SpanRevFoldTuple [A] =
     if new_taking
-    then _mk_SpanRevFoldTuple [A] (neleft .tail) (prepended (tuple .right) (neleft .head) ) (
+    then SpanRevFoldTuple .mk [A] (neleft .tail) (prepended (tuple .right) (neleft .head) ) (
       new_taking) (tuple .condition)
-    else _mk_SpanRevFoldTuple [A] (neleft) (tuple .right) (new_taking) (tuple .condition)
+    else SpanRevFoldTuple .mk [A] (neleft) (tuple .right) (new_taking) (tuple .condition)
 
   _aux_next_value (tuple : SpanRevFoldTuple [A] ) (neleft : NESeq [A] ) : SpanRevFoldTuple [A] =
     _aux_next_value_for (tuple) (neleft) (tuple .condition (neleft .head) )
@@ -296,13 +284,13 @@ class Min [A : Type]
     match (tuple .left)
       case NESeq_ (head) (tail) ==> _aux_next_value (tuple) (NESeq_ (head) (tail) )
       case _otherwise ==>
-        _mk_SpanRevFoldTuple [A] (tuple .left) (tuple .right) (false) (tuple .condition)
+        SpanRevFoldTuple .mk [A] (tuple .left) (tuple .right) (false) (tuple .condition)
 
   _spanRevRec_condition (tuple : SpanRevFoldTuple [A] ) (elem : A) : Boolean =
     tuple .taking
 
   _spanRevRec_for (tuple: SpanRevFoldTuple [A] ) : MSeqPair [A] =
-    MSeqPair_ (tuple .right) (tuple .left)
+    MSeqPair .mk (tuple .right) (tuple .left)
 
   spanRevRec (s0 : MSeq [A] ) (p : A -> Boolean) : MSeqPair [A] =
     _spanRevRec_for (foldLeftWhile (s0) (_spanRevRec_initial_value (s0) (p) ) (
@@ -315,10 +303,10 @@ class Min [A : Type]
     (spanRevRec (s) (p) ) .right
 
   splitAt (s : MSeq [A] ) (n : Int) : MSeqPair [A] =
-    MSeqPair_ (take (s) (n) ) (drop (s) (n) )
+    MSeqPair .mk (take (s) (n) ) (drop (s) (n) )
 
   _span_with (s : MSeq [A] ) (p : A -> Boolean) (pair : MSeqPair [A] ) : MSeqPair [A] =
-    MSeqPair_ (reverse (pair .left) ) (pair .right)
+    MSeqPair .mk (reverse (pair .left) ) (pair .right)
 
   span (s : MSeq [A] ) (p : A -> Boolean) : MSeqPair [A] =
     _span_with (s) (p) (spanRevRec (s) (p) )
@@ -343,16 +331,12 @@ class Min [A : Type]
 
   /* */
 
-  _mk_ForallExistsFoldTuple [A : Type] (status : Boolean) (condition : A -> Boolean)
-      : ForallExistsFoldTuple [A] =
-    ForallExistsFoldTuple_ (status) (condition)
-
   _forall_initial_value (condition : A -> Boolean ) : ForallExistsFoldTuple [A] =
-    _mk_ForallExistsFoldTuple (true) (condition)
+    ForallExistsFoldTuple .mk (true) (condition)
 
   _forall_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A)
       : ForallExistsFoldTuple [A] =
-    _mk_ForallExistsFoldTuple (tuple .status and tuple .condition (elem) ) (tuple .condition)
+    ForallExistsFoldTuple .mk (tuple .status and tuple .condition (elem) ) (tuple .condition)
 
   _forall_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
     tuple .status
@@ -362,11 +346,11 @@ class Min [A : Type]
       .status
 
   _exists_initial_value (condition : A -> Boolean ) : ForallExistsFoldTuple [A] =
-    _mk_ForallExistsFoldTuple (false) (condition)
+    ForallExistsFoldTuple .mk (false) (condition)
 
   _exists_next_value (tuple : ForallExistsFoldTuple [A] ) (elem : A)
       : ForallExistsFoldTuple [A] =
-    _mk_ForallExistsFoldTuple (tuple .status or tuple .condition (elem) ) (tuple .condition)
+    ForallExistsFoldTuple .mk (tuple .status or tuple .condition (elem) ) (tuple .condition)
 
   _exists_condition (tuple : ForallExistsFoldTuple [A] ) (elem : A) : Boolean =
     not tuple .status
@@ -375,17 +359,13 @@ class Min [A : Type]
     (foldLeftWhile (s) (_exists_initial_value (p) ) (_exists_next_value) (_exists_condition) )
       .status
 
-  _mk_FindFoldTuple [A : Type] (maybe_element : soda.lib.OptionSD [A] ) (
-      condition : A -> Boolean) : FindFoldTuple [A] =
-    FindFoldTuple_ (maybe_element) (condition)
-
   _find_initial_value (condition : A -> Boolean) : FindFoldTuple [A] =
-    _mk_FindFoldTuple (NoneSD_ [A] () ) (condition)
+    FindFoldTuple .mk (NoneSD .mk [A] ) (condition)
 
   _find_next_value (tuple : FindFoldTuple [A] ) (elem : A) : FindFoldTuple [A] =
     if tuple .condition (elem)
-    then _mk_FindFoldTuple (SomeSD_ [A] (elem) ) (tuple .condition)
-    else _mk_FindFoldTuple (NoneSD_ [A] () ) (tuple .condition)
+    then FindFoldTuple .mk (SomeSD .mk [A] (elem) ) (tuple .condition)
+    else FindFoldTuple .mk (NoneSD .mk [A] ) (tuple .condition)
 
   _find_condition (tuple : FindFoldTuple [A] ) (elem : A) : Boolean =
     tuple .maybe_element .isEmpty
@@ -395,7 +375,7 @@ class Min [A : Type]
       .maybe_element
 
   _filter_initial_value (condition : A -> Boolean) : FilterFoldTuple [A] =
-    FilterFoldTuple_ (empty) (condition)
+    FilterFoldTuple .mk (empty) (condition)
 
   _prepend_when_condition (tuple : FilterFoldTuple [A] ) (elem : A) :  MSeq [A] =
     if tuple .condition (elem)
@@ -403,16 +383,16 @@ class Min [A : Type]
     else tuple .sequence
 
   _filter_next_value (tuple : FilterFoldTuple [A] ) (elem : A) :  FilterFoldTuple [A] =
-    FilterFoldTuple_ (_prepend_when_condition (tuple) (elem) ) (tuple .condition)
+    FilterFoldTuple .mk (_prepend_when_condition (tuple) (elem) ) (tuple .condition)
 
   filter (s : MSeq [A] ) (p : A -> Boolean) : MSeq [A] =
     reverse ( (foldLeft (s) (_filter_initial_value (p) ) (_filter_next_value) ) .sequence )
 
   _map0_initial_value (mapping : A -> A) : Map0FoldTuple [A] =
-    Map0FoldTuple_ (empty) (mapping)
+    Map0FoldTuple .mk (empty) (mapping)
 
   _map0_next_value (tuple : Map0FoldTuple [A] ) (elem : A) : Map0FoldTuple [A] =
-    Map0FoldTuple_ (prepended (tuple .sequence) (tuple .mapping (elem) ) ) (tuple .mapping)
+    Map0FoldTuple .mk (prepended (tuple .sequence) (tuple .mapping (elem) ) ) (tuple .mapping)
 
   map0 (s : MSeq [A] ) (f : A -> A) : MSeq [A] =
     reverse ( (foldLeft (s) (_map0_initial_value (f) ) (_map0_next_value) ) .sequence)

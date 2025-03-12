@@ -14,7 +14,7 @@ trait FizzBuzz
 
   lazy val buzz = "Buzz"
 
-  lazy val range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range .mk
 
   def is_div (n : Int) (k : Int) : Boolean =
     n % k == 0
@@ -49,7 +49,7 @@ trait FizzBuzzPatternMatching
 
   lazy val buzz = "Buzz"
 
-  lazy val range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range .mk
 
   def get_term (n : Int) : String =
     Tuple2 (n % 3 , n % 5) match  {
@@ -83,7 +83,7 @@ trait FizzBuzzPatternUnicode
 
   lazy val buzz = "Buzz"
 
-  lazy val range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range .mk
 
   def get_term (n : Int) : String =
     Tuple2 (n % 3 , n % 5) match  {
@@ -217,9 +217,9 @@ trait PatternMatching
 
   def get_type_name (p : Parameter) : String =
     p match  {
-      case Singleton_ (x) => (Singleton_ (x) ) .name + " (x)"
-      case Pair_ (x, y) => (Pair_ (x, y) ) .name + " (x) (y)"
-      case Triplet_ (x, y, z) => (Triplet_ (x, y, z) ) .name + " (x) (y) (z)"
+      case Singleton_ (x) => (Singleton .mk (x) ) .name + " (x)"
+      case Pair_ (x, y) => (Pair .mk (x) (y) ) .name + " (x) (y)"
+      case Triplet_ (x, y, z) => (Triplet .mk (x) (y) (z) ) .name + " (x) (y) (z)"
       case _otherwise => ""
     }
 
@@ -294,7 +294,7 @@ trait ScalaReservedWordEscaping
 
   private lazy val __soda__val = 1
 
-  def g [A , B ] (key : A) (value : B) : MyPair [A, B] = MyPair_ (key , value)
+  def g [A , B ] (key : A) (value : B) : MyPair [A, B] = MyPair .mk (key) (value)
 
   private def __soda__while [A , B ] (seq : Seq [A] ) (cond : A => Boolean) (func : A => B) : Seq [B] =
     seq .takeWhile (cond) .map (func)
@@ -404,9 +404,9 @@ trait SortAlgorithmExampleWithFold
 
 
 
-  import   soda.lib.Fold_
+  import   soda.lib.Fold
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
   private lazy val _initial_value = Seq [Int] ()
 
@@ -447,16 +447,16 @@ trait ConstrainedSortAlgorithm
 
 
   import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.lib.NoneSD_
+  import   soda.lib.SomeSD
+  import   soda.lib.NoneSD
 
   def sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    if ( SortExampleWithZip_ () .is_sorted (sorted_sequence)
-    ) SomeSD_ (sorted_sequence)
-    else NoneSD_ [Seq [Int] ] ()
+    if ( SortExampleWithZip .mk .is_sorted (sorted_sequence)
+    ) SomeSD .mk (sorted_sequence)
+    else NoneSD .mk [Seq [Int] ]
 
   def sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )
+    sort_with (SortAlgorithmExampleWithFold .mk .sort (sequence) )
 
 }
 
@@ -493,7 +493,7 @@ trait EmptySortedSequence [A <: Comparable [A] ]
   lazy val sequence = Seq ()
 
   def add_for (element : A) : SortedSequence [A] =
-    NonEmptySortedSequence_ (Seq (element) )
+    NonEmptySortedSequence .mk (Seq (element) )
 
   lazy val add : A => SortedSequence [A] =
      element => add_for (element)
@@ -537,7 +537,7 @@ trait NonEmptySortedSequence [A <: Comparable [A] ]
   lazy val aux = NonEmptySortedSequenceAux_ [A] ()
 
   def add_for (element : A) : SortedSequence [A] =
-    NonEmptySortedSequence_ (aux .insert_sorted (sequence) (element) )
+    NonEmptySortedSequence .mk (aux .insert_sorted (sequence) (element) )
 
   lazy val add : A => SortedSequence [A] =
      element => add_for (element)
@@ -590,9 +590,9 @@ trait SortedSequenceBuilder [A <: Comparable [A] ]
 
 
 
-  import   soda.lib.Fold_
+  import   soda.lib.Fold
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
   private lazy val _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 

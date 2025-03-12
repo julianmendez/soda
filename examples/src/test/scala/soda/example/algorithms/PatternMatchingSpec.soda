@@ -6,11 +6,11 @@ class PatternMatchingSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  instance = PatternMatching_ ()
+  instance : PatternMatching = PatternMatching .mk
 
   test ("get value and name of singleton - 1") (
     check (
-      obtained := instance .get_value (Singleton_ (5) )
+      obtained := instance .get_value (Singleton .mk (5) )
     ) (
       expected := 5
     )
@@ -18,7 +18,7 @@ class PatternMatchingSpec ()
 
   test ("get value and name of singleton - 2") (
     check (
-      obtained := instance .get_type_name (Singleton_ (5) )
+      obtained := instance .get_type_name (Singleton .mk (5) )
     ) (
       expected := "singleton (x)"
     )
@@ -26,7 +26,7 @@ class PatternMatchingSpec ()
 
   test ("get value and name of pair - 1") (
     check (
-      obtained := instance .get_value (Pair_ (10) (100) )
+      obtained := instance .get_value (Pair .mk (10) (100) )
     ) (
       expected := 55
     )
@@ -34,7 +34,7 @@ class PatternMatchingSpec ()
 
   test ("get value and name of pair - 2") (
     check (
-      obtained := instance .get_type_name (Pair_ (10) (100) )
+      obtained := instance .get_type_name (Pair .mk (10) (100) )
     ) (
       expected := "pair (x) (y)"
     )
@@ -42,7 +42,7 @@ class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 1") (
     check (
-      obtained := instance .get_value (Triplet_ (9) (100) (890) )
+      obtained := instance .get_value (Triplet .mk (9) (100) (890) )
     ) (
       expected := 333
     )
@@ -50,7 +50,7 @@ class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 2") (
     check (
-      obtained := instance .get_type_name (Triplet_ (9) (100) (890) )
+      obtained := instance .get_type_name (Triplet .mk (9) (100) (890) )
     ) (
       expected := "triplet (x) (y) (z)"
     )

@@ -25,9 +25,9 @@ case class FizzBuzzSpec ()
     "91" , "92" , "Fizz" , "94" , "Buzz" , "Fizz" , "97" , "98" , "Fizz" , "Buzz"
   )
 
-  private lazy val _fizz_buzz = FizzBuzz_ ()
+  private lazy val _fizz_buzz = FizzBuzz .mk
 
-  private lazy val _fizz_buzz_pattern_matching = FizzBuzzPatternMatching_ ()
+  private lazy val _fizz_buzz_pattern_matching : FizzBuzzPatternMatching = FizzBuzzPatternMatching .mk
 
   test ("first elements of FizzBuzz") (
     check (
@@ -56,11 +56,11 @@ case class PatternMatchingSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val instance = PatternMatching_ ()
+  lazy val instance : PatternMatching = PatternMatching .mk
 
   test ("get value and name of singleton - 1") (
     check (
-      obtained = instance .get_value (Singleton_ (5) )
+      obtained = instance .get_value (Singleton .mk (5) )
     ) (
       expected = 5
     )
@@ -68,7 +68,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of singleton - 2") (
     check (
-      obtained = instance .get_type_name (Singleton_ (5) )
+      obtained = instance .get_type_name (Singleton .mk (5) )
     ) (
       expected = "singleton (x)"
     )
@@ -76,7 +76,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 1") (
     check (
-      obtained = instance .get_value (Pair_ (10, 100) )
+      obtained = instance .get_value (Pair .mk (10) (100) )
     ) (
       expected = 55
     )
@@ -84,7 +84,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of pair - 2") (
     check (
-      obtained = instance .get_type_name (Pair_ (10, 100) )
+      obtained = instance .get_type_name (Pair .mk (10) (100) )
     ) (
       expected = "pair (x) (y)"
     )
@@ -92,7 +92,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 1") (
     check (
-      obtained = instance .get_value (Triplet_ (9, 100, 890) )
+      obtained = instance .get_value (Triplet .mk (9) (100) (890) )
     ) (
       expected = 333
     )
@@ -100,7 +100,7 @@ case class PatternMatchingSpec ()
 
   test ("get value and name of triplet - 2") (
     check (
-      obtained = instance .get_type_name (Triplet_ (9, 100, 890) )
+      obtained = instance .get_type_name (Triplet .mk (9) (100) (890) )
     ) (
       expected = "triplet (x) (y) (z)"
     )
@@ -132,7 +132,7 @@ trait SaladIngredientConstant
 
 
   private def _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
-    SaladIngredient_ (ordinal, name)
+    SaladIngredient .mk (ordinal) (name)
 
   lazy val tomato = _mk_SaladIngredient (1) ("tomato")
 
@@ -170,7 +170,7 @@ case class SaladMakerSpec ()
       (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
-  private lazy val _salad_maker = SaladMaker_ ()
+  private lazy val _salad_maker = SaladMaker .mk
 
   test ("salad maker") (
     check (
@@ -193,7 +193,7 @@ case class SortExampleSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.lib.SomeSD_
+  import   soda.lib.SomeSD
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -204,7 +204,7 @@ case class SortExampleSpec ()
 
   test ("test sorted sequence with at") (
     check (
-      obtained = SortExampleWithAt_ () .is_sorted (sorted_sequence)
+      obtained = SortExampleWithAt .mk .is_sorted (sorted_sequence)
     ) (
       expected = true
     )
@@ -212,7 +212,7 @@ case class SortExampleSpec ()
 
   test ("test unsorted sequence with at") (
     check (
-      obtained = SortExampleWithAt_ () .is_sorted (unsorted_sequence)
+      obtained = SortExampleWithAt .mk .is_sorted (unsorted_sequence)
     ) (
       expected = false
     )
@@ -220,7 +220,7 @@ case class SortExampleSpec ()
 
   test ("test sorted sequence with zip") (
     check (
-      obtained = SortExampleWithZip_ () .is_sorted (sorted_sequence)
+      obtained = SortExampleWithZip .mk .is_sorted (sorted_sequence)
     ) (
       expected = true
     )
@@ -228,7 +228,7 @@ case class SortExampleSpec ()
 
   test ("test unsorted sequence with zip") (
     check (
-      obtained = SortExampleWithZip_ () .is_sorted (unsorted_sequence)
+      obtained = SortExampleWithZip .mk .is_sorted (unsorted_sequence)
     ) (
       expected = false
     )
@@ -236,7 +236,7 @@ case class SortExampleSpec ()
 
   test ("insert sorted simple") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ ()
+      obtained = SortAlgorithmExampleWithFold .mk
         .insert_sorted (Seq (1 , 2 , 3 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 6 , 8 , 9)
@@ -245,7 +245,7 @@ case class SortExampleSpec ()
 
   test ("insert sorted with repetition") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ ()
+      obtained = SortAlgorithmExampleWithFold .mk
         .insert_sorted (Seq (1 , 2 , 3 , 5 , 6 , 8 , 9) ) (5)
     ) (
       expected = Seq (1 , 2 , 3 , 5 , 5 , 6 , 8 , 9)
@@ -254,7 +254,7 @@ case class SortExampleSpec ()
 
   test ("sort unsorted sequence") (
     check (
-      obtained = SortAlgorithmExampleWithFold_ () .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
+      obtained = SortAlgorithmExampleWithFold .mk .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
     ) (
       expected = Seq (1 , 3 , 4 , 5 , 8 , 9)
     )
@@ -262,16 +262,16 @@ case class SortExampleSpec ()
 
   test ("sort unsorted sequence applying constraints to verify correctness") (
     check (
-      obtained = ConstrainedSortAlgorithm_ () .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
+      obtained = ConstrainedSortAlgorithm .mk .sort (Seq (3 , 5 , 1 , 9 , 8 , 4) )
     ) (
-      expected = SomeSD_ (Seq (1 , 3 , 4 , 5 , 8 , 9) )
+      expected = SomeSD .mk [Seq [Int] ] (Seq (1 , 3 , 4 , 5 , 8 , 9) )
     )
   )
 
   test ("sort unsorted sequence with SortedSequenceBuilder") (
     check (
       obtained =
-        SortedSequenceBuilder_ [Integer] ()
+        SortedSequenceBuilder .mk [Integer]
           .build (Seq (3 , 5 , 1 , 9 , 8 , 4) .map ( x => Integer .valueOf (x) ) )
           .sequence
           .map ( x => x .intValue)

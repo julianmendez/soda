@@ -14,7 +14,7 @@ case class ListExampleSpec ()
 
   test ("should test a") (
     check (
-      obtained = ListExample_ () .a_example
+      obtained = ListExample .mk .a_example
     ) (
       expected = Pair .mk ("a") (List ('A' , 'B' , 'C' , 'D' , 'E' , 'F') )
     )
@@ -22,7 +22,7 @@ case class ListExampleSpec ()
 
   test ("should test b") (
     check (
-      obtained = ListExample_ () .b_example
+      obtained = ListExample .mk .b_example
     ) (
       expected = Pair .mk ("b") (List (10 , 20 , 30 , 40 , 50 , 60) )
     )
@@ -30,7 +30,7 @@ case class ListExampleSpec ()
 
   test ("should test a .take") (
     check (
-      obtained = ListExample_ () .take_example
+      obtained = ListExample .mk .take_example
     ) (
       expected = Pair .mk ("a .take (3)") (List ('A' , 'B' , 'C') )
     )
@@ -38,7 +38,7 @@ case class ListExampleSpec ()
 
   test ("should test a .takeRight") (
     check (
-      obtained = ListExample_ () .takeRight_example
+      obtained = ListExample .mk .takeRight_example
     ) (
       expected = Pair .mk ("a .takeRight (3)") (List ('D' , 'E' , 'F') )
     )
@@ -46,7 +46,7 @@ case class ListExampleSpec ()
 
   test ("should test a .takeWhile") (
     check (
-      obtained = ListExample_ () .takeWhile_example
+      obtained = ListExample .mk .takeWhile_example
     ) (
       expected = Pair .mk ("a .takeWhile (lambda x --> not (x == 'E') )") (
         List ('A' , 'B' , 'C' , 'D') )
@@ -55,7 +55,7 @@ case class ListExampleSpec ()
 
   test ("should test a .drop") (
     check (
-      obtained = ListExample_ () .drop_example
+      obtained = ListExample .mk .drop_example
     ) (
       expected = Pair .mk ("a .drop (2)") (List ('C' , 'D' , 'E' , 'F') )
     )
@@ -63,7 +63,7 @@ case class ListExampleSpec ()
 
   test ("should test a .dropRight") (
     check (
-      obtained = ListExample_ () .dropRight_example
+      obtained = ListExample .mk .dropRight_example
     ) (
      expected = Pair .mk ("a .dropRight (2)") (List ('A' , 'B' , 'C' , 'D') )
     )
@@ -71,7 +71,7 @@ case class ListExampleSpec ()
 
   test ("should test a .dropWhile") (
     check (
-      obtained = ListExample_ () .dropWhile_example
+      obtained = ListExample .mk .dropWhile_example
     ) (
       expected = Pair .mk ("a .dropWhile (lambda x --> not (x == 'E'))") (List ('E' , 'F') )
     )
@@ -79,7 +79,7 @@ case class ListExampleSpec ()
 
   test ("should test a .splitAt") (
     check (
-      obtained = ListExample_ () .splitAt_example
+      obtained = ListExample .mk .splitAt_example
     ) (
       expected = Pair .mk ("a .splitAt (3)") ( (List ('A' , 'B' , 'C') ,
         List ('D' , 'E' , 'F') )
@@ -89,7 +89,7 @@ case class ListExampleSpec ()
 
   test ("should test a .indices") (
     check (
-      obtained = ListExample_ () .indices_example
+      obtained = ListExample .mk .indices_example
     ) (
       expected = Pair .mk ("a .indices") (Range (0 , 6) )
     )
@@ -97,7 +97,7 @@ case class ListExampleSpec ()
 
   test ("should test a .zipWithIndex") (
     check (
-      obtained = ListExample_ () .zipWithIndex_example
+      obtained = ListExample .mk .zipWithIndex_example
     ) (
       expected = Pair .mk ("a .zipWithIndex") (List (('A' , 0) , ('B' , 1) , ('C' , 2) ,
        ('D' , 3) , ('E' , 4) , ('F', 5) ) )
@@ -106,7 +106,7 @@ case class ListExampleSpec ()
 
   test ("should test a .zip") (
     check (
-      obtained = ListExample_ () .zip_example
+      obtained = ListExample .mk .zip_example
     ) (
       expected = Pair .mk ("a .zip (b)") (List (('A' , 10) , ('B' , 20) , ('C' , 30) ,
         ('D' , 40) , ('E' , 50) , ('F' , 60) ) )
@@ -115,7 +115,7 @@ case class ListExampleSpec ()
 
   test ("should test a .reverse") (
     check (
-      obtained = ListExample_ () .reverse_example
+      obtained = ListExample .mk .reverse_example
     ) (
       expected = Pair .mk ("a .reverse") (List ('F' , 'E' , 'D' , 'C' , 'B' , 'A') )
     )
@@ -123,7 +123,7 @@ case class ListExampleSpec ()
 
   test ("should test a .+") (
     check (
-      obtained = ListExample_ () .prepended_example
+      obtained = ListExample .mk .prepended_example
     ) (
       expected = Pair .mk ("a .+: ('X')") (List ('X' , 'A' , 'B' , 'C' , 'D' , 'E' , 'F') )
     )
@@ -131,7 +131,7 @@ case class ListExampleSpec ()
 
   test ("should test a .:") (
     check (
-      obtained = ListExample_ () .appended_example
+      obtained = ListExample .mk .appended_example
     ) (
       expected = Pair .mk ("a .:+ ('X')") (List ('A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'X') )
     )
@@ -139,7 +139,7 @@ case class ListExampleSpec ()
 
   test ("should test a .++") (
     check (
-      obtained = ListExample_ () .concat_example
+      obtained = ListExample .mk .concat_example
     ) (
       expected = Pair .mk ("a .map (lambda x --> x .toInt) .++ (b)") (
         List (65 , 66 , 67 , 68 , 69 , 70 , 10 , 20 , 30 , 40 , 50 , 60) )
@@ -148,7 +148,7 @@ case class ListExampleSpec ()
 
   test ("should test a .span") (
     check (
-      obtained = ListExample_ () .span_example
+      obtained = ListExample .mk .span_example
     ) (
       expected = Pair .mk ("a .span (lambda x --> not (x == 'D') )") (
         (List ('A' , 'B' , 'C') , List ('D' , 'E' , 'F') )
@@ -158,7 +158,7 @@ case class ListExampleSpec ()
 
   test ("should test a .map") (
     check (
-      obtained = ListExample_ () .map_example
+      obtained = ListExample .mk .map_example
     ) (
       expected = Pair .mk ("a .map (lambda x --> x .toInt)") (
         List (65 , 66 , 67 , 68 , 69 , 70)
@@ -168,7 +168,7 @@ case class ListExampleSpec ()
 
   test ("should test a .filter") (
     check (
-      obtained = ListExample_ () .filter_example
+      obtained = ListExample .mk .filter_example
     ) (
       expected = Pair .mk ("a .filter (lambda x --> x .toInt % 2 == 0)") (
         List ('B' , 'D' , 'F')
@@ -178,7 +178,7 @@ case class ListExampleSpec ()
 
   test ("should test b .fold") (
     check (
-      obtained = ListExample_ () .fold_example
+      obtained = ListExample .mk .fold_example
     ) (
       expected = Pair .mk ("b .fold(0) (lambda (a , b) --> a + b)") (210)
     )
@@ -186,7 +186,7 @@ case class ListExampleSpec ()
 
   test ("should test a .foldLeft") (
     check (
-      obtained = ListExample_ () .foldLeft_example
+      obtained = ListExample .mk .foldLeft_example
     ) (
       expected = Pair .mk ("a .foldLeft (Seq ('*') ) (lambda (list , elem) -->" +
         " \"(\" + list + \" :+ \" + elem + \")\")") (
@@ -196,7 +196,7 @@ case class ListExampleSpec ()
 
   test ("should test a .foldRight") (
     check (
-      obtained = ListExample_ () .foldRight_example
+      obtained = ListExample .mk .foldRight_example
     ) (
       expected = Pair .mk ("a .foldRight (Seq ('*') ) (lambda (elem , list) -->" +
         " \"(\" + elem + \" +: \" + list + \")\")") (

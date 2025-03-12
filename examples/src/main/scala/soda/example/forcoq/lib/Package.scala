@@ -149,7 +149,7 @@ trait S
 
   def   k : nat
 
-  lazy val t = IntNat_ ()
+  lazy val t : IntNat = IntNat .mk
 
   lazy val add : nat => nat =
      a => add_for (a)
@@ -177,9 +177,9 @@ trait IntNat
 
 
 
-  import   soda.lib.NoneSD_
+  import   soda.lib.NoneSD
   import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
+  import   soda.lib.SomeSD
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -193,8 +193,8 @@ trait IntNat
 
   def from_Int (a : Int) : OptionSD [nat] =
     if ( a < 0
-    ) NoneSD_ [nat] ()
-    else SomeSD_ [nat] (from_non_negative (a) )
+    ) NoneSD .mk [nat]
+    else SomeSD .mk [nat] (from_non_negative (a) )
 
   def to_Int (a : nat) : Int =
     a match  {

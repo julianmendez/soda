@@ -11,7 +11,7 @@ class FiboExampleSpec ()
    (9 , 34) , (10 , 55)
   )
 
-  _fibo_example_in_soda = FiboExampleInSoda_ ()
+  _fibo_example_in_soda = FiboExampleInSoda .mk
 
   test ("should test the fibonacci function") (
     check (
@@ -23,7 +23,7 @@ class FiboExampleSpec ()
     )
   )
 
-  _fibo_alternative_example_in_soda = FiboAlternativeExampleInSoda_ ()
+  _fibo_alternative_example_in_soda = FiboAlternativeExampleInSoda .mk
 
   test ("should test an alternative implementation of the fibonacci function") (
     check (

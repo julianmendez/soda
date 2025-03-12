@@ -19,9 +19,9 @@ class FizzBuzzSpec ()
     "91" , "92" , "Fizz" , "94" , "Buzz" , "Fizz" , "97" , "98" , "Fizz" , "Buzz"
   )
 
-  _fizz_buzz = FizzBuzz_ ()
+  _fizz_buzz = FizzBuzz .mk
 
-  _fizz_buzz_pattern_matching = FizzBuzzPatternMatching_ ()
+  _fizz_buzz_pattern_matching : FizzBuzzPatternMatching = FizzBuzzPatternMatching .mk
 
   test ("first elements of FizzBuzz") (
     check (

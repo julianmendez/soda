@@ -34,7 +34,7 @@ class S
   abstract
     k : nat
 
-  t = IntNat_ ()
+  t : IntNat = IntNat .mk
 
   add : nat -> nat =
     lambda a --> add_for (a)
@@ -55,9 +55,9 @@ class IntNat
   abstract
 
   import
-    soda.lib.NoneSD_
+    soda.lib.NoneSD
     soda.lib.OptionSD
-    soda.lib.SomeSD_
+    soda.lib.SomeSD
 
   @tailrec
   _tailrec_from_non_negative (a : Int) (b : nat) : nat =
@@ -70,8 +70,8 @@ class IntNat
 
   from_Int (a : Int) : OptionSD [nat] =
     if a < 0
-    then NoneSD_ [nat] ()
-    else SomeSD_ [nat] (from_non_negative (a) )
+    then NoneSD .mk [nat]
+    else SomeSD .mk [nat] (from_non_negative (a) )
 
   to_Int (a : nat) : Int =
     match a

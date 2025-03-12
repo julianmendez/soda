@@ -26,7 +26,7 @@ namespace SwapExample
  def   swap (pair : PairExample) : PairExample :=
     match pair with
       | PairExample_ (a) (b) =>
-        PairExample_ (b) (a)
+        PairExample.mk (b) (a)
     
 
 
