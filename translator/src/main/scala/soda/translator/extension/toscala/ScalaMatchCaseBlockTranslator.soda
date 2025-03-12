@@ -8,8 +8,8 @@ class ScalaMatchCaseBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassAliasAnnotation
     soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
@@ -17,7 +17,7 @@ class ScalaMatchCaseBlockTranslator
     soda.translator.parser.annotation.TestDeclarationAnnotation
     soda.translator.parser.annotation.TestDeclarationAnnotation_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _tc = TranslationConstantToScala_ ()
 
@@ -51,7 +51,7 @@ class ScalaMatchCaseBlockTranslator
     else line
 
   _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines
         .map (lambda line --> _insert_match_before_brace_if_found (line) )
         .++ (Seq [String] () .+: (tabulation + _tc .scala_match_end_translation) )

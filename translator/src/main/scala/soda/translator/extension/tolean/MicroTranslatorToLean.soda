@@ -11,25 +11,25 @@ class MicroTranslatorToLean
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationEnum
     soda.translator.block.BlockAnnotationId
     soda.translator.block.BlockTranslatorPipeline_
-    soda.translator.block.ConditionalBlockTranslator_
-    soda.translator.blocktr.TokenReplacement_
-    soda.translator.blocktr.TokenizedBlockTranslator_
+    soda.translator.block.ConditionalBlockTranslator
+    soda.translator.blocktr.TokenReplacement
+    soda.translator.blocktr.TokenizedBlockTranslator
     soda.translator.replacement.Token
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
-  _function_definition = BlockAnnotationEnum_ () .function_definition
+  _function_definition = BlockAnnotationEnum .mk .function_definition
 
-  _class_beginning = BlockAnnotationEnum_ () .class_beginning
+  _class_beginning = BlockAnnotationEnum .mk .class_beginning
 
-  _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+  _abstract_declaration = BlockAnnotationEnum .mk .abstract_declaration
 
-  _class_alias = BlockAnnotationEnum_ () .class_alias
+  _class_alias = BlockAnnotationEnum .mk .class_alias
 
-  _test_declaration = BlockAnnotationEnum_ () .test_declaration
+  _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   functions_and_tests : Seq [BlockAnnotationId] =
     Seq (_function_definition, _test_declaration)
@@ -42,31 +42,31 @@ class MicroTranslatorToLean
 
   try_definition : Token -> String =
     lambda token -->
-      LeanDefinitionLineTranslator_ (token .text) .translation
+      LeanDefinitionLineTranslator .mk (token .text) .translation
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        LeanDocumentationBlockTranslator_ () ,
-        LeanDotNotationBlockTranslator_ () ,
-        LeanMatchCaseBlockTranslator_ () ,
-        LeanDefinitionBlockTranslator_ () ,
-        LeanClassConstructorBlockTranslator_ () ,
-        LeanClassDeclarationBlockTranslator_ () ,
-        LeanPackageDeclarationBlockTranslator_ () ,
-        LeanClassEndBlockTranslator_ () ,
-        LeanClassAliasBlockTranslator_ () ,
-        LeanImportDeclarationBlockTranslator_ () ,
-        LeanTheoremBlockTranslator_ () ,
-        LeanDirectiveBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenizedBlockTranslator_ (try_definition) ) ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_words (_tc .type_translation) )
+        LeanDocumentationBlockTranslator .mk ,
+        LeanDotNotationBlockTranslator .mk ,
+        LeanMatchCaseBlockTranslator .mk ,
+        LeanDefinitionBlockTranslator .mk ,
+        LeanClassConstructorBlockTranslator .mk ,
+        LeanClassDeclarationBlockTranslator .mk ,
+        LeanPackageDeclarationBlockTranslator .mk ,
+        LeanClassEndBlockTranslator .mk ,
+        LeanClassAliasBlockTranslator .mk ,
+        LeanImportDeclarationBlockTranslator .mk ,
+        LeanTheoremBlockTranslator .mk ,
+        LeanDirectiveBlockTranslator .mk ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenizedBlockTranslator .mk (try_definition) ) ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_words (_tc .type_translation) )
       )
     )
 

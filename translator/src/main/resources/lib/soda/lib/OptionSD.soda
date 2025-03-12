@@ -23,8 +23,8 @@ class OptionSD [A : Type]
 
   map [B : Type] (mapping : A -> B) : OptionSD [B] =
     match this
-      case SomeSD_ (element) ==> SomeSD_ [B] (mapping (element) )
-      case _otherwise ==> NoneSD_ [B] ()
+      case SomeSD_ (element) ==> SomeSD .mk [B] (mapping (element) )
+      case _otherwise ==> NoneSD .mk [B]
 
   getOrElse (default : A) : A =
     match this
@@ -39,7 +39,7 @@ class OptionSD [A : Type]
   flatMap [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     match this
       case SomeSD_ (element) ==> mapping (element)
-      case _otherwise ==> NoneSD_ [B] ()
+      case _otherwise ==> NoneSD .mk [B]
 
   bind [B : Type] (mapping : A -> OptionSD [B] ) : OptionSD [B] =
     flatMap [B] (mapping)
@@ -50,7 +50,7 @@ class OptionSD [A : Type]
         if predicate (element)
         then this
         else NoneSD_ [A] ()
-      case _otherwise ==> NoneSD_ [A] ()
+      case _otherwise ==> NoneSD .mk [A]
 
 end
 
@@ -113,8 +113,8 @@ class OptionSDBuilder [A : Type]
 
   build (option : Option [A] ) : OptionSD [A] =
     match option
-      case Some (content) ==> SomeSD_ [A] (content)
-      case None ==> NoneSD_ [A] ()
+      case Some (content) ==> SomeSD .mk [A] (content)
+      case None ==> NoneSD .mk [A]
 
 end
 

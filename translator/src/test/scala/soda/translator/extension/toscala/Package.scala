@@ -802,24 +802,24 @@ case class MultiLineSpec ()
 {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.block.DefaultBlockTranslator_
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.annotation.AnnotationFactory_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.block.DefaultBlockTranslator
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.annotation.AnnotationFactory
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+  lazy val bp : BlockProcessor =
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 
-  lazy val mt = MicroTranslatorToScala_ ()
+  lazy val mt : MicroTranslatorToScala = MicroTranslatorToScala .mk
 
   lazy val original_input =
     "  value = 1\n" +
@@ -858,7 +858,7 @@ case class MultiLineSpec ()
     "       x * x + y * y + z * z"
 
   def build_block (lines : Seq [String] ) : AnnotatedBlock =
-    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines) )
+    AnnotationFactory .mk .annotate (BlockBuilder .mk .build (lines) )
 
   test ("should split a program in multiple lines") (
     check (

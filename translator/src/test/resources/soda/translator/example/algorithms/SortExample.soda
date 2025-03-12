@@ -89,13 +89,13 @@ class ConstrainedSortAlgorithm
 
   import
     soda.lib.OptionSD
-    soda.lib.SomeSD_
-    soda.lib.NoneSD_
+    soda.lib.SomeSD
+    soda.lib.NoneSD
 
   sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
     if SortExampleWithZip_ () .is_sorted (sorted_sequence)
-    then SomeSD_ (sorted_sequence)
-    else NoneSD_ [Seq [Int] ] ()
+    then SomeSD .mk [Seq [Int] ] (sorted_sequence)
+    else NoneSD .mk [Seq [Int] ] ()
 
   sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
     sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )

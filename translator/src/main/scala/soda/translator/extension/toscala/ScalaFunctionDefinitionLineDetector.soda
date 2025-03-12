@@ -33,9 +33,9 @@ class ScalaFunctionDefinitionLineDetector
   import
     soda.lib.OptionSD
     soda.lib.SomeSD_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _trimmed_line : String = line.trim
 

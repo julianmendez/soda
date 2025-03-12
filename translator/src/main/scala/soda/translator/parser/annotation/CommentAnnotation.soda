@@ -7,9 +7,9 @@ class CommentAnnotation
     block : soda.translator.block.Block
 
   import
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationEnum
 
-  identifier = BlockAnnotationEnum_ () .comment
+  identifier = BlockAnnotationEnum .mk .comment
 
   applies : Boolean =
     block

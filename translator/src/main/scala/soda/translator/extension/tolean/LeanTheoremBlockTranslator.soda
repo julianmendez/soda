@@ -8,26 +8,26 @@ class LeanTheoremBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.TheoremBlockAnnotation
     soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   _remove_first_line (block : Block) : Block =
     if block .lines .isEmpty
     then block
-    else BlockBuilder_ () .build (block .lines .tail)
+    else BlockBuilder .mk .build (block .lines .tail)
 
   _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (

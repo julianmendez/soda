@@ -2,20 +2,20 @@
 class TokenReplacement
 
   import
-    soda.translator.replacement.ReplacementWithTranslator_
+    soda.translator.replacement.ReplacementWithTranslator
 
   abstract
 
   replace_words (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
-    TokenizedBlockTranslator_ (
+    TokenizedBlockTranslator .mk (
       lambda token -->
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_words (token .text)
+        ReplacementWithTranslator .mk (TableTranslator .mk (table) ) .replace_words (token .text)
     )
 
   replace_symbols (table : Seq [Tuple2 [String] [String] ] ) : TokenizedBlockTranslator =
-    TokenizedBlockTranslator_ (
+    TokenizedBlockTranslator .mk (
       lambda token -->
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_symbols (token .text)
+        ReplacementWithTranslator .mk (TableTranslator .mk (table) ) .replace_symbols (token .text)
     )
 
 end

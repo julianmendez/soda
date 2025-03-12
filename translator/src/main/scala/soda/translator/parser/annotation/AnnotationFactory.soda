@@ -8,46 +8,40 @@ class AnnotationFactory
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.AnnotatedBlock_
-    soda.translator.block.AnnotatedLine
     soda.translator.block.Block
-    soda.translator.block.BlockAnnotationId
-    soda.translator.block.BlockAnnotationEnum_
-
-  _mk_AnnotatedBlock (annotated_lines : Seq [AnnotatedLine] )
-      (block_annotation : BlockAnnotationId) : AnnotatedBlock =
-    AnnotatedBlock_ (annotated_lines) (block_annotation)
+    soda.translator.block.BlockAnnotationEnum
 
   update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     match original_content
-      case FunctionDefinitionAnnotation_ (b) ==> FunctionDefinitionAnnotation_ (new_content)
-      case ClassBeginningAnnotation_ (b) ==> ClassBeginningAnnotation_ (new_content)
+      case FunctionDefinitionAnnotation_ (b) ==> FunctionDefinitionAnnotation .mk (new_content)
+      case ClassBeginningAnnotation_ (b) ==> ClassBeginningAnnotation .mk (new_content)
       case ClassEndAnnotation_ (b) (references) ==>
-        ClassEndAnnotation_ (new_content) (references)
+        ClassEndAnnotation .mk (new_content) (references)
       case AbstractDeclarationAnnotation_ (b) (references) ==>
-        AbstractDeclarationAnnotation_ (new_content) (references)
-      case ImportDeclarationAnnotation_ (b) ==> ImportDeclarationAnnotation_ (new_content)
-      case PackageDeclarationAnnotation_ (b) ==> PackageDeclarationAnnotation_ (new_content)
-      case ClassAliasAnnotation_ (b) ==> ClassAliasAnnotation_ (new_content)
-      case TheoremBlockAnnotation_ (b) ==> TheoremBlockAnnotation_ (new_content)
-      case DirectiveBlockAnnotation_ (b) ==> DirectiveBlockAnnotation_ (new_content)
-      case CommentAnnotation_ (b) ==> CommentAnnotation_ (new_content)
-      case TestDeclarationAnnotation_ (b) ==> TestDeclarationAnnotation_ (new_content)
+        AbstractDeclarationAnnotation .mk (new_content) (references)
+      case ImportDeclarationAnnotation_ (b) ==> ImportDeclarationAnnotation .mk (new_content)
+      case PackageDeclarationAnnotation_ (b) ==> PackageDeclarationAnnotation .mk (new_content)
+      case ClassAliasAnnotation_ (b) ==> ClassAliasAnnotation .mk (new_content)
+      case TheoremBlockAnnotation_ (b) ==> TheoremBlockAnnotation .mk (new_content)
+      case DirectiveBlockAnnotation_ (b) ==> DirectiveBlockAnnotation .mk (new_content)
+      case CommentAnnotation_ (b) ==> CommentAnnotation .mk (new_content)
+      case TestDeclarationAnnotation_ (b) ==> TestDeclarationAnnotation .mk (new_content)
       case _otherwise ==>
-        _mk_AnnotatedBlock (new_content .annotated_lines) (original_content .block_annotation)
+        AnnotatedBlock .mk (new_content .annotated_lines) (original_content .block_annotation)
 
   _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation_ (block),
-      ClassBeginningAnnotation_ (block),
-      ClassEndAnnotation_ (block) (Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block) (Seq [BlockAnnotationParser] () ),
-      ImportDeclarationAnnotation_ (block),
-      PackageDeclarationAnnotation_ (block),
-      ClassAliasAnnotation_ (block),
-      TheoremBlockAnnotation_ (block),
-      DirectiveBlockAnnotation_ (block),
-      CommentAnnotation_ (block),
-      TestDeclarationAnnotation_ (block)
+      FunctionDefinitionAnnotation .mk (block),
+      ClassBeginningAnnotation .mk (block),
+      ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
+      AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
+      ImportDeclarationAnnotation .mk (block),
+      PackageDeclarationAnnotation .mk (block),
+      ClassAliasAnnotation .mk (block),
+      TheoremBlockAnnotation .mk (block),
+      DirectiveBlockAnnotation .mk (block),
+      CommentAnnotation .mk (block),
+      TestDeclarationAnnotation .mk (block)
     )
 
   _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
@@ -58,16 +52,16 @@ class AnnotationFactory
       : AnnotatedBlock =
     if candidates .length == 1
     then candidates .head
-    else _mk_AnnotatedBlock (block .annotated_lines) (BlockAnnotationEnum_ () .undefined )
+    else AnnotatedBlock .mk (block .annotated_lines) (BlockAnnotationEnum .mk .undefined )
 
   annotate (block : Block) : AnnotatedBlock =
     match block
       case AnnotatedBlock_ (annotated_lines) (block_annotation) ==>
-        _mk_AnnotatedBlock (annotated_lines) (block_annotation)
+        AnnotatedBlock .mk (annotated_lines) (block_annotation)
       case _otherwise ==> _get_first_or_undefined (_find_candidates (block) ) (block)
 
   translate_for (block : AnnotatedBlock) : AnnotatedBlock =
-    if block .block_annotation == BlockAnnotationEnum_ () .undefined
+    if block .block_annotation == BlockAnnotationEnum .mk .undefined
     then annotate (block)
     else block
 

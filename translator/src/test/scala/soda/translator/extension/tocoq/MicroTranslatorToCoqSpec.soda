@@ -13,7 +13,7 @@ class MicroTranslatorToCoqSpec ()
   instance =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToCoq_ ()
+        MicroTranslatorToCoq .mk
       )
     )
 

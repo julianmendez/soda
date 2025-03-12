@@ -123,11 +123,11 @@ class Min [A : Type]
   abstract
 
   import
-    soda.lib.NoneSD_
+    soda.lib.NoneSD
     soda.lib.OptionSD
-    soda.lib.SomeSD_
+    soda.lib.SomeSD
 
-  empty : ESeq [A] = ESeq_ ()
+  empty : ESeq [A] = ESeq .mk [A]
 
   prepended (s : MSeq [A] ) (e : A) : NESeq [A] =
     NESeq_ (e , s)
@@ -228,13 +228,13 @@ class Min [A : Type]
 
    _retrieve_if_in_range (xs : NESeq [A] ) (n : Int) : OptionSD [A] =
      if n < 0 or n >= length (xs)
-     then NoneSD_ [A] ()
-     else SomeSD_ [A] (_atNonEmpty (xs) (n) )
+     then NoneSD .mk [A]
+     else SomeSD .mk [A] (_atNonEmpty (xs) (n) )
 
   at (s : MSeq [A] ) (n : Int) : OptionSD [A] =
     match s
       case NESeq_ (head) (tail) ==> _retrieve_if_in_range (NESeq_ (head) (tail) ) (n)
-      case _otherwise ==> NoneSD_ [A] ()
+      case _otherwise ==> NoneSD .mk [A]
 
   /* */
 
@@ -375,17 +375,13 @@ class Min [A : Type]
     (foldLeftWhile (s) (_exists_initial_value (p) ) (_exists_next_value) (_exists_condition) )
       .status
 
-  _mk_FindFoldTuple [A : Type] (maybe_element : soda.lib.OptionSD [A] ) (
-      condition : A -> Boolean) : FindFoldTuple [A] =
-    FindFoldTuple_ (maybe_element) (condition)
-
   _find_initial_value (condition : A -> Boolean) : FindFoldTuple [A] =
-    _mk_FindFoldTuple (NoneSD_ [A] () ) (condition)
+    FindFoldTuple .mk (NoneSD .mk [A] ) (condition)
 
   _find_next_value (tuple : FindFoldTuple [A] ) (elem : A) : FindFoldTuple [A] =
     if tuple .condition (elem)
-    then _mk_FindFoldTuple (SomeSD_ [A] (elem) ) (tuple .condition)
-    else _mk_FindFoldTuple (NoneSD_ [A] () ) (tuple .condition)
+    then FindFoldTuple .mk (SomeSD_ [A] (elem) ) (tuple .condition)
+    else FindFoldTuple .mk (NoneSD_ [A] () ) (tuple .condition)
 
   _find_condition (tuple : FindFoldTuple [A] ) (elem : A) : Boolean =
     tuple .maybe_element .isEmpty

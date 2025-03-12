@@ -6,13 +6,13 @@ class BlockTranslator00
   abstract
 
   import
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.AnnotationFactory_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.AnnotationFactory
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
+      AnnotationFactory .mk .annotate (
+        BlockBuilder .mk .build (
           if block .lines .isEmpty
           then Seq ("")
           else block .lines .++ (Seq ("tr00") )
@@ -28,13 +28,13 @@ class BlockTranslator01
   abstract
 
   import
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.AnnotationFactory_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.AnnotationFactory
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
+      AnnotationFactory .mk .annotate (
+        BlockBuilder .mk .build (
           if block .lines .isEmpty
           then Seq ("")
           else block .lines .++ (Seq ("tr01") )
@@ -50,13 +50,13 @@ class BlockTranslator02
   abstract
 
   import
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.AnnotationFactory_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.AnnotationFactory
 
   translate : AnnotatedBlock -> AnnotatedBlock =
     lambda block -->
-      AnnotationFactory_ () .annotate (
-        BlockBuilder_ () .build (
+      AnnotationFactory .mk .annotate (
+        BlockBuilder .mk .build (
           if block .lines .isEmpty
           then Seq ("")
           else block .lines .++ (Seq ("tr02") )
@@ -70,24 +70,24 @@ class BlockTranslatorPipelineSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.annotation.AnnotationFactory_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.AnnotationFactory
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        BlockTranslator00_ () ,
-        BlockTranslator01_ () ,
-        BlockTranslator02_ ()
+        BlockTranslator00 .mk ,
+        BlockTranslator01 .mk ,
+        BlockTranslator02 .mk
       )
     )
 
   original =
-    AnnotationFactory_ () .annotate (
-      BlockBuilder_ () .build (
+    AnnotationFactory .mk .annotate (
+      BlockBuilder .mk .build (
         Seq ("first line" )
       )
     )
@@ -97,8 +97,8 @@ class BlockTranslatorPipelineSpec ()
       obtained := instance .translate (original)
     ) (
       expected :=
-        AnnotationFactory_ () .annotate (
-          BlockBuilder_ () .build (
+        AnnotationFactory .mk .annotate (
+          BlockBuilder .mk .build (
             Seq (
               "first line" ,
               "tr00" ,

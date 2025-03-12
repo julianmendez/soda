@@ -11,14 +11,14 @@ class MicroTranslatorToScala
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockTranslatorPipeline_
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.block.ConditionalBlockTranslator_
-    soda.translator.blocktr.TokenReplacement_
+    soda.translator.block.BlockTranslatorPipeline
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.ConditionalBlockTranslator
+    soda.translator.blocktr.TokenReplacement
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
-  _ba = BlockAnnotationEnum_ ()
+  _ba = BlockAnnotationEnum .mk
 
   _functions_and_tests =
     Seq (_ba .function_definition , _ba .class_alias , _ba .test_declaration)
@@ -30,27 +30,27 @@ class MicroTranslatorToScala
     _functions_and_tests .++ (_class_declarations)
 
   _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        ScalaTypeParameterBlockTranslator_ () ,
-        ScalaClassConstructorParameterBlockTranslator_ () ,
-        ScalaMatchCaseBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (_definitions_and_declarations ,
-          TokenReplacement_ () .replace_words (_tc .scala_non_soda) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          ScalaFunctionDefinitionBlockTranslator_ () ) ,
-        ConditionalBlockTranslator_ (_class_declarations ,
-          TokenReplacement_ () .replace_words (_tc .type_symbol_translation) ) ,
-        ConditionalBlockTranslator_ (_functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .all_translations) ) ,
-        ScalaClassDeclarationBlockTranslator_ () ,
-        ScalaImportDeclarationBlockTranslator_ () ,
-        ScalaAbstractDeclarationBlockTranslator_ () ,
-        ScalaTheoremBlockTranslator_ () ,
-        ScalaDirectiveBlockTranslator_ () ,
-        ScalaClassEndBlockTranslator_ () ,
-        ScalaMainClassBlockTranslator_ () ,
-        ScalaClassConstructorBlockTranslator_ ()
+        ScalaTypeParameterBlockTranslator .mk ,
+        ScalaClassConstructorParameterBlockTranslator .mk ,
+        ScalaMatchCaseBlockTranslator .mk ,
+        ConditionalBlockTranslator .mk (_definitions_and_declarations) (
+          TokenReplacement .mk .replace_words (_tc .scala_non_soda) ) ,
+        ConditionalBlockTranslator .mk (_functions_and_tests) (
+          ScalaFunctionDefinitionBlockTranslator .mk ) ,
+        ConditionalBlockTranslator .mk (_class_declarations) (
+          TokenReplacement .mk .replace_words (_tc .type_symbol_translation) ) ,
+        ConditionalBlockTranslator .mk (_functions_and_tests) (
+          TokenReplacement .mk .replace_words (_tc .all_translations) ) ,
+        ScalaClassDeclarationBlockTranslator .mk ,
+        ScalaImportDeclarationBlockTranslator .mk ,
+        ScalaAbstractDeclarationBlockTranslator .mk ,
+        ScalaTheoremBlockTranslator .mk ,
+        ScalaDirectiveBlockTranslator .mk ,
+        ScalaClassEndBlockTranslator .mk ,
+        ScalaMainClassBlockTranslator .mk ,
+        ScalaClassConstructorBlockTranslator .mk
       )
     )
 

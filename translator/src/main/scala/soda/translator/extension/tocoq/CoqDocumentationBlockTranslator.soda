@@ -7,12 +7,12 @@ class CoqDocumentationBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.CommentAnnotation
     soda.translator.parser.annotation.CommentAnnotation_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _tc = TranslationConstantToCoq_ ()
 
@@ -90,7 +90,7 @@ class CoqDocumentationBlockTranslator
 
   _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _translate_lines (block .lines)
       )
     )

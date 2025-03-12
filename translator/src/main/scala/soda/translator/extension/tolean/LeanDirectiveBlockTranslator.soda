@@ -5,7 +5,7 @@ class LeanDirectiveBlockTranslator
 
   abstract
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   identifier : String = _tc .lean_directive_identifier
 

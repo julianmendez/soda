@@ -18,17 +18,17 @@ trait Main
 
 
 
-  lazy val help = soda.translator.extension.help.Help_ ()
+  lazy val help = soda.translator.extension.help.Help .mk
 
   lazy val extensions : Map [String, Extension] =
     Seq (
-      ("." , soda.translator.extension.toscala.TranslatorToScala_ () ),
-      ("scala" , soda.translator.extension.toscala.TranslatorToScala_ () ),
-      ("lean" , soda.translator.extension.tolean.TranslatorToLean_ () ),
-      ("coq" , soda.translator.extension.tocoq.TranslatorToCoq_ () ),
-      ("doc" , soda.translator.extension.todoc.TranslatorToDoc_ () ),
-      ("manual" , soda.translator.extension.help.Manual_ () ),
-      ("license" , soda.translator.extension.help.License_ () ),
+      ("." , soda.translator.extension.toscala.TranslatorToScala .mk ),
+      ("scala" , soda.translator.extension.toscala.TranslatorToScala .mk ),
+      ("lean" , soda.translator.extension.tolean.TranslatorToLean .mk ),
+      ("coq" , soda.translator.extension.tocoq.TranslatorToCoq .mk ),
+      ("doc" , soda.translator.extension.todoc.TranslatorToDoc .mk ),
+      ("manual" , soda.translator.extension.help.Manual .mk ),
+      ("license" , soda.translator.extension.help.License .mk ),
       ("help" , help ),
       ("-h" , help ),
       ("--help" , help ),

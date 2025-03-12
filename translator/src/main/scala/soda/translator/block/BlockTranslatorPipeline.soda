@@ -4,12 +4,12 @@ class BlockTranslatorPipeline
     BlockTranslator
 
   import
-    soda.lib.Fold_
+    soda.lib.Fold
 
   abstract
     pipeline : Seq [BlockTranslator]
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
   _next_value (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator .translate (block)

@@ -14,33 +14,33 @@ case class CharTypeSpec ()
 
   test ("should recognize quotation marks") (
     check (
-      obtained = CharTypeEnum_ () .get_char_type ('"')
+      obtained = CharTypeEnum .mk .get_char_type ('"')
     ) (
-      expected = CharTypeEnum_ () .quotes_type
+      expected = CharTypeEnum .mk .quotes_type
     )
   )
 
   test ("should recognize apostrophes") (
     check (
-      obtained = CharTypeEnum_ () .get_char_type ('\'')
+      obtained = CharTypeEnum .mk .get_char_type ('\'')
     ) (
-      expected = CharTypeEnum_ () .apostrophe_type
+      expected = CharTypeEnum .mk .apostrophe_type
     )
   )
 
   test ("should recognize backslash") (
     check (
-      obtained = CharTypeEnum_ () .get_char_type ('\\')
+      obtained = CharTypeEnum .mk .get_char_type ('\\')
     ) (
-      expected = CharTypeEnum_ () .backslash_type
+      expected = CharTypeEnum .mk .backslash_type
     )
   )
 
   test ("should recognize a simple char") (
     check (
-      obtained = CharTypeEnum_ () .get_char_type ('a')
+      obtained = CharTypeEnum .mk .get_char_type ('a')
     ) (
-      expected = CharTypeEnum_ () .plain_type
+      expected = CharTypeEnum .mk .plain_type
     )
   )
 
@@ -48,11 +48,11 @@ case class CharTypeSpec ()
     check (
       obtained =
         "This is plain text with symbols. 0123456789 _ . !?"
-          .map ( ch => CharTypeEnum_ () .get_char_type (ch) )
+          .map ( ch => CharTypeEnum .mk .get_char_type (ch) )
           .toSet
           .toSeq
     ) (
-      expected = Seq (CharTypeEnum_ () .plain_type)
+      expected = Seq (CharTypeEnum .mk .plain_type)
     )
   )
 
@@ -67,7 +67,7 @@ case class ReplacementAuxSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val instance = ReplacementAux_ ()
+  lazy val instance : ReplacementAux = ReplacementAux .mk
 
   lazy val line_0 = "lambda, if, then, else, match, case"
 
@@ -233,19 +233,19 @@ case class ReplacementSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val instance = ReplacementAux_ ()
+  lazy val instance : ReplacementAux = ReplacementAux .mk
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc : SodaConstant = SodaConstant .mk
 
   test ("Unicode replacements 1") (
     check (
       obtained =
-        Replacement_ ("\u03BB")
+        Replacement .mk ("\u03BB")
           .replace_all ("\u03BB") (_sc .lambda_reserved_word)
           .line
     ) (
@@ -256,7 +256,7 @@ case class ReplacementSpec ()
   test ("Unicode replacement 2") (
     check (
       obtained =
-        Replacement_ ("\u2192")
+        Replacement .mk ("\u2192")
           .replace_all ("\u2192") ("->")
           .line
     ) (
@@ -267,7 +267,7 @@ case class ReplacementSpec ()
   test ("Unicode replacement 3") (
     check (
       obtained =
-        Replacement_ (_sc .case_arrow_unicode_symbol)
+        Replacement .mk (_sc .case_arrow_unicode_symbol)
           .replace_all (_sc .case_arrow_unicode_symbol) (_sc .case_reserved_word)
           .line
     ) (
@@ -286,61 +286,58 @@ case class TokenizerSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  private def _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
-    Token_ (text, parser_state, index)
-
   test ("should tokenize a small example") (
     check (
-      obtained = Tokenizer_ ("    val Constant = \"my text\"") .tokens
+      obtained = Tokenizer .mk ("    val Constant = \"my text\"") .tokens
     ) (
       expected = Seq (
-        _mk_Token ("    val Constant = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"my text\"") (ParserStateEnum_ () .quotes_state) (19),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (28)
+        Token .mk ("    val Constant = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"my text\"") (ParserStateEnum .mk .quotes_state) (19),
+        Token .mk ("") (ParserStateEnum .mk .plain) (28)
       )
     )
   )
 
   test ("should tokenize a common tab in a string") (
     check (
-      obtained = Tokenizer_ ("  x = \"abc\tde\"") .tokens
+      obtained = Tokenizer .mk ("  x = \"abc\tde\"") .tokens
     ) (
       expected = Seq (
-        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"abc\tde\"") (ParserStateEnum_ () .quotes_state) (6),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (14)
+        Token .mk ("  x = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"abc\tde\"") (ParserStateEnum .mk .quotes_state) (6),
+        Token .mk ("") (ParserStateEnum .mk .plain) (14)
       )
     )
   )
 
   test ("should tokenize an escaped tab in a string") (
     check (
-      obtained = Tokenizer_ ("  x = \"abc\\tde\"") .tokens
+      obtained = Tokenizer .mk ("  x = \"abc\\tde\"") .tokens
     ) (
       expected = Seq (
-        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"abc\\tde\"") (ParserStateEnum_ () .quotes_state) (6),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (15)
+        Token .mk ("  x = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"abc\\tde\"") (ParserStateEnum .mk .quotes_state) (6),
+        Token .mk ("") (ParserStateEnum .mk .plain) (15)
       )
     )
   )
 
   test ("should tokenize a single function definition") (
     check (
-      obtained = Tokenizer_ ("def f (x: Int): Int = x") .tokens
+      obtained = Tokenizer .mk ("def f (x: Int): Int = x") .tokens
     ) (
       expected = Seq (
-        _mk_Token ("def f (x: Int): Int = x") (ParserStateEnum_ () .plain) (0)
+        Token .mk ("def f (x: Int): Int = x") (ParserStateEnum .mk .plain) (0)
       )
     )
   )
 
   test ("should tokenize a function call") (
     check (
-      obtained = Tokenizer_ ("\tas_digits (5 * number)") .tokens
+      obtained = Tokenizer .mk ("\tas_digits (5 * number)") .tokens
     ) (
       expected = Seq (
-        _mk_Token ("\tas_digits (5 * number)") (ParserStateEnum_ () .plain) (0)
+        Token .mk ("\tas_digits (5 * number)") (ParserStateEnum .mk .plain) (0)
       )
     )
   )

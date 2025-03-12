@@ -8,7 +8,7 @@ class ScalaMainClassBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
@@ -39,7 +39,7 @@ class ScalaMainClassBlockTranslator
     if _get_class_name (block .references) == _tc .soda_main_class_name
     then
       _mk_ClassEndAnnotation (
-        BlockBuilder_ () .build (
+        BlockBuilder .mk .build (
           Seq [String] (
             _tc .scala_class_end_symbol,
             "",

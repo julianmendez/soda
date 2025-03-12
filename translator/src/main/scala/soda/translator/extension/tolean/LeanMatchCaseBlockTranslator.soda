@@ -8,19 +8,19 @@ class LeanMatchCaseBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
     soda.translator.parser.annotation.TestDeclarationAnnotation_
     soda.translator.replacement.ReplacementAux_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _soda_case_pattern = _sc .case_reserved_word + _sc .space
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   _soda_match_pattern = _sc .match_reserved_word + " "
 
@@ -55,7 +55,7 @@ class LeanMatchCaseBlockTranslator
       .getOrElse (_tc .lean_space)
 
   _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines
         .map (lambda line --> _append_with_after_match (line) )
         .map (lambda line --> _replace_case (line) )

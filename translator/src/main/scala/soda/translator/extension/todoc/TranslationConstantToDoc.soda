@@ -8,9 +8,9 @@ class TranslationConstantToDoc
   abstract
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  soda_constant = SodaConstant_ ()
+  soda_constant = SodaConstant .mk
 
   doc_space = " "
 

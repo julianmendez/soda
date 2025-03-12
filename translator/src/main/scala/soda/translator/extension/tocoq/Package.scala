@@ -22,15 +22,15 @@ trait CoqClassAliasBlockTranslator
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
   import   soda.translator.blocktr.TableTranslator_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassAliasAnnotation
   import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.replacement.Replacement_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc : SodaConstant = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc : TranslationConstantToCoq = TranslationConstantToCoq .mk
 
   def get_first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("")
@@ -43,7 +43,7 @@ trait CoqClassAliasBlockTranslator
       _tc .coq_notation_suffix
 
   private def _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (
         _process_class_alias (get_first_line (block) )
       )
@@ -51,12 +51,12 @@ trait CoqClassAliasBlockTranslator
 
   private def _translate_class_alias_block (block : ClassAliasAnnotation)
       : ClassAliasAnnotation =
-    ClassAliasAnnotation_ (_translate_block (block) )
+    ClassAliasAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassAliasAnnotation_ (block) =>
-        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+        _translate_class_alias_block (ClassAliasAnnotation .mk (block) )
       case _otherwise => annotated_block
     }
 
@@ -82,23 +82,23 @@ trait CoqClassConstructorBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc : TranslationConstantToCoq = TranslationConstantToCoq .mk
 
   private lazy val _sp : String = _tc .coq_space
 
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
-      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
+      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation .mk (b) )
       case _otherwise => None
     }
 
@@ -152,11 +152,12 @@ trait CoqClassConstructorBlockTranslator
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (
-      BlockBuilder_ () .build (
+    AbstractDeclarationAnnotation .mk (
+      BlockBuilder .mk .build (
         Seq [String] (
           _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
-      ),
+      )
+    ) (
       block .references
     )
 
@@ -178,7 +179,7 @@ trait CoqClassConstructorBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block , references) =>
-        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+        _translate_block (AbstractDeclarationAnnotation .mk (block) (references) )
       case _otherwise => annotated_block
     }
 
@@ -207,15 +208,15 @@ trait CoqClassDeclarationBlockTranslator
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
   import   soda.translator.blocktr.TableTranslator_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.replacement.Replacement_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   lazy val soda_space : String = _sc .space
 
@@ -243,7 +244,7 @@ trait CoqClassDeclarationBlockTranslator
     else lines .tail
 
   def remove_first_line (block : Block) : Block =
-    BlockBuilder_ () .build (remove_first_line (block .lines) )
+    BlockBuilder .mk .build (remove_first_line (block .lines) )
 
   private def _process_if_extends (lines : Seq [String] ) : Seq [String] =
     if ( (get_first_line (lines) .trim == _sc .extends_reserved_word)
@@ -284,7 +285,7 @@ trait CoqClassDeclarationBlockTranslator
     if ( (has_condition_for_type_alias (get_first_line (block .lines) ) )
     ) block
     else
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _process_head (block .class_name) (block .lines) ++ _process_tail (block .lines)
       )
 
@@ -322,23 +323,20 @@ trait CoqClassEndBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
-      : ClassEndAnnotation =
-    ClassEndAnnotation_ (block, references)
-
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _mk_ClassEndAnnotation (
-      BlockBuilder_ () .build (
+    ClassEndAnnotation .mk (
+      BlockBuilder .mk .build (
         Seq [String] (
           _tc .coq_module_end_reserved_word + _tc .coq_space + beginning .class_name +
           _tc .coq_space + _tc .coq_end_symbol ,
@@ -381,7 +379,7 @@ trait CoqClassEndBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassEndAnnotation_ (block, references) =>
-        _translate_block (_mk_ClassEndAnnotation (block) (references) )
+        _translate_block (ClassEndAnnotation .mk (block) (references) )
       case _otherwise => annotated_block
     }
 
@@ -408,20 +406,20 @@ trait CoqDefinitionBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
     )
 
   def is_a_definition (block : Block) : Boolean =
@@ -452,7 +450,7 @@ trait CoqDefinitionBlockTranslator
 
   private def _translate_definition_block (block : FunctionDefinitionAnnotation)
       : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
@@ -510,21 +508,23 @@ trait CoqDefinitionLineTranslator
   def   line : String
 
   import   soda.lib.OptionSD
+  import   soda.lib.SomeSD
   import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.replacement.Replacement
   import   soda.translator.replacement.Replacement_
 
 
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private lazy val _trimmed_line : String = line .trim
 
   def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
+    SomeSD .mk [Int] (line .indexOf (pattern, start) )
       .filter ( position => !  (position == -1) )
 
   def get_index (line : String) (pattern : String) : OptionSD [Int] =
@@ -572,14 +572,14 @@ trait CoqDefinitionLineTranslator
 
   private lazy val _translation_of_class_definition : Replacement =
     if ( _condition_for_type_alias
-    ) Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
+    ) Replacement .mk (line)
+    else Replacement .mk (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
 
   private lazy val _translation_of_val_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+    Replacement .mk (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   private lazy val _translation_of_def_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+    Replacement .mk (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   private def _decide_val_or_def_translation (position : Int) : Replacement =
     if ( _is_val_definition (position)
@@ -602,7 +602,7 @@ trait CoqDefinitionLineTranslator
 
   def find_definition (line : String) : OptionSD [Int] =
     if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
-    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    ) SomeSD .mk [Int] (line .length - _sc .function_definition_symbol .length)
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   lazy val translation : String =
@@ -628,7 +628,7 @@ trait CoqDirectiveBlockTranslator
 
 
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   lazy val identifier : String = _tc .coq_directive_identifier
 
@@ -654,12 +654,12 @@ trait CoqDocumentationBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToCoq_ ()
 
@@ -737,7 +737,7 @@ trait CoqDocumentationBlockTranslator
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _translate_lines (block .lines)
       )
     )
@@ -769,14 +769,14 @@ trait CoqDotNotationBlockTranslator
 
 
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.replacement.Token
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
-  lazy val fold_while = soda.lib.FoldWhile_ ()
+  lazy val fold_while = soda.lib.FoldWhile .mk
 
   private def _applies_dot_notation (word : String) : Boolean =
     word .startsWith (_sc .dot_notation_symbol) &&
@@ -831,7 +831,7 @@ trait CoqImportDeclarationBlockTranslator
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
@@ -849,7 +849,7 @@ trait CoqImportDeclarationBlockTranslator
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
       (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       annotated_lines .map ( annotated_line =>
         prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
@@ -905,19 +905,19 @@ trait CoqMatchCaseBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.replacement.ReplacementAux_
+  import   soda.translator.replacement.ReplacementAux
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
   private lazy val _soda_case_pattern = _sc .case_reserved_word + _sc .space
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private lazy val _soda_match_pattern = _sc .match_reserved_word + " "
 
@@ -938,7 +938,7 @@ trait CoqMatchCaseBlockTranslator
   private def _replace_case (line : String) : String =
     if ( _is_a_case_line (line)
     )
-      ReplacementAux_ ()
+      ReplacementAux .mk
         . replace_first (line) (_soda_case_pattern) (_tc .coq_case_translation)
     else line
 
@@ -952,7 +952,7 @@ trait CoqMatchCaseBlockTranslator
       .getOrElse (_tc .coq_space)
 
   private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines
         .map ( line => _append_with_after_match (line) )
         .map ( line => _replace_case (line) )
@@ -1002,14 +1002,14 @@ trait CoqPackageDeclarationBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private def _comment_block (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       ( (Seq (_tc .coq_comment_opening_symbol) .++ (block .lines) ) .++ (
         Seq (_tc .coq_comment_closing_symbol) ) ) .++ (_tc .coq_prelude)
     )
@@ -1051,29 +1051,29 @@ trait CoqTheoremBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   private def _remove_first_line (block : Block) : Block =
     if ( block .lines .isEmpty
     ) block
-    else BlockBuilder_ () .build (block .lines .tail)
+    else BlockBuilder .mk .build (block .lines .tail)
 
   private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
-    TheoremBlockAnnotation_ (
+    TheoremBlockAnnotation .mk (
       _append (
         _tc .coq_theorem_end_symbol) (_prepend (
           _tc .coq_theorem_begin_reserved_word) (_remove_first_line (block)
@@ -1084,7 +1084,7 @@ trait CoqTheoremBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case TheoremBlockAnnotation_ (block) =>
-        _translate_block (TheoremBlockAnnotation_ (block) )
+        _translate_block (TheoremBlockAnnotation .mk (block) )
       case _otherwise => annotated_block
     }
 
@@ -1114,25 +1114,29 @@ trait MicroTranslatorToCoq
 
 
   import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.BlockAnnotationEnum
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.block.BlockTranslatorPipeline
   import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.ConditionalBlockTranslator
   import   soda.translator.block.ConditionalBlockTranslator_
-  import   soda.translator.blocktr.TokenReplacement_
+  import   soda.translator.blocktr.TokenReplacement
+  import   soda.translator.blocktr.TokenizedBlockTranslator
   import   soda.translator.blocktr.TokenizedBlockTranslator_
   import   soda.translator.replacement.Token
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
-  private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
+  private lazy val _function_definition = BlockAnnotationEnum .mk .function_definition
 
-  private lazy val _class_beginning = BlockAnnotationEnum_ () .class_beginning
+  private lazy val _class_beginning = BlockAnnotationEnum .mk .class_beginning
 
-  private lazy val _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+  private lazy val _abstract_declaration = BlockAnnotationEnum .mk .abstract_declaration
 
-  private lazy val _class_alias = BlockAnnotationEnum_ () .class_alias
+  private lazy val _class_alias = BlockAnnotationEnum .mk .class_alias
 
-  private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
+  private lazy val _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   lazy val functions_and_tests : Seq [BlockAnnotationId] =
     Seq (_function_definition, _test_declaration)
@@ -1145,31 +1149,31 @@ trait MicroTranslatorToCoq
 
   lazy val try_definition : Token => String =
      token =>
-      CoqDefinitionLineTranslator_ (token .text) .translation
+      CoqDefinitionLineTranslator .mk (token .text) .translation
 
   private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        CoqDocumentationBlockTranslator_ () ,
-        CoqDotNotationBlockTranslator_ () ,
-        CoqMatchCaseBlockTranslator_ () ,
-        CoqDefinitionBlockTranslator_ () ,
-        CoqClassConstructorBlockTranslator_ () ,
-        CoqClassDeclarationBlockTranslator_ () ,
-        CoqPackageDeclarationBlockTranslator_ () ,
-        CoqClassEndBlockTranslator_ () ,
-        CoqClassAliasBlockTranslator_ () ,
-        CoqImportDeclarationBlockTranslator_ () ,
-        CoqTheoremBlockTranslator_ () ,
-        CoqDirectiveBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenizedBlockTranslator_ (try_definition) ) ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_words (_tc .type_translation) )
+        CoqDocumentationBlockTranslator .mk ,
+        CoqDotNotationBlockTranslator .mk ,
+        CoqMatchCaseBlockTranslator .mk ,
+        CoqDefinitionBlockTranslator .mk ,
+        CoqClassConstructorBlockTranslator .mk ,
+        CoqClassDeclarationBlockTranslator .mk ,
+        CoqPackageDeclarationBlockTranslator .mk ,
+        CoqClassEndBlockTranslator .mk ,
+        CoqClassAliasBlockTranslator .mk ,
+        CoqImportDeclarationBlockTranslator .mk ,
+        CoqTheoremBlockTranslator .mk ,
+        CoqDirectiveBlockTranslator .mk ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenizedBlockTranslator .mk (try_definition) ) ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_words (_tc .type_translation) )
       )
     )
 
@@ -1197,9 +1201,9 @@ trait TranslationConstantToCoq
 
 
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
 
-  lazy val soda_constant = SodaConstant_ ()
+  lazy val soda_constant = SodaConstant .mk
 
   lazy val coq_space = " "
 
@@ -1521,10 +1525,15 @@ trait TranslatorToCoq
 
 
 
+  import   soda.translator.block.DefaultBlockSequenceTranslator
   import   soda.translator.block.DefaultBlockSequenceTranslator_
+  import   soda.translator.io.DirectoryProcessor
   import   soda.translator.io.DirectoryProcessor_
+  import   soda.translator.io.SimpleFileReader
   import   soda.translator.io.SimpleFileReader_
+  import   soda.translator.io.SimpleFileWriter
   import   soda.translator.io.SimpleFileWriter_
+  import   soda.translator.parser.BlockProcessor
   import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
@@ -1534,13 +1543,10 @@ trait TranslatorToCoq
 
   private lazy val _default_argument = "."
 
-  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
-    FileNamePair_ (input_file_name, output_file_name)
-
   private lazy val _translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToCoq_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToCoq .mk
       )
     )
 
@@ -1549,25 +1555,25 @@ trait TranslatorToCoq
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (_soda_extension)
-    ) _mk_FileNamePair (input_name) (
+    ) FileNamePair .mk (input_name) (
       input_name .substring (0, input_name .length - _soda_extension .length) + _coq_extension)
-    else _mk_FileNamePair (input_name + _soda_extension) (input_name + _coq_extension)
+    else FileNamePair .mk (input_name + _soda_extension) (input_name + _coq_extension)
 
   private def _process_soda_file (file : File) : Boolean =
     _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   private def _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start , _process_soda_file) .process ()
+    DirectoryProcessor .mk (start) (_process_soda_file) .process ()
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ () .write_file (
+    SimpleFileWriter .mk .write_file (
       output_file_name) (
       content = _translator .translate (input)
     )
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ () .read_file (input_file_name) ) (
+      SimpleFileReader .mk .read_file (input_file_name) ) (
       output_file_name
     )
 

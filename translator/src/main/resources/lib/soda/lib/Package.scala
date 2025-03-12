@@ -27,7 +27,7 @@ trait CartesianProduct
 
 
 
-  lazy val fold = Fold_ ()
+  lazy val fold = Fold .mk
 
   private def _initial [A ] (seq : Seq [A] ) : Seq [Seq [A] ] =
     seq .map ( elem => (elem) +: Nil)
@@ -141,8 +141,8 @@ trait OptionSD [A ]
 
   def map [B ] (mapping : A => B) : OptionSD [B] =
     this match  {
-      case SomeSD_ (element) => SomeSD_ [B] (mapping (element) )
-      case _otherwise => NoneSD_ [B] ()
+      case SomeSD_ (element) => SomeSD .mk [B] (mapping (element) )
+      case _otherwise => NoneSD .mk [B]
     }
 
   def getOrElse (default : A) : A =
@@ -160,7 +160,7 @@ trait OptionSD [A ]
   def flatMap [B ] (mapping : A => OptionSD [B] ) : OptionSD [B] =
     this match  {
       case SomeSD_ (element) => mapping (element)
-      case _otherwise => NoneSD_ [B] ()
+      case _otherwise => NoneSD .mk [B]
     }
 
   def bind [B ] (mapping : A => OptionSD [B] ) : OptionSD [B] =
@@ -172,7 +172,7 @@ trait OptionSD [A ]
         if ( predicate (element)
         ) this
         else NoneSD_ [A] ()
-      case _otherwise => NoneSD_ [A] ()
+      case _otherwise => NoneSD .mk [A]
     }
 
 }
@@ -266,8 +266,8 @@ trait OptionSDBuilder [A ]
 
   def build (option : Option [A] ) : OptionSD [A] =
     option match  {
-      case Some (content) => SomeSD_ [A] (content)
-      case None => NoneSD_ [A] ()
+      case Some (content) => SomeSD .mk [A] (content)
+      case None => NoneSD .mk [A]
     }
 
 }
@@ -402,7 +402,7 @@ trait SeqSD [A ]
 
   def opt [B ] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] => B) : B =
     this match  {
-      case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD_ [A] (toSeq) )
+      case NonEmptySeqSD_ (toSeq) => ifNonEmpty (NonEmptySeqSD .mk [A] (toSeq) )
       case _otherwise => ifEmpty
     }
 
@@ -444,9 +444,9 @@ trait NonEmptySeqSD [A ]
 
   lazy val head : A = toSeq .head
 
-  lazy val tail : SeqSD [A] = SeqSDBuilder_ [A] () .build (toSeq .tail)
+  lazy val tail : SeqSD [A] = SeqSDBuilder .mk [A] .build (toSeq .tail)
 
-  lazy val reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ [A] (toSeq .reverse)
+  lazy val reverse : NonEmptySeqSD [A] = NonEmptySeqSD .mk [A] (toSeq .reverse)
 
 }
 
@@ -464,8 +464,8 @@ trait SeqSDBuilder [A ]
 
   def build (seq : Seq [A] ) : SeqSD [A] =
     if ( seq .isEmpty
-    ) EmptySeqSD_ [A] ()
-    else NonEmptySeqSD_ [A] (seq)
+    ) EmptySeqSD .mk [A]
+    else NonEmptySeqSD .mk [A] (seq)
 
 }
 

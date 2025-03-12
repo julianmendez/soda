@@ -23,7 +23,7 @@ class DirectoryProcessor
   package_file_name = "Package.soda"
 
   _all_files : Seq [File] =
-    DirectoryScanner_ () .get_all_files ( @new File (start) )
+    DirectoryScanner .mk .get_all_files ( @new File (start) )
 
   _sorted_all_soda_files : Seq [File] =
     _all_files
@@ -69,12 +69,12 @@ class DirectoryProcessor
   _sorted_lib_files : Seq [File] =
     _all_files
       .filter (lambda x --> x .isFile)
-      .filter (lambda file --> file .getName == LibraryDeployer_ () .library_marker_file)
+      .filter (lambda file --> file .getName == LibraryDeployer .mk .library_marker_file)
       .sorted
 
   _expand_library_files (ready : Boolean) : Boolean =
     ready and
-      LibraryDeployer_ () .expand_library (_sorted_lib_files)
+      LibraryDeployer .mk .expand_library (_sorted_lib_files)
 
   _add_missing_package_files (ready : Boolean) : Boolean =
     ready and

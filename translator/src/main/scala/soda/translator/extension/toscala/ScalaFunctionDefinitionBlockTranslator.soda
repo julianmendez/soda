@@ -11,18 +11,18 @@ class ScalaFunctionDefinitionBlockTranslator
     soda.translator.block.AnnotatedLine_
     soda.translator.block.Block
     soda.translator.block.Block_
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.replacement.Replacement_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _tc = TranslationConstantToScala_ ()
 
   _prepend_line (line : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (line) .++ (block .lines)
     )
 
@@ -106,7 +106,7 @@ class ScalaFunctionDefinitionBlockTranslator
     block .lines .mkString (_sc .space)
 
   _translate_main_block (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
             ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
@@ -117,7 +117,7 @@ class ScalaFunctionDefinitionBlockTranslator
   _remove_first_line_if_possible (block : Block) : Block =
     if block .lines .isEmpty
     then block
-    else BlockBuilder_ () .build (block .lines .tail)
+    else BlockBuilder .mk .build (block .lines .tail)
 
   _translate_block_with (first_line : AnnotatedLine) (block : Block) : Block =
     if _is_annotation (first_line .line)

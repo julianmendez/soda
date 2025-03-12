@@ -37,18 +37,15 @@ trait CharTypeEnum
 
 
 
-  private def _mk_CharType (ordinal : Int) (name : String) : CharType =
-    CharType_ (ordinal, name)
+  lazy val undefined_type = CharType .mk (0) ("undefined_type")
 
-  lazy val undefined_type = _mk_CharType (0) ("undefined_type")
+  lazy val quotes_type = CharType .mk (1) ("quotes_type")
 
-  lazy val quotes_type = _mk_CharType (1) ("quotes_type")
+  lazy val apostrophe_type = CharType .mk (2) ("apostrophe_type")
 
-  lazy val apostrophe_type = _mk_CharType (2) ("apostrophe_type")
+  lazy val backslash_type = CharType .mk (3) ("backslash_type")
 
-  lazy val backslash_type = _mk_CharType (3) ("backslash_type")
-
-  lazy val plain_type = _mk_CharType (4) ("plain_type")
+  lazy val plain_type = CharType .mk (4) ("plain_type")
 
   lazy val values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 
@@ -140,17 +137,17 @@ trait ParserStateEnum
 
 
 
-  lazy val undefined_state = ParserState_ (0 , "undefined_state")
+  lazy val undefined_state = ParserState .mk (0) ("undefined_state")
 
-  lazy val quotes_state = ParserState_ (1 , "quotes_state")
+  lazy val quotes_state = ParserState .mk (1) ("quotes_state")
 
-  lazy val apostrophe_state = ParserState_ (2 , "apostrophe_state")
+  lazy val apostrophe_state = ParserState .mk (2) ("apostrophe_state")
 
-  lazy val quotes_backslash_state = ParserState_ (3 , "quotes_backslash_state")
+  lazy val quotes_backslash_state = ParserState .mk (3) ("quotes_backslash_state")
 
-  lazy val apostrophe_backslash_state = ParserState_ (4 , "apostrophe_backslash_state")
+  lazy val apostrophe_backslash_state = ParserState .mk (4) ("apostrophe_backslash_state")
 
-  lazy val plain = ParserState_ (5 , "plain")
+  lazy val plain = ParserState .mk (5) ("plain")
 
   lazy val values = Seq (undefined_state , quotes_state , apostrophe_state , quotes_backslash_state ,
     apostrophe_backslash_state , plain)
@@ -176,9 +173,9 @@ trait ParserTransition
 
 
 
-  lazy val ps = ParserStateEnum_ ()
+  lazy val ps = ParserStateEnum .mk
 
-  lazy val ct = CharTypeEnum_ ()
+  lazy val ct = CharTypeEnum .mk
 
   lazy val transitions_that_change_states : Map [Tuple2 [ParserState, CharType] , ParserState] =
     Map (
@@ -254,7 +251,7 @@ trait ReplacementAux
     else line
 
   def replace_all (line : String) (pattern : String) (replacement : String) : String =
-    Replacer_ (line , pattern , replacement) .replaced_text
+    Replacer .mk (line) (pattern) (replacement) .replaced_text
 
   def replace_if_found (line : String) (pattern : String) (new_text : String) : String =
     if ( line .contains (pattern)
@@ -328,9 +325,9 @@ trait ReplacementWithTranslator
 
   def   translator : soda.translator.block.Translator
 
-  import   soda.lib.Fold_
+  import   soda.lib.Fold
 
-  lazy val aux = ReplacementAux_ ()
+  lazy val aux = ReplacementAux .mk
 
   lazy val soda_space = aux .soda_space
 
@@ -344,11 +341,11 @@ trait ReplacementWithTranslator
 
   lazy val scala_opening_parenthesis_symbol = "("
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
   private def _next_replace_words_with (line : String) (reserved_word : String) (translation : String)
       : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .replace_if_found (soda_space) (reserved_word) (soda_space) (translation)
       .replace_if_found (soda_space) (reserved_word) (closing_parenthesis_symbol) (translation)
       .replace_if_found (soda_space) (reserved_word) (new_line) (translation)
@@ -406,28 +403,28 @@ trait Replacement
 
   import   soda.translator.block.Translator
 
-  lazy val aux = ReplacementAux_ ()
+  lazy val aux = ReplacementAux .mk
 
   lazy val soda_space = aux.soda_space
 
   def replace_at_beginning (index : Int) (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator) .replace_at_beginning (line) (index) )
+    Replacement .mk (ReplacementWithTranslator .mk (translator) .replace_at_beginning (line) (index) )
 
   def replace_all (pattern : String) (replacement : String) : Replacement =
-    Replacement_ (aux .replace_all (line) (pattern) (replacement) )
+    Replacement .mk (aux .replace_all (line) (pattern) (replacement) )
 
   def add_space_to_soda_line () : Replacement =
-    Replacement_ (soda_space + line + soda_space)
+    Replacement .mk (soda_space + line + soda_space)
 
   def remove_space_from_translated_line () : Replacement =
-    Replacement_ (aux .remove_space_from_translated_line (line) )
+    Replacement .mk (aux .remove_space_from_translated_line (line) )
 
   def add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
-    Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+    Replacement .mk (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
   def replace_if_found  (previous_character : String) (text : String)  (next_character : String)
      (replacement : String) : Replacement =
-    Replacement_ (
+    Replacement .mk (
       aux .replace_if_found (line) (
         previous_character + text + next_character) (
         previous_character + replacement + next_character)
@@ -483,22 +480,22 @@ trait Replacer
   def   pattern : String
   def   replacement : String
 
-  import   soda.lib.FoldWhile_
-  import   soda.lib.Range_
+  import   soda.lib.FoldWhile
+  import   soda.lib.Range
 
-  private lazy val _fold_while = FoldWhile_ ()
+  private lazy val _fold_while = FoldWhile .mk
 
-  private lazy val _range = Range_ ()
+  private lazy val _range = Range .mk
 
-  lazy val initial_value : ReplacerFoldTuple = ReplacerFoldTuple_ (Seq () , 0 )
+  lazy val initial_value : ReplacerFoldTuple = ReplacerFoldTuple .mk (Seq () ) (0)
 
   private def _get_next_tuple (replaced_text_rev : Seq [String] ) (start_index : Int) (pos : Int)
       : ReplacerFoldTuple =
     if ( pos == -1
-    ) ReplacerFoldTuple_ (replaced_text_rev .+: (line .substring (start_index) ) , pos )
+    ) ReplacerFoldTuple .mk (replaced_text_rev .+: (line .substring (start_index) ) ) (pos)
     else
-      ReplacerFoldTuple_ (
-        (replaced_text_rev .+: (line .substring (start_index , pos) ) ) .+: (replacement) ,
+      ReplacerFoldTuple .mk (
+        (replaced_text_rev .+: (line .substring (start_index , pos) ) ) .+: (replacement) ) (
         pos + pattern .length
       )
 
@@ -576,39 +573,32 @@ trait Tokenizer
 
   def   line : String
 
-  import   soda.lib.Fold_
-  import   soda.lib.Range_
+  import   soda.lib.Fold
+  import   soda.lib.Range
 
-  private def _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
-    Token_ (text, parser_state, index)
+  private lazy val _fold = Fold .mk
 
-  private def _mk_TokenizerFoldTuple (last_index : Int) (parser_state : ParserState)
-      (rev_tokens : Seq [Token] ) : TokenizerFoldTuple =
-    TokenizerFoldTuple_ (last_index, parser_state, rev_tokens)
-
-  private lazy val _fold = Fold_ ()
-
-  private lazy val _range = Range_ ()
+  private lazy val _range = Range .mk
 
   private def _new_parser_state (tuple : TokenizerFoldTuple) (current_index : Int) : ParserState =
-    ParserTransition_ ()
+    ParserTransition .mk
       .next_parser_state (
         tuple .parser_state) (
-        CharTypeEnum_ () .get_char_type (line .charAt (current_index) )
+        CharTypeEnum .mk .get_char_type (line .charAt (current_index) )
       )
 
   private def _get_new_current_index (tuple : TokenizerFoldTuple) (current_index : Int) : Int =
-    if ( tuple .parser_state == ParserStateEnum_ () .quotes_state ||
-     tuple .parser_state == ParserStateEnum_ () .apostrophe_state
+    if ( tuple .parser_state == ParserStateEnum .mk .quotes_state ||
+     tuple .parser_state == ParserStateEnum .mk .apostrophe_state
     ) current_index + 1
     else current_index
 
   private def _next_value_function_of_different_class_with (tuple : TokenizerFoldTuple)
       (current_index : Int) (new_parser_state : ParserState) (index : Int)
       : TokenizerFoldTuple =
-    _mk_TokenizerFoldTuple (index) (new_parser_state) (
+    TokenizerFoldTuple .mk (index) (new_parser_state) (
       tuple .rev_tokens .+: (
-        _mk_Token (
+        Token .mk (
           line .substring (tuple .last_index, index) ) (
           tuple .parser_state ) (
           tuple .last_index
@@ -624,8 +614,8 @@ trait Tokenizer
 
   private def _new_value_function_with (tuple : TokenizerFoldTuple) (current_index : Int)
       (new_parser_state : ParserState) : TokenizerFoldTuple =
-    if ( ParserStateEnum_ () .is_same_class (new_parser_state) (tuple .parser_state)
-    ) _mk_TokenizerFoldTuple (tuple .last_index) (new_parser_state) (tuple .rev_tokens)
+    if ( ParserStateEnum .mk .is_same_class (new_parser_state) (tuple .parser_state)
+    ) TokenizerFoldTuple .mk (tuple .last_index) (new_parser_state) (tuple .rev_tokens)
     else _next_value_function_of_different_class (tuple) (current_index) (new_parser_state)
 
   private def _next_value_function (tuple : TokenizerFoldTuple) (current_index : Int) : TokenizerFoldTuple =
@@ -633,12 +623,12 @@ trait Tokenizer
       _new_parser_state (tuple) (current_index) )
 
   private def _postprocess (tuple : TokenizerFoldTuple) : Seq [Token] =
-    (tuple .rev_tokens .+: (Token_ (line .substring (tuple .last_index) , tuple .parser_state ,
+    (tuple .rev_tokens .+: (Token .mk (line .substring (tuple .last_index) ) (tuple .parser_state) (
         tuple .last_index) ) )
       .reverse
 
   private lazy val _initial_value  : TokenizerFoldTuple =
-    _mk_TokenizerFoldTuple (0) (ParserStateEnum_ () .plain) (Seq () )
+    TokenizerFoldTuple .mk (0) (ParserStateEnum .mk .plain) (Seq () )
 
   lazy val tokens : Seq [Token] =
     _postprocess (_fold .apply [Int, TokenizerFoldTuple] (

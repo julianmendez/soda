@@ -23,18 +23,15 @@ class CharTypeEnum
 
   abstract
 
-  _mk_CharType (ordinal : Int) (name : String) : CharType =
-    CharType_ (ordinal) (name)
+  undefined_type = CharType .mk (0) ("undefined_type")
 
-  undefined_type = _mk_CharType (0) ("undefined_type")
+  quotes_type = CharType .mk (1) ("quotes_type")
 
-  quotes_type = _mk_CharType (1) ("quotes_type")
+  apostrophe_type = CharType .mk (2) ("apostrophe_type")
 
-  apostrophe_type = _mk_CharType (2) ("apostrophe_type")
+  backslash_type = CharType .mk (3) ("backslash_type")
 
-  backslash_type = _mk_CharType (3) ("backslash_type")
-
-  plain_type = _mk_CharType (4) ("plain_type")
+  plain_type = CharType .mk (4) ("plain_type")
 
   values = Seq (undefined_type , quotes_type , apostrophe_type , backslash_type , plain_type)
 

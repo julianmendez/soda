@@ -10,29 +10,29 @@ case class BlockAnnotationSpec ()
 {
 
   import   soda.translator.block.Block
-  import   soda.translator.block.DefaultBlockTranslator_
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockTranslator
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val example_blocks =
-    ExampleProgram_ () .example_blocks
+    ExampleProgram .mk .example_blocks
 
   def detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation_ (block) ,
-      ClassBeginningAnnotation_ (block) ,
-      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
-      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ) ,
-      ImportDeclarationAnnotation_ (block) ,
-      PackageDeclarationAnnotation_ (block) ,
-      ClassAliasAnnotation_ (block) ,
-      TheoremBlockAnnotation_ (block) ,
-      DirectiveBlockAnnotation_ (block) ,
-      CommentAnnotation_ (block) ,
-      TestDeclarationAnnotation_ (block)
+      FunctionDefinitionAnnotation .mk (block) ,
+      ClassBeginningAnnotation .mk (block) ,
+      ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      ImportDeclarationAnnotation .mk (block) ,
+      PackageDeclarationAnnotation .mk (block) ,
+      ClassAliasAnnotation .mk (block) ,
+      TheoremBlockAnnotation .mk (block) ,
+      DirectiveBlockAnnotation .mk (block) ,
+      CommentAnnotation .mk (block) ,
+      TestDeclarationAnnotation .mk (block)
     )
 
   def apply_detectors (block : Block) : Seq [Boolean] =

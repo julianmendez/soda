@@ -4,19 +4,19 @@ class ReplacementSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  instance = ReplacementAux_ ()
+  instance : ReplacementAux = ReplacementAux .mk
 
-  _sc = SodaConstant_ ()
+  _sc : SodaConstant = SodaConstant .mk
 
   test ("Unicode replacements 1") (
     check (
       obtained :=
-        Replacement_ ("\u03BB")
+        Replacement .mk ("\u03BB")
           .replace_all ("\u03BB") (_sc .lambda_reserved_word)
           .line
     ) (
@@ -27,7 +27,7 @@ class ReplacementSpec ()
   test ("Unicode replacement 2") (
     check (
       obtained :=
-        Replacement_ ("\u2192")
+        Replacement .mk ("\u2192")
           .replace_all ("\u2192") ("->")
           .line
     ) (
@@ -38,7 +38,7 @@ class ReplacementSpec ()
   test ("Unicode replacement 3") (
     check (
       obtained :=
-        Replacement_ (_sc .case_arrow_unicode_symbol)
+        Replacement .mk (_sc .case_arrow_unicode_symbol)
           .replace_all (_sc .case_arrow_unicode_symbol) (_sc .case_reserved_word)
           .line
     ) (

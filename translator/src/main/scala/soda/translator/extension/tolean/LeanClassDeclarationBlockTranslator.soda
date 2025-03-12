@@ -10,15 +10,15 @@ class LeanClassDeclarationBlockTranslator
     soda.translator.block.Block
     soda.translator.block.Translator
     soda.translator.blocktr.TableTranslator_
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.replacement.Replacement_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   soda_space : String = _sc .space
 
@@ -79,7 +79,7 @@ class LeanClassDeclarationBlockTranslator
     if (has_condition_for_type_alias (get_first_line (block . lines) ) )
     then block
     else
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _process_head (block .lines) .++ (_process_tail (block .lines) )
       )
 

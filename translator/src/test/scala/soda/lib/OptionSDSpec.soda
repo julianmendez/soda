@@ -21,7 +21,7 @@ class OptionSDSpec ()
     SomeSD_ [String] ("" + n)
 
   maybe_string_to_int (s : String) : OptionSD [Int] =
-    OptionSDBuilder_ () .build (
+    OptionSDBuilder .mk .build (
       Try (Integer .parseInt (s .trim) )
         .toOption
     )
@@ -34,7 +34,7 @@ class OptionSDSpec ()
     )
   )
 
-  empty_opt = NoneSD_ ()
+  empty_opt = NoneSD .mk
 
   test ("should test a non empty option") (
     check (
@@ -44,11 +44,11 @@ class OptionSDSpec ()
     )
   )
 
-  non_empty_opt = SomeSD_ (1)
+  non_empty_opt = SomeSD .mk (1)
 
   test ("should get a default value, when empty") (
     check (
-      obtained := (NoneSD_ [Int] () ) .getOrElse (1)
+      obtained := (NoneSD .mk [Int] ) .getOrElse (1)
     ) (
       expected := 1
     )
@@ -64,7 +64,7 @@ class OptionSDSpec ()
 
   test ("should open an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ) .opt (ifEmpty := result_if_empty) (
+      obtained := (NoneSD .mk [String] ) .opt (ifEmpty := result_if_empty) (
         ifNonEmpty := result_if_non_empty)
     ) (
       expected := "It is empty."
@@ -82,7 +82,7 @@ class OptionSDSpec ()
 
   test ("should try fold an empty option") (
     check (
-      obtained := (NoneSD_ [String] () ) .fold [String] (ifEmpty := result_if_empty) (
+      obtained := (NoneSD .mk [String] ) .fold [String] (ifEmpty := result_if_empty) (
         f := result_if_non_empty)
     ) (
       expected := "It is empty."
@@ -100,9 +100,9 @@ class OptionSDSpec ()
 
   test ("should map empty to empty") (
     check (
-      obtained := (NoneSD_ [Int] () ) .map (int_to_string)
+      obtained := (NoneSD .mk [Int] ) .map (int_to_string)
     ) (
-      expected := NoneSD_ [String] ()
+      expected := NoneSD .mk [String]
     )
   )
 
@@ -116,9 +116,9 @@ class OptionSDSpec ()
 
   test ("should flat map empty to empty") (
     check (
-      obtained := (NoneSD_ [Int] () ) .flatMap (maybe_int_to_string)
+      obtained := (NoneSD .mk [Int] ) .flatMap (maybe_int_to_string)
     ) (
-      expected := NoneSD_ [String] ()
+      expected := NoneSD .mk [String]
     )
   )
 
@@ -139,13 +139,13 @@ class OptionSDSpec ()
               ifNonEmpty := lambda b -->
                 maybe_string_to_int ("3") .opt (ifEmpty := _empty_opt ) (
                   ifNonEmpty := lambda c -->
-                    SomeSD_ (a + b + c) ) ) )
+                    SomeSD .mk (a + b + c) ) ) )
     ) (
-      expected := SomeSD_ (6)
+      expected := SomeSD .mk (6)
     )
   )
 
-  _empty_opt : OptionSD [Int] = NoneSD_ [Int] ()
+  _empty_opt : OptionSD [Int] = NoneSD .mk [Int]
 
   test ("toOption with non empty option") (
     check (
@@ -165,7 +165,7 @@ class OptionSDSpec ()
 
   test ("toOption with empty option") (
     check (
-      obtained := (NoneSD_ [Int] () ) .toOption
+      obtained := (NoneSD .mk [Int] ) .toOption
     ) (
       expected := None
     )
@@ -173,7 +173,7 @@ class OptionSDSpec ()
 
   test ("toSeq with non empty option") (
     check (
-      obtained := (SomeSD_ (1) ) .toSeq
+      obtained := (SomeSD .mk (1) ) .toSeq
     ) (
       expected := Seq (1)
     )
@@ -181,7 +181,7 @@ class OptionSDSpec ()
 
   test ("toSeq with another non empty option") (
     check (
-      obtained := (SomeSD_ (2) ) .toSeq
+      obtained := (SomeSD .mk (2) ) .toSeq
     ) (
       expected := Seq (2)
     )
@@ -189,7 +189,7 @@ class OptionSDSpec ()
 
   test ("toSeq with empty option") (
     check (
-      obtained := (NoneSD_ () ) .toSeq
+      obtained := (NoneSD .mk) .toSeq
     ) (
       expected := Seq ()
     )
@@ -197,17 +197,17 @@ class OptionSDSpec ()
 
   test ("filter should work for None") (
     check (
-      obtained := (NoneSD_ [Int] () ) .filter (lambda x --> true)
+      obtained := (NoneSD .mk [Int] ) .filter (lambda x --> true)
     ) (
-      expected := NoneSD_ [Int] ()
+      expected := NoneSD .mk [Int]
     )
   )
 
   test ("filter should work for Some, if predicate does not hold") (
     check (
-      obtained := (SomeSD_ [Int] (0) ) .filter (lambda x --> x > 0)
+      obtained := (SomeSD .mk [Int] (0) ) .filter (lambda x --> x > 0)
     ) (
-      expected := NoneSD_ [Int] ()
+      expected := NoneSD .mk [Int]
     )
   )
 

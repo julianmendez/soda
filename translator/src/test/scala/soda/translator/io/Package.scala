@@ -20,7 +20,7 @@ case class DirectoryScannerSpec ()
 
   test ("scan a file that is not a directory") (
     check (
-      obtained = DirectoryScanner_ () .get_all_files (single_start_file) .toSet
+      obtained = DirectoryScanner .mk .get_all_files (single_start_file) .toSet
     ) (
       expected = Seq (single_start_file) .toSet
     )
@@ -28,7 +28,7 @@ case class DirectoryScannerSpec ()
 
   test ("simple scan of all files") (
     check (
-      obtained = DirectoryScanner_ () .get_all_files ( new File (start) ) .toSet
+      obtained = DirectoryScanner .mk .get_all_files ( new File (start) ) .toSet
     ) (
       expected = Seq (
         "otherexample",

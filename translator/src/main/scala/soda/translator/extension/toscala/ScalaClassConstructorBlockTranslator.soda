@@ -7,8 +7,8 @@ class ScalaClassConstructorBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation
@@ -16,7 +16,7 @@ class ScalaClassConstructorBlockTranslator
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _tc = TranslationConstantToScala_ ()
 
@@ -132,13 +132,13 @@ class ScalaClassConstructorBlockTranslator
       : Option [AbstractDeclarationAnnotation] =
     match block
       case AbstractDeclarationAnnotation_ (b , references) ==>
-        Some (AbstractDeclarationAnnotation_ (b , references) )
+        Some (AbstractDeclarationAnnotation .mk (b) (references) )
       case _otherwise ==> None
 
   _translate_block_with_abstract_beginning_and_fun (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) (abstract_functions : Seq [String] ) : ClassEndAnnotation =
     ClassEndAnnotation_ (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         block .lines .++ (
           Seq [String] (
             "" ,

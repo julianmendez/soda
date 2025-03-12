@@ -18,14 +18,14 @@ trait DocBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToDoc_ ()
+  private lazy val _tc = TranslationConstantToDoc .mk
 
   private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 
@@ -81,7 +81,7 @@ trait DocBlockTranslator
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _append (
           _tc .doc_closing_comment_translation) (
           _prepend (_tc .doc_opening_comment_translation) (
@@ -169,9 +169,9 @@ trait TranslationConstantToDoc
 
 
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
 
-  lazy val soda_constant = SodaConstant_ ()
+  lazy val soda_constant = SodaConstant .mk
 
   lazy val doc_space = " "
 

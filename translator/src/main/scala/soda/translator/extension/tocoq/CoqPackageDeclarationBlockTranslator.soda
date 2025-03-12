@@ -8,14 +8,14 @@ class CoqPackageDeclarationBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.PackageDeclarationAnnotation
     soda.translator.parser.annotation.PackageDeclarationAnnotation_
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   _comment_block (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       ( (Seq (_tc .coq_comment_opening_symbol) .++ (block .lines) ) .++ (
         Seq (_tc .coq_comment_closing_symbol) ) ) .++ (_tc .coq_prelude)
     )

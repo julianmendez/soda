@@ -10,15 +10,15 @@ class BlockProcessor
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.parser.annotation.AnnotationFactory_
-    soda.translator.replacement.ParserStateEnum_
+    soda.translator.parser.annotation.AnnotationFactory
+    soda.translator.replacement.ParserStateEnum
     soda.translator.replacement.Token
-    soda.translator.replacement.Tokenizer_
-    soda.translator.replacement.Replacement_
+    soda.translator.replacement.Tokenizer
+    soda.translator.replacement.Replacement
 
-  _sc = SodaConstant_ ()
+  _sc : SodaConstant = SodaConstant .mk
 
-  fold = soda.lib.Fold_ ()
+  fold = soda.lib.Fold .mk
 
   new_line = "\n"
 
@@ -30,19 +30,19 @@ class BlockProcessor
       .toIndexedSeq
 
   process_unicode_symbols_in_token (token : Token) : String =
-    if (token .parser_state == ParserStateEnum_ () .plain)
+    if (token .parser_state == ParserStateEnum .mk .plain)
     then replace_unicode_symbols_in_string (token .text)
     else token .text
 
   process_unicode_symbols_in_block (block : String) : String =
-    Tokenizer_ (block)
+    Tokenizer .mk (block)
       .tokens
       .map (lambda token --> process_unicode_symbols_in_token (token) )
       .mkString
 
   _replace_one_unicode_symbol (text : String) (symbol_pair : Tuple2 [String] [String] )
       : String =
-    Replacement_ (text)
+    Replacement .mk (text)
       .replace_all (symbol_pair ._1) (symbol_pair ._2)
       .line
 
@@ -55,8 +55,8 @@ class BlockProcessor
       .filter (lambda line --> line .trim .nonEmpty)
 
   make_block (paragraph : String) : AnnotatedBlock =
-    AnnotationFactory_ () .annotate (
-      BlockBuilder_ () .build (
+    AnnotationFactory .mk .annotate (
+      BlockBuilder .mk .build (
         remove_empty_lines (paragraph .split (new_line) .toIndexedSeq)
       )
     )
@@ -69,7 +69,7 @@ class BlockProcessor
       .map (lambda x --> x .contents)
       .mkString (double_new_line) + new_line
 
-  translator_with_preprocessor = PreprocessorSequenceTranslator_ (translator)
+  translator_with_preprocessor = PreprocessorSequenceTranslator .mk (translator)
 
   translate (program : String) : String =
     join_translated_blocks (

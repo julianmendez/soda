@@ -36,13 +36,13 @@ class LeanDefinitionLineTranslator
   import
     soda.lib.OptionSD
     soda.lib.SomeSD_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
     soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   _trimmed_line : String = line .trim
 

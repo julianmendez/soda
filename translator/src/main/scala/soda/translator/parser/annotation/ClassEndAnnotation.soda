@@ -8,12 +8,12 @@ class ClassEndAnnotation
     references : Seq [soda.translator.block.AnnotatedBlock]
 
   import
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.parser.SodaConstant_
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum_ () .class_end
+  identifier = BlockAnnotationEnum .mk .class_end
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _get_first_word_of_array (words : Array [String] ) : String =
     if words .size == 0

@@ -4,8 +4,8 @@ class PreprocessorSequenceTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.block.DefaultBlockTranslator_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.block.DefaultBlockTranslator
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -122,9 +122,9 @@ class PreprocessorSequenceTranslatorSpec ()
     "\n")
 
   block_processor =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        DefaultBlockTranslator_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        DefaultBlockTranslator .mk
       )
     )
 

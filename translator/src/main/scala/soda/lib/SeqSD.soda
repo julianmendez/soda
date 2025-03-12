@@ -15,7 +15,7 @@ class SeqSD [A : Type]
 
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : NonEmptySeqSD [A] -> B) : B =
     match this
-      case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD_ [A] (toSeq) )
+      case NonEmptySeqSD_ (toSeq) ==> ifNonEmpty (NonEmptySeqSD .mk [A] (toSeq) )
       case _otherwise ==> ifEmpty
 
 end
@@ -41,9 +41,9 @@ class NonEmptySeqSD [A : Type]
 
   head : A = toSeq .head
 
-  tail : SeqSD [A] = SeqSDBuilder_ [A] () .build (toSeq .tail)
+  tail : SeqSD [A] = SeqSDBuilder .mk [A] .build (toSeq .tail)
 
-  reverse : NonEmptySeqSD [A] = NonEmptySeqSD_ [A] (toSeq .reverse)
+  reverse : NonEmptySeqSD [A] = NonEmptySeqSD .mk [A] (toSeq .reverse)
 
 end
 
@@ -53,7 +53,7 @@ class SeqSDBuilder [A : Type]
 
   build (seq : Seq [A] ) : SeqSD [A] =
     if seq .isEmpty
-    then EmptySeqSD_ [A] ()
-    else NonEmptySeqSD_ [A] (seq)
+    then EmptySeqSD .mk [A]
+    else NonEmptySeqSD .mk [A] (seq)
 
 end

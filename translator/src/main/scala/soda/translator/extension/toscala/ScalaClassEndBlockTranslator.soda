@@ -8,7 +8,7 @@ class ScalaClassEndBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
@@ -32,7 +32,7 @@ class ScalaClassEndBlockTranslator
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
     _mk_ClassEndAnnotation (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         Seq [String] (
           _get_translation (block)
         )

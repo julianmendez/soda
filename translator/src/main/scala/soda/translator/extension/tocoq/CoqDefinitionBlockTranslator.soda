@@ -8,20 +8,20 @@ class CoqDefinitionBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
     )
 
   is_a_definition (block : Block) : Boolean =
@@ -52,7 +52,7 @@ class CoqDefinitionBlockTranslator
 
   _translate_definition_block (block : FunctionDefinitionAnnotation)
       : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block

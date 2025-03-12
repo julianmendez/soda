@@ -6,61 +6,58 @@ class TokenizerSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  _mk_Token (text : String) (parser_state : ParserState) (index : Int) : Token =
-    Token_ (text) (parser_state) (index)
-
   test ("should tokenize a small example") (
     check (
-      obtained := Tokenizer_ ("    val Constant = \"my text\"") .tokens
+      obtained := Tokenizer .mk ("    val Constant = \"my text\"") .tokens
     ) (
       expected := Seq (
-        _mk_Token ("    val Constant = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"my text\"") (ParserStateEnum_ () .quotes_state) (19),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (28)
+        Token .mk ("    val Constant = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"my text\"") (ParserStateEnum .mk .quotes_state) (19),
+        Token .mk ("") (ParserStateEnum .mk .plain) (28)
       )
     )
   )
 
   test ("should tokenize a common tab in a string") (
     check (
-      obtained := Tokenizer_ ("  x = \"abc\tde\"") .tokens
+      obtained := Tokenizer .mk ("  x = \"abc\tde\"") .tokens
     ) (
       expected := Seq (
-        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"abc\tde\"") (ParserStateEnum_ () .quotes_state) (6),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (14)
+        Token .mk ("  x = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"abc\tde\"") (ParserStateEnum .mk .quotes_state) (6),
+        Token .mk ("") (ParserStateEnum .mk .plain) (14)
       )
     )
   )
 
   test ("should tokenize an escaped tab in a string") (
     check (
-      obtained := Tokenizer_ ("  x = \"abc\\tde\"") .tokens
+      obtained := Tokenizer .mk ("  x = \"abc\\tde\"") .tokens
     ) (
       expected := Seq (
-        _mk_Token ("  x = ") (ParserStateEnum_ () .plain) (0),
-        _mk_Token ("\"abc\\tde\"") (ParserStateEnum_ () .quotes_state) (6),
-        _mk_Token ("") (ParserStateEnum_ () .plain) (15)
+        Token .mk ("  x = ") (ParserStateEnum .mk .plain) (0),
+        Token .mk ("\"abc\\tde\"") (ParserStateEnum .mk .quotes_state) (6),
+        Token .mk ("") (ParserStateEnum .mk .plain) (15)
       )
     )
   )
 
   test ("should tokenize a single function definition") (
     check (
-      obtained := Tokenizer_ ("def f (x: Int): Int = x") .tokens
+      obtained := Tokenizer .mk ("def f (x: Int): Int = x") .tokens
     ) (
       expected := Seq (
-        _mk_Token ("def f (x: Int): Int = x") (ParserStateEnum_ () .plain) (0)
+        Token .mk ("def f (x: Int): Int = x") (ParserStateEnum .mk .plain) (0)
       )
     )
   )
 
   test ("should tokenize a function call") (
     check (
-      obtained := Tokenizer_ ("\tas_digits (5 * number)") .tokens
+      obtained := Tokenizer .mk ("\tas_digits (5 * number)") .tokens
     ) (
       expected := Seq (
-        _mk_Token ("\tas_digits (5 * number)") (ParserStateEnum_ () .plain) (0)
+        Token .mk ("\tas_digits (5 * number)") (ParserStateEnum .mk .plain) (0)
       )
     )
   )

@@ -12,8 +12,8 @@ case class CoqFullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
@@ -42,9 +42,9 @@ case class CoqFullTranslationSpec ()
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
       obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToCoq_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToCoq .mk
           )
         ) .translate (read_file (input_file_name) )
     ) (
@@ -84,7 +84,7 @@ case class MicroTranslatorToCoqSpec ()
   lazy val instance =
     BlockProcessor_ (
       DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToCoq_ ()
+        MicroTranslatorToCoq .mk
       )
     )
 
