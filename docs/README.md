@@ -16,14 +16,24 @@ extraction tool.
 ## Publications
 
 * <a id="Me2023"></a>
-Julian Alfredo Mendez.
-**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
-arXiv
- &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
- &nbsp; [Abstract][soda-abstract]
- &nbsp; [BibTeX][soda-bibtex]
- &nbsp; [PDF][soda-pdf]
- &nbsp; [Implementation][soda-impl]
+  Julian Alfredo Mendez.
+  **Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
+  arXiv, 2023.
+  &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
+  &nbsp; [Abstract][soda-abstract]
+  &nbsp; [BibTeX][soda-bibtex]
+  &nbsp; [PDF][soda-pdf]
+  &nbsp; [Implementation][soda-impl]
+
+* <a id="MeKa2025"></a>
+  Julian Alfredo Mendez, Timotheus Kampik.
+  **Can Proof Assistants Verify Multi-Agent Systems?**.
+  arXiv, 2025.
+  &nbsp; DOI:[10.48550/arXiv.2503.06812][soda-mas-doi]
+  &nbsp; [Abstract][soda-mas-abstract]
+  &nbsp; [BibTeX][soda-mas-bibtex]
+  &nbsp; [PDF][soda-mas-pdf]
+  &nbsp; [Implementation][soda-mas-impl]
 
 
 ## Online manual
@@ -34,19 +44,20 @@ arXiv
 ## Where to start
 
 Steps to run a "Hello world!" example in Soda:
+
 1. To run these steps, you need to install:
-   - a. [Scala 3][scala]
-   - b. [sbt][sbt] (if you need to build the binaries)
-   - c. [Java][java] (to execute JAR files)
+    - a. [Scala 3][scala]
+    - b. [sbt][sbt] (if you need to build the binaries)
+    - c. [Java][java] (to execute JAR files)
 2. Get the translator binary by either doing the following:
-   - a. download the Linux binary from [releases][soda-releases]
-   - b. **or** clone the [GitHub repository][soda-repo] and compile it, by either:
-      - i. run the `makeall.sh`, from a Linux compatible environment
-      - ii. **or** run `sbt` to get an executable JAR file as indicated in the
-        [release notes][release-notes]. The command itself is described in `build` and the
-        file is `release`. To execute a JAR file, you need a [Java][java] environment
-        installed, and you need to run `java -jar filename.jar`, for a JAR file named
-        `filename.jar`.
+    - a. download the Linux binary from [releases][soda-releases]
+    - b. **or** clone the [GitHub repository][soda-repo] and compile it, by either:
+        - i. run the `makeall.sh`, from a Linux compatible environment
+        - ii. **or** run `sbt` to get an executable JAR file as indicated in the
+          [release notes][release-notes]. The command itself is described in `build` and the
+          file is `release`. To execute a JAR file, you need a [Java][java] environment
+          installed, and you need to run `java -jar filename.jar`, for a JAR file named
+          `filename.jar`.
 3. Once you got the binary translator, go to an empty directory and try
    `soda manual`. It will output a piece of code with many examples, but most importantly,
    this mini-manual is a "Hello, World!" program itself. Write `soda manual > Manual.soda` and
@@ -171,30 +182,65 @@ More detailed information can be found in the [release notes][release-notes].
 [Julian Alfredo Mendez][author]
 
 [soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
+
 [soda-abstract]: https://arxiv.org/abs/2310.01961
+
 [soda-bibtex]: https://julianmendez.github.io/soda/bibtex-2023.html
+
 [soda-pdf]: https://arxiv.org/pdf/2310.01961
+
 [soda-impl]: https://github.com/julianmendez/soda
+
+[soda-mas-doi]: https://doi.org/10.48550/arXiv.2503.06812
+
+[soda-mas-abstract]: https://arxiv.org/abs/2503.06812
+
+[soda-mas-bibtex]: https://julianmendez.github.io/soda/mas-bibtex-2025.html
+
+[soda-mas-pdf]: https://arxiv.org/pdf/2503.06812
+
+[soda-mas-impl]: https://github.com/julianmendez/market
+
 [author]: https://julianmendez.github.io
+
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt
+
 [build-status]: https://github.com/julianmendez/soda/actions
+
 [doc-status]: https://soda-lang.readthedocs.io/en/latest/?badge=latest
+
 [manual]: https://soda-lang.readthedocs.io/en/latest/
+
 [release-notes]: https://julianmendez.github.io/soda/RELEASE-NOTES.html
+
 [soda-repo]: https://github.com/julianmendez/soda
+
 [soda-releases]: https://github.com/julianmendez/soda/releases
+
 [examples-test]: https://github.com/julianmendez/soda/tree/master/examples/src/test/scala/soda/example
+
 [lean-game-server]: https://adam.math.hhu.de
+
 [sbt]: https://www.scala-sbt.org
+
 [scala]: https://scala-lang.org
+
 [java]: https://www.oracle.com/java/technologies/
+
 [lean]: https://lean-lang.org
+
 [coq]: https://coq.inria.fr
+
 [latex]: https://www.latex-project.org
+
 [sbt]: https://www.scala-sbt.org
+
 [intellij]: https://www.jetbrains.com/idea/
+
 [intellij-conf]: https://github.com/julianmendez/soda/blob/master/translator/src/main/resources/soda/translator/documentation/soda_for_intellij.txt
+
 [gedit]: https://gedit-technology.github.io/apps/gedit/
+
 [gedit-conf]: https://github.com/julianmendez/soda/blob/master/translator/src/main/resources/soda/translator/documentation/soda.lang
 
 
