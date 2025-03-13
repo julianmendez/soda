@@ -72,9 +72,9 @@ case class PriceMonitorSpec ()
   private def _mk_Customer (name : String) (ip_address : String) : Customer =
    Customer_ (name, ip_address)
 
-  lazy val fair_pricing_agent = FairPricingAgent_ ()
+  lazy val fair_pricing_agent = FairPricingAgent .mk
 
-  lazy val unfair_pricing_agent = UnfairPricingAgent_ ()
+  lazy val unfair_pricing_agent = UnfairPricingAgent .mk
 
   lazy val customer_1 = _mk_Customer (name = "Jon") (ip_address = "127.0.0.1")
 

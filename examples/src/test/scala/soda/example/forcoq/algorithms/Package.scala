@@ -22,11 +22,11 @@ case class RecursionSpec ()
   private lazy val _fold_left_while_condition : Seq [String] => Int => Boolean =
      (s : Seq [String] ) =>  (e : Int) => e < 5
 
-  private lazy val _fold_while = FoldWhile_ ()
+  private lazy val _fold_while = FoldWhile .mk
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
-  private lazy val _range = Range_ ()
+  private lazy val _range = Range .mk
 
   test ("fold left while with Seq") (
     check (

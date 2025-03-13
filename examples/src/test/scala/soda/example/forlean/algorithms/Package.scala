@@ -28,11 +28,11 @@ case class RecursionForLeanSpec ()
   private lazy val _fold_left_while_condition : List [String] => Int => Boolean =
      (s : List [String] ) =>  (e : Int) => e < 5
 
-  private lazy val _fold_while = FoldWhile_ ()
+  private lazy val _fold_while = FoldWhile .mk
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
-  private lazy val _range = Range_ ()
+  private lazy val _range = Range .mk
 
   test ("fold left while with Seq") (
     check (
@@ -98,7 +98,7 @@ case class SwapExampleSpec ()
 
   lazy val pair_2 = PairExample_ (five, three)
 
-  lazy val instance = SwapExample_ ()
+  lazy val instance = SwapExample .mk
 
   test ("one swap") (
     check (

@@ -452,7 +452,7 @@ trait ConstrainedSortAlgorithm
 
   def sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
     if ( SortExampleWithZip .mk .is_sorted (sorted_sequence)
-    ) SomeSD .mk (sorted_sequence)
+    ) SomeSD .mk [Seq [Int] ] (sorted_sequence)
     else NoneSD .mk [Seq [Int] ]
 
   def sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =

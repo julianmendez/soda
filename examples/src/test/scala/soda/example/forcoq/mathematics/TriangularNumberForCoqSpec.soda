@@ -4,7 +4,7 @@ class TriangularNumberForCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.example.forcoq.lib.IntNat_
+    soda.example.forcoq.lib.IntNat
     soda.example.forcoq.lib.nat
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -17,15 +17,15 @@ class TriangularNumberForCoqSpec ()
   triangular_number_with_nat : Seq [ Tuple2 [nat] [nat] ] =
     triangular_number_values
       .map (lambda pair -->
-       Tuple2 (IntNat_ () .from_non_negative (pair ._1) ,
-         IntNat_ () .from_non_negative (pair ._2) )
+       Tuple2 (IntNat .mk .from_non_negative (pair ._1) ,
+         IntNat .mk .from_non_negative (pair ._2) )
       )
 
   test ("should test the triangular for Coq") (
     check (
       obtained := triangular_number_with_nat
         .map (lambda pair --> pair ._1)
-        .map (lambda n --> Tuple2 (n , TriangularNumberForCoq_ () .get_number (n) ) )
+        .map (lambda n --> Tuple2 (n , TriangularNumberForCoq .mk .get_number (n) ) )
     ) (
       expected := triangular_number_with_nat
     )

@@ -4,7 +4,7 @@ class TriangularNumberForLeanSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.example.forlean.lib.IntNat_
+    soda.example.forlean.lib.IntNat
     soda.example.forlean.lib.Nat
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -17,15 +17,15 @@ class TriangularNumberForLeanSpec ()
   triangular_number_with_nat : Seq [ Tuple2 [Nat] [Nat] ] =
     triangular_number_values
       .map (lambda pair -->
-        Tuple2 (IntNat_ () .from_non_negative (pair ._1) ,
-          IntNat_ () .from_non_negative (pair ._2) )
+        Tuple2 (IntNat .mk .from_non_negative (pair ._1) ,
+          IntNat .mk .from_non_negative (pair ._2) )
       )
 
   test ("should test the triangular for Lean") (
     check (
       obtained := triangular_number_with_nat
         .map (lambda pair --> pair ._1)
-        .map (lambda n --> Tuple2 (n , TriangularNumberForLean_ () .get_number (n) ) )
+        .map (lambda n --> Tuple2 (n , TriangularNumberForLean .mk .get_number (n) ) )
     ) (
       expected := triangular_number_with_nat
     )

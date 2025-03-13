@@ -13,7 +13,7 @@ case class MyListSpec ()
     assert (obtained == expected)
 
   def toNat (n : Int) : Nat =
-    IntNat_ () .from_non_negative (n)
+    IntNat .mk .from_non_negative (n)
 
   lazy val example_list : List [Int] = List (0 , 1 , 1 , 2 , 3 , 5 , 8)
 
@@ -31,7 +31,7 @@ case class MyListSpec ()
   test ("fold left with a list") (
     check (
       obtained =
-        MyList_ ()
+        MyList .mk
           .foldl [Int, List [String] ] (example_list) (_fold_left_initial_value) (
             _fold_left_next_value_function)
     ) (
@@ -41,7 +41,7 @@ case class MyListSpec ()
 
   test ("length of a list") (
     check (
-      obtained = MyList_ () .length (example_list)
+      obtained = MyList .mk .length (example_list)
     ) (
       expected = toNat (7)
     )
@@ -49,7 +49,7 @@ case class MyListSpec ()
 
   test ("length of an empty list") (
     check (
-      obtained = MyList_ () .length (empty_int_list)
+      obtained = MyList .mk .length (empty_int_list)
     ) (
       expected = toNat (0)
     )
@@ -58,7 +58,7 @@ case class MyListSpec ()
   test ("reverse of a list") (
     check (
       obtained =
-        MyList_ ()
+        MyList .mk
           .reverse [String] (initial_string_list)
     ) (
       expected = List [String] ("13" , "8" , "5" , "3" , "2" , "1" , "1", "0")
@@ -68,7 +68,7 @@ case class MyListSpec ()
   test ("reverse of an empty list") (
     check (
       obtained =
-        MyList_ ()
+        MyList .mk
           .reverse [String] (empty_string_list)
     ) (
       expected = List [String] ()
@@ -88,15 +88,15 @@ case class NatSpec ()
 
   test ("IntNat from non negative") (
     check (
-      obtained = IntNat_ () .from_non_negative (8)
+      obtained = IntNat .mk .from_non_negative (8)
     ) (
-      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) )
     )
   )
 
   test ("IntNat to Int") (
     check (
-      obtained = IntNat_ () .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+      obtained = IntNat .mk .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) )
     ) (
       expected = 5
     )
@@ -104,17 +104,17 @@ case class NatSpec ()
 
   test ("Nat add") (
     check (
-      obtained =  Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+      obtained =  Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) )
     ) (
-      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) )
     )
   )
 
   test ("Nat mul") (
     check (
-      obtained = Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) )
+      obtained = Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) )
     ) (
-      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) ) ) ) ) )
+      expected = Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) ) ) ) ) )
     )
   )
 
@@ -131,7 +131,7 @@ case class SimpleListSpec ()
 
   test ("list from Seq") (
     check (
-      obtained = SeqList_ () .from_Seq (Seq [Int] (0 , 1 , 1 , 2 , 3 , 5) )
+      obtained = SeqList .mk .from_Seq (Seq [Int] (0 , 1 , 1 , 2 , 3 , 5) )
     ) (
       expected = (cons_ (0 , cons_ (1 , cons_ (1 , cons_ (2 , cons_ (3 ,
         cons_ (5 , nil_ [Int] () ) ) ) ) ) ) )
@@ -140,7 +140,7 @@ case class SimpleListSpec ()
 
   test ("list to Seq") (
     check (
-      obtained = SeqList_ () .to_Seq ( (cons_ (1 , cons_ (2 , cons_ (4 , cons_ (8 ,
+      obtained = SeqList .mk .to_Seq ( (cons_ (1 , cons_ (2 , cons_ (4 , cons_ (8 ,
         cons_ (16 , nil_ [Int] () ) ) ) ) ) ) )
     ) (
       expected = Seq [Int] (1 , 2 , 4 , 8 , 16)

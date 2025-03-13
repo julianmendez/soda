@@ -16,7 +16,7 @@ class SwapExampleSpec ()
 
   pair_2 = PairExample_ (five) (three)
 
-  instance = SwapExample_ ()
+  instance = SwapExample .mk
 
   test ("one swap") (
     check (

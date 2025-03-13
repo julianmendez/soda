@@ -8,15 +8,15 @@ class NatSpec ()
 
   test ("IntNat from non negative") (
     check (
-      obtained := IntNat_ () .from_non_negative (8)
+      obtained := IntNat .mk .from_non_negative (8)
     ) (
-      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) )
     )
   )
 
   test ("IntNat to Int") (
     check (
-      obtained := IntNat_ () .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+      obtained := IntNat .mk .to_Int (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) )
     ) (
       expected := 5
     )
@@ -24,17 +24,17 @@ class NatSpec ()
 
   test ("Nat add") (
     check (
-      obtained :=  Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) )
+      obtained :=  Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) .add (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) )
     ) (
-      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) )
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) )
     )
   )
 
   test ("Nat mul") (
     check (
-      obtained := Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) )
+      obtained := Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) .mul (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) )
     ) (
-      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero_ () ) ) ) ) ) ) ) ) ) ) ) )
+      expected := Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Succ_ (Zero .mk ) ) ) ) ) ) ) ) ) ) ) )
     )
   )
 

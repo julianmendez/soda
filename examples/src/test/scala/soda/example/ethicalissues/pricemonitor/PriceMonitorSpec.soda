@@ -51,9 +51,9 @@ class PriceMonitorSpec ()
   _mk_Customer (name : String) (ip_address : String) : Customer =
    Customer_ (name) (ip_address)
 
-  fair_pricing_agent = FairPricingAgent_ ()
+  fair_pricing_agent = FairPricingAgent .mk
 
-  unfair_pricing_agent = UnfairPricingAgent_ ()
+  unfair_pricing_agent = UnfairPricingAgent .mk
 
   customer_1 = _mk_Customer (name := "Jon") (ip_address := "127.0.0.1")
 
