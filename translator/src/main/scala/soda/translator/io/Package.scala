@@ -88,12 +88,6 @@ trait DirectoryProcessor
     ready &&
       LibraryDeployer .mk .expand_library (_sorted_lib_files)
 
-  private def _add_missing_package_files (ready : Boolean) : Boolean =
-    ready &&
-      _missing_package_files
-       .map ( x => x .createNewFile)
-       .forall ( x => x)
-
   private def _process_all_soda_files (ready : Boolean) : Boolean =
     ready &&
       _soda_files_and_missing_package_files
@@ -103,7 +97,6 @@ trait DirectoryProcessor
   def process () : Boolean =
     Some (true)
       .map (_expand_library_files)
-      .map (_add_missing_package_files)
       .map (_process_all_soda_files)
       .getOrElse (false)
 

@@ -76,12 +76,6 @@ class DirectoryProcessor
     ready and
       LibraryDeployer .mk .expand_library (_sorted_lib_files)
 
-  _add_missing_package_files (ready : Boolean) : Boolean =
-    ready and
-      _missing_package_files
-       .map (lambda x --> x .createNewFile)
-       .forall (lambda x --> x)
-
   _process_all_soda_files (ready : Boolean) : Boolean =
     ready and
       _soda_files_and_missing_package_files
@@ -91,7 +85,6 @@ class DirectoryProcessor
   process () : Boolean =
     Some (true)
       .map (_expand_library_files)
-      .map (_add_missing_package_files)
       .map (_process_all_soda_files)
       .getOrElse (false)
 

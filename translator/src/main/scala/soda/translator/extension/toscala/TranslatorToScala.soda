@@ -101,6 +101,11 @@ class IndividualProcessor
   process_soda_file (file : File) : Boolean =
     process_soda_file_with (get_input_output_file_names (file .getAbsolutePath) )
 
+  process_prelude_soda_file (file : File) : Boolean =
+    if file .exists
+    then process_soda_file (file)
+    else false
+
 end
 
 class PackageProcessor
@@ -160,7 +165,7 @@ class TranslatorToScala
 
   process_soda_file_with_package_option (file : File) : Boolean =
     if file .getName == tc .package_file_name
-    then IndividualProcessor .mk .process_soda_file (file)
+    then IndividualProcessor .mk .process_prelude_soda_file (file)
     else PackageProcessor .mk .process_soda_file (file)
 
   _process_directory_with_package_option (start : String) : Boolean =

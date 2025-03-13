@@ -1774,6 +1774,11 @@ trait IndividualProcessor
   def process_soda_file (file : File) : Boolean =
     process_soda_file_with (get_input_output_file_names (file .getAbsolutePath) )
 
+  def process_prelude_soda_file (file : File) : Boolean =
+    if ( file .exists
+    ) process_soda_file (file)
+    else false
+
 }
 
 case class IndividualProcessor_ () extends IndividualProcessor
@@ -1847,7 +1852,7 @@ trait TranslatorToScala
 
   def process_soda_file_with_package_option (file : File) : Boolean =
     if ( file .getName == tc .package_file_name
-    ) IndividualProcessor .mk .process_soda_file (file)
+    ) IndividualProcessor .mk .process_prelude_soda_file (file)
     else PackageProcessor .mk .process_soda_file (file)
 
   private def _process_directory_with_package_option (start : String) : Boolean =
