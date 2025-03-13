@@ -19,15 +19,10 @@ class TranslatorToCoq
 
   import
     soda.translator.block.DefaultBlockSequenceTranslator
-    soda.translator.block.DefaultBlockSequenceTranslator_
     soda.translator.io.DirectoryProcessor
-    soda.translator.io.DirectoryProcessor_
     soda.translator.io.SimpleFileReader
-    soda.translator.io.SimpleFileReader_
     soda.translator.io.SimpleFileWriter
-    soda.translator.io.SimpleFileWriter_
     soda.translator.parser.BlockProcessor
-    soda.translator.parser.BlockProcessor_
     java.io.File
 
   _soda_extension : String = ".soda"

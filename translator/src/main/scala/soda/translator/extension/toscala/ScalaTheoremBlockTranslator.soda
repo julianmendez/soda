@@ -14,7 +14,7 @@ class ScalaTheoremBlockTranslator
     soda.translator.parser.annotation.TheoremBlockAnnotation
     soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder .mk .build (

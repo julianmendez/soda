@@ -14,7 +14,7 @@ class CoqDocumentationBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 

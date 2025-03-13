@@ -11,8 +11,8 @@ case class BeautifierSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -23,9 +23,9 @@ case class BeautifierSpec ()
   test ("the translated source code should respect unnecessary spaces") (
     check (
       obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToScala_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToScala .mk
           )
         ) .translate (original)
     ) (
@@ -43,8 +43,8 @@ case class FullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
@@ -97,9 +97,9 @@ case class FullTranslationSpec ()
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
       obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToScala_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToScala .mk
           )
         ) .translate (read_file (input_file_name) )
     ) (
@@ -252,7 +252,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when constants are defined in the wrong order") (
     check (
-      obtained = ExampleWithWrongOrder_ () .this_is_null_but
+      obtained = ExampleWithWrongOrder .mk .this_is_null_but
     ) (
       expected = "Success!"
     )
@@ -260,7 +260,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when constants are defined in the right order") (
     check (
-      obtained = ExampleWithRightOrder_ () .this_is_not_null
+      obtained = ExampleWithRightOrder .mk .this_is_not_null
     ) (
       expected = "Success!"
     )
@@ -268,7 +268,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when one work-around is used") (
     check (
-      obtained = ExampleWithEmptyParentheses_ () .this_is_not_null  ()
+      obtained = ExampleWithEmptyParentheses .mk .this_is_not_null  ()
     ) (
       expected = "Success!"
     )
@@ -276,7 +276,7 @@ case class LazySyntaxSpec ()
 
   test ("should show what happens when another work-around is used") (
     check (
-      obtained = AnotherExampleWithEmptyParentheses_ () .this_is_not_null
+      obtained = AnotherExampleWithEmptyParentheses .mk .this_is_not_null
     ) (
       expected = "Success!"
     )
@@ -290,16 +290,16 @@ case class MicroTranslatorToScalaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 
@@ -324,16 +324,16 @@ case class MicroTranslatorToScalaSpec ()
     check (
       obtained = instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
         "\n      MinMaxPair_ (" +
-        "        min := MaxAndMin_ () .min (a) (b) ) (" +
-        "        max := MaxAndMin_ () .max (a) (b)" +
+        "        min := MaxAndMin .mk .min (a) (b) ) (" +
+        "        max := MaxAndMin .mk .max (a) (b)" +
         "      )" +
         "\n"
       )
     ) (
       expected = "    def min_max (a : Int) (b : Int) : MinMaxPair =" +
         "\n      MinMaxPair_ (" +
-        "        min = MaxAndMin_ () .min (a) (b) , " +
-        "        max = MaxAndMin_ () .max (a) (b)" +
+        "        min = MaxAndMin .mk .min (a) (b) , " +
+        "        max = MaxAndMin .mk .max (a) (b)" +
         "      )" +
         "\n"
     )
@@ -884,9 +884,9 @@ case class ScalaClassConstructorBlockTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.BlockTranslatorPipeline
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -998,15 +998,15 @@ case class ScalaClassConstructorBlockTranslatorSpec ()
     "\n"
 
   private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        ScalaClassConstructorBlockTranslator_ ()
+        ScalaClassConstructorBlockTranslator .mk
       )
     )
 
   lazy val translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
         _translation_pipeline
       )
     )
@@ -1039,16 +1039,16 @@ case class ScalaNonSodaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 
@@ -1147,19 +1147,16 @@ case class MainSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  lazy val instance = IndividualProcessor_ ()
+  lazy val instance = IndividualProcessor .mk
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
-
-  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
-    FileNamePair_ (input_file_name, output_file_name)
 
   test ("should get the input and output file names without path") (
     check (
       obtained = instance .get_input_output_file_names("my_file.soda")
     ) (
-      expected = _mk_FileNamePair ("my_file.soda") ("my_file.scala")
+      expected = FileNamePair .mk ("my_file.soda") ("my_file.scala")
     )
   )
 
@@ -1167,7 +1164,7 @@ case class MainSpec ()
     check (
       obtained = instance .get_input_output_file_names("/path/to/file.soda")
     ) (
-      expected = _mk_FileNamePair ("/path/to/file.soda") ("/path/to/file.scala")
+      expected = FileNamePair .mk ("/path/to/file.soda") ("/path/to/file.scala")
     )
   )
 
@@ -1179,16 +1176,16 @@ case class UpperAndLowerBoundDeclarationSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 

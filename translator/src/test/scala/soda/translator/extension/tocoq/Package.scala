@@ -75,15 +75,15 @@ case class MicroTranslatorToCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
         MicroTranslatorToCoq .mk
       )
     )

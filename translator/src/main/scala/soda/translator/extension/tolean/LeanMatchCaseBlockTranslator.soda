@@ -14,7 +14,7 @@ class LeanMatchCaseBlockTranslator
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
     soda.translator.parser.annotation.TestDeclarationAnnotation
     soda.translator.parser.annotation.TestDeclarationAnnotation_
-    soda.translator.replacement.ReplacementAux_
+    soda.translator.replacement.ReplacementAux
 
   _sc = SodaConstant .mk
 
@@ -41,7 +41,7 @@ class LeanMatchCaseBlockTranslator
   _replace_case (line : String) : String =
     if _is_a_case_line (line)
     then
-      ReplacementAux_ ()
+      ReplacementAux .mk
         .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
     else line
 
@@ -68,10 +68,10 @@ class LeanMatchCaseBlockTranslator
     else block
 
   _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
+    TestDeclarationAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block

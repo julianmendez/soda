@@ -4,16 +4,16 @@ class MicroTranslatorToScalaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 
@@ -38,16 +38,16 @@ class MicroTranslatorToScalaSpec ()
     check (
       obtained := instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
         "\n      MinMaxPair_ (" +
-        "        min := MaxAndMin_ () .min (a) (b) ) (" +
-        "        max := MaxAndMin_ () .max (a) (b)" +
+        "        min := MaxAndMin .mk .min (a) (b) ) (" +
+        "        max := MaxAndMin .mk .max (a) (b)" +
         "      )" +
         "\n"
       )
     ) (
       expected := "    def min_max (a : Int) (b : Int) : MinMaxPair =" +
         "\n      MinMaxPair_ (" +
-        "        min = MaxAndMin_ () .min (a) (b) , " +
-        "        max = MaxAndMin_ () .max (a) (b)" +
+        "        min = MaxAndMin .mk .min (a) (b) , " +
+        "        max = MaxAndMin .mk .max (a) (b)" +
         "      )" +
         "\n"
     )

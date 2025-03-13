@@ -3,7 +3,7 @@ class Main
 
   abstract
 
-  e = ListExample_ ()
+  e = ListExample .mk
 
   all_examples =
     Seq (

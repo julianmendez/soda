@@ -894,7 +894,7 @@ trait LeanMatchCaseBlockTranslator
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.replacement.ReplacementAux_
+  import   soda.translator.replacement.ReplacementAux
 
   private lazy val _sc = SodaConstant .mk
 
@@ -921,7 +921,7 @@ trait LeanMatchCaseBlockTranslator
   private def _replace_case (line : String) : String =
     if ( _is_a_case_line (line)
     )
-      ReplacementAux_ ()
+      ReplacementAux .mk
         .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
     else line
 
@@ -948,10 +948,10 @@ trait LeanMatchCaseBlockTranslator
     else block
 
   private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
+    TestDeclarationAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
@@ -1697,11 +1697,11 @@ trait TranslatorToLean
 
 
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.io.DirectoryProcessor_
-  import   soda.translator.io.SimpleFileReader_
-  import   soda.translator.io.SimpleFileWriter_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.io.DirectoryProcessor
+  import   soda.translator.io.SimpleFileReader
+  import   soda.translator.io.SimpleFileWriter
+  import   soda.translator.parser.BlockProcessor
   import   java.io.File
 
   private lazy val _soda_extension : String = ".soda"
@@ -1710,13 +1710,10 @@ trait TranslatorToLean
 
   private lazy val _default_argument = "."
 
-  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
-    FileNamePair_ (input_file_name, output_file_name)
-
   private lazy val _translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToLean_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToLean .mk
       )
     )
 
@@ -1725,25 +1722,25 @@ trait TranslatorToLean
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (_soda_extension)
-    ) _mk_FileNamePair (input_name) (
+    ) FileNamePair .mk (input_name) (
       input_name .substring (0, input_name .length - _soda_extension .length) + _lean_extension)
-    else _mk_FileNamePair (input_name + _soda_extension) (input_name + _lean_extension)
+    else FileNamePair .mk (input_name + _soda_extension) (input_name + _lean_extension)
 
   private def _process_soda_file (file : File) : Boolean =
     _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   private def _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start , _process_soda_file) .process ()
+    DirectoryProcessor .mk (start) (_process_soda_file) .process ()
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ () .write_file (
+    SimpleFileWriter .mk .write_file (
       output_file_name) (
       content = _translator .translate (input)
     )
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ () .read_file (input_file_name) ) (
+      SimpleFileReader .mk .read_file (input_file_name) ) (
       output_file_name
     )
 

@@ -5,7 +5,7 @@ class ScalaDirectiveBlockTranslator
 
   abstract
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   identifier : String = _tc .scala_directive_identifier
 

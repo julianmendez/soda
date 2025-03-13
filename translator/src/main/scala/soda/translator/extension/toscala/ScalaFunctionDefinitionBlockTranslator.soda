@@ -19,7 +19,7 @@ class ScalaFunctionDefinitionBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _prepend_line (line : String) (block : Block) : Block =
     BlockBuilder .mk .build (

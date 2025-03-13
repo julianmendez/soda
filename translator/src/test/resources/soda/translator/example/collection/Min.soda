@@ -91,13 +91,13 @@ class MSeqTranslator [A : Type]
       (next_value : B -> A -> B) : B =
     _tailrec_foldLeftSeq (sequence) (initial_value) (next_value)
 
-  _asMSeq_initial_value : MSeq [A] = Min_ () .empty
+  _asMSeq_initial_value : MSeq [A] = Min .mk .empty
 
   _asMSeq_next_value (acc : MSeq [A] ) (elem : A) : MSeq [A] =
-    Min_ () .prepended (acc) (elem)
+    Min .mk .prepended (acc) (elem)
 
   asMSeq (seq : Seq [A] ) : MSeq [A] =
-    Min_ () .reverse (
+    Min .mk .reverse (
       foldLeftSeq [MSeq [A] ] (seq) (_asMSeq_initial_value) (_asMSeq_next_value) )
 
   _asSeq_initial_value : Seq [A] = Seq ()
@@ -106,7 +106,7 @@ class MSeqTranslator [A : Type]
     acc .+: (elem)
 
   asSeq (mseq : MSeq [A] ) : Seq [A] =
-    (Min_ () .foldLeft (mseq) (_asSeq_initial_value) (_asSeq_next_value) ) .reverse
+    (Min .mk .foldLeft (mseq) (_asSeq_initial_value) (_asSeq_next_value) ) .reverse
 
 end
 

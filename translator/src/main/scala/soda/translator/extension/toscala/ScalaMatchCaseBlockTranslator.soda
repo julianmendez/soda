@@ -19,7 +19,7 @@ class ScalaMatchCaseBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _soda_match_pattern = _sc .match_reserved_word + " "
 

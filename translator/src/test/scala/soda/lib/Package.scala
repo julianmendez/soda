@@ -190,8 +190,8 @@ case class OptionSDSpec ()
   def int_to_string (n : Int) : String =
     "" + n
 
-  def maybe_int_to_string (n : Int) : SomeSD_ [String] =
-    SomeSD_ [String] ("" + n)
+  def maybe_int_to_string (n : Int) : SomeSD [String] =
+    SomeSD .mk [String] ("" + n)
 
   def maybe_string_to_int (s : String) : OptionSD [Int] =
     OptionSDBuilder .mk .build (
@@ -217,7 +217,7 @@ case class OptionSDSpec ()
     )
   )
 
-  lazy val non_empty_opt = SomeSD .mk (1)
+  lazy val non_empty_opt = SomeSD .mk [Int] (1)
 
   test ("should get a default value, when empty") (
     check (
@@ -229,7 +229,7 @@ case class OptionSDSpec ()
 
   test ("should get a value") (
     check (
-      obtained = (SomeSD_ [Int] (2) ) .getOrElse (1)
+      obtained = (SomeSD .mk [Int] (2) ) .getOrElse (1)
     ) (
       expected = 2
     )
@@ -246,7 +246,7 @@ case class OptionSDSpec ()
 
   test ("should open an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .opt (ifEmpty = result_if_empty) (
+      obtained = (SomeSD .mk [String] ("0") ) .opt (ifEmpty = result_if_empty) (
         ifNonEmpty = result_if_non_empty)
     ) (
       expected = "Its value is 0."
@@ -264,7 +264,7 @@ case class OptionSDSpec ()
 
   test ("should try fold an non empty option") (
     check (
-      obtained = (SomeSD_ [String] ("0") ) .fold [String] (ifEmpty = result_if_empty) (
+      obtained = (SomeSD .mk [String] ("0") ) .fold [String] (ifEmpty = result_if_empty) (
         f = result_if_non_empty)
     ) (
       expected = "Its value is 0."
@@ -281,9 +281,9 @@ case class OptionSDSpec ()
 
   test ("should map a non-empty to another non-empty") (
     check (
-      obtained = (SomeSD_ [Int] (2) ) .map (int_to_string)
+      obtained = (SomeSD .mk [Int] (2) ) .map (int_to_string)
     ) (
-      expected = SomeSD_ [String] ("2")
+      expected = SomeSD .mk [String] ("2")
     )
   )
 
@@ -297,9 +297,9 @@ case class OptionSDSpec ()
 
   test ("should flat map a non-empty to another non-empty") (
     check (
-      obtained = (SomeSD_ [Int] (2) ) .flatMap (maybe_int_to_string)
+      obtained = (SomeSD .mk [Int] (2) ) .flatMap (maybe_int_to_string)
     ) (
-      expected = SomeSD_ [String] ("2")
+      expected = SomeSD .mk [String] ("2")
     )
   )
 
@@ -312,9 +312,9 @@ case class OptionSDSpec ()
               ifNonEmpty =  b =>
                 maybe_string_to_int ("3") .opt (ifEmpty = _empty_opt ) (
                   ifNonEmpty =  c =>
-                    SomeSD .mk (a + b + c) ) ) )
+                    SomeSD .mk [Int] (a + b + c) ) ) )
     ) (
-      expected = SomeSD .mk (6)
+      expected = SomeSD .mk [Int] (6)
     )
   )
 
@@ -322,7 +322,7 @@ case class OptionSDSpec ()
 
   test ("toOption with non empty option") (
     check (
-      obtained = (SomeSD_ [Int] (1) ) .toOption
+      obtained = (SomeSD .mk [Int] (1) ) .toOption
     ) (
       expected = Some (1)
     )
@@ -330,7 +330,7 @@ case class OptionSDSpec ()
 
   test ("toOption with another non empty option") (
     check (
-      obtained = (SomeSD_ [Int] (2) ) .toOption
+      obtained = (SomeSD .mk [Int] (2) ) .toOption
     ) (
       expected = Some (2)
     )
@@ -346,7 +346,7 @@ case class OptionSDSpec ()
 
   test ("toSeq with non empty option") (
     check (
-      obtained = (SomeSD .mk (1) ) .toSeq
+      obtained = (SomeSD .mk [Int] (1) ) .toSeq
     ) (
       expected = Seq (1)
     )
@@ -354,7 +354,7 @@ case class OptionSDSpec ()
 
   test ("toSeq with another non empty option") (
     check (
-      obtained = (SomeSD .mk (2) ) .toSeq
+      obtained = (SomeSD .mk [Int] (2) ) .toSeq
     ) (
       expected = Seq (2)
     )
@@ -362,7 +362,7 @@ case class OptionSDSpec ()
 
   test ("toSeq with empty option") (
     check (
-      obtained = (NoneSD .mk) .toSeq
+      obtained = (NoneSD .mk [Int] ) .toSeq
     ) (
       expected = Seq ()
     )
@@ -386,9 +386,9 @@ case class OptionSDSpec ()
 
   test ("filter should work for Some, if predicate holds") (
     check (
-      obtained = (SomeSD_ [Int] (1) ) .filter ( x => x > 0)
+      obtained = (SomeSD .mk [Int] (1) ) .filter ( x => x > 0)
     ) (
-      expected = SomeSD_ [Int] (1)
+      expected = SomeSD .mk [Int] (1)
     )
   )
 
@@ -502,7 +502,7 @@ case class SeqSDSpec ()
   lazy val empty_opt : OptionSD [Int] = NoneSD .mk
 
   lazy val non_empty_opt : NonEmptySeqSD [Int] => SomeSD [Int] =
-     sequence => SomeSD .mk (max (sequence) )
+     sequence => SomeSD .mk [Int] (max (sequence) )
 
   test ("should get the maximum") (
     check (

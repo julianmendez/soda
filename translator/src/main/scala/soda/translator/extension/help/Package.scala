@@ -11,13 +11,13 @@ trait AbstractHelp
 
   def   execute : Seq [String] => Boolean
 
-  import   soda.lib.SomeSD_
-  import   soda.translator.io.SimpleFileReader_
+  import   soda.lib.SomeSD
+  import   soda.translator.io.SimpleFileReader
 
   lazy val path : String = "/soda/translator/documentation/"
 
   def read (file_name : String) : String =
-    SimpleFileReader_ () .read_resource (path + file_name)
+    SimpleFileReader .mk .read_resource (path + file_name)
 
   lazy val this_package = this .getClass .getPackage
 
@@ -28,7 +28,7 @@ trait AbstractHelp
   lazy val title_and_version : String = (name + " " + version) .trim
 
   def output_content (content : String) : Boolean =
-    SomeSD_ (content)
+    SomeSD .mk [String] (content)
       .map ( x => println (x) )
       .map ( x => true)
       .getOrElse (false)

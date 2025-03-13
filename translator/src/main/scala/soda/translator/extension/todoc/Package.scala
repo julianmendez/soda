@@ -130,19 +130,19 @@ trait MicroTranslatorToDoc
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationEnum
   import   soda.translator.block.BlockTranslatorPipeline_
 
-  private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
+  private lazy val _function_definition = BlockAnnotationEnum .mk .function_definition
 
-  private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
+  private lazy val _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   lazy val functions_and_tests = Seq (_function_definition , _test_declaration)
 
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        DocBlockTranslator_ ()
+        DocBlockTranslator .mk
       )
     )
 
@@ -308,11 +308,11 @@ trait TranslatorToDoc
 
 
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.io.DirectoryProcessor_
-  import   soda.translator.io.SimpleFileReader_
-  import   soda.translator.io.SimpleFileWriter_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.io.DirectoryProcessor
+  import   soda.translator.io.SimpleFileReader
+  import   soda.translator.io.SimpleFileWriter
+  import   soda.translator.parser.BlockProcessor
   import   java.io.File
 
   private lazy val _soda_extension : String = ".soda"
@@ -321,15 +321,12 @@ trait TranslatorToDoc
 
   private lazy val _default_argument = "."
 
-  private lazy val _tc = TranslationConstantToDoc_ ()
-
-  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
-    FileNamePair_ (input_file_name, output_file_name)
+  private lazy val _tc = TranslationConstantToDoc .mk
 
   private lazy val _translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToDoc_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToDoc .mk
       )
     )
 
@@ -338,28 +335,28 @@ trait TranslatorToDoc
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (_soda_extension)
-    ) _mk_FileNamePair (input_name) (
+    ) FileNamePair .mk (input_name) (
       input_name .substring (0 , input_name .length - _soda_extension .length) + _doc_extension)
-    else _mk_FileNamePair (input_name + _soda_extension) (input_name + _doc_extension)
+    else FileNamePair .mk (input_name + _soda_extension) (input_name + _doc_extension)
 
   private def _process_soda_file (file : File) : Boolean =
     _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   private def _process_directory (start : String) : Boolean =
-    (DirectoryProcessor_ (start, _process_soda_file) ) .process ()
+    (DirectoryProcessor .mk (start) (_process_soda_file) ) .process ()
 
   def translate_content (input : String) : String =
     _tc .doc_header + _translator .translate (input) + _tc .doc_footer
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ () .write_file (
+    SimpleFileWriter .mk .write_file (
       output_file_name) (
       content = translate_content (input)
     )
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ () .read_file (input_file_name) ) (
+      SimpleFileReader .mk .read_file (input_file_name) ) (
       output_file_name
     )
 

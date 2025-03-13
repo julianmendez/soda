@@ -661,7 +661,7 @@ trait CoqDocumentationBlockTranslator
 
   private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 
@@ -835,7 +835,7 @@ trait CoqImportDeclarationBlockTranslator
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  private lazy val _tc = TranslationConstantToCoq_ ()
+  private lazy val _tc = TranslationConstantToCoq .mk
 
   lazy val coq_import_declaration_pattern =
     _tc .coq_import_reserved_word + _tc .coq_space
@@ -1526,15 +1526,10 @@ trait TranslatorToCoq
 
 
   import   soda.translator.block.DefaultBlockSequenceTranslator
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
   import   soda.translator.io.DirectoryProcessor
-  import   soda.translator.io.DirectoryProcessor_
   import   soda.translator.io.SimpleFileReader
-  import   soda.translator.io.SimpleFileReader_
   import   soda.translator.io.SimpleFileWriter
-  import   soda.translator.io.SimpleFileWriter_
   import   soda.translator.parser.BlockProcessor
-  import   soda.translator.parser.BlockProcessor_
   import   java.io.File
 
   private lazy val _soda_extension : String = ".soda"

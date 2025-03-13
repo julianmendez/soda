@@ -17,7 +17,7 @@ class ScalaAbstractDeclarationBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   scala_abstract_function_declaration_pattern =
     _tc .scala_abstract_function_declaration + _tc .scala_space

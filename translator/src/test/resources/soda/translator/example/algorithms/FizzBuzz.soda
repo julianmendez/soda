@@ -7,7 +7,7 @@ class FizzBuzz
 
   buzz = "Buzz"
 
-  range = soda.lib.Range_ ()
+  range = soda.lib.Range .mk
 
   is_div (n : Int) (k : Int) : Boolean =
     n % k == 0

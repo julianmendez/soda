@@ -12,11 +12,7 @@ class ScalaClassEndBlockTranslator
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
-      : ClassEndAnnotation =
-    ClassEndAnnotation_ (block) (references)
-
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _get_first_line (block : AnnotatedBlock) : String =
     block .lines .headOption .getOrElse ("")
@@ -31,7 +27,7 @@ class ScalaClassEndBlockTranslator
     _get_initial_spaces (block) + _tc .scala_class_end_symbol
 
   _translate_block (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _mk_ClassEndAnnotation (
+    ClassEndAnnotation .mk (
       BlockBuilder .mk .build (
         Seq [String] (
           _get_translation (block)
@@ -43,7 +39,7 @@ class ScalaClassEndBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case ClassEndAnnotation_ (block) (references) ==>
-        _translate_block (_mk_ClassEndAnnotation (block) (references) )
+        _translate_block (ClassEndAnnotation .mk (block) (references) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

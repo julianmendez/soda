@@ -4,8 +4,8 @@ class BeautifierSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -16,9 +16,9 @@ class BeautifierSpec ()
   test ("the translated source code should respect unnecessary spaces") (
     check (
       obtained :=
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToScala_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToScala .mk
           )
         ) .translate (original)
     ) (

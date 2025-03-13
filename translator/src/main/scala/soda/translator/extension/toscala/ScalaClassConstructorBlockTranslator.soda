@@ -18,7 +18,7 @@ class ScalaClassConstructorBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _sp : String = _tc .scala_space
 

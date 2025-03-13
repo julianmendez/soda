@@ -116,7 +116,7 @@ trait Example
   def   index : Int
 
   def min_max (a : Int) (b : Int) : MinMaxPair =
-    MinMaxPair_ (min = MaxAndMin_ () .min (a) (b) , max = MaxAndMin_ () .max (a) (b) )
+    MinMaxPair .mk (min = MaxAndMin .mk .min (a) (b) ) (max = MaxAndMin .mk .max (a) (b) )
 
 }
 

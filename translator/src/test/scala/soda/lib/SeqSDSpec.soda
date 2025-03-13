@@ -31,7 +31,7 @@ class SeqSDSpec ()
   empty_opt : OptionSD [Int] = NoneSD .mk
 
   non_empty_opt : NonEmptySeqSD [Int] -> SomeSD [Int] =
-    lambda sequence --> SomeSD .mk (max (sequence) )
+    lambda sequence --> SomeSD .mk [Int] (max (sequence) )
 
   test ("should get the maximum") (
     check (

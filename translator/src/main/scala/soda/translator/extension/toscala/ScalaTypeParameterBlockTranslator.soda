@@ -11,7 +11,7 @@ class ScalaTypeParameterBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   replace_token : Token -> String =
     lambda token -->

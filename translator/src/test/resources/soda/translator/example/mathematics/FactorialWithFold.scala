@@ -3,9 +3,9 @@ trait FactorialWithFold
 
 
 
-  lazy val fold = soda.lib.Fold_ ()
+  lazy val fold = soda.lib.Fold .mk
 
-  lazy val range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range .mk
 
   def apply (n : Int) : Int =
     fold .apply [Int, Int] (range .apply (n) ) (1) (

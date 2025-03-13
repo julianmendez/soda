@@ -5,8 +5,8 @@ class DocFullTranslationSpec ()
 
   import
     org.scalatest.Assertion
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
     java.nio.file.Files
     java.nio.file.Paths
 

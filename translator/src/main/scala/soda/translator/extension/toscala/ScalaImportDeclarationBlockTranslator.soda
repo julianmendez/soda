@@ -13,7 +13,7 @@ class ScalaImportDeclarationBlockTranslator
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   scala_import_declaration_pattern =
     _tc.scala_import_declaration + _tc.scala_space

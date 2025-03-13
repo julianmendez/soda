@@ -14,7 +14,7 @@ class CoqImportDeclarationBlockTranslator
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   coq_import_declaration_pattern =
     _tc .coq_import_reserved_word + _tc .coq_space

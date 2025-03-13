@@ -3,9 +3,9 @@ class FactorialWithFold
 
   abstract
 
-  fold = soda.lib.Fold_ ()
+  fold = soda.lib.Fold .mk
 
-  range = soda.lib.Range_ ()
+  range = soda.lib.Range .mk
 
   apply (n : Int) : Int =
     fold .apply [Int] [Int] (range .apply (n) ) (1) (

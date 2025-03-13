@@ -20,7 +20,7 @@ class ScalaClassDeclarationBlockTranslator
 
   _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   soda_space : String = _sc .space
 
