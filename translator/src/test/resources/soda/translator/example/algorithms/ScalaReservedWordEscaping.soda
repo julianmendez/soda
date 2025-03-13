@@ -15,7 +15,7 @@ class ScalaReservedWordEscaping
 
   val = 1
 
-  def g [A : Type] [B : Type] (key : A) (value : B) : MyPair [A] [B] = MyPair_ (key , value)
+  def g [A : Type] [B : Type] (key : A) (value : B) : MyPair [A] [B] = MyPair .mk (key) (value)
 
   while [A : Type] [B : Type] (seq : Seq [A] ) (cond : A -> Boolean) (func : A -> B) : Seq [B] =
     seq .takeWhile (cond) .map (func)

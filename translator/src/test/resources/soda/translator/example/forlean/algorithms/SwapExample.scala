@@ -21,7 +21,7 @@ trait SwapExample
   def swap (pair : PairExample) : PairExample =
     pair match  {
       case PairExample_ (a, b) =>
-        PairExample_ (b, a)
+        PairExample .mk (b) (a)
     }
 
 /*

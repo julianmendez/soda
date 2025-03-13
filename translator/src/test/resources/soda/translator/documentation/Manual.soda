@@ -386,9 +386,9 @@ class Factorial
 
   abstract
 
-  fold = Fold_ ()
+  fold = Fold .mk
 
-  range = Range_ ()
+  range = Range .mk
 
   apply (n : Int) : Int =
     fold .apply [Int] [Int] (range .apply (n) ) (1) (

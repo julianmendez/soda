@@ -508,9 +508,9 @@ trait Factorial
 
 
 
-  lazy val fold = Fold_ ()
+  lazy val fold = Fold .mk
 
-  lazy val range = Range_ ()
+  lazy val range = Range .mk
 
   def apply (n : Int) : Int =
     fold .apply [Int, Int] (range .apply (n) ) (1) (

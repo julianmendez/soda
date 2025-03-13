@@ -32,7 +32,7 @@ namespace PairParamMod
 
 
  def   swap ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : PairParam ( B ) ( A ) :=
-    PairParam_ (get_second ( A ) ( B ) (self) ) (get_first ( A ) ( B ) (self) )
+    PairParam.mk (get_second ( A ) ( B ) (self) ) (get_first ( A ) ( B ) (self) )
 
 
 end PairParamMod
@@ -80,7 +80,7 @@ namespace TripleIntStringIntMod
 
 
  def   get_pair_param (self : TripleIntStringInt) : PairParam ( Int ) ( String ) :=
-    PairParam_ (get_first (self) ) (get_second (self) )
+    PairParam.mk (get_first (self) ) (get_second (self) )
 
 
 end TripleIntStringIntMod
