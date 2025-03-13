@@ -1689,9 +1689,9 @@ trait TranslatorToScalaConstant
 
   lazy val prelude_file_body : String = new_line + append_separation
 
-  lazy val single_files_option_1 = "-s"
+  lazy val single_file_option_1 = "-s"
 
-  lazy val single_files_option_2 = "--single"
+  lazy val single_file_option_2 = "--single"
 
   lazy val translator =
     BlockProcessor .mk (
@@ -1853,22 +1853,22 @@ trait TranslatorToScala
   private def _process_directory_with_package_option (start : String) : Boolean =
     DirectoryProcessor .mk (start) (process_soda_file_with_package_option) .process ()
 
-  private def _process_directory_with_single_files_option (start : String) : Boolean =
+  private def _process_directory_with_single_file_option (start : String) : Boolean =
     DirectoryProcessor .mk (start) (IndividualProcessor .mk .process_soda_file) .process ()
 
-  private def _is_single_files_option (s : String) : Boolean =
-    (s == tc .single_files_option_1) || (s == tc .single_files_option_2)
+  private def _is_single_file_option (s : String) : Boolean =
+    (s == tc .single_file_option_1) || (s == tc .single_file_option_2)
 
   def execute_for (arguments : Seq [String] ) : Boolean =
     arguments .length match  {
       case 0 => _process_directory_with_package_option (tc .default_argument)
       case 1 => _process_directory_with_package_option (arguments .apply (0) )
       case 2 =>
-        if ( _is_single_files_option (arguments .apply (0) )
-        ) _process_directory_with_single_files_option (arguments .apply (1) )
-        else false
+        if ( _is_single_file_option (arguments .apply (0) )
+        ) _process_directory_with_single_file_option (arguments .apply (1) )
+        else IndividualProcessor .mk .translate (arguments .apply (0) ) (arguments .apply (1) )
       case 3 =>
-        if ( _is_single_files_option (arguments .apply (0) )
+        if ( _is_single_file_option (arguments .apply (0) )
         ) IndividualProcessor .mk .translate (arguments .apply (1) ) (arguments .apply (2) )
         else false
       case _otherwise => false

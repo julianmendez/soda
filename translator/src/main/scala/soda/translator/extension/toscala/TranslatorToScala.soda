@@ -30,9 +30,9 @@ class TranslatorToScalaConstant
 
   prelude_file_body : String = new_line + append_separation
 
-  single_files_option_1 = "-s"
+  single_file_option_1 = "-s"
 
-  single_files_option_2 = "--single"
+  single_file_option_2 = "--single"
 
   translator =
     BlockProcessor .mk (
@@ -166,22 +166,22 @@ class TranslatorToScala
   _process_directory_with_package_option (start : String) : Boolean =
     DirectoryProcessor .mk (start) (process_soda_file_with_package_option) .process ()
 
-  _process_directory_with_single_files_option (start : String) : Boolean =
+  _process_directory_with_single_file_option (start : String) : Boolean =
     DirectoryProcessor .mk (start) (IndividualProcessor .mk .process_soda_file) .process ()
 
-  _is_single_files_option (s : String) : Boolean =
-    (s == tc .single_files_option_1) or (s == tc .single_files_option_2)
+  _is_single_file_option (s : String) : Boolean =
+    (s == tc .single_file_option_1) or (s == tc .single_file_option_2)
 
   execute_for (arguments : Seq [String] ) : Boolean =
     match arguments .length
       case 0 ==> _process_directory_with_package_option (tc .default_argument)
       case 1 ==> _process_directory_with_package_option (arguments .apply (0) )
       case 2 ==>
-        if _is_single_files_option (arguments .apply (0) )
-        then _process_directory_with_single_files_option (arguments .apply (1) )
-        else false
+        if _is_single_file_option (arguments .apply (0) )
+        then _process_directory_with_single_file_option (arguments .apply (1) )
+        else IndividualProcessor .mk .translate (arguments .apply (0) ) (arguments .apply (1) )
       case 3 ==>
-        if _is_single_files_option (arguments .apply (0) )
+        if _is_single_file_option (arguments .apply (0) )
         then IndividualProcessor .mk .translate (arguments .apply (1) ) (arguments .apply (2) )
         else false
       case _otherwise ==> false
