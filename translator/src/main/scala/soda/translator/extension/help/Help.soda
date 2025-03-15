@@ -59,11 +59,19 @@ class License
   extends
     AbstractHelp
 
-  file_name = "LICENSE.txt"
+  license_file_name = "soda-license.txt"
+
+  notice_file_name = "soda-notice.txt"
+
+  _separator = "\n\n---\n\n"
 
   execute : Seq [String] -> Boolean =
     lambda arguments -->
-      output_content (read (file_name))
+      output_content (
+        read (notice_file_name) +
+        _separator +
+        read (license_file_name)
+      )
 
 end
 

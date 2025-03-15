@@ -87,11 +87,19 @@ trait License
     AbstractHelp
 {
 
-  lazy val file_name = "LICENSE.txt"
+  lazy val license_file_name = "soda-license.txt"
+
+  lazy val notice_file_name = "soda-notice.txt"
+
+  private lazy val _separator = "\n\n---\n\n"
 
   lazy val execute : Seq [String] => Boolean =
      arguments =>
-      output_content (read (file_name))
+      output_content (
+        read (notice_file_name) +
+        _separator +
+        read (license_file_name)
+      )
 
 }
 
