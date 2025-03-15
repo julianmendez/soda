@@ -15,11 +15,18 @@ class ScalaFunctionDefinitionBlockTranslator
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-    soda.translator.replacement.Replacement_
+    soda.translator.parser.tool.FunctionDefinitionLineDetector
+    soda.translator.parser.tool.FunctionDefinitionTypeEnum
+    soda.translator.parser.tool.FunctionDefinitionTypeId
+    soda.translator.replacement.Replacement
 
   _sc = SodaConstant .mk
 
   _tc = TranslationConstantToScala .mk
+
+  _fc = FunctionDefinitionTypeEnum .mk
+
+  _empty_string = ""
 
   _prepend_line (line : String) (block : Block) : Block =
     BlockBuilder .mk .build (
@@ -32,16 +39,16 @@ class ScalaFunctionDefinitionBlockTranslator
   _private_prefix_if_necessary (line : String) : String =
     if line .trim .startsWith (_sc .private_function_prefix)
     then _tc .scala_private_reserved_word + _tc .scala_space
-    else ""
+    else _empty_string
 
   _translate_val_definition (line : String) : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
         _tc .scala_value + _tc .scala_space)
       .line
 
   _translate_def_definition (line : String) : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
         _tc .scala_definition + _tc .scala_space)
       .line
@@ -55,14 +62,14 @@ class ScalaFunctionDefinitionBlockTranslator
 
   _replace_on_val_block (initial_comments : Seq [AnnotatedLine] )
       (main_block : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       initial_comments .++ (_replace_first_line (main_block) (
         _translate_val_definition (main_block .head .line) ) )
     )
 
   _replace_on_def_block (initial_comments : Seq [AnnotatedLine] )
       (main_block : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       initial_comments .++ (_replace_first_line (main_block) (
         _translate_def_definition (main_block .head .line) ) )
     )
@@ -74,7 +81,7 @@ class ScalaFunctionDefinitionBlockTranslator
     lines .dropWhile (lambda annotated_line --> annotated_line .is_comment)
 
   get_first_line (lines : Seq [String] ) : String =
-    lines .headOption .getOrElse ("")
+    lines .headOption .getOrElse (_empty_string)
 
   remove_first_line (lines : Seq [String] ) : Seq [String] =
     if lines .isEmpty
@@ -84,22 +91,23 @@ class ScalaFunctionDefinitionBlockTranslator
   _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
     Seq [String] (
       get_first_line (lines)
-        .replaceAll (_sc .main_type_membership_regex , "")
+        .replaceAll (_sc .main_type_membership_regex , _empty_string)
     )
 
   remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  _translate_main_block_with (block : Block) (detector : ScalaFunctionDefinitionLineDetector)
+  _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
       : Block =
     match detector .detect
-      case detector .val_detected ==>
+      case _fc .val_detected ==>
         _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_detected ==>
+      case _fc .def_detected ==>
         _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_reserved_word_detected ==> block
+      case _fc .def_reserved_word_detected ==> block
+      case _fc .undetected ==> block
       case _otherwise ==> block
 
   _flatten_block (block : Block) : String =
@@ -109,7 +117,7 @@ class ScalaFunctionDefinitionBlockTranslator
     BlockBuilder .mk .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
-            ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+            FunctionDefinitionLineDetector .mk (_flatten_block (block) ) )
           .lines
       )
     )
@@ -131,7 +139,7 @@ class ScalaFunctionDefinitionBlockTranslator
     else _translate_block_with (block .readable_lines .head) (block)
 
   _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block

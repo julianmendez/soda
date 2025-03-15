@@ -783,11 +783,18 @@ trait ScalaFunctionDefinitionBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-  import   soda.translator.replacement.Replacement_
+  import   soda.translator.parser.tool.FunctionDefinitionLineDetector
+  import   soda.translator.parser.tool.FunctionDefinitionTypeEnum
+  import   soda.translator.parser.tool.FunctionDefinitionTypeId
+  import   soda.translator.replacement.Replacement
 
   private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToScala .mk
+
+  private lazy val _fc = FunctionDefinitionTypeEnum .mk
+
+  private lazy val _empty_string = ""
 
   private def _prepend_line (line : String) (block : Block) : Block =
     BlockBuilder .mk .build (
@@ -800,16 +807,16 @@ trait ScalaFunctionDefinitionBlockTranslator
   private def _private_prefix_if_necessary (line : String) : String =
     if ( line .trim .startsWith (_sc .private_function_prefix)
     ) _tc .scala_private_reserved_word + _tc .scala_space
-    else ""
+    else _empty_string
 
   private def _translate_val_definition (line : String) : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
         _tc .scala_value + _tc .scala_space)
       .line
 
   private def _translate_def_definition (line : String) : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .add_after_spaces_or_pattern (_tc .scala_space) (_private_prefix_if_necessary (line) +
         _tc .scala_definition + _tc .scala_space)
       .line
@@ -822,14 +829,14 @@ trait ScalaFunctionDefinitionBlockTranslator
 
   private def _replace_on_val_block (initial_comments : Seq [AnnotatedLine] )
       (main_block : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       initial_comments .++ (_replace_first_line (main_block) (
         _translate_val_definition (main_block .head .line) ) )
     )
 
   private def _replace_on_def_block (initial_comments : Seq [AnnotatedLine] )
       (main_block : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       initial_comments .++ (_replace_first_line (main_block) (
         _translate_def_definition (main_block .head .line) ) )
     )
@@ -841,7 +848,7 @@ trait ScalaFunctionDefinitionBlockTranslator
     lines .dropWhile ( annotated_line => annotated_line .is_comment)
 
   def get_first_line (lines : Seq [String] ) : String =
-    lines .headOption .getOrElse ("")
+    lines .headOption .getOrElse (_empty_string)
 
   def remove_first_line (lines : Seq [String] ) : Seq [String] =
     if ( lines .isEmpty
@@ -851,22 +858,23 @@ trait ScalaFunctionDefinitionBlockTranslator
   private def _remove_type_annotation_in_line (lines : Seq [String] ) : Seq [String] =
     Seq [String] (
       get_first_line (lines)
-        .replaceAll (_sc .main_type_membership_regex , "")
+        .replaceAll (_sc .main_type_membership_regex , _empty_string)
     )
 
   def remove_type_annotation (lines : Seq [String] ) : Seq [String] =
     _remove_type_annotation_in_line (lines) ++ remove_first_line (lines)
 
-  private def _translate_main_block_with (block : Block) (detector : ScalaFunctionDefinitionLineDetector)
+  private def _translate_main_block_with (block : Block) (detector : FunctionDefinitionLineDetector)
       : Block =
     detector .detect match  {
-      case detector .val_detected =>
+      case _fc .val_detected =>
         _replace_on_val_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_detected =>
+      case _fc .def_detected =>
         _replace_on_def_block (_get_initial_comment (block .annotated_lines) ) (
           _get_part_without_initial_comment (block .annotated_lines) )
-      case detector .def_reserved_word_detected => block
+      case _fc .def_reserved_word_detected => block
+      case _fc .undetected => block
       case _otherwise => block
     }
 
@@ -877,7 +885,7 @@ trait ScalaFunctionDefinitionBlockTranslator
     BlockBuilder .mk .build (
       remove_type_annotation (
         _translate_main_block_with (block) (
-            ScalaFunctionDefinitionLineDetector_ (_flatten_block (block) ) )
+            FunctionDefinitionLineDetector .mk (_flatten_block (block) ) )
           .lines
       )
     )
@@ -899,7 +907,7 @@ trait ScalaFunctionDefinitionBlockTranslator
     else _translate_block_with (block .readable_lines .head) (block)
 
   private def _translate_function_definition_block (block : Block) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
@@ -919,157 +927,6 @@ case class ScalaFunctionDefinitionBlockTranslator_ () extends ScalaFunctionDefin
 object ScalaFunctionDefinitionBlockTranslator {
   def mk : ScalaFunctionDefinitionBlockTranslator =
     ScalaFunctionDefinitionBlockTranslator_ ()
-}
-
-
-/**
- * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val' case, 'def' case, or 'def' reserved word.
- *
- * When the 'def' reserved word is not detected at the beginning of the line, the following cases need to be determined.
- *
- * 'val' is for value definition.
- * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis or bracket is after a colon,
- *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis,
- *   e.g. `(x, y) = (0, 1)`
- *
- * 'def' is for function definition.
- * If it does not fit in any of the 'val' cases.
- *
- * Formerly there was another case for 'val'.
- * Deprecated Case:
- * This was implemented simply as:
- * `line.trim.startsWith (soda_opening_parenthesis)`
- * This is no longer supported.
- *
- */
-
-trait ScalaFunctionDefinitionLineDetector
-{
-
-  def   line : String
-
-  import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant
-
-  private lazy val _sc = SodaConstant .mk
-
-  private lazy val _trimmed_line : String = line.trim
-
-  lazy val undetected = 0
-
-  lazy val val_detected = 1
-
-  lazy val def_detected = 2
-
-  lazy val def_reserved_word_detected = 3
-
-  private def _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-       .filter ( position => ! (position == -1) )
-
-  private def _get_index (line : String) (pattern : String) : OptionSD [Int] =
-    _get_index_from (line) (pattern) (0)
-
-  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
-    _get_index (line) (_sc .opening_parenthesis_symbol)
-
-  private lazy val _position_of_first_opening_bracket : OptionSD [Int] =
-    _get_index (line) (_sc .opening_bracket_symbol)
-
-  private def _min (a : Int) (b : Int) : Int =
-    if ( a < b
-    ) a
-    else b
-
-  private def _position_of_first_opening_parenthesis_or_bracket_with (index1 : Int) : Int =
-    _position_of_first_opening_bracket match  {
-      case SomeSD_ (index2) => _min (index1) (index2)
-      case _otherwise => index1
-    }
-
-  private lazy val _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
-    _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (index1) =>
-        SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
-      case _otherwise => _position_of_first_opening_bracket
-    }
-
-  private lazy val _is_val_definition_case_1 : Boolean =
-    _position_of_first_opening_parenthesis .isEmpty
-
-  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (position) => (position > initial_position)
-      case _otherwise => false
-    }
-
-  private def _is_val_definition_case_2_b (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis_or_bracket match  {
-      case SomeSD_ (position) => (position > initial_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_3 : Boolean =
-    (_get_index (line) (_sc .type_membership_symbol) ) match  {
-      case SomeSD_ (other_position) => _is_val_definition_case_2_b (other_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_4 : Boolean =
-    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
-
-  private def _is_val_definition (initial_position : Int) : Boolean =
-    _is_val_definition_case_1 ||
-    _is_val_definition_case_2 (initial_position) ||
-    _is_val_definition_case_3 ||
-    _is_val_definition_case_4
-
-  private def _try_found_definition_without_def_reserved_word (position : Int) : Int =
-    if ( _is_val_definition (position)
-    ) val_detected
-    else def_detected
-
-  private def _starts_with_def_reserved_word (position : Int) : Boolean =
-    line .trim .startsWith (_sc .def_reserved_word + _sc .space)
-
-  private def _try_found_definition (position : Int) : Int =
-    if ( _starts_with_def_reserved_word (position)
-    ) def_reserved_word_detected
-    else _try_found_definition_without_def_reserved_word (position)
-
-  /**
-   * A line is a definition when its main operator is "="  (the equals sign),
-   * which in this context is also called the definition sign .
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-
-  private def _find_definition (line : String) : OptionSD [Int] =
-    if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
-    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
-    else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
-
-  lazy val detect : Int =
-    _find_definition (line) match  {
-      case SomeSD_ (position) => _try_found_definition (position)
-      case _otherwise => undetected
-    }
-
-}
-
-case class ScalaFunctionDefinitionLineDetector_ (line : String) extends ScalaFunctionDefinitionLineDetector
-
-object ScalaFunctionDefinitionLineDetector {
-  def mk (line : String) : ScalaFunctionDefinitionLineDetector =
-    ScalaFunctionDefinitionLineDetector_ (line)
 }
 
 
