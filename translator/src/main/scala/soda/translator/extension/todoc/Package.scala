@@ -27,7 +27,47 @@ trait DocBlockTranslator
 
   private lazy val _tc = TranslationConstantToDoc .mk
 
+  private lazy val _empty_line = ""
+
   private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
+
+  private lazy val _documentation_comment_opening_prefix =
+    _sc .documentation_comment_opening_symbol + _sc .space
+
+  private lazy val _comment_opening_prefix = _sc .comment_opening_symbol + _sc .space
+
+  private lazy val _comment_closing_suffix = _sc .space + _sc .comment_closing_symbol
+
+  private def _remove_prefix (prefix : String) (line : String) : String =
+    if ( line .startsWith (prefix)
+    ) line .substring (prefix .length)
+    else line
+
+  private def _remove_prefixes (line : String) : String =
+    _remove_prefix (_comment_opening_prefix) (
+      _remove_prefix (_documentation_comment_opening_prefix) (
+        _remove_prefix (_comment_line_prefix) (line)
+      )
+    )
+
+  private def _remove_suffix (suffix : String) (line : String) : String =
+    if ( line .endsWith (suffix)
+    ) line .substring (0 , line .length - suffix .length)
+    else line
+
+  private def _remove_suffixes (line : String) : String =
+    _remove_suffix (_comment_closing_suffix) (line)
+
+  private def _is_single_delimiter (line : String) : Boolean =
+    (line == _documentation_comment_opening_prefix .trim) ||
+    (line == _comment_opening_prefix .trim) ||
+    (line == _comment_line_prefix .trim) ||
+    (line == _comment_closing_suffix .trim)
+
+  private def _remove_single_delimiters (line : String) : String =
+    if ( _is_single_delimiter (line)
+    ) _empty_line
+    else line
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
@@ -37,58 +77,25 @@ trait DocBlockTranslator
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
 
-  private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (index + prefix .length)
-    else line
+  private def _remove_comment_delimiters (lines : Seq [String] ) : Seq [String] =
+    lines .map ( line =>
+      _remove_single_delimiters (
+        _remove_suffixes (
+          _remove_prefixes (line .trim)
+        )
+      )
+    )
 
-  private def _remove_prefix_in_line (prefix : String) (line : String) : String =
-    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
-
-  private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
-    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
-
-  private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (0, index)
-    else line
-
-  private def _remove_suffix_in_line (suffix : String) (line : String) : String =
-    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
-
-  private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
-
-  private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
-    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
-
-  private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_prefix_in_line (_sc .comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
-     )
-    ) (content .tail)
-
-  private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
-    _remove_last_delimiter (
-      _remove_first_delimiter (content)
+  private def _add_end_and_begin (lines : Seq [String] ) : Seq [String] =
+    _append (_tc .doc_closing_comment_translation) (
+      _prepend (_tc .doc_opening_comment_translation) (lines)
     )
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
       BlockBuilder .mk .build (
-        _append (
-          _tc .doc_closing_comment_translation) (
-          _prepend (_tc .doc_opening_comment_translation) (
-            _remove_comment_delimiter (
-              _remove_comment_line_prefix (block .lines)
-            )
-          )
+        _add_end_and_begin (
+          _remove_comment_delimiters (block .lines)
         )
       )
     )
@@ -172,8 +179,6 @@ trait TranslationConstantToDoc
   import   soda.translator.parser.SodaConstant
 
   lazy val soda_constant = SodaConstant .mk
-
-  lazy val doc_space = " "
 
   lazy val doc_new_line = "\n"
 

@@ -12,8 +12,6 @@ class TranslationConstantToDoc
 
   soda_constant = SodaConstant .mk
 
-  doc_space = " "
-
   doc_new_line = "\n"
 
   doc_header =

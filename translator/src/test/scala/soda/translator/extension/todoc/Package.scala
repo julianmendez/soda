@@ -80,7 +80,9 @@ case class MicroTranslatorToDocSpec ()
   lazy val translated_snippet = "" +
     "\n\\end{lstlisting}" +
     "\n" +
+    "\n" +
     "\nThis is an example" +
+    "\n" +
     "\n" +
     "\n" +
     "\n\\begin{lstlisting}" +
