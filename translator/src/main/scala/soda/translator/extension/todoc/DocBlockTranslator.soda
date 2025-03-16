@@ -11,52 +11,11 @@ class DocBlockTranslator
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.CommentAnnotation
     soda.translator.parser.annotation.CommentAnnotation_
+    soda.translator.parser.tool.CommentDelimiterRemover
 
   _sc = SodaConstant .mk
 
   _tc = TranslationConstantToDoc .mk
-
-  _empty_line = ""
-
-  _comment_line_prefix = _sc .comment_line_symbol + _sc .space
-
-  _documentation_comment_opening_prefix =
-    _sc .documentation_comment_opening_symbol + _sc .space
-
-  _comment_opening_prefix = _sc .comment_opening_symbol + _sc .space
-
-  _comment_closing_suffix = _sc .space + _sc .comment_closing_symbol
-
-  _remove_prefix (prefix : String) (line : String) : String =
-    if line .startsWith (prefix)
-    then line .substring (prefix .length)
-    else line
-
-  _remove_prefixes (line : String) : String =
-    _remove_prefix (_comment_opening_prefix) (
-      _remove_prefix (_documentation_comment_opening_prefix) (
-        _remove_prefix (_comment_line_prefix) (line)
-      )
-    )
-
-  _remove_suffix (suffix : String) (line : String) : String =
-    if line .endsWith (suffix)
-    then line .substring (0 , line .length - suffix .length)
-    else line
-
-  _remove_suffixes (line : String) : String =
-    _remove_suffix (_comment_closing_suffix) (line)
-
-  _is_single_delimiter (line : String) : Boolean =
-    (line == _documentation_comment_opening_prefix .trim) or
-    (line == _comment_opening_prefix .trim) or
-    (line == _comment_line_prefix .trim) or
-    (line == _comment_closing_suffix .trim)
-
-  _remove_single_delimiters (line : String) : String =
-    if _is_single_delimiter (line)
-    then _empty_line
-    else line
 
   _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if content .isEmpty
@@ -66,33 +25,23 @@ class DocBlockTranslator
   _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
 
-  _remove_comment_delimiters (lines : Seq [String] ) : Seq [String] =
-    lines .map (lambda line -->
-      _remove_single_delimiters (
-        _remove_suffixes (
-          _remove_prefixes (line .trim)
-        )
-      )
-    )
-
   _add_end_and_begin (lines : Seq [String] ) : Seq [String] =
     _append (_tc .doc_closing_comment_translation) (
       _prepend (_tc .doc_opening_comment_translation) (lines)
     )
 
   _translate_comment (block : CommentAnnotation) : CommentAnnotation =
-    CommentAnnotation_ (
+    CommentAnnotation .mk (
       BlockBuilder .mk .build (
         _add_end_and_begin (
-          _remove_comment_delimiters (block .lines)
+          CommentDelimiterRemover .mk
+            .remove_comment_delimiters (block .lines)
         )
       )
     )
 
   _translate_source_code (block : AnnotatedBlock) : CommentAnnotation =
-    CommentAnnotation_ (
-      block
-    )
+    CommentAnnotation .mk (block)
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block

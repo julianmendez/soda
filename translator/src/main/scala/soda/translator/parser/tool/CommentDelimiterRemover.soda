@@ -1,0 +1,62 @@
+
+class CommentDelimiterRemover
+
+  abstract
+
+  import
+    soda.translator.parser.SodaConstant
+
+  _sc = SodaConstant .mk
+
+  _empty_line = ""
+
+  _comment_opening_prefix = _sc .comment_opening_symbol + _sc .space
+
+  _documentation_comment_opening_prefix =
+    _sc .documentation_comment_opening_symbol + _sc .space
+
+  _comment_line_prefix = _sc .comment_line_symbol + _sc .space
+
+  _comment_closing_suffix = _sc .space + _sc .comment_closing_symbol
+
+  _is_single_delimiter (line : String) : Boolean =
+    (line == _documentation_comment_opening_prefix .trim) or
+    (line == _comment_opening_prefix .trim) or
+    (line == _comment_line_prefix .trim) or
+    (line == _comment_closing_suffix .trim)
+
+  _remove_single_delimiters (line : String) : String =
+    if _is_single_delimiter (line)
+    then _empty_line
+    else line
+
+  _remove_prefix (prefix : String) (line : String) : String =
+    if line .startsWith (prefix)
+    then line .substring (prefix .length)
+    else line
+
+  _remove_prefixes (line : String) : String =
+    _remove_prefix (_comment_opening_prefix) (
+      _remove_prefix (_documentation_comment_opening_prefix) (
+        _remove_prefix (_comment_line_prefix) (line)
+      )
+    )
+
+  _remove_suffix (suffix : String) (line : String) : String =
+    if line .endsWith (suffix)
+    then line .substring (0 , line .length - suffix .length)
+    else line
+
+  _remove_suffixes (line : String) : String =
+    _remove_suffix (_comment_closing_suffix) (line)
+
+  remove_comment_delimiters (lines : Seq [String] ) : Seq [String] =
+    lines .map (lambda line -->
+      _remove_single_delimiters (
+        _remove_suffixes (
+          _remove_prefixes (line .trim)
+        )
+      )
+    )
+
+end

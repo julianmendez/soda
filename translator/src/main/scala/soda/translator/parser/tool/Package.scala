@@ -8,6 +8,76 @@ package soda.translator.parser.tool
 
 
 
+trait CommentDelimiterRemover
+{
+
+
+
+  import   soda.translator.parser.SodaConstant
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _empty_line = ""
+
+  private lazy val _comment_opening_prefix = _sc .comment_opening_symbol + _sc .space
+
+  private lazy val _documentation_comment_opening_prefix =
+    _sc .documentation_comment_opening_symbol + _sc .space
+
+  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
+
+  private lazy val _comment_closing_suffix = _sc .space + _sc .comment_closing_symbol
+
+  private def _is_single_delimiter (line : String) : Boolean =
+    (line == _documentation_comment_opening_prefix .trim) ||
+    (line == _comment_opening_prefix .trim) ||
+    (line == _comment_line_prefix .trim) ||
+    (line == _comment_closing_suffix .trim)
+
+  private def _remove_single_delimiters (line : String) : String =
+    if ( _is_single_delimiter (line)
+    ) _empty_line
+    else line
+
+  private def _remove_prefix (prefix : String) (line : String) : String =
+    if ( line .startsWith (prefix)
+    ) line .substring (prefix .length)
+    else line
+
+  private def _remove_prefixes (line : String) : String =
+    _remove_prefix (_comment_opening_prefix) (
+      _remove_prefix (_documentation_comment_opening_prefix) (
+        _remove_prefix (_comment_line_prefix) (line)
+      )
+    )
+
+  private def _remove_suffix (suffix : String) (line : String) : String =
+    if ( line .endsWith (suffix)
+    ) line .substring (0 , line .length - suffix .length)
+    else line
+
+  private def _remove_suffixes (line : String) : String =
+    _remove_suffix (_comment_closing_suffix) (line)
+
+  def remove_comment_delimiters (lines : Seq [String] ) : Seq [String] =
+    lines .map ( line =>
+      _remove_single_delimiters (
+        _remove_suffixes (
+          _remove_prefixes (line .trim)
+        )
+      )
+    )
+
+}
+
+case class CommentDelimiterRemover_ () extends CommentDelimiterRemover
+
+object CommentDelimiterRemover {
+  def mk : CommentDelimiterRemover =
+    CommentDelimiterRemover_ ()
+}
+
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val' case, 'def' case, or 'def' reserved word.

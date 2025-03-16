@@ -22,52 +22,13 @@ trait DocBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
 
   private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToDoc .mk
 
   private lazy val _empty_line = ""
-
-  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
-
-  private lazy val _documentation_comment_opening_prefix =
-    _sc .documentation_comment_opening_symbol + _sc .space
-
-  private lazy val _comment_opening_prefix = _sc .comment_opening_symbol + _sc .space
-
-  private lazy val _comment_closing_suffix = _sc .space + _sc .comment_closing_symbol
-
-  private def _remove_prefix (prefix : String) (line : String) : String =
-    if ( line .startsWith (prefix)
-    ) line .substring (prefix .length)
-    else line
-
-  private def _remove_prefixes (line : String) : String =
-    _remove_prefix (_comment_opening_prefix) (
-      _remove_prefix (_documentation_comment_opening_prefix) (
-        _remove_prefix (_comment_line_prefix) (line)
-      )
-    )
-
-  private def _remove_suffix (suffix : String) (line : String) : String =
-    if ( line .endsWith (suffix)
-    ) line .substring (0 , line .length - suffix .length)
-    else line
-
-  private def _remove_suffixes (line : String) : String =
-    _remove_suffix (_comment_closing_suffix) (line)
-
-  private def _is_single_delimiter (line : String) : Boolean =
-    (line == _documentation_comment_opening_prefix .trim) ||
-    (line == _comment_opening_prefix .trim) ||
-    (line == _comment_line_prefix .trim) ||
-    (line == _comment_closing_suffix .trim)
-
-  private def _remove_single_delimiters (line : String) : String =
-    if ( _is_single_delimiter (line)
-    ) _empty_line
-    else line
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
@@ -77,33 +38,23 @@ trait DocBlockTranslator
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
 
-  private def _remove_comment_delimiters (lines : Seq [String] ) : Seq [String] =
-    lines .map ( line =>
-      _remove_single_delimiters (
-        _remove_suffixes (
-          _remove_prefixes (line .trim)
-        )
-      )
-    )
-
   private def _add_end_and_begin (lines : Seq [String] ) : Seq [String] =
     _append (_tc .doc_closing_comment_translation) (
       _prepend (_tc .doc_opening_comment_translation) (lines)
     )
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
-    CommentAnnotation_ (
+    CommentAnnotation .mk (
       BlockBuilder .mk .build (
         _add_end_and_begin (
-          _remove_comment_delimiters (block .lines)
+          CommentDelimiterRemover .mk
+            .remove_comment_delimiters (block .lines)
         )
       )
     )
 
   private def _translate_source_code (block : AnnotatedBlock) : CommentAnnotation =
-    CommentAnnotation_ (
-      block
-    )
+    CommentAnnotation .mk (block)
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
