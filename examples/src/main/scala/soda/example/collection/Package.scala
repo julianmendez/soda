@@ -484,7 +484,7 @@ trait Min [A ]
 
   private def _spanRevRec_next_value (tuple : SpanRevFoldTuple [A] ) (elem : A) : SpanRevFoldTuple [A] =
     (tuple .left) match  {
-      case NESeq_ (head, tail) => _aux_next_value (tuple) (NESeq_ (head, tail) )
+      case NESeq_ (head, tail) => _aux_next_value (tuple) (NESeq .mk (head) (tail) )
       case _otherwise =>
         SpanRevFoldTuple .mk [A] (tuple .left) (tuple .right) (false) (tuple .condition)
     }

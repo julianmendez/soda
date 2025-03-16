@@ -152,7 +152,7 @@ trait ResourceAllocationScenarioExample
   lazy val context = Context .mk
 
   lazy val outcome0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource1) ,
@@ -161,7 +161,7 @@ trait ResourceAllocationScenarioExample
     )
 
   lazy val outcome1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource0) ,
@@ -170,7 +170,7 @@ trait ResourceAllocationScenarioExample
     )
 
   lazy val outcome2 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -179,7 +179,7 @@ trait ResourceAllocationScenarioExample
     )
 
   lazy val outcome3 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource2) ,

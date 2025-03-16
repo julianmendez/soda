@@ -323,7 +323,7 @@ case class MicroTranslatorToScalaSpec ()
   test ("should translate a creation of instance with parameters") (
     check (
       obtained = instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
-        "\n      MinMaxPair_ (" +
+        "\n      MinMaxPair .mk (" +
         "        min := MaxAndMin .mk .min (a) (b) ) (" +
         "        max := MaxAndMin .mk .max (a) (b)" +
         "      )" +
@@ -331,8 +331,8 @@ case class MicroTranslatorToScalaSpec ()
       )
     ) (
       expected = "    def min_max (a : Int) (b : Int) : MinMaxPair =" +
-        "\n      MinMaxPair_ (" +
-        "        min = MaxAndMin .mk .min (a) (b) , " +
+        "\n      MinMaxPair .mk (" +
+        "        min = MaxAndMin .mk .min (a) (b) ) (" +
         "        max = MaxAndMin .mk .max (a) (b)" +
         "      )" +
         "\n"

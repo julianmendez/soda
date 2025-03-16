@@ -23,8 +23,8 @@ case class FairnessSpec ()
   test ("simple test for fairness (true)") (
     check (
       obtained =
-        Fairness_ (score_difference_tolerance = 2 , ranking_difference_tolerance = 5 , rank_1)
-          .is_fair (Applicant_ (78) ) (Applicant_ (77) )
+        Fairness .mk (score_difference_tolerance = 2) (ranking_difference_tolerance = 5) (rank_1)
+          .is_fair (Applicant .mk (78) ) (Applicant .mk (77) )
     ) (
       expected = true
     )
@@ -33,8 +33,8 @@ case class FairnessSpec ()
   test ("simple test for fairness (false)") (
     check (
       obtained =
-        Fairness_ (score_difference_tolerance = 2 , ranking_difference_tolerance = 1 , rank_2)
-          .is_fair (Applicant_ (78) ) (Applicant_ (77) )
+        Fairness .mk (score_difference_tolerance = 2) (ranking_difference_tolerance = 1) (rank_2)
+          .is_fair (Applicant .mk (78) ) (Applicant .mk (77) )
     ) (
       expected = false
     )

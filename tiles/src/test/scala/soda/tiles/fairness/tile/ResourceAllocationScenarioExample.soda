@@ -39,7 +39,7 @@ class ResourceAllocationScenarioExample
   context = Context .mk
 
   outcome0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource1) ,
@@ -48,7 +48,7 @@ class ResourceAllocationScenarioExample
     )
 
   outcome1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource0) ,
@@ -57,7 +57,7 @@ class ResourceAllocationScenarioExample
     )
 
   outcome2 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -66,7 +66,7 @@ class ResourceAllocationScenarioExample
     )
 
   outcome3 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource2) ,

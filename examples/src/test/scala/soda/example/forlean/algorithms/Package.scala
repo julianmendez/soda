@@ -94,9 +94,9 @@ case class SwapExampleSpec ()
 
   lazy val five = 5
 
-  lazy val pair_1 = PairExample_ (three, five)
+  lazy val pair_1 = PairExample .mk (three) (five)
 
-  lazy val pair_2 = PairExample_ (five, three)
+  lazy val pair_2 = PairExample .mk (five) (three)
 
   lazy val instance = SwapExample .mk
 

@@ -65,80 +65,73 @@ case class PriceMonitorSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  private def _mk_Flight (start_airport : String) (intermediate_airports : Seq [String] )
-      (end_airport : String) : Flight =
-    Flight_ (start_airport, intermediate_airports, end_airport)
-
-  private def _mk_Customer (name : String) (ip_address : String) : Customer =
-   Customer_ (name, ip_address)
-
   lazy val fair_pricing_agent = FairPricingAgent .mk
 
   lazy val unfair_pricing_agent = UnfairPricingAgent .mk
 
-  lazy val customer_1 = _mk_Customer (name = "Jon") (ip_address = "127.0.0.1")
+  lazy val customer_1 = Customer .mk (name = "Jon") (ip_address = "127.0.0.1")
 
-  lazy val customer_2 = _mk_Customer (name = "Maria") (ip_address = "192.168.1.1")
+  lazy val customer_2 = Customer .mk (name = "Maria") (ip_address = "192.168.1.1")
 
-  lazy val flight_1 = _mk_Flight ("BER") (Seq ("FRA" , "ARN") ) ("UMU")
+  lazy val flight_1 = Flight .mk ("BER") (Seq ("FRA" , "ARN") ) ("UMU")
 
   lazy val date_1 = 18898
 
   test ("unfair pricing agent - requirement_monitor 1") (
     check (
       obtained =
-        Requirement1Monitor_ (unfair_pricing_agent)
+        Requirement1Monitor .mk (unfair_pricing_agent)
           .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
-      expected = Report1_ (false, 897, 1495, 0.6)
+      expected = Report1 .mk (false) (897) (1495) (0.6)
     )
   )
 
   test ("unfair pricing agent - requirement_monitor 2") (
     check (
       obtained =
-        Requirement2Monitor_ (unfair_pricing_agent)
+        Requirement2Monitor .mk (unfair_pricing_agent)
           .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report2_ (false, 702, 897)
+      expected = Report2 .mk (false) (702) (897)
     )
   )
 
   test ("unfair pricing agent - requirement_monitor 3") (
     check (
       obtained =
-        Requirement3Monitor_ (unfair_pricing_agent)
+        Requirement3Monitor .mk (unfair_pricing_agent)
           .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report3_ (false, 897, 891)
+      expected = Report3 .mk (false) (897) (891)
     )
   )
 
   test ("fair pricing agent - requirement_monitor 1") (
     check (
       obtained =
-        Requirement1Monitor_ (fair_pricing_agent)
+        Requirement1Monitor .mk (fair_pricing_agent)
           .get_report (customer_1) (customer_2) (flight_1) (date_1)
     ) (
-      expected = Report1_ (true, 300, 300, 1.0)
+      expected = Report1 .mk (true) (300) (300) (1.0)
     )
   )
 
   test ("fair pricing agent - requirement_monitor 2") (
     check (
       obtained =
-        Requirement2Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+        Requirement2Monitor .mk (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report2_ (true, 300, 300)
+      expected = Report2 .mk (true) (300) (300)
     )
   )
 
   test ("fair pricing agent - requirement_monitor 3") (
     check (
       obtained =
-        Requirement3Monitor_ (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
+        Requirement3Monitor .mk (fair_pricing_agent) .get_report (customer_1) (flight_1) (date_1)
     ) (
-      expected = Report3_ (true, 300, 300)
+      expected = Report3 .mk (true) (300) (300)
     )
   )
 

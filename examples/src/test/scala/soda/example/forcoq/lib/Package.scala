@@ -43,7 +43,7 @@ case class NatSpec ()
 
   test ("IntNat from non negative") (
     check (
-      obtained = IntNat_ () .from_non_negative (8)
+      obtained = IntNat .mk .from_non_negative (8)
     ) (
       expected = S_ (S_ (S_ (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) ) ) )
     )
@@ -51,7 +51,7 @@ case class NatSpec ()
 
   test ("IntNat to Int") (
     check (
-      obtained = IntNat_ () .to_Int (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) )
+      obtained = IntNat .mk .to_Int (S_ (S_ (S_ (S_ (S_ (O_ () ) ) ) ) ) )
     ) (
       expected = 5
     )

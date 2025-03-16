@@ -12,9 +12,9 @@ class SwapExampleSpec ()
 
   five = 5
 
-  pair_1 = PairExample_ (three) (five)
+  pair_1 = PairExample .mk (three) (five)
 
-  pair_2 = PairExample_ (five) (three)
+  pair_2 = PairExample .mk (five) (three)
 
   instance = SwapExample .mk
 
