@@ -171,10 +171,11 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "" +
         "(*" +
-        "This is a nicely" +
-        "\nwritten comment" +
+        "\n This is a nicely" +
+        "\n written comment" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )
@@ -196,10 +197,11 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "" +
         "(**" +
-        "This is a nicely" +
-        "\nwritten documentation" +
+        "\n This is a nicely" +
+        "\n written documentation" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )

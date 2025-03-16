@@ -582,6 +582,7 @@ trait CoqDocumentationBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
 
   private lazy val _sc = SodaConstant .mk
 
@@ -597,55 +598,12 @@ trait CoqDocumentationBlockTranslator
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
 
-  private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (index + prefix .length)
-    else line
-
-  private def _remove_prefix_in_line (prefix : String) (line : String) : String =
-    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
-
-  private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
-    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
-
-  private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (0, index)
-    else line
-
-  private def _remove_suffix_in_line (suffix : String) (line : String) : String =
-    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
-
-  private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
-
-  private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
-    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
-
-  private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_prefix_in_line (_sc .comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
-     )
-    ) (content .tail)
-
-  private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
-    _remove_last_delimiter (
-      _remove_first_delimiter (content)
-    )
-
   private def _translate_with_symbol (opening_symbol : String) (lines : Seq [String] ) : Seq [String] =
     _append (
       _tc .coq_comment_closing_symbol) (
       _prepend (opening_symbol) (
-        _remove_comment_delimiter (
-          _remove_comment_line_prefix (lines)
-        )
+        CommentDelimiterRemover .mk
+          .remove_comment_delimiters (lines)
       )
     )
 

@@ -17,7 +17,9 @@ Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
 Notation "'Succ_'" := S (at level 99) .
 Notation "'Int'" := nat (at level 99) .
 
-(** This class contains tail recursive auxiliary functions.
+(**
+ This class contains tail recursive auxiliary functions.
+
 *)
 
 Module FoldWhile .
