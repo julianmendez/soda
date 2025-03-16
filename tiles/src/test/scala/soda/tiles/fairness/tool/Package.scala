@@ -34,9 +34,9 @@ trait LinearCongruentialGenerator
   def   multiplier : Long
   def   increment : Long
 
-  lazy val fold = Fold_ ()
+  lazy val fold = Fold .mk
 
-  lazy val range = Range_ ()
+  lazy val range = Range .mk
 
   lazy val get_next_long : Long => Long =
      seed =>
@@ -73,7 +73,7 @@ trait Random
 
 
 
-  lazy val generator = LinearCongruentialGenerator_ (0x1000000000000L , 0x5DEECE66DL , 0x0BL)
+  lazy val generator = LinearCongruentialGenerator .mk (0x1000000000000L) (0x5DEECE66DL) (0x0BL)
 
   lazy val get_next_long : Long => Long =
      seed =>
@@ -207,11 +207,11 @@ case class ScoringToolSpec ()
 
   lazy val example_ylist_1 : Seq [Double] = Seq (1 , 3 , 5 , 8)
 
-  lazy val instance_1 : Pearson = Pearson_ (example_xlist_1, example_ylist_1)
+  lazy val instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
 
-  private lazy val _mt : MathTool = MathTool_ ()
+  private lazy val _mt : MathTool = MathTool .mk
 
-  private lazy val _mc : ScoringCategory = ScoringCategory_ ()
+  private lazy val _mc : ScoringCategory = ScoringCategory .mk
 
   test ("sum") (
     check (
@@ -241,7 +241,7 @@ case class ScoringToolSpec ()
 
   lazy val example_ylist_2 : Seq [Double] = Seq (99 , 65 , 79 , 75 , 87 , 81)
 
-  lazy val instance_2 : Pearson = Pearson_ (example_xlist_2, example_ylist_2)
+  lazy val instance_2 : Pearson = Pearson .mk (example_xlist_2) (example_ylist_2)
 
   test ("coefficient") (
     check (

@@ -35,7 +35,7 @@ trait DirectoryProcessor
   lazy val package_file_name = "Package.soda"
 
   private lazy val _all_files : Seq [File] =
-    DirectoryScanner_ () .get_all_files ( new File (start) )
+    DirectoryScanner .mk .get_all_files ( new File (start) )
 
   private lazy val _sorted_all_soda_files : Seq [File] =
     _all_files
@@ -81,18 +81,12 @@ trait DirectoryProcessor
   private lazy val _sorted_lib_files : Seq [File] =
     _all_files
       .filter ( x => x .isFile)
-      .filter ( file => file .getName == LibraryDeployer_ () .library_marker_file)
+      .filter ( file => file .getName == LibraryDeployer .mk .library_marker_file)
       .sorted
 
   private def _expand_library_files (ready : Boolean) : Boolean =
     ready &&
-      LibraryDeployer_ () .expand_library (_sorted_lib_files)
-
-  private def _add_missing_package_files (ready : Boolean) : Boolean =
-    ready &&
-      _missing_package_files
-       .map ( x => x .createNewFile)
-       .forall ( x => x)
+      LibraryDeployer .mk .expand_library (_sorted_lib_files)
 
   private def _process_all_soda_files (ready : Boolean) : Boolean =
     ready &&
@@ -103,7 +97,6 @@ trait DirectoryProcessor
   def process () : Boolean =
     Some (true)
       .map (_expand_library_files)
-      .map (_add_missing_package_files)
       .map (_process_all_soda_files)
       .getOrElse (false)
 
@@ -184,7 +177,7 @@ trait LibraryDeployer
   private lazy val _library_directory_in_jar = "/lib/soda/lib/"
 
   private lazy val _library_content_files : Seq [String] =
-    SimpleFileReader_ ()
+    SimpleFileReader .mk
       .read_resource (_library_directory_in_jar + "files.txt")
       .split ("\n")
       .toSeq
@@ -192,9 +185,9 @@ trait LibraryDeployer
   private def _expand_files (parent_directory : String) : Boolean =
     _library_content_files
       .map ( lib_file_name =>
-        SimpleFileWriter_ () .write_file_with (
-          file = SimpleFileWriter_ () .create_file (parent_directory) (lib_file_name) ) (
-          content = SimpleFileReader_ () .read_resource (
+        SimpleFileWriter .mk .write_file_with (
+          file = SimpleFileWriter .mk .create_file (parent_directory) (lib_file_name) ) (
+          content = SimpleFileReader .mk .read_resource (
             _library_directory_in_jar + lib_file_name)
         ) )
       .forall ( x => x)
@@ -263,13 +256,13 @@ trait SimpleFileWriter
 
 
 
-  import   soda.lib.SomeSD_
+  import   soda.lib.SomeSD
   import   java.io.File
   import   java.io.FileWriter
   import   java.io.Writer
 
   private def _write_content (writer : Writer) (content : String) : Boolean =
-    SomeSD_ (true)
+    SomeSD .mk [Boolean] (true)
       .map ( x => writer .write (content) )
       .map ( x => writer .flush () )
       .map ( x => writer .close () )

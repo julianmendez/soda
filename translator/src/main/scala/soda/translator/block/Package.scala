@@ -86,32 +86,29 @@ trait BlockAnnotationEnum
 
 
 
-  private def _mk_BlockAnnotationId (ordinal : Int) (name : String) : BlockAnnotationId =
-    BlockAnnotationId_ (ordinal, name)
+  lazy val undefined = BlockAnnotationId .mk (0) ("undefined")
 
-  lazy val undefined = _mk_BlockAnnotationId (0) ("undefined")
+  lazy val function_definition = BlockAnnotationId .mk (1) ("function_definition")
 
-  lazy val function_definition = _mk_BlockAnnotationId (1) ("function_definition")
+  lazy val class_beginning = BlockAnnotationId .mk (2) ("class_beginning")
 
-  lazy val class_beginning = _mk_BlockAnnotationId (2) ("class_beginning")
+  lazy val class_end = BlockAnnotationId .mk (3) ("class_end")
 
-  lazy val class_end = _mk_BlockAnnotationId (3) ("class_end")
+  lazy val abstract_declaration = BlockAnnotationId .mk (4) ("abstract_declaration")
 
-  lazy val abstract_declaration = _mk_BlockAnnotationId (4) ("abstract_declaration")
+  lazy val import_declaration = BlockAnnotationId .mk (5) ("import_declaration")
 
-  lazy val import_declaration = _mk_BlockAnnotationId (5) ("import_declaration")
+  lazy val package_declaration = BlockAnnotationId .mk (6) ("package_declaration")
 
-  lazy val package_declaration = _mk_BlockAnnotationId (6) ("package_declaration")
+  lazy val class_alias = BlockAnnotationId .mk (7) ("class_alias")
 
-  lazy val class_alias = _mk_BlockAnnotationId (7) ("class_alias")
+  lazy val theorem_block = BlockAnnotationId .mk (8) ("theorem_block")
 
-  lazy val theorem_block = _mk_BlockAnnotationId (8) ("theorem_block")
+  lazy val directive_block = BlockAnnotationId .mk (9) ("directive_block")
 
-  lazy val directive_block = _mk_BlockAnnotationId (9) ("directive_block")
+  lazy val comment = BlockAnnotationId .mk (10) ("comment")
 
-  lazy val comment = _mk_BlockAnnotationId (10) ("comment")
-
-  lazy val test_declaration = _mk_BlockAnnotationId (11) ("test_declaration")
+  lazy val test_declaration = BlockAnnotationId .mk (11) ("test_declaration")
 
   lazy val values =
     Seq (
@@ -214,11 +211,11 @@ trait BlockTranslatorPipeline
     BlockTranslator
 {
 
-  import   soda.lib.Fold_
+  import   soda.lib.Fold
 
   def   pipeline : Seq [BlockTranslator]
 
-  private lazy val _fold = Fold_ ()
+  private lazy val _fold = Fold .mk
 
   private def _next_value (block : AnnotatedBlock) (translator : BlockTranslator) : AnnotatedBlock =
     translator .translate (block)

@@ -11,19 +11,19 @@ class MicroTranslatorToDoc
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationEnum
     soda.translator.block.BlockTranslatorPipeline_
 
-  _function_definition = BlockAnnotationEnum_ () .function_definition
+  _function_definition = BlockAnnotationEnum .mk .function_definition
 
-  _test_declaration = BlockAnnotationEnum_ () .test_declaration
+  _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   functions_and_tests = Seq (_function_definition , _test_declaration)
 
   _translation_pipeline =
     BlockTranslatorPipeline_ (
       Seq (
-        DocBlockTranslator_ ()
+        DocBlockTranslator .mk
       )
     )
 

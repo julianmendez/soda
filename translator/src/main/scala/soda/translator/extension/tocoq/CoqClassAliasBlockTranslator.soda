@@ -10,15 +10,15 @@ class CoqClassAliasBlockTranslator
     soda.translator.block.Block
     soda.translator.block.Translator
     soda.translator.blocktr.TableTranslator_
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassAliasAnnotation
     soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.replacement.Replacement_
 
-  _sc = SodaConstant_ ()
+  _sc : SodaConstant = SodaConstant .mk
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc : TranslationConstantToCoq = TranslationConstantToCoq .mk
 
   get_first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("")
@@ -31,7 +31,7 @@ class CoqClassAliasBlockTranslator
       _tc .coq_notation_suffix
 
   _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (
         _process_class_alias (get_first_line (block) )
       )
@@ -39,12 +39,12 @@ class CoqClassAliasBlockTranslator
 
   _translate_class_alias_block (block : ClassAliasAnnotation)
       : ClassAliasAnnotation =
-    ClassAliasAnnotation_ (_translate_block (block) )
+    ClassAliasAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case ClassAliasAnnotation_ (block) ==>
-        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+        _translate_class_alias_block (ClassAliasAnnotation .mk (block) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

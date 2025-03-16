@@ -8,23 +8,20 @@ class CoqClassEndBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
-      : ClassEndAnnotation =
-    ClassEndAnnotation_ (block) (references)
-
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
-    _mk_ClassEndAnnotation (
-      BlockBuilder_ () .build (
+    ClassEndAnnotation .mk (
+      BlockBuilder .mk .build (
         Seq [String] (
           _tc .coq_module_end_reserved_word + _tc .coq_space + beginning .class_name +
           _tc .coq_space + _tc .coq_end_symbol ,
@@ -66,7 +63,7 @@ class CoqClassEndBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case ClassEndAnnotation_ (block) (references) ==>
-        _translate_block (_mk_ClassEndAnnotation (block) (references) )
+        _translate_block (ClassEndAnnotation .mk (block) (references) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

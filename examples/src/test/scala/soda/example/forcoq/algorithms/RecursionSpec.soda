@@ -16,11 +16,11 @@ class RecursionSpec ()
   _fold_left_while_condition : Seq [String] -> Int -> Boolean =
     lambda (s : Seq [String] ) --> lambda (e : Int) --> e < 5
 
-  _fold_while = FoldWhile_ ()
+  _fold_while = FoldWhile .mk
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
-  _range = Range_ ()
+  _range = Range .mk
 
   test ("fold left while with Seq") (
     check (

@@ -1,3 +1,7 @@
+import   soda.example.forcoq.lib.nat
+
+
+
 trait PairExample
 {
 

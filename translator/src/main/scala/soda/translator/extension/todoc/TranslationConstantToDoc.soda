@@ -8,11 +8,9 @@ class TranslationConstantToDoc
   abstract
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  soda_constant = SodaConstant_ ()
-
-  doc_space = " "
+  soda_constant = SodaConstant .mk
 
   doc_new_line = "\n"
 

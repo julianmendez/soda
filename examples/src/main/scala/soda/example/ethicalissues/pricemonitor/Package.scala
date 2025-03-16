@@ -118,7 +118,7 @@ trait Requirement1Monitor
     1.0 * (min (x) (y) ) / (max (x) (y) )
 
   def get_report_with_similarity (price1 : Int) (price2 : Int) (similarity : Double) : Report1 =
-    Report1_ (minimum_similarity <= similarity, price1, price2, similarity)
+    Report1 .mk (minimum_similarity <= similarity) (price1) (price2) (similarity)
 
   def get_report_with (price1 : Int) (price2 : Int) : Report1 =
     get_report_with_similarity (price1) (price2) (get_similarity (price1) (price2) )
@@ -168,7 +168,7 @@ trait Requirement2Monitor
     date_in_days - 365
 
   def get_report_with (old_price : Int) (new_price : Int) : Report2 =
-    Report2_ (new_price <= old_price * acceptable_increase, old_price, new_price)
+    Report2 .mk (new_price <= old_price * acceptable_increase) (old_price) (new_price)
 
   def get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report2 =
     get_report_with (
@@ -229,9 +229,9 @@ trait SegmentsForFlight
   def rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] )
       (last_airport : String) : Seq [Segment] =
     intermediate_stops match  {
-      case Nil => Nil .+: (Segment_ (first_airport , last_airport) )
+      case Nil => Nil .+: (Segment .mk (first_airport) (last_airport) )
       case head +: tail => (rec_segments_multi (head) (tail) (last_airport) ) .+: (
-        Segment_ (first_airport , head) )
+        Segment .mk (first_airport) (head) )
     }
 
   lazy val segments : Seq [Segment] =
@@ -255,7 +255,7 @@ trait Requirement3Monitor
   def   pricing_agent : PricingAgent
 
   def get_report_with (price : Int) (price_by_segments : Int) : Report3 =
-    Report3_ (price <= price_by_segments, price, price_by_segments)
+    Report3 .mk (price <= price_by_segments) (price) (price_by_segments)
 
   def sum_prices (prices : Seq [Int] ) : Int =
     prices .sum
@@ -267,7 +267,7 @@ trait Requirement3Monitor
   def get_price_of_flight_by_segments (customer : Customer) (flight : Flight) (date_in_days : Int)
       : Int =
     sum_prices (
-      get_prices_of_segments (customer) (SegmentsForFlight_ (flight) .segments) (date_in_days) )
+      get_prices_of_segments (customer) (SegmentsForFlight .mk (flight) .segments) (date_in_days) )
 
   def get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report3 =
     get_report_with (

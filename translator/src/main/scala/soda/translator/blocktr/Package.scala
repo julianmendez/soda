@@ -17,7 +17,7 @@ trait DirectiveBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
 
@@ -48,15 +48,15 @@ trait DirectiveBlockTranslator
     else _comment_block_out (lines)
 
   private def _translate_block (block : DirectiveBlockAnnotation) : DirectiveBlockAnnotation =
-    DirectiveBlockAnnotation_ (
-      BlockBuilder_ () .build (
+    DirectiveBlockAnnotation .mk (
+      BlockBuilder .mk .build (
         _translate_lines (block .lines)
       )
     )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
-      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation_ (block) )
+      case DirectiveBlockAnnotation_ (block) => _translate_block (DirectiveBlockAnnotation .mk (block) )
       case _otherwise => annotated_block
     }
 
@@ -118,20 +118,20 @@ object TableTranslator {
 trait TokenReplacement
 {
 
-  import   soda.translator.replacement.ReplacementWithTranslator_
+  import   soda.translator.replacement.ReplacementWithTranslator
 
 
 
   def replace_words (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
-    TokenizedBlockTranslator_ (
+    TokenizedBlockTranslator .mk (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_words (token .text)
+        ReplacementWithTranslator .mk (TableTranslator .mk (table) ) .replace_words (token .text)
     )
 
   def replace_symbols (table : Seq [Tuple2 [String, String] ] ) : TokenizedBlockTranslator =
-    TokenizedBlockTranslator_ (
+    TokenizedBlockTranslator .mk (
        token =>
-        ReplacementWithTranslator_ (TableTranslator_ (table) ) .replace_symbols (token .text)
+        ReplacementWithTranslator .mk (TableTranslator .mk (table) ) .replace_symbols (token .text)
     )
 
 }
@@ -151,16 +151,15 @@ trait TokenizedBlockTranslator
 
   def   replace_token : soda.translator.replacement.Token => String
 
-  import   soda.lib.SomeSD_
+  import   soda.lib.SomeSD
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.annotation.AnnotationFactory_
-  import   soda.translator.replacement.ParserStateEnum_
-  import   soda.translator.replacement.Replacement_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.annotation.AnnotationFactory
+  import   soda.translator.replacement.ParserStateEnum
+  import   soda.translator.replacement.Replacement
   import   soda.translator.replacement.Token
-  import   soda.translator.replacement.Token_
-  import   soda.translator.replacement.Tokenizer_
+  import   soda.translator.replacement.Tokenizer
 
   private def _join_tokens (tokens : Seq [Token] ) : String =
     tokens
@@ -168,8 +167,8 @@ trait TokenizedBlockTranslator
       .mkString ("")
 
   private def _get_token_translated_if_in_state (token : Token) : Token =
-    if ( token .parser_state == ParserStateEnum_ () .plain
-    ) Token_ (replace_token (token) , token .parser_state , token .index)
+    if ( token .parser_state == ParserStateEnum .mk .plain
+    ) Token .mk (replace_token (token) ) (token .parser_state) (token .index)
     else token
 
   private def _translate_line (tokens : Seq [Token] ) : Seq [Token] =
@@ -177,12 +176,12 @@ trait TokenizedBlockTranslator
       .map ( token => _get_token_translated_if_in_state (token) )
 
   private def _translate_non_comment (line : String) : String =
-      SomeSD_ (line)
-        .map ( x => Replacement_ (x) .add_space_to_soda_line () .line)
-        .map ( x => Tokenizer_ (x) .tokens)
+      SomeSD .mk [String] (line)
+        .map ( x => Replacement .mk (x) .add_space_to_soda_line () .line)
+        .map ( x => Tokenizer .mk (x) .tokens)
         .map ( x => _translate_line (x) )
         .map ( x => _join_tokens (x) )
-        .map ( x => Replacement_ (x) .remove_space_from_translated_line () .line)
+        .map ( x => Replacement .mk (x) .remove_space_from_translated_line () .line)
         .getOrElse ("")
 
   private def _translate_if_not_a_comment (annotated_line : AnnotatedLine) : String =
@@ -191,9 +190,9 @@ trait TokenizedBlockTranslator
     else _translate_non_comment (annotated_line .line)
 
   def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
-    AnnotationFactory_ () .update_block (
+    AnnotationFactory .mk .update_block (
       block) (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         block
           .annotated_lines
           .map ( annotated_line => _translate_if_not_a_comment (annotated_line) )

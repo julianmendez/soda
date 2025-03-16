@@ -8,12 +8,12 @@ class DirectiveBlockAnnotation
 
   import
     soda.translator.block.AnnotatedLine
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.parser.SodaConstant_
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum_ () .directive_block
+  identifier = BlockAnnotationEnum .mk .directive_block
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
     match annotated_lines

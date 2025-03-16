@@ -17,7 +17,9 @@ Notation "'Succ_'" := S (at level 99).
 Notation "'Int'" := nat (at level 99).
 -/
 
-/-- This class contains tail recursive auxiliary functions.
+/--
+ This class contains tail recursive auxiliary functions.
+
 -/
 
 class FoldWhile
@@ -31,7 +33,7 @@ namespace FoldWhile
 
 
 private def   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
-       (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
+      (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     match sequence with
       | List.nil => current
       | (head) :: (tail) =>
@@ -42,7 +44,7 @@ private def   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : List ( 
 
 
 def   apply ( A : Type ) ( B : Type ) (list : List ( A ) ) (initial : B)
-       (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
+      (next : B -> A -> B) (condition : B -> A -> Bool) : B :=
     _tailrec_foldl_while ( A ) ( B ) (list) (initial) (next) (condition)
 
 
@@ -61,7 +63,7 @@ namespace Fold
 
 
 private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
-       (next : B -> A -> B) : B :=
+      (next : B -> A -> B) : B :=
     match sequence with
       | List.nil => current
       | (head) :: (tail) =>
@@ -69,7 +71,7 @@ private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) 
     
 
 
- def   apply ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial : B) (next : B -> A -> B) : B :=
+def   apply ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial : B) (next : B -> A -> B) : B :=
     _tailrec_foldl ( A ) ( B ) (sequence) (initial) (next)
 
 
@@ -87,7 +89,7 @@ where
 namespace Range
 
 
- private def   _tailrec_range (non_negative_number : Int) (sequence : List ( Int ) ) : List ( Int ) :=
+private def   _tailrec_range (non_negative_number : Int) (sequence : List ( Int ) ) : List ( Int ) :=
     match non_negative_number with
       | Succ_ (k) =>
         _tailrec_range (k) ( (k) :: (sequence) )
@@ -95,7 +97,7 @@ namespace Range
     
 
 
- def   apply (length : Int) : List ( Int ) :=
+def   apply (length : Int) : List ( Int ) :=
     _tailrec_range (length) (List.nil)
 
 

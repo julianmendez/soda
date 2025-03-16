@@ -10,17 +10,17 @@ class ScalaClassDeclarationBlockTranslator
     soda.translator.block.Block
     soda.translator.block.Translator
     soda.translator.blocktr.TableTranslator_
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassAliasAnnotation
     soda.translator.parser.annotation.ClassAliasAnnotation_
     soda.translator.replacement.Replacement_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   soda_space : String = _sc .space
 
@@ -103,7 +103,7 @@ class ScalaClassDeclarationBlockTranslator
     _remove_type_annotation_in_line (lines) .++ (remove_first_line (lines) )
 
   _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       remove_type_annotation (
         _translate_block_with (
           block .lines

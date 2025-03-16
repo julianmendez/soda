@@ -55,9 +55,9 @@ class PatternMatching
 
   get_type_name (p : Parameter) : String =
     match p
-      case Singleton_ (x) ==> (Singleton_ (x) ) .name + " (x)"
-      case Pair_ (x) (y) ==> (Pair_ (x) (y) ) .name + " (x) (y)"
-      case Triplet_ (x) (y) (z) ==> (Triplet_ (x) (y) (z) ) .name + " (x) (y) (z)"
+      case Singleton_ (x) ==> (Singleton .mk (x) ) .name + " (x)"
+      case Pair_ (x) (y) ==> (Pair .mk (x) (y) ) .name + " (x) (y)"
+      case Triplet_ (x) (y) (z) ==> (Triplet .mk (x) (y) (z) ) .name + " (x) (y) (z)"
       case _otherwise ==> ""
 
 end PatternMatching

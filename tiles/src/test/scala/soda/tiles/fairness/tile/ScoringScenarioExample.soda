@@ -8,15 +8,15 @@ class ScoringScenarioExample
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",
       "James", "Kevin", "Lily", "Matthew", "Natalie", "Olivia", "Quinn", "Peter", "Rachel",
       "Sarah", "Timothy", "Ursula", "Victoria", "William", "Xavier", "Yasmine", "Zachary"
-    ) .map (lambda name --> Actor_ (name) )
+    ) .map (lambda name --> Actor .mk (name) )
 
-  _resource_zero : Resource = Resource_ ("0")
+  _resource_zero : Resource = Resource .mk ("0")
 
-  _resource_one : Resource = Resource_ ("1")
+  _resource_one : Resource = Resource .mk ("1")
 
-  _measure_zero : Measure = Measure_ (0)
+  _measure_zero : Measure = Measure .mk (0)
 
-  _measure_one : Measure = Measure_ (1)
+  _measure_one : Measure = Measure .mk (1)
 
   seed_protected_attribute : Long = 127
 
@@ -29,8 +29,8 @@ class ScoringScenarioExample
     mod (x) (protected_attribute_modulus)
 
   protected_attribute : Seq [Measure] =
-    Random_ () .get_next_seq (seed_protected_attribute) (actors .length)
-      .map (lambda x --> Measure_ ( as_protected_attribute (x .intValue) ) )
+    Random .mk .get_next_seq (seed_protected_attribute) (actors .length)
+      .map (lambda x --> Measure .mk ( as_protected_attribute (x .intValue) ) )
 
   protected_attribute_map : Map [Actor] [Measure] =
     actors
@@ -67,7 +67,7 @@ class ScoringScenarioExample
     else _measure_zero
 
   result_values : Seq [Int] =
-    Random_ ()
+    Random .mk
       .get_next_seq (seed_result) (actors .length)
       .map (lambda x --> as_prediction ( (x .intValue) % prediction_modulus) )
 
@@ -75,7 +75,7 @@ class ScoringScenarioExample
 
   prediction_bias_on_attribute : Int = 40
 
-  maximum_acceptable_bias_percentage : Measure = Measure_ (30)
+  maximum_acceptable_bias_percentage : Measure = Measure .mk (30)
 
   result : Seq [Measure] =
     result_values .map (lambda x --> make_binary_measure (x) )
@@ -111,20 +111,20 @@ class ScoringScenarioExample
       .map (lambda x --> make_binary_resource (x) )
 
   unbiased_outcome : Outcome =
-    Outcome_ (
+    Outcome .mk (
       actors
         .indices
         .map (lambda index -->
-          Assignment_ (actors .apply (index) ) (unbiased_prediction .apply (index) )
+          Assignment .mk (actors .apply (index) ) (unbiased_prediction .apply (index) )
         )
     )
 
   biased_outcome : Outcome =
-    Outcome_ (
+    Outcome .mk (
       actors
         .indices
         .map (lambda index -->
-          Assignment_ (actors .apply (index) ) (biased_prediction .apply (index) )
+          Assignment .mk (actors .apply (index) ) (biased_prediction .apply (index) )
         )
     )
 
@@ -133,13 +133,13 @@ class ScoringScenarioExample
     then _measure_zero
     else _measure_one
 
-  context = Context_ ()
+  context = Context .mk
 
   initial_unbiased : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (unbiased_outcome) (true)
+    TileMessageBuilder .mk .build (context) (unbiased_outcome) (true)
 
   initial_biased : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (biased_outcome) (true)
+    TileMessageBuilder .mk .build (context) (biased_outcome) (true)
 
 end
 

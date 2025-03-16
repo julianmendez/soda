@@ -72,7 +72,7 @@ class ListExample
     Pair .mk ("a .map (lambda x --> x .toInt) .++ (b)") (a .map (lambda x --> x .toInt) .++ (b)
     )
 
-  span_example : Pair [ Tuple2 [Seq [Char] ] [Seq [Char] ] ] =
+  span_example : Pair [Tuple2 [Seq [Char] ] [Seq [Char] ] ] =
     Pair .mk ("a .span (lambda x --> not (x == 'D') )") (a .span (lambda x --> not (x == 'D') )
     )
 

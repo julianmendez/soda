@@ -4,9 +4,9 @@ class ScalaClassConstructorBlockTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.BlockTranslatorPipeline_
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.BlockTranslatorPipeline
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -118,15 +118,15 @@ class ScalaClassConstructorBlockTranslatorSpec ()
     "\n"
 
   _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        ScalaClassConstructorBlockTranslator_ ()
+        ScalaClassConstructorBlockTranslator .mk
       )
     )
 
   translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
         _translation_pipeline
       )
     )

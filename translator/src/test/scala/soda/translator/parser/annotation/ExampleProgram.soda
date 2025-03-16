@@ -5,10 +5,9 @@ class ExampleProgram
 
   import
     soda.translator.block.Block
-    soda.translator.block.DefaultBlockTranslator_
-    soda.translator.block.DefaultBlockSequenceTranslator_
+    soda.translator.block.DefaultBlockTranslator
+    soda.translator.block.DefaultBlockSequenceTranslator
     soda.translator.parser.BlockProcessor
-    soda.translator.parser.BlockProcessor_
 
   example_program =
     ("package soda.example.mytest" +
@@ -65,9 +64,9 @@ class ExampleProgram
     "\n")
 
   default_block_processor : BlockProcessor =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        DefaultBlockTranslator_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        DefaultBlockTranslator .mk
       )
     )
 

@@ -1,0 +1,6 @@
+package soda.translator.parser.tool
+
+/*
+ * This package contains tools to parse the Soda language.
+ */
+

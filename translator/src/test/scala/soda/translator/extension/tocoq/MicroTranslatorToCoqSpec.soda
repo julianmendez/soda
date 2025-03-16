@@ -4,41 +4,66 @@ class MicroTranslatorToCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   instance =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToCoq_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToCoq .mk
       )
     )
 
-  test ("Coq translation of a constant") (
+  test ("Coq translation of a constant 1") (
     check (
       obtained := instance .translate ("x = 0")
     ) (
-      expected := " Definition x := 0\n.\n"
+      expected := "Definition x := 0\n.\n"
     )
   )
 
-  test ("Coq translation of a function") (
+  test ("Coq translation of a constant 2") (
+    check (
+      obtained := instance .translate ("def x = 0")
+    ) (
+      expected := "Definition x := 0\n.\n"
+    )
+  )
+
+  test ("Coq translation of a function 1") (
     check (
       obtained := instance .translate ("f (a : Nat) = 0")
     ) (
-      expected := " Definition f (a : nat) := 0\n.\n"
+      expected := "Definition f (a : nat) := 0\n.\n"
     )
   )
 
-  test ("Coq translation of type parameters") (
+  test ("Coq translation of a function 2") (
+    check (
+      obtained := instance .translate ("  def f (a : Nat) = 0")
+    ) (
+      expected := "Definition   f (a : nat) := 0\n.\n"
+    )
+  )
+
+  test ("Coq translation of type parameters 1") (
     check (
       obtained := instance .translate (
       "identity (x : List [Boolean] ) : List [Boolean] = x\n")
     ) (
-      expected := " Definition identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
+      expected := "Definition identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
+    )
+  )
+
+  test ("Coq translation of type parameters 2") (
+    check (
+      obtained := instance .translate (
+      " def identity (x : List [Boolean] ) : List [Boolean] = x\n")
+    ) (
+      expected := "Definition  identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
     )
   )
 
@@ -75,10 +100,11 @@ class MicroTranslatorToCoqSpec ()
     ) (
       expected := "" +
         "(*" +
-        "This is a nicely" +
-        "\nwritten comment" +
+        "\n This is a nicely" +
+        "\n written comment" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )
@@ -100,10 +126,11 @@ class MicroTranslatorToCoqSpec ()
     ) (
       expected := "" +
         "(**" +
-        "This is a nicely" +
-        "\nwritten documentation" +
+        "\n This is a nicely" +
+        "\n written documentation" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )
@@ -221,7 +248,7 @@ class MicroTranslatorToCoqSpec ()
       )
     ) (
       expected := "" +
-        " Definition as_list (a : bool) : list ( bool ) :=" +
+        "Definition as_list (a : bool) : list ( bool ) :=" +
         "\n  (a) :: (nil)" +
         "\n." +
         "\n"

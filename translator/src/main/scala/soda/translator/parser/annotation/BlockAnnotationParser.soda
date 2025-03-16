@@ -10,14 +10,12 @@ class BlockAnnotationParser
 
   import
     soda.translator.block.AnnotatedLine
-    soda.translator.block.AnnotatedLine_
-    soda.translator.block.Block
     soda.translator.block.BlockAnnotationId
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  space = SodaConstant_ () .space
+  space = SodaConstant .mk .space
 
-  default_annotated_line = AnnotatedLine_ ("", true)
+  default_annotated_line = AnnotatedLine .mk ("") (true)
 
   annotated_lines : Seq [AnnotatedLine] = block .annotated_lines
 

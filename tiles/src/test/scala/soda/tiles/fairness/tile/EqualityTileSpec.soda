@@ -6,9 +6,9 @@ class EqualityTileSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  example = ResourceAllocationScenarioExample_ ()
+  example = ResourceAllocationScenarioExample .mk
 
-  equality_tile = EqualityTile_ (example .measure_sum , example .resource_height)
+  equality_tile = EqualityTile .mk (example .measure_sum) (example .resource_height)
 
   test ("equality on outcome 0") (
     check (

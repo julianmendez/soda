@@ -7,15 +7,15 @@ class ClassBeginningAnnotation
     block : soda.translator.block.Block
 
   import
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.parser.SodaConstant_
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum_ () .class_beginning
+  identifier = BlockAnnotationEnum. mk .class_beginning
 
-  sc = SodaConstant_ ()
+  sc = SodaConstant .mk
 
   _contains_the_equals_symbol : Boolean =
-    FunctionDefinitionAnnotation_ (block) .contains_the_equals_symbol
+    FunctionDefinitionAnnotation .mk (block) .contains_the_equals_symbol
 
   _contains_an_opening_parenthesis : Boolean =
     first_readable_line .line .contains (sc .opening_parenthesis_symbol)

@@ -5,7 +5,7 @@ class AtLeastTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map (lambda pair --> (pair .fst .compareTo (pair .snd) >= 0 ) )
         .forall (lambda e --> e)

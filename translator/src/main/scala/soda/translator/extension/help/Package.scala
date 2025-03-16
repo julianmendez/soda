@@ -11,13 +11,13 @@ trait AbstractHelp
 
   def   execute : Seq [String] => Boolean
 
-  import   soda.lib.SomeSD_
-  import   soda.translator.io.SimpleFileReader_
+  import   soda.lib.SomeSD
+  import   soda.translator.io.SimpleFileReader
 
   lazy val path : String = "/soda/translator/documentation/"
 
   def read (file_name : String) : String =
-    SimpleFileReader_ () .read_resource (path + file_name)
+    SimpleFileReader .mk .read_resource (path + file_name)
 
   lazy val this_package = this .getClass .getPackage
 
@@ -28,7 +28,7 @@ trait AbstractHelp
   lazy val title_and_version : String = (name + " " + version) .trim
 
   def output_content (content : String) : Boolean =
-    SomeSD_ (content)
+    SomeSD .mk [String] (content)
       .map ( x => println (x) )
       .map ( x => true)
       .getOrElse (false)
@@ -87,11 +87,19 @@ trait License
     AbstractHelp
 {
 
-  lazy val file_name = "LICENSE.txt"
+  lazy val license_file_name = "soda-license.txt"
+
+  lazy val notice_file_name = "soda-notice.txt"
+
+  private lazy val _separator = "\n\n---\n\n"
 
   lazy val execute : Seq [String] => Boolean =
      arguments =>
-      output_content (read (file_name))
+      output_content (
+        read (notice_file_name) +
+        _separator +
+        read (license_file_name)
+      )
 
 }
 

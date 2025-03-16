@@ -8,7 +8,7 @@ class UnzipPairFstTile
 
   apply [A : Type] [B : Type] (message : TileMessage [Seq [TilePair [A] [B] ] ] )
       : TileMessage [Seq [A] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_fst_list (message .contents)
     )
 
@@ -24,7 +24,7 @@ class UnzipPairSndTile
 
   apply [A : Type] [B : Type] (message : TileMessage [Seq [TilePair [A] [B] ] ] )
       : TileMessage [Seq [B] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_snd_list (message .contents)
     )
 

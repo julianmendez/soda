@@ -6,7 +6,7 @@ class SigmaTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       (message .contents)
         .map (lambda pair --> sigma (pair .fst) (pair .snd) )
     )

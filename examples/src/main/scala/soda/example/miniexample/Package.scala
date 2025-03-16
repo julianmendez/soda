@@ -9,9 +9,9 @@ trait MiniExample
 
 
 
-  import   soda.lib.Range_
+  import   soda.lib.Range
 
-  private lazy val _range = Range_ ()
+  private lazy val _range = Range .mk
 
   def run () : Seq [Unit] =
     _range.apply (50)
@@ -32,7 +32,7 @@ trait Main
 
 
   def main (arguments : Array [String] ) : Unit =
-    MiniExample_ () .run ()
+    MiniExample .mk .run ()
 
 }
 

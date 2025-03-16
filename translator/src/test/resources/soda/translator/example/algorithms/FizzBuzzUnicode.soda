@@ -7,7 +7,7 @@
 
   buzz = "Buzz"
 
-  range = soda.lib.Range_ ()
+  range = soda.lib.Range .mk
 
   get_term (n : Int) : String ≝
     match Tuple2 (n % 3 , n % 5)

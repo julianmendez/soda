@@ -21,15 +21,15 @@ trait LeanClassAliasBlockTranslator
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
   import   soda.translator.blocktr.TableTranslator_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassAliasAnnotation
   import   soda.translator.parser.annotation.ClassAliasAnnotation_
   import   soda.translator.replacement.Replacement_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   def get_first_line (block : Block) : String =
     block .lines .headOption .getOrElse ("")
@@ -41,7 +41,7 @@ trait LeanClassAliasBlockTranslator
          _tc .lean_notation_infix)
 
   private def _translate_block (block : AnnotatedBlock) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (
         _process_class_alias (get_first_line (block) )
       )
@@ -49,12 +49,12 @@ trait LeanClassAliasBlockTranslator
 
   private def _translate_class_alias_block (block : ClassAliasAnnotation)
       : ClassAliasAnnotation =
-    ClassAliasAnnotation_ (_translate_block (block) )
+    ClassAliasAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case ClassAliasAnnotation_ (block) =>
-        _translate_class_alias_block (ClassAliasAnnotation_ (block) )
+        _translate_class_alias_block (ClassAliasAnnotation .mk (block) )
       case _otherwise => annotated_block
     }
 
@@ -80,21 +80,21 @@ trait LeanClassConstructorBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation
   import   soda.translator.parser.annotation.AbstractDeclarationAnnotation_
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private def _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
       : Option [ClassBeginningAnnotation] =
     annotated_block match  {
-      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation_ (b) )
+      case ClassBeginningAnnotation_ (b) => Some (ClassBeginningAnnotation .mk (b) )
       case _otherwise => None
     }
 
@@ -150,13 +150,12 @@ trait LeanClassConstructorBlockTranslator
 
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (
-      BlockBuilder_ () .build (
+    AbstractDeclarationAnnotation .mk (
+      BlockBuilder .mk .build (
         Seq [String] (
           _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
-      ),
-      block .references
-    )
+      )
+    ) (block .references)
 
   private def _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -176,7 +175,7 @@ trait LeanClassConstructorBlockTranslator
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
       case AbstractDeclarationAnnotation_ (block , references) =>
-        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+        _translate_block (AbstractDeclarationAnnotation .mk (block) (references) )
       case _otherwise => annotated_block
     }
 
@@ -205,15 +204,15 @@ trait LeanClassDeclarationBlockTranslator
   import   soda.translator.block.Block
   import   soda.translator.block.Translator
   import   soda.translator.blocktr.TableTranslator_
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.replacement.Replacement_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   lazy val soda_space : String = _sc .space
 
@@ -274,7 +273,7 @@ trait LeanClassDeclarationBlockTranslator
     if ( (has_condition_for_type_alias (get_first_line (block . lines) ) )
     ) block
     else
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _process_head (block .lines) .++ (_process_tail (block .lines) )
       )
 
@@ -312,16 +311,16 @@ trait LeanClassEndBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private def _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
       : ClassEndAnnotation =
@@ -336,7 +335,7 @@ trait LeanClassEndBlockTranslator
   private def _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
     _mk_ClassEndAnnotation (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         Seq [String] (
           _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",
@@ -399,241 +398,6 @@ object LeanClassEndBlockTranslator {
 }
 
 
-trait LeanDefinitionBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      block .lines .:+ (suffix)
-    )
-
-  private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
-    )
-
-  def is_a_definition (block : Block) : Boolean =
-    ! is_a_recursive_definition (block) &&
-    ! _tc .non_definition_block_prefixes .exists ( prefix =>
-      block .contents .trim .startsWith (prefix) )
-
-  def first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("") .trim
-
-  def is_private (block :  FunctionDefinitionAnnotation) : Boolean =
-    first_line (block) .trim .startsWith (_sc .private_function_prefix)
-
-  private def _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
-    if ( is_private (block)
-    ) _tc .lean_private_reserved_word + _tc .lean_space
-    else ""
-
-  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_definition (block)
-    ) _append (_tc .lean_definition_end_symbol) (
-      _prepend (
-        _private_prefix_if_necessary (block) +
-        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
-    else block
-
-  private def _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
-      _private_prefix_if_necessary (block) +
-      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
-
-  def is_a_recursive_definition (block : Block) : Boolean =
-    _tc .lean_recursive_function_prefixes .exists ( prefix =>
-      first_line (block) .startsWith (prefix) )
-
-  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_recursive_definition (block)
-    ) _translate_recursive_definition (block)
-    else _translate_non_recursive_definition (block)
-
-  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
-      : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) =>
-        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case _otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-}
-
-case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslator
-
-object LeanDefinitionBlockTranslator {
-  def mk : LeanDefinitionBlockTranslator =
-    LeanDefinitionBlockTranslator_ ()
-}
-
-
-/**
- * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
- *
- * 'val' is for value definition.
- * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon,
- *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis,
- *   e.g. `(x, y) = (0, 1)`
- *
- * 'def' is for function definition.
- * If it does not fit in any of the 'val' cases.
- *
- * Formerly there was another case for 'val'.
- * Deprecated Case:
- * This was implemented simply as:
- * `line.trim.startsWith (soda_opening_parenthesis)`
- * This is no longer supported.
- *
- */
-
-trait LeanDefinitionLineTranslator
-  extends
-    soda.translator.block.LineTranslator
-{
-
-  def   line : String
-
-  import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.Replacement
-  import   soda.translator.replacement.Replacement_
-
-  private lazy val _sc = SodaConstant_ ()
-
-  private lazy val _tc = TranslationConstantToLean_ ()
-
-  private lazy val _trimmed_line : String = line .trim
-
-  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-      .filter ( position => !  (position == -1) )
-
-  def get_index (line : String) (pattern : String) : OptionSD [Int] =
-    get_index_from (line) (pattern) (0)
-
-  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
-    get_index (line) (_sc .opening_parenthesis_symbol)
-
-  private lazy val _is_val_definition_case_1 : Boolean =
-    _position_of_first_opening_parenthesis .isEmpty
-
-  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (position) => (position > initial_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_3 : Boolean =
-    (get_index (line) (_sc .type_membership_symbol) ) match  {
-      case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_4 : Boolean =
-    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
-
-  private def _is_val_definition (initial_position : Int) : Boolean =
-    _is_val_definition_case_1 ||
-    _is_val_definition_case_2 (initial_position) ||
-    _is_val_definition_case_3 ||
-    _is_val_definition_case_4
-
-  private lazy val _is_class_definition : Boolean =
-    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
-
-  private lazy val _ends_with_equals = false
-
-  private lazy val _ends_with_opening_brace = false
-
-  private lazy val _contains_equals : Boolean =
-    _trimmed_line .contains (_sc .function_definition_symbol)
-
-  private lazy val _condition_for_type_alias : Boolean =
-    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
-
-  private lazy val _translation_of_class_definition : Replacement =
-    if ( _condition_for_type_alias
-    ) Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
-
-  private lazy val _translation_of_val_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private lazy val _translation_of_def_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private def _decide_val_or_def_translation (position : Int) : Replacement =
-    if ( _is_val_definition (position)
-    ) _translation_of_val_definition
-    else _translation_of_def_definition
-
-  private def _try_found_definition (position : Int) : Replacement =
-    if ( _is_class_definition
-    ) _translation_of_class_definition
-    else _decide_val_or_def_translation (position)
-
-  /**
-   * A line is a definition when its main operator is "="  (the equals sign),
-   * which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-
-  def find_definition (line : String) : OptionSD [Int] =
-    if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
-    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
-    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
-
-  lazy val translation : String =
-    find_definition (line) match  {
-      case SomeSD_ (position) => _try_found_definition (position) .line
-      case _otherwise => line
-    }
-
-}
-
-case class LeanDefinitionLineTranslator_ (line : String) extends LeanDefinitionLineTranslator
-
-object LeanDefinitionLineTranslator {
-  def mk (line : String) : LeanDefinitionLineTranslator =
-    LeanDefinitionLineTranslator_ (line)
-}
-
-
 trait LeanDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
@@ -641,7 +405,7 @@ trait LeanDirectiveBlockTranslator
 
 
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   lazy val identifier : String = _tc .lean_directive_identifier
 
@@ -667,14 +431,15 @@ trait LeanDocumentationBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 
@@ -686,55 +451,12 @@ trait LeanDocumentationBlockTranslator
   private def _append (suffix : String) (content : Seq [String] ) : Seq [String] =
     content .:+ (suffix)
 
-  private def _remove_prefix_in_line_at (index : Int) (prefix : String) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (index + prefix .length)
-    else line
-
-  private def _remove_prefix_in_line (prefix : String) (line : String) : String =
-    _remove_prefix_in_line_at (line .indexOf (prefix) ) (prefix) (line)
-
-  private def _remove_comment_line_prefix (content : Seq [String] ) : Seq [String] =
-    content .map ( line => _remove_prefix_in_line (_comment_line_prefix) (line) )
-
-  private def _remove_suffix_in_line_at (index : Int) (line : String) : String =
-    if ( index >= 0
-    ) line .substring (0, index)
-    else line
-
-  private def _remove_suffix_in_line (suffix : String) (line : String) : String =
-    _remove_suffix_in_line_at (line .lastIndexOf (suffix) ) (line)
-
-  private def _remove_last_delimiter_on_first_line (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_suffix_in_line (_sc .comment_closing_symbol) (content .head) ) (content .tail)
-
-  private def _remove_last_delimiter (content : Seq [String] ) : Seq [String] =
-    (_remove_last_delimiter_on_first_line (content .reverse) ) .reverse
-
-  private def _remove_first_delimiter (content : Seq [String] ) : Seq [String] =
-    if ( content .isEmpty
-    ) content
-    else _prepend (
-      _remove_prefix_in_line (_sc .comment_opening_symbol) (
-        _remove_prefix_in_line (_sc .documentation_comment_opening_symbol) (content .head)
-     )
-    ) (content .tail)
-
-  private def _remove_comment_delimiter (content : Seq [String] ) : Seq [String] =
-    _remove_last_delimiter (
-      _remove_first_delimiter (content)
-    )
-
   private def _translate_with_symbol (opening_symbol : String) (lines : Seq [String] ) : Seq [String] =
     _append (
       _tc .lean_comment_closing_symbol) (
       _prepend (opening_symbol) (
-        _remove_comment_delimiter (
-          _remove_comment_line_prefix (lines)
-        )
+        CommentDelimiterRemover .mk
+          .remove_comment_delimiters (lines)
       )
     )
 
@@ -750,7 +472,7 @@ trait LeanDocumentationBlockTranslator
 
   private def _translate_comment (block : CommentAnnotation) : CommentAnnotation =
     CommentAnnotation_ (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         _translate_lines (block .lines)
       )
     )
@@ -782,12 +504,12 @@ trait LeanDotNotationBlockTranslator
 
 
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.replacement.Token
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   lazy val replace_token : Token => String =
      token =>
@@ -805,6 +527,120 @@ object LeanDotNotationBlockTranslator {
 }
 
 
+trait LeanFunctionDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _tc = TranslationConstantToLean .mk
+
+  private lazy val _cc = CommentDelimiterRemover .mk
+
+  private lazy val _soda_def_prefix = _sc .def_reserved_word + _sc .space
+
+  private lazy val _empty_string = ""
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      block .lines .:+ (suffix)
+    )
+
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
+    )
+
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! _tc .non_definition_block_prefixes .exists ( prefix =>
+      block .contents .trim .startsWith (prefix) )
+
+  def first_line (block : Block) : String =
+    block .lines .headOption .getOrElse (_empty_string) .trim
+
+  def is_private (block :  FunctionDefinitionAnnotation) : Boolean =
+    first_line (block) .trim .startsWith (_sc .private_function_prefix)
+
+  private def _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
+    if ( is_private (block)
+    ) _tc .lean_private_reserved_word + _tc .lean_space
+    else _empty_string
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc .lean_definition_end_symbol) (
+      _prepend (
+        _private_prefix_if_necessary (block) +
+        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
+    else block
+
+  private def _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
+      _private_prefix_if_necessary (block) +
+      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
+
+  def is_a_recursive_definition (block : Block) : Boolean =
+    _tc .lean_recursive_function_prefixes .exists ( prefix =>
+      first_line (block) .startsWith (prefix) )
+
+  private def _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    if ( (block .lines .nonEmpty) &&
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    )
+      FunctionDefinitionAnnotation .mk (
+        BlockBuilder .mk .build (
+        (Seq [String] ()
+          .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .++ (block .lines .tail)
+        )
+      )
+    else block
+
+  private def _translate_block_with (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) _translate_recursive_definition (block)
+    else _translate_non_recursive_definition (block)
+
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    _translate_block_with (_remove_def_if_present (block) )
+
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
+      : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_definition_block (FunctionDefinitionAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanFunctionDefinitionBlockTranslator_ () extends LeanFunctionDefinitionBlockTranslator
+
+object LeanFunctionDefinitionBlockTranslator {
+  def mk : LeanFunctionDefinitionBlockTranslator =
+    LeanFunctionDefinitionBlockTranslator_ ()
+}
+
+
 trait LeanImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -816,11 +652,11 @@ trait LeanImportDeclarationBlockTranslator
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation
   import   soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   lazy val lean_import_declaration_pattern =
     _tc .lean_import_reserved_word + _tc .lean_space
@@ -834,7 +670,7 @@ trait LeanImportDeclarationBlockTranslator
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
       (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       annotated_lines .map ( annotated_line =>
         prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
@@ -889,19 +725,19 @@ trait LeanMatchCaseBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
   import   soda.translator.parser.annotation.TestDeclarationAnnotation
   import   soda.translator.parser.annotation.TestDeclarationAnnotation_
-  import   soda.translator.replacement.ReplacementAux_
+  import   soda.translator.replacement.ReplacementAux
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
   private lazy val _soda_case_pattern = _sc .case_reserved_word + _sc .space
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private lazy val _soda_match_pattern = _sc .match_reserved_word + " "
 
@@ -922,7 +758,7 @@ trait LeanMatchCaseBlockTranslator
   private def _replace_case (line : String) : String =
     if ( _is_a_case_line (line)
     )
-      ReplacementAux_ ()
+      ReplacementAux .mk
         .replace_first (line) (_soda_case_pattern) (_tc .lean_case_translation)
     else line
 
@@ -936,7 +772,7 @@ trait LeanMatchCaseBlockTranslator
       .getOrElse (_tc .lean_space)
 
   private def _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines
         .map ( line => _append_with_after_match (line) )
         .map ( line => _replace_case (line) )
@@ -949,10 +785,10 @@ trait LeanMatchCaseBlockTranslator
     else block
 
   private def _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   private def _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
-    TestDeclarationAnnotation_ (_translate_block (block) )
+    TestDeclarationAnnotation .mk (_translate_block (block) )
 
   def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     annotated_block match  {
@@ -986,14 +822,14 @@ trait LeanPackageDeclarationBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation
   import   soda.translator.parser.annotation.PackageDeclarationAnnotation_
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private def _comment_block (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       ( (Seq (_tc .lean_comment_opening_symbol) .++ (block .lines) ) .++ (
         Seq (_tc .lean_comment_closing_symbol) ) ) .++ (_tc .lean_prelude)
     )
@@ -1035,26 +871,26 @@ trait LeanTheoremBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder_
+  import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
   private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   private def _remove_first_line (block : Block) : Block =
     if ( block .lines .isEmpty
     ) block
-    else BlockBuilder_ () .build (block .lines .tail)
+    else BlockBuilder .mk .build (block .lines .tail)
 
   private def _translate_block (block : TheoremBlockAnnotation) : TheoremBlockAnnotation =
     TheoremBlockAnnotation_ (
@@ -1098,28 +934,28 @@ trait MicroTranslatorToLean
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationEnum
   import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.block.BlockTranslatorPipeline_
-  import   soda.translator.block.ConditionalBlockTranslator_
-  import   soda.translator.blocktr.TokenReplacement_
-  import   soda.translator.blocktr.TokenizedBlockTranslator_
+  import   soda.translator.block.BlockTranslatorPipeline
+  import   soda.translator.block.ConditionalBlockTranslator
+  import   soda.translator.blocktr.TokenReplacement
+  import   soda.translator.blocktr.TokenizedBlockTranslator
   import   soda.translator.replacement.Token
 
-  private lazy val _tc = TranslationConstantToLean_ ()
+  private lazy val _tc = TranslationConstantToLean .mk
 
-  private lazy val _function_definition = BlockAnnotationEnum_ () .function_definition
+  private lazy val _function_definition = BlockAnnotationEnum .mk .function_definition
 
-  private lazy val _class_beginning = BlockAnnotationEnum_ () .class_beginning
+  private lazy val _class_beginning = BlockAnnotationEnum .mk .class_beginning
 
-  private lazy val _abstract_declaration = BlockAnnotationEnum_ () .abstract_declaration
+  private lazy val _abstract_declaration = BlockAnnotationEnum .mk .abstract_declaration
 
-  private lazy val _class_alias = BlockAnnotationEnum_ () .class_alias
+  private lazy val _class_alias = BlockAnnotationEnum .mk .class_alias
 
-  private lazy val _test_declaration = BlockAnnotationEnum_ () .test_declaration
+  private lazy val _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   lazy val functions_and_tests : Seq [BlockAnnotationId] =
-    Seq (_function_definition, _test_declaration)
+    Seq (_function_definition , _test_declaration)
 
   lazy val declarations : Seq [BlockAnnotationId] =
     Seq (
@@ -1127,33 +963,28 @@ trait MicroTranslatorToLean
       _test_declaration
     )
 
-  lazy val try_definition : Token => String =
-     token =>
-      LeanDefinitionLineTranslator_ (token .text) .translation
-
   private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
-        LeanDocumentationBlockTranslator_ () ,
-        LeanDotNotationBlockTranslator_ () ,
-        LeanMatchCaseBlockTranslator_ () ,
-        LeanDefinitionBlockTranslator_ () ,
-        LeanClassConstructorBlockTranslator_ () ,
-        LeanClassDeclarationBlockTranslator_ () ,
-        LeanPackageDeclarationBlockTranslator_ () ,
-        LeanClassEndBlockTranslator_ () ,
-        LeanClassAliasBlockTranslator_ () ,
-        LeanImportDeclarationBlockTranslator_ () ,
-        LeanTheoremBlockTranslator_ () ,
-        LeanDirectiveBlockTranslator_ () ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenizedBlockTranslator_ (try_definition) ) ,
-        ConditionalBlockTranslator_ (functions_and_tests ,
-          TokenReplacement_ () .replace_words (_tc .function_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_symbols (_tc .type_symbols_translation) ) ,
-        ConditionalBlockTranslator_ (declarations ,
-          TokenReplacement_ () .replace_words (_tc .type_translation) )
+        LeanDocumentationBlockTranslator .mk ,
+        LeanDotNotationBlockTranslator .mk ,
+        LeanMatchCaseBlockTranslator .mk ,
+        LeanClassConstructorBlockTranslator .mk ,
+        LeanClassDeclarationBlockTranslator .mk ,
+        LeanPackageDeclarationBlockTranslator .mk ,
+        LeanClassEndBlockTranslator .mk ,
+        LeanClassAliasBlockTranslator .mk ,
+        LeanImportDeclarationBlockTranslator .mk ,
+        LeanTheoremBlockTranslator .mk ,
+        LeanDirectiveBlockTranslator .mk ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          LeanFunctionDefinitionBlockTranslator .mk) ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_words (_tc .type_translation) )
       )
     )
 
@@ -1180,9 +1011,9 @@ trait TranslationConstantToLean
 
 
 
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
 
-  lazy val soda_constant = SodaConstant_ ()
+  lazy val soda_constant = SodaConstant .mk
 
   lazy val lean_space = " "
 
@@ -1698,11 +1529,11 @@ trait TranslatorToLean
 
 
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.io.DirectoryProcessor_
-  import   soda.translator.io.SimpleFileReader_
-  import   soda.translator.io.SimpleFileWriter_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.io.DirectoryProcessor
+  import   soda.translator.io.SimpleFileReader
+  import   soda.translator.io.SimpleFileWriter
+  import   soda.translator.parser.BlockProcessor
   import   java.io.File
 
   private lazy val _soda_extension : String = ".soda"
@@ -1711,13 +1542,10 @@ trait TranslatorToLean
 
   private lazy val _default_argument = "."
 
-  private def _mk_FileNamePair (input_file_name : String) (output_file_name : String) : FileNamePair =
-    FileNamePair_ (input_file_name, output_file_name)
-
   private lazy val _translator =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToLean_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToLean .mk
       )
     )
 
@@ -1726,25 +1554,25 @@ trait TranslatorToLean
 
   private def _get_input_output_file_names (input_name : String) : FileNamePair =
     if ( input_name .endsWith (_soda_extension)
-    ) _mk_FileNamePair (input_name) (
+    ) FileNamePair .mk (input_name) (
       input_name .substring (0, input_name .length - _soda_extension .length) + _lean_extension)
-    else _mk_FileNamePair (input_name + _soda_extension) (input_name + _lean_extension)
+    else FileNamePair .mk (input_name + _soda_extension) (input_name + _lean_extension)
 
   private def _process_soda_file (file : File) : Boolean =
     _process_soda_file_with (_get_input_output_file_names (file .getAbsolutePath) )
 
   private def _process_directory (start : String) : Boolean =
-    DirectoryProcessor_ (start , _process_soda_file) .process ()
+    DirectoryProcessor .mk (start) (_process_soda_file) .process ()
 
   private def _translate_with_input (input : String) (output_file_name : String) : Boolean =
-    SimpleFileWriter_ () .write_file (
+    SimpleFileWriter .mk .write_file (
       output_file_name) (
       content = _translator .translate (input)
     )
 
   private def _translate (input_file_name : String) (output_file_name : String) : Boolean =
     _translate_with_input (
-      SimpleFileReader_ () .read_file (input_file_name) ) (
+      SimpleFileReader .mk .read_file (input_file_name) ) (
       output_file_name
     )
 

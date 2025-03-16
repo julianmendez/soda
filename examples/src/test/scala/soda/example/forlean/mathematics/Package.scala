@@ -9,7 +9,7 @@ case class FactorialForLeanSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.example.forlean.lib.IntNat_
+  import   soda.example.forlean.lib.IntNat
   import   soda.example.forlean.lib.Nat
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -22,15 +22,15 @@ case class FactorialForLeanSpec ()
   lazy val factorial_values_with_nat : Seq [ Tuple2 [Nat, Nat] ] =
     factorial_values
       .map ( pair =>
-        Tuple2 (IntNat_ () .from_non_negative (pair ._1),
-          IntNat_ () .from_non_negative (pair ._2) )
+        Tuple2 (IntNat .mk .from_non_negative (pair ._1),
+          IntNat .mk .from_non_negative (pair ._2) )
       )
 
   test ("should test the factorial function for Coq") (
     check (
       obtained = factorial_values_with_nat
         .map ( pair => pair ._1)
-        .map ( n => Tuple2 (n , FactorialForLean_ () .get_factorial (n) ) )
+        .map ( n => Tuple2 (n , FactorialForLean .mk .get_factorial (n) ) )
     ) (
       expected = factorial_values_with_nat
     )
@@ -44,7 +44,7 @@ case class FiboExampleInSodaForLeanSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.example.forlean.lib.IntNat_
+  import   soda.example.forlean.lib.IntNat
   import   soda.example.forlean.lib.Nat
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -58,15 +58,15 @@ case class FiboExampleInSodaForLeanSpec ()
   lazy val fibonacci_values_with_nat : Seq [Tuple2 [Nat, Nat] ] =
     fibonacci_values
       .map ( pair =>
-        Tuple2 (IntNat_ () .from_non_negative (pair ._1),
-          IntNat_ () .from_non_negative (pair ._2) )
+        Tuple2 (IntNat .mk .from_non_negative (pair ._1),
+          IntNat .mk .from_non_negative (pair ._2) )
       )
 
   test ("should test the fibonacci function for Lean") (
     check (
       obtained = fibonacci_values_with_nat
         .map ( pair => pair ._1)
-        .map ( n => Tuple2 (n , FiboExampleInSodaForLean_ () .fib (n) ) )
+        .map ( n => Tuple2 (n , FiboExampleInSodaForLean .mk .fib (n) ) )
     ) (
       expected = fibonacci_values_with_nat
     )
@@ -80,7 +80,7 @@ case class TriangularNumberForLeanSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.example.forlean.lib.IntNat_
+  import   soda.example.forlean.lib.IntNat
   import   soda.example.forlean.lib.Nat
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
@@ -93,15 +93,15 @@ case class TriangularNumberForLeanSpec ()
   lazy val triangular_number_with_nat : Seq [ Tuple2 [Nat, Nat] ] =
     triangular_number_values
       .map ( pair =>
-        Tuple2 (IntNat_ () .from_non_negative (pair ._1) ,
-          IntNat_ () .from_non_negative (pair ._2) )
+        Tuple2 (IntNat .mk .from_non_negative (pair ._1) ,
+          IntNat .mk .from_non_negative (pair ._2) )
       )
 
   test ("should test the triangular for Lean") (
     check (
       obtained = triangular_number_with_nat
         .map ( pair => pair ._1)
-        .map ( n => Tuple2 (n , TriangularNumberForLean_ () .get_number (n) ) )
+        .map ( n => Tuple2 (n , TriangularNumberForLean .mk .get_number (n) ) )
     ) (
       expected = triangular_number_with_nat
     )

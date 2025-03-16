@@ -14,7 +14,7 @@ class DayOfTheWeekConstant
   abstract
 
   _mk_DayOfTheWeek (ordinal : Int) (name : String) : DayOfTheWeek =
-    DayOfTheWeek_ (ordinal) (name)
+    DayOfTheWeek .mk (ordinal) (name)
 
   sunday = _mk_DayOfTheWeek (0) ("Sunday")
 
@@ -53,7 +53,7 @@ class EnumSpec ()
 
   test ("the names of the elements in enumerations") (
     check (
-      obtained := DayOfTheWeekEnum_ () .values .map (lambda x --> x .toString)
+      obtained := DayOfTheWeekEnum .mk .values .map (lambda x --> x .toString)
     ) (
       expected := Seq ("DayOfTheWeek_(0,Sunday)" , "DayOfTheWeek_(1,Monday)" ,
         "DayOfTheWeek_(2,Tuesday)" , "DayOfTheWeek_(3,Wednesday)" ,

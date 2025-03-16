@@ -7,17 +7,14 @@ package soda.tiles.fairness.tile
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.Measure_
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Pearson
-import   soda.tiles.fairness.tool.Pearson_
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder_
+import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
-import   soda.tiles.fairness.tool.TileTriple_
 
 
 
@@ -29,12 +26,12 @@ trait AllActorPairTile
 
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
-        .map ( actor => TilePair_ (actor , actor) )
+        .map ( actor => TilePair .mk (actor) (actor) )
     )
 
 }
@@ -53,7 +50,7 @@ trait AllActorTile
 
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
         .map ( assignment => assignment .actor)
         .distinct
@@ -77,12 +74,12 @@ trait AllActorTripleTile
 
   def apply (message : TileMessage [Boolean] )
       : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
-        .map ( actor => TileTriple_ (actor , actor , actor) )
+        .map ( actor => TileTriple .mk (actor) (actor) (actor) )
     )
 
 }
@@ -121,10 +118,10 @@ trait AllEqualTile
 
 
 
-  lazy val all_equal_1_tile = AllEqual1Tile_ ()
+  lazy val all_equal_1_tile = AllEqual1Tile .mk
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       all_equal_1_tile .apply (message) (message .contents)
     )
 
@@ -145,7 +142,7 @@ trait AtLeastTile
 
   def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map ( pair => (pair .fst .compareTo (pair .snd) >= 0 ) )
         .forall ( e => e)
@@ -168,7 +165,7 @@ trait AttributePTile
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map ( actor => p (actor) ) )
     )
@@ -188,12 +185,12 @@ trait CorrelationTile
 
 
 
-  private lazy val _measure_zero = Measure_ (0)
+  private lazy val _measure_zero = Measure .mk (0)
 
   private lazy val _percentage_constant : Double = 100.0
 
   def get_coefficient (xlist : Seq [Double] ) (ylist : Seq [Double] ) : Double =
-    Pearson_ (xlist, ylist) .coefficient
+    Pearson .mk (xlist) (ylist) .coefficient
 
   def to_double (m : Measure) : Double =
     if ( (m == _measure_zero)
@@ -201,7 +198,7 @@ trait CorrelationTile
     else 1.0
 
   def to_measure (d : Double) : Measure =
-    Measure_ ( (d * _percentage_constant) .intValue)
+    Measure .mk ( (d * _percentage_constant) .intValue)
 
   def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
     lists .map ( pair => to_double (pair .fst) )
@@ -214,7 +211,7 @@ trait CorrelationTile
 
   def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Measure] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       process_tuples (message .contents)
     )
 
@@ -237,7 +234,7 @@ trait DecisionTile
     m .value <= maximum_acceptable_bias_percentage .value
 
   def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       to_boolean (message .contents)
     )
 
@@ -257,11 +254,11 @@ trait EqualityTile
   def   sigma : Measure => Measure => Measure
   def   p_utility : Resource => Measure
 
-  lazy val all_equal_tile = AllEqualTile_ ()
+  lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile_ (sigma , p_utility)
+  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
-  lazy val all_actor_tile = AllActorTile_ ()
+  lazy val all_actor_tile = AllActorTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
@@ -287,19 +284,19 @@ trait EquityTile
   def   p0_need : Actor => Measure
   def   p1_utility : Resource => Measure
 
-  lazy val at_least_tile = AtLeastTile_ ()
+  lazy val at_least_tile = AtLeastTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile_ (sigma , p1_utility)
+  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
 
-  lazy val needed_p_tile = NeededPTile_ (p0_need)
+  lazy val needed_p_tile = NeededPTile .mk (p0_need)
 
-  lazy val all_actor_pair_tile = AllActorPairTile_ ()
+  lazy val all_actor_pair_tile = AllActorPairTile .mk
 
-  lazy val unzip_fst_tile = UnzipPairFstTile_ ()
+  lazy val unzip_fst_tile = UnzipPairFstTile .mk
 
-  lazy val unzip_snd_tile = UnzipPairSndTile_ ()
+  lazy val unzip_snd_tile = UnzipPairSndTile .mk
 
-  lazy val zip_tile = ZipTile_ ()
+  lazy val zip_tile = ZipTile .mk
 
   def get_branch_0 (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
       : TileMessage [Seq [Measure] ] =
@@ -335,9 +332,9 @@ trait FalsePosTile
 
 
 
-  private lazy val _measure_zero = Measure_ (0)
+  private lazy val _measure_zero = Measure .mk (0)
 
-  private lazy val _measure_one = Measure_ (1)
+  private lazy val _measure_one = Measure .mk (1)
 
   def sigma (m0 : Measure) (m1 : Measure) : Measure =
     if ( (m0 == _measure_one) && (m1 == _measure_zero)
@@ -346,7 +343,7 @@ trait FalsePosTile
 
   def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile_ (sigma) .apply (message)
+    SigmaTile .mk (sigma) .apply (message)
 
 }
 
@@ -364,7 +361,7 @@ trait NeededPTile
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile_ (p) .apply (message)
+    AttributePTile .mk (p) .apply (message)
 
 }
 
@@ -381,7 +378,7 @@ trait PredictionPTile
 
   def   p : Resource => Measure
 
-  private lazy val _measure_zero : Measure = Measure_ (0)
+  private lazy val _measure_zero : Measure = Measure .mk (0)
 
   def measure_or (m0 : Measure) (m1 : Measure) : Measure =
     if ( (m0 == _measure_zero)
@@ -389,7 +386,7 @@ trait PredictionPTile
     else m0
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    ReceivedSigmaPTile_ (measure_or , p) .apply (message)
+    ReceivedSigmaPTile .mk (measure_or) (p) .apply (message)
 
 }
 
@@ -410,7 +407,7 @@ trait ReceivedSigmaPTile
   private def _sigma2 (m0 : Measure , m1 : Measure) : Measure =
     sigma (m0) (m1)
 
-  private lazy val _measure_zero : Measure = Measure_ (0)
+  private lazy val _measure_zero : Measure = Measure .mk (0)
 
   def get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
     assignments . find ( assignment => (assignment .actor) == a)
@@ -421,7 +418,7 @@ trait ReceivedSigmaPTile
       .foldLeft (_measure_zero) (_sigma2)
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map ( actor => get_measure (message .outcome) (actor) ) )
     )
@@ -442,7 +439,7 @@ trait ResultPTile
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile_ (p) .apply (message)
+    AttributePTile .mk (p) .apply (message)
 
 }
 
@@ -461,7 +458,7 @@ trait SigmaTile
 
   def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       (message .contents)
         .map ( pair => sigma (pair .fst) (pair .snd) )
     )
@@ -484,27 +481,27 @@ trait UnbiasednessTile
   def   p2_with_p : Actor => Measure
   def   p3_acceptable_bias : Measure
 
-  lazy val all_actor_triple_tile = AllActorTripleTile_ ()
+  lazy val all_actor_triple_tile = AllActorTripleTile .mk
 
-  lazy val unzip_fst_tile = UnzipTripleFstTile_ ()
+  lazy val unzip_fst_tile = UnzipTripleFstTile .mk
 
-  lazy val unzip_snd_tile = UnzipTripleSndTile_ ()
+  lazy val unzip_snd_tile = UnzipTripleSndTile .mk
 
-  lazy val unzip_trd_tile = UnzipTripleTrdTile_ ()
+  lazy val unzip_trd_tile = UnzipTripleTrdTile .mk
 
-  lazy val zip_tile = ZipTile_ ()
+  lazy val zip_tile = ZipTile .mk
 
-  lazy val prediction_p_tile = PredictionPTile_ (p0_evaluation)
+  lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
-  lazy val result_p_tile = ResultPTile_ (p1_result)
+  lazy val result_p_tile = ResultPTile .mk (p1_result)
 
-  lazy val with_p_tile = WithPTile_ (p2_with_p)
+  lazy val with_p_tile = WithPTile .mk (p2_with_p)
 
-  lazy val false_pos_tile = FalsePosTile_ ()
+  lazy val false_pos_tile = FalsePosTile .mk
 
-  lazy val correlation_tile = CorrelationTile_ ()
+  lazy val correlation_tile = CorrelationTile .mk
 
-  lazy val decision_tile = DecisionTile_ (p3_acceptable_bias)
+  lazy val decision_tile = DecisionTile .mk (p3_acceptable_bias)
 
   def get_prediction (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
       : TileMessage [Seq [Measure] ] =
@@ -559,7 +556,7 @@ trait UnzipPairFstTile
 
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [A] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_fst_list (message .contents)
     )
 
@@ -582,7 +579,7 @@ trait UnzipPairSndTile
 
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [B] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_snd_list (message .contents)
     )
 
@@ -607,7 +604,7 @@ trait UnzipTripleFstTile
 
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_fst_list (message .contents)
     )
 
@@ -631,7 +628,7 @@ trait UnzipTripleSndTile
 
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_snd_list (message .contents)
     )
 
@@ -655,7 +652,7 @@ trait UnzipTripleTrdTile
 
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       unzip_trd_list (message .contents)
     )
 
@@ -675,7 +672,7 @@ trait WithPTile
   def   p : Actor => Measure
 
   def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile_ (p) .apply (message)
+    AttributePTile .mk (p) .apply (message)
 
 }
 
@@ -700,7 +697,7 @@ trait ZipTile
 
   def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =
-    TileMessageBuilder_ () .build (message0 .context) (message0 .outcome) (
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       zip_lists (message0 .contents) (message1 .contents)
     )
 

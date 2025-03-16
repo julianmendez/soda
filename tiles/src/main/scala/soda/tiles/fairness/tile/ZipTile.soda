@@ -11,7 +11,7 @@ class ZipTile
 
   apply [A : Type] [B : Type] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A] [B] ] ] =
-    TileMessageBuilder_ () .build (message0 .context) (message0 .outcome) (
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       zip_lists (message0 .contents) (message1 .contents)
     )
 

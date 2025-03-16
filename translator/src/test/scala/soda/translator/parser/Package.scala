@@ -9,13 +9,10 @@ case class BlockSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.AnnotatedLine
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
-
-  private def _mk_AnnotatedLine (line : String) (is_comment : Boolean) : AnnotatedLine_ =
-    AnnotatedLine_ (line, is_comment)
 
   lazy val input = ("\n" +
     "\n/** This is an example */" +
@@ -30,16 +27,16 @@ case class BlockSpec ()
   /* This is to test how to find commented text. */
   test ("should find commented text") (
     check (
-      obtained = BlockBuilder_ () .build (input) .annotated_lines
+      obtained = BlockBuilder .mk .build (input) .annotated_lines
     ) (
       expected = Seq (
-        _mk_AnnotatedLine ("") (is_comment = false) ,
-        _mk_AnnotatedLine ("") (is_comment = false) ,
-        _mk_AnnotatedLine ("/** This is an example */") (is_comment = true) ,
-        _mk_AnnotatedLine ("* Example () {") (is_comment = false) ,
-        _mk_AnnotatedLine ("  /* This is a comment */") (is_comment = true) ,
-        _mk_AnnotatedLine ("  a = \"/** this is not a comment */\"") (is_comment = false) ,
-        _mk_AnnotatedLine ("}") (is_comment = false)
+        AnnotatedLine .mk ("") (is_comment = false) ,
+        AnnotatedLine .mk ("") (is_comment = false) ,
+        AnnotatedLine .mk ("/** This is an example */") (is_comment = true) ,
+        AnnotatedLine .mk ("* Example () {") (is_comment = false) ,
+        AnnotatedLine .mk ("  /* This is a comment */") (is_comment = true) ,
+        AnnotatedLine .mk ("  a = \"/** this is not a comment */\"") (is_comment = false) ,
+        AnnotatedLine .mk ("}") (is_comment = false)
       )
     )
   )
@@ -52,8 +49,8 @@ case class PreprocessorSequenceTranslatorSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.block.DefaultBlockTranslator_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.block.DefaultBlockTranslator
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
@@ -170,9 +167,9 @@ case class PreprocessorSequenceTranslatorSpec ()
     "\n")
 
   lazy val block_processor =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        DefaultBlockTranslator_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        DefaultBlockTranslator .mk
       )
     )
 

@@ -5,8 +5,8 @@ class DocFullTranslationSpec ()
 
   import
     org.scalatest.Assertion
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
     java.nio.file.Files
     java.nio.file.Paths
 
@@ -30,7 +30,7 @@ class DocFullTranslationSpec ()
 
   test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
-      obtained := TranslatorToDoc_ () .translate_content (read_file (input_file_name) )
+      obtained := TranslatorToDoc .mk .translate_content (read_file (input_file_name) )
     ) (
       expected := read_file (expected_file_name)
     )

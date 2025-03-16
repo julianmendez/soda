@@ -53,9 +53,9 @@ class SortAlgorithmExampleWithFold
   abstract
 
   import
-    soda.lib.Fold_
+    soda.lib.Fold
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
   _initial_value = Seq [Int] ()
 
@@ -89,16 +89,16 @@ class ConstrainedSortAlgorithm
 
   import
     soda.lib.OptionSD
-    soda.lib.SomeSD_
-    soda.lib.NoneSD_
+    soda.lib.SomeSD
+    soda.lib.NoneSD
 
   sort_with (sorted_sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    if SortExampleWithZip_ () .is_sorted (sorted_sequence)
-    then SomeSD_ (sorted_sequence)
-    else NoneSD_ [Seq [Int] ] ()
+    if SortExampleWithZip .mk .is_sorted (sorted_sequence)
+    then SomeSD .mk [Seq [Int] ] (sorted_sequence)
+    else NoneSD .mk [Seq [Int] ]
 
   sort (sequence : Seq [Int] ) : OptionSD [Seq [Int] ] =
-    sort_with (SortAlgorithmExampleWithFold_ () .sort (sequence) )
+    sort_with (SortAlgorithmExampleWithFold .mk .sort (sequence) )
 
 end
 
@@ -120,7 +120,7 @@ class EmptySortedSequence [A subtype Comparable [A] ]
   sequence = Seq ()
 
   add_for (element : A) : SortedSequence [A] =
-    NonEmptySortedSequence_ (Seq (element) )
+    NonEmptySortedSequence .mk (Seq (element) )
 
   add : A -> SortedSequence [A] =
     lambda element --> add_for (element)
@@ -150,7 +150,7 @@ class NonEmptySortedSequence [A subtype Comparable [A] ]
   aux = NonEmptySortedSequenceAux_ [A] ()
 
   add_for (element : A) : SortedSequence [A] =
-    NonEmptySortedSequence_ (aux .insert_sorted (sequence) (element) )
+    NonEmptySortedSequence .mk (aux .insert_sorted (sequence) (element) )
 
   add : A -> SortedSequence [A] =
     lambda element --> add_for (element)
@@ -188,9 +188,9 @@ class SortedSequenceBuilder [A subtype Comparable [A] ]
   abstract
 
   import
-    soda.lib.Fold_
+    soda.lib.Fold
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
   _initial_value : SortedSequence [A] = EmptySortedSequence_ [A] ()
 

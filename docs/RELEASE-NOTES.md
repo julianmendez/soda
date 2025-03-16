@@ -2,6 +2,12 @@
 ---
 - - version: v0.21.0
   - date: '(not released)'
+  - features:
+    - includes an updated mini-manual
+    - accepts the optional reserved word `def` in Lean translator and in Coq translator
+  - fixes:
+    - fixes the translation of commented code and generation of documentation
+    - does not create the file `Package.soda` when translating to Scala
   - build: $ `sbt '++ 3.3.5' clean compile test package assembly`
   - release: target/scala-3.3.5/soda-0.21.0.jar
 - - version: v0.20.0

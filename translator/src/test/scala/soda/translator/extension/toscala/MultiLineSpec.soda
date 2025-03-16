@@ -5,24 +5,24 @@ class MultiLineSpec ()
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.block.DefaultBlockTranslator_
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.annotation.AnnotationFactory_
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.DefaultBlockTranslator
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.annotation.AnnotationFactory
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+  bp : BlockProcessor =
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 
-  mt = MicroTranslatorToScala_ ()
+  mt : MicroTranslatorToScala = MicroTranslatorToScala .mk
 
   original_input =
     "  value = 1\n" +
@@ -61,7 +61,7 @@ class MultiLineSpec ()
     "       x * x + y * y + z * z"
 
   build_block (lines : Seq [String] ) : AnnotatedBlock =
-    AnnotationFactory_ () .annotate (BlockBuilder_ () .build (lines) )
+    AnnotationFactory .mk .annotate (BlockBuilder .mk .build (lines) )
 
   test ("should split a program in multiple lines") (
     check (

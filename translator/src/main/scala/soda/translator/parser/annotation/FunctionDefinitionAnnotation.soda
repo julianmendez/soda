@@ -7,14 +7,14 @@ class FunctionDefinitionAnnotation
     block : soda.translator.block.Block
 
   import
-    soda.translator.block.BlockAnnotationEnum_
-    soda.translator.parser.SodaConstant_
-    soda.translator.replacement.ParserStateEnum_
-    soda.translator.replacement.Tokenizer_
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.parser.SodaConstant
+    soda.translator.replacement.ParserStateEnum
+    soda.translator.replacement.Tokenizer
 
-  identifier = BlockAnnotationEnum_ () .function_definition
+  identifier = BlockAnnotationEnum .mk .function_definition
 
-  sc = SodaConstant_ ()
+  sc = SodaConstant .mk
 
   _symbol_at_the_end : String =
     sc .space +
@@ -25,7 +25,7 @@ class FunctionDefinitionAnnotation
     sc .function_definition_symbol +
     sc .space
 
-  _plain_state = ParserStateEnum_ () .plain
+  _plain_state = ParserStateEnum .mk .plain
 
   _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
@@ -34,7 +34,7 @@ class FunctionDefinitionAnnotation
     )
 
   _contains_the_equals_symbol_in_line (line : String) : Boolean =
-    Tokenizer_ (line)
+    Tokenizer .mk (line)
       .tokens
       .exists (lambda token -->
         token .parser_state == _plain_state and
@@ -67,10 +67,10 @@ class FunctionDefinitionAnnotation
     starts_with_prefix_and_space (sc .class_reserved_word)
 
   is_a_theorem : Boolean =
-    TheoremBlockAnnotation_ (block) .applies
+    TheoremBlockAnnotation .mk (block) .applies
 
   is_a_directive : Boolean =
-    DirectiveBlockAnnotation_ (block) .applies
+    DirectiveBlockAnnotation .mk (block) .applies
 
   applies : Boolean =
     not is_a_theorem and

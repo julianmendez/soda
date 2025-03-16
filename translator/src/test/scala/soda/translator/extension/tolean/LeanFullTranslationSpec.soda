@@ -5,8 +5,8 @@ class LeanFullTranslationSpec ()
 
   import
     org.scalatest.Assertion
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
     java.nio.file.Files
     java.nio.file.Paths
 
@@ -39,9 +39,9 @@ class LeanFullTranslationSpec ()
   test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
       obtained :=
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToLean_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToLean .mk
           )
         ) .translate (read_file (input_file_name) )
     ) (

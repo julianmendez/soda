@@ -7,7 +7,7 @@ trait FizzBuzzPatternUnicode
 
   lazy val buzz = "Buzz"
 
-  lazy val range = soda.lib.Range_ ()
+  lazy val range = soda.lib.Range .mk
 
   def get_term (n : Int) : String =
     Tuple2 (n % 3 , n % 5) match  {

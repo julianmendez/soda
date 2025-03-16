@@ -35,7 +35,7 @@ trait PairParamMod
     self .snd
 
   def swap [A , B ] (self : PairParam [A, B] ) : PairParam [B, A] =
-    PairParam_ (get_second [A, B] (self) , get_first [A, B] (self) )
+    PairParam .mk (get_second [A, B] (self) ) (get_first [A, B] (self) )
 
 }
 
@@ -79,7 +79,7 @@ trait TripleIntStringIntMod
     self .trd
 
   def get_pair_param (self : TripleIntStringInt) : PairParam [Int, String] =
-    PairParam_ (get_first (self) , get_second (self) )
+    PairParam .mk (get_first (self) ) (get_second (self) )
 
 }
 
@@ -215,7 +215,7 @@ trait SwapExample
   def swap (pair : PairExample) : PairExample =
     pair match  {
       case PairExample_ (a, b) =>
-        PairExample_ (b, a)
+        PairExample .mk (b) (a)
     }
 
 /*

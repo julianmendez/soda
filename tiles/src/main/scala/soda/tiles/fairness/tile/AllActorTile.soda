@@ -4,7 +4,7 @@ class AllActorTile
   abstract
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .outcome) .assignments)
         .map (lambda assignment --> assignment .actor)
         .distinct

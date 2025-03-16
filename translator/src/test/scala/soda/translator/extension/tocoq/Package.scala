@@ -12,8 +12,8 @@ case class CoqFullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
@@ -42,9 +42,9 @@ case class CoqFullTranslationSpec ()
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
       obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToCoq_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToCoq .mk
           )
         ) .translate (read_file (input_file_name) )
     ) (
@@ -75,41 +75,66 @@ case class MicroTranslatorToCoqSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToCoq_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToCoq .mk
       )
     )
 
-  test ("Coq translation of a constant") (
+  test ("Coq translation of a constant 1") (
     check (
       obtained = instance .translate ("x = 0")
     ) (
-      expected = " Definition x := 0\n.\n"
+      expected = "Definition x := 0\n.\n"
     )
   )
 
-  test ("Coq translation of a function") (
+  test ("Coq translation of a constant 2") (
+    check (
+      obtained = instance .translate ("def x = 0")
+    ) (
+      expected = "Definition x := 0\n.\n"
+    )
+  )
+
+  test ("Coq translation of a function 1") (
     check (
       obtained = instance .translate ("f (a : Nat) = 0")
     ) (
-      expected = " Definition f (a : nat) := 0\n.\n"
+      expected = "Definition f (a : nat) := 0\n.\n"
     )
   )
 
-  test ("Coq translation of type parameters") (
+  test ("Coq translation of a function 2") (
+    check (
+      obtained = instance .translate ("  def f (a : Nat) = 0")
+    ) (
+      expected = "Definition   f (a : nat) := 0\n.\n"
+    )
+  )
+
+  test ("Coq translation of type parameters 1") (
     check (
       obtained = instance .translate (
       "identity (x : List [Boolean] ) : List [Boolean] = x\n")
     ) (
-      expected = " Definition identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
+      expected = "Definition identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
+    )
+  )
+
+  test ("Coq translation of type parameters 2") (
+    check (
+      obtained = instance .translate (
+      " def identity (x : List [Boolean] ) : List [Boolean] = x\n")
+    ) (
+      expected = "Definition  identity (x : list ( bool ) ) : list ( bool ) := x\n.\n"
     )
   )
 
@@ -146,10 +171,11 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "" +
         "(*" +
-        "This is a nicely" +
-        "\nwritten comment" +
+        "\n This is a nicely" +
+        "\n written comment" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )
@@ -171,10 +197,11 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "" +
         "(**" +
-        "This is a nicely" +
-        "\nwritten documentation" +
+        "\n This is a nicely" +
+        "\n written documentation" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n*)" +
         "\n"
     )
@@ -290,7 +317,7 @@ case class MicroTranslatorToCoqSpec ()
       )
     ) (
       expected = "" +
-        " Definition as_list (a : bool) : list ( bool ) :=" +
+        "Definition as_list (a : bool) : list ( bool ) :=" +
         "\n  (a) :: (nil)" +
         "\n." +
         "\n"

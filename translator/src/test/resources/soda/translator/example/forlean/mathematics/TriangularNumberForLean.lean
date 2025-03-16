@@ -11,14 +11,14 @@ where
 namespace TriangularNumberForLean
 
 
- private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
+private def   _tailrec_get_number (m : Nat) (acc : Nat) : Nat :=
     match m with
       | Succ_ (k) => _tailrec_get_number (k) (acc.add (Succ_ (k) ) )
       | _otherwise => acc
     
 
 
- def   get_number (n : Nat) : Nat :=
+def   get_number (n : Nat) : Nat :=
     _tailrec_get_number (n) (Zero_ () )
 
 

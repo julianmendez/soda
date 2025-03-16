@@ -8,16 +8,16 @@ class LeanClassEndBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation
     soda.translator.parser.annotation.ClassEndAnnotation_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   _mk_ClassEndAnnotation (block : Block) (references : Seq [AnnotatedBlock] )
       : ClassEndAnnotation =
@@ -33,7 +33,7 @@ class LeanClassEndBlockTranslator
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : ClassEndAnnotation) : ClassEndAnnotation =
     _mk_ClassEndAnnotation (
-      BlockBuilder_ () .build (
+      BlockBuilder .mk .build (
         Seq [String] (
           _tc .lean_namespace_end_reserved_word + _tc .lean_space + beginning .class_name ,
           "",

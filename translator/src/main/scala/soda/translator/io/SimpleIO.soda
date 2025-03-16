@@ -40,13 +40,13 @@ class SimpleFileWriter
   abstract
 
   import
-    soda.lib.SomeSD_
+    soda.lib.SomeSD
     java.io.File
     java.io.FileWriter
     java.io.Writer
 
   _write_content (writer : Writer) (content : String) : Boolean =
-    SomeSD_ (true)
+    SomeSD .mk [Boolean] (true)
       .map (lambda x --> writer .write (content) )
       .map (lambda x --> writer .flush () )
       .map (lambda x --> writer .close () )

@@ -1,0 +1,38 @@
+
+class FunctionDefinitionTypeId
+  extends
+    soda.lib.EnumConstant
+
+  abstract
+    ordinal : Int
+    name : String
+
+end
+
+class FunctionDefinitionTypeEnum
+  extends
+    soda.lib.Enum [FunctionDefinitionTypeId]
+
+  abstract
+
+  undefined = FunctionDefinitionTypeId .mk (0) ("undefined")
+
+  undetected = FunctionDefinitionTypeId .mk (1) ("undetected")
+
+  val_detected = FunctionDefinitionTypeId .mk (2) ("val_detected")
+
+  def_detected = FunctionDefinitionTypeId .mk (3) ("def_detected")
+
+  def_reserved_word_detected = FunctionDefinitionTypeId .mk (4) ("def_reserved_word_detected")
+
+  values =
+    Seq (
+      undefined,
+      undetected,
+      val_detected,
+      def_detected,
+      def_reserved_word_detected
+    )
+
+end
+

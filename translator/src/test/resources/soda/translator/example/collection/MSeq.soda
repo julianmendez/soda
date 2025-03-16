@@ -7,7 +7,7 @@ class MSeq [A : Type]
 
   opt [B : Type] (ifEmpty : B) (ifNonEmpty : NESeq [A] -> B) : B =
     match this
-      case NESeq_ (head) (tail) ==> ifNonEmpty (NESeq_ (head) (tail) )
+      case NESeq_ (head) (tail) ==> ifNonEmpty (NESeq .mk (head) (tail) )
       case _otherwise ==> ifEmpty
 
 end

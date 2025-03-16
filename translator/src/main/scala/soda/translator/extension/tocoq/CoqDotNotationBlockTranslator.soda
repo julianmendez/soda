@@ -6,14 +6,14 @@ class CoqDotNotationBlockTranslator
   abstract
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
     soda.translator.replacement.Token
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
-  fold_while = soda.lib.FoldWhile_ ()
+  fold_while = soda.lib.FoldWhile .mk
 
   _applies_dot_notation (word : String) : Boolean =
     word .startsWith (_sc .dot_notation_symbol) and

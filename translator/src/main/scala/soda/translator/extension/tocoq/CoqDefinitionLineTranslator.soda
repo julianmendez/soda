@@ -35,21 +35,23 @@ class CoqDefinitionLineTranslator
 
   import
     soda.lib.OptionSD
+    soda.lib.SomeSD
     soda.lib.SomeSD_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
+    soda.translator.parser.SodaConstant
     soda.translator.replacement.Replacement
     soda.translator.replacement.Replacement_
 
   abstract
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   _trimmed_line : String = line .trim
 
   get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
+    SomeSD .mk [Int] (line .indexOf (pattern, start) )
       .filter (lambda position --> not  (position == -1) )
 
   get_index (line : String) (pattern : String) : OptionSD [Int] =
@@ -95,14 +97,14 @@ class CoqDefinitionLineTranslator
 
   _translation_of_class_definition : Replacement =
     if _condition_for_type_alias
-    then Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
+    then Replacement .mk (line)
+    else Replacement .mk (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
 
   _translation_of_val_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+    Replacement .mk (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   _translation_of_def_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
+    Replacement .mk (line) .add_after_spaces_or_pattern (_tc .coq_space) (_tc .coq_space)
 
   _decide_val_or_def_translation (position : Int) : Replacement =
     if _is_val_definition (position)
@@ -125,7 +127,7 @@ class CoqDefinitionLineTranslator
 
   find_definition (line : String) : OptionSD [Int] =
     if line .endsWith (_sc .space + _sc .function_definition_symbol)
-    then SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    then SomeSD .mk [Int] (line .length - _sc .function_definition_symbol .length)
     else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
   translation : String =

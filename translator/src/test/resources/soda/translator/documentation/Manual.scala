@@ -1,16 +1,14 @@
 package soda.manual
 
-/*
- * This is a Soda tutorial written in Soda.
- * Copyright 2020--2024 Julian Alfredo Mendez
- * Version: 2024-02-01
- */
+/* This is a Soda tutorial written in Soda.
+ * Copyright 2020--2025 Julian Alfredo Mendez
+ * Version: 2025-03-14 */
 
 /* This tutorial is itself a "Hello world!" program.
  * The piece of code that prints the message is at the end of the file. */
 
 /* Source code written in Soda is intended to be descriptive and readable.
- * It is usually written in different files, and each file has `blocks`.
+ * It is usually written in different files, and each file has 'blocks'.
  * These blocks are pieces of code that have some meaning.
  * A block should be short, maybe less than 10 lines.
  * However, it is more important to make things clear than concise.
@@ -24,12 +22,12 @@ package soda.manual
  * 7. a class alias
  * 8. a comment */
 
-/* To declare a class, just add `class` before a class name, and end it with `end`. It is a good
- * practice to include `abstract` in the class, to explicitly state whether constants and
- * functions are required to instantiate a class. In the example below, no constants or
- * functions ar required.
+/* To declare a class, just add the reserved word `class` before a class name, and end it with
+ * the reserved word `end`.
+ * The reserved word `abstract` explicitly states whether constants and functions are required
+ * to instantiate a class. In the example below, no constants or functions are required.
  * For the class name, it is recommended to use camel case style starting with a capital letter.
- * The name could be a noun or an adjective, but it should not be a verb. */
+ * The name could be a noun phrase or an adjective, but it should not be a verb. */
 
 trait Shape
 {
@@ -46,10 +44,8 @@ object Shape {
 }
 
 /* The reserved word `class` declares a type, a namespace, and a default constructor.
- * The default constructor is the name of the class with an underscore as suffix.
- * For example, the constructor name for `Shape` is `Shape_`.
- * In addition, it is possible to use a function `mk` to instantiate a class. The notation looks
- * as a static function of the type. For example,  for `Shape` is `Shape .mk` without
+ * It is possible to instantiate a class using the function `mk`. The notation looks
+ * as a static function of the type. For example, for `Shape` is `Shape .mk` without
  * parentheses. */
 
 trait Movable
@@ -78,14 +74,14 @@ trait EqualsExample
 
   /* A constant does not have parameters and it is declared with the equals sign (`=`).
    * For the constant name, it is recommended to use snake case and start in lowercase.
-   * The constant name should be a noun. */
+   * The constant name should be a noun phrase. */
 
   lazy val my_number : Int = 2
 
   /* A function has parameters and a type. Functions, even with empty parameters, are evaluated
    * every time they are invoked. The standard way of declaring and invoking a function
-   * with multiple parameters is with parameters separated by spaces and not by commas. For
-   * example, use `f (x) (y)` instead of `f(x, y)`. */
+   * with multiple parameters is with parameters separated by spaces and not by commas.
+   * For example, use `f (x) (y)` instead of `f(x, y)`. */
 
   def f (x : Int) (y : Int) : Int = 2 * x + y
 
@@ -98,6 +94,12 @@ trait EqualsExample
 
   lazy val second_result : Int = f (x = 20) (y = -10)
 
+  /* It is allowed to use the optional reserved word `def` to define constants and functions. */
+
+  def a_constant : Int = 1
+
+  def a_function (x : Int) : Int = x * x
+
 }
 
 case class EqualsExample_ () extends EqualsExample
@@ -107,17 +109,16 @@ object EqualsExample {
     EqualsExample_ ()
 }
 
-/* A class can extend other classes by using `extends`.
- * Abstract classes cannot be instantiated but can be extended.
- * Conversely, concrete classes cannot be extended but can be instantiated.
- * Concrete classes are declared with parentheses `(` and `)`.
- * It is recommended that concrete classes do not have a body, because this cannot be extended.
- * A class does not need to define all its constants and functions. */
+/* A class can extend other classes by using the reserved word `extends`.
+ * Abstract classes contain a block with the reserved word `abstract`, and they are the only
+ * classes that can be extended.
+ * By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
+ * extended. */
 
 trait RegisteredPerson
 {
 
-  /* The block starting with `abstract` denotes a constant or function that needs to be defined
+  /* The block starting with `abstract` denotes constants or functions that need to be defined
    * in extending classes. Only one `abstract` block should be defined per class, without
    * leaving lines between the declared attributes. */
 
@@ -157,7 +158,7 @@ object Agent {
 }
 
 /* A concrete class needs as parameters all the constants and functions that have not been
- * defined in its super classes. Please, note that `extends` has to be in the same block as
+ * defined in its super classes. Observe that `extends` has to be in the same block as
  * `class`, which need to be in a different block from `abstract`. */
 
 trait RegisteredPersonAgent
@@ -199,7 +200,7 @@ object Element {
 trait Visitor
 {
 
-  /* In this class, `visit` is a function define from `Element` to `Boolean`. */
+  /* In this class, `visit` is a function defined from `Element` to `Boolean`. */
 
   def   visit : Element => Boolean
 
@@ -218,12 +219,11 @@ trait Item
 
   def   identifier : Int
 
-  /* It is possible to refer to an object instance by using `this`.
+  /* It is possible to refer to an object instance by using reserved word `this`.
    * The dot (`.`) notation is the standard way of accessing attributes and methods of an
-   * object. The space before the dot is to improve readability, but it is not necessary.
-   * Lambda functions are declared with `lambda` and a long right arrow (`-->`).
-   * Please, notice the difference between the type arrow (`->`) and the lambda arrow (`-->`).
-   */
+   * object. The space before the dot is to improve readability and it is not necessary.
+   * Lambda functions are declared with the reserved word `lambda` and a long arrow (`-->`).
+   * Notice the difference between the type arrow (`->`) and the lambda arrow (`-->`). */
 
   lazy val accept : Visitor => Boolean =
      visitor =>
@@ -260,7 +260,7 @@ object PersonName {
 }
 
 /* A class can be parameterized using square brackets ('[' and ']').
- * The parameter needs to be of type Type. */
+ * The class parameter needs to be of type Type. */
 
 trait MyList [A ]
 {
@@ -295,7 +295,7 @@ object MyPair {
 
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.
- * For example, `A subtype B` means that `A` is a subtype of `B`. */
+ * For example, `A subtype B` means that `A` is of type Type and it is a subtype of `B`. */
 
 trait ShapePainter [A <: Shape]
 {
@@ -311,9 +311,7 @@ object ShapePainter {
     ShapePainter_ [A] ()
 }
 
-/*
- * This contains the examples shown in the manual.
- */
+/* The following class contains examples given as pieces of code. */
 
 trait Manual
 {
@@ -322,13 +320,13 @@ trait Manual
 
   /* The first line in this file is the package declaration. It contains the reserved word
    * `package` followed by the package name. The recommended package naming convention is to
-   * start with `soda.`, to avoid name conflicts when it is translated to Scala.
+   * start with `soda.`, which helps to avoid name conflicts when it is translated to Scala.
    * The package declaration usually goes in a separate file called `Package.soda`. */
 
-  /* It is possible to import classes by listing them under the `import` reserved word.
+  /* It is possible to import classes by listing them under the reserved word `import`.
    * Imported classes can also be declared in the `Package.soda` file, when they are global
-   * for the whole package. The list of imported classes can be used to control which classes
-   * may be used to produce side effects. */
+   * for the whole package. The list of imported classes can be used to detect and control which
+   * classes may be producing side effects. */
 
   import   java.util.Date
 
@@ -383,7 +381,7 @@ trait Manual
   def my_xor (x : Boolean) (y : Boolean) : Boolean =
     (x || y) && ! (x && y)
 
-  /* It is possible to use pattern matching with `match` and `case`.
+  /* It is possible to use pattern matching with the reserved words `match` and `case`.
    * The result of the matching case is put after a long double arrow `==>`.
    * The order matters, so the remaining cases are capture by the last variable.
    * Please notice the difference between the case arrow (`==>`), the lambda arrow (`-->`), and
@@ -395,6 +393,16 @@ trait Manual
       case false => if_false
     }
 
+  /* It is possible to use pattern matching to obtain the content of an object.
+   * In the case of pattern matching, the constructor name is the class name with an underscore
+   * as suffix.
+   * Unlike with `mk`, the parameters need to be retrieved all together in a tuple. */
+
+  def get_left [A , B ] (pair : MyPair [A, B]) : A =
+    pair match  {
+      case MyPair_ (left , right) => left
+    }
+
   /* A constant or function name starting with underscore indicates that the constant or
    * function is private, and therefore is not visible outside the class. */
 
@@ -402,8 +410,8 @@ trait Manual
      x * x + x + 1
 
   /* A tail recursive function cannot be declared inside another function, and its name should
-   * start with underscore. The annotation `@tailrec` helps ensuring that the tail recursion is
-   * detected and optimized when it is translated to Scala. */
+   * start with underscore. The annotation `@tailrec` helps to ensure that the tail recursion
+   * is detected and optimized when it is translated to Scala. */
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -424,7 +432,7 @@ object Manual {
     Manual_ ()
 }
 
-/* The class `Fold` shows a 'left fold', which is a functional approach to iterations. Starting
+/* The class `Fold` has a 'left fold', which is a functional approach to iterations. Starting
  * with an initial value (`initial`), it traverses a sequence (`sequence`) applying a function
  * (`next`) using the current element in the sequence and the result of the previous
  * computation. */
@@ -434,8 +442,9 @@ trait Fold
 
 
 
-  /* Note that the type parameters need to specified in the function call:
-   * `_tailrec_foldl [A] [B]`... The sequence constructor `+:` is defined by `Seq`.
+  /* Note that the type parameters must be specified in the function call:
+   * `_tailrec_foldl [A] [B]`...
+   * The sequence constructor `+:` is defined by `Seq`.
    * This is equivalent to the more common constructor `::`, when it is used for instances of
    * `List`. `Nil` is the constructor for an empty `Seq`. */
 
@@ -480,7 +489,7 @@ trait Range
 
 
   /* Note that `Range` processes any negative number as 0. This is done by `Succ_`, which only
-  * returns values for positive values of `n`. */
+   * returns values for positive values of `n`. */
 
   private def _tailrec_range (non_negative_number : Int) (sequence : Seq [Int] ) : Seq [Int] =
     non_negative_number match  {
@@ -508,9 +517,9 @@ trait Factorial
 
 
 
-  lazy val fold = Fold_ ()
+  lazy val fold = Fold .mk
 
-  lazy val range = Range_ ()
+  lazy val range = Range .mk
 
   def apply (n : Int) : Int =
     fold .apply [Int, Int] (range .apply (n) ) (1) (

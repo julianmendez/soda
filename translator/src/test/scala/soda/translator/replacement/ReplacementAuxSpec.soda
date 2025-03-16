@@ -6,7 +6,7 @@ class ReplacementAuxSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  instance = ReplacementAux_ ()
+  instance : ReplacementAux = ReplacementAux .mk
 
   line_0 = "lambda, if, then, else, match, case"
 

@@ -9,9 +9,9 @@ class TranslationConstantToScala
   abstract
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  soda_constant = SodaConstant_ ()
+  soda_constant : SodaConstant = SodaConstant .mk
 
   scala_colon_symbol = ":"
 

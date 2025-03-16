@@ -8,7 +8,7 @@ class ReceivedSigmaPTile
   _sigma2 (m0 : Measure , m1 : Measure) : Measure =
     sigma (m0) (m1)
 
-  _measure_zero : Measure = Measure_ (0)
+  _measure_zero : Measure = Measure .mk (0)
 
   get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
     assignments . find (lambda assignment --> (assignment .actor) == a)
@@ -19,7 +19,7 @@ class ReceivedSigmaPTile
       .foldLeft (_measure_zero) (_sigma2)
 
   apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map (lambda actor --> get_measure (message .outcome) (actor) ) )
     )

@@ -8,7 +8,7 @@ class DecisionTile
     m .value <= maximum_acceptable_bias_percentage .value
 
   apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       to_boolean (message .contents)
     )
 

@@ -17,14 +17,14 @@ trait AbstractDeclarationAnnotation
   def   references : Seq [soda.translator.block.AnnotatedBlock]
 
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .abstract_declaration
+  lazy val identifier = BlockAnnotationEnum .mk .abstract_declaration
 
   lazy val applies : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .abstract_reserved_word)
+    (block .readable_lines .head .line .trim == SodaConstant .mk .abstract_reserved_word)
 
   lazy val abstract_functions_with_comments : Seq [AnnotatedLine] =
     content_lines
@@ -52,47 +52,41 @@ trait AnnotationFactory
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.AnnotatedBlock_
-  import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.Block
-  import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.block.BlockAnnotationEnum_
-
-  private def _mk_AnnotatedBlock (annotated_lines : Seq [AnnotatedLine] )
-      (block_annotation : BlockAnnotationId) : AnnotatedBlock =
-    AnnotatedBlock_ (annotated_lines, block_annotation)
+  import   soda.translator.block.BlockAnnotationEnum
 
   def update_block (original_content : AnnotatedBlock) (new_content : Block) : AnnotatedBlock =
     original_content match  {
-      case FunctionDefinitionAnnotation_ (b) => FunctionDefinitionAnnotation_ (new_content)
-      case ClassBeginningAnnotation_ (b) => ClassBeginningAnnotation_ (new_content)
+      case FunctionDefinitionAnnotation_ (b) => FunctionDefinitionAnnotation .mk (new_content)
+      case ClassBeginningAnnotation_ (b) => ClassBeginningAnnotation .mk (new_content)
       case ClassEndAnnotation_ (b, references) =>
-        ClassEndAnnotation_ (new_content, references)
+        ClassEndAnnotation .mk (new_content) (references)
       case AbstractDeclarationAnnotation_ (b, references) =>
-        AbstractDeclarationAnnotation_ (new_content, references)
-      case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation_ (new_content)
-      case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation_ (new_content)
-      case ClassAliasAnnotation_ (b) => ClassAliasAnnotation_ (new_content)
-      case TheoremBlockAnnotation_ (b) => TheoremBlockAnnotation_ (new_content)
-      case DirectiveBlockAnnotation_ (b) => DirectiveBlockAnnotation_ (new_content)
-      case CommentAnnotation_ (b) => CommentAnnotation_ (new_content)
-      case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation_ (new_content)
+        AbstractDeclarationAnnotation .mk (new_content) (references)
+      case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation .mk (new_content)
+      case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation .mk (new_content)
+      case ClassAliasAnnotation_ (b) => ClassAliasAnnotation .mk (new_content)
+      case TheoremBlockAnnotation_ (b) => TheoremBlockAnnotation .mk (new_content)
+      case DirectiveBlockAnnotation_ (b) => DirectiveBlockAnnotation .mk (new_content)
+      case CommentAnnotation_ (b) => CommentAnnotation .mk (new_content)
+      case TestDeclarationAnnotation_ (b) => TestDeclarationAnnotation .mk (new_content)
       case _otherwise =>
-        _mk_AnnotatedBlock (new_content .annotated_lines) (original_content .block_annotation)
+        AnnotatedBlock .mk (new_content .annotated_lines) (original_content .block_annotation)
     }
 
   private def _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation_ (block),
-      ClassBeginningAnnotation_ (block),
-      ClassEndAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation_ (block, Seq [BlockAnnotationParser] () ),
-      ImportDeclarationAnnotation_ (block),
-      PackageDeclarationAnnotation_ (block),
-      ClassAliasAnnotation_ (block),
-      TheoremBlockAnnotation_ (block),
-      DirectiveBlockAnnotation_ (block),
-      CommentAnnotation_ (block),
-      TestDeclarationAnnotation_ (block)
+      FunctionDefinitionAnnotation .mk (block),
+      ClassBeginningAnnotation .mk (block),
+      ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
+      AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
+      ImportDeclarationAnnotation .mk (block),
+      PackageDeclarationAnnotation .mk (block),
+      ClassAliasAnnotation .mk (block),
+      TheoremBlockAnnotation .mk (block),
+      DirectiveBlockAnnotation .mk (block),
+      CommentAnnotation .mk (block),
+      TestDeclarationAnnotation .mk (block)
     )
 
   private def _find_candidates (block : Block) : Seq [BlockAnnotationParser] =
@@ -103,17 +97,17 @@ trait AnnotationFactory
       : AnnotatedBlock =
     if ( candidates .length == 1
     ) candidates .head
-    else _mk_AnnotatedBlock (block .annotated_lines) (BlockAnnotationEnum_ () .undefined )
+    else AnnotatedBlock .mk (block .annotated_lines) (BlockAnnotationEnum .mk .undefined )
 
   def annotate (block : Block) : AnnotatedBlock =
     block match  {
       case AnnotatedBlock_ (annotated_lines, block_annotation) =>
-        _mk_AnnotatedBlock (annotated_lines) (block_annotation)
+        AnnotatedBlock .mk (annotated_lines) (block_annotation)
       case _otherwise => _get_first_or_undefined (_find_candidates (block) ) (block)
     }
 
   def translate_for (block : AnnotatedBlock) : AnnotatedBlock =
-    if ( block .block_annotation == BlockAnnotationEnum_ () .undefined
+    if ( block .block_annotation == BlockAnnotationEnum .mk .undefined
     ) annotate (block)
     else block
 
@@ -141,14 +135,12 @@ trait BlockAnnotationParser
   def   identifier : soda.translator.block.BlockAnnotationId
 
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.AnnotatedLine_
-  import   soda.translator.block.Block
   import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.parser.SodaConstant
 
-  lazy val space = SodaConstant_ () .space
+  lazy val space = SodaConstant .mk .space
 
-  lazy val default_annotated_line = AnnotatedLine_ ("", true)
+  lazy val default_annotated_line = AnnotatedLine .mk ("") (true)
 
   lazy val annotated_lines : Seq [AnnotatedLine] = block .annotated_lines
 
@@ -203,15 +195,15 @@ trait ClassAliasAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .class_alias
+  lazy val identifier = BlockAnnotationEnum .mk .class_alias
 
-  lazy val sc = SodaConstant_ ()
+  lazy val sc = SodaConstant .mk
 
   private lazy val _contains_the_equals_symbol : Boolean =
-    FunctionDefinitionAnnotation_ (block) .contains_the_equals_symbol
+    FunctionDefinitionAnnotation .mk (block) .contains_the_equals_symbol
 
   lazy val applies : Boolean =
      starts_with_prefix_and_space (sc .class_reserved_word) &&
@@ -234,15 +226,15 @@ trait ClassBeginningAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .class_beginning
+  lazy val identifier = BlockAnnotationEnum. mk .class_beginning
 
-  lazy val sc = SodaConstant_ ()
+  lazy val sc = SodaConstant .mk
 
   private lazy val _contains_the_equals_symbol : Boolean =
-    FunctionDefinitionAnnotation_ (block) .contains_the_equals_symbol
+    FunctionDefinitionAnnotation .mk (block) .contains_the_equals_symbol
 
   private lazy val _contains_an_opening_parenthesis : Boolean =
     first_readable_line .line .contains (sc .opening_parenthesis_symbol)
@@ -301,12 +293,12 @@ trait ClassEndAnnotation
   def   block : soda.translator.block.Block
   def   references : Seq [soda.translator.block.AnnotatedBlock]
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .class_end
+  lazy val identifier = BlockAnnotationEnum .mk .class_end
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
   private def _get_first_word_of_array (words : Array [String] ) : String =
     if ( words .size == 0
@@ -337,9 +329,9 @@ trait CommentAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
+  import   soda.translator.block.BlockAnnotationEnum
 
-  lazy val identifier = BlockAnnotationEnum_ () .comment
+  lazy val identifier = BlockAnnotationEnum .mk .comment
 
   lazy val applies : Boolean =
     block
@@ -364,12 +356,12 @@ trait DirectiveBlockAnnotation
   def   block : soda.translator.block.Block
 
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .directive_block
+  lazy val identifier = BlockAnnotationEnum .mk .directive_block
 
-  private lazy val _sc = SodaConstant_ ()
+  private lazy val _sc = SodaConstant .mk
 
   private def _get_first_line_or_empty (annotated_lines : Seq [AnnotatedLine] ) : String =
     annotated_lines match  {
@@ -398,14 +390,14 @@ trait FunctionDefinitionAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
-  import   soda.translator.replacement.ParserStateEnum_
-  import   soda.translator.replacement.Tokenizer_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.replacement.ParserStateEnum
+  import   soda.translator.replacement.Tokenizer
 
-  lazy val identifier = BlockAnnotationEnum_ () .function_definition
+  lazy val identifier = BlockAnnotationEnum .mk .function_definition
 
-  lazy val sc = SodaConstant_ ()
+  lazy val sc = SodaConstant .mk
 
   private lazy val _symbol_at_the_end : String =
     sc .space +
@@ -416,7 +408,7 @@ trait FunctionDefinitionAnnotation
     sc .function_definition_symbol +
     sc .space
 
-  private lazy val _plain_state = ParserStateEnum_ () .plain
+  private lazy val _plain_state = ParserStateEnum .mk .plain
 
   private def _contains_the_equals_symbol_in_token (token_text : String) : Boolean =
     (
@@ -425,7 +417,7 @@ trait FunctionDefinitionAnnotation
     )
 
   private def _contains_the_equals_symbol_in_line (line : String) : Boolean =
-    Tokenizer_ (line)
+    Tokenizer .mk (line)
       .tokens
       .exists ( token =>
         token .parser_state == _plain_state &&
@@ -458,10 +450,10 @@ trait FunctionDefinitionAnnotation
     starts_with_prefix_and_space (sc .class_reserved_word)
 
   lazy val is_a_theorem : Boolean =
-    TheoremBlockAnnotation_ (block) .applies
+    TheoremBlockAnnotation .mk (block) .applies
 
   lazy val is_a_directive : Boolean =
-    DirectiveBlockAnnotation_ (block) .applies
+    DirectiveBlockAnnotation .mk (block) .applies
 
   lazy val applies : Boolean =
     ! is_a_theorem &&
@@ -488,14 +480,14 @@ trait ImportDeclarationAnnotation
   def   block : soda.translator.block.Block
 
   import   soda.translator.block.AnnotatedLine
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .import_declaration
+  lazy val identifier = BlockAnnotationEnum .mk .import_declaration
 
   lazy val applies : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .import_reserved_word)
+    (block .readable_lines .head .line .trim == SodaConstant .mk .import_reserved_word)
 
   lazy val imported_items : Seq [AnnotatedLine] =
     content_lines
@@ -517,13 +509,13 @@ trait PackageDeclarationAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .package_declaration
+  lazy val identifier = BlockAnnotationEnum .mk .package_declaration
 
   lazy val applies : Boolean =
-    starts_with_prefix_and_space (SodaConstant_ () .package_reserved_word)
+    starts_with_prefix_and_space (SodaConstant .mk .package_reserved_word)
 
 }
 
@@ -542,13 +534,13 @@ trait TestDeclarationAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .test_declaration
+  lazy val identifier = BlockAnnotationEnum .mk .test_declaration
 
   lazy val applies : Boolean =
-    starts_with_prefix_and_space (SodaConstant_ () .test_special_function)
+    starts_with_prefix_and_space (SodaConstant .mk .test_special_function)
 
 }
 
@@ -567,14 +559,14 @@ trait TheoremBlockAnnotation
 
   def   block : soda.translator.block.Block
 
-  import   soda.translator.block.BlockAnnotationEnum_
-  import   soda.translator.parser.SodaConstant_
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.parser.SodaConstant
 
-  lazy val identifier = BlockAnnotationEnum_ () .theorem_block
+  lazy val identifier = BlockAnnotationEnum .mk .theorem_block
 
   lazy val applies : Boolean =
     block .readable_lines .nonEmpty &&
-    (block .readable_lines .head .line .trim == SodaConstant_ () .theorem_reserved_word)
+    (block .readable_lines .head .line .trim == SodaConstant .mk .theorem_reserved_word)
 
 }
 

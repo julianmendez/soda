@@ -12,8 +12,8 @@ case class LeanFullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
@@ -46,9 +46,9 @@ case class LeanFullTranslationSpec ()
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
       obtained =
-        BlockProcessor_(
-          DefaultBlockSequenceTranslator_ (
-            MicroTranslatorToLean_()
+        BlockProcessor .mk (
+          DefaultBlockSequenceTranslator .mk (
+            MicroTranslatorToLean .mk
           )
         ) .translate (read_file (input_file_name) )
     ) (
@@ -86,41 +86,74 @@ case class MicroTranslatorToLeanSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToLean_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToLean .mk
       )
     )
 
-  test ("Lean translation of a constant") (
+  test ("Lean translation of a constant 1") (
     check (
       obtained = instance .translate ("x = 0")
     ) (
-      expected = " def x := 0\n\n"
+      expected = "def x := 0\n\n"
     )
   )
 
-  test ("Lean translation of a function") (
+  test ("Lean translation of a constant 2") (
+    check (
+      obtained = instance .translate ("def x = 0")
+    ) (
+      expected = "def x := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of a constant 3") (
+    check (
+      obtained = instance .translate ("  def x = 0")
+    ) (
+      expected = "def   x := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of a function 1") (
     check (
       obtained = instance .translate ("f (a : Nat) = 0")
     ) (
-      expected = " def f (a : Nat) := 0\n\n"
+      expected = "def f (a : Nat) := 0\n\n"
     )
   )
 
-  test ("Lean translation of type parameters") (
+  test ("Lean translation of a function 2") (
+    check (
+      obtained = instance .translate ("def f (a : Nat) = 0")
+    ) (
+      expected = "def f (a : Nat) := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of type parameters 1") (
     check (
       obtained = instance .translate (
       "identity (x : List [Boolean] ) : List [Boolean] = x\n")
     ) (
-      expected = " def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
+      expected = "def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
+    )
+  )
+
+  test ("Lean translation of type parameters 2") (
+    check (
+      obtained = instance .translate (
+      "def identity (x : List [Boolean] ) : List [Boolean] = x\n")
+    ) (
+      expected = "def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
     )
   )
 
@@ -157,10 +190,11 @@ case class MicroTranslatorToLeanSpec ()
     ) (
       expected = "" +
         "/-" +
-        "This is a nicely " +
-        "\nwritten comment" +
+        "\n This is a nicely " +
+        "\n written comment" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n-/" +
         "\n"
     )
@@ -182,10 +216,11 @@ case class MicroTranslatorToLeanSpec ()
     ) (
       expected = "" +
         "/--" +
-        "This is a nicely " +
-        "\nwritten documentation" +
+        "\n This is a nicely " +
+        "\n written documentation" +
         "\n" +
-        "\n    f (x) = 0" +
+        "\n   f (x) = 0" +
+        "\n" +
         "\n-/" +
         "\n"
     )
@@ -298,7 +333,7 @@ case class MicroTranslatorToLeanSpec ()
       )
     ) (
       expected = "" +
-        " def as_list (a : Bool) : List ( Bool ) :=" +
+        "def as_list (a : Bool) : List ( Bool ) :=" +
         "\n  a :: List.nil" +
         "\n" +
         "\n"
@@ -314,7 +349,7 @@ case class MicroTranslatorToLeanSpec ()
       )
     ) (
       expected = "" +
-        " def as_seq (a : Bool) : List ( Bool ) :=" +
+        "def as_seq (a : Bool) : List ( Bool ) :=" +
         "\n  (a) :: (List.nil)" +
         "\n" +
         "\n"

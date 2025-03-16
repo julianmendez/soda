@@ -28,9 +28,9 @@ class SegmentsForFlight
   rec_segments_multi (first_airport : String) (intermediate_stops : Seq [String] )
       (last_airport : String) : Seq [Segment] =
     match intermediate_stops
-      case Nil ==> Nil .+: (Segment_ (first_airport , last_airport) )
+      case Nil ==> Nil .+: (Segment .mk (first_airport) (last_airport) )
       case head +: tail ==> (rec_segments_multi (head) (tail) (last_airport) ) .+: (
-        Segment_ (first_airport , head) )
+        Segment .mk (first_airport) (head) )
 
   segments : Seq [Segment] =
     rec_segments_multi (flight .start_airport) (flight .intermediate_airports) (
@@ -46,7 +46,7 @@ class Requirement3Monitor
     pricing_agent : PricingAgent
 
   get_report_with (price : Int) (price_by_segments : Int) : Report3 =
-    Report3_ (price <= price_by_segments) (price) (price_by_segments)
+    Report3 .mk (price <= price_by_segments) (price) (price_by_segments)
 
   sum_prices (prices : Seq [Int] ) : Int =
     prices .sum
@@ -58,7 +58,7 @@ class Requirement3Monitor
   get_price_of_flight_by_segments (customer : Customer) (flight : Flight) (date_in_days : Int)
       : Int =
     sum_prices (
-      get_prices_of_segments (customer) (SegmentsForFlight_ (flight) .segments) (date_in_days) )
+      get_prices_of_segments (customer) (SegmentsForFlight .mk (flight) .segments) (date_in_days) )
 
   get_report (customer : Customer) (flight : Flight) (date_in_days : Int) : Report3 =
     get_report_with (

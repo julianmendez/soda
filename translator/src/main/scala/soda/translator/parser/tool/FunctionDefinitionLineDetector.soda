@@ -25,30 +25,25 @@
  *
  */
 
-class ScalaFunctionDefinitionLineDetector
+class FunctionDefinitionLineDetector
 
   abstract
     line : String
 
   import
     soda.lib.OptionSD
+    soda.lib.SomeSD
     soda.lib.SomeSD_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
   _trimmed_line : String = line.trim
 
-  undetected = 0
-
-  val_detected = 1
-
-  def_detected = 2
-
-  def_reserved_word_detected = 3
+  _fc = FunctionDefinitionTypeEnum .mk
 
   _get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
+    SomeSD .mk (line .indexOf (pattern, start) )
        .filter (lambda position --> not (position == -1) )
 
   _get_index (line : String) (pattern : String) : OptionSD [Int] =
@@ -73,7 +68,7 @@ class ScalaFunctionDefinitionLineDetector
   _position_of_first_opening_parenthesis_or_bracket : OptionSD [Int] =
     match _position_of_first_opening_parenthesis
       case SomeSD_ (index1) ==>
-        SomeSD_ (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
+        SomeSD .mk (_position_of_first_opening_parenthesis_or_bracket_with (index1) )
       case _otherwise ==> _position_of_first_opening_bracket
 
   _is_val_definition_case_1 : Boolean =
@@ -103,17 +98,17 @@ class ScalaFunctionDefinitionLineDetector
     _is_val_definition_case_3 or
     _is_val_definition_case_4
 
-  _try_found_definition_without_def_reserved_word (position : Int) : Int =
+  _try_found_definition_without_def_reserved_word (position : Int) : FunctionDefinitionTypeId =
     if _is_val_definition (position)
-    then val_detected
-    else def_detected
+    then _fc .val_detected
+    else _fc .def_detected
 
   _starts_with_def_reserved_word (position : Int) : Boolean =
     line .trim .startsWith (_sc .def_reserved_word + _sc .space)
 
-  _try_found_definition (position : Int) : Int =
+  _try_found_definition (position : Int) : FunctionDefinitionTypeId =
     if _starts_with_def_reserved_word (position)
-    then def_reserved_word_detected
+    then _fc .def_reserved_word_detected
     else _try_found_definition_without_def_reserved_word (position)
 
   /**
@@ -127,13 +122,13 @@ class ScalaFunctionDefinitionLineDetector
 
   _find_definition (line : String) : OptionSD [Int] =
     if line .endsWith (_sc .space + _sc .function_definition_symbol)
-    then SomeSD_ (line .length - _sc .function_definition_symbol .length)
+    then SomeSD .mk (line .length - _sc .function_definition_symbol .length)
     else _get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
 
-  detect : Int =
+  detect : FunctionDefinitionTypeId =
     match _find_definition (line)
       case SomeSD_ (position) ==> _try_found_definition (position)
-      case _otherwise ==> undetected
+      case _otherwise ==> _fc .undetected
 
 end
 

@@ -1,5 +1,5 @@
 
-class CoqDefinitionBlockTranslator
+class CoqFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -8,20 +8,30 @@ class CoqDefinitionBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.parser.tool.CommentDelimiterRemover
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
+
+  _sc = SodaConstant .mk
+
+  _cc = CommentDelimiterRemover .mk
+
+  _soda_def_prefix = _sc .def_reserved_word + _sc .space
+
+  _empty_string = ""
 
   _append (suffix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       block .lines .:+ (suffix)
     )
 
   _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder_ () .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
     )
 
   is_a_definition (block : Block) : Boolean =
@@ -37,27 +47,43 @@ class CoqDefinitionBlockTranslator
     else block
 
   first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("") .trim
+    block .lines .headOption .getOrElse (_empty_string) .trim
 
   is_a_recursive_definition (block : Block) : Boolean =
     _tc .coq_recursive_function_prefixes .exists (
       lambda prefix --> first_line (block) .startsWith (prefix)
     )
 
-  _translate_block (block : FunctionDefinitionAnnotation) : Block =
+  _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    if (block .lines .nonEmpty) and
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    then
+      FunctionDefinitionAnnotation .mk (
+        BlockBuilder .mk .build (
+        (Seq [String] ()
+          .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .++ (block .lines .tail)
+        )
+      )
+    else block
+
+  _translate_block_with (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
     then _append (_tc .coq_recursive_definition_end_symbol) (
       _prepend (_tc .coq_recursive_definition_reserved_word + _tc .coq_space) (block) )
     else _translate_non_recursive_definition (block)
 
+  _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    _translate_block_with (_remove_def_if_present (block) )
+
   _translate_definition_block (block : FunctionDefinitionAnnotation)
       : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==>
-        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
+        _translate_definition_block (FunctionDefinitionAnnotation .mk (block) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

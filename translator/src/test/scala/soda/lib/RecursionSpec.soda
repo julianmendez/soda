@@ -8,11 +8,11 @@ class RecursionSpec ()
 
   example_seq : Seq [Int] = Seq (0 , 1 , 1 , 2 , 3 , 5 , 8)
 
-  _fold_while = FoldWhile_ ()
+  _fold_while = FoldWhile .mk
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
-  _range = Range_ ()
+  _range = Range .mk
 
   test ("fold left while with Seq") (
     check (

@@ -11,15 +11,15 @@ class State
     expecting : Boolean
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
 
   _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
       (line : String) (accum : String) (expecting : Boolean) : State =
     State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _opening_parenthesis_symbol_char = _sc .opening_parenthesis_symbol .head
 
@@ -81,7 +81,7 @@ class ScalaClassConstructorParameterBlockTranslator
     soda.translator.blocktr.TokenizedBlockTranslator
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
     soda.translator.replacement.Token
 
 
@@ -89,15 +89,15 @@ class ScalaClassConstructorParameterBlockTranslator
       (line : String) (accum : String) (expecting : Boolean) : State =
     State_ (index) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
 
-  range = soda.lib.Range_ ()
+  range = soda.lib.Range .mk
 
-  fold = soda.lib.Fold_ ()
+  fold = soda.lib.Fold .mk
 
-  fold_while = soda.lib.FoldWhile_ ()
+  fold_while = soda.lib.FoldWhile .mk
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   _translate_line_initial (line : String) (index : Int) : State =
     _mk_State (index := index) (last_index := index) (bracket_level := 0) (par_level := 0) (

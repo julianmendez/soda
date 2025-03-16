@@ -3,12 +3,12 @@ class CorrelationTile
 
   abstract
 
-  _measure_zero = Measure_ (0)
+  _measure_zero = Measure .mk (0)
 
   _percentage_constant : Double = 100.0
 
   get_coefficient (xlist : Seq [Double] ) (ylist : Seq [Double] ) : Double =
-    Pearson_ (xlist) (ylist) .coefficient
+    Pearson .mk (xlist) (ylist) .coefficient
 
   to_double (m : Measure) : Double =
     if (m == _measure_zero)
@@ -16,7 +16,7 @@ class CorrelationTile
     else 1.0
 
   to_measure (d : Double) : Measure =
-    Measure_ ( (d * _percentage_constant) .intValue)
+    Measure .mk ( (d * _percentage_constant) .intValue)
 
   get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Double] =
     lists .map (lambda pair --> to_double (pair .fst) )
@@ -29,7 +29,7 @@ class CorrelationTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Measure] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       process_tuples (message .contents)
     )
 

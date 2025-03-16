@@ -23,7 +23,7 @@ class ReplacementAux
     else line
 
   replace_all (line : String) (pattern : String) (replacement : String) : String =
-    Replacer_ (line , pattern , replacement) .replaced_text
+    Replacer .mk (line) (pattern) (replacement) .replaced_text
 
   replace_if_found (line : String) (pattern : String) (new_text : String) : String =
     if line .contains (pattern)
@@ -91,9 +91,9 @@ class ReplacementWithTranslator
     translator : soda.translator.block.Translator
 
   import
-    soda.lib.Fold_
+    soda.lib.Fold
 
-  aux = ReplacementAux_ ()
+  aux = ReplacementAux .mk
 
   soda_space = aux .soda_space
 
@@ -107,11 +107,11 @@ class ReplacementWithTranslator
 
   scala_opening_parenthesis_symbol = "("
 
-  _fold = Fold_ ()
+  _fold = Fold .mk
 
   _next_replace_words_with (line : String) (reserved_word : String) (translation : String)
       : String =
-    Replacement_ (line)
+    Replacement .mk (line)
       .replace_if_found (soda_space) (reserved_word) (soda_space) (translation)
       .replace_if_found (soda_space) (reserved_word) (closing_parenthesis_symbol) (translation)
       .replace_if_found (soda_space) (reserved_word) (new_line) (translation)
@@ -163,28 +163,28 @@ class Replacement
   import
     soda.translator.block.Translator
 
-  aux = ReplacementAux_ ()
+  aux = ReplacementAux .mk
 
   soda_space = aux.soda_space
 
   replace_at_beginning (index : Int) (translator : Translator) : Replacement =
-    Replacement_ (ReplacementWithTranslator_ (translator) .replace_at_beginning (line) (index) )
+    Replacement .mk (ReplacementWithTranslator .mk (translator) .replace_at_beginning (line) (index) )
 
   replace_all (pattern : String) (replacement : String) : Replacement =
-    Replacement_ (aux .replace_all (line) (pattern) (replacement) )
+    Replacement .mk (aux .replace_all (line) (pattern) (replacement) )
 
   add_space_to_soda_line () : Replacement =
-    Replacement_ (soda_space + line + soda_space)
+    Replacement .mk (soda_space + line + soda_space)
 
   remove_space_from_translated_line () : Replacement =
-    Replacement_ (aux .remove_space_from_translated_line (line) )
+    Replacement .mk (aux .remove_space_from_translated_line (line) )
 
   add_after_spaces_or_pattern (pattern : String) (text_to_prepend : String) : Replacement =
-    Replacement_ (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
+    Replacement .mk (aux .add_after_spaces_or_pattern (line) (pattern) (text_to_prepend) )
 
   replace_if_found  (previous_character : String) (text : String)  (next_character : String)
      (replacement : String) : Replacement =
-    Replacement_ (
+    Replacement .mk (
       aux .replace_if_found (line) (
         previous_character + text + next_character) (
         previous_character + replacement + next_character)

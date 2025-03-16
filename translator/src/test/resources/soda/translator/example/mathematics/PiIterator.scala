@@ -40,14 +40,8 @@ trait PiIterator
 
 
 
-  private def _mk_Status (r : BigInt) (n : Int) (q : BigInt) (t : BigInt) (l : Int) (k : Int) : Status =
-    Status_ (r, n, q, t, l, k)
-
-  private def _mk_IntAndStatus (digit : Int) (new_status : Status) : IntAndStatus =
-    IntAndStatus_ (digit, new_status)
-
   private lazy val _initial_status =
-    _mk_Status (r = 0) (n = 3) (q = 1) (t = 1) (l = 3) (k = 1)
+    Status .mk (r = 0) (n = 3) (q = 1) (t = 1) (l = 3) (k = 1)
 
   import scala.annotation.tailrec
         @tailrec  final
@@ -56,7 +50,7 @@ trait PiIterator
     ) s
     else
       _tailrec_compute_new_status (
-        _mk_Status (
+        Status .mk (
           r = (2 * s .q + s .r) * s .l) (
           n = ( (s .q * (7 * s .k) + 2 + (s .r * s .l) ) / (s .t * s .l) ) .toInt) (
           q = s .q * s .k) (
@@ -78,8 +72,8 @@ trait PiIterator
       _get_next (t .new_status) )
 
   private def _get_next_with_new_status (s : Status) : IntAndStatus =
-    _mk_IntAndStatus (s .n) (
-      _mk_Status (
+    IntAndStatus .mk (s .n) (
+      Status .mk (
         r = 10 * (s .r - s .n * s .t)) (
         n = ( ( (10 * (3 * s .q + s .r) ) / s .t) - (10 * s .n) ) .toInt) (
         q = s .q * 10) (

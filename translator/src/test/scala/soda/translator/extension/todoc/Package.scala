@@ -12,8 +12,8 @@ case class DocFullTranslationSpec ()
 {
 
   import   org.scalatest.Assertion
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
   import   java.nio.file.Files
   import   java.nio.file.Paths
 
@@ -37,7 +37,7 @@ case class DocFullTranslationSpec ()
 
   def test_translation_with (input_file_name : String) (expected_file_name : String) : Assertion =
     check (
-      obtained = TranslatorToDoc_ () .translate_content (read_file (input_file_name) )
+      obtained = TranslatorToDoc .mk .translate_content (read_file (input_file_name) )
     ) (
       expected = read_file (expected_file_name)
     )
@@ -58,40 +58,92 @@ case class MicroTranslatorToDocSpec ()
     org.scalatest.funsuite.AnyFunSuite
 {
 
-  import   soda.translator.block.DefaultBlockSequenceTranslator_
-  import   soda.translator.parser.BlockProcessor_
+  import   soda.translator.block.DefaultBlockSequenceTranslator
+  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   lazy val instance =
-    BlockProcessor_ (
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToDoc_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToDoc .mk
       )
     )
 
-  lazy val original_snippet = "" +
+  lazy val original_snippet_1 = "" +
     "/*" +
     "\n * This is an example" +
     "\n*/" +
     "\n"
 
-  lazy val translated_snippet = "" +
+  lazy val translated_snippet_1 = "" +
     "\n\\end{lstlisting}" +
     "\n" +
-    "\nThis is an example" +
+    "\n" +
+    "\n This is an example" +
+    "\n" +
     "\n" +
     "\n" +
     "\n\\begin{lstlisting}" +
     "\n" +
     "\n"
 
-  test ("Document generation of a snippet") (
+  test ("Document generation of a snippet 1") (
     check (
-      obtained = instance .translate (original_snippet)
+      obtained = instance .translate (original_snippet_1)
     ) (
-      expected = translated_snippet
+      expected = translated_snippet_1
+    )
+  )
+
+  lazy val original_snippet_2 = "" +
+    "\n/** These are the Soda docs. */\n"
+
+  lazy val translated_snippet_2 = "" +
+    "\n\\end{lstlisting}" +
+    "\n" +
+    "\nThese are the Soda docs." +
+    "\n" +
+    "\n" +
+    "\n\\begin{lstlisting}" +
+    "\n" +
+    "\n"
+
+  test ("Document generation of a snippet 2") (
+    check (
+      obtained = instance .translate (original_snippet_2)
+    ) (
+      expected = translated_snippet_2
+    )
+  )
+
+  lazy val original_snippet_3 = "" +
+    "\n/* This is a multiline comment." +
+    "\n * Each line starts with an asterisk '*'." +
+    "\n * *Only* the first asterisk '*' is removed." +
+    "\n But it is not mandatory." +
+    "\n It is only for clarity. */\n"
+
+  lazy val translated_snippet_3 = "" +
+    "\n\\end{lstlisting}" +
+    "\n" +
+    "\nThis is a multiline comment." +
+    "\n Each line starts with an asterisk '*'." +
+    "\n *Only* the first asterisk '*' is removed." +
+    "\n But it is not mandatory." +
+    "\n It is only for clarity." +
+    "\n" +
+    "\n" +
+    "\n\\begin{lstlisting}" +
+    "\n" +
+    "\n"
+
+  test ("Document generation of a snippet 3") (
+    check (
+      obtained = instance .translate (original_snippet_3)
+    ) (
+      expected = translated_snippet_3
     )
   )
 

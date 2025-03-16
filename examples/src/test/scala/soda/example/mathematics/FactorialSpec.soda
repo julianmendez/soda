@@ -11,13 +11,13 @@ class FactorialSpec ()
     (7 , 5040) , (8 , 40320) , (9 , 362880) , (10 , 3628800)
   )
 
-  _factorial_concise = FactorialConcise_ ()
+  _factorial_concise = FactorialConcise .mk
 
-  _factorial_simple = FactorialSimple_ ()
+  _factorial_simple = FactorialSimple .mk
 
-  _factorial_patten_matching = FactorialPatternMatching_ ()
+  _factorial_patten_matching = FactorialPatternMatching .mk
 
-  _factorial_with_fold = FactorialWithFold_ ()
+  _factorial_with_fold = FactorialWithFold .mk
 
   test ("should test the factorial - concise version") (
     check (

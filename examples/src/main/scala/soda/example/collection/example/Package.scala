@@ -85,7 +85,7 @@ trait ListExample
     Pair .mk ("a .map (lambda x --> x .toInt) .++ (b)") (a .map ( x => x .toInt) .++ (b)
     )
 
-  lazy val span_example : Pair [ Tuple2 [Seq [Char] , Seq [Char] ] ] =
+  lazy val span_example : Pair [Tuple2 [Seq [Char] , Seq [Char] ] ] =
     Pair .mk ("a .span (lambda x --> not (x == 'D') )") (a .span ( x => ! (x == 'D') )
     )
 
@@ -124,7 +124,7 @@ trait Main
 
 
 
-  lazy val e = ListExample_ ()
+  lazy val e = ListExample .mk
 
   lazy val all_examples =
     Seq (

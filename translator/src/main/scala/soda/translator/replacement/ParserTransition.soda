@@ -23,17 +23,17 @@ class ParserStateEnum
 
   abstract
 
-  undefined_state = ParserState_ (0 , "undefined_state")
+  undefined_state = ParserState .mk (0) ("undefined_state")
 
-  quotes_state = ParserState_ (1 , "quotes_state")
+  quotes_state = ParserState .mk (1) ("quotes_state")
 
-  apostrophe_state = ParserState_ (2 , "apostrophe_state")
+  apostrophe_state = ParserState .mk (2) ("apostrophe_state")
 
-  quotes_backslash_state = ParserState_ (3 , "quotes_backslash_state")
+  quotes_backslash_state = ParserState .mk (3) ("quotes_backslash_state")
 
-  apostrophe_backslash_state = ParserState_ (4 , "apostrophe_backslash_state")
+  apostrophe_backslash_state = ParserState .mk (4) ("apostrophe_backslash_state")
 
-  plain = ParserState_ (5 , "plain")
+  plain = ParserState .mk (5) ("plain")
 
   values = Seq (undefined_state , quotes_state , apostrophe_state , quotes_backslash_state ,
     apostrophe_backslash_state , plain)
@@ -51,9 +51,9 @@ class ParserTransition
 
   abstract
 
-  ps = ParserStateEnum_ ()
+  ps = ParserStateEnum .mk
 
-  ct = CharTypeEnum_ ()
+  ct = CharTypeEnum .mk
 
   transitions_that_change_states : Map [Tuple2 [ParserState] [CharType] ] [ParserState] =
     Map (

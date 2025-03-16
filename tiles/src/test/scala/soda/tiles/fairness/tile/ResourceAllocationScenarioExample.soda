@@ -3,91 +3,88 @@ class ResourceAllocationScenarioExample
 
   abstract
 
-  _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
-    Assignment_ (actor) (resource)
-
   measure_sum (a : Measure) (b : Measure) : Measure =
-    Measure_ (a .value + b .value)
+    Measure .mk (a .value + b .value)
 
-  resource0 = Resource_ ("small box - 0.1 m")
+  resource0 = Resource .mk ("small box - 0.1 m")
 
-  resource1 = Resource_ ("medium box - 0.2 m")
+  resource1 = Resource .mk ("medium box - 0.2 m")
 
-  resource2 = Resource_ ("large box - 0.3 m")
+  resource2 = Resource .mk ("large box - 0.3 m")
 
-  actor0 = Actor_ ("Anna A")
+  actor0 = Actor .mk ("Anna A")
 
-  actor1 = Actor_ ("Bob B")
+  actor1 = Actor .mk ("Bob B")
 
-  actor2 = Actor_ ("Charlie C")
+  actor2 = Actor .mk ("Charlie C")
 
   actor_need_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Measure_ (30) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Measure_ (10) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Measure_ (0) )
+    Tuple2 [Actor] [Measure] (actor0 , Measure .mk (30) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Measure .mk (10) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Measure .mk (0) )
   ) .toMap
 
   resource_height_map : Map [Resource] [Measure] = Seq (
-    Tuple2 [Resource] [Measure] (resource0 , Measure_ (10) ) ,
-    Tuple2 [Resource] [Measure] (resource1 , Measure_ (20) ) ,
-    Tuple2 [Resource] [Measure] (resource2 , Measure_ (30) )
+    Tuple2 [Resource] [Measure] (resource0 , Measure .mk (10) ) ,
+    Tuple2 [Resource] [Measure] (resource1 , Measure .mk (20) ) ,
+    Tuple2 [Resource] [Measure] (resource2 , Measure .mk (30) )
   ) .toMap
 
   actor_need (actor : Actor) : Measure =
-    actor_need_map .getOrElse (actor , Measure_ (-1) )
+    actor_need_map .getOrElse (actor , Measure .mk (-1) )
 
   resource_height (resource : Resource) : Measure =
-    resource_height_map .getOrElse (resource , Measure_ (-1) )
+    resource_height_map .getOrElse (resource , Measure .mk (-1) )
 
-  context = Context_ ()
+  context = Context .mk
 
   outcome0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource2) ,
-        _mk_Assignment (actor1) (resource1) ,
-        _mk_Assignment (actor2) (resource0)
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource0)
       )
     )
 
   outcome1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource0) ,
-        _mk_Assignment (actor1) (resource0) ,
-        _mk_Assignment (actor2) (resource0)
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource0) ,
+        Assignment .mk (actor2) (resource0)
       )
     )
 
   outcome2 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource1) ,
-        _mk_Assignment (actor1) (resource1) ,
-        _mk_Assignment (actor2) (resource1)
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource1)
       )
     )
 
   outcome3 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource2) ,
-        _mk_Assignment (actor1) (resource2) ,
-        _mk_Assignment (actor2) (resource2)
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
       )
     )
 
   initial0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome0) (true)
+    TileMessageBuilder .mk .build (context) (outcome0) (true)
 
   initial1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome1) (true)
+    TileMessageBuilder .mk .build (context) (outcome1) (true)
 
   initial2 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome2) (true)
+    TileMessageBuilder .mk .build (context) (outcome2) (true)
 
   initial3 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome3) (true)
+    TileMessageBuilder .mk .build (context) (outcome3) (true)
 
 end
 

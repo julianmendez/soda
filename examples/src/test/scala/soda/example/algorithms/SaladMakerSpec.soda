@@ -14,7 +14,7 @@ class SaladIngredientConstant
   abstract
 
   _mk_SaladIngredient (ordinal : Int) (name : String) : SaladIngredient =
-    SaladIngredient_ (ordinal) (name)
+    SaladIngredient .mk (ordinal) (name)
 
   tomato = _mk_SaladIngredient (1) ("tomato")
 
@@ -44,7 +44,7 @@ class SaladMakerSpec ()
       (next_ingredient : SaladIngredient) : Boolean =
     salad_so_far .length < 3
 
-  _salad_maker = SaladMaker_ ()
+  _salad_maker = SaladMaker .mk
 
   test ("salad maker") (
     check (

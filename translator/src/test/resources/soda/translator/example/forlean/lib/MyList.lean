@@ -12,12 +12,14 @@ where
 namespace MyList
 
 
-/-foldl
+/-
+ foldl
  (fold left)
+
 -/
 
 private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
-       (next_value : B -> A -> B) : B :=
+      (next_value : B -> A -> B) : B :=
     match sequence with
       | List.nil => current
       | (head) :: (tail) =>
@@ -26,14 +28,16 @@ private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) 
 
 
 def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : B)
-       (next_value : B -> A -> B) : B :=
+      (next_value : B -> A -> B) : B :=
     _tailrec_foldl ( A ) ( B ) (sequence) (initial_value) (next_value)
 
 
-/- length
+/-
+ length
+
 -/
 
- def   length_fl ( A : Type ) (list : List ( A ) ) : Nat :=
+def   length_fl ( A : Type ) (list : List ( A ) ) : Nat :=
     foldl ( A ) ( Nat ) (list) (Zero_ () ) (
       fun (accum : Nat) =>
         fun (elem : A) => Succ_ (accum)
@@ -61,7 +65,7 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
         rewrite [Nat.add_comm 1]
         rfl
 
- private def   _tailrec_length ( A : Type ) (list : List ( A ) ) (accum : Nat) : Nat :=
+private def   _tailrec_length ( A : Type ) (list : List ( A ) ) (accum : Nat) : Nat :=
     match list with
       | List.nil => accum
       | (head) :: (tail) =>
@@ -87,11 +91,11 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
         rewrite [Nat.add_comm 1]
         rfl
 
- def   length_tr ( A : Type ) (list : List ( A ) ) : Nat :=
+def   length_tr ( A : Type ) (list : List ( A ) ) : Nat :=
     _tailrec_length ( A ) (list) (Zero_ () )
 
 
- def   length_def ( A : Type ) (list : List ( A ) ) : Nat :=
+def   length_def ( A : Type ) (list : List ( A ) ) : Nat :=
     match list with
       | List.nil => Zero_ ()
       | (head) :: (tail) => Succ_ (length_def ( A ) (tail) )
@@ -126,25 +130,27 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
       rewrite [length_def]
       rfl
 
- def   length ( A : Type ) (list : List ( A ) ) : Nat :=
+def   length ( A : Type ) (list : List ( A ) ) : Nat :=
     length_fl ( A ) (list)
 
 
-/- reverse
+/-
+ reverse
+
 -/
 
- private def   _tailrec_reverse ( A : Type ) (list : List ( A ) ) (accum : List ( A ) ) : List ( A ) :=
+private def   _tailrec_reverse ( A : Type ) (list : List ( A ) ) (accum : List ( A ) ) : List ( A ) :=
     match list with
       | List.nil => accum
       | (head) :: (tail) => _tailrec_reverse ( A ) (tail) ( (head) :: (accum) )
     
 
 
- def   reverse_tr ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+def   reverse_tr ( A : Type ) (list : List ( A ) ) : List ( A ) :=
     _tailrec_reverse ( A ) (list) (List.nil)
 
 
- def   reverse_fl ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+def   reverse_fl ( A : Type ) (list : List ( A ) ) : List ( A ) :=
     foldl ( A ) ( List ( A )  ) (list) (List.nil) (
       fun (accum : List ( A ) ) =>
         fun (elem : A) =>
@@ -197,7 +203,7 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
         rewrite [Nat.add_assoc, Nat.add_comm 1]
         rfl
 
- def   reverse ( A : Type ) (list : List ( A ) ) : List ( A ) :=
+def   reverse ( A : Type ) (list : List ( A ) ) : List ( A ) :=
     reverse_fl ( A ) (list)
 
 

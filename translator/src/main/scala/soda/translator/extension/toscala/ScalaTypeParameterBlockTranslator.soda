@@ -6,12 +6,12 @@ class ScalaTypeParameterBlockTranslator
   abstract
 
   import
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.SodaConstant
     soda.translator.replacement.Token
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToScala_ ()
+  _tc = TranslationConstantToScala .mk
 
   replace_token : Token -> String =
     lambda token -->

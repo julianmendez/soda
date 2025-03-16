@@ -7,27 +7,27 @@ class UnbiasednessTile
     p2_with_p : Actor -> Measure
     p3_acceptable_bias : Measure
 
-  all_actor_triple_tile = AllActorTripleTile_ ()
+  all_actor_triple_tile = AllActorTripleTile .mk
 
-  unzip_fst_tile = UnzipTripleFstTile_ ()
+  unzip_fst_tile = UnzipTripleFstTile .mk
 
-  unzip_snd_tile = UnzipTripleSndTile_ ()
+  unzip_snd_tile = UnzipTripleSndTile .mk
 
-  unzip_trd_tile = UnzipTripleTrdTile_ ()
+  unzip_trd_tile = UnzipTripleTrdTile .mk
 
-  zip_tile = ZipTile_ ()
+  zip_tile = ZipTile .mk
 
-  prediction_p_tile = PredictionPTile_ (p0_evaluation)
+  prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
-  result_p_tile = ResultPTile_ (p1_result)
+  result_p_tile = ResultPTile .mk (p1_result)
 
-  with_p_tile = WithPTile_ (p2_with_p)
+  with_p_tile = WithPTile .mk (p2_with_p)
 
-  false_pos_tile = FalsePosTile_ ()
+  false_pos_tile = FalsePosTile .mk
 
-  correlation_tile = CorrelationTile_ ()
+  correlation_tile = CorrelationTile .mk
 
-  decision_tile = DecisionTile_ (p3_acceptable_bias)
+  decision_tile = DecisionTile .mk (p3_acceptable_bias)
 
   get_prediction (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
       : TileMessage [Seq [Measure] ] =

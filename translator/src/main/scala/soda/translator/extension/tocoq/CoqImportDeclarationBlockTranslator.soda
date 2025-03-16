@@ -10,11 +10,11 @@ class CoqImportDeclarationBlockTranslator
     soda.translator.block.AnnotatedLine
     soda.translator.block.AnnotatedLine_
     soda.translator.block.Block
-    soda.translator.parser.BlockBuilder_
+    soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.ImportDeclarationAnnotation
     soda.translator.parser.annotation.ImportDeclarationAnnotation_
 
-  _tc = TranslationConstantToCoq_ ()
+  _tc = TranslationConstantToCoq .mk
 
   coq_import_declaration_pattern =
     _tc .coq_import_reserved_word + _tc .coq_space
@@ -28,7 +28,7 @@ class CoqImportDeclarationBlockTranslator
 
   prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
       (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    BlockBuilder_ () .build (
+    BlockBuilder .mk .build (
       annotated_lines .map (lambda annotated_line -->
         prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )

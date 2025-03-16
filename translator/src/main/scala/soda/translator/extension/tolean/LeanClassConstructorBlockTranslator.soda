@@ -7,21 +7,21 @@ class LeanClassConstructorBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.parser.BlockBuilder_
-    soda.translator.parser.SodaConstant_
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.AbstractDeclarationAnnotation
     soda.translator.parser.annotation.AbstractDeclarationAnnotation_
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
 
-  _sc = SodaConstant_ ()
+  _sc = SodaConstant .mk
 
-  _tc = TranslationConstantToLean_ ()
+  _tc = TranslationConstantToLean .mk
 
   _get_as_class_beginning_annotation (annotated_block : AnnotatedBlock)
       : Option [ClassBeginningAnnotation] =
     match annotated_block
-      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation_ (b) )
+      case ClassBeginningAnnotation_ (b) ==> Some (ClassBeginningAnnotation .mk (b) )
       case _otherwise ==> None
 
   _get_class_beginning (references : Seq [AnnotatedBlock] )
@@ -76,13 +76,12 @@ class LeanClassConstructorBlockTranslator
 
   _translate_block_with_abstract_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (
-      BlockBuilder_ () .build (
+    AbstractDeclarationAnnotation .mk (
+      BlockBuilder .mk .build (
         Seq [String] (
           _get_constructor_declaration (beginning) (_get_types_of_abstract_functions (block) ) )
-      ),
-      block .references
-    )
+      )
+    ) (block .references)
 
   _translate_block_with_beginning (beginning : ClassBeginningAnnotation)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -102,7 +101,7 @@ class LeanClassConstructorBlockTranslator
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case AbstractDeclarationAnnotation_ (block , references) ==>
-        _translate_block (AbstractDeclarationAnnotation_ (block , references) )
+        _translate_block (AbstractDeclarationAnnotation .mk (block) (references) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

@@ -32,7 +32,7 @@ class Pearson
     xlist : Seq [Double]
     ylist : Seq [Double]
 
-  _mt : MathTool = MathTool_ ()
+  _mt : MathTool = MathTool .mk
 
   _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
     _mt .sum (seq .map (lambda x_i --> _mt .squared (x_i - x_average) ) )

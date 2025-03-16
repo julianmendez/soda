@@ -8,16 +8,16 @@ class ScalaNonSodaSpec ()
     org.scalatest.funsuite.AnyFunSuite
 
   import
-    soda.translator.block.DefaultBlockSequenceTranslator_
-    soda.translator.parser.BlockProcessor_
+    soda.translator.block.DefaultBlockSequenceTranslator
+    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
   bp =
-    BlockProcessor_(
-      DefaultBlockSequenceTranslator_ (
-        MicroTranslatorToScala_ ()
+    BlockProcessor .mk (
+      DefaultBlockSequenceTranslator .mk (
+        MicroTranslatorToScala .mk
       )
     )
 

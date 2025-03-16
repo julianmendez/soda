@@ -14,7 +14,7 @@ class SwapExample
   swap (pair : PairExample) : PairExample =
     match pair
       case PairExample_ (a) (b) ==>
-        PairExample_ (b) (a)
+        PairExample .mk (b) (a)
 
   directive lean
   theorem
