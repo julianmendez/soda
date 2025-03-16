@@ -23,7 +23,7 @@ Class SwapExample : Type :=
 
 Notation "'SwapExample_'" := SwapExample.mk (at level 99) .
 
- Definition   swap (pair : PairExample) : PairExample :=
+Definition   swap (pair : PairExample) : PairExample :=
     PairExample_ (pair .(right) ) (pair .(left) )
 .
 
