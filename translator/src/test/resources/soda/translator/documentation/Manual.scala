@@ -94,6 +94,12 @@ trait EqualsExample
 
   lazy val second_result : Int = f (x = 20) (y = -10)
 
+  /* It is allowed to use the optional reserved word `def` to define constants and functions. */
+
+  def a_constant : Int = 1
+
+  def a_function (x : Int) : Int = x * x
+
 }
 
 case class EqualsExample_ () extends EqualsExample
