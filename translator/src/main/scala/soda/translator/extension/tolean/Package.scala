@@ -398,241 +398,6 @@ object LeanClassEndBlockTranslator {
 }
 
 
-trait LeanDefinitionBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.SodaConstant
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-
-  private lazy val _sc = SodaConstant .mk
-
-  private lazy val _tc = TranslationConstantToLean .mk
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder .mk .build (
-      block .lines .:+ (suffix)
-    )
-
-  private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder .mk .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
-    )
-
-  def is_a_definition (block : Block) : Boolean =
-    ! is_a_recursive_definition (block) &&
-    ! _tc .non_definition_block_prefixes .exists ( prefix =>
-      block .contents .trim .startsWith (prefix) )
-
-  def first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("") .trim
-
-  def is_private (block :  FunctionDefinitionAnnotation) : Boolean =
-    first_line (block) .trim .startsWith (_sc .private_function_prefix)
-
-  private def _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
-    if ( is_private (block)
-    ) _tc .lean_private_reserved_word + _tc .lean_space
-    else ""
-
-  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_definition (block)
-    ) _append (_tc .lean_definition_end_symbol) (
-      _prepend (
-        _private_prefix_if_necessary (block) +
-        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
-    else block
-
-  private def _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
-      _private_prefix_if_necessary (block) +
-      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
-
-  def is_a_recursive_definition (block : Block) : Boolean =
-    _tc .lean_recursive_function_prefixes .exists ( prefix =>
-      first_line (block) .startsWith (prefix) )
-
-  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_recursive_definition (block)
-    ) _translate_recursive_definition (block)
-    else _translate_non_recursive_definition (block)
-
-  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
-      : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) =>
-        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case _otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-}
-
-case class LeanDefinitionBlockTranslator_ () extends LeanDefinitionBlockTranslator
-
-object LeanDefinitionBlockTranslator {
-  def mk : LeanDefinitionBlockTranslator =
-    LeanDefinitionBlockTranslator_ ()
-}
-
-
-/**
- * A line containing the definition sign will be classified as a definition.
- * The definitions need to be identified as 'val', 'def', or 'class'.
- *
- * 'class' is for class definition.
- * It is detected if the 'class' reserved word is also in the same line.
- *
- * 'val' is for value definition.
- * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
- * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
- * Case 3: The first opening parenthesis is after a colon,
- *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
- * Case 4: The first non-blank character of a line is an opening parenthesis,
- *   e.g. `(x, y) = (0, 1)`
- *
- * 'def' is for function definition.
- * If it does not fit in any of the 'val' cases.
- *
- * Formerly there was another case for 'val'.
- * Deprecated Case:
- * This was implemented simply as:
- * `line.trim.startsWith (soda_opening_parenthesis)`
- * This is no longer supported.
- *
- */
-
-trait LeanDefinitionLineTranslator
-  extends
-    soda.translator.block.LineTranslator
-{
-
-  def   line : String
-
-  import   soda.lib.OptionSD
-  import   soda.lib.SomeSD_
-  import   soda.translator.parser.SodaConstant
-  import   soda.translator.replacement.Replacement
-  import   soda.translator.replacement.Replacement_
-
-  private lazy val _sc = SodaConstant .mk
-
-  private lazy val _tc = TranslationConstantToLean .mk
-
-  private lazy val _trimmed_line : String = line .trim
-
-  def get_index_from (line : String) (pattern : String) (start : Int) : OptionSD [Int] =
-    SomeSD_ (line .indexOf (pattern, start) )
-      .filter ( position => !  (position == -1) )
-
-  def get_index (line : String) (pattern : String) : OptionSD [Int] =
-    get_index_from (line) (pattern) (0)
-
-  private lazy val _position_of_first_opening_parenthesis : OptionSD [Int] =
-    get_index (line) (_sc .opening_parenthesis_symbol)
-
-  private lazy val _is_val_definition_case_1 : Boolean =
-    _position_of_first_opening_parenthesis .isEmpty
-
-  private def _is_val_definition_case_2 (initial_position : Int) : Boolean =
-    _position_of_first_opening_parenthesis match  {
-      case SomeSD_ (position) => (position > initial_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_3 : Boolean =
-    (get_index (line) (_sc .type_membership_symbol) ) match  {
-      case SomeSD_ (other_position) => _is_val_definition_case_2 (other_position)
-      case _otherwise => false
-    }
-
-  private lazy val _is_val_definition_case_4 : Boolean =
-    _trimmed_line .startsWith (_sc .opening_parenthesis_symbol)
-
-  private def _is_val_definition (initial_position : Int) : Boolean =
-    _is_val_definition_case_1 ||
-    _is_val_definition_case_2 (initial_position) ||
-    _is_val_definition_case_3 ||
-    _is_val_definition_case_4
-
-  private lazy val _is_class_definition : Boolean =
-    get_index (line) (_sc .space + _sc .class_reserved_word + _sc .space) .isDefined
-
-  private lazy val _ends_with_equals = false
-
-  private lazy val _ends_with_opening_brace = false
-
-  private lazy val _contains_equals : Boolean =
-    _trimmed_line .contains (_sc .function_definition_symbol)
-
-  private lazy val _condition_for_type_alias : Boolean =
-    _contains_equals && ! (_ends_with_equals || _ends_with_opening_brace)
-
-  private lazy val _translation_of_class_definition : Replacement =
-    if ( _condition_for_type_alias
-    ) Replacement_ (line)
-    else Replacement_ (line) .replace_all (_sc .space + _sc .function_definition_symbol) ("")
-
-  private lazy val _translation_of_val_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private lazy val _translation_of_def_definition : Replacement =
-    Replacement_ (line) .add_after_spaces_or_pattern (_tc .lean_space) (_tc .lean_space)
-
-  private def _decide_val_or_def_translation (position : Int) : Replacement =
-    if ( _is_val_definition (position)
-    ) _translation_of_val_definition
-    else _translation_of_def_definition
-
-  private def _try_found_definition (position : Int) : Replacement =
-    if ( _is_class_definition
-    ) _translation_of_class_definition
-    else _decide_val_or_def_translation (position)
-
-  /**
-   * A line is a definition when its main operator is "="  (the equals sign),
-   * which in this context is also called the definition sign.
-   * This function finds the first occurrence of the definition sign, if it is present.
-   *
-   * @param line line
-   * @return maybe the position of the definition sign
-   */
-
-  def find_definition (line : String) : OptionSD [Int] =
-    if ( line .endsWith (_sc .space + _sc .function_definition_symbol)
-    ) SomeSD_ (line .length - _sc .function_definition_symbol .length)
-    else get_index (line) (_sc .space + _sc .function_definition_symbol + _sc .space)
-
-  lazy val translation : String =
-    find_definition (line) match  {
-      case SomeSD_ (position) => _try_found_definition (position) .line
-      case _otherwise => line
-    }
-
-}
-
-case class LeanDefinitionLineTranslator_ (line : String) extends LeanDefinitionLineTranslator
-
-object LeanDefinitionLineTranslator {
-  def mk (line : String) : LeanDefinitionLineTranslator =
-    LeanDefinitionLineTranslator_ (line)
-}
-
-
 trait LeanDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
@@ -801,6 +566,125 @@ case class LeanDotNotationBlockTranslator_ () extends LeanDotNotationBlockTransl
 object LeanDotNotationBlockTranslator {
   def mk : LeanDotNotationBlockTranslator =
     LeanDotNotationBlockTranslator_ ()
+}
+
+
+trait LeanFunctionDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _tc = TranslationConstantToLean .mk
+
+  private lazy val _soda_def_prefix = _sc .def_reserved_word + _sc .space
+
+  private lazy val _empty_string = ""
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      block .lines .:+ (suffix)
+    )
+
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
+    )
+
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! _tc .non_definition_block_prefixes .exists ( prefix =>
+      block .contents .trim .startsWith (prefix) )
+
+  def first_line (block : Block) : String =
+    block .lines .headOption .getOrElse (_empty_string) .trim
+
+  def is_private (block :  FunctionDefinitionAnnotation) : Boolean =
+    first_line (block) .trim .startsWith (_sc .private_function_prefix)
+
+  private def _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
+    if ( is_private (block)
+    ) _tc .lean_private_reserved_word + _tc .lean_space
+    else _empty_string
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc .lean_definition_end_symbol) (
+      _prepend (
+        _private_prefix_if_necessary (block) +
+        _tc .lean_def_reserved_word + _tc .lean_space) (block) )
+    else block
+
+  private def _translate_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    _append (_tc .lean_recursive_definition_end_symbol) (_prepend (
+      _private_prefix_if_necessary (block) +
+      _tc .lean_recursive_definition_reserved_word + _tc .lean_space) (block) )
+
+  def is_a_recursive_definition (block : Block) : Boolean =
+    _tc .lean_recursive_function_prefixes .exists ( prefix =>
+      first_line (block) .startsWith (prefix) )
+
+  private def _remove_part_at (line : String) (from : Int) (length : Int) : String =
+    if ( (from >= 0)
+    ) line .substring (0 , from) + line .substring (from + length)
+    else line
+
+  private def _remove_part (line : String) (part : String) : String =
+    _remove_part_at (line) (line .indexOf (part) ) (part .length)
+
+  private def _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    if ( (block .lines .nonEmpty) &&
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    )
+      FunctionDefinitionAnnotation .mk (
+        BlockBuilder .mk .build (
+        (Seq [String] ()
+          .+: (_remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .++ (block .lines .tail)
+        )
+      )
+    else block
+
+  private def _translate_block_with (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) _translate_recursive_definition (block)
+    else _translate_non_recursive_definition (block)
+
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    _translate_block_with (_remove_def_if_present (block) )
+
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
+      : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_definition_block (FunctionDefinitionAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanFunctionDefinitionBlockTranslator_ () extends LeanFunctionDefinitionBlockTranslator
+
+object LeanFunctionDefinitionBlockTranslator {
+  def mk : LeanFunctionDefinitionBlockTranslator =
+    LeanFunctionDefinitionBlockTranslator_ ()
 }
 
 
@@ -1099,7 +983,7 @@ trait MicroTranslatorToLean
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.BlockAnnotationEnum
   import   soda.translator.block.BlockAnnotationId
-  import   soda.translator.block.BlockTranslatorPipeline_
+  import   soda.translator.block.BlockTranslatorPipeline
   import   soda.translator.block.ConditionalBlockTranslator
   import   soda.translator.blocktr.TokenReplacement
   import   soda.translator.blocktr.TokenizedBlockTranslator
@@ -1118,7 +1002,7 @@ trait MicroTranslatorToLean
   private lazy val _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   lazy val functions_and_tests : Seq [BlockAnnotationId] =
-    Seq (_function_definition, _test_declaration)
+    Seq (_function_definition , _test_declaration)
 
   lazy val declarations : Seq [BlockAnnotationId] =
     Seq (
@@ -1126,17 +1010,12 @@ trait MicroTranslatorToLean
       _test_declaration
     )
 
-  lazy val try_definition : Token => String =
-     token =>
-      LeanDefinitionLineTranslator .mk (token .text) .translation
-
   private lazy val _translation_pipeline =
-    BlockTranslatorPipeline_ (
+    BlockTranslatorPipeline .mk (
       Seq (
         LeanDocumentationBlockTranslator .mk ,
         LeanDotNotationBlockTranslator .mk ,
         LeanMatchCaseBlockTranslator .mk ,
-        LeanDefinitionBlockTranslator .mk ,
         LeanClassConstructorBlockTranslator .mk ,
         LeanClassDeclarationBlockTranslator .mk ,
         LeanPackageDeclarationBlockTranslator .mk ,
@@ -1146,7 +1025,7 @@ trait MicroTranslatorToLean
         LeanTheoremBlockTranslator .mk ,
         LeanDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
-          TokenizedBlockTranslator .mk (try_definition) ) ,
+          LeanFunctionDefinitionBlockTranslator .mk) ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
           TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
         ConditionalBlockTranslator .mk (declarations) (

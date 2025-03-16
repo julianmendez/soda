@@ -99,28 +99,61 @@ case class MicroTranslatorToLeanSpec ()
       )
     )
 
-  test ("Lean translation of a constant") (
+  test ("Lean translation of a constant 1") (
     check (
       obtained = instance .translate ("x = 0")
     ) (
-      expected = " def x := 0\n\n"
+      expected = "def x := 0\n\n"
     )
   )
 
-  test ("Lean translation of a function") (
+  test ("Lean translation of a constant 2") (
+    check (
+      obtained = instance .translate ("def x = 0")
+    ) (
+      expected = "def x := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of a constant 3") (
+    check (
+      obtained = instance .translate ("  def x = 0")
+    ) (
+      expected = "def   x := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of a function 1") (
     check (
       obtained = instance .translate ("f (a : Nat) = 0")
     ) (
-      expected = " def f (a : Nat) := 0\n\n"
+      expected = "def f (a : Nat) := 0\n\n"
     )
   )
 
-  test ("Lean translation of type parameters") (
+  test ("Lean translation of a function 2") (
+    check (
+      obtained = instance .translate ("def f (a : Nat) = 0")
+    ) (
+      expected = "def f (a : Nat) := 0\n\n"
+    )
+  )
+
+  test ("Lean translation of type parameters 1") (
     check (
       obtained = instance .translate (
       "identity (x : List [Boolean] ) : List [Boolean] = x\n")
     ) (
-      expected = " def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
+      expected = "def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
+    )
+  )
+
+  test ("Lean translation of type parameters 2") (
+    check (
+      obtained = instance .translate (
+      "def identity (x : List [Boolean] ) : List [Boolean] = x\n")
+    ) (
+      expected = "def identity (x : List ( Bool ) ) : List ( Bool ) := x\n\n"
     )
   )
 
@@ -298,7 +331,7 @@ case class MicroTranslatorToLeanSpec ()
       )
     ) (
       expected = "" +
-        " def as_list (a : Bool) : List ( Bool ) :=" +
+        "def as_list (a : Bool) : List ( Bool ) :=" +
         "\n  a :: List.nil" +
         "\n" +
         "\n"
@@ -314,7 +347,7 @@ case class MicroTranslatorToLeanSpec ()
       )
     ) (
       expected = "" +
-        " def as_seq (a : Bool) : List ( Bool ) :=" +
+        "def as_seq (a : Bool) : List ( Bool ) :=" +
         "\n  (a) :: (List.nil)" +
         "\n" +
         "\n"

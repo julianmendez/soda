@@ -23,15 +23,15 @@ where
 namespace PairParamMod
 
 
- def   get_first ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : A :=
+def   get_first ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : A :=
     self.fst
 
 
- def   get_second ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : B :=
+def   get_second ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : B :=
     self.snd
 
 
- def   swap ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : PairParam ( B ) ( A ) :=
+def   swap ( A : Type ) ( B : Type ) (self : PairParam ( A ) ( B ) ) : PairParam ( B ) ( A ) :=
     PairParam.mk (get_second ( A ) ( B ) (self) ) (get_first ( A ) ( B ) (self) )
 
 
@@ -67,19 +67,19 @@ where
 namespace TripleIntStringIntMod
 
 
- def   get_first (self : TripleIntStringInt) : Int :=
+def   get_first (self : TripleIntStringInt) : Int :=
     self.fst
 
 
- def   get_second (self : TripleIntStringInt) : String :=
+def   get_second (self : TripleIntStringInt) : String :=
     self.snd
 
 
- def   get_third (self : TripleIntStringInt) : Int :=
+def   get_third (self : TripleIntStringInt) : Int :=
     self.trd
 
 
- def   get_pair_param (self : TripleIntStringInt) : PairParam ( Int ) ( String ) :=
+def   get_pair_param (self : TripleIntStringInt) : PairParam ( Int ) ( String ) :=
     PairParam.mk (get_first (self) ) (get_second (self) )
 
 

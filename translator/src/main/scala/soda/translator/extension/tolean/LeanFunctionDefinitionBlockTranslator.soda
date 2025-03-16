@@ -1,5 +1,5 @@
 
-class LeanDefinitionBlockTranslator
+class LeanFunctionDefinitionBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -17,6 +17,10 @@ class LeanDefinitionBlockTranslator
 
   _tc = TranslationConstantToLean .mk
 
+  _soda_def_prefix = _sc .def_reserved_word + _sc .space
+
+  _empty_string = ""
+
   _append (suffix : String) (block : Block) : Block =
     BlockBuilder .mk .build (
       block .lines .:+ (suffix)
@@ -24,7 +28,7 @@ class LeanDefinitionBlockTranslator
 
   _prepend (prefix : String) (block : Block) : Block =
     BlockBuilder .mk .build (
-      Seq[String] (prefix + block .lines .head) ++ block .lines .tail
+      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
     )
 
   is_a_definition (block : Block) : Boolean =
@@ -33,7 +37,7 @@ class LeanDefinitionBlockTranslator
       block .contents .trim .startsWith (prefix) )
 
   first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("") .trim
+    block .lines .headOption .getOrElse (_empty_string) .trim
 
   is_private (block :  FunctionDefinitionAnnotation) : Boolean =
     first_line (block) .trim .startsWith (_sc .private_function_prefix)
@@ -41,7 +45,7 @@ class LeanDefinitionBlockTranslator
   _private_prefix_if_necessary (block : FunctionDefinitionAnnotation) : String =
     if is_private (block)
     then _tc .lean_private_reserved_word + _tc .lean_space
-    else ""
+    else _empty_string
 
   _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
     if is_a_definition (block)
@@ -60,19 +64,43 @@ class LeanDefinitionBlockTranslator
     _tc .lean_recursive_function_prefixes .exists (lambda prefix -->
       first_line (block) .startsWith (prefix) )
 
-  _translate_block (block : FunctionDefinitionAnnotation) : Block =
+  _remove_part_at (line : String) (from : Int) (length : Int) : String =
+    if (from >= 0)
+    then line .substring (0 , from) + line .substring (from + length)
+    else line
+
+  _remove_part (line : String) (part : String) : String =
+    _remove_part_at (line) (line .indexOf (part) ) (part .length)
+
+  _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    if (block .lines .nonEmpty) and
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    then
+      FunctionDefinitionAnnotation .mk (
+        BlockBuilder .mk .build (
+        (Seq [String] ()
+          .+: (_remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .++ (block .lines .tail)
+        )
+      )
+    else block
+
+  _translate_block_with (block : FunctionDefinitionAnnotation) : Block =
     if is_a_recursive_definition (block)
     then _translate_recursive_definition (block)
     else _translate_non_recursive_definition (block)
 
+  _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    _translate_block_with (_remove_def_if_present (block) )
+
   _translate_definition_block (block : FunctionDefinitionAnnotation)
       : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation_ (_translate_block (block) )
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
       case FunctionDefinitionAnnotation_ (block) ==>
-        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
+        _translate_definition_block (FunctionDefinitionAnnotation .mk (block) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =
