@@ -31,7 +31,7 @@ Class FoldWhile : Type :=
 Notation "'FoldWhile_'" := FoldWhile.mk (at level 99) .
 
 Fixpoint   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (current : B)
-       (next : B -> A -> B) (condition : B -> A -> bool) : B :=
+      (next : B -> A -> B) (condition : B -> A -> bool) : B :=
     match sequence with
       | nil => current
       | (head) +: (tail) =>
@@ -42,7 +42,7 @@ Fixpoint   _tailrec_foldl_while ( A : Type ) ( B : Type ) (sequence : list ( A )
 .
 
 Definition   apply ( A : Type ) ( B : Type ) (list : list ( A ) ) (initial : B)
-       (next : B -> A -> B) (condition : B -> A -> bool) : B :=
+      (next : B -> A -> B) (condition : B -> A -> bool) : B :=
     _tailrec_foldl_while ( A ) ( B ) (list) (initial) (next) (condition)
 .
 
@@ -61,7 +61,7 @@ Class Fold : Type :=
 Notation "'Fold_'" := Fold.mk (at level 99) .
 
 Fixpoint   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (current : B)
-       (next : B -> A -> B) : B :=
+      (next : B -> A -> B) : B :=
     match sequence with
       | nil => current
       | (head) +: (tail) =>
@@ -69,7 +69,7 @@ Fixpoint   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (cu
     end
 .
 
- Definition   apply ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (initial : B) (next : B -> A -> B) : B :=
+Definition   apply ( A : Type ) ( B : Type ) (sequence : list ( A ) ) (initial : B) (next : B -> A -> B) : B :=
     _tailrec_foldl ( A ) ( B ) (sequence) (initial) (next)
 .
 
@@ -87,7 +87,7 @@ Class Range : Type :=
 
 Notation "'Range_'" := Range.mk (at level 99) .
 
- Fixpoint   _tailrec_range (non_negative_number : Int) (sequence : list ( Int ) ) : list ( Int ) :=
+Fixpoint   _tailrec_range (non_negative_number : Int) (sequence : list ( Int ) ) : list ( Int ) :=
     match non_negative_number with
       | Succ_ (k) =>
         _tailrec_range (k) ( (k) +: (sequence) )
@@ -95,7 +95,7 @@ Notation "'Range_'" := Range.mk (at level 99) .
     end
 .
 
- Definition   apply (length : Int) : list ( Int ) :=
+Definition   apply (length : Int) : list ( Int ) :=
     _tailrec_range (length) (nil)
 .
 

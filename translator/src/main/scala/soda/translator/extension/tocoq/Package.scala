@@ -397,82 +397,6 @@ object CoqClassEndBlockTranslator {
 }
 
 
-trait CoqDefinitionBlockTranslator
-  extends
-    soda.translator.block.BlockTranslator
-{
-
-
-
-  import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
-  import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
-  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
-
-  private lazy val _tc = TranslationConstantToCoq .mk
-
-  private def _append (suffix : String) (block : Block) : Block =
-    BlockBuilder .mk .build (
-      block .lines .:+ (suffix)
-    )
-
-  private def _prepend (prefix : String) (block : Block) : Block =
-    BlockBuilder .mk .build (
-      Seq [String] (prefix + block .lines .head) ++ block .lines .tail
-    )
-
-  def is_a_definition (block : Block) : Boolean =
-    ! is_a_recursive_definition (block) &&
-    ! _tc .non_definition_block_prefixes .exists (
-       prefix => block .contents .trim .startsWith (prefix)
-    )
-
-  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_definition (block)
-    ) _append (_tc .coq_definition_end_symbol) (_prepend (_tc .coq_definition_reserved_word +
-       _tc .coq_space) (block) )
-    else block
-
-  def first_line (block : Block) : String =
-    block .lines .headOption .getOrElse ("") .trim
-
-  def is_a_recursive_definition (block : Block) : Boolean =
-    _tc .coq_recursive_function_prefixes .exists (
-       prefix => first_line (block) .startsWith (prefix)
-    )
-
-  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
-    if ( is_a_recursive_definition (block)
-    ) _append (_tc .coq_recursive_definition_end_symbol) (
-      _prepend (_tc .coq_recursive_definition_reserved_word + _tc .coq_space) (block) )
-    else _translate_non_recursive_definition (block)
-
-  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
-      : FunctionDefinitionAnnotation =
-    FunctionDefinitionAnnotation .mk (_translate_block (block) )
-
-  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
-    annotated_block match  {
-      case FunctionDefinitionAnnotation_ (block) =>
-        _translate_definition_block (FunctionDefinitionAnnotation_ (block) )
-      case _otherwise => annotated_block
-    }
-
-  lazy val translate : AnnotatedBlock => AnnotatedBlock =
-     block =>
-      translate_for (block)
-
-}
-
-case class CoqDefinitionBlockTranslator_ () extends CoqDefinitionBlockTranslator
-
-object CoqDefinitionBlockTranslator {
-  def mk : CoqDefinitionBlockTranslator =
-    CoqDefinitionBlockTranslator_ ()
-}
-
-
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -820,6 +744,108 @@ object CoqDotNotationBlockTranslator {
 }
 
 
+trait CoqFunctionDefinitionBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.Block
+  import   soda.translator.parser.BlockBuilder
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
+  import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
+
+  private lazy val _tc = TranslationConstantToCoq .mk
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _cc = CommentDelimiterRemover .mk
+
+  private lazy val _soda_def_prefix = _sc .def_reserved_word + _sc .space
+
+  private lazy val _empty_string = ""
+
+  private def _append (suffix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      block .lines .:+ (suffix)
+    )
+
+  private def _prepend (prefix : String) (block : Block) : Block =
+    BlockBuilder .mk .build (
+      Seq [String] (prefix + block .lines .head) .++ (block .lines .tail)
+    )
+
+  def is_a_definition (block : Block) : Boolean =
+    ! is_a_recursive_definition (block) &&
+    ! _tc .non_definition_block_prefixes .exists (
+       prefix => block .contents .trim .startsWith (prefix)
+    )
+
+  private def _translate_non_recursive_definition (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_definition (block)
+    ) _append (_tc .coq_definition_end_symbol) (_prepend (_tc .coq_definition_reserved_word +
+       _tc .coq_space) (block) )
+    else block
+
+  def first_line (block : Block) : String =
+    block .lines .headOption .getOrElse (_empty_string) .trim
+
+  def is_a_recursive_definition (block : Block) : Boolean =
+    _tc .coq_recursive_function_prefixes .exists (
+       prefix => first_line (block) .startsWith (prefix)
+    )
+
+  private def _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
+    if ( (block .lines .nonEmpty) &&
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    )
+      FunctionDefinitionAnnotation .mk (
+        BlockBuilder .mk .build (
+        (Seq [String] ()
+          .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .++ (block .lines .tail)
+        )
+      )
+    else block
+
+  private def _translate_block_with (block : FunctionDefinitionAnnotation) : Block =
+    if ( is_a_recursive_definition (block)
+    ) _append (_tc .coq_recursive_definition_end_symbol) (
+      _prepend (_tc .coq_recursive_definition_reserved_word + _tc .coq_space) (block) )
+    else _translate_non_recursive_definition (block)
+
+  private def _translate_block (block : FunctionDefinitionAnnotation) : Block =
+    _translate_block_with (_remove_def_if_present (block) )
+
+  private def _translate_definition_block (block : FunctionDefinitionAnnotation)
+      : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation .mk (_translate_block (block) )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case FunctionDefinitionAnnotation_ (block) =>
+        _translate_definition_block (FunctionDefinitionAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class CoqFunctionDefinitionBlockTranslator_ () extends CoqFunctionDefinitionBlockTranslator
+
+object CoqFunctionDefinitionBlockTranslator {
+  def mk : CoqFunctionDefinitionBlockTranslator =
+    CoqFunctionDefinitionBlockTranslator_ ()
+}
+
+
 trait CoqImportDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1139,7 +1165,7 @@ trait MicroTranslatorToCoq
   private lazy val _test_declaration = BlockAnnotationEnum .mk .test_declaration
 
   lazy val functions_and_tests : Seq [BlockAnnotationId] =
-    Seq (_function_definition, _test_declaration)
+    Seq (_function_definition , _test_declaration)
 
   lazy val declarations : Seq [BlockAnnotationId] =
     Seq (
@@ -1147,17 +1173,12 @@ trait MicroTranslatorToCoq
       _test_declaration
     )
 
-  lazy val try_definition : Token => String =
-     token =>
-      CoqDefinitionLineTranslator .mk (token .text) .translation
-
   private lazy val _translation_pipeline =
     BlockTranslatorPipeline .mk (
       Seq (
         CoqDocumentationBlockTranslator .mk ,
         CoqDotNotationBlockTranslator .mk ,
         CoqMatchCaseBlockTranslator .mk ,
-        CoqDefinitionBlockTranslator .mk ,
         CoqClassConstructorBlockTranslator .mk ,
         CoqClassDeclarationBlockTranslator .mk ,
         CoqPackageDeclarationBlockTranslator .mk ,
@@ -1167,7 +1188,7 @@ trait MicroTranslatorToCoq
         CoqTheoremBlockTranslator .mk ,
         CoqDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
-          TokenizedBlockTranslator .mk (try_definition) ) ,
+          CoqFunctionDefinitionBlockTranslator .mk) ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
           TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
         ConditionalBlockTranslator .mk (declarations) (
