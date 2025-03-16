@@ -12,8 +12,10 @@ where
 namespace MyList
 
 
-/-foldl
+/-
+ foldl
  (fold left)
+
 -/
 
 private def   _tailrec_foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (current : B)
@@ -30,7 +32,9 @@ def   foldl ( A : Type ) ( B : Type ) (sequence : List ( A ) ) (initial_value : 
     _tailrec_foldl ( A ) ( B ) (sequence) (initial_value) (next_value)
 
 
-/- length
+/-
+ length
+
 -/
 
 def   length_fl ( A : Type ) (list : List ( A ) ) : Nat :=
@@ -130,7 +134,9 @@ def   length ( A : Type ) (list : List ( A ) ) : Nat :=
     length_fl ( A ) (list)
 
 
-/- reverse
+/-
+ reverse
+
 -/
 
 private def   _tailrec_reverse ( A : Type ) (list : List ( A ) ) (accum : List ( A ) ) : List ( A ) :=

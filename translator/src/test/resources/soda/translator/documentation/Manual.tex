@@ -38,8 +38,8 @@ package soda.manual
 \end{lstlisting}
 
 This is a Soda tutorial written in Soda.
-Copyright 2020--2025 Julian Alfredo Mendez
-Version: 2025-03-14
+ Copyright 2020--2025 Julian Alfredo Mendez
+ Version: 2025-03-14
 
 
 \begin{lstlisting}
@@ -49,7 +49,7 @@ Version: 2025-03-14
 \end{lstlisting}
 
 This tutorial is itself a "Hello world!" program.
-The piece of code that prints the message is at the end of the file.
+ The piece of code that prints the message is at the end of the file.
 
 
 \begin{lstlisting}
@@ -59,19 +59,19 @@ The piece of code that prints the message is at the end of the file.
 \end{lstlisting}
 
 Source code written in Soda is intended to be descriptive and readable.
-It is usually written in different files, and each file has 'blocks'.
-These blocks are pieces of code that have some meaning.
-A block should be short, maybe less than 10 lines.
-However, it is more important to make things clear than concise.
-These are examples of blocks:
-1. a constant or function definition
-2. the beginning of a class definition
-3. the end of a class definition
-4. a block declaration of abstract constants and functions
-5. a block of imports
-6. a package declaration
-7. a class alias
-8. a comment
+ It is usually written in different files, and each file has 'blocks'.
+ These blocks are pieces of code that have some meaning.
+ A block should be short, maybe less than 10 lines.
+ However, it is more important to make things clear than concise.
+ These are examples of blocks:
+ 1. a constant or function definition
+ 2. the beginning of a class definition
+ 3. the end of a class definition
+ 4. a block declaration of abstract constants and functions
+ 5. a block of imports
+ 6. a package declaration
+ 7. a class alias
+ 8. a comment
 
 
 \begin{lstlisting}
@@ -81,11 +81,11 @@ These are examples of blocks:
 \end{lstlisting}
 
 To declare a class, just add the reserved word `class` before a class name, and end it with
-the reserved word `end`.
-The reserved word `abstract` explicitly states whether constants and functions are required
-to instantiate a class. In the example below, no constants or functions are required.
-For the class name, it is recommended to use camel case style starting with a capital letter.
-The name could be a noun phrase or an adjective, but it should not be a verb.
+ the reserved word `end`.
+ The reserved word `abstract` explicitly states whether constants and functions are required
+ to instantiate a class. In the example below, no constants or functions are required.
+ For the class name, it is recommended to use camel case style starting with a capital letter.
+ The name could be a noun phrase or an adjective, but it should not be a verb.
 
 
 \begin{lstlisting}
@@ -101,9 +101,9 @@ end
 \end{lstlisting}
 
 The reserved word `class` declares a type, a namespace, and a default constructor.
-It is possible to instantiate a class using the function `mk`. The notation looks
-as a static function of the type. For example, for `Shape` is `Shape .mk` without
-parentheses.
+ It is possible to instantiate a class using the function `mk`. The notation looks
+ as a static function of the type. For example, for `Shape` is `Shape .mk` without
+ parentheses.
 
 
 \begin{lstlisting}
@@ -129,8 +129,8 @@ class EqualsExample
 
 \end{lstlisting}
 
-Note that `abstract` does not contain any constants or functions in this example, and the
-declared constants and functions are in a different block.
+  Note that `abstract` does not contain any constants or functions in this example, and the
+   declared constants and functions are in a different block.
 
 
 \begin{lstlisting}
@@ -141,9 +141,9 @@ declared constants and functions are in a different block.
 
 \end{lstlisting}
 
-A constant does not have parameters and it is declared with the equals sign (`=`).
-For the constant name, it is recommended to use snake case and start in lowercase.
-The constant name should be a noun phrase.
+  A constant does not have parameters and it is declared with the equals sign (`=`).
+   For the constant name, it is recommended to use snake case and start in lowercase.
+   The constant name should be a noun phrase.
 
 
 \begin{lstlisting}
@@ -154,10 +154,10 @@ The constant name should be a noun phrase.
 
 \end{lstlisting}
 
-A function has parameters and a type. Functions, even with empty parameters, are evaluated
-every time they are invoked. The standard way of declaring and invoking a function
-with multiple parameters is with parameters separated by spaces and not by commas.
-For example, use `f (x) (y)` instead of `f(x, y)`.
+  A function has parameters and a type. Functions, even with empty parameters, are evaluated
+   every time they are invoked. The standard way of declaring and invoking a function
+   with multiple parameters is with parameters separated by spaces and not by commas.
+   For example, use `f (x) (y)` instead of `f(x, y)`.
 
 
 \begin{lstlisting}
@@ -168,7 +168,7 @@ For example, use `f (x) (y)` instead of `f(x, y)`.
 
 \end{lstlisting}
 
-Constants are only evaluated once, which is the first time they are needed.
+  Constants are only evaluated once, which is the first time they are needed.
 
 
 \begin{lstlisting}
@@ -179,8 +179,8 @@ Constants are only evaluated once, which is the first time they are needed.
 
 \end{lstlisting}
 
-In a function call, the parameters can be specified with the colon-equals sign (`:=`).
-This is especially recommended when several parameters are of the same type.
+  In a function call, the parameters can be specified with the colon-equals sign (`:=`).
+   This is especially recommended when several parameters are of the same type.
 
 
 \begin{lstlisting}
@@ -194,10 +194,10 @@ end
 \end{lstlisting}
 
 A class can extend other classes by using the reserved word `extends`.
-Abstract classes contain a block with the reserved word `abstract`, and they are the only
-classes that can be extended.
-By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
-extended.
+ Abstract classes contain a block with the reserved word `abstract`, and they are the only
+ classes that can be extended.
+ By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
+ extended.
 
 
 \begin{lstlisting}
@@ -208,9 +208,9 @@ class RegisteredPerson
 
 \end{lstlisting}
 
-The block starting with `abstract` denotes constants or functions that need to be defined
-in extending classes. Only one `abstract` block should be defined per class, without
-leaving lines between the declared attributes.
+  The block starting with `abstract` denotes constants or functions that need to be defined
+   in extending classes. Only one `abstract` block should be defined per class, without
+   leaving lines between the declared attributes.
 
 
 \begin{lstlisting}
@@ -223,8 +223,8 @@ leaving lines between the declared attributes.
 
 \end{lstlisting}
 
-If a constant or function is not meant to be exported, its name should start with an
-underscore.
+  If a constant or function is not meant to be exported, its name should start with an
+   underscore.
 
 
 \begin{lstlisting}
@@ -235,7 +235,7 @@ underscore.
 
 \end{lstlisting}
 
-Strings can be concatenated by using the plus sign (`+`).
+  Strings can be concatenated by using the plus sign (`+`).
 
 
 \begin{lstlisting}
@@ -256,8 +256,8 @@ end
 \end{lstlisting}
 
 A concrete class needs as parameters all the constants and functions that have not been
-defined in its super classes. Observe that `extends` has to be in the same block as
-`class`, which need to be in a different block from `abstract`.
+ defined in its super classes. Observe that `extends` has to be in the same block as
+ `class`, which need to be in a different block from `abstract`.
 
 
 \begin{lstlisting}
@@ -280,8 +280,8 @@ class Element
 
 \end{lstlisting}
 
-In this class, `accept` is a function that takes an object of type `Visitor` and returns
-an object of type `Boolean`. This is indicated with the type arrow `->`.
+  In this class, `accept` is a function that takes an object of type `Visitor` and returns
+   an object of type `Boolean`. This is indicated with the type arrow `->`.
 
 
 \begin{lstlisting}
@@ -297,7 +297,7 @@ class Visitor
 
 \end{lstlisting}
 
-In this class, `visit` is a function defined from `Element` to `Boolean`.
+  In this class, `visit` is a function defined from `Element` to `Boolean`.
 
 
 \begin{lstlisting}
@@ -317,11 +317,11 @@ class Item
 
 \end{lstlisting}
 
-It is possible to refer to an object instance by using reserved word `this`.
-The dot (`.`) notation is the standard way of accessing attributes and methods of an
-object. The space before the dot is to improve readability and it is not necessary.
-Lambda functions are declared with the reserved word `lambda` and a long arrow (`-->`).
-Notice the difference between the type arrow (`->`) and the lambda arrow (`-->`).
+  It is possible to refer to an object instance by using reserved word `this`.
+   The dot (`.`) notation is the standard way of accessing attributes and methods of an
+   object. The space before the dot is to improve readability and it is not necessary.
+   Lambda functions are declared with the reserved word `lambda` and a long arrow (`-->`).
+   Notice the difference between the type arrow (`->`) and the lambda arrow (`-->`).
 
 
 \begin{lstlisting}
@@ -341,9 +341,9 @@ class PersonName
 
 \end{lstlisting}
 
-It is possible to override a function by using the `@override` annotation.
-This is intended only for exceptional cases, like the `toString` function, or a
-diamond-shaped class hierarchy.
+  It is possible to override a function by using the `@override` annotation.
+   This is intended only for exceptional cases, like the `toString` function, or a
+   diamond-shaped class hierarchy.
 
 
 \begin{lstlisting}
@@ -358,7 +358,7 @@ end
 \end{lstlisting}
 
 A class can be parameterized using square brackets ('[' and ']').
-The class parameter needs to be of type Type.
+ The class parameter needs to be of type Type.
 
 
 \begin{lstlisting}
@@ -391,8 +391,8 @@ end
 \end{lstlisting}
 
 The parameter type can be constrained using `subtype` and `supertype`.
-In that case, it is not necessary to declare the parameter to be of type Type.
-For example, `A subtype B` means that `A` is of type Type and it is a subtype of `B`.
+ In that case, it is not necessary to declare the parameter to be of type Type.
+ For example, `A subtype B` means that `A` is of type Type and it is a subtype of `B`.
 
 
 \begin{lstlisting}
@@ -420,10 +420,10 @@ class Manual
 
 \end{lstlisting}
 
-The first line in this file is the package declaration. It contains the reserved word
-`package` followed by the package name. The recommended package naming convention is to
-start with `soda.`, which helps to avoid name conflicts when it is translated to Scala.
-The package declaration usually goes in a separate file called `Package.soda`.
+  The first line in this file is the package declaration. It contains the reserved word
+   `package` followed by the package name. The recommended package naming convention is to
+   start with `soda.`, which helps to avoid name conflicts when it is translated to Scala.
+   The package declaration usually goes in a separate file called `Package.soda`.
 
 
 \begin{lstlisting}
@@ -432,10 +432,10 @@ The package declaration usually goes in a separate file called `Package.soda`.
 
 \end{lstlisting}
 
-It is possible to import classes by listing them under the reserved word `import`.
-Imported classes can also be declared in the `Package.soda` file, when they are global
-for the whole package. The list of imported classes can be used to detect and control which
-classes may be producing side effects.
+  It is possible to import classes by listing them under the reserved word `import`.
+   Imported classes can also be declared in the `Package.soda` file, when they are global
+   for the whole package. The list of imported classes can be used to detect and control which
+   classes may be producing side effects.
 
 
 \begin{lstlisting}
@@ -451,8 +451,8 @@ classes may be producing side effects.
 
 \end{lstlisting}
 
-An instance of a JVM class can be created with the `@new` annotation. If the code is
-translated to Scala 3, this annotation is not required.
+  An instance of a JVM class can be created with the `@new` annotation. If the code is
+   translated to Scala 3, this annotation is not required.
 
 
 \begin{lstlisting}
@@ -465,8 +465,8 @@ translated to Scala 3, this annotation is not required.
 
 \end{lstlisting}
 
-A piecewise function can be defined using an `if`-`then`-`else` structure. The condition in
-the `if` is evaluated, and then only the corresponding branch is evaluated.
+  A piecewise function can be defined using an `if`-`then`-`else` structure. The condition in
+   the `if` is evaluated, and then only the corresponding branch is evaluated.
 
 
 \begin{lstlisting}
@@ -480,7 +480,7 @@ the `if` is evaluated, and then only the corresponding branch is evaluated.
 
 \end{lstlisting}
 
-Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
+  Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
 
 
 \begin{lstlisting}
@@ -492,7 +492,7 @@ Scala sequences (`Seq`) can be used, as well as other basic Scala classes.
 
 \end{lstlisting}
 
-A synonym for `lambda` is `any`, which sometimes brings more readability.
+  A synonym for `lambda` is `any`, which sometimes brings more readability.
 
 
 \begin{lstlisting}
@@ -504,7 +504,7 @@ A synonym for `lambda` is `any`, which sometimes brings more readability.
 
 \end{lstlisting}
 
-Boolean values `false` and `true` are available.
+  Boolean values `false` and `true` are available.
 
 
 \begin{lstlisting}
@@ -528,7 +528,7 @@ Boolean values `false` and `true` are available.
 
 \end{lstlisting}
 
-Boolean values have the standard `not`-`and`-`or` functions.
+  Boolean values have the standard `not`-`and`-`or` functions.
 
 
 \begin{lstlisting}
@@ -540,11 +540,11 @@ Boolean values have the standard `not`-`and`-`or` functions.
 
 \end{lstlisting}
 
-It is possible to use pattern matching with the reserved words `match` and `case`.
-The result of the matching case is put after a long double arrow `==>`.
-The order matters, so the remaining cases are capture by the last variable.
-Please notice the difference between the case arrow (`==>`), the lambda arrow (`-->`), and
-the type arrow (`->`).
+  It is possible to use pattern matching with the reserved words `match` and `case`.
+   The result of the matching case is put after a long double arrow `==>`.
+   The order matters, so the remaining cases are capture by the last variable.
+   Please notice the difference between the case arrow (`==>`), the lambda arrow (`-->`), and
+   the type arrow (`->`).
 
 
 \begin{lstlisting}
@@ -558,10 +558,10 @@ the type arrow (`->`).
 
 \end{lstlisting}
 
-It is possible to use pattern matching to obtain the content of an object.
-In the case of pattern matching, the constructor name is the class name with an underscore
-as suffix.
-Unlike with `mk`, the parameters need to be retrieved all together in a tuple.
+  It is possible to use pattern matching to obtain the content of an object.
+   In the case of pattern matching, the constructor name is the class name with an underscore
+   as suffix.
+   Unlike with `mk`, the parameters need to be retrieved all together in a tuple.
 
 
 \begin{lstlisting}
@@ -574,8 +574,8 @@ Unlike with `mk`, the parameters need to be retrieved all together in a tuple.
 
 \end{lstlisting}
 
-A constant or function name starting with underscore indicates that the constant or
-function is private, and therefore is not visible outside the class.
+  A constant or function name starting with underscore indicates that the constant or
+   function is private, and therefore is not visible outside the class.
 
 
 \begin{lstlisting}
@@ -587,9 +587,9 @@ function is private, and therefore is not visible outside the class.
 
 \end{lstlisting}
 
-A tail recursive function cannot be declared inside another function, and its name should
-start with underscore. The annotation `@tailrec` helps to ensure that the tail recursion
-is detected and optimized when it is translated to Scala.
+  A tail recursive function cannot be declared inside another function, and its name should
+   start with underscore. The annotation `@tailrec` helps to ensure that the tail recursion
+   is detected and optimized when it is translated to Scala.
 
 
 \begin{lstlisting}
@@ -610,9 +610,9 @@ end
 \end{lstlisting}
 
 The class `Fold` has a 'left fold', which is a functional approach to iterations. Starting
-with an initial value (`initial`), it traverses a sequence (`sequence`) applying a function
-(`next`) using the current element in the sequence and the result of the previous
-computation.
+ with an initial value (`initial`), it traverses a sequence (`sequence`) applying a function
+ (`next`) using the current element in the sequence and the result of the previous
+ computation.
 
 
 \begin{lstlisting}
@@ -625,11 +625,11 @@ class Fold
 
 \end{lstlisting}
 
-Note that the type parameters must be specified in the function call:
-`_tailrec_foldl [A] [B]`...
-The sequence constructor `+:` is defined by `Seq`.
-This is equivalent to the more common constructor `::`, when it is used for instances of
-`List`. `Nil` is the constructor for an empty `Seq`.
+  Note that the type parameters must be specified in the function call:
+   `_tailrec_foldl [A] [B]`...
+   The sequence constructor `+:` is defined by `Seq`.
+   This is equivalent to the more common constructor `::`, when it is used for instances of
+   `List`. `Nil` is the constructor for an empty `Seq`.
 
 
 \begin{lstlisting}
@@ -645,8 +645,8 @@ This is equivalent to the more common constructor `::`, when it is used for inst
 
 \end{lstlisting}
 
-Ideally, each object should have one responsibility or purpose. The function `apply`
-defines the main responsibility of an object.
+  Ideally, each object should have one responsibility or purpose. The function `apply`
+   defines the main responsibility of an object.
 
 
 \begin{lstlisting}
@@ -661,8 +661,8 @@ end
 \end{lstlisting}
 
 A piece of code of the destination language can be included with the reserved word
-`directive`. In this example, we can define the concept of successor for integers for the
-translation to Scala.
+ `directive`. In this example, we can define the concept of successor for integers for the
+ translation to Scala.
 
 
 \begin{lstlisting}
@@ -678,7 +678,7 @@ object Succ_ {
 \end{lstlisting}
 
 The class `Range` generates a sequence of length `n` of consecutive natural numbers starting
-from 0.
+ from 0.
 
 
 \begin{lstlisting}
@@ -691,8 +691,8 @@ class Range
 
 \end{lstlisting}
 
-Note that `Range` processes any negative number as 0. This is done by `Succ_`, which only
-returns values for positive values of `n`.
+  Note that `Range` processes any negative number as 0. This is done by `Succ_`, which only
+   returns values for positive values of `n`.
 
 
 \begin{lstlisting}
@@ -737,7 +737,7 @@ end
 \end{lstlisting}
 
 The main class has to be named `Main` and requires a `main` function that receives an
-`Array [String]` and returns a `Unit`. Only one main class per package is allowed.
+ `Array [String]` and returns a `Unit`. Only one main class per package is allowed.
 
 
 \begin{lstlisting}
@@ -748,8 +748,8 @@ class Main
 
 \end{lstlisting}
 
-An output to the standard output can be sent with a `println` command.
-This is a shorter form of JVM's `System.out.println`.
+  An output to the standard output can be sent with a `println` command.
+   This is a shorter form of JVM's `System.out.println`.
 
 
 \begin{lstlisting}
@@ -764,7 +764,7 @@ end
 \end{lstlisting}
 
 The main class has an extending concrete class. The class that needs to be invoked in a
-translation to Scala is `EntryPoint`.
+ translation to Scala is `EntryPoint`.
 
 
 \begin{lstlisting}

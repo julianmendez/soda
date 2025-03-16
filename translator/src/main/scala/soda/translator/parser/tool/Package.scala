@@ -35,19 +35,29 @@ trait CommentDelimiterRemover
     (line == _comment_closing_suffix .trim)
 
   private def _remove_single_delimiters (line : String) : String =
-    if ( _is_single_delimiter (line)
+    if ( _is_single_delimiter (line .trim)
     ) _empty_line
     else line
 
+  private def _remove_part_at (line : String) (from : Int) (length : Int) : String =
+    if ( (from >= 0)
+    ) line .substring (0 , from) + line .substring (from + length)
+    else line
+
+  def remove_part (line : String) (part : String) : String =
+    _remove_part_at (line) (line .indexOf (part) ) (part .length)
+
   private def _remove_prefix (prefix : String) (line : String) : String =
-    if ( line .startsWith (prefix)
-    ) line .substring (prefix .length)
+    if ( line .trim .startsWith (prefix)
+    ) remove_part (line) (prefix)
     else line
 
   private def _remove_prefixes (line : String) : String =
     _remove_prefix (_comment_opening_prefix) (
       _remove_prefix (_documentation_comment_opening_prefix) (
-        _remove_prefix (_comment_line_prefix) (line)
+        _remove_prefix (_comment_line_prefix) (
+          _remove_single_delimiters (line)
+        )
       )
     )
 
@@ -63,7 +73,7 @@ trait CommentDelimiterRemover
     lines .map ( line =>
       _remove_single_delimiters (
         _remove_suffixes (
-          _remove_prefixes (line .trim)
+          _remove_prefixes (line)
         )
       )
     )

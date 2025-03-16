@@ -81,7 +81,7 @@ case class MicroTranslatorToDocSpec ()
     "\n\\end{lstlisting}" +
     "\n" +
     "\n" +
-    "\nThis is an example" +
+    "\n This is an example" +
     "\n" +
     "\n" +
     "\n" +
@@ -129,10 +129,10 @@ case class MicroTranslatorToDocSpec ()
     "\n\\end{lstlisting}" +
     "\n" +
     "\nThis is a multiline comment." +
-    "\nEach line starts with an asterisk '*'." +
-    "\n*Only* the first asterisk '*' is removed." +
-    "\nBut it is not mandatory." +
-    "\nIt is only for clarity." +
+    "\n Each line starts with an asterisk '*'." +
+    "\n *Only* the first asterisk '*' is removed." +
+    "\n But it is not mandatory." +
+    "\n It is only for clarity." +
     "\n" +
     "\n" +
     "\n\\begin{lstlisting}" +

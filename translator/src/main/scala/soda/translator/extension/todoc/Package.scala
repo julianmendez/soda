@@ -28,8 +28,6 @@ trait DocBlockTranslator
 
   private lazy val _tc = TranslationConstantToDoc .mk
 
-  private lazy val _empty_line = ""
-
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
     ) Seq [String] (prefix)

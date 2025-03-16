@@ -17,7 +17,9 @@ Notation "'Succ_'" := S (at level 99).
 Notation "'Int'" := nat (at level 99).
 -/
 
-/-- This class contains tail recursive auxiliary functions.
+/--
+ This class contains tail recursive auxiliary functions.
+
 -/
 
 class FoldWhile
