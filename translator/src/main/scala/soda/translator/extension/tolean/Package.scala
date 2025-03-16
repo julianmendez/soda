@@ -540,10 +540,13 @@ trait LeanFunctionDefinitionBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
 
   private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToLean .mk
+
+  private lazy val _cc = CommentDelimiterRemover .mk
 
   private lazy val _soda_def_prefix = _sc .def_reserved_word + _sc .space
 
@@ -592,14 +595,6 @@ trait LeanFunctionDefinitionBlockTranslator
     _tc .lean_recursive_function_prefixes .exists ( prefix =>
       first_line (block) .startsWith (prefix) )
 
-  private def _remove_part_at (line : String) (from : Int) (length : Int) : String =
-    if ( (from >= 0)
-    ) line .substring (0 , from) + line .substring (from + length)
-    else line
-
-  private def _remove_part (line : String) (part : String) : String =
-    _remove_part_at (line) (line .indexOf (part) ) (part .length)
-
   private def _remove_def_if_present (block : FunctionDefinitionAnnotation) : FunctionDefinitionAnnotation =
     if ( (block .lines .nonEmpty) &&
       (block .lines .head .trim .startsWith (_soda_def_prefix) )
@@ -607,7 +602,7 @@ trait LeanFunctionDefinitionBlockTranslator
       FunctionDefinitionAnnotation .mk (
         BlockBuilder .mk .build (
         (Seq [String] ()
-          .+: (_remove_part (block .lines .head) (_soda_def_prefix) ) )
+          .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
           .++ (block .lines .tail)
         )
       )
