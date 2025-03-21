@@ -783,6 +783,7 @@ trait ScalaFunctionDefinitionBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+  import   soda.translator.parser.tool.CommentDelimiterRemover
   import   soda.translator.parser.tool.FunctionDefinitionLineDetector
   import   soda.translator.parser.tool.FunctionDefinitionTypeEnum
   import   soda.translator.parser.tool.FunctionDefinitionTypeId
@@ -793,6 +794,10 @@ trait ScalaFunctionDefinitionBlockTranslator
   private lazy val _tc = TranslationConstantToScala .mk
 
   private lazy val _fc = FunctionDefinitionTypeEnum .mk
+
+  private lazy val _cc = CommentDelimiterRemover .mk
+
+  private lazy val _soda_def_prefix = _sc .def_reserved_word + _sc .space
 
   private lazy val _empty_string = ""
 
@@ -890,6 +895,17 @@ trait ScalaFunctionDefinitionBlockTranslator
       )
     )
 
+  private def _remove_def_if_present (block : Block) : Block =
+    if ( (block .lines .nonEmpty) &&
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    )
+      BlockBuilder .mk .build (
+      (Seq [String] ()
+        .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
+        .++ (block .lines .tail)
+      )
+    else block
+
   private def _remove_first_line_if_possible (block : Block) : Block =
     if ( block .lines .isEmpty
     ) block
@@ -899,7 +915,8 @@ trait ScalaFunctionDefinitionBlockTranslator
     if ( _is_annotation (first_line .line)
     ) _prepend_line (first_line .line) (_translate_main_block (
       _remove_first_line_if_possible (block) ) )
-    else _translate_main_block (block)
+    else _translate_main_block (
+      _remove_def_if_present (block) )
 
   private def _translate_block (block : Block) : Block =
     if ( block .readable_lines .isEmpty
