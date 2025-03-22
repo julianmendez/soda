@@ -5,9 +5,9 @@ trait InANutshell
 
   def f (x : Int) : Int = x + 16
 
-  lazy val value = f (numbers)
-
   lazy val numbers = 1 + 2 + 4 + 8
+
+  lazy val value : Int = f (numbers)
 
   def h0 (x : Int) (y : Int) : Int =
     x + y
