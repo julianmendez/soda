@@ -94,7 +94,7 @@ class ListExample
   foldRight_example : Pair [Seq [Char] ] =
     Pair .mk ("a .foldRight (Seq ('*') )" +
       " (lambda (elem , list) --> \"(\" + elem + \" +: \" + list + \")\")") (
-      a.foldRight (Seq ('*') ) (lambda (elem , list) --> "(" + elem + " +: " + list + ")") )
+      a .foldRight (Seq ('*') ) (lambda (elem , list) --> "(" + elem + " +: " + list + ")") )
 
 end
 

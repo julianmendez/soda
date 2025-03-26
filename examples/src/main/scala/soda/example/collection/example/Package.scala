@@ -107,7 +107,7 @@ trait ListExample
   lazy val foldRight_example : Pair [Seq [Char] ] =
     Pair .mk ("a .foldRight (Seq ('*') )" +
       " (lambda (elem , list) --> \"(\" + elem + \" +: \" + list + \")\")") (
-      a.foldRight (Seq ('*') ) ( (elem , list) => "(" + elem + " +: " + list + ")") )
+      a .foldRight (Seq ('*') ) ( (elem , list) => "(" + elem + " +: " + list + ")") )
 
 }
 
