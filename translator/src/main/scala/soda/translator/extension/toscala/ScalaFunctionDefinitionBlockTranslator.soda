@@ -15,6 +15,7 @@ class ScalaFunctionDefinitionBlockTranslator
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation
     soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.parser.tool.CommentDelimiterRemover
     soda.translator.parser.tool.FunctionDefinitionLineDetector
     soda.translator.parser.tool.FunctionDefinitionTypeEnum
     soda.translator.parser.tool.FunctionDefinitionTypeId
@@ -25,6 +26,10 @@ class ScalaFunctionDefinitionBlockTranslator
   _tc = TranslationConstantToScala .mk
 
   _fc = FunctionDefinitionTypeEnum .mk
+
+  _cc = CommentDelimiterRemover .mk
+
+  _soda_def_prefix = _sc .def_reserved_word + _sc .space
 
   _empty_string = ""
 
@@ -122,6 +127,17 @@ class ScalaFunctionDefinitionBlockTranslator
       )
     )
 
+  _remove_def_if_present (block : Block) : Block =
+    if (block .lines .nonEmpty) and
+      (block .lines .head .trim .startsWith (_soda_def_prefix) )
+    then
+      BlockBuilder .mk .build (
+      (Seq [String] ()
+        .+: (_cc .remove_part (block .lines .head) (_soda_def_prefix) ) )
+        .++ (block .lines .tail)
+      )
+    else block
+
   _remove_first_line_if_possible (block : Block) : Block =
     if block .lines .isEmpty
     then block
@@ -131,7 +147,8 @@ class ScalaFunctionDefinitionBlockTranslator
     if _is_annotation (first_line .line)
     then _prepend_line (first_line .line) (_translate_main_block (
       _remove_first_line_if_possible (block) ) )
-    else _translate_main_block (block)
+    else _translate_main_block (
+      _remove_def_if_present (block) )
 
   _translate_block (block : Block) : Block =
     if block .readable_lines .isEmpty

@@ -96,7 +96,7 @@ trait EqualsExample
 
   /* It is allowed to use the optional reserved word `def` to define constants and functions. */
 
-  def a_constant : Int = 1
+  lazy val a_constant : Int = 1
 
   def a_function (x : Int) : Int = x * x
 

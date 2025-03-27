@@ -8,12 +8,12 @@ lazy val scala2_13 = "2.13.16"
 
 lazy val scala3_3 = "3.3.5"
 
-lazy val scala3_6 = "3.6.3"
+lazy val scala3_6 = "3.6.4"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.rai.soda",
-    version := "0.21.0-SNAPSHOT",
+    version := "0.21.0",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
     homepage := Some(url("https://julianmendez.github.io/soda/")),
     startYear := Some(2020),

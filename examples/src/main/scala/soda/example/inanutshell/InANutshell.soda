@@ -6,9 +6,9 @@ class InANutshell
 
   f (x : Int) : Int = x + 16
 
-  value = f (numbers)
-
   numbers = 1 + 2 + 4 + 8
+
+  value : Int = f (numbers)
 
   h0 (x : Int) (y : Int) : Int =
     x + y

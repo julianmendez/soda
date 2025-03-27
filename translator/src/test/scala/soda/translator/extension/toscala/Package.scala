@@ -320,6 +320,22 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate a def constant definition") (
+    check (
+      obtained = instance .translate ("  def c : Int = 1234\n")
+    ) (
+      expected = "  lazy val c : Int = 1234\n"
+    )
+  )
+
+  test ("should translate a def function definition") (
+    check (
+      obtained = instance .translate ("  def f (x : Int) : Int = x + 16\n")
+    ) (
+      expected = "  def f (x : Int) : Int = x + 16\n"
+    )
+  )
+
   test ("should translate a creation of instance with parameters") (
     check (
       obtained = instance .translate ("    min_max (a : Int) (b : Int) : MinMaxPair =" +
