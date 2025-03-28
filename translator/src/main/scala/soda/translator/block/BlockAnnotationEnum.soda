@@ -25,33 +25,36 @@ class BlockAnnotationEnum
 
   abstract_declaration = BlockAnnotationId .mk (4) ("abstract_declaration")
 
-  import_declaration = BlockAnnotationId .mk (5) ("import_declaration")
+  inductive_declaration = BlockAnnotationId .mk (5) ("inductive_declaration")
 
-  package_declaration = BlockAnnotationId .mk (6) ("package_declaration")
+  import_declaration = BlockAnnotationId .mk (6) ("import_declaration")
 
-  class_alias = BlockAnnotationId .mk (7) ("class_alias")
+  package_declaration = BlockAnnotationId .mk (7) ("package_declaration")
 
-  theorem_block = BlockAnnotationId .mk (8) ("theorem_block")
+  class_alias = BlockAnnotationId .mk (8) ("class_alias")
 
-  directive_block = BlockAnnotationId .mk (9) ("directive_block")
+  theorem_block = BlockAnnotationId .mk (9) ("theorem_block")
 
-  comment = BlockAnnotationId .mk (10) ("comment")
+  directive_block = BlockAnnotationId .mk (10) ("directive_block")
 
-  test_declaration = BlockAnnotationId .mk (11) ("test_declaration")
+  comment = BlockAnnotationId .mk (11) ("comment")
+
+  test_declaration = BlockAnnotationId .mk (12) ("test_declaration")
 
   values =
     Seq (
-      undefined,
-      function_definition,
-      class_beginning,
-      class_end,
-      abstract_declaration,
-      import_declaration,
-      package_declaration,
-      class_alias,
-      theorem_block,
-      directive_block,
-      comment,
+      undefined ,
+      function_definition ,
+      class_beginning ,
+      class_end ,
+      abstract_declaration ,
+      inductive_declaration ,
+      import_declaration ,
+      package_declaration ,
+      class_alias ,
+      theorem_block ,
+      directive_block ,
+      comment ,
       test_declaration
     )
 

@@ -64,6 +64,8 @@ trait AnnotationFactory
         ClassEndAnnotation .mk (new_content) (references)
       case AbstractDeclarationAnnotation_ (b, references) =>
         AbstractDeclarationAnnotation .mk (new_content) (references)
+      case InductiveDeclarationAnnotation_ (b) =>
+        InductiveDeclarationAnnotation .mk (new_content)
       case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation .mk (new_content)
       case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation .mk (new_content)
       case ClassAliasAnnotation_ (b) => ClassAliasAnnotation .mk (new_content)
@@ -81,6 +83,7 @@ trait AnnotationFactory
       ClassBeginningAnnotation .mk (block) ,
       ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
       AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      InductiveDeclarationAnnotation .mk (block) ,
       ImportDeclarationAnnotation .mk (block) ,
       PackageDeclarationAnnotation .mk (block) ,
       ClassAliasAnnotation .mk (block) ,
@@ -507,6 +510,107 @@ case class ImportDeclarationAnnotation_ (block : soda.translator.block.Block) ex
 object ImportDeclarationAnnotation {
   def mk (block : soda.translator.block.Block) : ImportDeclarationAnnotation =
     ImportDeclarationAnnotation_ (block)
+}
+
+
+trait ConstructorTuple
+{
+
+  def   name : String
+  def   parameters : Seq [String]
+
+  lazy val parameters_without_last : Seq [String] =
+    parameters .dropRight (1)
+
+}
+
+case class ConstructorTuple_ (name : String, parameters : Seq [String]) extends ConstructorTuple
+
+object ConstructorTuple {
+  def mk (name : String) (parameters : Seq [String]) : ConstructorTuple =
+    ConstructorTuple_ (name, parameters)
+}
+
+trait InductiveDeclarationAnnotation
+  extends
+    BlockAnnotationParser
+{
+
+  def   block : soda.translator.block.Block
+
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.parser.SodaConstant
+
+  lazy val identifier : BlockAnnotationId = BlockAnnotationEnum .mk .inductive_declaration
+
+  private lazy val _sc = SodaConstant .mk
+
+  lazy val applies : Boolean =
+    block .readable_lines .nonEmpty &&
+    ( (block .readable_lines .head .line .trim + _sc .space) .startsWith (
+      _sc .inductive_reserved_word + _sc .space) )
+
+  private def _get_parameters (line : String) : Seq [String] =
+    _sc .constructor_parameter_separation_regex
+      .r
+      .replaceAllIn (line,
+         m => m .matched .replaceAll (_sc .function_arrow_symbol , _sc .placeholder_symbol) )
+      .split (_sc .function_arrow_symbol)
+      .map ( piece => piece .replaceAll(_sc .placeholder_symbol , _sc .function_arrow_symbol) )
+      .toList
+
+  private def _make_constructor_from_line_with (line : String) (index : Int) : ConstructorTuple =
+    if ( index >= 0
+    ) ConstructorTuple .mk (
+      line .substring (0 , index) .trim) (
+      _get_parameters (line .substring (index + _sc .type_membership_symbol .length) ) )
+    else ConstructorTuple .mk (line .trim) (Seq [String] () )
+
+  def make_constructor_from_line (line : String) : ConstructorTuple =
+    _make_constructor_from_line_with (line) (line .indexOf (_sc .type_membership_symbol) )
+
+  lazy val constructors_with_comments : Seq [AnnotatedLine] =
+    content_lines
+
+  lazy val constructors : Seq [ConstructorTuple] =
+    constructors_with_comments
+      .filter ( line => ! line .is_comment)
+      .map ( annotated_line => annotated_line .line)
+      .map ( line => make_constructor_from_line (line) )
+
+  private def _class_name_for (line : String) : String =
+    if ( applies
+    ) line .substring (line .indexOf (_sc .inductive_reserved_word) +
+      _sc .inductive_reserved_word .length) .trim
+    else ""
+
+  lazy val class_name_and_parameters : String =
+    _class_name_for (first_readable_line .line)
+
+  lazy val class_name : String =
+    class_name_and_parameters
+      .split ("\\[")
+      .headOption
+      .getOrElse ("")
+      .trim
+
+  lazy val type_parameters : Seq [String] =
+    class_name_and_parameters
+      .split ("\\[")
+      .flatMap( piece => piece .split (",") )
+      .map ( piece => piece .replaceAll (":.*" , "") .trim )
+      .drop (1)
+      .toIndexedSeq
+
+}
+
+case class InductiveDeclarationAnnotation_ (block : soda.translator.block.Block) extends InductiveDeclarationAnnotation
+
+object InductiveDeclarationAnnotation {
+  def mk (block : soda.translator.block.Block) : InductiveDeclarationAnnotation =
+    InductiveDeclarationAnnotation_ (block)
 }
 
 

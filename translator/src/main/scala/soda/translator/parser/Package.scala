@@ -72,7 +72,7 @@ trait BlockBuilder
       _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
+    _fold .apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
         _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
@@ -393,6 +393,8 @@ trait SodaConstant
 
   lazy val class_end_proposed_unicode_symbol = "\u23BF"
 
+  lazy val inductive_reserved_word = "inductive"
+
   lazy val this_reserved_word = "this"
 
   lazy val subtype_reserved_word = "subtype"
@@ -445,6 +447,8 @@ trait SodaConstant
 
   lazy val closing_bracket_symbol = "]"
 
+  lazy val placeholder_symbol = "\u0001"
+
   lazy val only_blanks_regex = "\\s*"
 
   lazy val some_blanks_regex = "\\s+"
@@ -452,6 +456,8 @@ trait SodaConstant
   lazy val type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
 
   lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
+
+  lazy val constructor_parameter_separation_regex = "\\(([^)]*)\\)"
 
   lazy val dot_notation_symbol = "."
 
@@ -529,6 +535,7 @@ trait SodaConstant
       extends_reserved_word,
       abstract_reserved_word,
       class_end_reserved_word,
+      inductive_reserved_word,
       this_reserved_word,
       subtype_reserved_word,
       supertype_reserved_word,

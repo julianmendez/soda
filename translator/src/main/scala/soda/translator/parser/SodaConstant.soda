@@ -73,6 +73,8 @@ class SodaConstant
 
   class_end_proposed_unicode_symbol = "\u23BF"
 
+  inductive_reserved_word = "inductive"
+
   this_reserved_word = "this"
 
   subtype_reserved_word = "subtype"
@@ -125,6 +127,8 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
+  placeholder_symbol = "\u0001"
+
   only_blanks_regex = "\\s*"
 
   some_blanks_regex = "\\s+"
@@ -132,6 +136,8 @@ class SodaConstant
   type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
 
   class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
+
+  constructor_parameter_separation_regex = "\\(([^)]*)\\)"
 
   dot_notation_symbol = "."
 
@@ -209,6 +215,7 @@ class SodaConstant
       extends_reserved_word,
       abstract_reserved_word,
       class_end_reserved_word,
+      inductive_reserved_word,
       this_reserved_word,
       subtype_reserved_word,
       supertype_reserved_word,

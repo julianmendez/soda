@@ -26,6 +26,7 @@ case class BlockAnnotationSpec ()
       ClassBeginningAnnotation .mk (block) ,
       ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
       AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      InductiveDeclarationAnnotation .mk (block) ,
       ImportDeclarationAnnotation .mk (block) ,
       PackageDeclarationAnnotation .mk (block) ,
       ClassAliasAnnotation .mk (block) ,
@@ -43,7 +44,8 @@ case class BlockAnnotationSpec ()
       obtained = apply_detectors (example_blocks (0) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , true , false , false , false , false , false)
+        false , false , false , false , false , false , true , false , false , false , false ,
+        false)
     )
   )
 
@@ -52,114 +54,136 @@ case class BlockAnnotationSpec ()
       obtained = apply_detectors (example_blocks (1) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , false , false , false , false , true , false)
+        false , false , false , false , false , false , false , false , false , false , true ,
+        false)
+    )
+  )
+
+  test ("should detect an inductive block declaration") (
+    check (
+      obtained = apply_detectors (example_blocks (2) )
+    ) (
+      expected = Seq [Boolean] (
+        false , false , false , false , true , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect a class beginning") (
     check (
-      obtained = apply_detectors (example_blocks (2) )
+      obtained = apply_detectors (example_blocks (3) )
     ) (
       expected = Seq [Boolean] (
-        false , true , false , false , false , false , false , false , false , false , false)
+        false , true , false , false , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect an abstract block declaration") (
     check (
-      obtained = apply_detectors (example_blocks (3) )
+      obtained = apply_detectors (example_blocks (4) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , true , false , false , false , false , false , false , false)
+        false , false , false , true , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect an import declaration") (
     check (
-      obtained = apply_detectors (example_blocks (4) )
+      obtained = apply_detectors (example_blocks (5) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , true , false , false , false , false , false , false)
+        false , false , false , false , false , true , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect a constant declaration") (
     check (
-      obtained = apply_detectors (example_blocks (5) )
+      obtained = apply_detectors (example_blocks (6) )
     ) (
       expected = Seq [Boolean] (
-        true , false , false , false , false , false , false , false , false , false , false)
+        true , false , false , false , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect a function declaration") (
     check (
-      obtained = apply_detectors (example_blocks (6) )
+      obtained = apply_detectors (example_blocks (7) )
     ) (
       expected = Seq [Boolean] (
-        true , false , false , false , false , false , false , false , false , false , false)
+        true , false , false , false , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect another function declaration") (
     check (
-      obtained = apply_detectors (example_blocks (7) )
+      obtained = apply_detectors (example_blocks (8) )
     ) (
       expected = Seq [Boolean] (
-        true , false , false , false , false , false , false , false , false , false , false)
+        true , false , false , false , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect a test declaration") (
     check (
-      obtained = apply_detectors (example_blocks (8) )
+      obtained = apply_detectors (example_blocks (9) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , false , false , false , false , false , true)
+        false , false , false , false , false , false , false , false , false , false , false ,
+        true)
     )
   )
 
   test ("should detect a theorem block") (
     check (
-      obtained = apply_detectors (example_blocks (9) )
+      obtained = apply_detectors (example_blocks (10) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , false , false , true , false , false , false)
+        false , false , false , false , false , false , false , false , true , false , false ,
+        false)
     )
   )
 
   test ("should detect a directive block") (
     check (
-      obtained = apply_detectors (example_blocks (10) )
+      obtained = apply_detectors (example_blocks (11) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , false , false , false , true , false , false)
+        false , false , false , false , false , false , false , false , false , true , false ,
+        false)
     )
   )
 
   test ("should detect a class end") (
     check (
-      obtained = apply_detectors (example_blocks (11) )
+      obtained = apply_detectors (example_blocks (12) )
     ) (
       expected = Seq [Boolean] (
-        false , false , true , false , false , false , false , false , false , false , false)
+        false , false , true , false , false , false , false , false , false , false , false ,
+        false)
     )
   )
 
   test ("should detect a class alias") (
     check (
-      obtained = apply_detectors (example_blocks (12) )
+      obtained = apply_detectors (example_blocks (13) )
     ) (
       expected = Seq [Boolean] (
-        false , false , false , false , false , false , true , false , false , false , false)
+        false , false , false , false , false , false , false , true , false , false , false ,
+        false)
     )
   )
 
-  test ("should find only 13 blocks") (
+  test ("should find only 14 blocks") (
     check (
       obtained = example_blocks .length
     ) (
-      expected = 13
+      expected = 14
     )
   )
 
@@ -168,7 +192,7 @@ case class BlockAnnotationSpec ()
       obtained = detectors (example_blocks (0) ) .map ( detector =>
         detector .identifier .ordinal)
     ) (
-      expected = Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11)
+      expected = Seq [Int] (1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11, 12)
     )
   )
 
@@ -192,7 +216,7 @@ case class ClassBeginningAnnotationSpec ()
 
   lazy val default_block_processor = ExampleProgram .mk .default_block_processor
 
-  lazy val example_0 = example_blocks .apply (2)
+  lazy val example_0 = example_blocks .apply (3)
 
   def get_as_block (text : String) : Block =
     default_block_processor
@@ -245,7 +269,7 @@ case class ClassBeginningAnnotationSpec ()
         example_blocks
           .map ( block => ClassBeginningAnnotation .mk (block) .applies )
     ) (
-      expected = Seq [Boolean] (false , false , true , false , false , false , false ,
+      expected = Seq [Boolean] (false , false , false , true , false , false , false , false ,
         false , false , false , false , false , false)
     )
   )
@@ -390,6 +414,10 @@ trait ExampleProgram
     "\n * Example class for testing." +
     "\n */" +
     "\n" +
+    "\ninductive Nat" +
+    "\n  Zero" +
+    "\n  Succ : Nat -> Nat" +
+    "\n" +
     "\nclass Example" +
     "\n  extends" +
     "\n    SuperClassExample" +
@@ -416,7 +444,7 @@ trait ExampleProgram
     "\n    check (" +
     "\n      obtained := ClassBeginningAnnotation_ (example_4).type_parameters" +
     "\n    ) (" +
-    "\n      expected := Seq (\"A\", \"B\")" +
+    "\n      expected := Seq (\"A\" , \"B\")" +
     "\n    )" +
     "\n" +
     "\n  theorem" +

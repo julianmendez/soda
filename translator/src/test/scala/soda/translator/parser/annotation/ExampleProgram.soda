@@ -16,6 +16,10 @@ class ExampleProgram
     "\n * Example class for testing." +
     "\n */" +
     "\n" +
+    "\ninductive Nat" +
+    "\n  Zero" +
+    "\n  Succ : Nat -> Nat" +
+    "\n" +
     "\nclass Example" +
     "\n  extends" +
     "\n    SuperClassExample" +
@@ -42,7 +46,7 @@ class ExampleProgram
     "\n    check (" +
     "\n      obtained := ClassBeginningAnnotation_ (example_4).type_parameters" +
     "\n    ) (" +
-    "\n      expected := Seq (\"A\", \"B\")" +
+    "\n      expected := Seq (\"A\" , \"B\")" +
     "\n    )" +
     "\n" +
     "\n  theorem" +
