@@ -27,10 +27,15 @@ class InductiveDeclarationAnnotation
 
   _sc = SodaConstant .mk
 
+  first_line : String =
+    if block .readable_lines .nonEmpty
+    then block .readable_lines .head .line .trim + _sc .space
+    else ""
+
   applies : Boolean =
-    block .readable_lines .nonEmpty and
-    ( (block .readable_lines .head .line .trim + _sc .space) .startsWith (
-      _sc .inductive_reserved_word + _sc .space) )
+    first_line .startsWith (_sc .inductive_reserved_word + _sc .space) or
+    first_line .startsWith (_sc .data_reserved_word + _sc .space) or
+    first_line .startsWith (_sc .datatype_reserved_word + _sc .space)
 
   _get_parameters (line : String) : Seq [String] =
     _sc .constructor_parameter_separation_regex
@@ -60,14 +65,15 @@ class InductiveDeclarationAnnotation
       .map (lambda annotated_line --> annotated_line .line)
       .map (lambda line --> make_constructor_from_line (line) )
 
-  _class_name_for (line : String) : String =
-    if applies
-    then line .substring (line .indexOf (_sc .inductive_reserved_word) +
-      _sc .inductive_reserved_word .length) .trim
+  _class_name_for (line : String) (word : String) : String =
+    if first_line .startsWith (word + _sc .space)
+    then line .substring (line .indexOf (word) + word .length) .trim
     else ""
 
   class_name_and_parameters : String =
-    _class_name_for (first_readable_line .line)
+    _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .data_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .datatype_reserved_word)
 
   class_name : String =
     class_name_and_parameters

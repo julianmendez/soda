@@ -395,6 +395,10 @@ trait SodaConstant
 
   lazy val inductive_reserved_word = "inductive"
 
+  lazy val data_reserved_word = "data"
+
+  lazy val datatype_reserved_word = "datatype"
+
   lazy val this_reserved_word = "this"
 
   lazy val subtype_reserved_word = "subtype"
@@ -536,6 +540,8 @@ trait SodaConstant
       abstract_reserved_word,
       class_end_reserved_word,
       inductive_reserved_word,
+      data_reserved_word,
+      datatype_reserved_word,
       this_reserved_word,
       subtype_reserved_word,
       supertype_reserved_word,

@@ -547,10 +547,15 @@ trait InductiveDeclarationAnnotation
 
   private lazy val _sc = SodaConstant .mk
 
+  lazy val first_line : String =
+    if ( block .readable_lines .nonEmpty
+    ) block .readable_lines .head .line .trim + _sc .space
+    else ""
+
   lazy val applies : Boolean =
-    block .readable_lines .nonEmpty &&
-    ( (block .readable_lines .head .line .trim + _sc .space) .startsWith (
-      _sc .inductive_reserved_word + _sc .space) )
+    first_line .startsWith (_sc .inductive_reserved_word + _sc .space) ||
+    first_line .startsWith (_sc .data_reserved_word + _sc .space) ||
+    first_line .startsWith (_sc .datatype_reserved_word + _sc .space)
 
   private def _get_parameters (line : String) : Seq [String] =
     _sc .constructor_parameter_separation_regex
@@ -580,14 +585,15 @@ trait InductiveDeclarationAnnotation
       .map ( annotated_line => annotated_line .line)
       .map ( line => make_constructor_from_line (line) )
 
-  private def _class_name_for (line : String) : String =
-    if ( applies
-    ) line .substring (line .indexOf (_sc .inductive_reserved_word) +
-      _sc .inductive_reserved_word .length) .trim
+  private def _class_name_for (line : String) (word : String) : String =
+    if ( first_line .startsWith (word + _sc .space)
+    ) line .substring (line .indexOf (word) + word .length) .trim
     else ""
 
   lazy val class_name_and_parameters : String =
-    _class_name_for (first_readable_line .line)
+    _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .data_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .datatype_reserved_word)
 
   lazy val class_name : String =
     class_name_and_parameters

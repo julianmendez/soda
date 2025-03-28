@@ -75,6 +75,10 @@ class SodaConstant
 
   inductive_reserved_word = "inductive"
 
+  data_reserved_word = "data"
+
+  datatype_reserved_word = "datatype"
+
   this_reserved_word = "this"
 
   subtype_reserved_word = "subtype"
@@ -216,6 +220,8 @@ class SodaConstant
       abstract_reserved_word,
       class_end_reserved_word,
       inductive_reserved_word,
+      data_reserved_word,
+      datatype_reserved_word,
       this_reserved_word,
       subtype_reserved_word,
       supertype_reserved_word,

@@ -845,9 +845,46 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate the definition of the type Seq1 with another reserved word") (
+    check (
+      obtained = instance .translate ("data Seq1 [A : Type]" +
+        "\n  Nil : Seq1 [A]" +
+        "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Seq1 [A]" +
+        "\n" +
+        "\ncase class Nil [A] () extends Seq1 [A]" +
+        "\n" +
+        "\ncase class Cons [A] (elem : A , seq : Seq1 [A] ) extends Seq1 [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
   test ("should translate the definition of the inductive type BTree") (
     check (
       obtained = instance .translate ("inductive BTree [A : Type]" +
+        "\n  Empty : BTree [A]" +
+        "\n  Node : (value : A) -> (left : BTree [A] ) -> (right : BTree [A] ) -> BTree [A]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait BTree [A]" +
+        "\n" +
+        "\ncase class Empty [A] () extends BTree [A]" +
+        "\n" +
+        "\ncase class Node [A] (value : A , left : BTree [A]  , " +
+           "right : BTree [A] ) extends BTree [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive type BTree with another word") (
+    check (
+      obtained = instance .translate ("datatype BTree [A : Type]" +
         "\n  Empty : BTree [A]" +
         "\n  Node : (value : A) -> (left : BTree [A] ) -> (right : BTree [A] ) -> BTree [A]" +
         "\n"
