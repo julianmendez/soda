@@ -81,14 +81,22 @@ class TranslationConstantToScala
 
   scala_object_reserved_word = "object"
 
+  scala_sealed_reserved_word = "sealed"
+
   scala_trait_reserved_word = "trait"
 
   scala_case_reserved_word = "case"
 
   scala_class_reserved_word = "class"
 
+  scala_sealed_trait_translation =
+    scala_sealed_reserved_word + scala_space + scala_trait_reserved_word
+
   scala_case_class_translation =
     scala_case_reserved_word + scala_space + scala_class_reserved_word
+
+  scala_case_object_translation =
+    scala_case_reserved_word + scala_space + scala_object_reserved_word
 
   scala_type_reserved_word = "type"
 

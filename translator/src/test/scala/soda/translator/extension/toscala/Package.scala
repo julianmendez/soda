@@ -809,6 +809,97 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
+  test ("should translate the definition of the inductive type Nat") (
+    check (
+      obtained = instance .translate ("inductive Nat" +
+        "\n  Zero : Nat" +
+        "\n  Succ : (n : Nat) -> Nat" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Nat" +
+        "\n" +
+        "\ncase object Zero  extends Nat" +
+        "\n" +
+        "\ncase class Succ (n : Nat) extends Nat" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive type Seq1") (
+    check (
+      obtained = instance .translate ("inductive Seq1 [A : Type]" +
+        "\n  Nil : Seq1 [A]" +
+        "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Seq1 [A]" +
+        "\n" +
+        "\ncase class Nil [A] () extends Seq1 [A]" +
+        "\n" +
+        "\ncase class Cons [A] (elem : A , seq : Seq1 [A] ) extends Seq1 [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive type BTree") (
+    check (
+      obtained = instance .translate ("inductive BTree [A : Type]" +
+        "\n  Empty : BTree [A]" +
+        "\n  Node : (value : A) -> (left : BTree [A] ) -> (right : BTree [A] ) -> BTree [A]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait BTree [A]" +
+        "\n" +
+        "\ncase class Empty [A] () extends BTree [A]" +
+        "\n" +
+        "\ncase class Node [A] (value : A , left : BTree [A]  , " +
+           "right : BTree [A] ) extends BTree [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive type Triple") (
+    check (
+      obtained = instance .translate ("inductive Triple [A : Type] [B : Type] [C : Type]" +
+        "\n  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Triple [A , B , C]" +
+        "\n" +
+        "\ncase class Triple_ [A , B , C] (fst : A , snd : B , trd : C)" +
+           " extends Triple [A , B , C]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of a more complex inductive type") (
+    check (
+      obtained = instance .translate ("inductive Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
+        "\n  Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition [A] [B] [C] [D]" +
+        "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) -> (trd : C -> D) -> Composition [A] [B] [C] [D]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Composition [A , B , C , D]" +
+        "\n" +
+        "\ncase class Composition2 [A , B , C , D] (fst : A -> B , snd : B -> C)" +
+           " extends Composition [A , B , C , D]" +
+        "\n" +
+        "\ncase class Composition3 [A , B , C , D] (fst : A -> B , snd : B -> C , trd : C -> D)" +
+           " extends Composition [A , B , C , D]" +
+        "\n" +
+        "\n"
+    )
+  )
+
 }
 
 

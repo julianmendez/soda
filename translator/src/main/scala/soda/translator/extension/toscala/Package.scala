@@ -51,6 +51,7 @@ trait MicroTranslatorToScala
         ScalaClassDeclarationBlockTranslator .mk ,
         ScalaImportDeclarationBlockTranslator .mk ,
         ScalaAbstractDeclarationBlockTranslator .mk ,
+        ScalaInductiveDeclarationBlockTranslator .mk ,
         ScalaTheoremBlockTranslator .mk ,
         ScalaDirectiveBlockTranslator .mk ,
         ScalaClassEndBlockTranslator .mk ,
@@ -1018,6 +1019,130 @@ object ScalaImportDeclarationBlockTranslator {
 }
 
 
+trait ScalaInductiveDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.Block
+  import   soda.translator.block.Block_
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.InductiveDeclarationAnnotation
+  import   soda.translator.parser.annotation.InductiveDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ConstructorTuple
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _tc = TranslationConstantToScala .mk
+
+  private def _get_type_parameters_with (parameters : Seq [String] ) : String =
+    if ( parameters .isEmpty
+    ) ""
+    else _tc .scala_space + _tc .scala_opening_bracket +
+      parameters .mkString ( _tc .scala_space + _tc .scala_type_parameter_separator_symbol +
+      _tc .scala_space) + _tc .scala_closing_bracket
+
+  def get_type_parameters (block : InductiveDeclarationAnnotation) : String =
+    _get_type_parameters_with (block .type_parameters)
+
+  def get_scala_translation_pattern (has_type_parameters : Boolean) (
+      proper_parameters : Seq [String] ) : String =
+    if ( (! has_type_parameters) && (proper_parameters .isEmpty)
+    ) _tc .scala_case_object_translation
+    else _tc .scala_case_class_translation
+
+  private def _translate_type_parameters (line : String) : String =
+    line
+      .replaceAll (_sc .type_parameter_separation_regex ,
+         _tc .scala_type_parameter_separator_symbol + _tc .scala_space)
+
+  private def _translate_proper_parameters (has_type_parameters : Boolean) (
+    proper_parameters : Seq [String] ) : String =
+      if ( has_type_parameters && proper_parameters .isEmpty
+      ) "()"
+      else
+        proper_parameters
+          .map ( p => _translate_type_parameters (p) .trim)
+          .mkString ("")
+          .replaceAll ("\\)\\(" , " , ")
+          .trim
+
+  private def _translate_constructors (block : InductiveDeclarationAnnotation)
+      : Seq [AnnotatedLine] =
+    block .constructors
+      .map ( constr =>
+          get_scala_translation_pattern (block .type_parameters .nonEmpty) (
+          constr .parameters_without_last) + _tc .scala_space +
+          constr .name + get_type_parameters (block) + _tc .scala_space +
+          _translate_proper_parameters (block .type_parameters .nonEmpty) (
+          constr .parameters_without_last) +
+          _tc .scala_space + _tc .scala_extends_translation + _tc .scala_space +
+          block .class_name + get_type_parameters (block) +
+          _tc .scala_new_line
+       )
+      .map ( line => AnnotatedLine .mk (line) (false) )
+
+  def get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile ( ch => ch .isSpaceChar)
+      .length
+
+  def get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : AnnotatedLine =
+    if ( annotated_line .is_comment
+    ) annotated_line
+    else AnnotatedLine .mk (annotated_line .line .substring (0 , index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
+
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    annotated_lines .map ( annotated_line =>
+      prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+
+  def get_type_declaration (block : InductiveDeclarationAnnotation) : AnnotatedLine =
+    AnnotatedLine .mk (
+      _tc .scala_sealed_trait_translation + _tc .scala_space +
+      block .class_name + get_type_parameters (block) +
+      _tc .scala_new_line
+    ) (false)
+
+  private def _translate_block (block : InductiveDeclarationAnnotation) : InductiveDeclarationAnnotation =
+    InductiveDeclarationAnnotation .mk (
+      Block .mk (
+        (Seq [AnnotatedLine] () .+: (get_type_declaration (block) ) ) .++ (
+          _translate_constructors (block) )
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case InductiveDeclarationAnnotation_ (block) =>
+        _translate_block (InductiveDeclarationAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class ScalaInductiveDeclarationBlockTranslator_ () extends ScalaInductiveDeclarationBlockTranslator
+
+object ScalaInductiveDeclarationBlockTranslator {
+  def mk : ScalaInductiveDeclarationBlockTranslator =
+    ScalaInductiveDeclarationBlockTranslator_ ()
+}
+
+
 trait ScalaMainClassBlockTranslator
   extends
     soda.translator.block.BlockTranslator
@@ -1349,14 +1474,22 @@ trait TranslationConstantToScala
 
   lazy val scala_object_reserved_word = "object"
 
+  lazy val scala_sealed_reserved_word = "sealed"
+
   lazy val scala_trait_reserved_word = "trait"
 
   lazy val scala_case_reserved_word = "case"
 
   lazy val scala_class_reserved_word = "class"
 
+  lazy val scala_sealed_trait_translation =
+    scala_sealed_reserved_word + scala_space + scala_trait_reserved_word
+
   lazy val scala_case_class_translation =
     scala_case_reserved_word + scala_space + scala_class_reserved_word
+
+  lazy val scala_case_object_translation =
+    scala_case_reserved_word + scala_space + scala_object_reserved_word
 
   lazy val scala_type_reserved_word = "type"
 
