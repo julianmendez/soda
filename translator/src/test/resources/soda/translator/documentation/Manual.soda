@@ -2,7 +2,7 @@ package soda.manual
 
 /* This is a Soda tutorial written in Soda.
  * Copyright 2020--2025 Julian Alfredo Mendez
- * Version: 2025-03-14 */
+ * Version: 2025-03-28 */
 
 /* This tutorial is itself a "Hello world!" program.
  * The piece of code that prints the message is at the end of the file. */
@@ -17,10 +17,11 @@ package soda.manual
  * 2. the beginning of a class definition
  * 3. the end of a class definition
  * 4. a block declaration of abstract constants and functions
- * 5. a block of imports
- * 6. a package declaration
- * 7. a class alias
- * 8. a comment */
+ * 5. a definition of an algebraic data type
+ * 6. a block of imports
+ * 7. a package declaration
+ * 8. a class alias
+ * 9. a comment */
 
 
 /* To declare a class, just add the reserved word `class` before a class name, and end it with
@@ -86,11 +87,23 @@ class EqualsExample
 
 end
 
+/* It is possible to define algebraic data types, especially inductive data types.
+ * The reserved word for that definition is `inductive` with the name of the data type.
+ * The constructors are defined after the line with the `inductive` reserved word.
+ * Each constructor takes a possibly empty number of parameters and returns an element of the type being defined.
+ * Each parameter is separated by the type arrow (`->`) and the same is used as a result of the construction.
+ * It is mandatory to give a name to each parameter.
+ */
+
+inductive NaturalNumber
+  Zero : NaturalNumber
+  Successor : (n : NaturalNumber) -> NaturalNumber
+
 /* A class can extend other classes by using the reserved word `extends`.
  * Abstract classes contain a block with the reserved word `abstract`, and they are the only
  * classes that can be extended.
  * By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
- * extended. */
+ * extended. Algebraic data types cannot be extended either. */
 
 class RegisteredPerson
 
@@ -205,6 +218,16 @@ class MyPair [A : Type] [B : Type]
     snd : B
 
 end
+
+/* It is possible to define a pair as a data type. */
+
+inductive AnotherPair [A : Type] [B : Type]
+  AnotherPair_ : (fst : A) -> (snd : B) -> AnotherPair [A] [B]
+
+/* It is possible to define a triple as a data type. */
+
+inductive Triple [A : Type] [B : Type] [C : Type]
+  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]
 
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.
