@@ -31,16 +31,16 @@ class AnnotationFactory
 
   _detectors (block : Block) : Seq [BlockAnnotationParser] =
     Seq (
-      FunctionDefinitionAnnotation .mk (block),
-      ClassBeginningAnnotation .mk (block),
-      ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
-      AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ),
-      ImportDeclarationAnnotation .mk (block),
-      PackageDeclarationAnnotation .mk (block),
-      ClassAliasAnnotation .mk (block),
-      TheoremBlockAnnotation .mk (block),
-      DirectiveBlockAnnotation .mk (block),
-      CommentAnnotation .mk (block),
+      FunctionDefinitionAnnotation .mk (block) ,
+      ClassBeginningAnnotation .mk (block) ,
+      ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      ImportDeclarationAnnotation .mk (block) ,
+      PackageDeclarationAnnotation .mk (block) ,
+      ClassAliasAnnotation .mk (block) ,
+      TheoremBlockAnnotation .mk (block) ,
+      DirectiveBlockAnnotation .mk (block) ,
+      CommentAnnotation .mk (block) ,
       TestDeclarationAnnotation .mk (block)
     )
 

@@ -9,9 +9,10 @@ class ImportDeclarationAnnotation
   import
     soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .import_declaration
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .import_declaration
 
   applies : Boolean =
     block .readable_lines .nonEmpty and

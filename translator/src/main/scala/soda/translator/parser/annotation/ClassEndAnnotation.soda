@@ -9,9 +9,10 @@ class ClassEndAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .class_end
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .class_end
 
   _sc = SodaConstant .mk
 

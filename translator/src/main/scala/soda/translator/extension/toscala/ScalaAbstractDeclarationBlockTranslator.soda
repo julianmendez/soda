@@ -33,13 +33,13 @@ class ScalaAbstractDeclarationBlockTranslator
       .map (lambda annotated_line -->
         if annotated_line .is_comment
         then annotated_line
-        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line .line) ,
+        else AnnotatedLine .mk (_translate_type_parameters_in_line (annotated_line .line) ) (
           annotated_line .is_comment)
       )
 
   get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (ch ==> ch .isSpaceChar)
+      .takeWhile (lambda ch --> ch .isSpaceChar)
       .length
 
   get_first_line (block : AnnotatedBlock) : String =
@@ -49,23 +49,23 @@ class ScalaAbstractDeclarationBlockTranslator
       : AnnotatedLine =
     if annotated_line .is_comment
     then annotated_line
-    else AnnotatedLine_ (annotated_line .line .substring (0, index) + prefix +
-      annotated_line .line .substring (index) , annotated_line .is_comment)
+    else AnnotatedLine .mk (annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
 
   prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
       (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       annotated_lines .map (lambda annotated_line -->
         prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (
+    AbstractDeclarationAnnotation .mk (
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
         _translate_type_parameters (block .abstract_functions_with_comments)
-      ),
+      ) ) (
       block .references
     )
 

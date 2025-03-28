@@ -202,7 +202,7 @@ class MyPair [A : Type] [B : Type]
 
   abstract
     fst : A
-    snd : A
+    snd : B
 
 end
 

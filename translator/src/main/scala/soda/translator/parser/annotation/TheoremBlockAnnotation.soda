@@ -8,9 +8,10 @@ class TheoremBlockAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .theorem_block
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .theorem_block
 
   applies : Boolean =
     block .readable_lines .nonEmpty and

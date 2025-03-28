@@ -81,6 +81,17 @@ class TranslationConstantToScala
 
   scala_object_reserved_word = "object"
 
+  scala_trait_reserved_word = "trait"
+
+  scala_case_reserved_word = "case"
+
+  scala_class_reserved_word = "class"
+
+  scala_case_class_translation =
+    scala_case_reserved_word + scala_space + scala_class_reserved_word
+
+  scala_type_reserved_word = "type"
+
   scala_equals_symbol = "="
 
   scala_function_arrow_symbol = "=>"
@@ -235,11 +246,13 @@ class TranslationConstantToScala
   all_translations : Seq [Tuple2 [String] [String] ] =
     type_symbol_translation .++ (function_symbol_translation)
 
-  class_declaration_translation_at_beginning_with_paren = "case class"
+  class_declaration_translation_at_beginning_with_paren =
+    scala_case_class_translation
 
-  class_declaration_translation_at_beginning_without_paren_for_type_alias = "type"
+  class_declaration_translation_at_beginning_without_paren_for_type_alias =
+    scala_type_reserved_word
 
-  class_declaration_translation_at_beginning_without_paren = "trait"
+  class_declaration_translation_at_beginning_without_paren = scala_trait_reserved_word
 
   prefix_scala_non_soda = "__soda__"
 

@@ -282,14 +282,14 @@ trait MyPair [A , B ]
 {
 
   def   fst : A
-  def   snd : A
+  def   snd : B
 
 }
 
-case class MyPair_ [A, B] (fst : A, snd : A) extends MyPair [A, B]
+case class MyPair_ [A, B] (fst : A, snd : B) extends MyPair [A, B]
 
 object MyPair {
-  def mk [A, B] (fst : A) (snd : A) : MyPair [A, B] =
+  def mk [A, B] (fst : A) (snd : B) : MyPair [A, B] =
     MyPair_ [A, B] (fst, snd)
 }
 

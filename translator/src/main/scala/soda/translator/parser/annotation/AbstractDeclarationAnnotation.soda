@@ -10,9 +10,10 @@ class AbstractDeclarationAnnotation
   import
     soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .abstract_declaration
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .abstract_declaration
 
   applies : Boolean =
     block .readable_lines .nonEmpty and
