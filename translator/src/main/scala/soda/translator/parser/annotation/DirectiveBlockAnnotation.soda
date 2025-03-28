@@ -9,9 +9,10 @@ class DirectiveBlockAnnotation
   import
     soda.translator.block.AnnotatedLine
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .directive_block
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .directive_block
 
   _sc = SodaConstant .mk
 

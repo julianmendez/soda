@@ -8,8 +8,9 @@ class CommentAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
 
-  identifier = BlockAnnotationEnum .mk .comment
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .comment
 
   applies : Boolean =
     block

@@ -8,11 +8,12 @@ class FunctionDefinitionAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
     soda.translator.replacement.ParserStateEnum
     soda.translator.replacement.Tokenizer
 
-  identifier = BlockAnnotationEnum .mk .function_definition
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .function_definition
 
   sc = SodaConstant .mk
 

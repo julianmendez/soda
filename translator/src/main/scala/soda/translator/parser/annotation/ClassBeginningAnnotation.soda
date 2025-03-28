@@ -8,9 +8,10 @@ class ClassBeginningAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum. mk .class_beginning
+  identifier : BlockAnnotationId = BlockAnnotationEnum. mk .class_beginning
 
   sc = SodaConstant .mk
 

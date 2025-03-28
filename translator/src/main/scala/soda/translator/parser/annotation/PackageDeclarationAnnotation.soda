@@ -8,9 +8,10 @@ class PackageDeclarationAnnotation
 
   import
     soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier = BlockAnnotationEnum .mk .package_declaration
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .package_declaration
 
   applies : Boolean =
     starts_with_prefix_and_space (SodaConstant .mk .package_reserved_word)
