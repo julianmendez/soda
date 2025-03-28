@@ -107,13 +107,13 @@ trait ScalaAbstractDeclarationBlockTranslator
       .map ( annotated_line =>
         if ( annotated_line .is_comment
         ) annotated_line
-        else AnnotatedLine_ (_translate_type_parameters_in_line (annotated_line .line) ,
+        else AnnotatedLine .mk (_translate_type_parameters_in_line (annotated_line .line) ) (
           annotated_line .is_comment)
       )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
     line
-      .takeWhile (ch => ch .isSpaceChar)
+      .takeWhile ( ch => ch .isSpaceChar)
       .length
 
   def get_first_line (block : AnnotatedBlock) : String =
@@ -123,23 +123,23 @@ trait ScalaAbstractDeclarationBlockTranslator
       : AnnotatedLine =
     if ( annotated_line .is_comment
     ) annotated_line
-    else AnnotatedLine_ (annotated_line .line .substring (0, index) + prefix +
-      annotated_line .line .substring (index) , annotated_line .is_comment)
+    else AnnotatedLine .mk (annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
 
   def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
       (annotated_lines : Seq [AnnotatedLine] ) : Block =
-    Block_ (
+    Block .mk (
       annotated_lines .map ( annotated_line =>
         prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
     )
 
   private def _translate_block (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
-    AbstractDeclarationAnnotation_ (
+    AbstractDeclarationAnnotation .mk (
       prepend_to_lines_aligned_at (
         get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
         scala_abstract_function_declaration_pattern) (
         _translate_type_parameters (block .abstract_functions_with_comments)
-      ),
+      ) ) (
       block .references
     )
 
@@ -1349,6 +1349,17 @@ trait TranslationConstantToScala
 
   lazy val scala_object_reserved_word = "object"
 
+  lazy val scala_trait_reserved_word = "trait"
+
+  lazy val scala_case_reserved_word = "case"
+
+  lazy val scala_class_reserved_word = "class"
+
+  lazy val scala_case_class_translation =
+    scala_case_reserved_word + scala_space + scala_class_reserved_word
+
+  lazy val scala_type_reserved_word = "type"
+
   lazy val scala_equals_symbol = "="
 
   lazy val scala_function_arrow_symbol = "=>"
@@ -1503,11 +1514,13 @@ trait TranslationConstantToScala
   lazy val all_translations : Seq [Tuple2 [String, String] ] =
     type_symbol_translation .++ (function_symbol_translation)
 
-  lazy val class_declaration_translation_at_beginning_with_paren = "case class"
+  lazy val class_declaration_translation_at_beginning_with_paren =
+    scala_case_class_translation
 
-  lazy val class_declaration_translation_at_beginning_without_paren_for_type_alias = "type"
+  lazy val class_declaration_translation_at_beginning_without_paren_for_type_alias =
+    scala_type_reserved_word
 
-  lazy val class_declaration_translation_at_beginning_without_paren = "trait"
+  lazy val class_declaration_translation_at_beginning_without_paren = scala_trait_reserved_word
 
   lazy val prefix_scala_non_soda = "__soda__"
 
