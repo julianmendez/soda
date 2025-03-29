@@ -44,11 +44,11 @@ class LeanDatatypeDeclarationBlockTranslator
     block .constructors
       .map (lambda constr -->
           _tc .lean_space + _tc .lean_space + _tc .lean_vertical_bar_symbol + _tc .lean_space +
-          constr .name +  _tc .lean_space + _tc .lean_type_membership_symbol +
+          constr .name +  _tc .lean_space + _tc .lean_type_membership_symbol + _tc .lean_space +
           constr
             .parameters
-            .map (lambda param --> _translate_parameter (param) )
-            .mkString (_tc .lean_function_arrow_symbol) )
+            .map (lambda param --> _translate_parameter (param .trim) )
+            .mkString (_tc .lean_space + _tc .lean_function_arrow_symbol + _tc .lean_space) )
       .map (lambda line --> AnnotatedLine .mk (line) (false) )
 
   get_number_of_spaces_at_beginning (line : String) : Int =

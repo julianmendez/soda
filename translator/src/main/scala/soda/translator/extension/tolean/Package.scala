@@ -442,11 +442,11 @@ trait LeanDatatypeDeclarationBlockTranslator
     block .constructors
       .map ( constr =>
           _tc .lean_space + _tc .lean_space + _tc .lean_vertical_bar_symbol + _tc .lean_space +
-          constr .name +  _tc .lean_space + _tc .lean_type_membership_symbol +
+          constr .name +  _tc .lean_space + _tc .lean_type_membership_symbol + _tc .lean_space +
           constr
             .parameters
-            .map ( param => _translate_parameter (param) )
-            .mkString (_tc .lean_function_arrow_symbol) )
+            .map ( param => _translate_parameter (param .trim) )
+            .mkString (_tc .lean_space + _tc .lean_function_arrow_symbol + _tc .lean_space) )
       .map ( line => AnnotatedLine .mk (line) (false) )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
