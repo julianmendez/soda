@@ -349,9 +349,9 @@ trait SodaConstant
 
   lazy val parameter_definition_unicode_symbol = "\u2254"
 
-  lazy val any_reserved_word = "any"
-
   lazy val lambda_reserved_word = "lambda"
+
+  lazy val any_reserved_word = "any"
 
   lazy val fun_reserved_word = "fun"
 
@@ -393,11 +393,11 @@ trait SodaConstant
 
   lazy val class_end_proposed_unicode_symbol = "\u23BF"
 
-  lazy val inductive_reserved_word = "inductive"
+  lazy val datatype_reserved_word = "datatype"
 
   lazy val data_reserved_word = "data"
 
-  lazy val datatype_reserved_word = "datatype"
+  lazy val inductive_reserved_word = "inductive"
 
   lazy val this_reserved_word = "this"
 
@@ -527,62 +527,63 @@ trait SodaConstant
 
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
-      lambda_reserved_word,
-      any_reserved_word,
-      def_reserved_word,
-      if_reserved_word,
-      then_reserved_word,
-      else_reserved_word,
-      match_reserved_word,
-      case_reserved_word,
-      class_reserved_word,
-      extends_reserved_word,
-      abstract_reserved_word,
-      class_end_reserved_word,
-      inductive_reserved_word,
-      data_reserved_word,
-      datatype_reserved_word,
-      this_reserved_word,
-      subtype_reserved_word,
-      supertype_reserved_word,
-      false_reserved_word,
-      true_reserved_word,
-      not_reserved_word,
-      and_reserved_word,
-      or_reserved_word,
-      package_reserved_word,
-      import_reserved_word,
-      theorem_reserved_word,
+      lambda_reserved_word ,
+      any_reserved_word ,
+      fun_reserved_word ,
+      def_reserved_word ,
+      if_reserved_word ,
+      then_reserved_word ,
+      else_reserved_word ,
+      match_reserved_word ,
+      case_reserved_word ,
+      class_reserved_word ,
+      extends_reserved_word ,
+      abstract_reserved_word ,
+      class_end_reserved_word ,
+      datatype_reserved_word ,
+      data_reserved_word ,
+      inductive_reserved_word ,
+      this_reserved_word ,
+      subtype_reserved_word ,
+      supertype_reserved_word ,
+      false_reserved_word ,
+      true_reserved_word ,
+      not_reserved_word ,
+      and_reserved_word ,
+      or_reserved_word ,
+      package_reserved_word ,
+      import_reserved_word ,
+      theorem_reserved_word ,
       directive_reserved_word
     )
 
   lazy val soda_reserved_words_symbols_only : Seq [String] =
     Seq (
-      function_definition_symbol,
-      type_membership_symbol,
-      function_arrow_symbol,
-      case_arrow_symbol,
-      parameter_definition_symbol,
-      addition_symbol,
-      subtraction_symbol,
-      multiplication_symbol,
-      division_symbol,
-      modulo_symbol,
-      equals_symbol,
-      less_than_symbol,
-      less_than_or_equal_to_symbol,
-      greater_than_symbol,
-      greater_than_or_equal_to_symbol,
-      subtype_abbreviation,
-      supertype_abbreviation,
-      intersection_type_symbol,
+      function_definition_symbol ,
+      type_membership_symbol ,
+      function_arrow_symbol ,
+      case_arrow_symbol ,
+      parameter_definition_symbol ,
+      addition_symbol ,
+      subtraction_symbol ,
+      multiplication_symbol ,
+      division_symbol ,
+      modulo_symbol ,
+      equals_symbol ,
+      less_than_symbol ,
+      less_than_or_equal_to_symbol ,
+      greater_than_symbol ,
+      greater_than_or_equal_to_symbol ,
+      subtype_abbreviation ,
+      supertype_abbreviation ,
+      intersection_type_symbol ,
       union_type_symbol
     )
 
   lazy val soda_reserved_words_annotations_only : Seq [String] =
     Seq (
-      tail_recursion_annotation,
-      override_annotation,
+      tail_recursion_annotation ,
+      override_annotation ,
       new_annotation
     )
 
