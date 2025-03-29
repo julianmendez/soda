@@ -397,6 +397,119 @@ object CoqClassEndBlockTranslator {
 }
 
 
+trait CoqDatatypeDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.Block
+  import   soda.translator.block.Block_
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation
+  import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ConstructorTuple
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _tc = TranslationConstantToCoq .mk
+
+  private def _add_final_dot (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    lines .++ (Seq [AnnotatedLine] () .+: (
+        AnnotatedLine .mk (_tc .coq_dot_notation_symbol) (false) ) )
+
+  private def _get_type_parameters_with (parameters : Seq [String] ) : String =
+    if ( parameters .isEmpty
+    ) ""
+    else
+      parameters
+        .map ( param => _tc .coq_space + _tc .coq_opening_parenthesis +
+          param + _tc .coq_space + _tc .coq_type_membership_symbol +
+          _tc .coq_space + _tc .coq_type_reserved_word  + _tc .coq_closing_parenthesis)
+        .mkString
+
+  def get_type_parameters (block : DatatypeDeclarationAnnotation) : String =
+    _get_type_parameters_with (block .type_parameters)
+
+  private def _translate_parameter (parameter : String) : String =
+    parameter
+      .replace (_sc .opening_bracket_symbol , _tc .coq_opening_parenthesis)
+      .replace (_sc .closing_bracket_symbol , _tc .coq_closing_parenthesis)
+
+  private def _translate_constructors (block : DatatypeDeclarationAnnotation)
+      : Seq [AnnotatedLine] =
+    block .constructors
+      .map ( constr =>
+          _tc .coq_space + _tc .coq_space + _tc .coq_vertical_bar_symbol + _tc .coq_space +
+          constr .name +  _tc .coq_space + _tc .coq_type_membership_symbol +
+          constr
+            .parameters
+            .map ( param => _translate_parameter (param) )
+            .mkString (_tc .coq_function_arrow_symbol) )
+      .map ( line => AnnotatedLine .mk (line) (false) )
+
+  def get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile ( ch => ch .isSpaceChar)
+      .length
+
+  def get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : AnnotatedLine =
+    if ( annotated_line .is_comment
+    ) annotated_line
+    else AnnotatedLine .mk (annotated_line .line .substring (0 , index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
+
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    annotated_lines .map ( annotated_line =>
+      prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+
+  def get_type_declaration (block : DatatypeDeclarationAnnotation) : AnnotatedLine =
+    AnnotatedLine .mk (
+      _tc .coq_inductive_reserved_word + _tc .coq_space +
+      block .class_name + get_type_parameters (block) + _tc .coq_space +
+      _tc .coq_type_membership_symbol + _tc .coq_space +
+      _tc .coq_type_reserved_word + _tc .coq_space +
+      _tc .coq_function_definition_symbol
+    ) (false)
+
+  private def _translate_block (block : DatatypeDeclarationAnnotation) : DatatypeDeclarationAnnotation =
+    DatatypeDeclarationAnnotation .mk (
+      Block .mk (
+        (Seq [AnnotatedLine] () .+: (get_type_declaration (block) ) ) .++ (
+          _add_final_dot (_translate_constructors (block) ) )
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case DatatypeDeclarationAnnotation_ (block) =>
+        _translate_block (DatatypeDeclarationAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class CoqDatatypeDeclarationBlockTranslator_ () extends CoqDatatypeDeclarationBlockTranslator
+
+object CoqDatatypeDeclarationBlockTranslator {
+  def mk : CoqDatatypeDeclarationBlockTranslator =
+    CoqDatatypeDeclarationBlockTranslator_ ()
+}
+
+
 /**
  * A line containing the definition sign will be classified as a definition.
  * The definitions need to be identified as 'val', 'def', or 'class'.
@@ -1143,6 +1256,7 @@ trait MicroTranslatorToCoq
         CoqClassEndBlockTranslator .mk ,
         CoqClassAliasBlockTranslator .mk ,
         CoqImportDeclarationBlockTranslator .mk ,
+        CoqDatatypeDeclarationBlockTranslator .mk ,
         CoqTheoremBlockTranslator .mk ,
         CoqDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (

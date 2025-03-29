@@ -56,6 +56,7 @@ class MicroTranslatorToCoq
         CoqClassEndBlockTranslator .mk ,
         CoqClassAliasBlockTranslator .mk ,
         CoqImportDeclarationBlockTranslator .mk ,
+        CoqDatatypeDeclarationBlockTranslator .mk ,
         CoqTheoremBlockTranslator .mk ,
         CoqDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
