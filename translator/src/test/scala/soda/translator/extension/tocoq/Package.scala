@@ -366,7 +366,7 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "Inductive Nat : Type :=" +
         "\n  | Zero : Nat" +
-        "\n  | Succ : (n : Nat) -> Nat" +
+        "\n  | Succ : (Nat) -> Nat" +
         "\n." +
         "\n"
     )
@@ -382,7 +382,7 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "Inductive Seq1 (A : Type) : Type :=" +
         "\n  | Nil : Seq1 (A)" +
-        "\n  | Cons : (elem : A) -> (seq : Seq1 (A) ) -> Seq1 (A)" +
+        "\n  | Cons : (A) -> (Seq1 (A) ) -> Seq1 (A)" +
         "\n." +
         "\n"
     )
@@ -398,7 +398,7 @@ case class MicroTranslatorToCoqSpec ()
     ) (
       expected = "Inductive BTree (A : Type) : Type :=" +
         "\n  | Empty : BTree (A)" +
-        "\n  | Node : (value : A) -> (left : BTree (A) ) -> (right : BTree (A) ) -> BTree (A)" +
+        "\n  | Node : (A) -> (BTree (A) ) -> (BTree (A) ) -> BTree (A)" +
         "\n." +
         "\n"
     )
@@ -412,7 +412,7 @@ case class MicroTranslatorToCoqSpec ()
       )
     ) (
       expected = "Inductive Triple (A : Type) (B : Type) (C : Type) : Type :=" +
-        "\n  | Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple (A) (B) (C)" +
+        "\n  | Triple_ : (A) -> (B) -> (C) -> Triple (A) (B) (C)" +
         "\n." +
         "\n"
     )
@@ -428,9 +428,9 @@ case class MicroTranslatorToCoqSpec ()
       )
     ) (
       expected = "Inductive Composition (A : Type) (B : Type) (C : Type) (D : Type) : Type :=" +
-        "\n  | Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition (A) (B) (C) (D)" +
-        "\n  | Composition3 : (fst : A -> B) -> (snd : B -> C) ->" +
-          " (trd : C -> D) -> Composition (A) (B) (C) (D)" +
+        "\n  | Composition2 : (A -> B) -> (B -> C) -> Composition (A) (B) (C) (D)" +
+        "\n  | Composition3 : (A -> B) -> (B -> C) ->" +
+          " (C -> D) -> Composition (A) (B) (C) (D)" +
         "\n." +
         "\n"
     )

@@ -422,6 +422,23 @@ trait CoqDatatypeDeclarationBlockTranslator
     lines .++ (Seq [AnnotatedLine] () .+: (
         AnnotatedLine .mk (_tc .coq_dot_notation_symbol) (false) ) )
 
+  private def _remove_variables_with (parameter : String) (index : Int) : String =
+    if ( index >= 0 &&
+      parameter .startsWith (_sc .opening_parenthesis_symbol) &&
+      parameter .endsWith (_sc .closing_parenthesis_symbol)
+    ) _tc .coq_opening_parenthesis +
+       parameter
+         .substring (index + _sc .type_membership_symbol .length)
+         .trim
+    else parameter
+
+  private def _remove_variables (parameter : String) : String =
+    _remove_variables_with (parameter) (parameter .indexOf (_sc .type_membership_symbol) )
+
+  private def _parameters_without_variables (parameters : Seq [String] ) : Seq [String] =
+    parameters
+      .map ( parameter => _remove_variables (parameter .trim) )
+
   private def _get_type_parameters_with (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
     ) ""
@@ -445,11 +462,10 @@ trait CoqDatatypeDeclarationBlockTranslator
     block .constructors
       .map ( constr =>
           _tc .coq_space + _tc .coq_space + _tc .coq_vertical_bar_symbol + _tc .coq_space +
-          constr .name +  _tc .coq_space + _tc .coq_type_membership_symbol +
-          constr
-            .parameters
+          constr .name +  _tc .coq_space + _tc .coq_type_membership_symbol + _tc .coq_space +
+          _parameters_without_variables (constr .parameters)
             .map ( param => _translate_parameter (param) )
-            .mkString (_tc .coq_function_arrow_symbol) )
+            .mkString (_tc .coq_space + _tc .coq_function_arrow_symbol + _tc .coq_space) )
       .map ( line => AnnotatedLine .mk (line) (false) )
 
   def get_number_of_spaces_at_beginning (line : String) : Int =
