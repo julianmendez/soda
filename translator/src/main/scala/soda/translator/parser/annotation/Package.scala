@@ -161,14 +161,14 @@ trait BlockAnnotationParser
       block
         .annotated_lines
         .tail
-        .filter ( x => ! x .line .trim .isEmpty)
+        .filter ( x => x .line .trim .nonEmpty)
 
   lazy val first_readable_line : AnnotatedLine =
     block .readable_lines .headOption .getOrElse (default_annotated_line)
 
   private def _get_first_word_with (index : Int) (line : String) : String =
     if ( index >= 0
-    ) line .substring (0, index)
+    ) line .substring (0 , index)
     else line
 
   def get_first_word (line : String) : String =
@@ -269,7 +269,7 @@ trait ClassBeginningAnnotation
       .split (sc .type_parameter_separation_regex)
       .toIndexedSeq
       .map ( parameter => parameter .trim)
-      .filter ( parameter => ! parameter .isEmpty)
+      .filter ( parameter => parameter .nonEmpty)
 
   lazy val applies : Boolean =
     starts_with_prefix_and_space (sc .class_reserved_word) &&
@@ -308,7 +308,7 @@ trait ClassEndAnnotation
   private lazy val _sc = SodaConstant .mk
 
   private def _get_first_word_of_array (words : Array [String] ) : String =
-    if ( words .size == 0
+    if ( words .length == 0
     ) ""
     else words .apply (0)
 

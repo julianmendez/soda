@@ -24,10 +24,6 @@ class ScalaClassDeclarationBlockTranslator
 
   soda_space : String = _sc .space
 
-  ends_with_equals (line : String) : Boolean = false
-
-  ends_with_opening_brace (line : String) : Boolean = false
-
   contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)
 

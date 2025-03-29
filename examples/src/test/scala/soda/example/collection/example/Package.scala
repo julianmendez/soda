@@ -1,4 +1,4 @@
-package soda.collection.example
+package soda.example.collection.example
 
 /*
  * This package contains tests for examples for Soda.

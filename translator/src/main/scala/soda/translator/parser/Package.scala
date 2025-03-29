@@ -45,8 +45,7 @@ trait BlockBuilder
 
   private lazy val _fold = Fold .mk
 
-  private def _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean)
-      : CurrentAndNewCommentState =
+  private def _annotate_this_line_considering_opening_symbol (line : String) : CurrentAndNewCommentState =
     if ( line .trim .startsWith (_sc .comment_opening_symbol)
     ) CurrentAndNewCommentState .mk (true) (
       ! line .trim .endsWith (_sc .comment_closing_symbol) )
@@ -56,7 +55,7 @@ trait BlockBuilder
     if ( comment_state
     ) CurrentAndNewCommentState .mk (true) (
       ! line .trim .endsWith (_sc .comment_closing_symbol) )
-    else _annotate_this_line_considering_opening_symbol (line) (comment_state)
+    else _annotate_this_line_considering_opening_symbol (line)
 
   private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple =
     PreprocessorFoldTuple .mk (false) (Seq [AnnotatedLine] () )
@@ -219,15 +218,9 @@ trait PreprocessorSequenceTranslator
 
   lazy val block_annotator : AnnotationFactory = AnnotationFactory .mk
 
-  lazy val ba = soda.translator.block.BlockAnnotationEnum .mk
-
   lazy val sc = SodaConstant .mk
 
   private lazy val _fold = Fold .mk
-
-  lazy val empty_string = ""
-
-  lazy val empty_line : AnnotatedLine = AnnotatedLine .mk (empty_string) (true)
 
   private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -461,6 +454,8 @@ trait SodaConstant
 
   lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
+  lazy val closing_opening_parentheses_regex = "\\)\\("
+
   lazy val constructor_parameter_separation_regex = "\\(([^)]*)\\)"
 
   lazy val dot_notation_symbol = "."
@@ -492,8 +487,6 @@ trait SodaConstant
   lazy val greater_than_or_equal_to_symbol = ">="
 
   lazy val greater_than_or_equal_to_unicode_symbol = "\u2265"
-
-  lazy val empty_list_symbol = "[]"
 
   lazy val list_constructor_symbol = "::"
 

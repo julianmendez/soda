@@ -68,8 +68,7 @@ class ScalaClassConstructorBlockTranslator
     functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
 
-  _get_constructor_params_to_apply (beginning : ClassBeginningAnnotation)
-    (functions : Seq [String] ) : String =
+  _get_constructor_params_to_apply (functions : Seq [String] ) : String =
     _tc .scala_opening_parenthesis +
     functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
@@ -113,7 +112,7 @@ class ScalaClassConstructorBlockTranslator
       (functions : Seq [String] ) : String  =
     beginning .class_name + _sc .constructor_suffix + _sp +
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
-    _get_constructor_params_to_apply (beginning) (_get_abstract_functions_to_apply (functions) )
+    _get_constructor_params_to_apply (_get_abstract_functions_to_apply (functions) )
 
   _get_default_constructor_function (beginning : ClassBeginningAnnotation)
        (functions : Seq [String] ) : String =

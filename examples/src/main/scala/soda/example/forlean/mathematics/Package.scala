@@ -68,7 +68,7 @@ trait FiboExampleInSodaForLean
       case _otherwise => a
     }
 
-  def fib (n : Nat) =
+  def fib (n : Nat) : Nat =
     _tailrec_fib (n) (Zero_ () ) (Succ_ (Zero_ () ) )
 
 }

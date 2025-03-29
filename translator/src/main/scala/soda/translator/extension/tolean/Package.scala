@@ -127,9 +127,6 @@ trait LeanClassConstructorBlockTranslator
 
   private lazy val _four_spaces : String = _two_spaces + _two_spaces
 
-  private def _get_type_parameters_of_class (beginning : ClassBeginningAnnotation) : String =
-    ""
-
   private def _get_constructor_declaration (beginning : ClassBeginningAnnotation)
      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +
@@ -248,7 +245,7 @@ trait LeanClassDeclarationBlockTranslator
   private def _process_tail (lines : Seq [String] ) : Seq [String] =
     _process_if_extends (remove_first_line (lines) )
 
-  def get_table_translator (line : String) : Translator =
+  lazy val table_translator : Translator =
     TableTranslator_ (
       Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_class_reserved_word) )
     )
@@ -256,7 +253,7 @@ trait LeanClassDeclarationBlockTranslator
   private def _process_head_with (line : String) : Seq [String] =
     Seq [String] (
       Replacement_ (_sc .space + line)
-        .replace_at_beginning (0) (get_table_translator (line) )
+        .replace_at_beginning (0) (table_translator)
         .line .substring (_sc .space .length)
     )
 
@@ -547,8 +544,6 @@ trait LeanDocumentationBlockTranslator
   private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToLean .mk
-
-  private lazy val _comment_line_prefix = _sc .comment_line_symbol + _sc .space
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if ( content .isEmpty
@@ -1597,9 +1592,6 @@ trait TranslationConstantToLean
 
   def is_lean_word (word : String) : Boolean =
     lean_reserved_words .contains (word)
-
-  def is_soda_word (word : String) : Boolean =
-    soda_constant .soda_reserved_words .contains (word)
 
 }
 

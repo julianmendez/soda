@@ -53,9 +53,6 @@ class LeanClassConstructorBlockTranslator
 
   _four_spaces : String = _two_spaces + _two_spaces
 
-  _get_type_parameters_of_class (beginning : ClassBeginningAnnotation) : String =
-    ""
-
   _get_constructor_declaration (beginning : ClassBeginningAnnotation)
      (functions : Seq [String] ) : String =
     _get_initial_spaces (beginning) +

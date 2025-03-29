@@ -234,8 +234,7 @@ trait ScalaClassConstructorBlockTranslator
     functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
 
-  private def _get_constructor_params_to_apply (beginning : ClassBeginningAnnotation)
-    (functions : Seq [String] ) : String =
+  private def _get_constructor_params_to_apply (functions : Seq [String] ) : String =
     _tc .scala_opening_parenthesis +
     functions .mkString (_tc .scala_type_parameter_separator_symbol + _sp) +
     _tc .scala_closing_parenthesis
@@ -279,7 +278,7 @@ trait ScalaClassConstructorBlockTranslator
       (functions : Seq [String] ) : String  =
     beginning .class_name + _sc .constructor_suffix + _sp +
     _translate_type_symbols (_get_as_parameter_list (beginning .type_parameters) ) + _sp +
-    _get_constructor_params_to_apply (beginning) (_get_abstract_functions_to_apply (functions) )
+    _get_constructor_params_to_apply (_get_abstract_functions_to_apply (functions) )
 
   private def _get_default_constructor_function (beginning : ClassBeginningAnnotation)
        (functions : Seq [String] ) : String =
@@ -385,10 +384,6 @@ trait State
 
   import   soda.translator.parser.SodaConstant
 
-  private def _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
-      (line : String) (accum : String) (expecting : Boolean) : State =
-    State_ (index, last_index, bracket_level, par_level, line, accum, expecting)
-
   private lazy val _sc = SodaConstant .mk
 
   private lazy val _tc = TranslationConstantToScala .mk
@@ -403,32 +398,32 @@ trait State
 
   private lazy val _update_opening_par : State =
     if ( (par_level == 0) && (expecting)
-    ) _mk_State (index + 1) (index + 1) (bracket_level) (par_level + 1) (line) (
+    ) State .mk (index + 1) (index + 1) (bracket_level) (par_level + 1) (line) (
       accum + _tc.scala_class_parameter_separator_symbol + _tc .scala_space) (false)
-    else _mk_State (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum) (
+    else State .mk (index + 1) (last_index) (bracket_level) (par_level + 1) (line) (accum) (
       expecting)
 
   private lazy val _update_closing_par : State =
     if ( (par_level == 1)
-    ) _mk_State (index + 1) (index) (bracket_level) (par_level - 1) (line) (
+    ) State .mk (index + 1) (index) (bracket_level) (par_level - 1) (line) (
       accum + line .substring (last_index , index) ) (true)
-    else _mk_State (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum) (
+    else State .mk (index + 1) (last_index) (bracket_level) (par_level - 1) (line) (accum) (
       expecting)
 
   private lazy val _update_opening_bracket : State =
-    _mk_State (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum) (
+    State .mk (index + 1) (last_index) (bracket_level + 1) (par_level) (line) (accum) (
       expecting)
 
   private lazy val _update_closing_bracket : State =
-    _mk_State (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum) (
+    State .mk (index + 1) (last_index) (bracket_level - 1) (par_level) (line) (accum) (
       expecting)
 
   private lazy val _update_next_space : State =
-    _mk_State (line .length) (line .length) (bracket_level) (par_level) (line) (
+    State .mk (line .length) (line .length) (bracket_level) (par_level) (line) (
       accum + line .substring (last_index) ) (expecting)
 
   private lazy val _update_default_step : State =
-    _mk_State (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
+    State .mk (index + 1) (last_index) (bracket_level) (par_level) (line) (accum) (expecting)
 
   lazy val compute_next : State =
     if ( (index >= line .length)
@@ -463,10 +458,6 @@ trait ScalaClassConstructorParameterBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.replacement.Token
 
-  private def _mk_State (index : Int) (last_index : Int) (bracket_level : Int) (par_level : Int)
-      (line : String) (accum : String) (expecting : Boolean) : State =
-    State_ (index, last_index, bracket_level, par_level, line, accum, expecting)
-
   lazy val range = soda.lib.Range .mk
 
   lazy val fold = soda.lib.Fold .mk
@@ -475,10 +466,8 @@ trait ScalaClassConstructorParameterBlockTranslator
 
   private lazy val _sc = SodaConstant .mk
 
-  private lazy val _tc = TranslationConstantToScala .mk
-
   private def _translate_line_initial (line : String) (index : Int) : State =
-    _mk_State (index = index) (last_index = index) (bracket_level = 0) (par_level = 0) (
+    State .mk (index = index) (last_index = index) (bracket_level = 0) (par_level = 0) (
       line = line) (accum = line .substring (0 , index) ) (expecting = false)
 
   private def _translate_line_next (a : State) (ch : Char) : State =
@@ -518,11 +507,11 @@ trait ScalaClassConstructorParameterBlockTranslator
   private def _find_occurrences_in_reverse_order (line : String) : Seq [Int] =
     fold_while (range (line .length) ) (Seq [Int] () ) (
        accum =>
-         index =>
+         x =>
           accum .+: (_get_next_position (line) (accum) )
     ) (
        accum =>
-         index =>
+         x =>
           _get_next_position (line) (accum) >= 0
     )
 
@@ -567,10 +556,6 @@ trait ScalaClassDeclarationBlockTranslator
   private lazy val _tc = TranslationConstantToScala .mk
 
   lazy val soda_space : String = _sc .space
-
-  def ends_with_equals (line : String) : Boolean = false
-
-  def ends_with_opening_brace (line : String) : Boolean = false
 
   def contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)
@@ -788,12 +773,13 @@ trait ScalaDatatypeDeclarationBlockTranslator
   private def _translate_proper_parameters (has_type_parameters : Boolean) (
     proper_parameters : Seq [String] ) : String =
       if ( has_type_parameters && proper_parameters .isEmpty
-      ) "()"
+      ) _tc .scala_opening_parenthesis + _tc .scala_closing_parenthesis
       else
         proper_parameters
           .map ( p => _translate_type_parameters (p) .trim)
-          .mkString ("")
-          .replaceAll ("\\)\\(" , " , ")
+          .mkString (_tc .scala_empty_string)
+          .replaceAll (_sc .class_parameter_separation_regex ,
+             _tc .scala_space + _tc .scala_comma + _tc .scala_space)
           .trim
 
   private def _translate_constructors (block : DatatypeDeclarationAnnotation)
@@ -817,7 +803,7 @@ trait ScalaDatatypeDeclarationBlockTranslator
       .length
 
   def get_first_line (block : AnnotatedBlock) : String =
-    block .lines .headOption .getOrElse ("")
+    block .lines .headOption .getOrElse (_tc .scala_empty_string)
 
   def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
       : AnnotatedLine =
@@ -1659,14 +1645,11 @@ trait TranslationConstantToScala
 
   lazy val scala_non_soda : Seq [Tuple2 [String, String] ] =
       scala_reserved_words
-        .filter ( x => ! soda_constant .soda_reserved_words .contains (x))
+        .filter ( x => ! soda_constant .soda_reserved_words .contains (x) )
         .map ( x => Tuple2 (x , prefix_scala_non_soda + x) )
 
   def is_scala_word (word : String) : Boolean =
     scala_reserved_words .contains (word)
-
-  def is_soda_word (word : String) : Boolean =
-    soda_constant .soda_reserved_words .contains (word)
 
 }
 

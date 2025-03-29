@@ -54,7 +54,7 @@ class LeanClassDeclarationBlockTranslator
   _process_tail (lines : Seq [String] ) : Seq [String] =
     _process_if_extends (remove_first_line (lines) )
 
-  get_table_translator (line : String) : Translator =
+  table_translator : Translator =
     TableTranslator_ (
       Seq (Tuple2 (_sc .class_reserved_word, _tc .lean_class_reserved_word) )
     )
@@ -62,7 +62,7 @@ class LeanClassDeclarationBlockTranslator
   _process_head_with (line : String) : Seq [String] =
     Seq [String] (
       Replacement_ (_sc .space + line)
-        .replace_at_beginning (0) (get_table_translator (line) )
+        .replace_at_beginning (0) (table_translator)
         .line .substring (_sc .space .length)
     )
 

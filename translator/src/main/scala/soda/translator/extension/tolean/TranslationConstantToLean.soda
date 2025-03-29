@@ -487,8 +487,5 @@ class TranslationConstantToLean
   is_lean_word (word : String) : Boolean =
     lean_reserved_words .contains (word)
 
-  is_soda_word (word : String) : Boolean =
-    soda_constant .soda_reserved_words .contains (word)
-
 end
 

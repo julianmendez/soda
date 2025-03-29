@@ -266,14 +266,11 @@ class TranslationConstantToScala
 
   scala_non_soda : Seq [Tuple2 [String] [String] ] =
       scala_reserved_words
-        .filter (lambda x --> not soda_constant .soda_reserved_words .contains (x))
+        .filter (lambda x --> not soda_constant .soda_reserved_words .contains (x) )
         .map (lambda x --> Tuple2 (x , prefix_scala_non_soda + x) )
 
   is_scala_word (word : String) : Boolean =
     scala_reserved_words .contains (word)
-
-  is_soda_word (word : String) : Boolean =
-    soda_constant .soda_reserved_words .contains (word)
 
 end
 

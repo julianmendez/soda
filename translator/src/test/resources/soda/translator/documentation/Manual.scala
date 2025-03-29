@@ -73,7 +73,7 @@ trait EqualsExample
 
 
 
-  /* A constant does not have parameters and it is declared with the equals sign (`=`).
+  /* A constant does not have parameters, and it is declared with the equals sign (`=`).
    * For the constant name, it is recommended to use snake case and start in lowercase.
    * The constant name should be a noun phrase. */
 

@@ -297,7 +297,7 @@ trait ReplacementAux
   def remove_space_from_translated_line (line : String) : String =
     _get_line_without_ending_space (_get_line_without_starting_space (line) )
 
-  private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String) (pattern : String)
+  private def _add_after_spaces_or_pattern_with (prefix_length : Int) (line : String)
       (text_to_prepend : String) : String =
     line .substring (0 , prefix_length) + text_to_prepend + line .substring (prefix_length)
 
@@ -309,7 +309,7 @@ trait ReplacementAux
   def add_after_spaces_or_pattern (line : String) (pattern : String) (text_to_prepend : String)
       : String =
     _add_after_spaces_or_pattern_with (
-      _get_prefix_length (line) (pattern) ) (line) (pattern) (text_to_prepend)
+      _get_prefix_length (line) (pattern) ) (line) (text_to_prepend)
 
 }
 
@@ -338,8 +338,6 @@ trait ReplacementWithTranslator
   lazy val closing_parenthesis_symbol = ")"
 
   lazy val new_line = "\n"
-
-  lazy val scala_opening_parenthesis_symbol = "("
 
   private lazy val _fold = Fold .mk
 

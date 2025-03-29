@@ -26,8 +26,7 @@ class BlockBuilder
 
   _fold = Fold .mk
 
-  _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean)
-      : CurrentAndNewCommentState =
+  _annotate_this_line_considering_opening_symbol (line : String) : CurrentAndNewCommentState =
     if line .trim .startsWith (_sc .comment_opening_symbol)
     then CurrentAndNewCommentState .mk (true) (
       not line .trim .endsWith (_sc .comment_closing_symbol) )
@@ -37,7 +36,7 @@ class BlockBuilder
     if comment_state
     then CurrentAndNewCommentState .mk (true) (
       not line .trim .endsWith (_sc .comment_closing_symbol) )
-    else _annotate_this_line_considering_opening_symbol (line) (comment_state)
+    else _annotate_this_line_considering_opening_symbol (line)
 
   _get_annotated_lines_initial_value  : PreprocessorFoldTuple =
     PreprocessorFoldTuple .mk (false) (Seq [AnnotatedLine] () )

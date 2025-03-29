@@ -28,9 +28,6 @@ class DirectiveBlockTranslator
   _comment_block_out (lines : Seq [String] ) : Seq [String] =
     Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )
 
-  _line_contains (line : String) (pattern : String) : Boolean =
-    line .indexOf (pattern) >= 0
-
   _directive_applies (lines : Seq [String] ) : Boolean =
     (_get_first_or_empty (lines) ) .contains (identifier)
 

@@ -13,8 +13,6 @@ class DocBlockTranslator
     soda.translator.parser.annotation.CommentAnnotation_
     soda.translator.parser.tool.CommentDelimiterRemover
 
-  _sc = SodaConstant .mk
-
   _tc = TranslationConstantToDoc .mk
 
   _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =

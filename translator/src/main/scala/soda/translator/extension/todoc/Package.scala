@@ -24,8 +24,6 @@ trait DocBlockTranslator
   import   soda.translator.parser.annotation.CommentAnnotation_
   import   soda.translator.parser.tool.CommentDelimiterRemover
 
-  private lazy val _sc = SodaConstant .mk
-
   private lazy val _tc = TranslationConstantToDoc .mk
 
   private def _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =

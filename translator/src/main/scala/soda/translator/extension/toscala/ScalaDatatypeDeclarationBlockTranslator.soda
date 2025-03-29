@@ -45,12 +45,13 @@ class ScalaDatatypeDeclarationBlockTranslator
   _translate_proper_parameters (has_type_parameters : Boolean) (
     proper_parameters : Seq [String] ) : String =
       if has_type_parameters and proper_parameters .isEmpty
-      then "()"
+      then _tc .scala_opening_parenthesis + _tc .scala_closing_parenthesis
       else
         proper_parameters
           .map (lambda p --> _translate_type_parameters (p) .trim)
-          .mkString ("")
-          .replaceAll ("\\)\\(" , " , ")
+          .mkString (_tc .scala_empty_string)
+          .replaceAll (_sc .class_parameter_separation_regex ,
+             _tc .scala_space + _tc .scala_comma + _tc .scala_space)
           .trim
 
   _translate_constructors (block : DatatypeDeclarationAnnotation)
@@ -74,7 +75,7 @@ class ScalaDatatypeDeclarationBlockTranslator
       .length
 
   get_first_line (block : AnnotatedBlock) : String =
-    block .lines .headOption .getOrElse ("")
+    block .lines .headOption .getOrElse (_tc .scala_empty_string)
 
   prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
       : AnnotatedLine =

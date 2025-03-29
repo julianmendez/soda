@@ -15,7 +15,7 @@ class FiboExampleInSodaForLean
       case Succ_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
       case _otherwise ==> a
 
-  fib (n : Nat) =
+  fib (n : Nat) : Nat =
     _tailrec_fib (n) (Zero_ () ) (Succ_ (Zero_ () ) )
 
 end

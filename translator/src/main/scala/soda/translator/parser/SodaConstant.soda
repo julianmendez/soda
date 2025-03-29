@@ -141,6 +141,8 @@ class SodaConstant
 
   class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
 
+  closing_opening_parentheses_regex = "\\)\\("
+
   constructor_parameter_separation_regex = "\\(([^)]*)\\)"
 
   dot_notation_symbol = "."
@@ -172,8 +174,6 @@ class SodaConstant
   greater_than_or_equal_to_symbol = ">="
 
   greater_than_or_equal_to_unicode_symbol = "\u2265"
-
-  empty_list_symbol = "[]"
 
   list_constructor_symbol = "::"
 
