@@ -809,9 +809,9 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive type Nat") (
+  test ("should translate the definition of the inductive data type Nat") (
     check (
-      obtained = instance .translate ("inductive Nat" +
+      obtained = instance .translate ("datatype Nat" +
         "\n  Zero : Nat" +
         "\n  Succ : (n : Nat) -> Nat" +
         "\n"
@@ -827,9 +827,9 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive type Seq1") (
+  test ("should translate the definition of the inductive data type Seq1") (
     check (
-      obtained = instance .translate ("inductive Seq1 [A : Type]" +
+      obtained = instance .translate ("datatype Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
         "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
         "\n"
@@ -845,7 +845,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the type Seq1 with another reserved word") (
+  test ("should translate the definition of the type Seq1 with `data`") (
     check (
       obtained = instance .translate ("data Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
@@ -863,26 +863,25 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive type BTree") (
+  test ("should translate the definition of the type Seq1 with `inductive`") (
     check (
-      obtained = instance .translate ("inductive BTree [A : Type]" +
-        "\n  Empty : BTree [A]" +
-        "\n  Node : (value : A) -> (left : BTree [A] ) -> (right : BTree [A] ) -> BTree [A]" +
+      obtained = instance .translate ("inductive Seq1 [A : Type]" +
+        "\n  Nil : Seq1 [A]" +
+        "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
         "\n"
       )
     ) (
-      expected = "sealed trait BTree [A]" +
+      expected = "sealed trait Seq1 [A]" +
         "\n" +
-        "\ncase class Empty [A] () extends BTree [A]" +
+        "\ncase class Nil [A] () extends Seq1 [A]" +
         "\n" +
-        "\ncase class Node [A] (value : A , left : BTree [A]  , " +
-           "right : BTree [A] ) extends BTree [A]" +
+        "\ncase class Cons [A] (elem : A , seq : Seq1 [A] ) extends Seq1 [A]" +
         "\n" +
         "\n"
     )
   )
 
-  test ("should translate the definition of the inductive type BTree with another word") (
+  test ("should translate the definition of the inductive data type BTree") (
     check (
       obtained = instance .translate ("datatype BTree [A : Type]" +
         "\n  Empty : BTree [A]" +
@@ -901,9 +900,28 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive type Triple") (
+  test ("should translate the definition of the inductive type BTree with `inductive`") (
     check (
-      obtained = instance .translate ("inductive Triple [A : Type] [B : Type] [C : Type]" +
+      obtained = instance .translate ("inductive BTree [A : Type]" +
+        "\n  Empty : BTree [A]" +
+        "\n  Node : (value : A) -> (left : BTree [A] ) -> (right : BTree [A] ) -> BTree [A]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait BTree [A]" +
+        "\n" +
+        "\ncase class Empty [A] () extends BTree [A]" +
+        "\n" +
+        "\ncase class Node [A] (value : A , left : BTree [A]  , " +
+           "right : BTree [A] ) extends BTree [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the data type Triple") (
+    check (
+      obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
         "\n  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]" +
         "\n"
       )
@@ -917,9 +935,10 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of a more complex inductive type") (
+  test ("should translate the definition of a more complex data type") (
     check (
-      obtained = instance .translate ("inductive Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
+      obtained = instance
+          .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
         "\n  Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition [A] [B] [C] [D]" +
         "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) -> (trd : C -> D) -> Composition [A] [B] [C] [D]" +
         "\n"

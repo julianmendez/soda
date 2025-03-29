@@ -16,7 +16,7 @@ class ExampleProgram
     "\n * Example class for testing." +
     "\n */" +
     "\n" +
-    "\ninductive Nat" +
+    "\ndatatype Nat" +
     "\n  Zero" +
     "\n  Succ : Nat -> Nat" +
     "\n" +

@@ -39,7 +39,7 @@ package soda.manual
 
 This is a Soda tutorial written in Soda.
  Copyright 2020--2025 Julian Alfredo Mendez
- Version: 2025-03-28
+ Version: 2025-03-29
 
 
 \begin{lstlisting}
@@ -192,7 +192,7 @@ class EqualsExample
 
 \end{lstlisting}
 
-  It is allowed to use the optional reserved word `def` to define constants and functions.
+  Constants and functions can also be defined with the optional reserved word `def`.
 
 
 \begin{lstlisting}
@@ -208,8 +208,8 @@ end
 \end{lstlisting}
 
 It is possible to define algebraic data types, especially inductive data types.
- The reserved word for that definition is `inductive` with the name of the data type.
- The constructors are defined after the line with the `inductive` reserved word.
+ The reserved word for that definition is `datatype` with the name of the data type.
+ The constructors are defined after the line with the `datatype` reserved word.
  Each constructor takes a possibly empty number of parameters and returns an element of the type being defined.
  Each parameter is separated by the type arrow (`->`) and the same is used as a result of the construction.
  It is mandatory to give a name to each parameter.
@@ -219,9 +219,27 @@ It is possible to define algebraic data types, especially inductive data types.
 \begin{lstlisting}
 
 
-inductive NaturalNumber
+datatype NaturalNumber
   Zero : NaturalNumber
   Successor : (n : NaturalNumber) -> NaturalNumber
+
+
+\end{lstlisting}
+
+It is possible to use the reserved words `inductive` or `data`. Both reserved words are
+ synonyms of `datatype`.
+
+
+\begin{lstlisting}
+
+
+inductive NaturalNumber2
+  Zero2 : NaturalNumber2
+  Successor2 : (n : NaturalNumber2) -> NaturalNumber2
+
+data NaturalNumber3
+  Zero3 : NaturalNumber3
+  Successor3 : (n : NaturalNumber3) -> NaturalNumber3
 
 
 \end{lstlisting}
@@ -429,7 +447,7 @@ It is possible to define a pair as a data type.
 \begin{lstlisting}
 
 
-inductive AnotherPair [A : Type] [B : Type]
+datatype AnotherPair [A : Type] [B : Type]
   AnotherPair_ : (fst : A) -> (snd : B) -> AnotherPair [A] [B]
 
 
@@ -441,7 +459,7 @@ It is possible to define a triple as a data type.
 \begin{lstlisting}
 
 
-inductive Triple [A : Type] [B : Type] [C : Type]
+datatype Triple [A : Type] [B : Type] [C : Type]
   Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]
 
 

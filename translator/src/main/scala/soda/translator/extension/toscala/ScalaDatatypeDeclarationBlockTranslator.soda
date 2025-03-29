@@ -1,5 +1,5 @@
 
-class ScalaInductiveDeclarationBlockTranslator
+class ScalaDatatypeDeclarationBlockTranslator
   extends
     soda.translator.block.BlockTranslator
 
@@ -12,8 +12,8 @@ class ScalaInductiveDeclarationBlockTranslator
     soda.translator.block.Block
     soda.translator.block.Block_
     soda.translator.parser.SodaConstant
-    soda.translator.parser.annotation.InductiveDeclarationAnnotation
-    soda.translator.parser.annotation.InductiveDeclarationAnnotation_
+    soda.translator.parser.annotation.DatatypeDeclarationAnnotation
+    soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
     soda.translator.parser.annotation.ConstructorTuple
 
 
@@ -28,7 +28,7 @@ class ScalaInductiveDeclarationBlockTranslator
       parameters .mkString ( _tc .scala_space + _tc .scala_type_parameter_separator_symbol +
       _tc .scala_space) + _tc .scala_closing_bracket
 
-  get_type_parameters (block : InductiveDeclarationAnnotation) : String =
+  get_type_parameters (block : DatatypeDeclarationAnnotation) : String =
     _get_type_parameters_with (block .type_parameters)
 
   get_scala_translation_pattern (has_type_parameters : Boolean) (
@@ -53,7 +53,7 @@ class ScalaInductiveDeclarationBlockTranslator
           .replaceAll ("\\)\\(" , " , ")
           .trim
 
-  _translate_constructors (block : InductiveDeclarationAnnotation)
+  _translate_constructors (block : DatatypeDeclarationAnnotation)
       : Seq [AnnotatedLine] =
     block .constructors
       .map (lambda constr -->
@@ -88,15 +88,15 @@ class ScalaInductiveDeclarationBlockTranslator
     annotated_lines .map (lambda annotated_line -->
       prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
 
-  get_type_declaration (block : InductiveDeclarationAnnotation) : AnnotatedLine =
+  get_type_declaration (block : DatatypeDeclarationAnnotation) : AnnotatedLine =
     AnnotatedLine .mk (
       _tc .scala_sealed_trait_translation + _tc .scala_space +
       block .class_name + get_type_parameters (block) +
       _tc .scala_new_line
     ) (false)
 
-  _translate_block (block : InductiveDeclarationAnnotation) : InductiveDeclarationAnnotation =
-    InductiveDeclarationAnnotation .mk (
+  _translate_block (block : DatatypeDeclarationAnnotation) : DatatypeDeclarationAnnotation =
+    DatatypeDeclarationAnnotation .mk (
       Block .mk (
         (Seq [AnnotatedLine] () .+: (get_type_declaration (block) ) ) .++ (
           _translate_constructors (block) )
@@ -105,8 +105,8 @@ class ScalaInductiveDeclarationBlockTranslator
 
   translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
     match annotated_block
-      case InductiveDeclarationAnnotation_ (block) ==>
-        _translate_block (InductiveDeclarationAnnotation .mk (block) )
+      case DatatypeDeclarationAnnotation_ (block) ==>
+        _translate_block (DatatypeDeclarationAnnotation .mk (block) )
       case _otherwise ==> annotated_block
 
   translate : AnnotatedBlock -> AnnotatedBlock =

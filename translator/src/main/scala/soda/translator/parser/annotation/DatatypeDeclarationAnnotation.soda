@@ -10,7 +10,7 @@ class ConstructorTuple
 
 end
 
-class InductiveDeclarationAnnotation
+class DatatypeDeclarationAnnotation
   extends
     BlockAnnotationParser
 
@@ -23,7 +23,7 @@ class InductiveDeclarationAnnotation
     soda.translator.block.BlockAnnotationId
     soda.translator.parser.SodaConstant
 
-  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .inductive_declaration
+  identifier : BlockAnnotationId = BlockAnnotationEnum .mk .datatype_declaration
 
   _sc = SodaConstant .mk
 
@@ -33,9 +33,9 @@ class InductiveDeclarationAnnotation
     else ""
 
   applies : Boolean =
-    first_line .startsWith (_sc .inductive_reserved_word + _sc .space) or
+    first_line .startsWith (_sc .datatype_reserved_word + _sc .space) or
     first_line .startsWith (_sc .data_reserved_word + _sc .space) or
-    first_line .startsWith (_sc .datatype_reserved_word + _sc .space)
+    first_line .startsWith (_sc .inductive_reserved_word + _sc .space)
 
   _get_parameters (line : String) : Seq [String] =
     _sc .constructor_parameter_separation_regex
@@ -71,9 +71,9 @@ class InductiveDeclarationAnnotation
     else ""
 
   class_name_and_parameters : String =
-    _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .datatype_reserved_word) +
     _class_name_for (first_readable_line .line) (_sc .data_reserved_word) +
-    _class_name_for (first_readable_line .line) (_sc .datatype_reserved_word)
+    _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word)
 
   class_name : String =
     class_name_and_parameters

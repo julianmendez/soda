@@ -46,7 +46,7 @@ class MicroTranslatorToScala
         ScalaClassDeclarationBlockTranslator .mk ,
         ScalaImportDeclarationBlockTranslator .mk ,
         ScalaAbstractDeclarationBlockTranslator .mk ,
-        ScalaInductiveDeclarationBlockTranslator .mk ,
+        ScalaDatatypeDeclarationBlockTranslator .mk ,
         ScalaTheoremBlockTranslator .mk ,
         ScalaDirectiveBlockTranslator .mk ,
         ScalaClassEndBlockTranslator .mk ,

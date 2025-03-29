@@ -26,7 +26,7 @@ case class BlockAnnotationSpec ()
       ClassBeginningAnnotation .mk (block) ,
       ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
       AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
-      InductiveDeclarationAnnotation .mk (block) ,
+      DatatypeDeclarationAnnotation .mk (block) ,
       ImportDeclarationAnnotation .mk (block) ,
       PackageDeclarationAnnotation .mk (block) ,
       ClassAliasAnnotation .mk (block) ,
@@ -59,7 +59,7 @@ case class BlockAnnotationSpec ()
     )
   )
 
-  test ("should detect an inductive block declaration") (
+  test ("should detect a datatype block declaration") (
     check (
       obtained = apply_detectors (example_blocks (2) )
     ) (
@@ -414,7 +414,7 @@ trait ExampleProgram
     "\n * Example class for testing." +
     "\n */" +
     "\n" +
-    "\ninductive Nat" +
+    "\ndatatype Nat" +
     "\n  Zero" +
     "\n  Succ : Nat -> Nat" +
     "\n" +

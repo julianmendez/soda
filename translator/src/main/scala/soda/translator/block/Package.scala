@@ -96,7 +96,7 @@ trait BlockAnnotationEnum
 
   lazy val abstract_declaration = BlockAnnotationId .mk (4) ("abstract_declaration")
 
-  lazy val inductive_declaration = BlockAnnotationId .mk (5) ("inductive_declaration")
+  lazy val datatype_declaration = BlockAnnotationId .mk (5) ("datatype_declaration")
 
   lazy val import_declaration = BlockAnnotationId .mk (6) ("import_declaration")
 
@@ -119,7 +119,7 @@ trait BlockAnnotationEnum
       class_beginning ,
       class_end ,
       abstract_declaration ,
-      inductive_declaration ,
+      datatype_declaration ,
       import_declaration ,
       package_declaration ,
       class_alias ,
