@@ -398,6 +398,113 @@ object LeanClassEndBlockTranslator {
 }
 
 
+trait LeanDatatypeDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+{
+
+
+
+  import   soda.translator.block.AnnotatedBlock
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.AnnotatedLine_
+  import   soda.translator.block.Block
+  import   soda.translator.block.Block_
+  import   soda.translator.parser.SodaConstant
+  import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation
+  import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
+  import   soda.translator.parser.annotation.ConstructorTuple
+
+  private lazy val _sc = SodaConstant .mk
+
+  private lazy val _tc = TranslationConstantToLean .mk
+
+  private def _get_type_parameters_with (parameters : Seq [String] ) : String =
+    if ( parameters .isEmpty
+    ) ""
+    else
+      parameters
+        .map ( param => _tc .lean_space + _tc .lean_opening_parenthesis +
+          param + _tc .lean_space + _tc .lean_type_membership_symbol +
+          _tc .lean_space + _tc .lean_type_type_name + _tc .lean_closing_parenthesis)
+        .mkString
+
+  def get_type_parameters (block : DatatypeDeclarationAnnotation) : String =
+    _get_type_parameters_with (block .type_parameters)
+
+  private def _translate_parameter (parameter : String) : String =
+    parameter
+      .replace (_sc .opening_bracket_symbol , _tc .lean_opening_parenthesis)
+      .replace (_sc .closing_bracket_symbol , _tc .lean_closing_parenthesis)
+
+  private def _translate_constructors (block : DatatypeDeclarationAnnotation)
+      : Seq [AnnotatedLine] =
+    block .constructors
+      .map ( constr =>
+          _tc .lean_space + _tc .lean_space + _tc .lean_vertical_bar_symbol + _tc .lean_space +
+          constr .name +  _tc .lean_space + _tc .lean_type_membership_symbol +
+          constr
+            .parameters
+            .map ( param => _translate_parameter (param) )
+            .mkString (_tc .lean_function_arrow_symbol) )
+      .map ( line => AnnotatedLine .mk (line) (false) )
+
+  def get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile ( ch => ch .isSpaceChar)
+      .length
+
+  def get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  def prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : AnnotatedLine =
+    if ( annotated_line .is_comment
+    ) annotated_line
+    else AnnotatedLine .mk (annotated_line .line .substring (0 , index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
+
+  def prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    annotated_lines .map ( annotated_line =>
+      prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+
+  def get_type_declaration (block : DatatypeDeclarationAnnotation) : AnnotatedLine =
+    AnnotatedLine .mk (
+      _tc .lean_inductive_reserved_word + _tc .lean_space +
+      block .class_name + get_type_parameters (block) + _tc .lean_space +
+      _tc .lean_where_reserved_word
+    ) (false)
+
+  private def _translate_block (block : DatatypeDeclarationAnnotation) : DatatypeDeclarationAnnotation =
+    DatatypeDeclarationAnnotation .mk (
+      Block .mk (
+        (Seq [AnnotatedLine] () .+: (get_type_declaration (block) ) ) .++ (
+          _translate_constructors (block) )
+      )
+    )
+
+  def translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    annotated_block match  {
+      case DatatypeDeclarationAnnotation_ (block) =>
+        _translate_block (DatatypeDeclarationAnnotation .mk (block) )
+      case _otherwise => annotated_block
+    }
+
+  lazy val translate : AnnotatedBlock => AnnotatedBlock =
+     block =>
+      translate_for (block)
+
+}
+
+case class LeanDatatypeDeclarationBlockTranslator_ () extends LeanDatatypeDeclarationBlockTranslator
+
+object LeanDatatypeDeclarationBlockTranslator {
+  def mk : LeanDatatypeDeclarationBlockTranslator =
+    LeanDatatypeDeclarationBlockTranslator_ ()
+}
+
+
 trait LeanDirectiveBlockTranslator
   extends
     soda.translator.blocktr.DirectiveBlockTranslator
@@ -975,6 +1082,7 @@ trait MicroTranslatorToLean
         LeanClassEndBlockTranslator .mk ,
         LeanClassAliasBlockTranslator .mk ,
         LeanImportDeclarationBlockTranslator .mk ,
+        LeanDatatypeDeclarationBlockTranslator .mk ,
         LeanTheoremBlockTranslator .mk ,
         LeanDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (

@@ -52,6 +52,7 @@ class MicroTranslatorToLean
         LeanClassEndBlockTranslator .mk ,
         LeanClassAliasBlockTranslator .mk ,
         LeanImportDeclarationBlockTranslator .mk ,
+        LeanDatatypeDeclarationBlockTranslator .mk ,
         LeanTheoremBlockTranslator .mk ,
         LeanDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (
