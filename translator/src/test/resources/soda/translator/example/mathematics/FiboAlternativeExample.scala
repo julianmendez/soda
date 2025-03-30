@@ -1,3 +1,4 @@
+
 trait NonNegativeMod
 {
 
@@ -52,13 +53,13 @@ trait FiboAlternativeExampleInSoda
 
   private lazy val _one = _mm .mko (1)
 
-  private def _rec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+  private def _tailrec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
     if ( m == _zero ) a
     else if ( m == _one ) b
-    else _rec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
+    else _tailrec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
 
   private def _apply (n : Option [Int] ) : Option [Int] =
-    _rec (n) (_zero) (_one)
+    _tailrec (n) (_zero) (_one)
 
   def apply (n : Int) : Int =
     _apply (_mm .mko (n) ) match  {

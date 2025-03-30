@@ -35,13 +35,13 @@ trait FiboExampleInSoda
     ) NonNegative .mk (a .v - 1)
     else a
 
-  private def _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
+  private def _tailrec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
     if ( m .v == 0 ) a
     else if ( m .v == 1 ) b
-    else _rec (_monus1 (m) ) (b) (_plus (a) (b) )
+    else _tailrec (_monus1 (m) ) (b) (_plus (a) (b) )
 
   private def _apply (n : NonNegative) : NonNegative =
-    _rec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
+    _tailrec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
 
   def apply (n : Int) : Int =
     NonNegative .mk (n) .check match  {
