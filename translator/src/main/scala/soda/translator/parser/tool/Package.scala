@@ -96,7 +96,7 @@ object CommentDelimiterRemover {
  *
  * 'val' is for value definition.
  * It is detected in three cases.
- * Case 1: The line does not have a opening parenthesis, e.g. `a = 1`
+ * Case 1: The line does not have an opening parenthesis, e.g. `a = 1`
  * Case 2: The first opening parenthesis is after the definition sign, e.g. `x = f (y)`
  * Case 3: The first opening parenthesis or bracket is after a colon,
  *   e.g. `x : (A, B) -> C = (x, y) -> f (x, y)`
@@ -196,11 +196,11 @@ trait FunctionDefinitionLineDetector
     ) _fc .val_detected
     else _fc .def_detected
 
-  private def _starts_with_def_reserved_word (position : Int) : Boolean =
+  private lazy val _starts_with_def_reserved_word : Boolean =
     line .trim .startsWith (_sc .def_reserved_word + _sc .space)
 
   private def _try_found_definition (position : Int) : FunctionDefinitionTypeId =
-    if ( _starts_with_def_reserved_word (position)
+    if ( _starts_with_def_reserved_word
     ) _fc .def_reserved_word_detected
     else _try_found_definition_without_def_reserved_word (position)
 

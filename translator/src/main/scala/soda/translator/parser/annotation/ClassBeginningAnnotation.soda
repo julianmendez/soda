@@ -45,7 +45,7 @@ class ClassBeginningAnnotation
       .split (sc .type_parameter_separation_regex)
       .toIndexedSeq
       .map (lambda parameter --> parameter .trim)
-      .filter (lambda parameter --> not parameter .isEmpty)
+      .filter (lambda parameter --> parameter .nonEmpty)
 
   applies : Boolean =
     starts_with_prefix_and_space (sc .class_reserved_word) and

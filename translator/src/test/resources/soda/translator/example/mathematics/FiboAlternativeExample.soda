@@ -42,13 +42,13 @@ class FiboAlternativeExampleInSoda
 
   _one = _mm .mko (1)
 
-  _rec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+  _tailrec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
     if m == _zero then a
     else if m == _one then b
-    else _rec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
+    else _tailrec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
 
   _apply (n : Option [Int] ) : Option [Int] =
-    _rec (n) (_zero) (_one)
+    _tailrec (n) (_zero) (_one)
 
   apply (n : Int) : Int =
     match _apply (_mm .mko (n) )

@@ -156,13 +156,13 @@ trait FiboAlternativeExampleInSoda
 
   private lazy val _one = _mm .mko (1)
 
-  private def _rec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
+  private def _tailrec (m : Option [Int] ) (a : Option [Int] ) (b : Option [Int] ) : Option [Int] =
     if ( m == _zero ) a
     else if ( m == _one ) b
-    else _rec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
+    else _tailrec (_mm .minus1 (m) ) (b) (_mm .plus (a) (b) )
 
   private def _apply (n : Option [Int] ) : Option [Int] =
-    _rec (n) (_zero) (_one)
+    _tailrec (n) (_zero) (_one)
 
   def apply (n : Int) : Int =
     _apply (_mm .mko (n) ) match  {
@@ -217,13 +217,13 @@ trait FiboExampleInSoda
     ) NonNegative .mk (a .v - 1)
     else a
 
-  private def _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
+  private def _tailrec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
     if ( m .v == 0 ) a
     else if ( m .v == 1 ) b
-    else _rec (_monus1 (m) ) (b) (_plus (a) (b) )
+    else _tailrec (_monus1 (m) ) (b) (_plus (a) (b) )
 
   private def _apply (n : NonNegative) : NonNegative =
-    _rec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
+    _tailrec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
 
   def apply (n : Int) : Int =
     NonNegative .mk (n) .check match  {
@@ -246,13 +246,13 @@ trait FiboUnicodeExample
 
 
 
-  private def _rec (m : Int) (a : Int) (b : Int) : Int =
+  private def _tailrec (m : Int) (a : Int) (b : Int) : Int =
     if ( m == 0 ) a
      else if ( m == 1 ) b
-        else _rec (m - 1) (b) (a + b)
+        else _tailrec (m - 1) (b) (a + b)
 
   def apply (n : Int) : Int =
-    _rec (n) (0) (1)
+    _tailrec (n) (0) (1)
 
 }
 

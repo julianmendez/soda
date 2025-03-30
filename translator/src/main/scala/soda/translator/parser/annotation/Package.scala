@@ -64,6 +64,8 @@ trait AnnotationFactory
         ClassEndAnnotation .mk (new_content) (references)
       case AbstractDeclarationAnnotation_ (b, references) =>
         AbstractDeclarationAnnotation .mk (new_content) (references)
+      case DatatypeDeclarationAnnotation_ (b) =>
+        DatatypeDeclarationAnnotation .mk (new_content)
       case ImportDeclarationAnnotation_ (b) => ImportDeclarationAnnotation .mk (new_content)
       case PackageDeclarationAnnotation_ (b) => PackageDeclarationAnnotation .mk (new_content)
       case ClassAliasAnnotation_ (b) => ClassAliasAnnotation .mk (new_content)
@@ -81,6 +83,7 @@ trait AnnotationFactory
       ClassBeginningAnnotation .mk (block) ,
       ClassEndAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
       AbstractDeclarationAnnotation .mk (block) (Seq [BlockAnnotationParser] () ) ,
+      DatatypeDeclarationAnnotation .mk (block) ,
       ImportDeclarationAnnotation .mk (block) ,
       PackageDeclarationAnnotation .mk (block) ,
       ClassAliasAnnotation .mk (block) ,
@@ -158,14 +161,14 @@ trait BlockAnnotationParser
       block
         .annotated_lines
         .tail
-        .filter ( x => ! x .line .trim .isEmpty)
+        .filter ( x => x .line .trim .nonEmpty)
 
   lazy val first_readable_line : AnnotatedLine =
     block .readable_lines .headOption .getOrElse (default_annotated_line)
 
   private def _get_first_word_with (index : Int) (line : String) : String =
     if ( index >= 0
-    ) line .substring (0, index)
+    ) line .substring (0 , index)
     else line
 
   def get_first_word (line : String) : String =
@@ -266,7 +269,7 @@ trait ClassBeginningAnnotation
       .split (sc .type_parameter_separation_regex)
       .toIndexedSeq
       .map ( parameter => parameter .trim)
-      .filter ( parameter => ! parameter .isEmpty)
+      .filter ( parameter => parameter .nonEmpty)
 
   lazy val applies : Boolean =
     starts_with_prefix_and_space (sc .class_reserved_word) &&
@@ -305,7 +308,7 @@ trait ClassEndAnnotation
   private lazy val _sc = SodaConstant .mk
 
   private def _get_first_word_of_array (words : Array [String] ) : String =
-    if ( words .size == 0
+    if ( words .length == 0
     ) ""
     else words .apply (0)
 
@@ -350,6 +353,163 @@ case class CommentAnnotation_ (block : soda.translator.block.Block) extends Comm
 object CommentAnnotation {
   def mk (block : soda.translator.block.Block) : CommentAnnotation =
     CommentAnnotation_ (block)
+}
+
+
+trait ConstructorTuple
+{
+
+  def   name : String
+  def   parameters : Seq [String]
+
+  lazy val parameters_without_last : Seq [String] =
+    parameters .dropRight (1)
+
+}
+
+case class ConstructorTuple_ (name : String, parameters : Seq [String]) extends ConstructorTuple
+
+object ConstructorTuple {
+  def mk (name : String) (parameters : Seq [String]) : ConstructorTuple =
+    ConstructorTuple_ (name, parameters)
+}
+
+trait DatatypeDeclarationAnnotation
+  extends
+    BlockAnnotationParser
+{
+
+  def   block : soda.translator.block.Block
+
+  import   soda.translator.block.AnnotatedLine
+  import   soda.translator.block.BlockAnnotationEnum
+  import   soda.translator.block.BlockAnnotationId
+  import   soda.translator.parser.SodaConstant
+
+  lazy val identifier : BlockAnnotationId = BlockAnnotationEnum .mk .datatype_declaration
+
+  private lazy val _sc = SodaConstant .mk
+
+  lazy val first_line : String =
+    if ( block .readable_lines .nonEmpty
+    ) block .readable_lines .head .line .trim + _sc .space
+    else ""
+
+  lazy val applies : Boolean =
+    first_line .startsWith (_sc .datatype_reserved_word + _sc .space) ||
+    first_line .startsWith (_sc .data_reserved_word + _sc .space) ||
+    first_line .startsWith (_sc .inductive_reserved_word + _sc .space)
+
+  private def _class_name_for (line : String) (word : String) : String =
+    if ( first_line .startsWith (word + _sc .space)
+    ) line .substring (line .indexOf (word) + word .length) .trim
+    else ""
+
+  lazy val class_name_and_parameters : String =
+    _class_name_for (first_readable_line .line) (_sc .datatype_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .data_reserved_word) +
+    _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word)
+
+  lazy val class_name_and_parameters_no_type_membership_symbol : String =
+    class_name_and_parameters
+      .replaceAll (_sc .parameter_type_declaration_colon_regex, _sc .closing_bracket_symbol)
+
+  lazy val class_name : String =
+    class_name_and_parameters
+      .split (_sc .opening_bracket_regex)
+      .headOption
+      .getOrElse (_sc .empty_string)
+      .trim
+
+  lazy val type_parameters : Seq [String] =
+    class_name_and_parameters
+      .split (_sc .opening_bracket_regex)
+      .flatMap ( piece => piece .split (_sc .comma_symbol) )
+      .map ( piece =>
+        piece .replaceAll (_sc .type_declaration_colon_regex , _sc .empty_string) .trim )
+      .drop (1)
+      .toIndexedSeq
+
+  private def _get_parameters_with_arrows (line : String) : Seq [String] =
+    _sc .constructor_parameter_separation_regex
+      .r
+      .replaceAllIn (line ,
+         m => m .matched .replaceAll (_sc .function_arrow_symbol , _sc .placeholder_symbol) )
+      .split (_sc .function_arrow_symbol)
+      .map ( piece =>
+        piece
+          .replaceAll (_sc .placeholder_symbol , _sc .function_arrow_symbol)
+          .trim
+      )
+      .toList
+
+  private def _get_parameters_without_arrows (line : String) : Seq [String] =
+    line
+      .replaceAll (_sc .comma_separation_regex ,
+         _sc .class_parameter_separation_with_placeholder)
+      .replaceAll (_sc .class_parameter_separation_regex ,
+         _sc .class_parameter_separation_with_placeholder)
+      .split (_sc .placeholder_symbol)
+      .map ( piece => piece .trim)
+      .filter ( piece => piece .nonEmpty)
+      .toList
+      .++ (Seq [String] () .+: (class_name_and_parameters_no_type_membership_symbol) )
+
+  private def _parse_constructor_with_arrows (line : String) (index_colon : Int) : ConstructorTuple =
+    if ( index_colon >= 0
+    ) ConstructorTuple .mk (
+      line .substring (0 , index_colon) .trim) (
+      _get_parameters_with_arrows (
+        line .substring (index_colon + _sc .type_membership_symbol .length) )
+    )
+    else ConstructorTuple .mk (line .trim) (Seq [String] () )
+
+  private def _parse_constructor_without_arrows (line : String) (index_paren : Int) : ConstructorTuple =
+    if ( index_paren >= 0
+    ) ConstructorTuple .mk (
+      line .substring (0 , index_paren) .trim) (
+      _get_parameters_without_arrows (line .substring (index_paren) )
+    )
+    else ConstructorTuple .mk (line .trim) (Seq [String] () )
+
+  private def _parse_constructor_for_enum (line : String) : ConstructorTuple =
+    ConstructorTuple .mk (line .trim) (
+      _get_parameters_without_arrows (_sc .empty_string)
+    )
+
+  private def _make_constructor_not_enum (line : String)  (index_colon : Int) (index_paren : Int)
+      : ConstructorTuple =
+    if ( (index_colon >= 0) && (index_paren >=0) && (index_paren < index_colon)
+    ) _parse_constructor_without_arrows (line) (index_paren)
+    else _parse_constructor_with_arrows (line) (index_colon)
+
+  private def _make_constructor_from_line_with (line : String) (index_colon : Int) (index_paren : Int)
+      : ConstructorTuple =
+    if ( (index_colon < 0)
+    ) _parse_constructor_for_enum (line)
+    else _make_constructor_not_enum (line) (index_colon) (index_paren)
+
+  def make_constructor_from_line (line : String) : ConstructorTuple =
+    _make_constructor_from_line_with (line) (
+      line .indexOf (_sc .type_membership_symbol) ) (
+      line .indexOf (_sc .opening_parenthesis_symbol) )
+
+  lazy val constructors_with_comments : Seq [AnnotatedLine] =
+    content_lines
+
+  lazy val constructors : Seq [ConstructorTuple] =
+    constructors_with_comments
+      .filter ( line => ! line .is_comment)
+      .map ( annotated_line => annotated_line .line)
+      .map ( line => make_constructor_from_line (line) )
+
+}
+
+case class DatatypeDeclarationAnnotation_ (block : soda.translator.block.Block) extends DatatypeDeclarationAnnotation
+
+object DatatypeDeclarationAnnotation {
+  def mk (block : soda.translator.block.Block) : DatatypeDeclarationAnnotation =
+    DatatypeDeclarationAnnotation_ (block)
 }
 
 

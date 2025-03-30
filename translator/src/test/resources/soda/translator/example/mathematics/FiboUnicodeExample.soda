@@ -3,13 +3,13 @@
 
   abstract
 
-  _rec (m : Int) (a : Int) (b : Int) : Int =
+  _tailrec (m : Int) (a : Int) (b : Int) : Int =
     ⧩ m == 0 ▶ a
      ▷ ⧩ m == 1 ▶ b
-        ▷ _rec (m - 1) (b) (a + b)
+        ▷ _tailrec (m - 1) (b) (a + b)
 
   apply (n : Int) : Int =
-    _rec (n) (0) (1)
+    _tailrec (n) (0) (1)
 
 ⎿
 

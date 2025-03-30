@@ -16,8 +16,6 @@ class MicroTranslatorToLean
     soda.translator.block.BlockTranslatorPipeline
     soda.translator.block.ConditionalBlockTranslator
     soda.translator.blocktr.TokenReplacement
-    soda.translator.blocktr.TokenizedBlockTranslator
-    soda.translator.replacement.Token
 
   _tc = TranslationConstantToLean .mk
 
@@ -52,6 +50,7 @@ class MicroTranslatorToLean
         LeanClassEndBlockTranslator .mk ,
         LeanClassAliasBlockTranslator .mk ,
         LeanImportDeclarationBlockTranslator .mk ,
+        LeanDatatypeDeclarationBlockTranslator .mk ,
         LeanTheoremBlockTranslator .mk ,
         LeanDirectiveBlockTranslator .mk ,
         ConditionalBlockTranslator .mk (functions_and_tests) (

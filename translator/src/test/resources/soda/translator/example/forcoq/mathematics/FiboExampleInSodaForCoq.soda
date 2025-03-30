@@ -10,7 +10,7 @@ class FiboExampleInSodaForCoq
       case S_ (k) ==> _tailrec_fib (k) (b) (a .add (b) )
       case _otherwise ==> a
 
-  fib (n : nat) =
+  fib (n : nat) : nat =
     _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
 
 end

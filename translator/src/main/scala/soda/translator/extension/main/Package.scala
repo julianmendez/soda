@@ -36,8 +36,8 @@ trait Main
     ) .toMap
 
   def execute_for (arguments : Seq [String] ) : Boolean =
-    if ( arguments .length == 0
-    ) help .execute (arguments .toSeq)
+    if ( arguments .isEmpty
+    ) help .execute (arguments)
     else
       extensions
         .getOrElse (arguments .head , help)

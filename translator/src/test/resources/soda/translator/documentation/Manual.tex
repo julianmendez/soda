@@ -6,7 +6,7 @@
 \usepackage{listings}
 
 \lstdefinelanguage{Soda}{
-    morekeywords={lambda, any, def, if, then, else, match, case, class, extends, abstract, end, this, subtype, supertype, false, true, not, and, or, package, import, theorem, directive, @tailrec, @override, @new},
+    morekeywords={lambda, any, fun, def, if, then, else, match, case, class, extends, abstract, end, datatype, data, inductive, this, subtype, supertype, false, true, not, and, or, package, import, theorem, directive, @tailrec, @override, @new},
     sensitive=true,
     morecomment=[s]{/*}{*/},
    morestring=[b]"
@@ -39,7 +39,7 @@ package soda.manual
 
 This is a Soda tutorial written in Soda.
  Copyright 2020--2025 Julian Alfredo Mendez
- Version: 2025-03-14
+ Version: 2025-03-29
 
 
 \begin{lstlisting}
@@ -68,10 +68,11 @@ Source code written in Soda is intended to be descriptive and readable.
  2. the beginning of a class definition
  3. the end of a class definition
  4. a block declaration of abstract constants and functions
- 5. a block of imports
- 6. a package declaration
- 7. a class alias
- 8. a comment
+ 5. a definition of an algebraic data type
+ 6. a block of imports
+ 7. a package declaration
+ 8. a class alias
+ 9. a comment
 
 
 \begin{lstlisting}
@@ -141,7 +142,7 @@ class EqualsExample
 
 \end{lstlisting}
 
-  A constant does not have parameters and it is declared with the equals sign (`=`).
+  A constant does not have parameters, and it is declared with the equals sign (`=`).
    For the constant name, it is recommended to use snake case and start in lowercase.
    The constant name should be a noun phrase.
 
@@ -191,7 +192,7 @@ class EqualsExample
 
 \end{lstlisting}
 
-  It is allowed to use the optional reserved word `def` to define constants and functions.
+  Constants and functions can also be defined with the optional reserved word `def`.
 
 
 \begin{lstlisting}
@@ -206,11 +207,68 @@ end
 
 \end{lstlisting}
 
+It is possible to define algebraic data types, especially inductive data types.
+ The reserved word for that definition is `datatype` with the name of the data type.
+ The constructors are defined after the line with the `datatype` reserved word.
+ Each constructor takes a possibly empty number of parameters and returns an element of the type being defined.
+ Each parameter is separated by the type arrow (`->`) and the same is used as a result of the construction.
+ It is mandatory to give a name to each parameter.
+
+
+
+\begin{lstlisting}
+
+
+datatype NaturalNumber
+  Zero : NaturalNumber
+  Successor : (n : NaturalNumber) -> NaturalNumber
+
+datatype NaturalPair
+  NaturalPair_ : (fst : NaturalNumber) -> (snd : NaturalNumber) -> NaturalPair
+
+
+\end{lstlisting}
+
+It is also possible to use a simplified notation, without the colon, without the arrows,
+ and without repeating the data type being defined.
+
+
+\begin{lstlisting}
+
+
+datatype AnotherNaturalNumber
+  AnotherZero
+  AnotherSuccessor (n : AnotherNaturalNumber)
+
+datatype AnotherNaturalPair
+  AnotherNaturalPair_ (fst : AnotherNaturalNumber) (snd : AnotherNaturalNumber)
+
+
+\end{lstlisting}
+
+It is possible to use the reserved words `inductive` or `data`. Both reserved words are
+ synonyms of `datatype`.
+
+
+\begin{lstlisting}
+
+
+inductive NaturalNumber2
+  Zero2
+  Successor2 (n : NaturalNumber2)
+
+data NaturalNumber3
+  Zero3
+  Successor3 (n : NaturalNumber3)
+
+
+\end{lstlisting}
+
 A class can extend other classes by using the reserved word `extends`.
  Abstract classes contain a block with the reserved word `abstract`, and they are the only
  classes that can be extended.
  By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
- extended.
+ extended. Algebraic data types cannot be extended either.
 
 
 \begin{lstlisting}
@@ -399,6 +457,30 @@ class MyPair [A : Type] [B : Type]
     snd : B
 
 end
+
+
+\end{lstlisting}
+
+It is possible to define a pair as a data type.
+
+
+\begin{lstlisting}
+
+
+datatype AnotherPair [A : Type] [B : Type]
+  AnotherPair_ (fst : A) (snd : B)
+
+
+\end{lstlisting}
+
+It is possible to define a triple as a data type.
+
+
+\begin{lstlisting}
+
+
+datatype Triple [A : Type] [B : Type] [C : Type]
+  Triple_ (fst : A) (snd : B) (trd : C)
 
 
 \end{lstlisting}

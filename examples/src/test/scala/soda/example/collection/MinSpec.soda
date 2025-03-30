@@ -507,7 +507,7 @@ class MinSpec ()
 
   test ("find with Seq 2") (
     check (
-      obtained := Seq () .find (lambda x --> x == 7)
+      obtained := Seq [Int] () .find (lambda x --> x == 7)
     ) (
       expected := None
     )

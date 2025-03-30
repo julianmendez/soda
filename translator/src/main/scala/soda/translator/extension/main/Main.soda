@@ -30,8 +30,8 @@ class Main
     ) .toMap
 
   execute_for (arguments : Seq [String] ) : Boolean =
-    if arguments .length == 0
-    then help .execute (arguments .toSeq)
+    if arguments .isEmpty
+    then help .execute (arguments)
     else
       extensions
         .getOrElse (arguments .head , help)

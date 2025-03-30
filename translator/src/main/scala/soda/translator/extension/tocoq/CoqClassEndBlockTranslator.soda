@@ -7,10 +7,7 @@ class CoqClassEndBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.Block
     soda.translator.parser.BlockBuilder
-    soda.translator.parser.BlockBuilder
-    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_
     soda.translator.parser.annotation.ClassEndAnnotation

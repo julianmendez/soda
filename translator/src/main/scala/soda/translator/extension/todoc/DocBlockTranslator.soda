@@ -8,12 +8,9 @@ class DocBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.parser.BlockBuilder
-    soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.CommentAnnotation
     soda.translator.parser.annotation.CommentAnnotation_
     soda.translator.parser.tool.CommentDelimiterRemover
-
-  _sc = SodaConstant .mk
 
   _tc = TranslationConstantToDoc .mk
 

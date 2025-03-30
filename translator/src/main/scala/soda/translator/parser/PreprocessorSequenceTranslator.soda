@@ -30,15 +30,9 @@ class PreprocessorSequenceTranslator
 
   block_annotator : AnnotationFactory = AnnotationFactory .mk
 
-  ba = soda.translator.block.BlockAnnotationEnum .mk
-
   sc = SodaConstant .mk
 
   _fold = Fold .mk
-
-  empty_string = ""
-
-  empty_line : AnnotatedLine = AnnotatedLine .mk (empty_string) (true)
 
   _get_abstract_declaration_updated_block (current : AuxiliaryTuple)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =

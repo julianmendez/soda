@@ -1,4 +1,4 @@
-package soda.collection
+package soda.example.collection
 
 /*
  * This package contains tests for examples for Soda.
@@ -512,7 +512,7 @@ case class MinSpec ()
 
   test ("find with Seq 2") (
     check (
-      obtained = Seq () .find ( x => x == 7)
+      obtained = Seq [Int] () .find ( x => x == 7)
     ) (
       expected = None
     )

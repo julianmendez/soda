@@ -45,8 +45,7 @@ trait BlockBuilder
 
   private lazy val _fold = Fold .mk
 
-  private def _annotate_this_line_considering_opening_symbol (line : String) (comment_state : Boolean)
-      : CurrentAndNewCommentState =
+  private def _annotate_this_line_considering_opening_symbol (line : String) : CurrentAndNewCommentState =
     if ( line .trim .startsWith (_sc .comment_opening_symbol)
     ) CurrentAndNewCommentState .mk (true) (
       ! line .trim .endsWith (_sc .comment_closing_symbol) )
@@ -56,7 +55,7 @@ trait BlockBuilder
     if ( comment_state
     ) CurrentAndNewCommentState .mk (true) (
       ! line .trim .endsWith (_sc .comment_closing_symbol) )
-    else _annotate_this_line_considering_opening_symbol (line) (comment_state)
+    else _annotate_this_line_considering_opening_symbol (line)
 
   private lazy val _get_annotated_lines_initial_value  : PreprocessorFoldTuple =
     PreprocessorFoldTuple .mk (false) (Seq [AnnotatedLine] () )
@@ -72,7 +71,7 @@ trait BlockBuilder
       _annotate_this_line (line) (pair .comment_state) ) (pair) (line)
 
   private def _get_annotated_lines (lines : Seq [String] ) : Seq [AnnotatedLine] =
-    _fold.apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
+    _fold .apply [String, PreprocessorFoldTuple] (lines) (_get_annotated_lines_initial_value) (
         _get_annotated_lines_next_value_function)
       .annotated_lines_rev
       .reverse
@@ -219,15 +218,9 @@ trait PreprocessorSequenceTranslator
 
   lazy val block_annotator : AnnotationFactory = AnnotationFactory .mk
 
-  lazy val ba = soda.translator.block.BlockAnnotationEnum .mk
-
   lazy val sc = SodaConstant .mk
 
   private lazy val _fold = Fold .mk
-
-  lazy val empty_string = ""
-
-  lazy val empty_line : AnnotatedLine = AnnotatedLine .mk (empty_string) (true)
 
   private def _get_abstract_declaration_updated_block (current : AuxiliaryTuple)
       (block : AbstractDeclarationAnnotation) : AbstractDeclarationAnnotation =
@@ -325,6 +318,8 @@ trait SodaConstant
 
   lazy val space = " "
 
+  lazy val empty_string = ""
+
   lazy val new_line = "\n"
 
   lazy val function_definition_symbol = "="
@@ -349,9 +344,9 @@ trait SodaConstant
 
   lazy val parameter_definition_unicode_symbol = "\u2254"
 
-  lazy val any_reserved_word = "any"
-
   lazy val lambda_reserved_word = "lambda"
+
+  lazy val any_reserved_word = "any"
 
   lazy val fun_reserved_word = "fun"
 
@@ -392,6 +387,12 @@ trait SodaConstant
   lazy val class_end_reserved_word = "end"
 
   lazy val class_end_proposed_unicode_symbol = "\u23BF"
+
+  lazy val datatype_reserved_word = "datatype"
+
+  lazy val data_reserved_word = "data"
+
+  lazy val inductive_reserved_word = "inductive"
 
   lazy val this_reserved_word = "this"
 
@@ -445,19 +446,46 @@ trait SodaConstant
 
   lazy val closing_bracket_symbol = "]"
 
+  lazy val placeholder_symbol = "\u0001"
+
   lazy val only_blanks_regex = "\\s*"
 
   lazy val some_blanks_regex = "\\s+"
 
-  lazy val type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+  lazy val opening_bracket_regex = "\\["
 
-  lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
+  lazy val closing_bracket_regex = "\\]"
+
+  lazy val opening_parenthesis_regex = "\\("
+
+  lazy val closing_parenthesis_regex = "\\)"
+
+  lazy val type_parameter_separation_regex =
+    closing_bracket_regex + only_blanks_regex + opening_bracket_regex
+
+  lazy val class_parameter_separation_regex =
+    closing_parenthesis_regex + only_blanks_regex + opening_parenthesis_regex
+
+  lazy val class_parameter_separation_with_placeholder =
+    closing_parenthesis_symbol + placeholder_symbol + opening_parenthesis_symbol
+
+  lazy val closing_opening_parentheses_regex =
+    closing_parenthesis_regex + opening_parenthesis_regex
+
+  lazy val constructor_parameter_separation_regex = "\\(([^)]*)\\)"
+
+  lazy val comma_separation_regex = only_blanks_regex + comma_symbol + only_blanks_regex
 
   lazy val dot_notation_symbol = "."
 
   lazy val dot_notation_regex = only_blanks_regex + "\\."
 
-  lazy val type_declaration_colon_regex = ":.*"
+  lazy val type_declaration_colon_regex = ":(.*)"
+
+  lazy val type_declaration_colon_non_greedy_regex = ":(.*?)"
+
+  lazy val parameter_type_declaration_colon_regex =
+    only_blanks_regex + type_declaration_colon_non_greedy_regex + closing_bracket_regex
 
   lazy val addition_symbol = "+"
 
@@ -483,8 +511,6 @@ trait SodaConstant
 
   lazy val greater_than_or_equal_to_unicode_symbol = "\u2265"
 
-  lazy val empty_list_symbol = "[]"
-
   lazy val list_constructor_symbol = "::"
 
   lazy val list_constructor_unicode_symbol = "\u2237"
@@ -498,6 +524,8 @@ trait SodaConstant
   lazy val comment_closing_symbol = "*/"
 
   lazy val comment_line_symbol = "*"
+
+  lazy val comma_symbol = ","
 
   lazy val tail_recursion_annotation = "@tailrec"
 
@@ -517,59 +545,63 @@ trait SodaConstant
 
   lazy val soda_reserved_words_words_only : Seq [String] =
     Seq (
-      lambda_reserved_word,
-      any_reserved_word,
-      def_reserved_word,
-      if_reserved_word,
-      then_reserved_word,
-      else_reserved_word,
-      match_reserved_word,
-      case_reserved_word,
-      class_reserved_word,
-      extends_reserved_word,
-      abstract_reserved_word,
-      class_end_reserved_word,
-      this_reserved_word,
-      subtype_reserved_word,
-      supertype_reserved_word,
-      false_reserved_word,
-      true_reserved_word,
-      not_reserved_word,
-      and_reserved_word,
-      or_reserved_word,
-      package_reserved_word,
-      import_reserved_word,
-      theorem_reserved_word,
+      lambda_reserved_word ,
+      any_reserved_word ,
+      fun_reserved_word ,
+      def_reserved_word ,
+      if_reserved_word ,
+      then_reserved_word ,
+      else_reserved_word ,
+      match_reserved_word ,
+      case_reserved_word ,
+      class_reserved_word ,
+      extends_reserved_word ,
+      abstract_reserved_word ,
+      class_end_reserved_word ,
+      datatype_reserved_word ,
+      data_reserved_word ,
+      inductive_reserved_word ,
+      this_reserved_word ,
+      subtype_reserved_word ,
+      supertype_reserved_word ,
+      false_reserved_word ,
+      true_reserved_word ,
+      not_reserved_word ,
+      and_reserved_word ,
+      or_reserved_word ,
+      package_reserved_word ,
+      import_reserved_word ,
+      theorem_reserved_word ,
       directive_reserved_word
     )
 
   lazy val soda_reserved_words_symbols_only : Seq [String] =
     Seq (
-      function_definition_symbol,
-      type_membership_symbol,
-      function_arrow_symbol,
-      case_arrow_symbol,
-      parameter_definition_symbol,
-      addition_symbol,
-      subtraction_symbol,
-      multiplication_symbol,
-      division_symbol,
-      modulo_symbol,
-      equals_symbol,
-      less_than_symbol,
-      less_than_or_equal_to_symbol,
-      greater_than_symbol,
-      greater_than_or_equal_to_symbol,
-      subtype_abbreviation,
-      supertype_abbreviation,
-      intersection_type_symbol,
+      function_definition_symbol ,
+      type_membership_symbol ,
+      function_arrow_symbol ,
+      case_arrow_symbol ,
+      parameter_definition_symbol ,
+      addition_symbol ,
+      subtraction_symbol ,
+      multiplication_symbol ,
+      division_symbol ,
+      modulo_symbol ,
+      equals_symbol ,
+      less_than_symbol ,
+      less_than_or_equal_to_symbol ,
+      greater_than_symbol ,
+      greater_than_or_equal_to_symbol ,
+      subtype_abbreviation ,
+      supertype_abbreviation ,
+      intersection_type_symbol ,
       union_type_symbol
     )
 
   lazy val soda_reserved_words_annotations_only : Seq [String] =
     Seq (
-      tail_recursion_annotation,
-      override_annotation,
+      tail_recursion_annotation ,
+      override_annotation ,
       new_annotation
     )
 

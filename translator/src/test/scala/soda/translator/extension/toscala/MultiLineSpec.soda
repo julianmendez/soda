@@ -5,8 +5,6 @@ class MultiLineSpec ()
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.BlockAnnotationEnum
-    soda.translator.block.DefaultBlockTranslator
     soda.translator.block.DefaultBlockSequenceTranslator
     soda.translator.parser.annotation.AnnotationFactory
     soda.translator.parser.BlockBuilder

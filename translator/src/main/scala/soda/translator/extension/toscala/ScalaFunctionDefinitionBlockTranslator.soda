@@ -10,7 +10,6 @@ class ScalaFunctionDefinitionBlockTranslator
     soda.translator.block.AnnotatedLine
     soda.translator.block.AnnotatedLine_
     soda.translator.block.Block
-    soda.translator.block.Block_
     soda.translator.parser.BlockBuilder
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.FunctionDefinitionAnnotation

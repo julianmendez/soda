@@ -52,7 +52,7 @@ trait FiboExampleInSodaForCoq
       case _otherwise => a
     }
 
-  def fib (n : nat) =
+  def fib (n : nat) : nat =
     _tailrec_fib (n) (O_ () ) (S_ (O_ () ) )
 
 }

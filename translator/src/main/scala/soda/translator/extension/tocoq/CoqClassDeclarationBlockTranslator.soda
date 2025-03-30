@@ -57,25 +57,24 @@ class CoqClassDeclarationBlockTranslator
   _process_tail (lines : Seq [String] ) : Seq [String] =
     _process_if_extends (remove_first_line (lines) )
 
-  get_table_translator (line : String) : Translator =
+  table_translator : Translator =
     TableTranslator_ (
       Seq (Tuple2 (_sc .class_reserved_word, _tc .coq_class_reserved_word ) )
     )
 
-  _process_head_with (class_name : String) (line : String) (lines : Seq [String] )
-      : Seq [String] =
+  _process_head_with (class_name : String) (line : String) : Seq [String] =
     Seq [String] (
       _tc .coq_module_reserved_word + _tc .coq_space + class_name + _tc .coq_space +
       _tc .coq_end_symbol + _tc .coq_new_line + _tc .coq_new_line +
       Replacement_ (_sc .space + line)
-        .replace_at_beginning (0) (get_table_translator (line) )
+        .replace_at_beginning (0) (table_translator)
         .line .substring (_sc .space .length) +
       _tc .coq_space + _tc .coq_type_membership_symbol + _tc .coq_space +
       _tc .coq_type_reserved_word + _tc .coq_space + _tc .coq_function_definition_symbol
     )
 
   _process_head (class_name : String) (lines : Seq [String] ) : Seq [String] =
-    _process_head_with (class_name) (get_first_line (lines) ) (lines)
+    _process_head_with (class_name) (get_first_line (lines) )
 
   contains_equals (line : String) : Boolean =
     line .trim .contains (_sc .function_definition_symbol)

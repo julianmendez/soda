@@ -16,7 +16,7 @@ class ClassBeginningAnnotationSpec ()
 
   default_block_processor = ExampleProgram .mk .default_block_processor
 
-  example_0 = example_blocks .apply (2)
+  example_0 = example_blocks .apply (3)
 
   get_as_block (text : String) : Block =
     default_block_processor
@@ -69,7 +69,7 @@ class ClassBeginningAnnotationSpec ()
         example_blocks
           .map (lambda block --> ClassBeginningAnnotation .mk (block) .applies )
     ) (
-      expected := Seq [Boolean] (false , false , true , false , false , false , false ,
+      expected := Seq [Boolean] (false , false , false , true , false , false , false , false ,
         false , false , false , false , false , false)
     )
   )

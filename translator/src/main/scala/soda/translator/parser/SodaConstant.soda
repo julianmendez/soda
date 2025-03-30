@@ -5,6 +5,8 @@ class SodaConstant
 
   space = " "
 
+  empty_string = ""
+
   new_line = "\n"
 
   function_definition_symbol = "="
@@ -29,9 +31,9 @@ class SodaConstant
 
   parameter_definition_unicode_symbol = "\u2254"
 
-  any_reserved_word = "any"
-
   lambda_reserved_word = "lambda"
+
+  any_reserved_word = "any"
 
   fun_reserved_word = "fun"
 
@@ -72,6 +74,12 @@ class SodaConstant
   class_end_reserved_word = "end"
 
   class_end_proposed_unicode_symbol = "\u23BF"
+
+  datatype_reserved_word = "datatype"
+
+  data_reserved_word = "data"
+
+  inductive_reserved_word = "inductive"
 
   this_reserved_word = "this"
 
@@ -125,19 +133,46 @@ class SodaConstant
 
   closing_bracket_symbol = "]"
 
+  placeholder_symbol = "\u0001"
+
   only_blanks_regex = "\\s*"
 
   some_blanks_regex = "\\s+"
 
-  type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+  opening_bracket_regex = "\\["
 
-  class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
+  closing_bracket_regex = "\\]"
+
+  opening_parenthesis_regex = "\\("
+
+  closing_parenthesis_regex = "\\)"
+
+  type_parameter_separation_regex =
+    closing_bracket_regex + only_blanks_regex + opening_bracket_regex
+
+  class_parameter_separation_regex =
+    closing_parenthesis_regex + only_blanks_regex + opening_parenthesis_regex
+
+  class_parameter_separation_with_placeholder =
+    closing_parenthesis_symbol + placeholder_symbol + opening_parenthesis_symbol
+
+  closing_opening_parentheses_regex =
+    closing_parenthesis_regex + opening_parenthesis_regex
+
+  constructor_parameter_separation_regex = "\\(([^)]*)\\)"
+
+  comma_separation_regex = only_blanks_regex + comma_symbol + only_blanks_regex
 
   dot_notation_symbol = "."
 
   dot_notation_regex = only_blanks_regex + "\\."
 
-  type_declaration_colon_regex = ":.*"
+  type_declaration_colon_regex = ":(.*)"
+
+  type_declaration_colon_non_greedy_regex = ":(.*?)"
+
+  parameter_type_declaration_colon_regex =
+    only_blanks_regex + type_declaration_colon_non_greedy_regex + closing_bracket_regex
 
   addition_symbol = "+"
 
@@ -163,8 +198,6 @@ class SodaConstant
 
   greater_than_or_equal_to_unicode_symbol = "\u2265"
 
-  empty_list_symbol = "[]"
-
   list_constructor_symbol = "::"
 
   list_constructor_unicode_symbol = "\u2237"
@@ -178,6 +211,8 @@ class SodaConstant
   comment_closing_symbol = "*/"
 
   comment_line_symbol = "*"
+
+  comma_symbol = ","
 
   tail_recursion_annotation = "@tailrec"
 
@@ -197,59 +232,63 @@ class SodaConstant
 
   soda_reserved_words_words_only : Seq [String] =
     Seq (
-      lambda_reserved_word,
-      any_reserved_word,
-      def_reserved_word,
-      if_reserved_word,
-      then_reserved_word,
-      else_reserved_word,
-      match_reserved_word,
-      case_reserved_word,
-      class_reserved_word,
-      extends_reserved_word,
-      abstract_reserved_word,
-      class_end_reserved_word,
-      this_reserved_word,
-      subtype_reserved_word,
-      supertype_reserved_word,
-      false_reserved_word,
-      true_reserved_word,
-      not_reserved_word,
-      and_reserved_word,
-      or_reserved_word,
-      package_reserved_word,
-      import_reserved_word,
-      theorem_reserved_word,
+      lambda_reserved_word ,
+      any_reserved_word ,
+      fun_reserved_word ,
+      def_reserved_word ,
+      if_reserved_word ,
+      then_reserved_word ,
+      else_reserved_word ,
+      match_reserved_word ,
+      case_reserved_word ,
+      class_reserved_word ,
+      extends_reserved_word ,
+      abstract_reserved_word ,
+      class_end_reserved_word ,
+      datatype_reserved_word ,
+      data_reserved_word ,
+      inductive_reserved_word ,
+      this_reserved_word ,
+      subtype_reserved_word ,
+      supertype_reserved_word ,
+      false_reserved_word ,
+      true_reserved_word ,
+      not_reserved_word ,
+      and_reserved_word ,
+      or_reserved_word ,
+      package_reserved_word ,
+      import_reserved_word ,
+      theorem_reserved_word ,
       directive_reserved_word
     )
 
   soda_reserved_words_symbols_only : Seq [String] =
     Seq (
-      function_definition_symbol,
-      type_membership_symbol,
-      function_arrow_symbol,
-      case_arrow_symbol,
-      parameter_definition_symbol,
-      addition_symbol,
-      subtraction_symbol,
-      multiplication_symbol,
-      division_symbol,
-      modulo_symbol,
-      equals_symbol,
-      less_than_symbol,
-      less_than_or_equal_to_symbol,
-      greater_than_symbol,
-      greater_than_or_equal_to_symbol,
-      subtype_abbreviation,
-      supertype_abbreviation,
-      intersection_type_symbol,
+      function_definition_symbol ,
+      type_membership_symbol ,
+      function_arrow_symbol ,
+      case_arrow_symbol ,
+      parameter_definition_symbol ,
+      addition_symbol ,
+      subtraction_symbol ,
+      multiplication_symbol ,
+      division_symbol ,
+      modulo_symbol ,
+      equals_symbol ,
+      less_than_symbol ,
+      less_than_or_equal_to_symbol ,
+      greater_than_symbol ,
+      greater_than_or_equal_to_symbol ,
+      subtype_abbreviation ,
+      supertype_abbreviation ,
+      intersection_type_symbol ,
       union_type_symbol
     )
 
   soda_reserved_words_annotations_only : Seq [String] =
     Seq (
-      tail_recursion_annotation,
-      override_annotation,
+      tail_recursion_annotation ,
+      override_annotation ,
       new_annotation
     )
 

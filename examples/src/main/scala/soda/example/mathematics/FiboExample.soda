@@ -28,13 +28,13 @@ class FiboExampleInSoda
     then NonNegative .mk (a .v - 1)
     else a
 
-  _rec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
+  _tailrec (m : NonNegative) (a : NonNegative) (b : NonNegative) : NonNegative =
     if m .v == 0 then a
     else if m .v == 1 then b
-    else _rec (_monus1 (m) ) (b) (_plus (a) (b) )
+    else _tailrec (_monus1 (m) ) (b) (_plus (a) (b) )
 
   _apply (n : NonNegative) : NonNegative =
-    _rec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
+    _tailrec (n) (NonNegative .mk (0) ) (NonNegative .mk (1) )
 
   apply (n : Int) : Int =
     match NonNegative .mk (n) .check

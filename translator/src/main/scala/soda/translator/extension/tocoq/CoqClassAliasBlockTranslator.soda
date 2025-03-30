@@ -8,13 +8,10 @@ class CoqClassAliasBlockTranslator
   import
     soda.translator.block.AnnotatedBlock
     soda.translator.block.Block
-    soda.translator.block.Translator
-    soda.translator.blocktr.TableTranslator_
     soda.translator.parser.BlockBuilder
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.ClassAliasAnnotation
     soda.translator.parser.annotation.ClassAliasAnnotation_
-    soda.translator.replacement.Replacement_
 
   _sc : SodaConstant = SodaConstant .mk
 

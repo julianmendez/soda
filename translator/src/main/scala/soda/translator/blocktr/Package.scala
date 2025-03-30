@@ -16,7 +16,6 @@ trait DirectiveBlockTranslator
   def   closing_comment : String
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
@@ -35,9 +34,6 @@ trait DirectiveBlockTranslator
 
   private def _comment_block_out (lines : Seq [String] ) : Seq [String] =
     Seq (opening_comment) .++ (lines .++ (Seq (closing_comment) ) )
-
-  private def _line_contains (line : String) (pattern : String) : Boolean =
-    line .indexOf (pattern) >= 0
 
   private def _directive_applies (lines : Seq [String] ) : Boolean =
     (_get_first_or_empty (lines) ) .contains (identifier)

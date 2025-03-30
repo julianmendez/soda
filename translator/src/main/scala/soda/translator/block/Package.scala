@@ -96,33 +96,36 @@ trait BlockAnnotationEnum
 
   lazy val abstract_declaration = BlockAnnotationId .mk (4) ("abstract_declaration")
 
-  lazy val import_declaration = BlockAnnotationId .mk (5) ("import_declaration")
+  lazy val datatype_declaration = BlockAnnotationId .mk (5) ("datatype_declaration")
 
-  lazy val package_declaration = BlockAnnotationId .mk (6) ("package_declaration")
+  lazy val import_declaration = BlockAnnotationId .mk (6) ("import_declaration")
 
-  lazy val class_alias = BlockAnnotationId .mk (7) ("class_alias")
+  lazy val package_declaration = BlockAnnotationId .mk (7) ("package_declaration")
 
-  lazy val theorem_block = BlockAnnotationId .mk (8) ("theorem_block")
+  lazy val class_alias = BlockAnnotationId .mk (8) ("class_alias")
 
-  lazy val directive_block = BlockAnnotationId .mk (9) ("directive_block")
+  lazy val theorem_block = BlockAnnotationId .mk (9) ("theorem_block")
 
-  lazy val comment = BlockAnnotationId .mk (10) ("comment")
+  lazy val directive_block = BlockAnnotationId .mk (10) ("directive_block")
 
-  lazy val test_declaration = BlockAnnotationId .mk (11) ("test_declaration")
+  lazy val comment = BlockAnnotationId .mk (11) ("comment")
+
+  lazy val test_declaration = BlockAnnotationId .mk (12) ("test_declaration")
 
   lazy val values =
     Seq (
-      undefined,
-      function_definition,
-      class_beginning,
-      class_end,
-      abstract_declaration,
-      import_declaration,
-      package_declaration,
-      class_alias,
-      theorem_block,
-      directive_block,
-      comment,
+      undefined ,
+      function_definition ,
+      class_beginning ,
+      class_end ,
+      abstract_declaration ,
+      datatype_declaration ,
+      import_declaration ,
+      package_declaration ,
+      class_alias ,
+      theorem_block ,
+      directive_block ,
+      comment ,
       test_declaration
     )
 

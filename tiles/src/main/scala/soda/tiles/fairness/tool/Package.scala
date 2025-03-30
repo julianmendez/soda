@@ -143,7 +143,7 @@ object Context {
 /**
  *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
  *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
- *  \bar{y})^{2}}}
+ *  \bar{y})^2}}
  */
 
 trait MathTool

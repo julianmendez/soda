@@ -17,8 +17,6 @@ class CoqDocumentationBlockTranslator
 
   _tc = TranslationConstantToCoq .mk
 
-  _comment_line_prefix = _sc .comment_line_symbol + _sc .space
-
   _prepend (prefix : String) (content : Seq [String] ) : Seq [String] =
     if content .isEmpty
     then Seq [String] (prefix)

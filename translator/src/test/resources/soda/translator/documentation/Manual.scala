@@ -2,7 +2,7 @@ package soda.manual
 
 /* This is a Soda tutorial written in Soda.
  * Copyright 2020--2025 Julian Alfredo Mendez
- * Version: 2025-03-14 */
+ * Version: 2025-03-29 */
 
 /* This tutorial is itself a "Hello world!" program.
  * The piece of code that prints the message is at the end of the file. */
@@ -17,10 +17,11 @@ package soda.manual
  * 2. the beginning of a class definition
  * 3. the end of a class definition
  * 4. a block declaration of abstract constants and functions
- * 5. a block of imports
- * 6. a package declaration
- * 7. a class alias
- * 8. a comment */
+ * 5. a definition of an algebraic data type
+ * 6. a block of imports
+ * 7. a package declaration
+ * 8. a class alias
+ * 9. a comment */
 
 /* To declare a class, just add the reserved word `class` before a class name, and end it with
  * the reserved word `end`.
@@ -72,7 +73,7 @@ trait EqualsExample
 
 
 
-  /* A constant does not have parameters and it is declared with the equals sign (`=`).
+  /* A constant does not have parameters, and it is declared with the equals sign (`=`).
    * For the constant name, it is recommended to use snake case and start in lowercase.
    * The constant name should be a noun phrase. */
 
@@ -94,7 +95,7 @@ trait EqualsExample
 
   lazy val second_result : Int = f (x = 20) (y = -10)
 
-  /* It is allowed to use the optional reserved word `def` to define constants and functions. */
+  /* Constants and functions can also be defined with the optional reserved word `def`. */
 
   lazy val a_constant : Int = 1
 
@@ -109,11 +110,63 @@ object EqualsExample {
     EqualsExample_ ()
 }
 
+/* It is possible to define algebraic data types, especially inductive data types.
+ * The reserved word for that definition is `datatype` with the name of the data type.
+ * The constructors are defined after the line with the `datatype` reserved word.
+ * Each constructor takes a possibly empty number of parameters and returns an element of the type being defined.
+ * Each parameter is separated by the type arrow (`->`) and the same is used as a result of the construction.
+ * It is mandatory to give a name to each parameter.
+ */
+
+sealed trait NaturalNumber
+
+case object Zero  extends NaturalNumber
+
+case class Successor (n : NaturalNumber) extends NaturalNumber
+
+
+sealed trait NaturalPair
+
+case class NaturalPair_ (fst : NaturalNumber , snd : NaturalNumber) extends NaturalPair
+
+
+/* It is also possible to use a simplified notation, without the colon, without the arrows,
+ * and without repeating the data type being defined. */
+
+sealed trait AnotherNaturalNumber
+
+case object AnotherZero  extends AnotherNaturalNumber
+
+case class AnotherSuccessor (n : AnotherNaturalNumber) extends AnotherNaturalNumber
+
+
+sealed trait AnotherNaturalPair
+
+case class AnotherNaturalPair_ (fst : AnotherNaturalNumber , snd : AnotherNaturalNumber) extends AnotherNaturalPair
+
+
+/* It is possible to use the reserved words `inductive` or `data`. Both reserved words are
+ * synonyms of `datatype`. */
+
+sealed trait NaturalNumber2
+
+case object Zero2  extends NaturalNumber2
+
+case class Successor2 (n : NaturalNumber2) extends NaturalNumber2
+
+
+sealed trait NaturalNumber3
+
+case object Zero3  extends NaturalNumber3
+
+case class Successor3 (n : NaturalNumber3) extends NaturalNumber3
+
+
 /* A class can extend other classes by using the reserved word `extends`.
  * Abstract classes contain a block with the reserved word `abstract`, and they are the only
  * classes that can be extended.
  * By contrast, concrete classes are declared with parentheses `(` and `)` and cannot be
- * extended. */
+ * extended. Algebraic data types cannot be extended either. */
 
 trait RegisteredPerson
 {
@@ -292,6 +345,20 @@ object MyPair {
   def mk [A, B] (fst : A) (snd : B) : MyPair [A, B] =
     MyPair_ [A, B] (fst, snd)
 }
+
+/* It is possible to define a pair as a data type. */
+
+sealed trait AnotherPair [A , B]
+
+case class AnotherPair_ [A , B] (fst : A , snd : B) extends AnotherPair [A , B]
+
+
+/* It is possible to define a triple as a data type. */
+
+sealed trait Triple [A , B , C]
+
+case class Triple_ [A , B , C] (fst : A , snd : B , trd : C) extends Triple [A , B , C]
+
 
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.

@@ -44,7 +44,7 @@ lazy val commonSettings =
     publishMavenStyle := true,
     publishConfiguration := publishConfiguration.value.withOverwrite(true),
     publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
-    scalacOptions ++= Seq("-deprecation", "-feature")
+    scalacOptions ++= Seq("-deprecation", "-feature", "-Xfatal-warnings")
   )
 
 lazy val docs =
