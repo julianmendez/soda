@@ -125,6 +125,26 @@ case object Zero  extends NaturalNumber
 case class Successor (n : NaturalNumber) extends NaturalNumber
 
 
+sealed trait NaturalPair
+
+case class NaturalPair_ (fst : NaturalNumber , snd : NaturalNumber) extends NaturalPair
+
+
+/* It is also possible to use a simplified notation, without the colon, without the arrows,
+ * and without repeating the data type being defined. */
+
+sealed trait AnotherNaturalNumber
+
+case object AnotherZero  extends AnotherNaturalNumber
+
+case class AnotherSuccessor (n : AnotherNaturalNumber) extends AnotherNaturalNumber
+
+
+sealed trait AnotherNaturalPair
+
+case class AnotherNaturalPair_ (fst : AnotherNaturalNumber , snd : AnotherNaturalNumber) extends AnotherNaturalPair
+
+
 /* It is possible to use the reserved words `inductive` or `data`. Both reserved words are
  * synonyms of `datatype`. */
 

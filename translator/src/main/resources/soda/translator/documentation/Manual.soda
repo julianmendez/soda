@@ -99,16 +99,29 @@ datatype NaturalNumber
   Zero : NaturalNumber
   Successor : (n : NaturalNumber) -> NaturalNumber
 
+datatype NaturalPair
+  NaturalPair_ : (fst : NaturalNumber) -> (snd : NaturalNumber) -> NaturalPair
+
+/* It is also possible to use a simplified notation, without the colon, without the arrows,
+ * and without repeating the data type being defined. */
+
+datatype AnotherNaturalNumber
+  AnotherZero
+  AnotherSuccessor (n : AnotherNaturalNumber)
+
+datatype AnotherNaturalPair
+  AnotherNaturalPair_ (fst : AnotherNaturalNumber) (snd : AnotherNaturalNumber)
+
 /* It is possible to use the reserved words `inductive` or `data`. Both reserved words are
  * synonyms of `datatype`. */
 
 inductive NaturalNumber2
-  Zero2 : NaturalNumber2
-  Successor2 : (n : NaturalNumber2) -> NaturalNumber2
+  Zero2
+  Successor2 (n : NaturalNumber2)
 
 data NaturalNumber3
-  Zero3 : NaturalNumber3
-  Successor3 : (n : NaturalNumber3) -> NaturalNumber3
+  Zero3
+  Successor3 (n : NaturalNumber3)
 
 /* A class can extend other classes by using the reserved word `extends`.
  * Abstract classes contain a block with the reserved word `abstract`, and they are the only
@@ -233,12 +246,12 @@ end
 /* It is possible to define a pair as a data type. */
 
 datatype AnotherPair [A : Type] [B : Type]
-  AnotherPair_ : (fst : A) -> (snd : B) -> AnotherPair [A] [B]
+  AnotherPair_ (fst : A) (snd : B)
 
 /* It is possible to define a triple as a data type. */
 
 datatype Triple [A : Type] [B : Type] [C : Type]
-  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]
+  Triple_ (fst : A) (snd : B) (trd : C)
 
 /* The parameter type can be constrained using `subtype` and `supertype`.
  * In that case, it is not necessary to declare the parameter to be of type Type.
