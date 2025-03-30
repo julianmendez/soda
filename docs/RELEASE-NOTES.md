@@ -3,6 +3,8 @@
 - - version: v0.21.0
   - date: '(not released)'
   - features:
+    - includes the reserved word `datatype` to define algebraic data types
+    - accepts `inductive` and `data` as synonyms for `datatype`
     - includes an updated mini-manual
     - accepts the optional reserved word `def` in Lean translator and in Coq translator
   - fixes:
