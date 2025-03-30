@@ -809,7 +809,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive data type Nat") (
+  test ("should translate the definition of the inductive data type Nat to Scala") (
     check (
       obtained = instance .translate ("datatype Nat" +
         "\n  Zero : Nat" +
@@ -827,7 +827,25 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive data type Seq1") (
+  test ("should translate a simplified definition of the inductive data type Nat to Scala") (
+    check (
+      obtained = instance .translate ("datatype Nat" +
+        "\n  Zero" +
+        "\n  Succ (n : Nat)" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Nat" +
+        "\n" +
+        "\ncase object Zero  extends Nat" +
+        "\n" +
+        "\ncase class Succ (n : Nat) extends Nat" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive data type Seq1 to Scala") (
     check (
       obtained = instance .translate ("datatype Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
@@ -845,7 +863,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the type Seq1 with `data`") (
+  test ("should translate the definition of the type Seq1 with `data` to Scala") (
     check (
       obtained = instance .translate ("data Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
@@ -863,7 +881,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the type Seq1 with `inductive`") (
+  test ("should translate the definition of the type Seq1 with `inductive` to Scala") (
     check (
       obtained = instance .translate ("inductive Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
@@ -881,7 +899,25 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive data type BTree") (
+  test ("should translate a simplified definition of the inductive data type Seq1 to Scala") (
+    check (
+      obtained = instance .translate ("datatype Seq1 [A : Type]" +
+        "\n  Nil" +
+        "\n  Cons (elem : A) (seq : Seq1 [A] )" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Seq1 [A]" +
+        "\n" +
+        "\ncase class Nil [A] () extends Seq1 [A]" +
+        "\n" +
+        "\ncase class Cons [A] (elem : A , seq : Seq1 [A] ) extends Seq1 [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the inductive data type BTree to Scala") (
     check (
       obtained = instance .translate ("datatype BTree [A : Type]" +
         "\n  Empty : BTree [A]" +
@@ -900,7 +936,7 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the inductive type BTree with `inductive`") (
+  test ("should translate the definition of the type BTree with `inductive` to Scala") (
     check (
       obtained = instance .translate ("inductive BTree [A : Type]" +
         "\n  Empty : BTree [A]" +
@@ -919,7 +955,26 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of the data type Triple") (
+  test ("should translate a simplified definition of the inductive data type BTree to Scala") (
+    check (
+      obtained = instance .translate ("datatype BTree [A : Type]" +
+        "\n  Empty" +
+        "\n  Node (value : A) (left : BTree [A] ) (right : BTree [A] )" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait BTree [A]" +
+        "\n" +
+        "\ncase class Empty [A] () extends BTree [A]" +
+        "\n" +
+        "\ncase class Node [A] (value : A , left : BTree [A]  , " +
+           "right : BTree [A] ) extends BTree [A]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of the data type Triple to Scala") (
     check (
       obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
         "\n  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]" +
@@ -935,12 +990,50 @@ case class MicroTranslatorToScalaSpec ()
     )
   )
 
-  test ("should translate the definition of a more complex data type") (
+  test ("should translate a simplified definition of the data type Triple to Scala") (
+    check (
+      obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
+        "\n  Triple_ (fst : A) (snd : B) (trd : C)" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Triple [A , B , C]" +
+        "\n" +
+        "\ncase class Triple_ [A , B , C] (fst : A , snd : B , trd : C)" +
+           " extends Triple [A , B , C]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate the definition of a more complex data type to Scala") (
     check (
       obtained = instance
           .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
         "\n  Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition [A] [B] [C] [D]" +
-        "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) -> (trd : C -> D) -> Composition [A] [B] [C] [D]" +
+        "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) ->" +
+          " (trd : C -> D) -> Composition [A] [B] [C] [D]" +
+        "\n"
+      )
+    ) (
+      expected = "sealed trait Composition [A , B , C , D]" +
+        "\n" +
+        "\ncase class Composition2 [A , B , C , D] (fst : A -> B , snd : B -> C)" +
+           " extends Composition [A , B , C , D]" +
+        "\n" +
+        "\ncase class Composition3 [A , B , C , D] (fst : A -> B , snd : B -> C , trd : C -> D)" +
+           " extends Composition [A , B , C , D]" +
+        "\n" +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of a more complex data type to Scala") (
+    check (
+      obtained = instance
+          .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
+        "\n  Composition2 (fst : A -> B) (snd : B -> C)" +
+        "\n  Composition3 (fst : A -> B) (snd : B -> C) (trd : C -> D)" +
         "\n"
       )
     ) (

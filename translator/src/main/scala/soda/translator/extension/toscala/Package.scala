@@ -749,7 +749,7 @@ trait ScalaDatatypeDeclarationBlockTranslator
 
   private def _get_type_parameters_with (parameters : Seq [String] ) : String =
     if ( parameters .isEmpty
-    ) ""
+    ) _tc .scala_empty_string
     else _tc .scala_space + _tc .scala_opening_bracket +
       parameters .mkString ( _tc .scala_space + _tc .scala_type_parameter_separator_symbol +
       _tc .scala_space) + _tc .scala_closing_bracket

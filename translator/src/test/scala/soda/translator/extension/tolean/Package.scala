@@ -403,11 +403,41 @@ case class MicroTranslatorToLeanSpec ()
     )
   )
 
+  test ("should translate a simplified definition of the inductive data type Nat to Lean") (
+    check (
+      obtained = instance .translate ("datatype Nat" +
+        "\n  Zero" +
+        "\n  Succ (n : Nat)" +
+        "\n"
+      )
+    ) (
+      expected = "inductive Nat where" +
+        "\n  | Zero : Nat" +
+        "\n  | Succ : (n : Nat) -> Nat" +
+        "\n"
+    )
+  )
+
   test ("should translate the definition of the inductive data type Seq1 to Lean") (
     check (
       obtained = instance .translate ("datatype Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
         "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
+        "\n"
+      )
+    ) (
+      expected = "inductive Seq1 (A : Type) where" +
+        "\n  | Nil : Seq1 (A)" +
+        "\n  | Cons : (elem : A) -> (seq : Seq1 (A) ) -> Seq1 (A)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of the inductive data type Seq1 to Lean") (
+    check (
+      obtained = instance .translate ("datatype Seq1 [A : Type]" +
+        "\n  Nil" +
+        "\n  Cons (elem : A) (seq : Seq1 [A] )" +
         "\n"
       )
     ) (
@@ -433,10 +463,38 @@ case class MicroTranslatorToLeanSpec ()
     )
   )
 
+  test ("should translate a simplified definition of the inductive data type BTree to Lean") (
+    check (
+      obtained = instance .translate ("datatype BTree [A : Type]" +
+        "\n  Empty" +
+        "\n  Node (value : A) (left : BTree [A] ) (right : BTree [A] )" +
+        "\n"
+      )
+    ) (
+      expected = "inductive BTree (A : Type) where" +
+        "\n  | Empty : BTree (A)" +
+        "\n  | Node : (value : A) -> (left : BTree (A) ) -> (right : BTree (A) ) -> BTree (A)" +
+        "\n"
+    )
+  )
+
   test ("should translate the definition of the data type Triple to Lean") (
     check (
       obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
         "\n  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]" +
+        "\n"
+      )
+    ) (
+      expected = "inductive Triple (A : Type) (B : Type) (C : Type) where" +
+        "\n  | Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple (A) (B) (C)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of the data type Triple to Lean") (
+    check (
+      obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
+        "\n  Triple_ (fst : A) (snd : B) (trd : C)" +
         "\n"
       )
     ) (
@@ -452,6 +510,23 @@ case class MicroTranslatorToLeanSpec ()
           .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
         "\n  Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition [A] [B] [C] [D]" +
         "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) -> (trd : C -> D) -> Composition [A] [B] [C] [D]" +
+        "\n"
+      )
+    ) (
+      expected = "inductive Composition (A : Type) (B : Type) (C : Type) (D : Type) where" +
+        "\n  | Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition (A) (B) (C) (D)" +
+        "\n  | Composition3 : (fst : A -> B) -> (snd : B -> C) ->" +
+          " (trd : C -> D) -> Composition (A) (B) (C) (D)" +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of a more complex data type to Lean") (
+    check (
+      obtained = instance
+          .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
+        "\n  Composition2 (fst : A -> B) (snd : B -> C)" +
+        "\n  Composition3 (fst : A -> B) (snd : B -> C) (trd : C -> D)" +
         "\n"
       )
     ) (

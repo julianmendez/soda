@@ -372,11 +372,43 @@ case class MicroTranslatorToCoqSpec ()
     )
   )
 
+  test ("should translate a simplified definition of the inductive data type Nat to Coq") (
+    check (
+      obtained = instance .translate ("datatype Nat" +
+        "\n  Zero" +
+        "\n  Succ (n : Nat)" +
+        "\n"
+      )
+    ) (
+      expected = "Inductive Nat : Type :=" +
+        "\n  | Zero : Nat" +
+        "\n  | Succ : (Nat) -> Nat" +
+        "\n." +
+        "\n"
+    )
+  )
+
   test ("should translate the definition of the inductive data type Seq1 to Coq") (
     check (
       obtained = instance .translate ("datatype Seq1 [A : Type]" +
         "\n  Nil : Seq1 [A]" +
         "\n  Cons : (elem : A) -> (seq : Seq1 [A] ) -> Seq1 [A]" +
+        "\n"
+      )
+    ) (
+      expected = "Inductive Seq1 (A : Type) : Type :=" +
+        "\n  | Nil : Seq1 (A)" +
+        "\n  | Cons : (A) -> (Seq1 (A) ) -> Seq1 (A)" +
+        "\n." +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of the inductive data type Seq1 to Coq") (
+    check (
+      obtained = instance .translate ("datatype Seq1 [A : Type]" +
+        "\n  Nil" +
+        "\n  Cons (elem : A) (seq : Seq1 [A] )" +
         "\n"
       )
     ) (
@@ -404,10 +436,40 @@ case class MicroTranslatorToCoqSpec ()
     )
   )
 
+  test ("should translate a simplified definition of the inductive data type BTree to Coq") (
+    check (
+      obtained = instance .translate ("datatype BTree [A : Type]" +
+        "\n  Empty" +
+        "\n  Node (value : A) (left : BTree [A] ) (right : BTree [A] )" +
+        "\n"
+      )
+    ) (
+      expected = "Inductive BTree (A : Type) : Type :=" +
+        "\n  | Empty : BTree (A)" +
+        "\n  | Node : (A) -> (BTree (A) ) -> (BTree (A) ) -> BTree (A)" +
+        "\n." +
+        "\n"
+    )
+  )
+
   test ("should translate the definition of the data type Triple to Coq") (
     check (
       obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
         "\n  Triple_ : (fst : A) -> (snd : B) -> (trd : C) -> Triple [A] [B] [C]" +
+        "\n"
+      )
+    ) (
+      expected = "Inductive Triple (A : Type) (B : Type) (C : Type) : Type :=" +
+        "\n  | Triple_ : (A) -> (B) -> (C) -> Triple (A) (B) (C)" +
+        "\n." +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of the data type Triple to Coq") (
+    check (
+      obtained = instance .translate ("datatype Triple [A : Type] [B : Type] [C : Type]" +
+        "\n  Triple_ (fst : A) (snd : B) (trd : C)" +
         "\n"
       )
     ) (
@@ -424,6 +486,24 @@ case class MicroTranslatorToCoqSpec ()
           .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
         "\n  Composition2 : (fst : A -> B) -> (snd : B -> C) -> Composition [A] [B] [C] [D]" +
         "\n  Composition3 : (fst : A -> B) -> (snd : B -> C) -> (trd : C -> D) -> Composition [A] [B] [C] [D]" +
+        "\n"
+      )
+    ) (
+      expected = "Inductive Composition (A : Type) (B : Type) (C : Type) (D : Type) : Type :=" +
+        "\n  | Composition2 : (A -> B) -> (B -> C) -> Composition (A) (B) (C) (D)" +
+        "\n  | Composition3 : (A -> B) -> (B -> C) ->" +
+          " (C -> D) -> Composition (A) (B) (C) (D)" +
+        "\n." +
+        "\n"
+    )
+  )
+
+  test ("should translate a simplified definition of a more complex data type to Coq") (
+    check (
+      obtained = instance
+          .translate ("datatype Composition [A : Type] [B : Type] [C : Type] [D : Type]" +
+        "\n  Composition2 (fst : A -> B) (snd : B -> C)" +
+        "\n  Composition3 (fst : A -> B) (snd : B -> C) (trd : C -> D)" +
         "\n"
       )
     ) (

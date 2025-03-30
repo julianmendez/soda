@@ -318,6 +318,8 @@ trait SodaConstant
 
   lazy val space = " "
 
+  lazy val empty_string = ""
+
   lazy val new_line = "\n"
 
   lazy val function_definition_symbol = "="
@@ -450,19 +452,40 @@ trait SodaConstant
 
   lazy val some_blanks_regex = "\\s+"
 
-  lazy val type_parameter_separation_regex = "]" + only_blanks_regex + "\\["
+  lazy val opening_bracket_regex = "\\["
 
-  lazy val class_parameter_separation_regex = "\\)" + only_blanks_regex + "\\("
+  lazy val closing_bracket_regex = "\\]"
 
-  lazy val closing_opening_parentheses_regex = "\\)\\("
+  lazy val opening_parenthesis_regex = "\\("
+
+  lazy val closing_parenthesis_regex = "\\)"
+
+  lazy val type_parameter_separation_regex =
+    closing_bracket_regex + only_blanks_regex + opening_bracket_regex
+
+  lazy val class_parameter_separation_regex =
+    closing_parenthesis_regex + only_blanks_regex + opening_parenthesis_regex
+
+  lazy val class_parameter_separation_with_placeholder =
+    closing_parenthesis_symbol + placeholder_symbol + opening_parenthesis_symbol
+
+  lazy val closing_opening_parentheses_regex =
+    closing_parenthesis_regex + opening_parenthesis_regex
 
   lazy val constructor_parameter_separation_regex = "\\(([^)]*)\\)"
+
+  lazy val comma_separation_regex = only_blanks_regex + comma_symbol + only_blanks_regex
 
   lazy val dot_notation_symbol = "."
 
   lazy val dot_notation_regex = only_blanks_regex + "\\."
 
-  lazy val type_declaration_colon_regex = ":.*"
+  lazy val type_declaration_colon_regex = ":(.*)"
+
+  lazy val type_declaration_colon_non_greedy_regex = ":(.*?)"
+
+  lazy val parameter_type_declaration_colon_regex =
+    only_blanks_regex + type_declaration_colon_non_greedy_regex + closing_bracket_regex
 
   lazy val addition_symbol = "+"
 
@@ -501,6 +524,8 @@ trait SodaConstant
   lazy val comment_closing_symbol = "*/"
 
   lazy val comment_line_symbol = "*"
+
+  lazy val comma_symbol = ","
 
   lazy val tail_recursion_annotation = "@tailrec"
 

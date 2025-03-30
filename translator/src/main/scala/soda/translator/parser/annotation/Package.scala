@@ -400,34 +400,6 @@ trait DatatypeDeclarationAnnotation
     first_line .startsWith (_sc .data_reserved_word + _sc .space) ||
     first_line .startsWith (_sc .inductive_reserved_word + _sc .space)
 
-  private def _get_parameters (line : String) : Seq [String] =
-    _sc .constructor_parameter_separation_regex
-      .r
-      .replaceAllIn (line,
-         m => m .matched .replaceAll (_sc .function_arrow_symbol , _sc .placeholder_symbol) )
-      .split (_sc .function_arrow_symbol)
-      .map ( piece => piece .replaceAll(_sc .placeholder_symbol , _sc .function_arrow_symbol) )
-      .toList
-
-  private def _make_constructor_from_line_with (line : String) (index : Int) : ConstructorTuple =
-    if ( index >= 0
-    ) ConstructorTuple .mk (
-      line .substring (0 , index) .trim) (
-      _get_parameters (line .substring (index + _sc .type_membership_symbol .length) ) )
-    else ConstructorTuple .mk (line .trim) (Seq [String] () )
-
-  def make_constructor_from_line (line : String) : ConstructorTuple =
-    _make_constructor_from_line_with (line) (line .indexOf (_sc .type_membership_symbol) )
-
-  lazy val constructors_with_comments : Seq [AnnotatedLine] =
-    content_lines
-
-  lazy val constructors : Seq [ConstructorTuple] =
-    constructors_with_comments
-      .filter ( line => ! line .is_comment)
-      .map ( annotated_line => annotated_line .line)
-      .map ( line => make_constructor_from_line (line) )
-
   private def _class_name_for (line : String) (word : String) : String =
     if ( first_line .startsWith (word + _sc .space)
     ) line .substring (line .indexOf (word) + word .length) .trim
@@ -438,20 +410,98 @@ trait DatatypeDeclarationAnnotation
     _class_name_for (first_readable_line .line) (_sc .data_reserved_word) +
     _class_name_for (first_readable_line .line) (_sc .inductive_reserved_word)
 
+  lazy val class_name_and_parameters_no_type_membership_symbol : String =
+    class_name_and_parameters
+      .replaceAll (_sc .parameter_type_declaration_colon_regex, _sc .closing_bracket_symbol)
+
   lazy val class_name : String =
     class_name_and_parameters
-      .split ("\\[")
+      .split (_sc .opening_bracket_regex)
       .headOption
-      .getOrElse ("")
+      .getOrElse (_sc .empty_string)
       .trim
 
   lazy val type_parameters : Seq [String] =
     class_name_and_parameters
-      .split ("\\[")
-      .flatMap( piece => piece .split (",") )
-      .map ( piece => piece .replaceAll (":.*" , "") .trim )
+      .split (_sc .opening_bracket_regex)
+      .flatMap ( piece => piece .split (_sc .comma_symbol) )
+      .map ( piece =>
+        piece .replaceAll (_sc .type_declaration_colon_regex , _sc .empty_string) .trim )
       .drop (1)
       .toIndexedSeq
+
+  private def _get_parameters_with_arrows (line : String) : Seq [String] =
+    _sc .constructor_parameter_separation_regex
+      .r
+      .replaceAllIn (line ,
+         m => m .matched .replaceAll (_sc .function_arrow_symbol , _sc .placeholder_symbol) )
+      .split (_sc .function_arrow_symbol)
+      .map ( piece =>
+        piece
+          .replaceAll (_sc .placeholder_symbol , _sc .function_arrow_symbol)
+          .trim
+      )
+      .toList
+
+  private def _get_parameters_without_arrows (line : String) : Seq [String] =
+    line
+      .replaceAll (_sc .comma_separation_regex ,
+         _sc .class_parameter_separation_with_placeholder)
+      .replaceAll (_sc .class_parameter_separation_regex ,
+         _sc .class_parameter_separation_with_placeholder)
+      .split (_sc .placeholder_symbol)
+      .map ( piece => piece .trim)
+      .filter ( piece => piece .nonEmpty)
+      .toList
+      .++ (Seq [String] () .+: (class_name_and_parameters_no_type_membership_symbol) )
+
+  private def _parse_constructor_with_arrows (line : String) (index_colon : Int) : ConstructorTuple =
+    if ( index_colon >= 0
+    ) ConstructorTuple .mk (
+      line .substring (0 , index_colon) .trim) (
+      _get_parameters_with_arrows (
+        line .substring (index_colon + _sc .type_membership_symbol .length) )
+    )
+    else ConstructorTuple .mk (line .trim) (Seq [String] () )
+
+  private def _parse_constructor_without_arrows (line : String) (index_paren : Int) : ConstructorTuple =
+    if ( index_paren >= 0
+    ) ConstructorTuple .mk (
+      line .substring (0 , index_paren) .trim) (
+      _get_parameters_without_arrows (line .substring (index_paren) )
+    )
+    else ConstructorTuple .mk (line .trim) (Seq [String] () )
+
+  private def _parse_constructor_for_enum (line : String) : ConstructorTuple =
+    ConstructorTuple .mk (line .trim) (
+      _get_parameters_without_arrows (_sc .empty_string)
+    )
+
+  private def _make_constructor_not_enum (line : String)  (index_colon : Int) (index_paren : Int)
+      : ConstructorTuple =
+    if ( (index_colon >= 0) && (index_paren >=0) && (index_paren < index_colon)
+    ) _parse_constructor_without_arrows (line) (index_paren)
+    else _parse_constructor_with_arrows (line) (index_colon)
+
+  private def _make_constructor_from_line_with (line : String) (index_colon : Int) (index_paren : Int)
+      : ConstructorTuple =
+    if ( (index_colon < 0)
+    ) _parse_constructor_for_enum (line)
+    else _make_constructor_not_enum (line) (index_colon) (index_paren)
+
+  def make_constructor_from_line (line : String) : ConstructorTuple =
+    _make_constructor_from_line_with (line) (
+      line .indexOf (_sc .type_membership_symbol) ) (
+      line .indexOf (_sc .opening_parenthesis_symbol) )
+
+  lazy val constructors_with_comments : Seq [AnnotatedLine] =
+    content_lines
+
+  lazy val constructors : Seq [ConstructorTuple] =
+    constructors_with_comments
+      .filter ( line => ! line .is_comment)
+      .map ( annotated_line => annotated_line .line)
+      .map ( line => make_constructor_from_line (line) )
 
 }
 
