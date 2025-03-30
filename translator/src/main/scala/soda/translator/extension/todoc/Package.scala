@@ -19,7 +19,6 @@ trait DocBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.CommentAnnotation
   import   soda.translator.parser.annotation.CommentAnnotation_
   import   soda.translator.parser.tool.CommentDelimiterRemover

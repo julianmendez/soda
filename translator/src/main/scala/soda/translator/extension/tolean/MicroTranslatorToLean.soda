@@ -16,8 +16,6 @@ class MicroTranslatorToLean
     soda.translator.block.BlockTranslatorPipeline
     soda.translator.block.ConditionalBlockTranslator
     soda.translator.blocktr.TokenReplacement
-    soda.translator.blocktr.TokenizedBlockTranslator
-    soda.translator.replacement.Token
 
   _tc = TranslationConstantToLean .mk
 

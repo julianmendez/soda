@@ -15,13 +15,8 @@ class MicroTranslatorToCoq
     soda.translator.block.BlockAnnotationEnum_
     soda.translator.block.BlockAnnotationId
     soda.translator.block.BlockTranslatorPipeline
-    soda.translator.block.BlockTranslatorPipeline_
     soda.translator.block.ConditionalBlockTranslator
-    soda.translator.block.ConditionalBlockTranslator_
     soda.translator.blocktr.TokenReplacement
-    soda.translator.blocktr.TokenizedBlockTranslator
-    soda.translator.blocktr.TokenizedBlockTranslator_
-    soda.translator.replacement.Token
 
   _tc = TranslationConstantToCoq .mk
 

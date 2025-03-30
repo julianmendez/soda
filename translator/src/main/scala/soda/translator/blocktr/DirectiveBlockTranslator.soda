@@ -10,7 +10,6 @@ class DirectiveBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.Block
     soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.DirectiveBlockAnnotation
     soda.translator.parser.annotation.DirectiveBlockAnnotation_

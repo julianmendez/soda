@@ -19,13 +19,10 @@ trait LeanClassAliasBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.block.Translator
-  import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassAliasAnnotation
   import   soda.translator.parser.annotation.ClassAliasAnnotation_
-  import   soda.translator.replacement.Replacement_
 
   private lazy val _sc = SodaConstant .mk
 
@@ -410,7 +407,6 @@ trait LeanDatatypeDeclarationBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ConstructorTuple
 
   private lazy val _sc = SodaConstant .mk
 
@@ -1041,8 +1037,6 @@ trait MicroTranslatorToLean
   import   soda.translator.block.BlockTranslatorPipeline
   import   soda.translator.block.ConditionalBlockTranslator
   import   soda.translator.blocktr.TokenReplacement
-  import   soda.translator.blocktr.TokenizedBlockTranslator
-  import   soda.translator.replacement.Token
 
   private lazy val _tc = TranslationConstantToLean .mk
 

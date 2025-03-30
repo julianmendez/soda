@@ -10,9 +10,6 @@ case class BlockAnnotationSpec ()
 {
 
   import   soda.translator.block.Block
-  import   soda.translator.block.DefaultBlockTranslator
-  import   soda.translator.block.DefaultBlockSequenceTranslator
-  import   soda.translator.parser.BlockProcessor
 
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)

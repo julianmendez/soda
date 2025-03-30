@@ -965,8 +965,6 @@ case class MultiLineSpec ()
 {
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.BlockAnnotationEnum
-  import   soda.translator.block.DefaultBlockTranslator
   import   soda.translator.block.DefaultBlockSequenceTranslator
   import   soda.translator.parser.annotation.AnnotationFactory
   import   soda.translator.parser.BlockBuilder

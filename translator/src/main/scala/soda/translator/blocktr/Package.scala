@@ -16,7 +16,6 @@ trait DirectiveBlockTranslator
   def   closing_comment : String
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation
   import   soda.translator.parser.annotation.DirectiveBlockAnnotation_

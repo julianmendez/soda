@@ -7,7 +7,6 @@ class ScalaMainClassBlockTranslator
 
   import
     soda.translator.block.AnnotatedBlock
-    soda.translator.block.Block
     soda.translator.parser.BlockBuilder
     soda.translator.parser.annotation.ClassBeginningAnnotation
     soda.translator.parser.annotation.ClassBeginningAnnotation_

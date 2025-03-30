@@ -14,7 +14,6 @@ class ScalaDatatypeDeclarationBlockTranslator
     soda.translator.parser.SodaConstant
     soda.translator.parser.annotation.DatatypeDeclarationAnnotation
     soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
-    soda.translator.parser.annotation.ConstructorTuple
 
 
   _sc = SodaConstant .mk

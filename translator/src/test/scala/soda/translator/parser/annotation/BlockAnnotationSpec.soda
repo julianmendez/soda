@@ -5,9 +5,6 @@ class BlockAnnotationSpec ()
 
   import
     soda.translator.block.Block
-    soda.translator.block.DefaultBlockTranslator
-    soda.translator.block.DefaultBlockSequenceTranslator
-    soda.translator.parser.BlockProcessor
 
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)

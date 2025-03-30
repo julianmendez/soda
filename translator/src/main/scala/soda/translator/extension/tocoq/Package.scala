@@ -20,13 +20,10 @@ trait CoqClassAliasBlockTranslator
 
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
-  import   soda.translator.block.Translator
-  import   soda.translator.blocktr.TableTranslator_
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassAliasAnnotation
   import   soda.translator.parser.annotation.ClassAliasAnnotation_
-  import   soda.translator.replacement.Replacement_
 
   private lazy val _sc : SodaConstant = SodaConstant .mk
 
@@ -321,10 +318,7 @@ trait CoqClassEndBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
   import   soda.translator.parser.annotation.ClassEndAnnotation
@@ -407,11 +401,9 @@ trait CoqDatatypeDeclarationBlockTranslator
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
-  import   soda.translator.block.Block_
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ConstructorTuple
 
   private lazy val _sc = SodaConstant .mk
 
@@ -1080,13 +1072,8 @@ trait MicroTranslatorToCoq
   import   soda.translator.block.BlockAnnotationEnum_
   import   soda.translator.block.BlockAnnotationId
   import   soda.translator.block.BlockTranslatorPipeline
-  import   soda.translator.block.BlockTranslatorPipeline_
   import   soda.translator.block.ConditionalBlockTranslator
-  import   soda.translator.block.ConditionalBlockTranslator_
   import   soda.translator.blocktr.TokenReplacement
-  import   soda.translator.blocktr.TokenizedBlockTranslator
-  import   soda.translator.blocktr.TokenizedBlockTranslator_
-  import   soda.translator.replacement.Token
 
   private lazy val _tc = TranslationConstantToCoq .mk
 

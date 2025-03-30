@@ -678,7 +678,6 @@ trait ScalaClassEndBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.ClassEndAnnotation
   import   soda.translator.parser.annotation.ClassEndAnnotation_
@@ -743,7 +742,6 @@ trait ScalaDatatypeDeclarationBlockTranslator
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation
   import   soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
-  import   soda.translator.parser.annotation.ConstructorTuple
 
   private lazy val _sc = SodaConstant .mk
 
@@ -889,7 +887,6 @@ trait ScalaFunctionDefinitionBlockTranslator
   import   soda.translator.block.AnnotatedLine
   import   soda.translator.block.AnnotatedLine_
   import   soda.translator.block.Block
-  import   soda.translator.block.Block_
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.SodaConstant
   import   soda.translator.parser.annotation.FunctionDefinitionAnnotation
@@ -1137,7 +1134,6 @@ trait ScalaMainClassBlockTranslator
 
 
   import   soda.translator.block.AnnotatedBlock
-  import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
   import   soda.translator.parser.annotation.ClassBeginningAnnotation
   import   soda.translator.parser.annotation.ClassBeginningAnnotation_
@@ -1302,8 +1298,6 @@ trait ScalaTheoremBlockTranslator
   import   soda.translator.block.AnnotatedBlock
   import   soda.translator.block.Block
   import   soda.translator.parser.BlockBuilder
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation
-  import   soda.translator.parser.annotation.DirectiveBlockAnnotation_
   import   soda.translator.parser.annotation.TheoremBlockAnnotation
   import   soda.translator.parser.annotation.TheoremBlockAnnotation_
 
