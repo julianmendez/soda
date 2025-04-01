@@ -1,7 +1,7 @@
 ## Release Notes
 ---
 - - version: v0.21.0
-  - date: '(not released)'
+  - date: '2025-04-01'
   - features:
     - includes the reserved word `datatype` to define algebraic data types
     - accepts `inductive` and `data` as synonyms for `datatype`
