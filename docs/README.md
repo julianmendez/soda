@@ -109,11 +109,12 @@ The **reserved words** are:
 
 - `:` (type membership symbol)
 - `->` (type mapping symbol)
-- `=` (definition symbol)
+- `=` (definition symbol), `def` (optional)
 - `:=` (parameter definition symbol)
-- `lambda`, `any` (synonym of `lambda`), `-->` (lambda symbol)
+- `lambda`, `any` (synonym of `lambda`), `fun` (synonym of `lambda`), `-->` (lambda symbol)
 - `if`, `then`, `else`
 - `match`, `case`, `==>` (implication symbol in pattern matching)
+- `datatype`, `inductive` (synonym of `datatype`), `data` (synonym of `datatype`)
 - `class`, `extends`, `abstract`, `end`
 - `this`, `subtype`, `supertype`
 - `false`, `true` , `not`, `and`, `or`
