@@ -1,7 +1,7 @@
 [Soda](https://julianmendez.github.io/soda/)
 
 ```bibtex
-@misc{Mendez-Kampik-2025-SodaMas,
+@misc{Mendez.Kampik-2025-SodaMas,
       title = { {Can Proof Assistants Verify Multi-Agent Systems?} },
       author = {Mendez, Julian Alfredo and Kampik, Timotheus},
       year = {2025},
