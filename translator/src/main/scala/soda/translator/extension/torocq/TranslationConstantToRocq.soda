@@ -1,0 +1,300 @@
+
+/**
+ * This class contains constants that are specific for the Soda translator,
+ * like reserved words for Soda and Rocq.
+ */
+
+class TranslationConstantToRocq
+
+  abstract
+
+  import
+    soda.translator.parser.SodaConstant
+
+  soda_constant = SodaConstant .mk
+
+  rocq_space = " "
+
+  rocq_new_line = "\n"
+
+  rocq_function_definition_symbol = ":="
+
+  rocq_type_membership_symbol = ":"
+
+  rocq_subtype_symbol = "<:"
+
+  rocq_supertype_symbol = ">:"
+
+  rocq_function_arrow_symbol = "->"
+
+  rocq_empty_string = ""
+
+  rocq_vertical_bar_symbol = "|"
+
+  rocq_match_end_translation = "end"
+
+  rocq_opening_parenthesis = "("
+
+  rocq_closing_parenthesis = ")"
+
+  rocq_comment_opening_symbol = "(*"
+
+  rocq_comment_closing_symbol = "*)"
+
+  rocq_opening_documentation = "(**"
+
+  rocq_closing_documentation = "*)"
+
+  rocq_some_variable_name = "x"
+
+  rocq_opening_brace = "{"
+
+  rocq_closing_brace = "}"
+
+  rocq_semicolon_symbol = ";"
+
+  rocq_dot_notation_symbol = "."
+
+  rocq_product_type_symbol = "*"
+
+  rocq_lambda_reserved_word = "fun"
+
+  rocq_lambda_arrow_symbol = "=>"
+
+  rocq_case_arrow_symbol = "=>"
+
+  rocq_quotes_symbol = "\""
+
+  rocq_apostrophe_symbol = "'"
+
+  rocq_equals_symbol = "=?"
+
+  rocq_less_than_symbol = "<?"
+
+  rocq_less_than_or_equal_to_symbol = "<=?"
+
+  rocq_case_translation = rocq_vertical_bar_symbol + rocq_space
+
+  rocq_not_reserved_word = "negb"
+
+  rocq_and_reserved_word = "andb"
+
+  rocq_or_reserved_word = "orb"
+
+  rocq_end_symbol = "."
+
+  rocq_class_reserved_word : String = "Class"
+
+  rocq_definition_reserved_word : String = "Definition"
+
+  rocq_inductive_reserved_word : String = "Inductive"
+
+  rocq_set_reserved_word : String = "Set"
+
+  rocq_type_reserved_word : String = "Type"
+
+  rocq_module_reserved_word : String = "Module"
+
+  rocq_module_end_reserved_word : String = "End"
+
+  rocq_import_reserved_word : String = "Import"
+
+  rocq_notation_reserved_word : String = "Notation"
+
+  rocq_recursive_definition_reserved_word : String = "Fixpoint"
+
+  rocq_inductive_end_symbol : String = rocq_end_symbol
+
+  rocq_definition_end_symbol : String = rocq_end_symbol
+
+  rocq_recursive_definition_end_symbol : String = rocq_end_symbol
+
+  rocq_with_reserved_word : String = "with"
+
+  rocq_theorem_begin_reserved_word : String = "Theorem"
+
+  rocq_theorem_end_symbol : String = rocq_end_symbol
+
+  rocq_directive_identifier : String = "rocq"
+
+  rocq_directive_alternative_identifier : String = "coq"
+
+  rocq_notation_at_level_99 : String = "(at level 99)"
+
+  rocq_notation_prefix : String =
+    rocq_notation_reserved_word + rocq_space + rocq_quotes_symbol + rocq_apostrophe_symbol
+
+  rocq_notation_infix : String =
+     rocq_apostrophe_symbol + rocq_quotes_symbol + rocq_space + rocq_function_definition_symbol +
+     rocq_space
+
+  rocq_notation_suffix : String =
+    rocq_space + rocq_notation_at_level_99 + rocq_space + rocq_end_symbol
+
+  rocq_prelude : Seq [String] =
+    Seq (
+      "",
+      "Require Import Rocq.ZArith.BinInt .",
+      "(* https://rocq-prover.org/doc/v9.0/stdlib/Stdlib.ZArith.BinInt.html *)",
+      "",
+      "Require Import Rocq.Lists.List .",
+      "(* https://rocq-prover.org/doc/v9.0/stdlib/Stdlib.Lists.List.html *)",
+      "",
+      "Notation Int := Z .",
+      ""
+    )
+
+  rocq_recursive_function_prefixes : Seq [String] =
+    Seq (
+      "rec_",
+      "_rec_",
+      "tailrec_",
+      "_tailrec_",
+      "@tailrec"
+    )
+
+  non_definition_block_prefixes : Seq [String] =
+    Seq (
+      soda_constant .package_reserved_word ,
+      soda_constant .import_reserved_word ,
+      soda_constant .class_end_reserved_word ,
+      soda_constant .class_reserved_word ,
+      soda_constant .comment_opening_symbol
+    )
+
+  rocq_reserved_words =
+    rocq_1 .++ (rocq_2 .++ (rocq_3 .++ (rocq_4) ) )
+
+  rocq_1 : Seq [String] =
+    Seq (
+      "as",
+      "else",
+      "end",
+      "forall",
+      "fun",
+      "if",
+      "in",
+      "let",
+      "match",
+      "then",
+      "with"
+    )
+
+  rocq_2 : Seq [String] =
+    Seq (
+      "Admitted",
+      "Arguments",
+      "Check",
+      "Constructors",
+      "End",
+      "Eval",
+      "Export",
+      "Hint",
+      "Implicit",
+      "Import",
+      "Module",
+      "Notation",
+      "Print",
+      "Proof",
+      "Qed",
+      "Require",
+      "Resolve",
+      "Section",
+      "Set",
+      "Type",
+      "Unset"
+    )
+
+  rocq_3 : Seq [String] =
+    Seq (
+      "admit",
+      "apply",
+      "assert",
+      "auto",
+      "case",
+      "compute",
+      "destruct",
+      "discriminate",
+      "elim",
+      "exact",
+      "induction",
+      "intros",
+      "pose",
+      "refine",
+      "rewrite",
+      "simpl",
+      "specialize",
+      "unfold"
+    )
+
+  rocq_4 : Seq [String] =
+    Seq (
+      "CoFixpoint",
+      "CoInductive",
+      "Definition",
+      "Example",
+      "Fixpoint",
+      "Global",
+      "Hypothesis",
+      "Inductive",
+      "Instance",
+      "Lemma",
+      "Ltac",
+      "Parameter",
+      "Theorem",
+      "Variable"
+    )
+
+  type_symbols_translation : Seq [Tuple2 [String] [String] ] =
+    Seq (
+      Tuple2 (soda_constant .subtype_reserved_word , rocq_subtype_symbol) ,
+      Tuple2 (soda_constant .supertype_reserved_word , rocq_supertype_symbol) ,
+      Tuple2 (soda_constant .function_arrow_symbol , rocq_function_arrow_symbol) ,
+      Tuple2 (soda_constant .opening_bracket_symbol , rocq_opening_parenthesis + rocq_space) ,
+      Tuple2 (soda_constant .closing_bracket_symbol , rocq_space + rocq_closing_parenthesis)
+    )
+
+  function_symbols_translation : Seq [Tuple2 [String] [String] ] =
+    Seq (
+      Tuple2 (soda_constant .function_definition_symbol , rocq_function_definition_symbol) ,
+      Tuple2 (soda_constant .lambda_reserved_word , rocq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .any_reserved_word , rocq_lambda_reserved_word) ,
+      Tuple2 (soda_constant .lambda_arrow_symbol , rocq_lambda_arrow_symbol) ,
+      Tuple2 (soda_constant .case_arrow_symbol , rocq_case_arrow_symbol) ,
+      Tuple2 (soda_constant .not_reserved_word , rocq_not_reserved_word) ,
+      Tuple2 (soda_constant .and_reserved_word , rocq_and_reserved_word) ,
+      Tuple2 (soda_constant .or_reserved_word , rocq_or_reserved_word) ,
+      Tuple2 (soda_constant .equals_symbol , rocq_equals_symbol) ,
+      Tuple2 (soda_constant .less_than_symbol , rocq_less_than_symbol) ,
+      Tuple2 (soda_constant .less_than_or_equal_to_symbol , rocq_less_than_or_equal_to_symbol) ,
+      Tuple2 (soda_constant .tail_recursion_annotation , rocq_empty_string) ,
+      Tuple2 (soda_constant .override_annotation , rocq_empty_string) ,
+      Tuple2 (soda_constant .new_annotation , rocq_empty_string)
+
+    )
+
+  type_translation : Seq [Tuple2 [String] [String] ] =
+    Seq (
+        Tuple2 ("Boolean" , "bool"),
+        Tuple2 ("Nat" , "nat"),
+        Tuple2 ("Option" , "option"),
+        Tuple2 ("List" , "list"),
+        Tuple2 ("Nil" , "nil"),
+        Tuple2 ("Seq" , "list"),
+        Tuple2 ("String" , "string"),
+        Tuple2 ("BigInt" , "Z"),
+        Tuple2 ("Tuple2" , "prod")
+    )
+
+  prefix_rocq_non_soda : String = "__soda__"
+
+  rocq_non_soda : Seq [Tuple2 [String] [String] ] =
+    rocq_reserved_words
+      .filter (lambda x --> not soda_constant .soda_reserved_words .contains (x))
+      .map (lambda x --> Tuple2 (x , prefix_rocq_non_soda + x) )
+
+  is_rocq_word (word : String) : Boolean =
+    rocq_reserved_words .contains (word)
+
+end
+

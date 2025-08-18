@@ -1,7 +1,7 @@
 package soda.example.forlean.algorithms
 
 /*
- * This package contains examples using recursion for Coq.
+ * This package contains examples using recursion for Rocq.
  */
 
 
@@ -104,7 +104,7 @@ notation "Int" => Nat
 */
 
 /*
-directive coq
+directive rocq
 Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99) .
 Notation "'Succ_'" := S (at level 99) .
 Notation "'Int'" := nat (at level 99) .

@@ -1,0 +1,41 @@
+
+class RocqPackageDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.PackageDeclarationAnnotation
+    soda.translator.parser.annotation.PackageDeclarationAnnotation_
+
+  _tc = TranslationConstantToRocq .mk
+
+  _comment_block (block : Block) : Block =
+    BlockBuilder .mk .build (
+      ( (Seq (_tc .rocq_comment_opening_symbol) .++ (block .lines) ) .++ (
+        Seq (_tc .rocq_comment_closing_symbol) ) ) .++ (_tc .rocq_prelude)
+    )
+
+  _translate_block (block : PackageDeclarationAnnotation) : PackageDeclarationAnnotation =
+    PackageDeclarationAnnotation_ (
+      _comment_block (
+        block
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case PackageDeclarationAnnotation_ (block) ==>
+        _translate_block (PackageDeclarationAnnotation_ (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

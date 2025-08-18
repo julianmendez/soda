@@ -1,0 +1,73 @@
+
+/**
+ * This class translates Soda snippets into Rocq snippets.
+ */
+
+class MicroTranslatorToRocq
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.BlockAnnotationEnum
+    soda.translator.block.BlockAnnotationEnum_
+    soda.translator.block.BlockAnnotationId
+    soda.translator.block.BlockTranslatorPipeline
+    soda.translator.block.ConditionalBlockTranslator
+    soda.translator.blocktr.TokenReplacement
+
+  _tc = TranslationConstantToRocq .mk
+
+  _function_definition = BlockAnnotationEnum .mk .function_definition
+
+  _class_beginning = BlockAnnotationEnum .mk .class_beginning
+
+  _abstract_declaration = BlockAnnotationEnum .mk .abstract_declaration
+
+  _class_alias = BlockAnnotationEnum .mk .class_alias
+
+  _test_declaration = BlockAnnotationEnum .mk .test_declaration
+
+  functions_and_tests : Seq [BlockAnnotationId] =
+    Seq (_function_definition , _test_declaration)
+
+  declarations : Seq [BlockAnnotationId] =
+    Seq (
+      _function_definition , _class_beginning , _abstract_declaration , _class_alias ,
+      _test_declaration
+    )
+
+  _translation_pipeline =
+    BlockTranslatorPipeline .mk (
+      Seq (
+        RocqDocumentationBlockTranslator .mk ,
+        RocqDotNotationBlockTranslator .mk ,
+        RocqMatchCaseBlockTranslator .mk ,
+        RocqClassConstructorBlockTranslator .mk ,
+        RocqClassDeclarationBlockTranslator .mk ,
+        RocqPackageDeclarationBlockTranslator .mk ,
+        RocqClassEndBlockTranslator .mk ,
+        RocqClassAliasBlockTranslator .mk ,
+        RocqImportDeclarationBlockTranslator .mk ,
+        RocqDatatypeDeclarationBlockTranslator .mk ,
+        RocqTheoremBlockTranslator .mk ,
+        RocqDirectiveBlockTranslator .mk ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          RocqFunctionDefinitionBlockTranslator .mk) ,
+        ConditionalBlockTranslator .mk (functions_and_tests) (
+          TokenReplacement .mk .replace_words (_tc .function_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_symbols (_tc .type_symbols_translation) ) ,
+        ConditionalBlockTranslator .mk (declarations) (
+          TokenReplacement .mk .replace_words (_tc .type_translation) )
+      )
+    )
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      _translation_pipeline .translate (block)
+
+end
+

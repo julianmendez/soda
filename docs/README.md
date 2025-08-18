@@ -9,7 +9,7 @@ object-oriented notation to describe, analyze, and model human-centered problems
 ethical problems.
 
 This project includes a translator (or transpiler) to [Scala 3][scala], experimental
-translators to [Lean 4][lean] and [Coq 8][coq], and a [LaTeX][latex] documentation
+translators to [Lean 4][lean] and [Rocq 9][rocq] (previously known as Coq), and a [LaTeX][latex] documentation
 extraction tool.
 
 
@@ -95,7 +95,7 @@ developed for the Scala translator. Some examples can be found in module
 
 The last step is to **get familiar with the verification** possibilities. For this, it would
 probably work better to write Lean 4 proofs, as the Soda translator to Lean is more developed
-than the translator to Coq. A good way to start proving theorems in Lean is to
+than the translator to Rocq. A good way to start proving theorems in Lean is to
 follow the tutorials at the [Lean Game Server][lean-game-server], like the **Natural Number
 Game**.
 
@@ -230,7 +230,7 @@ More detailed information can be found in the [release notes][release-notes].
 
 [lean]: https://lean-lang.org
 
-[coq]: https://coq.inria.fr
+[rocq]: https://rocq-prover.org
 
 [latex]: https://www.latex-project.org
 

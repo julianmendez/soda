@@ -16,7 +16,7 @@ where EXTENSION can be:
 
   lean        call the Soda-to-Lean extension (experimental, only for snippets)
 
-  coq         call the Soda-to-Coq extension (experimental, only for snippets)
+  rocq        call the Soda-to-Rocq extension (experimental, only for snippets)
 
   doc         create LaTeX documents based on Soda files (experimental)
 
@@ -83,26 +83,26 @@ If the extension is .soda, the output file has extension .lean .
 
 
 ---
-Soda-to-Coq extension
+Soda-to-Rocq extension
 
-  This extension translates Soda source code into Coq source code.
+  This extension translates Soda source code into Rocq source code.
   At the moment, this only works for very small snippets.
-  More information about Coq is available at https://coq.inria.fr .
+  More information about Rocq is available at https://coq.inria.fr .
 
 Usage:
-  soda coq SODA_COQ_INPUT
+  soda rocq SODA_ROCQ_INPUT
 or
-  soda coq SODA_INPUT COQ_OUTPUT
+  soda rocq SODA_INPUT ROCQ_OUTPUT
 
 where
 
-  SODA_COQ_INPUT is used for the Soda input file and Coq output file.
+  SODA_ROCQ_INPUT is used for the Soda input file and Rocq output file.
 If it is a directory, it scans recursively the directory to translate Soda files.
 If the extension is .soda, the output file has extension .v .
 
 
   SODA_INPUT is the input file containing Soda snippets
 
-  COQ_OUTPUT is the output file for Coq snippets
+  ROCQ_OUTPUT is the output file for Rocq snippets
 
 

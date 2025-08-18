@@ -11,7 +11,7 @@ notation "Succ_" => Nat.succ
 notation "Int" => Nat
 
 /-
-directive coq
+directive rocq
 Notation "head '+:' tail" := (cons (head) (tail) ) (at level 99).
 Notation "'Succ_'" := S (at level 99).
 Notation "'Int'" := nat (at level 99).

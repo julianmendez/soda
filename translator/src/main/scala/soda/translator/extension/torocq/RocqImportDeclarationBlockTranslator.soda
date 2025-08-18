@@ -1,0 +1,68 @@
+
+class RocqImportDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.annotation.ImportDeclarationAnnotation
+    soda.translator.parser.annotation.ImportDeclarationAnnotation_
+
+  _tc = TranslationConstantToRocq .mk
+
+  rocq_import_declaration_pattern =
+    _tc .rocq_import_reserved_word + _tc .rocq_space
+
+  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : String =
+    if annotated_line .is_comment
+    then annotated_line .line
+    else annotated_line .line .substring (0, index) + prefix +
+      annotated_line .line .substring (index)
+
+  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Block =
+    BlockBuilder .mk .build (
+      annotated_lines .map (lambda annotated_line -->
+        prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+    )
+
+  get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (lambda ch --> ch .isSpaceChar)
+      .length
+
+  get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  _translate_block (block : ImportDeclarationAnnotation) : ImportDeclarationAnnotation =
+    ImportDeclarationAnnotation_ (
+      prepend_to_lines_aligned_at (
+        get_number_of_spaces_at_beginning (get_first_line (block) ) ) (
+        rocq_import_declaration_pattern) (
+        block .imported_items
+          .filter(lambda annotated_line --> not annotated_line .is_comment)
+          .map (lambda annotated_line --> AnnotatedLine_ (annotated_line .line +
+             _tc .rocq_space + _tc .rocq_end_symbol, false)
+          )
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ImportDeclarationAnnotation_ (block) ==>
+        _translate_block (ImportDeclarationAnnotation_ (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

@@ -1,0 +1,17 @@
+
+class RocqDirectiveBlockTranslator
+  extends
+    soda.translator.blocktr.DirectiveBlockTranslator
+
+  abstract
+
+  _tc = TranslationConstantToRocq .mk
+
+  identifier : String = _tc .rocq_directive_identifier
+
+  opening_comment : String = _tc .rocq_comment_opening_symbol
+
+  closing_comment : String = _tc .rocq_comment_closing_symbol
+
+end
+

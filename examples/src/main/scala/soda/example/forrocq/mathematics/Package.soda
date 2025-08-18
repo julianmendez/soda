@@ -1,0 +1,11 @@
+package soda.example.forrocq.mathematics
+
+/*
+ * This package contains examples of some mathematical functions that can be translated to Rocq.
+ */
+
+import
+  soda.example.forrocq.lib.O_
+  soda.example.forrocq.lib.S_
+  soda.example.forrocq.lib.nat
+

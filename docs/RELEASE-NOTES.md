@@ -6,7 +6,7 @@
     - includes the reserved word `datatype` to define algebraic data types
     - accepts `inductive` and `data` as synonyms for `datatype`
     - includes an updated mini-manual
-    - accepts the optional reserved word `def` in Lean translator and in Coq translator
+    - accepts the optional reserved word `def` in Lean translator and in Rocq translator
   - fixes:
     - fixes the translation of commented code and generation of documentation
     - does not create the file `Package.soda` when translating to Scala
@@ -38,7 +38,7 @@
     - accepts that class `end` could have a class name
     - accepts `def` as an optional reserved word to define functions
     - includes the reserved word `directive` to include specific pieces of code depending
-      on the translator, especially for the translators to Lean and to Coq
+      on the translator, especially for the translators to Lean and to Rocq
   - deprecated:
     - the `proof` reserved word is no longer used, and a `theorem` block should include
       the proof after stating the theorem
@@ -85,7 +85,7 @@
   - features:
     - accepts a long arrow `-->` for lambda expressions
     - accepts a long double arrow `==>` for pattern matching cases
-    - can fully translate small snippets to Coq
+    - can fully translate small snippets to Rocq
     - translates constants and functions starting with `_` as private in Scala
   - deprecated:
     - the `let`-`in` structures are no longer supported
@@ -137,7 +137,7 @@
     - is compatible with Scala 2.13.8
     - changes syntax of pattern matching to use `match`, `case`, `=>`, `end`
     - includes reserved words `theorem` and `proof` to write properties in Gallina
-      (Coq)
+      (Rocq)
     - makes annotation `@tailrec` only available to class methods
     - adopts special prefixes `_tailrec_` for tail recursive functions and `_rec_`
       for recursive functions
@@ -154,7 +154,7 @@
     - makes a stronger distinction between interfaces and other abstract classes
     - requires that the reserved word `match` needs to be at the beginning of the
       line
-    - includes examples written in Coq
+    - includes examples written in Rocq
   - build: $ `sbt '++ 3.0.2' clean compile test package assembly`
   - release: target/scala-3.0.2/soda-0.12.0.jar
 - - version: v0.11.0

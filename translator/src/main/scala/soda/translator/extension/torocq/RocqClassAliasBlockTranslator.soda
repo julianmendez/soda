@@ -1,0 +1,52 @@
+
+class RocqClassAliasBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
+    soda.translator.parser.annotation.ClassAliasAnnotation
+    soda.translator.parser.annotation.ClassAliasAnnotation_
+
+  _sc : SodaConstant = SodaConstant .mk
+
+  _tc : TranslationConstantToRocq = TranslationConstantToRocq .mk
+
+  get_first_line (block : Block) : String =
+    block .lines .headOption .getOrElse ("")
+
+  _process_class_alias (line : String) : String =
+    line
+      .replace (_sc .class_alias_reserved_word + _sc .space , _tc .rocq_notation_prefix)
+      .replace (_sc .space + _sc .class_alias_definition_symbol + _sc .space ,
+         _tc .rocq_notation_infix) +
+      _tc .rocq_notation_suffix
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    BlockBuilder .mk .build (
+      Seq [String] (
+        _process_class_alias (get_first_line (block) )
+      )
+    )
+
+  _translate_class_alias_block (block : ClassAliasAnnotation)
+      : ClassAliasAnnotation =
+    ClassAliasAnnotation .mk (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case ClassAliasAnnotation_ (block) ==>
+        _translate_class_alias_block (ClassAliasAnnotation .mk (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

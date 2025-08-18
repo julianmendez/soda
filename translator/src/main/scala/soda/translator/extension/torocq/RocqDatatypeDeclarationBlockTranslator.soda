@@ -1,0 +1,120 @@
+
+class RocqDatatypeDeclarationBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.AnnotatedLine
+    soda.translator.block.AnnotatedLine_
+    soda.translator.block.Block
+    soda.translator.parser.SodaConstant
+    soda.translator.parser.annotation.DatatypeDeclarationAnnotation
+    soda.translator.parser.annotation.DatatypeDeclarationAnnotation_
+
+
+  _sc = SodaConstant .mk
+
+  _tc = TranslationConstantToRocq .mk
+
+  _add_final_dot (lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    lines .++ (Seq [AnnotatedLine] () .+: (
+        AnnotatedLine .mk (_tc .rocq_dot_notation_symbol) (false) ) )
+
+  _remove_variables_with (parameter : String) (index : Int) : String =
+    if index >= 0 and
+      parameter .startsWith (_sc .opening_parenthesis_symbol) and
+      parameter .endsWith (_sc .closing_parenthesis_symbol)
+    then _tc .rocq_opening_parenthesis +
+       parameter
+         .substring (index + _sc .type_membership_symbol .length)
+         .trim
+    else parameter
+
+  _remove_variables (parameter : String) : String =
+    _remove_variables_with (parameter) (parameter .indexOf (_sc .type_membership_symbol) )
+
+  _parameters_without_variables (parameters : Seq [String] ) : Seq [String] =
+    parameters
+      .map (lambda parameter --> _remove_variables (parameter .trim) )
+
+  _get_type_parameters_with (parameters : Seq [String] ) : String =
+    if parameters .isEmpty
+    then ""
+    else
+      parameters
+        .map (lambda param --> _tc .rocq_space + _tc .rocq_opening_parenthesis +
+          param + _tc .rocq_space + _tc .rocq_type_membership_symbol +
+          _tc .rocq_space + _tc .rocq_type_reserved_word  + _tc .rocq_closing_parenthesis)
+        .mkString
+
+  get_type_parameters (block : DatatypeDeclarationAnnotation) : String =
+    _get_type_parameters_with (block .type_parameters)
+
+  _translate_parameter (parameter : String) : String =
+    parameter
+      .replace (_sc .opening_bracket_symbol , _tc .rocq_opening_parenthesis)
+      .replace (_sc .closing_bracket_symbol , _tc .rocq_closing_parenthesis)
+
+  _translate_constructors (block : DatatypeDeclarationAnnotation)
+      : Seq [AnnotatedLine] =
+    block .constructors
+      .map (lambda constr -->
+          _tc .rocq_space + _tc .rocq_space + _tc .rocq_vertical_bar_symbol + _tc .rocq_space +
+          constr .name +  _tc .rocq_space + _tc .rocq_type_membership_symbol + _tc .rocq_space +
+          _parameters_without_variables (constr .parameters)
+            .map (lambda param --> _translate_parameter (param) )
+            .mkString (_tc .rocq_space + _tc .rocq_function_arrow_symbol + _tc .rocq_space) )
+      .map (lambda line --> AnnotatedLine .mk (line) (false) )
+
+  get_number_of_spaces_at_beginning (line : String) : Int =
+    line
+      .takeWhile (lambda ch --> ch .isSpaceChar)
+      .length
+
+  get_first_line (block : AnnotatedBlock) : String =
+    block .lines .headOption .getOrElse ("")
+
+  prepend_aligned_non_comment (index : Int) (prefix : String) (annotated_line : AnnotatedLine)
+      : AnnotatedLine =
+    if annotated_line .is_comment
+    then annotated_line
+    else AnnotatedLine .mk (annotated_line .line .substring (0 , index) + prefix +
+      annotated_line .line .substring (index) ) (annotated_line .is_comment)
+
+  prepend_to_lines_aligned_at (number_of_spaces : Int) (prefix : String)
+      (annotated_lines : Seq [AnnotatedLine] ) : Seq [AnnotatedLine] =
+    annotated_lines .map (lambda annotated_line -->
+      prepend_aligned_non_comment (number_of_spaces) (prefix) (annotated_line) )
+
+  get_type_declaration (block : DatatypeDeclarationAnnotation) : AnnotatedLine =
+    AnnotatedLine .mk (
+      _tc .rocq_inductive_reserved_word + _tc .rocq_space +
+      block .class_name + get_type_parameters (block) + _tc .rocq_space +
+      _tc .rocq_type_membership_symbol + _tc .rocq_space +
+      _tc .rocq_type_reserved_word + _tc .rocq_space +
+      _tc .rocq_function_definition_symbol
+    ) (false)
+
+  _translate_block (block : DatatypeDeclarationAnnotation) : DatatypeDeclarationAnnotation =
+    DatatypeDeclarationAnnotation .mk (
+      Block .mk (
+        (Seq [AnnotatedLine] () .+: (get_type_declaration (block) ) ) .++ (
+          _add_final_dot (_translate_constructors (block) ) )
+      )
+    )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case DatatypeDeclarationAnnotation_ (block) ==>
+        _translate_block (DatatypeDeclarationAnnotation .mk (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

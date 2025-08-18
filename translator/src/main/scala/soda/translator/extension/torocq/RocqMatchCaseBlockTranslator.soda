@@ -1,0 +1,89 @@
+
+class RocqMatchCaseBlockTranslator
+  extends
+    soda.translator.block.BlockTranslator
+
+  abstract
+
+  import
+    soda.translator.block.AnnotatedBlock
+    soda.translator.block.Block
+    soda.translator.parser.BlockBuilder
+    soda.translator.parser.SodaConstant
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation
+    soda.translator.parser.annotation.FunctionDefinitionAnnotation_
+    soda.translator.parser.annotation.TestDeclarationAnnotation
+    soda.translator.parser.annotation.TestDeclarationAnnotation_
+    soda.translator.replacement.ReplacementAux
+
+  _sc = SodaConstant .mk
+
+  _soda_case_pattern = _sc .case_reserved_word + _sc .space
+
+  _tc = TranslationConstantToRocq .mk
+
+  _soda_match_pattern = _sc .match_reserved_word + " "
+
+  _is_a_match_line (line : String) : Boolean =
+    line .trim .startsWith (_soda_match_pattern)
+
+  _is_a_match_case_structure (block : AnnotatedBlock) : Boolean =
+    block .lines .exists (lambda line --> _is_a_match_line (line) )
+
+  _append_with_after_match (line : String) : String =
+    if _is_a_match_line (line)
+    then line + _tc .rocq_space + _tc .rocq_with_reserved_word
+    else line
+
+  _is_a_case_line (line : String) : Boolean =
+    line .trim .startsWith (_soda_case_pattern)
+
+  _replace_case (line : String) : String =
+    if _is_a_case_line (line)
+    then
+      ReplacementAux .mk
+        . replace_first (line) (_soda_case_pattern) (_tc .rocq_case_translation)
+    else line
+
+  _left_part (index : Int) (line : String) : String =
+    line .substring (0 , index)
+
+  _get_tabulation_of_match (block : AnnotatedBlock) : String =
+    block .lines
+      .find (lambda line --> _is_a_match_line (line) )
+      .map (lambda line --> _left_part (line .indexOf (_soda_match_pattern) ) (line) )
+      .getOrElse (_tc .rocq_space)
+
+  _translate_match_case_structure (block: AnnotatedBlock) (tabulation : String) : Block =
+    BlockBuilder .mk .build (
+      block .lines
+        .map (lambda line --> _append_with_after_match (line) )
+        .map (lambda line --> _replace_case (line) )
+        .++ (Seq [String] () .+: (tabulation + _tc .rocq_match_end_translation) )
+    )
+
+  _translate_block (block : AnnotatedBlock) : Block =
+    if _is_a_match_case_structure (block)
+    then _translate_match_case_structure (block) (_get_tabulation_of_match (block) )
+    else block
+
+  _translate_function_block (block : AnnotatedBlock) : FunctionDefinitionAnnotation =
+    FunctionDefinitionAnnotation_ (_translate_block (block) )
+
+  _translate_test_block (block : AnnotatedBlock) : TestDeclarationAnnotation =
+    TestDeclarationAnnotation_ (_translate_block (block) )
+
+  translate_for (annotated_block : AnnotatedBlock) : AnnotatedBlock =
+    match annotated_block
+      case FunctionDefinitionAnnotation_ (block) ==>
+        _translate_function_block (FunctionDefinitionAnnotation_ (block) )
+      case TestDeclarationAnnotation_ (block) ==>
+        _translate_test_block (TestDeclarationAnnotation_ (block) )
+      case _otherwise ==> annotated_block
+
+  translate : AnnotatedBlock -> AnnotatedBlock =
+    lambda block -->
+      translate_for (block)
+
+end
+

@@ -1,0 +1,9 @@
+package soda.translator.extension.torocq
+
+/*
+ * This package contains classes for the translation to Gallina,
+ * the specification language used by Rocq.
+ */
+
+
+

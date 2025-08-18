@@ -26,7 +26,7 @@ case class FactorialForLeanSpec ()
           IntNat .mk .from_non_negative (pair ._2) )
       )
 
-  test ("should test the factorial function for Coq") (
+  test ("should test the factorial function for Rocq") (
     check (
       obtained = factorial_values_with_nat
         .map ( pair => pair ._1)
