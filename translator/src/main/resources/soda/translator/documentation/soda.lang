@@ -4,7 +4,7 @@
  This file is part of GtkSourceView
 
  Authors: Julian Alfredo Mendez
-   Copyright 2020-2024 Julian Alfredo Mendez <julian.mendez@gmail.com>
+   Copyright 2020-2025 Julian Alfredo Mendez <julian.mendez@gmail.com>
 
  GtkSourceView is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -135,6 +135,9 @@
             <keyword>extends</keyword>
             <keyword>abstract</keyword>
             <keyword>end</keyword>
+            <keyword>data</keyword>
+            <keyword>datatype</keyword>
+            <keyword>inductive</keyword>
             <keyword>this</keyword>
             <keyword>subtype</keyword>
             <keyword>supertype</keyword>
@@ -167,14 +170,17 @@
             <keyword>cases</keyword>
             <keyword>constructor</keyword>
             <keyword>exact</keyword>
+            <keyword>forall</keyword>
             <keyword>funext</keyword>
             <keyword>have</keyword>
             <keyword>induction</keyword>
             <keyword>intro</keyword>
+            <keyword>notation</keyword>
             <keyword>rewrite</keyword>
             <keyword>rfl</keyword>
             <keyword>rw</keyword>
             <keyword>simp</keyword>
+            <keyword>theorem</keyword>
             <keyword>with</keyword>
         </context>
 
