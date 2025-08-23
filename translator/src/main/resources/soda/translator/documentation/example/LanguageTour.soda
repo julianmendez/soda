@@ -1,0 +1,197 @@
+/**
+ * This is an example of Soda (Symbolic Objective Descriptive Analysis).
+ * https://julianmendez.github.io/soda/
+ */
+
+
+class MyPair [A : Type] [B : Type]
+
+  /* class: Defines a class. Classes group related functions and values. */
+
+  abstract
+    fst : A
+    snd : B
+
+  /* abstract: Marks this class as abstract and lists the necessary variables to
+  be instantiated. */
+
+end
+
+
+class LanguageTour
+
+  abstract
+
+  import
+    java.util.Date
+
+  /* import: Imports an external JVM class. Multiple imports can be listed here or in a
+  Package.soda file. */
+
+
+  /* -------------------------------
+   * 1. Basic values and type annotations */
+
+  greeting : String = "Hello, Soda!"
+
+  /* Variable `greeting` of type String. */
+
+  lucky_number : Int = 42
+
+  /* Variable `lucky_number` of type Int. */
+
+  /* -------------------------------
+   * 2. JVM use: object creation */
+
+  today : Date = @new Date ()
+
+  /* Creates a new Date instance using @new for JVM use. */
+
+  /* -------------------------------
+   * 3. Simple function */
+
+  square (n : Int) : Int =
+    n * n
+
+  /* Takes an Int, returns its square. */
+
+  /* -------------------------------
+   * 4. Lambda in higher-order function */
+
+  times_ten (xs : Seq [Int] ) : Seq [Int] =
+    xs .map (lambda x --> x * 10)
+
+  /* Uses `.map` to apply a lambda to each element. */
+
+  /* -------------------------------
+   * 5. Alias `any` for lambda */
+
+  plus_two (xs : Seq [Int]) : Seq [Int] =
+    xs .map (any e --> e + 2)
+
+  /* `any` is a synonym for `lambda`. */
+
+  /* -------------------------------
+   * 6. Conditional */
+
+  max (x : Int) (y : Int) : Int =
+    if x > y
+    then x
+    else y
+
+  /* If-then-else returns the larger of x or y. */
+
+  /* -------------------------------
+   * 7. Pattern matching on Boolean */
+
+  bool_to_text (b : Boolean) : String =
+    match b
+      case true  ==> "Yes"
+      case false ==> "No"
+
+  /* Match selects a branch based on the Boolean's value. */
+
+  /* -------------------------------
+   * 8. Pattern matching with destructuring */
+
+  get_first [A : Type] [B : Type] (p : MyPair [A] [B]) : A =
+    match p
+      case MyPair_ (left , right) ==> left
+
+  /* Pattern matches on a pair type, extracting fields. */
+
+  /* -------------------------------
+   * 9. Private helper */
+
+  _double (x : Int) : Int =
+    x * 2
+
+  /* Leading underscore marks this as private. */
+
+  /* -------------------------------
+   * 10. Tail recursive factorial */
+
+  _tailrec_fact (n : Int) (acc : Int) : Int =
+    if n <= 1
+    then acc
+    else _tailrec_fact (n - 1) (n * acc)
+
+  /* Tail recursion, result accumulates in `acc`.
+  The prefix _tailrec_ marks a tail recursive optimization. */
+
+  fact (n : Int) : Int =
+    _tailrec_fact (n) (1)
+
+  /* Public wrapper for factorial. */
+
+  /* -------------------------------
+   * 11. Sequence and fold */
+
+  _tailrec_foldl [A : Type] [B : Type] (s : Seq [A] ) (z : B) (f : B -> A -> B) : B =
+    match s
+      case Nil ==> z
+      case (x) +: (xs) ==> _tailrec_foldl [A] [B] (xs) (f (z) (x) ) (f)
+
+  fold [A : Type] [B : Type] (sequence : Seq [A] ) (initial : B) (next : B -> A -> B) : B =
+    _tailrec_foldl [A] [B] (sequence) (initial) (next)
+
+  sum (xs : Seq [Int]) : Int =
+    fold [Int] [Int] (xs) (0) (lambda acc --> lambda v --> acc + v)
+
+  /* Folds over a sequence to sum elements. */
+
+  /* -------------------------------
+   * 12. Boolean xor */
+
+  xor (a : Boolean) (b : Boolean) : Boolean =
+    (a or b) and not (a and b)
+
+  /* Logical XOR using `or`, `and`, `not`. */
+
+  /* -------------------------------
+   * 13. Range usage */
+
+  _tailrec_range (n : Int) (s : Seq [Int] ) : Seq [Int] =
+    if n < 1
+    then s
+    else _tailrec_range (n - 1) ( (n - 1) +: (s) )
+
+  range (length : Int) : Seq [Int] =
+    _tailrec_range (length) (Nil)
+
+  numbers_up_to (n : Int) : Seq [Int] =
+    range (n)
+
+  /* Builds a sequence of integers from 0 to n-1. */
+
+  /* The following constant sequentially showcases all features. */
+
+  demo_text : String =
+    (greeting) +
+    ("\nToday is: " + today .toString () ) +
+    ("\nLucky number squared: " + square (lucky_number) .toString () ) +
+    ("\nTimes ten: " + times_ten (Seq (1, 2, 3)) .toString () ) +
+    ("\nPlus two: " + plus_two (Seq (1, 2, 3)) .toString () ) +
+    ("\nMax of 5 and 9: " + max (5) (9) .toString () ) +
+    ("\nBoolean true: " + bool_to_text (true) ) +
+    ("\nFactorial of 5: " + fact (5) .toString () ) +
+    ("\nSum of [4, 5, 6]: " + sum (Seq [Int] (4, 5, 6) ) .toString () ) +
+    ("\nXOR (true, false): " + xor (true) (false) .toString () ) +
+    ("\nNumbers up to 5: " + numbers_up_to (5) .toString () )
+
+end
+
+
+/* -------------------------------
+ * 14. "Main" runner */
+
+class Main
+
+  /* An output to the standard output can be sent with a `println` command.
+   * This is a shorter form of JVM's `System.out.println`. */
+
+  main (arguments : Array [String] ) : Unit =
+    println (LanguageTour .mk .demo_text)
+
+end
+

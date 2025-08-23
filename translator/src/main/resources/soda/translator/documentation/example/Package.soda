@@ -1,0 +1,4 @@
+package soda.translator.documentation.example
+
+/* Declares the package. The convention is to start with "soda." to avoid naming conflicts. */
+
