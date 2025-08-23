@@ -1,0 +1,15 @@
+
+class FibonacciExample
+
+  abstract
+
+  _tailrec_fib (n : Int) (a : Int) (b : Int) : Int =
+    if n == 0
+    then a
+    else _tailrec_fib (n - 1) (b) (a + b)
+
+  apply (n : Int) : Int =
+    _tailrec_fib (n) (0) (1)
+
+end
+
