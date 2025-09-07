@@ -1,0 +1,36 @@
+
+class Color
+
+  abstract
+    cyan : Int
+    magenta : Int
+    yellow : Int
+
+end
+
+
+class Palette
+
+  abstract
+
+  cyan = Color .mk (100) (0) (0)
+
+  yellow = Color .mk (0) (0) (100)
+
+  plus (a : Color) (b : Color) : Color =
+    Color .mk (a .cyan + b .cyan) (a .magenta + b .magenta) (a .yellow + b .yellow)
+
+  green = plus (cyan) (yellow)
+
+end
+
+
+class Main
+
+  abstract
+
+  main (arguments : Array [String] ) : Unit =
+    print (Palette .mk .green)
+
+end
+
