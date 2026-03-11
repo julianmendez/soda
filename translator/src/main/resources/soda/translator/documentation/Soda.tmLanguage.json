@@ -1,0 +1,71 @@
+{
+  "scopeName": "source.soda",
+  "name": "Soda",
+  "fileTypes": ["soda"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#operators" },
+    { "include": "#literals" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.soda",
+          "begin": "/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.soda",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.soda",
+          "match": "\\b(abstract|any|case|class|data|datatype|def|directive|else|end|extends|fun|if|import|inductive|lambda|match|package|subtype|supertype|then|this)\\b"
+        },
+        {
+          "name": "constant.language.soda",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "keyword.other.soda",
+          "match": "\\b(apply|by|cases|constructor|exact|forall|funext|have|induction|intro|notation|rewrite|rfl|rw|simp|theorem|with)\\b"
+        },
+        {
+          "name": "storage.modifier.annotation.soda",
+          "match": "@(new|override|tailrec)|\\bsorry\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.soda",
+          "match": "(->|-->|:=|==>|=|:|%|\\*|\\+|-|/|<=|>=|<|>|==|and|or|not)"
+        }
+      ]
+    },
+    "literals": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.soda",
+          "match": "0x[0-9A-Fa-f]+"
+        },
+        {
+          "name": "string.quoted.double.soda",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.soda", "match": "\\\\." }
+          ]
+        }
+      ]
+    }
+  }
+}
+
