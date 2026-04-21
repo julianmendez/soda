@@ -20,5 +20,5 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
  * [[https://github.com/sbt/sbt-jacoco]]
  * [[https://repo1.maven.org/maven2/com/github/sbt/sbt-jacoco_2.12_1.0/]]
  */
-addSbtPlugin("com.github.sbt" % "sbt-jacoco" % "3.5.0")
+addSbtPlugin("com.github.sbt" % "sbt-jacoco" % "3.6.0")
 
