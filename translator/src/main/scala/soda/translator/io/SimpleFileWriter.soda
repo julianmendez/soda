@@ -1,37 +1,5 @@
 
 /**
- * This is an auxiliary class to read small files.
- */
-
-class SimpleFileReader
-
-  abstract
-
-  import
-    java.io.BufferedReader
-    java.io.InputStream
-    java.io.InputStreamReader
-    java.nio.file.Files
-    java.nio.file.Paths
-    java.util.stream.Collectors
-
-  new_line = "\n"
-
-  read_file (file_name : String) : String =
-    @new String (Files .readAllBytes (Paths .get (file_name) ) )
-
-  read_resource (file_name : String) : String =
-    read_input_stream (getClass .getResourceAsStream (file_name) )
-
-  read_input_stream (input_stream : InputStream) : String =
-    _read_reader_content ( @new BufferedReader ( @new InputStreamReader (input_stream) ) )
-
-  _read_reader_content (reader : BufferedReader) : String =
-    reader .lines () .collect (Collectors .joining (new_line) )
-
-end
-
-/**
  * This is an auxiliary class to write small files.
  */
 
