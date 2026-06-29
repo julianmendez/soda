@@ -15,25 +15,24 @@ extraction tool.
 
 ## Publications
 
-* <a id="Me2023"></a>
-  Julian Alfredo Mendez.
-  **Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
-  arXiv, 2023.
-  &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
-  &nbsp; [Abstract][soda-abstract]
-  &nbsp; [BibTeX][soda-bibtex]
-  &nbsp; [PDF][soda-pdf]
-  &nbsp; [Implementation][soda-impl]
+- <a id="MeKa2025"></a>
+Julian Alfredo Mendez and Timotheus Kampik. **Can Proof Assistants Verify Multi-agent Systems?**. In: Rem Collier, Alessandro Ricci, Vivek Nallur, Samuele Burattini, and Andrea Omicini (editors), *Multi-Agent Systems. EUMAS 2024. Lecture Notes in Computer Science*, volume 15685. Springer, Cham, 2025.
+ &nbsp; [https://doi.org/10.1007/978-3-031-93930-3_19][eumas-2024-doi]
+ &nbsp; [Abstract][eumas-2024-abstract]
+ &nbsp; [BibTeX][eumas-2024-bibtex]
+ &nbsp; [PDF][eumas-2024-pdf]
+ &nbsp; [arXiv][eumas-2024-arxiv]
+ &nbsp; [Implementation][eumas-2024-impl]
 
-* <a id="MeKa2025"></a>
-  Julian Alfredo Mendez, Timotheus Kampik.
-  **Can Proof Assistants Verify Multi-Agent Systems?**.
-  arXiv, 2025.
-  &nbsp; DOI:[10.48550/arXiv.2503.06812][soda-mas-doi]
-  &nbsp; [Abstract][soda-mas-abstract]
-  &nbsp; [BibTeX][soda-mas-bibtex]
-  &nbsp; [PDF][soda-mas-pdf]
-  &nbsp; [Implementation][soda-mas-impl]
+- <a id="Me2023"></a>
+Julian Alfredo Mendez.
+**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
+arXiv, 2023.
+ &nbsp; [https://doi.org/10.48550/arXiv.2310.01961][soda-doi]
+ &nbsp; [Abstract][soda-abstract]
+ &nbsp; [BibTeX][soda-bibtex]
+ &nbsp; [PDF][soda-pdf]
+ &nbsp; [Implementation][soda-impl]
 
 
 ## Online manual
@@ -182,6 +181,18 @@ More detailed information can be found in the [release notes][release-notes].
 
 [Julian Alfredo Mendez][author]
 
+[eumas-2024-doi]: https://doi.org/10.1007/978-3-031-93930-3_19
+
+[eumas-2024-abstract]: https://link.springer.com/chapter/10.1007/978-3-031-93930-3_19#Abs1
+
+[eumas-2024-bibtex]: https://julianmendez.github.io/market/bibtex-2025.html
+
+[eumas-2024-pdf]: https://link.springer.com/content/pdf/10.1007/978-3-031-93930-3_19.pdf?pdf=inline%20link
+
+[eumas-2024-arxiv]: https://arxiv.org/abs/2503.06812
+
+[eumas-2024-impl]: https://github.com/julianmendez/market
+
 [soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
 
 [soda-abstract]: https://arxiv.org/abs/2310.01961
@@ -191,16 +202,6 @@ More detailed information can be found in the [release notes][release-notes].
 [soda-pdf]: https://arxiv.org/pdf/2310.01961
 
 [soda-impl]: https://github.com/julianmendez/soda
-
-[soda-mas-doi]: https://doi.org/10.48550/arXiv.2503.06812
-
-[soda-mas-abstract]: https://arxiv.org/abs/2503.06812
-
-[soda-mas-bibtex]: https://julianmendez.github.io/soda/mas-bibtex-2025.html
-
-[soda-mas-pdf]: https://arxiv.org/pdf/2503.06812
-
-[soda-mas-impl]: https://github.com/julianmendez/market
 
 [author]: https://julianmendez.github.io
 
